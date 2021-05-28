@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="34px" viewBox="0 0 28 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>top</title>
+    <desc>Created with Sketch.</desc>
+    <g id="top" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Ellipse_7" fill="#FA198B" fill-rule="nonzero" cx="23.635" cy="5.822" r="2.526"></circle>
+        <circle id="Ellipse_8" fill="#FA198B" fill-rule="nonzero" cx="2.526" cy="20.404" r="2.526"></circle>
+        <path d="M22.702,29.5 L16.281,-3.55271368e-15 L11.629,-3.55271368e-15 L5.208,29.5 L0.27,29.5 L0.27,34.25 L27.654,34.25 L27.654,29.5 L22.702,29.5 Z M13.954,11.667 L17.848,29.5 L10.079,29.5 L13.954,11.667 Z" id="Path_31" fill="#724CF9" fill-rule="nonzero"></path>
+        <rect id="Rectangle_28" fill="#FFFFFF" fill-rule="nonzero" transform="translate(5.184791, 5.822088) rotate(-45.000000) translate(-5.184791, -5.822088) " x="2.44779053" y="3.44558801" width="5.474" height="4.753"></rect>
+        <rect id="Rectangle_29" fill="#FFFFFF" fill-rule="nonzero" transform="translate(24.142791, 16.491088) rotate(-45.000000) translate(-24.142791, -16.491088) " x="21.4057905" y="14.114588" width="5.474" height="4.753"></rect>
+    </g>
+</svg>

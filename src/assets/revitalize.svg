@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="32px" viewBox="0 0 21 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="revitalize" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Ellipse_9" fill="#FFFFFF" fill-rule="nonzero" cx="9.86214764" cy="9.625" r="3.454"></circle>
+        <polygon id="Path_32" fill="#724CF9" fill-rule="nonzero" points="15.2361476 11.062 9.93614764 16.362 4.63614764 11.062 1.62114764 14.077 7.78614764 20.242 7.78614764 31.37 12.0501476 31.37 12.0501476 21.821 12.0701476 21.821 12.0701476 20.252 18.2461476 14.076"></polygon>
+        <rect id="Rectangle_30" fill="#FA198B" fill-rule="nonzero" transform="translate(17.320996, 4.962194) rotate(-45.001000) translate(-17.320996, -4.962194) " x="14.865496" y="2.83019434" width="4.911" height="4.264"></rect>
+        <rect id="Rectangle_31" fill="#FA198B" fill-rule="nonzero" x="7.81014764" y="0" width="4.264" height="4.911"></rect>
+        <rect id="Rectangle_32" fill="#FA198B" fill-rule="nonzero" transform="translate(3.132000, 5.122749) rotate(-45.000000) translate(-3.132000, -5.122749) " x="1" y="2.66724904" width="4.264" height="4.911"></rect>
+    </g>
+</svg>

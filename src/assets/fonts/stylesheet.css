@@ -1,0 +1,120 @@
+@font-face {
+    font-family: 'Euclid Square';
+    src: url('EuclidSquare-Bold.eot');
+    src: local('Euclid Square Bold'), local('EuclidSquare-Bold'),
+        url('EuclidSquare-Bold.eot?#iefix') format('embedded-opentype'),
+        url('EuclidSquare-Bold.woff2') format('woff2'),
+        url('EuclidSquare-Bold.woff') format('woff'),
+        url('EuclidSquare-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Euclid Square';
+    src: url('EuclidSquare-Regular.eot');
+    src: local('Euclid Square Regular'), local('EuclidSquare-Regular'),
+        url('EuclidSquare-Regular.eot?#iefix') format('embedded-opentype'),
+        url('EuclidSquare-Regular.woff2') format('woff2'),
+        url('EuclidSquare-Regular.woff') format('woff'),
+        url('EuclidSquare-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Euclid Square';
+    src: url('EuclidSquare-SemiBold.eot');
+    src: local('Euclid Square SemiBold'), local('EuclidSquare-SemiBold'),
+        url('EuclidSquare-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('EuclidSquare-SemiBold.woff2') format('woff2'),
+        url('EuclidSquare-SemiBold.woff') format('woff'),
+        url('EuclidSquare-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Euclid Square';
+    src: url('EuclidSquare-LightItalic.eot');
+    src: local('Euclid Square Light Italic'), local('EuclidSquare-LightItalic'),
+        url('EuclidSquare-LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('EuclidSquare-LightItalic.woff2') format('woff2'),
+        url('EuclidSquare-LightItalic.woff') format('woff'),
+        url('EuclidSquare-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Euclid Square';
+    src: url('EuclidSquare-MediumItalic.eot');
+    src: local('Euclid Square Medium Italic'), local('EuclidSquare-MediumItalic'),
+        url('EuclidSquare-MediumItalic.eot?#iefix') format('embedded-opentype'),
+        url('EuclidSquare-MediumItalic.woff2') format('woff2'),
+        url('EuclidSquare-MediumItalic.woff') format('woff'),
+        url('EuclidSquare-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Euclid Square';
+    src: url('EuclidSquare-Medium.eot');
+    src: local('Euclid Square Medium'), local('EuclidSquare-Medium'),
+        url('EuclidSquare-Medium.eot?#iefix') format('embedded-opentype'),
+        url('EuclidSquare-Medium.woff2') format('woff2'),
+        url('EuclidSquare-Medium.woff') format('woff'),
+        url('EuclidSquare-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Euclid Square';
+    src: url('EuclidSquare-Italic.eot');
+    src: local('Euclid Square Italic'), local('EuclidSquare-Italic'),
+        url('EuclidSquare-Italic.eot?#iefix') format('embedded-opentype'),
+        url('EuclidSquare-Italic.woff2') format('woff2'),
+        url('EuclidSquare-Italic.woff') format('woff'),
+        url('EuclidSquare-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Euclid Square';
+    src: url('EuclidSquare-Light.eot');
+    src: local('Euclid Square Light'), local('EuclidSquare-Light'),
+        url('EuclidSquare-Light.eot?#iefix') format('embedded-opentype'),
+        url('EuclidSquare-Light.woff2') format('woff2'),
+        url('EuclidSquare-Light.woff') format('woff'),
+        url('EuclidSquare-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Euclid Square';
+    src: url('EuclidSquare-SemiBoldItalic.eot');
+    src: local('Euclid Square SemiBold Italic'), local('EuclidSquare-SemiBoldItalic'),
+        url('EuclidSquare-SemiBoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('EuclidSquare-SemiBoldItalic.woff2') format('woff2'),
+        url('EuclidSquare-SemiBoldItalic.woff') format('woff'),
+        url('EuclidSquare-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Euclid Square';
+    src: url('EuclidSquare-BoldItalic.eot');
+    src: local('Euclid Square Bold Italic'), local('EuclidSquare-BoldItalic'),
+        url('EuclidSquare-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('EuclidSquare-BoldItalic.woff2') format('woff2'),
+        url('EuclidSquare-BoldItalic.woff') format('woff'),
+        url('EuclidSquare-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+

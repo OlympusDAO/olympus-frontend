@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="260px" height="240px" viewBox="0 0 260 240" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="metamask" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <polygon id="Path" stroke="#E17726" fill="#E17726" fill-rule="nonzero" points="246.9 0 145.8 75 164.6 30.8"></polygon>
+        <polygon id="Path" stroke="#E27625" fill="#E27625" fill-rule="nonzero" points="13.7 0 113.9 75.7 96 30.8"></polygon>
+        <polygon id="Path" stroke="#E27625" fill="#E27625" fill-rule="nonzero" points="210.5 173.9 183.6 215.1 241.2 231 257.7 174.8"></polygon>
+        <polygon id="Path" stroke="#E27625" fill="#E27625" fill-rule="nonzero" points="3 174.8 19.4 231 76.9 215.1 50.1 173.9"></polygon>
+        <polygon id="Path" stroke="#E27625" fill="#E27625" fill-rule="nonzero" points="73.8 104.3 57.8 128.5 114.8 131.1 112.9 69.6"></polygon>
+        <polygon id="Path" stroke="#E27625" fill="#E27625" fill-rule="nonzero" points="186.8 104.3 147.1 68.9 145.8 131.1 202.8 128.5"></polygon>
+        <polygon id="Path" stroke="#E27625" fill="#E27625" fill-rule="nonzero" points="76.9 215.1 111.4 198.4 81.7 175.2"></polygon>
+        <polygon id="Path" stroke="#E27625" fill="#E27625" fill-rule="nonzero" points="149.2 198.4 183.6 215.1 178.9 175.2"></polygon>
+        <polygon id="Path" stroke="#D5BFB2" fill="#D5BFB2" fill-rule="nonzero" points="183.6 215.1 149.2 198.4 152 220.8 151.7 230.3"></polygon>
+        <polygon id="Path" stroke="#D5BFB2" fill="#D5BFB2" fill-rule="nonzero" points="76.9 215.1 108.9 230.3 108.7 220.8 111.4 198.4"></polygon>
+        <polygon id="Path" stroke="#233447" fill="#233447" fill-rule="nonzero" points="109.5 160.4 80.9 152 101.1 142.7"></polygon>
+        <polygon id="Path" stroke="#233447" fill="#233447" fill-rule="nonzero" points="151.1 160.4 159.5 142.7 179.8 152"></polygon>
+        <polygon id="Path" stroke="#CC6228" fill="#CC6228" fill-rule="nonzero" points="76.9 215.1 81.9 173.9 50.1 174.8"></polygon>
+        <polygon id="Path" stroke="#CC6228" fill="#CC6228" fill-rule="nonzero" points="178.7 173.9 183.6 215.1 210.5 174.8"></polygon>
+        <polygon id="Path" stroke="#CC6228" fill="#CC6228" fill-rule="nonzero" points="202.8 128.5 145.8 131.1 151.1 160.4 159.5 142.7 179.8 152"></polygon>
+        <polygon id="Path" stroke="#CC6228" fill="#CC6228" fill-rule="nonzero" points="80.9 152 101.1 142.7 109.5 160.4 114.8 131.1 57.8 128.5"></polygon>
+        <polygon id="Path" stroke="#E27525" fill="#E27525" fill-rule="nonzero" points="57.8 128.5 81.7 175.2 80.9 152"></polygon>
+        <polygon id="Path" stroke="#E27525" fill="#E27525" fill-rule="nonzero" points="179.8 152 178.9 175.2 202.8 128.5"></polygon>
+        <polygon id="Path" stroke="#E27525" fill="#E27525" fill-rule="nonzero" points="114.8 131.1 109.5 160.4 116.2 195 117.7 149.4"></polygon>
+        <polygon id="Path" stroke="#E27525" fill="#E27525" fill-rule="nonzero" points="145.8 131.1 143 149.3 144.4 195 151.1 160.4"></polygon>
+        <polygon id="Path" stroke="#F5841F" fill="#F5841F" fill-rule="nonzero" points="151.1 160.4 144.4 195 149.2 198.4 178.9 175.2 179.8 152"></polygon>
+        <polygon id="Path" stroke="#F5841F" fill="#F5841F" fill-rule="nonzero" points="80.9 152 81.7 175.2 111.4 198.4 116.2 195 109.5 160.4"></polygon>
+        <polygon id="Path" stroke="#C0AC9D" fill="#C0AC9D" fill-rule="nonzero" points="151.7 230.3 152 220.8 149.4 218.6 111.2 218.6 108.7 220.8 108.9 230.3 76.9 215.1 88.1 224.3 110.8 240 149.7 240 172.5 224.3 183.6 215.1"></polygon>
+        <polygon id="Path" stroke="#161616" fill="#161616" fill-rule="nonzero" points="149.2 198.4 144.4 195 116.2 195 111.4 198.4 108.7 220.8 111.2 218.6 149.4 218.6 152 220.8"></polygon>
+        <polygon id="Path" stroke="#763E1A" fill="#763E1A" fill-rule="nonzero" points="251.2 79.9 259.7 38.5 246.9 0 149.2 72.5 186.8 104.3 239.9 119.8 251.6 106.1 246.5 102.4 254.6 95 248.4 90.2 256.5 84"></polygon>
+        <polygon id="Path" stroke="#763E1A" fill="#763E1A" fill-rule="nonzero" points="0.9 38.5 9.5 79.9 4 84 12.2 90.2 6 95 14.1 102.4 9 106.1 20.7 119.8 73.8 104.3 111.4 72.5 13.7 0"></polygon>
+        <polygon id="Path" stroke="#F5841F" fill="#F5841F" fill-rule="nonzero" points="239.9 119.8 186.8 104.3 202.8 128.5 178.9 175.2 210.5 174.8 257.7 174.8"></polygon>
+        <polygon id="Path" stroke="#F5841F" fill="#F5841F" fill-rule="nonzero" points="73.8 104.3 20.7 119.8 3 174.8 50.1 174.8 81.7 175.2 57.8 128.5"></polygon>
+        <polygon id="Path" stroke="#F5841F" fill="#F5841F" fill-rule="nonzero" points="145.8 131.1 149.2 72.5 164.6 30.8 96 30.8 111.4 72.5 114.8 131.1 116.1 149.5 116.2 195 144.4 195 144.5 149.5"></polygon>
+    </g>
+</svg>
