@@ -11,7 +11,9 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import "./App.css";
-import { Account, Contract, Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
+import "./style.scss";
+import { Account, Header, ThemeSwitch, } from "./components";
+import Stake from "./components/Stake";
 import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { Transactor } from "./helpers";
 import {
@@ -265,100 +267,94 @@ function App(props: any) {
 
 
   return (
-    <div className="App">
-      {/* ✏️ Edit the header and change the title to your project name */}
-      <Header />
+    <div className="app">
+      <div id="dapp" class="dapp min-vh-100">
+        <div className="container-fluid">
+          <div className="row">
+            <Header />
 
-      <BrowserRouter>
-        <Menu style={{ textAlign: "center" }} selectedKeys={[route!]} mode="horizontal">
-          <Menu.Item key="/">
-            <Link
-              onClick={() => {
-                setRoute("/" as any);
-              }}
-              to="/"
-            >
-              YourContract
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/hints">
-            <Link
-              onClick={() => {
-                setRoute("/hints" as any);
-              }}
-              to="/hints"
-            >
-              Hints
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/exampleui">
-            <Link
-              onClick={() => {
-                setRoute("/exampleui" as any);
-              }}
-              to="/exampleui"
-            >
-              ExampleUI
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/mainnetdai">
-            <Link
-              onClick={() => {
-                setRoute("/mainnetdai" as any);
-              }}
-              to="/mainnetdai"
-            >
-              Mainnet DAI
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/subgraph">
-            <Link
-              onClick={() => {
-                setRoute("/subgraph" as any);
-              }}
-              to="/subgraph"
-            >
-              Subgraph
-            </Link>
-          </Menu.Item>
-        </Menu>
+            <BrowserRouter>
+              <Menu style={{ textAlign: "center" }} selectedKeys={[route!]} mode="horizontal">
+                <Menu.Item key="/">
+                  <Link
+                    onClick={() => {
+                      setRoute("/" as any);
+                    }}
+                    to="/"
+                  >
+                    YourContract
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="/hints">
+                  <Link
+                    onClick={() => {
+                      setRoute("/hints" as any);
+                    }}
+                    to="/hints"
+                  >
+                    Hints
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="/exampleui">
+                  <Link
+                    onClick={() => {
+                      setRoute("/exampleui" as any);
+                    }}
+                    to="/exampleui"
+                  >
+                    ExampleUI
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="/mainnetdai">
+                  <Link
+                    onClick={() => {
+                      setRoute("/mainnetdai" as any);
+                    }}
+                    to="/mainnetdai"
+                  >
+                    Mainnet DAI
+                  </Link>
+                </Menu.Item>
+                <Menu.Item key="/subgraph">
+                  <Link
+                    onClick={() => {
+                      setRoute("/subgraph" as any);
+                    }}
+                    to="/subgraph"
+                  >
+                    Subgraph
+                  </Link>
+                </Menu.Item>
+              </Menu>
 
-        <Switch>
-          <Route exact path="/">
+              <Switch>
+                <Route exact path="/">
+                  <Stake />
+                </Route>
+              </Switch>
+            </BrowserRouter>
 
-          </Route>
+            <ThemeSwitch />
 
-          <Route path="/exampleui">
-
-          </Route>
-          <Route path="/mainnetdai">
-
-          </Route>
-          <Route path="/subgraph">
-
-          </Route>
-        </Switch>
-      </BrowserRouter>
-
-      <ThemeSwitch />
-
-      {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
-      <div style={{ position: "fixed", textAlign: "right", right: 0, top: 0, padding: 10 }}>
-        <Account
-          address={address}
-          minimized={null}
-          localProvider={localProvider}
-          userProvider={userProvider}
-          mainnetProvider={mainnetProvider}
-          price={price}
-          web3Modal={web3Modal}
-          loadWeb3Modal={loadWeb3Modal}
-          logoutOfWeb3Modal={logoutOfWeb3Modal}
-          blockExplorer={blockExplorer}
-        />
-        {faucetHint}
+            {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
+            <div style={{ position: "fixed", textAlign: "right", right: 0, top: 0, padding: 10 }}>
+              <Account
+                address={address}
+                minimized={null}
+                localProvider={localProvider}
+                userProvider={userProvider}
+                mainnetProvider={mainnetProvider}
+                price={price}
+                web3Modal={web3Modal}
+                loadWeb3Modal={loadWeb3Modal}
+                logoutOfWeb3Modal={logoutOfWeb3Modal}
+                blockExplorer={blockExplorer}
+              />
+              {faucetHint}
+            </div>
+          </div>
+        </div>
       </div>
-
     </div>
   );
 }
