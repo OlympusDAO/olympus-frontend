@@ -14,6 +14,7 @@ import "./App.css";
 import "./style.scss";
 import { Account, Header, ThemeSwitch, } from "./components";
 import Stake from "./components/Stake";
+import Sidebar from "./components/Sidebar";
 import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { Transactor } from "./helpers";
 import {
@@ -272,6 +273,8 @@ function App(props: any) {
         <div className="container-fluid">
           <div className="row">
             <Header />
+
+            <Sidebar isExpanded={true} />
 
             <BrowserRouter>
               <Menu style={{ textAlign: "center" }} selectedKeys={[route!]} mode="horizontal">
