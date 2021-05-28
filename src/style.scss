@@ -23,7 +23,6 @@ $border: 1px solid $bg-color;
 }
 
 
-
 @font-face {font-family: 'Square-Bold';
   src: url('./assets/fonts/EuclidSquare-Bold.ttf');
 }
@@ -1257,7 +1256,9 @@ input.input:read-only {
 }
 
 .bg-dark {
-  background-color: #161616 !important;
+  // background-color: #161616 !important;
+  background-color: #212121 !important;
+  opacity: 0.8;
 }
 
 .ohm-input-group {

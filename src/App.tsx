@@ -10,10 +10,12 @@ import Web3Modal from "web3modal";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import Stake from "./components/Stake";
+
 import "./App.css";
 import "./style.scss";
-import { Account, Header, ThemeSwitch, } from "./components";
-import Stake from "./components/Stake";
+import { Header, ThemeSwitch, } from "./components";
+
 import Sidebar from "./components/Sidebar";
 import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { Transactor } from "./helpers";
@@ -103,11 +105,7 @@ function App(props: any) {
   const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
 
   const [injectedProvider, setInjectedProvider] = useState();
-  /* 💵 This hook will get the price of ETH from 🦄 Uniswap: */
-  const price = useExchangePrice(targetNetwork, mainnetProvider);
 
-  /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
-  const gasPrice = useGasPrice(targetNetwork, "fast");
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProvider = useUserProvider(injectedProvider, localProvider);
   const address = useUserAddress(userProvider);
@@ -117,12 +115,6 @@ function App(props: any) {
   const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
-
-  // The transactor wraps transactions and provides notificiations
-  const tx = Transactor(userProvider, gasPrice);
-
-  // Faucet Tx can be used to send funds from the faucet
-  const faucetTx = Transactor(localProvider, gasPrice);
 
   // 🏗 scaffold-eth is full of handy hooks like this one to get your balance:
   const yourLocalBalance = useBalance(localProvider, address);
@@ -269,66 +261,14 @@ function App(props: any) {
 
   return (
     <div className="app">
-      <div id="dapp" class="dapp min-vh-100">
+      <div id="dapp" className="dapp min-vh-100">
         <div className="container-fluid">
           <div className="row">
-            <Header />
+            <Header blockExplorer={blockExplorer} address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} userProvider={userProvider} localProvider={localProvider} mainnetProvider={mainnetProvider} />
 
-            <Sidebar isExpanded={true} />
 
             <BrowserRouter>
-              <Menu style={{ textAlign: "center" }} selectedKeys={[route!]} mode="horizontal">
-                <Menu.Item key="/">
-                  <Link
-                    onClick={() => {
-                      setRoute("/" as any);
-                    }}
-                    to="/"
-                  >
-                    YourContract
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="/hints">
-                  <Link
-                    onClick={() => {
-                      setRoute("/hints" as any);
-                    }}
-                    to="/hints"
-                  >
-                    Hints
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="/exampleui">
-                  <Link
-                    onClick={() => {
-                      setRoute("/exampleui" as any);
-                    }}
-                    to="/exampleui"
-                  >
-                    ExampleUI
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="/mainnetdai">
-                  <Link
-                    onClick={() => {
-                      setRoute("/mainnetdai" as any);
-                    }}
-                    to="/mainnetdai"
-                  >
-                    Mainnet DAI
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="/subgraph">
-                  <Link
-                    onClick={() => {
-                      setRoute("/subgraph" as any);
-                    }}
-                    to="/subgraph"
-                  >
-                    Subgraph
-                  </Link>
-                </Menu.Item>
-              </Menu>
+              <Sidebar mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
 
               <Switch>
                 <Route exact path="/">
@@ -338,23 +278,6 @@ function App(props: any) {
             </BrowserRouter>
 
             <ThemeSwitch />
-
-            {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
-            <div style={{ position: "fixed", textAlign: "right", right: 0, top: 0, padding: 10 }}>
-              <Account
-                address={address}
-                minimized={null}
-                localProvider={localProvider}
-                userProvider={userProvider}
-                mainnetProvider={mainnetProvider}
-                price={price}
-                web3Modal={web3Modal}
-                loadWeb3Modal={loadWeb3Modal}
-                logoutOfWeb3Modal={logoutOfWeb3Modal}
-                blockExplorer={blockExplorer}
-              />
-              {faucetHint}
-            </div>
           </div>
         </div>
       </div>
