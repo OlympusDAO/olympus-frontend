@@ -58,7 +58,7 @@ export default function Header({ address, userProvider, mainnetProvider, web3Mod
 
   return (
     <React.Fragment>
-      <nav className={`navbar sticky-top navbar-expand-lg navbar-light ${currentTheme === 'dark' ? 'bg-dark' : 'bg-light'}`}>
+      <nav className={`navbar sticky-top navbar-expand-lg navbar-light bg-warning`}>
         <div className="container-fluid align-items-end">
 
           {false && <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,6 +75,15 @@ export default function Header({ address, userProvider, mainnetProvider, web3Mod
           >
             <span className="navbar-toggler-icon"></span>
           </button>
+
+
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                NOTE: You're using V2 of OlympusDAO. If you want V1, visit <a href="https://olympusdao.finance/#/stake">olympusdao.finance/#stake</a>
+              </li>
+            </ul>
+          </div>
 
 
           {false && <div className="collapse navbar-collapse" id="navbarSupportedContent">

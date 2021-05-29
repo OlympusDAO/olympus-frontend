@@ -1,51 +1,61 @@
 import React, { useState, useCallback, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// displays a page header
+import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../helpers";
+import { changeStake, changeApproval } from '../actions/Stake.actions.js';
 
 type Props = {
-  // app: string;
+  provider: any,
+  address: string
 };
 
-function Stake({ }: Props) {
-  const [timeUntilRebase, setTimeUntilRebase] = useState(0);
-  const [stakingRebase, setStakingRebase] = useState(0);
-  const [fiveDayRate, setFiveDayRate] = useState(0);
-  const [stakingAPY, setStakingAPY] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
+function Stake({ provider, address }: Props) {
+  const dispatch = useDispatch();
+
   const [view, setView] = useState("stake");
+  const [quantity, setQuantity] = useState();
 
-  const ohmBalance = useSelector((state: any) => {
-    return state.app && state.app.ohmBalance
-  });
-  const sohmBalance = useSelector((state: any) => {
-    return state.app && state.app.sohmBalance
-  });
+  const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
+  const fiveDayRate  = useSelector((state: any) => { return state.app.fiveDayRate });
+  const stakingRebase  = useSelector((state: any) => { return state.app.stakingRebase });
+  const currentIndex = useSelector((state: any) => { return state.app.currentIndex });
+  const stakingAPY   = useSelector((state: any) => { return state.app.stakingAPY });
 
+  const ohmBalance     = useSelector((state: any) => { return state.app.balances && state.app.balances.ohm });
+  const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
+  const stakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmStake });
 
-  const setMax = useCallback(() => {
-    return null
-  }, []);
+  const setMax = () => {
+    if (view === 'stake') {
+      setQuantity(ohmBalance);
+    } else {
+      setQuantity(sohmBalance);
+    }
+  };
 
-  const seekApproval = useCallback(() => {
-    return null
-  }, []);
+  const onSeekApproval = async (token: any) => {
+    await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
+  };
 
-  const executeStake = useCallback(() => {
-    return null
-  }, []);
-
-  const executeUnstake = useCallback(() => {
-    return null
-  }, []);
+  const onChangeStake = async (action: any) => {
+    if (isNaN(quantity as any) || quantity === 0 || quantity === '') {
+      alert('Please enter a value!');
+      return;
+    } else {
+      await dispatch(changeStake({ address, action, value: (quantity as any).toString(), provider, networkID: 1 }));
+    }
+  };
 
   const hasAllowance = useCallback(() => {
-    return false;
-    // if (this.selectedMapOption === 'Stake') {
-    //   return parseInt(this.$store.state.settings.stakeAllowance) > 0;
-    // } else {
-    //   return parseInt(this.$store.state.settings.unstakeAllowance) > 0;
-    // }
-  }, []);
+    return stakeAllowance > 0;
+  }, [stakeAllowance]);
+
+  const timeUntilRebase = () => {
+    if (currentBlock) {
+      const rebaseBlock = getRebaseBlock(currentBlock);
+      const seconds     = secondsUntilBlock(currentBlock, rebaseBlock);
+      return prettifySeconds(seconds);
+    }
+  }
 
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
@@ -62,59 +72,65 @@ function Stake({ }: Props) {
 
             <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
               <input
-                v-model="quantity"
+                value={quantity}
+                onChange={e => setQuantity(e.target.value as any)}
                 type="number"
                 className="form-control"
                 placeholder="Type an amount"
               />
+
               <button className="btn" type="button" onClick={setMax}>Max</button>
             </div>
 
             <div className="stake-price-data-column">
               <div className="stake-price-data-row">
                 <p className="price-label">Balance</p>
-                <p className="price-data">{ ohmBalance} OHM</p>
+                <p className="price-data">{ trim(ohmBalance) } OHM</p>
               </div>
               <div className="stake-price-data-row">
                 <p className="price-label">Staked</p>
-                <p className="price-data">{ sohmBalance } sOHM</p>
+                <p className="price-data">{ trim(sohmBalance) } sOHM</p>
               </div>
 
               <div className="stake-price-data-row">
                 <p className="price-label">Time until rebase</p>
                 <p className="price-data">
-                  { timeUntilRebase }
+                  { timeUntilRebase() }
                 </p>
               </div>
 
               <div className="stake-price-data-row">
                 <p className="price-label">Upcoming rebase</p>
-                <p className="price-data">{stakingRebase}%</p>
+                <p className="price-data">{ trim(stakingRebase * 100, 4) }%</p>
               </div>
               <div className="stake-price-data-row">
                 <p className="price-label">ROI (5-day rate)</p>
-                <p className="price-data">{fiveDayRate}%</p>
+                <p className="price-data">{ trim(fiveDayRate * 100, 4) }%</p>
               </div>
               <div className="stake-price-data-row">
                 <p className="price-label">Current APY</p>
-                <p className="price-data">{stakingAPY}%</p>
+                <p className="price-data">{ trim(stakingAPY * 100, 2) }%</p>
               </div>
               <div className="stake-price-data-row">
                 <p className="price-label">Current index</p>
-                <p className="price-data">{currentIndex} OHM</p>
+                <p className="price-data">{ trim(currentIndex, 4) } OHM</p>
               </div>
             </div>
 
-            {hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
-              <div className="stake-button" onClick={executeStake}>Stake</div>
+            {address && hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
+              <div className="stake-button" onClick={() => { onChangeStake('stake') }}>Stake OHM</div>
             </div>}
 
-            {hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
-              <div className="stake-button" onClick={executeUnstake}>Unstake</div>
+            {address && hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
+              <div className="stake-button" onClick={() => { onChangeStake('unstake') }}>Unstake OHM</div>
             </div>}
 
-            {!hasAllowance() && <div className="d-flex align-self-center mb-2">
-              <div className="stake-button" onClick={seekApproval}>Approve</div>
+            {address && !hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
+              <div className="stake-button" onClick={() => { onSeekApproval('ohm') }}>Approve OHM</div>
+            </div>}
+
+            {address && !hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
+              <div className="stake-button" onClick={() => { onSeekApproval('sohm') }}>Approve sOHM</div>
             </div>}
 
 

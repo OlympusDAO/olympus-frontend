@@ -4,6 +4,7 @@ import { Alert, Button, Col, Menu, Row } from "antd";
 import Address from "./Address";
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import Web3Modal from "web3modal";
+import { shorten } from '../helpers';
 
 // displays a page header
 
@@ -75,50 +76,44 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
           </div>
 
           <div className="wallet-menu">
-          {modalButtons}
+            {modalButtons}
 
             {false && <a
               className="disconnect-button button-primary button"
               onClick={disconnectWallet}
               >Disconnect</a
             >}
-            <a className="dapp-sidebar-button-connected button button-info">
-              {address ? (
+            {address && <a className="dapp-sidebar-button-connected button button-info">
+              {shorten(address)}
+
+              {false && (address ? (
                 <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
               ) : (
                 "Connecting..."
-              )}
-            </a>
+              ))}
+            </a>}
 
-            <div className="dapp-menu-links">
-              <Menu className="dapp-nav" style={{ textAlign: "center" }} selectedKeys={[route!]} mode="vertical">
-                <Menu.Item key="/" className="button button-dapp-menu">
-                  <Link
-                    onClick={() => {
-                      setRoute("/" as any);
-                    }}
-                    to="/"
-                  >
-                    Stake
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="/hints" className="button button-dapp-menu">
-                  <Link
-                    onClick={() => {
-                      setRoute("/choose_bond" as any);
-                    }}
-                    to="/choose_bond"
-                  >
-                    Bond
-                  </Link>
-                </Menu.Item>
-              </Menu>
-            </div>
 
 
 
           </div>
+
+
+
         </div>
+
+        <div className="dapp-menu-links">
+          <div className="dapp-nav">
+            <Link onClick={() => { setRoute("/" as any) }} to="/" className="button button-dapp-menu">
+              Stake
+            </Link>
+
+            <Link onClick={() => { setRoute("/choose_bond" as any) }} to="/choose_bond" className="button button-dapp-menu">
+              Bond
+            </Link>
+          </div>
+        </div>
+
 
       </div>
 
