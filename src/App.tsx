@@ -135,7 +135,7 @@ function App(props: any) {
 
   async function loadDetails() {
     if (injectedProvider)
-      await dispatch(loadAppDetails({ provider: injectedProvider }))
+      await dispatch(loadAppDetails({ networkID: 1, provider: injectedProvider }))
 
     if (address)
       await dispatch(loadAccountDetails({networkID: 1, address, provider: injectedProvider}));

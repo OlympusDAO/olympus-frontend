@@ -8,13 +8,15 @@ type Props = {
 
 function Stake({ }: Props) {
 
-  const [stakingRebase, setStakingRebase] = useState(0);
-  const [fiveDayRate, setFiveDayRate] = useState(0);
-  const [stakingAPY, setStakingAPY] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
+
   const [view, setView] = useState("stake");
 
-  const currentBlock   = useSelector((state: any) => { return state.app.currentBlock });
+  const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
+  const fiveDayRate  = useSelector((state: any) => { return state.app.fiveDayRate });
+  const stakingRebase  = useSelector((state: any) => { return state.app.stakingRebase });
+  const currentIndex = useSelector((state: any) => { return state.app.currentIndex });
+  const stakingAPY   = useSelector((state: any) => { return state.app.stakingAPY });
+
   const ohmBalance     = useSelector((state: any) => { return state.app.balances && state.app.balances.ohm });
   const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
   const stakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmStake });
@@ -90,19 +92,19 @@ function Stake({ }: Props) {
 
               <div className="stake-price-data-row">
                 <p className="price-label">Upcoming rebase</p>
-                <p className="price-data">{stakingRebase}%</p>
+                <p className="price-data">{ trim(stakingRebase * 100, 4) }%</p>
               </div>
               <div className="stake-price-data-row">
                 <p className="price-label">ROI (5-day rate)</p>
-                <p className="price-data">{fiveDayRate}%</p>
+                <p className="price-data">{ trim(fiveDayRate * 100, 4) }%</p>
               </div>
               <div className="stake-price-data-row">
                 <p className="price-label">Current APY</p>
-                <p className="price-data">{stakingAPY}%</p>
+                <p className="price-data">{ trim(stakingAPY * 100, 2) }%</p>
               </div>
               <div className="stake-price-data-row">
                 <p className="price-label">Current index</p>
-                <p className="price-data">{currentIndex} OHM</p>
+                <p className="price-data">{ trim(currentIndex, 4) } OHM</p>
               </div>
             </div>
 
