@@ -3,6 +3,7 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { Alert, Button, Col, Menu, Row } from "antd";
 import Address from "./Address";
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import Web3Modal from "web3modal";
 
 // displays a page header
 
@@ -13,9 +14,42 @@ type Props = {
   setRoute: Function,
   mainnetProvider: StaticJsonRpcProvider,
   blockExplorer: string,
+  web3Modal: Web3Modal,
+  loadWeb3Modal: Function,
+  logoutOfWeb3Modal: Function,
 };
 
-function Sidebar({ isExpanded, route, setRoute, address, mainnetProvider, blockExplorer }: Props) {
+function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute, address, mainnetProvider, blockExplorer }: Props) {
+  const modalButtons = [];
+  if (web3Modal) {
+    if (web3Modal.cachedProvider) {
+      modalButtons.push(
+        <Button
+          key="logoutbutton"
+          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
+          shape="round"
+          size="large"
+          onClick={logoutOfWeb3Modal as any}
+        >
+          Disconnect
+        </Button>,
+      );
+    } else {
+      modalButtons.push(
+        <Button
+          key="loginbutton"
+          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
+          shape="round"
+          size="large"
+          /* type={minimized ? "default" : "primary"}     too many people just defaulting to MM and having a bad time */
+          onClick={loadWeb3Modal as any}
+        >
+          Connect
+        </Button>,
+      );
+    }
+  }
+
 
   const setMax = useCallback(() => {
     return null
@@ -41,6 +75,8 @@ function Sidebar({ isExpanded, route, setRoute, address, mainnetProvider, blockE
           </div>
 
           <div className="wallet-menu">
+          {modalButtons}
+
             {false && <a
               className="disconnect-button button-primary button"
               onClick={disconnectWallet}

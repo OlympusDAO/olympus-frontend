@@ -9,6 +9,8 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import Web3Modal from "web3modal";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { loadAccountDetails } from './actions/Account.actions.js';
 
 import Stake from "./components/Stake";
 
@@ -68,13 +70,6 @@ const scaffoldEthProvider = new StaticJsonRpcProvider("https://rpc.scaffoldeth.i
 const mainnetInfura = new StaticJsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID);
 // ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_I
 
-// 🏠 Your local provider is usually pointed at your local blockchain
-const localProviderUrl = targetNetwork.rpcUrl;
-// as you deploy to other networks you can set REACT_APP_PROVIDER=https://dai.poa.network in packages/react-app/.env
-const localProviderUrlFromEnv = process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : localProviderUrl;
-if (DEBUG) console.log("🏠 Connecting to provider:", localProviderUrlFromEnv);
-const localProvider = new StaticJsonRpcProvider(localProviderUrlFromEnv);
-
 // 🔭 block explorer URL
 const blockExplorer = targetNetwork.blockExplorer;
 
@@ -102,28 +97,25 @@ const logoutOfWeb3Modal = async () => {
 };
 
 function App(props: any) {
-  const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
+  const dispatch = useDispatch();
+
+  console.log("scaffoldEthProvider = ", scaffoldEthProvider)
+  // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
+  const mainnetProvider = mainnetInfura;
 
   const [injectedProvider, setInjectedProvider] = useState();
 
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
-  const userProvider = useUserProvider(injectedProvider, localProvider);
+  const userProvider = useUserProvider(injectedProvider, null);
   const address = useUserAddress(userProvider);
 
   // You can warn the user if you would like them to be on a specific network
-  const localChainId = localProvider && localProvider._network && localProvider._network.chainId;
   const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
-  // 🏗 scaffold-eth is full of handy hooks like this one to get your balance:
-  const yourLocalBalance = useBalance(localProvider, address);
-
   // Just plug in different 🛰 providers to get your balance on different chains:
   const yourMainnetBalance = useBalance(mainnetProvider, address);
-
-  // Load in your local 📝 contract and read a value from it:
-  const readContracts = useContractLoader(localProvider);
 
   // If you want to make 🔐 write transactions to your contracts, use the userProvider:
   const writeContracts = useContractLoader(userProvider);
@@ -138,58 +130,19 @@ function App(props: any) {
     console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
   });
 
-  // Then read your DAI balance like:
-  const myMainnetDAIBalance = useContractReader({ DAI: mainnetDAIContract }, "DAI", "balanceOf", [
-    "0x34aA3F359A9D614239015126635CE7732c18fDF3",
-  ]);
 
-  // keep track of a variable from the contract in the local React state:
-  const purpose = useContractReader(readContracts, "YourContract", "purpose");
 
-  // 📟 Listen for broadcast events
-  const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
+  async function loadDetails() {
+    return await dispatch(loadAccountDetails({networkID: 1, address, provider: injectedProvider}));
+  }
 
-  /*
-  const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
-  console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
-  */
-
-  //
-  // 🧫 DEBUG 👨🏻‍🔬
-  //
   useEffect(() => {
-    if (
-      DEBUG &&
-      mainnetProvider &&
-      address &&
-      selectedChainId &&
-      yourLocalBalance &&
-      yourMainnetBalance &&
-      readContracts &&
-      writeContracts &&
-      mainnetDAIContract
-    ) {
-      // console.log("_____________________________________ 🏗 scaffold-eth _____________________________________");
-      // console.log("🌎 mainnetProvider", mainnetProvider);
-      // console.log("🏠 localChainId", localChainId);
-      // console.log("👩‍💼 selected address:", address);
-      // console.log("🕵🏻‍♂️ selectedChainId:", selectedChainId);
-      // console.log("💵 yourLocalBalance", yourLocalBalance ? formatEther(yourLocalBalance) : "...");
-      // console.log("💵 yourMainnetBalance", yourMainnetBalance ? formatEther(yourMainnetBalance) : "...");
-      // console.log("📝 readContracts", readContracts);
-      // console.log("🌍 DAI contract on mainnet:", mainnetDAIContract);
-      // console.log("🔐 writeContracts", writeContracts);
+    console.log("HHIII");
+    console.log("address = ", address)
+    if (address) {
+      loadDetails();
     }
-  }, [
-    mainnetProvider,
-    address,
-    selectedChainId,
-    yourLocalBalance,
-    yourMainnetBalance,
-    readContracts,
-    writeContracts,
-    mainnetDAIContract,
-  ]);
+  }, [address]);
 
   // let networkDisplay = "";
   // if (localChainId && selectedChainId && localChainId !== selectedChainId) {
@@ -253,29 +206,23 @@ function App(props: any) {
     setRoute((window as any).location.pathname);
   }, [setRoute]);
 
-  let faucetHint = "";
-  const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name === "localhost";
-
-  const [faucetClicked, setFaucetClicked] = useState(false);
-
-
   return (
     <div className="app">
       <div id="dapp" className="dapp min-vh-100">
         <div className="container-fluid">
           <div className="row">
-            <Header blockExplorer={blockExplorer} address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} userProvider={userProvider} localProvider={localProvider} mainnetProvider={mainnetProvider} />
+            <Header blockExplorer={blockExplorer} address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} userProvider={userProvider} mainnetProvider={mainnetProvider} />
 
 
-            <BrowserRouter>
-              <Sidebar mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
 
-              <Switch>
-                <Route exact path="/">
-                  <Stake />
-                </Route>
-              </Switch>
-            </BrowserRouter>
+            <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
+
+            <Switch>
+              <Route exact path="/">
+                <Stake />
+              </Route>
+            </Switch>
+
 
             <ThemeSwitch />
           </div>

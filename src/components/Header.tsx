@@ -15,7 +15,6 @@ import Wallet from "./Wallet";
 type Props = {
   address: string,
   userProvider: Web3Provider,
-  localProvider: StaticJsonRpcProvider,
   mainnetProvider: StaticJsonRpcProvider,
   web3Modal: Web3Modal,
   loadWeb3Modal: Function,
@@ -23,7 +22,7 @@ type Props = {
   blockExplorer: string,
 };
 
-export default function Header({ address, userProvider, localProvider, mainnetProvider, web3Modal, loadWeb3Modal, logoutOfWeb3Modal, blockExplorer }: Props) {
+export default function Header({ address, userProvider, mainnetProvider, web3Modal, loadWeb3Modal, logoutOfWeb3Modal, blockExplorer }: Props) {
   const modalButtons = [];
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
@@ -78,9 +77,7 @@ export default function Header({ address, userProvider, localProvider, mainnetPr
           </button>
 
 
-
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          {false && <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {false && <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="#">Home</a>
@@ -104,13 +101,13 @@ export default function Header({ address, userProvider, localProvider, mainnetPr
               </li>
             </ul>}
 
-            <ul className="navbar-nav me-auto mb-3 mb-lg-0">
+            {false && <ul className="navbar-nav me-auto mb-3 mb-lg-0">
               <li className="nav-item">
                 {modalButtons}
               </li>
-            </ul>
+            </ul>}
 
-          </div>
+          </div>}
         </div>
       </nav>
 
