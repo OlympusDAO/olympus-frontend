@@ -102,7 +102,9 @@ const logoutOfWeb3Modal = async () => {
 };
 
 function App(props: any) {
-  const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
+  console.log("scaffoldEthProvider = ", scaffoldEthProvider)
+  // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
+  const mainnetProvider = mainnetInfura;
 
   const [injectedProvider, setInjectedProvider] = useState();
 
@@ -137,11 +139,6 @@ function App(props: any) {
   useOnBlock(mainnetProvider, () => {
     console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
   });
-
-  // Then read your DAI balance like:
-  const myMainnetDAIBalance = useContractReader({ DAI: mainnetDAIContract }, "DAI", "balanceOf", [
-    "0x34aA3F359A9D614239015126635CE7732c18fDF3",
-  ]);
 
   // keep track of a variable from the contract in the local React state:
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
@@ -253,12 +250,6 @@ function App(props: any) {
     setRoute((window as any).location.pathname);
   }, [setRoute]);
 
-  let faucetHint = "";
-  const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name === "localhost";
-
-  const [faucetClicked, setFaucetClicked] = useState(false);
-
-
   return (
     <div className="app">
       <div id="dapp" className="dapp min-vh-100">
@@ -267,15 +258,15 @@ function App(props: any) {
             <Header blockExplorer={blockExplorer} address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} userProvider={userProvider} localProvider={localProvider} mainnetProvider={mainnetProvider} />
 
 
-            <BrowserRouter>
-              <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
 
-              <Switch>
-                <Route exact path="/">
-                  <Stake />
-                </Route>
-              </Switch>
-            </BrowserRouter>
+            <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
+
+            <Switch>
+              <Route exact path="/">
+                <Stake />
+              </Route>
+            </Switch>
+
 
             <ThemeSwitch />
           </div>
