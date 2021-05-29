@@ -78,9 +78,7 @@ export default function Header({ address, userProvider, localProvider, mainnetPr
           </button>
 
 
-
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          {false && <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {false && <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="#">Home</a>
@@ -104,13 +102,13 @@ export default function Header({ address, userProvider, localProvider, mainnetPr
               </li>
             </ul>}
 
-            <ul className="navbar-nav me-auto mb-3 mb-lg-0">
+            {false && <ul className="navbar-nav me-auto mb-3 mb-lg-0">
               <li className="nav-item">
                 {modalButtons}
               </li>
-            </ul>
+            </ul>}
 
-          </div>
+          </div>}
         </div>
       </nav>
 

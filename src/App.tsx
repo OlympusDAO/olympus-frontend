@@ -268,7 +268,7 @@ function App(props: any) {
 
 
             <BrowserRouter>
-              <Sidebar mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
+              <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
 
               <Switch>
                 <Route exact path="/">

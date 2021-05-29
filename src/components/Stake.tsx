@@ -14,7 +14,7 @@ function Stake({ }: Props) {
   const [fiveDayRate, setFiveDayRate] = useState(0);
   const [stakingAPY, setStakingAPY] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedMapOption, setSelectedMapOption] = useState(0);
+  const [view, setView] = useState("stake");
 
   const setMax = useCallback(() => {
     return null
@@ -28,22 +28,30 @@ function Stake({ }: Props) {
     return null
   }, []);
 
+  const executeUnstake = useCallback(() => {
+    return null
+  }, []);
+
+  const hasAllowance = useCallback(() => {
+    return false;
+    // if (this.selectedMapOption === 'Stake') {
+    //   return parseInt(this.$store.state.settings.stakeAllowance) > 0;
+    // } else {
+    //   return parseInt(this.$store.state.settings.unstakeAllowance) > 0;
+    // }
+  }, []);
+
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
       <div className="dapp-center-modal py-2 px-4 py-md-4 px-md-2">
         <div className="dapp-modal-wrapper d-flex align-items-center">
           <div className="swap-input-column">
             <div className="stake-toggle-row">
-              <ul className="toggle-switch" style={{width: "15rem", height: "2.5rem"}}>
-                <li style={{width: "15rem", height: "2.5rem", fontFamily: "Arial", fontSize: "1rem", textAlign: "center"}}>
-                  <input id="Stake" type="radio" value="Stake" />
-                  <label htmlFor="Stake" className="selected active" style={{padding: "0.3rem", borderColor: "white", backgroundColor: "white", color: "black", fontWeight: "bold", transition: "all 0.4s ease 0s"}}> Stake </label>
-                </li>
-                <li style={{width: "15rem", height: "2.5rem", fontFamily: "Arial", fontSize: "1rem", textAlign: "center"}}>
-                  <input id="Unstake" type="radio" value="Unstake" />
-                  <label htmlFor="Unstake" className="active" style={{padding: "0.3rem", borderColor: "white", backgroundColor: "rgb(40, 40, 40)", color: "white", fontWeight: "normal", transition: "all 0.4s ease 0s"}}> Unstake </label>
-                </li>
-              </ul>
+            <div className="btn-group" role="group">
+              <button type="button" className={`btn ${view === 'stake' ? 'btn-secondary' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
+              <button type="button" className={`btn ${view === 'unstake' ? 'btn-secondary' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
+            </div>
+
             </div>
 
             <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
@@ -91,12 +99,19 @@ function Stake({ }: Props) {
               </div>
             </div>
 
-            <div v-if="hasAllowance" className="d-flex align-self-center mb-2">
-              <div className="stake-button" onClick={executeStake}>{ selectedMapOption }</div>
-            </div>
-            <div v-else className="d-flex align-self-center mb-2">
+            {hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
+              <div className="stake-button" onClick={executeStake}>Stake</div>
+            </div>}
+
+            {hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
+              <div className="stake-button" onClick={executeUnstake}>Unstake</div>
+            </div>}
+
+            {!hasAllowance() && <div className="d-flex align-self-center mb-2">
               <div className="stake-button" onClick={seekApproval}>Approve</div>
-            </div>
+            </div>}
+
+
           </div>
         </div>
       </div>
