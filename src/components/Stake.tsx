@@ -1,5 +1,5 @@
 import React, { useState, useCallback, } from 'react';
-
+import { useSelector, useDispatch } from 'react-redux';
 // displays a page header
 
 type Props = {
@@ -7,14 +7,20 @@ type Props = {
 };
 
 function Stake({ }: Props) {
-  const [ohmBalance, setOhmBalance] = useState(0);
-  const [sOHMBalance, setsOhmBalance] = useState(0);
   const [timeUntilRebase, setTimeUntilRebase] = useState(0);
   const [stakingRebase, setStakingRebase] = useState(0);
   const [fiveDayRate, setFiveDayRate] = useState(0);
   const [stakingAPY, setStakingAPY] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [view, setView] = useState("stake");
+
+  const ohmBalance = useSelector((state: any) => {
+    return state.app && state.app.ohmBalance
+  });
+  const sohmBalance = useSelector((state: any) => {
+    return state.app && state.app.sohmBalance
+  });
+
 
   const setMax = useCallback(() => {
     return null
@@ -67,11 +73,11 @@ function Stake({ }: Props) {
             <div className="stake-price-data-column">
               <div className="stake-price-data-row">
                 <p className="price-label">Balance</p>
-                <p className="price-data">{ohmBalance} OHM</p>
+                <p className="price-data">{ ohmBalance} OHM</p>
               </div>
               <div className="stake-price-data-row">
                 <p className="price-label">Staked</p>
-                <p className="price-data">{ sOHMBalance } OHM</p>
+                <p className="price-data">{ sohmBalance } sOHM</p>
               </div>
 
               <div className="stake-price-data-row">

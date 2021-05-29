@@ -9,7 +9,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 // See why we're loading redux-thunk: it's for async actions (https://redux.js.org/api-reference/store#dispatch)
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import rootReducer from './rootReducer';
+import rootReducer from '../rootReducer';
 
 
 const loggerMiddleware = createLogger({});
