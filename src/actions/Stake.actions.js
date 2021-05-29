@@ -15,6 +15,57 @@ export const fetchStakeSuccess = payload => ({
   payload
 });
 
+export const changeApproval = ({ token, provider, address, networkID }) => async dispatch => {
+  if (!provider) {
+    alert('Please connect your wallet!');
+    return;
+  }
+
+  const signer = provider.getSigner();
+  const ohmContract = await new ethers.Contract(
+    addresses[networkID].OHM_ADDRESS,
+    ierc20Abi,
+    signer
+  );
+  const sohmContract = await new ethers.Contract(
+    addresses[networkID].SOHM_ADDRESS,
+    ierc20Abi,
+    signer
+  );
+
+  let approveTx;
+  try {
+    if (token === 'ohm') {
+      approveTx = await ohmContract.approve(
+        addresses[networkID].STAKING_ADDRESS,
+        ethers.utils.parseUnits('1000000000', 'gwei').toString()
+      );
+    } else if (token === 'sohm') {
+      const approveTx = await sohmContract.approve(
+        addresses[networkID].STAKING_ADDRESS,
+        ethers.utils.parseUnits('1000000000', 'gwei').toString()
+      );
+    }
+
+    await approveTx.wait();
+  } catch (error) {
+    alert(error.message);
+    return;
+  }
+
+
+  const stakeAllowance   = await ohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+  const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+  return dispatch(fetchStakeSuccess({
+    staking: {
+      ohmStake: stakeAllowance,
+      ohmUnstake: unstakeAllowance,
+    },
+  }))
+
+
+};
+
 export const changeStake = ({ action, value, provider, address, networkID }) => async dispatch => {
   if (!provider) {
     alert('Please connect your wallet!');
