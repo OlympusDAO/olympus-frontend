@@ -1,5 +1,6 @@
 import React, { useState, useCallback, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { trim } from "../helpers";
 // displays a page header
 
 type Props = {
@@ -14,13 +15,9 @@ function Stake({ }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [view, setView] = useState("stake");
 
-  const ohmBalance = useSelector((state: any) => {
-    return state.app && state.app.ohmBalance
-  });
-  const sohmBalance = useSelector((state: any) => {
-    return state.app && state.app.sohmBalance
-  });
-
+  const ohmBalance     = useSelector((state: any) => { return state.app.balances && state.app.balances.ohm });
+  const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
+  const stakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmStake });
 
   const setMax = useCallback(() => {
     return null
@@ -39,13 +36,8 @@ function Stake({ }: Props) {
   }, []);
 
   const hasAllowance = useCallback(() => {
-    return false;
-    // if (this.selectedMapOption === 'Stake') {
-    //   return parseInt(this.$store.state.settings.stakeAllowance) > 0;
-    // } else {
-    //   return parseInt(this.$store.state.settings.unstakeAllowance) > 0;
-    // }
-  }, []);
+    return stakeAllowance > 0;
+  }, [stakeAllowance]);
 
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
@@ -73,11 +65,11 @@ function Stake({ }: Props) {
             <div className="stake-price-data-column">
               <div className="stake-price-data-row">
                 <p className="price-label">Balance</p>
-                <p className="price-data">{ ohmBalance} OHM</p>
+                <p className="price-data">{ trim(ohmBalance) } OHM</p>
               </div>
               <div className="stake-price-data-row">
                 <p className="price-label">Staked</p>
-                <p className="price-data">{ sohmBalance } sOHM</p>
+                <p className="price-data">{ trim(sohmBalance) } sOHM</p>
               </div>
 
               <div className="stake-price-data-row">
