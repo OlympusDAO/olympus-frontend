@@ -117,15 +117,15 @@ function Stake({ provider, address }: Props) {
               </div>
             </div>
 
-            {hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
+            {address && hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
               <div className="stake-button" onClick={() => { onChangeStake('stake') }}>Stake</div>
             </div>}
 
-            {hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
+            {address && hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
               <div className="stake-button" onClick={() => { onChangeStake('unstake') }}>Unstake</div>
             </div>}
 
-            {!hasAllowance() && <div className="d-flex align-self-center mb-2">
+            {address && !hasAllowance() && <div className="d-flex align-self-center mb-2">
               <div className="stake-button" onClick={seekApproval}>Approve</div>
             </div>}
 
