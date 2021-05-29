@@ -1,15 +1,18 @@
 import React, { useState, useCallback, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../helpers";
+import { changeStake } from '../actions/Stake.actions.js';
 
 type Props = {
-  // app: string;
+  provider: any,
+  address: string
 };
 
-function Stake({ }: Props) {
-
+function Stake({ provider, address }: Props) {
+  const dispatch = useDispatch();
 
   const [view, setView] = useState("stake");
+  const [quantity, setQuantity] = useState();
 
   const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
   const fiveDayRate  = useSelector((state: any) => { return state.app.fiveDayRate });
@@ -21,21 +24,26 @@ function Stake({ }: Props) {
   const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
   const stakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmStake });
 
-  const setMax = useCallback(() => {
-    return null
-  }, []);
+  const setMax = () => {
+    if (view === 'stake') {
+      setQuantity(ohmBalance);
+    } else {
+      setQuantity(sohmBalance);
+    }
+  };
 
   const seekApproval = useCallback(() => {
     return null
   }, []);
 
-  const executeStake = useCallback(() => {
-    return null
-  }, []);
-
-  const executeUnstake = useCallback(() => {
-    return null
-  }, []);
+  const onChangeStake = async (action: any) => {
+    if (isNaN(quantity as any) || quantity === 0 || quantity === '') {
+      alert('Please enter a value!');
+      return;
+    } else {
+      await dispatch(changeStake({ address, action, value: (quantity as any).toString(), provider, networkID: 1 }));
+    }
+  };
 
   const hasAllowance = useCallback(() => {
     return stakeAllowance > 0;
@@ -45,7 +53,6 @@ function Stake({ }: Props) {
     if (currentBlock) {
       const rebaseBlock = getRebaseBlock(currentBlock);
       const seconds     = secondsUntilBlock(currentBlock, rebaseBlock);
-      console.log("seconds = ", seconds)
       return prettifySeconds(seconds);
     }
   }
@@ -65,11 +72,13 @@ function Stake({ }: Props) {
 
             <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
               <input
-                v-model="quantity"
+                value={quantity}
+                onChange={e => setQuantity(e.target.value as any)}
                 type="number"
                 className="form-control"
                 placeholder="Type an amount"
               />
+
               <button className="btn" type="button" onClick={setMax}>Max</button>
             </div>
 
@@ -109,11 +118,11 @@ function Stake({ }: Props) {
             </div>
 
             {hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
-              <div className="stake-button" onClick={executeStake}>Stake</div>
+              <div className="stake-button" onClick={() => { onChangeStake('stake') }}>Stake</div>
             </div>}
 
             {hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
-              <div className="stake-button" onClick={executeUnstake}>Unstake</div>
+              <div className="stake-button" onClick={() => { onChangeStake('unstake') }}>Unstake</div>
             </div>}
 
             {!hasAllowance() && <div className="d-flex align-self-center mb-2">

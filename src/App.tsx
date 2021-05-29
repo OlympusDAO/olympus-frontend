@@ -220,7 +220,7 @@ function App(props: any) {
 
             <Switch>
               <Route exact path="/">
-                <Stake />
+                <Stake address={address} provider={injectedProvider} />
               </Route>
             </Switch>
 
