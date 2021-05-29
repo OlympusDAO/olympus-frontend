@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { addresses } from "../constants";
+import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from '../abi/IERC20.json';
 import { abi as OHMPreSale } from '../abi/OHMPreSale.json';
 import { abi as OlympusStaking } from '../abi/OlympusStaking.json';
@@ -9,12 +9,12 @@ import { abi as LPStaking } from '../abi/LPStaking.json';
 import { abi as DistributorContract } from '../abi/DistributorContract.json';
 import { abi as BondContract } from '../abi/BondContract.json';
 import { abi as DaiBondContract } from '../abi/DaiBondContract.json';
-import Constants from './constants';
+
 
 const parseEther = ethers.utils.parseEther;
 
 export const fetchAccountSuccess = payload => ({
-  type: Constants.Actions.FETCH_ACCOUNT_SUCCESS,
+  type: Actions.FETCH_ACCOUNT_SUCCESS,
   payload,
 });
 
@@ -27,13 +27,8 @@ export const loadAccountDetails = ({ networkID, provider, address }) => async di
   let lpStakeAllowance, distributorContract, lpBondAllowance = 0, daiBondAllowance = 0;
   let migrateContract, aOHMAbleToClaim = 0;
 
-
-
   const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
-  const balance     = await daiContract.balanceOf(address);
-  const lpContract  = new ethers.Contract(addresses[networkID].LP_ADDRESS, ierc20Abi,provider);
-  const allowance   = await daiContract.allowance(address,addresses[networkID].PRESALE_ADDRESS);
-  const lpBalance   = await lpContract.balanceOf(address);
+  const daiBalance  = await daiContract.balanceOf(address);
 
   if (addresses[networkID].OHM_ADDRESS) {
     const ohmContract = new ethers.Contract(
@@ -46,6 +41,10 @@ export const loadAccountDetails = ({ networkID, provider, address }) => async di
       address,
       addresses[networkID].STAKING_ADDRESS
     );
+  }
+
+  if (addresses[networkID].DAI_BOND_ADDRESS) {
+    daiBondAllowance = await daiContract.allowance(address, addresses[networkID].DAI_BOND_ADDRESS);
   }
 
   if (addresses[networkID].SOHM_ADDRESS) {
@@ -61,30 +60,20 @@ export const loadAccountDetails = ({ networkID, provider, address }) => async di
     );
   }
 
-  console.log("ohmBalance = ", ohmBalance)
   return dispatch(fetchAccountSuccess({
-    ohmBalance: ethers.utils.formatUnits(ohmBalance, 'gwei'),
-    sohmBalance: ethers.utils.formatUnits(sohmBalance, 'gwei'),
-
+    balances: {
+      dai: ethers.utils.formatEther(daiBalance),
+      ohm: ethers.utils.formatUnits(ohmBalance, 'gwei'),
+      sohm: ethers.utils.formatUnits(sohmBalance, 'gwei'),
+    },
+    staking: {
+      ohmStake: stakeAllowance,
+      ohmUnstake: unstakeAllowance,
+    },
+    bonding: {
+      daiAllowance: daiBondAllowance
+    }
   }))
 
-  // commit('set', {
-  //   balance: ethers.utils.formatEther(balance),
-  //   aOHMBalance,
-  //   userDataLoading: false,
-  //   loading: false,
-  //   ohmBalance: ethers.utils.formatUnits(ohmBalance, 'gwei'),
-  //   sohmBalance: ethers.utils.formatUnits(sohmBalance, 'gwei'),
-  //   lpBalance: ethers.utils.formatUnits(lpBalance, 'ether'),
-  //   lpStaked: ethers.utils.formatUnits(lpStaked, 'ether'),
-  //   pendingRewards: ethers.utils.formatUnits(pendingRewards, 'gwei'),
-  //   aOHMAbleToClaim: ethers.utils.formatUnits(aOHMAbleToClaim, 'gwei'),
-  //   allowance,
-  //   stakeAllowance,
-  //   unstakeAllowance,
-  //   lpStakeAllowance,
-  //   lpBondAllowance,
-  //   daiBondAllowance
-  // });
 
 };
