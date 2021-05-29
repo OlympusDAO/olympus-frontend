@@ -2,7 +2,7 @@
 import React from "react";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import ReactDOM from "react-dom";
-import App from "./App";
+import Root from "./Root";
 import "./index.css";
 
 const themes = {
@@ -21,7 +21,7 @@ const prevTheme = window.localStorage.getItem("theme");
 
 ReactDOM.render(
   <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "light"}>
-    <App />
+    <Root />
   </ThemeSwitcherProvider>,
   document.getElementById("root"),
 );
