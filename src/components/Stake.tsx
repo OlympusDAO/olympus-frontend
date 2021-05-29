@@ -1,7 +1,7 @@
 import React, { useState, useCallback, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../helpers";
-import { changeStake } from '../actions/Stake.actions.js';
+import { changeStake, changeApproval } from '../actions/Stake.actions.js';
 
 type Props = {
   provider: any,
@@ -32,9 +32,9 @@ function Stake({ provider, address }: Props) {
     }
   };
 
-  const seekApproval = useCallback(() => {
-    return null
-  }, []);
+  const onSeekApproval = async (token: any) => {
+    await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
+  };
 
   const onChangeStake = async (action: any) => {
     if (isNaN(quantity as any) || quantity === 0 || quantity === '') {
@@ -118,15 +118,19 @@ function Stake({ provider, address }: Props) {
             </div>
 
             {address && hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
-              <div className="stake-button" onClick={() => { onChangeStake('stake') }}>Stake</div>
+              <div className="stake-button" onClick={() => { onChangeStake('stake') }}>Stake OHM</div>
             </div>}
 
             {address && hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
-              <div className="stake-button" onClick={() => { onChangeStake('unstake') }}>Unstake</div>
+              <div className="stake-button" onClick={() => { onChangeStake('unstake') }}>Unstake OHM</div>
             </div>}
 
-            {address && !hasAllowance() && <div className="d-flex align-self-center mb-2">
-              <div className="stake-button" onClick={seekApproval}>Approve</div>
+            {address && !hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
+              <div className="stake-button" onClick={() => { onSeekApproval('ohm') }}>Approve OHM</div>
+            </div>}
+
+            {address && !hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
+              <div className="stake-button" onClick={() => { onSeekApproval('sohm') }}>Approve sOHM</div>
             </div>}
 
 
