@@ -15,7 +15,6 @@ import Wallet from "./Wallet";
 type Props = {
   address: string,
   userProvider: Web3Provider,
-  localProvider: StaticJsonRpcProvider,
   mainnetProvider: StaticJsonRpcProvider,
   web3Modal: Web3Modal,
   loadWeb3Modal: Function,
@@ -23,7 +22,7 @@ type Props = {
   blockExplorer: string,
 };
 
-export default function Header({ address, userProvider, localProvider, mainnetProvider, web3Modal, loadWeb3Modal, logoutOfWeb3Modal, blockExplorer }: Props) {
+export default function Header({ address, userProvider, mainnetProvider, web3Modal, loadWeb3Modal, logoutOfWeb3Modal, blockExplorer }: Props) {
   const modalButtons = [];
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
