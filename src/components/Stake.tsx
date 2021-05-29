@@ -1,20 +1,20 @@
 import React, { useState, useCallback, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { trim } from "../helpers";
-// displays a page header
+import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../helpers";
 
 type Props = {
   // app: string;
 };
 
 function Stake({ }: Props) {
-  const [timeUntilRebase, setTimeUntilRebase] = useState(0);
+
   const [stakingRebase, setStakingRebase] = useState(0);
   const [fiveDayRate, setFiveDayRate] = useState(0);
   const [stakingAPY, setStakingAPY] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [view, setView] = useState("stake");
 
+  const currentBlock   = useSelector((state: any) => { return state.app.currentBlock });
   const ohmBalance     = useSelector((state: any) => { return state.app.balances && state.app.balances.ohm });
   const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
   const stakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmStake });
@@ -38,6 +38,15 @@ function Stake({ }: Props) {
   const hasAllowance = useCallback(() => {
     return stakeAllowance > 0;
   }, [stakeAllowance]);
+
+  const timeUntilRebase = () => {
+    if (currentBlock) {
+      const rebaseBlock = getRebaseBlock(currentBlock);
+      const seconds     = secondsUntilBlock(currentBlock, rebaseBlock);
+      console.log("seconds = ", seconds)
+      return prettifySeconds(seconds);
+    }
+  }
 
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
@@ -75,7 +84,7 @@ function Stake({ }: Props) {
               <div className="stake-price-data-row">
                 <p className="price-label">Time until rebase</p>
                 <p className="price-data">
-                  { timeUntilRebase }
+                  { timeUntilRebase() }
                 </p>
               </div>
 

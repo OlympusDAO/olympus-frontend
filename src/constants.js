@@ -1,6 +1,9 @@
 export const INFURA_ID = "be29ba1004a14966bee539713c939ca1";
 
+export const EPOCH_INTERVAL = 2200;
 
+// NOTE could get this from an outside source since it changes slightly over time
+export const BLOCK_RATE_SECONDS = 13.14;
 
 export const addresses = {
   4: {

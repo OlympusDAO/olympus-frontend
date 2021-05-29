@@ -10,6 +10,8 @@ import Web3Modal from "web3modal";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { loadAppDetails } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
 import Stake from "./components/Stake";
@@ -131,18 +133,17 @@ function App(props: any) {
   });
 
 
-
   async function loadDetails() {
-    return await dispatch(loadAccountDetails({networkID: 1, address, provider: injectedProvider}));
+    if (injectedProvider)
+      await dispatch(loadAppDetails({ provider: injectedProvider }))
+
+    if (address)
+      await dispatch(loadAccountDetails({networkID: 1, address, provider: injectedProvider}));
   }
 
   useEffect(() => {
-    console.log("HHIII");
-    console.log("address = ", address)
-    if (address) {
-      loadDetails();
-    }
-  }, [address]);
+    loadDetails();
+  }, [injectedProvider, address]);
 
   // let networkDisplay = "";
   // if (localChainId && selectedChainId && localChainId !== selectedChainId) {

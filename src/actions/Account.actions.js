@@ -60,7 +60,6 @@ export const loadAccountDetails = ({ networkID, provider, address }) => async di
     );
   }
 
-  console.log("ohmBalance = ", ohmBalance)
   return dispatch(fetchAccountSuccess({
     balances: {
       dai: ethers.utils.formatEther(daiBalance),
