@@ -1,6 +1,11 @@
 import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS } from "../constants";
 export { default as Transactor } from "./Transactor";
 
+export function shorten(str) {
+  if (str.length < 10) return str;
+  return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
+}
+
 export function trim(number, precision) {
   if (number == undefined) {
     number = 0;
