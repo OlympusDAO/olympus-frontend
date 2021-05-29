@@ -27,13 +27,8 @@ export const loadAccountDetails = ({ networkID, provider, address }) => async di
   let lpStakeAllowance, distributorContract, lpBondAllowance = 0, daiBondAllowance = 0;
   let migrateContract, aOHMAbleToClaim = 0;
 
-
-
   const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
-  const balance     = await daiContract.balanceOf(address);
-  const lpContract  = new ethers.Contract(addresses[networkID].LP_ADDRESS, ierc20Abi,provider);
-  const allowance   = await daiContract.allowance(address,addresses[networkID].PRESALE_ADDRESS);
-  const lpBalance   = await lpContract.balanceOf(address);
+  const daiBalance  = await daiContract.balanceOf(address);
 
   if (addresses[networkID].OHM_ADDRESS) {
     const ohmContract = new ethers.Contract(
@@ -46,6 +41,10 @@ export const loadAccountDetails = ({ networkID, provider, address }) => async di
       address,
       addresses[networkID].STAKING_ADDRESS
     );
+  }
+
+  if (addresses[networkID].DAI_BOND_ADDRESS) {
+    daiBondAllowance = await daiContract.allowance(address, addresses[networkID].DAI_BOND_ADDRESS);
   }
 
   if (addresses[networkID].SOHM_ADDRESS) {
@@ -63,28 +62,19 @@ export const loadAccountDetails = ({ networkID, provider, address }) => async di
 
   console.log("ohmBalance = ", ohmBalance)
   return dispatch(fetchAccountSuccess({
-    ohmBalance: ethers.utils.formatUnits(ohmBalance, 'gwei'),
-    sohmBalance: ethers.utils.formatUnits(sohmBalance, 'gwei'),
-
+    balances: {
+      dai: ethers.utils.formatEther(daiBalance),
+      ohm: ethers.utils.formatUnits(ohmBalance, 'gwei'),
+      sohm: ethers.utils.formatUnits(sohmBalance, 'gwei'),
+    },
+    staking: {
+      ohmStake: stakeAllowance,
+      ohmUnstake: unstakeAllowance,
+    },
+    bonding: {
+      daiAllowance: daiBondAllowance
+    }
   }))
 
-  // commit('set', {
-  //   balance: ethers.utils.formatEther(balance),
-  //   aOHMBalance,
-  //   userDataLoading: false,
-  //   loading: false,
-  //   ohmBalance: ethers.utils.formatUnits(ohmBalance, 'gwei'),
-  //   sohmBalance: ethers.utils.formatUnits(sohmBalance, 'gwei'),
-  //   lpBalance: ethers.utils.formatUnits(lpBalance, 'ether'),
-  //   lpStaked: ethers.utils.formatUnits(lpStaked, 'ether'),
-  //   pendingRewards: ethers.utils.formatUnits(pendingRewards, 'gwei'),
-  //   aOHMAbleToClaim: ethers.utils.formatUnits(aOHMAbleToClaim, 'gwei'),
-  //   allowance,
-  //   stakeAllowance,
-  //   unstakeAllowance,
-  //   lpStakeAllowance,
-  //   lpBondAllowance,
-  //   daiBondAllowance
-  // });
 
 };
