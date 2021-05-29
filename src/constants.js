@@ -43,6 +43,10 @@ export const addresses = {
 };
 
 
+export const Actions = {
+  FETCH_ACCOUNT_SUCCESS: 'account/FETCH_ACCOUNT_SUCCESS',
+  FETCH_APP_SUCCESS: 'app/FETCH_APP_SUCCESS',
+};
 
 
 // MY ETHERSCAN_ID, SWAP IN YOURS FROM https://etherscan.io/myapikey
