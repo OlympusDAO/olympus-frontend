@@ -6,6 +6,7 @@ import { abi as ierc20Abi } from '../abi/IERC20.json';
 import { abi as BondOhmDaiContract } from '../abi/bonds/OhmDaiContract.json';
 import { abi as BondOhmDaiCalcContract } from '../abi/bonds/OhmDaiCalcContract.json';
 import { abi as BondDaiContract } from '../abi/bonds/DaiContract.json';
+// import { abi as ReserveOhmDaiContract} from '../abi/reserves/OhmDai.json';
 
 import { abi as PairContract } from '../abi/PairContract.json';
 
@@ -85,8 +86,11 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
   if (bond === BONDS.ohm_dai) {
     const bondingContract  = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
     const bondCalcContract = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
-    // const reserveContract  = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, PairContract, provider);
+
+    // TODO: Doesn't work for some reason
+    // const reserveContract  = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
     // const balance          = await reserveContract.balanceOf(address);
+    // console.log("addresses[networkID].RESERVES.OHM_DAI = ", addresses[networkID].RESERVES.OHM_DAI)
 
     terms        = await bondingContract.terms();
     maxBondPrice = terms.maxPayout;
