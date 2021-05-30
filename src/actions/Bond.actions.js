@@ -1,15 +1,11 @@
 import { ethers } from "ethers";
-import { addresses, Actions } from "../constants";
+import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
 import { abi as ierc20Abi } from '../abi/IERC20.json';
-import { abi as OHMPreSale } from '../abi/OHMPreSale.json';
-import { abi as OlympusStaking } from '../abi/OlympusStaking.json';
-import { abi as MigrateToOHM } from '../abi/MigrateToOHM.json';
-import { abi as sOHM } from '../abi/sOHM.json';
-import { abi as LPStaking } from '../abi/LPStaking.json';
-import { abi as DistributorContract } from '../abi/DistributorContract.json';
-import { abi as BondContract } from '../abi/BondContract.json';
-import { abi as DaiBondContract } from '../abi/DaiBondContract.json';
-import { abi as LpBondCalcContract } from '../abi/LpBondCalcContract.json';
+
+
+import { abi as BondOhmDaiContract } from '../abi/bonds/OhmDaiContract.json';
+import { abi as BondOhmDaiCalcContract } from '../abi/bonds/OhmDaiCalcContract.json';
+import { abi as BondDaiContract } from '../abi/bonds/DaiContract.json';
 
 import { abi as PairContract } from '../abi/PairContract.json';
 
@@ -74,76 +70,89 @@ export const changeApproval = ({ token, provider, address, networkID }) => async
 
 };
 
-export const calcBondDetails = ({ value, provider, networkID }) => async dispatch => {
+export const calcBondDetails = ({ address, bond, value, provider, networkID }) => async dispatch => {
   let amountInWei;
   if (!value || value === '') {
     amountInWei = ethers.utils.parseEther('0.0001'); // Use a realistic SLP ownership
   } else {
     amountInWei = ethers.utils.parseEther(value);
   }
-  const pairContract = new ethers.Contract(
-    addresses[networkID].LP_ADDRESS,
-    PairContract,
-    provider
-  );
-  // If the user hasn't entered anything, let's calculate a fraction of SLP
-  const bondingContract = new ethers.Contract(
-    addresses[networkID].BOND_ADDRESS,
-    BondContract,
-    provider
-  );
-  const lpContract = new ethers.Contract(
-    addresses[networkID].LP_ADDRESS,
-    ierc20Abi,
-    provider
-  );
-  const bondCalcContract = new ethers.Contract(
-    addresses[networkID].LP_BONDINGCALC_ADDRESS,
-    LpBondCalcContract,
-    provider
-  );
 
-  const totalLP     = await lpContract.totalSupply();
-  const ohmSupply   = getTokenSupply({networkID, provider});
-  const vestingTerm = await bondingContract.vestingTerm();
+  // const vestingTerm = VESTING_TERM; // hardcoded for now
+  const marketPrice = await getMarketPrice({networkID, provider});
+  let terms, balance, maxBondPrice, totalDebtDo, debtRatio, bondPrice, bondDiscount, valuation, bondQuote;
 
-  const totalDebtDo = await bondingContract.totalDebt();
-  const debtRatio   = await bondingContract.debtRatio();
-  const marketPrice = getMarketPrice({networkID, provider});
+  if (bond === BONDS.ohm_dai) {
+    const bondingContract  = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
+    const bondCalcContract = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
+    // const reserveContract  = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, PairContract, provider);
+    // const balance          = await reserveContract.balanceOf(address);
 
-  const maxBondPrice = await bondingContract.maxPayout();
-  const bondPrice    = await bondingContract.bondPriceInDAI();
-  const bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
+    terms        = await bondingContract.terms();
+    maxBondPrice = terms.maxPayout;
+    totalDebtDo = await bondingContract.totalDebt();
+    debtRatio   = await bondingContract.debtRatio();
 
+    bondPrice    = await bondingContract.bondPriceInUSD();
+    bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
 
-  // Bond quote comes from valuing LP contract.
-  let valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
-  let bondQuote = await bondingContract.payoutFor(valuation);
-  valuation = valuation / Math.pow(10, 18);
-  bondQuote = bondQuote / Math.pow(10, 9);
+    // Bond quote comes from valuing LP contract.
+    valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
+    bondQuote = await bondingContract.payoutFor(valuation);
+    valuation = valuation / Math.pow(10, 18);
+    bondQuote = bondQuote / Math.pow(10, 9);
+  } else {
+    alert("You need to implement this!")
+  }
 
   // Display error if user tries to exceed maximum.
   if (!!value && parseFloat(bondQuote) > (maxBondPrice / Math.pow(10,9)) ) {
     alert("You're trying to bond more than the maximum payout availabe! The maximum bond payout is " + (maxBondPrice / Math.pow(10,9)).toFixed(2).toString() + " OHM.")
   }
 
-
-
-
   return dispatch(fetchBondSuccess({
-    value,
-    bondDiscount,
-    debtRatio,
-    bondQuote,
-    vestingTerm,
-    maxBondPrice: maxBondPrice / Math.pow(10,9),
-    bondPrice: bondPrice / Math.pow(10, 18),
-    marketPrice: marketPrice / Math.pow(10, 9)
+    [bond]: {
+      // balance,
+      bondDiscount,
+      debtRatio,
+      bondQuote,
+      vestingTerm: terms.vestingTerm,
+      maxBondPrice: maxBondPrice / Math.pow(10,9),
+      bondPrice: bondPrice / Math.pow(10, 18),
+      marketPrice: marketPrice / Math.pow(10, 9)
+    }
   }))
 
 };
 
 
 
-export const calculateUserBondDetails = ({ }) => async dispatch => {
+export const calculateUserBondDetails = ({ address, bond, networkID, provider }) => async dispatch => {
+  if (!address) return;
+
+  // Calculate bond details.
+  let interestDue, bondMaturationBlock, pendingPayout;
+  if (bond === BONDS.ohm_dai) {
+    const bondingContract  = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
+
+    const bondDetails = await bondingContract.bondInfo(address);
+    interestDue = bondDetails[1];
+    bondMaturationBlock = +bondDetails[3] + +bondDetails[2];
+    pendingPayout = await bondingContract.pendingPayoutFor(address);
+  }
+
+  // commit('set', {
+  //   interestDue: ethers.utils.formatUnits(interestDue, 'gwei'),
+  //   bondMaturationBlock,
+  //   pendingPayout: ethers.utils.formatUnits(pendingPayout, 'gwei')
+  // });
+
+  return dispatch(fetchBondSuccess({
+    [bond]: {
+      interestDue: ethers.utils.formatUnits(interestDue, 'gwei'),
+      bondMaturationBlock,
+      pendingPayout: ethers.utils.formatUnits(pendingPayout, 'gwei')
+    }
+  }))
+
 };

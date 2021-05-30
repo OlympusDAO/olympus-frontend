@@ -22,7 +22,7 @@ import "./style.scss";
 import { Header, ThemeSwitch, } from "./components";
 
 import Sidebar from "./components/Sidebar";
-import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS } from "./constants";
+import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS, BONDS } from "./constants";
 import { Transactor } from "./helpers";
 import {
   useBalance,
@@ -224,9 +224,14 @@ function App(props: any) {
                 <Stake address={address} provider={injectedProvider} />
               </Route>
 
-              <Route exact path="/bonds/frax">
-                <Bond address={address} provider={injectedProvider} />
-              </Route>
+
+              {Object.values(BONDS).map(bond => {
+                return <Route exact key={bond} path={`/bonds/${bond}`}>
+                  <Bond bond={bond} address={address} provider={injectedProvider} />
+                </Route>
+              })}
+
+
             </Switch>
 
 

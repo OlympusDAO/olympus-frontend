@@ -1,14 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../helpers";
+import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
-
+import { BONDS } from "../constants";
 type Props = {
+  bond: string,
   provider: any,
   address: string
 };
 
-function Bond({ provider, address }: Props) {
+function Bond({ provider, address, bond }: Props) {
   const dispatch = useDispatch();
 
   const [view, setView] = useState("bond");
@@ -18,33 +19,42 @@ function Bond({ provider, address }: Props) {
   const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
   const stakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmStake });
 
+  const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
+  const bondMaturationBlock = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondMaturationBlock });
 
-  const [balance, setBalance] = useState();
-  const [bondValue, setBondValue] = useState();
-  const [bondPrice, setBondPrice] = useState();
-  const [marketPrice, setMarketPrice] = useState();
-  const [hasEnteredAmount, setHasEnteredAmount] = useState();
-  const [bondQuote, setBondQuote] = useState();
-  const [maxBondPrice, setMaxBondPrice] = useState();
-  const [interestDue, setInterestDue] = useState();
-  const [pendingPayout, setPendingPayout] = useState();
-  const [debtRatio, setDebtRatio] = useState();
-  const [bondDiscount, setBondDiscount] = useState();
+  const marketPrice    = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].marketPrice });
+  const bondPrice    = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
+  const bondDiscount = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
+  const maxBondPrice = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].maxBondPrice });
+  const interestDue  = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].interestDue });
+  const pendingPayout = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].pendingPayout });
+  const debtRatio     = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].debtRatio });
+  const bondQuote     = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondQuote });
+
+
+  const balance = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].balance });
+
+
+
+  const hasEnteredAmount = () => {
+    return !(isNaN(quantity as any) || quantity === 0 || quantity === '');
+  }
 
   const vestingPeriod = () => {
-    return 0;
+    const seconds      = secondsUntilBlock(currentBlock, bondMaturationBlock);
+    return prettifySeconds(seconds, 'day');
   };
 
   const vestingTime = () => {
-    return 0;
+    return prettyVestingPeriod(currentBlock, bondMaturationBlock);
   };
 
-  const redeem = () => {
-    return 0;
+  const onRedeem = () => {
+    return alert("need to implement")
   };
 
-  const bond = () => {
-    return 0;
+  const onBond = () => {
+    return alert("need to implement")
   };
 
 
@@ -58,7 +68,7 @@ function Bond({ provider, address }: Props) {
 
   async function loadBondDetails() {
     if (provider)
-      await dispatch(calcBondDetails({ value: quantity as any, provider, networkID: 1 }));
+      await dispatch(calcBondDetails({ address, bond, value: quantity as any, provider, networkID: 1 }));
     // await dispatch(calculateUserBondDetails({}));
   }
 
@@ -97,7 +107,7 @@ function Bond({ provider, address }: Props) {
 
             <div className="text-light align-self-center">
               <h3>
-                OHM-FRAX SLP Bond
+                OHM-DAI SLP Bond
               </h3>
             </div>
           </div>
@@ -142,14 +152,14 @@ function Bond({ provider, address }: Props) {
                 </p>
               </div>
 
-              <div className={`stake-price-data-row' ${hasEnteredAmount ? '' : 'd-none'}`}>
+              <div className={`stake-price-data-row' ${hasEnteredAmount() ? '' : 'd-none'}`}>
                 <p className="price-label">You Will Get</p>
                 <p id="bond-value-id" className="price-data">
                   { trim(bondQuote, 4) } OHM
                 </p>
               </div>
 
-              <div className={`stake-price-data-row' ${hasEnteredAmount ? '' : 'd-none'}`}>
+              <div className={`stake-price-data-row' ${hasEnteredAmount() ? '' : 'd-none'}`}>
                 <p className="price-label">Max You Can Buy</p>
                 <p id="bond-value-id" className="price-data">
                   { trim(maxBondPrice, 4) } OHM
@@ -183,11 +193,11 @@ function Bond({ provider, address }: Props) {
             </div>}
 
             {view == 'redeem' && <div className="d-flex align-self-center mb-4">
-              <div className="redeem-button" onClick={redeem}>Claim Rewards</div>
+              <div className="redeem-button" onClick={onRedeem}>Claim Rewards</div>
             </div>}
 
             {hasAllowance() && view === 'bond' && <div className="d-flex align-self-center mb-4">
-              <div id="bond-button-id" className="redeem-button" onClick={bond}>Bond</div>
+              <div id="bond-button-id" className="redeem-button" onClick={onBond}>Bond</div>
             </div>}
 
             {!hasAllowance() && view === 'bond' && <div className="d-flex align-self-center mb-4">

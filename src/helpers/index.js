@@ -7,7 +7,6 @@ import { abi as CirculatingSupplyContract } from '../abi/CirculatingSupplyContra
 import { abi as PairContract } from '../abi/PairContract.json';
 export { default as Transactor } from "./Transactor";
 
-
 export async function getMarketPrice({ networkID, provider }) {
   const pairContract = new ethers.Contract(
     addresses[networkID].LP_ADDRESS,
