@@ -14,7 +14,7 @@ import { abi as LpBondCalcContract } from '../abi/LpBondCalcContract.json';
 import { abi as PairContract } from '../abi/PairContract.json';
 
 
-import { getTokenSupply } from '../helpers';
+import { getTokenSupply, getMarketPrice } from '../helpers';
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -74,7 +74,7 @@ export const changeApproval = ({ token, provider, address, networkID }) => async
 
 };
 
-export const calcBondDetails = ({ action, value, provider, address, networkID }) => async dispatch => {
+export const calcBondDetails = ({ value, provider, networkID }) => async dispatch => {
   let amountInWei;
   if (!value || value === '') {
     amountInWei = ethers.utils.parseEther('0.0001'); // Use a realistic SLP ownership
@@ -109,7 +109,7 @@ export const calcBondDetails = ({ action, value, provider, address, networkID })
 
   const totalDebtDo = await bondingContract.totalDebt();
   const debtRatio   = await bondingContract.debtRatio();
-  const marketPrice = await dispatch('getMarketPrice');
+  const marketPrice = getMarketPrice({networkID, provider});
 
   const maxBondPrice = await bondingContract.maxPayout();
   const bondPrice    = await bondingContract.bondPriceInDAI();
@@ -145,5 +145,5 @@ export const calcBondDetails = ({ action, value, provider, address, networkID })
 
 
 
-export const calculateUserBondDetails = ({ action, value, provider, address, networkID }) => async dispatch => {
+export const calculateUserBondDetails = ({ }) => async dispatch => {
 };

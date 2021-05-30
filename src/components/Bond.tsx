@@ -1,4 +1,4 @@
-import React, { useState, useCallback, } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
@@ -13,13 +13,6 @@ function Bond({ provider, address }: Props) {
 
   const [view, setView] = useState("bond");
   const [quantity, setQuantity] = useState();
-
-
-  const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
-  const fiveDayRate  = useSelector((state: any) => { return state.app.fiveDayRate });
-  const stakingRebase  = useSelector((state: any) => { return state.app.stakingRebase });
-  const currentIndex = useSelector((state: any) => { return state.app.currentIndex });
-  const stakingAPY   = useSelector((state: any) => { return state.app.stakingAPY });
 
   const ohmBalance     = useSelector((state: any) => { return state.app.balances && state.app.balances.ohm });
   const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
@@ -63,10 +56,16 @@ function Bond({ provider, address }: Props) {
     }
   };
 
-  const onInputChange = async () => {
-    await dispatch(calcBondDetails(quantity as any));
-    await dispatch(calculateUserBondDetails());
+  async function loadBondDetails() {
+    if (provider)
+      await dispatch(calcBondDetails({ value: quantity as any, provider, networkID: 1 }));
+    // await dispatch(calculateUserBondDetails({}));
   }
+
+  useEffect(() => {
+    loadBondDetails();
+  }, [provider, quantity]);
+
 
   const onSeekApproval = async (token: any) => {
     await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
@@ -76,13 +75,6 @@ function Bond({ provider, address }: Props) {
     return stakeAllowance > 0;
   }, [stakeAllowance]);
 
-  const timeUntilRebase = () => {
-    if (currentBlock) {
-      const rebaseBlock = getRebaseBlock(currentBlock);
-      const seconds     = secondsUntilBlock(currentBlock, rebaseBlock);
-      return prettifySeconds(seconds);
-    }
-  }
 
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
@@ -98,14 +90,14 @@ function Bond({ provider, address }: Props) {
 
               <div className="ohm-pair" style={{zIndex: 1}}>
                 <img
-                  src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png"
+                  src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png"
                 />
               </div>
             </div>
 
             <div className="text-light align-self-center">
               <h3>
-                FRAX Bond
+                OHM-FRAX SLP Bond
               </h3>
             </div>
           </div>
@@ -123,7 +115,7 @@ function Bond({ provider, address }: Props) {
             {view === 'bond' && <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
               <input
                 value={quantity}
-                onChange={onInputChange}
+                onChange={e => setQuantity(e.target.value as any)}
                 type="number"
                 className="form-control"
                 placeholder="Type an amount"
@@ -165,7 +157,7 @@ function Bond({ provider, address }: Props) {
               </div>
             </div>}
 
-            {view === 'redeem' && <div v-else className="stake-price-data-column">
+            {view === 'redeem' && <div className="stake-price-data-column">
               <div className="stake-price-data-row">
                 <p className="price-label">Balance</p>
                 <p className="price-data">{ trim(balance, 4) }</p>

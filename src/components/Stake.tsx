@@ -63,10 +63,10 @@ function Stake({ provider, address }: Props) {
         <div className="dapp-modal-wrapper d-flex align-items-center">
           <div className="swap-input-column">
             <div className="stake-toggle-row">
-            <div className="btn-group" role="group">
-              <button type="button" className={`btn ${view === 'stake' ? 'btn-secondary' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
-              <button type="button" className={`btn ${view === 'unstake' ? 'btn-secondary' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
-            </div>
+              <div className="btn-group" role="group">
+                <button type="button" className={`btn ${view === 'stake' ? 'btn-secondary' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
+                <button type="button" className={`btn ${view === 'unstake' ? 'btn-secondary' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
+              </div>
 
             </div>
 
