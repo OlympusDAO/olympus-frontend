@@ -9,6 +9,7 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import Web3Modal from "web3modal";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/js/all.js';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { loadAppDetails } from './actions/App.actions.js';
