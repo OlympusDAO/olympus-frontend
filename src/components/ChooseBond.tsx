@@ -6,12 +6,11 @@ import { NavLink } from "react-router-dom";
 import { BONDS } from "../constants";
 
 type Props = {
-  bond: string,
   provider: any,
   address: string
 };
 
-function ChooseBond() {
+function ChooseBond({ provider, address }: Props) {
 	const dispatch = useDispatch();
 
 	const [view, setView] = useState("choose");
