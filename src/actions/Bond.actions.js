@@ -6,8 +6,7 @@ import { abi as ierc20Abi } from '../abi/IERC20.json';
 import { abi as BondOhmDaiContract } from '../abi/bonds/OhmDaiContract.json';
 import { abi as BondDaiContract } from '../abi/bonds/DaiContract.json';
 import { abi as BondOhmDaiCalcContract } from '../abi/bonds/OhmDaiCalcContract.json';
-
-// import { abi as ReserveOhmDaiContract} from '../abi/reserves/OhmDai.json';
+import { abi as ReserveOhmDaiContract} from '../abi/reserves/OhmDai.json';
 
 import { abi as PairContract } from '../abi/PairContract.json';
 
@@ -81,36 +80,37 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
   }
 
   // const vestingTerm = VESTING_TERM; // hardcoded for now
-  let marketPrice, terms, balance, maxBondPrice, totalDebtDo, debtRatio, bondPrice, bondDiscount, valuation, bondQuote;
+  let  balance, bondDiscount, valuation, bondQuote, bondContract;
+  if (bond === BONDS.ohm_dai) {
+    bondContract     = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
+  } else if (bond === BONDS.dai) {
+    bondContract = new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
+  }
+
+  const marketPrice  = await getMarketPrice({networkID, provider});
+  const terms        = await bondContract.terms();
+  const maxBondPrice = terms.maxPayout;
+  const debtRatio    = await bondContract.debtRatio();
+  const bondPrice    = await bondContract.bondPriceInUSD();
 
   if (bond === BONDS.ohm_dai) {
-    const bondContract     = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
-    const bondCalcContract = new ethers.Contract( addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
-
     // TODO: Doesn't work for some reason
-    // const reserveContract  = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
-    // const balance          = await reserveContract.balanceOf(address);
-    // console.log("addresses[networkID].RESERVES.OHM_DAI = ", addresses[networkID].RESERVES.OHM_DAI)
-    marketPrice  = await getMarketPrice({networkID, provider});
-    terms        = await bondContract.terms();
-    maxBondPrice = terms.maxPayout;
-    debtRatio    = await bondContract.debtRatio();
-    bondPrice    = await bondContract.bondPriceInUSD();
+    const reserveContract  = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
+    balance          = await reserveContract.balanceOf(address);
+
+    const bondCalcContract = new ethers.Contract( addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
     bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
 
     valuation    = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
     bondQuote    = await bondContract.payoutFor(valuation);
     bondQuote    = bondQuote / Math.pow(10, 9);
   } else if (bond === BONDS.dai) {
-    const bondContract = new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
+    const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
+    balance     = await daiContract.balanceOf(address);
+    balance     = ethers.utils.formatEther(balance);
 
-    marketPrice  = await getMarketPrice({networkID, provider});
-    terms        = await bondContract.terms();
-    maxBondPrice = terms.maxPayout;
-    debtRatio    = await bondContract.debtRatio();
-    bondPrice    = await bondContract.bondPriceInUSD();
 
-    bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
+    // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
 
     // TODO: Need to define bondCalcContract
     // valuation    = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
@@ -125,7 +125,7 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
 
   return dispatch(fetchBondSuccess({
     bond,
-    // balance,
+    balance,
     bondDiscount,
     debtRatio,
     bondQuote,
