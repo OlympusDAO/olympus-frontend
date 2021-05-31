@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
+import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from '../actions/Bond.actions.js';
 import BondHeader from './BondHeader';
 import { BONDS } from "../constants";
 import { NavLink } from 'react-router-dom';
@@ -16,6 +16,9 @@ type Props = {
 
 function Bond({ provider, address, bond }: Props) {
   const dispatch = useDispatch();
+
+  const [slippage, setSlippage] = useState(2);
+  const [recipientAddress, setRecipientAddress] = useState();
 
   const [view, setView] = useState("bond");
   const [quantity, setQuantity] = useState();
@@ -59,8 +62,29 @@ function Bond({ provider, address, bond }: Props) {
     return alert("need to implement")
   };
 
-  const onBond = () => {
-    return alert("need to implement")
+  async function onBond() {
+    if (quantity === '') {
+      alert('Please enter a value!');
+    } else if (isNaN(quantity as any)) {
+      alert('Please enter a valid value!');
+    } else if (interestDue > 0 || pendingPayout > 0) {
+      const shouldProceed = window.confirm(
+        'You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?'
+      );
+      if (shouldProceed) {
+        await dispatch(bondAsset({
+          value: quantity,
+          slippage, bond, networkID: 1, provider,
+          address: recipientAddress || address
+        }));
+      }
+    } else {
+      await dispatch(bondAsset({
+        value: quantity,
+        slippage, bond, networkID: 1, provider,
+        address: recipientAddress || address
+      }));
+    }
   };
 
 
@@ -84,6 +108,8 @@ function Bond({ provider, address, bond }: Props) {
 
   useEffect(() => {
     loadBondDetails();
+    if (address)
+      setRecipientAddress(address as any);
   }, [provider, quantity, address]);
 
 
