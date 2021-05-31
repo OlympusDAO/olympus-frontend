@@ -9,3 +9,20 @@ export function app(state = {}, action) {
       return state;
   }
 }
+
+
+export function bonding(state = {}, action) {
+  switch (action.type) {
+    case Actions.FETCH_BOND_SUCCESS:
+      if (action.payload && action.payload.bond) {
+        return {
+          ...state,
+          [action.payload.bond]: {
+            ...state[action.payload.bond], ...action.payload
+          }
+        };
+      }
+    default:
+      return state;
+  }
+}

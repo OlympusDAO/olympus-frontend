@@ -1,5 +1,69 @@
-import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS } from "../constants";
+
+import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS } from "../constants";
+import { ethers } from "ethers";
+import { abi as ierc20Abi } from '../abi/IERC20.json';
+import { abi as CirculatingSupplyContract } from '../abi/CirculatingSupplyContract.json';
+import { abi as PairContract } from '../abi/PairContract.json';
+
+import { abi as BondOhmDaiContract } from '../abi/bonds/OhmDaiContract.json';
+import { abi as BondDaiContract } from '../abi/bonds/DaiContract.json';
+import { abi as ReserveOhmDaiContract } from '../abi/reserves/OhmDai.json';
+
 export { default as Transactor } from "./Transactor";
+
+
+export function contractForBond({ bond, networkID, provider }) {
+  if (bond === BONDS.ohm_dai) {
+    return new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
+  } else if (bond === BONDS.dai) {
+    return new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
+  }
+}
+
+export function contractForReserve({ bond, networkID, provider }) {
+  if (bond === BONDS.ohm_dai) {
+    return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
+  } else if (bond === BONDS.dai) {
+    return new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);
+  }
+}
+
+export async function getMarketPrice({ networkID, provider }) {
+  const pairContract = new ethers.Contract(
+    addresses[networkID].LP_ADDRESS,
+    PairContract,
+    provider
+  );
+  const reserves = await pairContract.getReserves();
+  const marketPrice = reserves[1] / reserves[0];
+
+  // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });
+  return marketPrice;
+}
+
+export async function getTokenSupply({provider, networkID}) {
+  const ohmContract = new ethers.Contract(
+    addresses[networkID].OHM_ADDRESS,
+    ierc20Abi,
+    provider
+  );
+
+  const circulatingSupplyContract = new ethers.Contract(
+    addresses[networkID].CIRCULATING_SUPPLY_ADDRESS,
+    CirculatingSupplyContract,
+    provider
+  );
+
+  const ohmCircSupply  = await circulatingSupplyContract.OHMCirculatingSupply();
+  const ohmTotalSupply = await ohmContract.totalSupply();
+
+  return {
+    circulating: ohmCircSupply,
+    total: ohmTotalSupply,
+  }
+}
+
+
 
 export function shorten(str) {
   if (str.length < 10) return str;
