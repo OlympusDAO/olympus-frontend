@@ -1,17 +1,7 @@
 import { ethers } from "ethers";
+import { getTokenSupply, getMarketPrice, contractForBond, contractForReserve } from '../helpers';
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
-import { abi as ierc20Abi } from '../abi/IERC20.json';
-
-
-import { abi as BondOhmDaiContract } from '../abi/bonds/OhmDaiContract.json';
-import { abi as BondDaiContract } from '../abi/bonds/DaiContract.json';
 import { abi as BondOhmDaiCalcContract } from '../abi/bonds/OhmDaiCalcContract.json';
-import { abi as ReserveOhmDaiContract} from '../abi/reserves/OhmDai.json';
-
-import { abi as PairContract } from '../abi/PairContract.json';
-
-
-import { getTokenSupply, getMarketPrice } from '../helpers';
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -19,56 +9,7 @@ export const fetchBondSuccess = payload => ({
 });
 
 export const changeApproval = ({ token, provider, address, networkID }) => async dispatch => {
-  if (!provider) {
-    alert('Please connect your wallet!');
-    return;
-  }
-
-  alert("WRONG")
-
-  const signer = provider.getSigner();
-  const ohmContract = await new ethers.Contract(
-    addresses[networkID].OHM_ADDRESS,
-    ierc20Abi,
-    signer
-  );
-  const sohmContract = await new ethers.Contract(
-    addresses[networkID].SOHM_ADDRESS,
-    ierc20Abi,
-    signer
-  );
-
-  let approveTx;
-  try {
-    if (token === 'ohm') {
-      approveTx = await ohmContract.approve(
-        addresses[networkID].STAKING_ADDRESS,
-        ethers.utils.parseUnits('1000000000', 'gwei').toString()
-      );
-    } else if (token === 'sohm') {
-      const approveTx = await sohmContract.approve(
-        addresses[networkID].STAKING_ADDRESS,
-        ethers.utils.parseUnits('1000000000', 'gwei').toString()
-      );
-    }
-
-    await approveTx.wait();
-  } catch (error) {
-    alert(error.message);
-    return;
-  }
-
-
-  const stakeAllowance   = await ohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-  const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-  return dispatch(fetchBondSuccess({
-    staking: {
-      ohmStake: stakeAllowance,
-      ohmUnstake: unstakeAllowance,
-    },
-  }))
-
-
+  alert("TODO")
 };
 
 export const calcBondDetails = ({ address, bond, value, provider, networkID }) => async dispatch => {
@@ -80,12 +21,9 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
   }
 
   // const vestingTerm = VESTING_TERM; // hardcoded for now
-  let  balance, bondDiscount, valuation, bondQuote, bondContract;
-  if (bond === BONDS.ohm_dai) {
-    bondContract     = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
-  } else if (bond === BONDS.dai) {
-    bondContract = new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
-  }
+  let  balance, bondDiscount, valuation, bondQuote;
+  const bondContract    = contractForBond({ bond, networkID, provider });
+  const reserveContract = contractForReserve({ bond, networkID, provider});
 
   const marketPrice  = await getMarketPrice({networkID, provider});
   const terms        = await bondContract.terms();
@@ -94,7 +32,6 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
   const bondPrice    = await bondContract.bondPriceInUSD();
 
   if (bond === BONDS.ohm_dai) {
-    const reserveContract  = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
     balance          = await reserveContract.balanceOf(address);
 
     const bondCalcContract = new ethers.Contract( addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
@@ -104,8 +41,7 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
     bondQuote    = await bondContract.payoutFor(valuation);
     bondQuote    = bondQuote / Math.pow(10, 9);
   } else if (bond === BONDS.dai) {
-    const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
-    balance     = await daiContract.balanceOf(address);
+    balance     = await reserveContract.balanceOf(address);
     balance     = ethers.utils.formatEther(balance);
 
 
@@ -142,15 +78,9 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
   if (!address) return;
 
   // Calculate bond details.
-  let bondContract
-  if (bond === BONDS.ohm_dai) {
-    bondContract  = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
-  } else if (bond === BONDS.dai) {
-    bondContract  = new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
-  }
-
-  const bondDetails = await bondContract.bondInfo(address);
-  const interestDue = bondDetails[1];
+  const bondContract = contractForBond({ bond, provider, networkID });
+  const bondDetails  = await bondContract.bondInfo(address);
+  const interestDue  = bondDetails[1];
   const bondMaturationBlock = +bondDetails[3] + +bondDetails[2];
   const pendingPayout = await bondContract.pendingPayoutFor(address);
 
@@ -173,15 +103,11 @@ export const bondAsset = ({ value, address, bond, networkID, provider, slippage 
   console.log("acceptedSlippage = ", acceptedSlippage);
 
   const signer = provider.getSigner();
-  let bondContract, balance;
-  if (bond === BONDS.ohm_dai) {
-    bondContract = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
-  } else if (bond === BONDS.dai) {
-    bondContract = new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
-  }
+  let balance;
 
   // Calculate maxPremium based on premium and slippage.
   // const calculatePremium = await bonding.calculatePremium();
+  const bondContract     = contractForBond({ bond, provider, networkID });
   const calculatePremium = await bondContract.bondPrice();
   const maxPremium       = Math.round(calculatePremium * (1 + acceptedSlippage));
 
@@ -190,12 +116,12 @@ export const bondAsset = ({ value, address, bond, networkID, provider, slippage 
     const bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
     await bondTx.wait();
 
+    const reserveContract = contractForReserve({ bond, provider, networkID });
+
     if (bond === BONDS.ohm_dai) {
-      const reserveContract  = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
       balance          = await reserveContract.balanceOf(address);
     } else if (bond === BONDS.dai) {
-      const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
-      balance     = await daiContract.balanceOf(address);
+      balance     = await reserveContract.balanceOf(address);
       balance     = ethers.utils.formatEther(balance);
     }
 
@@ -219,13 +145,7 @@ export const redeemBond = ({ address, bond, networkID, provider, autostake }) =>
   }
 
   const signer = provider.getSigner();
-
-  let bondContract;
-  if (bond === BONDS.ohm_dai) {
-    bondContract = await new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, signer);
-  } else if (bond === BONDS.dai) {
-    bondContract = await new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, signer);
-  }
+  const bondContract = contractForBond({ bond, networkID, provider: signer });
 
   try {
     const redeemTx = await bondContract.redeem(autostake);
