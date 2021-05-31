@@ -9,19 +9,21 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import Web3Modal from "web3modal";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/js/all.js';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { loadAppDetails } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
 import Stake from "./components/Stake";
+import Bond from "./components/Bond";
 
 import "./App.css";
 import "./style.scss";
 import { Header, ThemeSwitch, } from "./components";
 
 import Sidebar from "./components/Sidebar";
-import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS } from "./constants";
+import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS, BONDS } from "./constants";
 import { Transactor } from "./helpers";
 import {
   useBalance,
@@ -68,7 +70,7 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 //
 // attempt to connect to our own scaffold eth rpc and if that fails fall back to infura...
 // Using StaticJsonRpcProvider as the chainId won't change see https://github.com/ethers-io/ethers.js/issues/901
-const scaffoldEthProvider = new StaticJsonRpcProvider("https://rpc.scaffoldeth.io:48544");
+// const scaffoldEthProvider = new StaticJsonRpcProvider("https://rpc.scaffoldeth.io:48544");
 const mainnetInfura = new StaticJsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID);
 // ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_I
 
@@ -101,7 +103,7 @@ const logoutOfWeb3Modal = async () => {
 function App(props: any) {
   const dispatch = useDispatch();
 
-  console.log("scaffoldEthProvider = ", scaffoldEthProvider)
+
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
 
@@ -222,6 +224,15 @@ function App(props: any) {
               <Route exact path="/">
                 <Stake address={address} provider={injectedProvider} />
               </Route>
+
+
+              {Object.values(BONDS).map(bond => {
+                return <Route exact key={bond} path={`/bonds/${bond}`}>
+                  <Bond bond={bond} address={address} provider={injectedProvider} />
+                </Route>
+              })}
+
+
             </Switch>
 
 
