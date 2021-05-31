@@ -1,15 +1,15 @@
-import { PageHeader } from "antd";
 import React from "react";
-
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import Web3Modal from "web3modal";
-
 import { Button } from "antd";
 
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
 import Balance from "./Balance";
 import Wallet from "./Wallet";
+import OlympusLogo from '../assets/olympus_logo.png';
+
+import { shorten } from '../helpers';
 
 
 type Props = {
@@ -27,28 +27,11 @@ export default function Header({ address, userProvider, mainnetProvider, web3Mod
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <Button
-          key="logoutbutton"
-          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
-          shape="round"
-          size="large"
-          onClick={logoutOfWeb3Modal as any}
-        >
-          logout
-        </Button>,
+        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal as any}>Disconnect</button>,
       );
     } else {
       modalButtons.push(
-        <Button
-          key="loginbutton"
-          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
-          shape="round"
-          size="large"
-          /* type={minimized ? "default" : "primary"}     too many people just defaulting to MM and having a bad time */
-          onClick={loadWeb3Modal as any}
-        >
-          connect
-        </Button>,
+        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={loadWeb3Modal as any}>Connect Wallet</button>,
       );
     }
   }
@@ -58,67 +41,34 @@ export default function Header({ address, userProvider, mainnetProvider, web3Mod
 
   return (
     <React.Fragment>
-      <nav className={`navbar sticky-top navbar-expand-lg navbar-light bg-warning`}>
-        <div className="container-fluid align-items-end">
+      <header className="d-flex sticky-top flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a href="/" className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+          <img className="branding-header-icon" src={OlympusLogo} alt="" />
+        </a>
 
-          {false && <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>}
+        <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
+          <li><a href="#" className="nav-link px-2 link-dark">Features</a></li>
+          <li><a href="#" className="nav-link px-2 link-dark">Pricing</a></li>
+          <li><a href="#" className="nav-link px-2 link-dark">FAQs</a></li>
+          <li><a href="#" className="nav-link px-2 link-dark">About</a></li>
+        </ul>
 
-          <button
-            className="navbar-toggler"
-            type="button"
-            onClick={() => {}}
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+        <div className="col-md-3 text-end">
+          <a role="button" className="btn btn-dark btn-overwrite-primer mx-2" href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
+            Get OHM
+          </a>
 
+          {address && <a href={`https://etherscan.io/address/${address}`} target="_blank">
+            {shorten(address)}
+          </a>}
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                NOTE: You're using V2 of OlympusDAO. If you want V1, visit <a href="https://olympusdao.finance/#/stake">olympusdao.finance/#stake</a>
-              </li>
-            </ul>
-          </div>
-
-
-          {false && <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            {false && <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Link</a>
-              </li>
-              <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a className="dropdown-item" href="#">Action</a></li>
-                  <li><a className="dropdown-item" href="#">Another action</a></li>
-
-                  <li><a className="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link disabled" href="#" aria-disabled="true">Disabled</a>
-              </li>
-            </ul>}
-
-            {false && <ul className="navbar-nav me-auto mb-3 mb-lg-0">
-              <li className="nav-item">
-                {modalButtons}
-              </li>
-            </ul>}
-
-          </div>}
+          {modalButtons}
         </div>
-      </nav>
+      </header>
+
+
+
 
 
 
