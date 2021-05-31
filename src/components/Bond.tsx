@@ -3,11 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
 import { BONDS } from "../constants";
+import { NavLink } from 'react-router-dom';
+
 type Props = {
   bond: string,
   provider: any,
   address: string
 };
+
+
 
 function Bond({ provider, address, bond }: Props) {
   const dispatch = useDispatch();
@@ -41,6 +45,7 @@ function Bond({ provider, address, bond }: Props) {
   }
 
   const vestingPeriod = () => {
+    console.log("bondMaturationBlock = ", bondMaturationBlock)
     const seconds      = secondsUntilBlock(currentBlock, bondMaturationBlock);
     return prettifySeconds(seconds, 'day');
   };
@@ -67,14 +72,18 @@ function Bond({ provider, address, bond }: Props) {
   };
 
   async function loadBondDetails() {
-    if (provider)
+    if (provider) {
       await dispatch(calcBondDetails({ address, bond, value: quantity as any, provider, networkID: 1 }));
-    // await dispatch(calculateUserBondDetails({}));
+    }
+
+    if (provider && address) {
+      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: 1 }));
+    }
   }
 
   useEffect(() => {
     loadBondDetails();
-  }, [provider, quantity]);
+  }, [provider, quantity, address]);
 
 
   const onSeekApproval = async (token: any) => {
@@ -90,6 +99,10 @@ function Bond({ provider, address, bond }: Props) {
     <div className="d-flex align-items-center justify-content-center min-vh-100">
       <div className="dapp-center-modal flex-column">
         <div className="d-flex flex-row align-items-center my-2 px-2 my-md-4 px-md-4">
+          <NavLink to="/bonds" className="align-items-center ohm-link" style={{position: "absolute"}}>
+          <i className="fa fa-chevron-left"></i>
+            Back
+          </NavLink>
           <div className="d-flex flex-row col justify-content-center">
             <div className="ohm-pairs d-sm-flex mr-2 d-none">
               <div className="ohm-pair" style={{zIndex: 2}}>
@@ -106,9 +119,9 @@ function Bond({ provider, address, bond }: Props) {
             </div>
 
             <div className="text-light align-self-center">
-              <h3>
+              <h5>
                 OHM-DAI SLP Bond
-              </h3>
+              </h5>
             </div>
           </div>
         </div>
@@ -152,14 +165,14 @@ function Bond({ provider, address, bond }: Props) {
                 </p>
               </div>
 
-              <div className={`stake-price-data-row' ${hasEnteredAmount() ? '' : 'd-none'}`}>
+              <div className={`stake-price-data-row ${hasEnteredAmount() ? '' : 'd-none'}`}>
                 <p className="price-label">You Will Get</p>
                 <p id="bond-value-id" className="price-data">
                   { trim(bondQuote, 4) } OHM
                 </p>
               </div>
 
-              <div className={`stake-price-data-row' ${hasEnteredAmount() ? '' : 'd-none'}`}>
+              <div className={`stake-price-data-row ${hasEnteredAmount() ? '' : 'd-none'}`}>
                 <p className="price-label">Max You Can Buy</p>
                 <p id="bond-value-id" className="price-data">
                   { trim(maxBondPrice, 4) } OHM
