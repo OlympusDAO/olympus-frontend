@@ -109,8 +109,7 @@ function Bond({ provider, address, bond }: Props) {
 
 
   const onSeekApproval = async (token: any) => {
-    alert("need approval");
-    // await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
+    await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
   };
 
   const hasAllowance = useCallback(() => {
