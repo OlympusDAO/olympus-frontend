@@ -4,7 +4,7 @@ import { Alert, Button, Col, Menu, Row } from "antd";
 import Address from "./Address";
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import Web3Modal from "web3modal";
-import { shorten } from '../helpers';
+
 
 // displays a page header
 
@@ -21,33 +21,7 @@ type Props = {
 };
 
 function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute, address, mainnetProvider, blockExplorer }: Props) {
-  const modalButtons = [];
-  if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButtons.push(
-        <Button
-          key="logoutbutton"
-          shape="round"
-          size="large"
-          onClick={logoutOfWeb3Modal as any}
-        >
-          Disconnect
-        </Button>,
-      );
-    } else {
-      modalButtons.push(
-        <Button
-          key="loginbutton"
-          shape="round"
-          size="large"
-          /* type={minimized ? "default" : "primary"}     too many people just defaulting to MM and having a bad time */
-          onClick={loadWeb3Modal as any}
-        >
-          Connect
-        </Button>,
-      );
-    }
-  }
+
 
 
   const setMax = useCallback(() => {
@@ -74,25 +48,12 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
           </div>
 
           <div className="wallet-menu">
-            {modalButtons}
 
             {false && <a
               className="disconnect-button button-primary button"
               onClick={disconnectWallet}
               >Disconnect</a
             >}
-            {address && <a className="dapp-sidebar-button-connected button button-info">
-              {shorten(address)}
-
-              {false && (address ? (
-                <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
-              ) : (
-                "Connecting..."
-              ))}
-            </a>}
-
-
-
 
           </div>
 

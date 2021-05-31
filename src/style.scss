@@ -22,6 +22,10 @@ $border: 1px solid $bg-color;
   outline: none;
 }
 
+header {
+  background-color: #272520;
+}
+
 
 @font-face {font-family: 'Square-Bold';
   src: url('./assets/fonts/EuclidSquare-Bold.ttf');
@@ -375,9 +379,9 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
   justify-content:center;}
 
 .branding-header-icon{
-  width:100px;
-  padding:1rem;
-  filter:invert(1);
+  width: 200px;
+  // padding:1rem;
+  // filter:invert(1);
 }
 
 .dapp-menu-links{
@@ -690,7 +694,7 @@ padding:0rem 1rem;
   display:flex;
   flex-flow:column;
   background-color:#212121;
-  opacity:0.8;
+  // opacity:0.8;
   box-shadow:inset 0px 0px 50px black;
 }
 .dapp-sidebar-button-connected{border-radius:2rem;}
