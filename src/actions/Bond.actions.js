@@ -115,16 +115,15 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
   }
 
   return dispatch(fetchBondSuccess({
-    [bond]: {
-      // balance,
-      bondDiscount,
-      debtRatio,
-      bondQuote,
-      vestingTerm: terms.vestingTerm,
-      maxBondPrice: maxBondPrice / Math.pow(10,9),
-      bondPrice: bondPrice / Math.pow(10, 18),
-      marketPrice: marketPrice / Math.pow(10, 9)
-    }
+    bond,
+    // balance,
+    bondDiscount,
+    debtRatio,
+    bondQuote,
+    vestingTerm: terms.vestingTerm,
+    maxBondPrice: maxBondPrice / Math.pow(10,9),
+    bondPrice: bondPrice / Math.pow(10, 18),
+    marketPrice: marketPrice / Math.pow(10, 9)
   }))
 
 };
@@ -145,18 +144,11 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
     pendingPayout = await bondingContract.pendingPayoutFor(address);
   }
 
-  // commit('set', {
-  //   interestDue: ethers.utils.formatUnits(interestDue, 'gwei'),
-  //   bondMaturationBlock,
-  //   pendingPayout: ethers.utils.formatUnits(pendingPayout, 'gwei')
-  // });
-
   return dispatch(fetchBondSuccess({
-    [bond]: {
-      interestDue: ethers.utils.formatUnits(interestDue, 'gwei'),
-      bondMaturationBlock,
-      pendingPayout: ethers.utils.formatUnits(pendingPayout, 'gwei')
-    }
+    bond,
+    interestDue: ethers.utils.formatUnits(interestDue, 'gwei'),
+    bondMaturationBlock,
+    pendingPayout: ethers.utils.formatUnits(pendingPayout, 'gwei')
   }))
 
 };
