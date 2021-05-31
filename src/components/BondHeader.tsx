@@ -58,7 +58,7 @@ function BondHeader({ bond }: Props) {
         </div>
 
         <div className="text-light align-self-center">
-          <h5>
+          <h5 style={{color: 'white'}}>
             {headerName()}
           </h5>
         </div>

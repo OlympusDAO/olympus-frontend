@@ -65,19 +65,19 @@ function Bond({ provider, address, bond }: Props) {
 
 
   const setMax = () => {
-    if (view === 'bond') {
-      setQuantity(ohmBalance);
-    } else {
-      setQuantity(sohmBalance);
-    }
+    setQuantity(balance);
   };
 
-  async function loadBondDetails() {
-    if (provider) {
-      await dispatch(calcBondDetails({ address, bond, value: quantity as any, provider, networkID: 1 }));
-    }
+  const balanceUnits = () => {
+    if (bond.indexOf("_lp") >= 0)
+      return 'LP'
+    else if (bond === BONDS.dai)
+      return 'DAI'
+  }
 
+  async function loadBondDetails() {
     if (provider && address) {
+      await dispatch(calcBondDetails({ address, bond, value: quantity as any, provider, networkID: 1 }));
       await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: 1 }));
     }
   }
@@ -126,7 +126,7 @@ function Bond({ provider, address, bond }: Props) {
             {view === 'bond' && <div className="stake-price-data-column">
               <div className="stake-price-data-row">
                 <p className="price-label">Balance</p>
-                <p className="price-data">{ trim(balance, 4) }</p>
+                <p className="price-data">{ trim(balance, 4) } {balanceUnits()}</p>
               </div>
               <div className="stake-price-data-row">
                 <p className="price-label">Bond Price</p>
