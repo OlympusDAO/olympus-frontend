@@ -92,18 +92,6 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
         </div>
       </header>
 
-      <nav className={`navbar navbar-expand-lg navbar-light bg-warning`}>
-        <div className="container-fluid align-items-end">
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                NOTE: This is V1.1 of OlympusDAO. If you want V1, visit <a href="https://olympusdao.finance/#/stake">olympusdao.finance/#stake</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
     </React.Fragment>
   );
 }
