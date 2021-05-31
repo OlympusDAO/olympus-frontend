@@ -9,7 +9,7 @@ import Balance from "./Balance";
 import Wallet from "./Wallet";
 import OlympusLogo from '../assets/olympus_logo.png';
 
-import { shorten, trim } from '../helpers';
+import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../helpers';
 
 
 type Props = {
@@ -22,6 +22,7 @@ type Props = {
 export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3Modal, }: Props) {
   const stakingAPY    = useSelector((state: any) => { return state.app.stakingAPY });
   const stakingRebase = useSelector((state: any) => { return state.app.stakingRebase });
+  const currentBlock  = useSelector((state: any) => { return state.app.currentBlock });
 
   const modalButtons = [];
   if (web3Modal) {
@@ -38,6 +39,13 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
 
   const { currentTheme } = useThemeSwitcher();
 
+  const timeUntilRebase = () => {
+    if (currentBlock) {
+      const rebaseBlock = getRebaseBlock(currentBlock);
+      const seconds     = secondsUntilBlock(currentBlock, rebaseBlock);
+      return prettifySeconds(seconds);
+    }
+  }
 
   return (
     <header className="d-flex sticky-top flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -54,6 +62,11 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
       </ul>}
 
       <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li className="mx-4">
+          <p>Time until rebase</p>
+          <p className="fw-bold">{ timeUntilRebase() }</p>
+        </li>
+
         <li className="mx-4">
           <p>Next Rebase</p>
           <p className="fw-bold">{ trim(stakingRebase * 100, 4) }%</p>
