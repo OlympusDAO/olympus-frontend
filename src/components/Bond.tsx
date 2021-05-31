@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
+import BondHeader from './BondHeader';
 import { BONDS } from "../constants";
 import { NavLink } from 'react-router-dom';
 
@@ -98,33 +99,8 @@ function Bond({ provider, address, bond }: Props) {
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
       <div className="dapp-center-modal flex-column">
-        <div className="d-flex flex-row align-items-center my-2 px-2 my-md-4 px-md-4">
-          <NavLink to="/bonds" className="align-items-center ohm-link" style={{position: "absolute"}}>
-          <i className="fa fa-chevron-left"></i>
-            Back
-          </NavLink>
-          <div className="d-flex flex-row col justify-content-center">
-            <div className="ohm-pairs d-sm-flex mr-2 d-none">
-              <div className="ohm-pair" style={{zIndex: 2}}>
-                <img
-                  src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                />
-              </div>
 
-              <div className="ohm-pair" style={{zIndex: 1}}>
-                <img
-                  src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png"
-                />
-              </div>
-            </div>
-
-            <div className="text-light align-self-center">
-              <h5>
-                OHM-DAI SLP Bond
-              </h5>
-            </div>
-          </div>
-        </div>
+        <BondHeader bond={bond} />
 
         <div className="dapp-modal-wrapper py-2 px-2 py-md-4 px-md-2 m-auto">
           <div className="swap-input-column">
