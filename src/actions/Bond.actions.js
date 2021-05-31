@@ -37,20 +37,18 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
     const bondCalcContract = new ethers.Contract( addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
     bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
 
+    // RFV = assume 1:1 backing
     valuation    = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
     bondQuote    = await bondContract.payoutFor(valuation);
     bondQuote    = bondQuote / Math.pow(10, 9);
   } else if (bond === BONDS.dai) {
-    balance     = await reserveContract.balanceOf(address);
-    balance     = ethers.utils.formatEther(balance);
+    balance      = await reserveContract.balanceOf(address);
+    balance      = ethers.utils.formatEther(balance);
+    bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
 
-
-    // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
-
-    // TODO: Need to define bondCalcContract
-    // valuation    = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
-    // bondQuote    = await bondContract.payoutFor(valuation);
-    // bondQuote    = bondQuote / Math.pow(10, 18);
+    // RFV = DAI
+    bondQuote    = await bondContract.payoutFor(amountInWei);
+    bondQuote    = bondQuote / Math.pow(10, 18);
   }
 
   // Display error if user tries to exceed maximum.
