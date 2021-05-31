@@ -7,6 +7,7 @@ import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
 import Balance from "./Balance";
 import Wallet from "./Wallet";
+import ThemeSwitch from "./ThemeSwitch";
 import OlympusLogo from '../assets/olympus_logo.png';
 
 import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../helpers';
@@ -79,7 +80,9 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
           </li>
         </ul>
 
-        <div className="col-md-3 text-end">
+        <div className="col-md-4 text-end">
+          <ThemeSwitch />
+
           <a role="button" className="btn btn-dark btn-overwrite-primer mx-2" href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
             Get OHM
           </a>

@@ -19,7 +19,7 @@ import Bond from "./components/Bond";
 
 import "./App.css";
 import "./style.scss";
-import { Header, ThemeSwitch, } from "./components";
+import { Header } from "./components";
 
 import Sidebar from "./components/Sidebar";
 import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS, BONDS } from "./constants";
@@ -185,8 +185,6 @@ function App(props: any) {
               })}
             </Switch>
 
-
-            <ThemeSwitch />
           </div>
         </div>
       </div>
