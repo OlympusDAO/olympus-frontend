@@ -129,8 +129,8 @@ function Bond({ provider, address, bond }: Props) {
           <div className="swap-input-column">
             <div className="stake-toggle-row">
               <div className="btn-group" role="group">
-                <button type="button" className={`btn ${view === 'bond' ? 'btn-secondary' : ''}`} onClick={() => {setView('bond')}}>Bond</button>
-                <button type="button" className={`btn ${view === 'redeem' ? 'btn-secondary' : ''}`} onClick={() => {setView('redeem')}}>Redeem</button>
+                <button type="button" className={`btn ${view === 'bond' ? 'btn-light' : ''}`} onClick={() => {setView('bond')}}>Bond</button>
+                <button type="button" className={`btn ${view === 'redeem' ? 'btn-light' : ''}`} onClick={() => {setView('redeem')}}>Redeem</button>
               </div>
             </div>
 

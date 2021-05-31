@@ -14,7 +14,6 @@ function Stake({ provider, address }: Props) {
   const [view, setView] = useState("stake");
   const [quantity, setQuantity] = useState();
 
-  const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
   const fiveDayRate  = useSelector((state: any) => { return state.app.fiveDayRate });
   const currentIndex = useSelector((state: any) => { return state.app.currentIndex });
 
@@ -47,13 +46,6 @@ function Stake({ provider, address }: Props) {
     return stakeAllowance > 0;
   }, [stakeAllowance]);
 
-  const timeUntilRebase = () => {
-    if (currentBlock) {
-      const rebaseBlock = getRebaseBlock(currentBlock);
-      const seconds     = secondsUntilBlock(currentBlock, rebaseBlock);
-      return prettifySeconds(seconds);
-    }
-  }
 
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
@@ -62,8 +54,8 @@ function Stake({ provider, address }: Props) {
           <div className="swap-input-column">
             <div className="stake-toggle-row">
               <div className="btn-group" role="group">
-                <button type="button" className={`btn ${view === 'stake' ? 'btn-secondary' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
-                <button type="button" className={`btn ${view === 'unstake' ? 'btn-secondary' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
+                <button type="button" className={`btn ${view === 'stake' ? 'btn-light' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
+                <button type="button" className={`btn ${view === 'unstake' ? 'btn-light' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
               </div>
 
             </div>
@@ -88,13 +80,6 @@ function Stake({ provider, address }: Props) {
               <div className="stake-price-data-row">
                 <p className="price-label">Staked</p>
                 <p className="price-data">{ trim(sohmBalance) } sOHM</p>
-              </div>
-
-              <div className="stake-price-data-row">
-                <p className="price-label">Time until rebase</p>
-                <p className="price-data">
-                  { timeUntilRebase() }
-                </p>
               </div>
 
 
