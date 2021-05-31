@@ -48,47 +48,62 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
   }
 
   return (
-    <header className="d-flex sticky-top flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-      <a href="/" className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-        <img className="branding-header-icon" src={OlympusLogo} alt="" />
-      </a>
-
-      {false && <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="#" className="nav-link px-2 link-dark">Features</a></li>
-        <li><a href="#" className="nav-link px-2 link-dark">Pricing</a></li>
-        <li><a href="#" className="nav-link px-2 link-dark">FAQs</a></li>
-        <li><a href="#" className="nav-link px-2 link-dark">About</a></li>
-      </ul>}
-
-      <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li className="mx-4">
-          <p>Time until rebase</p>
-          <p className="fw-bold">{ timeUntilRebase() }</p>
-        </li>
-
-        <li className="mx-4">
-          <p>Next Rebase</p>
-          <p className="fw-bold">{ trim(stakingRebase * 100, 4) }%</p>
-        </li>
-
-        <li className="mx-4">
-          <p>APY</p>
-          <p className="fw-bold">{ trim(stakingAPY * 100, 2) }%</p>
-        </li>
-      </ul>
-
-      <div className="col-md-3 text-end">
-        <a role="button" className="btn btn-dark btn-overwrite-primer mx-2" href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
-          Get OHM
+    <React.Fragment>
+      <header className="d-flex sticky-top flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a href="/" className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+          <img className="branding-header-icon" src={OlympusLogo} alt="" />
         </a>
 
-        {address && <a href={`https://etherscan.io/address/${address}`} target="_blank">
-          {shorten(address)}
-        </a>}
+        {false && <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
+          <li><a href="#" className="nav-link px-2 link-dark">Features</a></li>
+          <li><a href="#" className="nav-link px-2 link-dark">Pricing</a></li>
+          <li><a href="#" className="nav-link px-2 link-dark">FAQs</a></li>
+          <li><a href="#" className="nav-link px-2 link-dark">About</a></li>
+        </ul>}
 
-        {modalButtons}
-      </div>
-    </header>
+        <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+          <li className="mx-4">
+            <p>Time until rebase</p>
+            <p className="fw-bold">{ timeUntilRebase() }</p>
+          </li>
+
+          <li className="mx-4">
+            <p>Next Rebase</p>
+            <p className="fw-bold">{ trim(stakingRebase * 100, 4) }%</p>
+          </li>
+
+          <li className="mx-4">
+            <p>APY</p>
+            <p className="fw-bold">{ trim(stakingAPY * 100, 2) }%</p>
+          </li>
+        </ul>
+
+        <div className="col-md-3 text-end">
+          <a role="button" className="btn btn-dark btn-overwrite-primer mx-2" href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
+            Get OHM
+          </a>
+
+          {address && <a href={`https://etherscan.io/address/${address}`} target="_blank">
+            {shorten(address)}
+          </a>}
+
+          {modalButtons}
+        </div>
+      </header>
+
+      <nav className={`navbar sticky-top navbar-expand-lg navbar-light bg-warning`}>
+        <div className="container-fluid align-items-end">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                NOTE: This is V1.1 of OlympusDAO. If you want V1, visit <a href="https://olympusdao.finance/#/stake">olympusdao.finance/#stake</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    </React.Fragment>
   );
 }
