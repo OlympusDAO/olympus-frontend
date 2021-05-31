@@ -175,11 +175,10 @@ export const bondAsset = ({ value, address, bond, networkID, provider, slippage 
   const signer = provider.getSigner();
   let bondContract, balance;
   if (bond === BONDS.ohm_dai) {
-    bondContract  = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
+    bondContract = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
   } else if (bond === BONDS.dai) {
-    bondContract  = new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
+    bondContract = new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
   }
-
 
   // Calculate maxPremium based on premium and slippage.
   // const calculatePremium = await bonding.calculatePremium();
@@ -200,18 +199,38 @@ export const bondAsset = ({ value, address, bond, networkID, provider, slippage 
       balance     = ethers.utils.formatEther(balance);
     }
 
-    return dispatch(fetchBondSuccess({
-      bond, balance
-    }))
-
+    return dispatch(fetchBondSuccess({ bond, balance }))
   } catch (error) {
     if (error.code === -32603 && error.message.indexOf('ds-math-sub-underflow') >= 0) {
       alert(
         'You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow'
       );
-    } else {
+    } else
       alert(error.message);
-    }
     return;
+  }
+}
+
+
+export const redeemBond = ({ address, bond, networkID, provider, autostake }) => async dispatch => {
+  if (!provider) {
+    alert('Please connect your wallet!');
+    return;
+  }
+
+  const signer = provider.getSigner();
+
+  let bondContract;
+  if (bond === BONDS.ohm_dai) {
+    bondContract = await new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, signer);
+  } else if (bond === BONDS.dai) {
+    bondContract = await new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, signer);
+  }
+
+  try {
+    const redeemTx = await bondContract.redeem(autostake);
+    await redeemTx.wait();
+  } catch (error) {
+    alert(error.message);
   }
 }

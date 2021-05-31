@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from '../actions/Bond.actions.js';
+import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset, redeemBond } from '../actions/Bond.actions.js';
 import BondHeader from './BondHeader';
 import { BONDS } from "../constants";
 import { NavLink } from 'react-router-dom';
@@ -38,18 +38,13 @@ function Bond({ provider, address, bond }: Props) {
   const pendingPayout = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].pendingPayout });
   const debtRatio     = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].debtRatio });
   const bondQuote     = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondQuote });
-
-
-  const balance = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].balance });
-
-
+  const balance       = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].balance });
 
   const hasEnteredAmount = () => {
     return !(isNaN(quantity as any) || quantity === 0 || quantity === '');
   }
 
   const vestingPeriod = () => {
-    console.log("bondMaturationBlock = ", bondMaturationBlock)
     const seconds      = secondsUntilBlock(currentBlock, bondMaturationBlock);
     return prettifySeconds(seconds, 'day');
   };
@@ -58,8 +53,8 @@ function Bond({ provider, address, bond }: Props) {
     return prettyVestingPeriod(currentBlock, bondMaturationBlock);
   };
 
-  const onRedeem = () => {
-    return alert("need to implement")
+  async function onRedeem({ autostake }: {autostake: any}) {
+    await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake }));
   };
 
   async function onBond() {
@@ -114,7 +109,8 @@ function Bond({ provider, address, bond }: Props) {
 
 
   const onSeekApproval = async (token: any) => {
-    await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
+    alert("need approval");
+    // await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
   };
 
   const hasAllowance = useCallback(() => {
@@ -184,10 +180,6 @@ function Bond({ provider, address, bond }: Props) {
 
             {view === 'redeem' && <div className="stake-price-data-column">
               <div className="stake-price-data-row">
-                <p className="price-label">Balance</p>
-                <p className="price-data">{ trim(balance, 4) }</p>
-              </div>
-              <div className="stake-price-data-row">
                 <p className="price-label">Pending Rewards</p>
                 <p id="bond-market-price-id" className="price-data">
                   { trim(interestDue, 4) } OHM
@@ -208,7 +200,11 @@ function Bond({ provider, address, bond }: Props) {
             </div>}
 
             {view == 'redeem' && <div className="d-flex align-self-center mb-4">
-              <div className="redeem-button" onClick={onRedeem}>Claim Rewards</div>
+              <div className="redeem-button" onClick={() => { onRedeem({ autostake: false })}}>Claim</div>
+            </div>}
+
+            {view == 'redeem' && <div className="d-flex align-self-center mb-4">
+              <div className="redeem-button" onClick={() => { onRedeem({ autostake: true  })}}>Claim and Autostake</div>
             </div>}
 
             {hasAllowance() && view === 'bond' && <div className="d-flex align-self-center mb-4">
