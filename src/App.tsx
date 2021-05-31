@@ -1,7 +1,6 @@
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { formatEther, parseEther } from "@ethersproject/units";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { Alert, Button, Col, Menu, Row } from "antd";
 import "antd/dist/antd.css";
 import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
@@ -168,7 +167,7 @@ function App(props: any) {
       <div id="dapp" className="dapp min-vh-100">
         <div className="container-fluid">
           <div className="row">
-            <Header blockExplorer={blockExplorer} address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} userProvider={userProvider} mainnetProvider={mainnetProvider} />
+            <Header address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} />
 
 
 
