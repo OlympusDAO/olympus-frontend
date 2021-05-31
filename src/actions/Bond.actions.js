@@ -94,7 +94,6 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
   const bondPrice    = await bondContract.bondPriceInUSD();
 
   if (bond === BONDS.ohm_dai) {
-    // TODO: Doesn't work for some reason
     const reserveContract  = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
     balance          = await reserveContract.balanceOf(address);
 
@@ -163,3 +162,56 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
   }))
 
 };
+
+
+export const bondAsset = ({ value, address, bond, networkID, provider, slippage }) => async dispatch => {
+  const depositorAddress = address;
+  const acceptedSlippage = slippage / 100 || 0.02; // 2%
+  const valueInWei = ethers.utils.parseUnits(value.toString(), 'ether');
+
+  console.log("depositorAddress = ", depositorAddress);
+  console.log("acceptedSlippage = ", acceptedSlippage);
+
+  const signer = provider.getSigner();
+  let bondContract, balance;
+  if (bond === BONDS.ohm_dai) {
+    bondContract  = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
+  } else if (bond === BONDS.dai) {
+    bondContract  = new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
+  }
+
+
+  // Calculate maxPremium based on premium and slippage.
+  // const calculatePremium = await bonding.calculatePremium();
+  const calculatePremium = await bondContract.bondPrice();
+  const maxPremium       = Math.round(calculatePremium * (1 + acceptedSlippage));
+
+  // Deposit the bond
+  try {
+    const bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+    await bondTx.wait();
+
+    if (bond === BONDS.ohm_dai) {
+      const reserveContract  = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
+      balance          = await reserveContract.balanceOf(address);
+    } else if (bond === BONDS.dai) {
+      const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
+      balance     = await daiContract.balanceOf(address);
+      balance     = ethers.utils.formatEther(balance);
+    }
+
+    return dispatch(fetchBondSuccess({
+      bond, balance
+    }))
+
+  } catch (error) {
+    if (error.code === -32603 && error.message.indexOf('ds-math-sub-underflow') >= 0) {
+      alert(
+        'You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow'
+      );
+    } else {
+      alert(error.message);
+    }
+    return;
+  }
+}
