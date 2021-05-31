@@ -30,6 +30,7 @@ function Bond({ provider, address, bond }: Props) {
   const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
   const bondMaturationBlock = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondMaturationBlock });
 
+  const vestingTerm    = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].vestingBlock });
   const marketPrice    = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].marketPrice });
   const bondPrice    = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
   const bondDiscount = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
@@ -45,7 +46,8 @@ function Bond({ provider, address, bond }: Props) {
   }
 
   const vestingPeriod = () => {
-    const seconds      = secondsUntilBlock(currentBlock, bondMaturationBlock);
+    const vestingBlock = parseInt(currentBlock) + parseInt(vestingTerm);
+    const seconds      = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, 'day');
   };
 
@@ -84,7 +86,7 @@ function Bond({ provider, address, bond }: Props) {
 
 
   const setMax = () => {
-    setQuantity(balance);
+    setQuantity(balance.toString());
   };
 
   const balanceUnits = () => {

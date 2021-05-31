@@ -53,7 +53,7 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
 
   // Display error if user tries to exceed maximum.
   if (!!value && parseFloat(bondQuote) > (maxBondPrice / Math.pow(10,9)) ) {
-    alert("You're trying to bond more than the maximum payout availabe! The maximum bond payout is " + (maxBondPrice / Math.pow(10,9)).toFixed(2).toString() + " OHM.")
+    alert("You're trying to bond more than the maximum payout available! The maximum bond payout is " + (maxBondPrice / Math.pow(10,9)).toFixed(2).toString() + " OHM.")
   }
 
   return dispatch(fetchBondSuccess({
@@ -100,12 +100,13 @@ export const bondAsset = ({ value, address, bond, networkID, provider, slippage 
   console.log("depositorAddress = ", depositorAddress);
   console.log("acceptedSlippage = ", acceptedSlippage);
 
-  const signer = provider.getSigner();
+
   let balance;
 
   // Calculate maxPremium based on premium and slippage.
   // const calculatePremium = await bonding.calculatePremium();
-  const bondContract     = contractForBond({ bond, provider, networkID });
+  const signer           = provider.getSigner();
+  const bondContract     = contractForBond({ bond, provider: signer, networkID });
   const calculatePremium = await bondContract.bondPrice();
   const maxPremium       = Math.round(calculatePremium * (1 + acceptedSlippage));
 
