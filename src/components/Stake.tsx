@@ -14,11 +14,8 @@ function Stake({ provider, address }: Props) {
   const [view, setView] = useState("stake");
   const [quantity, setQuantity] = useState();
 
-  const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
   const fiveDayRate  = useSelector((state: any) => { return state.app.fiveDayRate });
-  const stakingRebase  = useSelector((state: any) => { return state.app.stakingRebase });
   const currentIndex = useSelector((state: any) => { return state.app.currentIndex });
-  const stakingAPY   = useSelector((state: any) => { return state.app.stakingAPY });
 
   const ohmBalance     = useSelector((state: any) => { return state.app.balances && state.app.balances.ohm });
   const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
@@ -49,13 +46,6 @@ function Stake({ provider, address }: Props) {
     return stakeAllowance > 0;
   }, [stakeAllowance]);
 
-  const timeUntilRebase = () => {
-    if (currentBlock) {
-      const rebaseBlock = getRebaseBlock(currentBlock);
-      const seconds     = secondsUntilBlock(currentBlock, rebaseBlock);
-      return prettifySeconds(seconds);
-    }
-  }
 
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
@@ -64,8 +54,8 @@ function Stake({ provider, address }: Props) {
           <div className="swap-input-column">
             <div className="stake-toggle-row">
               <div className="btn-group" role="group">
-                <button type="button" className={`btn ${view === 'stake' ? 'btn-secondary' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
-                <button type="button" className={`btn ${view === 'unstake' ? 'btn-secondary' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
+                <button type="button" className={`btn ${view === 'stake' ? 'btn-light' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
+                <button type="button" className={`btn ${view === 'unstake' ? 'btn-light' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
               </div>
 
             </div>
@@ -92,25 +82,12 @@ function Stake({ provider, address }: Props) {
                 <p className="price-data">{ trim(sohmBalance) } sOHM</p>
               </div>
 
-              <div className="stake-price-data-row">
-                <p className="price-label">Time until rebase</p>
-                <p className="price-data">
-                  { timeUntilRebase() }
-                </p>
-              </div>
 
-              <div className="stake-price-data-row">
-                <p className="price-label">Upcoming rebase</p>
-                <p className="price-data">{ trim(stakingRebase * 100, 4) }%</p>
-              </div>
               <div className="stake-price-data-row">
                 <p className="price-label">ROI (5-day rate)</p>
                 <p className="price-data">{ trim(fiveDayRate * 100, 4) }%</p>
               </div>
-              <div className="stake-price-data-row">
-                <p className="price-label">Current APY</p>
-                <p className="price-data">{ trim(stakingAPY * 100, 2) }%</p>
-              </div>
+
               <div className="stake-price-data-row">
                 <p className="price-label">Current index</p>
                 <p className="price-data">{ trim(currentIndex, 4) } OHM</p>
