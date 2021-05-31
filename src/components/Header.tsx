@@ -49,7 +49,7 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
 
   return (
     <React.Fragment>
-      <header className="d-flex sticky-top flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <header className="d-flex sticky-top flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
         <a href="/" className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
           <img className="branding-header-icon" src={OlympusLogo} alt="" />
         </a>
@@ -92,7 +92,7 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
         </div>
       </header>
 
-      <nav className={`navbar sticky-top navbar-expand-lg navbar-light bg-warning`}>
+      <nav className={`navbar navbar-expand-lg navbar-light bg-warning`}>
         <div className="container-fluid align-items-end">
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
