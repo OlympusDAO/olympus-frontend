@@ -27,7 +27,7 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
 
   const marketPrice  = await getMarketPrice({networkID, provider});
   const terms        = await bondContract.terms();
-  const maxBondPrice = terms.maxPayout;
+  const maxBondPrice = await bondContract.maxPayout();
   const debtRatio    = await bondContract.debtRatio();
   const bondPrice    = await bondContract.bondPriceInUSD();
 
