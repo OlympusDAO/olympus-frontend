@@ -5,14 +5,21 @@ import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../ac
 import { BONDS } from "../constants";
 import { NavLink } from 'react-router-dom';
 import BondLogo from './BondLogo';
+import AdvancedSettings from './AdvancedSettings';
 
 type Props = {
   bond: string,
+  slippage: number,
+  recipientAddress: string,
+  onRecipientAddressChange: any,
+  onSlippageChange: any
 };
 
 
 
-function BondHeader({ bond }: Props) {
+function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }: Props) {
+  const [showMenu, setShowMenu] = useState(false);
+
   const ohmAssetImg = () => {
     return 'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png';
   }
@@ -40,6 +47,20 @@ function BondHeader({ bond }: Props) {
           </h5>
         </div>
       </div>
+
+      <div style={{position: "relative"}}>
+        <a role="button" onClick={() => setShowMenu(!showMenu)}>
+          <i className="fa fa-cog fa-2x" />
+        </a>
+
+        {showMenu && <AdvancedSettings
+          slippage={slippage}
+          recipientAddress={recipientAddress}
+          onRecipientAddressChange={onRecipientAddressChange}
+          onSlippageChange={onSlippageChange}
+        />}
+      </div>
+
     </div>
   );
 }
