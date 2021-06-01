@@ -222,7 +222,7 @@ function Bond({ provider, address, bond }: Props) {
               <div className="redeem-button" onClick={() => { onRedeem({ autostake: false })}}>Claim</div>
             </div>}
 
-            {view == 'redeem' && <div className="d-flex align-self-center mb-4">
+            {false && view == 'redeem' && <div className="d-flex align-self-center mb-4">
               <div className="redeem-button" onClick={() => { onRedeem({ autostake: true  })}}>Claim and Autostake</div>
             </div>}
 
