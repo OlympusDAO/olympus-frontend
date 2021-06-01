@@ -12,7 +12,7 @@ export const changeApproval = ({ token, provider, address, networkID }) => async
   alert("TODO")
 };
 
-export const calcBondDetails = ({ address, bond, value, provider, networkID }) => async dispatch => {
+export const calcBondDetails = ({ bond, value, provider, networkID }) => async dispatch => {
   let amountInWei;
   if (!value || value === '') {
     amountInWei = ethers.utils.parseEther('0.0001'); // Use a realistic SLP ownership
@@ -21,9 +21,8 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
   }
 
   // const vestingTerm = VESTING_TERM; // hardcoded for now
-  let  balance, bondDiscount, valuation, bondQuote;
-  const bondContract    = contractForBond({ bond, networkID, provider });
-  const reserveContract = contractForReserve({ bond, networkID, provider});
+  let bondDiscount, valuation, bondQuote;
+  const bondContract = contractForBond({ bond, networkID, provider });
 
   const marketPrice  = await getMarketPrice({networkID, provider});
   const terms        = await bondContract.terms();
@@ -32,8 +31,6 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
   const bondPrice    = await bondContract.bondPriceInUSD();
 
   if (bond === BONDS.ohm_dai) {
-    balance          = await reserveContract.balanceOf(address);
-
     const bondCalcContract = new ethers.Contract( addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
     bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
 
@@ -42,8 +39,6 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
     bondQuote    = await bondContract.payoutFor(valuation);
     bondQuote    = bondQuote / Math.pow(10, 9);
   } else if (bond === BONDS.dai) {
-    balance      = await reserveContract.balanceOf(address);
-    balance      = ethers.utils.formatEther(balance);
     bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
 
     // RFV = DAI
@@ -58,7 +53,6 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
 
   return dispatch(fetchBondSuccess({
     bond,
-    balance,
     bondDiscount,
     debtRatio,
     bondQuote,
@@ -76,7 +70,8 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
   if (!address) return;
 
   // Calculate bond details.
-  const bondContract = contractForBond({ bond, provider, networkID });
+  const bondContract    = contractForBond({ bond, provider, networkID });
+  const reserveContract = contractForReserve({ bond, networkID, provider});
 
   let interestDue, pendingPayout, bondMaturationBlock;
   if (bond === BONDS.dai_v1) {
@@ -91,8 +86,18 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
     pendingPayout = await bondContract.pendingPayoutFor(address);
   }
 
+  let balance;
+  if (bond === BONDS.ohm_dai) {
+    balance = await reserveContract.balanceOf(address);
+  } else if (bond === BONDS.dai) {
+    balance = await reserveContract.balanceOf(address);
+    balance = ethers.utils.formatEther(balance);
+  }
+
+
   return dispatch(fetchBondSuccess({
     bond,
+    balance,
     interestDue: ethers.utils.formatUnits(interestDue, 'gwei'),
     bondMaturationBlock,
     pendingPayout: ethers.utils.formatUnits(pendingPayout, 'gwei')

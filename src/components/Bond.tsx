@@ -98,10 +98,13 @@ function Bond({ provider, address, bond }: Props) {
   }
 
   async function loadBondDetails() {
+    if (provider)
+      await dispatch(calcBondDetails({ bond, value: quantity as any, provider, networkID: 1 }));
+
     if (provider && address) {
-      await dispatch(calcBondDetails({ address, bond, value: quantity as any, provider, networkID: 1 }));
       await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: 1 }));
     }
+
   }
 
   useEffect(() => {
