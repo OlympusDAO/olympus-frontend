@@ -6,8 +6,8 @@ import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import Web3Modal from "web3modal";
 import OlympusLogo from '../assets/logo.svg';
 
+import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../helpers';
 
-// displays a page header
 
 type Props = {
   isExpanded: boolean,
@@ -23,6 +23,18 @@ type Props = {
 
 function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute, address, mainnetProvider, blockExplorer }: Props) {
 
+  const modalButtons = [];
+  if (web3Modal) {
+    if (web3Modal.cachedProvider) {
+      modalButtons.push(
+        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal as any}>Disconnect</button>,
+      );
+    } else {
+      modalButtons.push(
+        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={loadWeb3Modal as any}>Connect Wallet</button>,
+      );
+    }
+  }
 
   // isBondPage and isDashboard arent DRY, this can be optimized
   const isBondPage = useCallback((match, location) => {
@@ -46,7 +58,11 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
           </div>
 
           <div className="wallet-menu">
+            {address && <a href={`https://etherscan.io/address/${address}`} target="_blank">
+              {shorten(address)}
+            </a>}
 
+            {modalButtons}
           </div>
         </div>
 
@@ -67,6 +83,11 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
               <i className="fa fa-clock me-3" />
               <span>Bond</span>
             </NavLink>
+
+            <a href="https://olympusdao.finance/#/lpstake" className="button button-dapp-menu align-items-center">
+              <i className="fa fa-water me-3" />
+              <span>LP Staking</span>
+            </a>
           </div>
         </div>
 

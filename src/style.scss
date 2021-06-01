@@ -726,9 +726,16 @@ padding:0rem 1rem;
 .wallet-menu{
   display:flex;
   flex-flow:column;
+  text-align: center;
+
   width:200px;
   margin: auto;
   justify-content:center;
+
+  a {
+    text-decoration: none;
+  }
+
   .disconnect-button{
     margin-bottom: 15px;
   }
