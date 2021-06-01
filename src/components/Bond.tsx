@@ -126,6 +126,7 @@ function Bond({ provider, address, bond }: Props) {
 
         <BondHeader bond={bond} />
 
+
         <div className="dapp-modal-wrapper py-2 px-2 py-md-4 px-md-2 m-auto">
           <div className="swap-input-column">
             <div className="stake-toggle-row">

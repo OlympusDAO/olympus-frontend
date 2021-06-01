@@ -15,6 +15,7 @@ import { loadAppDetails } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
 import Stake from "./components/Stake";
+import ChooseBond from "./components/ChooseBond";
 import Bond from "./components/Bond";
 
 import "./App.css";
@@ -175,6 +176,10 @@ function App(props: any) {
             <Switch>
               <Route exact path="/">
                 <Stake address={address} provider={injectedProvider} />
+              </Route>
+
+              <Route exact path="/bonds">
+                <ChooseBond address={address} provider={injectedProvider} />
               </Route>
 
 
