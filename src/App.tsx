@@ -17,6 +17,7 @@ import { loadAccountDetails } from './actions/Account.actions.js';
 import Stake from "./components/Stake";
 import ChooseBond from "./components/ChooseBond";
 import Bond from "./components/Bond";
+import Dashboard from "./components/Dashboard";
 
 import "./App.css";
 import "./style.scss";
@@ -184,6 +185,10 @@ function App(props: any) {
             <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
 
             <Switch>
+              <Route exact path="/dashboard">
+                <Dashboard address={address} provider={injectedProvider} />
+              </Route>
+
               <Route exact path="/">
                 <Stake address={address} provider={injectedProvider} />
               </Route>
