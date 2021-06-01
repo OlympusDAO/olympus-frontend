@@ -80,7 +80,7 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
 
           <li className="mx-4">
             <p>Bond Discount</p>
-            <p className="fw-bold">{ bestBondDiscount() ? trim( (bestBondDiscount() as any) * 100, 1) : 0 }%</p>
+            <p className="fw-bold">{ bestBondDiscount() ? trim( (bestBondDiscount() as any) * 100, 2) : 0 }%</p>
           </li>
 
           <li className="mx-4">

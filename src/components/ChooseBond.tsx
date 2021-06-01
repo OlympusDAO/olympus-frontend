@@ -21,7 +21,7 @@ function ChooseBond({ provider, address }: Props) {
 		<div className="d-flex align-items-center justify-content-center min-vh-100">
 			<div className="dapp-center-modal d-flex flex-column ohm-card">
 				<div className="py-4 px-4 py-md-4 px-md-4">
-					<h2 className="text-center mb-4">How do you want to bond?</h2>
+					<h2 className="text-center mb-4 text-white">How do you want to bond?</h2>
 					<p>
 						Bonds give you the opportunity to buy OHM from the protocol at a discount. All bonds
 						have a 5-day vesting term. Current market price of OHM is { trim(marketPrice, 2) } DAI. If you stake instead, your ROI will be { trim(fiveDayRate * 100, 2) }%.
