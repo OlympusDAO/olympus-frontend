@@ -410,7 +410,8 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
   font-size: 20px;
 
   &.active {
-    color: #CC3B66;
+    // color: #CC3B66;
+    font-weight: bold;
   }
 }
 
