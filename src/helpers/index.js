@@ -63,29 +63,6 @@ export async function getMarketPrice({ networkID, provider }) {
   return marketPrice;
 }
 
-export async function getTokenSupply({provider, networkID}) {
-  const ohmContract = new ethers.Contract(
-    addresses[networkID].OHM_ADDRESS,
-    ierc20Abi,
-    provider
-  );
-
-  const circulatingSupplyContract = new ethers.Contract(
-    addresses[networkID].CIRCULATING_SUPPLY_ADDRESS,
-    CirculatingSupplyContract,
-    provider
-  );
-
-  const ohmCircSupply  = await circulatingSupplyContract.OHMCirculatingSupply();
-  const ohmTotalSupply = await ohmContract.totalSupply();
-
-  return {
-    circulating: ohmCircSupply,
-    total: ohmTotalSupply,
-  }
-}
-
-
 
 export function shorten(str) {
   if (str.length < 10) return str;

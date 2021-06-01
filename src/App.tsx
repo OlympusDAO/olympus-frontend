@@ -11,12 +11,13 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { calcBondDetails, } from './actions/Bond.actions.js';
 
-import { loadAppDetails } from './actions/App.actions.js';
+import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
 import Stake from "./components/Stake";
 import ChooseBond from "./components/ChooseBond";
 import Bond from "./components/Bond";
+import Dashboard from "./components/Dashboard";
 
 import "./App.css";
 import "./style.scss";
@@ -136,8 +137,11 @@ function App(props: any) {
 
 
   async function loadDetails() {
-    if (injectedProvider)
+    if (injectedProvider) {
       await dispatch(loadAppDetails({ networkID: 1, provider: injectedProvider }))
+      await dispatch(getMarketPrice({ networkID: 1, provider: injectedProvider }));
+      await dispatch(getTokenSupply({ networkID: 1, provider: injectedProvider }));
+    }
 
     if (address)
       await dispatch(loadAccountDetails({networkID: 1, address, provider: injectedProvider}));
@@ -182,23 +186,28 @@ function App(props: any) {
 
 
             <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
-
-            <Switch>
-              <Route exact path="/">
-                <Stake address={address} provider={injectedProvider} />
-              </Route>
-
-              <Route exact path="/bonds">
-                <ChooseBond address={address} provider={injectedProvider} />
-              </Route>
-
-
-              {Object.values(BONDS).map(bond => {
-                return <Route exact key={bond} path={`/bonds/${bond}`}>
-                  <Bond bond={bond} address={address} provider={injectedProvider} />
+            <div className="col-lg-10 col-12 mt-4 mt-md-0">
+              <Switch>
+                <Route exact path="/dashboard">
+                  <Dashboard address={address} provider={injectedProvider} />
                 </Route>
-              })}
-            </Switch>
+
+                <Route exact path="/">
+                  <Stake address={address} provider={injectedProvider} />
+                </Route>
+
+                <Route exact path="/bonds">
+                  <ChooseBond address={address} provider={injectedProvider} />
+                </Route>
+
+
+                {Object.values(BONDS).map(bond => {
+                  return <Route exact key={bond} path={`/bonds/${bond}`}>
+                    <Bond bond={bond} address={address} provider={injectedProvider} />
+                  </Route>
+                })}
+              </Switch>
+            </div>
 
           </div>
         </div>

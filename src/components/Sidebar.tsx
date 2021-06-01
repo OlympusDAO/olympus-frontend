@@ -35,6 +35,8 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
     return null
   }, []);
 
+
+  // isBondPage and isDashboard arent DRY, this can be optimized
   const isBondPage = useCallback((match, location) => {
     if (!match) {
       return false;
@@ -42,6 +44,7 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
 
     return match.url.indexOf('bonds') >= 0 || match.url.indexOf('choose_bond') >= 0
   }, []);
+
 
   return (
     <div
@@ -70,6 +73,12 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
 
         <div className="dapp-menu-links">
           <div className="dapp-nav">
+
+            <NavLink onClick={() => { setRoute("/dashboard" as any) }} to="/dashboard" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return !!match && ['/dashboard'].includes(match.url) }}>
+              <i className="fa fa-chart-line me-3" />
+              <span>Dashboard</span>
+            </NavLink>
+
             <NavLink onClick={() => { setRoute("/" as any) }} to="/" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return !isBondPage(match, location) }}>
               <i className="fa fa-gem me-3" />
               <span>Stake</span>
@@ -79,6 +88,7 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
               <i className="fa fa-clock me-3" />
               <span>Bond</span>
             </NavLink>
+
           </div>
         </div>
 
