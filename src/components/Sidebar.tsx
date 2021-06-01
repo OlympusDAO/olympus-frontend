@@ -75,7 +75,7 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
               <span>Stake</span>
             </NavLink>
 
-            <NavLink onClick={() => { setRoute("/choose_bond" as any) }} to="/choose_bond" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return isBondPage(match, location) }}>
+            <NavLink onClick={() => { setRoute("/bonds" as any) }} to="/bonds" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return isBondPage(match, location) }}>
               <i className="fa fa-clock me-3" />
               <span>Bond</span>
             </NavLink>

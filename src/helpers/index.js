@@ -13,6 +13,22 @@ import { abi as DaiBondContract } from '../abi/DaiBondContract.json';
 
 export { default as Transactor } from "./Transactor";
 
+export function isBondLP(bond) {
+  return bond.indexOf('_lp') >= 0
+}
+
+export function lpURL(bond) {
+  if (bond === BONDS.ohm_dai) {
+    return "https://analytics.sushi.com/pairs/0x34d7d7aaf50ad4944b70b320acb24c95fa2def7c"
+  }
+}
+
+export function bondName(bond) {
+  if (bond === BONDS.dai)
+    return 'DAI Bond'
+  else if (bond === BONDS.ohm_dai)
+    return 'OHM-DAI SLP Bond'
+}
 
 export function contractForBond({ bond, networkID, provider }) {
   if (bond === BONDS.ohm_dai) {
