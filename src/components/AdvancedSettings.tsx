@@ -47,7 +47,7 @@ function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange
             <div className="ohm-input-group">
               <input
                 value={recipientAddress}
-                onBlur={onRecipientAddressChange}
+                onChange={onRecipientAddressChange}
                 type="text"
                 className="form-control ohm-form-control"
               />
