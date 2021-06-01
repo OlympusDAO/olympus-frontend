@@ -20,7 +20,7 @@ const prevTheme = window.localStorage.getItem("theme");
 // });
 
 ReactDOM.render(
-  <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "light"}>
+  <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "dark"}>
     <Root />
   </ThemeSwitcherProvider>,
   document.getElementById("root"),
