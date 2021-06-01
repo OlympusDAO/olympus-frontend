@@ -31,8 +31,8 @@ function BondHeader({ bond }: Props) {
         <BondLogo bond={bond} />
       </div>
 
-      <div className="text-light">
-        <h4 className='mb-0'>{bondName(bond)}</h4>
+      <div className="text-light col-auto">
+        <h4 className='mb-0 text-white'>{bondName(bond)}</h4>
         {isBondLP(bond) && <a href={lpURL(bond)} target="_blank">
           Contract
           <i className="fas fa-external-link-alt fa-sm ml-1"></i>
@@ -44,8 +44,8 @@ function BondHeader({ bond }: Props) {
       </div>
 
 
-      <NavLink to={`/bonds/${bond}`}>
-        <button className="ohm-button button float-right">
+      <NavLink to={`/bonds/${bond}`} className="col text-end">
+        <button className="ohm-button btn col">
           View
         </button>
       </NavLink>

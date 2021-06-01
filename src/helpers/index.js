@@ -8,6 +8,8 @@ import { abi as PairContract } from '../abi/PairContract.json';
 import { abi as BondOhmDaiContract } from '../abi/bonds/OhmDaiContract.json';
 import { abi as BondDaiContract } from '../abi/bonds/DaiContract.json';
 import { abi as ReserveOhmDaiContract } from '../abi/reserves/OhmDai.json';
+import { abi as BondContract } from '../abi/BondContract.json';
+import { abi as DaiBondContract } from '../abi/DaiBondContract.json';
 
 export { default as Transactor } from "./Transactor";
 
@@ -33,6 +35,10 @@ export function contractForBond({ bond, networkID, provider }) {
     return new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
   } else if (bond === BONDS.dai) {
     return new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
+  } else if (bond === BONDS.ohm_dai_v1) {
+    return new ethers.Contract(addresses[networkID].BOND_ADDRESS, BondContract, provider);
+  } else if (bond === BONDS.dai_v1) {
+    return new ethers.Contract(addresses[networkID].DAI_BOND_ADDRESS, DaiBondContract, provider);
   }
 }
 
