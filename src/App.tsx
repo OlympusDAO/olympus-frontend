@@ -182,7 +182,7 @@ function App(props: any) {
       <div id="dapp" className="dapp min-vh-100">
         <div className="container-fluid">
           <div className="row">
-            <Header address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} />
+            {false && <Header address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} />}
 
 
             <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
