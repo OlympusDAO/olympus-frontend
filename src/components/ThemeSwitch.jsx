@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 
 export default function ThemeSwitcher() {
-  // const theme = window.localStorage.getItem("theme");
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const theme = window.localStorage.getItem("theme");
+  const [isDarkMode, setIsDarkMode] = useState(!theme || theme === "dark");
   const { switcher, currentTheme, status, themes } = useThemeSwitcher();
 
   useEffect(() => {
