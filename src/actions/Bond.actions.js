@@ -8,8 +8,26 @@ export const fetchBondSuccess = payload => ({
   payload
 });
 
-export const changeApproval = ({ token, provider, address, networkID }) => async dispatch => {
-  alert("TODO")
+export const changeApproval = ({ bond, provider, address, networkID }) => async dispatch => {
+  if (!provider) {
+    alert('Please connect your wallet!');
+    return;
+  }
+
+  const signer       = provider.getSigner();
+  const reserveContract = contractForReserve({ bond, networkID, provider: signer });
+
+  try {
+    let approveTx;
+    if (bond == BONDS.ohm_dai)
+      approveTx = await reserveContract.approve(addresses[networkID].BONDS.OHM_DAI, ethers.utils.parseUnits('1000000000', 'ether').toString());
+    else if (bond === BONDS.dai)
+      approveTx = await reserveContract.approve(addresses[networkID].BONDS.DAI, ethers.utils.parseUnits('1000000000', 'ether').toString());
+
+    await approveTx.wait();
+  } catch (error) {
+    alert(error.message);
+  }
 };
 
 export const calcBondDetails = ({ bond, value, provider, networkID }) => async dispatch => {
@@ -86,11 +104,15 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
     pendingPayout = await bondContract.pendingPayoutFor(address);
   }
 
-  let balance;
+  let allowance, balance;
   if (bond === BONDS.ohm_dai) {
+    allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
+
     balance = await reserveContract.balanceOf(address);
     balance = ethers.utils.formatUnits(balance, 'ether')
   } else if (bond === BONDS.dai) {
+    allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.DAI);
+
     balance = await reserveContract.balanceOf(address);
     balance = ethers.utils.formatEther(balance);
   }
@@ -98,6 +120,7 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
 
   return dispatch(fetchBondSuccess({
     bond,
+    allowance,
     balance,
     interestDue: ethers.utils.formatUnits(interestDue, 'gwei'),
     bondMaturationBlock,

@@ -26,7 +26,6 @@ function Bond({ provider, address, bond }: Props) {
 
   const ohmBalance     = useSelector((state: any) => { return state.app.balances && state.app.balances.ohm });
   const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
-  const stakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmStake });
 
   const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
   const bondMaturationBlock = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondMaturationBlock });
@@ -41,6 +40,7 @@ function Bond({ provider, address, bond }: Props) {
   const debtRatio     = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].debtRatio });
   const bondQuote     = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondQuote });
   const balance       = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].balance });
+  const allowance     = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].allowance });
 
   const hasEnteredAmount = () => {
     return !(isNaN(quantity as any) || quantity === 0 || quantity === '');
@@ -114,13 +114,13 @@ function Bond({ provider, address, bond }: Props) {
   }, [provider, quantity, address]);
 
 
-  const onSeekApproval = async (token: any) => {
-    await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
+  const onSeekApproval = async () => {
+    await dispatch(changeApproval({ address, bond, provider, networkID: 1 }));
   };
 
   const hasAllowance = useCallback(() => {
-    return stakeAllowance > 0;
-  }, [stakeAllowance]);
+    return allowance > 0;
+  }, [allowance]);
 
 
   return (
