@@ -90,7 +90,7 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
         </ul>
 
         <div className="col-md-4 text-end">
-          <ThemeSwitch />
+          {false && <ThemeSwitch />}
 
           <a role="button" className="btn btn-dark btn-overwrite-primer mx-2" href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
             Get OHM

@@ -89,6 +89,7 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
   let balance;
   if (bond === BONDS.ohm_dai) {
     balance = await reserveContract.balanceOf(address);
+    balance = ethers.utils.formatUnits(balance, 'ether')
   } else if (bond === BONDS.dai) {
     balance = await reserveContract.balanceOf(address);
     balance = ethers.utils.formatEther(balance);
