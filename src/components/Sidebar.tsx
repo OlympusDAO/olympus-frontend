@@ -1,8 +1,10 @@
 import React, { useState, useCallback, } from 'react';
 import { BrowserRouter, NavLink, Route, Switch } from "react-router-dom";
 import Address from "./Address";
+import Social from "./Social";
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import Web3Modal from "web3modal";
+import OlympusLogo from '../assets/logo.svg';
 
 
 // displays a page header
@@ -20,20 +22,6 @@ type Props = {
 };
 
 function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute, address, mainnetProvider, blockExplorer }: Props) {
-
-
-
-  const setMax = useCallback(() => {
-    return null
-  }, []);
-
-  const seekApproval = useCallback(() => {
-    return null
-  }, []);
-
-  const disconnectWallet = useCallback(() => {
-    return null
-  }, []);
 
 
   // isBondPage and isDashboard arent DRY, this can be optimized
@@ -54,21 +42,12 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
       <div className="dapp-sidebar d-flex flex-column">
         <div className="dapp-menu-top">
           <div className="branding-header">
-            <img className="branding-header-icon" src="~/@/assets/logo.svg" alt="" />
+            <img className="branding-header-icon" src={OlympusLogo} alt="" />
           </div>
 
           <div className="wallet-menu">
 
-            {false && <a
-              className="disconnect-button button-primary button"
-              onClick={disconnectWallet}
-              >Disconnect</a
-            >}
-
           </div>
-
-
-
         </div>
 
         <div className="dapp-menu-links">
@@ -88,8 +67,12 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
               <i className="fa fa-clock me-3" />
               <span>Bond</span>
             </NavLink>
-
           </div>
+        </div>
+
+
+        <div className="dapp-menu-social">
+          <Social />
         </div>
 
 
