@@ -377,15 +377,15 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
 
 .branding-header-icon{
   width: 200px;
-  // padding:1rem;
-  // filter:invert(1);
+  padding:1rem;
+  filter:invert(1);
 }
 
 .dapp-menu-links{
-  // height:60%;
-  // display:flex;
-  // flex-flow:column;
-  // justify-content:center;
+  height:60%;
+  display:flex;
+  flex-flow:column;
+  justify-content:center;
 }
 
 .dapp-nav{
@@ -698,7 +698,7 @@ padding:0rem 1rem;
   display:flex;
   flex-flow:column;
   background-color:#212121;
-  // opacity:0.8;
+  opacity:0.8;
   box-shadow:inset 0px 0px 50px black;
 }
 .dapp-sidebar-button-connected{border-radius:2rem;}
@@ -726,9 +726,16 @@ padding:0rem 1rem;
 .wallet-menu{
   display:flex;
   flex-flow:column;
+  text-align: center;
+
   width:200px;
   margin: auto;
   justify-content:center;
+
+  a {
+    text-decoration: none;
+  }
+
   .disconnect-button{
     margin-bottom: 15px;
   }
