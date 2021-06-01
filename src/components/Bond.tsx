@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset, redeemBond } from '../actions/Bond.actions.js';
 import BondHeader from './BondHeader';
+import BondRedeemV1 from './BondRedeemV1';
 import { BONDS } from "../constants";
 import { NavLink } from 'react-router-dom';
 
@@ -132,6 +133,7 @@ function Bond({ provider, address, bond }: Props) {
               <div className="btn-group" role="group">
                 <button type="button" className={`btn ${view === 'bond' ? 'btn-light' : ''}`} onClick={() => {setView('bond')}}>Bond</button>
                 <button type="button" className={`btn ${view === 'redeem' ? 'btn-light' : ''}`} onClick={() => {setView('redeem')}}>Redeem</button>
+                <button type="button" className={`btn ${view === 'redeem_v1' ? 'btn-light' : ''}`} onClick={() => {setView('redeem_v1')}} style={{paddingLeft: "5px", paddingRight: "5px", fontSize: "14px"}}>Redeem V1.0</button>
               </div>
             </div>
 
@@ -200,6 +202,9 @@ function Bond({ provider, address, bond }: Props) {
                 </p>
               </div>
             </div>}
+
+
+            {view === 'redeem_v1' && <BondRedeemV1 provider={provider} address={address} bond={bond + '_v1'} />}
 
             {view == 'redeem' && <div className="d-flex align-self-center mb-4">
               <div className="redeem-button" onClick={() => { onRedeem({ autostake: false })}}>Claim</div>

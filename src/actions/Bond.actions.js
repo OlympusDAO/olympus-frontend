@@ -27,7 +27,7 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
 
   const marketPrice  = await getMarketPrice({networkID, provider});
   const terms        = await bondContract.terms();
-  const maxBondPrice = terms.maxPayout;
+  const maxBondPrice = await bondContract.maxPayout();
   const debtRatio    = await bondContract.debtRatio();
   const bondPrice    = await bondContract.bondPriceInUSD();
 
@@ -77,10 +77,19 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
 
   // Calculate bond details.
   const bondContract = contractForBond({ bond, provider, networkID });
-  const bondDetails  = await bondContract.bondInfo(address);
-  const interestDue  = bondDetails[1];
-  const bondMaturationBlock = +bondDetails[3] + +bondDetails[2];
-  const pendingPayout = await bondContract.pendingPayoutFor(address);
+
+  let interestDue, pendingPayout, bondMaturationBlock;
+  if (bond === BONDS.dai_v1) {
+    const bondDetails = await bondContract.depositorInfo(address);
+    interestDue = bondDetails[1];
+    bondMaturationBlock = +bondDetails[3] + +bondDetails[2];
+    pendingPayout = await bondContract.calculatePendingPayout(address);
+  } else {
+    const bondDetails  = await bondContract.bondInfo(address);
+    interestDue  = bondDetails[1];
+    bondMaturationBlock = +bondDetails[3] + +bondDetails[2];
+    pendingPayout = await bondContract.pendingPayoutFor(address);
+  }
 
   return dispatch(fetchBondSuccess({
     bond,
@@ -137,6 +146,7 @@ export const bondAsset = ({ value, address, bond, networkID, provider, slippage 
 }
 
 
+
 export const redeemBond = ({ address, bond, networkID, provider, autostake }) => async dispatch => {
   if (!provider) {
     alert('Please connect your wallet!');
@@ -147,7 +157,13 @@ export const redeemBond = ({ address, bond, networkID, provider, autostake }) =>
   const bondContract = contractForBond({ bond, networkID, provider: signer });
 
   try {
-    const redeemTx = await bondContract.redeem(autostake);
+    let redeemTx;
+    if (bond === BONDS.dai_v1) {
+      redeemTx = await bondContract.redeem();
+    } else {
+      redeemTx = await bondContract.redeem(autostake);
+    }
+
     await redeemTx.wait();
   } catch (error) {
     alert(error.message);

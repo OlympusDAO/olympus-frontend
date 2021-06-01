@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import Web3Modal from "web3modal";
-import { useSelector } from 'react-redux';
+import { useSelector, } from 'react-redux';
 
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
 import Balance from "./Balance";
 import Wallet from "./Wallet";
+import ThemeSwitch from "./ThemeSwitch";
 import OlympusLogo from '../assets/olympus_logo.png';
 
 import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../helpers';
@@ -23,6 +24,8 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
   const stakingAPY    = useSelector((state: any) => { return state.app.stakingAPY });
   const stakingRebase = useSelector((state: any) => { return state.app.stakingRebase });
   const currentBlock  = useSelector((state: any) => { return state.app.currentBlock });
+  const daiBond       = useSelector((state: any) => { return state.bonding.dai });
+  const ohmDaiBond       = useSelector((state: any) => { return state.bonding.ohm_dai_lp });
 
   const modalButtons = [];
   if (web3Modal) {
@@ -47,6 +50,13 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
     }
   }
 
+  const bestBondDiscount = useCallback(() => {
+    if (daiBond && ohmDaiBond && daiBond.bondDiscount && ohmDaiBond.bondDiscount) {
+      return Math.max(daiBond.bondDiscount, ohmDaiBond.bondDiscount)
+    }
+  }, [daiBond, ohmDaiBond]);
+
+
   return (
     <React.Fragment>
       <header className="d-flex sticky-top flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
@@ -69,8 +79,8 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
           </li>
 
           <li className="mx-4">
-            <p>Next Rebase</p>
-            <p className="fw-bold">{ trim(stakingRebase * 100, 4) }%</p>
+            <p>Bond Discount</p>
+            <p className="fw-bold">{ bestBondDiscount() ? trim( (bestBondDiscount() as any) * 100, 1) : 0 }%</p>
           </li>
 
           <li className="mx-4">
@@ -79,7 +89,9 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
           </li>
         </ul>
 
-        <div className="col-md-3 text-end">
+        <div className="col-md-4 text-end">
+          <ThemeSwitch />
+
           <a role="button" className="btn btn-dark btn-overwrite-primer mx-2" href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
             Get OHM
           </a>
@@ -91,18 +103,6 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
           {modalButtons}
         </div>
       </header>
-
-      <nav className={`navbar navbar-expand-lg navbar-light bg-warning`}>
-        <div className="container-fluid align-items-end">
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                NOTE: This is V1.1 of OlympusDAO. If you want V1, visit <a href="https://olympusdao.finance/#/stake">olympusdao.finance/#stake</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
 
     </React.Fragment>
   );

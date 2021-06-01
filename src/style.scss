@@ -385,10 +385,10 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
 }
 
 .dapp-menu-links{
-  height:60%;
-  display:flex;
-  flex-flow:column;
-  justify-content:center;
+  // height:60%;
+  // display:flex;
+  // flex-flow:column;
+  // justify-content:center;
 }
 
 .dapp-nav{
@@ -409,6 +409,12 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
   font-size: 1rem;
   color: #fff;
 
+  text-decoration: none;
+  font-size: 20px;
+
+  &.active {
+    color: #CC3B66;
+  }
 }
 
 .dapp-modal-wrapper{
