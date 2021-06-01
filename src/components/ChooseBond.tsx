@@ -19,7 +19,7 @@ function ChooseBond({ provider, address }: Props) {
 
   async function loadBondDetails() {
     if (provider && address) {
-      Object.values(BONDS).map(async bond => {
+      ["ohm_dai_lp", "dai"].map(async bond => {
         await dispatch(calcBondDetails({ address, bond, value: null, provider, networkID: 1 }));
       })
     }
@@ -42,7 +42,7 @@ function ChooseBond({ provider, address }: Props) {
 				</div>
 
         <ul className="list-group ohm-list-group">
-          {Object.values(BONDS).map(bond => {
+          {["ohm_dai_lp", "dai"].map(bond => {
             return <BondRow bond={bond} />
           })}
         </ul>
