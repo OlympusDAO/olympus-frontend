@@ -21,6 +21,7 @@ function Stake({ provider, address }: Props) {
   const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
   const stakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmStake });
   const stakingRebase = useSelector((state: any) => { return state.app.stakingRebase });
+  const stakingAPY    = useSelector((state: any) => { return state.app.stakingAPY });
 
   const setMax = () => {
     if (view === 'stake') {
@@ -92,6 +93,11 @@ function Stake({ provider, address }: Props) {
               <div className="stake-price-data-row">
                 <p className="price-label">ROI (5-day rate)</p>
                 <p className="price-data">{ trim(fiveDayRate * 100, 4) }%</p>
+              </div>
+
+              <div className="stake-price-data-row">
+                <p className="price-label">APY</p>
+                <p className="price-data">{ trim(stakingAPY * 100, 4) }%</p>
               </div>
 
               <div className="stake-price-data-row">
