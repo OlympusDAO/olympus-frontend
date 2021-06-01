@@ -1,6 +1,5 @@
 import React, { useState, useCallback, } from 'react';
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
-import { Alert, Button, Col, Menu, Row } from "antd";
+import { BrowserRouter, NavLink, Route, Switch } from "react-router-dom";
 import Address from "./Address";
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import Web3Modal from "web3modal";
@@ -36,6 +35,14 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
     return null
   }, []);
 
+  const isBondPage = useCallback((match, location) => {
+    if (!match) {
+      return false;
+    }
+
+    return match.url.indexOf('bonds') >= 0 || match.url.indexOf('choose_bond') >= 0
+  }, []);
+
   return (
     <div
       className={`${isExpanded ? 'show' : '' } col-lg-2 col-2 d-md-block sidebar collapse`}
@@ -63,13 +70,15 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
 
         <div className="dapp-menu-links">
           <div className="dapp-nav">
-            <Link onClick={() => { setRoute("/" as any) }} to="/" className="button button-dapp-menu">
-              Stake
-            </Link>
+            <NavLink onClick={() => { setRoute("/" as any) }} to="/" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return !isBondPage(match, location) }}>
+              <i className="fa fa-gem me-3" />
+              <span>Stake</span>
+            </NavLink>
 
-            <Link onClick={() => { setRoute("/bonds" as any) }} to="/bonds" className="button button-dapp-menu">
-              Bond
-            </Link>
+            <NavLink onClick={() => { setRoute("/bonds" as any) }} to="/bonds" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return isBondPage(match, location) }}>
+              <i className="fa fa-clock me-3" />
+              <span>Bond</span>
+            </NavLink>
           </div>
         </div>
 

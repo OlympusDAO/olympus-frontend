@@ -17,19 +17,6 @@ function ChooseBond({ provider, address }: Props) {
 	const fiveDayRate  = useSelector((state: any) => { return state.app.fiveDayRate });
 	const marketPrice = useSelector((state: any) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
-  async function loadBondDetails() {
-    if (provider && address) {
-      Object.values(BONDS).map(async bond => {
-        await dispatch(calcBondDetails({ address, bond, value: null, provider, networkID: 1 }));
-      })
-    }
-  }
-
-  useEffect(() => {
-    loadBondDetails();
-  }, [provider, address]);
-
-
   return (
 		<div className="d-flex align-items-center justify-content-center min-vh-100">
 			<div className="dapp-center-modal d-flex flex-column ohm-card">
@@ -42,7 +29,7 @@ function ChooseBond({ provider, address }: Props) {
 				</div>
 
         <ul className="list-group ohm-list-group">
-          {Object.values(BONDS).map(bond => {
+          {["ohm_dai_lp", "dai"].map(bond => {
             return <BondRow bond={bond} />
           })}
         </ul>
