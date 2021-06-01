@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import Web3Modal from "web3modal";
-import { useSelector } from 'react-redux';
+import { useSelector, } from 'react-redux';
 
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
@@ -24,6 +24,8 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
   const stakingAPY    = useSelector((state: any) => { return state.app.stakingAPY });
   const stakingRebase = useSelector((state: any) => { return state.app.stakingRebase });
   const currentBlock  = useSelector((state: any) => { return state.app.currentBlock });
+  const daiBond       = useSelector((state: any) => { return state.bonding.dai });
+  const ohmDaiBond       = useSelector((state: any) => { return state.bonding.ohm_dai_lp });
 
   const modalButtons = [];
   if (web3Modal) {
@@ -48,6 +50,13 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
     }
   }
 
+  const bestBondDiscount = useCallback(() => {
+    if (daiBond && ohmDaiBond && daiBond.bondDiscount && ohmDaiBond.bondDiscount) {
+      return Math.max(daiBond.bondDiscount, ohmDaiBond.bondDiscount)
+    }
+  }, [daiBond, ohmDaiBond]);
+
+
   return (
     <React.Fragment>
       <header className="d-flex sticky-top flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
@@ -70,8 +79,8 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
           </li>
 
           <li className="mx-4">
-            <p>Next Rebase</p>
-            <p className="fw-bold">{ trim(stakingRebase * 100, 4) }%</p>
+            <p>Bond Discount</p>
+            <p className="fw-bold">{ bestBondDiscount() ? trim( (bestBondDiscount() as any) * 100, 1) : 0 }%</p>
           </li>
 
           <li className="mx-4">
