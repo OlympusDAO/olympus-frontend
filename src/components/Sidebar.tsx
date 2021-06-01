@@ -54,7 +54,9 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
       <div className="dapp-sidebar d-flex flex-column">
         <div className="dapp-menu-top">
           <div className="branding-header">
-            <img className="branding-header-icon" src={OlympusLogo} alt="" />
+            <a href="https://olympusdao.finance">
+              <img className="branding-header-icon" src={OlympusLogo} alt="" />
+            </a>
           </div>
 
           <div className="wallet-menu">
