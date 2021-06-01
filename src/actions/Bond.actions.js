@@ -8,11 +8,29 @@ export const fetchBondSuccess = payload => ({
   payload
 });
 
-export const changeApproval = ({ token, provider, address, networkID }) => async dispatch => {
-  alert("TODO")
+export const changeApproval = ({ bond, provider, address, networkID }) => async dispatch => {
+  if (!provider) {
+    alert('Please connect your wallet!');
+    return;
+  }
+
+  const signer       = provider.getSigner();
+  const reserveContract = contractForReserve({ bond, networkID, provider: signer });
+
+  try {
+    let approveTx;
+    if (bond == BONDS.ohm_dai)
+      approveTx = await reserveContract.approve(addresses[networkID].BONDS.OHM_DAI, ethers.utils.parseUnits('1000000000', 'ether').toString());
+    else if (bond === BONDS.dai)
+      approveTx = await reserveContract.approve(addresses[networkID].BONDS.DAI, ethers.utils.parseUnits('1000000000', 'ether').toString());
+
+    await approveTx.wait();
+  } catch (error) {
+    alert(error.message);
+  }
 };
 
-export const calcBondDetails = ({ address, bond, value, provider, networkID }) => async dispatch => {
+export const calcBondDetails = ({ bond, value, provider, networkID }) => async dispatch => {
   let amountInWei;
   if (!value || value === '') {
     amountInWei = ethers.utils.parseEther('0.0001'); // Use a realistic SLP ownership
@@ -21,9 +39,8 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
   }
 
   // const vestingTerm = VESTING_TERM; // hardcoded for now
-  let  balance, bondDiscount, valuation, bondQuote;
-  const bondContract    = contractForBond({ bond, networkID, provider });
-  const reserveContract = contractForReserve({ bond, networkID, provider});
+  let bondDiscount, valuation, bondQuote;
+  const bondContract = contractForBond({ bond, networkID, provider });
 
   const marketPrice  = await getMarketPrice({networkID, provider});
   const terms        = await bondContract.terms();
@@ -32,8 +49,6 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
   const bondPrice    = await bondContract.bondPriceInUSD();
 
   if (bond === BONDS.ohm_dai) {
-    balance          = await reserveContract.balanceOf(address);
-
     const bondCalcContract = new ethers.Contract( addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
     bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
 
@@ -42,8 +57,6 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
     bondQuote    = await bondContract.payoutFor(valuation);
     bondQuote    = bondQuote / Math.pow(10, 9);
   } else if (bond === BONDS.dai) {
-    balance      = await reserveContract.balanceOf(address);
-    balance      = ethers.utils.formatEther(balance);
     bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
 
     // RFV = DAI
@@ -58,7 +71,6 @@ export const calcBondDetails = ({ address, bond, value, provider, networkID }) =
 
   return dispatch(fetchBondSuccess({
     bond,
-    balance,
     bondDiscount,
     debtRatio,
     bondQuote,
@@ -76,7 +88,8 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
   if (!address) return;
 
   // Calculate bond details.
-  const bondContract = contractForBond({ bond, provider, networkID });
+  const bondContract    = contractForBond({ bond, provider, networkID });
+  const reserveContract = contractForReserve({ bond, networkID, provider});
 
   let interestDue, pendingPayout, bondMaturationBlock;
   if (bond === BONDS.dai_v1) {
@@ -91,8 +104,24 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
     pendingPayout = await bondContract.pendingPayoutFor(address);
   }
 
+  let allowance, balance;
+  if (bond === BONDS.ohm_dai) {
+    allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
+
+    balance = await reserveContract.balanceOf(address);
+    balance = ethers.utils.formatUnits(balance, 'ether')
+  } else if (bond === BONDS.dai) {
+    allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.DAI);
+
+    balance = await reserveContract.balanceOf(address);
+    balance = ethers.utils.formatEther(balance);
+  }
+
+
   return dispatch(fetchBondSuccess({
     bond,
+    allowance,
+    balance,
     interestDue: ethers.utils.formatUnits(interestDue, 'gwei'),
     bondMaturationBlock,
     pendingPayout: ethers.utils.formatUnits(pendingPayout, 'gwei')
@@ -105,10 +134,6 @@ export const bondAsset = ({ value, address, bond, networkID, provider, slippage 
   const depositorAddress = address;
   const acceptedSlippage = slippage / 100 || 0.02; // 2%
   const valueInWei = ethers.utils.parseUnits(value.toString(), 'ether');
-
-  console.log("depositorAddress = ", depositorAddress);
-  console.log("acceptedSlippage = ", acceptedSlippage);
-
 
   let balance;
 

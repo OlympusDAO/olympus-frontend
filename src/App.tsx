@@ -143,9 +143,9 @@ function App(props: any) {
     if (address)
       await dispatch(loadAccountDetails({networkID: 1, address, provider: injectedProvider}));
 
-    if (injectedProvider && address) {
+    if (injectedProvider) {
       ["ohm_dai_lp", "dai"].map(async bond => {
-        await dispatch(calcBondDetails({ address, bond, value: null, provider: injectedProvider, networkID: 1 }));
+        await dispatch(calcBondDetails({ bond, value: null, provider: injectedProvider, networkID: 1 }));
       })
     }
   }
