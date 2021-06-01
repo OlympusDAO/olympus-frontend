@@ -25,7 +25,7 @@ export default class Root extends Component<Props> {
   render() {
     return (
       <Provider store={this.store}>
-        <BrowserRouter>
+        <BrowserRouter basename={'/#'}>
           <App />
         </BrowserRouter>
       </Provider>
