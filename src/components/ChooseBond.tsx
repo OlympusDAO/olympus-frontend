@@ -30,7 +30,7 @@ function ChooseBond({ provider, address }: Props) {
 
         <ul className="list-group ohm-list-group">
           {["ohm_dai_lp", "dai"].map(bond => {
-            return <BondRow bond={bond} />
+            return <BondRow key={bond} bond={bond} />
           })}
         </ul>
 
