@@ -10,6 +10,7 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import { useSelector, useDispatch } from 'react-redux';
+import { calcBondDetails, } from './actions/Bond.actions.js';
 
 import { loadAppDetails } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
@@ -141,6 +142,12 @@ function App(props: any) {
 
     if (address)
       await dispatch(loadAccountDetails({networkID: 1, address, provider: injectedProvider}));
+
+    if (injectedProvider && address) {
+      ["ohm_dai_lp", "dai"].map(async bond => {
+        await dispatch(calcBondDetails({ address, bond, value: null, provider: injectedProvider, networkID: 1 }));
+      })
+    }
   }
 
   useEffect(() => {
@@ -159,9 +166,13 @@ function App(props: any) {
   }, [loadWeb3Modal]);
 
   const [route, setRoute] = useState();
+
   useEffect(() => {
     setRoute((window as any).location.pathname);
   }, [setRoute]);
+
+
+
 
   return (
     <div className="app">
