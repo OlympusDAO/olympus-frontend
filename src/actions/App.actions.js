@@ -9,7 +9,8 @@ import { abi as LPStaking } from '../abi/LPStaking.json';
 import { abi as DistributorContract } from '../abi/DistributorContract.json';
 import { abi as BondContract } from '../abi/BondContract.json';
 import { abi as DaiBondContract } from '../abi/DaiBondContract.json';
-
+import { abi as PairContract } from '../abi/PairContract.json';
+import { abi as CirculatingSupplyContract } from '../abi/CirculatingSupplyContract.json';
 
 const parseEther = ethers.utils.parseEther;
 
@@ -45,6 +46,38 @@ export const loadAppDetails = ({ networkID, provider }) => async dispatch => {
     stakingRebase,
     currentBlock,
   }))
-
-
 };
+
+export const getMarketPrice = ({ networkID, provider }) => async dispatch => {
+  const pairContract = new ethers.Contract(
+    addresses[networkID].LP_ADDRESS,
+    PairContract,
+    provider
+  );
+  const reserves = await pairContract.getReserves();
+  const marketPrice = reserves[1] / reserves[0];
+
+  return dispatch(fetchAppSuccess({ marketPrice: marketPrice / Math.pow(10, 9) }))
+}
+
+export const getTokenSupply = ({ networkID, provider }) => async dispatch => {
+  const ohmContract = new ethers.Contract(
+    addresses[networkID].OHM_ADDRESS,
+    ierc20Abi,
+    provider
+  );
+
+  const circulatingSupplyContract = new ethers.Contract(
+    addresses[networkID].CIRCULATING_SUPPLY_ADDRESS,
+    CirculatingSupplyContract,
+    provider
+  );
+
+  const ohmCircSupply  = await circulatingSupplyContract.OHMCirculatingSupply();
+  const ohmTotalSupply = await ohmContract.totalSupply();
+
+  return dispatch(fetchAppSuccess({
+    circulating: ohmCircSupply,
+    total: ohmTotalSupply,
+  }))
+}
