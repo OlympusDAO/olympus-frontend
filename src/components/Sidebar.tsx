@@ -67,7 +67,7 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
               Stake
             </Link>
 
-            <Link onClick={() => { setRoute("/choose_bond" as any) }} to="/choose_bond" className="button button-dapp-menu">
+            <Link onClick={() => { setRoute("/bonds" as any) }} to="/bonds" className="button button-dapp-menu">
               Bond
             </Link>
           </div>
