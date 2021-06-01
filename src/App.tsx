@@ -183,27 +183,28 @@ function App(props: any) {
 
 
             <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
-
-            <Switch>
-              <Route exact path="/dashboard">
-                <Dashboard address={address} provider={injectedProvider} />
-              </Route>
-
-              <Route exact path="/">
-                <Stake address={address} provider={injectedProvider} />
-              </Route>
-
-              <Route exact path="/bonds">
-                <ChooseBond address={address} provider={injectedProvider} />
-              </Route>
-
-
-              {Object.values(BONDS).map(bond => {
-                return <Route exact key={bond} path={`/bonds/${bond}`}>
-                  <Bond bond={bond} address={address} provider={injectedProvider} />
+            <div className="col-lg-10 col-12 mt-4 mt-md-0">
+              <Switch>
+                <Route exact path="/dashboard">
+                  <Dashboard address={address} provider={injectedProvider} />
                 </Route>
-              })}
-            </Switch>
+
+                <Route exact path="/">
+                  <Stake address={address} provider={injectedProvider} />
+                </Route>
+
+                <Route exact path="/bonds">
+                  <ChooseBond address={address} provider={injectedProvider} />
+                </Route>
+
+
+                {Object.values(BONDS).map(bond => {
+                  return <Route exact key={bond} path={`/bonds/${bond}`}>
+                    <Bond bond={bond} address={address} provider={injectedProvider} />
+                  </Route>
+                })}
+              </Switch>
+            </div>
 
           </div>
         </div>
