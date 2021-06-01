@@ -135,10 +135,6 @@ export const bondAsset = ({ value, address, bond, networkID, provider, slippage 
   const acceptedSlippage = slippage / 100 || 0.02; // 2%
   const valueInWei = ethers.utils.parseUnits(value.toString(), 'ether');
 
-  console.log("depositorAddress = ", depositorAddress);
-  console.log("acceptedSlippage = ", acceptedSlippage);
-
-
   let balance;
 
   // Calculate maxPremium based on premium and slippage.
