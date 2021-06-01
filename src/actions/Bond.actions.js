@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { getTokenSupply, getMarketPrice, contractForBond, contractForReserve } from '../helpers';
+import { getMarketPrice, contractForBond, contractForReserve } from '../helpers';
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
 import { abi as BondOhmDaiCalcContract } from '../abi/bonds/OhmDaiCalcContract.json';
 

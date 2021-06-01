@@ -9,12 +9,14 @@ type Props = {
 
 function Dashboard({ provider, address }: Props) {
 	const dispatch = useDispatch();
-	const marketPrice    = useSelector((state: any) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
-	const marketCap = 0; // need to get this
-	const circSupply     = useSelector((state: any) => { return state.app.circSupply });
-	const totalSupply = 0; // need to get this
+	const marketPrice = useSelector((state: any) => { return state.app.marketPrice });
+	const circSupply  = useSelector((state: any) => { return state.app.circulating });
+	const totalSupply = useSelector((state: any) => { return state.app.total });
 
-
+  const marketCap = () => {
+    if (marketPrice && circSupply)
+      return marketPrice * (circSupply / Math.pow(10, 9))
+  };
 
 	return (
 		<div className="d-flex align-items-center justify-content-center min-vh-100">
@@ -23,15 +25,15 @@ function Dashboard({ provider, address }: Props) {
 					<div className="col-sm-4 mb-2 mb-sm-0">
 						<div className="card ohm-dashboard-card">
 							<div className="card-body">
-								<h4 className="card-title">
+								<h5 className="card-title">
 								Price (SushiSwap OHM-DAI Pool)
 								<a
 										href="https://analytics.sushi.com/pairs/0x34d7d7aaf50ad4944b70b320acb24c95fa2def7c"
 										target="_blank"
 								>
-										<i className="fas fa-external-link-alt fa-sm ml-1"></i>
+										<i className="fas fa-external-link-alt fa-sm ms-1"></i>
 								</a>
-								</h4>
+								</h5>
 								<div className="my-auto">
 									<h1 className="text-center">
 										${ trim(marketPrice, 2) }
@@ -44,9 +46,17 @@ function Dashboard({ provider, address }: Props) {
 					<div className="col-sm-4 mb-2 mb-sm-0">
         		<div className="card ohm-dashboard-card">
 							<div className="card-body">
-								<h4 className="card-title">Market Cap</h4>
+								<h5 className="card-title">Market Cap</h5>
 								<h1 className="text-center">
-									${ marketCap }
+                  {
+                    new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                      maximumFractionDigits: 0
+                    }).format(marketCap() as any)
+
+                  }
+
 								</h1>
 							</div>
         		</div>
@@ -56,18 +66,20 @@ function Dashboard({ provider, address }: Props) {
 					<div className="col-sm-4 mb-2 mb-sm-0">
 						<div className="card ohm-dashboard-card">
 							<div className="card-body">
-								<h4 className="card-title">
-									Supply (circulating/total)
-								</h4>
+								<h5 className="card-title">Supply (circulating/total)</h5>
 								<h1 className="text-center">
-									{circSupply / Math.pow(10,9)}
-									/
-									{ totalSupply / Math.pow(10,9) }
+                  {
+                    new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(circSupply / Math.pow(10,9))
+                  }
+                  /
+                  {
+                    new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalSupply / Math.pow(10,9))
+                  }
 								</h1>
 							</div>
 						</div>
 					</div>
-				
+
 				</div>
 
 				<div className="row mt-4">

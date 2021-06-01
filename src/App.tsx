@@ -11,7 +11,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { calcBondDetails, } from './actions/Bond.actions.js';
 
-import { loadAppDetails } from './actions/App.actions.js';
+import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
 import Stake from "./components/Stake";
@@ -137,8 +137,11 @@ function App(props: any) {
 
 
   async function loadDetails() {
-    if (injectedProvider)
+    if (injectedProvider) {
       await dispatch(loadAppDetails({ networkID: 1, provider: injectedProvider }))
+      await dispatch(getMarketPrice({ networkID: 1, provider: injectedProvider }));
+      await dispatch(getTokenSupply({ networkID: 1, provider: injectedProvider }));
+    }
 
     if (address)
       await dispatch(loadAccountDetails({networkID: 1, address, provider: injectedProvider}));
