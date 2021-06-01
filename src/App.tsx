@@ -104,6 +104,7 @@ const logoutOfWeb3Modal = async () => {
 function App(props: any) {
   const dispatch = useDispatch();
 
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
@@ -184,8 +185,24 @@ function App(props: any) {
           <div className="row">
             {false && <Header address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} />}
 
+            <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
+              <button
+                className="navbar-toggler"
+                type="button"
+                onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+            </nav>
 
-            <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={true} setRoute={setRoute} />
+            <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={isSidebarExpanded} setRoute={setRoute} />
+
+
+            <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}></div>
+
             <div className="col-lg-10 col-12 mt-4 mt-md-0">
               <Switch>
                 <Route exact path="/dashboard">
