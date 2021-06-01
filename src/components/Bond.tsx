@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
+import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset, redeemBond } from '../actions/Bond.actions.js';
 import BondHeader from './BondHeader';
 import BondRedeemV1 from './BondRedeemV1';
@@ -19,7 +19,7 @@ function Bond({ provider, address, bond }: Props) {
   const dispatch = useDispatch();
 
   const [slippage, setSlippage] = useState(2);
-  const [recipientAddress, setRecipientAddress] = useState();
+  const [recipientAddress, setRecipientAddress] = useState(address);
 
   const [view, setView] = useState("bond");
   const [quantity, setQuantity] = useState();
@@ -46,6 +46,14 @@ function Bond({ provider, address, bond }: Props) {
     return !(isNaN(quantity as any) || quantity === 0 || quantity === '');
   }
 
+  const onRecipientAddressChange = (e:any) => {
+    return setRecipientAddress(e.target.value as any);
+  };
+
+  const onSlippageChange = (e:any) => {
+    return setSlippage(e.target.value as any);
+  };
+
   const vestingPeriod = () => {
     const vestingBlock = parseInt(currentBlock) + parseInt(vestingTerm);
     const seconds      = secondsUntilBlock(currentBlock, vestingBlock);
@@ -61,6 +69,9 @@ function Bond({ provider, address, bond }: Props) {
   };
 
   async function onBond() {
+    console.log("slippage = ", slippage);
+    console.log("recipientAddress = ", recipientAddress);
+
     if (quantity === '') {
       alert('Please enter a value!');
     } else if (isNaN(quantity as any)) {
@@ -126,9 +137,7 @@ function Bond({ provider, address, bond }: Props) {
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
       <div className="dapp-center-modal flex-column">
-
-        <BondHeader bond={bond} />
-
+        <BondHeader bond={bond} slippage={slippage} recipientAddress={recipientAddress} onSlippageChange={onSlippageChange} onRecipientAddressChange={onRecipientAddressChange} />
 
         <div className="dapp-modal-wrapper py-2 px-2 py-md-4 px-md-2 m-auto">
           <div className="swap-input-column">
@@ -225,8 +234,21 @@ function Bond({ provider, address, bond }: Props) {
               <div id="bond-button-id" className="redeem-button" onClick={onSeekApproval}>Approve</div>
             </div>}
 
+            {view === 'bond' && <div className="stake-price-data-column">
+              <div className="stake-price-data-row">
+                <p className="price-label">Slippage Tolerance</p>
+                <p id="bond-value-id" className="price-data">{ slippage }%</p>
+              </div>
+            </div>}
+
+            {view === 'bond' && recipientAddress !== address && <div className="stake-price-data-row">
+              <p className="price-label">Recipient</p>
+              <p className="price-data">{ shorten(recipientAddress) }</p>
+            </div>}
           </div>
         </div>
+
+
 
         <div className="bond-data">
           <div className="row bond-data-row p-4">
