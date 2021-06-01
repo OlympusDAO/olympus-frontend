@@ -1,16 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod, bondName } from "../helpers";
+import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod, isBondLP } from "../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
-import { BONDS } from "../constants";
-import { NavLink } from 'react-router-dom';
-import BondLogo from './BondLogo';
 
 type Props = {
   bond: string,
 };
-
-
 
 function BondHeader({ bond }: Props) {
   const ohmAssetImg = () => {
@@ -26,19 +21,17 @@ function BondHeader({ bond }: Props) {
   }
 
   return (
-    <div className="d-flex flex-row align-items-center my-2 px-2 my-md-4 px-md-4">
-      <NavLink to="/bonds" className="align-items-center ohm-link" style={{position: "absolute"}}>
-      <i className="fa fa-chevron-left"></i>
-        Back
-      </NavLink>
-      <div className="d-flex flex-row col justify-content-center">
-        <BondLogo bond={bond} />
+    <div className="ohm-pairs d-sm-flex mr-2 d-none">
+      {isBondLP(bond) && <div className="ohm-pair" style={{zIndex: 2}}>
+        <img
+          src={`${ohmAssetImg()}`}
+        />
+      </div>}
 
-        <div className="text-light align-self-center">
-          <h5 style={{color: 'white'}}>
-            {bondName(bond)}
-          </h5>
-        </div>
+      <div className="ohm-pair" style={{zIndex: 1}}>
+        <img
+          src={`${reserveAssetImg()}`}
+        />
       </div>
     </div>
   );
