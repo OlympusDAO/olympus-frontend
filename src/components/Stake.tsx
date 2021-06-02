@@ -22,6 +22,7 @@ function Stake({ provider, address }: Props) {
   const stakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmStake });
   const stakingRebase = useSelector((state: any) => { return state.app.stakingRebase });
   const stakingAPY    = useSelector((state: any) => { return state.app.stakingAPY });
+  const currentBlock  = useSelector((state: any) => { return state.app.currentBlock });
 
   const setMax = () => {
     if (view === 'stake') {
@@ -48,6 +49,13 @@ function Stake({ provider, address }: Props) {
     return stakeAllowance > 0;
   }, [stakeAllowance]);
 
+  const timeUntilRebase = () => {
+    if (currentBlock) {
+      const rebaseBlock = getRebaseBlock(currentBlock);
+      const seconds     = secondsUntilBlock(currentBlock, rebaseBlock);
+      return prettifySeconds(seconds);
+    }
+  }
 
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
@@ -83,6 +91,11 @@ function Stake({ provider, address }: Props) {
               <div className="stake-price-data-row">
                 <p className="price-label">Staked</p>
                 <p className="price-data">{ trim(sohmBalance, 4) } sOHM</p>
+              </div>
+
+              <div className="stake-price-data-row">
+                <p className="price-label">Time until rebase</p>
+                <p className="price-data">{ timeUntilRebase() }</p>
               </div>
 
               <div className="stake-price-data-row">
