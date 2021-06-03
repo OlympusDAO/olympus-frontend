@@ -5,16 +5,16 @@ import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import Web3Modal from "web3modal";
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/js/all.js';
-import { useSelector, useDispatch } from 'react-redux';
-import { calcBondDetails, } from './actions/Bond.actions.js';
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/js/all.js";
+import { useSelector, useDispatch } from "react-redux";
+import { calcBondDetails } from "./actions/Bond.actions.js";
 
-import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
-import { loadAccountDetails } from './actions/Account.actions.js';
+import { loadAppDetails, getMarketPrice, getTokenSupply } from "./actions/App.actions.js";
+import { loadAccountDetails } from "./actions/Account.actions.js";
 
-import {Stake, ChooseBond, Bond, Dashboard } from './views'
+import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 
 import "./App.css";
 import "./style.scss";
@@ -23,19 +23,9 @@ import { Header } from "./components";
 import Sidebar from "./components/Sidebar";
 import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS, BONDS } from "./constants";
 import { Transactor } from "./helpers";
-import {
-  useBalance,
-  useContractLoader,
-  useContractReader,
-  useEventListener,
-  useExchangePrice,
-  useExternalContractLoader,
-  useGasPrice,
-  useOnBlock,
-  useUserProvider,
-} from "./hooks";
+import { useOnBlock, useUserProvider } from "./hooks";
 // import Hints from "./Hints";
-import { ExampleUI, Hints, Subgraph } from "./views";
+// import { ExampleUI, Hints, Subgraph } from "./views";
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -113,39 +103,38 @@ function App(props) {
   const address = useUserAddress(userProvider);
 
   // You can warn the user if you would like them to be on a specific network
-  const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
+  // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
   // Just plug in different 🛰 providers to get your balance on different chains:
-  const yourMainnetBalance = useBalance(mainnetProvider, address);
+  // const yourMainnetBalance = useBalance(mainnetProvider, address);
 
   // If you want to make 🔐 write transactions to your contracts, use the userProvider:
-  const writeContracts = useContractLoader(userProvider);
+  // const writeContracts = useContractLoader(userProvider);
 
   // EXTERNAL CONTRACT EXAMPLE:
   // If you want to bring in the mainnet DAI contract it would look like:
-  const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
+  // const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
 
   // If you want to call a function on a new block
-  useOnBlock(mainnetProvider, () => {
+  /* useOnBlock(mainnetProvider, () => {
     console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
-  });
-
+  }); */
 
   async function loadDetails() {
-      let loadProvider = mainnetProvider;
-      if (injectedProvider) loadProvider = injectedProvider;
+    let loadProvider = mainnetProvider;
+    if (injectedProvider) loadProvider = injectedProvider;
 
-      await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }))
-      await dispatch(getMarketPrice({ networkID: 1, provider: loadProvider }));
-      await dispatch(getTokenSupply({ networkID: 1, provider: loadProvider }));
+    await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
+    await dispatch(getMarketPrice({ networkID: 1, provider: loadProvider }));
+    await dispatch(getTokenSupply({ networkID: 1, provider: loadProvider }));
 
-      if (address) await dispatch(loadAccountDetails({networkID: 1, address, provider: loadProvider}));
+    if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
-      ["ohm_dai_lp", "dai"].map(async bond => {
-        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
-      })
+    ["ohm_dai_lp", "dai"].map(async bond => {
+      await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
+    });
   }
 
   useEffect(() => {
@@ -166,18 +155,22 @@ function App(props) {
   const [route, setRoute] = useState();
 
   useEffect(() => {
-    setRoute((window).location.pathname);
+    setRoute(window.location.pathname);
   }, [setRoute]);
-
-
-
 
   return (
     <div className="app">
       <div id="dapp" className="dapp min-vh-100">
         <div className="container-fluid">
           <div className="row">
-            {false && <Header address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} />}
+            {false && (
+              <Header
+                address={address}
+                loadWeb3Modal={loadWeb3Modal}
+                logoutOfWeb3Modal={logoutOfWeb3Modal}
+                web3Modal={web3Modal}
+              />
+            )}
 
             <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
               <button
@@ -188,14 +181,26 @@ function App(props) {
                 aria-expanded="false"
                 aria-label="Toggle navigation"
               >
-                <span className="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon" />
               </button>
             </nav>
 
-            <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={isSidebarExpanded} setRoute={setRoute} />
+            <Sidebar
+              web3Modal={web3Modal}
+              loadWeb3Modal={loadWeb3Modal}
+              logoutOfWeb3Modal={logoutOfWeb3Modal}
+              mainnetProvider={mainnetProvider}
+              blockExplorer={blockExplorer}
+              address={address}
+              route={route}
+              isExpanded={isSidebarExpanded}
+              setRoute={setRoute}
+            />
 
-
-            <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}></div>
+            <div
+              className={`ohm-backdrop ${isSidebarExpanded ? "ohm-backdrop-show" : "ohm-backdrop-close"}`}
+              onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+            />
 
             <div className="col-lg-10 col-12 mt-4 mt-md-0">
               <Switch>
@@ -211,15 +216,15 @@ function App(props) {
                   <ChooseBond address={address} provider={injectedProvider} />
                 </Route>
 
-
                 {Object.values(BONDS).map(bond => {
-                  return <Route exact key={bond} path={`/bonds/${bond}`}>
-                    <Bond bond={bond} address={address} provider={injectedProvider} />
-                  </Route>
+                  return (
+                    <Route exact key={bond} path={`/bonds/${bond}`}>
+                      <Bond bond={bond} address={address} provider={injectedProvider} />
+                    </Route>
+                  );
                 })}
               </Switch>
             </div>
-
           </div>
         </div>
       </div>

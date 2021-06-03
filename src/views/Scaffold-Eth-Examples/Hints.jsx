@@ -3,8 +3,8 @@
 import { formatEther } from "@ethersproject/units";
 import { Select } from "antd";
 import React, { useState } from "react";
-import { Address, AddressInput } from "../components";
-import { useTokenList } from "../hooks";
+import { Address, AddressInput } from "../../components";
+import { useTokenList } from "../../hooks";
 
 const { Option } = Select;
 
