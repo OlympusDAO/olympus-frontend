@@ -33,8 +33,8 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute,
   return (
     <div className="dapp-topbar">
 				<div className="rebase-timer">
-					Next Rebase:
-					{timeUntilRebase()}
+					<p>Next Rebase</p>
+					<p>{timeUntilRebase() || "04:20:69"}</p>
 				</div>
 
 				<div className="wallet-menu">
