@@ -1,7 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod, isBondLP } from "../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
+import React, {  } from 'react';
+import { isBondLP } from "../helpers";
 
 function BondHeader({ bond }) {
   const ohmAssetImg = () => {
