@@ -6,16 +6,12 @@ import { NavLink } from "react-router-dom";
 import { BONDS } from "../constants";
 import BondRow from '../components/BondRow';
 
-type Props = {
-  provider: any,
-  address: string
-};
 
-function ChooseBond({ provider, address }: Props) {
+function ChooseBond({ provider, address }) {
   const dispatch = useDispatch();
 
-	const fiveDayRate  = useSelector((state: any) => { return state.app.fiveDayRate });
-	const marketPrice = useSelector((state: any) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
+	const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });
+	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
   return (
 		<div className="d-flex align-items-center justify-content-center min-vh-100">

@@ -7,17 +7,8 @@ import { NavLink } from 'react-router-dom';
 import BondLogo from './BondLogo';
 import AdvancedSettings from './AdvancedSettings';
 
-type Props = {
-  bond: string,
-  slippage: number,
-  recipientAddress: string,
-  onRecipientAddressChange: any,
-  onSlippageChange: any
-};
 
-
-
-function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }: Props) {
+function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
   const [showMenu, setShowMenu] = useState(false);
 
   const ohmAssetImg = () => {
