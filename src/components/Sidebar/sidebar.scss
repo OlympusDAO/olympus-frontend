@@ -1,89 +1,102 @@
 .dapp-sidebar{
-    position: fixed;
-    left:0px;top:0px;
-    width: 20%;
-    // max-width: 340px;
-    // min-width: 270px;
-    height:100%;
-    display:flex;
-    flex-flow:column;
-    background-color:#212121;
-    // opacity:0.8;
-    // box-shadow:inset 0px 0px 50px black;
-  }
+  position: fixed;
+  left:0px;
+  top:0px;
+  min-width: 16%;
+  height:100%;
+  display:flex;
+  flex-flow:column;
+  background-color:#212121;
+}
 
-  .dapp-nav {
-    display: flex;
-    flex-flow: column;
-    padding: 0.8rem;
-  }
+.branding-header-icon {
+  width: 68px;
+  padding:1.2rem;
+  filter:invert(1);
   
-  .button-dapp-menu{
-    display:flex;
-    border-radius:2rem;
-    font-weight: normal !important;
-    // @extend .button-secondary;
-    font-family: 'Square', 'cursive';
-  
-    height: 52px;
-    line-height: 52px;
-    color: #fff;
-  
-    text-decoration: none;
-    font-size: 18px;
-  
-    // &.active {
-    //   // color: #CC3B66;
-    //   font-weight: bold;
-    // }
-  }
+}
 
-
-  .dapp-menu-social {
+.dapp-menu-top {
+  width: 100%;
+  height: 70px;
+  line-height: 70px;
+  font-size: 28px;
+  text-decoration: none;
+  a {
+    color: white;
+    font-weight: bold;
     width: 100%;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    height: 100px;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
+    display: inline-block;
+    padding: 5px;
   }
-   
-  .social-row {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-evenly;
-    padding: 2rem;
-    a{
-      &:hover{
-        transform:scale(1.1);
-    }
-   }
-  }
+}
 
-  .branding-header-icon {
-    width: 68px;
-    padding:1rem;
-    filter:invert(1);
-  }
+.dapp-nav {
+  display: flex;
+  flex-flow: column;
+}
 
-  .dapp-menu-top {
+.button-dapp-menu{
+  display:flex;
+  border-radius:2rem;
+  font-weight: normal !important;
+  // @extend .button-secondary;
+  font-family: 'Square', 'cursive';
+  height: auto;
+  line-height: 52px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+
+  // &.active {
+  //   // color: #CC3B66;
+  //   font-weight: bold;
+  // }
+}
+
+.dapp-menu-external-links {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  font-weight: 300;
+  min-height: 30%;
+  a {
+    display: block;
     width: 100%;
-    height: 70px;
-    line-height: 70px;
-    text-align: left;
-    vertical-align: middle;
-    font-size: 28px;
-    text-decoration: none;
-    a {
-      color: white;
-      font-weight: bold;
-    }
   }
-
-  .dapp-menu-social {
-    width: 250px;
+  span {
+    margin-left: 1rem;
   }
+}
 
-  
+.dapp-menu-data {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: auto;
+}
+
+.dapp-menu-social {
+  width: 100%;
+  display: block;
+  flex-flow: column;
+  justify-content: center;
+  height: 80px;
+  position: relative;
+  bottom: 0px;
+  left: 0px;
+}
+
+.social-row {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+  padding: 1.5rem;
+  a {
+    &:hover{
+      transform:scale(1.1);
+  }
+  }
+}
+
+

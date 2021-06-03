@@ -178,10 +178,6 @@ function App(props) {
     <div className="app">
       <div id="dapp" className="dapp min-vh-100 min-hw-100">
         <Flex>
-            {false && <Header address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} />}
-
-            
-
             <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
               <button
                 className="navbar-toggler"

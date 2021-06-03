@@ -4,10 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Web3Modal from "web3modal";
 import "./topbar.scss";
 import { shorten } from '../../helpers';
-import RebaseTimer from '../RebaseTimer/RebaseTimer.jsx';
 
-
-function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute, address, mainnetProvider, blockExplorer }) {
+function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetProvider }) {
 
   const modalButtons = [];
   if (web3Modal) {
@@ -24,8 +22,6 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute,
 
   return (
     <div className="dapp-topbar">
-
-				<RebaseTimer />
 
 				<div className="wallet-menu">
 					{address && <a href={`https://etherscan.io/address/${address}`} target="_blank">
