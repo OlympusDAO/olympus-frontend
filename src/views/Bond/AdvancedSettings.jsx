@@ -1,10 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod, bondName } from "../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
-import { BONDS } from "../constants";
-import { NavLink } from 'react-router-dom';
-import BondLogo from './BondLogo';
+import React from 'react';
 
 
 function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {

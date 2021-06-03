@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod, bondName, lpURL, isBondLP } from "../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
-import BondLogo from './BondLogo';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { trim, bondName, lpURL, isBondLP } from "../../helpers";
+import BondLogo from '../../components/BondLogo';
 import { NavLink } from 'react-router-dom';
 
 
