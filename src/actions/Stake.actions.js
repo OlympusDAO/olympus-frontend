@@ -41,7 +41,7 @@ export const changeApproval = ({ token, provider, address, networkID }) => async
         ethers.utils.parseUnits('1000000000', 'gwei').toString()
       );
     } else if (token === 'sohm') {
-      const approveTx = await sohmContract.approve(
+      approveTx = await sohmContract.approve(
         addresses[networkID].STAKING_ADDRESS,
         ethers.utils.parseUnits('1000000000', 'gwei').toString()
       );
