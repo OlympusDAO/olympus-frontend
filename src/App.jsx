@@ -14,10 +14,7 @@ import { calcBondDetails, } from './actions/Bond.actions.js';
 import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
-import Stake from "./components/Stake";
-import ChooseBond from "./components/ChooseBond";
-import Bond from "./components/Bond";
-import Dashboard from "./components/Dashboard";
+import {Stake, ChooseBond, Bond, Dashboard } from './views'
 
 import "./App.css";
 import "./style.scss";
@@ -101,7 +98,7 @@ const logoutOfWeb3Modal = async () => {
   }, 1);
 };
 
-function App(props: any) {
+function App(props) {
   const dispatch = useDispatch();
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -127,7 +124,6 @@ function App(props: any) {
   const writeContracts = useContractLoader(userProvider);
 
   // EXTERNAL CONTRACT EXAMPLE:
-  //
   // If you want to bring in the mainnet DAI contract it would look like:
   const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
 
@@ -138,20 +134,18 @@ function App(props: any) {
 
 
   async function loadDetails() {
-    if (injectedProvider) {
-      await dispatch(loadAppDetails({ networkID: 1, provider: injectedProvider }))
-      await dispatch(getMarketPrice({ networkID: 1, provider: injectedProvider }));
-      await dispatch(getTokenSupply({ networkID: 1, provider: injectedProvider }));
-    }
+      let loadProvider = mainnetProvider;
+      if (injectedProvider) loadProvider = injectedProvider;
 
-    if (address)
-      await dispatch(loadAccountDetails({networkID: 1, address, provider: injectedProvider}));
+      await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }))
+      await dispatch(getMarketPrice({ networkID: 1, provider: loadProvider }));
+      await dispatch(getTokenSupply({ networkID: 1, provider: loadProvider }));
 
-    if (injectedProvider) {
+      if (address) await dispatch(loadAccountDetails({networkID: 1, address, provider: loadProvider}));
+
       ["ohm_dai_lp", "dai"].map(async bond => {
-        await dispatch(calcBondDetails({ bond, value: null, provider: injectedProvider, networkID: 1 }));
+        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
       })
-    }
   }
 
   useEffect(() => {
@@ -160,7 +154,7 @@ function App(props: any) {
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
-    setInjectedProvider(new Web3Provider(provider) as any);
+    setInjectedProvider(new Web3Provider(provider));
   }, [setInjectedProvider]);
 
   useEffect(() => {
@@ -172,7 +166,7 @@ function App(props: any) {
   const [route, setRoute] = useState();
 
   useEffect(() => {
-    setRoute((window as any).location.pathname);
+    setRoute((window).location.pathname);
   }, [setRoute]);
 
 
@@ -235,7 +229,7 @@ function App(props: any) {
 
 /* eslint-disable */
 window.ethereum &&
-  window.ethereum.on("chainChanged", (chainId: any) => {
+  window.ethereum.on("chainChanged", (chainId ) => {
     web3Modal.cachedProvider &&
       setTimeout(() => {
         window.location.reload();
@@ -243,7 +237,7 @@ window.ethereum &&
   });
 
 window.ethereum &&
-  window.ethereum.on("accountsChanged", (accounts: any) => {
+  window.ethereum.on("accountsChanged", (accounts ) => {
     web3Modal.cachedProvider &&
       setTimeout(() => {
         window.location.reload();

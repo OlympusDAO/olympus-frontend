@@ -1,21 +1,14 @@
-import React, { useState, useCallback, useEffect, } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset, redeemBond } from '../actions/Bond.actions.js';
-import { NavLink } from "react-router-dom";
-import { BONDS } from "../constants";
+import { trim } from "../../helpers";
 import BondRow from './BondRow';
 
-type Props = {
-  provider: any,
-  address: string
-};
 
-function ChooseBond({ provider, address }: Props) {
+function ChooseBond({ provider, address }) {
   const dispatch = useDispatch();
 
-	const fiveDayRate  = useSelector((state: any) => { return state.app.fiveDayRate });
-	const marketPrice = useSelector((state: any) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
+	const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });
+	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
   return (
 		<div className="d-flex align-items-center justify-content-center min-vh-100">

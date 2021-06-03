@@ -17,13 +17,13 @@ const highlight = {
 };
 
 function Subgraph(props) {
-  // function graphQLFetcher(graphQLParams) {
-  //   return fetch(props.subgraphUri, {
-  //     method: "post",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(graphQLParams),
-  //   }).then(response => response.json());
-  // }
+  function graphQLFetcher(graphQLParams) {
+    return fetch(props.subgraphUri, {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(graphQLParams),
+    }).then(response => response.json());
+  }
 
   const EXAMPLE_GRAPHQL = `
   {

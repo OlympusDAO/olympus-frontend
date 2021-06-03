@@ -1,29 +1,25 @@
 import React, { useState, useCallback, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../helpers";
-import { changeStake, changeApproval } from '../actions/Stake.actions.js';
+import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
+import { changeStake, changeApproval } from '../..//actions/Stake.actions.js';
 
-type Props = {
-  provider: any,
-  address: string
-};
 
-function Stake({ provider, address }: Props) {
+function Stake({ provider, address }) {
   const dispatch = useDispatch();
 
   const [view, setView] = useState("stake");
   const [quantity, setQuantity] = useState();
 
-  const fiveDayRate  = useSelector((state: any) => { return state.app.fiveDayRate });
-  const currentIndex = useSelector((state: any) => { return state.app.currentIndex });
+  const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });
+  const currentIndex = useSelector((state ) => { return state.app.currentIndex });
 
-  const ohmBalance     = useSelector((state: any) => { return state.app.balances && state.app.balances.ohm });
-  const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
-  const stakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmStake });
-  const unstakeAllowance = useSelector((state: any) => { return state.app.staking &&  state.app.staking.ohmUnstake });
-  const stakingRebase = useSelector((state: any) => { return state.app.stakingRebase });
-  const stakingAPY    = useSelector((state: any) => { return state.app.stakingAPY });
-  const currentBlock  = useSelector((state: any) => { return state.app.currentBlock });
+  const ohmBalance     = useSelector((state ) => { return state.app.balances && state.app.balances.ohm });
+  const sohmBalance    = useSelector((state ) => { return state.app.balances && state.app.balances.sohm });
+  const stakeAllowance = useSelector((state ) => { return state.app.staking &&  state.app.staking.ohmStake });
+  const unstakeAllowance = useSelector((state) => { return state.app.staking &&  state.app.staking.ohmUnstake });
+  const stakingRebase = useSelector((state ) => { return state.app.stakingRebase });
+  const stakingAPY    = useSelector((state ) => { return state.app.stakingAPY });
+  const currentBlock  = useSelector((state ) => { return state.app.currentBlock });
 
   const setMax = () => {
     if (view === 'stake') {
@@ -33,16 +29,16 @@ function Stake({ provider, address }: Props) {
     }
   };
 
-  const onSeekApproval = async (token: any) => {
+  const onSeekApproval = async (token ) => {
     await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
   };
 
-  const onChangeStake = async (action: any) => {
-    if (isNaN(quantity as any) || quantity === 0 || quantity === '') {
+  const onChangeStake = async (action ) => {
+    if (isNaN(quantity  ) || quantity === 0 || quantity === '') {
       alert('Please enter a value!');
       return;
     } else {
-      await dispatch(changeStake({ address, action, value: (quantity as any).toString(), provider, networkID: 1 }));
+      await dispatch(changeStake({ address, action, value: (quantity  ).toString(), provider, networkID: 1 }));
     }
   };
 
@@ -77,7 +73,7 @@ function Stake({ provider, address }: Props) {
             <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
               <input
                 value={quantity}
-                onChange={e => setQuantity(e.target.value as any)}
+                onChange={e => setQuantity(e.target.value  )}
                 type="number"
                 className="form-control"
                 placeholder="Type an amount"
