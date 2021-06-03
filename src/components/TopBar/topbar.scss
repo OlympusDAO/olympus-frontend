@@ -21,7 +21,10 @@
     font-size: 16px;
     padding: 8px;
     line-height: 22px;
-    color: #fff;
+    p {
+        margin: 0;
+        color: #fff;
+    }
 }
 
 .wallet-menu {
