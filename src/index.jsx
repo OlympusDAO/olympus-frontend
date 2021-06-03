@@ -3,6 +3,7 @@ import React from "react";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import ReactDOM from "react-dom";
 import Root from "./Root";
+import {BaseStyles, Box, Heading} from 'rimble-ui'
 import "./index.css";
 
 const themes = {
@@ -20,8 +21,10 @@ const prevTheme = window.localStorage.getItem("theme");
 // });
 
 ReactDOM.render(
-  <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "dark"}>
-    <Root />
-  </ThemeSwitcherProvider>,
+  <BaseStyles>
+    <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "dark"}>
+      <Root />
+    </ThemeSwitcherProvider>
+  </BaseStyles>,
   document.getElementById("root"),
 );

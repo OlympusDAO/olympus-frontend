@@ -3,11 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod, isBondLP } from "../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
 
-type Props = {
-  bond: string,
-};
-
-function BondHeader({ bond }: Props) {
+function BondHeader({ bond }) {
   const ohmAssetImg = () => {
     return 'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png';
   }

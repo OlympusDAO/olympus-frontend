@@ -13,29 +13,22 @@ import OlympusLogo from '../assets/olympus_logo.png';
 import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../helpers';
 
 
-type Props = {
-  address: string,
-  web3Modal: Web3Modal,
-  loadWeb3Modal: Function,
-  logoutOfWeb3Modal: Function,
-};
-
-export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3Modal, }: Props) {
-  const stakingAPY    = useSelector((state: any) => { return state.app.stakingAPY });
-  const stakingRebase = useSelector((state: any) => { return state.app.stakingRebase });
-  const currentBlock  = useSelector((state: any) => { return state.app.currentBlock });
-  const daiBond       = useSelector((state: any) => { return state.bonding.dai });
-  const ohmDaiBond       = useSelector((state: any) => { return state.bonding.ohm_dai_lp });
+export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3Modal, }) {
+  const stakingAPY    = useSelector((state) => { return state.app.stakingAPY });
+  const stakingRebase = useSelector((state) => { return state.app.stakingRebase });
+  const currentBlock  = useSelector((state) => { return state.app.currentBlock });
+  const daiBond       = useSelector((state) => { return state.bonding.dai });
+  const ohmDaiBond       = useSelector((state) => { return state.bonding.ohm_dai_lp });
 
   const modalButtons = [];
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal as any}>Disconnect</button>,
+        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal}>Disconnect</button>,
       );
     } else {
       modalButtons.push(
-        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={loadWeb3Modal as any}>Connect Wallet</button>,
+        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={loadWeb3Modal}>Connect Wallet</button>,
       );
     }
   }
@@ -80,7 +73,7 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
 
           <li className="mx-4">
             <p>Bond Discount</p>
-            <p className="fw-bold">{ bestBondDiscount() ? trim( (bestBondDiscount() as any) * 100, 2) : 0 }%</p>
+            <p className="fw-bold">{ bestBondDiscount() ? trim( (bestBondDiscount() ) * 100, 2) : 0 }%</p>
           </li>
 
           <li className="mx-4">

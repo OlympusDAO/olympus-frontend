@@ -5,13 +5,10 @@ import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../ac
 import BondLogo from './BondLogo';
 import { NavLink } from 'react-router-dom';
 
-type Props = {
-  bond: string,
-};
 
-function BondHeader({ bond }: Props) {
-  const bondPrice    = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
-  const bondDiscount = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
+function BondHeader({ bond }) {
+  const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
+  const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
 
   const ohmAssetImg = () => {
     return 'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png';

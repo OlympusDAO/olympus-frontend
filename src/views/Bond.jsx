@@ -2,20 +2,13 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset, redeemBond } from '../actions/Bond.actions.js';
-import BondHeader from './BondHeader';
-import BondRedeemV1 from './BondRedeemV1';
+import BondHeader from '../components/BondHeader';
+import BondRedeemV1 from '../components/BondRedeemV1';
 import { BONDS } from "../constants";
 import { NavLink } from 'react-router-dom';
 
-type Props = {
-  bond: string,
-  provider: any,
-  address: string
-};
 
-
-
-function Bond({ provider, address, bond }: Props) {
+function Bond({ provider, address, bond }) {
   const dispatch = useDispatch();
 
   const [slippage, setSlippage] = useState(2);
@@ -24,34 +17,34 @@ function Bond({ provider, address, bond }: Props) {
   const [view, setView] = useState("bond");
   const [quantity, setQuantity] = useState();
 
-  const ohmBalance     = useSelector((state: any) => { return state.app.balances && state.app.balances.ohm });
-  const sohmBalance    = useSelector((state: any) => { return state.app.balances && state.app.balances.sohm });
+  const ohmBalance     = useSelector((state ) => { return state.app.balances && state.app.balances.ohm });
+  const sohmBalance    = useSelector((state ) => { return state.app.balances && state.app.balances.sohm });
 
-  const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
-  const bondMaturationBlock = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondMaturationBlock });
+  const currentBlock = useSelector((state ) => { return state.app.currentBlock });
+  const bondMaturationBlock = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondMaturationBlock });
 
-  const vestingTerm    = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].vestingBlock });
-  const marketPrice    = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].marketPrice });
-  const bondPrice    = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
-  const bondDiscount = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
-  const maxBondPrice = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].maxBondPrice });
-  const interestDue  = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].interestDue });
-  const pendingPayout = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].pendingPayout });
-  const debtRatio     = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].debtRatio });
-  const bondQuote     = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondQuote });
-  const balance       = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].balance });
-  const allowance     = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].allowance });
+  const vestingTerm    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].vestingBlock });
+  const marketPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].marketPrice });
+  const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
+  const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
+  const maxBondPrice = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].maxBondPrice });
+  const interestDue  = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].interestDue });
+  const pendingPayout = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].pendingPayout });
+  const debtRatio     = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].debtRatio });
+  const bondQuote     = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondQuote });
+  const balance       = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].balance });
+  const allowance     = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].allowance });
 
   const hasEnteredAmount = () => {
-    return !(isNaN(quantity as any) || quantity === 0 || quantity === '');
+    return !(isNaN(quantity) || quantity === 0 || quantity === '');
   }
 
-  const onRecipientAddressChange = (e:any) => {
-    return setRecipientAddress(e.target.value as any);
+  const onRecipientAddressChange = (e) => {
+    return setRecipientAddress(e.target.value  );
   };
 
-  const onSlippageChange = (e:any) => {
-    return setSlippage(e.target.value as any);
+  const onSlippageChange = (e) => {
+    return setSlippage(e.target.value  );
   };
 
   const vestingPeriod = () => {
@@ -64,7 +57,7 @@ function Bond({ provider, address, bond }: Props) {
     return prettyVestingPeriod(currentBlock, bondMaturationBlock);
   };
 
-  async function onRedeem({ autostake }: {autostake: any}) {
+  async function onRedeem({ autostake }) {
     await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake }));
   };
 
@@ -74,7 +67,7 @@ function Bond({ provider, address, bond }: Props) {
 
     if (quantity === '') {
       alert('Please enter a value!');
-    } else if (isNaN(quantity as any)) {
+    } else if (isNaN(quantity  )) {
       alert('Please enter a valid value!');
     } else if (interestDue > 0 || pendingPayout > 0) {
       const shouldProceed = window.confirm(
@@ -110,7 +103,7 @@ function Bond({ provider, address, bond }: Props) {
 
   async function loadBondDetails() {
     if (provider)
-      await dispatch(calcBondDetails({ bond, value: quantity as any, provider, networkID: 1 }));
+      await dispatch(calcBondDetails({ bond, value: quantity  , provider, networkID: 1 }));
 
     if (provider && address) {
       await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: 1 }));
@@ -121,7 +114,7 @@ function Bond({ provider, address, bond }: Props) {
   useEffect(() => {
     loadBondDetails();
     if (address)
-      setRecipientAddress(address as any);
+      setRecipientAddress(address  );
   }, [provider, quantity, address]);
 
 
@@ -152,7 +145,7 @@ function Bond({ provider, address, bond }: Props) {
             {view === 'bond' && <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
               <input
                 value={quantity}
-                onChange={e => setQuantity(e.target.value as any)}
+                onChange={e => setQuantity(e.target.value  )}
                 type="number"
                 className="form-control"
                 placeholder="Type an amount"
@@ -254,7 +247,7 @@ function Bond({ provider, address, bond }: Props) {
           <div className="row bond-data-row p-4">
             <div className="col-4 text-center">
               <p>Debt Ratio</p>
-              <p>{ trim( (debtRatio as any) / 10000000, 2) }%</p>
+              <p>{ trim( (debtRatio  ) / 10000000, 2) }%</p>
             </div>
             <div className="col-4 text-center">
               <p>Vesting Term</p>
@@ -262,7 +255,7 @@ function Bond({ provider, address, bond }: Props) {
             </div>
             <div className="col-4 text-center">
               <p>ROI</p>
-              <p>{ trim( (bondDiscount as any) * 100, 2) }%</p>
+              <p>{ trim( (bondDiscount  ) * 100, 2) }%</p>
             </div>
           </div>
         </div>

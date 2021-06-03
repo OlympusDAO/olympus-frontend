@@ -6,16 +6,8 @@ import { BONDS } from "../constants";
 import { NavLink } from 'react-router-dom';
 import BondLogo from './BondLogo';
 
-type Props = {
-  slippage: number,
-  recipientAddress: string,
-  onRecipientAddressChange: any,
-  onSlippageChange: any
-};
 
-
-
-function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }: Props) {
+function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
   return (
     <div className="card ohm-popover-card">
       <div className="card-body">

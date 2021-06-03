@@ -1,0 +1,54 @@
+.dapp-topbar {
+    position: relative;
+    display: flow-root;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color:#212121;
+    box-shadow:inset 0px 0px 40px black;
+    opacity:0.8;
+}
+
+.wallet-menu {
+    display:flex;
+    float: right;
+    flex-flow:column;
+    text-align: center;
+  
+    width:200px;
+    margin: auto;
+    justify-content:center;
+  
+    a {
+      text-decoration: none;
+    }
+  
+    .disconnect-button{
+      margin-bottom: 15px;
+    }  
+}
+
+.wallet-button {
+    border:1px solid #0001;
+    background-color: transparent;
+    border-radius: 1rem;
+    cursor:pointer;
+    &:hover {
+      background-color:#e8e8e8;
+    } 
+}
+
+.dapp-sidebar-button-connected{ border-radius:2rem; }
+
+.dapp-sidebar-button-connect {
+    background-color: transparent;
+    color: white;
+    &:hover{background-color:white;color:black;}
+}
+
+.dapp-sidebar-button-connected {
+    background-color: white;
+    color: black;
+}
