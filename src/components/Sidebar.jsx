@@ -16,11 +16,11 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal}>Disconnect</button>,
+        <button type="button" key="disconnectButton" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal}>Disconnect</button>,
       );
     } else {
       modalButtons.push(
-        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={loadWeb3Modal}>Connect Wallet</button>,
+        <button type="button" key="connectButton" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={loadWeb3Modal}>Connect Wallet</button>,
       );
     }
   }

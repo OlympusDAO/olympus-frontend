@@ -1,6 +1,6 @@
-export { default as ExampleUI } from "./ExampleUI";
-export { default as Hints } from "./Hints";
-export { default as Subgraph } from "./Subgraph";
+export { default as ExampleUI } from "./Scaffold-Eth-Examples/ExampleUI";
+export { default as Hints } from "./Scaffold-Eth-Examples/Hints";
+export { default as Subgraph } from "./Scaffold-Eth-Examples/Subgraph";
 
 // scaffold examples above.
 export { default as Bond } from "./Bond/Bond";
