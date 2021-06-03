@@ -8,21 +8,15 @@ import { changeApproval, calcBondDetails, calculateUserBondDetails, redeemBond }
 import { BONDS } from "../constants";
 import { NavLink } from 'react-router-dom';
 
-type Props = {
-  bond: string,
-  provider: any,
-  address: string
-};
 
 
-
-function BondRedeemV1({ bond, provider, address }: Props) {
+function BondRedeemV1({ bond, provider, address }) {
   const dispatch = useDispatch();
 
-  const currentBlock = useSelector((state: any) => { return state.app.currentBlock });
-  const bondMaturationBlock = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].bondMaturationBlock });
-  const interestDue  = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].interestDue });
-  const pendingPayout = useSelector((state: any) => { return state.bonding[bond] && state.bonding[bond].pendingPayout });
+  const currentBlock = useSelector((state ) => { return state.app.currentBlock });
+  const bondMaturationBlock = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondMaturationBlock });
+  const interestDue  = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].interestDue });
+  const pendingPayout = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].pendingPayout });
 
   const vestingTime = () => {
     return prettyVestingPeriod(currentBlock, bondMaturationBlock);

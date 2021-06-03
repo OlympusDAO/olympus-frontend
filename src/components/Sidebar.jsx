@@ -9,29 +9,18 @@ import OlympusLogo from '../assets/logo.svg';
 import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../helpers';
 
 
-type Props = {
-  isExpanded: boolean,
-  route: any,
-  address: string,
-  setRoute: Function,
-  mainnetProvider: StaticJsonRpcProvider,
-  blockExplorer: string,
-  web3Modal: Web3Modal,
-  loadWeb3Modal: Function,
-  logoutOfWeb3Modal: Function,
-};
 
-function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute, address, mainnetProvider, blockExplorer }: Props) {
+function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute, address, mainnetProvider, blockExplorer }) {
 
   const modalButtons = [];
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal as any}>Disconnect</button>,
+        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal}>Disconnect</button>,
       );
     } else {
       modalButtons.push(
-        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={loadWeb3Modal as any}>Connect Wallet</button>,
+        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={loadWeb3Modal}>Connect Wallet</button>,
       );
     }
   }
@@ -71,17 +60,17 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
         <div className="dapp-menu-links">
           <div className="dapp-nav">
 
-            <NavLink onClick={() => { setRoute("/dashboard" as any) }} to="/dashboard" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return !!match && ['/dashboard'].includes(match.url) }}>
+            <NavLink onClick={() => { setRoute("/dashboard" ) }} to="/dashboard" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return !!match && ['/dashboard'].includes(match.url) }}>
               <i className="fa fa-chart-line me-3" />
               <span>Dashboard</span>
             </NavLink>
 
-            <NavLink onClick={() => { setRoute("/" as any) }} to="/" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return !isBondPage(match, location) }}>
+            <NavLink onClick={() => { setRoute("/" ) }} to="/" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return !isBondPage(match, location) }}>
               <i className="fa fa-gem me-3" />
               <span>Stake</span>
             </NavLink>
 
-            <NavLink onClick={() => { setRoute("/bonds" as any) }} to="/bonds" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return isBondPage(match, location) }}>
+            <NavLink onClick={() => { setRoute("/bonds" ) }} to="/bonds" className="button button-dapp-menu align-items-center" isActive={(match, location) => { return isBondPage(match, location) }}>
               <i className="fa fa-clock me-3" />
               <span>Bond</span>
             </NavLink>
