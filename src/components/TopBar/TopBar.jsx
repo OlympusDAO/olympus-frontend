@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Web3Modal from "web3modal";
 import "./topbar.scss";
 import { shorten } from '../../helpers';
+import ThemeSwitch from "../ThemeSwitch";
+import { Flex, Box, Button } from "rimble-ui";
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetProvider }) {
 
@@ -23,13 +25,29 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
   return (
     <div className="dapp-topbar">
 
-				<div className="wallet-menu">
-					{address && <a href={`https://etherscan.io/address/${address}`} target="_blank">
-						{shorten(address)}
-					</a>}
+				<Flex className="dapp-topbar-items">
+					
+						<ThemeSwitch />
+					
+						<button
+							className="get-ohm-button btn btn-dark btn-overwrite-primer m-2" 
+							as="a" 
+							href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" 
+							target="\_blank" 
+							title="Get OHM">
+								Get OHM
+						</button>
+					
 
-					{modalButtons}
-				</div>
+					<div className="wallet-menu">
+						{address && <a href={`https://etherscan.io/address/${address}`} target="_blank">
+							{shorten(address)}
+						</a>}
+
+						{modalButtons}
+					</div>
+				</Flex>
+
     </div>
   );
 }
