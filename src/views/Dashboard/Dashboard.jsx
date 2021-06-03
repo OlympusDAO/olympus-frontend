@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
+import { trim } from "../../helpers";
 
 
 function Dashboard({ provider, address }) {

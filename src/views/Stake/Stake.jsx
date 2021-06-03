@@ -1,7 +1,7 @@
 import React, { useState, useCallback, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../helpers";
-import { changeStake, changeApproval } from '../actions/Stake.actions.js';
+import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
+import { changeStake, changeApproval } from '../..//actions/Stake.actions.js';
 
 
 function Stake({ provider, address }) {

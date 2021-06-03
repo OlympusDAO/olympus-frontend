@@ -1,10 +1,7 @@
-import React, { useState, useCallback, useEffect, } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset, redeemBond } from '../actions/Bond.actions.js';
-import { NavLink } from "react-router-dom";
-import { BONDS } from "../constants";
-import BondRow from '../components/BondRow';
+import { trim } from "../../helpers";
+import BondRow from './BondRow';
 
 
 function ChooseBond({ provider, address }) {
