@@ -195,7 +195,7 @@ function App(props) {
               </button>
             </nav>
 
-            <Box width={ 1 / 5 }>
+            <Box width={ 1 / 6 }>
               <Sidebar 
                 web3Modal={web3Modal} 
                 loadWeb3Modal={loadWeb3Modal} 
@@ -209,7 +209,7 @@ function App(props) {
               />
             </Box>
 
-            <Box width={ 4 / 5 }>
+            <Box width={ 5 / 6 }>
               <TopBar 
                 web3Modal={web3Modal} 
                 loadWeb3Modal={loadWeb3Modal} 

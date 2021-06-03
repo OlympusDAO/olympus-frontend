@@ -4,6 +4,7 @@ import Address from "../Address";
 import Social from "../Social";
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import Web3Modal from "web3modal";
+import { useSelector, useDispatch } from 'react-redux';
 import OlympusLogo from '../../assets/logo.svg';
 import "./sidebar.scss";
 
@@ -11,6 +12,7 @@ import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } fro
 
 
 function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute, address, mainnetProvider, blockExplorer }) {
+  const currentBlock  = useSelector((state ) => { return state.app.currentBlock });
 
   const isBondPage = useCallback((match, location) => {
     if (!match) {
@@ -60,7 +62,6 @@ function Sidebar({ isExpanded, web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  rou
             </a>
           </div>
         </div>
-
 
         <div className="dapp-menu-social">
           <Social />
