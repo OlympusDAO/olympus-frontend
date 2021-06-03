@@ -16,6 +16,7 @@ function Stake({ provider, address }) {
   const ohmBalance     = useSelector((state ) => { return state.app.balances && state.app.balances.ohm });
   const sohmBalance    = useSelector((state ) => { return state.app.balances && state.app.balances.sohm });
   const stakeAllowance = useSelector((state ) => { return state.app.staking &&  state.app.staking.ohmStake });
+  const unstakeAllowance = useSelector((state) => { return state.app.staking &&  state.app.staking.ohmUnstake });
   const stakingRebase = useSelector((state ) => { return state.app.stakingRebase });
   const stakingAPY    = useSelector((state ) => { return state.app.stakingAPY });
   const currentBlock  = useSelector((state ) => { return state.app.currentBlock });
@@ -41,8 +42,11 @@ function Stake({ provider, address }) {
     }
   };
 
-  const hasAllowance = useCallback(() => {
-    return stakeAllowance > 0;
+  const hasAllowance = useCallback((token) => {
+    if (token === 'ohm')
+      return stakeAllowance > 0;
+    else if (token === 'sohm')
+      return unstakeAllowance > 0;
   }, [stakeAllowance]);
 
   const timeUntilRebase = () => {
@@ -115,19 +119,19 @@ function Stake({ provider, address }) {
               </div>
             </div>
 
-            {address && hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
+            {address && hasAllowance('ohm') && view === 'stake' && <div className="d-flex align-self-center mb-2">
               <div className="stake-button" onClick={() => { onChangeStake('stake') }}>Stake OHM</div>
             </div>}
 
-            {address && hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
+            {address && hasAllowance('sohm') && view === 'unstake' && <div className="d-flex align-self-center mb-2">
               <div className="stake-button" onClick={() => { onChangeStake('unstake') }}>Unstake OHM</div>
             </div>}
 
-            {address && !hasAllowance() && view === 'stake' && <div className="d-flex align-self-center mb-2">
+            {address && !hasAllowance('ohm') && view === 'stake' && <div className="d-flex align-self-center mb-2">
               <div className="stake-button" onClick={() => { onSeekApproval('ohm') }}>Approve OHM</div>
             </div>}
 
-            {address && !hasAllowance() && view === 'unstake' && <div className="d-flex align-self-center mb-2">
+            {address && !hasAllowance('sohm') && view === 'unstake' && <div className="d-flex align-self-center mb-2">
               <div className="stake-button" onClick={() => { onSeekApproval('sohm') }}>Approve sOHM</div>
             </div>}
 
