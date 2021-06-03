@@ -1,6 +1,7 @@
 .dapp-topbar {
     position: relative;
-    display: flow-root;
+    display: block;
+    text-align: right;
     top: 0;
     right: 0;
     left: 0;
@@ -9,6 +10,18 @@
     background-color:#212121;
     box-shadow:inset 0px 0px 40px black;
     opacity:0.8;
+}
+
+.rebase-timer {
+    position: relative;
+    display: inline-block;
+    width: 120px;
+    height: 100%;
+    margin-right: 15px;
+    font-size: 16px;
+    padding: 8px;
+    line-height: 22px;
+    color: #fff;
 }
 
 .wallet-menu {
