@@ -2,8 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset, redeemBond } from '../actions/Bond.actions.js';
-import BondHeader from './BondHeader';
-import BondRedeemV1 from './BondRedeemV1';
+import BondHeader from '../components/BondHeader';
+import BondRedeemV1 from '../components/BondRedeemV1';
 import { BONDS } from "../constants";
 import { NavLink } from 'react-router-dom';
 

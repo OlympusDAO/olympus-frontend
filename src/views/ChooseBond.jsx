@@ -4,7 +4,7 @@ import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVesting
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset, redeemBond } from '../actions/Bond.actions.js';
 import { NavLink } from "react-router-dom";
 import { BONDS } from "../constants";
-import BondRow from './BondRow';
+import BondRow from '../components/BondRow';
 
 type Props = {
   provider: any,

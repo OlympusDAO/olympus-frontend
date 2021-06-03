@@ -14,10 +14,7 @@ import { calcBondDetails, } from './actions/Bond.actions.js';
 import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
-import Stake from "./components/Stake";
-import ChooseBond from "./components/ChooseBond";
-import Bond from "./components/Bond";
-import Dashboard from "./components/Dashboard";
+import {Stake, ChooseBond, Bond, Dashboard } from './views'
 
 import "./App.css";
 import "./style.scss";
