@@ -134,20 +134,19 @@ function App(props) {
 
 
   async function loadDetails() {
-    // if (injectedProvider) {
-      await dispatch(loadAppDetails({ networkID: 1, provider: mainnetProvider }))
-      await dispatch(getMarketPrice({ networkID: 1, provider: mainnetProvider }));
-      await dispatch(getTokenSupply({ networkID: 1, provider: mainnetProvider }));
-    // }
+      let loadProvider = mainnetProvider;
+      if (injectedProvider) loadProvider = injectedProvider;
+
+      await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }))
+      await dispatch(getMarketPrice({ networkID: 1, provider: loadProvider }));
+      await dispatch(getTokenSupply({ networkID: 1, provider: loadProvider }));
 
     if (address)
-      await dispatch(loadAccountDetails({networkID: 1, address, provider: mainnetProvider}));
+      await dispatch(loadAccountDetails({networkID: 1, address, provider: loadProvider}));
 
-    // if (injectedProvider) {
       ["ohm_dai_lp", "dai"].map(async bond => {
-        await dispatch(calcBondDetails({ bond, value: null, provider: mainnetProvider, networkID: 1 }));
+        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
       })
-    // }
   }
 
   useEffect(() => {
