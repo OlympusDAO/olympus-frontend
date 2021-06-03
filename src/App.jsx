@@ -141,8 +141,7 @@ function App(props) {
       await dispatch(getMarketPrice({ networkID: 1, provider: loadProvider }));
       await dispatch(getTokenSupply({ networkID: 1, provider: loadProvider }));
 
-    if (address)
-      await dispatch(loadAccountDetails({networkID: 1, address, provider: loadProvider}));
+    if (address) await dispatch(loadAccountDetails({networkID: 1, address, provider: loadProvider}));
 
       ["ohm_dai_lp", "dai"].map(async bond => {
         await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
