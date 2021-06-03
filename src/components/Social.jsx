@@ -10,19 +10,7 @@ import TwitterImg from '../assets/twitter.svg';
 import DiscordImg from '../assets/discord.svg';
 
 
-// displays a page header
 
-type Props = {
-  isExpanded: boolean,
-  route: any,
-  address: string,
-  setRoute: Function,
-  mainnetProvider: StaticJsonRpcProvider,
-  blockExplorer: string,
-  web3Modal: Web3Modal,
-  loadWeb3Modal: Function,
-  logoutOfWeb3Modal: Function,
-};
 
 function Social() {
   // isBondPage and isDashboard arent DRY, this can be optimized

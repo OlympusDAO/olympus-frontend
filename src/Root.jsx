@@ -8,16 +8,11 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import configureStore from './store';
 
-type Props = {
-  data: {
-    app: { };
-  };
-};
 
-export default class Root extends Component<Props> {
-  store: any;
+export default class Root extends Component {
+  store ;
 
-  constructor(props: any) {
+  constructor(props ) {
     super(props);
     this.store = configureStore({});
   }
