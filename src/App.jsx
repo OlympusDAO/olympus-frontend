@@ -9,21 +9,21 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import { useSelector, useDispatch } from 'react-redux';
-import { calcBondDetails, } from './actions/Bond.actions.js';
+import { Box, Flex } from 'rimble-ui'
 
+import { calcBondDetails, } from './actions/Bond.actions.js';
 import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
-import Stake from "./components/Stake";
-import ChooseBond from "./components/ChooseBond";
-import Bond from "./components/Bond";
-import Dashboard from "./components/Dashboard";
+import { Stake, ChooseBond, Bond, Dashboard } from './views'
+import Sidebar from "./components/Sidebar/Sidebar.jsx";
+import TopBar from "./components/TopBar/TopBar.jsx";
 
 import "./App.css";
 import "./style.scss";
 import { Header } from "./components";
 
-import Sidebar from "./components/Sidebar";
+
 import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS, BONDS } from "./constants";
 import { Transactor } from "./helpers";
 import {
@@ -101,7 +101,7 @@ const logoutOfWeb3Modal = async () => {
   }, 1);
 };
 
-function App(props: any) {
+function App(props) {
   const dispatch = useDispatch();
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -127,7 +127,6 @@ function App(props: any) {
   const writeContracts = useContractLoader(userProvider);
 
   // EXTERNAL CONTRACT EXAMPLE:
-  //
   // If you want to bring in the mainnet DAI contract it would look like:
   const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
 
@@ -138,20 +137,18 @@ function App(props: any) {
 
 
   async function loadDetails() {
-    if (injectedProvider) {
-      await dispatch(loadAppDetails({ networkID: 1, provider: injectedProvider }))
-      await dispatch(getMarketPrice({ networkID: 1, provider: injectedProvider }));
-      await dispatch(getTokenSupply({ networkID: 1, provider: injectedProvider }));
-    }
+      let loadProvider = mainnetProvider;
+      if (injectedProvider) loadProvider = injectedProvider;
 
-    if (address)
-      await dispatch(loadAccountDetails({networkID: 1, address, provider: injectedProvider}));
+      await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }))
+      await dispatch(getMarketPrice({ networkID: 1, provider: loadProvider }));
+      await dispatch(getTokenSupply({ networkID: 1, provider: loadProvider }));
 
-    if (injectedProvider) {
+    if (address) await dispatch(loadAccountDetails({networkID: 1, address, provider: loadProvider}));
+
       ["ohm_dai_lp", "dai"].map(async bond => {
-        await dispatch(calcBondDetails({ bond, value: null, provider: injectedProvider, networkID: 1 }));
+        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
       })
-    }
   }
 
   useEffect(() => {
@@ -160,7 +157,7 @@ function App(props: any) {
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
-    setInjectedProvider(new Web3Provider(provider) as any);
+    setInjectedProvider(new Web3Provider(provider));
   }, [setInjectedProvider]);
 
   useEffect(() => {
@@ -172,18 +169,18 @@ function App(props: any) {
   const [route, setRoute] = useState();
 
   useEffect(() => {
-    setRoute((window as any).location.pathname);
+    setRoute((window).location.pathname);
   }, [setRoute]);
-
 
 
 
   return (
     <div className="app">
-      <div id="dapp" className="dapp min-vh-100">
-        <div className="container-fluid">
-          <div className="row">
+      <div id="dapp" className="dapp min-vh-100 min-hw-100">
+        <Flex>
             {false && <Header address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} />}
+
+            
 
             <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
               <button
@@ -198,12 +195,31 @@ function App(props: any) {
               </button>
             </nav>
 
-            <Sidebar web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} mainnetProvider={mainnetProvider} blockExplorer={blockExplorer} address={address} route={route} isExpanded={isSidebarExpanded} setRoute={setRoute} />
+            <Box width={ 1 / 5 }>
+              <Sidebar 
+                web3Modal={web3Modal} 
+                loadWeb3Modal={loadWeb3Modal} 
+                logoutOfWeb3Modal={logoutOfWeb3Modal} 
+                mainnetProvider={mainnetProvider} 
+                blockExplorer={blockExplorer} 
+                address={address} 
+                route={route} 
+                isExpanded={isSidebarExpanded} 
+                setRoute={setRoute} 
+              />
+            </Box>
 
+            <Box width={ 4 / 5 }>
+              <TopBar 
+                web3Modal={web3Modal} 
+                loadWeb3Modal={loadWeb3Modal} 
+                logoutOfWeb3Modal={logoutOfWeb3Modal} 
+                mainnetProvider={mainnetProvider} 
+                blockExplorer={blockExplorer} 
+                address={address} 
+                route={route}
+              />
 
-            <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}></div>
-
-            <div className="col-lg-10 col-12 mt-4 mt-md-0">
               <Switch>
                 <Route exact path="/dashboard">
                   <Dashboard address={address} provider={injectedProvider} />
@@ -217,17 +233,16 @@ function App(props: any) {
                   <ChooseBond address={address} provider={injectedProvider} />
                 </Route>
 
-
                 {Object.values(BONDS).map(bond => {
                   return <Route exact key={bond} path={`/bonds/${bond}`}>
                     <Bond bond={bond} address={address} provider={injectedProvider} />
                   </Route>
                 })}
               </Switch>
-            </div>
+            </Box>
 
-          </div>
-        </div>
+            <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}></div>
+        </Flex>
       </div>
     </div>
   );
@@ -235,7 +250,7 @@ function App(props: any) {
 
 /* eslint-disable */
 window.ethereum &&
-  window.ethereum.on("chainChanged", (chainId: any) => {
+  window.ethereum.on("chainChanged", (chainId ) => {
     web3Modal.cachedProvider &&
       setTimeout(() => {
         window.location.reload();
@@ -243,7 +258,7 @@ window.ethereum &&
   });
 
 window.ethereum &&
-  window.ethereum.on("accountsChanged", (accounts: any) => {
+  window.ethereum.on("accountsChanged", (accounts ) => {
     web3Modal.cachedProvider &&
       setTimeout(() => {
         window.location.reload();

@@ -2,16 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../helpers";
 
-type Props = {
-    provider: any,
-    address: string
-}
 
-function Dashboard({ provider, address }: Props) {
+function Dashboard({ provider, address }) {
 	const dispatch = useDispatch();
-	const marketPrice = useSelector((state: any) => { return state.app.marketPrice });
-	const circSupply  = useSelector((state: any) => { return state.app.circulating });
-	const totalSupply = useSelector((state: any) => { return state.app.total });
+	const marketPrice = useSelector((state ) => { return state.app.marketPrice });
+	const circSupply  = useSelector((state ) => { return state.app.circulating });
+	const totalSupply = useSelector((state ) => { return state.app.total });
 
   const marketCap = () => {
     if (marketPrice && circSupply)
@@ -53,7 +49,7 @@ function Dashboard({ provider, address }: Props) {
                       style: 'currency',
                       currency: 'USD',
                       maximumFractionDigits: 0
-                    }).format(marketCap() as any)
+                    }).format(marketCap()  )
 
                   }
 
