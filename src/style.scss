@@ -1284,6 +1284,10 @@ input.input:read-only {
 }
 
 .ohm-input-group {
+  input::-webkit-outer-spin-button, 
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
   .form-control {
     background-color: #282828 !important;
     border-radius: 2rem;
