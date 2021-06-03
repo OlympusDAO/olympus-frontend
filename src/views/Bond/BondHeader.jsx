@@ -1,11 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod, bondName } from "../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails } from '../actions/Bond.actions.js';
-import { BONDS } from "../constants";
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import BondLogo from './BondLogo';
+import BondLogo from '../../components/BondLogo';
 import AdvancedSettings from './AdvancedSettings';
+import { bondName } from "../../helpers";
 
 
 function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
