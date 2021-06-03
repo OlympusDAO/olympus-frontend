@@ -1,14 +1,13 @@
 import React, { useState, useCallback, } from 'react';
-import Address from "../Address";
-import Social from "../Social";
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import { useSelector, useDispatch } from 'react-redux';
 import Web3Modal from "web3modal";
 import "./topbar.scss";
-
 import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../../helpers';
 
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute, address, mainnetProvider, blockExplorer }) {
+	const currentBlock  = useSelector((state ) => { return state.app.currentBlock });
 
   const modalButtons = [];
   if (web3Modal) {
@@ -23,10 +22,21 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute,
     }
   }
 
+	const timeUntilRebase = () => {
+    if (currentBlock) {
+      const rebaseBlock = getRebaseBlock(currentBlock);
+      const seconds     = secondsUntilBlock(currentBlock, rebaseBlock);
+      return prettifySeconds(seconds);
+    }
+  }
 
   return (
     <div className="dapp-topbar">
-			
+				<div className="rebase-timer">
+					Next Rebase:
+					{timeUntilRebase()}
+				</div>
+
 				<div className="wallet-menu">
 					{address && <a href={`https://etherscan.io/address/${address}`} target="_blank">
 						{shorten(address)}
@@ -34,7 +44,6 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal,  route, setRoute,
 
 					{modalButtons}
 				</div>
-			
     </div>
   );
 }
