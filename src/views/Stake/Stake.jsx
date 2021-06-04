@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Flex, Box, Card } from "rimble-ui";
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import { changeStake, changeApproval } from '../../actions/Stake.actions.js';
+import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import "../../style.scss";
 import "./stake.scss";
 
@@ -66,7 +67,26 @@ function Stake({ provider, address }) {
           <div className="card-content">
             
             <div className="stake-top-metrics">
-              MUH APY
+              <div className="olympus-sushi">
+                <div>
+                  <img className="olympus-logo" src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"/>
+                  <h3>Olympus</h3>
+                </div>
+                <div>
+                  <a href="" target="_blank">Buy on Sushiswap</a>
+                  <i className="fa fa-external-link-alt"></i>
+                </div>
+                
+              </div>
+
+              <div className="stake-apy">
+                <h2>APY</h2>
+                <h2>{ trim(stakingAPY * 100, 4) }%</h2>
+              </div>
+
+              <div className="next-rebase">
+                <RebaseTimer />
+              </div>
             </div>
             
             <div className="stake-toggle-row">
@@ -76,7 +96,10 @@ function Stake({ provider, address }) {
               </div>
             </div>
 
-                <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
+                <div className="input-group ohm-input-group">
+                  <div className="logo-holder">
+                    <img className="olympus-logo-tiny" src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"/>
+                  </div>
                   <input
                     value={quantity}
                     onChange={e => setQuantity(e.target.value)}
@@ -100,12 +123,7 @@ function Stake({ provider, address }) {
                   </div>
 
                   <div className="stake-price-data-row">
-                    <p className="price-label">Time until rebase</p>
-                    <p className="price-data">{ timeUntilRebase() }</p>
-                  </div>
-
-                  <div className="stake-price-data-row">
-                    <p className="price-label">Next Rebase</p>
+                    <p className="price-label">Reward Yield</p>
                     <p className="price-data">{ trim(stakingRebase * 100, 4) }%</p>
                   </div>
 
@@ -114,15 +132,10 @@ function Stake({ provider, address }) {
                     <p className="price-data">{ trim(fiveDayRate * 100, 4) }%</p>
                   </div>
 
-                  <div className="stake-price-data-row">
-                    <p className="price-label">APY</p>
-                    <p className="price-data">{ trim(stakingAPY * 100, 4) }%</p>
-                  </div>
-
-                  <div className="stake-price-data-row">
+                  {/* <div className="stake-price-data-row">
                     <p className="price-label">Current index</p>
                     <p className="price-data">{ trim(currentIndex, 4) } OHM</p>
-                  </div>
+                  </div> */}
                 </div>
 
                 {address && hasAllowance('ohm') && view === 'stake' && <div className="d-flex align-self-center mb-2">
@@ -140,9 +153,6 @@ function Stake({ provider, address }) {
                 {address && !hasAllowance('sohm') && view === 'unstake' && <div className="d-flex align-self-center mb-2">
                   <div className="stake-button" onClick={() => { onSeekApproval('sohm') }}>Approve sOHM</div>
                 </div>}
-              
-
-
             
           </div>
         </Card>
