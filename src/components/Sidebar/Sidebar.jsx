@@ -64,7 +64,7 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
 
         <div className="dapp-menu-external-links">
           { Object.keys(externalUrls).map((link, i) => {
-            return <a key={i} href={externalUrls[link].url} className="button button-dapp-menu">
+            return <a key={i} href={externalUrls[link].url} target="_blank" className="button button-dapp-menu">
               <i className={externalUrls[link].icon} />
               <span>{externalUrls[link].title}</span>
             </a>

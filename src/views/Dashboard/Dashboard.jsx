@@ -6,7 +6,6 @@ import "./dashboard.scss";
 
 
 function Dashboard({ provider, address }) {
-	const dispatch = useDispatch();
 	const marketPrice = useSelector((state ) => { return state.app.marketPrice });
 	const circSupply  = useSelector((state ) => { return state.app.circulating });
 	const totalSupply = useSelector((state ) => { return state.app.total });
