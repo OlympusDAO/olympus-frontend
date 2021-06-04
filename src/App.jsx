@@ -173,7 +173,6 @@ function App(props) {
   }, [setRoute]);
 
 
-
   return (
     <div className="app">
       <div id="dapp" className="dapp min-vh-100 min-hw-100">
@@ -216,25 +215,27 @@ function App(props) {
                 route={route}
               />
 
-              <Switch>
-                <Route exact path="/dashboard">
-                  <Dashboard address={address} provider={injectedProvider} />
-                </Route>
-
-                <Route exact path="/">
-                  <Stake address={address} provider={injectedProvider} />
-                </Route>
-
-                <Route exact path="/bonds">
-                  <ChooseBond address={address} provider={injectedProvider} />
-                </Route>
-
-                {Object.values(BONDS).map(bond => {
-                  return <Route exact key={bond} path={`/bonds/${bond}`}>
-                    <Bond bond={bond} address={address} provider={injectedProvider} />
+              <Box className="dapp-view"> 
+                <Switch>
+                  <Route exact path="/dashboard">
+                    <Dashboard address={address} provider={injectedProvider} />
                   </Route>
-                })}
-              </Switch>
+
+                  <Route exact path="/">
+                    <Stake address={address} provider={injectedProvider} />
+                  </Route>
+
+                  <Route exact path="/bonds">
+                    <ChooseBond address={address} provider={injectedProvider} />
+                  </Route>
+
+                  {Object.values(BONDS).map(bond => {
+                    return <Route exact key={bond} path={`/bonds/${bond}`}>
+                      <Bond bond={bond} address={address} provider={injectedProvider} />
+                    </Route>
+                  })}
+                </Switch>
+              </Box>
             </Box>
 
             <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}></div>

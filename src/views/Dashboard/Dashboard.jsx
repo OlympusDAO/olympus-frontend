@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim } from "../../helpers";
+import { Card, Flex } from "rimble-ui";
+import "./dashboard.scss";
 
 
 function Dashboard({ provider, address }) {
-	const dispatch = useDispatch();
 	const marketPrice = useSelector((state ) => { return state.app.marketPrice });
 	const circSupply  = useSelector((state ) => { return state.app.circulating });
 	const totalSupply = useSelector((state ) => { return state.app.total });
@@ -17,9 +18,12 @@ function Dashboard({ provider, address }) {
 	return (
 		<div className="d-flex align-items-center justify-content-center min-vh-100">
 			<div className="container">
+			
 				<div className="row mt-4">
+					
 					<div className="col-sm-4 mb-2 mb-sm-0">
 						<div className="card ohm-dashboard-card">
+						
 							<div className="card-body">
 								<h5 className="card-title">
 								Price (SushiSwap OHM-DAI Pool)
@@ -36,7 +40,8 @@ function Dashboard({ provider, address }) {
 									</h1>
 								</div>
 							</div>
-						</div>
+						
+						</div> 
 					</div>
 
 					<div className="col-sm-4 mb-2 mb-sm-0">

@@ -11,7 +11,7 @@ function ChooseBond({ provider, address }) {
 	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
   return (
-		<div className="d-flex align-items-center justify-content-center min-vh-100">
+		<div className="d-flex align-items-center justify-content-center">
 			<div className="dapp-center-modal d-flex flex-column ohm-card">
 				<div className="py-4 px-4 py-md-4 px-md-4">
 					<h2 className="text-center mb-4 text-white">How do you want to bond?</h2>
