@@ -1,16 +1,16 @@
 .dapp-topbar {
     position: relative;
-    display: block;
+    display: flex;
     text-align: right;
     top: 0;
-    right: 0;
-    left: 0;
-    width: 100%;
+    right: 0; 
+    width: auto;
     height: 70px;
     line-height: 60px;
     background-color:#eeeeee00;
     padding: 5px;
     justify-content: right;
+    flex-direction: row-reverse;
 }
 
 .dapp-topbar-items {

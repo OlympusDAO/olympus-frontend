@@ -47,7 +47,9 @@
   color: #fff;
   text-decoration: none;
   font-size: 16px;
-
+  svg {
+    height: 100%;
+  }
   // &.active {
   //   // color: #CC3B66;
   //   font-weight: bold;
@@ -66,6 +68,9 @@
   }
   span {
     margin-left: 1rem;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
   }
 }
 
