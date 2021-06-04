@@ -63,12 +63,78 @@
     display: flex;
     height: 24%;
     width: 100%;
+    .olympus-sushi {
+        flex: 1;
+        div {
+            line-height: 150%;
+        }
+        .olympus-logo {
+            height: 36px;
+            width: 36px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        h3 {
+            display: inline-block;
+            margin: 0;
+            vertical-align: middle;
+        }
+        a {
+            font-size: 0.95em;
+            margin-right: 5px;
+        }
+    }
+    .stake-apy {
+        flex: 2;
+        text-align: center;
+        h2 {
+            font-size: 3.3rem;
+            margin-top: none;
+            margin-bottom: none;
+            line-height: 100%;
+        }
+        h2:first-of-type {
+            margin-bottom: unset;
+        }
+    }
+    .next-rebase {
+        flex: 1;
+        text-align: right;
+    }
+}
+
+.olympus-logo-tiny {
+    height: 20px;
+    width: 20px;
+    vertical-align: middle;
+    background-color: inherit;
+    
+}
+
+.logo-holder {
+    background-color: #282828 !important;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0 0.5rem 0.8rem;
+    background: transparent;
+    border: unset;
+    color: #555;
 }
 
 
-// this is an overwrite from the global styles, will fix later
+// these are overwrites for certain global styles, will fix later
 .stake-toggle-row {
-    
+    margin: 1.5rem 0;
+}
+
+.input-group.ohm-input-group {
+    width: 47%;
+    input, button {
+        border-radius: .5rem;
+    }
+    button {
+        border-left: 0;
+    }
 }
 
 
