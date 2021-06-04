@@ -399,7 +399,7 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
   border-radius:2rem;
 }
 
-.swap-ourput-row{
+.swap-output-row{
   display:flex;flex-flow:row;justify-content:space-between;
   width:330px;
   height:50px;
@@ -428,6 +428,17 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
   flex-flow:wrap;
   justify-content:center;
   overflow:hidden;
+}
+
+
+.dapp-view {
+  justify-content: center;
+  align-items: center;
+  height: 92vh;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
 }
 
 

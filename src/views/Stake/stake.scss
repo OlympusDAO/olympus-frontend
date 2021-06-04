@@ -1,0 +1,80 @@
+// ohm-card styles should be set to theme
+.ohm-card {
+    color: #eee;
+    overflow: hidden;
+    min-height: 45vh;
+    max-height: 60vh;
+    max-width: 65vw;
+    border-radius: .5rem;
+    background-color:#42424200 !important;
+    border: none !important;
+    display:flex;
+    margin: 1rem;
+    justify-content:center;
+    flex-flow:wrap;
+    padding: 0px !important;
+    .card-header {
+        position: absolute;
+        width: 100%;
+        background-color:#42424200 !important;
+        box-shadow: none !important;
+        border: none !important;
+        top: 0;
+        h5 {
+            font-weight: 550;
+            text-decoration: underline;
+            text-underline-offset: 8px;
+        }
+    }
+    .card-content {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        align-items: left;
+        justify-content: center;
+        background-color:#424242dd !important;
+        border-radius: inherit;
+        box-shadow: 0px 5px 20px rgba(0,0,0,0.5);
+        flex-flow: column;
+        padding: 3rem !important;
+    }
+    &.primary {
+        min-width: 60vw;
+        margin-bottom: 3.3rem;
+    }
+    &.secondary {
+        min-height: 22vh;
+        max-height: 33vh;
+        height: auto;
+        min-width: 60vw;
+        padding-top: 4.20rem !important;
+        .card-content {
+            position: relative;
+        }
+    }
+}
+
+.stake-top-metrics {
+    display: flex;
+    height: 24%;
+    width: 100%;
+}
+
+
+// this is an overwrite from the global styles, will fix later
+.stake-toggle-row {
+    
+}
+
+
+
+  
+
+  
+
+  
