@@ -1,20 +1,20 @@
 // ohm-card styles should be set to theme
 .ohm-card {
-    color: #eee;
+    color: #efefef;
     overflow: hidden;
-    min-height: 45vh;
-    max-height: 60vh;
-    max-width: 60vw;
-    min-width: 50vw;
+    max-width: 55vw;
+    min-width: 49vw;
+    width: 50vw;
     border-radius: .5rem;
     background-color: transparent !important;
     box-shadow: unset !important;
     border: none !important;
     display:flex;
-    margin: 1rem;
+    // margin: 0rem;
     justify-content:center;
     flex-flow:wrap;
     padding: 0px !important;
+    padding-top: 4.20rem !important;
     .card-header {
         position: absolute;
         width: 100%;
@@ -25,38 +25,31 @@
         h5 {
             font-weight: 550;
             text-decoration: underline;
-            text-underline-offset: 8px;
+            text-underline-offset: 10px;
         }
     }
     .card-content {
         width: 100%;
-        height: auto;
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
+        position: relative;
         display: flex;
         align-items: left;
         justify-content: center;
         border-radius: inherit;
-        background: rgba(33, 33, 33, 0.5) !important;
+        background: rgba(27, 29, 34, 0.6) !important;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
         flex-flow: column;
-        padding: 3rem !important;
+        padding: 2.5rem 2.5rem;
+        
     }
     &.primary {
-        
         margin-bottom: 3.3rem;
+        min-height: 550px;
+        // height: 50vh;
+        height: auto;
     }
     &.secondary {
-        min-height: 22vh;
-        max-height: 33vh;
         height: auto;
-        padding-top: 4.20rem !important;
-        .card-content {
-            position: relative;
-        }
+        max-height: 25vh;
     }
 }
 
@@ -70,8 +63,8 @@
             line-height: 150%;
         }
         .olympus-logo {
-            height: 36px;
-            width: 36px;
+            height: 1.7rem;
+            width: 1.7rem;
             display: inline-block;
             vertical-align: middle;
             margin-right: 5px;
@@ -80,17 +73,22 @@
             display: inline-block;
             margin: 0;
             vertical-align: middle;
+            font-size: 1.5rem;
         }
         a {
-            font-size: 0.95em;
+            font-size: 0.9rem;
             margin-right: 5px;
+        }
+        .fa-external-link-alt {
+            width: 0.8rem;
+            height: 0.8rem;
         }
     }
     .stake-apy {
         flex: 2;
         text-align: center;
         h2 {
-            font-size: 3.3rem;
+            font-size: 3rem;
             margin-top: none;
             margin-bottom: none;
             line-height: 100%;
@@ -105,44 +103,98 @@
     }
 }
 
-.olympus-logo-tiny {
-    height: 20px;
-    width: 20px;
+// overriding original 
+.stake-toggle-row {
+    margin: 1.5rem 0;
+    .btn-group button.btn {
+        border: unset;
+        color: #fff;
+        border-radius: 0;
+        border-color: none !important;
+        background-color: transparent !important;
+        padding: 0 7px !important;
+        margin-right: 25px;
+        height: 2.2rem;
+        &:active,
+        &:focus {
+            outline: none;
+            border: none;
+            box-shadow: none;
+        }
+        &:hover {
+            color: #F5DDB4;
+        }
+    }
+    .btn-light {
+        border-bottom: 2px solid #F5DDB4 !important;
+        color: #F5DDB4 !important;
+    }
+}
+
+
+
+.ohm-logo-bg {
+    height: 25px;
+    width: 25px;
+    border-radius: 20px;
+    display: flex;
+    background-color: white;    
     vertical-align: middle;
-    background-color: inherit;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.7rem;
+}
+
+.ohm-logo-tiny {
+    height: 15px;
+    width: 15px;
+    vertical-align: middle;
+    background-color: transparent;
 }
 
 .logo-holder {
-    background-color: #282828 !important;
-    border-radius: 0.5rem;
-    padding: 0.5rem 0 0.5rem 0.8rem;
-    background: transparent;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: #28282822 !important;
     border: unset;
+    border: 0.8px solid #fff;
+    border-radius: 0.5rem;
+    border-right: 0;
     color: #555;
 }
 
 
-// these are overwrites for certain global styles, will fix later
-.stake-toggle-row {
-    margin: 1.5rem 0;
-}
-
 .input-group.ohm-input-group {
-    width: 47%;
+    width: 48%;
     input, button {
         border-radius: .5rem;
+        // background-color: transparent;
+        background-color: #28282822 !important;
+        border-top: 0.8px solid #fff;
+        border-bottom: 0.8px solid #fff;
+        &:focus,
+        &:active {
+            outline: none !important;
+            box-shadow: none !important;
+
+        }
     }
     button {
         border-left: 0;
-    }
-    input:focus {
-        outline: none;
+        background-color: #28282822 !important;
+        color: #fff;
+        &:hover {
+            color: #F5DDB4 !important;
+        }
     }
 }
 
+.stake-notification {
+    font-size: 0.9rem;
+}
 
 
-  
 
   
 

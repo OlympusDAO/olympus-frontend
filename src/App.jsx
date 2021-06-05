@@ -190,7 +190,8 @@ function App(props) {
               </button>
             </nav>
 
-            <Box width={ 1 / 6 }>
+            {/* <Box width={ 1 / 6 }> */}
+            {/* <Box> */}
               <Sidebar 
                 web3Modal={web3Modal} 
                 loadWeb3Modal={loadWeb3Modal} 
@@ -202,9 +203,9 @@ function App(props) {
                 isExpanded={isSidebarExpanded} 
                 setRoute={setRoute} 
               />
-            </Box>
+            {/* </Box> */}
 
-            <Box width={ 5 / 6 }>
+            <Box width={"100vw"}>
               <TopBar 
                 web3Modal={web3Modal} 
                 loadWeb3Modal={loadWeb3Modal} 
