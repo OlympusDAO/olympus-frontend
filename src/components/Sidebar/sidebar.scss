@@ -10,10 +10,10 @@
 }
 
 .branding-header-icon {
-  width: 68px;
-  padding:1.2rem;
+  width: 45px;
+  padding:0.3rem;
+  margin: auto;
   filter:invert(1);
-  
 }
 
 .dapp-menu-top {
@@ -21,13 +21,21 @@
   height: 70px;
   line-height: 70px;
   font-size: 28px;
+  align-items: center;
   text-decoration: none;
+  .branding-header {
+    padding: 0 1em;
+  }
   a {
-    color: white;
-    font-weight: bold;
-    width: 100%;
-    display: inline-block;
-    padding: 5px;
+    display: block;
+    vertical-align: middle;
+    h3 {
+      display: inline-block;
+      vertical-align: middle;
+      color: white;
+      font-weight: bold;
+      margin: 0;
+    }
   }
 }
 
@@ -75,10 +83,24 @@
 }
 
 .dapp-menu-data {
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   display: flex;
   height: auto;
+  width: 100%;
+  padding: 5px 24px;
+}
+
+.bond-discounts {
+  text-align: left;
+  color: #999999;
+  p {
+    margin-bottom: 1px;
+    font-size: .89rem;
+  }
+  p:first-of-type {
+    margin-bottom: 8px;
+  }
 }
 
 .dapp-menu-social {

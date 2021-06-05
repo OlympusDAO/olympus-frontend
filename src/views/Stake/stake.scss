@@ -109,7 +109,6 @@
     width: 20px;
     vertical-align: middle;
     background-color: inherit;
-    
 }
 
 .logo-holder {
@@ -134,6 +133,9 @@
     }
     button {
         border-left: 0;
+    }
+    input:focus {
+        outline: none;
     }
 }
 
