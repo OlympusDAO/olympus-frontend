@@ -2,7 +2,7 @@
 .ohm-card {
     color: #eee;
     overflow: hidden;
-    min-height: 45vh;
+    min-height: 55vh;
     max-height: 60vh;
     max-width: 60vw;
     min-width: 50vw;
@@ -140,8 +140,15 @@
     }
 }
 
+.stake-notification {
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 15px;
+}
 
-
+.stake-price-data-column p {
+    font-size: 1rem;
+}
   
 
   
