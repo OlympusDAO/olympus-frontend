@@ -54,8 +54,7 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
               <span>Bond</span>
             </NavLink>
 
-            {/* this could be its own component */}
-            <div className="dapp-menu-data">
+            <div className="dapp-menu-data discounts">
               <div className="bond-discounts">
                 <p>Bond discounts</p>
                 <p>OHM-DAI LP</p>
@@ -64,7 +63,6 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
                 <p>FRAX</p>
               </div>
             </div>
-
 
             {/* <a href="https://olympusdao.finance/#/lpstake" className="button button-dapp-menu">
               <i className="fa fa-water me-3" />
@@ -85,7 +83,7 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
           )}
         </div>
 
-        <div className="dapp-menu-data">
+        <div className="dapp-menu-data rebase">
           <RebaseTimer />
         </div>
 

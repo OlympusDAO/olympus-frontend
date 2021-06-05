@@ -6,14 +6,26 @@
   height:100%;
   display:flex;
   flex-flow:column;
-  background-color:#212121;
+  background: rgba(33, 33, 33, 0.5);
+  font-family: 'Square'
+}
+
+.branding-header {
+  display: block;
+  text-align: center;
+  font-family: 'Square'
 }
 
 .branding-header-icon {
-  width: 45px;
-  padding:0.3rem;
-  margin: auto;
+  width: 100px;
+  padding:0.5rem 1.2rem;
   filter:invert(1);
+  display: block;
+  margin: 0 auto;
+}
+
+.dapp-menu-top a {
+  line-height: 0;
 }
 
 .dapp-menu-top {
@@ -46,7 +58,7 @@
 
 .button-dapp-menu{
   display:flex;
-  border-radius:2rem;
+  //border-radius:2rem;
   font-weight: normal !important;
   // @extend .button-secondary;
   font-family: 'Square', 'cursive';
@@ -64,6 +76,20 @@
   // }
 }
 
+.dapp-nav a {
+  padding: 0 15%;
+  background: transparent;
+}
+
+.dapp-nav a:hover {
+  background:url(../../assets/menu-item-hover.png) no-repeat left center;
+  -webkit-transition: opacity 200ms linear;
+  -moz-transition: opacity 200ms linear;
+  -o-transition: opacity 200ms linear;
+  -ms-transition: opacity 200ms linear;
+  transition: opacity 200ms linear;
+}
+
 .dapp-menu-external-links {
   display: flex;
   flex-flow: column;
@@ -73,6 +99,7 @@
   a {
     display: block;
     width: 100%;
+    padding: 0 15%;
   }
   span {
     margin-left: 1rem;
@@ -83,17 +110,22 @@
 }
 
 .dapp-menu-data {
-  justify-content: left;
   align-items: center;
   display: flex;
   height: auto;
   width: 100%;
-  padding: 5px 24px;
+  &.rebase {
+    justify-content: center;
+  }
+  &.discount {
+    justify-content: left;
+  }
 }
 
 .bond-discounts {
   text-align: left;
   color: #999999;
+  padding-left: calc(16% + 30px);
   p {
     margin-bottom: 1px;
     font-size: .89rem;
