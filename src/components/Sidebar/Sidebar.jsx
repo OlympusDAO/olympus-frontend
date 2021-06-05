@@ -58,9 +58,9 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
             {/* needs functions for discount calc */}
             <div className="dapp-menu-data discounts">
               <div className="bond-discounts">
-                <p>Bond discounts<span>10%</span></p>
-                <p>OHM-DAI LP<span>12%</span></p>
-                <p>OHM-FRAX LP<span>8.5%</span></p>
+                <p>Bond discounts</p>
+                <p>OHM-DAI LP<span>10%</span></p>
+                <p>OHM-FRAX LP<span>12%</span></p>
                 <p>DAI<span>8.5%</span></p>
                 <p>FRAX<span>9.5%</span></p>
               </div>
