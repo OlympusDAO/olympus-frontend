@@ -47,6 +47,12 @@ html, body, #app {
     -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height:1.6rem;
+  background-color: #EFE9E0;
+  background:
+          radial-gradient(circle at 0% 0,
+                  rgba(245,221,180,.5), rgba(245,221,180,0) 70.71%),
+          radial-gradient(circle at 100% 100%,
+                  rgba(176,201,228,.5), rgba(176,201,228,0) 20%);
 }
 
 #app {
@@ -109,7 +115,8 @@ background-position: center;
 display: flex;
 flex-flow: column;
 justify-content:center;
-background-attachment: fixed;}
+background-attachment: fixed;
+}
 
 
 
@@ -490,10 +497,16 @@ footer{
 .dapp{
   // height:100vh;
   // width:100vw;
-  background-position:center;
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-image:url('./assets/dapp-background.svg');
+  background-color: #3A4050 !important;
+  background:
+          radial-gradient(circle at 25% 0%,
+                  rgba(227,255,240,.5), rgba(227,255,240,0) 50%),
+          radial-gradient(circle at 80% 80%,
+                  rgba(131,165,203,.5), rgba(131,165,203,0) 50%);
+  //background-position:center;
+  //background-size:cover;
+  //background-repeat:no-repeat;
+  //background-image:url('./assets/dapp-background.svg');
 }
 
 .swap-input-container{
@@ -1212,11 +1225,13 @@ input.input:read-only {
 
 
 .btn-dark {
-  border-color: #CFB081;
+  color: #ffffff !important;
+  background: rgba(33, 33, 33, 0.5) !important;
+  border-color: rgba(33, 33, 33, 0.5) !important;
 
   &:hover{
-    color: black !important;
+    color: #333 !important;
     background-color: white !important;
-    border-color: #212529 !important;
+    border-color: white !important;
   }
 }
