@@ -167,6 +167,7 @@
 
 .input-group.ohm-input-group {
     width: 48%;
+    margin-bottom: 10px;
     input, button {
         border-radius: .5rem;
         // background-color: transparent;
@@ -194,6 +195,13 @@
     font-size: 0.9rem;
 }
 
+
+.stake-price-data-row {
+    .price-label,
+    .price-data {
+        font-size: 1rem !important;
+    }
+}
 
 
   
