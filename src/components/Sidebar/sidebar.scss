@@ -87,6 +87,12 @@
   -o-transition: opacity 200ms linear;
   -ms-transition: opacity 200ms linear;
   transition: opacity 200ms linear;
+  > svg {
+    filter: brightness(0) saturate(100%) invert(99%) sepia(44%) saturate(1344%) hue-rotate(310deg) brightness(96%) contrast(100%);
+  }
+  > span {
+    color: #F5DDB4;
+  }
 }
 
 .dapp-menu-external-links {
@@ -155,7 +161,8 @@
   a {
     &:hover{
       transform:scale(1.1);
-  }
+      color: #F5DDB4;
+    }
   }
 }
 
