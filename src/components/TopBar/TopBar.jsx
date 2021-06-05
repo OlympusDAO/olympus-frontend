@@ -28,16 +28,18 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
 				<Flex className="dapp-topbar-items">
 					
 						<ThemeSwitch />
-					
+
+                    <div>
 						<button
-							className="get-ohm-button btn btn-dark btn-overwrite-primer m-2" 
-							as="a" 
-							href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" 
-							target="\_blank" 
+							className="get-ohm-button btn btn-dark btn-overwrite-primer m-2"
+							as="a"
+							href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
+							target="\_blank"
 							title="Get OHM">
 								Get OHM
 						</button>
-					
+                    </div>
+
 
 					<div className="wallet-menu">
 						{address && <a href={`https://etherscan.io/address/${address}`} target="_blank">

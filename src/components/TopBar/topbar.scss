@@ -6,19 +6,20 @@
     right: 0; 
     width: auto;
     height: 70px;
-    line-height: 60px;
+    //line-height: 60px;
     background-color:#eeeeee00;
     padding: 5px;
     justify-content: right;
     flex-direction: row-reverse;
+    margin-top: 10px;
 }
 
 .dapp-topbar-items {
     float: right;
     vertical-align: middle;
-    div {
-        margin-right: 10px;
-    }
+    //div {
+    //    margin-right: 10px;
+    //}
 }
 
 .get-ohm-button {
@@ -28,11 +29,11 @@
 .wallet-menu {
     display:flex;
     float: right;
-    flex-flow:column;
+    //flex-flow:column;
     text-align: center;
   
-    width:200px;
-    margin: auto;
+    //width:200px;
+    //margin: auto;
     justify-content:center;
   
     a {
@@ -66,3 +67,12 @@
     background-color: white;
     color: black;
 }
+
+.theme-switcher-btn {
+    padding: 0 9.5px;
+}
+
+.theme-switcher-btn img:hover {
+    filter: brightness(0) saturate(100%) invert(92%) sepia(8%) saturate(1588%) hue-rotate(327deg) brightness(104%) contrast(92%);
+}
+
