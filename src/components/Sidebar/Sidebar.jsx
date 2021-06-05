@@ -6,6 +6,9 @@ import OlympusLogo from '../../assets/logo.svg';
 import RebaseTimer from '../RebaseTimer/RebaseTimer';
 import externalUrls from './externalUrls';
 import "./sidebar.scss";
+import { ReactComponent as StakeIcon } from "../../assets/stake-icon.svg";
+import { ReactComponent as BondIcon } from "../../assets/bond-icon.svg";
+
 
 
 function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer }) {
@@ -19,8 +22,6 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
     return match.url.indexOf('bonds') >= 0 || match.url.indexOf('choose_bond') >= 0
   }, []);
 
-  
-
   return (
     <div
       className={`${isExpanded ? 'show' : '' } col-lg-2 col-2 d-md-block sidebar collapse`}
@@ -31,7 +32,7 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
           <div className="branding-header">
             <a href="https://olympusdao.finance">
               <img className="branding-header-icon" src={OlympusLogo} alt="" />
-              Olympus
+              <h3>Olympus</h3>
             </a>
           </div>
         </div>
@@ -44,19 +45,31 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
             </NavLink>
 
             <NavLink onClick={() => { setRoute("/" ) }} to="/" className="button button-dapp-menu" isActive={(match, location) => { return !isBondPage(match, location) }}>
-              <i className="fa fa-gem me-3" />
+              <StakeIcon className="me-3" />
               <span>Stake</span>
             </NavLink>
 
             <NavLink onClick={() => { setRoute("/bonds" ) }} to="/bonds" className="button button-dapp-menu" isActive={(match, location) => { return isBondPage(match, location) }}>
-              <i className="fa fa-clock me-3" />
+              <BondIcon className="me-3" />
               <span>Bond</span>
             </NavLink>
 
-            <a href="https://olympusdao.finance/#/lpstake" className="button button-dapp-menu">
+            {/* this could be its own component */}
+            <div className="dapp-menu-data">
+              <div className="bond-discounts">
+                <p>Bond discounts</p>
+                <p>OHM-DAI LP</p>
+                <p>OHM-FRAX LP</p>
+                <p>DAI</p>
+                <p>FRAX</p>
+              </div>
+            </div>
+
+
+            {/* <a href="https://olympusdao.finance/#/lpstake" className="button button-dapp-menu">
               <i className="fa fa-water me-3" />
               <span>LP Staking</span>
-            </a>
+            </a> */}
           </div>
         </div>
 
@@ -65,7 +78,7 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
         <div className="dapp-menu-external-links">
           { Object.keys(externalUrls).map((link, i) => {
             return <a key={i} href={externalUrls[link].url} target="_blank" className="button button-dapp-menu">
-              <i className={externalUrls[link].icon} />
+              {externalUrls[link].icon}
               <span>{externalUrls[link].title}</span>
             </a>
             }
