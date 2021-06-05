@@ -6,12 +6,19 @@
     right: 0; 
     width: auto;
     height: 70px;
-    //line-height: 60px;
     background-color:#eeeeee00;
     padding: 5px;
     justify-content: right;
     flex-direction: row-reverse;
     margin-top: 10px;
+    button {
+        border-radius: .7rem !important;
+        border-color: none !important
+    }
+    button:hover {
+        background-color: #5A6C7D !important;
+        border-color: none !important;
+    }
 }
 
 .dapp-topbar-items {
@@ -55,8 +62,6 @@
     } 
 }
 
-.dapp-sidebar-button-connected{ border-radius:2rem; }
-
 .dapp-sidebar-button-connect {
     background-color: transparent;
     color: white;
@@ -68,11 +73,4 @@
     color: black;
 }
 
-.theme-switcher-btn {
-    padding: 0 9.5px;
-}
-
-.theme-switcher-btn img:hover {
-    filter: brightness(0) saturate(100%) invert(92%) sepia(8%) saturate(1588%) hue-rotate(327deg) brightness(104%) contrast(92%);
-}
 
