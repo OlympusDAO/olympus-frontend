@@ -4,6 +4,7 @@ import { Flex, Box, Card } from "rimble-ui";
 import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import { changeStake, changeApproval } from '../../actions/Stake.actions.js';
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
+import { ReactComponent as OhmIcon } from "../../assets/icons/OHM-icon.svg";
 import "../../style.scss";
 import "./stake.scss";
 
@@ -63,7 +64,11 @@ function Stake({ provider, address }) {
 
   return (
     <Flex id="stake-view" className="dapp-view">
-        <Card className="ohm-card primary">
+        <Card className="ohm-card primary" backgroundColor={"#FFFFFF00"}>
+          <div className="card-header">
+            <h5>Single Stake (3, 3)</h5>
+          </div> 
+
           <div className="card-content">
             
             <div className="stake-top-metrics">
@@ -96,71 +101,76 @@ function Stake({ provider, address }) {
               </div>
             </div>
 
-                <div className="input-group ohm-input-group">
-                  <div className="logo-holder">
-                    <img className="olympus-logo-tiny" src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"/>
-                  </div>
-                  <input
-                    value={quantity}
-                    onChange={e => setQuantity(e.target.value)}
-                    type="number"
-                    className="form-control"
-                    placeholder="Type an amount"
-                  />
+            <div className="input-group ohm-input-group">
+              <div className="logo-holder">
+                <div className="ohm-logo-bg">
+                  <img className="ohm-logo-tiny" src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"/>
+                </div>              
+              </div>
+              <input
+                value={quantity}
+                onChange={e => setQuantity(e.target.value)}
+                type="number"
+                className="form-control"
+                placeholder="Type an amount"
+              />
+              <button className="btn" type="button" onClick={setMax}>Max</button>
+            </div>
 
-                  <button className="btn" type="button" onClick={setMax}>Max</button>
-                </div>
-          <div class='stake-notification'>
-            <p>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</p>
-          </div>
-
-
-                <div className="stake-price-data-column">
-                  <div className="stake-price-data-row">
-                    <p className="price-label">Your Balance</p>
-                    <p className="price-data">{ trim(ohmBalance) } OHM</p>
-                  </div>
-
-                  <div className="stake-price-data-row">
-                    <p className="price-label">Your Staked Balance</p>
-                    <p className="price-data">{ trim(sohmBalance, 4) } sOHM</p>
-                  </div>
-
-                  <div className="stake-price-data-row">
-                    <p className="price-label">Reward Yield</p>
-                    <p className="price-data">{ trim(stakingRebase * 100, 4) }%</p>
-                  </div>
-
-                  <div className="stake-price-data-row">
-                    <p className="price-label">ROI (5-Day Rate)</p>
-                    <p className="price-data">{ trim(fiveDayRate * 100, 4) }%</p>
-                  </div>
-
-                  {/* <div className="stake-price-data-row">
-                    <p className="price-label">Current index</p>
-                    <p className="price-data">{ trim(currentIndex, 4) } OHM</p>
-                  </div> */}
-                </div>
-
-                {address && hasAllowance('ohm') && view === 'stake' && <div className="d-flex align-self-center mb-2">
-                  <div className="stake-button" onClick={() => { onChangeStake('stake') }}>Stake OHM</div>
-                </div>}
-
-                {address && hasAllowance('sohm') && view === 'unstake' && <div className="d-flex align-self-center mb-2">
-                  <div className="stake-button" onClick={() => { onChangeStake('unstake') }}>Unstake OHM</div>
-                </div>}
-
-                {address && !hasAllowance('ohm') && view === 'stake' && <div className="d-flex align-self-center mb-2">
-                  <div className="stake-button" onClick={() => { onSeekApproval('ohm') }}>Approve OHM</div>
-                </div>}
-
-                {address && !hasAllowance('sohm') && view === 'unstake' && <div className="d-flex align-self-center mb-2">
-                  <div className="stake-button" onClick={() => { onSeekApproval('sohm') }}>Approve sOHM</div>
-                </div>}
             
+
+
+              <div className="stake-price-data-column">
+                <div className="stake-price-data-row">
+                  <p className="price-label">Your Balance</p>
+                  <p className="price-data">{ trim(ohmBalance) } OHM</p>
+                </div>
+
+                <div className="stake-price-data-row">
+                  <p className="price-label">Your Staked Balance</p>
+                  <p className="price-data">{ trim(sohmBalance, 4) } sOHM</p>
+                </div>
+
+                <div className="stake-price-data-row">
+                  <p className="price-label">Reward Yield</p>
+                  <p className="price-data">{ trim(stakingRebase * 100, 4) }%</p>
+                </div>
+
+                <div className="stake-price-data-row">
+                  <p className="price-label">ROI (5-Day Rate)</p>
+                  <p className="price-data">{ trim(fiveDayRate * 100, 4) }%</p>
+                </div>
+
+                {/* <div className="stake-price-data-row">
+                  <p className="price-label">Current index</p>
+                  <p className="price-data">{ trim(currentIndex, 4) } OHM</p>
+                </div> */}
+              </div>
+
+              {address && hasAllowance('ohm') && view === 'stake' && <div className="d-flex align-self-center mb-2">
+                <div className="stake-button" onClick={() => { onChangeStake('stake') }}>Stake OHM</div>
+              </div>}
+
+              {address && hasAllowance('sohm') && view === 'unstake' && <div className="d-flex align-self-center mb-2">
+                <div className="stake-button" onClick={() => { onChangeStake('unstake') }}>Unstake OHM</div>
+              </div>}
+
+              {address && !hasAllowance('ohm') && view === 'stake' && <div className="d-flex align-self-center mb-2">
+                <div className="stake-button" onClick={() => { onSeekApproval('ohm') }}>Approve OHM</div>
+              </div>}
+
+              {address && !hasAllowance('sohm') && view === 'unstake' && <div className="d-flex align-self-center mb-2">
+                <div className="stake-button" onClick={() => { onSeekApproval('sohm') }}>Approve sOHM</div>
+              </div>}
+
+            <div class='stake-notification'>
+              <p><em>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</em></p>
+            </div>  
           </div>
+
         </Card>
 
+          
         
         <Card className="ohm-card secondary" backgroundColor={"#FFFFFF00"}>
           <div className="card-header">

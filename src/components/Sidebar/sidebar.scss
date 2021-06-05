@@ -2,7 +2,7 @@
   position: fixed;
   left:0px;
   top:0px;
-  min-width: 16%;
+  min-width: 270px;
   height:100%;
   display:flex;
   flex-flow:column;
@@ -114,9 +114,9 @@
   height: auto;
   width: 100%;
   justify-content: left;
-  // &.discount {
-  //   justify-content: left;
-  // }
+  &.rebase {
+    padding-left: 30px;
+  }
 }
 
 .bond-discounts {
@@ -125,10 +125,14 @@
   padding-left: calc(16% + 36px);
   p {
     margin-bottom: 1px;
-    font-size: .89rem;
+    font-size: .8rem;
   }
   p:first-of-type {
     margin-bottom: 8px;
+  }
+  span {
+    margin-left: 17px;
+    float: right;
   }
 }
 
