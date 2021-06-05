@@ -163,7 +163,7 @@ function Stake({ provider, address }) {
             <h5>Stake OHM LP Tokens</h5>
           </div>  
           <div className="card-content">
-            Table goes here
+            Muh OHM-FRAX
           </div>
         </Card>
     </Flex>
