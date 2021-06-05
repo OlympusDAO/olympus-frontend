@@ -5,7 +5,7 @@ import Web3Modal from "web3modal";
 import "./topbar.scss";
 import { shorten } from '../../helpers';
 import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
-import { Flex, Box, Button } from "rimble-ui";
+import { Flex } from "rimble-ui";
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetProvider }) {
 
