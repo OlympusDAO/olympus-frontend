@@ -1,24 +1,32 @@
 .dapp-topbar {
     position: relative;
-    display: block;
+    display: flex;
     text-align: right;
     top: 0;
-    right: 0;
-    left: 0;
-    width: 100%;
+    right: 0; 
+    width: auto;
     height: 70px;
-    line-height: 60px;
     background-color:#eeeeee00;
     padding: 5px;
     justify-content: right;
+    flex-direction: row-reverse;
+    margin-top: 10px;
+    button {
+        border-radius: .7rem !important;
+        border-color: none !important
+    }
+    button:hover {
+        background-color: #5A6C7D !important;
+        border-color: none !important;
+    }
 }
 
 .dapp-topbar-items {
     float: right;
     vertical-align: middle;
-    div {
-        margin-right: 10px;
-    }
+    //div {
+    //    margin-right: 10px;
+    //}
 }
 
 .get-ohm-button {
@@ -28,11 +36,11 @@
 .wallet-menu {
     display:flex;
     float: right;
-    flex-flow:column;
+    //flex-flow:column;
     text-align: center;
   
-    width:200px;
-    margin: auto;
+    //width:200px;
+    //margin: auto;
     justify-content:center;
   
     a {
@@ -54,8 +62,6 @@
     } 
 }
 
-.dapp-sidebar-button-connected{ border-radius:2rem; }
-
 .dapp-sidebar-button-connect {
     background-color: transparent;
     color: white;
@@ -66,3 +72,5 @@
     background-color: white;
     color: black;
 }
+
+

@@ -2,32 +2,51 @@
   position: fixed;
   left:0px;
   top:0px;
-  min-width: 16%;
+  min-width: 270px;
   height:100%;
   display:flex;
   flex-flow:column;
-  background-color:#212121;
+  background: rgba(33, 33, 33, 0.5);
+  font-family: 'Square'
+}
+
+.branding-header {
+  display: block;
+  text-align: center;
+  font-family: 'Square'
 }
 
 .branding-header-icon {
-  width: 68px;
-  padding:1.2rem;
+  width: 100px;
+  padding:0.5rem 1.2rem;
   filter:invert(1);
-  
+  display: block;
+  margin: 0 auto;
+}
+
+.dapp-menu-top a {
+  line-height: 0;
 }
 
 .dapp-menu-top {
   width: 100%;
-  height: 70px;
-  line-height: 70px;
   font-size: 28px;
+  align-items: center;
   text-decoration: none;
+  padding: 10px;
+  .branding-header {
+    padding: 0 1em;
+  }
   a {
-    color: white;
-    font-weight: bold;
-    width: 100%;
-    display: inline-block;
-    padding: 5px;
+    display: block;
+    vertical-align: middle;
+    h3 {
+      display: inline-block;
+      vertical-align: middle;
+      color: white;
+      font-weight: bold;
+      margin: 0;
+    }
   }
 }
 
@@ -38,7 +57,7 @@
 
 .button-dapp-menu{
   display:flex;
-  border-radius:2rem;
+  //border-radius:2rem;
   font-weight: normal !important;
   // @extend .button-secondary;
   font-family: 'Square', 'cursive';
@@ -47,11 +66,33 @@
   color: #fff;
   text-decoration: none;
   font-size: 16px;
-
+  svg {
+    height: 100%;
+  }
   // &.active {
   //   // color: #CC3B66;
   //   font-weight: bold;
   // }
+}
+
+.dapp-nav a {
+  padding: 0 15%;
+  background: transparent;
+}
+
+.dapp-nav a:hover {
+  background:url(../../assets/menu-item-hover.png) no-repeat left center;
+  -webkit-transition: opacity 200ms linear;
+  -moz-transition: opacity 200ms linear;
+  -o-transition: opacity 200ms linear;
+  -ms-transition: opacity 200ms linear;
+  transition: opacity 200ms linear;
+  > svg {
+    filter: brightness(0) saturate(100%) invert(99%) sepia(44%) saturate(1344%) hue-rotate(310deg) brightness(96%) contrast(100%);
+  }
+  > span {
+    color: #F5DDB4;
+  }
 }
 
 .dapp-menu-external-links {
@@ -63,17 +104,42 @@
   a {
     display: block;
     width: 100%;
+    padding: 0 15%;
   }
   span {
     margin-left: 1rem;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
   }
 }
 
 .dapp-menu-data {
-  justify-content: center;
   align-items: center;
   display: flex;
   height: auto;
+  width: 100%;
+  justify-content: left;
+  &.rebase {
+    padding-left: 30px;
+  }
+}
+
+.bond-discounts {
+  text-align: left;
+  color: #999999;
+  padding-left: calc(16% + 36px);
+  p {
+    margin-bottom: 1px;
+    font-size: .8rem;
+  }
+  p:first-of-type {
+    margin-bottom: 8px;
+  }
+  span {
+    margin-left: 17px;
+    float: right;
+  }
 }
 
 .dapp-menu-social {
@@ -95,7 +161,8 @@
   a {
     &:hover{
       transform:scale(1.1);
-  }
+      color: #F5DDB4;
+    }
   }
 }
 
