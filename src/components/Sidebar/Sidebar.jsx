@@ -6,8 +6,9 @@ import OlympusLogo from '../../assets/logo.svg';
 import RebaseTimer from '../RebaseTimer/RebaseTimer';
 import externalUrls from './externalUrls';
 import "./sidebar.scss";
-import { ReactComponent as StakeIcon } from "../../assets/stake-icon.svg";
-import { ReactComponent as BondIcon } from "../../assets/bond-icon.svg";
+import { ReactComponent as StakeIcon } from "../../assets/icons/stake-icon.svg";
+import { ReactComponent as BondIcon } from "../../assets/icons/bond-icon.svg";
+import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-icon.svg";
 
 
 
@@ -40,7 +41,7 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
         <div className="dapp-menu-links">
           <div className="dapp-nav">
             <NavLink onClick={() => { setRoute("/dashboard" ) }} to="/dashboard" className="button button-dapp-menu" isActive={(match, location) => { return !!match && ['/dashboard'].includes(match.url) }}>
-              <i className="fa fa-chart-line me-3" />
+              <DashboardIcon className="me-3" />
               <span>Dashboard</span>
             </NavLink>
 
@@ -54,13 +55,14 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
               <span>Bond</span>
             </NavLink>
 
+            {/* needs functions for discount calc */}
             <div className="dapp-menu-data discounts">
               <div className="bond-discounts">
                 <p>Bond discounts</p>
-                <p>OHM-DAI LP</p>
-                <p>OHM-FRAX LP</p>
-                <p>DAI</p>
-                <p>FRAX</p>
+                <p>OHM-DAI LP<span>10%</span></p>
+                <p>OHM-FRAX LP<span>12%</span></p>
+                <p>DAI<span>8.5%</span></p>
+                <p>FRAX<span>9.5%</span></p>
               </div>
             </div>
 

@@ -439,7 +439,7 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
 
 
 .dapp-view {
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
   height: 92vh;
   width: 100%;
@@ -1225,13 +1225,15 @@ input.input:read-only {
 
 
 .btn-dark {
+  height: 39px;
+  font-size: 14px;
   color: #ffffff !important;
   background: rgba(33, 33, 33, 0.5) !important;
-  border-color: rgba(33, 33, 33, 0.5) !important;
+  border: none;
 
   &:hover{
-    color: #333 !important;
-    background-color: white !important;
-    border-color: white !important;
+    color: #F5DDB4 !important;
+    //background-color: white !important;
+    border: none;
   }
 }

@@ -1,6 +1,7 @@
 import { Switch } from "antd";
 import React, { useEffect, useState } from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
+import sunIcon from '../assets/icons/sun-icon.svg';
 
 export default function ThemeSwitcher() {
   const theme = window.localStorage.getItem("theme");
@@ -23,8 +24,15 @@ export default function ThemeSwitcher() {
 
   return (
     <div className="main fade-in" style={{ display: 'inline' }}>
-      <span style={{ padding: 8 }}>{currentTheme === "light" ? "☀️" : "🌜"}</span>
-      <Switch checked={isDarkMode} onChange={toggleTheme} />
+      {/*<span style={{ padding: 8 }}>{currentTheme === "light" ? "☀️" : "🌜"}</span>*/}
+      {/*<Switch checked={isDarkMode} onChange={toggleTheme} />*/}
+      <button
+        className="btn btn-dark btn-overwrite-primer m-2 theme-switcher-btn"
+        href="#"
+        title="Change Theme" onClick={toggleTheme}>
+        <img src={sunIcon} />
+    </button>
     </div>
+
   );
 }
