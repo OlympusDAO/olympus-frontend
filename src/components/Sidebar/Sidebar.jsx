@@ -40,7 +40,7 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
 
         <div className="dapp-menu-links">
           <div className="dapp-nav">
-            <NavLink onClick={() => { setRoute("/dashboard" ) }} to="/dashboard" className="button button-dapp-menu" isActive={(match, location) => { return !!match && ['/dashboard'].includes(match.url) }}>
+            <NavLink onClick={() => { setRoute("/dashboard" ) }} to="/dashboard" className="button button-dapp-menu " isActive={(match, location) => { return !!match && ['/dashboard'].includes(match.url) }}>
               <DashboardIcon className="me-3" />
               <span>Dashboard</span>
             </NavLink>
