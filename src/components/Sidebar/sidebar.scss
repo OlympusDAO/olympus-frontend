@@ -113,12 +113,10 @@
   display: flex;
   height: auto;
   width: 100%;
-  &.rebase {
-    justify-content: center;
-  }
-  &.discount {
-    justify-content: left;
-  }
+  justify-content: left;
+  // &.discount {
+  //   justify-content: left;
+  // }
 }
 
 .bond-discounts {
