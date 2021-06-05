@@ -4,7 +4,8 @@
     overflow: hidden;
     min-height: 45vh;
     max-height: 60vh;
-    max-width: 65vw;
+    max-width: 60vw;
+    min-width: 50vw;
     border-radius: .5rem;
     background-color: transparent !important;
     box-shadow: unset !important;
@@ -45,14 +46,13 @@
         padding: 3rem !important;
     }
     &.primary {
-        min-width: 60vw;
+        
         margin-bottom: 3.3rem;
     }
     &.secondary {
         min-height: 22vh;
         max-height: 33vh;
         height: auto;
-        min-width: 60vw;
         padding-top: 4.20rem !important;
         .card-content {
             position: relative;
