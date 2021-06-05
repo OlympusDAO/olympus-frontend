@@ -113,9 +113,6 @@
   display: flex;
   height: auto;
   width: 100%;
-  &.rebase {
-    justify-content: center;
-  }
   &.discount {
     justify-content: left;
   }
@@ -124,10 +121,16 @@
 .bond-discounts {
   text-align: left;
   color: #999999;
-  padding-left: calc(16% + 36px);
+  // todo responsive fix
+  //padding-left: calc(16% + 36px);
+  padding-left:15%;
   p {
     margin-bottom: 1px;
     font-size: .89rem;
+    span{
+      padding-left:40px;
+      float: right;
+    }
   }
   p:first-of-type {
     margin-bottom: 8px;

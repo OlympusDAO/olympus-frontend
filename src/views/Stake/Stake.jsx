@@ -110,15 +110,19 @@ function Stake({ provider, address }) {
 
                   <button className="btn" type="button" onClick={setMax}>Max</button>
                 </div>
+          <div class='stake-notification'>
+            <p>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</p>
+          </div>
+
 
                 <div className="stake-price-data-column">
                   <div className="stake-price-data-row">
-                    <p className="price-label">Balance</p>
+                    <p className="price-label">Your Balance</p>
                     <p className="price-data">{ trim(ohmBalance) } OHM</p>
                   </div>
 
                   <div className="stake-price-data-row">
-                    <p className="price-label">Staked</p>
+                    <p className="price-label">Your Staked Balance</p>
                     <p className="price-data">{ trim(sohmBalance, 4) } sOHM</p>
                   </div>
 
@@ -128,7 +132,7 @@ function Stake({ provider, address }) {
                   </div>
 
                   <div className="stake-price-data-row">
-                    <p className="price-label">ROI (5-day rate)</p>
+                    <p className="price-label">ROI (5-Day Rate)</p>
                     <p className="price-data">{ trim(fiveDayRate * 100, 4) }%</p>
                   </div>
 

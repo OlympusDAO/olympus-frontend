@@ -1,7 +1,7 @@
 import React from 'react';
-import { ReactComponent as ForumIcon } from "../../assets/forum-icon.svg";
+import { ReactComponent as ForumIcon } from "../../assets/icons/forum-icon.svg";
 import { ReactComponent as GovIcon } from "../../assets/governance-icon.svg";
-import { ReactComponent as DocsIcon } from "../../assets/docs-icon.svg";
+import { ReactComponent as DocsIcon } from "../../assets/icons/docs-icon.svg";
 
 const externalUrls = [
     {
