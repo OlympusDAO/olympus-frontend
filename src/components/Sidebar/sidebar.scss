@@ -33,7 +33,7 @@
   font-size: 28px;
   align-items: center;
   text-decoration: none;
-  padding: 10px;
+  padding: 15px;
   .branding-header {
     padding: 0 1em;
   }
@@ -81,7 +81,8 @@
 }
 
 .dapp-nav a:hover {
-  background:url(../../assets/menu-item-hover.png) no-repeat left center;
+  background: url(../../assets/menu-item-hover.png) no-repeat left center;
+  background-size: 10px;
   -webkit-transition: opacity 200ms linear;
   -moz-transition: opacity 200ms linear;
   -o-transition: opacity 200ms linear;

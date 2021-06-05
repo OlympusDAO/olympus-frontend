@@ -190,20 +190,17 @@ function App(props) {
               </button>
             </nav>
 
-            {/* <Box width={ 1 / 6 }> */}
-            {/* <Box> */}
-              <Sidebar 
-                web3Modal={web3Modal} 
-                loadWeb3Modal={loadWeb3Modal} 
-                logoutOfWeb3Modal={logoutOfWeb3Modal} 
-                mainnetProvider={mainnetProvider} 
-                blockExplorer={blockExplorer} 
-                address={address} 
-                route={route} 
-                isExpanded={isSidebarExpanded} 
-                setRoute={setRoute} 
-              />
-            {/* </Box> */}
+            <Sidebar 
+              web3Modal={web3Modal} 
+              loadWeb3Modal={loadWeb3Modal} 
+              logoutOfWeb3Modal={logoutOfWeb3Modal} 
+              mainnetProvider={mainnetProvider} 
+              blockExplorer={blockExplorer} 
+              address={address} 
+              route={route} 
+              isExpanded={isSidebarExpanded} 
+              setRoute={setRoute} 
+            />
 
             <Box width={"100vw"}>
               <TopBar 
