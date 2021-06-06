@@ -11,6 +11,9 @@ export const GlobalStyles = createGlobalStyle`
     .ohm-dashboard-card,
     .ohm-card .card-content {
         background-color: ${({theme}) => theme.cardBg};
+        h2 { 
+            color: ${({theme}) => theme.color};
+        }
     }
     #dapp p {
         color: ${({theme}) => theme.color};
