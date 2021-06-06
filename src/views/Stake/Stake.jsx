@@ -1,10 +1,9 @@
 import React, { useState, useCallback, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Flex, Box, Card } from "rimble-ui";
-import { trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
+import { Flex, Card } from "rimble-ui";
+import { trim } from "../../helpers";
 import { changeStake, changeApproval } from '../../actions/Stake.actions.js';
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
-import { ReactComponent as OhmIcon } from "../../assets/icons/OHM-icon.svg";
 import "../../style.scss";
 import "./stake.scss";
 
@@ -16,7 +15,7 @@ function Stake({ provider, address }) {
   const [quantity, setQuantity] = useState();
 
   const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });
-  const currentIndex = useSelector((state ) => { return state.app.currentIndex });
+  
 
   const ohmBalance     = useSelector((state ) => { return state.app.balances && state.app.balances.ohm });
   const sohmBalance    = useSelector((state ) => { return state.app.balances && state.app.balances.sohm });
@@ -53,14 +52,17 @@ function Stake({ provider, address }) {
     else if (token === 'sohm')
       return unstakeAllowance > 0;
   }, [stakeAllowance]);
+  
 
-  const timeUntilRebase = () => {
-    if (currentBlock) {
-      const rebaseBlock = getRebaseBlock(currentBlock);
-      const seconds     = secondsUntilBlock(currentBlock, rebaseBlock);
-      return prettifySeconds(seconds);
-    }
+  const ohmAssetImg = () => {
+    return 'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png';
   }
+
+  const fraxAssetImg = () => {
+    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
+  }
+
+
 
   return (
     <Flex id="stake-view" className="dapp-view">
@@ -178,7 +180,34 @@ function Stake({ provider, address }) {
             <h5>Stake OHM LP Tokens</h5>
           </div>  
           <div className="card-content">
-            Muh OHM-FRAX
+            <table class="table table-borderless stake-table">
+              <thead>
+                <tr>
+                  <th scope="col">Asset</th>
+                  <th scope="col">APR</th>
+                  <th scope="col">TVL</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <Flex className="ohm-pairs mr-2">
+                      <div className="ohm-pair" style={{zIndex: 2}}>
+                        <img src={`${ohmAssetImg()}`} />
+                      </div>
+                      <div className="ohm-pair" style={{zIndex: 1}}>
+                        <img src={`${fraxAssetImg()}`} />
+                      </div>
+                      <p>OHM-FRX</p>
+                    </Flex>
+                  </td>
+                  <td>874%</td>
+                  <td>$185,558,228</td>
+                  <td><button className="stake-button">Stake on Frax</button></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </Card>
     </Flex>
