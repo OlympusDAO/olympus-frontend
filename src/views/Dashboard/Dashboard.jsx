@@ -22,7 +22,7 @@ function Dashboard({ provider, address }) {
 						<div className="ohm-dashboard-card">
 						
 							<div className="card-body">
-								<h5 className="card-title">
+								<h5>
 								Price (SushiSwap OHM-DAI Pool)
 								<a
 										href="https://analytics.sushi.com/pairs/0x34d7d7aaf50ad4944b70b320acb24c95fa2def7c"
@@ -45,7 +45,7 @@ function Dashboard({ provider, address }) {
 					<Box width={ 1 / 3 } p={3} m={3}>
         		<div className="ohm-dashboard-card">
 							<div className="card-body">
-								<h5 className="card-title">Market Cap</h5>
+								<h5>Market Cap</h5>
 								<h1 className="text-center">
                   {
                     new Intl.NumberFormat('en-US', {
@@ -64,7 +64,7 @@ function Dashboard({ provider, address }) {
 					<Box width={ 1 / 3 } p={3} m={3}>
 						<div className="ohm-dashboard-card">
 							<div className="card-body">
-								<h5 className="card-title">Supply (circulating/total)</h5>
+								<h5>Supply (circulating/total)</h5>
 								<h1 className="text-center">
                   {
                     new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(circSupply / Math.pow(10,9))
