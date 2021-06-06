@@ -122,7 +122,20 @@
   width: 100%;
   justify-content: left;
   &.rebase {
-    padding-left: 30px;
+
+    justify-content: center;
+  }
+  &.index {
+    justify-content: center;
+    font-size: 0.75rem;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    p {
+      display: block;
+      margin-bottom: -5px;
+    }
+    
   }
 }
 

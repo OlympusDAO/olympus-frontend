@@ -211,8 +211,33 @@
     border-radius: .5rem;
     background-color: #ffffffee;
     color: #222;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
+    height: auto;
+}
+
+.stake-table {
+    thead {
+        color: #999999;
+    }
+    tbody {
+        color: #ffffff;
+        tr {
+            vertical-align: middle;
+            font-size: 0.9rem;
+            align-items: center;
+            .ohm-pairs p {
+                align-self: center;
+                margin-left: 5px;
+                font-size: 1rem;
+                font-weight: bold;
+            }
+        }
+        button {
+            font-size: .9rem;
+            padding: .25rem .65rem;
+        }
+    }
 }
 
   
