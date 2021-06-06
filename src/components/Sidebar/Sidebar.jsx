@@ -1,19 +1,37 @@
-import React, { useState, useCallback, } from 'react';
-import { BrowserRouter, NavLink, Route, Switch } from "react-router-dom";
+import React, { useEffect, useCallback, } from 'react';
+import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Social from "../Social";
-import { useSelector, useDispatch } from 'react-redux';
 import OlympusLogo from '../../assets/logo.svg';
 import RebaseTimer from '../RebaseTimer/RebaseTimer';
 import externalUrls from './externalUrls';
 import "./sidebar.scss";
+import { calcBondDetails } from "../../actions/Bond.actions.js";
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake-icon.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond-icon.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-icon.svg";
+import { trim } from "../../helpers";
+import { BONDS } from "../../constants";
 
 
 
-function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer }) {
+function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer }) {
+  const dispatch = useDispatch();
+
   const currentBlock  = useSelector((state ) => { return state.app.currentBlock });
+
+  // ohm_dai: "ohm_dai_lp",
+  // dai: "dai",
+  // dai_v1: "dai_v1",
+  // ohm_dai_v1: "ohm_dai_lp_v1",
+
+  const daiBondDiscount = useSelector(state => {
+    return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
+  });
+
+  const ohmDaiBondDiscount = useSelector(state => {
+    return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
+  });
 
   const isBondPage = useCallback((match, location) => {
     if (!match) {
@@ -22,6 +40,11 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
 
     return match.url.indexOf('bonds') >= 0 || match.url.indexOf('choose_bond') >= 0
   }, []);
+
+  useEffect(() => {
+    
+  }, [])
+
 
   return (
     <div
@@ -59,9 +82,9 @@ function Sidebar({ isExpanded, setRoute, address, mainnetProvider, blockExplorer
             <div className="dapp-menu-data discounts">
               <div className="bond-discounts">
                 <p>Bond discounts</p>
-                <p>OHM-DAI LP<span>10%</span></p>
+                <p>OHM-DAI LP<span>{trim(ohmDaiBondDiscount * 100, 2)}%</span></p>
                 <p>OHM-FRAX LP<span>12%</span></p>
-                <p>DAI<span>8.5%</span></p>
+                <p>DAI<span>{trim(daiBondDiscount * 100, 2)}%</span></p>
                 <p>FRAX<span>9.5%</span></p>
               </div>
             </div>
