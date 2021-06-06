@@ -8,7 +8,8 @@ export const GlobalStyles = createGlobalStyle`
         height: 100vh;
         transition: all 0.27s linear;
     }
-    .ohm-card {
+    .ohm-dashboard-card,
+    .ohm-card .card-content {
         background-color: ${({theme}) => theme.cardBg};
     }
     #dapp p {
