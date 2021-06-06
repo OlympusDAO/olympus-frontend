@@ -19,6 +19,7 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer }) {
   const dispatch = useDispatch();
 
   const currentBlock  = useSelector((state ) => { return state.app.currentBlock });
+  const currentIndex = useSelector((state) => { return state.app.currentIndex });
 
   // ohm_dai: "ohm_dai_lp",
   // dai: "dai",
@@ -110,6 +111,11 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer }) {
 
         <div className="dapp-menu-data rebase">
           <RebaseTimer />
+        </div>
+
+        <div className="dapp-menu-data index">
+          <p>Current Index </p>
+          <p>{trim(currentIndex, 4)} OHM</p>
         </div>
 
         <div className="dapp-menu-social">
