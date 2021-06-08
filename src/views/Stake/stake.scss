@@ -40,23 +40,26 @@
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
         flex-flow: column;
         padding: 2.5rem 2.5rem;
+        height: 100%;
         
     }
     &.primary {
         margin-bottom: 3.3rem;
-        min-height: 550px;
+        min-height: 600px;
         // height: 50vh;
         height: auto;
     }
     &.secondary {
         height: auto;
-        max-height: 25vh;
+        min-height: 250px;
+        //max-height: 25vh;
+        margin-bottom: 3.3rem;
     }
 }
 
 .stake-top-metrics {
     display: flex;
-    height: 24%;
+    //height: 24%;
     width: 100%;
     padding: 0;
     .olympus-sushi {
@@ -70,12 +73,14 @@
             display: inline-block;
             vertical-align: middle;
             margin-right: 5px;
+            filter: invert(1);
         }
         h3 {
             display: inline;
             margin: 0;
             vertical-align: middle;
             font-size: 1.4rem;
+            color: #ffffff;
         }
         a {
             font-size: 0.85rem;
@@ -86,16 +91,15 @@
             height: 0.79rem;
         }
     }
-    .stake-apy {
-        flex: 2;
-        text-align: center;
+    .stake-apy, .stake-tvl {
+        flex: 1;
+        text-align: left;
         h2 {
-            font-size: 3rem;
-            margin-top: none;
-            margin-bottom: none;
+            font-size: 1.8rem !important;
             line-height: 100%;
         }
         h2:first-of-type {
+            color: #D0D0D2;
             margin-bottom: unset;
         }
     }
@@ -176,6 +180,9 @@
         background-color: #28282822 !important;
         border-top: 0.8px solid #fff;
         border-bottom: 0.8px solid #fff;
+        &:hover {
+            //border: 2px solid red;
+        }
         &:focus,
         &:active {
             outline: none !important;
@@ -214,6 +221,10 @@
     font-size: 1rem;
     font-weight: bold;
     height: auto;
+    &:hover {
+        background-color: #F5DDB4;
+        border: 2px solid #F5DDB4;
+    }
 }
 
 .stake-table {
