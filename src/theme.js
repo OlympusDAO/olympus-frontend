@@ -23,7 +23,8 @@ export const lightTheme = {
     CTAButtonBg: "#2E2E2E",
     CTAButtonColor: "#ffffff",
     CTAButtonBgHover: "#ffffff",
-    CTAButtonColorHover: "#2E2E2E"
+    CTAButtonColorHover: "#2E2E2E",
+    iconColor: "brightness(0) saturate(100%)" 
 }
 
 
