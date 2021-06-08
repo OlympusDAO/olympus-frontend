@@ -121,7 +121,8 @@
 
 // overriding original 
 .stake-toggle-row {
-    margin: 1.5rem 0;
+    margin: 1.5rem 0 0 0;
+    padding-bottom: 2rem;
     .btn-group button.btn {
         border: unset;
         color: #fff;
@@ -179,7 +180,7 @@
 }
 
 .stake-action-row {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .input-group.ohm-input-group {
@@ -214,7 +215,8 @@
 }
 
 .stake-notification {
-    font-size: 0.9rem;
+    font-size: 0.75em;
+    line-height: 115%;
 }
 
 
