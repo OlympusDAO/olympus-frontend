@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const useTheme = () => {
+const useTheme = (e) => {
     const [theme, setTheme] = useState('light');
     const [mounted, setMounted] = useState(false);
 
@@ -10,11 +10,17 @@ const useTheme = () => {
         console.log('theme set: ', mode);
     }
 
-    const toggleTheme = () => {
-        if (theme === "light") {
-            setMode('dark');
+    const toggleTheme = (e) => {
+        console.log("toggleTheme triggered", e);
+        if (e.metaKey) {
+            console.log('metakey detected', e.metaKey);
+            setMode('girth');
         } else {
-            setMode('light');
+            if (theme === "light") {
+                setMode('dark');
+            } else {
+                setMode('light');
+            }
         }
     }
 

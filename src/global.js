@@ -7,6 +7,8 @@ export const GlobalStyles = createGlobalStyle`
         color: ${({theme}) => theme.color};
         height: 100vh;
         transition: all 0.27s linear;
+        position: fixed;
+        
     }
     .ohm-dashboard-card,
     .ohm-card .card-content {
