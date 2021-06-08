@@ -4,6 +4,7 @@ import { Flex, Card } from "rimble-ui";
 import { trim } from "../../helpers";
 import { changeStake, changeApproval } from '../../actions/Stake.actions.js';
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
+import { Container, Grid } from "@material-ui/core";
 import "../../style.scss";
 import "./stake.scss";
 
@@ -65,7 +66,8 @@ function Stake({ provider, address }) {
 
 
   return (
-    <Flex id="stake-view" className="dapp-view">
+    // <Flex className="dapp-view">
+      <Grid id="stake-view">
         <Card className="ohm-card primary" backgroundColor={"#FFFFFF00"}>
           <div className="card-header">
             <h5>Single Stake (3, 3)</h5>
@@ -212,7 +214,8 @@ function Stake({ provider, address }) {
             </table>
           </div>
         </Card>
-    </Flex>
+    {/* </Flex> */}
+    </Grid>
   );
 }
 

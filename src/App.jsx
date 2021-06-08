@@ -11,7 +11,8 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Flex } from 'rimble-ui'
+import { Box, Flex } from 'rimble-ui';
+import { Container, Grid } from "@material-ui/core";
 
 import { calcBondDetails, } from './actions/Bond.actions.js';
 import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
@@ -196,73 +197,73 @@ function App(props) {
     <ThemeProvider theme={themeMode}>
       <GlobalStyles />
       <div className="app">
-        <div id="dapp" className="dapp">
-          <Flex>
-              <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
-                <button
-                  className="navbar-toggler"
-                  type="button"
-                  onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-                  aria-controls="navbarSupportedContent"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
-                >
-                  <span className="navbar-toggler-icon"></span>
-                </button>
-              </nav>
+        <Flex id="dapp" className="dapp">
 
-              <Sidebar 
-                web3Modal={web3Modal} 
-                loadWeb3Modal={loadWeb3Modal} 
-                logoutOfWeb3Modal={logoutOfWeb3Modal} 
-                mainnetProvider={mainnetProvider} 
-                blockExplorer={blockExplorer} 
-                address={address} 
-                route={route} 
-                isExpanded={isSidebarExpanded} 
-                setRoute={setRoute}
-              />
+          <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
+            <button
+              className="navbar-toggler"
+              type="button"
+              onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+          </nav>
 
-              <Box width={"100vw"}>
-                <TopBar 
-                  web3Modal={web3Modal} 
-                  loadWeb3Modal={loadWeb3Modal} 
-                  logoutOfWeb3Modal={logoutOfWeb3Modal} 
-                  mainnetProvider={mainnetProvider} 
-                  blockExplorer={blockExplorer} 
-                  address={address} 
-                  route={route} 
-                  theme={theme}
-                  toggleTheme={toggleTheme}
-                />
+          <Sidebar 
+            web3Modal={web3Modal} 
+            loadWeb3Modal={loadWeb3Modal} 
+            logoutOfWeb3Modal={logoutOfWeb3Modal} 
+            mainnetProvider={mainnetProvider} 
+            blockExplorer={blockExplorer} 
+            address={address} 
+            route={route} 
+            isExpanded={isSidebarExpanded} 
+            setRoute={setRoute}
+          />
+  
+          <Container maxWidth="xl">
+            <TopBar 
+              web3Modal={web3Modal} 
+              loadWeb3Modal={loadWeb3Modal} 
+              logoutOfWeb3Modal={logoutOfWeb3Modal} 
+              mainnetProvider={mainnetProvider} 
+              blockExplorer={blockExplorer} 
+              address={address} 
+              route={route} 
+              theme={theme}
+              toggleTheme={toggleTheme}
+            />
 
-                <Box className="dapp-view"> 
-                  <Switch>
-                    <Route exact path="/dashboard">
-                      <Dashboard address={address} provider={injectedProvider} />
-                    </Route>
+            <Box className="dapp-view"> 
+              <Switch>
+                <Route exact path="/dashboard">
+                  <Dashboard address={address} provider={injectedProvider} />
+                </Route>
 
-                    <Route exact path="/">
-                      <Stake address={address} provider={injectedProvider} />
-                    </Route>
+                <Route exact path="/">
+                  <Stake address={address} provider={injectedProvider} />
+                </Route>
 
-                    <Route exact path="/bonds">
-                      <ChooseBond address={address} provider={injectedProvider} />
-                    </Route>
+                <Route exact path="/bonds">
+                  <ChooseBond address={address} provider={injectedProvider} />
+                </Route>
 
-                    {Object.values(BONDS).map(bond => {
-                      return <Route exact key={bond} path={`/bonds/${bond}`}>
-                        <Bond bond={bond} address={address} provider={injectedProvider} />
-                      </Route>
-                    })}
-                  </Switch>
-                </Box>
-              </Box>
-
-              <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}></div>
-          </Flex>
-        </div>
-      </div>
+                {Object.values(BONDS).map(bond => {
+                  return <Route exact key={bond} path={`/bonds/${bond}`}>
+                    <Bond bond={bond} address={address} provider={injectedProvider} />
+                  </Route>
+                })}
+              </Switch>
+            </Box>
+          </Container>
+              
+          <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}></div>
+          
+        </Flex>
+      </div>      
     </ThemeProvider>
   );
 }
