@@ -12,13 +12,13 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        	<button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal}>
+        	<button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal} key={1}>
 						Disconnect
 				</button>,
       );
     } else {
       modalButtons.push(
-        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={loadWeb3Modal}>Connect Wallet</button>,
+        <button type="button" className={`btn btn-dark btn-overwrite-primer m-2`} onClick={loadWeb3Modal} key={2}>Connect Wallet</button>,
       );
     }
   }
@@ -30,21 +30,17 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
 					theme={theme}
 					toggleTheme={toggleTheme} 
 				/>
-					
 					<button
+						id="get-ohm"
 						className="get-ohm-button btn btn-dark btn-overwrite-primer m-2"
 						title="Get OHM"
 					>		
-				<a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
-					target="_blank">
-						
+					<a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
 						Get OHM
-					
-				</a>
+					</a>
 				</button>
-					
-
-				<div className="wallet-menu">
+				
+				<div className="wallet-menu" id="wallet-menu">
 					{modalButtons}
 					<button type="button" className={`btn btn-dark btn-overwrite-primer m-2`}>
 						<a href={`https://etherscan.io/address/${address}`} target="_blank" className="ml-2">
