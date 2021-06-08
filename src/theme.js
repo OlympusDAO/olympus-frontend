@@ -6,6 +6,14 @@ export const darkTheme = {
 }
   
 export const lightTheme = {
+    color: "#222222",
+    backgroundColor: "#F9F8F7",
+    // background: "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
+    cardBg: "#4242426A"
+}
+
+
+export const gTheme = {
     color: "#EFEFEF",
     backgroundColor: "#4158D0",
     background: "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
