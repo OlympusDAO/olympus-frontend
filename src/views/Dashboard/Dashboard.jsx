@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim } from "../../helpers";
 import { Flex, Box, Card } from "rimble-ui";
 import { Container, Grid } from "@material-ui/core";
 import "./dashboard.scss";
 
+const Frame = ({src, title, frameborder}) => (	
+	<iframe
+		frameBorder={frameborder}
+		src={src}
+		title={title}
+	></iframe>
+)
+
+const DuneFrame = lazy(() => Frame)
 
 function Dashboard({ provider, address }) {
 	const marketPrice = useSelector((state ) => { return state.app.marketPrice });
@@ -78,11 +87,13 @@ function Dashboard({ provider, address }) {
 				<Flex className="main-data-area">
 					<div className="olympus-card">
 						<div className="card-body">
-							<iframe
+							<Suspense fallback={<div>Loading...</div>}>
+							<DuneFrame
 								frameBorder={"0"}
 								src="https://duneanalytics.com/embeds/28286/57140/b0e3c522-8ace-47e8-8ac9-bc4ebf10b8c7"
 								title="Total Value Staking"
-							></iframe>
+							></DuneFrame>
+							</Suspense>
 						</div>
 					</div>
 				
