@@ -219,12 +219,9 @@
     background-color: #ffffffee;
     color: #222;
     font-size: 1rem;
-    font-weight: bold;
+    //font-weight: bold;
     height: auto;
-    &:hover {
-        background-color: #F5DDB4;
-        border: 2px solid #F5DDB4;
-    }
+    font-family: 'Square-Light', cursive;
 }
 
 .stake-table {
