@@ -49,7 +49,7 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer }) {
 
   return (
     <div
-      className={`${isExpanded ? 'show' : '' } col-lg-2 col-2 d-md-block sidebar collapse`}
+      className={`${isExpanded ? 'show' : '' } d-md-block sidebar collapse`}
       id="sidebarContent"
     >
       <div className="dapp-sidebar">

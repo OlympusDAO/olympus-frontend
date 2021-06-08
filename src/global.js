@@ -6,6 +6,7 @@ export const GlobalStyles = createGlobalStyle`
         background-color: ${({theme}) => theme.backgroundColor};
         color: ${({theme}) => theme.color};
         height: 100%;
+        width: 100%;
         transition: all 0.27s linear;
         position: fixed;
         
@@ -48,7 +49,8 @@ export const GlobalStyles = createGlobalStyle`
     .stake-button {
         background: ${({theme}) => theme.CTAButtonBg};
         color: ${({theme}) => theme.CTAButtonColor} !important;
-        border: 2px solid ${({theme}) => theme.CTAButtonBg};
+        border: ${({theme}) => theme.CTAButtonBorder};
+        ${({theme}) => theme.CTAButtonBorderColor && "border-color: " + theme.CTAButtonBorderColor + " !important; "};
             &:hover {
                 background: ${({theme}) => theme.CTAButtonBgHover};
                 color: ${({theme}) => theme.CTAButtonColorHover} !important;
