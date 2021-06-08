@@ -31,15 +31,17 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
 					toggleTheme={toggleTheme} 
 				/>
 					
-				<a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
-					target="_blank">
 					<button
 						className="get-ohm-button btn btn-dark btn-overwrite-primer m-2"
 						title="Get OHM"
-					>			
+					>		
+				<a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
+					target="_blank">
+						
 						Get OHM
-					</button>
+					
 				</a>
+				</button>
 					
 
 				<div className="wallet-menu">

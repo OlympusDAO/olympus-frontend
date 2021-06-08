@@ -1,3 +1,10 @@
+#stake-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 // ohm-card styles should be set to theme
 .ohm-card {
     color: #efefef;
@@ -74,7 +81,7 @@
             display: inline;
             margin: 0;
             vertical-align: middle;
-            font-size: 1.4rem;
+            font-size: 1.33rem;
             color: #ffffff;
         }
         a {
@@ -89,9 +96,15 @@
     .stake-apy, .stake-tvl {
         flex: 1;
         text-align: left;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         h2 {
-            font-size: 1.8rem !important;
+            font-size: 1.75rem !important;
             line-height: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
         h2:first-of-type {
             color: #D0D0D2;
