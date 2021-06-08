@@ -32,7 +32,12 @@
 }
 
 .get-ohm-button {
-    
+    min-width: 101px;
+}
+
+.get-ohm-button.btn,
+.wallet-menu .btn {
+    padding: 0px 19px !important;
 }
 
 .wallet-menu {

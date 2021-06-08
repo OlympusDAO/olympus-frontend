@@ -237,7 +237,7 @@ function App(props) {
               toggleTheme={toggleTheme}
             />
 
-            <Box className="dapp-view"> 
+            {/* <Box className="dapp-view">  */}
               <Switch>
                 <Route exact path="/dashboard">
                   <Dashboard address={address} provider={injectedProvider} />
@@ -257,7 +257,7 @@ function App(props) {
                   </Route>
                 })}
               </Switch>
-            </Box>
+            {/* </Box> */}
           </Container>
               
           <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}></div>
