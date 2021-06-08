@@ -48,6 +48,7 @@
     "ethers": "^5.0.31",
     "graphiql": "^1.0.5",
     "graphql": "^15.3.0",
+    "intl": "^1.2.5",
     "isomorphic-fetch": "^3.0.0",
     "material-ui": "^0.20.2",
     "node-sass": "4.14",
