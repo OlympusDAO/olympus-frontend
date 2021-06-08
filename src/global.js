@@ -10,6 +10,24 @@ export const GlobalStyles = createGlobalStyle`
         position: fixed;
         
     }
+    .dapp-sidebar {
+        background-color: ${({theme}) => theme.cardBg};
+    }
+    .branding-header-icon, 
+    .olympus-sushi img,
+    .social-icon-small,
+    .dapp-menu-external-links svg {
+        filter: ${({theme}) => theme.logoColor};
+    }
+    .button-dapp-menu,
+    .dapp-menu-top a h3,
+    .ohm-card .card-header h5,
+    .stake-table tbody,
+    .olympus-sushi h3,
+    .olympus-sushi a, 
+    #dapp p {
+        color: ${({theme}) => theme.color};
+    }
     .ohm-dashboard-card,
     .ohm-card .card-content {
         background-color: ${({theme}) => theme.cardBg};
@@ -17,7 +35,21 @@ export const GlobalStyles = createGlobalStyle`
             color: ${({theme}) => theme.color};
         }
     }
-    #dapp p {
-        color: ${({theme}) => theme.color};
+    .btn {
+        color: ${({theme}) => theme.color} !important;
+        background: ${({theme}) => theme.defaultButtonBg};
+    }
+    .btn a {
+        color: ${({theme}) => theme.color} !important;
+    }
+    .stake-button {
+        background: ${({theme}) => theme.CTAButtonBg};
+        color: ${({theme}) => theme.CTAButtonColor} !important;
+        border: 2px solid ${({theme}) => theme.CTAButtonBg};
+            &:hover {
+                background: ${({theme}) => theme.CTAButtonBgHover};
+                color: ${({theme}) => theme.CTAButtonColorHover} !important;
+                border: 2px solid ${({theme}) => theme.CTAButtonBgHover};
+            }
     }
 `;
