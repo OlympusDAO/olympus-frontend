@@ -12,12 +12,15 @@ export const GlobalStyles = createGlobalStyle`
     }
     .dapp-sidebar {
         background-color: ${({theme}) => theme.cardBg};
+        svg {
+            filter: ${({theme}) => theme.iconColor};
+        }
     }
     .branding-header-icon, 
     .olympus-sushi img,
     .social-icon-small,
     .dapp-menu-external-links svg {
-        filter: ${({theme}) => theme.logoColor};
+        filter: ${({theme}) => theme.iconColor};
     }
     .button-dapp-menu,
     .dapp-menu-top a h3,
@@ -51,5 +54,11 @@ export const GlobalStyles = createGlobalStyle`
                 color: ${({theme}) => theme.CTAButtonColorHover} !important;
                 border: 2px solid ${({theme}) => theme.CTAButtonBgHover};
             }
+    }
+    .ohm-input-group {
+        border-color: ${({theme}) => theme.color} !important;
+    }
+    .ohm-input-group button {
+        color: ${({theme}) => theme.color} !important;
     }
 `;

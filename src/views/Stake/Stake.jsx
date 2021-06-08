@@ -93,12 +93,9 @@ function Stake({ provider, address }) {
 
               <div className="stake-tvl">
                 <h2 className="title">TVL</h2>
-                <h2 className="content">{ trim(stakingAPY * 100, 1) }%</h2>
+                {/* need function for getting stakingTVL */}
+                <h2 className="content">{ trim(stakingAPY * 100, 1) }%</h2> 
               </div>
-
-              {/*<div className="next-rebase">*/}
-              {/*  <RebaseTimer />*/}
-              {/*</div>*/}
             </div>
             
             <div className="stake-toggle-row">
@@ -108,9 +105,11 @@ function Stake({ provider, address }) {
               </div>
             </div>
 
-            <div className='stake-notification'>
-              <p><em>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</em></p>
-            </div>
+            {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&
+              <div class='stake-notification'>
+                <p><em>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</em></p>
+              </div>
+            }
 
             <Flex className="stake-action-row">
               <div className="input-group ohm-input-group">
@@ -126,7 +125,7 @@ function Stake({ provider, address }) {
                   className="form-control stake-input"
                   placeholder="Type an amount"
                 />
-                <button className="btn" type="button" onClick={setMax}>Max</button>
+                <button type="button" onClick={setMax}>Max</button>
               </div>
             
                 {address && hasAllowance('ohm') && view === 'stake' && <div>
@@ -172,14 +171,6 @@ function Stake({ provider, address }) {
                   <p className="price-data">{ trim(currentIndex, 4) } OHM</p>
                 </div> */}
               </div>
-
-              
-            {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&
-              <div class='stake-notification'>
-                <p><em>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</em></p>
-              </div>
-            }
-
           </div>
 
         </Card>
