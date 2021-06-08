@@ -1,5 +1,5 @@
 .dashboard-view {
-    overflow-y: auto;   
+    overflow-y: hidden;   
     height: 100%;
 }
 
@@ -15,7 +15,7 @@
     align-content: flex-start;
     justify-content: space-evenly;
     height: 100%;
-    padding: 3.1rem;
+    padding: 3rem;
     .olympus-card {
         margin: 20px;
         height: auto;
