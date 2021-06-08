@@ -5,7 +5,7 @@ export const GlobalStyles = createGlobalStyle`
         background: ${({theme}) => theme.background};
         background-color: ${({theme}) => theme.backgroundColor};
         color: ${({theme}) => theme.color};
-        height: 100vh;
+        height: 100%;
         transition: all 0.27s linear;
         position: fixed;
         
