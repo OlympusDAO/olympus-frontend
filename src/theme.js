@@ -8,7 +8,8 @@ export const darkTheme = {
     CTAButtonBg: "#ffffff",
     CTAButtonColor: "#2E2E2E",
     CTAButtonBgHover: "#2E2E2E",
-    CTAButtonColorHover: "#ffffff"
+    CTAButtonColorHover: "#ffffff",
+    CTAButtonBorder: "2px solid #ffffff",
 }
   
 export const lightTheme = {
@@ -24,6 +25,7 @@ export const lightTheme = {
     CTAButtonColor: "#ffffff",
     CTAButtonBgHover: "#ffffff",
     CTAButtonColorHover: "#2E2E2E",
+    CTAButtonBorder: "2px solid #222222",
     iconColor: "brightness(0) saturate(100%)" 
 }
 
@@ -32,5 +34,7 @@ export const gTheme = {
     color: "#EFEFEF",
     backgroundColor: "#4158D0",
     background: "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
-    cardBg: "#4242426A"
+    cardBg: "#4242426A",
+    CTAButtonBorder: "2px solid #FFF",
+    CTAButtonBorderColor: "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
 }
