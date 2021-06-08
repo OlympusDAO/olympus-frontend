@@ -26,13 +26,17 @@
         width: auto;
         flex: auto;
         box-shadow: 0px 8px 18px rgba(0,0,0,0.2);
-        background-color: #FFFFFF0A;
-        border-radius: .5rem;
+        background-color: #FFFFFF0E;
+        backdrop-filter: blur(11px);
+        -webkit-backdrop-filter: blur(11px);
+        border-radius: .5rem !important;
     }
 }
 
 .ohm-dashboard-card {
     background-color:#4242426A;
+    backdrop-filter: blur(11px);
+    -webkit-backdrop-filter: blur(11px);
     box-shadow: 0px 8px 18px rgba(0,0,0,0.2);
     height: 115px;
     max-width: 520px;
