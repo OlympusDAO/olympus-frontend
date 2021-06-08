@@ -10,7 +10,17 @@
   display:flex;
   flex-flow:column;
   background: rgba(33, 33, 33, 0.5);
-  font-family: 'Square'
+  font-family: 'Square';
+  backdrop-filter: blur(10px);
+  z-index: 5;
+}
+
+.show.sidebar {
+  position: absolute;
+  min-width: 100vw;
+}
+.show .dapp-sidebar {
+  width: 100%;
 }
 
 .branding-header {
