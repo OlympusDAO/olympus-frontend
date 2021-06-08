@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim } from "../../helpers";
+import { Flex, Box, Card } from "rimble-ui";
+import "./dashboard.scss";
 
 
 function Dashboard({ provider, address }) {
-	const dispatch = useDispatch();
 	const marketPrice = useSelector((state ) => { return state.app.marketPrice });
 	const circSupply  = useSelector((state ) => { return state.app.circulating });
 	const totalSupply = useSelector((state ) => { return state.app.total });
@@ -15,13 +16,13 @@ function Dashboard({ provider, address }) {
   };
 
 	return (
-		<div className="d-flex align-items-center justify-content-center min-vh-100">
-			<div className="container">
-				<div className="row mt-4">
-					<div className="col-sm-4 mb-2 mb-sm-0">
-						<div className="card ohm-dashboard-card">
+			<div className="dashboard-view">
+				<Flex className="top-row-data">
+					<Box width={ 1 / 3 } p={3} m={3}>
+						<div className="ohm-dashboard-card">
+						
 							<div className="card-body">
-								<h5 className="card-title">
+								<h5>
 								Price (SushiSwap OHM-DAI Pool)
 								<a
 										href="https://analytics.sushi.com/pairs/0x34d7d7aaf50ad4944b70b320acb24c95fa2def7c"
@@ -36,13 +37,15 @@ function Dashboard({ provider, address }) {
 									</h1>
 								</div>
 							</div>
+						
 						</div>
-					</div>
+					</Box> 
+					
 
-					<div className="col-sm-4 mb-2 mb-sm-0">
-        		<div className="card ohm-dashboard-card">
+					<Box width={ 1 / 3 } p={3} m={3}>
+        		<div className="ohm-dashboard-card">
 							<div className="card-body">
-								<h5 className="card-title">Market Cap</h5>
+								<h5>Market Cap</h5>
 								<h1 className="text-center">
                   {
                     new Intl.NumberFormat('en-US', {
@@ -52,17 +55,16 @@ function Dashboard({ provider, address }) {
                     }).format(marketCap()  )
 
                   }
-
 								</h1>
 							</div>
         		</div>
-					</div>
+					</Box>
 
 
-					<div className="col-sm-4 mb-2 mb-sm-0">
-						<div className="card ohm-dashboard-card">
+					<Box width={ 1 / 3 } p={3} m={3}>
+						<div className="ohm-dashboard-card">
 							<div className="card-body">
-								<h5 className="card-title">Supply (circulating/total)</h5>
+								<h5>Supply (circulating/total)</h5>
 								<h1 className="text-center">
                   {
                     new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(circSupply / Math.pow(10,9))
@@ -74,123 +76,95 @@ function Dashboard({ provider, address }) {
 								</h1>
 							</div>
 						</div>
-					</div>
+					</Box>
+				</Flex>
 
-				</div>
-
-				<div className="row mt-4">
-					<div className="col-sm-6 mb-2 mb-sm-0">
-						<div className="card olympus-card">
-							<div className="card-body">
-								<iframe
-									frameBorder={"0"}
-									src="https://duneanalytics.com/embeds/28286/57140/b0e3c522-8ace-47e8-8ac9-bc4ebf10b8c7"
-									title="Total Value Staking"
-									style={{height:"400px"}}
-								></iframe>
-							</div>
+				<Flex className="main-data-area">
+					<div className="olympus-card">
+						<div className="card-body">
+							<iframe
+								frameBorder={"0"}
+								src="https://duneanalytics.com/embeds/28286/57140/b0e3c522-8ace-47e8-8ac9-bc4ebf10b8c7"
+								title="Total Value Staking"
+							></iframe>
 						</div>
 					</div>
-
-					<div className="col-sm-6 mb-2 mb-sm-0">
-						<div className="card olympus-card">
-							<div className="card-body">
-								<iframe
-									frameBorder={"0"}
-									src="https://duneanalytics.com/embeds/29778/60051/6328b87b-183e-4456-888d-d91048ff8cff"
-									title="Market value of Treasury"
-									style={{height:"400px"}}
-								></iframe>
-							</div>
+				
+					<div className="olympus-card">
+						<div className="card-body">
+							<iframe
+								frameBorder={"0"}
+								src="https://duneanalytics.com/embeds/29778/60051/6328b87b-183e-4456-888d-d91048ff8cff"
+								title="Market value of Treasury"
+							></iframe>
 						</div>
 					</div>
-    		</div>
-
-				<div className="row mt-4">
-					<div className="col-sm-6 mb-2 mb-sm-0">
-						<div className="card olympus-card">
-							<div className="card-body">
-								<iframe
-									frameBorder={"0"}
-									src="https://duneanalytics.com/embeds/29153/58862/b6d18145-763a-48b6-ac4c-a8e43ec1c1f6"
-									title="Risk Free Value of Treasury"
-									style={{height:"400px"}}
-								></iframe>
-							</div>
+			
+					<div className="olympus-card">
+						<div className="card-body">
+							<iframe
+								frameBorder={"0"}
+								src="https://duneanalytics.com/embeds/29153/58862/b6d18145-763a-48b6-ac4c-a8e43ec1c1f6"
+								title="Risk Free Value of Treasury"
+							></iframe>
 						</div>
 					</div>
-
-					<div className="col-sm-6 mb-2 mb-sm-0">
-						<div className="card olympus-card">
-							<div className="card-body">
-								<iframe
-									frameBorder={"0"}
-									src="https://duneanalytics.com/embeds/29815/60140/0be45969-dfc2-4625-9b48-d7af19a45546"
-									title="Total Value Staking"
-									style={{height:"400px"}}
-								></iframe>
-							</div>
+				
+					<div className="olympus-card">
+						<div className="card-body">
+							<iframe
+								frameBorder={"0"}
+								src="https://duneanalytics.com/embeds/29815/60140/0be45969-dfc2-4625-9b48-d7af19a45546"
+								title="Total Value Staking"
+							></iframe>
 						</div>
 					</div>
-				</div>
+				
 
-				<div className="row mt-4 mb-4">
-					<div className="col-sm-6 mb-2 mb-sm-0">
-						<div className="card olympus-card">
-							<div className="card-body">
-								<iframe
-									frameBorder={"0"}
-									src="https://duneanalytics.com/embeds/27661/55859/fd0e3db2-d033-4000-9f70-c65de52ef9a9"
-									title="Holders"
-									style={{height:"400px"}}
-								></iframe>
-							</div>
+					<div className="olympus-card">
+						<div className="card-body">
+							<iframe
+								frameBorder={"0"}
+								src="https://duneanalytics.com/embeds/27661/55859/fd0e3db2-d033-4000-9f70-c65de52ef9a9"
+								title="Holders"
+							></iframe>
 						</div>
 					</div>
-					<div className="col-sm-6 mb-2 mb-sm-0">
-						<div className="card olympus-card">
-							<div className="card-body">
-								<iframe
-									frameBorder={"0"}
-									src="https://duneanalytics.com/embeds/34202/69216/17e353f6-ccb4-42ff-b6cb-150f69543f4d"
-									title="APY Over Time"
-									style={{height:"400px"}}
-								></iframe>
-							</div>
+				
+				
+					<div className="olympus-card">
+						<div className="card-body">
+							<iframe
+								frameBorder={"0"}
+								src="https://duneanalytics.com/embeds/34202/69216/17e353f6-ccb4-42ff-b6cb-150f69543f4d"
+								title="APY Over Time"
+							></iframe>
 						</div>
 					</div>
-				</div>
-
-				<div className="row mt-4 mb-4">
-					<div className="col-sm-6 mb-2 mb-sm-0">
-						<div className="card olympus-card">
-							<div className="card-body">
-								<iframe
-									frameBorder={"0"}
-									src="https://duneanalytics.com/embeds/28756/58813/c7893c75-d8f1-421e-85c3-556a22cd7885"
-									title="OHM Stakers"
-									style={{height:"400px"}}
-								></iframe>
-							</div>
+				
+				
+					<div className="olympus-card">
+						<div className="card-body">
+							<iframe
+								frameBorder={"0"}
+								src="https://duneanalytics.com/embeds/28756/58813/c7893c75-d8f1-421e-85c3-556a22cd7885"
+								title="OHM Stakers"
+							></iframe>
 						</div>
 					</div>
-					<div className="col-sm-6 mb-2 mb-sm-0">
-						<div className="card olympus-card">
-							<div className="card-body">
-								<iframe
-									frameBorder={"0"}
-									src="https://duneanalytics.com/embeds/37326/74014/f0ad674a-2787-4314-b534-86dc1b910922"
-									title="Runway Available"
-									style={{height:"400px"}}
-								></iframe>
-							</div>
+				
+				
+					<div className="olympus-card">
+						<div className="card-body">
+							<iframe
+								frameBorder={"0"}
+								src="https://duneanalytics.com/embeds/37326/74014/f0ad674a-2787-4314-b534-86dc1b910922"
+								title="Runway Available"
+							></iframe>
 						</div>
 					</div>
-				</div>
-
-
+				</Flex>
 			</div>
-		</div>
 	)
 }
 
