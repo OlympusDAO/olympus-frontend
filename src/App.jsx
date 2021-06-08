@@ -25,7 +25,7 @@ import TopBar from "./components/TopBar/TopBar.jsx";
 // import "./style.scss";
 // import { Header } from "./components";
 
-import { lightTheme, darkTheme } from "./theme";
+import { lightTheme, darkTheme, gTheme } from "./theme";
 import { GlobalStyles } from "./global";
 
 
@@ -181,7 +181,7 @@ function App(props) {
   }, [setRoute]);
   
 
-  let themeMode = theme === "light" ? lightTheme : darkTheme;
+  let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
     console.log('theme effect', theme);

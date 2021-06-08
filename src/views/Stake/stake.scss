@@ -10,7 +10,6 @@
     box-shadow: unset !important;
     border: none !important;
     display:flex;
-    // margin: 0rem;
     justify-content:center;
     flex-flow:wrap;
     padding: 0px !important;
@@ -36,27 +35,26 @@
         align-items: left;
         justify-content: center;
         border-radius: inherit;
-        // background: rgba(27, 29, 34, 0.6) !important;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
         flex-flow: column;
         padding: 2.5rem 2.5rem;
+        height: 100%;
         
     }
     &.primary {
         margin-bottom: 3.3rem;
-        min-height: 550px;
-        // height: 50vh;
+        min-height: 600px;
         height: auto;
     }
     &.secondary {
         height: auto;
-        max-height: 25vh;
+        min-height: 250px;
+        margin-bottom: 3.3rem;
     }
 }
 
 .stake-top-metrics {
     display: flex;
-    height: 24%;
     width: 100%;
     padding: 0;
     .olympus-sushi {
@@ -70,12 +68,14 @@
             display: inline-block;
             vertical-align: middle;
             margin-right: 5px;
+            filter: invert(1);
         }
         h3 {
             display: inline;
             margin: 0;
             vertical-align: middle;
             font-size: 1.4rem;
+            color: #ffffff;
         }
         a {
             font-size: 0.85rem;
@@ -86,16 +86,15 @@
             height: 0.79rem;
         }
     }
-    .stake-apy {
-        flex: 2;
-        text-align: center;
+    .stake-apy, .stake-tvl {
+        flex: 1;
+        text-align: left;
         h2 {
-            font-size: 3rem;
-            margin-top: none;
-            margin-bottom: none;
+            font-size: 1.8rem !important;
             line-height: 100%;
         }
         h2:first-of-type {
+            color: #D0D0D2;
             margin-bottom: unset;
         }
     }
@@ -159,34 +158,40 @@
     justify-content: center;
     display: flex;
     background-color: #28282822 !important;
-    border: unset;
-    border: 0.8px solid #fff;
-    border-radius: 0.5rem;
-    border-right: 0;
+    border: 0 !important;
+    border-radius: inherit;
     color: #555;
 }
 
+.stake-action-row {
+    margin-bottom: 10px;
+}
 
 .input-group.ohm-input-group {
     width: 48%;
-    margin-bottom: 10px;
+    border: 0.8px solid #FFFFFF;
+    border-radius: .5rem !important;
     input, button {
-        border-radius: .5rem;
-        // background-color: transparent;
+        border-radius: none;
+        margin-left: 0 !important;
         background-color: #28282822 !important;
-        border-top: 0.8px solid #fff;
-        border-bottom: 0.8px solid #fff;
+        border: none !important;
+        outline: none !important;
         &:focus,
         &:active {
             outline: none !important;
             box-shadow: none !important;
-
         }
     }
+    input {
+        border: none !important;
+    }
     button {
-        border-left: 0;
+        border-left: 0 !important;
+        border-top-right-radius: inherit !important;
+        border-bottom-right-radius: inherit !important;
         background-color: #28282822 !important;
-        color: #fff;
+
         &:hover {
             color: #F5DDB4 !important;
         }
@@ -212,8 +217,8 @@
     background-color: #ffffffee;
     color: #222;
     font-size: 1rem;
-    font-weight: bold;
     height: auto;
+    font-family: 'Square-Light', cursive;
 }
 
 .stake-table {

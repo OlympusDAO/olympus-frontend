@@ -87,12 +87,14 @@ function Stake({ provider, address }) {
               </div>
 
               <div className="stake-apy">
-                <h2>APY</h2>
-                <h2>{ trim(stakingAPY * 100, 1) }%</h2>
+                <h2 className="title">APY</h2>
+                <h2 className="content">{ trim(stakingAPY * 100, 1) }%</h2>
               </div>
 
-              <div className="next-rebase">
-                <RebaseTimer />
+              <div className="stake-tvl">
+                <h2 className="title">TVL</h2>
+                {/* need function for getting stakingTVL */}
+                <h2 className="content">{ trim(stakingAPY * 100, 1) }%</h2> 
               </div>
             </div>
             
@@ -102,6 +104,12 @@ function Stake({ provider, address }) {
                 <button type="button" className={`btn ${view === 'unstake' ? 'btn-light' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
               </div>
             </div>
+
+            {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&
+              <div class='stake-notification'>
+                <p><em>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</em></p>
+              </div>
+            }
 
             <Flex className="stake-action-row">
               <div className="input-group ohm-input-group">
@@ -114,10 +122,10 @@ function Stake({ provider, address }) {
                   value={quantity}
                   onChange={e => setQuantity(e.target.value)}
                   type="number"
-                  className="form-control"
+                  className="form-control stake-input"
                   placeholder="Type an amount"
                 />
-                <button className="btn" type="button" onClick={setMax}>Max</button>
+                <button type="button" onClick={setMax}>Max</button>
               </div>
             
                 {address && hasAllowance('ohm') && view === 'stake' && <div>
@@ -129,11 +137,11 @@ function Stake({ provider, address }) {
                 </div>}
 
                 {address && !hasAllowance('ohm') && view === 'stake' && <div>
-                  <div className="stake-button" onClick={() => { onSeekApproval('ohm') }}>Approve OHM</div>
+                  <div className="stake-button" onClick={() => { onSeekApproval('ohm') }}>Approve</div>  {/* approve unstake */}
                 </div>}
 
                 {address && !hasAllowance('sohm') && view === 'unstake' && <div>
-                  <div className="stake-button" onClick={() => { onSeekApproval('sohm') }}>Approve sOHM</div>
+                  <div className="stake-button" onClick={() => { onSeekApproval('sohm') }}>Approve</div> {/* approve unstake */}
                 </div>}
               </Flex>
 
@@ -163,12 +171,6 @@ function Stake({ provider, address }) {
                   <p className="price-data">{ trim(currentIndex, 4) } OHM</p>
                 </div> */}
               </div>
-
-              
-
-            <div class='stake-notification'>
-              <p><em>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</em></p>
-            </div>  
           </div>
 
         </Card>

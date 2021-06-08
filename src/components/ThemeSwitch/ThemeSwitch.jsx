@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-import useTheme from "../../hooks/useTheme.js";
+// import useTheme from "../../hooks/useTheme.js";
 import { ReactComponent as SunIcon } from '../../assets/icons/sun-icon.svg';
 import { ReactComponent as MoonIcon } from '../../assets/icons/moon-icon.svg';
 import "./themeswitch.scss";
@@ -19,7 +19,7 @@ function ThemeSwitcher({theme, toggleTheme}) {
         type="button"
         title="Change Theme" 
         value="check" 
-        onClick={toggleTheme}
+        onClick={e => toggleTheme(e)}
       >
         { theme === "dark" ? <MoonIcon className="moon"/> : <SunIcon className="sun"/> }
       </ToggleButton>
