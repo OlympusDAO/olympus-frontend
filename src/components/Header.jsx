@@ -7,7 +7,7 @@ import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
 import Balance from "./Balance";
 import Wallet from "./Wallet";
-import ThemeSwitch from "./ThemeSwitch";
+import ThemeSwitch from "./ThemeSwitch/ThemeSwitch";
 import OlympusLogo from '../assets/olympus_logo.png';
 
 import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../helpers';
