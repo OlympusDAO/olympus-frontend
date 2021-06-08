@@ -140,9 +140,28 @@ background-attachment: fixed;
 .no-marg-r{margin-right:unset!important;}
 
 nav {
-  z-index:1;
-  // position: absolute !important;
+  z-index: 4;
+  position: fixed;
   width: 100vw;
+  &.navbar {
+    display: block;
+    align-items: center;
+    // justify-content: flex-end !important;
+  }
+  &.navbar-expand-lg {
+    width: fit-content;
+    height: fit-content;
+    display: inline-block;
+    top: 10px;
+    left: 20px;
+    position: absolute;
+  }
+  .navbar-toggler {
+
+  }
+  .show#sidebarContent {
+    position: absolute;
+  }
 }
 
 .eth-img{margin: auto 2px ;}
