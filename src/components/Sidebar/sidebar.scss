@@ -11,7 +11,8 @@
   flex-flow:column;
   background: rgba(33, 33, 33, 0.5);
   font-family: 'Square';
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(33px);
+  -webkit-backdrop-filter: blur(33px);
   z-index: 5;
 }
 
