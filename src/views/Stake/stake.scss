@@ -9,9 +9,9 @@
 .ohm-card {
     color: #efefef;
     overflow: hidden;
-    max-width: 55vw;
-    min-width: 49vw;
-    width: 50vw;
+    max-width: 600px;
+    min-width: 85%;
+    // width: 50vw;
     border-radius: .5rem;
     background-color: transparent !important;
     box-shadow: unset !important;
@@ -27,6 +27,7 @@
         background-color:#42424200 !important;
         box-shadow: none !important;
         border: none !important;
+        max-width: 60rem;
         top: 0;
         h5 {
             font-weight: 550;
@@ -37,6 +38,7 @@
     }
     .card-content {
         width: 100%;
+        max-width: 60rem;
         position: relative;
         display: flex;
         align-items: left;
@@ -50,12 +52,12 @@
     }
     &.primary {
         margin-bottom: 3.3rem;
-        min-height: 600px;
+        // min-height: 600px;
         height: auto;
     }
     &.secondary {
         height: auto;
-        min-height: 250px;
+        // min-height: 250px;
         margin-bottom: 3.3rem;
     }
 }
@@ -70,8 +72,8 @@
             line-height: 150%;
         }
         .olympus-logo {
-            height: 1.7rem;
-            width: 1.7rem;
+            height: 1.7em;
+            width: 1.7em;
             display: inline-block;
             vertical-align: middle;
             margin-right: 5px;
@@ -81,16 +83,16 @@
             display: inline;
             margin: 0;
             vertical-align: middle;
-            font-size: 1.33rem;
+            font-size: 1.33em;
             color: #ffffff;
         }
         a {
-            font-size: 0.85rem;
+            font-size: 0.85em;
             margin-right: 5px;
         }
         .fa-external-link-alt {
-            width: 0.79rem;
-            height: 0.79rem;
+            width: 0.79em;
+            height: 0.79em;
         }
     }
     .stake-apy, .stake-tvl {
@@ -100,7 +102,7 @@
         white-space: nowrap;
         overflow: hidden;
         h2 {
-            font-size: 1.75rem !important;
+            font-size: 1.7em !important;
             line-height: 100%;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -219,7 +221,7 @@
 .stake-price-data-row {
     .price-label,
     .price-data {
-        font-size: 1rem !important;
+        font-size: 1.2em !important;
     }
 }
 
@@ -229,7 +231,7 @@
     border-radius: .5rem;
     background-color: #ffffffee;
     color: #222;
-    font-size: 1rem;
+    font-size: 1.2em;
     height: auto;
     font-family: 'Square-Light', cursive;
 }
@@ -242,17 +244,18 @@
         color: #ffffff;
         tr {
             vertical-align: middle;
-            font-size: 0.9rem;
+            // font-size: 0.9em;
             align-items: center;
             .ohm-pairs p {
                 align-self: center;
                 margin-left: 5px;
-                font-size: 1rem;
+                font-size: 1em;
                 font-weight: bold;
+                margin-bottom: 0;
             }
         }
         button {
-            font-size: .9rem;
+            font-size: 1em;
             padding: .25rem .65rem;
         }
     }

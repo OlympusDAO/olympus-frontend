@@ -67,7 +67,7 @@ function Stake({ provider, address }) {
 
   return (
     // <Flex className="dapp-view">
-      <Grid id="stake-view">
+      <Grid id="stake-view" container direction="column" justify="center">
         <Card className="ohm-card primary" backgroundColor={"#FFFFFF00"}>
           <div className="card-header">
             <h5>Single Stake (3, 3)</h5>
