@@ -27,7 +27,7 @@
 .branding-header {
   display: block;
   text-align: center;
-  font-family: 'Square'
+  font-family: 'Square';
 }
 
 .branding-header-icon {
@@ -44,7 +44,6 @@
 
 .dapp-menu-top {
   width: 100%;
-  font-size: 28px;
   align-items: center;
   text-decoration: none;
   padding: 15px;
@@ -60,6 +59,7 @@
       color: white;
       font-weight: bold;
       margin: 0;
+      font-size: 2.2em;
     }
   }
 }
