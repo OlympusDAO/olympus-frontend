@@ -100,20 +100,27 @@ function Stake({ provider, address }) {
               </div>
             </div>
             
-            <div className="stake-toggle-row">
-              <div className="btn-group" role="group">
-                <button type="button" className={`btn ${view === 'stake' ? 'btn-light' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
-                <button type="button" className={`btn ${view === 'unstake' ? 'btn-light' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
 
-                {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&
-                  <div class='stake-notification'>
-                    <em><p>Important: "Approve" is only needed when staking/unstaking for the first time;
-                    subsequent transactions only require you to "Stake" or "Unstake".</p></em>
+            <div className="stake-toggle-row">
+              <Grid container spacing={4}>
+                <Grid item lg={5} s={12}>
+                  <div className="btn-group" role="group">
+                    <button type="button" className={`btn ${view === 'stake' ? 'btn-light' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
+                    <button type="button" className={`btn ${view === 'unstake' ? 'btn-light' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
                   </div>
-                }
+                </Grid>
+                
+                {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&
+                  <Grid item lg={7} s={12}>
+                    <div className='stake-notification'>
+                      <em><p>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</p></em>
+                    </div>
+                    </Grid>
+                  }
+                </Grid>
               </div>
-              
-            </div>
+            
+
 
             <Flex className="stake-action-row">
               <div className="input-group ohm-input-group">
@@ -210,7 +217,7 @@ function Stake({ provider, address }) {
                   </td>
                   <td>874%</td>
                   <td>$185,558,228</td>
-                  <td><button className="stake-button">Stake on Frax</button></td>
+                  <td><button className="stake-lp-button">Stake on Frax</button></td>
                 </tr>
               </tbody>
             </table>

@@ -10,7 +10,7 @@
   display:flex;
   flex-flow:column;
   background: rgba(33, 33, 33, 0.5);
-  font-family: 'Square';
+  //font-family: 'Square';
   backdrop-filter: blur(33px);
   -webkit-backdrop-filter: blur(33px);
   z-index: 5;
@@ -27,7 +27,7 @@
 .branding-header {
   display: block;
   text-align: center;
-  font-family: 'Square'
+  //font-family: 'Square';
 }
 
 .branding-header-icon {
@@ -44,7 +44,6 @@
 
 .dapp-menu-top {
   width: 100%;
-  font-size: 28px;
   align-items: center;
   text-decoration: none;
   padding: 15px;
@@ -58,8 +57,9 @@
       display: inline-block;
       vertical-align: middle;
       color: white;
-      font-weight: bold;
+      // font-weight: bold;
       margin: 0;
+      font-size: 2em;
     }
   }
 }
@@ -71,22 +71,17 @@
 
 .button-dapp-menu{
   display:flex;
-  //border-radius:2rem;
   font-weight: normal !important;
   // @extend .button-secondary;
-  font-family: 'Square', 'cursive';
+  // font-family: 'Square', 'cursive';
   height: auto;
-  line-height: 170%;
+  line-height: 250%;
   color: #fff;
   text-decoration: none;
-  font-size: 1.4em;
+  font-size: 1.2em;
   svg {
     height: 100%;
   }
-  // &.active {
-  //   // color: #CC3B66;
-  //   font-weight: bold;
-  // }
 }
 
 .dapp-nav a {
@@ -145,7 +140,7 @@
     justify-content: center;
     .rebase-timer {
       text-align: center !important;
-      font-size: 1.1em;
+      font-size: 1em;
     }
   }
   .data-ohm-index {

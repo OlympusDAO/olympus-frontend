@@ -15,7 +15,7 @@ import { BONDS } from "../../constants";
 
 
 
-function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer }) {
+function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme }) {
   const dispatch = useDispatch();
 
   const currentBlock  = useSelector((state ) => { return state.app.currentBlock });
@@ -114,13 +114,13 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer }) {
             <RebaseTimer />
           </div>
 
+        {theme === "girth" && 
           <div className="data-ohm-index">
             <p>Current Index </p>
             <p>{trim(currentIndex, 4)} OHM</p>
           </div>
+        }
         </div>
-
-        
 
         <div className="dapp-menu-social">
           <Social />
