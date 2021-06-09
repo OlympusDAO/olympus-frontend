@@ -23,16 +23,32 @@ header {
   background-color: #272520;
 }
 
-
 @font-face {font-family: 'Square-Bold';
+  src: url('./assets/fonts/EuclidSquare-Bold.ttf');
+}
+@font-face {font-family: 'Square-Semi-Bold';
   src: url('./assets/fonts/EuclidSquare-Bold.ttf');
 }
 @font-face {font-family: 'Square';
   src: url('./assets/fonts/EuclidSquare-Regular.ttf');
 }
+@font-face {font-family: 'Square-Medium';
+  src: url('./assets/fonts/EuclidSquare-Medium.ttf');
+}
+@font-face {font-family: 'Square-Light';
+  src: url('./assets/fonts/EuclidSquare-Light.ttf');
+}
+@font-face {font-family: 'Square-Italic';
+  src: url('./assets/fonts/EuclidSquare-Italic.ttf');
+}
+@font-face {font-family: 'Square-Italic-Light';
+  src: url('./assets/fonts/EuclidSquare-LightItalic.ttf');
+}
 
 // TODO: This formats the button unfortunately.
 // @import '~@primer/css/index.scss';
+
+
 
 // This overwrites any primer additions to make it work with Bootstrap.
 .btn-overwrite-primer {
@@ -47,6 +63,12 @@ html, body, #app {
     -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height:1.6rem;
+  //background-color: #EFE9E0;
+  // background:
+  //         radial-gradient(circle at 0% 0,
+  //                 rgba(245,221,180,.5), rgba(245,221,180,0) 70.71%),
+  //         radial-gradient(circle at 100% 100%,
+  //                 rgba(176,201,228,.5), rgba(176,201,228,0) 20%);
 }
 
 #app {
@@ -109,7 +131,8 @@ background-position: center;
 display: flex;
 flex-flow: column;
 justify-content:center;
-background-attachment: fixed;}
+background-attachment: fixed;
+}
 
 
 
@@ -119,9 +142,28 @@ background-attachment: fixed;}
 .no-marg-r{margin-right:unset!important;}
 
 nav {
-  z-index:1;
-  // position: absolute !important;
+  z-index: 6;
+  position: fixed;
   width: 100vw;
+  &.navbar {
+    display: block;
+    align-items: center;
+    // justify-content: flex-end !important;
+  }
+  &.navbar-expand-lg {
+    width: fit-content;
+    height: fit-content;
+    display: inline-block;
+    top: 10px;
+    left: 20px;
+    position: absolute;
+  }
+  .navbar-toggler {
+
+  }
+  .show#sidebarContent {
+    position: absolute;
+  }
 }
 
 .eth-img{margin: auto 2px ;}
@@ -376,11 +418,6 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
   // justify-content:center;
 }
 
-.branding-header-icon{
-  width: 100px;
-  padding:1rem;
-  filter:invert(1);
-}
 
 .dapp-menu-links{
   height:60%;
@@ -389,32 +426,7 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
   justify-content:center;
 }
 
-.dapp-nav{
-  display:flex;
-  flex-flow:column;
-  padding:1rem;
-}
 
-.button-dapp-menu{
-  display:flex;
-  border-radius:2rem;
-  font-weight:500;
-  // @extend .button-secondary;
-  font-family: 'Square', 'cursive';
-
-  height: 54px;
-  line-height: 52px;
-  font-size: 1rem;
-  color: #fff;
-
-  text-decoration: none;
-  font-size: 20px;
-
-  &.active {
-    // color: #CC3B66;
-    font-weight: bold;
-  }
-}
 
 .dapp-modal-wrapper{
   max-width:330px;
@@ -429,7 +441,7 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
   border-radius:2rem;
 }
 
-.swap-ourput-row{
+.swap-output-row{
   display:flex;flex-flow:row;justify-content:space-between;
   width:330px;
   height:50px;
@@ -458,6 +470,17 @@ img{max-width:200px;margin:auto;filter:invert(1);}}
   flex-flow:wrap;
   justify-content:center;
   overflow:hidden;
+}
+
+
+.dapp-view {
+  // justify-content: center;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  height: 100vh;
 }
 
 
@@ -509,10 +532,16 @@ footer{
 .dapp{
   // height:100vh;
   // width:100vw;
-  background-position:center;
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-image:url('./assets/dapp-background.svg');
+  // background-color: #3A4050; //!important;
+  // background:
+  //         radial-gradient(circle at 25% 0%,
+  //                 rgba(227,255,240,.5), rgba(227,255,240,0) 50%),
+  //         radial-gradient(circle at 80% 80%,
+  //                 rgba(131,165,203,.5), rgba(131,165,203,0) 50%);
+  //background-position:center;
+  //background-size:cover;
+  //background-repeat:no-repeat;
+  //background-image:url('./assets/dapp-background.svg');
 }
 
 .swap-input-container{
@@ -691,79 +720,6 @@ padding:0rem 1rem;
   .balance-data{padding: 0px 5px;}
   p{font-size:0.7rem;}}
 
-.dapp-sidebar{
-  position: fixed;
-  left:0px;top:0px;
-  width:300px;
-  height:100%;
-  display:flex;
-  flex-flow:column;
-  background-color:#212121;
-  opacity:0.8;
-  box-shadow:inset 0px 0px 50px black;
-}
-.dapp-sidebar-button-connected{border-radius:2rem;}
-.dapp-menu-social{
-  width: 100%;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  height: 100px;
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-}
-
-.dapp-sidebar-button-connect{
-  background-color: transparent;
-  color: white;
-  &:hover{background-color:white;color:black;}
-}
-.dapp-sidebar-button-connected{
-  background-color: white;
-  color: black;
-}
-
-.wallet-menu{
-  display:flex;
-  flex-flow:column;
-  text-align: center;
-
-  width:200px;
-  margin: auto;
-  justify-content:center;
-
-  a {
-    text-decoration: none;
-  }
-
-  .disconnect-button{
-    margin-bottom: 15px;
-  }
-
-}
-
-.wallet-button{
-  border:1px solid #0001;
-  background-color: transparent;
-  border-radius: 1rem;
-  cursor:pointer;
-  &:hover{
-    background-color:#e8e8e8;}
-
-}
-
-.social-row{
-  display: flex;
-  flex-flow: row;
-  justify-content: space-evenly;
-  padding: 2rem;
-  a{
-    &:hover{
-      transform:scale(1.1);
-  }
- }
-}
 
 .row-flex-desc{
   max-width: 600px;
@@ -1060,29 +1016,7 @@ input.input:read-only {
   }
 
 
-  .dapp-sidebar {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 66%;
-    // height: 300px;
-    z-index: 100;
-    display: flex;
-    flex-flow: row;
-    background-color: #212121;
-    opacity: 1;
-    box-shadow: inset 0px 0px 50px black;
 
-    // width: 75%;
-    // max-width: 40px;
-    // position: relative;
-
-    // transition: left 0.5s ease-out;
-    // transition: max-width 0.3s ease-out;
-    // -ms-overflow-style: none;
-    // scrollbar-width: none;
-    // overflow-y: scroll;
-  }
 
   .mainnav{padding-top:0.5rem;text-align:right;justify-content:flex-end;}
   .ticker-name{display:none;}
@@ -1102,10 +1036,7 @@ input.input:read-only {
 
 
 
-  .dapp-menu-top{width:250px;}
-  .dapp-menu-social {
-    width: 250px;
-  }
+  
   // .dapp-menu-links{height:100%;}
   .dapp-center-modal{
     // width:auto;
@@ -1122,16 +1053,7 @@ input.input:read-only {
   box-shadow: 0px 5px 20px rgba(0,0,0,0.5);
 }
 
-.ohm-dashboard-card {
-  background-color:#424242dd;
-  box-shadow: 0px 5px 20px rgba(0,0,0,0.5);
-  min-height: 100px;
-}
 
-
-.card-body iframe {
-  width: 100%;
-}
 
 
 
@@ -1327,22 +1249,11 @@ input.input:read-only {
   height: 44px;
   line-height: 38px;
   text-align: center;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-family: 'Square', cursive;
+  //font-weight: bold;
+  //text-transform: uppercase;
+  font-family: 'Square-Light', cursive;
   border-radius: 10px;
   text-transform: capitalize;
   border:2px solid $secondary;
   padding: 0 24px;
-}
-
-
-.btn-dark {
-  border-color: #CFB081;
-
-  &:hover{
-    color: black !important;
-    background-color: white !important;
-    border-color: #212529 !important;
-  }
 }

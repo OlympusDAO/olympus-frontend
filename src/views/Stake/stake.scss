@@ -1,0 +1,326 @@
+#stake-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+// ohm-card styles should be set to theme
+.ohm-card {
+    color: #efefef;
+    overflow: hidden;
+    max-width: 610px;
+    min-width: 66%;
+    // width: 50vw;
+    border-radius: .5rem;
+    background-color: transparent !important;
+    box-shadow: unset !important;
+    border: none !important;
+    // display:flex;
+    display: block;
+    justify-content:center;
+    flex-flow:wrap;
+    padding: 0px !important;
+    padding-top: 4.20rem !important;
+    .card-header {
+        position: absolute;
+        width: 100%;
+        background-color:#42424200 !important;
+        box-shadow: none !important;
+        border: none !important;
+        max-width: 60rem;
+        top: 0;
+        h5 {
+            font-weight: 550;
+            color: #efefef;
+            text-decoration: underline;
+            text-underline-offset: 10px;
+        }
+    }
+    .card-content {
+        width: 100%;
+        // max-width: 60rem;
+        position: relative;
+        display: flex;
+        align-items: left;
+        justify-content: center;
+        border-radius: inherit;
+        //box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+        flex-flow: column;
+        padding: 2.5rem 2.5rem;
+        height: 100%;
+        
+    }
+    &.primary {
+        margin-bottom: 3.3rem;
+        // min-height: 600px;
+        height: auto;
+    }
+    &.secondary {
+        height: auto;
+        // min-height: 250px;
+        margin-bottom: 3.3rem;
+    }
+}
+
+.stake-top-metrics {
+    display: flex;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    .olympus-sushi {
+        flex: 1;
+        div {
+            line-height: 150%;
+        }
+        .olympus-logo {
+            height: 1.7em;
+            width: 1.7em;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+            filter: invert(1);
+        }
+        h3 {
+            display: inline;
+            margin: 0;
+            vertical-align: middle;
+            font-size: 1.4em;
+            color: #ffffff;
+        }
+        a {
+            font-size: 0.85em;
+            margin-right: 5px;
+        }
+        .fa-external-link-alt {
+            width: 0.79em;
+            height: 0.79em;
+        }
+    }
+    .stake-apy, .stake-tvl {
+        flex: 1;
+        // text-align: left;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        h2 {
+            font-family: "Square-Light", 'cursive' !important;
+            font-size: 1.85em !important;
+            line-height: 130%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            &.content {
+                color: #F4D092;
+            }
+        }
+        h2:first-of-type {
+            margin-bottom: unset;
+        }
+    }
+    .next-rebase {
+        flex: 1;
+        text-align: right;
+    }
+}
+
+// overriding original 
+.stake-toggle-row {
+    // margin: 1rem 0 0 0;
+    margin-bottom: 1rem;
+    width: 100%;
+    display: block;
+    .btn-group button.btn {
+        color: #A9A9A9;
+        font-family: "Square-Medium", 'cursive' !important;
+        border: unset;
+        border-radius: 0;
+        border-color: none !important;
+        background-color: transparent !important;
+        padding: 0 7px !important;
+        margin-right: 25px;
+        &:active,
+        &:focus {
+            outline: none;
+            border: none;
+            box-shadow: none;
+        }
+        &:hover {
+            color: #F5DDB4;
+        }
+    }
+}
+
+.stake-notification {
+    height: 1.75rem;
+    font-size: 0.75em;
+    line-height: 125%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+
+.ohm-logo-bg {
+    height: 25px;
+    width: 25px;
+    border-radius: 20px;
+    display: flex;
+    background-color: white;    
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.7rem;
+}
+
+.ohm-logo-tiny {
+    height: 15px;
+    width: 15px;
+    vertical-align: middle;
+    background-color: transparent;
+}
+
+.logo-holder {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background: none;
+    border: 0 !important;
+    border-radius: inherit;
+    color: #555;
+}
+
+.stake-action-row {
+    margin-bottom: 20px;
+}
+
+.input-group.ohm-input-group {
+    width: 55%;
+    max-width: 420px;
+    border: 0.8px solid #FFFFFF;
+    border-radius: .5rem !important;
+    input, button {
+        border-radius: none;
+        margin-left: 0 !important;
+        background: none !important;
+        border: none !important;
+        outline: none !important;
+        &:focus,
+        &:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+    }
+    input {
+        border: none !important;
+    }
+    button {
+        border-left: 0 !important;
+        border-top-right-radius: inherit !important;
+        border-bottom-right-radius: inherit !important;
+        background: none;
+        &:hover {
+            color: #F5DDB4 !important;
+        }
+    }
+}
+
+
+.stake-price-data-row {
+    .price-label,
+    .price-data {
+        font-size: 1.1em !important;
+    }
+}
+
+.stake-button {
+    min-width: 173px;
+}
+.stake-button, .stake-lp-button {
+    display: block;
+    margin-left: 1rem;
+    border-radius: .5rem;
+    padding: .4rem;
+    background-color: #ffffffee;
+    color: #222;
+    font-size: 1.2em;
+    height: auto;
+    text-align: center;
+    font-family: 'Square-Light', cursive;
+}
+
+.stake-table {
+    thead {
+        color: #999999;
+    }
+    tbody {
+        color: #ffffff;
+        tr {
+            vertical-align: middle;
+            overflow-wrap: break-word;
+            font-size: 1em;
+            align-items: center; 
+            .ohm-pairs p, .ohm-pairs svg {
+                align-self: center;
+                margin-left: 6px;
+                font-weight: bold;
+                margin-bottom: 0;
+                vertical-align: text-top;
+            }
+        }
+        button {
+            padding: .25rem .65rem;
+        }
+    }
+}
+
+.stake-wallet-notification {
+    position: absolute;
+    padding: 15%;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    top: 25%;
+    background-color: #00000023;
+    backdrop-filter: blur(13px);
+    border-radius: 0.5rem;
+    h4 {
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 2em;
+        font-weight: 100;
+    }
+    .wallet-menu {
+        text-align: center;
+        float: unset;
+        .stake-button {
+            color: #F4D092 !important;
+            padding: 5px 35px !important;
+        }
+    }
+}
+
+.MuiTableCell-root {
+    border-bottom: none !important;
+    &.MuiTableCell-alignLeft {
+        display: flex;
+    }
+}
+
+.MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+    justify-content: space-evenly;
+    div.ohm-pairs {
+        width: 33%;
+        // padding-left: 8px;
+    }
+    div.bond-name {
+        width: 67%;
+    }
+}
+
+#choose-bond-view {
+   
+}
+
+
+

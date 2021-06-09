@@ -1,0 +1,99 @@
+.dapp-topbar {
+    position: sticky;
+    display: flex;
+    text-align: right;
+    top: 0;
+    right: 0; 
+    width: auto;
+    height: 70px;
+    background-color:inherit;
+    z-index: 3;
+    overflow: hidden;
+    padding: 5px;
+    justify-content: right;
+    flex-direction: row-reverse;
+    margin-top: 10px;
+    button {
+        border-radius: .7rem !important;
+        border-color: none !important;
+        font-size: 1em !important;
+        height: auto !important;
+    }
+    button:hover {
+        //background-color: #5A6C7D !important;
+        //border-color: none !important;
+    }
+}
+
+.dapp-topbar-items {
+    float: right;
+    vertical-align: middle;
+    //div {
+    //    margin-right: 10px;
+    //}
+}
+
+.get-ohm-button {
+    min-width: 111px;
+    a {
+        display: block;
+        white-space: nowrap;
+    }
+}
+
+.get-ohm-button.btn,
+.wallet-menu .btn {
+    padding: 0px 20px !important;
+}
+
+.wallet-menu {
+    display:flex;
+    float: right;
+    //flex-flow:column;
+    text-align: center;
+  
+    //width:200px;
+    //margin: auto;
+    justify-content:center;
+  
+    a {
+      text-decoration: none;
+    }
+  
+    .disconnect-button{
+      margin-bottom: 15px;
+    }  
+}
+
+.wallet-button {
+    border:1px solid #0001;
+    background-color: transparent;
+    border-radius: 1rem;
+    cursor:pointer;
+    &:hover {
+      background-color:#e8e8e8;
+    } 
+}
+
+.dapp-sidebar-button-connect {
+    background-color: transparent;
+    color: white;
+    &:hover{background-color:white;color:black;}
+}
+
+.dapp-sidebar-button-connected {
+    background-color: white;
+    color: black;
+}
+
+
+.top-bar-button {
+    height: 39px;
+    font-size: 14px;
+    border: none;
+    &:hover{
+        border: none;
+    }
+}
+
+
