@@ -48,6 +48,8 @@ header {
 // TODO: This formats the button unfortunately.
 // @import '~@primer/css/index.scss';
 
+
+
 // This overwrites any primer additions to make it work with Bootstrap.
 .btn-overwrite-primer {
   background-image: none !important;
@@ -1254,19 +1256,4 @@ input.input:read-only {
   text-transform: capitalize;
   border:2px solid $secondary;
   padding: 0 24px;
-}
-
-
-.btn-dark {
-  height: 39px;
-  font-size: 14px;
-  color: #ffffff !important;
-  background: rgba(33, 33, 33, 0.5) !important;
-  border: none;
-
-  &:hover{
-    color: #F5DDB4 !important;
-    //background-color: white !important;
-    border: none;
-  }
 }
