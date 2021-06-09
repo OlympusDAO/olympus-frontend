@@ -7,17 +7,17 @@ import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import Web3Modal from "web3modal";
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/js/all.js';
-import { useSelector, useDispatch } from 'react-redux';
-import { Box, Flex } from 'rimble-ui';
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/js/all.js";
+import { useSelector, useDispatch } from "react-redux";
+import { Box, Flex } from "rimble-ui";
 import { Container, Grid } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import { calcBondDetails, } from './actions/Bond.actions.js';
-import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
-import { loadAccountDetails } from './actions/Account.actions.js';
+import { calcBondDetails, } from "./actions/Bond.actions.js";
+import { loadAppDetails, getMarketPrice, getTokenSupply } from "./actions/App.actions.js";
+import { loadAccountDetails } from "./actions/Account.actions.js";
 
 import { Stake, ChooseBond, Bond, Dashboard } from './views'
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
@@ -33,19 +33,9 @@ import { GlobalStyles } from "./global";
 
 import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS, BONDS } from "./constants";
 import { Transactor } from "./helpers";
-import {
-  useBalance,
-  useContractLoader,
-  useContractReader,
-  useEventListener,
-  useExchangePrice,
-  useExternalContractLoader,
-  useGasPrice,
-  useOnBlock,
-  useUserProvider,
-} from "./hooks";
+import { useOnBlock, useUserProvider } from "./hooks";
 // import Hints from "./Hints";
-import { ExampleUI, Hints, Subgraph } from "./views";
+// import { ExampleUI, Hints, Subgraph } from "./views";
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -126,39 +116,38 @@ function App(props) {
   const address = useUserAddress(userProvider);
 
   // You can warn the user if you would like them to be on a specific network
-  const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
+  // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
   // Just plug in different 🛰 providers to get your balance on different chains:
-  const yourMainnetBalance = useBalance(mainnetProvider, address);
+  // const yourMainnetBalance = useBalance(mainnetProvider, address);
 
   // If you want to make 🔐 write transactions to your contracts, use the userProvider:
-  const writeContracts = useContractLoader(userProvider);
+  // const writeContracts = useContractLoader(userProvider);
 
   // EXTERNAL CONTRACT EXAMPLE:
   // If you want to bring in the mainnet DAI contract it would look like:
-  const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
+  // const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
 
   // If you want to call a function on a new block
-  useOnBlock(mainnetProvider, () => {
+  /* useOnBlock(mainnetProvider, () => {
     console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
-  });
-
+  }); */
 
   async function loadDetails() {
-      let loadProvider = mainnetProvider;
-      if (injectedProvider) loadProvider = injectedProvider;
+    let loadProvider = mainnetProvider;
+    if (injectedProvider) loadProvider = injectedProvider;
 
-      await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }))
-      await dispatch(getMarketPrice({ networkID: 1, provider: loadProvider }));
-      await dispatch(getTokenSupply({ networkID: 1, provider: loadProvider }));
+    await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
+    await dispatch(getMarketPrice({ networkID: 1, provider: loadProvider }));
+    await dispatch(getTokenSupply({ networkID: 1, provider: loadProvider }));
 
-      if (address) await dispatch(loadAccountDetails({networkID: 1, address, provider: loadProvider}));
+    if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
-      ["ohm_dai_lp", "dai"].map(async bond => {
-        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
-      })
+    ["ohm_dai_lp", "dai"].map(async bond => {
+      await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
+    });
   }
 
   useEffect(() => {
@@ -179,7 +168,7 @@ function App(props) {
   const [route, setRoute] = useState();
 
   useEffect(() => {
-    setRoute((window).location.pathname);
+    setRoute(window.location.pathname);
   }, [setRoute]);
   
 
@@ -256,15 +245,17 @@ function App(props) {
                 </Route>
 
                 {Object.values(BONDS).map(bond => {
-                  return <Route exact key={bond} path={`/bonds/${bond}`}>
-                    <Bond bond={bond} address={address} provider={injectedProvider} />
-                  </Route>
+                  return (
+                    <Route exact key={bond} path={`/bonds/${bond}`}>
+                      <Bond bond={bond} address={address} provider={injectedProvider} />
+                    </Route>
+                  );
                 })}
               </Switch>
             {/* </Box> */}
           </Container>
               
-          <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}></div>
+          <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} />
           
         </Flex>
       </div>      
