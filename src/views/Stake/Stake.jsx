@@ -102,23 +102,24 @@ function Stake({ provider, address }) {
             
 
             <div className="stake-toggle-row">
-              <Grid container spacing={4}>
-                <Grid item lg={5} s={12}>
+              <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
+                <Grid item lg={5} sm={12}>
                   <div className="btn-group" role="group">
                     <button type="button" className={`btn ${view === 'stake' ? 'btn-light' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
                     <button type="button" className={`btn ${view === 'unstake' ? 'btn-light' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
                   </div>
                 </Grid>
                 
-                {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&
-                  <Grid item lg={7} s={12}>
-                    <div className='stake-notification'>
+                <Grid item lg={7} sm={12}>
+              
+                {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&                  
+                  <div className='stake-notification'>
                       <em><p>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</p></em>
-                    </div>
-                    </Grid>
+                  </div>
                   }
                 </Grid>
-              </div>
+              </Grid>
+            </div>
             
 
 
