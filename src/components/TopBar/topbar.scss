@@ -20,7 +20,7 @@
         height: auto !important;
     }
     button:hover {
-        background-color: #5A6C7D !important;
+        //background-color: #5A6C7D !important;
         border-color: none !important;
     }
 }
@@ -84,6 +84,16 @@
 .dapp-sidebar-button-connected {
     background-color: white;
     color: black;
+}
+
+
+.top-bar-button {
+    height: 39px;
+    font-size: 14px;
+    border: none;
+    &:hover{
+        border: none;
+    }
 }
 
 
