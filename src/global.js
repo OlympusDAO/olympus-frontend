@@ -120,4 +120,7 @@ export const GlobalStyles = createGlobalStyle`
         border-bottom: 2px solid ${({theme}) => theme.color} !important;
         color: ${({theme}) => theme.color} !important;
     }
+    table .MuiTableCell-root {
+        color: ${({theme}) => theme.color};
+    }
 `;
