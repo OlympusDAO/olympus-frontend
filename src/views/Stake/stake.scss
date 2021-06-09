@@ -185,7 +185,8 @@
 }
 
 .input-group.ohm-input-group {
-    width: 48%;
+    width: 55%;
+    max-width: 420px;
     border: 0.8px solid #FFFFFF;
     border-radius: .5rem !important;
     input, button {
@@ -228,6 +229,9 @@
     }
 }
 
+.stake-button {
+    min-width: 173px;
+}
 .stake-button, .stake-lp-button {
     display: flex;
     margin-left: 1rem;
@@ -247,8 +251,9 @@
         color: #ffffff;
         tr {
             vertical-align: middle;
-            // font-size: 0.9em;
-            align-items: center;
+            overflow-wrap: break-word;
+            font-size: 0.9em;
+            align-items: center; 
             .ohm-pairs p {
                 align-self: center;
                 margin-left: 5px;
