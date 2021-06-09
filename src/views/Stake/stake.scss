@@ -16,7 +16,8 @@
     background-color: transparent !important;
     box-shadow: unset !important;
     border: none !important;
-    display:flex;
+    // display:flex;
+    display: block;
     justify-content:center;
     flex-flow:wrap;
     padding: 0px !important;
@@ -83,7 +84,7 @@
             display: inline;
             margin: 0;
             vertical-align: middle;
-            font-size: 1.33em;
+            font-size: 1.4em;
             color: #ffffff;
         }
         a {
@@ -103,7 +104,7 @@
         overflow: hidden;
         h2 {
             font-family: "Square-Light", 'cursive' !important;
-            font-size: 1.7em !important;
+            font-size: 1.85em !important;
             line-height: 130%;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -126,7 +127,8 @@
 .stake-toggle-row {
     // margin: 1rem 0 0 0;
     margin-bottom: 1rem;
-    display: flex;
+    width: 100%;
+    display: block;
     .btn-group button.btn {
         color: #A9A9A9;
         font-family: "Square-Medium", 'cursive' !important;

@@ -102,23 +102,17 @@ function Stake({ provider, address }) {
             
 
             <div className="stake-toggle-row">
-              <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
-                <Grid item lg={5} sm={12}>
                   <div className="btn-group" role="group">
+                  <Grid container direction="row" justify="center" alignItems="left" spacing={2}>
+                  <Grid item lg={3} md={6} sm={6} xs={6}>
                     <button type="button" className={`btn ${view === 'stake' ? 'btn-light' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
+                    </Grid>
+                    <Grid item lg={9} md={6} sm={6} xs={6}>
                     <button type="button" className={`btn ${view === 'unstake' ? 'btn-light' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
+                    </Grid>
+                    </Grid>
                   </div>
-                </Grid>
-                
-                <Grid item lg={7} sm={12}>
               
-                {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&                  
-                  <div className='stake-notification'>
-                      <em><p>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</p></em>
-                  </div>
-                  }
-                </Grid>
-              </Grid>
             </div>
             
 
@@ -156,6 +150,12 @@ function Stake({ provider, address }) {
                   <div className="stake-button" onClick={() => { onSeekApproval('sohm') }}>Approve</div> {/* approve unstake */}
                 </div>}
               </Flex>
+
+              {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&                  
+                <div className='stake-notification'>    
+                  <em><p>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</p></em>
+                </div>
+              }
 
               <div className="stake-price-data-column">
                 <div className="stake-price-data-row">
