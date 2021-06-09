@@ -13,6 +13,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Flex } from 'rimble-ui';
 import { Container, Grid } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 import { calcBondDetails, } from './actions/Bond.actions.js';
 import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
@@ -193,8 +194,10 @@ function App(props) {
     return <div />
   };
 
+
   return (
     <ThemeProvider theme={themeMode}>
+      <CssBaseline />
       <GlobalStyles />
       <div className="app">
         <Flex id="dapp" className="dapp">
@@ -222,6 +225,7 @@ function App(props) {
             route={route} 
             isExpanded={isSidebarExpanded} 
             setRoute={setRoute}
+            theme={theme}
           />
   
           <Container maxWidth="xl">
