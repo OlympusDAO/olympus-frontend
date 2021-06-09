@@ -108,6 +108,9 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
+            &.content {
+                color: #F4D092;
+            }
         }
         h2:first-of-type {
             margin-bottom: unset;
@@ -123,6 +126,7 @@
 .stake-toggle-row {
     margin: 1.5rem 0 0 0;
     padding-bottom: 2rem;
+    display: flex;
     .btn-group button.btn {
         color: #A9A9A9;
         font-family: "Square-Medium", 'cursive' !important;
@@ -143,12 +147,14 @@
             color: #F5DDB4;
         }
     }
-    //.btn-light {
-    //    border-bottom: 2px solid #FFFFFF !important;
-    //    color: #FFFFFF !important;
-    //}
 }
 
+.stake-notification {
+    font-size: 0.8em;
+    line-height: 120%;
+    margin-bottom: 0;
+    // max-width: 80%;
+}
 
 
 .ohm-logo-bg {
@@ -213,12 +219,6 @@
             color: #F5DDB4 !important;
         }
     }
-}
-
-.stake-notification {
-    font-size: 0.79em;
-    line-height: 116%;
-    margin-bottom: 1rem;
 }
 
 
