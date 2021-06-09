@@ -1,22 +1,24 @@
 #stake-view {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    height: 100%;
 }
 
 // ohm-card styles should be set to theme
 .ohm-card {
     color: #efefef;
     overflow: hidden;
-    max-width: 590px;
-    min-width: 80%;
+    max-width: 610px;
+    min-width: 66%;
     // width: 50vw;
     border-radius: .5rem;
     background-color: transparent !important;
     box-shadow: unset !important;
     border: none !important;
-    display:flex;
+    // display:flex;
+    display: block;
     justify-content:center;
     flex-flow:wrap;
     padding: 0px !important;
@@ -38,7 +40,7 @@
     }
     .card-content {
         width: 100%;
-        max-width: 60rem;
+        // max-width: 60rem;
         position: relative;
         display: flex;
         align-items: left;
@@ -66,6 +68,7 @@
     display: flex;
     width: 100%;
     padding: 0;
+    text-align: center;
     .olympus-sushi {
         flex: 1;
         div {
@@ -83,7 +86,7 @@
             display: inline;
             margin: 0;
             vertical-align: middle;
-            font-size: 1.33em;
+            font-size: 1.4em;
             color: #ffffff;
         }
         a {
@@ -97,13 +100,13 @@
     }
     .stake-apy, .stake-tvl {
         flex: 1;
-        text-align: left;
+        // text-align: left;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         h2 {
             font-family: "Square-Light", 'cursive' !important;
-            font-size: 1.7em !important;
+            font-size: 1.85em !important;
             line-height: 130%;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -126,7 +129,8 @@
 .stake-toggle-row {
     // margin: 1rem 0 0 0;
     margin-bottom: 1rem;
-    display: flex;
+    width: 100%;
+    display: block;
     .btn-group button.btn {
         color: #A9A9A9;
         font-family: "Square-Medium", 'cursive' !important;
@@ -149,10 +153,11 @@
 }
 
 .stake-notification {
-    font-size: 0.7em;
+    height: 1.75rem;
+    font-size: 0.75em;
     line-height: 125%;
-    margin-bottom: 10px;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 
@@ -253,23 +258,69 @@
         tr {
             vertical-align: middle;
             overflow-wrap: break-word;
-            font-size: 0.9em;
+            font-size: 1em;
             align-items: center; 
-            .ohm-pairs p {
+            .ohm-pairs p, .ohm-pairs svg {
                 align-self: center;
-                margin-left: 5px;
-                font-size: 1em;
+                margin-left: 6px;
                 font-weight: bold;
                 margin-bottom: 0;
+                vertical-align: text-top;
             }
         }
         button {
-            font-size: 1em;
             padding: .25rem .65rem;
         }
     }
 }
 
-  
+.stake-wallet-notification {
+    position: absolute;
+    padding: 15%;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    top: 25%;
+    background-color: #00000023;
+    backdrop-filter: blur(13px);
+    border-radius: 0.5rem;
+    h4 {
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 2em;
+        font-weight: 100;
+    }
+    .wallet-menu {
+        text-align: center;
+        float: unset;
+        .stake-button {
+            color: #F4D092 !important;
+            padding: 5px 35px !important;
+        }
+    }
+}
 
-  
+.MuiTableCell-root {
+    border-bottom: none !important;
+    &.MuiTableCell-alignLeft {
+        display: flex;
+    }
+}
+
+.MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+    justify-content: space-evenly;
+    div.ohm-pairs {
+        width: 33%;
+        // padding-left: 8px;
+    }
+    div.bond-name {
+        width: 67%;
+    }
+}
+
+#choose-bond-view {
+   
+}
+
+
+
