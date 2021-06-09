@@ -1,4 +1,4 @@
-import { Actions } from './constants';
+import { Actions } from "./constants";
 
 export function app(state = {}, action) {
   switch (action.type) {
@@ -10,7 +10,6 @@ export function app(state = {}, action) {
   }
 }
 
-
 export function bonding(state = {}, action) {
   switch (action.type) {
     case Actions.FETCH_BOND_SUCCESS:
@@ -18,8 +17,9 @@ export function bonding(state = {}, action) {
         return {
           ...state,
           [action.payload.bond]: {
-            ...state[action.payload.bond], ...action.payload
-          }
+            ...state[action.payload.bond],
+            ...action.payload,
+          },
         };
       }
     default:
