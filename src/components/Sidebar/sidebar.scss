@@ -10,7 +10,7 @@
   display:flex;
   flex-flow:column;
   background: rgba(33, 33, 33, 0.5);
-  font-family: 'Square';
+  //font-family: 'Square';
   backdrop-filter: blur(33px);
   -webkit-backdrop-filter: blur(33px);
   z-index: 5;
@@ -27,7 +27,7 @@
 .branding-header {
   display: block;
   text-align: center;
-  font-family: 'Square'
+  //font-family: 'Square';
 }
 
 .branding-header-icon {
@@ -44,7 +44,6 @@
 
 .dapp-menu-top {
   width: 100%;
-  font-size: 28px;
   align-items: center;
   text-decoration: none;
   padding: 15px;
@@ -58,8 +57,9 @@
       display: inline-block;
       vertical-align: middle;
       color: white;
-      font-weight: bold;
+      // font-weight: bold;
       margin: 0;
+      font-size: 2em;
     }
   }
 }
@@ -71,22 +71,17 @@
 
 .button-dapp-menu{
   display:flex;
-  //border-radius:2rem;
   font-weight: normal !important;
   // @extend .button-secondary;
-  font-family: 'Square', 'cursive';
+  // font-family: 'Square', 'cursive';
   height: auto;
-  line-height: 52px;
+  line-height: 250%;
   color: #fff;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 1.2em;
   svg {
     height: 100%;
   }
-  // &.active {
-  //   // color: #CC3B66;
-  //   font-weight: bold;
-  // }
 }
 
 .dapp-nav a {
@@ -135,14 +130,24 @@
   height: auto;
   width: 100%;
   justify-content: left;
-  &.rebase {
-    justify-content: center;
+  &.discounts {
+    margin-top: 1em;
   }
-  &.index {
-    justify-content: center;
-    font-size: 0.75rem;
+  &.bottom {
     flex-direction: column;
+  }
+  .data-rebase {
+    justify-content: center;
+    .rebase-timer {
+      text-align: center !important;
+      font-size: 1em;
+    }
+  }
+  .data-ohm-index {
+    min-width: 64px;
+    font-size: 1em;
     margin-top: 1rem;
+    align-items: left;
     margin-bottom: 1rem;
     p {
       display: block;
@@ -158,7 +163,7 @@
   padding-left: calc(16% + 36px);
   p {
     margin-bottom: 1px;
-    font-size: .8rem;
+    font-size: .85em;
   }
   p:first-of-type {
     margin-bottom: 8px;

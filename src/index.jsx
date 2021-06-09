@@ -2,7 +2,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Root from "./Root";
-import styled from 'styled-components';
 import "./index.css";
 
 
@@ -14,6 +13,7 @@ const prevTheme = window.localStorage.getItem("theme");
 //   uri: subgraphUri,
 //   cache: new InMemoryCache(),
 // });
+
 
 ReactDOM.render(
   <Root />,
