@@ -1,0 +1,202 @@
+.sidebar {
+  min-width: 280px;
+}
+.dapp-sidebar{
+  position: fixed;
+  left:0px;
+  top:0px;
+  min-width: 280px;
+  height:100%;
+  display:flex;
+  flex-flow:column;
+  background: rgba(33, 33, 33, 0.5);
+  //font-family: 'Square';
+  backdrop-filter: blur(33px);
+  -webkit-backdrop-filter: blur(33px);
+  z-index: 5;
+}
+
+.show.sidebar {
+  position: absolute;
+  min-width: 100vw;
+}
+.show .dapp-sidebar {
+  width: 100%;
+}
+
+.branding-header {
+  display: block;
+  text-align: center;
+  //font-family: 'Square';
+}
+
+.branding-header-icon {
+  width: 100px;
+  padding:0.5rem 1.2rem;
+  filter:invert(1);
+  display: block;
+  margin: 0 auto;
+}
+
+.dapp-menu-top a {
+  line-height: 0;
+}
+
+.dapp-menu-top {
+  width: 100%;
+  align-items: center;
+  text-decoration: none;
+  padding: 15px;
+  .branding-header {
+    padding: 0 1em;
+  }
+  a {
+    display: block;
+    vertical-align: middle;
+    h3 {
+      display: inline-block;
+      vertical-align: middle;
+      color: white;
+      // font-weight: bold;
+      margin: 0;
+      font-size: 2em;
+    }
+  }
+}
+
+.dapp-nav {
+  display: flex;
+  flex-flow: column;
+}
+
+.button-dapp-menu{
+  display:flex;
+  font-weight: normal !important;
+  // @extend .button-secondary;
+  // font-family: 'Square', 'cursive';
+  height: auto;
+  line-height: 250%;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+  svg {
+    height: 100%;
+  }
+}
+
+.dapp-nav a {
+  padding: 0 15%;
+  background: transparent;
+}
+
+.dapp-nav a:hover {
+  background: url(../../assets/menu-item-hover.png) no-repeat left center;
+  background-size: 10px;
+  -webkit-transition: opacity 200ms linear;
+  -moz-transition: opacity 200ms linear;
+  -o-transition: opacity 200ms linear;
+  -ms-transition: opacity 200ms linear;
+  transition: opacity 200ms linear;
+  > svg {
+    filter: brightness(0) saturate(100%) invert(99%) sepia(44%) saturate(1344%) hue-rotate(310deg) brightness(96%) contrast(100%);
+  }
+  > span {
+    color: #F5DDB4;
+  }
+}
+
+.dapp-menu-external-links {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+  min-height: 30%;
+  a {
+    display: block;
+    width: 100%;
+    padding: 0 15%;
+  }
+  span {
+    margin-left: 1rem;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.dapp-menu-data {
+  align-items: center;
+  display: flex;
+  height: auto;
+  width: 100%;
+  justify-content: left;
+  &.discounts {
+    margin-top: 1em;
+  }
+  &.bottom {
+    flex-direction: column;
+  }
+  .data-rebase {
+    justify-content: center;
+    .rebase-timer {
+      text-align: center !important;
+      font-size: 1em;
+    }
+  }
+  .data-ohm-index {
+    min-width: 64px;
+    font-size: 1em;
+    margin-top: 1rem;
+    align-items: left;
+    margin-bottom: 1rem;
+    p {
+      display: block;
+      margin-bottom: -5px;
+    }
+    
+  }
+}
+
+.bond-discounts {
+  text-align: left;
+  color: #999999;
+  padding-left: calc(16% + 36px);
+  p {
+    margin-bottom: 1px;
+    font-size: .85em;
+  }
+  p:first-of-type {
+    margin-bottom: 8px;
+  }
+  span {
+    margin-left: 23px;
+    float: right;
+  }
+}
+
+.dapp-menu-social {
+  width: 100%;
+  display: block;
+  flex-flow: column;
+  justify-content: center;
+  height: 80px;
+  position: relative;
+  bottom: 0px;
+  left: 0px;
+}
+
+.social-row {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+  padding: 1.5rem;
+  a {
+    &:hover{
+      transform:scale(1.1);
+      color: #F5DDB4;
+    }
+  }
+}
+
+

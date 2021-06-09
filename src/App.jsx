@@ -1,6 +1,8 @@
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { formatEther, parseEther } from "@ethersproject/units";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { ThemeProvider } from "styled-components";
+import useTheme from "./hooks/useTheme";
 import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
@@ -9,18 +11,26 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import { useSelector, useDispatch } from "react-redux";
-import { calcBondDetails } from "./actions/Bond.actions.js";
+import { Box, Flex } from "rimble-ui";
+import { Container, Grid } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
+import { calcBondDetails, } from "./actions/Bond.actions.js";
 import { loadAppDetails, getMarketPrice, getTokenSupply } from "./actions/App.actions.js";
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
-import { Stake, ChooseBond, Bond, Dashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard } from './views'
+import Sidebar from "./components/Sidebar/Sidebar.jsx";
+import TopBar from "./components/TopBar/TopBar.jsx";
 
-import "./App.css";
-import "./style.scss";
-import { Header } from "./components";
+// import "./App.css";
+// import "./style.scss";
+// import { Header } from "./components";
 
-import Sidebar from "./components/Sidebar";
+import { lightTheme, darkTheme, gTheme } from "./theme";
+import { GlobalStyles } from "./global";
+
+
 import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS, BONDS } from "./constants";
 import { Transactor } from "./helpers";
 import { useOnBlock, useUserProvider } from "./hooks";
@@ -90,7 +100,10 @@ const logoutOfWeb3Modal = async () => {
 
 function App(props) {
   const dispatch = useDispatch();
+  const [theme, toggleTheme, mounted] = useTheme();
 
+  // const [themeMode, setThemeMode] = useState(lightTheme);
+  
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
@@ -157,59 +170,74 @@ function App(props) {
   useEffect(() => {
     setRoute(window.location.pathname);
   }, [setRoute]);
+  
+
+  let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
+
+  useEffect(() => {
+    console.log('theme effect', theme);
+    themeMode = theme === "light" ? lightTheme : darkTheme;
+  })
+
+  if (!mounted) {
+    return <div />
+  };
+
 
   return (
-    <div className="app">
-      <div id="dapp" className="dapp min-vh-100">
-        <div className="container-fluid">
-          <div className="row">
-            {false && (
-              <Header
-                address={address}
-                loadWeb3Modal={loadWeb3Modal}
-                logoutOfWeb3Modal={logoutOfWeb3Modal}
-                web3Modal={web3Modal}
-              />
-            )}
+    <ThemeProvider theme={themeMode}>
+      <CssBaseline />
+      <GlobalStyles />
+      <div className="app">
+        <Flex id="dapp" className="dapp">
 
-            <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
-              <button
-                className="navbar-toggler"
-                type="button"
-                onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="navbar-toggler-icon" />
-              </button>
-            </nav>
-
-            <Sidebar
-              web3Modal={web3Modal}
-              loadWeb3Modal={loadWeb3Modal}
-              logoutOfWeb3Modal={logoutOfWeb3Modal}
-              mainnetProvider={mainnetProvider}
-              blockExplorer={blockExplorer}
-              address={address}
-              route={route}
-              isExpanded={isSidebarExpanded}
-              setRoute={setRoute}
-            />
-
-            <div
-              className={`ohm-backdrop ${isSidebarExpanded ? "ohm-backdrop-show" : "ohm-backdrop-close"}`}
+          <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
+            <button
+              className="navbar-toggler"
+              type="button"
               onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+          </nav>
+
+          <Sidebar 
+            web3Modal={web3Modal} 
+            loadWeb3Modal={loadWeb3Modal} 
+            logoutOfWeb3Modal={logoutOfWeb3Modal} 
+            mainnetProvider={mainnetProvider} 
+            blockExplorer={blockExplorer} 
+            address={address} 
+            route={route} 
+            isExpanded={isSidebarExpanded} 
+            setRoute={setRoute}
+            theme={theme}
+          />
+  
+          <Container maxWidth="xl">
+            <TopBar 
+              web3Modal={web3Modal} 
+              loadWeb3Modal={loadWeb3Modal} 
+              logoutOfWeb3Modal={logoutOfWeb3Modal} 
+              mainnetProvider={mainnetProvider} 
+              blockExplorer={blockExplorer} 
+              address={address} 
+              route={route} 
+              theme={theme}
+              toggleTheme={toggleTheme}
             />
 
-            <div className="col-lg-10 col-12 mt-4 mt-md-0">
+            {/* <Box className="dapp-view">  */}
               <Switch>
                 <Route exact path="/dashboard">
                   <Dashboard address={address} provider={injectedProvider} />
                 </Route>
 
                 <Route exact path="/">
-                  <Stake address={address} provider={injectedProvider} />
+                  <Stake address={address} provider={injectedProvider} web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} />
                 </Route>
 
                 <Route exact path="/bonds">
@@ -224,11 +252,14 @@ function App(props) {
                   );
                 })}
               </Switch>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            {/* </Box> */}
+          </Container>
+              
+          <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} />
+          
+        </Flex>
+      </div>      
+    </ThemeProvider>
   );
 }
 
