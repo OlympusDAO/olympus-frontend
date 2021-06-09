@@ -194,6 +194,7 @@ function App(props) {
     return <div />
   };
 
+
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
@@ -224,6 +225,7 @@ function App(props) {
             route={route} 
             isExpanded={isSidebarExpanded} 
             setRoute={setRoute}
+            theme={theme}
           />
   
           <Container maxWidth="xl">
