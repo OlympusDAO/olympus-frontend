@@ -15,7 +15,7 @@ function ThemeSwitcher({theme, toggleTheme}) {
 
   return (
       <ToggleButton
-        className="toggle-button btn btn-dark btn-overwrite-primer m-2"
+        className="toggle-button btn top-bar-button btn-overwrite-primer m-2"
         type="button"
         title="Change Theme" 
         value="check" 

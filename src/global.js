@@ -40,6 +40,17 @@ export const GlobalStyles = createGlobalStyle`
             color: ${({theme}) => theme.color};
         }
     }
+    .top-bar-button {
+        background: ${({theme}) => theme.TopBarButtonBg};
+        color: ${({theme}) => theme.TopBarButtonColor} !important;
+            &:hover {
+                background: ${({theme}) => theme.TopBarButtonBgHover};
+                color: ${({theme}) => theme.TopBarButtonColorHover} !important;
+            }
+    }
+     .top-bar-button a {
+         color: ${({theme}) => theme.TopBarButtonColor} !important;
+     }
     .stake-button {
         background: ${({theme}) => theme.CTAButtonBg};
         color: ${({theme}) => theme.CTAButtonColor} !important;
