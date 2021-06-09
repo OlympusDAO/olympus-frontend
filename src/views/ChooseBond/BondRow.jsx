@@ -5,6 +5,7 @@ import BondLogo from '../../components/BondLogo';
 import { TableRow, TableCell } from "@material-ui/core";
 import { NavLink } from 'react-router-dom';
 
+
 export function BondTableData({ bond }) {
   const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
   const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
@@ -17,10 +18,12 @@ export function BondTableData({ bond }) {
         <div className="bond-name">
         {bondName(bond)}
         {isBondLP(bond) && <a href={lpURL(bond)} target="_blank">
-          <p>Contract
+          <p>
+          Contract
           <i className="fas fa-external-link-alt"></i>
           </p>
         </a>}
+        
         </div>
       </TableCell>
       <TableCell align="center">{trim(bondPrice, 2)}</TableCell>
