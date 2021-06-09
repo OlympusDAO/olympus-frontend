@@ -33,7 +33,7 @@ export const lightTheme = {
     logoColor: "none",
     defaultButtonBg: "rgba(252,252,252, 0.6) !important",
     TopBarButtonBg: "rgba(252, 252, 252, 0.5) !important",
-    TopBarButtonBgHover: "rgba(229, 229, 229, 0.5) !important",
+    TopBarButtonBgHover: "rgba(227, 218, 191, 0.5) !important",
     TopBarButtonColor: "#000000",
     TopBarButtonColorHover: "#000000",
     TopBarButtonBorder: "",
