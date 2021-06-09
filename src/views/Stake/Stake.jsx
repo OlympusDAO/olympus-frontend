@@ -9,7 +9,7 @@ import "../../style.scss";
 import "./stake.scss";
 
 
-function Stake({ provider, address }) {
+function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const dispatch = useDispatch();
 
   const [view, setView] = useState("stake");
@@ -63,65 +63,70 @@ function Stake({ provider, address }) {
     return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
   }
 
-
+  let modalButton = <></>;
+  if (web3Modal) {
+    if (web3Modal.cachedProvider) {
+      modalButton = 
+        <button type="button" className={`btn top-bar-button btn-overwrite-primer m-2`} onClick={loadWeb3Modal}>Connect Wallet</button>
+    }
+  }
 
   return (
-    // <Flex className="dapp-view">
-      <Grid id="stake-view" container direction="column" justify="center">
-        <Card className="ohm-card primary" backgroundColor={"#FFFFFF00"}>
+      <Grid id="stake-view" direction="row" justify="center" spacing={4}>
+
+        {/* <Grid item sm={8} lg={6}> */}
+        <Card className="ohm-card primary">
           <div className="card-header">
             <h5>Single Stake (3, 3)</h5>
           </div> 
 
-          <div className="card-content">
-            
+          
+          <div className="card-content">    
+          <Grid direction="row" justify="center" alignItems="center" maxWidth="100%">
+          <Grid item>
             <div className="stake-top-metrics">
-              <div className="olympus-sushi">
-                <div>
-                  <img className="olympus-logo" src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"/>
-                  <h3>Olympus</h3>
-                </div>
-                <div>
-                  <a href="" target="_blank">Buy on Sushiswap</a>
-                  <i className="fa fa-external-link-alt"></i>
-                </div>
-                
-              </div>
-
-              <div className="stake-apy">
-                <h2 className="title">APY</h2>
-                <h2 className="content">{ trim(stakingAPY * 100, 1) }%</h2>
-              </div>
-
-              <div className="stake-tvl">
-                <h2 className="title">TVL</h2>
-                {/* need function for getting stakingTVL */}
-                <h2 className="content">{ trim(stakingAPY * 100, 1) }%</h2> 
-              </div>
-            </div>
-            
-
-            <div className="stake-toggle-row">
-              <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
-                <Grid item lg={5} sm={12}>
-                  <div className="btn-group" role="group">
-                    <button type="button" className={`btn ${view === 'stake' ? 'btn-light' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
-                    <button type="button" className={`btn ${view === 'unstake' ? 'btn-light' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={12} lg={4}>
+                  <div className="olympus-sushi">
+                    <div>
+                      <img className="olympus-logo" src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"/>
+                      <h3>Olympus</h3>
+                    </div>
+                    <div>
+                      <a href="" target="_blank">Buy on Sushiswap</a>
+                      <i className="fa fa-external-link-alt"></i>
+                    </div>
                   </div>
                 </Grid>
-                
-                <Grid item lg={7} sm={12}>
-              
-                {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&                  
-                  <div className='stake-notification'>
-                      <em><p>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</p></em>
+
+                <Grid item xs={6} sm={6} lg={4}>
+                  <div className="stake-apy">
+                    <h2 className="title">APY</h2>
+                    <h2 className="content">{ trim(stakingAPY * 100, 1) }%</h2>
                   </div>
-                  }
+                </Grid>
+
+                <Grid item xs={6} sm={6} lg={4}>
+                  <div className="stake-tvl">
+                    <h2 className="title">TVL</h2>
+                    {/* need function for getting stakingTVL */}
+                    <h2 className="content">{ trim(stakingAPY * 100, 1) }%</h2> 
+                  </div>
                 </Grid>
               </Grid>
             </div>
+            </Grid> 
             
 
+            <Grid item>
+            <div className="stake-toggle-row">
+              <div className="btn-group" role="group">
+                <button type="button" className={`btn ${view === 'stake' ? 'btn-light' : ''}`} onClick={() => {setView('stake')}}>Stake</button>
+                <button type="button" className={`btn ${view === 'unstake' ? 'btn-light' : ''}`} onClick={() => {setView('unstake')}}>Unstake</button>
+              </div>
+            </div>
+            
+            
 
             <Flex className="stake-action-row">
               <div className="input-group ohm-input-group">
@@ -157,39 +162,57 @@ function Stake({ provider, address }) {
                 </div>}
               </Flex>
 
-              <div className="stake-price-data-column">
-                <div className="stake-price-data-row">
-                  <p className="price-label">Your Balance</p>
-                  <p className="price-data">{ trim(ohmBalance) } OHM</p>
-                </div>
-
-                <div className="stake-price-data-row">
-                  <p className="price-label">Your Staked Balance</p>
-                  <p className="price-data">{ trim(sohmBalance, 4) } sOHM</p>
-                </div>
-
-                <div className="stake-price-data-row">
-                  <p className="price-label">Reward Yield</p>
-                  <p className="price-data">{ trim(stakingRebase * 100, 4) }%</p>
-                </div>
-
-                <div className="stake-price-data-row">
-                  <p className="price-label">ROI (5-Day Rate)</p>
-                  <p className="price-data">{ trim(fiveDayRate * 100, 4) }%</p>
-                </div>
-
-                {/* <div className="stake-price-data-row">
-                  <p className="price-label">Current index</p>
-                  <p className="price-data">{ trim(currentIndex, 4) } OHM</p>
-                </div> */}
+              <div className='stake-notification'>    
+                {address && (!hasAllowance('ohm') && view === 'stake' || !hasAllowance('sohm') && view === 'unstake')  &&                    
+                  <em><p>Important: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.</p></em>
+                }
               </div>
+              </Grid>
+
+
+              <Grid item>
+
+                {!address && 
+                  <div className="stake-wallet-notification">
+                    <h4>Connect your wallet to Stake OHM</h4>
+                    <div className="wallet-menu" id="wallet-menu">
+                      <button type="button" className={`btn stake-button btn-overwrite-primer m-2`} onClick={loadWeb3Modal} key={2}>Connect Wallet</button>
+                    </div>
+                  </div>
+                }
+
+                <div className="stake-price-data-column">
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Your Balance</p>
+                    <p className="price-data">{ trim(ohmBalance) } OHM</p>
+                  </div>
+
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Your Staked Balance</p>
+                    <p className="price-data">{ trim(sohmBalance, 4) } sOHM</p>
+                  </div>
+
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Reward Yield</p>
+                    <p className="price-data">{ trim(stakingRebase * 100, 4) }%</p>
+                  </div>
+
+                  <div className="stake-price-data-row">
+                    <p className="price-label">ROI (5-Day Rate)</p>
+                    <p className="price-data">{ trim(fiveDayRate * 100, 4) }%</p>
+                  </div>
+                </div>
+
+                </Grid>
+              </Grid>
           </div>
+          
 
         </Card>
-
+        {/* </Grid> */}
           
-        
-        <Card className="ohm-card secondary" backgroundColor={"#FFFFFF00"}>
+        {/* <Grid item sm={4} lg={6}> */}
+        <Card className="ohm-card secondary">
           <div className="card-header">
             <h5>Stake OHM LP Tokens</h5>
           </div>  
@@ -213,18 +236,22 @@ function Stake({ provider, address }) {
                       <div className="ohm-pair" style={{zIndex: 1}}>
                         <img src={`${fraxAssetImg()}`} />
                       </div>
-                      <p>OHM-FRX</p>
+                      <p>
+                        OHM-FRX
+                        <i className="fa fa-external-link-alt"></i>
+                      </p>
+                      
                     </Flex>
                   </td>
                   <td>874%</td>
                   <td>$185,558,228</td>
-                  <td><button className="stake-lp-button">Stake on Frax</button></td>
+                  <td><button className="stake-lp-button">Stake</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </Card>
-    {/* </Flex> */}
+        {/* </Grid> */}
     </Grid>
   );
 }
