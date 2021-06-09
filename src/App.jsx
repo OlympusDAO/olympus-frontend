@@ -248,7 +248,7 @@ function App(props) {
                 </Route>
 
                 <Route exact path="/">
-                  <Stake address={address} provider={injectedProvider} />
+                  <Stake address={address} provider={injectedProvider} web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} />
                 </Route>
 
                 <Route exact path="/bonds">
