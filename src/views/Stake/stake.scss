@@ -9,8 +9,8 @@
 .ohm-card {
     color: #efefef;
     overflow: hidden;
-    max-width: 600px;
-    min-width: 85%;
+    max-width: 590px;
+    min-width: 80%;
     // width: 50vw;
     border-radius: .5rem;
     background-color: transparent !important;
@@ -124,8 +124,8 @@
 
 // overriding original 
 .stake-toggle-row {
-    margin: 1.5rem 0 0 0;
-    padding-bottom: 2rem;
+    // margin: 1rem 0 0 0;
+    margin-bottom: 1rem;
     display: flex;
     .btn-group button.btn {
         color: #A9A9A9;
@@ -136,7 +136,6 @@
         background-color: transparent !important;
         padding: 0 7px !important;
         margin-right: 25px;
-        height: 2.2rem;
         &:active,
         &:focus {
             outline: none;
@@ -150,10 +149,10 @@
 }
 
 .stake-notification {
-    font-size: 0.8em;
-    line-height: 120%;
-    margin-bottom: 0;
-    // max-width: 80%;
+    font-size: 0.7em;
+    line-height: 125%;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 
@@ -225,7 +224,7 @@
 .stake-price-data-row {
     .price-label,
     .price-data {
-        font-size: 1.2em !important;
+        font-size: 1.1em !important;
     }
 }
 
@@ -233,13 +232,15 @@
     min-width: 173px;
 }
 .stake-button, .stake-lp-button {
-    display: flex;
+    display: block;
     margin-left: 1rem;
     border-radius: .5rem;
+    padding: .4rem;
     background-color: #ffffffee;
     color: #222;
     font-size: 1.2em;
     height: auto;
+    text-align: center;
     font-family: 'Square-Light', cursive;
 }
 
