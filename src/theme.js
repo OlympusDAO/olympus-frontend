@@ -27,7 +27,7 @@ export const darkTheme = {
   
 export const lightTheme = {
     color: "#222222",
-    backgroundColor: "#F9F8F7",
+    backgroundColor: "#EFE9E0",
     background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
     cardBg: "rgba(252,252,252, 0.6) !important",
     logoColor: "none",

@@ -10,6 +10,7 @@ export const GlobalStyles = createGlobalStyle`
         transition: all 0.27s linear;
         position: fixed;
         font-size: 16px;
+        font-family: 'Square', cursive;
     }
     .dapp-sidebar {
         background-color: ${({theme}) => theme.cardBg};
