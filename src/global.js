@@ -19,9 +19,10 @@ export const GlobalStyles = createGlobalStyle`
     }
     .branding-header-icon, 
     .olympus-sushi img,
+    .olympus-sushi svg,
     .social-icon-small,
     .dapp-menu-external-links svg {
-        filter: ${({theme}) => theme.iconColor};
+        filter: ${({theme}) => theme.iconColor} !important;
     }
     .button-dapp-menu,
     .dapp-menu-top a h3,
@@ -30,7 +31,7 @@ export const GlobalStyles = createGlobalStyle`
     .olympus-sushi h3,
     .olympus-sushi a, 
     #dapp p {
-        color: ${({theme}) => theme.color};
+        color: ${({theme}) => theme.color} !important;
     }
     .ohm-dashboard-card,
     .ohm-card .card-content {
@@ -38,13 +39,6 @@ export const GlobalStyles = createGlobalStyle`
         h2 { 
             color: ${({theme}) => theme.color};
         }
-    }
-    .btn {
-        color: ${({theme}) => theme.color} !important;
-        background: ${({theme}) => theme.defaultButtonBg};
-    }
-    .btn a {
-        color: ${({theme}) => theme.color} !important;
     }
     .stake-button {
         background: ${({theme}) => theme.CTAButtonBg};
@@ -54,13 +48,43 @@ export const GlobalStyles = createGlobalStyle`
             &:hover {
                 background: ${({theme}) => theme.CTAButtonBgHover};
                 color: ${({theme}) => theme.CTAButtonColorHover} !important;
-                border: 2px solid ${({theme}) => theme.CTAButtonBgHover};
+                border: ${({theme}) => theme.CTAButtonBorderHover};
+            }
+    }
+    .stake-lp-button {
+        background: ${({theme}) => theme.CTALpButtonBg};
+        color: ${({theme}) => theme.CTALpButtonColor} !important;
+        border: ${({theme}) => theme.CTALpButtonBorder};
+        ${({theme}) => theme.CTALpButtonBorderColor && "border-color: " + theme.CTALpButtonBorderColor + " !important; "};
+            &:hover {
+                background: ${({theme}) => theme.CTALpButtonBgHover};
+                color: ${({theme}) => theme.CTALpButtonColorHover} !important;
+                border: ${({theme}) => theme.CTALpButtonBorderHover};
             }
     }
     .ohm-input-group {
         border-color: ${({theme}) => theme.color} !important;
     }
-    .ohm-input-group button {
+    .ohm-input-group button,
+    .input-group.ohm-input-group {
+        input, button {
+            color: ${({theme}) => theme.color} !important;
+            &::placeholder {
+                color: ${({theme}) => theme.color} !important;
+                opacity: 1; /* Firefox */
+            }    
+        }
+    }
+    .stake-toggle-row {
+        .btn-group button.btn {
+            &:hover {
+                color: ${({theme}) => theme.color} !important;
+            }
+        }
+    }
+    
+    .btn-light {
+        border-bottom: 2px solid ${({theme}) => theme.color} !important;
         color: ${({theme}) => theme.color} !important;
     }
 `;
