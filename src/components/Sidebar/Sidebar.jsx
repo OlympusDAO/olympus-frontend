@@ -122,7 +122,6 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme
         }
         </div>
 
-
         <div className="dapp-menu-social">
           <Social />
         </div>
