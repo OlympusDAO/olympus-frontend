@@ -176,7 +176,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <div className="stake-wallet-notification">
                     <h4>Connect your wallet to Stake OHM</h4>
                     <div className="wallet-menu" id="wallet-menu">
-                      <button type="button" className={`btn stake-button btn-overwrite-primer m-2`} onClick={loadWeb3Modal} key={2}>Connect Wallet</button>
+                      <button type="button" className={`btn stake-button btn-overwrite-primer`} onClick={loadWeb3Modal} key={2}>Connect Wallet</button>
                     </div>
                   </div>
                 }
