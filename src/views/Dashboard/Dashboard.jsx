@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-=======
 import React, { Suspense, lazy } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
->>>>>>> develop
 import { trim } from "../../helpers";
 import { Flex, Box, Card } from "rimble-ui";
 import { Container, Grid } from "@material-ui/core";
