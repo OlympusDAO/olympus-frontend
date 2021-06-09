@@ -185,7 +185,7 @@ function Stake({ provider, address }) {
             <h5>Stake OHM LP Tokens</h5>
           </div>  
           <div className="card-content">
-            <table class="table table-borderless stake-table">
+            <table className="table table-borderless stake-table">
               <thead>
                 <tr>
                   <th scope="col">Asset</th>
