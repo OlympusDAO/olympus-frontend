@@ -15,7 +15,9 @@
     margin-top: 10px;
     button {
         border-radius: .7rem !important;
-        border-color: none !important
+        border-color: none !important;
+        font-size: 1em !important;
+        height: auto !important;
     }
     button:hover {
         background-color: #5A6C7D !important;
@@ -32,12 +34,16 @@
 }
 
 .get-ohm-button {
-    min-width: 101px;
+    min-width: 111px;
+    a {
+        display: block;
+        white-space: nowrap;
+    }
 }
 
 .get-ohm-button.btn,
 .wallet-menu .btn {
-    padding: 0px 19px !important;
+    padding: 0px 20px !important;
 }
 
 .wallet-menu {
