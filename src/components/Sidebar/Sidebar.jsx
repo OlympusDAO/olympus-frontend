@@ -109,14 +109,18 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer }) {
           )}
         </div>
 
-        <div className="dapp-menu-data rebase">
-          <RebaseTimer />
+        <div className="dapp-menu-data bottom">
+          <div className="data-rebase">
+            <RebaseTimer />
+          </div>
+
+          <div className="data-ohm-index">
+            <p>Current Index </p>
+            <p>{trim(currentIndex, 4)} OHM</p>
+          </div>
         </div>
 
-        <div className="dapp-menu-data index">
-          <p>Current Index </p>
-          <p>{trim(currentIndex, 4)} OHM</p>
-        </div>
+        
 
         <div className="dapp-menu-social">
           <Social />
