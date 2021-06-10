@@ -300,6 +300,27 @@
     }
 }
 
+
+.MuiTable-root {
+    thead .MuiTableCell-root {
+        color: #999999 !important;
+    }
+    tbody .MuiTableCell-root {
+        color: #ffffff !important;
+        .ohm-pairs p, .ohm-pairs svg {
+            align-self: center !important;
+            margin-left: 8px !important;
+            font-weight: bold !important;
+            margin-bottom: 0 !important;
+            font-family: inherit;
+            vertical-align: text-top !important;
+        }
+        button {
+            padding: .25rem .65rem;
+        }
+    }
+}
+
 .MuiTableCell-root {
     border-bottom: none !important;
     &.MuiTableCell-alignLeft {
@@ -312,9 +333,39 @@
     div.ohm-pairs {
         width: 33%;
         // padding-left: 8px;
+        vertical-align: middle !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-bottom: 0 !important;
+        .ohm-pairs div.bond-name p, .ohm-pairs svg {
+            align-self: center !important;
+            line-height: 115%;
+            font-weight: bold !important;
+            margin-bottom: 0em !important;
+            padding: 0 !important;
+            font-family: inherit;
+            vertical-align: text-top !important;
+        }
+        .ohm-logo-bg {
+            margin-left: 0;
+            border-radius: 20px;
+            padding: 6px;
+            height: 40px;
+            width: 40px;
+        }
     }
     div.bond-name {
-        width: 67%;
+        width: 60%;
+        margin-left: 8px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        p {
+            margin-bottom: unset !important;
+        }
+        svg {
+            margin-left: 5px !important;
+        }
     }
 }
 

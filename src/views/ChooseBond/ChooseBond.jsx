@@ -39,7 +39,7 @@ function ChooseBond({ provider, address }) {
             <h5>Available Bonds</h5>
           </div>  
           <div className="card-content">
-            <TableContainer>
+            <TableContainer className="stake-table">
 							<Table aria-label="Available bonds">
 								<TableHead>
 									<TableRow>

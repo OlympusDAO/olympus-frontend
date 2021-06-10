@@ -5,15 +5,13 @@ import { Flex, Box, Card } from "rimble-ui";
 import { Container, Grid } from "@material-ui/core";
 import "./dashboard.scss";
 
-
 function Dashboard({ provider, address }) {
 	const marketPrice = useSelector((state ) => { return state.app.marketPrice });
 	const circSupply  = useSelector((state ) => { return state.app.circulating });
 	const totalSupply = useSelector((state ) => { return state.app.total });
 
   const marketCap = () => {
-    if (marketPrice && circSupply)
-      return marketPrice * (circSupply / Math.pow(10, 9))
+    if (marketPrice && circSupply) return marketPrice * (circSupply / Math.pow(10, 9));
   };
 
 	return (
