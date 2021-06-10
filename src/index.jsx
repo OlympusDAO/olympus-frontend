@@ -4,9 +4,6 @@ import ReactDOM from "react-dom";
 import Root from "./Root";
 import "./index.css";
 
-
-const prevTheme = window.localStorage.getItem("theme");
-
 // const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
 
 // const client = new ApolloClient({
@@ -14,8 +11,4 @@ const prevTheme = window.localStorage.getItem("theme");
 //   cache: new InMemoryCache(),
 // });
 
-
-ReactDOM.render(
-  <Root />,
-  document.getElementById("root"),
-);
+ReactDOM.render(<Root />, document.getElementById("root"));

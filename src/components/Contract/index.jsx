@@ -112,10 +112,7 @@ export default function Contract({
         title={
           <div>
             {name}
-            <div style={{ float: "right" }}>
-
-              {account}
-            </div>
+            <div style={{ float: "right" }}>{account}</div>
           </div>
         }
         size="large"
