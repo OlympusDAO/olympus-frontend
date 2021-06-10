@@ -6,28 +6,16 @@ import "../Stake/stake.scss";
 import { BondTableData, BondCardData } from './BondRow';
 import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { makeStyles } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { trim } from "../../helpers";
-
-
-const useStyles = makeStyles(theme => ({
-	"ohm-card": {
-		[theme.breakpoints.down('md')]: {
-			width: '100%',
-		}	
-	}
-}));
 
 
 function ChooseBond({ provider, address }) {
 	const material = useTheme();
 	
-
 	// const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });	
 	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
-	// const isSmallScreen = useMediaQuery(material.breakpoints.down('lg'));
 	const isSmallScreen = useMediaQuery("(max-width: 1200px)");
 	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1400px)")
 	const isNarrowScreen = useMediaQuery("(max-width:460px)");
@@ -57,9 +45,9 @@ function ChooseBond({ provider, address }) {
         </Card>
           
         <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
-          <div className="card-header">
+          {/* <div className="card-header">
             <h5>Available Bonds</h5>
-          </div>  
+          </div>   */}
 					{ !isSmallScreen ?
           		<div className="card-content">
 								<TableContainer>
