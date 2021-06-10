@@ -274,6 +274,11 @@
     }
 }
 
+.mobile .stake-table button {
+    padding: .4rem 1.7rem;
+    width: 8rem;
+}
+
 .stake-wallet-notification {
     position: absolute;
     padding: 15%;
@@ -299,6 +304,7 @@
         }
     }
 }
+
 
 
 .MuiTable-root {
@@ -369,6 +375,18 @@
     }
 }
 
+
+.ohm-card.mobile {
+    width: 95% !important;
+    max-width: 100% !important;
+}
+
+.ohm-card.med {
+    width: 80% !important;
+    padding: 1.5rem;
+}
+
+
 #choose-bond-view {
     h1, h2, h3, h4 {
         font-family: 'Square', cursive !important;
@@ -378,77 +396,81 @@
     h2 {
         color: #F4D092 !important;
     }
-}
 
-.ohm-card.med {
-    width: 80% !important;
-    padding: 1.5rem;
-}
-
-.ohm-card.mobile {
-    width: 95% !important;
-    max-width: 100% !important;
-    padding: 1.5rem;
-    .ohm-logo-bg {
-        margin-left: 0;
-        border-radius: 20px;
-        padding: 6px;
-        height: 40px;
-        width: 40px;
-    }
-    &.secondary {
-        .ohm-price {
-            text-align: right;
-        }
-        h3 {
-            margin-bottom: 0;
-            font-size: 1.5em;
-        }
-        h2 {
-            margin-bottom: 0;
-            font-size: 2em;
-        }
-    }
-    &.primary {
-        .card-content {
-            margin-bottom: 10px;
-            height: auto;
+    .ohm-card.mobile {
+        .ohm-logo-bg {
+            margin-left: 0;
+            border-radius: 30px;
+            padding: 12px;
             align-items: center;
-            vertical-align: center;
-            display: flex;
-            width: 100%;
-            .bond-data-card {
+            justify-content: center;
+            text-align: center;
+            height: 55px;
+            width: 55px;
+        }
+        &.secondary {
+            .ohm-price {
+                text-align: right;
+            }
+            h3 {
+                margin-bottom: 0;
+                font-size: 1.5em;
+            }
+            h2 {
+                margin-bottom: 0;
+                font-size: 2em;
+            }
+        }
+        &.primary {
+            padding-top: 0 !important;        
+            .card-content {
+                margin-bottom: 10px;
+                padding: 2rem 1.5rem !important;
+                height: auto;
+                align-items: center;
+                vertical-align: center;
                 display: flex;
                 width: 100%;
-                align-items: center;
-                justify-content: space-evenly;
-                .bond-pair {
+                .bond-data-card {
                     display: flex;
-                    flex-direction: column;
+                    width: 100%;
                     align-items: center;
-                    justify-content: center;
-                    width: 40%;
-                    .bond-name {
-                        margin-top: 15px;
-                        svg {
-                            margin-left: 5px;
+                    justify-content: space-evenly;
+                    .bond-pair {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        width: 30%;
+                        .ohm-pair {
+                            height: 55px;
+                            width: 55px;
+                        }
+                        .bond-name {
+                            margin-top: 15px;
+                            svg {
+                                margin-left: 5px;
+                            }
                         }
                     }
-                }
-                .bond-name,
-                .bond-price,
-                .bond-discount {
-                    text-align: center;
-                    margin-right: 10px;
-                    margin-left: 10px;
-                    vertical-align: middle;
-                    align-items: center;
-                }
-                a {
-                  text-decoration: none !important;  
+                    .bond-name,
+                    .bond-price,
+                    .bond-discount {
+                        text-align: center;
+                        margin-right: 10px;
+                        margin-left: 10px;
+                        vertical-align: middle;
+                        align-items: center;
+                    }
+                    .bond-price,
+                    .bond-discount {
+                        width: 15%;
+                    }
+                    .ohm-btn {
+                        width: 10rem !important;
+                    }
                 }
             }
         }
     }
 }
-
