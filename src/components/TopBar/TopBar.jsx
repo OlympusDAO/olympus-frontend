@@ -6,8 +6,11 @@ import "./topbar.scss";
 import { shorten } from '../../helpers';
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 import { Flex } from "rimble-ui";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetProvider, theme, toggleTheme}) {
+	const isSmallScreen = useMediaQuery("(max-width: 1200px)");
+
   const modalButtons = [];
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
@@ -24,7 +27,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
   }
 
   return (
-    <div className="dapp-topbar">
+    <div className={`dapp-topbar ${isSmallScreen && "mobile"}`}>
 			<Flex className="dapp-topbar-items">		
 				<ThemeSwitcher 
 					theme={theme}
@@ -42,11 +45,12 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
 				
 				<div className="wallet-menu" id="wallet-menu">
 					{modalButtons}
-					<button type="button" className={`btn top-bar-button btn-overwrite-primer m-2`}>
+					{address && <button type="button" className={`btn top-bar-button btn-overwrite-primer m-2`}>
 						<a href={`https://etherscan.io/address/${address}`} target="_blank" className="ml-2">
 							{shorten(address)}
 						</a>
 					</button>
+					}
 				</div>
 			</Flex>
     </div>
