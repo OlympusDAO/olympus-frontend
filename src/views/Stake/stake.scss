@@ -375,6 +375,9 @@
         font-weight: 500;
         color: inherit;
     }
+    h2 {
+        color: #F4D092 !important;
+    }
 }
 
 .ohm-card.mobile {
@@ -399,7 +402,6 @@
         h2 {
             margin-bottom: 0;
             font-size: 2em;
-            color: #F4D092 !important;
         }
     }
     &.primary {
