@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux';
-import { app, bonding } from './reducers';
+import { combineReducers } from "redux";
+import { app, bonding } from "./reducers";
 
 const rootReducer = combineReducers({
   app,
-  bonding
+  bonding,
 });
 
 export default rootReducer;
