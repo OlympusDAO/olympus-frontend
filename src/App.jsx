@@ -230,29 +230,27 @@ function App(props) {
               toggleTheme={toggleTheme}
             />
 
-            {/* <Box className="dapp-view">  */}
-              <Switch>
-                <Route exact path="/dashboard">
-                  <Dashboard address={address} provider={injectedProvider} />
-                </Route>
+            <Switch>
+              <Route exact path="/dashboard">
+                <Dashboard address={address} provider={injectedProvider} />
+              </Route>
 
-                <Route exact path="/">
-                  <Stake address={address} provider={injectedProvider} web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} />
-                </Route>
+              <Route exact path="/">
+                <Stake address={address} provider={injectedProvider} web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} />
+              </Route>
 
-                <Route exact path="/bonds">
-                  <ChooseBond address={address} provider={injectedProvider} />
-                </Route>
+              <Route exact path="/bonds">
+                <ChooseBond address={address} provider={injectedProvider} />
+              </Route>
 
-                {Object.values(BONDS).map(bond => {
-                  return (
-                    <Route exact key={bond} path={`/bonds/${bond}`}>
-                      <Bond bond={bond} address={address} provider={injectedProvider} />
-                    </Route>
-                  );
-                })}
-              </Switch>
-            {/* </Box> */}
+              {Object.values(BONDS).map(bond => {
+                return (
+                  <Route exact key={bond} path={`/bonds/${bond}`}>
+                    <Bond bond={bond} address={address} provider={injectedProvider} />
+                  </Route>
+                );
+              })}
+            </Switch>
           </Container>
               
           <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} />
