@@ -5,7 +5,7 @@
     top: 0;
     right: 0; 
     width: auto;
-    height: 70px;
+    height: 72px;
     background-color:inherit;
     z-index: 3;
     overflow: hidden;
@@ -13,24 +13,18 @@
     justify-content: right;
     flex-direction: row-reverse;
     margin-top: 10px;
+    margin-bottom: 20px;
     button {
         border-radius: .7rem !important;
         border-color: none !important;
         font-size: 1em !important;
         height: auto !important;
     }
-    button:hover {
-        //background-color: #5A6C7D !important;
-        //border-color: none !important;
-    }
 }
 
 .dapp-topbar-items {
     float: right;
     vertical-align: middle;
-    //div {
-    //    margin-right: 10px;
-    //}
 }
 
 .get-ohm-button {
@@ -47,20 +41,15 @@
     padding: 0px 20px !important;
 }
 
+
 .wallet-menu {
     display:flex;
     float: right;
-    //flex-flow:column;
     text-align: center;
-  
-    //width:200px;
-    //margin: auto;
     justify-content:center;
-  
     a {
       text-decoration: none;
     }
-  
     .disconnect-button{
       margin-bottom: 15px;
     }  
@@ -95,6 +84,11 @@
     &:hover{
         border: none;
     }
+
 }
 
-
+.mobile .get-ohm-button,
+.mobile .wallet-menu button {
+    padding: 0px 45px !important;
+    font-size: 1.25em !important;
+}
