@@ -2,7 +2,7 @@ export const darkTheme = {
     color: "#ffffff",
     backgroundColor: "#3A4050",
     background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-    cardBg: "rgba(27, 29, 34, 0.6) !important",
+    cardBg: "rgba(27, 29, 34, 0.5) !important",
     logoColor: "invert(1)",
     defaultButtonBg: "rgba(27, 29, 34, 0.6)",
     TopBarButtonBg: "rgba(33, 33, 33, 0.5)",

@@ -5,7 +5,7 @@
     top: 0;
     right: 0; 
     width: auto;
-    height: 70px;
+    height: 72px;
     background-color:inherit;
     z-index: 3;
     overflow: hidden;
@@ -13,6 +13,7 @@
     justify-content: right;
     flex-direction: row-reverse;
     margin-top: 10px;
+    margin-bottom: 20px;
     button {
         border-radius: .7rem !important;
         border-color: none !important;
@@ -46,6 +47,7 @@
 .wallet-menu .btn {
     padding: 0px 20px !important;
 }
+
 
 .wallet-menu {
     display:flex;
@@ -95,6 +97,11 @@
     &:hover{
         border: none;
     }
+
 }
 
-
+.mobile .get-ohm-button,
+.mobile .wallet-menu button {
+    padding: 0px 45px !important;
+    font-size: 1.33em !important;
+}

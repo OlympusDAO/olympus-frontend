@@ -4,6 +4,7 @@ import { Flex, Card } from "rimble-ui";
 import { Grid } from "@material-ui/core";
 import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "../../style.scss";
 import "./stake.scss";
 
@@ -12,6 +13,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
   const [view, setView] = useState("stake");
   const [quantity, setQuantity] = useState();
+
+  const isSmallScreen = useMediaQuery("(max-width: 1200px)");
+	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1400px)")
+	const isNarrowScreen = useMediaQuery("(max-width:460px)");
 
   const fiveDayRate = useSelector(state => {
     return state.app.fiveDayRate;
@@ -77,6 +82,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
   };
 
+  
+
   let modalButton = <></>;
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
@@ -92,7 +99,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   return (
     <Grid id="stake-view" direction="row" justify="center" spacing={4}>
       {/* <Grid item sm={8} lg={6}> */}
-      <Card className="ohm-card primary">
+      <Card className={`ohm-card primary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
         <div className="card-header">
           <h5>Single Stake (3, 3)</h5>
         </div>
@@ -294,10 +301,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
           </Grid>
         </div>
       </Card>
-      {/* </Grid> */}
 
-      {/* <Grid item sm={4} lg={6}> */}
-      <Card className="ohm-card secondary">
+      <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
         <div className="card-header">
           <h5>Stake OHM LP Tokens</h5>
         </div>
@@ -337,7 +342,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
           </table>
         </div>
       </Card>
-      {/* </Grid> */}
     </Grid>
   );
 }
