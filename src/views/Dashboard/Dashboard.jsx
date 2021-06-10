@@ -1,191 +1,180 @@
-import React, { Suspense, lazy } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { Suspense } from "react";
+import { useSelector } from "react-redux";
+import { Flex } from "rimble-ui";
+import { Grid } from "@material-ui/core";
 import { trim } from "../../helpers";
-import { Flex, Box, Card } from "rimble-ui";
-import { Container, Grid } from "@material-ui/core";
 import "./dashboard.scss";
 
 function Dashboard({ provider, address }) {
-	const marketPrice = useSelector((state ) => { return state.app.marketPrice });
-	const circSupply  = useSelector((state ) => { return state.app.circulating });
-	const totalSupply = useSelector((state ) => { return state.app.total });
+  const marketPrice = useSelector(state => {
+    return state.app.marketPrice;
+  });
+  const circSupply = useSelector(state => {
+    return state.app.circulating;
+  });
+  const totalSupply = useSelector(state => {
+    return state.app.total;
+  });
 
   const marketCap = () => {
     if (marketPrice && circSupply) return marketPrice * (circSupply / Math.pow(10, 9));
   };
 
-	return (
-			<div className="dashboard-view">
-				
-					<Grid container spacing={2}>
-						<Grid item lg={4} md={4} sm={3} xs={5}>
-							<div className="ohm-dashboard-card">
-								<div className="card-body">
-									<h5>Price</h5>
-									<div className="my-auto">
-										<h1 className="text-center">
-											${ trim(marketPrice, 2) }
-										</h1>
-									</div>
-									{/* <p>
+  return (
+    <div className="dashboard-view">
+      <Grid container spacing={2}>
+        <Grid item lg={4} md={4} sm={3} xs={5}>
+          <div className="ohm-dashboard-card">
+            <div className="card-body">
+              <h5>Price</h5>
+              <div className="my-auto">
+                <h1 className="text-center">${trim(marketPrice, 2)}</h1>
+              </div>
+              {/* <p>
 										(SushiSwap OHM-DAI Pool)
 										<a href="https://analytics.sushi.com/pairs/0x34d7d7aaf50ad4944b70b320acb24c95fa2def7c" target="_blank">
 											<i className="fas fa-external-link-alt fa-sm ms-1"></i>
 										</a>
 									</p> */}
-								</div>
-							</div>
-						</Grid>
+            </div>
+          </div>
+        </Grid>
 
-						<Grid item lg={4} md={4} sm={4} xs={7}>
-							<div className="ohm-dashboard-card">
-								<div className="card-body">
-									<h5>Market Cap</h5>
-									<h1 className="text-center">
-										{
-											new Intl.NumberFormat('en-US', {
-												style: 'currency',
-												currency: 'USD',
-												maximumFractionDigits: 0
-											}).format(marketCap()  )
-										}
-									</h1>
-								</div>
-							</div>
-						</Grid>
+        <Grid item lg={4} md={4} sm={4} xs={7}>
+          <div className="ohm-dashboard-card">
+            <div className="card-body">
+              <h5>Market Cap</h5>
+              <h1 className="text-center">
+                {new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  maximumFractionDigits: 0,
+                }).format(marketCap())}
+              </h1>
+            </div>
+          </div>
+        </Grid>
 
-					  <Grid item lg={4} md={4} sm={5} xs={12}>
-							<div className="ohm-dashboard-card">
-								<div className="card-body">
-									<h5>Supply (circulating/total)</h5>
-									<h1 className="text-center">
-										{
-											new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(circSupply / Math.pow(10,9))
-										}
-										/
-										{
-											new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalSupply / Math.pow(10,9))
-										}
-									</h1>
-								</div>
-							</div>
-						</Grid>
-					</Grid>
-					
+        <Grid item lg={4} md={4} sm={5} xs={12}>
+          <div className="ohm-dashboard-card">
+            <div className="card-body">
+              <h5>Supply (circulating/total)</h5>
+              <h1 className="text-center">
+                {new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(circSupply / Math.pow(10, 9))}/
+                {new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(totalSupply / Math.pow(10, 9))}
+              </h1>
+            </div>
+          </div>
+        </Grid>
+      </Grid>
 
-				<Flex className="main-data-area">
-					<div className="olympus-card">
-						<div className="card-body">
-							<Suspense fallback={<div>Loading...</div>}>
-								<iframe
-									frameBorder={"0"}
-									loading={"lazy"}
-									src="https://duneanalytics.com/embeds/28286/57140/b0e3c522-8ace-47e8-8ac9-bc4ebf10b8c7"
-									title="Total Value Staking"
-								></iframe>
-							</Suspense>
-						</div>
-					</div>
-				
-					<div className="olympus-card">
-						<div className="card-body">
-						<Suspense fallback={<div>Loading...</div>}>
-							<iframe
-								frameBorder={"0"}
-								loading={"lazy"}
-								src="https://duneanalytics.com/embeds/29778/60051/6328b87b-183e-4456-888d-d91048ff8cff"
-								title="Market value of Treasury"
-							></iframe>
-							</Suspense>
-						</div>
+      <Flex className="main-data-area">
+        <div className="olympus-card">
+          <div className="card-body">
+            <Suspense fallback={<div>Loading...</div>}>
+              <iframe
+                frameBorder="0"
+                loading="lazy"
+                src="https://duneanalytics.com/embeds/28286/57140/b0e3c522-8ace-47e8-8ac9-bc4ebf10b8c7"
+                title="Total Value Staking"
+              />
+            </Suspense>
+          </div>
+        </div>
 
-					</div>
-			
-					<div className="olympus-card">
-						<div className="card-body">
-						<Suspense fallback={<div>Loading...</div>}>
-							<iframe
-								frameBorder={"0"}
-								loading={"lazy"}
-								src="https://duneanalytics.com/embeds/29153/58862/b6d18145-763a-48b6-ac4c-a8e43ec1c1f6"
-								title="Risk Free Value of Treasury"
-							></iframe>
-							</Suspense>
-						</div>
-						
-					</div>
-				
-					<div className="olympus-card">
-						<div className="card-body">
-						<Suspense fallback={<div>Loading...</div>}>
-							<iframe
-								frameBorder={"0"}
-								loading={"lazy"}
-								src="https://duneanalytics.com/embeds/29815/60140/0be45969-dfc2-4625-9b48-d7af19a45546"
-								title="Total Value Staking"
-							></iframe>
-							</Suspense>
-						</div>
-					</div>
-				
+        <div className="olympus-card">
+          <div className="card-body">
+            <Suspense fallback={<div>Loading...</div>}>
+              <iframe
+                frameBorder="0"
+                loading="lazy"
+                src="https://duneanalytics.com/embeds/29778/60051/6328b87b-183e-4456-888d-d91048ff8cff"
+                title="Market value of Treasury"
+              />
+            </Suspense>
+          </div>
+        </div>
 
-					<div className="olympus-card">
-						<div className="card-body">
-						<Suspense fallback={<div>Loading...</div>}>
-							<iframe
-								frameBorder={"0"}
-								loading={"lazy"}
-								src="https://duneanalytics.com/embeds/27661/55859/fd0e3db2-d033-4000-9f70-c65de52ef9a9"
-								title="Holders"
-							></iframe>
-							</Suspense>
-						</div>
-					</div>
-				
-				
-					<div className="olympus-card">
-						<div className="card-body">
-						<Suspense fallback={<div>Loading...</div>}>
-							<iframe
-								frameBorder={"0"}
-								loading={"lazy"}
-								src="https://duneanalytics.com/embeds/34202/69216/17e353f6-ccb4-42ff-b6cb-150f69543f4d"
-								title="APY Over Time"
-							></iframe>
-							</Suspense>
-						</div>
-					</div>
-				
-				
-					<div className="olympus-card">
-						<div className="card-body">
-						<Suspense fallback={<div>Loading...</div>}>
-							<iframe
-								frameBorder={"0"}
-								loading={"lazy"}
-								src="https://duneanalytics.com/embeds/28756/58813/c7893c75-d8f1-421e-85c3-556a22cd7885"
-								title="OHM Stakers"
-							></iframe>
-							</Suspense>
-						</div>
-					</div>
-				
-				
-					<div className="olympus-card">
-						<div className="card-body">
-						<Suspense fallback={<div>Loading...</div>}>
-							<iframe
-								frameBorder={"0"}
-								loading={"lazy"}
-								src="https://duneanalytics.com/embeds/37326/74014/f0ad674a-2787-4314-b534-86dc1b910922"
-								title="Runway Available"
-							></iframe>
-							</Suspense>
-						</div>
-					</div>
-				</Flex>
-			</div>
-	)
+        <div className="olympus-card">
+          <div className="card-body">
+            <Suspense fallback={<div>Loading...</div>}>
+              <iframe
+                frameBorder="0"
+                loading="lazy"
+                src="https://duneanalytics.com/embeds/29153/58862/b6d18145-763a-48b6-ac4c-a8e43ec1c1f6"
+                title="Risk Free Value of Treasury"
+              />
+            </Suspense>
+          </div>
+        </div>
+
+        <div className="olympus-card">
+          <div className="card-body">
+            <Suspense fallback={<div>Loading...</div>}>
+              <iframe
+                frameBorder="0"
+                loading="lazy"
+                src="https://duneanalytics.com/embeds/29815/60140/0be45969-dfc2-4625-9b48-d7af19a45546"
+                title="Total Value Staking"
+              />
+            </Suspense>
+          </div>
+        </div>
+
+        <div className="olympus-card">
+          <div className="card-body">
+            <Suspense fallback={<div>Loading...</div>}>
+              <iframe
+                frameBorder="0"
+                loading="lazy"
+                src="https://duneanalytics.com/embeds/27661/55859/fd0e3db2-d033-4000-9f70-c65de52ef9a9"
+                title="Holders"
+              />
+            </Suspense>
+          </div>
+        </div>
+
+        <div className="olympus-card">
+          <div className="card-body">
+            <Suspense fallback={<div>Loading...</div>}>
+              <iframe
+                frameBorder="0"
+                loading="lazy"
+                src="https://duneanalytics.com/embeds/34202/69216/17e353f6-ccb4-42ff-b6cb-150f69543f4d"
+                title="APY Over Time"
+              />
+            </Suspense>
+          </div>
+        </div>
+
+        <div className="olympus-card">
+          <div className="card-body">
+            <Suspense fallback={<div>Loading...</div>}>
+              <iframe
+                frameBorder="0"
+                loading="lazy"
+                src="https://duneanalytics.com/embeds/28756/58813/c7893c75-d8f1-421e-85c3-556a22cd7885"
+                title="OHM Stakers"
+              />
+            </Suspense>
+          </div>
+        </div>
+
+        <div className="olympus-card">
+          <div className="card-body">
+            <Suspense fallback={<div>Loading...</div>}>
+              <iframe
+                frameBorder="0"
+                loading="lazy"
+                src="https://duneanalytics.com/embeds/37326/74014/f0ad674a-2787-4314-b534-86dc1b910922"
+                title="Runway Available"
+              />
+            </Suspense>
+          </div>
+        </div>
+      </Flex>
+    </div>
+  );
 }
 
 export default Dashboard;

@@ -1,25 +1,24 @@
-import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import { formatEther, parseEther } from "@ethersproject/units";
+import { StaticJsonRpcProvider, Web3Provider, getDefaultProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ThemeProvider } from "styled-components";
-import useTheme from "./hooks/useTheme";
 import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Web3Modal from "web3modal";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/js/all.js";
-import { useSelector, useDispatch } from "react-redux";
-import { Box, Flex } from "rimble-ui";
-import { Container, Grid } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { Flex } from "rimble-ui";
+import { Container } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import useTheme from "./hooks/useTheme";
 
-import { calcBondDetails, } from "./actions/Bond.actions.js";
+import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails, getMarketPrice, getTokenSupply } from "./actions/App.actions.js";
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
-import { Stake, ChooseBond, Bond, Dashboard } from './views'
+import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 
@@ -30,10 +29,8 @@ import TopBar from "./components/TopBar/TopBar.jsx";
 import { lightTheme, darkTheme, gTheme } from "./theme";
 import { GlobalStyles } from "./global";
 
-
-import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS, BONDS } from "./constants";
-import { Transactor } from "./helpers";
-import { useOnBlock, useUserProvider } from "./hooks";
+import { INFURA_ID, NETWORKS, BONDS } from "./constants";
+import { useUserProvider } from "./hooks";
 // import Hints from "./Hints";
 // import { ExampleUI, Hints, Subgraph } from "./views";
 /*
@@ -103,7 +100,7 @@ function App(props) {
   const [theme, toggleTheme, mounted] = useTheme();
 
   // const [themeMode, setThemeMode] = useState(lightTheme);
-  
+
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
@@ -170,19 +167,17 @@ function App(props) {
   useEffect(() => {
     setRoute(window.location.pathname);
   }, [setRoute]);
-  
 
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
-    console.log('theme effect', theme);
+    console.log("theme effect", theme);
     themeMode = theme === "light" ? lightTheme : darkTheme;
-  })
+  });
 
   if (!mounted) {
-    return <div />
-  };
-
+    return <div />;
+  }
 
   return (
     <ThemeProvider theme={themeMode}>
@@ -190,7 +185,6 @@ function App(props) {
       <GlobalStyles />
       <div className="app">
         <Flex id="dapp" className="dapp">
-
           <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
             <button
               className="navbar-toggler"
@@ -200,65 +194,70 @@ function App(props) {
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
-              <span className="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon" />
             </button>
           </nav>
 
-          <Sidebar 
-            web3Modal={web3Modal} 
-            loadWeb3Modal={loadWeb3Modal} 
-            logoutOfWeb3Modal={logoutOfWeb3Modal} 
-            mainnetProvider={mainnetProvider} 
-            blockExplorer={blockExplorer} 
-            address={address} 
-            route={route} 
-            isExpanded={isSidebarExpanded} 
+          <Sidebar
+            web3Modal={web3Modal}
+            loadWeb3Modal={loadWeb3Modal}
+            logoutOfWeb3Modal={logoutOfWeb3Modal}
+            mainnetProvider={mainnetProvider}
+            blockExplorer={blockExplorer}
+            address={address}
+            route={route}
+            isExpanded={isSidebarExpanded}
             setRoute={setRoute}
             theme={theme}
           />
-  
+
           <Container maxWidth="xl">
-            <TopBar 
-              web3Modal={web3Modal} 
-              loadWeb3Modal={loadWeb3Modal} 
-              logoutOfWeb3Modal={logoutOfWeb3Modal} 
-              mainnetProvider={mainnetProvider} 
-              blockExplorer={blockExplorer} 
-              address={address} 
-              route={route} 
+            <TopBar
+              web3Modal={web3Modal}
+              loadWeb3Modal={loadWeb3Modal}
+              logoutOfWeb3Modal={logoutOfWeb3Modal}
+              mainnetProvider={mainnetProvider}
+              blockExplorer={blockExplorer}
+              address={address}
+              route={route}
               theme={theme}
               toggleTheme={toggleTheme}
             />
 
-            {/* <Box className="dapp-view">  */}
-              <Switch>
-                <Route exact path="/dashboard">
-                  <Dashboard address={address} provider={injectedProvider} />
-                </Route>
+            <Switch>
+              <Route exact path="/dashboard">
+                <Dashboard address={address} provider={injectedProvider} />
+              </Route>
 
-                <Route exact path="/">
-                  <Stake address={address} provider={injectedProvider} web3Modal={web3Modal} loadWeb3Modal={loadWeb3Modal} />
-                </Route>
+              <Route exact path="/">
+                <Stake
+                  address={address}
+                  provider={injectedProvider}
+                  web3Modal={web3Modal}
+                  loadWeb3Modal={loadWeb3Modal}
+                />
+              </Route>
 
-                <Route exact path="/bonds">
-                  <ChooseBond address={address} provider={injectedProvider} />
-                </Route>
+              <Route exact path="/bonds">
+                <ChooseBond address={address} provider={injectedProvider} />
+              </Route>
 
-                {Object.values(BONDS).map(bond => {
-                  return (
-                    <Route exact key={bond} path={`/bonds/${bond}`}>
-                      <Bond bond={bond} address={address} provider={injectedProvider} />
-                    </Route>
-                  );
-                })}
-              </Switch>
-            {/* </Box> */}
+              {Object.values(BONDS).map(bond => {
+                return (
+                  <Route exact key={bond} path={`/bonds/${bond}`}>
+                    <Bond bond={bond} address={address} provider={injectedProvider} />
+                  </Route>
+                );
+              })}
+            </Switch>
           </Container>
-              
-          <div className={`ohm-backdrop ${isSidebarExpanded ? 'ohm-backdrop-show' : 'ohm-backdrop-close'}`} onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} />
-          
+
+          <div
+            className={`ohm-backdrop ${isSidebarExpanded ? "ohm-backdrop-show" : "ohm-backdrop-close"}`}
+            onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+          />
         </Flex>
-      </div>      
+      </div>
     </ThemeProvider>
   );
 }
