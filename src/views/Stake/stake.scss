@@ -294,8 +294,8 @@
         text-align: center;
         float: unset;
         .stake-button {
-            color: #F4D092 !important;
-            padding: 5px 35px !important;
+            color: #F4D092 !important; 
+            font-size: 1.2em;
         }
     }
 }
@@ -319,7 +319,11 @@
 }
 
 #choose-bond-view {
-   
+    h1, h2, h3, h4 {
+        font-family: 'Square', cursive !important;
+        font-weight: 500;
+        color: inherit;
+    }
 }
 
 
