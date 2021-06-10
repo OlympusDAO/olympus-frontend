@@ -27,14 +27,16 @@ function ChooseBond({ provider, address }) {
 	// const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });	
 	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
-	const isSmallScreen = useMediaQuery(material.breakpoints.down('md'));
+	// const isSmallScreen = useMediaQuery(material.breakpoints.down('lg'));
+	const isSmallScreen = useMediaQuery("(max-width: 1200px)");
+	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1400px)")
 	const isNarrowScreen = useMediaQuery("(max-width:460px)");
 
 	
 	return (
-		<Grid container id="choose-bond-view" justify="center" spacing={4}>
+		<Grid container id="choose-bond-view" justify="center" spacing={2}>
 
-        <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"}`}>
+        <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
           <div className="card-header">
             <h5>Bond (1, 1)</h5>
           </div> 
@@ -54,7 +56,7 @@ function ChooseBond({ provider, address }) {
           </div>
         </Card>
           
-        <Card className={`ohm-card primary ${isSmallScreen && "mobile"}`}>
+        <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
           <div className="card-header">
             <h5>Available Bonds</h5>
           </div>  
