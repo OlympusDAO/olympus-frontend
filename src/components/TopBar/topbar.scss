@@ -20,18 +20,11 @@
         font-size: 1em !important;
         height: auto !important;
     }
-    button:hover {
-        //background-color: #5A6C7D !important;
-        //border-color: none !important;
-    }
 }
 
 .dapp-topbar-items {
     float: right;
     vertical-align: middle;
-    //div {
-    //    margin-right: 10px;
-    //}
 }
 
 .get-ohm-button {
@@ -52,17 +45,11 @@
 .wallet-menu {
     display:flex;
     float: right;
-    //flex-flow:column;
     text-align: center;
-  
-    //width:200px;
-    //margin: auto;
     justify-content:center;
-  
     a {
       text-decoration: none;
     }
-  
     .disconnect-button{
       margin-bottom: 15px;
     }  
@@ -103,5 +90,5 @@
 .mobile .get-ohm-button,
 .mobile .wallet-menu button {
     padding: 0px 45px !important;
-    font-size: 1.33em !important;
+    font-size: 1.25em !important;
 }
