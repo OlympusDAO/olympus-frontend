@@ -224,7 +224,6 @@ function App(props) {
               toggleTheme={toggleTheme}
             />
 
-            {/* <Box className="dapp-view">  */}
             <Switch>
               <Route exact path="/dashboard">
                 <Dashboard address={address} provider={injectedProvider} />
@@ -251,7 +250,6 @@ function App(props) {
                 );
               })}
             </Switch>
-            {/* </Box> */}
           </Container>
 
           <div

@@ -31,6 +31,9 @@ export const GlobalStyles = createGlobalStyle`
         transition: all 0.27s linear;
         position: fixed;
         font-size: 16px;
+        a {
+            text-decoration: none;
+        }
     }
     .dapp-sidebar {
         background-color: ${({ theme }) => theme.cardBg};

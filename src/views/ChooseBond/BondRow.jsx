@@ -1,32 +1,66 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { TableRow, TableCell } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { trim, bondName, lpURL, isBondLP } from "../../helpers";
-import BondLogo from "../../components/BondLogo";
+import BondLogo from '../../components/BondLogo';
+import { TableRow, TableCell, } from "@material-ui/core";
+import { NavLink } from 'react-router-dom';
 
-export function BondTableData({ bond }) {
-  const bondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondPrice;
-  });
-  const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
-  });
+
+export function BondCardData({ bond }) {
+  const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
+  const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
+
+
+  return (
+    <div className="bond-data-card">
+      <div className="bond-pair">
+        <BondLogo bond={bond} />
+        <div className="bond-name">
+          {bondName(bond)}
+          {isBondLP(bond) && <a href={lpURL(bond)} target="_blank">
+            <i className="fas fa-external-link-alt"></i>
+          </a>}
+        </div>
+      </div>
+      
+      <div className="bond-price">
+        <p>Bond Price</p>
+        {trim(bondPrice, 2)}
+      </div>
+
+      <div className="bond-discount">
+        <p>Discount</p>
+        {trim(bondDiscount * 100, 2)}
+      </div>
+      
+      {/* <TableCell>$4,102,030</TableCell> */}
+      
+      <NavLink to={`/bonds/${bond}`}>
+        <button className="stake-lp-button ohm-btn">Bond</button>
+      </NavLink>
+    </div>
+  )
+}
+
+
+export function BondTableData({bond}) {
+  const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
+  const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
+
 
   return (
     <TableRow>
       <TableCell align="left">
         <BondLogo bond={bond} />
         <div className="bond-name">
-          {bondName(bond)}
-          {isBondLP(bond) && (
-            <a href={lpURL(bond)} target="_blank" rel="noreferrer">
-              <p>
-                Contract
-                <i className="fas fa-external-link-alt" />
-              </p>
-            </a>
-          )}
+        {bondName(bond)}
+        {isBondLP(bond) && <a href={lpURL(bond)} target="_blank">
+          <p>
+          Contract
+          <i className="fas fa-external-link-alt"></i>
+          </p>
+        </a>}
+        
         </div>
       </TableCell>
       <TableCell align="center">{trim(bondPrice, 2)}</TableCell>
@@ -42,7 +76,7 @@ export function BondTableData({ bond }) {
 }
 
 // dont really need this anyore
-function BondHeader({ bond }) {
+export function BondHeader({ bond }) {
   const bondPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondPrice;
   });
@@ -88,4 +122,3 @@ function BondHeader({ bond }) {
   );
 }
 
-export default BondHeader;
