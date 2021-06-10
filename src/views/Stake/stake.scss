@@ -375,7 +375,75 @@
         font-weight: 500;
         color: inherit;
     }
+    h2 {
+        color: #F4D092 !important;
+    }
 }
 
-
+.ohm-card.mobile {
+    width: 95% !important;
+    max-width: 100% !important;
+    padding: 1.5rem;
+    .ohm-logo-bg {
+        margin-left: 0;
+        border-radius: 20px;
+        padding: 6px;
+        height: 40px;
+        width: 40px;
+    }
+    &.secondary {
+        .ohm-price {
+            text-align: right;
+        }
+        h3 {
+            margin-bottom: 0;
+            font-size: 1.5em;
+        }
+        h2 {
+            margin-bottom: 0;
+            font-size: 2em;
+        }
+    }
+    &.primary {
+        .card-content {
+            margin-bottom: 10px;
+            height: auto;
+            align-items: center;
+            vertical-align: center;
+            display: flex;
+            width: 100%;
+            .bond-data-card {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                justify-content: space-evenly;
+                .bond-pair {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    width: 40%;
+                    .bond-name {
+                        margin-top: 15px;
+                        svg {
+                            margin-left: 5px;
+                        }
+                    }
+                }
+                .bond-name,
+                .bond-price,
+                .bond-discount {
+                    text-align: center;
+                    margin-right: 10px;
+                    margin-left: 10px;
+                    vertical-align: middle;
+                    align-items: center;
+                }
+                a {
+                  text-decoration: none !important;  
+                }
+            }
+        }
+    }
+}
 
