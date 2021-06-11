@@ -228,7 +228,7 @@ function Bond({ provider, address, bond }) {
                 <div className="stake-price-data-row">
                   <p className="price-label">Balance</p>
                   <p className="price-data">
-                    {trim(balance, 4)} {balanceUnits()}
+                    {trim(balance, 6)} {balanceUnits()}
                   </p>
                 </div>
                 <div className="stake-price-data-row">
