@@ -3,42 +3,17 @@ import { NavLink } from 'react-router-dom';
 import BondLogo from '../../components/BondLogo';
 import AdvancedSettings from './AdvancedSettings';
 import { bondName } from "../../helpers";
+import { ReactComponent as SettingsIcon } from "../../assets/icons/settings-cog.svg";
 
 
 function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
   const [showMenu, setShowMenu] = useState(false);
 
-  const ohmAssetImg = () => {
-    return 'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png';
-  }
-
-  const reserveAssetImg = () => {
-    if (bond.indexOf('frax') >= 0) {
-      return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png"
-    } else if (bond.indexOf('dai') >= 0) {
-      return 'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png'
-    }
-  }
-
   return (
-    <div className="d-flex flex-row align-items-center my-2 px-2 my-md-4 px-md-4">
-      <NavLink to="/bonds" className="align-items-center ohm-link" style={{position: "absolute"}}>
-      <i className="fa fa-chevron-left"></i>
-        Back
-      </NavLink>
-      <div className="d-flex flex-row col justify-content-center">
-        <BondLogo bond={bond} />
-
-        <div className="text-light align-self-center">
-          <h5 style={{color: 'white'}}>
-            {bondName(bond)}
-          </h5>
-        </div>
-      </div>
-
-      <div style={{position: "relative"}}>
+    <div className="bond-header">
+      <div className="bond-settings">
         <a role="button" onClick={() => setShowMenu(!showMenu)}>
-          <i className="fa fa-cog fa-2x" />
+          <SettingsIcon />
         </a>
 
         {showMenu && <AdvancedSettings
@@ -48,6 +23,19 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
           onSlippageChange={onSlippageChange}
         />}
       </div>
+
+      <div className="bond-header-logo">
+        <BondLogo bond={bond} />
+        <div className="bond-header-name">
+          <h5>
+            {bondName(bond)}
+          </h5>
+        </div>
+      </div>
+
+      <NavLink to="/bonds" className="cancel-bond">
+        <i className="fa fa-times"></i>
+      </NavLink>
 
     </div>
   );

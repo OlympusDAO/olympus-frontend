@@ -190,9 +190,11 @@ function App(props) {
               className="navbar-toggler"
               type="button"
               onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-              aria-controls="navbarSupportedContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
+              data-toggle="collapse"
+              data-target="#navbarNav"
+              aria-controls="navbarNav"
             >
               <span className="navbar-toggler-icon" />
             </button>
@@ -238,17 +240,16 @@ function App(props) {
                 />
               </Route>
 
-              <Route exact path="/bonds">
+              <Route path="/bonds">
+                {Object.values(BONDS).map(bond => {
+                    return (
+                      <Route exact key={bond} path={`/bonds/${bond}`}>
+                        <Bond bond={bond} address={address} provider={injectedProvider} />
+                      </Route>
+                    );
+                })}
                 <ChooseBond address={address} provider={injectedProvider} />
               </Route>
-
-              {Object.values(BONDS).map(bond => {
-                return (
-                  <Route exact key={bond} path={`/bonds/${bond}`}>
-                    <Bond bond={bond} address={address} provider={injectedProvider} />
-                  </Route>
-                );
-              })}
             </Switch>
           </Container>
 
