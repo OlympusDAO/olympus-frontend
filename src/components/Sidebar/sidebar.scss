@@ -11,8 +11,8 @@
   flex-flow:column;
   background: rgba(33, 33, 33, 0.5);
   //font-family: 'Square';
-  backdrop-filter: blur(33px);
-  -webkit-backdrop-filter: blur(33px);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   z-index: 5;
 }
 
@@ -25,8 +25,10 @@
 }
 
 .branding-header {
-  display: block;
+  display: flex;
   text-align: center;
+  justify-content: center;
+
   //font-family: 'Square';
 }
 
@@ -40,6 +42,7 @@
 
 .dapp-menu-top a {
   line-height: 0;
+  max-width: fit-content;
 }
 
 .dapp-menu-top {
@@ -59,7 +62,7 @@
       color: white;
       // font-weight: bold;
       margin: 0;
-      font-size: 2em;
+      font-size: 3em;
     }
   }
 }
@@ -190,3 +193,47 @@
 }
 
 
+
+.show.mobile .dapp-sidebar {
+  .dapp-menu-links {
+    flex-flow: row !important;
+    justify-content: center !important;
+  }
+  .dapp-menu-external-links {
+    padding-top: 3em;
+  }
+  .dapp-nav,
+  .dapp-menu-external-links {
+    flex-flow: column !important;
+    justify-content: flex-start;
+    margin: auto;
+    a {
+      padding: 0;
+      svg {
+        align-self: center;
+      }
+    }
+  }
+  .dapp-nav a {
+    font-size: xx-large;
+  }
+  .dapp-menu-external-links a {
+    font-size: x-large;
+  }
+
+  .dapp-nav {
+    .dapp-menu-data.discounts {
+      margin-top: 3em;
+      font-size: 1.1em;
+      .bond-discounts {
+        padding-left: calc(16% + 10px);
+        p {
+          min-width: max-content;
+          font-size: 1em;
+        }
+        
+      }
+    }
+    
+  }
+}
