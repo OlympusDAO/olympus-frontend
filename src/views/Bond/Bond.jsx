@@ -8,10 +8,12 @@ import {
   bondAsset,
   redeemBond,
 } from "../../actions/Bond.actions.js";
+import { Grid, Backdrop } from "@material-ui/core";
 import BondHeader from "./BondHeader";
 import BondRedeemV1 from "./BondRedeemV1";
 import { BONDS } from "../../constants";
-import { NavLink } from "react-router-dom";
+import "../Stake/stake.scss";
+import "./bond.scss";
 
 function Bond({ provider, address, bond }) {
   const dispatch = useDispatch();
@@ -165,8 +167,10 @@ function Bond({ provider, address, bond }) {
   }, [allowance]);
 
   return (
-    <div className="d-flex align-items-center justify-content-center min-vh-100">
-      <div className="dapp-center-modal flex-column">
+    <Grid container id="bond-view">
+      <Backdrop open={true}>
+      <div className="ohm-card">
+        <div className="card-content">
         <BondHeader
           bond={bond}
           slippage={slippage}
@@ -175,77 +179,121 @@ function Bond({ provider, address, bond }) {
           onRecipientAddressChange={onRecipientAddressChange}
         />
 
-        <div className="dapp-modal-wrapper py-2 px-2 py-md-4 px-md-2 m-auto">
+        <div className="bond-price-data-row">
+          <div className="bond-price-data">
+            <h4>Bond Price</h4>
+            <h4 id="bond-price-id" className="price">
+              {trim(bondPrice, 2)} DAI
+            </h4>
+          </div>
+          <div className="bond-price-data">
+            <h4>Market Price</h4>
+            <h4 id="bond-market-price-id" className="price">
+              {trim(marketPrice, 2)} DAI
+            </h4>
+          </div>
+        </div>
+
+        <div>
           <div className="swap-input-column">
-            <div className="stake-toggle-row">
-              <div className="btn-group" role="group">
-                <button
-                  type="button"
-                  className={`btn ${view === "bond" ? "btn-light" : ""}`}
-                  onClick={() => {
-                    setView("bond");
-                  }}
-                >
-                  Bond
-                </button>
-                <button
-                  type="button"
-                  className={`btn ${view === "redeem" ? "btn-light" : ""}`}
-                  onClick={() => {
-                    setView("redeem");
-                  }}
-                >
-                  Redeem
-                </button>
-                <button
-                  type="button"
-                  className={`btn ${view === "redeem_v1" ? "btn-light" : ""}`}
-                  onClick={() => {
-                    setView("redeem_v1");
-                  }}
-                  style={{ paddingLeft: "5px", paddingRight: "5px", fontSize: "14px" }}
-                >
-                  Redeem V1.0
-                </button>
+              <div className="stake-toggle-row">
+                <div className="btn-group" role="group">
+                  <button
+                    type="button"
+                    className={`btn ${view === "bond" ? "btn-light" : ""}`}
+                    onClick={() => {
+                      setView("bond");
+                    }}
+                  >
+                    Bond
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn ${view === "redeem" ? "btn-light" : ""}`}
+                    onClick={() => {
+                      setView("redeem");
+                    }}
+                  >
+                    Redeem
+                  </button>
+                </div>
               </div>
+
+            <div className="input-row">
+              {view === "bond" && (
+                <div className="input-group ohm-input-group">
+                  <input
+                    value={quantity}
+                    onChange={e => setQuantity(e.target.value)}
+                    type="number"
+                    className="form-control"
+                    placeholder="Type an amount"
+                  />
+
+                  <button className="btn" type="button" onClick={setMax}>
+                    Max
+                  </button>
+                </div>
+              )}
+
+
+              {view == "redeem" && (
+                <div 
+                  id="bond-claim-btn" 
+                  className="transaction-button stake-button" 
+                  onClick={() => {
+                    onRedeem({ autostake: false });
+                  }}
+                >
+                  Claim
+                </div>
+              )}
+
+              {false && view == "redeem" && (
+                <div 
+                  id="bond-claim-autostake-btn" 
+                  className="transaction-button stake-button" 
+                  onClick={() => {
+                    onRedeem({ autostake: true });
+                  }}
+                >
+                    Claim and Autostake
+                </div>
+              )}
+
+              {hasAllowance() && view === "bond" && (
+                <div id="bond-btn" className="transaction-button stake-button" onClick={onBond}>
+                  Bond
+                </div>
+              )}
+
+              {!hasAllowance() && view === "bond" && (
+                <div id="bond-approve-btn" className="transaction-button stake-button" onClick={onSeekApproval}>
+                    Approve
+                </div>
+              )}
             </div>
 
-            {view === "bond" && (
-              <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
-                <input
-                  value={quantity}
-                  onChange={e => setQuantity(e.target.value)}
-                  type="number"
-                  className="form-control"
-                  placeholder="Type an amount"
-                />
-
-                <button className="btn" type="button" onClick={setMax}>
-                  Max
-                </button>
-              </div>
-            )}
+            <div className="stake-notification">
+                {(!hasAllowance() && view === "bond") && (
+                  <em>
+                    <p>
+                      Note: The "Approve" transaction is only needed when bonding for the first time;
+                      subsequent bonding only requires you to perform the "Bond" transaction.
+                    </p>
+                  </em>
+                )}
+            </div>
 
             {view === "bond" && (
               <div className="stake-price-data-column">
                 <div className="stake-price-data-row">
-                  <p className="price-label">Balance</p>
+                  <p className="price-label">Your Balance</p>
                   <p className="price-data">
                     {trim(balance, 4)} {balanceUnits()}
                   </p>
                 </div>
-                <div className="stake-price-data-row">
-                  <p className="price-label">Bond Price</p>
-                  <p id="bond-price-id" className="price-data">
-                    {trim(bondPrice, 2)} DAI
-                  </p>
-                </div>
-                <div className="stake-price-data-row">
-                  <p className="price-label">Market Price</p>
-                  <p id="bond-market-price-id" className="price-data">
-                    {trim(marketPrice, 2)} DAI
-                  </p>
-                </div>
+                
 
                 <div className={`stake-price-data-row ${hasEnteredAmount() ? "" : "d-none"}`}>
                   <p className="price-label">You Will Get</p>
@@ -286,51 +334,35 @@ function Bond({ provider, address, bond }) {
               </div>
             )}
 
-            {view === "redeem_v1" && <BondRedeemV1 provider={provider} address={address} bond={bond + "_v1"} />}
+            <div className="stake-price-data-row">
+              <div className="stake-price-data-column">
+                <p>ROI</p>
+              </div>
+              <div className="stake-price-data-column">
+                <p>{trim(bondDiscount * 100, 2)}%</p>
+              </div>
+            </div>
 
-            {view == "redeem" && (
-              <div className="d-flex align-self-center mb-4">
-                <div
-                  className="redeem-button"
-                  onClick={() => {
-                    onRedeem({ autostake: false });
-                  }}
-                >
-                  Claim
+            <div className="stake-price-data-row">
+              <div className="stake-price-data-column">
+                  <p>Debt Ratio</p>
+                </div>
+                <div className="stake-price-data-column">
+                  <p>{trim(debtRatio / 10000000, 2)}%</p>
                 </div>
               </div>
-            )}
 
-            {false && view == "redeem" && (
-              <div className="d-flex align-self-center mb-4">
-                <div
-                  className="redeem-button"
-                  onClick={() => {
-                    onRedeem({ autostake: true });
-                  }}
-                >
-                  Claim and Autostake
-                </div>
+            <div className="stake-price-data-row">
+              <div className="stake-price-data-column">
+                <p>Vesting Term</p>
               </div>
-            )}
-
-            {hasAllowance() && view === "bond" && (
-              <div className="d-flex align-self-center mb-4">
-                <div id="bond-button-id" className="redeem-button" onClick={onBond}>
-                  Bond
-                </div>
+              <div className="stake-price-data-column">
+                <p>{vestingPeriod()}</p>
               </div>
-            )}
+            </div>
+            
 
-            {!hasAllowance() && view === "bond" && (
-              <div className="d-flex align-self-center mb-4">
-                <div id="bond-button-id" className="redeem-button" onClick={onSeekApproval}>
-                  Approve
-                </div>
-              </div>
-            )}
-
-            {view === "bond" && (
+            {/* {view === "bond" && (
               <div className="stake-price-data-column">
                 <div className="stake-price-data-row">
                   <p className="price-label">Slippage Tolerance</p>
@@ -339,7 +371,7 @@ function Bond({ provider, address, bond }) {
                   </p>
                 </div>
               </div>
-            )}
+            )} */}
 
             {view === "bond" && recipientAddress !== address && (
               <div className="stake-price-data-row">
@@ -350,24 +382,12 @@ function Bond({ provider, address, bond }) {
           </div>
         </div>
 
-        <div className="bond-data">
-          <div className="row bond-data-row p-4">
-            <div className="col-4 text-center">
-              <p>Debt Ratio</p>
-              <p>{trim(debtRatio / 10000000, 2)}%</p>
-            </div>
-            <div className="col-4 text-center">
-              <p>Vesting Term</p>
-              <p>{vestingPeriod()}</p>
-            </div>
-            <div className="col-4 text-center">
-              <p>ROI</p>
-              <p>{trim(bondDiscount * 100, 2)}%</p>
-            </div>
-          </div>
-        </div>
+        
       </div>
-    </div>
+      </div>
+      </Backdrop>
+    </Grid>
+    
   );
 }
 

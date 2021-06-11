@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { trim, bondName, lpURL, isBondLP } from "../../helpers";
 import BondLogo from '../../components/BondLogo';
@@ -6,14 +6,15 @@ import { TableRow, TableCell, } from "@material-ui/core";
 import { NavLink } from 'react-router-dom';
 
 
+
 export function BondCardData({ bond }) {
   const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
   const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
 
-
   return (
     <div className="bond-data-card">
       <div className="bond-pair">
+        {/* maket this whole thing a link if there is an lpurl */}
         <BondLogo bond={bond} />
         <div className="bond-name">
           {bondName(bond)}
@@ -36,7 +37,12 @@ export function BondCardData({ bond }) {
       {/* <TableCell>$4,102,030</TableCell> */}
       
       <NavLink to={`/bonds/${bond}`}>
-        <button className="stake-lp-button ohm-btn">Bond</button>
+        <button 
+          type="button" 
+          className="stake-lp-button ohm-btn"
+        >
+          Bond
+        </button>
       </NavLink>
     </div>
   )

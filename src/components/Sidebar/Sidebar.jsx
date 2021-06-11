@@ -42,6 +42,29 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme
     return match.url.indexOf('bonds') >= 0 || match.url.indexOf('choose_bond') >= 0
   }, []);
 
+
+  const checkPage = useCallback((match, location, page) => {
+    // console.log(match);
+    const currentPath = location.pathname.replace("/", "");
+
+    const currentURL = window.location.href;
+
+    if (currentPath.indexOf("dashboard") >= 0 && page === "dashboard") {
+      return true;
+    }
+
+    if (currentPath.indexOf("stake") >= 0 && page === "stake") {
+      return true;
+    }
+
+    if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
+      return true;
+    }
+
+    return false;
+
+  }, []);
+
   useEffect(() => {
     
   }, [])
@@ -63,18 +86,18 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme
         </div>
 
         <div className="dapp-menu-links">
-          <div className="dapp-nav">
-            <NavLink onClick={() => { setRoute("/dashboard" ) }} to="/dashboard" className="button button-dapp-menu " isActive={(match, location) => { return !!match && ['/dashboard'].includes(match.url) }}>
+          <div className="dapp-nav" id="navbarNav">
+            <NavLink onClick={() => { setRoute("/dashboard" ) }} to="/dashboard" className="button button-dapp-menu " isActive={(match, location) => { return checkPage(match, location, "dashboard") }}>
               <DashboardIcon className="me-3" />
               <span>Dashboard</span>
             </NavLink>
 
-            <NavLink onClick={() => { setRoute("/" ) }} to="/" className="button button-dapp-menu" isActive={(match, location) => { return !isBondPage(match, location) }}>
+            <NavLink onClick={() => { setRoute("/" ) }} to="/" className="button button-dapp-menu" isActive={(match, location) => { return checkPage(match, location, "stake") }}>
               <StakeIcon className="me-3" />
               <span>Stake</span>
             </NavLink>
 
-            <NavLink onClick={() => { setRoute("/bonds" ) }} to="/bonds" className="button button-dapp-menu" isActive={(match, location) => { return isBondPage(match, location) }}>
+            <NavLink onClick={() => { setRoute("/bonds" ) }} to="/bonds" className="button button-dapp-menu" isActive={(match, location) => { return checkPage(match, location, "bonds") }}>
               <BondIcon className="me-3" />
               <span>Bond</span>
             </NavLink>
