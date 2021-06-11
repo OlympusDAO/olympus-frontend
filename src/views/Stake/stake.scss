@@ -379,12 +379,12 @@
 
 
 .ohm-card.mobile {
-    width: 95% !important;
+    width: 98% !important;
     max-width: 100% !important;
 }
 
 .ohm-card.med {
-    width: 80% !important;
+    width: 84% !important;
     padding: 1.5rem;
 }
 
@@ -427,7 +427,7 @@
             padding-top: 0 !important;        
             .card-content {
                 margin-bottom: 10px;
-                padding: 2rem 1.5rem !important;
+                padding: 2rem 1rem !important;
                 height: auto;
                 align-items: center;
                 vertical-align: center;
@@ -438,6 +438,7 @@
                     width: 100%;
                     align-items: center;
                     justify-content: space-evenly;
+                    font-size: 1.05em;
                     .bond-pair {
                         display: flex;
                         flex-direction: column;
