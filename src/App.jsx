@@ -14,7 +14,7 @@ import { calcBondDetails, } from './actions/Bond.actions.js';
 import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
-import {Stake, ChooseBond, Bond, Dashboard } from './views'
+import { Stake, ChooseBond, Bond, Dashboard, Migrate } from "./views";
 
 import "./App.css";
 import "./style.scss";
@@ -211,6 +211,9 @@ function App(props) {
                   <ChooseBond address={address} provider={injectedProvider} />
                 </Route>
 
+                <Route exact path="/migrate">
+                  <Migrate address={address} provider={injectedProvider} />
+                </Route>
 
                 {Object.values(BONDS).map(bond => {
                   return <Route exact key={bond} path={`/bonds/${bond}`}>
