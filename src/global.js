@@ -127,4 +127,21 @@ export const GlobalStyles = createGlobalStyle`
     table .MuiTableCell-root {
         color: ${({ theme }) => theme.color};
     }
+    .dapp-nav a.active span {
+        border-bottom: 2px solid ${({ theme }) => theme.color} !important;
+    }
+    .dapp-nav a:hover, .dapp-menu-external-links a:hover {
+        > span {
+            color: ${({ theme }) => theme.color} !important;
+            border-bottom: 2px solid ${({ theme }) => theme.color};
+        }
+    }
+    .navbar-light .navbar-toggler {
+        border: 2px solid ${({ theme }) => theme.color} !important;
+        border-color: ${({ theme }) => theme.color} !important;
+       
+    }
+    .navbar-light .navbar-toggler-icon {
+        filter: ${({ theme }) => theme.logoColor}; 
+    }
 `;

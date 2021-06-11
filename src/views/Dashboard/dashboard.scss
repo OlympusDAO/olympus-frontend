@@ -15,7 +15,7 @@
     align-content: flex-start;
     justify-content: space-evenly;
     height: 100%;
-    padding: 3rem;
+    //padding: 3rem;
     .olympus-card {
         margin: 20px;
         height: auto;
@@ -38,11 +38,12 @@
     backdrop-filter: blur(11px);
     -webkit-backdrop-filter: blur(11px);
     box-shadow: 0px 8px 18px rgba(0,0,0,0.2);
-    max-height: 101px;
+    max-height: 150px;
     min-height: 99px;
-    max-width: 520px;
+    //max-width: 520px;
     border-radius: 0.5rem;
     white-space: nowrap;
+    text-align: center;
     h5 {
         font-size: 1.1em !important;
         color: inherit;
@@ -58,7 +59,17 @@
         //line-height: 120%;
     }
 }
-  
+
+.card-body {
+    padding: 2rem;
+    .title {
+    }
+    .content {
+        color: #F4D092;
+        font-family: "Square-Light", 'cursive';
+    }
+}
+
 .card-body,
 .card-body iframe {
     width: 100%;
@@ -68,4 +79,8 @@
 
 .card-body iframe img[class^="chart_watermark"] {
     display: none !important;
+}
+
+.card-body iframe {
+    padding: 1rem;
 }

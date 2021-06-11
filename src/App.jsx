@@ -190,9 +190,11 @@ function App(props) {
               className="navbar-toggler"
               type="button"
               onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-              aria-controls="navbarSupportedContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
+              data-toggle="collapse"
+              data-target="#navbarNav"
+              aria-controls="navbarNav"
             >
               <span className="navbar-toggler-icon" />
             </button>
