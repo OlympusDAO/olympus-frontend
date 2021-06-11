@@ -3,14 +3,14 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ThemeProvider } from "styled-components";
 import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import { useDispatch } from "react-redux";
 import { Flex } from "rimble-ui";
-import { Container } from "@material-ui/core";
+import { Container, Modal, Backdrop, useMediaQuery } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
@@ -95,13 +95,33 @@ const logoutOfWeb3Modal = async () => {
   }, 1);
 };
 
+
+
 function App(props) {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
+  const location = useLocation()
+
+  const isSmallScreen = useMediaQuery("(max-width: 1200px)");
 
   // const [themeMode, setThemeMode] = useState(lightTheme);
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+
+  const handleSidebarOpen = () => {
+    setIsSidebarExpanded(true)
+  }
+
+  const handleSidebarClose = () => {
+    console.log('handle close')
+    setIsSidebarExpanded(false)
+  }
+
+
+  useEffect(() => {
+    console.log(['pageview', location.pathname]);
+    if (isSidebarExpanded) handleSidebarClose();
+  }, [location])
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
@@ -184,7 +204,8 @@ function App(props) {
       <CssBaseline />
       <GlobalStyles />
       <div className="app">
-        <Flex id="dapp" className="dapp">
+        <Flex id="dapp" className={`dapp ${isSmallScreen && "mobile"}`}>
+          {!isSidebarExpanded &&
           <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
             <button
               className="navbar-toggler"
@@ -198,7 +219,7 @@ function App(props) {
             >
               <span className="navbar-toggler-icon" />
             </button>
-          </nav>
+          </nav>}
 
           <Sidebar
             web3Modal={web3Modal}
@@ -253,10 +274,24 @@ function App(props) {
             </Switch>
           </Container>
 
-          <div
-            className={`ohm-backdrop ${isSidebarExpanded ? "ohm-backdrop-show" : "ohm-backdrop-close"}`}
-            onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-          />
+
+          {/* <Modal 
+            open={isSidebarExpanded}
+            onClose={handleSidebarClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          > */}
+            <div
+              className={`ohm-backdrop ${isSidebarExpanded ? "ohm-backdrop-show" : "ohm-backdrop-close"}`}
+            >
+              <div className="close-nav" onClick={() => handleSidebarClose()}>
+                <i className="fa fa-times"></i>
+              </div>
+            </div>
+          {/* </Modal>  */}
         </Flex>
       </div>
     </ThemeProvider>
