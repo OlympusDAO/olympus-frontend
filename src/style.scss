@@ -154,7 +154,7 @@ nav {
     width: fit-content;
     height: fit-content;
     display: inline-block;
-    top: 10px;
+    top: 2px;
     left: 20px;
     position: absolute;
   }
@@ -1105,16 +1105,24 @@ input.input:read-only {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 50;
+  z-index: 5;
   height: 100vh;
   background-color: #000;
-  opacity: 0.5;
+  opacity: 0.2 !important;
 }
 
-// .ohm-backdrop-show {
-//   width: 100vw;
-//   animation: backdrop 0.5s ease-out both;
-// }
+.ohm-backdrop-show {
+  width: 100vw;
+  animation: backdrop 0.5s ease-out both;
+  .close-nav {
+    position: absolute;
+    top: 15px;
+    left: 25px;
+    font-size: 2em;
+    z-index: 20;
+    cursor: pointer;
+  }
+}
 .ohm-backdrop-close {
   display: none;
   @media (max-width: 768px) {

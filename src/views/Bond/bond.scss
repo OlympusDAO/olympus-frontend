@@ -13,7 +13,6 @@
     .ohm-card {
         padding-top: 0 !important;
     }
-
     .bond-header {
         .bond-header-logo {
             justify-content: center;
@@ -101,5 +100,16 @@
 
     .card.ohm-popover-card {
         position: relative !important;
+    }
+}
+
+
+.mobile #bond-view {
+    .ohm-card {
+        width: 99% !important;
+        height: 60% !important;
+        .card-content {
+            justify-content: space-evenly !important;
+        }
     }
 }

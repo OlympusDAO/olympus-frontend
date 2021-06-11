@@ -9,7 +9,7 @@
     background-color:inherit;
     z-index: 3;
     overflow: hidden;
-    padding: 5px;
+    padding: 0px;
     justify-content: right;
     flex-direction: row-reverse;
     margin-top: 10px;
@@ -17,8 +17,9 @@
     button {
         border-radius: .7rem !important;
         border-color: none !important;
-        font-size: 1em !important;
-        height: auto !important;
+        font-size: 1.05em !important;
+        height: 46px !important;
+        min-width: fit-content !important;
     }
 }
 
@@ -28,7 +29,7 @@
 }
 
 .get-ohm-button {
-    min-width: 111px;
+    // min-width: 111px;
     a {
         display: block;
         white-space: nowrap;
@@ -38,7 +39,8 @@
 
 .get-ohm-button.btn,
 .wallet-menu .btn {
-    padding: 0px 20px !important;
+    padding: 0px 25px !important;
+    min-width: fit-content;
 }
 
 
@@ -58,7 +60,7 @@
 .wallet-button {
     border:1px solid #0001;
     background-color: transparent;
-    border-radius: 1rem;
+    border-radius: 5px;
     cursor:pointer;
     &:hover {
       background-color:#e8e8e8;
@@ -78,17 +80,24 @@
 
 
 .top-bar-button {
-    height: 39px;
-    font-size: 14px;
+    height: 46px;
+    font-size: 1.05em;
     border: none;
     &:hover{
         border: none;
     }
+}
 
+.dapp-topbar .toggle-button svg {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.mobile.dapp-topbar {
+    margin: 0 !important;
 }
 
 .mobile .get-ohm-button,
 .mobile .wallet-menu button {
-    padding: 0px 45px !important;
-    font-size: 1.25em !important;
+    font-size: 1.05em !important;
 }
