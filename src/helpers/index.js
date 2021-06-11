@@ -6,8 +6,10 @@ import { abi as CirculatingSupplyContract } from '../abi/CirculatingSupplyContra
 import { abi as PairContract } from '../abi/PairContract.json';
 
 import { abi as BondOhmDaiContract } from '../abi/bonds/OhmDaiContract.json';
+import { abi as BondOhmFraxContract } from '../abi/bonds/OhmFraxContract.json';
 import { abi as BondDaiContract } from '../abi/bonds/DaiContract.json';
 import { abi as ReserveOhmDaiContract } from '../abi/reserves/OhmDai.json';
+import { abi as ReserveOhmFraxContract } from '../abi/reserves/OhmFrax.json';
 import { abi as BondContract } from '../abi/BondContract.json';
 import { abi as DaiBondContract } from '../abi/DaiBondContract.json';
 
@@ -39,6 +41,8 @@ export function contractForBond({ bond, networkID, provider }) {
     return new ethers.Contract(addresses[networkID].BOND_ADDRESS, BondContract, provider);
   } else if (bond === BONDS.dai_v1) {
     return new ethers.Contract(addresses[networkID].DAI_BOND_ADDRESS, DaiBondContract, provider);
+  } else if (bond === BONDS.ohm_frax) {
+    return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX, BondOhmFraxContract, provider);
   }
 }
 
@@ -47,6 +51,8 @@ export function contractForReserve({ bond, networkID, provider }) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
   } else if (bond === BONDS.dai) {
     return new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);
+  } else if (bond === BONDS.ohm_frax) {
+    return new ethers.Contract(addresses[networkID].RESERVES.OHM_FRAX, ReserveOhmFraxContract, provider);
   }
 }
 

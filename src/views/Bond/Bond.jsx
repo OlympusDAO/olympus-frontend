@@ -97,9 +97,6 @@ function Bond({ provider, address, bond }) {
   }
 
   async function onBond() {
-    console.log("slippage = ", slippage);
-    console.log("recipientAddress = ", recipientAddress);
-
     if (quantity === "") {
       alert("Please enter a value!");
     } else if (isNaN(quantity)) {

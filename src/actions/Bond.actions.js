@@ -21,6 +21,8 @@ export const changeApproval = ({ bond, provider, address, networkID }) => async 
     let approveTx;
     if (bond == BONDS.ohm_dai)
       approveTx = await reserveContract.approve(addresses[networkID].BONDS.OHM_DAI, ethers.utils.parseUnits('1000000000', 'ether').toString());
+    else if (bond === BONDS.ohm_frax)
+      approveTx = await reserveContract.approve(addresses[networkID].BONDS.OHM_FRAX, ethers.utils.parseUnits('1000000000', 'ether').toString());
     else if (bond === BONDS.dai)
       approveTx = await reserveContract.approve(addresses[networkID].BONDS.DAI, ethers.utils.parseUnits('1000000000', 'ether').toString());
 
@@ -56,7 +58,7 @@ export const calcBondDetails = ({ bond, value, provider, networkID }) => async d
     valuation    = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
     bondQuote    = await bondContract.payoutFor(valuation);
     bondQuote    = bondQuote / Math.pow(10, 9);
-  } else if (bond === BONDS.dai) {
+  } else {
     bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
 
     // RFV = DAI
@@ -115,6 +117,11 @@ export const calculateUserBondDetails = ({ address, bond, networkID, provider })
 
     balance = await reserveContract.balanceOf(address);
     balance = ethers.utils.formatEther(balance);
+  } else if (bond === BONDS.ohm_frax) {
+    allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_FRAX);
+
+    balance = await reserveContract.balanceOf(address);
+    balance = ethers.utils.formatUnits(balance, 'ether')
   }
 
 
@@ -151,7 +158,7 @@ export const bondAsset = ({ value, address, bond, networkID, provider, slippage 
 
     const reserveContract = contractForReserve({ bond, provider, networkID });
 
-    if (bond === BONDS.ohm_dai) {
+    if (bond === BONDS.ohm_dai || bond === BONDS.ohm_frax) {
       balance          = await reserveContract.balanceOf(address);
     } else if (bond === BONDS.dai) {
       balance     = await reserveContract.balanceOf(address);
