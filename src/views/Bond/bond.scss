@@ -1,0 +1,105 @@
+#bond-view {
+    position: absolute !important;
+    z-index: 7;
+    .MuiBackdrop-root {
+        background: rgba(0, 0, 0, 0.2) !important;
+        backdrop-filter: blur(10px);
+    }
+    .ohm-card,
+    .card-content {
+        background-color: #1B1D22FF !important;
+        padding: 60px;
+    }
+    .ohm-card {
+        padding-top: 0 !important;
+    }
+
+    .bond-header {
+        .bond-header-logo {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            .ohm-logo-bg {
+                height: 40px !important;
+                width: 40px !important;
+                padding: 8px !important;
+                margin-left: 0;
+            }
+            .bond-header-name {
+                text-align: center;
+                margin-left: 15px;
+                h5 {
+                    margin-bottom: 0 !important;
+                }
+            }
+        }
+        .bond-settings {
+            position: absolute;
+            left: 1.5em;
+            top: 1.3em;
+        }
+        .cancel-bond {
+            position: absolute;
+            right: 1.5em;
+            top: 1.3em;
+        }
+    }
+
+    .bond-price-data-row {
+        display: flex;
+        justify-content: space-evenly;
+        margin: 1.9rem 0;
+        .bond-price-data {
+            text-align: center;
+            h4 {
+                margin-bottom: 0;
+            }
+            h4.price {
+                font-weight: bold;
+                color: #F4D092 !important;
+            }
+        }
+    }
+
+    /* need to rename this lol */
+    .stake-toggle-row {
+        display: flex !important;
+        justify-content: center !important;        
+        margin-bottom: 2rem;
+        .btn-group button {
+            font-size: 1.4em;
+            width: 9rem;
+        }
+    }
+
+    .stake-notification {
+        margin-bottom: 20px !important;
+    }
+
+    .input-row {
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 26px;
+    }
+
+    .input-group {
+        // display: inline-flex;
+        min-width: 50%;    
+    }
+    .transaction-button {
+        min-width: 30%;
+    }
+
+    .stake-price-data-column {
+        margin: 0;
+    }
+    .stake-price-data-row {
+        height: 42px;
+    }
+
+    .card.ohm-popover-card {
+        position: relative !important;
+    }
+}

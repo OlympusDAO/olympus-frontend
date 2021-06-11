@@ -238,17 +238,16 @@ function App(props) {
                 />
               </Route>
 
-              <Route exact path="/bonds">
+              <Route path="/bonds">
+                {Object.values(BONDS).map(bond => {
+                    return (
+                      <Route exact key={bond} path={`/bonds/${bond}`}>
+                        <Bond bond={bond} address={address} provider={injectedProvider} />
+                      </Route>
+                    );
+                })}
                 <ChooseBond address={address} provider={injectedProvider} />
               </Route>
-
-              {Object.values(BONDS).map(bond => {
-                return (
-                  <Route exact key={bond} path={`/bonds/${bond}`}>
-                    <Bond bond={bond} address={address} provider={injectedProvider} />
-                  </Route>
-                );
-              })}
             </Switch>
           </Container>
 

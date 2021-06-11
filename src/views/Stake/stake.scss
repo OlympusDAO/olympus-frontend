@@ -13,7 +13,7 @@
     max-width: 610px;
     min-width: 66%;
     // width: 50vw;
-    border-radius: .5rem;
+    border-radius: 5px;
     background-color: transparent !important;
     box-shadow: unset !important;
     border: none !important;
@@ -195,10 +195,10 @@
 }
 
 .input-group.ohm-input-group {
-    width: 55%;
-    max-width: 420px;
+    min-width: 55%;
+    // max-width: 420px;
     border: 0.8px solid #FFFFFF;
-    border-radius: .5rem !important;
+    border-radius: 5px !important;
     input, button {
         border-radius: none;
         margin-left: 0 !important;
@@ -237,15 +237,15 @@
     min-width: 173px;
 }
 .stake-button, .stake-lp-button {
-    display: block;
+    display: block !important;
     margin-left: 1rem;
-    border-radius: .5rem;
-    padding: .4rem;
+    border-radius: 5px !important;
+    padding: .4rem !important;
     background-color: #ffffffee;
     color: #222;
-    font-size: 1.2em;
+    font-size: 1.2em !important;
     height: auto;
-    text-align: center;
+    text-align: center !important;
     font-family: 'Square-Light', cursive;
 }
 
@@ -288,7 +288,7 @@
     top: 25%;
     background-color: #00000023;
     backdrop-filter: blur(13px);
-    border-radius: 0.5rem;
+    border-radius: 5px;
     h4 {
         color: #FFFFFF;
         text-align: center;
@@ -307,6 +307,8 @@
 
 
 
+
+/* Bond styles to be moved */
 .MuiTable-root {
     thead .MuiTableCell-root {
         color: #999999 !important;
@@ -400,13 +402,13 @@
     .ohm-card.mobile {
         .ohm-logo-bg {
             margin-left: 0;
-            border-radius: 30px;
-            padding: 12px;
+            border-radius: 20px;
+            padding: 10px;
             align-items: center;
             justify-content: center;
             text-align: center;
-            height: 55px;
-            width: 55px;
+            height: 40px;
+            width: 40px;
         }
         &.secondary {
             .ohm-price {
@@ -443,8 +445,8 @@
                         justify-content: center;
                         width: 30%;
                         .ohm-pair {
-                            height: 55px;
-                            width: 55px;
+                            height: 40px;
+                            width: 40px;
                         }
                         .bond-name {
                             margin-top: 15px;

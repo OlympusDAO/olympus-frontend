@@ -12,7 +12,7 @@ import { trim } from "../../helpers";
 
 function ChooseBond({ provider, address }) {
 	const material = useTheme();
-	
+
 	// const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });	
 	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
