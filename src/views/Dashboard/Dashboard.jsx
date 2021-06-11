@@ -23,46 +23,43 @@ function Dashboard({ provider, address }) {
   return (
     <div className="dashboard-view">
       <Grid container spacing={2}>
-        <Grid item lg={4} md={4} sm={3} xs={5}>
+        <Grid item lg={4} md={5} sm={5} xs={5}>
           <div className="ohm-dashboard-card">
             <div className="card-body">
-              <h5>Price</h5>
-              <div className="my-auto">
-                <h1 className="text-center">${trim(marketPrice, 2)}</h1>
-              </div>
-              {/* <p>
-										(SushiSwap OHM-DAI Pool)
-										<a href="https://analytics.sushi.com/pairs/0x34d7d7aaf50ad4944b70b320acb24c95fa2def7c" target="_blank">
-											<i className="fas fa-external-link-alt fa-sm ms-1"></i>
-										</a>
-									</p> */}
+              <h3 className="title">Price</h3>
+              <h3 className="content">${trim(marketPrice, 2)}</h3>
+              {/* <p> */}
+              {/*  <a href="https://analytics.sushi.com/pairs/0x34d7d7aaf50ad4944b70b320acb24c95fa2def7c" target="_blank"> */}
+              {/*    (SushiSwap OHM-DAI Pool) */}
+              {/*  </a> */}
+              {/* </p> */}
             </div>
           </div>
         </Grid>
 
-        <Grid item lg={4} md={4} sm={4} xs={7}>
+        <Grid item lg={4} md={7} sm={7} xs={7}>
           <div className="ohm-dashboard-card">
             <div className="card-body">
-              <h5>Market Cap</h5>
-              <h1 className="text-center">
+              <h3 className="title">Market Cap</h3>
+              <h3 className="content">
                 {new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 0,
                 }).format(marketCap())}
-              </h1>
+              </h3>
             </div>
           </div>
         </Grid>
 
-        <Grid item lg={4} md={4} sm={5} xs={12}>
+        <Grid item lg={4} md={12} sm={12} xs={12}>
           <div className="ohm-dashboard-card">
             <div className="card-body">
-              <h5>Supply (circulating/total)</h5>
-              <h1 className="text-center">
+              <h3 className="title">Supply (circulating/total)</h3>
+              <h3 className="content">
                 {new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(circSupply / Math.pow(10, 9))}/
                 {new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(totalSupply / Math.pow(10, 9))}
-              </h1>
+              </h3>
             </div>
           </div>
         </Grid>

@@ -87,23 +87,12 @@
 .dapp-nav a {
   padding: 0 15%;
   background: transparent;
+  > span {
+      border-bottom:2px solid transparent;
+  }
 }
 
-.dapp-nav a:hover {
-  background: url(../../assets/menu-item-hover.png) no-repeat left center;
-  background-size: 10px;
-  -webkit-transition: opacity 200ms linear;
-  -moz-transition: opacity 200ms linear;
-  -o-transition: opacity 200ms linear;
-  -ms-transition: opacity 200ms linear;
-  transition: opacity 200ms linear;
-  > svg {
-    filter: brightness(0) saturate(100%) invert(99%) sepia(44%) saturate(1344%) hue-rotate(310deg) brightness(96%) contrast(100%);
-  }
-  > span {
-    color: #F5DDB4;
-  }
-}
+
 
 .dapp-menu-external-links {
   display: flex;
@@ -122,6 +111,7 @@
     height: 100%;
     display: inline-block;
     vertical-align: top;
+    border-bottom:2px solid transparent;
   }
 }
 
