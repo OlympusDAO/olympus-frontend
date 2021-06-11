@@ -27,7 +27,7 @@ export const addresses = {
     STAKING_ADDRESS: "0x0822F3C03dcc24d200AFF33493Dc08d0e1f274A2", // This needs to be updated to the new staking address
     OLD_STAKING_ADDRESS: "0x0822F3C03dcc24d200AFF33493Dc08d0e1f274A2",
     SOHM_ADDRESS: "0x31932E6e45012476ba3A3A4953cbA62AeE77Fbbe",
-    // This will have to be updated with the new WSOHM address. References to SOHM_ADDRESS should be changed to WSOHM_ADDRESS
+    // TODO: This will have to be updated with the new WSOHM address. References to SOHM_ADDRESS should be changed to WSOHM_ADDRESS
     WSOHM_ADDRESS: "lolwutm8",
     PRESALE_ADDRESS: "0xcBb60264fe0AC96B0EFa0145A9709A825afa17D8",
     AOHM_ADDRESS: "0x24ecfd535675f36ba1ab9c5d39b50dc097b0792e",
