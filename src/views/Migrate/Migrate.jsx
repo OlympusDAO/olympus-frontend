@@ -29,12 +29,11 @@ function Migrate({ provider, address }) {
   });
 
   const setMax = () => {
-    // Only want sOhm balance to be max, regardless of stake/unstake
     if (view === "stake") {
       setQuantity(ohmBalance);
       return;
     }
-
+    // Otherwise max the sohm balance
     setQuantity(sohmBalance);
   };
 
