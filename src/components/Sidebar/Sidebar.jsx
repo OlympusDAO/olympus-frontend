@@ -12,6 +12,7 @@ import { ReactComponent as BondIcon } from "../../assets/icons/bond-icon.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-icon.svg";
 import { trim } from "../../helpers";
 import { BONDS } from "../../constants";
+import { useMediaQuery } from "@material-ui/core";
 
 
 
@@ -25,6 +26,9 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme
   // dai: "dai",
   // dai_v1: "dai_v1",
   // ohm_dai_v1: "ohm_dai_lp_v1",
+
+  const isSmallScreen = useMediaQuery("(max-width: 1200px)");
+
 
   const daiBondDiscount = useSelector(state => {
     return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
@@ -72,14 +76,14 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme
 
   return (
     <div
-      className={`${isExpanded ? 'show' : '' } d-md-block sidebar collapse`}
+      className={`${isExpanded ? 'show' : '' } ${isSmallScreen && "mobile" } d-md-block sidebar collapse`}
       id="sidebarContent"
     >
       <div className="dapp-sidebar">
         <div className="dapp-menu-top">
           <div className="branding-header">
-            <a href="https://olympusdao.finance">
-              <img className="branding-header-icon" src={OlympusLogo} alt="" />
+            <a href="https://olympusdao.finance" target="_blank">
+              <img className="branding-header-icon" src={OlympusLogo} alt="OlympusDAO" />
               <h3>Olympus</h3>
             </a>
           </div>
