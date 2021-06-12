@@ -32,9 +32,14 @@ export const GlobalStyles = createGlobalStyle`
         transition: all 0.27s linear;
         position: fixed;
         font-size: 16px;
+        overflow-y: auto;
         a {
             text-decoration: none;
         }
+    }
+    .MuiContainer-root {
+        overflow-y: hidden;
+        height: 100%;
     }
     .dapp-sidebar {
         background-color: ${({ theme }) => theme.cardBg};
