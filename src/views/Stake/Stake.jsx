@@ -120,7 +120,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
             role="button" 
             aria-label="migrate-sohm" 
             onClick={openMigrationWizard}>
-              <NavLink to="/migrate">
+              <NavLink to="/stake/migrate">
                 <NewReleases />
                 Migrate sOHM
               </NavLink>
