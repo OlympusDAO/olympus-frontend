@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100%;
+    // height: 100%;
 }
 
 // ohm-card styles should be set to theme
@@ -14,7 +14,11 @@
     min-width: 70%;
     // width: 50vw;
     border-radius: 5px;
-    background-color: transparent !important;
+    // background-color: transparent !important;
+    // background-color: rgba(27,29,34,0.5) !important;
+    background-color: #1B1D22 !important;
+    opacity: 0.6 !important;
+    backdrop-filter: blur(15px);
     box-shadow: unset !important;
     border: none !important;
     // display:flex;
@@ -22,20 +26,21 @@
     justify-content:center;
     flex-flow:wrap;
     padding: 0px !important;
-    padding-top: 4.20rem !important;
+    // padding-top: 4.20rem !important;
     .card-header {
-        position: absolute;
+        // position: absolute;
         width: 100%;
-        background-color:#42424200 !important;
+        // background-color:#42424200 !important;
         box-shadow: none !important;
         border: none !important;
-        max-width: 60rem;
+        // max-width: 60rem;
         top: 0;
+        padding: 1em;
         h5 {
-            font-weight: 550;
+            font-weight: 600;
             color: #efefef;
-            text-decoration: underline;
-            text-underline-offset: 10px;
+            // text-decoration: underline;
+            // text-underline-offset: 10px;
         }
     }
     .card-content {
@@ -48,7 +53,7 @@
         border-radius: inherit;
         //box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
         flex-flow: column;
-        padding: 2.5rem 2.5rem;
+        padding: 1rem 2rem 2rem 2rem;
         height: 100%;
         
     }
@@ -60,7 +65,8 @@
     &.secondary {
         height: auto;
         // min-height: 250px;
-        margin-bottom: 3.3rem;
+        // margin-bottom: 3.3rem;
+        padding-top: 0.5rem;
     }
 }
 
@@ -279,6 +285,44 @@
     width: 8rem;
 }
 
+
+.mobile .stake-pool {
+    // border: 1px solid #F4D09233;
+    background: #000000aa;
+    border-radius: 5px;
+    padding: 2em 2.6em;
+    display: flex;
+    flex-direction: column;
+    .ohm-logo-bg {
+        height: 40px !important;
+        width: 40px !important;
+        padding: 8px !important;
+        margin-left: 0;
+    }
+    .ohm-pairs p {
+        font-size: 1.5em !important;
+        
+    }
+    .pool-data {
+        margin-top: 25px;
+        width: 100%;
+        .pool-data-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: larger;
+            line-height: 250%;
+        }
+    }
+    .stake-lp-button {
+        margin-top: 30px;
+        padding: 8px !important;
+        display: flex;
+        svg {
+            margin-left: 18px !important;
+        }
+    }
+}
+
 .stake-wallet-notification {
     min-height: 310px;
     padding: 8%;
@@ -382,7 +426,7 @@
 .ohm-card.mobile {
     width: 99% !important;
     max-width: 100% !important;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .ohm-card.med {
