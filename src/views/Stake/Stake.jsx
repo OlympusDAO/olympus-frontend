@@ -208,56 +208,48 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     </button>
                   </div>
 
-                  {address && hasAllowance("ohm") && view === "stake" && (
-                    <div>
-                      <div
-                        className="stake-button"
-                        onClick={() => {
-                          onChangeStake("stake");
-                        }}
-                      >
-                        Stake OHM
-                      </div>
+                  {address && hasAllowance("ohm") && view === "stake" && ( 
+                    <div
+                      className="stake-button"
+                      onClick={() => {
+                        onChangeStake("stake");
+                      }}
+                    >
+                      Stake OHM
                     </div>
                   )}
 
                   {address && hasAllowance("sohm") && view === "unstake" && (
-                    <div>
-                      <div
-                        className="stake-button"
-                        onClick={() => {
-                          onChangeStake("unstake");
-                        }}
-                      >
-                        Unstake OHM
-                      </div>
+                    <div
+                      className="stake-button"
+                      onClick={() => {
+                        onChangeStake("unstake");
+                      }}
+                    >
+                      Unstake OHM
                     </div>
                   )}
 
                   {address && !hasAllowance("ohm") && view === "stake" && (
-                    <div>
-                      <div
-                        className="stake-button"
-                        onClick={() => {
-                          onSeekApproval("ohm");
-                        }}
-                      >
-                        Approve
-                      </div>{" "}
-                      {/* approve unstake */}
+                    <div
+                      className="stake-button"
+                      onClick={() => {
+                        onSeekApproval("ohm");
+                      }}
+                    >
+                      Approve
+                      {/* approve stake */}
                     </div>
                   )}
 
                   {address && !hasAllowance("sohm") && view === "unstake" && (
-                    <div>
-                      <div
-                        className="stake-button"
-                        onClick={() => {
-                          onSeekApproval("sohm");
-                        }}
-                      >
-                        Approve
-                      </div>{" "}
+                    <div
+                      className="stake-button"
+                      onClick={() => {
+                        onSeekApproval("sohm");
+                      }}
+                    >
+                      Approve
                       {/* approve unstake */}
                     </div>
                   )}
