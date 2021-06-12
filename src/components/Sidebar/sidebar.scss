@@ -78,7 +78,7 @@
   // @extend .button-secondary;
   // font-family: 'Square', 'cursive';
   height: auto;
-  line-height: 275%;
+  line-height: 260%;
   color: #fff;
   text-decoration: none;
   font-size: 1.2em;
@@ -234,12 +234,13 @@
 
   .dapp-nav {
     .dapp-menu-data.discounts {
-      margin-top: 3em;
+      margin-top: 2.5em;
       font-size: 1.1em;
       .bond-discounts {
-        padding-left: calc(16% + 10px);
+        padding-left: calc(16% + 5px);
         p {
           min-width: max-content;
+          width: 200px;
           font-size: 1em;
         }
         
