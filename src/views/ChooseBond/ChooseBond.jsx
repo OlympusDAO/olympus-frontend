@@ -25,10 +25,7 @@ function ChooseBond({ provider, address }) {
 		<Grid container id="choose-bond-view" justify="center" spacing={2}>
 
         <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
-          <div className="card-header">
-            <h5>Bond (1, 1)</h5>
-          </div> 
-
+          
           <div className="card-content">    
 						<Grid container item xs={12} spacing={2}>
 							<Grid item sm={7} lg={9}>
@@ -45,9 +42,9 @@ function ChooseBond({ provider, address }) {
         </Card>
           
         <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
-          {/* <div className="card-header">
-            <h5>Available Bonds</h5>
-          </div>   */}
+				<div className="card-header">
+            <h5>Bonds (1, 1)</h5>
+          </div> 
 					{ !isSmallScreen ?
           		<div className="card-content">
 								<TableContainer>

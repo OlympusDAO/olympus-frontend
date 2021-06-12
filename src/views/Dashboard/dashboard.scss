@@ -16,8 +16,8 @@
     flex-flow: wrap;
     align-content: flex-start;
     justify-content: space-evenly;
-    height: 100%;
-    //padding: 3rem;
+    height: 84%;
+    // padding: 1rem;
     .olympus-card {
         margin: 20px;
         height: auto;
@@ -27,7 +27,7 @@
         max-width: 620px;
         width: auto;
         flex: auto;
-        box-shadow: 0px 8px 18px rgba(0,0,0,0.2);
+        box-shadow: 0px 2px 26px rgba(0,0,0,0.2);
         background-color: #FFFFFF0E;
         backdrop-filter: blur(11px);
         -webkit-backdrop-filter: blur(11px);
@@ -39,31 +39,31 @@
     background-color:#4242426A;
     backdrop-filter: blur(11px);
     -webkit-backdrop-filter: blur(11px);
-    box-shadow: 0px 8px 18px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 26px rgba(0,0,0,0.2);
     max-height: 150px;
     min-height: 99px;
     //max-width: 520px;
     border-radius: 0.5rem;
     white-space: nowrap;
     text-align: center;
-    h5 {
-        font-size: 1.1em !important;
-        color: inherit;
-        margin-bottom: 10px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-    h1 {
-        font-size: 1.5em !important;
-        color: inherit;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        //line-height: 120%;
-    }
+    // h5 {
+    //     font-size: 1.1em !important;
+    //     color: inherit;
+    //     margin-bottom: 10px;
+    //     text-overflow: ellipsis;
+    //     overflow: hidden;
+    // }
+    // h1 {
+    //     font-size: 1.5em !important;
+    //     color: inherit;
+    //     text-overflow: ellipsis;
+    //     overflow: hidden;
+    //     //line-height: 120%;
+    // }
 }
 
 .card-body {
-    padding: 2rem;
+    padding: 1rem;
     .title {
     }
     .content {
@@ -84,5 +84,5 @@
 }
 
 .card-body iframe {
-    padding: 1rem;
+    // padding: 1rem;
 }
