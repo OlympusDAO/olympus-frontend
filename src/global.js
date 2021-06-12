@@ -38,7 +38,6 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
     .MuiContainer-root {
-        overflow-y: hidden;
         height: 100%;
     }
     .dapp-sidebar {
@@ -46,6 +45,7 @@ export const GlobalStyles = createGlobalStyle`
         svg {
             filter: ${({ theme }) => theme.iconColor};
         }
+        ${({ theme }) => theme.sidebarBorder && "border-right: 1px solid " + theme.sidebarBorder}
     }
     .branding-header-icon, 
     .olympus-sushi img,
@@ -86,6 +86,7 @@ export const GlobalStyles = createGlobalStyle`
                 color: ${({ theme }) => theme.TopBarButtonColorHover} !important;
             }
         border: ${({ theme }) => theme.TopBarButtonBorder} !important;
+        backdrop-filter: blur(5px) !important;
     }
      .top-bar-button a {
          color: ${({ theme }) => theme.TopBarButtonColor} !important;
@@ -96,9 +97,9 @@ export const GlobalStyles = createGlobalStyle`
         border: ${({ theme }) => theme.CTAButtonBorder};
         ${({ theme }) => theme.CTAButtonBorderColor && "border-color: " + theme.CTAButtonBorderColor + " !important; "};
             &:hover {
-                background: ${({ theme }) => theme.CTAButtonBgHover};
+                background: ${({ theme }) => theme.CTAButtonBgHover} !important;
                 color: ${({ theme }) => theme.CTAButtonColorHover} !important;
-                border: ${({ theme }) => theme.CTAButtonBorderHover};
+                border: ${({ theme }) => theme.CTAButtonBorderHover} !important;
             }
     }
     .stake-lp-button {

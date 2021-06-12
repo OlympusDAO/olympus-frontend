@@ -21,6 +21,8 @@ import { loadAccountDetails } from "./actions/Account.actions.js";
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
+import Migrate from "./views/Stake/Migrate";
+
 
 // import "./App.css";
 // import "./style.scss";
@@ -253,7 +255,15 @@ function App(props) {
                 <Dashboard address={address} provider={injectedProvider} />
               </Route>
 
-              <Route exact path="/">
+              <Route path="/">
+                <Route path="/migrate">
+                  <Migrate 
+                    address={address}
+                    provider={injectedProvider}
+                    web3Modal={web3Modal}
+                    loadWeb3Modal={loadWeb3Modal}
+                  />
+                </Route>
                 <Stake
                   address={address}
                   provider={injectedProvider}
