@@ -14,7 +14,7 @@ export const darkTheme = {
     TopBarButtonBorderHover: "",
     CTAButtonBg: "transparent",
     CTAButtonBgHover: "#EDD8B4",
-    CTAButtonColor: "#000000",
+    CTAButtonColor: "#F4D092",
     CTAButtonColorHover: "#000000",
     CTAButtonBorder: "2px solid #F4D092",
     CTAButtonBorderHover: "2px solid #EDD8B4",
@@ -31,6 +31,7 @@ export const lightTheme = {
     backgroundColor: "#83A5CB11",
     background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
     // cardBg: "rgba(252,252,252, 0.6) !important",
+    sidebarBorder: "#759AAE", 
     cardBg: "#FCFCFC77",
     cardBorder: "1px solid #759AAE99",
     logoColor: "none",
@@ -55,6 +56,7 @@ export const lightTheme = {
     CTALpButtonBorder: "2px solid #000000",
     CTALpButtonBorderHover: "2px solid #758cae",
     iconColor: "brightness(0) saturate(100%)" 
+
 }
 
 
