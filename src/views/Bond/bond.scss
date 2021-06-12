@@ -112,10 +112,30 @@
 
 .mobile #bond-view {
     .ohm-card {
-        width: 99% !important;
-        height: 66% !important;
+        width: 97% !important;
+        min-height: 69% !important;
         .card-content {
             justify-content: space-evenly !important;
+            .stake-toggle-row {
+                justify-content: space-evenly !important;
+            }
+            .input-row {
+                flex-direction: column;
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+                .input-group.ohm-input-group {
+                    margin: 10px !important;
+                    width: 70%;
+                    height: 55px;
+                }
+                div.stake-button {
+                    width: 70%;
+                    margin-left: 0;
+                    margin-top: 15px;
+                }
+            }
         }
     }
 }
