@@ -9,7 +9,7 @@
   height:100%;
   display:flex;
   flex-flow:column;
-  background: rgba(33, 33, 33, 0.5);
+  background: rgba(33, 33, 33, 0.6);
   //font-family: 'Square';
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -78,7 +78,7 @@
   // @extend .button-secondary;
   // font-family: 'Square', 'cursive';
   height: auto;
-  line-height: 250%;
+  line-height: 275%;
   color: #fff;
   text-decoration: none;
   font-size: 1.2em;
@@ -92,6 +92,17 @@
   background: transparent;
   > span {
       border-bottom:2px solid transparent;
+  }
+  &.active {
+    color: #F5DDB4 !important;
+    border-bottom:2px solid transparent;
+    svg {
+      // fill: #F5DDB4 !important;
+      filter: brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%);
+    }
+    span {
+      border-bottom:2px solid transparent;
+    }
   }
 }
 
