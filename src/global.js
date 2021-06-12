@@ -69,7 +69,7 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
     .ohm-card {
-        box-shadow: 0 2px 28px #00000033 !important;
+        opacity: 0.92 !important;
     }
     .top-bar-button {
         background: ${({ theme }) => theme.TopBarButtonBg} !important;
