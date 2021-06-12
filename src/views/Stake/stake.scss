@@ -437,7 +437,7 @@
 
 #choose-bond-view {
     h1, h2, h3, h4 {
-        font-family: 'Square', cursive !important;
+        font-family: 'Square' !important;
         font-weight: 500;
         color: inherit;
     }
@@ -446,7 +446,7 @@
     }
 
     .ohm-card.mobile {
-        margin-bottom: 5em;
+        margin-bottom: 3em;
         .ohm-logo-bg {
             margin-left: 0;
             border-radius: 20px;
@@ -458,22 +458,28 @@
             width: 40px;
         }
         &.secondary {
+            background-color: #00000000 !important;
+            background: transparent !important;
+            margin-top: 20px;
+            .card-header,
+            .card-content {
+                background-color: #00000000 !important;
+            }
             .ohm-price {
                 text-align: right;
             }
             h3 {
                 margin-bottom: 0;
-                font-size: 1.5em;
+                font-size: 1.6em;
             }
             h2 {
                 margin-bottom: 0;
-                font-size: 2em;
+                font-size: 2.7em;
             }
         }
         &.primary {
             padding-top: 0 !important;        
             .card-content {
-                margin-bottom: 10px;
                 padding: 1rem 1.5rem 1rem 0.5rem !important;
                 height: 15vh;
                 align-items: center;
