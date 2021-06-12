@@ -78,7 +78,7 @@
   // @extend .button-secondary;
   // font-family: 'Square', 'cursive';
   height: auto;
-  line-height: 260%;
+  line-height: 150%;
   color: #fff;
   text-decoration: none;
   font-size: 1.2em;
@@ -90,6 +90,8 @@
 .dapp-nav a {
   padding: 0 15%;
   background: transparent;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   > span {
       border-bottom:2px solid transparent;
   }
