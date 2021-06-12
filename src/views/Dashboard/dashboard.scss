@@ -1,6 +1,8 @@
 .dashboard-view {
     overflow-y: hidden;   
     height: 100%;
+    transform: translate3d(0, 0, 0) !important;
+    -webkit-transform: translate3d(0, 0, 0) !important;
 }
 
 .top-row-data {
