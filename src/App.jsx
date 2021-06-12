@@ -232,6 +232,7 @@ function App(props) {
             isExpanded={isSidebarExpanded}
             setRoute={setRoute}
             theme={theme}
+            onClick={() => {isSidebarExpanded ? handleSidebarClose() : console.log('sidebar colapsed')}}
           />
 
           <Container maxWidth="xl">
@@ -273,25 +274,6 @@ function App(props) {
               </Route>
             </Switch>
           </Container>
-
-
-          {/* <Modal 
-            open={isSidebarExpanded}
-            onClose={handleSidebarClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          > */}
-            <div
-              className={`ohm-backdrop ${isSidebarExpanded ? "ohm-backdrop-show" : "ohm-backdrop-close"}`}
-            >
-              <div className="close-nav" onClick={() => handleSidebarClose()}>
-                <i className="fa fa-times"></i>
-              </div>
-            </div>
-          {/* </Modal>  */}
         </Flex>
       </div>
     </ThemeProvider>
