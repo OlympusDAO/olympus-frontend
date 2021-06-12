@@ -86,7 +86,7 @@ export default function Migrate({
 							<h3>sOHM Migration</h3>
 							
 							<div role="button" className="cancel">
-								<NavLink to="/bonds" className="cancel-migrate">
+								<NavLink to="/stake" className="cancel-migrate">
 									<p><ClearIcon/> Cancel</p> 
 								</NavLink>
 							</div>
