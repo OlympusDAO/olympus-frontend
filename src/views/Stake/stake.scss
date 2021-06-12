@@ -9,7 +9,7 @@
 
 // ohm-card styles should be set to theme
 .ohm-card {
-    color: #efefef;
+    color: inherit;
     overflow: hidden;
     max-width: 869px;
     width: 80%;
@@ -290,7 +290,7 @@
         font-size: 1.11em;
     }
     tbody {
-        color: #ffffff;
+        color: inherit;
         tr {
             vertical-align: middle;
             overflow-wrap: break-word;
@@ -363,7 +363,7 @@
     align-items: center;
     justify-content: center;
     h4 {
-        color: #FFFFFF;
+        color: inherit;
         text-align: center;
         font-size: 2em;
         font-weight: 100;
@@ -504,13 +504,13 @@
             .card-content {
                 background-color: #00000000 !important;
             }
-            .ohm-price {
-                text-align: right;
-            }
+            // .ohm-price {
+            //     text-align: right;
+            // }
             h3 {
                 margin-bottom: 0;
-                font-size: 1.75em;
-                text-decoration: underline;
+                font-size: 1.7em;
+                // text-decoration: underline;
             }
             h2 {
                 margin-bottom: 0;

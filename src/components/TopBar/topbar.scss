@@ -20,6 +20,11 @@
         font-size: 1.05em !important;
         height: 46px !important;
         min-width: fit-content !important;
+        line-height: 46px;
+        vertical-align: middle;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
     }
 }
 

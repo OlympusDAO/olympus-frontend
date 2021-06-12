@@ -73,8 +73,10 @@ export const GlobalStyles = createGlobalStyle`
             color: ${({ theme }) => theme.color};
         }
     }
-    .ohm-card {
+    .ohm-card,
+    .ohm-dashboard-card {
         opacity: 0.92 !important;
+        border: ${({ theme }) => theme.cardBorder} !important;
     }
     .top-bar-button {
         background: ${({ theme }) => theme.TopBarButtonBg} !important;
@@ -83,12 +85,13 @@ export const GlobalStyles = createGlobalStyle`
                 background: ${({ theme }) => theme.TopBarButtonBgHover} !important;
                 color: ${({ theme }) => theme.TopBarButtonColorHover} !important;
             }
+        border: ${({ theme }) => theme.TopBarButtonBorder} !important;
     }
      .top-bar-button a {
          color: ${({ theme }) => theme.TopBarButtonColor} !important;
      }
     .stake-button {
-        background: ${({ theme }) => theme.CTAButtonBg};
+        background: ${({ theme }) => theme.CTAButtonBg} !important;
         color: ${({ theme }) => theme.CTAButtonColor} !important;
         border: ${({ theme }) => theme.CTAButtonBorder};
         ${({ theme }) => theme.CTAButtonBorderColor && "border-color: " + theme.CTAButtonBorderColor + " !important; "};
