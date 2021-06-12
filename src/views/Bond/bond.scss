@@ -4,6 +4,10 @@
     .MuiBackdrop-root {
         background: rgba(0, 0, 0, 0.2) !important;
         backdrop-filter: blur(10px);
+        .ohm-card {
+            background-color: #1B1D22FF !important;
+            opacity: 1 !important;  
+        }
     }
     .ohm-card,
     .card-content {
@@ -36,13 +40,15 @@
         }
         .bond-settings {
             position: absolute;
-            left: 1.5em;
-            top: 1.3em;
+            left: 30px;
+            top: 20px; 
         }
         .cancel-bond {
             position: absolute;
-            right: 1.5em;
-            top: 1.3em;
+            right: 30px;
+            top: 20px;
+            font-size: 1.2em;
+            
         }
     }
 
@@ -107,7 +113,7 @@
 .mobile #bond-view {
     .ohm-card {
         width: 99% !important;
-        height: 60% !important;
+        height: 66% !important;
         .card-content {
             justify-content: space-evenly !important;
         }
