@@ -313,44 +313,86 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
         
       </Card>
 
-      <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
+      {/* ${isMediumScreen && "med"} */}
+      <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"}`}> 
         <div className="card-header">
-          <h5>Stake OHM LP Tokens</h5>
+          <h5>Farm Pools</h5>
         </div>
         <div className="card-content">
-          <table className="table table-borderless stake-table">
-            <thead>
-              <tr>
-                <th scope="col">Asset</th>
-                <th scope="col">APR</th>
-                <th scope="col">TVL</th>
-                <th scope="col" />
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <Flex className="ohm-pairs mr-2">
-                    <div className="ohm-pair" style={{ zIndex: 2 }}>
-                      <img src={`${ohmAssetImg()}`} />
-                    </div>
-                    <div className="ohm-pair" style={{ zIndex: 1 }}>
-                      <img src={`${fraxAssetImg()}`} />
-                    </div>
-                    <p>
-                      OHM-FRX
-                      <i className="fa fa-external-link-alt" />
-                    </p>
-                  </Flex>
-                </td>
-                <td>874%</td>
-                <td>$185,558,228</td>
-                <td>
-                  <button className="stake-lp-button">Stake</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          { !isSmallScreen ? (
+            <table className="table table-borderless stake-table">
+              <thead>
+                <tr>
+                  <th scope="col">Asset</th>
+                  <th scope="col">APR</th>
+                  <th scope="col">TVL</th>
+                  <th scope="col" />
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <Flex className="ohm-pairs mr-2">
+                      <div className="ohm-pair" style={{ zIndex: 2 }}>
+                        <img src={`${ohmAssetImg()}`} />
+                      </div>
+                      <div className="ohm-pair" style={{ zIndex: 1 }}>
+                        <img src={`${fraxAssetImg()}`} />
+                      </div>
+                      <p>
+                        OHM-FRX
+                        <i className="fa fa-external-link-alt" />
+                      </p>
+                    </Flex>
+                  </td>
+                  <td>874%</td>
+                  <td>$185,558,228</td>
+                  <td>
+                    <button className="stake-lp-button">Stake</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          ) : (
+            <div className="stake-pool">
+              <Flex className="ohm-pairs mr-2">
+                <div className="ohm-pair" style={{ zIndex: 2 }}>
+                <div className="ohm-logo-bg">
+                  <img src={`${ohmAssetImg()}`} />
+                  </div>
+                </div>
+                <div className="ohm-pair" style={{ zIndex: 1 }}>
+                  <img src={`${fraxAssetImg()}`} />
+                </div>
+                <p>
+                  OHM-FRX
+                </p>
+              </Flex>
+              <div className="pool-data">
+                <div className="pool-data-row">
+                  <div className="pool-data-label">
+                    APR
+                  </div>
+                  <div className="pool-data-label">
+                    874%
+                  </div>
+                </div>
+                <div item className="pool-data-row">
+                  <div>TVL</div>
+                  <div>$185,558,228</div>
+                </div>
+                <div item className="pool-data-row">
+                  <div>Balance</div>
+                  <div>$185,558,228</div>
+                </div>
+              </div>
+              <button className="stake-lp-button">
+                Stake on Frax
+                <i className="fa fa-external-link-alt" />
+              </button>
+            </div>
+          )}
+          
         </div>
       </Card>
     </Grid>
