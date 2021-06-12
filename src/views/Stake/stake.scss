@@ -20,6 +20,13 @@
     } 
 }
 
+
+.mobile #sohm-migration-view {
+    .ohm-card {
+        width: 96% !important;    
+    }
+}
+
 #sohm-migration-view {
     position: absolute !important;
     z-index: 7;
