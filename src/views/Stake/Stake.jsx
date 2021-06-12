@@ -145,122 +145,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               </div>
             </Grid>
 
-            <Grid item>
-              <div className="stake-toggle-row">
-                <div className="btn-group" role="group">
-                  <button
-                    type="button"
-                    className={`btn ${view === "stake" ? "btn-light" : ""}`}
-                    onClick={() => {
-                      setView("stake");
-                    }}
-                  >
-                    Stake
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn ${view === "unstake" ? "btn-light" : ""}`}
-                    onClick={() => {
-                      setView("unstake");
-                    }}
-                  >
-                    Unstake
-                  </button>
-                </div>
-              </div>
 
-              <Flex className="stake-action-row">
-                <div className="input-group ohm-input-group">
-                  <div className="logo-holder">
-                    <div className="ohm-logo-bg">
-                      <img
-                        className="ohm-logo-tiny"
-                        src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                      />
-                    </div>
-                  </div>
-                  <input
-                    value={quantity}
-                    onChange={e => setQuantity(e.target.value)}
-                    type="number"
-                    className="form-control stake-input"
-                    placeholder="Type an amount"
-                  />
-                  <button type="button" onClick={setMax}>
-                    Max
-                  </button>
-                </div>
-
-                {address && hasAllowance("ohm") && view === "stake" && (
-                  <div>
-                    <div
-                      className="stake-button"
-                      onClick={() => {
-                        onChangeStake("stake");
-                      }}
-                    >
-                      Stake OHM
-                    </div>
-                  </div>
-                )}
-
-                {address && hasAllowance("sohm") && view === "unstake" && (
-                  <div>
-                    <div
-                      className="stake-button"
-                      onClick={() => {
-                        onChangeStake("unstake");
-                      }}
-                    >
-                      Unstake OHM
-                    </div>
-                  </div>
-                )}
-
-                {address && !hasAllowance("ohm") && view === "stake" && (
-                  <div>
-                    <div
-                      className="stake-button"
-                      onClick={() => {
-                        onSeekApproval("ohm");
-                      }}
-                    >
-                      Approve
-                    </div>{" "}
-                    {/* approve unstake */}
-                  </div>
-                )}
-
-                {address && !hasAllowance("sohm") && view === "unstake" && (
-                  <div>
-                    <div
-                      className="stake-button"
-                      onClick={() => {
-                        onSeekApproval("sohm");
-                      }}
-                    >
-                      Approve
-                    </div>{" "}
-                    {/* approve unstake */}
-                  </div>
-                )}
-              </Flex>
-
-              <div className="stake-notification">
-                {address &&
-                  ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
-                    <em>
-                      <p>
-                        Important: The "Approve" transaction is only needed when staking/unstaking for the first time;
-                        subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.
-                      </p>
-                    </em>
-                  )}
-              </div>
-            </Grid>
-
-            <Grid item>
-              {!address && (
+            {!address ? (
                 <div className="stake-wallet-notification">
                   <h4>Connect your wallet to Stake OHM</h4>
                   <div className="wallet-menu" id="wallet-menu">
@@ -274,32 +160,157 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     </button>
                   </div>
                 </div>
-              )}
-
-              <div className="stake-price-data-column">
-                <div className="stake-price-data-row">
-                  <p className="price-label">Your Balance</p>
-                  <p className="price-data">{trim(ohmBalance)} OHM</p>
+              ) : (
+                <>
+              <Grid item>
+                <div className="stake-toggle-row">
+                  <div className="btn-group" role="group">
+                    <button
+                      type="button"
+                      className={`btn ${view === "stake" ? "btn-light" : ""}`}
+                      onClick={() => {
+                        setView("stake");
+                      }}
+                    >
+                      Stake
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn ${view === "unstake" ? "btn-light" : ""}`}
+                      onClick={() => {
+                        setView("unstake");
+                      }}
+                    >
+                      Unstake
+                    </button>
+                  </div>
                 </div>
 
-                <div className="stake-price-data-row">
-                  <p className="price-label">Your Staked Balance</p>
-                  <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
-                </div>
+                <Flex className="stake-action-row">
+                  <div className="input-group ohm-input-group">
+                    <div className="logo-holder">
+                      <div className="ohm-logo-bg">
+                        <img
+                          className="ohm-logo-tiny"
+                          src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                        />
+                      </div>
+                    </div>
+                    <input
+                      value={quantity}
+                      onChange={e => setQuantity(e.target.value)}
+                      type="number"
+                      className="form-control stake-input"
+                      placeholder="Type an amount"
+                    />
+                    <button type="button" onClick={setMax}>
+                      Max
+                    </button>
+                  </div>
 
-                <div className="stake-price-data-row">
-                  <p className="price-label">Reward Yield</p>
-                  <p className="price-data">{trim(stakingRebase * 100, 4)}%</p>
-                </div>
+                  {address && hasAllowance("ohm") && view === "stake" && (
+                    <div>
+                      <div
+                        className="stake-button"
+                        onClick={() => {
+                          onChangeStake("stake");
+                        }}
+                      >
+                        Stake OHM
+                      </div>
+                    </div>
+                  )}
 
-                <div className="stake-price-data-row">
-                  <p className="price-label">ROI (5-Day Rate)</p>
-                  <p className="price-data">{trim(fiveDayRate * 100, 4)}%</p>
+                  {address && hasAllowance("sohm") && view === "unstake" && (
+                    <div>
+                      <div
+                        className="stake-button"
+                        onClick={() => {
+                          onChangeStake("unstake");
+                        }}
+                      >
+                        Unstake OHM
+                      </div>
+                    </div>
+                  )}
+
+                  {address && !hasAllowance("ohm") && view === "stake" && (
+                    <div>
+                      <div
+                        className="stake-button"
+                        onClick={() => {
+                          onSeekApproval("ohm");
+                        }}
+                      >
+                        Approve
+                      </div>{" "}
+                      {/* approve unstake */}
+                    </div>
+                  )}
+
+                  {address && !hasAllowance("sohm") && view === "unstake" && (
+                    <div>
+                      <div
+                        className="stake-button"
+                        onClick={() => {
+                          onSeekApproval("sohm");
+                        }}
+                      >
+                        Approve
+                      </div>{" "}
+                      {/* approve unstake */}
+                    </div>
+                  )}
+                </Flex>
+
+                <div className="stake-notification">
+                  {address &&
+                    ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
+                      <em>
+                        <p>
+                          Important: The "Approve" transaction is only needed when staking/unstaking for the first time;
+                          subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.
+                        </p>
+                      </em>
+                    )}
                 </div>
+              </Grid>
+
+              <Grid item>
+                
+
+              <div className={`stake-user-data`}>
+                  <div className="stake-price-data-column">
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Your Balance</p>
+                    <p className="price-data">{trim(ohmBalance)} OHM</p>
+                  </div>
+
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Your Staked Balance</p>
+                    <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                  </div>
+
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Reward Yield</p>
+                    <p className="price-data">{trim(stakingRebase * 100, 4)}%</p>
+                  </div>
+
+                  <div className="stake-price-data-row">
+                    <p className="price-label">ROI (5-Day Rate)</p>
+                    <p className="price-data">{trim(fiveDayRate * 100, 4)}%</p>
+                  </div>
+                </div>
+                
+              
               </div>
+              </Grid>
+              </>
+          )}
             </Grid>
-          </Grid>
+          
         </div>
+        
       </Card>
 
       <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
