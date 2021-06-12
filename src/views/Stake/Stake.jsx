@@ -1,18 +1,21 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Flex, Card } from "rimble-ui";
 import { Grid } from "@material-ui/core";
+import NewReleases from "@material-ui/icons/NewReleases";
 import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "../../style.scss";
 import "./stake.scss";
+import { NavLink } from "react-router-dom";
 
 function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const dispatch = useDispatch();
 
   const [view, setView] = useState("stake");
   const [quantity, setQuantity] = useState();
+  const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
 
   const isSmallScreen = useMediaQuery("(max-width: 1200px)");
 	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1400px)")
@@ -95,6 +98,15 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     }
   }
 
+  const openMigrationWizard = () => {
+    setMigrationWizardOpen(true)
+  }
+
+  const closeMigrationWizard = () => {
+    setMigrationWizardOpen(false)
+  }
+
+
   // TODO: the two grids need `container` props to justify. 
   return (
     <Grid id="stake-view" direction="row" justify="center" spacing={4}>
@@ -102,6 +114,17 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
       <Card className={`ohm-card primary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
         <div className="card-header">
           <h5>Single Stake (3, 3)</h5>
+          {/* make this link to migration page, similar to how bonds work */}
+          <div 
+            className="migrate-sohm-button"
+            role="button" 
+            aria-label="migrate-sohm" 
+            onClick={openMigrationWizard}>
+              <NavLink to="/migrate">
+                <NewReleases />
+                Migrate sOHM
+              </NavLink>
+          </div>
         </div>
 
         <div className="card-content">
