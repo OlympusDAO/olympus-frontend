@@ -26,6 +26,7 @@
     "@ethersproject/units": "^5.0.6",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@popperjs/core": "^2.9.2",
     "@ramp-network/ramp-instant-sdk": "^2.2.0",
