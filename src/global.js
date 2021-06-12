@@ -25,6 +25,7 @@ export const GlobalStyles = createGlobalStyle`
         }
         background: ${({ theme }) => theme.background};
         background-color: ${({ theme }) => theme.backgroundColor};
+        background-blend-mode: screen;
         color: ${({ theme }) => theme.color};
         height: 100%;
         width: 100%;
@@ -59,11 +60,16 @@ export const GlobalStyles = createGlobalStyle`
         font-family: Square !important;
     }
     .ohm-dashboard-card,
+    .ohm-card,
+    .ohm-card .card-header,
     .ohm-card .card-content {
         background-color: ${({ theme }) => theme.cardBg};
         h2 { 
             color: ${({ theme }) => theme.color};
         }
+    }
+    .ohm-card {
+        box-shadow: 0 2px 28px #00000033 !important;
     }
     .top-bar-button {
         background: ${({ theme }) => theme.TopBarButtonBg} !important;
