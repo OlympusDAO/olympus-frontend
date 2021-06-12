@@ -3,7 +3,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ThemeProvider } from "styled-components";
 import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -255,8 +255,18 @@ function App(props) {
                 <Dashboard address={address} provider={injectedProvider} />
               </Route>
 
-              <Route path="/">
-                <Route path="/migrate">
+              <Route exact path="/">
+                <Redirect to="/stake" />
+              </Route>
+
+              <Route path="/stake">
+                <Stake
+                    address={address}
+                    provider={injectedProvider}
+                    web3Modal={web3Modal}
+                    loadWeb3Modal={loadWeb3Modal}
+                  />
+                <Route exact path="/stake/migrate">
                   <Migrate 
                     address={address}
                     provider={injectedProvider}
@@ -264,12 +274,7 @@ function App(props) {
                     loadWeb3Modal={loadWeb3Modal}
                   />
                 </Route>
-                <Stake
-                  address={address}
-                  provider={injectedProvider}
-                  web3Modal={web3Modal}
-                  loadWeb3Modal={loadWeb3Modal}
-                />
+                
               </Route>
 
               <Route path="/bonds">
