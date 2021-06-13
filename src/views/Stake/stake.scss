@@ -10,7 +10,7 @@
 .migrate-sohm-button a {
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 15px;
     font-size: 1.3em;
     display: flex;
     align-items: center;
@@ -23,7 +23,7 @@
 
 .mobile #sohm-migration-view {
     .ohm-card {
-        width: 96% !important;    
+        width: 98% !important;    
     }
 }
 
@@ -39,30 +39,82 @@
         .ohm-card {
             background-color: #1B1D22 !important;
             opacity: 1 !important;
-            color: #FFFFFF !important;
-            padding: 2em !important;
+            color: #FFFFFF;
+            padding: 1.5em !important;
+            padding-top: 1em !important;
             justify-content: center;
             .card-header {
                 display: flex;
                 justify-content: space-between;    
-                .cancel {
-                    
-                }
-            }
-            .card-content {
-                align-items: center;
-                justify-content: center;
-                p {
-                    margin-bottom: 0 !important;
-                }
-                .MuiBreadcrumbs-root {
-                    position: relative !important;
-                    width: auto !important;
-                    li {
-                        color: #FFFFFF !important;
+                div.cancel p {
+                    color: #FF4343 !important;
+                    vertical-align: middle;
+                    padding: 0 !important;
+                    &:hover {
+                        color: #EEEEEE !important;
                     }
                 }
             }
+            p {
+                margin-bottom: 0 !important;
+            }
+            .MuiBreadcrumbs-root {
+                position: relative !important;
+                width: 100% !important;
+                margin-bottom: 3em;
+                .MuiBreadcrumbs-ol {
+                    justify-content: center;
+                }
+                li {
+                    color: #FFFFFF;
+                }
+                li > div:not(.current-step) {
+                    color: #aaaaaa;
+                }
+                li > div.current-step {
+                    color: #F4D092dd !important;
+                    text-decoration: underline;
+                    text-underline-offset: 5px;
+                }
+                li div.finished-step {
+                    color: #35EE66 !important;
+                }
+            }
+            .MuiBreadcrumbs-root.step-2 {
+                li.MuiBreadcrumbs-separator .MuiSvgIcon-root {
+                    color: #35EE66 !important;
+                }
+            }
+            .card-content {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .stake-migration-help {
+                    margin-bottom: 2rem;
+                }
+                .stake-action-row {
+                  width: 100%;
+                  .input-group.ohm-input-group,
+                  .stake-button {
+                      height: 50px;
+                      min-width: 40%;
+                  }
+                  .stake-button {
+                      white-space: nowrap;
+                  }
+                }
+                .stake-user-data {
+                    width: 100%;
+                    .stake-price-data-row {
+                        font-size: 1.2em;
+                        line-height: 200%;
+                    }
+                }
+                .stake-notification {
+                    width: 75%;
+                }
+            }
+            
         }
     }
 }
@@ -627,4 +679,8 @@
             }
         }
     }
+}
+
+:not(.mobile) .ohm-card .card-content {
+    padding: 2rem !important;
 }
