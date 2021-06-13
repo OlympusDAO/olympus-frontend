@@ -93,12 +93,12 @@ export default function Migrate({
 						</div>
 						<div className="card-content">
 							<Breadcrumbs className="migration-breadcrumbs" separator={<NavigateNextIcon fontsize="small" />}>
-								<p>
+								<div role="button" onClick={() => {setView("unstake") }}>
 									Unstake sOHM (old)
-								</p>
-								<p>
+								</div>
+								<div role="button" onClick={() => { setView("stake") }}>
 									Stake sOHM (new)
-								</p>
+								</div>
 							</Breadcrumbs>
 						</div>
 
@@ -117,9 +117,27 @@ export default function Migrate({
 								</div>
 							</div>
 						) : (
-							<>
+						<div>
 						<Grid item>
 							<Flex className="stake-action-row">
+								<div className="stake-migration-help">
+									{view === "unstake" ? (
+										<>
+											<p>
+												Hey Ohmie, dont panic - Olympus is just updating its  
+											  staking contract. But in order to continue earning those
+												juicy rewards you will need to unstake your old sOHM, 
+												and restake the resulting OHM on the new sOHM contract. 
+											</p>
+										</>
+									) : (
+										<>
+											<p>
+												Youre almost there. Go ahead and hit it "Max", press Stake, and keep it (3,3) fren
+											</p>
+										</>
+									)}
+								</div>
 								<div className="input-group ohm-input-group">
 									<div className="logo-holder">
 										<div className="ohm-logo-bg">
@@ -141,26 +159,48 @@ export default function Migrate({
 									</button>
 								</div>
 
-								{address && hasAllowance("sohm") && (
+								{address && (hasAllowance("sohm") && view === "unstake") && (
 									<div
 										className="stake-button"
 										onClick={() => {
-											onChangeStake("unstake");
+											// onChangeStake("unstake");
+											setView("stake")
 										}}
 									>
-										Unstake OHM
+										Unstake sOHM (old)
 									</div>
 								)}
 
-								{address && !hasAllowance("sohm") && (
+								{address && (hasAllowance("wsohm" || "sohm") && view === "stake") && (
 									<div
 										className="stake-button"
 										onClick={() => {
-											onSeekApproval("sohm");
+											// onChangeStake("stake");
+										}}
+									>
+										Stake sOHM (new)
+									</div>
+								)}
+
+								{address && (!hasAllowance("sohm") && view === "unstake") && (
+									<div
+										className="stake-button"
+										onClick={() => {
+											// onSeekApproval("sohm");
 										}}
 									>
 										Approve
-										{/* approve unstake */}
+									</div>
+								)}
+
+								{address && (hasAllowance("wsohm" || "sohm") && view === "stake") && (
+									<div
+										className="stake-button"
+										onClick={() => {
+											// onSeekApproval("wsohm");
+										}}
+									>
+										Approve
 									</div>
 								)}
 							</Flex>
@@ -203,31 +243,11 @@ export default function Migrate({
 						
 						</div>
 						</Grid>
-						</>
+						</div>
 				)}
 					</div>
 
 			</Backdrop>
 		</Grid>
-
-		// <Modal 
-		// 	id="sohm-migration-wizard"
-		// 	className="sohm-migration-wizard ohm-backdrop show"
-		// 	aria-labelledby="sohm-migration-wizard"
-		// 	aria-describedby="migrate-sohm-to-new-wsohm-contract"
-		// 	open={open}
-		// 	onClose={handleClose}
-		// 	closeAfterTransition
-		// 	BackdropComponent={Backdrop}
-		// 	BackdropProps={{
-		// 		timeout: 500,
-		// 	}}
-		// >
-		// 	<Fade in={open}>
-				
-			
-		// 	</Fade>
-		// </Modal>
-		// </div>
 	)
 }
