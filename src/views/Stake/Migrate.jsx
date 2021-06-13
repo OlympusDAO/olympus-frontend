@@ -120,6 +120,21 @@ export default function Migrate({
 							<>
 						<Grid item>
 							<Flex className="stake-action-row">
+								<div className="stake-migration-help">
+									{view === "unstake" ? (
+										<>
+											<p>
+												Dear Ohmie, dont panic - Olympus is just updating its  
+											  staking contract. But in order to continue earning those
+												juicy rewards you will need to unstake your old sOHM, 
+												and restake the resulting OHM on the new sOHM contract. keep it (3,3) fren
+											</p>
+										</>
+									) : (
+										<>
+										</>
+									)}
+								</div>
 								<div className="input-group ohm-input-group">
 									<div className="logo-holder">
 										<div className="ohm-logo-bg">
@@ -141,18 +156,30 @@ export default function Migrate({
 									</button>
 								</div>
 
-								{address && hasAllowance("sohm") && (
+								{address && hasAllowance("sohm") && view === "unstake" (
 									<div
 										className="stake-button"
 										onClick={() => {
 											onChangeStake("unstake");
+											setView("stake")
 										}}
 									>
-										Unstake OHM
+										Unstake sOHM (legacy)
 									</div>
 								)}
 
-								{address && !hasAllowance("sohm") && (
+								{address && hasAllowance("wsohm") && view === "stake" && (
+									<div
+										className="stake-button"
+										onClick={() => {
+											onChangeStake("stake");
+										}}
+									>
+										Stake sOHM (new)
+									</div>
+								)}
+
+								{address && !hasAllowance("sohm") && view === "unstake" (
 									<div
 										className="stake-button"
 										onClick={() => {
@@ -160,7 +187,17 @@ export default function Migrate({
 										}}
 									>
 										Approve
-										{/* approve unstake */}
+									</div>
+								)}
+
+								{address && hasAllowance("wsohm") && view === "stake" && (
+									<div
+										className="stake-button"
+										onClick={() => {
+											// onSeekApproval("wsohm");
+										}}
+									>
+										Approve
 									</div>
 								)}
 							</Flex>
@@ -209,25 +246,5 @@ export default function Migrate({
 
 			</Backdrop>
 		</Grid>
-
-		// <Modal 
-		// 	id="sohm-migration-wizard"
-		// 	className="sohm-migration-wizard ohm-backdrop show"
-		// 	aria-labelledby="sohm-migration-wizard"
-		// 	aria-describedby="migrate-sohm-to-new-wsohm-contract"
-		// 	open={open}
-		// 	onClose={handleClose}
-		// 	closeAfterTransition
-		// 	BackdropComponent={Backdrop}
-		// 	BackdropProps={{
-		// 		timeout: 500,
-		// 	}}
-		// >
-		// 	<Fade in={open}>
-				
-			
-		// 	</Fade>
-		// </Modal>
-		// </div>
 	)
 }
