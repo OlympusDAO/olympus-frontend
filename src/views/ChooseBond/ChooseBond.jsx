@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { trim } from "../../helpers";
 import BondRow from './BondRow';
-
+import { BONDS } from "../../constants";
 
 function ChooseBond({ provider, address }) {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ function ChooseBond({ provider, address }) {
 				</div>
 
         <ul className="list-group ohm-list-group">
-          {["ohm_dai_lp", "dai"].map(bond => {
+          {[BONDS.ohm_dai, BONDS.dai,  BONDS.ohm_frax].map(bond => {
             return <BondRow key={bond} bond={bond} />
           })}
         </ul>

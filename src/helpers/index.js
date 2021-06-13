@@ -6,8 +6,10 @@ import { abi as CirculatingSupplyContract } from '../abi/CirculatingSupplyContra
 import { abi as PairContract } from '../abi/PairContract.json';
 
 import { abi as BondOhmDaiContract } from '../abi/bonds/OhmDaiContract.json';
+import { abi as BondOhmFraxContract } from '../abi/bonds/OhmFraxContract.json';
 import { abi as BondDaiContract } from '../abi/bonds/DaiContract.json';
 import { abi as ReserveOhmDaiContract } from '../abi/reserves/OhmDai.json';
+import { abi as ReserveOhmFraxContract } from '../abi/reserves/OhmFrax.json';
 import { abi as BondContract } from '../abi/BondContract.json';
 import { abi as DaiBondContract } from '../abi/DaiBondContract.json';
 
@@ -18,9 +20,10 @@ export function isBondLP(bond) {
 }
 
 export function lpURL(bond) {
-  if (bond === BONDS.ohm_dai) {
+  if (bond === BONDS.ohm_dai)
     return "https://analytics.sushi.com/pairs/0x34d7d7aaf50ad4944b70b320acb24c95fa2def7c"
-  }
+  else if (bond === BONDS.ohm_frax)
+    return "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899"
 }
 
 export function bondName(bond) {
@@ -28,6 +31,8 @@ export function bondName(bond) {
     return 'DAI Bond'
   else if (bond === BONDS.ohm_dai)
     return 'OHM-DAI SLP Bond'
+  else if (bond === BONDS.ohm_frax)
+    return 'OHM-FRAX SLP Bond'
 }
 
 export function contractForBond({ bond, networkID, provider }) {
@@ -39,6 +44,8 @@ export function contractForBond({ bond, networkID, provider }) {
     return new ethers.Contract(addresses[networkID].BOND_ADDRESS, BondContract, provider);
   } else if (bond === BONDS.dai_v1) {
     return new ethers.Contract(addresses[networkID].DAI_BOND_ADDRESS, DaiBondContract, provider);
+  } else if (bond === BONDS.ohm_frax) {
+    return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX, BondOhmFraxContract, provider);
   }
 }
 
@@ -47,6 +54,8 @@ export function contractForReserve({ bond, networkID, provider }) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
   } else if (bond === BONDS.dai) {
     return new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);
+  } else if (bond === BONDS.ohm_frax) {
+    return new ethers.Contract(addresses[networkID].RESERVES.OHM_FRAX, ReserveOhmFraxContract, provider);
   }
 }
 
