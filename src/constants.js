@@ -43,18 +43,21 @@ export const addresses = {
     RESERVES: {
       DAI: "0x6b175474e89094c44da98b954eedeac495271d0f",
       OHM_DAI: "0x34d7d7Aaf50AD4944B70B320aCB24C95fa2def7c",
+      OHM_FRAX: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
     },
 
     BONDS: {
       OHM_DAI_CALC: "0xcaaa6a2d4b26067a391e7b7d65c16bb2d5fa571a",
       OHM_DAI: "0x996668C46Fc0B764aFdA88d83eB58afc933a1626",
       DAI: "0xD03056323b7a63e2095AE97fA1AD92E4820ff045",
+      OHM_FRAX: "0x539b6c906244Ac34E348BbE77885cdfa994a3776",
     },
   },
 };
 
 export const BONDS = {
   ohm_dai: "ohm_dai_lp",
+  ohm_frax: "ohm_frax_lp",
   dai: "dai",
   dai_v1: "dai_v1",
   ohm_dai_v1: "ohm_dai_lp_v1",
