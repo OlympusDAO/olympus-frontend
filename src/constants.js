@@ -50,7 +50,7 @@ export const addresses = {
       OHM_DAI_CALC: "0xcaaa6a2d4b26067a391e7b7d65c16bb2d5fa571a",
       OHM_DAI: "0x996668C46Fc0B764aFdA88d83eB58afc933a1626",
       DAI: "0xD03056323b7a63e2095AE97fA1AD92E4820ff045",
-      OHM_FRAX: "0xd215d166a6a0be3616cab7c938fb2f7ddb6cb580"
+      OHM_FRAX: "0x539b6c906244Ac34E348BbE77885cdfa994a3776",
     },
   },
 };
