@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
@@ -10,20 +10,24 @@ function Migrate({ provider, address }) {
   const [view, setView] = useState("unstake");
   const [quantity, setQuantity] = useState();
 
+  const ohmBalance = useSelector(state => {
+    return state.app.balances && state.app.balances.ohm;
+  });
+
   const sohmBalance = useSelector(state => {
     return state.app.balances && state.app.balances.sohm;
   });
 
-  const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
-  });
-  const wsohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.wsohm;
+  const oldSohmBalance = useSelector(state => {
+    return state.app.balances && state.app.balances.oldsohm;
   });
 
+  // Stake allownace for the new contract
   const stakeAllowance = useSelector(state => {
     return state.app.migrate && state.app.migrate.ohm;
   });
+  
+  // Unstake allowance from the old contract
   const unstakeAllowance = useSelector(state => {
     return state.app.migrate && state.app.migrate.sohm;
   });
@@ -59,6 +63,9 @@ function Migrate({ provider, address }) {
     [stakeAllowance, unstakeAllowance],
   );
 
+  // TODO: 
+  //  - Remove max button
+  //  - Set value = ohmBalance, sOhmbalance (depending on view)
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
       <div className="dapp-center-modal py-2 px-4 py-md-4 px-md-2">
