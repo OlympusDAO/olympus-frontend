@@ -121,6 +121,7 @@
     display: block;
     width: 100%;
     padding: 0 15%;
+    margin-bottom: 15px;
   }
   span {
     margin-left: 1rem;
@@ -142,12 +143,13 @@
   }
   &.bottom {
     flex-direction: column;
+    margin-bottom: 1.5em;
   }
   .data-rebase {
     justify-content: center;
     .rebase-timer {
       text-align: center !important;
-      font-size: 1em;
+      font-size: 1.05em;
     }
   }
   .data-ohm-index {
@@ -214,6 +216,7 @@
   }
   .dapp-menu-external-links {
     padding-top: 3em;
+    line-height: 200% !important;
   }
   .dapp-nav,
   .dapp-menu-external-links {
@@ -251,3 +254,4 @@
     
   }
 }
+
