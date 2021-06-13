@@ -22,13 +22,13 @@ export const changeApproval =
     const signer = provider.getSigner();
     // TODO: need the new wsOhm contract
     const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, signer);
-    const wsohmContract = await new ethers.Contract(addresses[networkID].WSOHM_ADDRESS, ierc20Abi, signer);
+    const oldOhmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, signer);
     const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
 
     let approveTx;
     try {
       if (token === "wsohm") {
-        approveTx = await wsohmContract.approve(
+        approveTx = await oldOhmContract.approve(
           addresses[networkID].STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
@@ -46,7 +46,7 @@ export const changeApproval =
     }
 
     const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-    const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
 
     return dispatch(
       fetchMigrateSuccess({

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim } from "../../helpers";
-import { changeStake, changeApproval } from "../../actions/Stake.actions";
+import { changeStake, changeApproval, TYPES } from "../../actions/Stake.actions";
 
 // This view will only allow you to Unstake sOHm --> ohm and then stake Ohm --> wsOhm
 function Migrate({ provider, address }) {
@@ -116,12 +116,12 @@ function Migrate({ provider, address }) {
 
               <div className="stake-price-data-row">
                 <p className="price-label">Staked</p>
-                <p className="price-data">{trim(wsohmBalance, 4)} wsOHM</p>
+                <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
               </div>
 
               <div className="stake-price-data-row">
                 <p className="price-label">Staked (Legacy)</p>
-                <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                <p className="price-data">{trim(oldSohmBalance, 4)} sOHM</p>
               </div>
             </div>
 
