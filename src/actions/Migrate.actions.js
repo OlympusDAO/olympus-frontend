@@ -3,7 +3,8 @@ import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 
-export const TYPES = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
+export const ACTION_OPTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
+export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_SOHM" };
 
 export const fetchMigrateSuccess = payload => ({
   type: Actions.FETCH_MIGRATE_SUCCESS,
