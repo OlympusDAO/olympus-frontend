@@ -209,7 +209,7 @@ function Migrate({ provider, address }) {
                 </div>
 
                 {address && hasAllowance("ohm") && view === "stake" && (
-                  <div className="d-flex align-self-center mb-2">
+                  <div className="align-self-center mb-2" style={{textAlign: "center"}}>
                     <div
                       className="stake-button"
                       onClick={() => {
@@ -223,7 +223,7 @@ function Migrate({ provider, address }) {
                 )}
 
                 {address && hasAllowance("sohm") && view === "unstake" && (
-                  <div className="d-flex align-self-center mb-2">
+                  <div className="align-self-center mb-2" style={{textAlign: "center"}}>
                     <div
                       className="stake-button"
                       onClick={() => {
@@ -237,7 +237,7 @@ function Migrate({ provider, address }) {
                 )}
 
                 {address && !hasAllowance("ohm") && view === "stake" && (
-                  <div className="d-flex align-self-center mb-2">
+                  <div className="align-self-center mb-2" style={{ textAlign: "center" }}>
                     <div
                       className="stake-button"
                       onClick={() => {
@@ -250,7 +250,7 @@ function Migrate({ provider, address }) {
                 )}
 
                 {address && !hasAllowance("sohm") && view === "unstake" && (
-                  <div className="d-flex align-self-center mb-2">
+                  <div className="align-self-center mb-2" style={{textAlign: "center"}}>
                     <div
                       className="stake-button"
                       onClick={() => {
