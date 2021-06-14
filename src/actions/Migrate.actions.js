@@ -70,7 +70,7 @@ export const changeStake =
     }
 
     const signer = provider.getSigner();
-    const oldStaking = new ethers.Contract(addresses[networkID].MIGRATION_UNSTAKE_ADDRESS, OlympusStakingV2, signer);
+    const oldStaking = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, signer);
     const staking = new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
 
     let stakeTx;
