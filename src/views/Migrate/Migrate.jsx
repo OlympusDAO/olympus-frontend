@@ -1,7 +1,8 @@
+/* eslint-disable no-alert */
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim } from "../../helpers";
-import { changeStake, changeApproval, TYPES } from "../../actions/Stake.actions";
+import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 
 // This view will only allow you to Unstake sOHm --> ohm and then stake Ohm --> wsOhm
 function Migrate({ provider, address }) {
@@ -24,12 +25,12 @@ function Migrate({ provider, address }) {
 
   // Stake allownace for the new contract
   const stakeAllowance = useSelector(state => {
-    return state.app.migrate && state.app.migrate.ohm;
+    return state.app.migrate && state.app.migrate.stakeAllowance;
   });
-  
+
   // Unstake allowance from the old contract
   const unstakeAllowance = useSelector(state => {
-    return state.app.migrate && state.app.migrate.sohm;
+    return state.app.migrate && state.app.migrate.unstakeAllowance;
   });
 
   const setMax = () => {
@@ -41,17 +42,44 @@ function Migrate({ provider, address }) {
     setQuantity(sohmBalance);
   };
 
-  const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
+  const getStakeApproval = async () => {
+    const dispatchObj = getApproval({
+      type: TYPES.NEW,
+      networkID: 1,
+      provider,
+      address,
+    });
+    await dispatch(dispatchObj);
   };
 
-  const onChangeStake = async action => {
-    if (isNaN(quantity) || quantity === 0 || quantity === "") {
+  const getUnstakeLegacyApproval = async () => {
+    const dispatchObj = getApproval({
+      type: TYPES.OLD,
+      networkID: 1,
+      provider,
+      address,
+    });
+    await dispatch(dispatchObj);
+  };
+
+  const unStakeLegacy = async () => {
+    if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
       alert("Please enter a value!");
       return;
     }
 
-    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: 1 }));
+    await dispatch(
+      changeStake({ action: ACTIONS.UNSTAKE, address, value: quantity.toString(), provider, networkID: 1 }),
+    );
+  };
+
+  const stakeOhm = async () => {
+    if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
+      alert("Please enter a value!");
+      return;
+    }
+
+    await dispatch(changeStake({ action: ACTIONS.STAKE, address, value: quantity.toString(), provider, networkID: 1 }));
   };
 
   const hasAllowance = useCallback(
@@ -63,7 +91,7 @@ function Migrate({ provider, address }) {
     [stakeAllowance, unstakeAllowance],
   );
 
-  // TODO: 
+  // TODO:
   //  - Remove max button
   //  - Set value = ohmBalance, sOhmbalance (depending on view)
   return (
@@ -130,7 +158,7 @@ function Migrate({ provider, address }) {
                 <div
                   className="stake-button"
                   onClick={() => {
-                    onChangeStake("stake");
+                    stakeOhm();
                   }}
                 >
                   Stake OHM
@@ -143,7 +171,7 @@ function Migrate({ provider, address }) {
                 <div
                   className="stake-button"
                   onClick={() => {
-                    onChangeStake("unstake");
+                    unStakeLegacy();
                   }}
                 >
                   Unstake sOHM
@@ -156,7 +184,7 @@ function Migrate({ provider, address }) {
                 <div
                   className="stake-button"
                   onClick={() => {
-                    onSeekApproval("ohm");
+                    getStakeApproval();
                   }}
                 >
                   Approve OHM
@@ -169,7 +197,7 @@ function Migrate({ provider, address }) {
                 <div
                   className="stake-button"
                   onClick={() => {
-                    onSeekApproval("sohm");
+                    getUnstakeLegacyApproval();
                   }}
                 >
                   Approve sOHM
