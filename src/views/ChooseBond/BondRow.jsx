@@ -6,13 +6,12 @@ import { TableRow, TableCell, } from "@material-ui/core";
 import { NavLink } from 'react-router-dom';
 
 
-
 export function BondCardData({ bond }) {
   const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
   const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
 
   return (
-    <div className="bond-data-card">
+    <div id={`${bond}--bond`} className="bond-data-card">
       <div className="bond-pair">
         {/* maket this whole thing a link if there is an lpurl */}
         <BondLogo bond={bond} />
@@ -55,7 +54,7 @@ export function BondTableData({bond}) {
 
 
   return (
-    <TableRow>
+    <TableRow id={`${bond}--bond`}>
       <TableCell align="left">
         <BondLogo bond={bond} />
         <div className="bond-name">
@@ -71,7 +70,7 @@ export function BondTableData({bond}) {
       </TableCell>
       <TableCell align="center">{trim(bondPrice, 2)}</TableCell>
       <TableCell>{trim(bondDiscount * 100, 2)}</TableCell>
-      <TableCell>$4,102,030</TableCell>
+      <TableCell>$33,333,333</TableCell>
       <TableCell align="right">
         <NavLink to={`/bonds/${bond}`}>
           <button className="stake-lp-button ohm-btn">Bond</button>
