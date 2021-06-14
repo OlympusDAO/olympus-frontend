@@ -83,7 +83,7 @@ export const getApproval =
       return;
     }
 
-    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     const unstakeAllowance = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
 
     return dispatch(
