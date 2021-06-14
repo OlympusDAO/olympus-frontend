@@ -20,8 +20,8 @@ function Migrate({ provider, address }) {
   });
 
   const oldSohmBalance = useSelector(state => {
-    // return state.app.balances && state.app.balances.oldsohm;
-    return 420.69;
+    return state.app.balances && state.app.balances.oldsohm;
+    // return 420.69;
   });
 
   // Stake allownace for the new contract
