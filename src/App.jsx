@@ -3,7 +3,7 @@ import { formatEther, parseEther } from "@ethersproject/units";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Link, Route, Switch, Redirect} from "react-router-dom";
 import Web3Modal from "web3modal";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,7 +14,7 @@ import { calcBondDetails, } from './actions/Bond.actions.js';
 import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
-import {Stake, ChooseBond, Bond, Dashboard } from './views'
+import { Stake, ChooseBond, Bond, Dashboard, Migrate } from "./views";
 
 import "./App.css";
 import "./style.scss";
@@ -211,6 +211,10 @@ function App(props) {
                   <ChooseBond address={address} provider={injectedProvider} />
                 </Route>
 
+                <Redirect from="/migrate" to="/stake/migrate" />
+                <Route exact path="/stake/migrate">
+                  <Migrate address={address} provider={injectedProvider} />
+                </Route>
 
                 {Object.values(BONDS).map(bond => {
                   return <Route exact key={bond} path={`/bonds/${bond}`}>
