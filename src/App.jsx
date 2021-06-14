@@ -104,7 +104,9 @@ function App(props) {
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation()
 
-  const isSmallScreen = useMediaQuery("(max-width: 1200px)");
+  const isSmallScreen = useMediaQuery("(max-width: 1125px)");
+  const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
+	const isNarrowScreen = useMediaQuery("(max-width:460px)");
 
   // const [themeMode, setThemeMode] = useState(lightTheme);
 
@@ -164,7 +166,7 @@ function App(props) {
 
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
-    ["ohm_dai_lp", "dai"].map(async bond => {
+    [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax].map(async bond => {
       await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
     });
   }
@@ -278,7 +280,8 @@ function App(props) {
               </Route>
 
               <Route path="/bonds">
-                {Object.values(BONDS).map(bond => {
+                {/* {Object.values(BONDS).map(bond => { */}
+                  {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax].map(bond => {
                     return (
                       <Route exact key={bond} path={`/bonds/${bond}`}>
                         <Bond bond={bond} address={address} provider={injectedProvider} />

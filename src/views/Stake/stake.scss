@@ -10,11 +10,12 @@
 .migrate-sohm-button a {
     position: absolute;
     right: 20px;
-    top: 15px;
+    top: 12px;
     font-size: 1.3em;
     display: flex;
     align-items: center;
     color: #F08080;	
+    line-height: 30px;
     svg {
         margin-right: 8px;
     } 
@@ -123,7 +124,7 @@
 .ohm-card {
     color: inherit;
     overflow: hidden;
-    max-width: 869px;
+    max-width: 1069px;
     width: 80%;
     border-radius: 5px;
     opacity: 1 !important;
@@ -246,8 +247,6 @@
 
 // overriding original 
 .stake-toggle-row {
-    // margin: 1rem 0 0 0;
-    // margin-bottom: 1rem;
     margin: 2rem auto;
     width: 100%;
     display: block;
@@ -329,13 +328,16 @@
     align-content: center;
     .input-group.ohm-input-group {
         margin: 10px !important;
-        width: 70%;
+        width: 75%;
         height: 55px;
+        font-size: 1.1em;
     }
     div.stake-button {
-        width: 70%;
+        width: 75%;
         margin-left: 0;
         margin-top: 15px;
+        height: 55px;
+        line-height: unset;
     }
 }
 
@@ -379,7 +381,7 @@
 }
 
 .stake-button {
-    min-width: 173px;
+    min-width: 200px;
     font-weight: 600;
 }
 .stake-button, .stake-lp-button {
@@ -392,6 +394,7 @@
     height: auto;
     text-align: center !important;
     font-family: 'Square-Light', cursive;
+    line-height: 150%;
 }
 
 .stake-table {
@@ -631,7 +634,7 @@
             padding-top: 0 !important;        
             .card-content {
                 padding: 1rem 1.5rem 1rem 0.5rem !important;
-                height: 15vh;
+                height: 11vh;
                 align-items: center;
                 vertical-align: center;
                 display: flex;
