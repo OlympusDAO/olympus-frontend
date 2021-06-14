@@ -10,6 +10,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetProvider, theme, toggleTheme}) {
 	const isSmallScreen = useMediaQuery("(max-width: 1200px)");
+	const isVerySmallScreen = useMediaQuery("(max-width: 560px)");
 
   const modalButtons = [];
   if (web3Modal) {
@@ -33,15 +34,17 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
 					theme={theme}
 					toggleTheme={toggleTheme} 
 				/>
+				{!isVerySmallScreen && 
 					<button
 						id="get-ohm"
 						className="get-ohm-button btn btn-overwrite-primer m-2 top-bar-button"
 						title="Get OHM"
 					>		
-					<a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
-						Get OHM
-					</a>
-				</button>
+						<a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
+							Get OHM
+						</a>
+					</button>
+				}
 				
 				<div className="wallet-menu" id="wallet-menu">
 					{modalButtons}
