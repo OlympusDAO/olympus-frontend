@@ -112,7 +112,7 @@ function Sidebar({
 
             <NavLink
               onClick={() => {
-                setRoute("/migrate");
+                setRoute("/stake/migrate");
               }}
               to="/migrate"
               className="button button-dapp-menu align-items-center"

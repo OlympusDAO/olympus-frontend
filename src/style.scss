@@ -1346,3 +1346,26 @@ input.input:read-only {
     border-color: #212529 !important;
   }
 }
+
+.migrate-breadcrumbs {
+  display: flex !important;
+  width: 100%;
+  p {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    color: #9A9A9A;
+    display: flex;
+  }
+  p span {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  p span.active {
+    font-weight: 700 !important;
+    color: #F4D092;
+  }
+  .complete {
+    color: #00AA00 !important;
+  }
+}

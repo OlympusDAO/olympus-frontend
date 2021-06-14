@@ -211,7 +211,7 @@ function App(props) {
                   <ChooseBond address={address} provider={injectedProvider} />
                 </Route>
 
-                <Route exact path="/migrate">
+                <Route exact path="/stake/migrate">
                   <Migrate address={address} provider={injectedProvider} />
                 </Route>
 
