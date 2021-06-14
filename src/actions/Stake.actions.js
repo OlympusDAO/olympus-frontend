@@ -26,7 +26,7 @@ export const changeApproval =
     try {
       if (token === "ohm") {
         approveTx = await ohmContract.approve(
-          addresses[networkID].STAKING_ADDRESS,
+          addresses[networkID].STAKING_HELPER_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       } else if (token === "sohm") {
@@ -65,7 +65,7 @@ export const changeStake =
     const signer = provider.getSigner();
 
     const staking = new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
-    const unstaking = new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, OlympusStakingv2, signer);
+    const unstaking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, signer);
 
     let stakeTx;
 
