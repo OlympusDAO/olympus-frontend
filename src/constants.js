@@ -25,8 +25,8 @@ export const addresses = {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f",
     OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     STAKING_ADDRESS: "0x0822F3C03dcc24d200AFF33493Dc08d0e1f274A2", // The new staking contract TODO: shoudl be MIGRATION_UNSTAKE_ADDRESS but methods are missing
-    MIGRATION_UNSTAKE_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // Actual Contract address
-    STAKING_HELPER_ADDRESS: "0xc8c436271f9a6f10a5b80c8b8ed7d0e8f37a612d", // Helper contract with no warmups
+    MIGRATION_UNSTAKE_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // Actual Contract address, why are we unstaking from here?
+    STAKING_HELPER_ADDRESS: "0xc8c436271f9a6f10a5b80c8b8ed7d0e8f37a612d", // Helper contract interacting with the main contract.
     OLD_STAKING_ADDRESS: "0x0822F3C03dcc24d200AFF33493Dc08d0e1f274A2",
     SOHM_ADDRESS: "0x04F2694C8fcee23e8Fd0dfEA1d4f5Bb8c352111F",
     OLD_SOHM_ADDRESS: "0x31932E6e45012476ba3A3A4953cbA62AeE77Fbbe",
