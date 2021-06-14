@@ -21,6 +21,15 @@ export const fetchAppSuccess = payload => ({
   payload,
 });
 
+async function calculateAPY(sohmContract, stakingReward) {
+  const circSupply = await sohmContract.circulatingSupply();
+
+  const stakingRebase = stakingReward / circSupply;
+  const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
+
+  return stakingAPY;
+}
+
 export const loadAppDetails =
   ({ networkID, provider }) =>
   async dispatch => {
@@ -28,8 +37,10 @@ export const loadAppDetails =
 
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
+    const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
+    const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
@@ -40,6 +51,15 @@ export const loadAppDetails =
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
 
+    // TODO: remove this legacy shit
+    // Do the same for old sOhm.
+    const oldStakingReward = await oldStakingContract.ohmToDistributeNextEpoch();
+    const oldCircSupply = await sohmOldContract.circulatingSupply();
+    console.log(oldStakingReward, oldCircSupply);
+
+    const oldStakingRebase = oldStakingReward / oldCircSupply;
+    const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3);
+
     // Calculate index
     const currentIndex = await sohmContract.balanceOf("0xA62Bee23497C920B94305FF68FA7b1Cd1e9FAdb2");
 
@@ -49,6 +69,7 @@ export const loadAppDetails =
         currentBlock,
         fiveDayRate,
         stakingAPY,
+        oldStakingAPY,
         stakingRebase,
         currentBlock,
       }),
