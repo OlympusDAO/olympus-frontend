@@ -6,13 +6,12 @@
         backdrop-filter: blur(10px);
         .ohm-card {
             // background-color: #1B1D22FF !important;
-            // background-color: inherit !important;
             opacity: 1 !important;  
+            background-color: rgba(27,29,34,0.9) !important;
         }
     }
     .ohm-card,
     .card-content {
-        // background-color: #1B1D22FF !important;
         padding: 60px;
         opacity: 1 !important;
     }
@@ -42,17 +41,20 @@
         }
         .bond-settings {
             position: absolute;
-            left: 30px;
+            left: 20px;
             top: 20px; 
             a { 
                 color: inherit;
+                svg {
+                    transform: scale(1.4);
+                }
             }
         }
         .cancel-bond {
             position: absolute;
-            right: 30px;
-            top: 20px;
-            font-size: 1.2em;
+            right: 25px;
+            top: 12px;
+            font-size: 1.6em;
             a {
                 color: inherit;
             }
@@ -134,13 +136,15 @@
                 align-content: center;
                 .input-group.ohm-input-group {
                     margin: 10px !important;
-                    width: 70%;
-                    height: 55px;
+                    width: 75%;
+                    height: 50px;
                 }
                 div.stake-button {
-                    width: 70%;
+                    width: 75%;
                     margin-left: 0;
                     margin-top: 15px;
+                    height: 50px;
+                    font-size: 1.3em !important;
                 }
             }
         }
