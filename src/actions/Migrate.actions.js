@@ -46,7 +46,7 @@ export const getApproval =
     }
 
     const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-    const unstakeAllowance = await oldOhmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+    const unstakeAllowance = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
 
     return dispatch(
       fetchMigrateSuccess({

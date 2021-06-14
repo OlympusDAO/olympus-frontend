@@ -9,7 +9,7 @@ function Migrate({ provider, address }) {
   const dispatch = useDispatch();
 
   const [view, setView] = useState("unstake");
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(0);
 
   const ohmBalance = useSelector(state => {
     return state.app.balances && state.app.balances.ohm;
@@ -98,9 +98,7 @@ function Migrate({ provider, address }) {
     else setView("stake");
 
     setMax();
-  }, [oldSohmBalance]);
-
-  console.log({ oldSohmBalance, sohmBalance, ohmBalance });
+  }, [oldSohmBalance, ohmBalance]);
 
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
@@ -109,7 +107,7 @@ function Migrate({ provider, address }) {
           <div className="migrate-breadcrumbs">
             <p>
               <span className={`${view === "unstake" ? "active" : "complete"}`}>
-                {(view === "stake" || view === "done") && <i className="fas fa-check" />}
+                <i className={ (view === "stake" || view === "done") ? "fas fa-check" : ""} />
                 Unstake (old)
               </span>
               <i className="fas fa-long-arrow-alt-right" />
@@ -170,7 +168,7 @@ function Migrate({ provider, address }) {
                 <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
                   <input
                     value={quantity}
-                    onChange={e => setQuantity(e.target.value)}
+                    // onChange={e => setQuantity(e.target.value)}
                     type="number"
                     className="form-control"
                     placeholder="Type an amount"
