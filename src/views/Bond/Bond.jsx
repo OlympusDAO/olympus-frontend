@@ -194,7 +194,7 @@ function Bond({ provider, address, bond }) {
           </div>
         </div>
 
-        <div>
+        <div className="bond-main-info">
           <div className="swap-input-column">
               <div className="stake-toggle-row">
                 <div className="btn-group" role="group">
