@@ -1,4 +1,5 @@
 import React from 'react';
+import "./bondSettings.scss";
 
 
 function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
