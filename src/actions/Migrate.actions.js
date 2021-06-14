@@ -1,18 +1,21 @@
+/* eslint-disable no-alert */
 import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
+import * as OlympusStakingV2 from "../abi/OlympusStakingv2.json";
+import * as StakingHelper from "../abi/StakingHelper.json";
 
-export const ACTION_OPTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
-export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_SOHM" };
+export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
+export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
 
 export const fetchMigrateSuccess = payload => ({
   type: Actions.FETCH_MIGRATE_SUCCESS,
   payload,
 });
 
-export const changeApproval =
-  ({ token, provider, address, networkID }) =>
+export const getApproval =
+  ({ type, provider, address, networkID }) =>
   async dispatch => {
     if (!provider) {
       alert("Please connect your wallet!");
@@ -27,14 +30,14 @@ export const changeApproval =
 
     let approveTx;
     try {
-      if (token === "wsohm") {
+      if (type === TYPES.OLD) {
         approveTx = await oldOhmContract.approve(
-          addresses[networkID].STAKING_ADDRESS,
+          addresses[networkID].STAKING_HELPER_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
-      } else if (token === "ohm") {
+      } else if (type === TYPES.NEW) {
         approveTx = await ohmContract.approve(
-          addresses[networkID].STAKING_ADDRESS,
+          addresses[networkID].STAKING_HELPER_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
@@ -46,13 +49,13 @@ export const changeApproval =
     }
 
     const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-    const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+    const unstakeAllowance = await oldOhmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
 
     return dispatch(
       fetchMigrateSuccess({
         migrate: {
-          ohm: stakeAllowance,
-          sohm: unstakeAllowance,
+          stakeAllowance,
+          unstakeAllowance,
         },
       }),
     );
@@ -67,17 +70,16 @@ export const changeStake =
     }
 
     const signer = provider.getSigner();
-    // keep the STAKING_ADDRESS as the CURRENT version. Only reference the old address here.
-    const oldStaking = await new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, signer);
-    const staking = await new ethers.Contract(addresses[networkID].STAKING_ADDRESS, "INSERT_ABI_HERE", signer);
+    const oldStaking = new ethers.Contract(addresses[networkID].MIGRATION_UNSTAKE_ADDRESS, OlympusStakingV2, signer);
+    const staking = new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
 
     let stakeTx;
 
     try {
-      if (action === "stake") {
+      if (action === ACTIONS.STAKE) {
         stakeTx = await staking.stakeOHM(ethers.utils.parseUnits(value, "gwei"));
         await stakeTx.wait();
-      } else {
+      } else if (action === ACTIONS.UNSTAKE) {
         stakeTx = await oldStaking.unstakeOHM(ethers.utils.parseUnits(value, "gwei"));
         await stakeTx.wait();
       }
@@ -94,11 +96,16 @@ export const changeStake =
     const ohmBalance = await ohmContract.balanceOf(address);
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
     const sohmBalance = await sohmContract.balanceOf(address);
+    const oldSohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, provider);
+    const oldsohmBalance = await oldSohmContract.balanceOf(address);
 
     return dispatch(
-      fetchStakeSuccess({
-        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+      fetchMigrateSuccess({
+        balances: {
+          ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+          sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+          oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
+        },
       }),
     );
   };
