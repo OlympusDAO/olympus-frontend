@@ -26,6 +26,11 @@ export const changeApproval =
           addresses[networkID].BONDS.OHM_DAI,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
+      else if (bond === BONDS.ohm_frax)
+        approveTx = await reserveContract.approve(
+          addresses[networkID].BONDS.OHM_FRAX,
+          ethers.utils.parseUnits("1000000000", "ether").toString(),
+        );
       else if (bond === BONDS.dai)
         approveTx = await reserveContract.approve(
           addresses[networkID].BONDS.DAI,
@@ -49,9 +54,7 @@ export const calcBondDetails =
     }
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
-    let bondDiscount;
-    let valuation;
-    let bondQuote;
+    let bondDiscount, valuation, bondQuote;
     const bondContract = contractForBond({ bond, networkID, provider });
 
     const marketPrice = await getMarketPrice({ networkID, provider });
@@ -60,24 +63,26 @@ export const calcBondDetails =
     const debtRatio = await bondContract.debtRatio();
     const bondPrice = await bondContract.bondPriceInUSD();
 
-    if (bond === BONDS.ohm_dai) {
-      const bondCalcContract = new ethers.Contract(
-        addresses[networkID].BONDS.OHM_DAI_CALC,
-        BondOhmDaiCalcContract,
-        provider,
-      );
-      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
+    const bondCalcContract = new ethers.Contract(
+      addresses[networkID].BONDS.OHM_DAI_CALC,
+      BondOhmDaiCalcContract,
+      provider,
+    );
 
+    bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
+    if (bond === BONDS.ohm_dai) {
       // RFV = assume 1:1 backing
       valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
       bondQuote = await bondContract.payoutFor(valuation);
-      bondQuote /= Math.pow(10, 9);
-    } else if (bond === BONDS.dai) {
-      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
-
+      bondQuote = bondQuote / Math.pow(10, 9);
+    } else if (bond === BONDS.ohm_frax) {
+      valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
+      bondQuote = await bondContract.payoutFor(valuation);
+      bondQuote = bondQuote / Math.pow(10, 9);
+    } else {
       // RFV = DAI
       bondQuote = await bondContract.payoutFor(amountInWei);
-      bondQuote /= Math.pow(10, 18);
+      bondQuote = bondQuote / Math.pow(10, 18);
     }
 
     // Display error if user tries to exceed maximum.
@@ -112,9 +117,7 @@ export const calculateUserBondDetails =
     const bondContract = contractForBond({ bond, provider, networkID });
     const reserveContract = contractForReserve({ bond, networkID, provider });
 
-    let interestDue;
-    let pendingPayout;
-    let bondMaturationBlock;
+    let interestDue, pendingPayout, bondMaturationBlock;
     if (bond === BONDS.dai_v1) {
       const bondDetails = await bondContract.depositorInfo(address);
       interestDue = bondDetails[1];
@@ -127,8 +130,7 @@ export const calculateUserBondDetails =
       pendingPayout = await bondContract.pendingPayoutFor(address);
     }
 
-    let allowance;
-    let balance;
+    let allowance, balance;
     if (bond === BONDS.ohm_dai) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
 
@@ -139,6 +141,11 @@ export const calculateUserBondDetails =
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatEther(balance);
+    } else if (bond === BONDS.ohm_frax) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_FRAX);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatUnits(balance, "ether");
     }
 
     return dispatch(
@@ -176,7 +183,7 @@ export const bondAsset =
 
       const reserveContract = contractForReserve({ bond, provider, networkID });
 
-      if (bond === BONDS.ohm_dai) {
+      if (bond === BONDS.ohm_dai || bond === BONDS.ohm_frax) {
         balance = await reserveContract.balanceOf(address);
       } else if (bond === BONDS.dai) {
         balance = await reserveContract.balanceOf(address);
@@ -188,6 +195,7 @@ export const bondAsset =
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else alert(error.message);
+      return;
     }
   };
 
