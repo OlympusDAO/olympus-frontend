@@ -1,7 +1,8 @@
+/* eslint-disable no-alert */
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim } from "../../helpers";
-import { changeStake, changeApproval } from "../../actions/Stake.actions";
+import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import "../../style.scss";
 
 // This view will only allow you to Unstake sOHm --> ohm and then stake Ohm --> wsOhm
@@ -34,25 +35,61 @@ function Migrate({ provider, address }) {
 
   // Stake allownace for the new contract
   const stakeAllowance = useSelector(state => {
-    return state.app.migrate && state.app.migrate.ohm;
+    return state.app.migrate && state.app.migrate.stakeAllowance;
   });
-  
+
   // Unstake allowance from the old contract
   const unstakeAllowance = useSelector(state => {
-    return state.app.migrate && state.app.migrate.sohm;
+    return state.app.migrate && state.app.migrate.unstakeAllowance;
   });
 
-  const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
+  const setMax = () => {
+    if (view === "stake") {
+      setQuantity(ohmBalance);
+      return;
+    }
+    // Otherwise max the sohm balance
+    setQuantity(sohmBalance);
   };
 
-  const onChangeStake = async action => {
-    if (isNaN(quantity) || quantity === 0 || quantity === "") {
+  const getStakeApproval = async () => {
+    const dispatchObj = getApproval({
+      type: TYPES.NEW,
+      networkID: 1,
+      provider,
+      address,
+    });
+    await dispatch(dispatchObj);
+  };
+
+  const getUnstakeLegacyApproval = async () => {
+    const dispatchObj = getApproval({
+      type: TYPES.OLD,
+      networkID: 1,
+      provider,
+      address,
+    });
+    await dispatch(dispatchObj);
+  };
+
+  const unStakeLegacy = async () => {
+    if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
       alert("Please enter a value!");
       return;
     }
 
-    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: 1 }));
+    await dispatch(
+      changeStake({ action: ACTIONS.UNSTAKE, address, value: quantity.toString(), provider, networkID: 1 }),
+    );
+  };
+
+  const stakeOhm = async () => {
+    if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
+      alert("Please enter a value!");
+      return;
+    }
+
+    await dispatch(changeStake({ action: ACTIONS.STAKE, address, value: quantity.toString(), provider, networkID: 1 }));
   };
 
   const hasAllowance = useCallback(
