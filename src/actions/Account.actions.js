@@ -78,6 +78,10 @@ export const loadAccountDetails =
           ohmUnstake: unstakeAllowance,
           legacyohmUnstake,
         },
+        migrate: {
+          unstakeAllowance: legacyohmUnstake,
+          stakeAllowance,
+        },
         bonding: {
           daiAllowance: daiBondAllowance,
         },

@@ -28,6 +28,11 @@ function Migrate({ provider, address }) {
     return state.app.migrate && state.app.migrate.stakeAllowance;
   });
 
+  // Unstake allowance from the old contract
+  const unstakeAllowance = useSelector(state => {
+    return state.app.migrate && state.app.migrate.unstakeAllowance;
+  });
+
   const newStakingAPY = useSelector(state => {
     return state.app.migrate && state.app.migrate.newAPY || 0 ;
   });
@@ -36,10 +41,7 @@ function Migrate({ provider, address }) {
     return state.app.migrate && state.app.migrate.legacyAPY || 0 ;
   });
 
-  // Unstake allowance from the old contract
-  const unstakeAllowance = useSelector(state => {
-    return state.app.migrate && state.app.migrate.unstakeAllowance;
-  });
+
 
   const getStakeApproval = async () => {
     const dispatchObj = getApproval({
@@ -58,7 +60,6 @@ function Migrate({ provider, address }) {
       provider,
       address,
     });
-    console.log(dispatchObj);
     await dispatch(dispatchObj);
   };
 
@@ -84,8 +85,8 @@ function Migrate({ provider, address }) {
 
   const hasAllowance = useCallback(
     token => {
-      if (token === "sohm") return stakeAllowance > 0;
-      if (token === "ohm") return unstakeAllowance > 0;
+      if (token === "sohm") return unstakeAllowance > 0;
+      if (token === "ohm") return stakeAllowance > 0;
       return false;
     },
     [stakeAllowance, unstakeAllowance],
@@ -108,8 +109,9 @@ function Migrate({ provider, address }) {
     // setView based on sohm(new) vs sohm(old) balance
     // if there is any sohm(old) set to unstake
     if (oldSohmBalance > 0) setView("unstake");
-    else setView("stake");
-
+    else if (ohmBalance > 0) setView("stake");
+    else setView("done");
+    
     setMax();
   }, [oldSohmBalance, ohmBalance]);
 
