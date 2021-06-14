@@ -5,21 +5,11 @@ import { trim } from "../../helpers";
 import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import "../../style.scss";
 
-// This view will only allow you to Unstake sOHm --> ohm and then stake Ohm --> wsOhm
 function Migrate({ provider, address }) {
   const dispatch = useDispatch();
 
-  const [view, setView] = useState("done");
+  const [view, setView] = useState("unstake");
   const [quantity, setQuantity] = useState();
-
-
-  const setMax = () => {
-    if (view === "stake") {
-      setQuantity(ohmBalance);
-    } else {
-      setQuantity(sohmBalance);
-    }
-  };
 
   const ohmBalance = useSelector(state => {
     return state.app.balances && state.app.balances.ohm;
@@ -29,9 +19,10 @@ function Migrate({ provider, address }) {
     return state.app.balances && state.app.balances.sohm;
   });
 
-  // const oldSohmBalance = useSelector(state => {
-  //   return state.app.balances && state.app.balances.oldsohm;
-  // });
+  const oldSohmBalance = useSelector(state => {
+    console.log(state.app);
+    return state.app.balances && state.app.balances.oldsohm;
+  });
 
   // Stake allownace for the new contract
   const stakeAllowance = useSelector(state => {
@@ -42,15 +33,6 @@ function Migrate({ provider, address }) {
   const unstakeAllowance = useSelector(state => {
     return state.app.migrate && state.app.migrate.unstakeAllowance;
   });
-
-  const setMax = () => {
-    if (view === "stake") {
-      setQuantity(ohmBalance);
-      return;
-    }
-    // Otherwise max the sohm balance
-    setQuantity(sohmBalance);
-  };
 
   const getStakeApproval = async () => {
     const dispatchObj = getApproval({
@@ -101,16 +83,25 @@ function Migrate({ provider, address }) {
     [stakeAllowance, unstakeAllowance],
   );
 
+  const setMax = () => {
+    if (view === "stake") {
+      setQuantity(ohmBalance);
+    } else {
+      setQuantity(oldSohmBalance);
+    }
+  };
+
   useEffect(() => {
     // setView based on sohm(new) vs sohm(old) balance
     // if there is any sohm(old) set to unstake
-    setMax();
-    // if (sohmBalance > 0) setView("unstake");
-    // else setView("stake");
-  }, [])
+    if (oldSohmBalance > 0) setView("unstake");
+    else setView("stake");
 
-  // TODO: 
-  //  - Set value = ohmBalance, sOhmbalance (depending on view)
+    setMax();
+  }, [oldSohmBalance]);
+
+  console.log({ oldSohmBalance, sohmBalance, ohmBalance });
+
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100">
       <div className="dapp-center-modal py-2 px-4 py-md-4 px-md-2">
@@ -118,39 +109,37 @@ function Migrate({ provider, address }) {
           <div className="migrate-breadcrumbs">
             <p>
               <span className={`${view === "unstake" ? "active" : "complete"}`}>
-                { ((view === "stake") || (view === "done")) && <i class="fas fa-check"></i> }
+                {(view === "stake" || view === "done") && <i className="fas fa-check" />}
                 Unstake (old)
               </span>
-              <i class="fas fa-long-arrow-alt-right"></i>
-              <span className={`${view === "stake" ? "active" : (view === "done" ? "complete" : "")}`}>
-                { view === "done" && <i class="fas fa-check"></i> }
+              <i className="fas fa-long-arrow-alt-right" />
+              <span className={`${view === "stake" ? "active" : view === "done" ? "complete" : ""}`}>
+                <i className={view === "done" ? "fas fa-check" : ""} />
                 Stake (new)
               </span>
-              
-              <i class="fas fa-long-arrow-alt-right"></i>
+
+              <i className="fas fa-long-arrow-alt-right" />
               <span className={`${view === "done" ? "complete" : ""}`}>Profit</span>
             </p>
           </div>
-          
+
           <div className="swap-input-column">
-            
-          {/* <div className="stake-toggle-row"> */}
-              
+            {/* <div className="stake-toggle-row"> */}
+
             {/* </div> */}
 
             <div className="d-flex help-message">
               {view === "unstake" && (
                 <p>
-                  Hey Ohmie, dont panic - Olympus is just updating the staking contract.
-                  But to keep earning those juicy rewards you will need to unstake from the old sOHM
-                  contract and stake to the new one. 
+                  Hey Ohmie, dont panic - Olympus is just updating the staking contract. But to keep earning those juicy
+                  rewards you will need to unstake from the old sOHM contract and stake to the new one.
                   <br />
                   <br />
-                  <p>
-                  <strong>Step 1.</strong> Unstake your old sOHM below
-                  <br />
-                  <em>Note: you may need to click "Approve" before unstaking.</em>
-                  </p>
+                  
+                    <strong>Step 1.</strong> Unstake your old sOHM below
+                    <br />
+                    <em>Note: you may need to click "Approve" before unstaking.</em>
+                  
                 </p>
               )}
 
@@ -159,144 +148,139 @@ function Migrate({ provider, address }) {
                   Nice, youre already almost done. Simply Approve and restake below.
                   <br />
                   <br />
-                  <p>
-                  <strong>Step 2.</strong> Click Approve 
-                  <br />
-                  <strong>Step 3.</strong> Click Stake
-                  </p>
+                  
+                    <strong>Step 2.</strong> Click Approve
+                    <br />
+                    <strong>Step 3.</strong> Click Stake
+                  
                 </p>
               )}
 
               {view === "done" && (
                 <p>
-                  Youre all set! All OHM staked is on the new contract. Keep it (3,3) fren 
+                  Youre all set! All OHM staked is on the new contract. Keep it (3,3) fren
                   <br />
                   <br />
                 </p>
               )}
             </div>
 
+            {view === "stake" || view === "unstake" ? (
+              <div>
+                <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
+                  <input
+                    value={quantity}
+                    onChange={e => setQuantity(e.target.value)}
+                    type="number"
+                    className="form-control"
+                    placeholder="Type an amount"
+                  />
+                </div>
 
-            
+                <div className="stake-price-data-column">
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Ohm Balance</p>
+                    <p className="price-data">{trim(ohmBalance, 4)} OHM</p>
+                  </div>
 
-            {(view === "stake") || (view === "unstake") ? (
-              <>
-              <div className="input-group ohm-input-group mb-3 flex-nowrap d-flex">
-                <input
-                  value={quantity}
-                  onChange={e => setQuantity(e.target.value)}
-                  type="number"
-                  className="form-control"
-                  placeholder="Type an amount"
-                />
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Staked (New)</p>
+                    <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                  </div>
+
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Staked (Legacy)</p>
+                    <p className="price-data">{trim(oldSohmBalance, 4)} sOHM</p>
+                  </div>
+                </div>
+
+                {address && hasAllowance("ohm") && view === "stake" && (
+                  <div className="d-flex align-self-center mb-2">
+                    <div
+                      className="stake-button"
+                      onClick={() => {
+                        stakeOhm();
+                        setView("done");
+                      }}
+                    >
+                      Stake OHM (new)
+                    </div>
+                  </div>
+                )}
+
+                {address && hasAllowance("sohm") && view === "unstake" && (
+                  <div className="d-flex align-self-center mb-2">
+                    <div
+                      className="stake-button"
+                      onClick={() => {
+                        unStakeLegacy();
+                        setView("stake");
+                      }}
+                    >
+                      Unstake sOHM (legacy)
+                    </div>
+                  </div>
+                )}
+
+                {address && !hasAllowance("ohm") && view === "stake" && (
+                  <div className="d-flex align-self-center mb-2">
+                    <div
+                      className="stake-button"
+                      onClick={() => {
+                        getStakeApproval();
+                      }}
+                    >
+                      Approve Stake
+                    </div>
+                  </div>
+                )}
+
+                {address && !hasAllowance("sohm") && view === "unstake" && (
+                  <div className="d-flex align-self-center mb-2">
+                    <div
+                      className="stake-button"
+                      onClick={() => {
+                        getUnstakeLegacyApproval();
+                      }}
+                    >
+                      Approve Unstake
+                    </div>
+                  </div>
+                )}
+
+                {address &&
+                  ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
+                    <div className="d-flex align-self-center mb-2">
+                      <div>
+                        The "Approve" action is only required when staking or unstaking to/from a contract for the first
+                        time
+                      </div>
+                    </div>
+                  )}
               </div>
-
-              <div className="stake-price-data-column">
-                <div className="stake-price-data-row">
-                  <p className="price-label">Ohm Balance</p>
-                  <p className="price-data">{trim(ohmBalance, 4)} OHM</p>
-                </div>
-
-                <div className="stake-price-data-row">
-                  <p className="price-label">Staked (New)</p>
-                  <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
-                </div>
-
-                <div className="stake-price-data-row">
-                  <p className="price-label">Staked (Legacy)</p>
-                  <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
-                </div>
-              </div>
-
-              {address && hasAllowance("ohm") && view === "stake" && (
-                <div className="d-flex align-self-center mb-2">
-                  <div
-                    className="stake-button"
-                    onClick={() => {
-                      onChangeStake("stake");
-                      setView("done");
-                    }}
-                  >
-                    Stake OHM (new)
-                  </div>
-                </div>
-              )}
-
-              {address && hasAllowance("sohm") && view === "unstake" && (
-                <div className="d-flex align-self-center mb-2">
-                  <div
-                    className="stake-button"
-                    onClick={() => {
-                      onChangeStake("unstake");
-                      setView("stake");
-                    }}
-                  >
-                    Unstake sOHM (legacy)
-                  </div>
-                </div>
-              )}
-
-              {address && !hasAllowance("ohm") && view === "stake" && (
-                <div className="d-flex align-self-center mb-2">
-                  <div
-                    className="stake-button"
-                    onClick={() => {
-                      onSeekApproval("ohm");
-                    }}
-                  >
-                    Approve Stake
-                  </div>
-                </div>
-              )}
-
-              {address && !hasAllowance("sohm") && view === "unstake" && (
-                <div className="d-flex align-self-center mb-2">
-                  <div
-                    className="stake-button"
-                    onClick={() => {
-                      onSeekApproval("sohm");
-                    }}
-                  >
-                    Approve Unstake
-                  </div>
-                </div>
-              )}
-
-              {address && ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake"))  && (
-                <div className="d-flex align-self-center mb-2">
-                  <div>
-                    The "Approve" action is only required when staking or unstaking to/from a contract for the first time
-                  </div>
-                </div>
-              )}
-            </>
             ) : (
-              <>
-              <div className="stake-price-data-column">
-                <div className="stake-price-data-row">
-                  <p className="price-label">Ohm Balance</p>
-                  <p className="price-data">{trim(ohmBalance, 4)} OHM</p>
-                </div>
+              <div>
+                <div className="stake-price-data-column">
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Ohm Balance</p>
+                    <p className="price-data">{trim(ohmBalance, 4)} OHM</p>
+                  </div>
 
-                <div className="stake-price-data-row">
-                  <p className="price-label">Staked (New)</p>
-                  <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
-                </div>
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Staked (New)</p>
+                    <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                  </div>
 
-                <div className="stake-price-data-row">
-                  <p className="price-label">Staked (Legacy)</p>
-                  <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Staked (Legacy)</p>
+                    <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                  </div>
                 </div>
               </div>
-              </>
             )}
-
-            </div>
-           
           </div>
-        
+        </div>
       </div>
-      
     </div>
   );
 }

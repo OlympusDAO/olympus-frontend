@@ -3,7 +3,7 @@ import { formatEther, parseEther } from "@ethersproject/units";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Link, Route, Switch, Redirect} from "react-router-dom";
 import Web3Modal from "web3modal";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -211,6 +211,7 @@ function App(props) {
                   <ChooseBond address={address} provider={injectedProvider} />
                 </Route>
 
+                <Redirect from="/migrate" to="/stake/migrate" />
                 <Route exact path="/stake/migrate">
                   <Migrate address={address} provider={injectedProvider} />
                 </Route>

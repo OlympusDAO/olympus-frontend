@@ -114,7 +114,7 @@ function Sidebar({
               onClick={() => {
                 setRoute("/stake/migrate");
               }}
-              to="/migrate"
+              to="/stake/migrate"
               className="button button-dapp-menu align-items-center"
             >
               <i className="fa fa-exchange-alt me-3" />
