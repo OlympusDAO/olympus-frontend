@@ -112,7 +112,7 @@ export const changeStake =
 
     try {
       if (action === ACTIONS.STAKE) {
-        stakeTx = await staking.stakeOHM(ethers.utils.parseUnits(value, "gwei"));
+        stakeTx = await staking.stake(ethers.utils.parseUnits(value, "gwei"));
         await stakeTx.wait();
       } else if (action === ACTIONS.UNSTAKE) {
         stakeTx = await oldStaking.unstakeOHM(ethers.utils.parseUnits(value, "gwei"));

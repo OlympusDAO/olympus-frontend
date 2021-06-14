@@ -20,8 +20,8 @@ function Migrate({ provider, address }) {
   });
 
   const oldSohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.oldsohm;
-    // return 420.69;
+    // return state.app.balances && state.app.balances.oldsohm;
+    return 420.69;
   });
 
   // Stake allownace for the new contract
@@ -41,8 +41,6 @@ function Migrate({ provider, address }) {
   const oldStakingAPY = useSelector(state => {
     return (state.app && state.app.oldStakingAPY) || 0;
   });
-
-
 
   const getStakeApproval = async () => {
     const dispatchObj = getApproval({
