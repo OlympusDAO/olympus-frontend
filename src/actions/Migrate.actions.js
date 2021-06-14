@@ -3,8 +3,7 @@ import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
-import * as OlympusStakingV2 from "../abi/OlympusStakingv2.json";
-import * as StakingHelper from "../abi/StakingHelper.json";
+import { abi as StakingHelper } from "../abi/StakingHelper.json";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
@@ -23,16 +22,14 @@ export const getApproval =
     }
 
     const signer = provider.getSigner();
-    // TODO: need the new wsOhm contract
     const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, signer);
-    const oldOhmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, signer);
-    const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
+    const oldSohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, signer);
 
     let approveTx;
     try {
       if (type === TYPES.OLD) {
-        approveTx = await oldOhmContract.approve(
-          addresses[networkID].STAKING_HELPER_ADDRESS,
+        approveTx = await oldSohmContract.approve(
+          addresses[networkID].OLD_STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       } else if (type === TYPES.NEW) {
