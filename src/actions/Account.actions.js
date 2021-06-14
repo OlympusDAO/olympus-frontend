@@ -46,7 +46,7 @@ export const loadAccountDetails =
     if (addresses[networkID].OHM_ADDRESS) {
       const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
       ohmBalance = await ohmContract.balanceOf(address);
-      stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+      stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     }
 
     if (addresses[networkID].DAI_BOND_ADDRESS) {
