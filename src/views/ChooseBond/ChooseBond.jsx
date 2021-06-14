@@ -16,9 +16,9 @@ function ChooseBond({ provider, address }) {
 	// const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });	
 	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
-	const isSmallScreen = useMediaQuery("(max-width: 1200px)");
-	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1400px)")
-	const isNarrowScreen = useMediaQuery("(max-width:460px)");
+	const isSmallScreen = useMediaQuery("(max-width: 1125px)");
+	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
+	const isNarrowScreen = useMediaQuery("(max-width: 460px)");
 
 	
 	return (
@@ -59,7 +59,8 @@ function ChooseBond({ provider, address }) {
 											</TableRow>
 										</TableHead>
 										<TableBody>
-											{ Object.keys(BONDS).map(bond => (
+											{/* { Object.keys(BONDS).map(bond => ( */}
+												{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax].map(bond => (
 												<BondTableData key={bond} bond={bond} />
 											)) }
 										</TableBody>
@@ -68,7 +69,8 @@ function ChooseBond({ provider, address }) {
 							</div>
 							:
 							<>
-								{ Object.keys(BONDS).map(bond => (
+								{/* { Object.keys(BONDS).map(bond => ( */}
+									{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax].map(bond => (
 										<div className="card-content">
 											<BondCardData key={bond} bond={bond} />
 										</div>

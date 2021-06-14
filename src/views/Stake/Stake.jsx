@@ -17,8 +17,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const [quantity, setQuantity] = useState();
   const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
 
-  const isSmallScreen = useMediaQuery("(max-width: 1200px)");
-	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1400px)")
+  const isSmallScreen = useMediaQuery("(max-width: 1125px)");
+	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
 	const isNarrowScreen = useMediaQuery("(max-width:460px)");
 
   const fiveDayRate = useSelector(state => {
@@ -109,7 +109,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
   // TODO: the two grids need `container` props to justify. 
   return (
-    <Grid id="stake-view" direction="row" justify="center" spacing={4}>
+    <Grid id="stake-view" direction="row" justify="center">
       {/* <Grid item sm={8} lg={6}> */}
       <Card className={`ohm-card primary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
         <div className="card-header">
