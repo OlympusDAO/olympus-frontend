@@ -6,6 +6,7 @@ import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as MigrateToOHM } from "../abi/MigrateToOHM.json";
 import { abi as sOHM } from "../abi/sOHM.json";
+import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as LPStaking } from "../abi/LPStaking.json";
 import { abi as DistributorContract } from "../abi/DistributorContract.json";
 import { abi as BondContract } from "../abi/BondContract.json";
@@ -28,7 +29,7 @@ export const loadAppDetails =
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
-    const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHM, provider);
+    const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
 
     // Calculating staking
     const epoch = await stakingContract.epoch();

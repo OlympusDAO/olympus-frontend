@@ -3,6 +3,9 @@ import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
+import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
+import { abi as sOHM } from "../abi/sOHM.json";
+import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
@@ -12,6 +15,42 @@ export const fetchMigrateSuccess = payload => ({
   type: Actions.FETCH_MIGRATE_SUCCESS,
   payload,
 });
+
+async function calculateAPY(sohmContract, stakingReward) {
+  const circSupply = await sohmContract.circulatingSupply();
+
+  const stakingRebase = stakingReward / circSupply;
+  const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
+
+  return stakingAPY;
+}
+
+// This method doens't work :(
+export const fetchMigrationData = (provider, networkID) => async dispatch => {
+  const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
+  const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
+
+  const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
+  const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+
+  // console.log(sohmMainContract, sohmOldContract, stakingContract, oldStakingContract);
+  // Calculating stakingAPY
+  const epoch = await stakingContract.epoch();
+  const newStakingReward = epoch.distribute;
+
+  const oldStakingReward = oldStakingContract.ohmToDistributeNextEpoch();
+  const newStakingAPY = calculateAPY(sohmMainContract, newStakingReward);
+  const oldStakingAPY = calculateAPY(sohmOldContract, oldStakingReward);
+
+  const dispatchData = fetchMigrateSuccess({
+    migrate: {
+      legacyAPY: oldStakingAPY,
+      newAPY: newStakingAPY,
+    },
+  });
+
+  return dispatch(dispatchData);
+};
 
 export const getApproval =
   ({ type, provider, address, networkID }) =>
