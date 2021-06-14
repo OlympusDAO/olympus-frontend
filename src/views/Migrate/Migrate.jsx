@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim } from "../../helpers";
-import { fetchMigrationData, changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
+import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import "../../style.scss";
 
 function Migrate({ provider, address }) {
@@ -21,6 +21,7 @@ function Migrate({ provider, address }) {
 
   const oldSohmBalance = useSelector(state => {
     return state.app.balances && state.app.balances.oldsohm;
+    // return 420.69;
   });
 
   // Stake allownace for the new contract
@@ -138,7 +139,7 @@ function Migrate({ provider, address }) {
             <div className="d-flex help-message">
               {view === "unstake" && (
                 <p>
-                  Hey Ohmie, - Olympus is just updating the staking contract. But to keep earning those juicy
+                  Hey Ohmie, Olympus is updating the staking contract. But to keep earning those juicy
                   rewards you will need to unstake from the old sOHM contract and stake to the new one.
                   <br />
                   <br />
