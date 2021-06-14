@@ -59,8 +59,7 @@ function ChooseBond({ provider, address }) {
 											</TableRow>
 										</TableHead>
 										<TableBody>
-											{ // Object.keys(BONDS).map(bond => (
-												["ohm_dai_lp", "dai"].map(bond => (
+											{ Object.keys(BONDS).map(bond => (
 												<BondTableData key={bond} bond={bond} />
 											)) }
 										</TableBody>
@@ -69,8 +68,7 @@ function ChooseBond({ provider, address }) {
 							</div>
 							:
 							<>
-								{ // Object.keys(BONDS).map(bond => (
-									["ohm_dai_lp", "dai"].map(bond => (
+								{ Object.keys(BONDS).map(bond => (
 										<div className="card-content">
 											<BondCardData key={bond} bond={bond} />
 										</div>

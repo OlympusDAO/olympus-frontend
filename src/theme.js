@@ -33,7 +33,7 @@ export const lightTheme = {
     background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
     // cardBg: "rgba(252,252,252, 0.6) !important",
     sidebarBorder: "#759AAE", 
-    cardBg: "#FCFCFC77",
+    cardBg: "#FBFBFB77",
     cardBorder: "1px solid #759AAE99",
     logoColor: "none",
     defaultButtonBg: "rgba(252,252,252, 0.6) !important",
