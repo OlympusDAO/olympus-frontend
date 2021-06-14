@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim } from "../../helpers";
-import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
+import { fetchMigrationData, changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import "../../style.scss";
 
 function Migrate({ provider, address }) {
@@ -20,13 +20,20 @@ function Migrate({ provider, address }) {
   });
 
   const oldSohmBalance = useSelector(state => {
-    console.log(state.app);
     return state.app.balances && state.app.balances.oldsohm;
   });
 
   // Stake allownace for the new contract
   const stakeAllowance = useSelector(state => {
     return state.app.migrate && state.app.migrate.stakeAllowance;
+  });
+
+  const newStakingAPY = useSelector(state => {
+    return state.app.migrate && state.app.migrate.newAPY || 0 ;
+  });
+
+  const oldStakingAPY = useSelector(state => {
+    return state.app.migrate && state.app.migrate.legacyAPY || 0 ;
   });
 
   // Unstake allowance from the old contract
@@ -51,6 +58,7 @@ function Migrate({ provider, address }) {
       provider,
       address,
     });
+    console.log(dispatchObj);
     await dispatch(dispatchObj);
   };
 
@@ -90,6 +98,11 @@ function Migrate({ provider, address }) {
       setQuantity(oldSohmBalance);
     }
   };
+
+  // TODO: Get stakingAPYs on view load. 
+  // useEffect(() => {
+  //   dispatch(fetchMigrationData(provider, 1));
+  // }, []);
 
   useEffect(() => {
     // setView based on sohm(new) vs sohm(old) balance
@@ -185,10 +198,18 @@ function Migrate({ provider, address }) {
                     <p className="price-label">Staked (New)</p>
                     <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
                   </div>
+                  <div className="stake-price-data-row">
+                    <p className="price-label">APY (New)</p>
+                    <p className="price-data">{trim(newStakingAPY * 100, 4)}%</p>
+                  </div>
 
                   <div className="stake-price-data-row">
                     <p className="price-label">Staked (Legacy)</p>
                     <p className="price-data">{trim(oldSohmBalance, 4)} sOHM</p>
+                  </div>
+                  <div className="stake-price-data-row">
+                    <p className="price-label">APY (Legacy)</p>
+                    <p className="price-data">{trim(oldStakingAPY * 100, 4)}%</p>
                   </div>
                 </div>
 
@@ -268,10 +289,18 @@ function Migrate({ provider, address }) {
                     <p className="price-label">Staked (New)</p>
                     <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
                   </div>
+                  <div className="stake-price-data-row">
+                    <p className="price-label">APY (New)</p>
+                    <p className="price-data">{trim(newStakingAPY * 100, 4)}%</p>
+                  </div>
 
                   <div className="stake-price-data-row">
                     <p className="price-label">Staked (Legacy)</p>
                     <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                  </div>
+                  <div className="stake-price-data-row">
+                    <p className="price-label">APY (Legacy)</p>
+                    <p className="price-data">{trim(oldStakingAPY * 100, 4)}%</p>
                   </div>
                 </div>
               </div>
