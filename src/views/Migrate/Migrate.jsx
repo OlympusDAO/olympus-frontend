@@ -254,15 +254,6 @@ function Migrate({ provider, address }) {
                     >
                       Approve Stake
                     </div>
-                    <div
-                      className="stake-button"
-                      onClick={() => {
-                        stakeOhm();
-                        setView("done");
-                      }}
-                    >
-                      Stake OHM (new)
-                    </div>
                   </div>
                 )}
 
