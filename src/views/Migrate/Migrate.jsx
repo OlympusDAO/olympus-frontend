@@ -100,12 +100,19 @@ function Migrate({ provider, address }) {
   };
 
   useEffect(() => {
+    if (view === "unstake") {
+      setQuantity(oldSohmBalance);
+    } else {
+      setQuantity(ohmBalance);
+    }
+  }, [view]);
+
+  useEffect(() => {
     // setView based on sohm(new) vs sohm(old) balance
     // if there is any sohm(old) set to unstake
     if (oldSohmBalance > 0) setView("unstake");
     else if (ohmBalance > 0) setView("stake");
     else setView("done");
-    setMax();
   }, [oldSohmBalance, ohmBalance]);
 
   return (
