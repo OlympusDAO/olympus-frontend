@@ -92,10 +92,10 @@ function Migrate({ provider, address }) {
   );
 
   const setMax = () => {
-    if (view === "stake") {
-      setQuantity(ohmBalance);
-    } else {
+    if (view === "unstake") {
       setQuantity(oldSohmBalance);
+    } else {
+      setQuantity(ohmBalance);
     }
   };
 
@@ -209,6 +209,7 @@ function Migrate({ provider, address }) {
                 </div>
 
                 {address && hasAllowance("ohm") && view === "stake" && (
+                  // This button was combined with the approve stake button. 
                   <div className="align-self-center mb-2" style={{textAlign: "center"}}>
                     <div
                       className="stake-button"
@@ -245,6 +246,15 @@ function Migrate({ provider, address }) {
                       }}
                     >
                       Approve Stake
+                    </div>
+                    <div
+                      className="stake-button"
+                      onClick={() => {
+                        stakeOhm();
+                        setView("done");
+                      }}
+                    >
+                      Stake OHM (new)
                     </div>
                   </div>
                 )}
