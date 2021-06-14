@@ -34,11 +34,11 @@ function Migrate({ provider, address }) {
   });
 
   const newStakingAPY = useSelector(state => {
-    return state.app.migrate && state.app.migrate.newAPY || 0 ;
+    return (state.app && state.app.stakingAPY) || 0;
   });
 
   const oldStakingAPY = useSelector(state => {
-    return state.app.migrate && state.app.migrate.legacyAPY || 0 ;
+    return (state.app && state.app.oldStakingAPY) || 0;
   });
 
 
@@ -100,18 +100,12 @@ function Migrate({ provider, address }) {
     }
   };
 
-  // TODO: Get stakingAPYs on view load. 
-  // useEffect(() => {
-  //   dispatch(fetchMigrationData(provider, 1));
-  // }, []);
-
   useEffect(() => {
     // setView based on sohm(new) vs sohm(old) balance
     // if there is any sohm(old) set to unstake
     if (oldSohmBalance > 0) setView("unstake");
     else if (ohmBalance > 0) setView("stake");
     else setView("done");
-    
     setMax();
   }, [oldSohmBalance, ohmBalance]);
 
@@ -144,7 +138,7 @@ function Migrate({ provider, address }) {
             <div className="d-flex help-message">
               {view === "unstake" && (
                 <p>
-                  Hey Ohmie, dont panic - Olympus is just updating the staking contract. But to keep earning those juicy
+                  Hey Ohmie, - Olympus is just updating the staking contract. But to keep earning those juicy
                   rewards you will need to unstake from the old sOHM contract and stake to the new one.
                   <br />
                   <br />

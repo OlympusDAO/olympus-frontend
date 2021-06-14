@@ -33,7 +33,6 @@ export const fetchMigrationData = (provider, networkID) => async dispatch => {
   const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
   const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
 
-  // console.log(sohmMainContract, sohmOldContract, stakingContract, oldStakingContract);
   // Calculating stakingAPY
   const epoch = await stakingContract.epoch();
   const newStakingReward = epoch.distribute;
