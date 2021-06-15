@@ -61,7 +61,9 @@ export const loadAppDetails =
     const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3);
 
     // Calculate index
-    const currentIndex = await sohmContract.balanceOf("0xA62Bee23497C920B94305FF68FA7b1Cd1e9FAdb2");
+    // const currentIndex = await sohmContract.balanceOf("0xA62Bee23497C920B94305FF68FA7b1Cd1e9FAdb2");
+
+    const currentIndex = await stakingContract.index();
 
     return dispatch(
       fetchAppSuccess({
