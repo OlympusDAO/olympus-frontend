@@ -24,13 +24,11 @@ export function BondCardData({ bond }) {
       </div>
       
       <div className="bond-price">
-        <p>Bond Price</p>
-        {trim(bondPrice, 2)}
+        <p>Bond Price {trim(bondPrice, 2)}</p>
       </div>
 
       <div className="bond-discount">
-        <p>Discount</p>
-        {trim(bondDiscount * 100, 2)}
+        <p>Discount {trim(bondDiscount * 100, 2)}%</p>
       </div>
       
       {/* <TableCell>$4,102,030</TableCell> */}
