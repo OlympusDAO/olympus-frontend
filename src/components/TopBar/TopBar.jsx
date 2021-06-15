@@ -9,8 +9,9 @@ import { Flex } from "rimble-ui";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetProvider, theme, toggleTheme}) {
-	const isSmallScreen = useMediaQuery("(max-width: 1200px)");
-	const isVerySmallScreen = useMediaQuery("(max-width: 560px)");
+	// const isSmallScreen = useMediaQuery("(max-width: 1200px)");
+	const isVerySmallScreen = useMediaQuery("(max-width: 649px)");
+	const isUltraSmallScreen = useMediaQuery("(max-width: 495px)");
 
   const modalButtons = [];
   if (web3Modal) {
@@ -28,12 +29,15 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
   }
 
   return (
-    <div className={`dapp-topbar ${isSmallScreen && "mobile"}`}>
+    <div className={`dapp-topbar`}>
 			<Flex className="dapp-topbar-items">		
-				<ThemeSwitcher 
-					theme={theme}
-					toggleTheme={toggleTheme} 
-				/>
+				{!(address && isUltraSmallScreen) && 
+					<ThemeSwitcher 
+						theme={theme}
+						toggleTheme={toggleTheme} 
+					/>
+				}
+				
 				{!isVerySmallScreen && 
 					<button
 						id="get-ohm"
