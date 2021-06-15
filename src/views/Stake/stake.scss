@@ -124,7 +124,7 @@
 .ohm-card {
     color: inherit;
     overflow: hidden;
-    max-width: 1069px;
+    max-width: 969px;
     width: 80%;
     border-radius: 5px;
     opacity: 1 !important;
@@ -329,11 +329,13 @@
     .input-group.ohm-input-group {
         margin: 10px !important;
         width: 75%;
+        min-width: 75%;
         height: 55px;
         font-size: 1.1em;
     }
     div.stake-button {
         width: 75%;
+        min-width: 75%;
         margin-left: 0;
         margin-top: 15px;
         height: 55px;
@@ -342,8 +344,9 @@
 }
 
 .input-group.ohm-input-group {
-    min-width: 55%;
+    min-width: 50%;
     // max-width: 420px;
+    max-width: 60%;
     border: 0.8px solid #FFFFFF;
     border-radius: 5px !important;
     input, button {
@@ -383,6 +386,7 @@
 .stake-button {
     min-width: 200px;
     font-weight: 600;
+    width: 40%;
 }
 .stake-button, .stake-lp-button {
     display: block !important;
