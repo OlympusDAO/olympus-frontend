@@ -22,13 +22,6 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme
   const currentBlock  = useSelector((state ) => { return state.app.currentBlock });
   const currentIndex = useSelector((state) => { return state.app.currentIndex });
 
-  // ohm_dai: "ohm_dai_lp",
-  // dai: "dai",
-  // dai_v1: "dai_v1",
-  // ohm_dai_v1: "ohm_dai_lp_v1",
-
-  const isSmallScreen = useMediaQuery("(max-width: 1200px)");
-
 
   const daiBondDiscount = useSelector(state => {
     return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
@@ -38,14 +31,9 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme
     return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
   });
 
-  const isBondPage = useCallback((match, location) => {
-    if (!match) {
-      return false;
-    }
-
-    return match.url.indexOf('bonds') >= 0 || match.url.indexOf('choose_bond') >= 0
-  }, []);
-
+  const ohmFraxLpBondDiscount = useSelector(state => {
+    return state.bonding['ohm_frax_lp'] && state.bonding['ohm_frax_lp'].bondDiscount;
+  })
 
   const checkPage = useCallback((match, location, page) => {
     console.log(match);
@@ -69,17 +57,12 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme
     }
 
     return false;
-
   }, []);
-
-  useEffect(() => {
-    
-  }, [])
 
 
   return (
     <div
-      className={`${isExpanded ? 'show' : '' } ${isSmallScreen && "mobile" } d-md-block sidebar collapse`}
+      className={`${isExpanded ? 'show' : '' } d-lg-block sidebar collapse`}
       id="sidebarContent"
     >
       <div className="dapp-sidebar">
@@ -114,16 +97,11 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme
               <div className="bond-discounts">
                 <p>Bond discounts</p>
                 <p>OHM-DAI LP<span>{trim(ohmDaiBondDiscount * 100, 2)}%</span></p>
-                <p>OHM-FRAX LP<span>12%</span></p>
+                <p>OHM-FRAX LP<span>{trim(ohmFraxLpBondDiscount * 100, 2)}%</span></p>
                 <p>DAI<span>{trim(daiBondDiscount * 100, 2)}%</span></p>
-                <p>FRAX<span>9.5%</span></p>
+                <p>FRAX<span></span></p>
               </div>
             </div>
-
-            {/* <a href="https://olympusdao.finance/#/lpstake" className="button button-dapp-menu">
-              <i className="fa fa-water me-3" />
-              <span>LP Staking</span>
-            </a> */}
           </div>
         </div>
 
