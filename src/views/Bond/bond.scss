@@ -118,6 +118,12 @@
     }
 }
 
+#bond-view {
+    .bond-main-info {
+        display: flex;
+        justify-content: center;
+    }
+}
 
 .mobile #bond-view {
     .ohm-card {
