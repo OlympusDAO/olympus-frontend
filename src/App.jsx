@@ -104,9 +104,8 @@ function App(props) {
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation()
 
-  const isSmallScreen = useMediaQuery("(max-width: 1125px)");
-  const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
-	const isNarrowScreen = useMediaQuery("(max-width:460px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 1125px)");
+	const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
 
   // const [themeMode, setThemeMode] = useState(lightTheme);
 
@@ -208,9 +207,9 @@ function App(props) {
       <CssBaseline />
       <GlobalStyles />
       <div className="app">
-        <Flex id="dapp" className={`dapp ${isSmallScreen && "mobile"}`}>
+        <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}>
           {!isSidebarExpanded &&
-          <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
+          <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
             <button
               className="navbar-toggler"
               type="button"
