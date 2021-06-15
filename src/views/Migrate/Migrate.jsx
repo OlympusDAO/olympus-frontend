@@ -299,7 +299,7 @@ function Migrate({ provider, address }) {
 
                   <div className="stake-price-data-row">
                     <p className="price-label">Staked (Legacy)</p>
-                    <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                    <p className="price-data">{trim(oldSohmBalance, 4)} sOHM</p>
                   </div>
                   <div className="stake-price-data-row">
                     <p className="price-label">APY (Legacy)</p>
