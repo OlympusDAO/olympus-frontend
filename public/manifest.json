@@ -1,8 +1,9 @@
 {
   "short_name": "OlympusDAO",
-  "start_url": ".",
-  "homepage": ".",
+  "start_url": "/",
+  "homepage": "https://olympusdao.finance",
   "name": "OlympusDAO",
+  "launch_path": "/public/index.html",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,7 +21,7 @@
       "sizes": "512x512"
     }
   ],
-  "display": "standalone",
+  "display": "browser",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
