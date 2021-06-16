@@ -180,23 +180,22 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               </div>
             </Grid>
 
-
             {!address ? (
-                <div className="stake-wallet-notification">
-                  <h4>Connect your wallet to Stake OHM</h4>
-                  <div className="wallet-menu" id="wallet-menu">
-                    <button
-                      type="button"
-                      className="btn stake-button btn-overwrite-primer m-2"
-                      onClick={loadWeb3Modal}
-                      key={2}
-                    >
-                      Connect Wallet
-                    </button>
-                  </div>
+              <div className="stake-wallet-notification">
+                <h4>Connect your wallet to Stake OHM</h4>
+                <div className="wallet-menu" id="wallet-menu">
+                  <button
+                    type="button"
+                    className="btn stake-button btn-overwrite-primer m-2"
+                    onClick={loadWeb3Modal}
+                    key={2}
+                  >
+                    Connect Wallet
+                  </button>
                 </div>
+              </div>
               ) : (
-                <>
+              <>
               <Grid item>
                 <div className="stake-toggle-row">
                   <div className="btn-group" role="group">
@@ -295,7 +294,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
                       <em>
                         <p>
-                          Important: The "Approve" transaction is only needed when staking/unstaking for the first time;
+                          Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
                           subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.
                         </p>
                       </em>
@@ -304,43 +303,36 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               </Grid>
 
               <Grid item>
-
-
-              <div className={`stake-user-data`}>
+                <div className={`stake-user-data`}>
                   <div className="stake-price-data-column">
-                  <div className="stake-price-data-row">
-                    <p className="price-label">Your Balance</p>
-                    <p className="price-data">{trim(ohmBalance)} OHM</p>
-                  </div>
+                    <div className="stake-price-data-row">
+                      <p className="price-label">Your Balance</p>
+                      <p className="price-data">{trim(ohmBalance)} OHM</p>
+                    </div>
 
-                  <div className="stake-price-data-row">
-                    <p className="price-label">Your Staked Balance</p>
-                    <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
-                  </div>
+                    <div className="stake-price-data-row">
+                      <p className="price-label">Your Staked Balance</p>
+                      <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                    </div>
 
-                  <div className="stake-price-data-row">
-                    <p className="price-label">Reward Yield</p>
-                    <p className="price-data">{trim(stakingRebase * 100, 4)}%</p>
-                  </div>
+                    <div className="stake-price-data-row">
+                      <p className="price-label">Reward Yield</p>
+                      <p className="price-data">{trim(stakingRebase * 100, 4)}%</p>
+                    </div>
 
-                  <div className="stake-price-data-row">
-                    <p className="price-label">ROI (5-Day Rate)</p>
-                    <p className="price-data">{trim(fiveDayRate * 100, 4)}%</p>
+                    <div className="stake-price-data-row">
+                      <p className="price-label">ROI (5-Day Rate)</p>
+                      <p className="price-data">{trim(fiveDayRate * 100, 4)}%</p>
+                    </div>
                   </div>
                 </div>
-
-
-              </div>
               </Grid>
-              </>
+            </>
           )}
-            </Grid>
-
+          </Grid>
         </div>
-
       </Card>
 
-      {/* ${isMediumScreen && "med"} */}
       <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"}`}>
         <div className="card-header">
           <h5>Farm Pools</h5>
@@ -404,10 +396,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     OHM-FRX
                   </p>
                 </Flex>
-                <button className="stake-lp-button">
-                    Stake on Frax
-                    <i className="fa fa-external-link-alt" />
-                </button>
+                <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
+                  Stake on Frax
+                  <i className="fa fa-external-link-alt" />
+                </a>
               </div>
               <div className="pool-data">
                 <div className="pool-data-row">
@@ -433,7 +425,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <div>{fraxData.balance}</div>
                 </div>
               </div>
-
             </div>
           )}
 
