@@ -21,8 +21,8 @@ export default function Migrate({
 	loadWeb3Modal
 }) {
 	const dispatch = useDispatch();
-	const [view, setView] = useState("unstake"); 
-	const [currentStep, setCurrentStep] = useState("1");
+	const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
+	const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
 	const [quantity, setQuantity] = useState();
 
 	const ohmBalance = useSelector(state => {

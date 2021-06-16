@@ -438,9 +438,13 @@
     border: 1px solid #F4D09222;
     // background: #000000ff;
     border-radius: 5px;
-    padding: 1.9em 2.5em;
+    padding: 1.9em 2.3em;
     display: flex;
     flex-direction: column;
+    .pool-card-top-row {
+        display: flex;
+        justify-content: space-between;
+    }
     .ohm-logo-bg {
         height: 38px !important;
         width: 38px !important;
@@ -451,17 +455,16 @@
         font-size: 1.5em !important;
     }
     .pool-data {
-        margin-top: 25px;
+        margin-top: 15px;
         width: 100%;
         .pool-data-row {
             display: flex;
             justify-content: space-between;
             font-size: larger;
-            line-height: 250%;
+            line-height: 225%;
         }
     }
     .stake-lp-button {
-        margin-top: 30px;
         margin-left: 0;
         padding: 8px !important;
         display: flex;
@@ -620,6 +623,9 @@
             .card-header,
             .card-content {
                 background-color: #00000000 !important;
+                .ohm-price {
+                    text-align: right;
+                }
             }
             // .ohm-price {
             //     text-align: right;
@@ -648,13 +654,13 @@
                     width: 100%;
                     align-items: center;
                     justify-content: space-evenly;
-                    font-size: 1.05em;
+                    font-size: 0.9em;
                     .bond-pair {
                         display: flex;
                         flex-direction: column;
                         align-items: center;
                         justify-content: center;
-                        width: 30%;
+                        width: 35%;
                         .ohm-pair {
                             height: 40px;
                             width: 40px;
@@ -674,13 +680,17 @@
                         margin-left: 10px;
                         vertical-align: middle;
                         align-items: center;
+                        p {
+                            margin-bottom: 0 !important;
+                        }
                     }
                     .bond-price,
                     .bond-discount {
                         width: 15%;
                     }
                     .ohm-btn {
-                        width: 10rem !important;
+                        width: 8rem !important;
+                        margin-left: 0 !important;
                     }
                 }
             }
@@ -689,5 +699,5 @@
 }
 
 :not(.mobile) .ohm-card .card-content {
-    padding: 2rem !important;
+    padding: 1.8rem !important;
 }
