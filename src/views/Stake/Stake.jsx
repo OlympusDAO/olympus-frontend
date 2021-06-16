@@ -127,10 +127,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
         <div className="card-header">
           <h5>Single Stake (3, 3)</h5>
           {/* make this link to migration page, similar to how bonds work */}
-          <div 
+          <div
             className="migrate-sohm-button"
-            role="button" 
-            aria-label="migrate-sohm" 
+            role="button"
+            aria-label="migrate-sohm"
             onClick={openMigrationWizard}>
               <NavLink to="/stake/migrate">
                 <NewReleases />
@@ -243,7 +243,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     </button>
                   </div>
 
-                  {address && hasAllowance("ohm") && view === "stake" && ( 
+                  {address && hasAllowance("ohm") && view === "stake" && (
                     <div
                       className="stake-button"
                       onClick={() => {
@@ -304,7 +304,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               </Grid>
 
               <Grid item>
-                
+
 
               <div className={`stake-user-data`}>
                   <div className="stake-price-data-column">
@@ -328,20 +328,20 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     <p className="price-data">{trim(fiveDayRate * 100, 4)}%</p>
                   </div>
                 </div>
-                
-              
+
+
               </div>
               </Grid>
               </>
           )}
             </Grid>
-          
+
         </div>
-        
+
       </Card>
 
       {/* ${isMediumScreen && "med"} */}
-      <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"}`}> 
+      <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"}`}>
         <div className="card-header">
           <h5>Farm Pools</h5>
         </div>
@@ -384,19 +384,25 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
             </table>
           ) : (
             <div className="stake-pool">
-              <Flex className="ohm-pairs mr-2">
-                <div className="ohm-pair" style={{ zIndex: 2 }}>
-                <div className="ohm-logo-bg">
-                  <img src={`${ohmAssetImg()}`} />
+              <div className="pool-card-top-row">
+                <Flex className="ohm-pairs mr-2">
+                  <div className="ohm-pair" style={{ zIndex: 2 }}>
+                  <div className="ohm-logo-bg">
+                    <img src={`${ohmAssetImg()}`} />
+                    </div>
                   </div>
-                </div>
-                <div className="ohm-pair" style={{ zIndex: 1 }}>
-                  <img src={`${fraxAssetImg()}`} />
-                </div>
-                <p>
-                  OHM-FRAX
-                </p>
-              </Flex>
+                  <div className="ohm-pair" style={{ zIndex: 1 }}>
+                    <img src={`${fraxAssetImg()}`} />
+                  </div>
+                  <p>
+                    OHM-FRX
+                  </p>
+                </Flex>
+                <button className="stake-lp-button">
+                    Stake on Frax
+                    <i className="fa fa-external-link-alt" />
+                </button>
+              </div>
               <div className="pool-data">
                 <div className="pool-data-row">
                   <div className="pool-data-label">
@@ -415,10 +421,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <div>{fraxData.balance}</div>
                 </div>
               </div>
-              <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
-                Stake on Frax
-                <i className="fa fa-external-link-alt" />
-              </a>
+              
             </div>
           )}
 
