@@ -425,7 +425,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <div>{fraxData.balance}</div>
                 </div>
               </div>
-
             </div>
           )}
 
