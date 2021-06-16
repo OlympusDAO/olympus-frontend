@@ -220,7 +220,7 @@ export default function Migrate({
 										</button> */}
 									</div>
 
-									{address && hasAllowance("sohm") && view === "unstake" && (
+									{address && (hasAllowance("sohm") && view === "unstake") && (
 										<div
 											className="stake-button"
 											onClick={() => {
@@ -232,11 +232,11 @@ export default function Migrate({
 										</div>
 									)}
 
-									{address && (hasAllowance("wsohm" || "sohm") && view === "stake") && (
+									{address && (hasAllowance("ohm") && view === "stake") && (
 										<div
 											className="stake-button"
 											onClick={() => {
-												stakeAllowance();
+												stakeOhm();
 												setView("done");
 											}}
 										>
