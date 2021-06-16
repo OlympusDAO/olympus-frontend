@@ -375,7 +375,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <td>{trim(fraxData.apy, 1)}</td>
                   <td>{trim(fraxData.tvl, 2)}</td>
                   <td>
-                    <button className="stake-lp-button">Stake</button>
+                    <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
+                      Stake
+                    </a>
                   </td>
                 </tr>
               </tbody>
@@ -413,7 +415,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <div>{fraxData.balance}</div>
                 </div>
               </div>
-              <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button">
+              <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
                 Stake on Frax
                 <i className="fa fa-external-link-alt" />
               </a>
