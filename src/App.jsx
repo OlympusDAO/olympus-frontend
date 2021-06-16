@@ -289,6 +289,8 @@ function App(props) {
                 })}
                 <ChooseBond address={address} provider={injectedProvider} />
               </Route>
+
+              <Route component={NotFound} />
             </Switch>
           </Container>
         </Flex>

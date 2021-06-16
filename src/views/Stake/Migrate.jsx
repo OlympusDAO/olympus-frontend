@@ -170,25 +170,26 @@ export default function Migrate({
 						) : (
 							<div className="card-content">
 								<div className="stake-migration-help">
-									{view === "unstake" ? (
+									{view === "unstake" && (
 											<p>
 												Hey Ohmie, Olympus is updating the  
 												staking contract. So in order to continue earning those
 												juicy rewards you'll need to unstake your sOHM from the old contract
 												and restake it to the new sOHM contract. 												
 											</p>
+									)}
+									{view === "stake" ? (
+										<p>
+											Youre almost done! All thats left now is to Stake your OHM to the new contract. 
+										</p>
 									) : (
-										currentStep === "2" ? (
-											<p>
-												Youre almost done! All thats left now is to Stake your OHM to the new contract and keep it (3,3). 
-											</p>
-											)	: (
-												<p>You havent unstaked your old sOHM yet fren, finish Step 1 and then we'll talk.</p>
-											)	
-											// need to add one more logic step to show a completion message
+										<h4>Youre good to go, all OHM is staked to the new contract.</h4>
 									)}
 								</div>
 
+
+							{ view !== "done" ? (
+							<>
 								<Breadcrumbs className={`migration-breadcrumbs ${currentStep === "2" && "step-2"}`} separator={<DoubleArrowIcon fontsize="medium" />}>
 									<div role="button" onClick={() => {setView("unstake") }} className={`${currentStep === "1" ? "current-step" : "finished-step"}`}>
 										Step 1: Unstake sOHM (old)
@@ -278,8 +279,12 @@ export default function Migrate({
 											</em>
 										)}
 								</div>
-						
-
+							</>
+						) : (
+							<div>
+								<p> All you gotta do now is keep it (3, 3)</p>
+							</div>
+						)}
 						
 								<div className={`stake-user-data`}>
 									<div className="stake-price-data-column">
