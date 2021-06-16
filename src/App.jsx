@@ -22,6 +22,7 @@ import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
+import NotFound from "./views/404/NotFound";
 
 
 // import "./App.css";
@@ -289,6 +290,8 @@ function App(props) {
                 })}
                 <ChooseBond address={address} provider={injectedProvider} />
               </Route>
+
+              <Route component={NotFound} />
             </Switch>
           </Container>
         </Flex>
