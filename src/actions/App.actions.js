@@ -13,6 +13,7 @@ import { abi as BondContract } from "../abi/BondContract.json";
 import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 import { abi as PairContract } from "../abi/PairContract.json";
 import { abi as CirculatingSupplyContract } from "../abi/CirculatingSupplyContract.json";
+import axios from 'axios';
 
 const parseEther = ethers.utils.parseEther;
 
@@ -77,6 +78,16 @@ export const loadAppDetails =
       }),
     );
   };
+
+export const getFraxData = () =>
+  async dispatch => {
+    const resp = await axios.get('https://api.frax.finance/combineddata/');
+    return dispatch({
+      type: Actions.FETCH_FRAX_SUCCESS,
+      payload: resp.data && resp.data.liq_staking && resp.data.liq_staking["Uniswap FRAX/OHM"]
+    })
+  };
+
 
 export const getMarketPrice =
   ({ networkID, provider }) =>
