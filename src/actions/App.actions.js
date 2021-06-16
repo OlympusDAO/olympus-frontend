@@ -14,6 +14,8 @@ import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 import { abi as PairContract } from "../abi/PairContract.json";
 import { abi as CirculatingSupplyContract } from "../abi/CirculatingSupplyContract.json";
 import axios from 'axios';
+import { contractForReserve } from "../helpers";
+import { BONDS } from "../constants";
 
 const parseEther = ethers.utils.parseEther;
 
@@ -42,6 +44,22 @@ export const loadAppDetails =
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+
+    // Calculate TVL
+    let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
+    let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+
+    token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
+    let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+
+    token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
+    let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+
+    // TODO: We need to convert OHM-FRAX and OHM-DAI into USD value. The TreasuryContract does have valueOf function
+    // that can help with that: https://etherscan.io/address/0x31f8cc382c9898b273eff4e0b7626a6987c846e8
+    const stakingTVL    = daiAmount / Math.pow(10, 18) + ohmDaiAmount / Math.pow(10, 18) + ohmFraxAmount / Math.pow(10, 18);
+
+
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
@@ -72,6 +90,7 @@ export const loadAppDetails =
         currentBlock,
         fiveDayRate,
         stakingAPY,
+        stakingTVL,
         oldStakingAPY,
         stakingRebase,
         currentBlock,
