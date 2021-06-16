@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
-import { app, bonding } from "./reducers";
+import { app, bonding, fraxData } from "./reducers";
 
 const rootReducer = combineReducers({
   app,
   bonding,
+  fraxData
 });
 
 export default rootReducer;
