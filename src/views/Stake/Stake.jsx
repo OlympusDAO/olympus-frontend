@@ -396,10 +396,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     OHM-FRX
                   </p>
                 </Flex>
-                <button className="stake-lp-button">
-                    Stake on Frax
-                    <i className="fa fa-external-link-alt" />
-                </button>
+                <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
+                  Stake on Frax
+                  <i className="fa fa-external-link-alt" />
+                </a>
               </div>
               <div className="pool-data">
                 <div className="pool-data-row">
