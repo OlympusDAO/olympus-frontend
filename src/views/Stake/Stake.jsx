@@ -295,7 +295,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
                       <em>
                         <p>
-                          Important: The "Approve" transaction is only needed when staking/unstaking for the first time;
+                          Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
                           subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.
                         </p>
                       </em>
