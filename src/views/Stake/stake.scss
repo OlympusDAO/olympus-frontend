@@ -5,6 +5,9 @@
     align-items: center;
     height: fit-content;
     // overflow: auto;
+    .mobile .card-content {
+        padding-top: 1em !important;
+    }
 }
 
 .migrate-sohm-button a {
@@ -125,7 +128,7 @@
     color: inherit;
     overflow: hidden;
     max-width: 969px;
-    width: 80%;
+    width: 93%;
     border-radius: 5px;
     opacity: 1 !important;
     // background-color: transparent !important;
@@ -387,6 +390,7 @@
     min-width: 200px;
     font-weight: 600;
     width: 40%;
+    max-width: 60%;
 }
 .stake-button, .stake-lp-button {
     display: block !important;
@@ -529,6 +533,9 @@
 .MuiTableCell-root {
     border-bottom: none !important;
     font-size: 1em !important;
+    p {
+        margin-bottom: 0 !important;
+    }
     &.MuiTableCell-alignLeft {
         display: flex;
     }
@@ -601,7 +608,15 @@
     .ohm-card.secondary {
         margin-bottom: 2rem;
         margin-top: 1.5rem;
+        .ohm-price {
+            text-align: right;
+        }
     }
+
+    .MuiGrid-spacing-xs-2 {
+        margin: 0 !important;
+    }
+    
 
     .ohm-card.mobile {
         margin-bottom: 2em;
@@ -654,7 +669,7 @@
                     width: 100%;
                     align-items: center;
                     justify-content: space-evenly;
-                    font-size: 0.9em;
+                    font-size: 1em;
                     .bond-pair {
                         display: flex;
                         flex-direction: column;
@@ -686,9 +701,10 @@
                     }
                     .bond-price,
                     .bond-discount {
-                        width: 15%;
+                        width: 16%;
                     }
                     .ohm-btn {
+                        min-width: 8rem !important;
                         width: 8rem !important;
                         margin-left: 0 !important;
                     }
@@ -696,8 +712,16 @@
             }
         }
     }
+
+    .MuiTableRow-head {
+        .MuiTableCell-alignLeft {
+            padding-left: 20px;
+        }
+    }
 }
 
 :not(.mobile) .ohm-card .card-content {
-    padding: 1.8rem !important;
+    padding-left: 1.8rem !important;
+    padding-right: 1.8rem !important;
+    padding-bottom: 1.8rem !important;
 }
