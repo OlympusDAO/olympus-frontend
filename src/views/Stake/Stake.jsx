@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
 import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
+import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "../../style.scss";
 import "./stake.scss";
@@ -17,10 +18,14 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const [quantity, setQuantity] = useState();
   const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
 
+
   const isSmallScreen = useMediaQuery("(max-width: 1125px)");
 	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
 	const isNarrowScreen = useMediaQuery("(max-width:460px)");
 
+  const fraxData = useSelector(state => {
+    return state.fraxData;
+  });
   const fiveDayRate = useSelector(state => {
     return state.app.fiveDayRate;
   });
@@ -85,7 +90,14 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
   };
 
-  
+  const loadFraxData = async () => {
+    dispatch(getFraxData());
+  }
+
+  useEffect(() => {
+    loadFraxData();
+  }, []);
+
 
   let modalButton = <></>;
   if (web3Modal) {
@@ -107,7 +119,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   }
 
 
-  // TODO: the two grids need `container` props to justify. 
+  // TODO: the two grids need `container` props to justify.
   return (
     <Grid id="stake-view" direction="row" justify="center">
       {/* <Grid item sm={8} lg={6}> */}
@@ -355,13 +367,13 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                         <img src={`${fraxAssetImg()}`} />
                       </div>
                       <p>
-                        OHM-FRX
+                        OHM-FRAX
                         <i className="fa fa-external-link-alt" />
                       </p>
                     </Flex>
                   </td>
-                  <td>874%</td>
-                  <td>$185,558,228</td>
+                  <td>{trim(fraxData.apy, 1)}</td>
+                  <td>{trim(fraxData.tvl, 2)}</td>
                   <td>
                     <button className="stake-lp-button">Stake</button>
                   </td>
@@ -380,7 +392,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <img src={`${fraxAssetImg()}`} />
                 </div>
                 <p>
-                  OHM-FRX
+                  OHM-FRAX
                 </p>
               </Flex>
               <div className="pool-data">
@@ -389,25 +401,25 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     APR
                   </div>
                   <div className="pool-data-label">
-                    874%
+                    {trim(fraxData.apy, 1)}
                   </div>
                 </div>
                 <div item className="pool-data-row">
                   <div>TVL</div>
-                  <div>$185,558,228</div>
+                  <div>{trim(fraxData.tvl, 2)}</div>
                 </div>
                 <div item className="pool-data-row">
                   <div>Balance</div>
-                  <div>$185,558,228</div>
+                  <div>{fraxData.balance}</div>
                 </div>
               </div>
-              <button className="stake-lp-button">
+              <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button">
                 Stake on Frax
                 <i className="fa fa-external-link-alt" />
-              </button>
+              </a>
             </div>
           )}
-          
+
         </div>
       </Card>
     </Grid>
