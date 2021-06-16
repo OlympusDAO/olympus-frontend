@@ -372,8 +372,14 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       </p>
                     </Flex>
                   </td>
-                  <td>{trim(fraxData.apy, 1)}</td>
-                  <td>{trim(fraxData.tvl, 2)}</td>
+                  <td>{trim(fraxData.apy, 1)}%</td>
+                  <td>
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                      maximumFractionDigits: 0,
+                    }).format(trim(fraxData.tvl, 0))}
+                  </td>
                   <td>
                     <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
                       Stake
@@ -409,19 +415,25 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     APR
                   </div>
                   <div className="pool-data-label">
-                    {trim(fraxData.apy, 1)}
+                    {trim(fraxData.apy, 1)}%
                   </div>
                 </div>
                 <div item className="pool-data-row">
                   <div>TVL</div>
-                  <div>{trim(fraxData.tvl, 2)}</div>
+                  <div>
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                      maximumFractionDigits: 0,
+                    }).format(trim(fraxData.tvl, 0))}
+                  </div>
                 </div>
                 <div item className="pool-data-row">
                   <div>Balance</div>
                   <div>{fraxData.balance}</div>
                 </div>
               </div>
-              
+
             </div>
           )}
 
