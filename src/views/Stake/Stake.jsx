@@ -47,6 +47,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const stakingAPY = useSelector(state => {
     return state.app.stakingAPY;
   });
+  const stakingTVL = useSelector(state => {
+    return state.app.stakingTVL;
+  });
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
   });
@@ -173,7 +176,13 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     <div className="stake-tvl">
                       <h2 className="title">TVL</h2>
                       {/* need function for getting stakingTVL */}
-                      <h2 className="content">{trim(stakingAPY * 100, 1)}%</h2>
+                      <h2 className="content">
+                        {new Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                          maximumFractionDigits: 0,
+                        }).format(trim(stakingTVL, 0))}
+                      </h2>
                     </div>
                   </Grid>
                 </Grid>
