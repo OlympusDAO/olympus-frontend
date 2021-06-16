@@ -370,19 +370,25 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
             </table>
           ) : (
             <div className="stake-pool">
-              <Flex className="ohm-pairs mr-2">
-                <div className="ohm-pair" style={{ zIndex: 2 }}>
-                <div className="ohm-logo-bg">
-                  <img src={`${ohmAssetImg()}`} />
+              <div className="pool-card-top-row">
+                <Flex className="ohm-pairs mr-2">
+                  <div className="ohm-pair" style={{ zIndex: 2 }}>
+                  <div className="ohm-logo-bg">
+                    <img src={`${ohmAssetImg()}`} />
+                    </div>
                   </div>
-                </div>
-                <div className="ohm-pair" style={{ zIndex: 1 }}>
-                  <img src={`${fraxAssetImg()}`} />
-                </div>
-                <p>
-                  OHM-FRX
-                </p>
-              </Flex>
+                  <div className="ohm-pair" style={{ zIndex: 1 }}>
+                    <img src={`${fraxAssetImg()}`} />
+                  </div>
+                  <p>
+                    OHM-FRX
+                  </p>
+                </Flex>
+                <button className="stake-lp-button">
+                    Stake on Frax
+                    <i className="fa fa-external-link-alt" />
+                </button>
+              </div>
               <div className="pool-data">
                 <div className="pool-data-row">
                   <div className="pool-data-label">
@@ -401,10 +407,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <div>$185,558,228</div>
                 </div>
               </div>
-              <button className="stake-lp-button">
-                Stake on Frax
-                <i className="fa fa-external-link-alt" />
-              </button>
+              
             </div>
           )}
           
