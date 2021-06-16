@@ -66,6 +66,18 @@ export function BondTableData({bond}) {
   const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
   const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
 
+  const daiAssetImg = () => {
+    return 'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png';
+  }
+
+  const fraxAssetImg = () => {
+    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
+  };
+
+  const priceUnits = (bond) => {
+    if (bond.indexOf("frax") >= 0) return <img src={`${fraxAssetImg()}`} width="15px" height="15px"/>;
+    else return <img src={`${daiAssetImg()}`} width="15px" height="15px"/>;
+  };
 
   return (
     <TableRow id={`${bond}--bond`}>
@@ -82,7 +94,7 @@ export function BondTableData({bond}) {
         
         </div>
       </TableCell>
-      <TableCell align="center">{trim(bondPrice, 2)}</TableCell>
+      <TableCell align="center"><p>{priceUnits(bond)} {trim(bondPrice, 2)}</p></TableCell>
       <TableCell>{trim(bondDiscount * 100, 2)}</TableCell>
       <TableCell>$33,333,333</TableCell>
       <TableCell align="right">

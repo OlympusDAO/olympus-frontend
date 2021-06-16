@@ -118,9 +118,9 @@ export default function Migrate({
 								<div className="stake-migration-help">
 									{view === "unstake" ? (
 											<p>
-												Hey Ohmie, dont panic - Olympus is just updating the  
-												staking contract. But in order to continue earning those
-												juicy rewards you'll need to unstake your current sOHM 
+												Hey Ohmie, Olympus is updating the  
+												staking contract. So in order to continue earning those
+												juicy rewards you'll need to unstake your sOHM from the old contract
 												and restake it to the new sOHM contract. 												
 											</p>
 									) : (
