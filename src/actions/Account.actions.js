@@ -20,23 +20,25 @@ export const fetchAccountSuccess = payload => ({
 export const loadAccountDetails =
   ({ networkID, provider, address }) =>
   async dispatch => {
-    // console.log("networkID = ", networkID)
-    // console.log("addresses = ",addresses)
+    console.log("networkID = ", networkID);
+    console.log("addresses = ", addresses);
 
-    let ohmContract;
-    let ohmBalance = 0;
-    let sohmBalance = 0;
-    let stakeAllowance = 0;
-    let unstakeAllowance = 0;
-    let lpStakingContract;
-    const lpStaked = 0;
-    const pendingRewards = 0;
-    let lpStakeAllowance;
-    let distributorContract;
-    const lpBondAllowance = 0;
-    let daiBondAllowance = 0;
-    let migrateContract;
-    const aOHMAbleToClaim = 0;
+    let ohmContract,
+      ohmBalance = 0,
+      sohmBalance = 0,
+      oldSohmBalance = 0,
+      stakeAllowance = 0,
+      unstakeAllowance = 0,
+      legacyohmUnstake = 0;
+    let lpStakingContract,
+      lpStaked = 0,
+      pendingRewards = 0;
+    let lpStakeAllowance,
+      distributorContract,
+      lpBondAllowance = 0,
+      daiBondAllowance = 0;
+    let migrateContract,
+      aOHMAbleToClaim = 0;
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
@@ -44,7 +46,7 @@ export const loadAccountDetails =
     if (addresses[networkID].OHM_ADDRESS) {
       const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
       ohmBalance = await ohmContract.balanceOf(address);
-      stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+      stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     }
 
     if (addresses[networkID].DAI_BOND_ADDRESS) {
@@ -57,16 +59,28 @@ export const loadAccountDetails =
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     }
 
+    if (addresses[networkID].OLD_SOHM_ADDRESS) {
+      const oldSohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, provider);
+      oldSohmBalance = await oldSohmContract.balanceOf(address);
+      legacyohmUnstake = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+    }
+
     return dispatch(
       fetchAccountSuccess({
         balances: {
           dai: ethers.utils.formatEther(daiBalance),
           ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
           sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+          oldsohm: ethers.utils.formatUnits(oldSohmBalance, "gwei"),
         },
         staking: {
           ohmStake: stakeAllowance,
           ohmUnstake: unstakeAllowance,
+          legacyohmUnstake,
+        },
+        migrate: {
+          unstakeAllowance: legacyohmUnstake,
+          stakeAllowance,
         },
         bonding: {
           daiAllowance: daiBondAllowance,

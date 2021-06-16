@@ -20,7 +20,7 @@ function ChooseBond({ provider, address }) {
 	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
 	const isNarrowScreen = useMediaQuery("(max-width: 460px)");
 
-	
+
 	return (
 		<Grid container id="choose-bond-view" justify="center" spacing={2}>
 
@@ -51,8 +51,8 @@ function ChooseBond({ provider, address }) {
 									<Table aria-label="Available bonds">
 										<TableHead>
 											<TableRow>
-												<TableCell align="left">Bond Type</TableCell>
-												<TableCell align="center">Bond Price</TableCell>
+												<TableCell align="left">Bond</TableCell>
+												<TableCell align="center">Price</TableCell>
 												<TableCell>ROI</TableCell>
 												<TableCell>Purchased</TableCell>
 												<TableCell align="right"></TableCell>
