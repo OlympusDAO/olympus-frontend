@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Grid, Modal, Backdrop, Fade, Breadcrumbs } from "@material-ui/core";
-import { changeStake, changeApproval } from "../../actions/Stake.actions";
+// import { changeStake, changeApproval } from "../../actions/Stake.actions";
+import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import { useSelector, useDispatch } from "react-redux";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
@@ -31,34 +32,74 @@ export default function Migrate({
   const sohmBalance = useSelector(state => {
     return state.app.balances && state.app.balances.sohm;
   });
+	const oldSohmBalance = useSelector(state => {
+		return state.app.balances && state.app.balances.oldsohm;
+	})
   const stakeAllowance = useSelector(state => {
     return state.app.staking && state.app.staking.ohmStake;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.app.staking && state.app.staking.ohmUnstake;
+    return state.app.migrate && state.app.migrate.unstakeAllowance;
   });
+
+	const newStakingAPY = useSelector(state => {
+    return (state.app && state.app.stakingAPY) || 0;
+  });
+
+  const oldStakingAPY = useSelector(state => {
+    return (state.app && state.app.oldStakingAPY) || 0;
+  });
+	
 
 	const setMax = () => {
     if (view === "unstake") {
-      setQuantity(sohmBalance);
+      setQuantity(oldSohmBalance);
     } else {
-      // setQuantity(wsohmBalance); // we need a getter for this
+      setQuantity(sohmBalance); // we need a getter for this
     }
   };
 
-  const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
+	const getStakeApproval = async () => {
+    const dispatchObj = getApproval({
+      type: TYPES.NEW,
+      networkID: 1,
+      provider,
+      address,
+    });
+    await dispatch(dispatchObj);
   };
 
-  const onChangeStake = async action => {
-    // eslint-disable-next-line no-restricted-globals
-    if (isNaN(quantity) || quantity === 0 || quantity === "") {
-      // eslint-disable-next-line no-alert
+  const getUnstakeLegacyApproval = async () => {
+    const dispatchObj = getApproval({
+      type: TYPES.OLD,
+      networkID: 1,
+      provider,
+      address,
+    });
+    await dispatch(dispatchObj);
+  };
+
+  const unStakeLegacy = async () => {
+    if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
       alert("Please enter a value!");
-    } else {
-      await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: 1 }));
+      return;
     }
+
+    await dispatch(
+      changeStake({ action: ACTIONS.UNSTAKE, address, value: quantity.toString(), provider, networkID: 1 }),
+    );
   };
+
+  const stakeOhm = async () => {
+    if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
+      alert("Please enter a value!");
+      return;
+    }
+
+    await dispatch(changeStake({ action: ACTIONS.STAKE, address, value: quantity.toString(), provider, networkID: 1 }));
+  };
+
+ 
 
   const hasAllowance = useCallback(
     token => {
@@ -66,20 +107,33 @@ export default function Migrate({
       if (token === "sohm") return unstakeAllowance > 0;
       return false;
     },
-    [stakeAllowance],
+    [stakeAllowance, unstakeAllowance],
   );
 
 	useEffect(() => {
 		// here we check the user's sohm and wsohm balance
 		// if they still have sohm (old) they remain on step 1 (unstake)
-		
+		if (view === "unstake") {
+      setQuantity(oldSohmBalance);
+    } else {
+      setQuantity(ohmBalance);
+    }
 	}, [view])
+
+	useEffect(() => {
+    // setView based on sohm(new) vs sohm(old) balance
+    // if there is any sohm(old) set to unstake
+    if (oldSohmBalance > 0) setView("unstake");
+    else if (ohmBalance > 0) setView("stake");
+    else setView("done");
+  }, [oldSohmBalance, ohmBalance]);
+
 
 	let modalButton = <></>;
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButton = (
-        <button type="button" className="btn top-bar-button btn-overwrite-primer m-2" onClick={loadWeb3Modal}>
+        <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={loadWeb3Modal}>
           Connect Wallet
         </button>
       );
@@ -161,20 +215,20 @@ export default function Migrate({
 											className="form-control stake-input"
 											placeholder="Type an amount"
 										/>
-										<button type="button" onClick={setMax}>
+										{/* <button type="button" onClick={setMax}>
 											Max
-										</button>
+										</button> */}
 									</div>
 
 									{address && hasAllowance("sohm") && view === "unstake" && (
 										<div
 											className="stake-button"
 											onClick={() => {
-												// onChangeStake("unstake");
+												unStakeLegacy();
 												setView("stake")
 											}}
 										>
-											Unstake sOHM (old)
+											Unstake sOHM (legacy)
 										</div>
 									)}
 
@@ -182,10 +236,11 @@ export default function Migrate({
 										<div
 											className="stake-button"
 											onClick={() => {
-												// onChangeStake("stake");
+												stakeAllowance();
+												setView("done");
 											}}
 										>
-											Stake sOHM (new)
+											Stake OHM (new)
 										</div>
 									)}
 
@@ -193,28 +248,28 @@ export default function Migrate({
 										<div
 											className="stake-button"
 											onClick={() => {
-												// onSeekApproval("sohm");
+												getStakeApproval()
 											}}
 										>
-											Approve Unstake
+											Approve Unstake (legacy)
 										</div>
 									)}
 
-									{address && (hasAllowance("wsohm" || "sohm") && view === "stake") && (
+									{address && (!hasAllowance("ohm") && view === "stake") && (
 										<div
 											className="stake-button"
 											onClick={() => {
-												// onSeekApproval("wsohm");
+												getUnstakeLegacyApproval()
 											}}
 										>
-											Approve Stake
+											Approve Stake (new)
 										</div>
 									)}
 								</Flex>
 
 								<div className="stake-notification">
 									{address &&
-										(!hasAllowance("sohm")) && (
+										((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
 											<em>
 												<p>
 													"Approve" transaction is only needed when staking/unstaking for the first time;
@@ -227,21 +282,34 @@ export default function Migrate({
 
 						
 								<div className={`stake-user-data`}>
-										<div className="stake-price-data-column">
+									<div className="stake-price-data-column">
 										<div className="stake-price-data-row">
 											<p className="price-label">Ohm Balance</p>
 											<p className="price-data">{trim(ohmBalance)} OHM</p>
 										</div>
+										
+										<br/>
 
 										<div className="stake-price-data-row">
-											<p className="price-label">Staked (new contract)</p>
-											{/* replace below with wsohmBalance */}
+											<p className="price-label">Staked (new)</p>											
 											<p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
 										</div>
 
 										<div className="stake-price-data-row">
+											<p className="price-label">APY (New)</p>
+											<p className="price-data">{trim(newStakingAPY * 100, 4)}%</p>
+										</div>
+										
+										<br/>
+
+										<div className="stake-price-data-row">
 											<p className="price-label">Staked (legacy)</p>
-											<p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+											<p className="price-data">{trim(oldSohmBalance, 4)} sOHM</p>
+										</div>
+
+										<div className="stake-price-data-row">
+											<p className="price-label">APY (Legacy)</p>
+											<p className="price-data">{trim(oldStakingAPY * 100, 4)}%</p>
 										</div>
 									</div>
 								</div>
