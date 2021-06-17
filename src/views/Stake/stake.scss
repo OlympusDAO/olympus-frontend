@@ -10,7 +10,7 @@
     }
 }
 
-.migrate-sohm-button a {
+.migrate-sohm-button {
     position: absolute;
     right: 20px;
     top: 12px;
@@ -22,6 +22,10 @@
     svg {
         margin-right: 8px;
     } 
+}
+
+.migrate-sohm-button.complete {
+    color: #35EE66 !important;
 }
 
 
@@ -492,6 +496,8 @@
     border-radius: 5px;
     align-items: center;
     justify-content: center;
+    border: 1px solid #F4D09266; 
+    border-radius: 5px;
     h4 {
         color: inherit;
         text-align: center;
@@ -503,8 +509,11 @@
         text-align: center;
         float: unset;
         .stake-button {
-            color: #F4D092 !important; 
+            color: #F4D092; 
             font-size: 1.5em !important;
+            width: 20rem;
+            max-width: 300px !important;
+            height: 50px;
         }
     }
 }

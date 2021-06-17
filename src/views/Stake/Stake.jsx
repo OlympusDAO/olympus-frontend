@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Flex, Card } from "rimble-ui";
 import { Grid } from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
@@ -32,6 +33,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const ohmBalance = useSelector(state => {
     return state.app.balances && state.app.balances.ohm;
   });
+  const oldSohmBalance = useSelector(state => {
+		return state.app.balances && state.app.balances.oldsohm;
+	})
   const sohmBalance = useSelector(state => {
     return state.app.balances && state.app.balances.sohm;
   });
@@ -129,17 +133,29 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
       <Card className={`ohm-card primary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
         <div className="card-header">
           <h5>Single Stake (3, 3)</h5>
-          {/* make this link to migration page, similar to how bonds work */}
-          <div
-            className="migrate-sohm-button"
-            role="button"
-            aria-label="migrate-sohm"
-            onClick={openMigrationWizard}>
-              <NavLink to="/stake/migrate">
-                <NewReleases />
-                Migrate sOHM
-              </NavLink>
-          </div>
+          
+          {address && (oldSohmBalance > 0) && (
+            <div
+              className="migrate-sohm-button"
+              role="button"
+              aria-label="migrate-sohm"
+              onClick={openMigrationWizard}>
+                <NavLink to="/stake/migrate">
+                  <NewReleases />
+                  Migrate sOHM
+                </NavLink>
+            </div>
+          )}
+          {address && (oldSohmBalance == 0 || null) && (
+            <div
+              className="migrate-sohm-button complete"
+              aria-label="migrate-sohm-complete"
+            >
+              <CheckCircleIcon />
+              sOHM Migrated 
+            </div>
+          )}
+          
         </div>
 
         <div className="card-content">
