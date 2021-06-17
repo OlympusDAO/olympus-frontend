@@ -13,7 +13,6 @@ import { abi as BondContract } from "../abi/BondContract.json";
 import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 import { abi as PairContract } from "../abi/PairContract.json";
 import { abi as CirculatingSupplyContract } from "../abi/CirculatingSupplyContract.json";
-import { abi as TreasuryContract } from "../abi/TreasuryContract.json";
 import axios from 'axios';
 import { contractForReserve } from "../helpers";
 import { BONDS } from "../constants";
