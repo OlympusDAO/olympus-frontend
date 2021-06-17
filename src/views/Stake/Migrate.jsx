@@ -143,7 +143,7 @@ export default function Migrate({
 	return (
 		<Grid container id="sohm-migration-view">
 			<Backdrop open={true}>
-				<div className="ohm-card primary">
+				<div className="ohm-modal ohm-card primary">
 						<div className="card-header">
 							<h3>sOHM Migration</h3>
 							

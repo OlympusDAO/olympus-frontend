@@ -46,7 +46,7 @@ export const GlobalStyles = createGlobalStyle`
             filter: ${({ theme }) => theme.iconColor};
         }
         ${({ theme }) => theme.sidebarBorder && "border-right: 1px solid " + theme.sidebarBorder}
-        .dapp-nav a.active {
+        #navbarNav.dapp-nav a.active {
             span {
                 color: ${({ theme }) => theme.activeLinkColor} !important;
             }
@@ -80,6 +80,9 @@ export const GlobalStyles = createGlobalStyle`
         h2 { 
             color: ${({ theme }) => theme.color};
         }
+    }
+    .ohm-modal.ohm-card.primary {
+        background-color: ${({ theme }) => theme.modalBg};
     }
     .ohm-card,
     .ohm-dashboard-card {
@@ -165,9 +168,8 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
     .navbar-light .navbar-toggler {
-        border: 2px solid ${({ theme }) => theme.color} !important;
+        border: 0px solid ${({ theme }) => theme.color} !important;
         border-color: ${({ theme }) => theme.color} !important;
-       
     }
     .navbar-light .navbar-toggler-icon {
         filter: ${({ theme }) => theme.logoColor}; 
