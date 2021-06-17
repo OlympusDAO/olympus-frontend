@@ -13,6 +13,7 @@ import { abi as BondContract } from "../abi/BondContract.json";
 import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 import { abi as PairContract } from "../abi/PairContract.json";
 import { abi as CirculatingSupplyContract } from "../abi/CirculatingSupplyContract.json";
+import { abi as TreasuryContract } from "../abi/TreasuryContract.json";
 import axios from 'axios';
 import { contractForReserve } from "../helpers";
 import { BONDS } from "../constants";
@@ -28,7 +29,7 @@ async function calculateAPY(sohmContract, stakingReward) {
   const circSupply = await sohmContract.circulatingSupply();
 
   const stakingRebase = stakingReward / circSupply;
-  const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
+  const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
 
   return stakingAPY;
 }
@@ -44,6 +45,7 @@ export const loadAppDetails =
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+    const treasuryContract = new ethers.Contract(addresses[networkID].TREASURY_ADDRESS, TreasuryContract, provider);
 
     // Calculate TVL
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
@@ -51,14 +53,18 @@ export const loadAppDetails =
 
     token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
     let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let ohmDaiUSD = await treasuryContract.valueOf(addresses[networkID].DAI_ADDRESS, ohmDaiAmount);
 
     token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
     let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let ohmFraxUSD = await treasuryContract.valueOf(addresses[networkID].FRAX_ADDRESS, ohmFraxAmount);
 
     // TODO: We need to convert OHM-FRAX and OHM-DAI into USD value. The TreasuryContract does have valueOf function
     // that can help with that: https://etherscan.io/address/0x31f8cc382c9898b273eff4e0b7626a6987c846e8
-    const stakingTVL    = daiAmount / Math.pow(10, 18) + ohmDaiAmount / Math.pow(10, 18) + ohmFraxAmount / Math.pow(10, 18);
+    
+    const stakingTVL    = daiAmount / Math.pow(10, 18) + ohmDaiUSD / Math.pow(10, 18) + ohmFraxUSD / Math.pow(10, 18);
 
+    // const stakingTVL    = daiAmount / Math.pow(10, 18) + ohmDaiAmount / Math.pow(10, 18) + ohmFraxAmount / Math.pow(10, 18);
 
 
     // Calculating staking
@@ -68,7 +74,7 @@ export const loadAppDetails =
 
     const stakingRebase = stakingReward / circSupply;
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
-    const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
+    const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
 
     // TODO: remove this legacy shit
     // Do the same for old sOhm.
@@ -77,7 +83,7 @@ export const loadAppDetails =
     console.log(oldStakingReward, oldCircSupply);
 
     const oldStakingRebase = oldStakingReward / oldCircSupply;
-    const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3);
+    const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3) - 1;
 
     // Calculate index
     // const currentIndex = await sohmContract.balanceOf("0xA62Bee23497C920B94305FF68FA7b1Cd1e9FAdb2");
