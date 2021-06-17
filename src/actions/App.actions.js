@@ -17,6 +17,7 @@ import { abi as TreasuryContract } from "../abi/TreasuryContract.json";
 import axios from 'axios';
 import { contractForReserve } from "../helpers";
 import { BONDS } from "../constants";
+import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 
 const parseEther = ethers.utils.parseEther;
 
@@ -45,7 +46,7 @@ export const loadAppDetails =
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-    const treasuryContract = new ethers.Contract(addresses[networkID].TREASURY_ADDRESS, TreasuryContract, provider);
+    const bondCalculator = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
 
     // Calculate TVL
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
@@ -53,18 +54,13 @@ export const loadAppDetails =
 
     token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
     let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    let ohmDaiUSD = await treasuryContract.valueOf(addresses[networkID].DAI_ADDRESS, ohmDaiAmount);
+    let ohmDaiUSD    = await bondCalculator.valuation(addresses[networkID].RESERVES.OHM_DAI, ohmDaiAmount);
 
     token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
     let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    let ohmFraxUSD = await treasuryContract.valueOf(addresses[networkID].FRAX_ADDRESS, ohmFraxAmount);
+    let ohmFraxUSD    = await bondCalculator.valuation(addresses[networkID].RESERVES.OHM_FRAX, ohmFraxAmount);
 
-    // TODO: We need to convert OHM-FRAX and OHM-DAI into USD value. The TreasuryContract does have valueOf function
-    // that can help with that: https://etherscan.io/address/0x31f8cc382c9898b273eff4e0b7626a6987c846e8
-    
-    const stakingTVL    = daiAmount / Math.pow(10, 18) + ohmDaiUSD / Math.pow(10, 18) + ohmFraxUSD / Math.pow(10, 18);
-
-    // const stakingTVL    = daiAmount / Math.pow(10, 18) + ohmDaiAmount / Math.pow(10, 18) + ohmFraxAmount / Math.pow(10, 18);
+    const stakingTVL    = daiAmount / Math.pow(10, 18) + ohmDaiUSD / Math.pow(10, 9) + ohmFraxUSD / Math.pow(10, 9);
 
 
     // Calculating staking
