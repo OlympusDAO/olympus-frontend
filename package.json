@@ -4,14 +4,14 @@
   "homepage": "https://staging.olumpusdao.finance/#/",
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      ">0.2% or last 2 versions",
+      "not dead"
     ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 safari version",
+      ">0.2% or last 2 versions"
     ]
   },
   "dependencies": {
