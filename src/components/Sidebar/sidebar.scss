@@ -96,12 +96,8 @@
       border-bottom:2px solid transparent;
   }
   &.active {
-    color: #F5DDB4 !important;
+    color: #F5DDB4;
     border-bottom:2px solid transparent;
-    svg {
-      // fill: #F5DDB4 !important;
-      filter: brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%);
-    }
     span {
       border-bottom:2px solid transparent;
     }
