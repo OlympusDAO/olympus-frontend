@@ -16,6 +16,7 @@ import { abi as CirculatingSupplyContract } from "../abi/CirculatingSupplyContra
 import axios from 'axios';
 import { contractForReserve } from "../helpers";
 import { BONDS } from "../constants";
+import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 
 const parseEther = ethers.utils.parseEther;
 
@@ -28,7 +29,7 @@ async function calculateAPY(sohmContract, stakingReward) {
   const circSupply = await sohmContract.circulatingSupply();
 
   const stakingRebase = stakingReward / circSupply;
-  const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
+  const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
 
   return stakingAPY;
 }
@@ -44,6 +45,22 @@ export const loadAppDetails =
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+    const bondCalculator = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
+
+    // Calculate TVL
+    let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
+    let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+
+    token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
+    let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let ohmDaiUSD    = await bondCalculator.valuation(addresses[networkID].RESERVES.OHM_DAI, ohmDaiAmount);
+
+    token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
+    let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let ohmFraxUSD    = await bondCalculator.valuation(addresses[networkID].RESERVES.OHM_FRAX, ohmFraxAmount);
+
+    const stakingTVL    = daiAmount / Math.pow(10, 18) + ohmDaiUSD / Math.pow(10, 9) + ohmFraxUSD / Math.pow(10, 9);
+
 
     // Calculate TVL
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
@@ -68,7 +85,7 @@ export const loadAppDetails =
 
     const stakingRebase = stakingReward / circSupply;
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
-    const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
+    const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
 
     // TODO: remove this legacy shit
     // Do the same for old sOhm.
@@ -77,7 +94,7 @@ export const loadAppDetails =
     console.log(oldStakingReward, oldCircSupply);
 
     const oldStakingRebase = oldStakingReward / oldCircSupply;
-    const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3);
+    const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3) - 1;
 
     // Calculate index
     // const currentIndex = await sohmContract.balanceOf("0xA62Bee23497C920B94305FF68FA7b1Cd1e9FAdb2");

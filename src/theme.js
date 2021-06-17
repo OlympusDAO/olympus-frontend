@@ -2,7 +2,8 @@ export const darkTheme = {
     color: "#ffffff",
     backgroundColor: "#3A4050",
     background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-    cardBg: "rgba(27, 29, 34, 0.5) !important",
+    cardBg: "rgba(27, 29, 34, 0.6)",
+    modalBg: "rgba(27, 29, 34, 0.8)",
     cardBorder: "none",
     logoColor: "invert(1)",
     defaultButtonBg: "rgba(27, 29, 34, 0.6)",
@@ -25,6 +26,8 @@ export const darkTheme = {
     CTALpButtonColorHover: "#000000",
     CTALpButtonBorder: "2px solid #FFFFFF",
     CTALpButtonBorderHover: "2px solid #F4D092",
+    activeLinkColor: "#F5DDB4",
+    activeLinkSvgColor: "brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%)",
 }
   
 export const lightTheme = {
@@ -32,8 +35,9 @@ export const lightTheme = {
     backgroundColor: "#83A5CB11",
     background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
     // cardBg: "rgba(252,252,252, 0.6) !important",
-    sidebarBorder: "#759AAE", 
+    sidebarBorder: "#759AAE99", 
     cardBg: "#FBFBFB77",
+    modalBg: "#FBFBFB",
     cardBorder: "1px solid #759AAE99",
     logoColor: "none",
     defaultButtonBg: "rgba(252,252,252, 0.6) !important",
@@ -56,8 +60,9 @@ export const lightTheme = {
     CTALpButtonColorHover: "#ffffff",
     CTALpButtonBorder: "2px solid #000000",
     CTALpButtonBorderHover: "2px solid #758cae",
-    iconColor: "brightness(0) saturate(100%)" 
-
+    iconColor: "brightness(0) saturate(100%)",
+    activeLinkColor: "#759AAE",
+    activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
 }
 
 

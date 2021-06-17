@@ -6,7 +6,7 @@
     height: fit-content;
     // overflow: auto;
     .mobile .card-content {
-        padding-top: 1em !important;
+        padding-top: 0.4em !important;
     }
 }
 
@@ -38,12 +38,12 @@
     // align-items: center;
     // justify-content: center;
     .MuiBackdrop-root {
-        background: rgba(0, 0, 0, 0.2) !important;
+        // background: rgba(0, 0, 0, 0.2) !important;
         backdrop-filter: blur(10px);
         .ohm-card {
-            background-color: #1B1D22 !important;
+            // background-color: #1B1D22;
             opacity: 1 !important;
-            color: #FFFFFF;
+            // color: #FFFFFF;
             padding: 1.5em !important;
             padding-top: 1em !important;
             justify-content: center;
@@ -55,9 +55,13 @@
                     vertical-align: middle;
                     padding: 0 !important;
                     &:hover {
-                        color: #EEEEEE !important;
+                        color: #EEEEEE;
                     }
                 }
+            }
+            .card-content {
+                background-color: inherit;
+                opacity: 1 !important;
             }
             p {
                 margin-bottom: 0 !important;
@@ -473,6 +477,7 @@
         margin-left: 0;
         padding: 8px !important;
         display: flex;
+        width: 12em;
         svg {
             margin-left: 18px !important;
         }
@@ -632,13 +637,13 @@
             width: 40px;
         }
         &.secondary {
-            background-color: #00000000 !important;
+            background-color: #00000000;
             background: transparent !important;
             box-shadow: none !important;
             margin-top: 20px;
             .card-header,
             .card-content {
-                background-color: #00000000 !important;
+                background-color: #00000000;
                 .ohm-price {
                     text-align: right;
                 }
