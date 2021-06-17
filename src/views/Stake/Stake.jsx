@@ -369,7 +369,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       </div>
                       <p>
                         OHM-FRAX
-                        <i className="fa fa-external-link-alt" />
                       </p>
                     </Flex>
                   </td>
@@ -383,7 +382,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   </td>
                   <td>
                     <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
-                      Stake
+                      Stake on Frax
+                      <i className="fa fa-external-link-alt" />
                     </a>
                   </td>
                 </tr>
@@ -402,7 +402,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     <img src={`${fraxAssetImg()}`} />
                   </div>
                   <p>
-                    OHM-FRX
+                    OHM-FRAX
                   </p>
                 </Flex>
                 <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
