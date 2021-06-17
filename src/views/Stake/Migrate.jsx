@@ -143,7 +143,7 @@ export default function Migrate({
 	return (
 		<Grid container id="sohm-migration-view">
 			<Backdrop open={true}>
-				<div className="ohm-card primary">
+				<div className="ohm-modal ohm-card primary">
 						<div className="card-header">
 							<h3>sOHM Migration</h3>
 							
@@ -178,15 +178,17 @@ export default function Migrate({
 												and restake it to the new sOHM contract. 												
 											</p>
 									)}
-									{view === "stake" ? (
+
+									{view === "stake" && (
 										<p>
 											Youre almost done! All thats left now is to Stake your OHM to the new contract. 
 										</p>
-									) : (
+									)} 
+									
+									{view === "done" && (
 										<h4>Youre good to go, all OHM is staked to the new contract.</h4>
 									)}
 								</div>
-
 
 							{ view !== "done" ? (
 							<>

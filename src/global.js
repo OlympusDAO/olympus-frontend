@@ -46,13 +46,21 @@ export const GlobalStyles = createGlobalStyle`
             filter: ${({ theme }) => theme.iconColor};
         }
         ${({ theme }) => theme.sidebarBorder && "border-right: 1px solid " + theme.sidebarBorder}
+        #navbarNav.dapp-nav a.active {
+            span {
+                color: ${({ theme }) => theme.activeLinkColor} !important;
+            }
+            svg {
+                ${({ theme }) => theme.activeLinkSvgColor && "filter: " + theme.activeLinkSvgColor + " !important; "}
+            }
+        }
     }
     .branding-header-icon, 
     .olympus-sushi img,
     .olympus-sushi svg,
     .social-icon-small,
     .dapp-menu-external-links svg {
-        filter: ${({ theme }) => theme.iconColor} !important;
+        filter: ${({ theme }) => theme.iconColor};
     }
     .button-dapp-menu,
     .dapp-menu-top a h3,
@@ -73,6 +81,9 @@ export const GlobalStyles = createGlobalStyle`
             color: ${({ theme }) => theme.color};
         }
     }
+    .ohm-modal.ohm-card.primary {
+        background-color: ${({ theme }) => theme.modalBg};
+    }
     .ohm-card,
     .ohm-dashboard-card {
         opacity: 0.92 !important;
@@ -86,7 +97,7 @@ export const GlobalStyles = createGlobalStyle`
                 color: ${({ theme }) => theme.TopBarButtonColorHover} !important;
             }
         border: ${({ theme }) => theme.TopBarButtonBorder} !important;
-        backdrop-filter: blur(5px) !important;
+        backdrop-filter: blur(8px) !important;
     }
      .top-bar-button a {
          color: ${({ theme }) => theme.TopBarButtonColor} !important;
@@ -157,9 +168,8 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
     .navbar-light .navbar-toggler {
-        border: 2px solid ${({ theme }) => theme.color} !important;
+        border: 0px solid ${({ theme }) => theme.color} !important;
         border-color: ${({ theme }) => theme.color} !important;
-       
     }
     .navbar-light .navbar-toggler-icon {
         filter: ${({ theme }) => theme.logoColor}; 

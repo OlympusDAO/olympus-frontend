@@ -431,7 +431,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                 </div>
                 <div item className="pool-data-row">
                   <div>Balance</div>
-                  <div>{fraxData.balance}</div>
+                  <div>{fraxData.balance || "0"}</div>
                 </div>
               </div>
             </div>
