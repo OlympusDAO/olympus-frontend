@@ -43,7 +43,9 @@
     // justify-content: center;
     .MuiBackdrop-root {
         // background: rgba(0, 0, 0, 0.2) !important;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        -webkit-
         .ohm-card {
             // background-color: #1B1D22;
             opacity: 1 !important;
@@ -145,6 +147,7 @@
     // background-color: #1B1D22 !important;
     opacity: 0.6 !important;
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     box-shadow: unset !important;
     border: none !important;
     // display:flex;
@@ -412,6 +415,9 @@
     text-align: center !important;
     font-family: 'Square-Light', cursive;
     line-height: 150%;
+    svg {
+        margin-left: 10px;
+    }
 }
 
 .stake-table {

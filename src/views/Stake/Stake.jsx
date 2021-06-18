@@ -173,7 +173,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                         <h3>Olympus</h3>
                       </div>
                       <div>
-                        <a href="" target="_blank">
+                        <a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
                           Buy on Sushiswap
                         </a>
                         <i className="fa fa-external-link-alt" />
@@ -369,6 +369,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <th scope="col">Asset</th>
                   <th scope="col">APR</th>
                   <th scope="col">TVL</th>
+                  <th scope="col">Balance</th>
                   <th scope="col" />
                 </tr>
               </thead>
@@ -394,6 +395,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       currency: "USD",
                       maximumFractionDigits: 0,
                     }).format(trim(fraxData.tvl, 0))}
+                  </td>
+                  <td>
+                      {fraxData.balance || "0"} LP
                   </td>
                   <td>
                     <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
@@ -446,7 +450,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                 </div>
                 <div item className="pool-data-row">
                   <div>Balance</div>
-                  <div>{fraxData.balance || "0"}</div>
+                  <div>{fraxData.balance || "0"} LP</div>
                 </div>
               </div>
             </div>

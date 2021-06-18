@@ -228,7 +228,7 @@ export default function Migrate({
 											className="stake-button"
 											onClick={() => {
 												unStakeLegacy();
-												setView("stake")
+												setView("stake");
 											}}
 										>
 											Unstake sOHM (legacy)
@@ -251,7 +251,7 @@ export default function Migrate({
 										<div
 											className="stake-button"
 											onClick={() => {
-												getStakeApproval()
+												getUnstakeLegacyApproval();
 											}}
 										>
 											Approve Unstake (legacy)
@@ -262,7 +262,7 @@ export default function Migrate({
 										<div
 											className="stake-button"
 											onClick={() => {
-												getUnstakeLegacyApproval()
+												getStakeApproval();
 											}}
 										>
 											Approve Stake (new)
