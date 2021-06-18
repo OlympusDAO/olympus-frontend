@@ -377,7 +377,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                 <tr>
                   <td>
                     <Flex className="ohm-pairs mr-2">
-                      <div className="ohm-pair" style={{ zIndex: 2 }}>
+                      <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
                         <img src={`${ohmAssetImg()}`} />
                       </div>
                       <div className="ohm-pair" style={{ zIndex: 1 }}>

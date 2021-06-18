@@ -1,3 +1,6 @@
-.App {
-  text-align: center;
+a.close-nav {
+  position: absolute !important;
+  z-index: 10;
+  top: 25px;
+  left: 35px;
 }
