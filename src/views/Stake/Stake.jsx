@@ -191,7 +191,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <Grid item xs={6} sm={6} lg={4}>
                     <div className="stake-tvl">
                       <h2 className="title">TVL</h2>
-                      {/* need function for getting stakingTVL */}
                       <h2 className="content">
                         {new Intl.NumberFormat("en-US", {
                           style: "currency",
