@@ -169,7 +169,7 @@ function Bond({ provider, address, bond }) {
   return (
     <Grid container id="bond-view">
       <Backdrop open={true}>
-      <div className="ohm-card">
+      <div className="ohm-card ohm-modal">
         <div className="card-content">
         <BondHeader
           bond={bond}
