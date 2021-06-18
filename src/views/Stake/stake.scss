@@ -215,7 +215,6 @@
             display: inline-block;
             vertical-align: middle;
             margin-right: 5px;
-            filter: invert(1);
         }
         h3 {
             display: inline;
@@ -299,7 +298,6 @@
     text-align: center;
     margin-bottom: 10px;
 }
-
 
 .ohm-logo-bg {
     height: 25px;
@@ -487,7 +485,7 @@
         margin-left: 0;
         padding: 8px !important;
         display: flex;
-        width: 12em;
+        max-width: 12em;
         svg {
             margin-left: 18px !important;
         }
