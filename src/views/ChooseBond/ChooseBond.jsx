@@ -80,7 +80,7 @@ function ChooseBond({ provider, address }) {
 							<>
 								{/* { Object.keys(BONDS).map(bond => ( */}
 									{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax].map(bond => (
-										<div className="card-content">
+										<div className="card-content" key={bond}>
 											<BondCardData key={bond} bond={bond} />
 										</div>
 								)) }
