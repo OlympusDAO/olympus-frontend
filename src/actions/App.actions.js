@@ -47,7 +47,7 @@ export const loadAppDetails =
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
     const bondCalculator = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
 
-    // Calculate TVL
+    // Calculate Treasury Balance
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
     let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
@@ -59,7 +59,18 @@ export const loadAppDetails =
     let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
     let ohmFraxUSD    = await bondCalculator.valuation(addresses[networkID].RESERVES.OHM_FRAX, ohmFraxAmount);
 
-    const stakingTVL    = daiAmount / Math.pow(10, 18) + ohmDaiUSD / Math.pow(10, 9) + ohmFraxUSD / Math.pow(10, 9);
+    const treasuryBalance  = daiAmount / Math.pow(10, 18) + ohmDaiUSD / Math.pow(10, 9) + ohmFraxUSD / Math.pow(10, 9);
+
+    // Calculate TVL staked
+    let ohmInTreasury = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    ohmInTreasury = ohmInTreasury / Math.pow(10, 9);
+
+    // Get market price of OHM
+    const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
+    const reserves = await pairContract.getReserves();
+    const marketPrice = (reserves[1] / reserves[0]) / Math.pow(10, 9);
+
+    const stakingTVL = marketPrice * ohmInTreasury;
 
 
     // Calculating staking
@@ -90,6 +101,7 @@ export const loadAppDetails =
         currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
         currentBlock,
         fiveDayRate,
+        treasuryBalance,
         stakingAPY,
         stakingTVL,
         oldStakingAPY,
