@@ -13,10 +13,6 @@ import { abi as BondContract } from "../abi/BondContract.json";
 import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 import { abi as PairContract } from "../abi/PairContract.json";
 import { abi as CirculatingSupplyContract } from "../abi/CirculatingSupplyContract.json";
-import axios from 'axios';
-import { contractForReserve } from "../helpers";
-import { BONDS } from "../constants";
-import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 
 const parseEther = ethers.utils.parseEther;
 
@@ -29,7 +25,7 @@ async function calculateAPY(sohmContract, stakingReward) {
   const circSupply = await sohmContract.circulatingSupply();
 
   const stakingRebase = stakingReward / circSupply;
-  const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
+  const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
 
   return stakingAPY;
 }
@@ -72,7 +68,6 @@ export const loadAppDetails =
 
     const stakingTVL = marketPrice * ohmInTreasury;
 
-
     // Calculating staking
     const epoch = await stakingContract.epoch();
     const stakingReward = epoch.distribute;
@@ -80,7 +75,7 @@ export const loadAppDetails =
 
     const stakingRebase = stakingReward / circSupply;
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
-    const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
+    const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
 
     // TODO: remove this legacy shit
     // Do the same for old sOhm.
@@ -89,7 +84,7 @@ export const loadAppDetails =
     console.log(oldStakingReward, oldCircSupply);
 
     const oldStakingRebase = oldStakingReward / oldCircSupply;
-    const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3) - 1;
+    const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3);
 
     // Calculate index
     // const currentIndex = await sohmContract.balanceOf("0xA62Bee23497C920B94305FF68FA7b1Cd1e9FAdb2");
@@ -103,23 +98,12 @@ export const loadAppDetails =
         fiveDayRate,
         treasuryBalance,
         stakingAPY,
-        stakingTVL,
         oldStakingAPY,
         stakingRebase,
         currentBlock,
       }),
     );
   };
-
-export const getFraxData = () =>
-  async dispatch => {
-    const resp = await axios.get('https://api.frax.finance/combineddata/');
-    return dispatch({
-      type: Actions.FETCH_FRAX_SUCCESS,
-      payload: resp.data && resp.data.liq_staking && resp.data.liq_staking["Uniswap FRAX/OHM"]
-    })
-  };
-
 
 export const getMarketPrice =
   ({ networkID, provider }) =>
