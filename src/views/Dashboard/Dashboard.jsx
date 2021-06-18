@@ -1,8 +1,7 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Flex } from "rimble-ui";
 import { Grid } from "@material-ui/core";
-import NoSsr from "@material-ui/core/NoSsr";
 import { trim } from "../../helpers";
 import "./dashboard.scss";
 
@@ -23,18 +22,13 @@ function Dashboard({ provider, address }) {
 
   return (
     <div className="dashboard-view">
-      <NoSsr defer="true">
+      
       <Grid container spacing={2}>
         <Grid item lg={4} md={5} sm={5} xs={5}>
           <div className="ohm-dashboard-card">
             <div className="card-body">
               <h4 className="title">Price</h4>
               <h3 className="content">${trim(marketPrice, 2)}</h3>
-              {/* <p> */}
-              {/*  <a href="https://analytics.sushi.com/pairs/0x34d7d7aaf50ad4944b70b320acb24c95fa2def7c" target="_blank"> */}
-              {/*    (SushiSwap OHM-DAI Pool) */}
-              {/*  </a> */}
-              {/* </p> */}
             </div>
           </div>
         </Grid>
@@ -157,7 +151,7 @@ function Dashboard({ provider, address }) {
           </div>
         </div>
       </Flex>
-      </NoSsr>
+      
     </div>
   );
 }

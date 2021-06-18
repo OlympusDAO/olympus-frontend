@@ -3,26 +3,96 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
     .app, #dapp {
         @font-face {font-family: 'Square-Bold';
-            src: url('./assets/fonts/EuclidSquare-Bold.ttf');
+            src: url('./assets/fonts/EuclidSquare-Bold.ttf') format("truetype");
+        }
+        @font-face {font-family: 'Square-Bold';
+            src: url('./assets/fonts/EuclidSquare-Bold.eot') format("embedded-opentype");
+        }
+        @font-face {font-family: 'Square-Bold';
+            src: url('./assets/fonts/EuclidSquare-Bold.woff') format("font-woff");
+        }
+        @font-face {font-family: 'Square-Bold';
+            src: url('./assets/fonts/EuclidSquare-Bold.woff2') format("woff2");
+        }
+
+        @font-face {font-family: 'Square-Semi-Bold';
+            src: url('./assets/fonts/EuclidSquare-Bold.ttf') format("truetype");
         }
         @font-face {font-family: 'Square-Semi-Bold';
-            src: url('./assets/fonts/EuclidSquare-Bold.ttf');
+            src: url('./assets/fonts/EuclidSquare-Bold.eot') format("embedded-opentype");
+        }
+        @font-face {font-family: 'Square-Semi-Bold';
+            src: url('./assets/fonts/EuclidSquare-Bold.woff') format("font-woff");
+        }
+        @font-face {font-family: 'Square-Semi-Bold';
+            src: url('./assets/fonts/EuclidSquare-Bold.woff2') format("woff2");
+        }
+
+        @font-face {font-family: 'Square';
+            src: url('./assets/fonts/EuclidSquare-Regular.ttf') format("truetype");
         }
         @font-face {font-family: 'Square';
-            src: url('./assets/fonts/EuclidSquare-Regular.ttf');
+            src: url('./assets/fonts/EuclidSquare-Regular.eot') format("embedded-opentype");
+        }
+        @font-face {font-family: 'Square';
+            src: url('./assets/fonts/EuclidSquare-Regular.woff') format("font-woff");
+        }
+        @font-face {font-family: 'Square';
+            src: url('./assets/fonts/EuclidSquare-Regular.woff2') format("woff2");
+        }
+
+        @font-face {font-family: 'Square-Medium';
+            src: url('./assets/fonts/EuclidSquare-Medium.ttf') format("truetype");
         }
         @font-face {font-family: 'Square-Medium';
-            src: url('./assets/fonts/EuclidSquare-Medium.ttf');
+            src: url('./assets/fonts/EuclidSquare-Medium.eot') format("embedded-opentype");
+        }
+        @font-face {font-family: 'Square-Medium';
+            src: url('./assets/fonts/EuclidSquare-Medium.woff') format("font-woff");
+        }
+        @font-face {font-family: 'Square-Medium';
+            src: url('./assets/fonts/EuclidSquare-Medium.woff2') format("woff2");
+        }
+
+        @font-face {font-family: 'Square-Light';
+            src: url('./assets/fonts/EuclidSquare-Light.ttf') format("truetype");
         }
         @font-face {font-family: 'Square-Light';
-            src: url('./assets/fonts/EuclidSquare-Light.ttf');
+            src: url('./assets/fonts/EuclidSquare-Light.eot') format("embedded-opentype");
+        }
+        @font-face {font-family: 'Square-Light';
+            src: url('./assets/fonts/EuclidSquare-Light.woff') format("font-woff");
+        }
+        @font-face {font-family: 'Square-Light';
+            src: url('./assets/fonts/EuclidSquare-Light.woff2') format("woff2");
+        }
+
+        @font-face {font-family: 'Square-Italic';
+            src: url('./assets/fonts/EuclidSquare-Italic.ttf') format("truetype");
         }
         @font-face {font-family: 'Square-Italic';
-            src: url('./assets/fonts/EuclidSquare-Italic.ttf');
+            src: url('./assets/fonts/EuclidSquare-Italic.eot') format("embedded-opentype");
+        }
+        @font-face {font-family: 'Square-Italic';
+            src: url('./assets/fonts/EuclidSquare-Italic.woff') format("font-woff");
+        }
+        @font-face {font-family: 'Square-Italic';
+            src: url('./assets/fonts/EuclidSquare-Italic.woff2') format("woff2");
+        }
+
+        @font-face {font-family: 'Square-Italic-Light';
+            src: url('./assets/fonts/EuclidSquare-LightItalic.ttf') format("truetype");
         }
         @font-face {font-family: 'Square-Italic-Light';
-            src: url('./assets/fonts/EuclidSquare-LightItalic.ttf');
+            src: url('./assets/fonts/EuclidSquare-LightItalic.eot') format("embedded-opentype");
         }
+        @font-face {font-family: 'Square-Italic-Light';
+            src: url('./assets/fonts/EuclidSquare-LightItalic.woff') format("font-woff");
+        }
+        @font-face {font-family: 'Square-Italic-Light';
+            src: url('./assets/fonts/EuclidSquare-LightItalic.woff2') format("woff2");
+        }
+        
         font-family: 'Square';
         background: ${({ theme }) => theme.background};
         background-color: ${({ theme }) => theme.backgroundColor};

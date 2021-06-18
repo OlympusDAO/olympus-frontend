@@ -1,23 +1,18 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import Social from "../Social";
 import OlympusLogo from '../../assets/logo.svg';
 import RebaseTimer from '../RebaseTimer/RebaseTimer';
 import externalUrls from './externalUrls';
-import "./sidebar.scss";
-import { calcBondDetails } from "../../actions/Bond.actions.js";
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake-icon.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond-icon.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-icon.svg";
 import { trim } from "../../helpers";
-import { BONDS } from "../../constants";
-import { useMediaQuery } from "@material-ui/core";
+import "./sidebar.scss";
 
 
 function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, currentIndex }) {
-  const dispatch = useDispatch();
-  const [isActive, setIsActive] = useState();
+  const [isActive] = useState();
 
   const checkPage = useCallback((match, location, page) => {
     console.log(match);

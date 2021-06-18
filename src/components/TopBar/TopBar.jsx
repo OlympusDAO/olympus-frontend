@@ -1,15 +1,14 @@
-import React, { useState, useCallback, } from 'react';
-import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import React from 'react';
+// import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { useSelector, useDispatch } from 'react-redux';
-import Web3Modal from "web3modal";
-import "./topbar.scss";
+// import Web3Modal from "web3modal";
 import { shorten } from '../../helpers';
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 import { Flex } from "rimble-ui";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import "./topbar.scss";
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetProvider, theme, toggleTheme}) {
-	// const isSmallScreen = useMediaQuery("(max-width: 1200px)");
 	const isVerySmallScreen = useMediaQuery("(max-width: 649px)");
 	const isUltraSmallScreen = useMediaQuery("(max-width: 495px)");
 
