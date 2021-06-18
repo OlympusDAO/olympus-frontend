@@ -1,7 +1,7 @@
 {
   "name": "@scaffold-eth/react-app",
-  "version": "1.0.0",
-  "homepage": "https://staging.olumpusdao.finance/#/",
+  "version": "1.1.0",
+  "homepage": ".",
   "browserslist": {
     "production": [
       ">0.2% or last 2 versions",
