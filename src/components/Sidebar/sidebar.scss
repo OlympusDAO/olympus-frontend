@@ -9,10 +9,10 @@
   height:100%;
   display:flex;
   flex-flow:column;
-  background: rgba(33, 33, 33, 0.6);
-  //font-family: 'Square';
+  background: rgba(33, 33, 33, 0.7);
+  font-family: 'Square';
   backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px); 
   z-index: 5;
 }
 
@@ -114,7 +114,7 @@
   font-weight: 300;
   min-height: 30%;
   a {
-    display: block;
+    display: flex;
     width: 100%;
     padding: 0 15%;
     margin-bottom: 15px;

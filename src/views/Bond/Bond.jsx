@@ -285,8 +285,10 @@ function Bond({ provider, address, bond }) {
                 )}
             </div>
 
+
+          <div className="stake-price-data-column">
             {view === "bond" && (
-              <div className="stake-price-data-column">
+              <>
                 <div className="stake-price-data-row">
                   <p className="price-label">Your Balance</p>
                   <p className="price-data">
@@ -308,11 +310,11 @@ function Bond({ provider, address, bond }) {
                     {trim(maxBondPrice, 4)} OHM
                   </p>
                 </div>
-              </div>
+              </>
             )}
 
             {view === "redeem" && (
-              <div className="stake-price-data-column">
+              <>
                 <div className="stake-price-data-row">
                   <p className="price-label">Pending Rewards</p>
                   <p id="bond-market-price-id" className="price-data">
@@ -331,7 +333,7 @@ function Bond({ provider, address, bond }) {
                     {vestingTime()}
                   </p>
                 </div>
-              </div>
+              </>
             )}
 
             <div className="stake-price-data-row">
@@ -380,6 +382,7 @@ function Bond({ provider, address, bond }) {
               </div>
             )}
           </div>
+        </div>
         </div>
 
         
