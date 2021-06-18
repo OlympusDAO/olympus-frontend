@@ -43,7 +43,10 @@ export const addresses = {
     // DAI_BOND_ADDRESS: "0xa64ED1b66Cb2838Ef2A198D8345c0ce6967A2A3c", 
     DAI_BOND_ADDRESS: "0x996668C46Fc0B764aFdA88d83eB58afc933a1626", // latest "v1"
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
+<<<<<<< HEAD
     OHM_FRAX_BOND_ADDRESS: "0x539b6c906244Ac34E348BbE77885cdfa994a3776", // v1 OHM_FRAX
+=======
+>>>>>>> updated bond contracts
 
     // This is V1.1. Some are copied from above.
     RESERVES: {
