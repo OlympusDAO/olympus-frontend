@@ -13,26 +13,35 @@ import { trim } from "../../helpers";
 function ChooseBond({ provider, address }) {
 	const material = useTheme();
 
-	// const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });	
+	// const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });
 	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
 	const isSmallScreen = useMediaQuery("(max-width: 1125px)");
 	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
 	const isNarrowScreen = useMediaQuery("(max-width: 460px)");
 
+	const treasuryBalance = useSelector(state => {
+    return state.app.treasuryBalance;
+  });
 
 	return (
 		<Grid container id="choose-bond-view" justify="center" spacing={2}>
 
         <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
-          
-          <div className="card-content">    
+
+          <div className="card-content">
 						<Grid container item xs={12} spacing={2}>
 							<Grid item sm={7} lg={9}>
 								<h3>Treasury Balance</h3>
-								<h2>$17,590,059</h2>
+								<h2>
+									{new Intl.NumberFormat("en-US", {
+										style: "currency",
+										currency: "USD",
+										maximumFractionDigits: 0,
+									}).format(trim(treasuryBalance, 0))}
+								</h2>
 							</Grid>
-							
+
 							<Grid item xs={5} sm={5} lg={3} className="ohm-price">
 								<h3>OHM Price</h3>
 								<h2>{trim(marketPrice, 2)}</h2>
