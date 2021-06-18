@@ -126,6 +126,10 @@ export const GlobalStyles = createGlobalStyle`
             }
         }
     }
+
+    .mobile .dapp-sidebar {
+        background-color: ${({ theme }) => theme.modalBg};
+    }
     .branding-header-icon, 
     .olympus-sushi img,
     .olympus-sushi svg,
