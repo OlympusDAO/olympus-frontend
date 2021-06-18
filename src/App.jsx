@@ -9,7 +9,7 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import ClearIcon from '@material-ui/icons/Clear';
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Flex } from "rimble-ui";
 import { Container, Modal, Backdrop, useMediaQuery } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -109,8 +109,6 @@ function App(props) {
   const isSmallerScreen = useMediaQuery("(max-width: 1125px)");
 	const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
 
-  // const [themeMode, setThemeMode] = useState(lightTheme);
-
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   const handleSidebarOpen = () => {
@@ -122,11 +120,26 @@ function App(props) {
     setIsSidebarExpanded(false)
   }
 
-
   useEffect(() => {
     console.log(['pageview', location.pathname]);
     if (isSidebarExpanded) handleSidebarClose();
   }, [location])
+
+
+  const currentBlock  = useSelector((state) => { return state.app.currentBlock });
+  const currentIndex = useSelector((state) => { return state.app.currentIndex });
+
+  const daiBondDiscount = useSelector(state => {
+    return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
+  });
+
+  const ohmDaiBondDiscount = useSelector(state => {
+    return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
+  });
+
+  const ohmFraxLpBondDiscount = useSelector(state => {
+    return state.bonding['ohm_frax_lp'] && state.bonding['ohm_frax_lp'].bondDiscount;
+  })
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
@@ -172,6 +185,9 @@ function App(props) {
     });
   }
 
+
+  
+
   useEffect(() => {
     loadDetails();
   }, [injectedProvider, address]);
@@ -186,12 +202,7 @@ function App(props) {
       loadWeb3Modal();
     }
   }, [loadWeb3Modal]);
-
-  const [route, setRoute] = useState();
-
-  useEffect(() => {
-    setRoute(window.location.pathname);
-  }, [setRoute]);
+  
 
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
@@ -237,15 +248,11 @@ function App(props) {
           )}
 
           <Sidebar
-            web3Modal={web3Modal}
-            loadWeb3Modal={loadWeb3Modal}
-            logoutOfWeb3Modal={logoutOfWeb3Modal}
-            mainnetProvider={mainnetProvider}
-            blockExplorer={blockExplorer}
-            address={address}
-            route={route}
+            ohmDaiBondDiscount={ohmDaiBondDiscount}
+            ohmFraxLpBondDiscount={ohmFraxLpBondDiscount}
+            daiBondDiscount={daiBondDiscount}
+            currentIndex={currentIndex}
             isExpanded={isSidebarExpanded}
-            setRoute={setRoute}
             theme={theme}
             onClick={() => {isSidebarExpanded ? handleSidebarClose() : console.log('sidebar colapsed')}}
           />
@@ -258,7 +265,6 @@ function App(props) {
               mainnetProvider={mainnetProvider}
               blockExplorer={blockExplorer}
               address={address}
-              route={route}
               theme={theme}
               toggleTheme={toggleTheme}
             />

@@ -3,25 +3,25 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
     .app, #dapp {
         @font-face {font-family: 'Square-Bold';
-            src: url('./assets/fonts/EuclidSquare-Bold.ttf') format('ttf');
+            src: url('./assets/fonts/EuclidSquare-Bold.ttf');
         }
         @font-face {font-family: 'Square-Semi-Bold';
-            src: url('./assets/fonts/EuclidSquare-Bold.ttf') format('ttf');
+            src: url('./assets/fonts/EuclidSquare-Bold.ttf');
         }
         @font-face {font-family: 'Square';
-            src: url('./assets/fonts/EuclidSquare-Regular.ttf') format('ttf');
+            src: url('./assets/fonts/EuclidSquare-Regular.ttf');
         }
         @font-face {font-family: 'Square-Medium';
-            src: url('./assets/fonts/EuclidSquare-Medium.ttf') format('ttf');
+            src: url('./assets/fonts/EuclidSquare-Medium.ttf');
         }
         @font-face {font-family: 'Square-Light';
-            src: url('./assets/fonts/EuclidSquare-Light.ttf') format('ttf');
+            src: url('./assets/fonts/EuclidSquare-Light.ttf');
         }
         @font-face {font-family: 'Square-Italic';
-            src: url('./assets/fonts/EuclidSquare-Italic.ttf') format('ttf');
+            src: url('./assets/fonts/EuclidSquare-Italic.ttf');
         }
         @font-face {font-family: 'Square-Italic-Light';
-            src: url('./assets/fonts/EuclidSquare-LightItalic.ttf') format('ttf');
+            src: url('./assets/fonts/EuclidSquare-LightItalic.ttf');
         }
         font-family: 'Square';
         background: ${({ theme }) => theme.background};
