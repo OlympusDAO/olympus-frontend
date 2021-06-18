@@ -1,28 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core"
 import { Card } from "rimble-ui";
 import "../Stake/stake.scss";
 import { BondTableData, BondCardData } from './BondRow';
 import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
 import { trim } from "../../helpers";
 
 
 function ChooseBond({ provider, address }) {
-	const material = useTheme();
 
 	// const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });
 	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
 	const isSmallScreen = useMediaQuery("(max-width: 1125px)");
-	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
-	const isNarrowScreen = useMediaQuery("(max-width: 460px)");
+	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
 
 	const treasuryBalance = useSelector(state => {
-    return state.app.treasuryBalance;
-  });
+    	return state.app.treasuryBalance;
+  	});
 
 	return (
 		<Grid container id="choose-bond-view" justify="center" spacing={2}>
