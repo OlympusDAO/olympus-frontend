@@ -1,9 +1,14 @@
 import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
+import { abi as OHMPreSale } from "../abi/OHMPreSale.json";
 import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
-import { abi as StakingHelper } from "../abi/StakingHelper.json";
-import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
+import { abi as MigrateToOHM } from "../abi/MigrateToOHM.json";
+import { abi as sOHM } from "../abi/sOHM.json";
+import { abi as LPStaking } from "../abi/LPStaking.json";
+import { abi as DistributorContract } from "../abi/DistributorContract.json";
+import { abi as BondContract } from "../abi/BondContract.json";
+import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 
 export const fetchStakeSuccess = payload => ({
   type: Actions.FETCH_STAKE_SUCCESS,
@@ -26,7 +31,7 @@ export const changeApproval =
     try {
       if (token === "ohm") {
         approveTx = await ohmContract.approve(
-          addresses[networkID].STAKING_HELPER_ADDRESS,
+          addresses[networkID].STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       } else if (token === "sohm") {
@@ -42,7 +47,7 @@ export const changeApproval =
       return;
     }
 
-    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     return dispatch(
       fetchStakeSuccess({
@@ -63,18 +68,16 @@ export const changeStake =
     }
 
     const signer = provider.getSigner();
-
-    const staking = new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
-    const unstaking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, signer);
+    const staking = await new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStaking, signer);
 
     let stakeTx;
 
     try {
       if (action === "stake") {
-        stakeTx = await staking.stake(ethers.utils.parseUnits(value, "gwei"));
+        stakeTx = await staking.stakeOHM(ethers.utils.parseUnits(value, "gwei"));
         await stakeTx.wait();
       } else {
-        stakeTx = await unstaking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
+        stakeTx = await staking.unstakeOHM(ethers.utils.parseUnits(value, "gwei"));
         await stakeTx.wait();
       }
     } catch (error) {
