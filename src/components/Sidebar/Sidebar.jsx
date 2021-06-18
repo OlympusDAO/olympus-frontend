@@ -15,7 +15,6 @@ import { BONDS } from "../../constants";
 import { useMediaQuery } from "@material-ui/core";
 
 
-
 function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme }) {
   const dispatch = useDispatch();
   const [isActive, setIsActive] = useState("stake");
@@ -99,7 +98,7 @@ function Sidebar({ isExpanded, setRoute, address, provider, blockExplorer, theme
                 <p>OHM-DAI LP<span>{trim(ohmDaiBondDiscount * 100, 2)}%</span></p>
                 <p>OHM-FRAX LP<span>{trim(ohmFraxLpBondDiscount * 100, 2)}%</span></p>
                 <p>DAI<span>{trim(daiBondDiscount * 100, 2)}%</span></p>
-                <p>FRAX<span></span></p>
+                {/* <p>FRAX<span></span></p> */}
               </div>
             </div>
           </div>
