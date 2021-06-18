@@ -194,8 +194,7 @@ function Bond({ provider, address, bond }) {
                 >
                   Redeem
                 </button>
-                
-                <button
+                {bond !== BONDS.ohm_frax  && <button
                   type="button"
                   className={`btn ${view === "redeem_v1" ? "btn-light" : ""}`}
                   onClick={() => {
@@ -205,7 +204,7 @@ function Bond({ provider, address, bond }) {
                 >
                   Redeem V1.0
                 </button>
-                
+                }
               </div>
             </div>
 

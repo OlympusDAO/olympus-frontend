@@ -46,8 +46,6 @@ export function contractForBond({ bond, networkID, provider }) {
     return new ethers.Contract(addresses[networkID].DAI_BOND_ADDRESS, DaiBondContract, provider);
   } else if (bond === BONDS.ohm_frax) {
     return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX, BondOhmFraxContract, provider);
-  } else if (bond === BONDS.ohm_frax_v1) {
-    return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX_BOND_ADDRESS, BondOhmFraxContract, provider);
   }
 }
 
