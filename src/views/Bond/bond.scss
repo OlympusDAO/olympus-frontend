@@ -3,11 +3,13 @@
     z-index: 7;
     .MuiBackdrop-root {
         background: rgba(0, 0, 0, 0.2) !important;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         .ohm-card {
             // background-color: #1B1D22FF !important;
             opacity: 1 !important;  
             background-color: rgba(27,29,34,0.9) !important;
+            height: 55vh;
         }
     }
     .ohm-card,
@@ -89,7 +91,7 @@
     }
 
     .stake-notification {
-        margin-bottom: 20px !important;
+        margin-bottom: 25px !important;
     }
 
     .input-row {
@@ -108,6 +110,8 @@
 
     .stake-price-data-column {
         margin: 0;
+        height: 15rem;
+        justify-content: normal;
     }
     .stake-price-data-row {
         height: 42px;
@@ -122,6 +126,9 @@
     .bond-main-info {
         display: flex;
         justify-content: center;
+    }
+    .swap-input-column {
+        padding: 1em;
     }
 }
 
