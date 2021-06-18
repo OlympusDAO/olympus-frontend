@@ -3,26 +3,27 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
     .app, #dapp {
         @font-face {font-family: 'Square-Bold';
-            src: url('./assets/fonts/EuclidSquare-Bold.ttf');
+            src: url('./assets/fonts/EuclidSquare-Bold.ttf') format('ttf');
         }
         @font-face {font-family: 'Square-Semi-Bold';
-            src: url('./assets/fonts/EuclidSquare-Bold.ttf');
+            src: url('./assets/fonts/EuclidSquare-Bold.ttf') format('ttf');
         }
         @font-face {font-family: 'Square';
-            src: url('./assets/fonts/EuclidSquare-Regular.ttf');
+            src: url('./assets/fonts/EuclidSquare-Regular.ttf') format('ttf');
         }
         @font-face {font-family: 'Square-Medium';
-            src: url('./assets/fonts/EuclidSquare-Medium.ttf');
+            src: url('./assets/fonts/EuclidSquare-Medium.ttf') format('ttf');
         }
         @font-face {font-family: 'Square-Light';
-            src: url('./assets/fonts/EuclidSquare-Light.ttf');
+            src: url('./assets/fonts/EuclidSquare-Light.ttf') format('ttf');
         }
         @font-face {font-family: 'Square-Italic';
-            src: url('./assets/fonts/EuclidSquare-Italic.ttf');
+            src: url('./assets/fonts/EuclidSquare-Italic.ttf') format('ttf');
         }
         @font-face {font-family: 'Square-Italic-Light';
-            src: url('./assets/fonts/EuclidSquare-LightItalic.ttf');
+            src: url('./assets/fonts/EuclidSquare-LightItalic.ttf') format('ttf');
         }
+        font-family: 'Square';
         background: ${({ theme }) => theme.background};
         background-color: ${({ theme }) => theme.backgroundColor};
         background-blend-mode: screen;
@@ -197,5 +198,11 @@ export const GlobalStyles = createGlobalStyle`
     .olympus-logo {
         filter: invert(${({ theme }) => theme.filter});
         -webkit-filter: invert(${({ theme }) => theme.filter});
+    }
+
+    a.close-nav {
+        svg {
+            color: ${({ theme }) => theme.color} !important;
+        }
     }
 `;
