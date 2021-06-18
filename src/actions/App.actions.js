@@ -47,6 +47,7 @@ export const loadAppDetails =
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
     const bondCalculator = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
 
+
     // Calculate Treasury Balance
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
     let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);

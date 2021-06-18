@@ -28,6 +28,7 @@ export const darkTheme = {
     CTALpButtonBorderHover: "2px solid #F4D092",
     activeLinkColor: "#F5DDB4",
     activeLinkSvgColor: "brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%)",
+    filter: "1",
 }
   
 export const lightTheme = {
@@ -63,6 +64,7 @@ export const lightTheme = {
     iconColor: "brightness(0) saturate(100%)",
     activeLinkColor: "#759AAE",
     activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
+    filter: "0",
 }
 
 
