@@ -174,4 +174,28 @@ export const GlobalStyles = createGlobalStyle`
     .navbar-light .navbar-toggler-icon {
         filter: ${({ theme }) => theme.logoColor}; 
     }
+    nav.navbar-expand-lg {
+        position: fixed;
+    }
+    .ohm-logo-bg {
+        border: 1px solid ${({ theme }) => theme.color};
+    }
+    td.MuiTableCell-root.MuiTableCell-body {
+        color: ${({ theme }) => theme.color} !important;
+    }
+    td.MuiTableCell-root.MuiTableCell-body {
+        .ohm-pair .ohm-logo-bg {
+            padding: 0.3em !important;
+        }
+    }
+
+    td .ohm-logo-bg {
+        padding: .3em;
+        height: 40px;
+        width: 40px;
+    }
+    .olympus-logo {
+        filter: invert(${({ theme }) => theme.filter});
+        -webkit-filter: invert(${({ theme }) => theme.filter});
+    }
 `;

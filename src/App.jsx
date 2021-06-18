@@ -8,6 +8,7 @@ import Web3Modal from "web3modal";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/js/all.js";
+import ClearIcon from '@material-ui/icons/Clear';
 import { useDispatch } from "react-redux";
 import { Flex } from "rimble-ui";
 import { Container, Modal, Backdrop, useMediaQuery } from "@material-ui/core";
@@ -25,7 +26,7 @@ import Migrate from "./views/Stake/Migrate";
 import NotFound from "./views/404/NotFound";
 
 
-// import "./App.css";
+import "./App.css";
 // import "./style.scss";
 // import { Header } from "./components";
 
@@ -224,6 +225,16 @@ function App(props) {
               <span className="navbar-toggler-icon" />
             </button>
           </nav>}
+
+          {isSidebarExpanded && (
+            <a
+              role="button"
+              className="close-nav"
+              onClick={() => setIsSidebarExpanded(false)}
+            >
+              <ClearIcon />
+            </a>
+          )}
 
           <Sidebar
             web3Modal={web3Modal}
