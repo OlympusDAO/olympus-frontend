@@ -8,6 +8,9 @@
     .mobile .card-content {
         padding-top: 0.4em !important;
     }
+    .card-header {
+        background: transparent !important;
+    }
     .rebase-timer {
         margin: 0 !important;
         font-size: 0.9em !important;
@@ -50,7 +53,6 @@
         // background: rgba(0, 0, 0, 0.2) !important;
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
-        -webkit-
         .ohm-card {
             // background-color: #1B1D22;
             opacity: 1 !important;
@@ -620,6 +622,7 @@
 
 
 #choose-bond-view {
+    
     h1, h2, h3, h4 {
         font-family: 'Square' !important;
         font-weight: 500;
@@ -655,15 +658,17 @@
             width: 40px;
         }
         &.secondary {
-            background-color: #00000000;
-            background: transparent !important;
+            // background: transparent !important;
             box-shadow: none !important;
             margin-top: 20px;
+            padding-top: 2rem !important;
             .card-header,
             .card-content {
-                background-color: #00000000;
                 .ohm-price {
                     text-align: right;
+                    &.very-small {
+                        text-align: left;
+                    }
                 }
             }
             // .ohm-price {
@@ -681,9 +686,12 @@
         }
         &.primary {
             padding-top: 0 !important;        
+            .card-header {
+                background: transparent;
+            }
             .card-content {
-                padding: 1rem 1.5rem 1rem 0.5rem !important;
-                height: 11vh;
+                padding: 2rem 2rem 3rem 0.5rem !important;
+                height: auto;
                 align-items: center;
                 vertical-align: center;
                 display: flex;
@@ -747,5 +755,5 @@
 :not(.mobile) .ohm-card .card-content {
     padding-left: 3rem !important;
     padding-right: 3rem !important;
-    padding-bottom: 3.3rem !important;
+    padding-bottom: 3rem !important;
 }
