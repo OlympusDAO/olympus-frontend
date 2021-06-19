@@ -56,34 +56,44 @@ export const calcBondDetails =
     // const vestingTerm = VESTING_TERM; // hardcoded for now
     let bondDiscount, valuation, bondQuote;
     const bondContract = contractForBond({ bond, networkID, provider });
-
-    const marketPrice = await getMarketPrice({ networkID, provider });
-    const terms = await bondContract.terms();
-    const maxBondPrice = await bondContract.maxPayout();
-    const debtRatio = await bondContract.standardizedDebtRatio();
-    const bondPrice = await bondContract.bondPriceInUSD();
-
     const bondCalcContract = new ethers.Contract(
       addresses[networkID].BONDS.OHM_DAI_CALC,
       BondOhmDaiCalcContract,
       provider,
     );
 
-    bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
-    if (bond === BONDS.ohm_dai) {
-      // RFV = assume 1:1 backing
-      valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
-      bondQuote = await bondContract.payoutFor(valuation);
-      bondQuote = bondQuote / Math.pow(10, 9);
-    } else if (bond === BONDS.ohm_frax) {
-      valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
-      bondQuote = await bondContract.payoutFor(valuation);
-      bondQuote = bondQuote / Math.pow(10, 9);
-    } else {
-      // RFV = DAI
-      bondQuote = await bondContract.payoutFor(amountInWei);
-      bondQuote = bondQuote / Math.pow(10, 18);
+    const marketPrice = await getMarketPrice({ networkID, provider });
+    const terms = await bondContract.terms();
+    const maxBondPrice = await bondContract.maxPayout();
+
+    let debtRatio, bondPrice;
+    try {
+      debtRatio = await bondContract.standardizedDebtRatio();
+      bondPrice = await bondContract.bondPriceInUSD();
+
+      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
+      if (bond === BONDS.ohm_dai) {
+        // RFV = assume 1:1 backing
+        valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
+        bondQuote = await bondContract.payoutFor(valuation);
+        bondQuote = bondQuote / Math.pow(10, 9);
+      } else if (bond === BONDS.ohm_frax) {
+        valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
+        bondQuote = await bondContract.payoutFor(valuation);
+        bondQuote = bondQuote / Math.pow(10, 9);
+      } else {
+        // RFV = DAI
+        bondQuote = await bondContract.payoutFor(amountInWei);
+        bondQuote = bondQuote / Math.pow(10, 18);
+      }
+
+    } catch {
+      debtRatio = 0;
+      bondPrice = 0;
     }
+
+
+
 
     // Display error if user tries to exceed maximum.
     if (!!value && parseFloat(bondQuote) > maxBondPrice / Math.pow(10, 9)) {
