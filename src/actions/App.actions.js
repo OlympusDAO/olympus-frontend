@@ -67,8 +67,14 @@ export const loadAppDetails =
     const treasuryBalance  = daiAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
     // Calculate TVL staked
-    let ohmInTreasury = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
-    ohmInTreasury = ohmInTreasury / Math.pow(10, 9);
+    let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    let ohmInOldStaking = await ohmContract.balanceOf(addresses[networkID].OLD_STAKING_ADDRESS);
+    const ohmInTreasury = ohmInNewStaking / Math.pow(10, 9) + ohmInOldStaking / Math.pow(10, 9);
+
+    // Calculate TVL staked
+    // let ohmInTreasury = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    // ohmInTreasury = ohmInTreasury / Math.pow(10, 9);
+
 
     // Get market price of OHM
     const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
