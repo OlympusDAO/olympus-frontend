@@ -104,12 +104,31 @@ export const calcBondDetails =
       );
     }
 
+
+    // Calculate bonds purchased
+    const token = contractForReserve({ bond, networkID, provider });
+    let purchased = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+
+    // Value the bond
+    if (isBondLP(bond)) {
+      try {
+        purchased = await bondCalcContract.valuation(addressForBond({bond, networkID}), purchased);
+        purchased = purchased / Math.pow(10, 9);
+      } catch {
+        purchased = 0;
+      }
+    } else {
+      purchased = purchased / Math.pow(10, 18);
+    }
+
+
     return dispatch(
       fetchBondSuccess({
         bond,
         bondDiscount,
         debtRatio,
         bondQuote,
+        purchased,
         vestingTerm: terms.vestingTerm,
         maxBondPrice: maxBondPrice / Math.pow(10, 9),
         bondPrice: bondPrice / Math.pow(10, 18),
