@@ -63,8 +63,9 @@ export function BondCardData({ bond }) {
 
 
 export function BondTableData({bond}) {
-  const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
-  const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
+  const bondPrice     = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
+  const bondDiscount  = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
+  const bondPurchased = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].purchased });
 
   const daiAssetImg = () => {
     return 'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png';
@@ -91,12 +92,18 @@ export function BondTableData({bond}) {
           <i className="fas fa-external-link-alt"></i>
           </p>
         </a>}
-        
+
         </div>
       </TableCell>
       <TableCell align="center"><p>{priceUnits(bond)} {trim(bondPrice, 2)}</p></TableCell>
       <TableCell>{trim(bondDiscount * 100, 2)}</TableCell>
-      <TableCell>$33,333,333</TableCell>
+      <TableCell>
+        {new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 0,
+        }).format(trim(bondPurchased, 0))}
+      </TableCell>
       <TableCell align="right">
         <NavLink to={`/bonds/${bond}`}>
           <button className="stake-lp-button ohm-btn">Bond</button>
@@ -152,4 +159,3 @@ export function BondHeader({ bond }) {
     </li>
   );
 }
-
