@@ -93,9 +93,9 @@ function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount,
         </div>
 
         <div className="dapp-menu-data bottom">
-          <div className="data-rebase">
+          {/* <div className="data-rebase">
             <RebaseTimer />
-          </div>
+          </div> */}
 
         {theme === "girth" && 
           <div className="data-ohm-index">
