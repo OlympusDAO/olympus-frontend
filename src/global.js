@@ -148,9 +148,7 @@ export const GlobalStyles = createGlobalStyle`
         font-family: Square !important;
     }
     .ohm-dashboard-card,
-    .ohm-card,
-    .ohm-card .card-header,
-    .ohm-card .card-content {
+    .ohm-card {
         background-color: ${({ theme }) => theme.cardBg};
         h2 { 
             color: ${({ theme }) => theme.color};
