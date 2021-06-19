@@ -113,7 +113,7 @@ export const calcBondDetails =
     if (isBondLP(bond)) {
       const markdown  = await bondCalcContract.markdown(addressForAsset({bond, networkID}));
       purchased = await bondCalcContract.valuation(addressForAsset({bond, networkID}), purchased);
-      purchased = (markdown / Math.pow(10, 9)) * (purchased / Math.pow(10, 9)) ;
+      purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9)) ;
     } else {
       purchased = purchased / Math.pow(10, 18);
     }
