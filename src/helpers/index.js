@@ -15,6 +15,16 @@ import { abi as DaiBondContract } from '../abi/DaiBondContract.json';
 
 export { default as Transactor } from "./Transactor";
 
+export function addressForBond({bond, networkID}) {
+  if (bond === BONDS.ohm_dai) {
+    return addresses[networkID].BONDS.OHM_DAI;
+  } else if (bond === BONDS.dai) {
+    return addresses[networkID].BONDS.DAI;
+  } else if (bond === BONDS.ohm_frax) {
+    return addresses[networkID].BONDS.OHM_FRAX;
+  }
+}
+
 export function isBondLP(bond) {
   return bond.indexOf('_lp') >= 0
 }
