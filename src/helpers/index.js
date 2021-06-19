@@ -25,6 +25,16 @@ export function addressForBond({bond, networkID}) {
   }
 }
 
+export function addressForAsset({bond, networkID}) {
+  if (bond === BONDS.ohm_dai) {
+    return addresses[networkID].RESERVES.OHM_DAI;
+  } else if (bond === BONDS.dai) {
+    return addresses[networkID].RESERVES.DAI;
+  } else if (bond === BONDS.ohm_frax) {
+    return addresses[networkID].RESERVES.OHM_FRAX;
+  }
+}
+
 export function isBondLP(bond) {
   return bond.indexOf('_lp') >= 0
 }
