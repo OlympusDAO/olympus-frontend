@@ -216,6 +216,15 @@ function Bond({ provider, address, bond }) {
                   >
                     Redeem
                   </button>
+                  <button
+                    type="button"
+                    className={`btn ${view === "redeem" ? "btn-light" : ""}`}
+                    onClick={() => {
+                      setView("redeem_v1");
+                    }}
+                  >
+                    Redeem
+                  </button>
                 </div>
               </div>
 
@@ -236,6 +245,7 @@ function Bond({ provider, address, bond }) {
                 </div>
               )}
 
+              {view === "redeem_v1" && <BondRedeemV1 provider={provider} address={address} bond={bond + "_v1"} />}
 
               {view == "redeem" && (
                 <div 
