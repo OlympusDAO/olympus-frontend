@@ -4,6 +4,7 @@ import { Flex, Card } from "rimble-ui";
 import { Grid } from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import RebaseTimer from '../../components/RebaseTimer/RebaseTimer';
 import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
@@ -133,7 +134,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
       <Card className={`ohm-card primary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
         <div className="card-header">
           <h5>Single Stake (3, 3)</h5>
-          
+          <RebaseTimer />
+
           {address && (oldSohmBalance > 0) && (
             <div
               className="migrate-sohm-button"

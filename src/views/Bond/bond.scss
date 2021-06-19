@@ -97,16 +97,22 @@
 
     .input-row {
         display: flex;
-        justify-content: space-evenly;
+        justify-content: center;
         margin-bottom: 26px;
+        align-items: center;
+        flex-direction: column;
     }
 
     .input-group {
         // display: inline-flex;
-        min-width: 50%;    
+        min-width: 50%; 
+        width: 50%;  
     }
     .transaction-button {
         min-width: 30%;
+        width: 50%;
+        margin-left: 0 !important;
+        margin-top: 10px;
     }
 
     .stake-price-data-column {
@@ -130,6 +136,11 @@
     }
     .swap-input-column {
         padding: 1em;
+    }
+    .alert.alert-warning {
+        a {
+            color: black !important;
+        }
     }
 }
 

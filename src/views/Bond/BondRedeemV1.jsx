@@ -58,7 +58,7 @@ function BondRedeemV1({ bond, provider, address }) {
       </div>
 
       <div className="d-flex justify-content-center">
-        <div className="stake-button" onClick={onRedeem}>Claim V1.0</div>
+        <div className="stake-button" onClick={onRedeem}>Claim v1.0</div>
       </div>
 
     </React.Fragment>
