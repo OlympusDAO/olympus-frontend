@@ -1,5 +1,4 @@
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import { formatEther, parseEther } from "@ethersproject/units";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
@@ -10,7 +9,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { calcBondDetails, } from './actions/Bond.actions.js';
-
 import { loadAppDetails, getMarketPrice, getTokenSupply } from './actions/App.actions.js';
 import { loadAccountDetails } from './actions/Account.actions.js';
 
@@ -18,24 +16,12 @@ import { Stake, ChooseBond, Bond, Dashboard, Migrate } from "./views";
 
 import "./App.css";
 import "./style.scss";
-import { Header } from "./components";
 
 import Sidebar from "./components/Sidebar";
 import { DAI_ABI, DAI_ADDRESS, INFURA_ID, NETWORK, NETWORKS, BONDS } from "./constants";
 import { Transactor } from "./helpers";
-import {
-  useBalance,
-  useContractLoader,
-  useContractReader,
-  useEventListener,
-  useExchangePrice,
-  useExternalContractLoader,
-  useGasPrice,
-  useOnBlock,
-  useUserProvider,
-} from "./hooks";
-// import Hints from "./Hints";
-import { ExampleUI, Hints, Subgraph } from "./views";
+import { useUserProvider } from "./hooks";
+
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -70,7 +56,7 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // Using StaticJsonRpcProvider as the chainId won't change see https://github.com/ethers-io/ethers.js/issues/901
 // const scaffoldEthProvider = new StaticJsonRpcProvider("https://rpc.scaffoldeth.io:48544");
 const mainnetInfura = new StaticJsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID);
-// ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_I
+// ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_ID
 
 // 🔭 block explorer URL
 const blockExplorer = targetNetwork.blockExplorer;
@@ -79,7 +65,7 @@ const blockExplorer = targetNetwork.blockExplorer;
   Web3 modal helps us "connect" external wallets:
 */
 const web3Modal = new Web3Modal({
-  // network: "mainnet", // optional
+  network: "mainnet", // optional
   cacheProvider: true, // optional
   providerOptions: {
     walletconnect: {
@@ -113,24 +99,24 @@ function App(props) {
   const address = useUserAddress(userProvider);
 
   // You can warn the user if you would like them to be on a specific network
-  const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
+  // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
   // Just plug in different 🛰 providers to get your balance on different chains:
-  const yourMainnetBalance = useBalance(mainnetProvider, address);
+  // const yourMainnetBalance = useBalance(mainnetProvider, address);
 
   // If you want to make 🔐 write transactions to your contracts, use the userProvider:
-  const writeContracts = useContractLoader(userProvider);
+  // const writeContracts = useContractLoader(userProvider);
 
   // EXTERNAL CONTRACT EXAMPLE:
   // If you want to bring in the mainnet DAI contract it would look like:
-  const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
+  //const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
 
   // If you want to call a function on a new block
-  useOnBlock(mainnetProvider, () => {
-    console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
-  });
+  // useOnBlock(mainnetProvider, () => {
+  //   console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
+  // });
 
 
   async function loadDetails() {
@@ -170,14 +156,11 @@ function App(props) {
   }, [setRoute]);
 
 
-
-
   return (
     <div className="app">
       <div id="dapp" className="dapp min-vh-100">
         <div className="container-fluid">
           <div className="row">
-            {false && <Header address={address} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} web3Modal={web3Modal} />}
 
             <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-md-none">
               <button
