@@ -9,7 +9,7 @@
             // background-color: #1B1D22FF !important;
             opacity: 1 !important;  
             // background-color: rgba(27,29,34,0.9) !important;
-            height: 55vh;
+            height: 56vh;
         }
     }
     .ohm-card,
@@ -85,13 +85,14 @@
         justify-content: center !important;        
         margin-bottom: 2rem;
         .btn-group button {
-            font-size: 1.4em;
-            width: 9rem;
+            font-size: 1.3em;
+            width: 10rem;
         }
     }
 
     .stake-notification {
         margin-bottom: 25px !important;
+        margin-top: 25px !important;
     }
 
     .input-row {
@@ -110,7 +111,7 @@
 
     .stake-price-data-column {
         margin: 0;
-        height: 15rem;
+        height: auto;
         justify-content: normal;
     }
     .stake-price-data-row {
