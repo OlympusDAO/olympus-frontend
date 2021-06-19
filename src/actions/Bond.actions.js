@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { getMarketPrice, contractForBond, contractForReserve } from "../helpers";
+import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForBond, addressForAsset } from "../helpers";
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 
@@ -56,34 +56,44 @@ export const calcBondDetails =
     // const vestingTerm = VESTING_TERM; // hardcoded for now
     let bondDiscount, valuation, bondQuote;
     const bondContract = contractForBond({ bond, networkID, provider });
-
-    const marketPrice = await getMarketPrice({ networkID, provider });
-    const terms = await bondContract.terms();
-    const maxBondPrice = await bondContract.maxPayout();
-    const debtRatio = await bondContract.standardizedDebtRatio();
-    const bondPrice = await bondContract.bondPriceInUSD();
-
     const bondCalcContract = new ethers.Contract(
       addresses[networkID].BONDS.OHM_DAI_CALC,
       BondOhmDaiCalcContract,
       provider,
     );
 
-    bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
-    if (bond === BONDS.ohm_dai) {
-      // RFV = assume 1:1 backing
-      valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
-      bondQuote = await bondContract.payoutFor(valuation);
-      bondQuote = bondQuote / Math.pow(10, 9);
-    } else if (bond === BONDS.ohm_frax) {
-      valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
-      bondQuote = await bondContract.payoutFor(valuation);
-      bondQuote = bondQuote / Math.pow(10, 9);
-    } else {
-      // RFV = DAI
-      bondQuote = await bondContract.payoutFor(amountInWei);
-      bondQuote = bondQuote / Math.pow(10, 18);
+    const marketPrice = await getMarketPrice({ networkID, provider });
+    const terms = await bondContract.terms();
+    const maxBondPrice = await bondContract.maxPayout();
+
+    let debtRatio, bondPrice;
+    try {
+      debtRatio = await bondContract.standardizedDebtRatio();
+      bondPrice = await bondContract.bondPriceInUSD();
+
+      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
+      if (bond === BONDS.ohm_dai) {
+        // RFV = assume 1:1 backing
+        valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
+        bondQuote = await bondContract.payoutFor(valuation);
+        bondQuote = bondQuote / Math.pow(10, 9);
+      } else if (bond === BONDS.ohm_frax) {
+        valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
+        bondQuote = await bondContract.payoutFor(valuation);
+        bondQuote = bondQuote / Math.pow(10, 9);
+      } else {
+        // RFV = DAI
+        bondQuote = await bondContract.payoutFor(amountInWei);
+        bondQuote = bondQuote / Math.pow(10, 18);
+      }
+
+    } catch {
+      debtRatio = 0;
+      bondPrice = 0;
     }
+
+
+
 
     // Display error if user tries to exceed maximum.
     if (!!value && parseFloat(bondQuote) > maxBondPrice / Math.pow(10, 9)) {
@@ -94,12 +104,28 @@ export const calcBondDetails =
       );
     }
 
+
+    // Calculate bonds purchased
+    const token = contractForReserve({ bond, networkID, provider });
+    let purchased = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+
+    // Value the bond
+    if (isBondLP(bond)) {
+      const markdown  = await bondCalcContract.markdown(addressForAsset({bond, networkID}));
+      purchased = await bondCalcContract.valuation(addressForAsset({bond, networkID}), purchased);
+      purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9)) ;
+    } else {
+      purchased = purchased / Math.pow(10, 18);
+    }
+
+
     return dispatch(
       fetchBondSuccess({
         bond,
         bondDiscount,
         debtRatio,
         bondQuote,
+        purchased,
         vestingTerm: terms.vestingTerm,
         maxBondPrice: maxBondPrice / Math.pow(10, 9),
         bondPrice: bondPrice / Math.pow(10, 18),
