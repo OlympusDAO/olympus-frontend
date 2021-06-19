@@ -16,6 +16,7 @@ function ChooseBond({ provider, address }) {
 
 	const isSmallScreen = useMediaQuery("(max-width: 1125px)");
 	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
+	const isVerySmallScreen = useMediaQuery("(max-width: 589px)");
 
 	const treasuryBalance = useSelector(state => {
     	return state.app.treasuryBalance;
@@ -39,7 +40,7 @@ function ChooseBond({ provider, address }) {
 								</h2>
 							</Grid>
 
-							<Grid item xs={5} sm={5} lg={3} className="ohm-price">
+							<Grid item xs={5} sm={5} lg={3} className={`ohm-price ${isVerySmallScreen && "very-small"}`}>
 								<h3>OHM Price</h3>
 								<h2>{trim(marketPrice, 2)}</h2>
 							</Grid>
