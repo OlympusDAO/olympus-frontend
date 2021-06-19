@@ -38,7 +38,7 @@ export function BondCardData({ bond }) {
 
       <div className="bond-price">
         <p>Price</p>
-         <p>${priceUnits(bond)} {trim(bondPrice, 2)}</p>
+         <p>${trim(bondPrice, 2)}</p>
       </div>
 
       <div className="bond-discount">
