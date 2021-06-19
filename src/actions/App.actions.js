@@ -14,7 +14,7 @@ import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 import { abi as PairContract } from "../abi/PairContract.json";
 import { abi as CirculatingSupplyContract } from "../abi/CirculatingSupplyContract.json";
 import axios from 'axios';
-import { contractForReserve } from "../helpers";
+import { contractForReserve, addressForAsset } from "../helpers";
 import { BONDS } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 
@@ -54,13 +54,17 @@ export const loadAppDetails =
 
     token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
     let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    let ohmDaiUSD    = await bondCalculator.valuation(addresses[networkID].RESERVES.OHM_DAI, ohmDaiAmount);
+    let valuation    = await bondCalculator.valuation(addressForAsset({bond: BONDS.ohm_dai, networkID}), ohmDaiAmount);
+    let markdown     = await bondCalculator.markdown(addressForAsset({bond: BONDS.ohm_dai, networkID}));
+    let ohmDaiUSD    = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18))
 
     token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
     let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    let ohmFraxUSD    = await bondCalculator.valuation(addresses[networkID].RESERVES.OHM_FRAX, ohmFraxAmount);
+    valuation    = await bondCalculator.valuation(addressForAsset({bond: BONDS.ohm_frax, networkID}), ohmFraxAmount);
+    markdown     = await bondCalculator.markdown(addressForAsset({bond: BONDS.ohm_frax, networkID}));
+    let ohmFraxUSD   = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18))
 
-    const treasuryBalance  = daiAmount / Math.pow(10, 18) + ohmDaiUSD / Math.pow(10, 9) + ohmFraxUSD / Math.pow(10, 9);
+    const treasuryBalance  = daiAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
     // Calculate TVL staked
     let ohmInTreasury = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
