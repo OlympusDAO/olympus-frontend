@@ -4,7 +4,7 @@
   "homepage": ".",
   "browserslist": {
     "production": [
-      "default",
+      ">0.2% or last 2 versions",
       "not dead"
     ],
     "development": [
