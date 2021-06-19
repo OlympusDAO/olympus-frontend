@@ -52,17 +52,17 @@ function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount,
 
         <div className="dapp-menu-links">
           <div className="dapp-nav" id="navbarNav">
-            <NavLink to="/dashboard" isActive={(match, location) => { return checkPage(match, location, "dashboard") }} className={`button button-dapp-menu ${isActive && "active"}`}>
+            <NavLink id="dash-nav" to="/dashboard" isActive={(match, location) => { return checkPage(match, location, "dashboard") }} className={`button button-dapp-menu ${isActive ? "active" : ""}`}>
               <DashboardIcon className="me-3" />
               <span>Dashboard</span>
             </NavLink>
 
-            <NavLink to="/" isActive={(match, location) => { return checkPage(match, location, "stake") }}  className={`button button-dapp-menu ${isActive && "active"}`} >
+            <NavLink id="stake-nav" to="/" isActive={(match, location) => { return checkPage(match, location, "stake") }}  className={`button button-dapp-menu ${isActive ? "active" : ""}`} >
               <StakeIcon className="me-3" />
               <span>Stake</span>
             </NavLink>
 
-            <NavLink to="/bonds" isActive={(match, location) => { return checkPage(match, location, "bonds") }} className={`button button-dapp-menu ${isActive && "active"}`}>
+            <NavLink id="bond-nav" to="/bonds" isActive={(match, location) => { return checkPage(match, location, "bonds") }} className={`button button-dapp-menu ${isActive ? "active" : ""}`}>
               <BondIcon className="me-3" />
               <span>Bond</span>
             </NavLink>

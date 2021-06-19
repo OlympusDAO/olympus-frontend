@@ -233,7 +233,10 @@ export const GlobalStyles = createGlobalStyle`
     // }
     .dapp-nav a:hover {
         > span {
-            border-bottom: 2px solid ${({ theme }) => theme.color} !important;
+            border-bottom: 2px solid ${({ theme }) => theme.color};
+        }
+        &.active span {
+            border-bottom: 2px solid ${({ theme }) => theme.activeLinkColor};
         }
       }
     .dapp-nav a:hover, .dapp-menu-external-links a:hover {
