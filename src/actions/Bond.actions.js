@@ -60,7 +60,7 @@ export const calcBondDetails =
     const marketPrice = await getMarketPrice({ networkID, provider });
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
-    const debtRatio = await bondContract.debtRatio();
+    const debtRatio = await bondContract.standardizedDebtRatio();
     const bondPrice = await bondContract.bondPriceInUSD();
 
     const bondCalcContract = new ethers.Contract(
@@ -213,9 +213,9 @@ export const redeemBond =
     try {
       let redeemTx;
       if (bond === BONDS.dai_v1) {
-        redeemTx = await bondContract.redeem();
+        redeemTx = await bondContract.redeem(address);
       } else {
-        redeemTx = await bondContract.redeem(autostake);
+        redeemTx = await bondContract.redeem(address, autostake);
       }
 
       await redeemTx.wait();
