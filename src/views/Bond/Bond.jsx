@@ -247,6 +247,7 @@ function Bond({ provider, address, bond }) {
                 )}
 
 
+
                 {view === "redeem" && (
                   <div 
                     id="bond-claim-btn" 
