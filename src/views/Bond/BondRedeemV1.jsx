@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { trim, prettyVestingPeriod } from "../../helpers";
 import { calculateUserBondDetails, redeemBond } from '../../actions/Bond.actions.js';
 
-
-
 function BondRedeemV1({ bond, provider, address }) {
   const dispatch = useDispatch();
 
@@ -59,9 +57,10 @@ function BondRedeemV1({ bond, provider, address }) {
         </div>
       </div>
 
-      <div className="d-flex align-self-center mb-4">
-        <div className="redeem-button" onClick={onRedeem}>Claim</div>
+      <div className="d-flex justify-content-center">
+        <div className="stake-button" onClick={onRedeem}>Claim V1.0</div>
       </div>
+
     </React.Fragment>
   );
 }
