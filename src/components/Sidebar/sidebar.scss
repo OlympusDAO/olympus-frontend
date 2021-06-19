@@ -247,13 +247,13 @@
       margin-top: 2.5em;
       font-size: 1.1em;
       .bond-discounts {
-        padding-left: calc(16% + 5px);
-        p {
-          min-width: max-content;
-          width: 200px;
-          font-size: 1em;
-        }
-        
+        // padding-left: calc(16% + 5px);
+        // p {
+        //   min-width: max-content;
+        //   width: 200px;
+        //   font-size: 1em;
+        // }
+        display: none;
       }
     }
     

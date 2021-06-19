@@ -223,7 +223,7 @@ function Bond({ provider, address, bond }) {
                       setView("redeem_v1");
                     }}
                   >
-                    Redeem V1.0
+                    Redeem v1.0
                   </button>
                 </div>
               </div>
