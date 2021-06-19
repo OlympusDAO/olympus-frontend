@@ -666,6 +666,9 @@
             .card-content {
                 .ohm-price {
                     text-align: right;
+                    &.very-small {
+                        text-align: left;
+                    }
                 }
             }
             // .ohm-price {
@@ -687,8 +690,8 @@
                 background: transparent;
             }
             .card-content {
-                padding: 1rem 1.5rem 1rem 0.5rem !important;
-                min-height: 10vh;
+                padding: 2rem 2rem 3rem 0.5rem !important;
+                height: auto;
                 align-items: center;
                 vertical-align: center;
                 display: flex;
