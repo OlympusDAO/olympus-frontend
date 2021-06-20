@@ -64,7 +64,8 @@ export const addresses = {
       DAI: "0x575409F8d77c12B05feD8B455815f0e54797381c", // v1.1 updated
       // OHM_FRAX: "0x539b6c906244Ac34E348BbE77885cdfa994a3776", v1
       // OHM_FRAX: "0x6a01E5bAd8fd2Ef29DC23DED1F5971641349f219", v1.1
-      OHM_FRAX: "0xc20CffF07076858a7e642E396180EC390E5A02f7" // v1.1 updated
+      OHM_FRAX: "0xc20CffF07076858a7e642E396180EC390E5A02f7", // v1.1 updated
+      FRAX: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514". // FRAX Bonds
     },
   },
 };
@@ -73,6 +74,7 @@ export const BONDS = {
   ohm_dai: "ohm_dai_lp",
   ohm_frax: "ohm_frax_lp",
   dai: "dai",
+  // frax: "frax",
   dai_v1: "dai_v1",
   ohm_dai_v1: "ohm_dai_lp_v1",
   ohm_frax_v1: "ohm_frax_v1",
