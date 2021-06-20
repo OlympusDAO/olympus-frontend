@@ -92,7 +92,7 @@ export const GlobalStyles = createGlobalStyle`
         @font-face {font-family: 'Square-Italic-Light';
             src: url('./assets/fonts/EuclidSquare-LightItalic.woff2') format("woff2");
         }
-        
+        box-sizing: border-box;
         font-family: 'Square';
         background: ${({ theme }) => theme.background};
         background-color: ${({ theme }) => theme.backgroundColor};
