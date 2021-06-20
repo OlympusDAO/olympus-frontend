@@ -127,6 +127,14 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
 
+    h2.content,
+    h3.content {
+        color:  ${({ theme }) => theme.largeTextColor} !important;
+    }
+
+    .stake-wallet-notification {
+        border: 1px solid ${({ theme }) => theme.largeTextColor};
+    }
     .mobile .dapp-sidebar {
         background-color: ${({ theme }) => theme.modalBg};
     }
@@ -154,12 +162,13 @@ export const GlobalStyles = createGlobalStyle`
             color: ${({ theme }) => theme.color};
         }
     }
-    .ohm-modal.ohm-card.primary {
-        background-color: ${({ theme }) => theme.modalBg};
+    .ohm-card.ohm-modal {
+        background-color: ${({ theme }) => theme.modalBg} !important;
     }
     .ohm-card,
     .ohm-dashboard-card {
         opacity: 0.92 !important;
+        -moz-opacity: 0.92 !important;
         border: ${({ theme }) => theme.cardBorder} !important;
     }
     .top-bar-button {
@@ -208,6 +217,7 @@ export const GlobalStyles = createGlobalStyle`
             &::placeholder {
                 color: ${({ theme }) => theme.color} !important;
                 opacity: 1; /* Firefox */
+                -moz-opacity: 1; /* Firefox */
             }    
         }
     }
