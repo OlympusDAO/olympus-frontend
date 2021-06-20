@@ -290,4 +290,9 @@ export const GlobalStyles = createGlobalStyle`
             color: ${({ theme }) => theme.color} !important;
         }
     }
+    
+    #bond-view .bond-price-data-row .bond-price-data h4.price, #bond-view .bond-price-data-row .bond-price-data h4.price {
+        color: ${({ theme }) => theme.largeTextColor} !important;
+    }
+    
 `;
