@@ -31,7 +31,7 @@ function ChooseBond({ provider, address }) {
 						<Grid container item xs={12} spacing={2}>
 							<Grid item sm={7} lg={9}>
 								<h3>Treasury Balance</h3>
-								<h2>
+								<h2 className="content">
 									{new Intl.NumberFormat("en-US", {
 										style: "currency",
 										currency: "USD",
@@ -42,14 +42,14 @@ function ChooseBond({ provider, address }) {
 
 							<Grid item xs={5} sm={5} lg={3} className={`ohm-price ${isVerySmallScreen && "very-small"}`}>
 								<h3>OHM Price</h3>
-								<h2>{trim(marketPrice, 2)}</h2>
+								<h2 className="content">{trim(marketPrice, 2)}</h2>
 							</Grid>
 						</Grid>
           </div>
         </Card>
           
         <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
-				<div className="card-header">
+				<div className="card-header" style={{ background: 'transparent' }}>
             <h5>Bonds (1, 1)</h5>
           </div> 
 					{ !isSmallScreen ?
