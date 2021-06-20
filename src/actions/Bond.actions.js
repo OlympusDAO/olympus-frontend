@@ -68,21 +68,24 @@ export const calcBondDetails =
 
     let debtRatio, bondPrice;
     try {
-      debtRatio = await bondContract.standardizedDebtRatio();
+      
       bondPrice = await bondContract.bondPriceInUSD();
 
       bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
       if (bond === BONDS.ohm_dai) {
+        debtRatio = await bondContract.standardizedDebtRatio() / Math.pow(10, 9);
         // RFV = assume 1:1 backing
         valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
         bondQuote = await bondContract.payoutFor(valuation);
         bondQuote = bondQuote / Math.pow(10, 9);
       } else if (bond === BONDS.ohm_frax) {
+        debtRatio = await bondContract.standardizedDebtRatio() / Math.pow(10, 9);
         valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
         bondQuote = await bondContract.payoutFor(valuation);
         bondQuote = bondQuote / Math.pow(10, 9);
       } else {
         // RFV = DAI
+        debtRatio = await bondContract.standardizedDebtRatio();
         bondQuote = await bondContract.payoutFor(amountInWei);
         bondQuote = bondQuote / Math.pow(10, 18);
       }
