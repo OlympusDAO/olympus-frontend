@@ -5,6 +5,7 @@ import { abi as OHMPreSale } from "../abi/OHMPreSale.json";
 import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as MigrateToOHM } from "../abi/MigrateToOHM.json";
 import { abi as sOHM } from "../abi/sOHM.json";
+import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as LPStaking } from "../abi/LPStaking.json";
 import { abi as DistributorContract } from "../abi/DistributorContract.json";
 import { abi as BondContract } from "../abi/BondContract.json";
@@ -26,6 +27,7 @@ export const loadAccountDetails =
     let ohmContract;
     let ohmBalance = 0;
     let sohmBalance = 0;
+    let oldsohmBalance = 0;
     let stakeAllowance = 0;
     let unstakeAllowance = 0;
     let lpStakingContract;
@@ -52,9 +54,15 @@ export const loadAccountDetails =
     }
 
     if (addresses[networkID].SOHM_ADDRESS) {
-      const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
+      const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
       sohmBalance = await sohmContract.balanceOf(address);
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    }
+
+    if (addresses[networkID].OLD_SOHM_ADDRESS) {
+      const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+      oldsohmBalance = await oldsohmContract.balanceOf(address);
+      unstakeAllowance = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
     }
 
     return dispatch(
@@ -63,6 +71,7 @@ export const loadAccountDetails =
           dai: ethers.utils.formatEther(daiBalance),
           ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
           sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+          oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
         },
         staking: {
           ohmStake: stakeAllowance,

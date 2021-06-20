@@ -129,9 +129,9 @@ export const changeStake =
 
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
     const ohmBalance = await ohmContract.balanceOf(address);
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmBalance = await sohmContract.balanceOf(address);
-    const oldSohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, provider);
+    const oldSohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
     const oldsohmBalance = await oldSohmContract.balanceOf(address);
 
     return dispatch(

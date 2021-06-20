@@ -2,7 +2,8 @@ import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OHMPreSale } from "../abi/OHMPreSale.json";
-import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
+import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
+import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { abi as MigrateToOHM } from "../abi/MigrateToOHM.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as LPStaking } from "../abi/LPStaking.json";
@@ -69,15 +70,16 @@ export const changeStake =
 
     const signer = provider.getSigner();
     const staking = await new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStaking, signer);
+    const stakingHelper = await new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
 
     let stakeTx;
 
     try {
       if (action === "stake") {
-        stakeTx = await staking.stakeOHM(ethers.utils.parseUnits(value, "gwei"));
+        stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"));
         await stakeTx.wait();
       } else {
-        stakeTx = await staking.unstakeOHM(ethers.utils.parseUnits(value, "gwei"));
+        stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
         await stakeTx.wait();
       }
     } catch (error) {
