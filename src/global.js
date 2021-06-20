@@ -117,9 +117,13 @@ export const GlobalStyles = createGlobalStyle`
             filter: ${({ theme }) => theme.iconColor};
         }
         ${({ theme }) => theme.sidebarBorder && "border-right: 1px solid " + theme.sidebarBorder}
-        #navbarNav.dapp-nav a.active {
+        #navbarNav.dapp-nav a.active, #navbarNav.dapp-nav a:hover {
+            a {
+                color: ${({ theme }) => theme.activeLinkColor} !important;
+            }
             span {
                 color: ${({ theme }) => theme.activeLinkColor} !important;
+                border-bottom: 2px solid ${({ theme }) => theme.activeLinkColor} !important;
             }
             svg {
                 ${({ theme }) => theme.activeLinkSvgColor && "filter: " + theme.activeLinkSvgColor + " !important; "}
@@ -248,9 +252,12 @@ export const GlobalStyles = createGlobalStyle`
         }
       }
     .dapp-nav a:hover, .dapp-menu-external-links a:hover {
+        > svg {
+            ${({ theme }) => theme.activeLinkSvgColor && "filter: " + theme.activeLinkSvgColor + " !important; "}
+        }
         > span {
-            color: ${({ theme }) => theme.color} !important;
-            border-bottom: 2px solid ${({ theme }) => theme.color};
+            color: ${({ theme }) => theme.activeLinkColor} !important;
+            border-bottom: 2px solid ${({ theme }) => theme.activeLinkColor};
         }
     }
     .navbar-light .navbar-toggler {
