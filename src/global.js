@@ -164,6 +164,7 @@ export const GlobalStyles = createGlobalStyle`
     }
     .ohm-card.ohm-modal {
         background-color: ${({ theme }) => theme.modalBg} !important;
+        overflow-y: scroll;
     }
     .ohm-card,
     .ohm-dashboard-card {
