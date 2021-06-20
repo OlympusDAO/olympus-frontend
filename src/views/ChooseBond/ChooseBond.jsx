@@ -14,10 +14,10 @@ function ChooseBond({ provider, address }) {
 		<div className="d-flex align-items-center justify-content-center min-vh-100">
 			<div className="dapp-center-modal d-flex flex-column ohm-card">
 				<div className="py-4 px-4 py-md-4 px-md-4">
-					<h2 className="text-center mb-4 text-white">How do you want to bond?</h2>
+					<h2 className="text-center mb-4 text-white">Redeem Your Bonds</h2>
 					<p>
-						Bonds give you the opportunity to buy OHM from the protocol at a discount. All bonds
-						have a 5-day vesting term. Current market price of OHM is { trim(marketPrice, 2) } DAI. If you stake instead, your ROI will be { trim(fiveDayRate * 100, 2) }%.
+						Please note: bonds on Olympus Legacy have been disabled. This page should be used only to redeem outstanding bonds. 
+						If you would like to create a new bond, please use <a href="https://app.olympusdao.finance/#/bonds" the new site> </a>.
 					</p>
 				</div>
 
