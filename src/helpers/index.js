@@ -41,7 +41,7 @@ export function isBondLP(bond) {
 
 export function lpURL(bond) {
   if (bond === BONDS.ohm_dai)
-    return "https://analytics.sushi.com/pairs/0x34d7d7aaf50ad4944b70b320acb24c95fa2def7c"
+    return "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f"
   else if (bond === BONDS.ohm_frax)
     return "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899"
 }
@@ -72,11 +72,11 @@ export function contractForBond({ bond, networkID, provider }) {
 }
 
 export function contractForReserve({ bond, networkID, provider }) {
-  if (bond === BONDS.ohm_dai) {
+  if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
-  } else if (bond === BONDS.dai) {
+  } else if (bond === BONDS.dai || bond === BONDS.dai_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);
-  } else if (bond === BONDS.ohm_frax) {
+  } else if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_FRAX, ReserveOhmFraxContract, provider);
   }
 }
