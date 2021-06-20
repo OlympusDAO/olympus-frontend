@@ -194,7 +194,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     <div className="stake-tvl">
                       <h2 className="title">TVL</h2>
                       <h2 className="content">
-                        {new Intl.NumberFormat("en-US", {
+                        {stakingTVL && new Intl.NumberFormat("en-US", {
                           style: "currency",
                           currency: "USD",
                           maximumFractionDigits: 0,
@@ -392,7 +392,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   </td>
                   <td>{trim(fraxData.apy, 1)}%</td>
                   <td>
-                    {new Intl.NumberFormat("en-US", {
+                    {fraxData.tvl && new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
@@ -443,7 +443,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                 <div item className="pool-data-row">
                   <div>TVL</div>
                   <div>
-                    {new Intl.NumberFormat("en-US", {
+                    {fraxData.tvl && new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
