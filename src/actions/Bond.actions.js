@@ -144,30 +144,30 @@ export const calculateUserBondDetails =
     const reserveContract = contractForReserve({ bond, networkID, provider });
 
     let interestDue, pendingPayout, bondMaturationBlock;
-    if (bond === BONDS.dai_v1) {
+    if (bond === BONDS.dai_v1 || bond === BONDS.ohm_frax_v1 || bond === BONDS.ohm_dai_v1) {
       const bondDetails = await bondContract.depositorInfo(address);
       interestDue = bondDetails[1];
       bondMaturationBlock = +bondDetails[3] + +bondDetails[2];
       pendingPayout = await bondContract.calculatePendingPayout(address);
     } else {
       const bondDetails = await bondContract.bondInfo(address);
-      interestDue = bondDetails[1];
+      interestDue = bondDetails[0];
       bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
       pendingPayout = await bondContract.pendingPayoutFor(address);
     }
 
     let allowance, balance;
-    if (bond === BONDS.ohm_dai) {
+    if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
-    } else if (bond === BONDS.dai) {
+    } else if (bond === BONDS.dai || bond === BONDS.dai_v1) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.DAI);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatEther(balance);
-    } else if (bond === BONDS.ohm_frax) {
+    } else if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_FRAX);
 
       balance = await reserveContract.balanceOf(address);

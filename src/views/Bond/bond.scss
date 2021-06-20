@@ -10,7 +10,7 @@
             opacity: 1 !important;  
             -moz-opacity: 1 !important;
             // background-color: rgba(27,29,34,0.9) !important;
-            height: 59vh;
+            height: 69vh;
         }
     }
     .ohm-card,
@@ -72,6 +72,7 @@
         display: flex;
         justify-content: space-evenly;
         margin: 1.9rem 0;
+        margin-bottom: 0.2rem;
         .bond-price-data {
             text-align: center;
             h4 {
@@ -88,7 +89,8 @@
     .stake-toggle-row {
         display: flex !important;
         justify-content: center !important;        
-        margin-bottom: 2rem;
+        margin-bottom: 1.8rem;
+        margin-top: 0rem;
         .btn-group button {
             font-size: 1.3em;
             width: 10rem;
