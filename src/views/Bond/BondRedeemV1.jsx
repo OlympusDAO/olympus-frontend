@@ -33,7 +33,7 @@ function BondRedeemV1({ bond, provider, address }) {
   return (
     <React.Fragment>
       <div className="alert alert-warning" role="alert">
-        This is redemption for V1 bond contracts. Check them out here: <a href="https://etherscan.io/address/0x996668C46Fc0B764aFdA88d83eB58afc933a1626" target="_blank">OHM-DAI bond contract</a> and <a href="https://etherscan.io/address/0xD03056323b7a63e2095AE97fA1AD92E4820ff045" target="_blank">DAI bond contract</a>
+        Not seeing your bond? Look here: <a href="https://staging.olympusdao.finance/#/bonds" target="_blank">Olympus Legacy</a>
       </div>
 
       <div className="stake-price-data-column">
