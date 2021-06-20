@@ -92,7 +92,6 @@ export const GlobalStyles = createGlobalStyle`
         @font-face {font-family: 'Square-Italic-Light';
             src: url('./assets/fonts/EuclidSquare-LightItalic.woff2') format("woff2");
         }
-        
         font-family: 'Square';
         background: ${({ theme }) => theme.background};
         background-color: ${({ theme }) => theme.backgroundColor};
@@ -118,6 +117,7 @@ export const GlobalStyles = createGlobalStyle`
         }
         ${({ theme }) => theme.sidebarBorder && "border-right: 1px solid " + theme.sidebarBorder}
         #navbarNav.dapp-nav a.active {
+            box-sizing: border-box !important;
             span {
                 color: ${({ theme }) => theme.activeLinkColor} !important;
             }
@@ -237,9 +237,9 @@ export const GlobalStyles = createGlobalStyle`
     table .MuiTableCell-root {
         color: ${({ theme }) => theme.color};
     }
-    // .dapp-nav a.active span {
-    //     border-bottom: 2px solid ${({ theme }) => theme.color} !important;
-    // }
+    .dapp-nav a {
+        border-bottom: 2px solid transparent;
+    }
     .dapp-nav a:hover {
         > span {
             border-bottom: 2px solid ${({ theme }) => theme.color};
