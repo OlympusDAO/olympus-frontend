@@ -38,7 +38,7 @@ export const lightTheme = {
     // cardBg: "rgba(252,252,252, 0.6) !important",
     sidebarBorder: "#759AAE99", 
     cardBg: "#F9F9F977",
-    modalBg: "#F8F8F89A",
+    modalBg: "#F9F9F9AA",
     cardBorder: "1px solid #759AAE99",
     logoColor: "none",
     defaultButtonBg: "rgba(252,252,252, 0.6) !important",
