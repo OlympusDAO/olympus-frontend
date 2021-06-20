@@ -56,7 +56,7 @@ export const loadAccountDetails =
     if (addresses[networkID].SOHM_ADDRESS) {
       const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
       sohmBalance = await sohmContract.balanceOf(address);
-      unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+      unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     }
 
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
