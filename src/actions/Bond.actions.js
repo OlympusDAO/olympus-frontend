@@ -68,7 +68,7 @@ export const calcBondDetails =
 
     let debtRatio, bondPrice;
     try {
-      
+
       bondPrice = await bondContract.bondPriceInUSD();
 
       bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
@@ -148,13 +148,13 @@ export const calculateUserBondDetails =
 
     let interestDue, pendingPayout, bondMaturationBlock;
     if (bond === BONDS.dai_v1 || bond === BONDS.ohm_frax_v1 || bond === BONDS.ohm_dai_v1) {
-      const bondDetails = await bondContract.depositorInfo(address);
-      interestDue = bondDetails[1];
-      bondMaturationBlock = +bondDetails[3] + +bondDetails[2];
-      pendingPayout = await bondContract.calculatePendingPayout(address);
+      const bondDetails = await bondContract.bondInfo(address);
+      interestDue = bondDetails.payoutRemaining / Math.pow(10, 9);
+      bondMaturationBlock = +bondDetails.vestingPeriod + +bondDetails.lastBlock;
+      pendingPayout = await bondContract.pendingPayoutFor(address);
     } else {
       const bondDetails = await bondContract.bondInfo(address);
-      interestDue = bondDetails[0];
+      interestDue = bondDetails.payout / Math.pow(10, 9);
       bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
       pendingPayout = await bondContract.pendingPayoutFor(address);
     }
@@ -182,7 +182,7 @@ export const calculateUserBondDetails =
         bond,
         allowance,
         balance,
-        interestDue: ethers.utils.formatUnits(interestDue, "gwei"),
+        interestDue,
         bondMaturationBlock,
         pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
       }),
