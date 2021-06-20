@@ -36,6 +36,11 @@ export const changeApproval =
           addresses[networkID].BONDS.DAI,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
+      else if (bond === BONDS.frax) // <-- added for frax
+        approveTx = await reserveContract.approve(
+          addresses[networkID].BONDS.FRAX,
+          ethers.utils.parseUnits("1000000000", "ether").toString(),
+        );
 
       await approveTx.wait();
     } catch (error) {
