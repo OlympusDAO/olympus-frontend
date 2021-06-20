@@ -218,6 +218,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 						toggleTheme={toggleTheme}
 					/>
 				}
+<<<<<<< HEAD
 
 				{!isVerySmallScreen &&
           <Fragment>
@@ -274,6 +275,31 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 
         <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
       </Flex>
+=======
+				
+				{!isVerySmallScreen && 
+					<button
+						id="get-ohm"
+						className="get-ohm-button btn btn-overwrite-primer m-2 top-bar-button reset-padding"
+						title="Get OHM"
+					>		
+						<a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
+							Get OHM
+						</a>
+					</button>
+				}
+				
+				<div className="wallet-menu" id="wallet-menu">
+					{modalButtons}
+					{address && <button type="button" className={`btn top-bar-button btn-overwrite-primer m-2 reset-padding`}>
+						<a href={`https://etherscan.io/address/${address}`} target="_blank" className="ml-2">
+							{shorten(address)}
+						</a>
+					</button>
+					}
+				</div>
+			</Flex>
+>>>>>>> Clicking issue on Get Ohm button and wallet button. Was only clickable on the text, removed padding on <button> tag and added padding on <a>
     </div>
 >>>>>>> Implemented wallet token integration
   );
