@@ -9,8 +9,7 @@ import DiscordImg from '../assets/discord.svg';
 function Social() {
   return (
     <div className="social-row">
-      <a href="https://github.com/OlympusDAO/olympus-frontend"
-        ><img src={GitHubImg} alt="github" target="_blank" className="social-icon-small"
+      <a href="https://github.com/OlympusDAO"><img src={GitHubImg} alt="github" target="_blank" className="social-icon-small"
       /></a>
       <a href="https://olympusdao.medium.com/"
         ><img src={MediumImg} alt="medium" target="_blank" className="social-icon-small"
