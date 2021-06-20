@@ -160,6 +160,7 @@ export const GlobalStyles = createGlobalStyle`
     .ohm-card,
     .ohm-dashboard-card {
         opacity: 0.92 !important;
+        -moz-opacity: 0.92 !important;
         border: ${({ theme }) => theme.cardBorder} !important;
     }
     .top-bar-button {
@@ -208,6 +209,7 @@ export const GlobalStyles = createGlobalStyle`
             &::placeholder {
                 color: ${({ theme }) => theme.color} !important;
                 opacity: 1; /* Firefox */
+                -moz-opacity: 1; /* Firefox */
             }    
         }
     }
