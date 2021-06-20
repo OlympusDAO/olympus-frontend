@@ -38,7 +38,7 @@ function Dashboard({ provider, address }) {
             <div className="card-body">
               <h4 className="title">Market Cap</h4>
               <h3 className="content">
-                {new Intl.NumberFormat("en-US", {
+                {marketCap() && new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 0,
@@ -48,14 +48,14 @@ function Dashboard({ provider, address }) {
           </div>
         </Grid>
 
-          
+
         <Grid item lg={4} md={12} sm={12} xs={12}>
           <div className="ohm-dashboard-card">
             <div className="card-body">
               <h4 className="title">Supply (circulating/total)</h4>
               <h3 className="content">
-                {new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(circSupply / Math.pow(10, 9))}/
-                {new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(totalSupply / Math.pow(10, 9))}
+                {circSupply && new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(circSupply / Math.pow(10, 9))}/
+                {totalSupply && new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(totalSupply / Math.pow(10, 9))}
               </h3>
             </div>
           </div>

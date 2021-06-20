@@ -98,7 +98,7 @@ export function BondTableData({bond}) {
       <TableCell align="center"><p>{priceUnits(bond)} {trim(bondPrice, 2)}</p></TableCell>
       <TableCell>{trim(bondDiscount * 100, 2)}%</TableCell>
       <TableCell>
-        {new Intl.NumberFormat("en-US", {
+        {bondPurchased && new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",
           maximumFractionDigits: 0,
