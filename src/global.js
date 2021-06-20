@@ -127,6 +127,14 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
 
+    h2.content,
+    h3.content {
+        color:  ${({ theme }) => theme.largeTextColor} !important;
+    }
+
+    .stake-wallet-notification {
+        border: 1px solid ${({ theme }) => theme.largeTextColor};
+    }
     .mobile .dapp-sidebar {
         background-color: ${({ theme }) => theme.modalBg};
     }

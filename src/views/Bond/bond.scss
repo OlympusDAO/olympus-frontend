@@ -10,7 +10,7 @@
             opacity: 1 !important;  
             -moz-opacity: 1 !important;
             // background-color: rgba(27,29,34,0.9) !important;
-            height: 56vh;
+            height: 59vh;
         }
     }
     .ohm-card,
@@ -21,6 +21,9 @@
     }
     .ohm-card {
         padding-top: 0 !important;
+        .card-header {
+            background: transparent !important;
+        }
     }
     .bond-header {
         .bond-header-logo {
