@@ -237,9 +237,9 @@ export const GlobalStyles = createGlobalStyle`
     table .MuiTableCell-root {
         color: ${({ theme }) => theme.color};
     }
-    // .dapp-nav a.active span {
-    //     border-bottom: 2px solid ${({ theme }) => theme.color} !important;
-    // }
+    .dapp-nav a {
+        border-bottom: 2px solid transparent;
+    }
     .dapp-nav a:hover {
         > span {
             border-bottom: 2px solid ${({ theme }) => theme.color};
