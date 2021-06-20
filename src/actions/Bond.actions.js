@@ -152,7 +152,7 @@ export const calculateUserBondDetails =
     } else {
       const bondDetails = await bondContract.bondInfo(address);
       interestDue = bondDetails[1];
-      bondMaturationBlock = +bondDetails[3] + +bondDetails[2];
+      bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
       pendingPayout = await bondContract.pendingPayoutFor(address);
     }
 
