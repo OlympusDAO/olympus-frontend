@@ -37,7 +37,7 @@ export const changeApproval =
         );
       } else if (token === "sohm") {
         approveTx = await sohmContract.approve(
-          addresses[networkID].STAKING_HELPER_ADDRESS,
+          addresses[networkID].STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
