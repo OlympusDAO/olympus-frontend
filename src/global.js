@@ -154,8 +154,8 @@ export const GlobalStyles = createGlobalStyle`
             color: ${({ theme }) => theme.color};
         }
     }
-    .ohm-modal.ohm-card.primary {
-        background-color: ${({ theme }) => theme.modalBg};
+    .ohm-card.ohm-modal {
+        background-color: ${({ theme }) => theme.modalBg} !important;
     }
     .ohm-card,
     .ohm-dashboard-card {
