@@ -72,11 +72,11 @@ export function contractForBond({ bond, networkID, provider }) {
 }
 
 export function contractForReserve({ bond, networkID, provider }) {
-  if (bond === BONDS.ohm_dai) {
+  if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
-  } else if (bond === BONDS.dai) {
+  } else if (bond === BONDS.dai || bond === BONDS.dai_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);
-  } else if (bond === BONDS.ohm_frax) {
+  } else if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_FRAX, ReserveOhmFraxContract, provider);
   }
 }
