@@ -53,8 +53,8 @@ export const changeApproval =
     return dispatch(
       fetchStakeSuccess({
         staking: {
-          ohmStake: stakeAllowance,
-          ohmUnstake: unstakeAllowance,
+          ohmStake: +stakeAllowance,
+          ohmUnstake: +unstakeAllowance,
         },
       }),
     );
