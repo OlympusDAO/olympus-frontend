@@ -108,19 +108,19 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
 let modalButton = [];
   
-  if (web3Modal) {
-      modalButton.push(
-        <button
-          type="button"
-          className="btn stake-button btn-overwrite-primer m-2"
-          onClick={loadWeb3Modal}
-          key={2}
-        >
-          Connect Wallet
-        </button>
-      );
-    }
-  }
+if (web3Modal) {
+    modalButton.push(
+      <button
+        type="button"
+        className="btn stake-button btn-overwrite-primer m-2"
+        onClick={loadWeb3Modal}
+        key={2}
+      >
+        Connect Wallet
+      </button>
+    );
+}
+  
 
   const openMigrationWizard = () => {
     setMigrationWizardOpen(true)
@@ -387,17 +387,17 @@ let modalButton = [];
                       </p>
                     </Flex>
                   </td>
-                  <td>{trim(fraxData.apy, 1)}%</td>
+                  <td>{fraxData && trim(fraxData.apy, 1)}%</td>
                   <td>
                     {fraxData && fraxData.tvl && new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
-                    }).format(trim(fraxData.tvl, 0))}
+                    }).format(fraxData.tvl, 0)}
                     {console.log(trim(fraxData.tvl, 0))}
                   </td>
                   <td>
-                      {fraxData.balance || "0"} LP
+                      {fraxData && fraxData.balance || 0} LP
                   </td>
                   <td>
                     <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
@@ -435,7 +435,7 @@ let modalButton = [];
                     APR
                   </div>
                   <div className="pool-data-label">
-                    {trim(fraxData.apy, 1)}%
+                    {fraxData && trim(fraxData.apy, 1)}%
                   </div>
                 </div>
                 <div item className="pool-data-row">
@@ -445,12 +445,12 @@ let modalButton = [];
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
-                    }).format(trim(fraxData.tvl, 0))}
+                    }).format(fraxData.tvl)}
                   </div>
                 </div>
                 <div item className="pool-data-row">
                   <div>Balance</div>
-                  <div>{fraxData.balance || "0"} LP</div>
+                  <div>{fraxData && fraxData.balance || 0} LP</div>
                 </div>
               </div>
             </div>
@@ -459,7 +459,7 @@ let modalButton = [];
         </div>
       </Card>
     </Grid>
-  });
+  )
 }
 
 export default Stake;
