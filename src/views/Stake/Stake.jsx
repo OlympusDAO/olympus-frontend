@@ -106,12 +106,16 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     loadFraxData();
   }, []);
 
-
-  let modalButton = <></>;
+let modalButton = [];
+  
   if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButton = (
-        <button type="button" className="btn top-bar-button btn-overwrite-primer m-2" onClick={loadWeb3Modal}>
+      modalButton.push(
+        <button
+          type="button"
+          className="btn stake-button btn-overwrite-primer m-2"
+          onClick={loadWeb3Modal}
+          key={2}
+        >
           Connect Wallet
         </button>
       );
@@ -210,14 +214,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               <div className="stake-wallet-notification">
                 <h4>Connect your wallet to Stake OHM</h4>
                 <div className="wallet-menu" id="wallet-menu">
-                  <button
-                    type="button"
-                    className="btn stake-button btn-overwrite-primer m-2"
-                    onClick={loadWeb3Modal}
-                    key={2}
-                  >
-                    Connect Wallet
-                  </button>
+                  {modalButton}
                 </div>
               </div>
               ) : (
@@ -392,11 +389,12 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   </td>
                   <td>{trim(fraxData.apy, 1)}%</td>
                   <td>
-                    {fraxData.tvl && new Intl.NumberFormat("en-US", {
+                    {fraxData && fraxData.tvl && new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
                     }).format(trim(fraxData.tvl, 0))}
+                    {console.log(trim(fraxData.tvl, 0))}
                   </td>
                   <td>
                       {fraxData.balance || "0"} LP
@@ -443,7 +441,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                 <div item className="pool-data-row">
                   <div>TVL</div>
                   <div>
-                    {fraxData.tvl && new Intl.NumberFormat("en-US", {
+                    {fraxData && fraxData.tvl && new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
@@ -461,7 +459,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
         </div>
       </Card>
     </Grid>
-  );
+  });
 }
 
 export default Stake;

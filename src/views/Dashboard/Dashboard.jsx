@@ -48,7 +48,6 @@ function Dashboard({ provider, address }) {
           </div>
         </Grid>
 
-
         <Grid item lg={4} md={12} sm={12} xs={12}>
           <div className="ohm-dashboard-card">
             <div className="card-body">
