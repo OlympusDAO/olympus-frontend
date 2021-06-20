@@ -96,6 +96,7 @@
     }
 }
 
+<<<<<<< HEAD
 .add-ohm-wallet {
     text-align: left;
     z-index: 5;
@@ -107,6 +108,23 @@
     :hover {
         background-color: unset !important;
         color: unset !important;
+=======
+.get-ohm-button.btn,
+.wallet-menu .btn {
+    //padding: 0px 25px !important;  -->> Padding moved into a since text was only clickable
+    min-width: fit-content !important;
+    line-height: 18px !important;
+}
+
+
+.wallet-menu {
+    display:flex;
+    float: right;
+    text-align: center;
+    justify-content:center;
+    a {
+      text-decoration: none;
+>>>>>>> Clicking issue on Get Ohm button and wallet button. Was only clickable on the text, removed padding on <button> tag and added padding on <a>
     }
 }
 
@@ -139,6 +157,7 @@
 .tablet .dapp-topbar {
   justify-content: space-between;
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 .get-ohm-button {
   a {
@@ -246,6 +265,9 @@
     margin-top: 5px !important;
     margin-right: -1.12em !important;
 }
+=======
+=======
+>>>>>>> Clicking issue on Get Ohm button and wallet button. Was only clickable on the text, removed padding on <button> tag and added padding on <a>
 
 .mobile .get-ohm-button,
 .mobile .wallet-menu button {
@@ -259,7 +281,11 @@
 .top-bar-button a {
     padding: 13px 25px !important;
 }
+<<<<<<< HEAD
 =======
 >>>>>>> styled top bar/buttons, copied over light and girth theme (need work) and removed more redundnacy
 =======
 >>>>>>> staking updated with current index, button links fixed, bond cards styled
+=======
+>>>>>>> Clicking issue on Get Ohm button and wallet button. Was only clickable on the text, removed padding on <button> tag and added padding on <a>
+>>>>>>> Clicking issue on Get Ohm button and wallet button. Was only clickable on the text, removed padding on <button> tag and added padding on <a>
