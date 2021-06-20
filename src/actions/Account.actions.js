@@ -59,12 +59,6 @@ export const loadAccountDetails =
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     }
 
-    if (addresses[networkID].OLD_SOHM_ADDRESS) {
-      const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-      oldsohmBalance = await oldsohmContract.balanceOf(address);
-      unstakeAllowance = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
-    }
-
     return dispatch(
       fetchAccountSuccess({
         balances: {
@@ -74,8 +68,8 @@ export const loadAccountDetails =
           oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
         },
         staking: {
-          ohmStake: stakeAllowance,
-          ohmUnstake: unstakeAllowance,
+          ohmStake: +stakeAllowance,
+          ohmUnstake: +unstakeAllowance,
         },
         bonding: {
           daiAllowance: daiBondAllowance,
