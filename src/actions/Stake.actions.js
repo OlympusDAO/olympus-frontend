@@ -32,12 +32,12 @@ export const changeApproval =
     try {
       if (token === "ohm") {
         approveTx = await ohmContract.approve(
-          addresses[networkID].STAKING_ADDRESS,
+          addresses[networkID].STAKING_HELPER_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       } else if (token === "sohm") {
         approveTx = await sohmContract.approve(
-          addresses[networkID].STAKING_ADDRESS,
+          addresses[networkID].STAKING_HELPER_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
