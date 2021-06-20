@@ -24,7 +24,7 @@ import { INFURA_ID } from "../constants";
 const useUserProvider = (injectedProvider, localProvider) =>
   useMemo(() => {
     if (injectedProvider) {
-      console.log("🦊 Using injected provider");
+      // console.log("🦊 Using injected provider"); todo create dev environment with logging
       return injectedProvider;
     }
     if (!localProvider) return undefined;
@@ -49,7 +49,7 @@ const useUserProvider = (injectedProvider, localProvider) =>
       }
     }
 
-    console.log("🔥 Using burner provider", burnerConfig);
+    // console.log("🔥 Using burner provider", burnerConfig); todo create dev environment with logging
     if (localProvider.connection && localProvider.connection.url) {
       burnerConfig.rpcUrl = localProvider.connection.url;
       return new Web3Provider(new BurnerProvider(burnerConfig));

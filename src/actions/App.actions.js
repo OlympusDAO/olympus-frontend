@@ -97,7 +97,6 @@ export const loadAppDetails =
     // Do the same for old sOhm.
     const oldStakingReward = await oldStakingContract.ohmToDistributeNextEpoch();
     const oldCircSupply = await sohmOldContract.circulatingSupply();
-    console.log(oldStakingReward, oldCircSupply);
 
     const oldStakingRebase = oldStakingReward / oldCircSupply;
     const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3) - 1;
@@ -117,7 +116,7 @@ export const loadAppDetails =
         stakingTVL,
         oldStakingAPY,
         stakingRebase,
-        currentBlock,
+        // currentBlock, -> its already declared on line 111 - double declaration
       }),
     );
   };
