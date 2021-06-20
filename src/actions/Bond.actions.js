@@ -238,8 +238,8 @@ export const redeemBond =
 
     try {
       let redeemTx;
-      if (bond === BONDS.dai_v1) {
-        redeemTx = await bondContract.redeem(address);
+      if (bond === BONDS.dai_v1 || bond === BONDS.ohm_dai_v1 || bond === BONDS.ohm_frax_v1 ) {
+        redeemTx = await bondContract.redeem(false);
       } else {
         redeemTx = await bondContract.redeem(address, autostake);
       }
