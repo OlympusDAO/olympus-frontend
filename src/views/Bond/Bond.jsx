@@ -183,13 +183,13 @@ function Bond({ provider, address, bond }) {
           <div className="bond-price-data">
             <h4>Bond Price</h4>
             <h4 id="bond-price-id" className="price">
-              {trim(bondPrice, 2)} DAI
+              {trim(bondPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
             </h4>
           </div>
           <div className="bond-price-data">
             <h4>Market Price</h4>
             <h4 id="bond-market-price-id" className="price">
-              {trim(marketPrice, 2)} DAI
+              {trim(marketPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
             </h4>
           </div>
         </div>

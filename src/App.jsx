@@ -295,7 +295,7 @@ function App(props) {
 
               <Route path="/bonds">
                 {/* {Object.values(BONDS).map(bond => { */}
-                  {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax].map(bond => {
+                  {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
                     return (
                       <Route exact key={bond} path={`/bonds/${bond}`}>
                         <Bond bond={bond} address={address} provider={injectedProvider} />
