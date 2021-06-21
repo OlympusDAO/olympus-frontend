@@ -180,6 +180,11 @@ export const calculateUserBondDetails =
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
+    } else if (bond === BONDS.frax) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.FRAX);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatUnits(balance, "ether");
     }
 
     return dispatch(
