@@ -129,10 +129,26 @@ export default function Migrate({
 	useEffect(() => {
     // setView based on sohm(new) vs sohm(old) balance
     // if there is any sohm(old) set to unstake
+    if (oldSohmBalance > 0) {
+			setCurrentStep("1");
+			setView("unstake");
+		} else if (ohmBalance > 0) {
+			setCurrentStep("2");
+			setView("stake");
+		} else {
+			setCurrentStep("3");
+			setView("done");
+		} 
+  }, [ohmBalance, oldSohmBalance, sohmBalance]);
+
+
+	useEffect(() => {
+    // setView based on sohm(new) vs sohm(old) balance
+    // if there is any sohm(old) set to unstake
     if (oldSohmBalance > 0) setView("unstake");
     else if (ohmBalance > 0) setView("stake");
     else setView("done");
-  }, [ohmBalance, oldSohmBalance, sohmBalance]);
+  }, []);
 
 
 	let modalButton = <></>;
@@ -187,7 +203,7 @@ export default function Migrate({
 
 									{view === "stake" && (
 										<p>
-											Youre almost done! All thats left now is to Stake your OHM to the new contract. 
+											Youre almost done, all thats left now is to Stake your OHM to the new contract. 
 										</p>
 									)} 
 									
@@ -196,11 +212,11 @@ export default function Migrate({
 									)}
 								</div>
 
-								<Breadcrumbs className={`migration-breadcrumbs ${currentStep === "2" && "step-2"}`} separator={<DoubleArrowIcon fontsize="medium" />}>
+								<Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontsize="medium" />}>
 									<div role="button" onClick={() => {setView("unstake") }} className={`${currentStep === "1" ? "current-step" : "finished-step"}`}>
 										Step 1: Unstake sOHM (old)
 									</div>
-									<div role="button" onClick={() => { setView("stake") }} className={`${currentStep === "2" && "current-step"}`}>
+									<div role="button" onClick={() => { setView("stake") }} className={`${currentStep === "2" && "current-step"} ${currentStep === "3" && "finished-step"}`}>
 										Step 2: Stake sOHM (new)
 									</div>
 								</Breadcrumbs>
