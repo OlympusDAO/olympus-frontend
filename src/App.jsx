@@ -127,6 +127,10 @@ function App(props) {
   const currentBlock  = useSelector((state) => { return state.app.currentBlock });
   const currentIndex = useSelector((state) => { return state.app.currentIndex });
 
+  const fraxBondDiscount = useSelector(state => {
+    return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
+  });
+
   const daiBondDiscount = useSelector(state => {
     return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
   });
@@ -178,13 +182,13 @@ function App(props) {
 
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
-    [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax].map(async bond => {
+    [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
       await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
     });
   }
 
 
-  
+
 
   useEffect(() => {
     loadDetails();
@@ -200,7 +204,7 @@ function App(props) {
       loadWeb3Modal();
     }
   }, [loadWeb3Modal]);
-  
+
 
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
@@ -248,6 +252,7 @@ function App(props) {
             ohmDaiBondDiscount={ohmDaiBondDiscount}
             ohmFraxLpBondDiscount={ohmFraxLpBondDiscount}
             daiBondDiscount={daiBondDiscount}
+            fraxBondDiscount={fraxBondDiscount}
             currentIndex={currentIndex}
             isExpanded={isSidebarExpanded}
             theme={theme}
@@ -283,19 +288,19 @@ function App(props) {
                     loadWeb3Modal={loadWeb3Modal}
                   />
                 <Route exact path="/stake/migrate">
-                  <Migrate 
+                  <Migrate
                     address={address}
                     provider={injectedProvider}
                     web3Modal={web3Modal}
                     loadWeb3Modal={loadWeb3Modal}
                   />
                 </Route>
-                
+
               </Route>
 
               <Route path="/bonds">
                 {/* {Object.values(BONDS).map(bond => { */}
-                  {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax].map(bond => {
+                  {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
                     return (
                       <Route exact key={bond} path={`/bonds/${bond}`}>
                         <Bond bond={bond} address={address} provider={injectedProvider} />

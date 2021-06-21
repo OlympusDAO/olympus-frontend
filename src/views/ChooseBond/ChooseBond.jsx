@@ -68,7 +68,7 @@ function ChooseBond({ provider, address }) {
 										</TableHead>
 										<TableBody>
 											{/* { Object.keys(BONDS).map(bond => ( */}
-												{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax].map(bond => (
+												{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
 												<BondTableData key={bond} bond={bond} />
 											)) }
 										</TableBody>
@@ -78,7 +78,7 @@ function ChooseBond({ provider, address }) {
 							:
 							<>
 								{/* { Object.keys(BONDS).map(bond => ( */}
-									{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax].map(bond => (
+									{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
 										<div className="card-content" key={bond}>
 											<BondCardData key={bond} bond={bond} />
 										</div>
