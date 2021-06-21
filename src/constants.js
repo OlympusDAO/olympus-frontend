@@ -52,6 +52,7 @@ export const addresses = {
       DAI: "0x6b175474e89094c44da98b954eedeac495271d0f",
       OHM_DAI: "0x34d7d7Aaf50AD4944B70B320aCB24C95fa2def7c",
       OHM_FRAX: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
+      FRAX: "0x853d955acef822db058eb8505911ed77f175b99e",
     },
 
     BONDS: {
