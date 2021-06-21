@@ -202,7 +202,7 @@ if (web3Modal) {
                           style: "currency",
                           currency: "USD",
                           maximumFractionDigits: 0,
-                        }).format(trim(stakingTVL, 0))}
+                        }).format(stakingTVL)}
                       </h2>
                     </div>
                   </Grid>
@@ -394,7 +394,6 @@ if (web3Modal) {
                       currency: "USD",
                       maximumFractionDigits: 0,
                     }).format(fraxData.tvl, 0)}
-                    {console.log(trim(fraxData.tvl, 0))}
                   </td>
                   <td>
                       {fraxData && fraxData.balance || 0} LP
