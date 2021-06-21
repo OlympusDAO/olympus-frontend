@@ -216,7 +216,7 @@ function Bond({ provider, address, bond }) {
                   >
                     Redeem
                   </button>
-                  <button
+                  {bond !== 'frax' && <button
                     type="button"
                     className={`btn ${view === "redeem_v1" ? "btn-light" : ""}`}
                     onClick={() => {
@@ -224,7 +224,7 @@ function Bond({ provider, address, bond }) {
                     }}
                   >
                     Redeem v1.0
-                  </button>
+                  </button>}
                 </div>
               </div>
 
