@@ -190,7 +190,7 @@ if (web3Modal) {
                   <Grid item xs={6} sm={6} lg={4}>
                     <div className="stake-apy">
                       <h2 className="title">APY</h2>
-                      <h2 className="content">{trim(stakingAPY * 100, 1)}%</h2>
+                      <h2 className="content">{stakingAPY && trim(stakingAPY * 100, 1)}%</h2>
                     </div>
                   </Grid>
 
@@ -393,7 +393,7 @@ if (web3Modal) {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
-                    }).format(fraxData.tvl, 0)}
+                    }).format(fraxData.tvl)}
                   </td>
                   <td>
                       {fraxData && fraxData.balance || 0} LP
