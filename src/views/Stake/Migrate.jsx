@@ -139,7 +139,7 @@ export default function Migrate({
 			setCurrentStep("3");
 			setView("done");
 		} 
-  }, [ohmBalance, oldSohmBalance, sohmBalance]);
+  }, [ohmBalance, oldSohmBalance, sohmBalance, stakeAllowance, unstakeAllowance]);
 
 
 	useEffect(() => {

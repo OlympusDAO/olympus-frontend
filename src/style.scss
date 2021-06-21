@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Offside&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Offside&display=swap');
 $primary: black;
 $secondary: white;
 $trinary: #000;
@@ -24,25 +24,25 @@ header {
 }
 
 @font-face {font-family: 'Square-Bold';
-  src: url('./assets/fonts/EuclidSquare-Bold.ttf');
+  src: url('./assets/fonts/EuclidSquare-Bold.ttf') format("truetype");
 }
 @font-face {font-family: 'Square-Semi-Bold';
-  src: url('./assets/fonts/EuclidSquare-Bold.ttf');
+  src: url('./assets/fonts/EuclidSquare-Bold.ttf') format("truetype");
 }
 @font-face {font-family: 'Square';
-  src: url('./assets/fonts/EuclidSquare-Regular.ttf');
+  src: url('./assets/fonts/EuclidSquare-Regular.ttf') format("truetype");
 }
 @font-face {font-family: 'Square-Medium';
-  src: url('./assets/fonts/EuclidSquare-Medium.ttf');
+  src: url('./assets/fonts/EuclidSquare-Medium.ttf') format("truetype");
 }
 @font-face {font-family: 'Square-Light';
-  src: url('./assets/fonts/EuclidSquare-Light.ttf');
+  src: url('./assets/fonts/EuclidSquare-Light.ttf') format("truetype");
 }
 @font-face {font-family: 'Square-Italic';
-  src: url('./assets/fonts/EuclidSquare-Italic.ttf');
+  src: url('./assets/fonts/EuclidSquare-Italic.ttf') format("truetype");
 }
 @font-face {font-family: 'Square-Italic-Light';
-  src: url('./assets/fonts/EuclidSquare-LightItalic.ttf');
+  src: url('./assets/fonts/EuclidSquare-LightItalic.ttf') format("truetype");
 }
 
 // TODO: This formats the button unfortunately.
