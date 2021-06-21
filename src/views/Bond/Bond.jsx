@@ -260,7 +260,7 @@ function Bond({ provider, address, bond }) {
                   </div>
                 )}
 
-                {false && view === "redeem" && (
+                {view === "redeem" && (
                   <div 
                     id="bond-claim-autostake-btn" 
                     className="transaction-button stake-button" 
