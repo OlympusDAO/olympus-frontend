@@ -152,13 +152,17 @@ if (web3Modal) {
                 </NavLink>
             </div>
           )}
-          {address && (oldSohmBalance == 0 || null) && (
+          {address && (oldSohmBalance == 0) && (
             <div
               className="migrate-sohm-button complete"
+              role="button"
               aria-label="migrate-sohm-complete"
+              onClick={openMigrationWizard}
             >
-              <CheckCircleIcon />
-              sOHM Migrated 
+              <NavLink to="/stake/migrate">
+                <CheckCircleIcon />
+                sOHM Migrated 
+              </NavLink>
             </div>
           )}
           

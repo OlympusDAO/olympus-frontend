@@ -18,7 +18,7 @@
     }
 }
 
-.migrate-sohm-button {
+.migrate-sohm-button a {
     position: absolute;
     right: 20px;
     top: 12px;
@@ -32,7 +32,7 @@
     } 
 }
 
-.migrate-sohm-button.complete {
+.migrate-sohm-button.complete a {
     color: #35EE66 !important;
 }
 
