@@ -29,19 +29,18 @@ export default function Migrate({
 	const ohmBalance = useSelector(state => {
     return state.app.balances && state.app.balances.ohm;
   });
+  const oldSohmBalance = useSelector(state => {
+		return state.app.balances && state.app.balances.oldsohm;
+	})
   const sohmBalance = useSelector(state => {
     return state.app.balances && state.app.balances.sohm;
   });
-	const oldSohmBalance = useSelector(state => {
-		return state.app.balances && state.app.balances.oldsohm;
-	})
   const stakeAllowance = useSelector(state => {
     return state.app.staking && state.app.staking.ohmStake;
   });
   const unstakeAllowance = useSelector(state => {
     return state.app.migrate && state.app.migrate.unstakeAllowance;
   });
-
 	const newStakingAPY = useSelector(state => {
     return (state.app && state.app.stakingAPY) || 0;
   });
@@ -55,7 +54,7 @@ export default function Migrate({
     if (view === "unstake") {
       setQuantity(oldSohmBalance);
     } else {
-      setQuantity(sohmBalance); // we need a getter for this
+      setQuantity(sohmBalance);
     }
   };
 
@@ -100,7 +99,6 @@ export default function Migrate({
   };
 
  
-
   const hasAllowance = useCallback(
     token => {
       if (token === "ohm") return stakeAllowance > 0;
@@ -118,6 +116,14 @@ export default function Migrate({
     } else {
       setQuantity(ohmBalance);
     }
+
+		if (oldSohmBalance > 0) {
+			setCurrentStep("1");
+		} else if (sohmBalance > 0) {
+				setCurrentStep("3");
+		} else {
+			setCurrentStep("2");
+		}
 	}, [view])
 
 	useEffect(() => {
@@ -126,7 +132,7 @@ export default function Migrate({
     if (oldSohmBalance > 0) setView("unstake");
     else if (ohmBalance > 0) setView("stake");
     else setView("done");
-  }, [oldSohmBalance, ohmBalance]);
+  }, [ohmBalance, oldSohmBalance, sohmBalance]);
 
 
 	let modalButton = <></>;
@@ -190,8 +196,6 @@ export default function Migrate({
 									)}
 								</div>
 
-							{ view !== "done" ? (
-							<>
 								<Breadcrumbs className={`migration-breadcrumbs ${currentStep === "2" && "step-2"}`} separator={<DoubleArrowIcon fontsize="medium" />}>
 									<div role="button" onClick={() => {setView("unstake") }} className={`${currentStep === "1" ? "current-step" : "finished-step"}`}>
 										Step 1: Unstake sOHM (old)
@@ -201,6 +205,8 @@ export default function Migrate({
 									</div>
 								</Breadcrumbs>
 
+							{ view !== "done" ? (
+								<>
 								<Flex className="stake-action-row">
 									<div className="input-group ohm-input-group">
 										<div className="logo-holder">
@@ -281,12 +287,12 @@ export default function Migrate({
 											</em>
 										)}
 								</div>
-							</>
-						) : (
-							<div>
-								<p> All you gotta do now is keep it (3, 3)</p>
-							</div>
-						)}
+								</>
+							) : (
+								<div>
+									<p> All you gotta do now is keep it (3, 3)</p>
+								</div>
+							)}
 						
 								<div className={`stake-user-data`}>
 									<div className="stake-price-data-column">
