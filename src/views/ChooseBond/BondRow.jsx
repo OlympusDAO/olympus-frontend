@@ -102,7 +102,7 @@ export function BondTableData({bond}) {
           style: "currency",
           currency: "USD",
           maximumFractionDigits: 0,
-        }).format(trim(bondPurchased, 0))}
+        }).format(bondPurchased))}
       </TableCell>
       <TableCell align="right">
         <NavLink to={`/bonds/${bond}`}>
