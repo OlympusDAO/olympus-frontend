@@ -38,12 +38,12 @@ export function BondCardData({ bond }) {
 
       <div className="bond-price">
         <p>Price</p>
-         <p>${trim(bondPrice, 2)}</p>
+         <p>${bondPrice && trim(bondPrice, 2)}</p>
       </div>
 
       <div className="bond-discount">
         <p>ROI</p>
-        <p>{trim(bondDiscount * 100, 2)}%</p>
+        <p>{bondDiscount && trim(bondDiscount * 100, 2)}%</p>
       </div>
 
       {/* <TableCell>$4,102,030</TableCell> */}
@@ -96,13 +96,13 @@ export function BondTableData({bond}) {
         </div>
       </TableCell>
       <TableCell align="center"><p>{priceUnits(bond)} {trim(bondPrice, 2)}</p></TableCell>
-      <TableCell>{trim(bondDiscount * 100, 2)}%</TableCell>
+      <TableCell>{bondDiscount && trim(bondDiscount * 100, 2)}%</TableCell>
       <TableCell>
         {bondPurchased && new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",
           maximumFractionDigits: 0,
-        }).format(trim(bondPurchased, 0))}
+        }).format(bondPurchased)}
       </TableCell>
       <TableCell align="right">
         <NavLink to={`/bonds/${bond}`}>

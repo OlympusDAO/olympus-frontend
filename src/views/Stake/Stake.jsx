@@ -106,17 +106,21 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     loadFraxData();
   }, []);
 
-
-  let modalButton = <></>;
-  if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButton = (
-        <button type="button" className="btn top-bar-button btn-overwrite-primer m-2" onClick={loadWeb3Modal}>
-          Connect Wallet
-        </button>
-      );
-    }
-  }
+let modalButton = [];
+  
+if (web3Modal) {
+    modalButton.push(
+      <button
+        type="button"
+        className="btn stake-button btn-overwrite-primer m-2"
+        onClick={loadWeb3Modal}
+        key={2}
+      >
+        Connect Wallet
+      </button>
+    );
+}
+  
 
   const openMigrationWizard = () => {
     setMigrationWizardOpen(true)
@@ -198,7 +202,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                           style: "currency",
                           currency: "USD",
                           maximumFractionDigits: 0,
-                        }).format(trim(stakingTVL, 0))}
+                        }).format(stakingTVL)}
                       </h2>
                     </div>
                   </Grid>
@@ -210,14 +214,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               <div className="stake-wallet-notification">
                 <h4>Connect your wallet to Stake OHM</h4>
                 <div className="wallet-menu" id="wallet-menu">
-                  <button
-                    type="button"
-                    className="btn stake-button btn-overwrite-primer m-2"
-                    onClick={loadWeb3Modal}
-                    key={2}
-                  >
-                    Connect Wallet
-                  </button>
+                  {modalButton}
                 </div>
               </div>
               ) : (
@@ -390,16 +387,16 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       </p>
                     </Flex>
                   </td>
-                  <td>{trim(fraxData.apy, 1)}%</td>
+                  <td>{fraxData && trim(fraxData.apy, 1)}%</td>
                   <td>
-                    {fraxData.tvl && new Intl.NumberFormat("en-US", {
+                    {fraxData && fraxData.tvl && new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
-                    }).format(trim(fraxData.tvl, 0))}
+                    }).format(fraxData.tvl, 0)}
                   </td>
                   <td>
-                      {fraxData.balance || "0"} LP
+                      {fraxData && fraxData.balance || 0} LP
                   </td>
                   <td>
                     <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
@@ -437,22 +434,22 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     APR
                   </div>
                   <div className="pool-data-label">
-                    {trim(fraxData.apy, 1)}%
+                    {fraxData && trim(fraxData.apy, 1)}%
                   </div>
                 </div>
                 <div item className="pool-data-row">
                   <div>TVL</div>
                   <div>
-                    {fraxData.tvl && new Intl.NumberFormat("en-US", {
+                    {fraxData && fraxData.tvl && new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
-                    }).format(trim(fraxData.tvl, 0))}
+                    }).format(fraxData.tvl)}
                   </div>
                 </div>
                 <div item className="pool-data-row">
                   <div>Balance</div>
-                  <div>{fraxData.balance || "0"} LP</div>
+                  <div>{fraxData && fraxData.balance || 0} LP</div>
                 </div>
               </div>
             </div>
@@ -461,7 +458,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
         </div>
       </Card>
     </Grid>
-  );
+  )
 }
 
 export default Stake;
