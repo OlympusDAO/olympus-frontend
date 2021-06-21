@@ -74,7 +74,7 @@ export const BONDS = {
   ohm_dai: "ohm_dai_lp",
   ohm_frax: "ohm_frax_lp",
   dai: "dai",
-  // frax: "frax",
+  frax: "frax",
   dai_v1: "dai_v1",
   ohm_dai_v1: "ohm_dai_lp_v1",
   ohm_frax_v1: "ohm_frax_v1",
