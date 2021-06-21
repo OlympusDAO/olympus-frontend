@@ -57,6 +57,8 @@ export function bondName(bond) {
     return 'OHM-DAI SLP Bond'
   else if (bond === BONDS.ohm_frax)
     return 'OHM-FRAX LP Bond'
+  else if (bond === BONDS.frax)
+    return 'FRAX Bond'
 }
 
 export function contractForBond({ bond, networkID, provider }) {
