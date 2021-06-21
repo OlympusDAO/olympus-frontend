@@ -397,6 +397,7 @@ if (web3Modal) {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
+                      minimumFractionDigits: 0
                     }).format(fraxData.tvl)}
                   </td>
                   <td>
@@ -448,6 +449,7 @@ if (web3Modal) {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
+                      minimumFractionDigits: 0
                     }).format(fraxData.tvl)}
                   </div>
                 </div>
