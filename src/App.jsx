@@ -60,7 +60,7 @@ import { useUserProvider } from "./hooks";
 const targetNetwork = NETWORKS.mainnet; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
-const DEBUG = true;
+const DEBUG = false;
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
@@ -116,12 +116,10 @@ function App(props) {
   }
 
   const handleSidebarClose = () => {
-    console.log('handle close')
     setIsSidebarExpanded(false)
   }
 
   useEffect(() => {
-    console.log(['pageview', location.pathname]);
     if (isSidebarExpanded) handleSidebarClose();
   }, [location])
 
@@ -207,7 +205,6 @@ function App(props) {
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
-    console.log("theme effect", theme);
     themeMode = theme === "light" ? lightTheme : darkTheme;
   });
 

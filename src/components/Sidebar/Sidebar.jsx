@@ -15,7 +15,6 @@ function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount,
   const [isActive] = useState();
 
   const checkPage = useCallback((match, location, page) => {
-    console.log(match);
     const currentPath = location.pathname.replace("/", "");
     const currentURL = window.location.href;
 
