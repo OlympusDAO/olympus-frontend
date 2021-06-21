@@ -11,7 +11,7 @@ import { trim } from "../../helpers";
 import "./sidebar.scss";
 
 
-function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, currentIndex }) {
+function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount, currentIndex }) {
   const [isActive] = useState();
 
   const checkPage = useCallback((match, location, page) => {
@@ -73,7 +73,7 @@ function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount,
                 <p>OHM-DAI LP<span>{trim(ohmDaiBondDiscount * 100, 2)}%</span></p>
                 <p>OHM-FRAX LP<span>{trim(ohmFraxLpBondDiscount * 100, 2)}%</span></p>
                 <p>DAI<span>{trim(daiBondDiscount * 100, 2)}%</span></p>
-                {/* <p>FRAX<span></span></p> */}
+                <p>FRAX<span>{trim(fraxBondDiscount * 100, 2)}%</span></p>
               </div>
             </div>
           </div>
