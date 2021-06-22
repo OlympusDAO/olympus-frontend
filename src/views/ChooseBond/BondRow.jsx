@@ -102,6 +102,7 @@ export function BondTableData({bond}) {
           style: "currency",
           currency: "USD",
           maximumFractionDigits: 0,
+          minimumFractionDigits: 0
         }).format(bondPurchased)}
       </TableCell>
       <TableCell align="right">

@@ -9,7 +9,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 
 
-function ChooseBond({ provider, address }) {
+function ChooseBond({ address, provider }) {
 
 	// const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });
 	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
@@ -70,7 +70,7 @@ function ChooseBond({ provider, address }) {
 											{/* { Object.keys(BONDS).map(bond => ( */}
 												{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
 												<BondTableData key={bond} bond={bond} />
-											)) }
+											))}
 										</TableBody>
 									</Table>
 								</TableContainer>
