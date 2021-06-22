@@ -206,6 +206,7 @@ if (web3Modal) {
                           style: "currency",
                           currency: "USD",
                           maximumFractionDigits: 0,
+                          minimumFractionDigits: 0
                         }).format(stakingTVL)}
                       </h2>
                     </div>
