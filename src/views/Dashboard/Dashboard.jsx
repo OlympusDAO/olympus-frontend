@@ -42,6 +42,7 @@ function Dashboard({ provider, address }) {
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
                 }).format(marketCap())}
               </h3>
             </div>
@@ -53,8 +54,15 @@ function Dashboard({ provider, address }) {
             <div className="card-body">
               <h4 className="title">Supply (circulating/total)</h4>
               <h3 className="content">
-                {circSupply && new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(circSupply / Math.pow(10, 9))}/
-                {totalSupply && new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(totalSupply / Math.pow(10, 9))}
+                {circSupply && new Intl.NumberFormat("en-US", { 
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                }).format(circSupply / Math.pow(10, 9))} /
+                
+                {totalSupply && new Intl.NumberFormat("en-US", { 
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                }).format(totalSupply / Math.pow(10, 9))}
               </h3>
             </div>
           </div>
