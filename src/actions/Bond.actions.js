@@ -203,7 +203,7 @@ export const bondAsset =
   ({ value, address, bond, networkID, provider, slippage }) =>
   async dispatch => {
     const depositorAddress = address;
-    const acceptedSlippage = slippage / 100 || 0.02; // 2%
+    const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
 
     let balance;
