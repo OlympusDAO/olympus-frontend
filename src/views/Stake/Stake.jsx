@@ -140,7 +140,7 @@ if (web3Modal) {
           <h5>Single Stake (3, 3)</h5>
           <RebaseTimer />
 
-          {address && (oldSohmBalance > 0) && (
+          {address && (oldSohmBalance > 0.01) && (
             <div
               className="migrate-sohm-button"
               role="button"
@@ -152,7 +152,7 @@ if (web3Modal) {
                 </NavLink>
             </div>
           )}
-          {address && (oldSohmBalance == 0) && (
+          {address && (oldSohmBalance < 0.01) && (
             <div
               className="migrate-sohm-button complete"
               role="button"

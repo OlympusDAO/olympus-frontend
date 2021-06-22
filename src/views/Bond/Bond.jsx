@@ -15,7 +15,7 @@ import { BONDS } from "../../constants";
 import "../Stake/stake.scss";
 import "./bond.scss";
 
-function Bond({ provider, address, bond }) {
+function Bond({ bond, address, provider }) {
   const dispatch = useDispatch();
 
   const [slippage, setSlippage] = useState(2);
