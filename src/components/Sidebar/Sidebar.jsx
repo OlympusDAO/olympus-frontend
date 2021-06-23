@@ -9,39 +9,11 @@ import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-ic
 import { trim } from "../../helpers";
 import "./sidebar.scss";
 import orderBy from 'lodash/orderBy'
+import useBonds from "../../hooks/Bonds";
 
-const makeBondsArray = (ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount) => {
-  return [
-    {
-      name: 'OHM-DAI LP',
-      discount: Number(ohmDaiBondDiscount)
-    },
-    {
-      name: 'OHM-FRAX LP',
-      discount: Number(ohmFraxLpBondDiscount)
-    },
-    {
-      name: 'DAI',
-      discount: Number(daiBondDiscount)
-    },
-    {
-      name: 'FRAX',
-      discount: Number(fraxBondDiscount)
-    },
-  ]
-};
-
-const BONDS = makeBondsArray();
-
-function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount, currentIndex }) {
+function Sidebar({ isExpanded, theme, currentIndex }) {
   const [isActive] = useState();
-  const [bonds, setBonds] = useState(BONDS);
-
-  useEffect(() => {
-    const bondValues = makeBondsArray(ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount);
-    const mostProfitableBonds = orderBy(bondValues, 'discount', 'desc');
-    setBonds(mostProfitableBonds);
-  }, [ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount])
+  const bonds = useBonds();
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
