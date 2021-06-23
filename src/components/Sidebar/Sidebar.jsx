@@ -14,19 +14,19 @@ const makeBondsArray = (ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscou
   return [
     {
       name: 'OHM-DAI LP',
-      discount: Number(ohmDaiBondDiscount) || ''
+      discount: Number(ohmDaiBondDiscount)
     },
     {
       name: 'OHM-FRAX LP',
-      discount: Number(ohmFraxLpBondDiscount) || ''
+      discount: Number(ohmFraxLpBondDiscount)
     },
     {
       name: 'DAI',
-      discount: Number(daiBondDiscount) || ''
+      discount: Number(daiBondDiscount)
     },
     {
       name: 'FRAX',
-      discount: Number(fraxBondDiscount) || ''
+      discount: Number(fraxBondDiscount)
     },
   ]
 };
@@ -99,7 +99,7 @@ function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount,
             <div className="dapp-menu-data discounts">
               <div className="bond-discounts">
                 <p>Bond discounts</p>
-                {bonds.map((bond, i) => <p key={i}>{bond.name}<span>{trim(bond.discount * 100, 2)}%</span></p>)}
+                {bonds.map((bond, i) => <p key={i}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></p>)}
               </div>
             </div>
           </div>
