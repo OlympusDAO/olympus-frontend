@@ -99,7 +99,7 @@ function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount,
             <div className="dapp-menu-data discounts">
               <div className="bond-discounts">
                 <p>Bond discounts</p>
-                {bonds.map(bond => <p>{bond.name}<span>{trim(bond.discount * 100, 2)}%</span></p>)}
+                {bonds.map((bond, i) => <p key={i}>{bond.name}<span>{trim(bond.discount * 100, 2)}%</span></p>)}
               </div>
             </div>
           </div>
