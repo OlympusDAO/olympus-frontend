@@ -29,6 +29,12 @@ export const makeBondsArray = (ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBon
 
 const BONDS_ARRAY = makeBondsArray();
 
+/**
+ * Returns an array of bonds ordered by the most profitable ones first.
+ * Each bond object contains its display name, value, and the discount amount.
+ * 
+ * @returns {[{name: string, discount: number, value: string}, {name: string, discount: number, value: string}, {name: string, discount: number, value: string}, {name: string, discount: number, value: string}]}
+ */
 export default function useBonds() {
   const fraxBondDiscount = useSelector(state => {
     return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
