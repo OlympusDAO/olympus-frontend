@@ -1,18 +1,19 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { NavLink } from "react-router-dom";
 import Social from "../Social";
 import OlympusLogo from '../../assets/logo.svg';
-import RebaseTimer from '../RebaseTimer/RebaseTimer';
 import externalUrls from './externalUrls';
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake-icon.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond-icon.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-icon.svg";
 import { trim } from "../../helpers";
 import "./sidebar.scss";
+import orderBy from 'lodash/orderBy'
+import useBonds from "../../hooks/Bonds";
 
-
-function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount, currentIndex }) {
+function Sidebar({ isExpanded, theme, currentIndex }) {
   const [isActive] = useState();
+  const bonds = useBonds();
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -70,10 +71,7 @@ function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount,
             <div className="dapp-menu-data discounts">
               <div className="bond-discounts">
                 <p>Bond discounts</p>
-                <p>OHM-DAI LP<span>{trim(ohmDaiBondDiscount * 100, 2)}%</span></p>
-                <p>OHM-FRAX LP<span>{trim(ohmFraxLpBondDiscount * 100, 2)}%</span></p>
-                <p>DAI<span>{trim(daiBondDiscount * 100, 2)}%</span></p>
-                <p>FRAX<span>{trim(fraxBondDiscount * 100, 2)}%</span></p>
+                {bonds.map((bond, i) => <p key={i}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></p>)}
               </div>
             </div>
           </div>
@@ -92,11 +90,8 @@ function Sidebar({ isExpanded, theme, ohmDaiBondDiscount, ohmFraxLpBondDiscount,
         </div>
 
         <div className="dapp-menu-data bottom">
-          {/* <div className="data-rebase">
-            <RebaseTimer />
-          </div> */}
 
-        {theme === "girth" && 
+        {theme === "girth" &&
           <div className="data-ohm-index">
             <p>Current Index </p>
             <p>{trim(currentIndex, 4)} OHM</p>

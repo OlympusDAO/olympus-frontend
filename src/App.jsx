@@ -249,10 +249,6 @@ function App(props) {
           )}
 
           <Sidebar
-            ohmDaiBondDiscount={ohmDaiBondDiscount}
-            ohmFraxLpBondDiscount={ohmFraxLpBondDiscount}
-            daiBondDiscount={daiBondDiscount}
-            fraxBondDiscount={fraxBondDiscount}
             currentIndex={currentIndex}
             isExpanded={isSidebarExpanded}
             theme={theme}

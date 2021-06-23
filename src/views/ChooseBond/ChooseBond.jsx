@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core"
 import { Card } from "rimble-ui";
@@ -7,11 +7,10 @@ import { BondTableData, BondCardData } from './BondRow';
 import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
-
+import useBonds from "../../hooks/Bonds";
 
 function ChooseBond({ address, provider }) {
 
-	// const fiveDayRate  = useSelector((state ) => { return state.app.fiveDayRate });
 	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
 	const isSmallScreen = useMediaQuery("(max-width: 1125px)");
@@ -21,6 +20,8 @@ function ChooseBond({ address, provider }) {
 	const treasuryBalance = useSelector(state => {
     	return state.app.treasuryBalance;
   	});
+
+	const bonds = useBonds();
 
 	return (
 		<Grid container id="choose-bond-view" justify="center" spacing={2}>
@@ -48,11 +49,11 @@ function ChooseBond({ address, provider }) {
 						</Grid>
           </div>
         </Card>
-          
+
         <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
 				<div className="card-header" style={{ background: 'transparent' }}>
             <h5>Bonds (1, 1)</h5>
-          </div> 
+          </div>
 					{ !isSmallScreen ?
           		<div className="card-content">
 								<TableContainer>
@@ -67,9 +68,8 @@ function ChooseBond({ address, provider }) {
 											</TableRow>
 										</TableHead>
 										<TableBody>
-											{/* { Object.keys(BONDS).map(bond => ( */}
-												{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
-												<BondTableData key={bond} bond={bond} />
+												{bonds.map(bond => (
+												<BondTableData key={bond.value} bond={bond.value} />
 											))}
 										</TableBody>
 									</Table>
@@ -85,10 +85,10 @@ function ChooseBond({ address, provider }) {
 								)) }
 							</>
 						}
-          
+
         </Card>
     </Grid>
 	);
   }
-  
+
   export default ChooseBond;
