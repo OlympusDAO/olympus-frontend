@@ -1,4 +1,4 @@
-# 🏗 scaffold-eth
+# 🏗 Olympus DAO FrontEnd
 
 > is everything you need to get started building decentralized applications on Ethereum! 🚀 
 
