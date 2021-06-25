@@ -8,7 +8,7 @@ import {
   bondAsset,
   redeemBond,
 } from "../../actions/Bond.actions.js";
-import BondHeader from "./BondHeader";
+import BondHeader from "./BondHeader"; 
 import BondRedeemV1 from "./BondRedeemV1";
 import { BONDS } from "../../constants";
 import { NavLink } from "react-router-dom";
