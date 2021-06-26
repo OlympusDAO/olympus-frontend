@@ -9,7 +9,7 @@ import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "../../style.scss";
+import "../../css/style.scss";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 
