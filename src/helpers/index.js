@@ -1,10 +1,8 @@
-
 import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS } from "../constants";
 import { ethers } from "ethers";
 import { abi as ierc20Abi } from '../abi/IERC20.json';
 import { abi as CirculatingSupplyContract } from '../abi/CirculatingSupplyContract.json';
 import { abi as PairContract } from '../abi/PairContract.json';
-
 import { abi as BondOhmDaiContract } from '../abi/bonds/OhmDaiContract.json';
 import { abi as BondOhmFraxContract } from '../abi/bonds/OhmFraxContract.json';
 import { abi as BondDaiContract } from '../abi/bonds/DaiContract.json';
@@ -13,9 +11,20 @@ import { abi as ReserveOhmFraxContract } from '../abi/reserves/OhmFrax.json';
 import { abi as BondContract } from '../abi/BondContract.json';
 import { abi as DaiBondContract } from '../abi/DaiBondContract.json';
 import { abi as FraxBondContract } from '../abi/bonds/FraxContract.json';
+import { abi as RedeemHelperAbi } from "../abi/RedeemHelper.json";
+
 export { default as Transactor } from "./Transactor";
 
-export function addressForBond({bond, networkID}) {
+export function addressForRedeemHelper({ networkID }) {
+  switch (networkID) {
+    case 1:
+      return addresses[networkID].REDEEM_HELPER_ADDRESS;
+    default:
+      return null;
+  }
+}
+
+export function addressForBond({ bond, networkID }) {
   if (bond === BONDS.ohm_dai) {
     return addresses[networkID].BONDS.OHM_DAI;
   } else if (bond === BONDS.dai) {
@@ -27,7 +36,7 @@ export function addressForBond({bond, networkID}) {
   }
 }
 
-export function addressForAsset({bond, networkID}) {
+export function addressForAsset({ bond, networkID }) {
   if (bond === BONDS.ohm_dai) {
     return addresses[networkID].RESERVES.OHM_DAI;
   } else if (bond === BONDS.dai) {
@@ -93,6 +102,10 @@ export function contractForReserve({ bond, networkID, provider }) {
   } else if (bond === BONDS.frax) {
     return new ethers.Contract(address, ierc20Abi, provider);
   }
+}
+
+export function contractForRedeemHelper({ networkID, provider }) {
+  return new ethers.Contract(addressForRedeemHelper({ networkID }), RedeemHelperAbi, provider);
 }
 
 export async function getMarketPrice({ networkID, provider }) {
