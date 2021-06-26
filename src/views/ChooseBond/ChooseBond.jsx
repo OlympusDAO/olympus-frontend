@@ -8,6 +8,7 @@ import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
+import { redeemAllBonds } from "../../actions/Bond.actions";
 
 function ChooseBond({ address, provider }) {
 
@@ -22,6 +23,10 @@ function ChooseBond({ address, provider }) {
   	});
 
 	const bonds = useBonds();
+
+	const redeemAll = async () => {
+		await dispatch(redeemAllBonds({ address, autoStake, provider }));
+	}
 
 	return (
 		<Grid container id="choose-bond-view" justify="center" spacing={2}>
@@ -52,7 +57,20 @@ function ChooseBond({ address, provider }) {
 
         <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
 				<div className="card-header" style={{ background: 'transparent' }}>
-            <h5>Bonds (1, 1)</h5>
+					<div className="row">
+						<div className="col-12 col-md-6">
+							<h5>Bonds (1, 1)</h5>
+						</div>
+						<div className="col-12 col-md-6 text-end">
+							<button
+								type="button"
+								onClick={redeemAll}
+								className="btn btn-outline-light btn-sm"
+							>
+								Redeem All
+							</button>
+						</div>
+					</div>
           </div>
 					{ !isSmallScreen ?
           		<div className="card-content">
