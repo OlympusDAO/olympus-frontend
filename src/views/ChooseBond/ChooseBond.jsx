@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core"
 import { Card } from "rimble-ui";
 import "../Stake/stake.scss";
@@ -11,6 +11,7 @@ import useBonds from "../../hooks/Bonds";
 import { redeemAllBonds } from "../../actions/Bond.actions";
 
 function ChooseBond({ address, provider }) {
+	const dispatch = useDispatch();
 
 	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
 
@@ -24,8 +25,8 @@ function ChooseBond({ address, provider }) {
 
 	const bonds = useBonds();
 
-	const redeemAll = async () => {
-		await dispatch(redeemAllBonds({ address, autoStake, provider }));
+	const redeemAll = async (autoStake) => {
+		await dispatch(redeemAllBonds({ networkID: 1, address, autoStake: autoStake === true, provider }));
 	}
 
 	return (
