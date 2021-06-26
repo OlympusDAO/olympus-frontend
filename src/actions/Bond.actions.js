@@ -1,5 +1,13 @@
 import { ethers } from "ethers";
-import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForBond, addressForAsset } from "../helpers";
+import {
+  isBondLP,
+  getMarketPrice,
+  contractForBond,
+  contractForReserve,
+  addressForBond,
+  addressForAsset,
+  contractForRedeemHelper,
+} from "../helpers";
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 
@@ -262,3 +270,24 @@ export const redeemBond =
       alert(error.message);
     }
   };
+
+export const redeemAllBonds =
+  ({ recipient, autoStake, provider }) => async dispatch => {
+    const autoStake = true === autoStake
+
+    if (!provider) {
+      alert("Please connect your wallet!");
+      return;
+    }
+
+    const signer = provider.getSigner();
+    const redeemHelperContract = contractForRedeemHelper({ bond, networkID, provider: signer });
+
+    try {
+      const redeemAllTx = await redeemHelperContract.redeemAll(recipient, true === autoStake);
+
+      await redeemAllTx.wait();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
