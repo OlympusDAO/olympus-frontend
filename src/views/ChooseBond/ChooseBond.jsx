@@ -65,10 +65,17 @@ function ChooseBond({ address, provider }) {
 						<div className="col-12 col-md-6 text-end">
 							<button
 								type="button"
-								onClick={redeemAll}
+								onClick={() => redeemAll(false)}
 								className="btn btn-outline-light btn-sm"
 							>
-								Redeem All
+								Redeem
+							</button>
+							<button
+								type="button"
+								onClick={() => redeemAll(true)}
+								className="btn btn-outline-light btn-sm ms-2"
+							>
+								Redeem & Auto Stake
 							</button>
 						</div>
 					</div>

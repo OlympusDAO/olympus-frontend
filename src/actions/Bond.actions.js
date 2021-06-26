@@ -273,8 +273,6 @@ export const redeemBond =
 
 export const redeemAllBonds =
   ({ networkID, recipient, autoStake, provider }) => async dispatch => {
-    const autoStake = autoStake === true
-
     if (!provider) {
       alert("Please connect your wallet!");
       return;
