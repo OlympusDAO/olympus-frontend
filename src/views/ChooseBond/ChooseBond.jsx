@@ -26,7 +26,7 @@ function ChooseBond({ address, provider }) {
 	const bonds = useBonds();
 
 	const redeemAll = async (autoStake) => {
-		await dispatch(redeemAllBonds({ networkID: 1, address, autoStake: autoStake === true, provider }));
+		await dispatch(redeemAllBonds({ networkID: 1, recipient: address, autoStake: autoStake === true, provider }));
 	}
 
 	return (
