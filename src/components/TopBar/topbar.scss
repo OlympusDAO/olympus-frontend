@@ -3,7 +3,7 @@
     display: flex;
     text-align: right;
     top: 0;
-    right: 0; 
+    right: 0;
     width: auto;
     height: 72px;
     background-color:inherit;
@@ -42,6 +42,11 @@
     }
 }
 
+.add-ohm-wallet {
+    width: 20px !important;
+    height: 20px !important;
+}
+
 .get-ohm-button.btn,
 .wallet-menu .btn {
     padding: 0px 25px !important;
@@ -60,7 +65,7 @@
     }
     .disconnect-button{
       margin-bottom: 15px;
-    }  
+    }
 }
 
 .wallet-button {
@@ -70,7 +75,7 @@
     cursor:pointer;
     &:hover {
       background-color:#e8e8e8;
-    } 
+    }
 }
 
 .dapp-sidebar-button-connect {
