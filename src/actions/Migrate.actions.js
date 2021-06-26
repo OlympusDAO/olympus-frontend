@@ -20,9 +20,8 @@ async function calculateAPY(sohmContract, stakingReward) {
   const circSupply = await sohmContract.circulatingSupply();
 
   const stakingRebase = stakingReward / circSupply;
-  const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
 
-  return stakingAPY;
+  return Math.pow(1 + stakingRebase, 365 * 3);
 }
 
 // This method doens't work :(

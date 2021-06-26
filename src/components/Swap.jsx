@@ -102,9 +102,9 @@ function Swap({ selectedProvider, tokenListURI }) {
     const getTokenList = async () => {
       console.log(_tokenListUri);
       try {
-        const tokenList = await fetch(_tokenListUri);
-        const tokenListJson = await tokenList.json();
-        const filteredTokens = tokenListJson.tokens.filter(function (t) {
+        const newTokenList = await fetch(_tokenListUri);
+        const newTokenListJson = await newTokenList.json();
+        const filteredTokens = newTokenListJson.tokens.filter(function (t) {
           return t.chainId === activeChainId;
         });
         const ethToken = WETH[activeChainId];
@@ -113,8 +113,11 @@ function Swap({ selectedProvider, tokenListURI }) {
         ethToken.logoURI =
           "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png";
         const _tokenList = [ethToken, ...filteredTokens];
+
         setTokenList(_tokenList);
+
         const _tokens = tokenListToObject(_tokenList);
+
         setTokens(_tokens);
       } catch (e) {
         console.log(e);
@@ -128,7 +131,7 @@ function Swap({ selectedProvider, tokenListURI }) {
       const pairs = arr => arr.map((v, i) => arr.slice(i + 1).map(w => [v, w])).flat();
 
       const baseTokens = tokenList
-        .filter(function (t) {
+        .filter(t => {
           return ["DAI", "USDC", "USDT", "COMP", "ETH", "MKR", "LINK", tokenIn, tokenOut].includes(t.symbol);
         })
         .map(el => {
@@ -235,7 +238,7 @@ function Swap({ selectedProvider, tokenListURI }) {
 
   const route = trades
     ? trades.length > 0
-      ? trades[0].route.path.map(function (item) {
+      ? trades[0].route.path.map(item => {
           return item.symbol;
         })
       : []
@@ -292,7 +295,7 @@ function Swap({ selectedProvider, tokenListURI }) {
 
       let call;
       const deadline = Math.floor(Date.now() / 1000) + timeLimit;
-      const path = trades[0].route.path.map(function (item) {
+      const path = trades[0].route.path.map(item => {
         return item.address;
       });
       console.log(path);
@@ -376,13 +379,13 @@ function Swap({ selectedProvider, tokenListURI }) {
 
   const metaIn =
     tokens && tokenList && tokenIn
-      ? tokenList.filter(function (t) {
+      ? tokenList.filter(t => {
           return t.address === tokens[tokenIn].address;
         })[0]
       : null;
   const metaOut =
     tokens && tokenList && tokenOut
-      ? tokenList.filter(function (t) {
+      ? tokenList.filter(t => {
           return t.address === tokens[tokenOut].address;
         })[0]
       : null;

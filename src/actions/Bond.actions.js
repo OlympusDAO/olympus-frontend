@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
-import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForBond, addressForAsset } from "../helpers";
-import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
+import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForAsset } from "../helpers";
+import { addresses, Actions, BONDS /* , VESTING_TERM */ } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 
 export const fetchBondSuccess = payload => ({
@@ -21,7 +21,7 @@ export const changeApproval =
 
     try {
       let approveTx;
-      if (bond == BONDS.ohm_dai)
+      if (bond === BONDS.ohm_dai)
         approveTx = await reserveContract.approve(
           addresses[networkID].BONDS.OHM_DAI,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
@@ -36,7 +36,8 @@ export const changeApproval =
           addresses[networkID].BONDS.DAI,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
-      else if (bond === BONDS.frax) // <-- added for frax
+      else if (bond === BONDS.frax)
+        // <-- added for frax
         approveTx = await reserveContract.approve(
           addresses[networkID].BONDS.FRAX,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
@@ -59,7 +60,9 @@ export const calcBondDetails =
     }
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
-    let bondDiscount, valuation, bondQuote;
+    let bondDiscount;
+    let valuation;
+    let bondQuote;
     const bondContract = contractForBond({ bond, networkID, provider });
     const bondCalcContract = new ethers.Contract(
       addresses[networkID].BONDS.OHM_DAI_CALC,
@@ -71,37 +74,35 @@ export const calcBondDetails =
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
 
-    let debtRatio, bondPrice;
+    let debtRatio;
+    let bondPrice;
     try {
-
       bondPrice = await bondContract.bondPriceInUSD();
 
       bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
       if (bond === BONDS.ohm_dai) {
-        debtRatio = await bondContract.standardizedDebtRatio() / Math.pow(10, 9);
+        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
         // RFV = assume 1:1 backing
         valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
         bondQuote = await bondContract.payoutFor(valuation);
-        bondQuote = bondQuote / Math.pow(10, 9);
+        bondQuote /= Math.pow(10, 9);
       } else if (bond === BONDS.ohm_frax) {
-        debtRatio = await bondContract.standardizedDebtRatio() / Math.pow(10, 9);
+        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
         valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
         bondQuote = await bondContract.payoutFor(valuation);
-        bondQuote = bondQuote / Math.pow(10, 9);
+        bondQuote /= Math.pow(10, 9);
       } else {
         // RFV = DAI
         debtRatio = await bondContract.standardizedDebtRatio();
         bondQuote = await bondContract.payoutFor(amountInWei);
-        bondQuote = bondQuote / Math.pow(10, 18);
+        bondQuote /= Math.pow(10, 18);
       }
+    } catch (e) {
+      console.log(e);
 
-    } catch {
       debtRatio = 0;
       bondPrice = 0;
     }
-
-
-
 
     // Display error if user tries to exceed maximum.
     if (!!value && parseFloat(bondQuote) > maxBondPrice / Math.pow(10, 9)) {
@@ -112,20 +113,18 @@ export const calcBondDetails =
       );
     }
 
-
     // Calculate bonds purchased
     const token = contractForReserve({ bond, networkID, provider });
     let purchased = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
     // Value the bond
     if (isBondLP(bond)) {
-      const markdown  = await bondCalcContract.markdown(addressForAsset({bond, networkID}));
-      purchased = await bondCalcContract.valuation(addressForAsset({bond, networkID}), purchased);
-      purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9)) ;
+      const markdown = await bondCalcContract.markdown(addressForAsset({ bond, networkID }));
+      purchased = await bondCalcContract.valuation(addressForAsset({ bond, networkID }), purchased);
+      purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
     } else {
-      purchased = purchased / Math.pow(10, 18);
+      purchased /= Math.pow(10, 18);
     }
-
 
     return dispatch(
       fetchBondSuccess({
@@ -151,7 +150,9 @@ export const calculateUserBondDetails =
     const bondContract = contractForBond({ bond, provider, networkID });
     const reserveContract = contractForReserve({ bond, networkID, provider });
 
-    let interestDue, pendingPayout, bondMaturationBlock;
+    let interestDue;
+    let pendingPayout;
+    let bondMaturationBlock;
     if (bond === BONDS.dai_v1 || bond === BONDS.ohm_frax_v1 || bond === BONDS.ohm_dai_v1) {
       const bondDetails = await bondContract.bondInfo(address);
       interestDue = bondDetails.payoutRemaining / Math.pow(10, 9);
@@ -164,7 +165,8 @@ export const calculateUserBondDetails =
       pendingPayout = await bondContract.pendingPayoutFor(address);
     }
 
-    let allowance, balance;
+    let allowance;
+    let balance;
     if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
 
@@ -233,8 +235,9 @@ export const bondAsset =
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-      } else alert(error.message);
-      return;
+      } else {
+        alert(error.message);
+      }
     }
   };
 
@@ -251,7 +254,7 @@ export const redeemBond =
 
     try {
       let redeemTx;
-      if (bond === BONDS.dai_v1 || bond === BONDS.ohm_dai_v1 || bond === BONDS.ohm_frax_v1 ) {
+      if (bond === BONDS.dai_v1 || bond === BONDS.ohm_dai_v1 || bond === BONDS.ohm_frax_v1) {
         redeemTx = await bondContract.redeem(false);
       } else {
         redeemTx = await bondContract.redeem(address, autostake);

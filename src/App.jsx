@@ -1,4 +1,4 @@
-import { StaticJsonRpcProvider, Web3Provider, getDefaultProvider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, Web3Provider /* , getDefaultProvider */ } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ThemeProvider } from "styled-components";
 import { useUserAddress } from "eth-hooks";
@@ -7,24 +7,21 @@ import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "@fortawesome/fontawesome-free/js/all.js";
-import ClearIcon from '@material-ui/icons/Clear';
+import "@fortawesome/fontawesome-free/js/all";
+import ClearIcon from "@material-ui/icons/Clear";
 import { useSelector, useDispatch } from "react-redux";
 import { Flex } from "rimble-ui";
-import { Container, Modal, Backdrop, useMediaQuery } from "@material-ui/core";
+import { Container, useMediaQuery } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
-
-import { calcBondDetails } from "./actions/Bond.actions.js";
-import { loadAppDetails, getMarketPrice, getTokenSupply } from "./actions/App.actions.js";
-import { loadAccountDetails } from "./actions/Account.actions.js";
-
+import { calcBondDetails } from "./actions/Bond.actions";
+import { loadAppDetails, getMarketPrice, getTokenSupply } from "./actions/App.actions";
+import { loadAccountDetails } from "./actions/Account.actions";
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
-import Sidebar from "./components/Sidebar/Sidebar.jsx";
-import TopBar from "./components/TopBar/TopBar.jsx";
+import Sidebar from "./components/Sidebar/Sidebar";
+import TopBar from "./components/TopBar/TopBar";
 import Migrate from "./views/Stake/Migrate";
 import NotFound from "./views/404/NotFound";
-
 
 import "./App.css";
 // import "./style.scss";
@@ -99,49 +96,50 @@ const logoutOfWeb3Modal = async () => {
   }, 1);
 };
 
-
-
-function App(props) {
+function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
-  const location = useLocation()
+  const location = useLocation();
 
   const isSmallerScreen = useMediaQuery("(max-width: 1125px)");
-	const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
+  const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   const handleSidebarOpen = () => {
-    setIsSidebarExpanded(true)
-  }
+    setIsSidebarExpanded(true);
+  };
 
   const handleSidebarClose = () => {
-    setIsSidebarExpanded(false)
-  }
+    setIsSidebarExpanded(false);
+  };
 
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
-  }, [location])
+  }, [location]);
 
-
-  const currentBlock  = useSelector((state) => { return state.app.currentBlock });
-  const currentIndex = useSelector((state) => { return state.app.currentIndex });
+  const currentBlock = useSelector(state => {
+    return state.app.currentBlock;
+  });
+  const currentIndex = useSelector(state => {
+    return state.app.currentIndex;
+  });
 
   const fraxBondDiscount = useSelector(state => {
-    return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
+    return state.bonding.frax && state.bonding.frax.bondDiscount;
   });
 
   const daiBondDiscount = useSelector(state => {
-    return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
+    return state.bonding.dai && state.bonding.dai.bondDiscount;
   });
 
   const ohmDaiBondDiscount = useSelector(state => {
-    return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
+    return state.bonding.ohm_dai_lp && state.bonding.ohm_dai_lp.bondDiscount;
   });
 
   const ohmFraxLpBondDiscount = useSelector(state => {
-    return state.bonding['ohm_frax_lp'] && state.bonding['ohm_frax_lp'].bondDiscount;
-  })
+    return state.bonding.ohm_frax_lp && state.bonding.ohm_frax_lp.bondDiscount;
+  });
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
@@ -187,9 +185,6 @@ function App(props) {
     });
   }
 
-
-
-
   useEffect(() => {
     loadDetails();
   }, [injectedProvider, address]);
@@ -204,7 +199,6 @@ function App(props) {
       loadWeb3Modal();
     }
   }, [loadWeb3Modal]);
-
 
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
@@ -222,28 +216,25 @@ function App(props) {
       <GlobalStyles />
       <div className="app">
         <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}>
-          {!isSidebarExpanded &&
-          <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
-            <button
-              className="navbar-toggler"
-              type="button"
-              onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              data-toggle="collapse"
-              data-target="#navbarNav"
-              aria-controls="navbarNav"
-            >
-              <span className="navbar-toggler-icon" />
-            </button>
-          </nav>}
+          {!isSidebarExpanded && (
+            <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
+              <button
+                className="navbar-toggler"
+                type="button"
+                onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+              >
+                <span className="navbar-toggler-icon" />
+              </button>
+            </nav>
+          )}
 
           {isSidebarExpanded && (
-            <a
-              role="button"
-              className="close-nav"
-              onClick={() => setIsSidebarExpanded(false)}
-            >
+            <a role="button" className="close-nav" onClick={() => setIsSidebarExpanded(false)}>
               <ClearIcon />
             </a>
           )}
@@ -252,7 +243,13 @@ function App(props) {
             currentIndex={currentIndex}
             isExpanded={isSidebarExpanded}
             theme={theme}
-            onClick={() => {isSidebarExpanded ? handleSidebarClose() : console.log('sidebar colapsed')}}
+            onClick={() => {
+              if (isSidebarExpanded) {
+                handleSidebarClose();
+              } else {
+                console.log("sidebar colapsed");
+              }
+            }}
           />
 
           <Container maxWidth="xl">
@@ -278,11 +275,11 @@ function App(props) {
 
               <Route path="/stake">
                 <Stake
-                    address={address}
-                    provider={injectedProvider}
-                    web3Modal={web3Modal}
-                    loadWeb3Modal={loadWeb3Modal}
-                  />
+                  address={address}
+                  provider={injectedProvider}
+                  web3Modal={web3Modal}
+                  loadWeb3Modal={loadWeb3Modal}
+                />
                 <Route exact path="/stake/migrate">
                   <Migrate
                     address={address}
@@ -291,17 +288,16 @@ function App(props) {
                     loadWeb3Modal={loadWeb3Modal}
                   />
                 </Route>
-
               </Route>
 
               <Route path="/bonds">
                 {/* {Object.values(BONDS).map(bond => { */}
-                  {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
-                    return (
-                      <Route exact key={bond} path={`/bonds/${bond}`}>
-                        <Bond bond={bond} address={address} provider={injectedProvider} />
-                      </Route>
-                    );
+                {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
+                  return (
+                    <Route exact key={bond} path={`/bonds/${bond}`}>
+                      <Bond bond={bond} address={address} provider={injectedProvider} />
+                    </Route>
+                  );
                 })}
                 <ChooseBond address={address} provider={injectedProvider} />
               </Route>

@@ -41,8 +41,6 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
     }
   }
 
-  const { currentTheme } = useThemeSwitcher();
-
   const timeUntilRebase = () => {
     if (currentBlock) {
       const rebaseBlock = getRebaseBlock(currentBlock);

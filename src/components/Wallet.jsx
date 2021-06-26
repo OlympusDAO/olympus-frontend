@@ -1,8 +1,7 @@
-import { KeyOutlined, QrcodeOutlined, SendOutlined, WalletOutlined } from "@ant-design/icons";
+import { QrcodeOutlined, SendOutlined, WalletOutlined } from "@ant-design/icons";
 import { parseEther } from "@ethersproject/units";
 import { Button, Modal, Spin, Tooltip, Typography } from "antd";
 import { useUserAddress } from "eth-hooks";
-import { ethers } from "ethers";
 import QR from "qrcode.react";
 import React, { useState } from "react";
 import { Transactor } from "../helpers";
@@ -11,7 +10,7 @@ import AddressInput from "./AddressInput";
 import Balance from "./Balance";
 import EtherInput from "./EtherInput";
 
-const { Text, Paragraph } = Typography;
+const { Text } = Typography;
 
 /*
   ~ What it does? ~
@@ -100,7 +99,6 @@ export default function Wallet(props) {
         <QrcodeOutlined /> Hide
       </Button>
     );
-
   } else {
     const inputStyle = {
       padding: 10,
