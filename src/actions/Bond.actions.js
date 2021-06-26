@@ -272,8 +272,8 @@ export const redeemBond =
   };
 
 export const redeemAllBonds =
-  ({ recipient, autoStake, provider }) => async dispatch => {
-    const autoStake = true === autoStake
+  ({ networkID, recipient, autoStake, provider }) => async dispatch => {
+    const autoStake = autoStake === true
 
     if (!provider) {
       alert("Please connect your wallet!");
@@ -281,10 +281,10 @@ export const redeemAllBonds =
     }
 
     const signer = provider.getSigner();
-    const redeemHelperContract = contractForRedeemHelper({ bond, networkID, provider: signer });
+    const redeemHelperContract = contractForRedeemHelper({ networkID, provider: signer });
 
     try {
-      const redeemAllTx = await redeemHelperContract.redeemAll(recipient, true === autoStake);
+      const redeemAllTx = await redeemHelperContract.redeemAll(recipient, autoStake === true);
 
       await redeemAllTx.wait();
     } catch (error) {
