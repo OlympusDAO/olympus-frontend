@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import useTheme from "../hooks/useTheme";
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
@@ -11,6 +12,8 @@ import DiscordImg from "../assets/discord.svg";
 =======
 import { SvgIcon, makeStyles } from "@material-ui/core";
 =======
+=======
+>>>>>>> Open social links in new tab
 import { SvgIcon, Link } from "@material-ui/core";
 <<<<<<< HEAD
 >>>>>>> link hover styles no underline
@@ -81,7 +84,36 @@ function Social() {
       <Link href="https://discord.gg/6QjjtUcfM4">
         <SvgIcon color="primary" component={Discord} />
       </Link>
+<<<<<<< HEAD
 >>>>>>> link hover styles no underline
     </div>
   );
 }
+=======
+=======
+import React from "react";
+import GitHubImg from "../assets/github.svg";
+import MediumImg from "../assets/medium.svg";
+import TwitterImg from "../assets/twitter.svg";
+import DiscordImg from "../assets/discord.svg";
+
+export default function Social() {
+  return (
+    <div className="social-row">
+      <a href="https://github.com/OlympusDAO" target="_blank">
+        <img src={GitHubImg} alt="github" className="social-icon-small" />
+      </a>
+      <a href="https://olympusdao.medium.com" target="_blank">
+        <img src={MediumImg} alt="medium" className="social-icon-small" />
+      </a>
+      <a href="https://twitter.com/OlympusDAO" target="_blank">
+        <img src={TwitterImg} alt="twitter" className="social-icon-small" />
+      </a>
+      <a href="https://discord.gg/6QjjtUcfM4" target="_blank">
+        <img src={DiscordImg} alt="discord" className="social-icon-small" />
+      </a>
+>>>>>>> Open social links in new tab
+    </div>
+  );
+}
+>>>>>>> Open social links in new tab
