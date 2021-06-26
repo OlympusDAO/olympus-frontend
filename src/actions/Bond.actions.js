@@ -255,7 +255,7 @@ export const redeemBond =
       if (bond === BONDS.dai_v1 || bond === BONDS.ohm_dai_v1 || bond === BONDS.ohm_frax_v1) {
         redeemTx = await bondContract.redeem(false);
       } else {
-        redeemTx = await bondContract.redeem(address, autostake);
+        redeemTx = await bondContract.redeem(address, autostake === true);
       }
 
       await redeemTx.wait();
