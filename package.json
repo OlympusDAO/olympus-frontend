@@ -19,6 +19,7 @@
     "@ethersproject/address": "^5.0.5",
     "@ethersproject/bignumber": "^5.0.8",
     "@ethersproject/bytes": "^5.0.5",
+    "@ethersproject/constants": "^5.4.0",
     "@ethersproject/contracts": "^5.0.5",
     "@ethersproject/providers": "^5.0.12",
     "@ethersproject/solidity": "^5.0.9",
