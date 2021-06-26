@@ -1,0 +1,15 @@
+.btn {
+    font-family: 'Square-Light', cursive;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1;
+    text-transform: capitalize;
+    padding: .75rem 1rem;
+    border: 2px solid $secondary;
+    border-radius: 5px;
+
+    &.btn-sm {
+        font-size: .8rem;
+        padding: .5rem .75rem;
+    }
+}
