@@ -18,7 +18,7 @@ import "./bond.scss";
 function Bond({ bond, address, provider }) {
   const dispatch = useDispatch();
 
-  const [slippage, setSlippage] = useState(2);
+  const [slippage, setSlippage] = useState(.5);
   const [recipientAddress, setRecipientAddress] = useState(address);
 
   const [view, setView] = useState("bond");
