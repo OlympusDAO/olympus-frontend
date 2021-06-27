@@ -1,9 +1,7 @@
 import { ethers } from "ethers";
 import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as CirculatingSupplyContract } from "../abi/CirculatingSupplyContract.json";
 import { abi as PairContract } from "../abi/PairContract.json";
-
 import { abi as BondOhmDaiContract } from "../abi/bonds/OhmDaiContract.json";
 import { abi as BondOhmFraxContract } from "../abi/bonds/OhmFraxContract.json";
 import { abi as BondDaiContract } from "../abi/bonds/DaiContract.json";
@@ -146,10 +144,8 @@ export function contractForReserve({ bond, networkID, provider }) {
 export async function getMarketPrice({ networkID, provider }) {
   const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
   const reserves = await pairContract.getReserves();
-  const marketPrice = reserves[1] / reserves[0];
 
-  // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });
-  return marketPrice;
+  return reserves[1] / reserves[0];
 }
 
 export function shorten(str) {
@@ -217,4 +213,12 @@ export function prettyVestingPeriod(currentBlock, vestingBlock) {
     return "Fully Vested";
   }
   return prettifySeconds(seconds);
+}
+
+export async function calculateAPY(sohmContract, stakingReward) {
+  const circSupply = await sohmContract.circulatingSupply();
+
+  const stakingRebase = stakingReward / circSupply;
+
+  return Math.pow(1 + stakingRebase, 365 * 3) - 1;
 }

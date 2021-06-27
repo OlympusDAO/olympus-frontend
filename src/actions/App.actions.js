@@ -16,14 +16,6 @@ export const fetchAppSuccess = payload => ({
   payload,
 });
 
-async function calculateAPY(sohmContract, stakingReward) {
-  const circSupply = await sohmContract.circulatingSupply();
-
-  const stakingRebase = stakingReward / circSupply;
-
-  return Math.pow(1 + stakingRebase, 365 * 3) - 1;
-}
-
 export const loadAppDetails =
   ({ networkID, provider }) =>
   async dispatch => {

@@ -24,13 +24,6 @@ function Bond({ bond, address, provider }) {
   const [view, setView] = useState("bond");
   const [quantity, setQuantity] = useState();
 
-  const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
-  });
-  const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
-  });
-
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
   });

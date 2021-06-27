@@ -7,6 +7,7 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
+import { calculateAPY } from "../helpers";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
@@ -15,14 +16,6 @@ export const fetchMigrateSuccess = payload => ({
   type: Actions.FETCH_MIGRATE_SUCCESS,
   payload,
 });
-
-async function calculateAPY(sohmContract, stakingReward) {
-  const circSupply = await sohmContract.circulatingSupply();
-
-  const stakingRebase = stakingReward / circSupply;
-
-  return Math.pow(1 + stakingRebase, 365 * 3);
-}
 
 // This method doens't work :(
 export const fetchMigrationData = (provider, networkID) => async dispatch => {
