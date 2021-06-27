@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Flex, Card } from "rimble-ui";
 import { Grid } from "@material-ui/core";
+import Paper from '@material-ui/core/Paper';
 import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import RebaseTimer from '../../components/RebaseTimer/RebaseTimer';
@@ -134,7 +135,6 @@ if (web3Modal) {
   // TODO: the two grids need `container` props to justify.
   return (
     <Grid id="stake-view" direction="row" justify="center">
-      {/* <Grid item sm={8} lg={6}> */}
       <Card className={`ohm-card primary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
         <div className="card-header">
           <h5>Single Stake (3, 3)</h5>
