@@ -11,9 +11,9 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
   return (
     <div className="bond-header">
       <div className="bond-settings">
-        <a role="button" onClick={() => setShowMenu(!showMenu)}>
+        <button type="button" onClick={() => setShowMenu(!showMenu)} className="btn btn-unstyled">
           <SettingsIcon />
-        </a>
+        </button>
 
         {showMenu && (
           <AdvancedSettings
