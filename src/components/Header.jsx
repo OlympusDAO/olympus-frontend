@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 
-import { useThemeSwitcher } from "react-css-theme-switcher";
 import ThemeSwitch from "./ThemeSwitch/ThemeSwitch";
 import OlympusLogo from "../assets/olympus_logo.png";
 
