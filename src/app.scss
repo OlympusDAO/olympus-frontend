@@ -1,0 +1,13 @@
+.btn-unstyled {
+    padding: 0;
+    line-height: unset;
+    height: auto;
+    border: 0;
+}
+
+a.close-nav {
+    position: absolute !important;
+    z-index: 10;
+    top: 25px;
+    left: 35px;
+}

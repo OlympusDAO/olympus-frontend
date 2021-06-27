@@ -23,7 +23,7 @@ import TopBar from "./components/TopBar/TopBar";
 import Migrate from "./views/Stake/Migrate";
 import NotFound from "./views/404/NotFound";
 
-import "./App.css";
+import "./app.scss";
 // import "./style.scss";
 // import { Header } from "./components";
 
