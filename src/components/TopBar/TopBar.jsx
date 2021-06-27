@@ -41,7 +41,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
             <a
               href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               Get OHM
             </a>
@@ -52,7 +52,12 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetP
           {modalButtons}
           {address && (
             <button type="button" className="btn top-bar-button btn-overwrite-primer m-2">
-              <a href={`https://etherscan.io/address/${address}`} target="_blank" className="ml-2" rel="noreferrer">
+              <a
+                href={`https://etherscan.io/address/${address}`}
+                target="_blank"
+                className="ml-2"
+                rel="noopener noreferrer"
+              >
                 {shorten(address)}
               </a>
             </button>

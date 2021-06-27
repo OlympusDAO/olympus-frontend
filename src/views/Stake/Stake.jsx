@@ -161,7 +161,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                         <a
                           href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                         >
                           Buy on Sushiswap
                         </a>
@@ -390,7 +390,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
                       className="stake-lp-button"
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                     >
                       Stake on Frax
                       <i className="fa fa-external-link-alt" />
@@ -418,7 +418,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
                   className="stake-lp-button"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   Stake on Frax
                   <i className="fa fa-external-link-alt" />

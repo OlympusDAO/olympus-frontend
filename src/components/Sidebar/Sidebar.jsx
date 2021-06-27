@@ -107,7 +107,7 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
                 href={`${externalUrls[link].url}`}
                 target="_blank"
                 className="button button-dapp-menu"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 {externalUrls[link].icon}
                 <span>{externalUrls[link].title}</span>

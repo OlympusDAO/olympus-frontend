@@ -22,7 +22,7 @@ export function BondCardData({ bond }) {
         <div className="bond-name">
           {bondName(bond)}
           {isBondLP(bond) && (
-            <a href={lpURL(bond)} target="_blank" rel="noreferrer">
+            <a href={lpURL(bond)} target="_blank" rel="noopener noreferrer">
               <i className="fas fa-external-link-alt" />
             </a>
           )}
@@ -85,7 +85,7 @@ export function BondTableData({ bond }) {
         <div className="bond-name">
           {bondName(bond)}
           {isBondLP(bond) && (
-            <a href={lpURL(bond)} target="_blank" rel="noreferrer">
+            <a href={lpURL(bond)} target="_blank" rel="noopener noreferrer">
               <p>
                 Contract
                 <i className="fas fa-external-link-alt" />
@@ -135,7 +135,7 @@ export function BondHeader({ bond }) {
       <div className="text-light col-auto">
         <h4 className="mb-0 text-white">{bondName(bond)}</h4>
         {isBondLP(bond) && (
-          <a href={lpURL(bond)} target="_blank" rel="noreferrer">
+          <a href={lpURL(bond)} target="_blank" rel="noopener noreferrer">
             Contract
             <i className="fas fa-external-link-alt fa-sm ml-1" />
           </a>

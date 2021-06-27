@@ -116,7 +116,7 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
             className="btn btn-dark btn-overwrite-primer mx-2"
             href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             Get OHM
           </a>
