@@ -24,7 +24,6 @@ export const loadAppDetails =
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
     const bondCalculator = new ethers.Contract(
@@ -85,8 +84,6 @@ export const loadAppDetails =
     const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3) - 1;
 
     // Calculate index
-    // const currentIndex = await sohmContract.balanceOf("0xA62Bee23497C920B94305FF68FA7b1Cd1e9FAdb2");
-
     const currentIndex = await stakingContract.index();
 
     return dispatch(
