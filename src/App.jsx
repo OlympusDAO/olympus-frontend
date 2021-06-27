@@ -100,7 +100,6 @@ const logoutOfWeb3Modal = async () => {
 };
 
 
-
 function App(props) {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
@@ -186,9 +185,6 @@ function App(props) {
       await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
     });
   }
-
-
-
 
   useEffect(() => {
     loadDetails();
