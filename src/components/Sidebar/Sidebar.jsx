@@ -37,7 +37,7 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
       <div className="dapp-sidebar">
         <div className="dapp-menu-top">
           <div className="branding-header">
-            <a href="https://olympusdao.finance" target="_blank" rel="noreferrer">
+            <a href="https://olympusdao.finance" target="_blank" rel="noopener noreferrer">
               <img className="branding-header-icon" src={OlympusLogo} alt="OlympusDAO" />
               <h3>Olympus</h3>
             </a>

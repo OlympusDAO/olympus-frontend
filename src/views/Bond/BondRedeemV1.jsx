@@ -41,7 +41,7 @@ function BondRedeemV1({ bond, provider, address }) {
     <>
       <div className="alert alert-warning" role="alert">
         Not seeing your bond? Look here:{" "}
-        <a href="https://staging.olympusdao.finance/#/bonds" target="_blank" rel="noreferrer">
+        <a href="https://staging.olympusdao.finance/#/bonds" target="_blank" rel="noopener noreferrer">
           Olympus Legacy
         </a>
       </div>

@@ -122,7 +122,7 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
           </a>
 
           {address && (
-            <a href={`https://etherscan.io/address/${address}`} target="_blank" rel="noreferrer">
+            <a href={`https://etherscan.io/address/${address}`} target="_blank" rel="noopener noreferrer">
               {shorten(address)}
             </a>
           )}
