@@ -18,11 +18,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
   const [view, setView] = useState("stake");
   const [quantity, setQuantity] = useState();
-  const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
 
   const isSmallScreen = useMediaQuery("(max-width: 1125px)");
   const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
-  const isNarrowScreen = useMediaQuery("(max-width:460px)");
 
   const fraxData = useSelector(state => {
     return state.fraxData;
@@ -53,9 +51,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   });
   const stakingTVL = useSelector(state => {
     return state.app.stakingTVL;
-  });
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
   });
 
   const setMax = () => {
@@ -120,14 +115,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     );
   }
 
-  const openMigrationWizard = () => {
-    setMigrationWizardOpen(true);
-  };
-
-  const closeMigrationWizard = () => {
-    setMigrationWizardOpen(false);
-  };
-
   // TODO: the two grids need `container` props to justify.
   return (
     <Grid id="stake-view" direction="row" justify="center">
@@ -138,7 +125,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
           <RebaseTimer />
 
           {address && oldSohmBalance > 0.01 && (
-            <div className="migrate-sohm-button" role="button" aria-label="migrate-sohm" onClick={openMigrationWizard}>
+            <div className="migrate-sohm-button" role="button" aria-label="migrate-sohm">
               <NavLink to="/stake/migrate">
                 <NewReleases />
                 Migrate sOHM
@@ -146,12 +133,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
             </div>
           )}
           {address && oldSohmBalance < 0.01 && (
-            <div
-              className="migrate-sohm-button complete"
-              role="button"
-              aria-label="migrate-sohm-complete"
-              onClick={openMigrationWizard}
-            >
+            <div className="migrate-sohm-button complete" role="button" aria-label="migrate-sohm-complete">
               <NavLink to="/stake/migrate">
                 <CheckCircleIcon />
                 sOHM Migrated

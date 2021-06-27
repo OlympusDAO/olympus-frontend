@@ -102,13 +102,8 @@ function App() {
   const location = useLocation();
 
   const isSmallerScreen = useMediaQuery("(max-width: 1125px)");
-  const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
-
-  const handleSidebarOpen = () => {
-    setIsSidebarExpanded(true);
-  };
 
   const handleSidebarClose = () => {
     setIsSidebarExpanded(false);
@@ -120,27 +115,8 @@ function App() {
     }
   }, [location, isSidebarExpanded]);
 
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
-  });
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
-  });
-
-  const fraxBondDiscount = useSelector(state => {
-    return state.bonding.frax && state.bonding.frax.bondDiscount;
-  });
-
-  const daiBondDiscount = useSelector(state => {
-    return state.bonding.dai && state.bonding.dai.bondDiscount;
-  });
-
-  const ohmDaiBondDiscount = useSelector(state => {
-    return state.bonding.ohm_dai_lp && state.bonding.ohm_dai_lp.bondDiscount;
-  });
-
-  const ohmFraxLpBondDiscount = useSelector(state => {
-    return state.bonding.ohm_frax_lp && state.bonding.ohm_frax_lp.bondDiscount;
   });
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
