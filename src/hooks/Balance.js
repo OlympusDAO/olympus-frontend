@@ -32,7 +32,7 @@ export default function useBalance(provider, address, pollTime = 0) {
         }
       }
     },
-    [provider, address, balance],
+    [balance],
   );
 
   // Only pass a provider to watch on a block if there is no pollTime

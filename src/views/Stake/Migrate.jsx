@@ -113,7 +113,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
     } else {
       setCurrentStep("2");
     }
-  }, [view]);
+  }, [view, ohmBalance, sohmBalance, oldSohmBalance]);
 
   useEffect(() => {
     // setView based on sohm(new) vs sohm(old) balance
@@ -133,10 +133,14 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   useEffect(() => {
     // setView based on sohm(new) vs sohm(old) balance
     // if there is any sohm(old) set to unstake
-    if (oldSohmBalance > 0) setView("unstake");
-    else if (ohmBalance > 0) setView("stake");
-    else setView("done");
-  }, []);
+    if (oldSohmBalance > 0) {
+      setView("unstake");
+    } else if (ohmBalance > 0) {
+      setView("stake");
+    } else {
+      setView("done");
+    }
+  }, [ohmBalance, sohmBalance]);
 
   let modalButton = <></>;
   if (web3Modal) {
