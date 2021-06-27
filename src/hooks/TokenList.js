@@ -25,15 +25,11 @@ const useTokenList = (tokenListUri, chainId) => {
       try {
         const newTokenList = await fetch(_tokenListUri);
         const newTokenListJson = await newTokenList.json();
-        let _tokenList;
-
-        if (chainId) {
-          _tokenList = newTokenListJson.tokens.filter(function (t) {
-            return t.chainId === chainId;
-          });
-        } else {
-          _tokenList = newTokenListJson;
-        }
+        const _tokenList = !chainId
+          ? newTokenListJson
+          : newTokenListJson.tokens.filter(t => {
+              return t.chainId === chainId;
+            });
 
         setTokenList(_tokenList.tokens);
       } catch (e) {
@@ -41,7 +37,7 @@ const useTokenList = (tokenListUri, chainId) => {
       }
     };
     getTokenList();
-  }, [tokenListUri]);
+  }, [_tokenListUri]);
 
   return tokenList;
 };
