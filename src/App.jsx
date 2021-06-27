@@ -115,8 +115,10 @@ function App() {
   };
 
   useEffect(() => {
-    if (isSidebarExpanded) handleSidebarClose();
-  }, [location]);
+    if (isSidebarExpanded) {
+      handleSidebarClose();
+    }
+  }, [location, isSidebarExpanded]);
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
