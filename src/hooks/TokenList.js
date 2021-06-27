@@ -37,7 +37,7 @@ const useTokenList = (tokenListUri, chainId) => {
       }
     };
     getTokenList();
-  }, [_tokenListUri]);
+  }, [_tokenListUri, chainId]);
 
   return tokenList;
 };
