@@ -140,18 +140,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
     } else {
       setView("done");
     }
-  }, [ohmBalance, sohmBalance]);
-
-  let modalButton = <></>;
-  if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButton = (
-        <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={loadWeb3Modal}>
-          Connect Wallet
-        </button>
-      );
-    }
-  }
+  }, [oldSohmBalance, ohmBalance, sohmBalance]);
 
   return (
     <Grid container id="sohm-migration-view">
