@@ -1,7 +1,6 @@
 import { Skeleton, Typography } from "antd";
 import React from "react";
 import Blockies from "react-blockies";
-import { useThemeSwitcher } from "react-css-theme-switcher";
 import { useLookupAddress } from "../hooks";
 
 // changed value={address} to address={address}
@@ -39,8 +38,6 @@ export default function Address(props) {
 
   const ens = useLookupAddress(props.ensProvider, address);
 
-  const { currentTheme } = useThemeSwitcher();
-
   if (!address) {
     return (
       <span>
@@ -63,12 +60,7 @@ export default function Address(props) {
   if (props.minimized) {
     return (
       <span style={{ verticalAlign: "middle" }}>
-        <a
-          style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
-          target="_blank"
-          href={etherscanLink}
-          rel="noopener noreferrer"
-        >
+        <a style={{ color: "#ddd" }} target="_blank" href={etherscanLink} rel="noopener noreferrer">
           <Blockies seed={address.toLowerCase()} size={8} scale={2} />
         </a>
       </span>
@@ -79,12 +71,7 @@ export default function Address(props) {
   if (props.onChange) {
     text = (
       <Text editable={{ onChange: props.onChange }} copyable={{ text: address }}>
-        <a
-          style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
-          target="_blank"
-          href={etherscanLink}
-          rel="noopener noreferrer"
-        >
+        <a style={{ color: "#ddd" }} target="_blank" href={etherscanLink} rel="noopener noreferrer">
           {displayAddress}
         </a>
       </Text>
@@ -92,12 +79,7 @@ export default function Address(props) {
   } else {
     text = (
       <Text copyable={{ text: address }}>
-        <a
-          style={{ color: currentTheme === "light" ? "#222222" : "#ddd" }}
-          target="_blank"
-          href={etherscanLink}
-          rel="noopener noreferrer"
-        >
+        <a style={{ color: "#ddd" }} target="_blank" href={etherscanLink} rel="noopener noreferrer">
           {displayAddress}
         </a>
       </Text>
