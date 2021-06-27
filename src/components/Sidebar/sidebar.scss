@@ -176,16 +176,30 @@
   text-align: left;
   color: #999999;
   padding-left: calc(16% + 36px);
+
   p {
-    margin-bottom: 1px;
+    &:first-of-type {
+      margin-bottom: 8px;
+    }
+  }
+
+  .bond {
+    display: block;
     font-size: .85em;
-  }
-  p:first-of-type {
-    margin-bottom: 8px;
-  }
-  span {
-    margin-left: 23px;
-    float: right;
+    padding: unset;
+    margin-bottom: 0 0 1px 0;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      text-decoration: none;
+      border-bottom-color: rgba(255, 255, 255, 1);
+    }
+
+    span {
+      margin-left: 23px;
+      float: right;
+      border-bottom: 0 !important;
+    }
   }
 }
 
