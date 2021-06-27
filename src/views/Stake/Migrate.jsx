@@ -222,6 +222,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                           <img
                             className="ohm-logo-tiny"
                             src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                            alt="Olympus"
                           />
                         </div>
                       </div>

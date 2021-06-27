@@ -171,6 +171,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                         <img
                           className="olympus-logo"
                           src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                          alt="Olympus"
                         />
                         <h3>Olympus</h3>
                       </div>
@@ -252,6 +253,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                           <img
                             className="ohm-logo-tiny"
                             src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                            alt="Olympus"
                           />
                         </div>
                       </div>
@@ -380,10 +382,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <td>
                     <Flex className="ohm-pairs mr-2">
                       <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
-                        <img src={`${ohmAssetImg()}`} />
+                        <img src={`${ohmAssetImg()}`} alt="OHM" />
                       </div>
                       <div className="ohm-pair" style={{ zIndex: 1 }}>
-                        <img src={`${fraxAssetImg()}`} />
+                        <img src={`${fraxAssetImg()}`} alt="OHM-FRAX" />
                       </div>
                       <p>OHM-FRAX</p>
                     </Flex>
@@ -421,11 +423,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                 <Flex className="ohm-pairs mr-2">
                   <div className="ohm-pair" style={{ zIndex: 2 }}>
                     <div className="ohm-logo-bg">
-                      <img src={`${ohmAssetImg()}`} />
+                      <img src={`${ohmAssetImg()}`} alt="OHM" />
                     </div>
                   </div>
                   <div className="ohm-pair" style={{ zIndex: 1 }}>
-                    <img src={`${fraxAssetImg()}`} />
+                    <img src={`${fraxAssetImg()}`} alt="OHM-FRAX" />
                   </div>
                   <p>OHM-FRAX</p>
                 </Flex>

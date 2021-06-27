@@ -72,10 +72,10 @@ export function BondTableData({ bond }) {
 
   const priceUnits = bondValue => {
     if (bondValue.indexOf("frax") >= 0) {
-      return <img src={`${fraxAssetImg()}`} width="15px" height="15px" />;
+      return <img src={`${fraxAssetImg()}`} alt="FRAX" width="15px" height="15px" />;
     }
 
-    return <img src={`${daiAssetImg()}`} width="15px" height="15px" />;
+    return <img src={`${daiAssetImg()}`} alt="DAI" width="15px" height="15px" />;
   };
 
   return (
