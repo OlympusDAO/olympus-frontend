@@ -82,11 +82,16 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
   const hasAllowance = useCallback(
     token => {
-      if (token === "ohm") return stakeAllowance > 0;
-      if (token === "sohm") return unstakeAllowance > 0;
-      return 0;
+      switch (token) {
+        case "ohm":
+          return stakeAllowance > 0;
+        case "sohm":
+          return unstakeAllowance > 0;
+        default:
+          return 0;
+      }
     },
-    [stakeAllowance],
+    [stakeAllowance, unstakeAllowance],
   );
 
   const ohmAssetImg = () => {
