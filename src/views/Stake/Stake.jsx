@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Flex, Card } from "rimble-ui";
 import { Grid } from "@material-ui/core";
+import Paper from '@material-ui/core/Paper';
 import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
@@ -127,8 +128,12 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
   // TODO: the two grids need `container` props to justify.
   return (
     <Grid id="stake-view" direction="row" justify="center">
+<<<<<<< HEAD
       {/* <Grid item sm={8} lg={6}> */}
       <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
+=======
+      <Card className={`ohm-card primary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
+>>>>>>> removed unused scaffold-eth components and pruned scss
         <div className="card-header">
           <h5>Single Stake (3, 3)</h5>
           <RebaseTimer />

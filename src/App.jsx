@@ -95,6 +95,10 @@ const logoutOfWeb3Modal = async () => {
   }, 1);
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> removed unused scaffold-eth components and pruned scss
 function App(props) {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
