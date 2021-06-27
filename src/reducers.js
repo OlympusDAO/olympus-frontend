@@ -14,7 +14,7 @@ export function app(state = {}, action) {
 export function fraxData(state = {}, action) {
   switch (action.type) {
     case Actions.FETCH_FRAX_SUCCESS:
-      return { ...state, ...action.payload}
+      return { ...state, ...action.payload };
     default:
       return state;
   }
@@ -32,6 +32,9 @@ export function bonding(state = {}, action) {
           },
         };
       }
+
+      return state;
+
     default:
       return state;
   }
