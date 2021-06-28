@@ -45,7 +45,7 @@ import NavContent from "./NavContent.jsx";
 import "./sidebar.scss";
 =======
 import React, { useCallback, useState, useEffect } from 'react';
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Social from "../Social";
 import OlympusLogo from '../../assets/logo.svg';
 import externalUrls from './externalUrls';
@@ -434,7 +434,9 @@ function Sidebar({ address }) {
             <div className="dapp-menu-data discounts">
               <div className="bond-discounts">
                 <p>Bond discounts</p>
-                {bonds.map((bond, i) => <p key={i}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></p>)}
+                {bonds.map((bond, i) => (
+                  <Link to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
+                ))}
               </div>
             </div>
           </div>
