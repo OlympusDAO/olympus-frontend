@@ -1,5 +1,3 @@
-// @import url('https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&display=swap');
-// @import url('https://fonts.googleapis.com/css2?family=Offside&display=swap');
 $primary: black;
 $secondary: white;
 $trinary: #000;
@@ -8,12 +6,6 @@ $bg-color: #000;
 $bg-disabled: #000;
 $text-disabled: #888888;
 $bg-background: #595652;
-
-$body-font-size: 17px;
-$border-radius: 0px;
-// $h1-size: 32px;
-$body-line-height: 1.2;
-$border: 1px solid $bg-color;
 
 * {
   outline: none;
@@ -26,23 +18,92 @@ header {
 @font-face {font-family: 'Square-Bold';
   src: url('./assets/fonts/EuclidSquare-Bold.ttf') format("truetype");
 }
+@font-face {font-family: 'Square-Bold';
+  src: url('./assets/fonts/EuclidSquare-Bold.eot') format("embedded-opentype");
+}
+@font-face {font-family: 'Square-Bold';
+  src: url('./assets/fonts/EuclidSquare-Bold.woff') format("font-woff");
+}
+@font-face {font-family: 'Square-Bold';
+  src: url('./assets/fonts/EuclidSquare-Bold.woff2') format("woff2");
+}
+
 @font-face {font-family: 'Square-Semi-Bold';
   src: url('./assets/fonts/EuclidSquare-Bold.ttf') format("truetype");
 }
+@font-face {font-family: 'Square-Semi-Bold';
+  src: url('./assets/fonts/EuclidSquare-Bold.eot') format("embedded-opentype");
+}
+@font-face {font-family: 'Square-Semi-Bold';
+  src: url('./assets/fonts/EuclidSquare-Bold.woff') format("font-woff");
+}
+@font-face {font-family: 'Square-Semi-Bold';
+  src: url('./assets/fonts/EuclidSquare-Bold.woff2') format("woff2");
+}
+
 @font-face {font-family: 'Square';
   src: url('./assets/fonts/EuclidSquare-Regular.ttf') format("truetype");
 }
+@font-face {font-family: 'Square';
+  src: url('./assets/fonts/EuclidSquare-Regular.eot') format("embedded-opentype");
+}
+@font-face {font-family: 'Square';
+  src: url('./assets/fonts/EuclidSquare-Regular.woff') format("font-woff");
+}
+@font-face {font-family: 'Square';
+  src: url('./assets/fonts/EuclidSquare-Regular.woff2') format("woff2");
+}
+
 @font-face {font-family: 'Square-Medium';
   src: url('./assets/fonts/EuclidSquare-Medium.ttf') format("truetype");
 }
+@font-face {font-family: 'Square-Medium';
+  src: url('./assets/fonts/EuclidSquare-Medium.eot') format("embedded-opentype");
+}
+@font-face {font-family: 'Square-Medium';
+  src: url('./assets/fonts/EuclidSquare-Medium.woff') format("font-woff");
+}
+@font-face {font-family: 'Square-Medium';
+  src: url('./assets/fonts/EuclidSquare-Medium.woff2') format("woff2");
+}
+
 @font-face {font-family: 'Square-Light';
   src: url('./assets/fonts/EuclidSquare-Light.ttf') format("truetype");
 }
+@font-face {font-family: 'Square-Light';
+  src: url('./assets/fonts/EuclidSquare-Light.eot') format("embedded-opentype");
+}
+@font-face {font-family: 'Square-Light';
+  src: url('./assets/fonts/EuclidSquare-Light.woff') format("font-woff");
+}
+@font-face {font-family: 'Square-Light';
+  src: url('./assets/fonts/EuclidSquare-Light.woff2') format("woff2");
+}
+
 @font-face {font-family: 'Square-Italic';
   src: url('./assets/fonts/EuclidSquare-Italic.ttf') format("truetype");
 }
+@font-face {font-family: 'Square-Italic';
+  src: url('./assets/fonts/EuclidSquare-Italic.eot') format("embedded-opentype");
+}
+@font-face {font-family: 'Square-Italic';
+  src: url('./assets/fonts/EuclidSquare-Italic.woff') format("font-woff");
+}
+@font-face {font-family: 'Square-Italic';
+  src: url('./assets/fonts/EuclidSquare-Italic.woff2') format("woff2");
+}
+
 @font-face {font-family: 'Square-Italic-Light';
   src: url('./assets/fonts/EuclidSquare-LightItalic.ttf') format("truetype");
+}
+@font-face {font-family: 'Square-Italic-Light';
+  src: url('./assets/fonts/EuclidSquare-LightItalic.eot') format("embedded-opentype");
+}
+@font-face {font-family: 'Square-Italic-Light';
+  src: url('./assets/fonts/EuclidSquare-LightItalic.woff') format("font-woff");
+}
+@font-face {font-family: 'Square-Italic-Light';
+  src: url('./assets/fonts/EuclidSquare-LightItalic.woff2') format("woff2");
 }
 
 html, body, #app {
