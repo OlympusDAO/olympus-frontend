@@ -46,17 +46,11 @@
 #sohm-migration-view {
     position: absolute !important;
     z-index: 7;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
     .MuiBackdrop-root {
-        // background: rgba(0, 0, 0, 0.2) !important;
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
         .ohm-card {
-            // background-color: #1B1D22;
             opacity: 1 !important;
-            // color: #FFFFFF;
             padding: 1.5em !important;
             padding-top: 1em !important;
             justify-content: center;
@@ -149,20 +143,15 @@
     width: 93%;
     border-radius: 5px;
     opacity: 1 !important;
-    // background-color: transparent !important;
-    // background-color: rgba(27,29,34,0.5) !important;
-    // background-color: #1B1D22 !important;
     opacity: 0.6 !important;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     box-shadow: unset !important;
     border: none !important;
-    // display:flex;
     display: block;
     justify-content:center;
     flex-flow:wrap;
     padding: 0px !important;
-    // padding-top: 4.20rem !important;
     .card-header {
         // position: absolute;
         width: 100%;
