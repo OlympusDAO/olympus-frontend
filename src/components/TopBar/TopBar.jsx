@@ -8,7 +8,7 @@ import { Flex } from "rimble-ui";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./topbar.scss";
 
-function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetProvider, theme, toggleTheme}) {
+function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, toggleTheme}) {
 	const isVerySmallScreen = useMediaQuery("(max-width: 649px)");
 	const isUltraSmallScreen = useMediaQuery("(max-width: 495px)");
 
