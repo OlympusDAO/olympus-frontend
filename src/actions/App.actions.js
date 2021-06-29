@@ -43,7 +43,6 @@ export const loadAppDetails =
       query: gql(protocolMetricsQuery)
     })
     .then(data => {
-      console.log('subgraph data: ', data);
       return data;
     })
     .catch(err => console.log('qraph ql error: ', err));
@@ -80,21 +79,6 @@ export const loadAppDetails =
 
     const treasuryBalance  = daiAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
-    // Calculate TVL staked
-    // let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
-    // let ohmInOldStaking = await ohmContract.balanceOf(addresses[networkID].OLD_STAKING_ADDRESS);
-    // const ohmInTreasury = ohmInNewStaking / Math.pow(10, 9) + ohmInOldStaking / Math.pow(10, 9);
-
-    // Calculate TVL staked
-    // let ohmInTreasury = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
-    // ohmInTreasury = ohmInTreasury / Math.pow(10, 9);
-
-    // Get market price of OHM
-    // const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
-    // const reserves = await pairContract.getReserves();
-    // const marketPrice = (reserves[1] / reserves[0]) / Math.pow(10, 9);
-    // const stakingTVL = marketPrice * ohmInTreasury;
-
     // Calculating staking
     const epoch = await stakingContract.epoch();
     const stakingReward = epoch.distribute;
@@ -112,8 +96,6 @@ export const loadAppDetails =
 
     // Current index
     const currentIndex = await stakingContract.index();
-
-    console.log('graphData', graphData);
 
     return dispatch(
       fetchAppSuccess({
