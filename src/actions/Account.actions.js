@@ -3,15 +3,8 @@ import { addresses, Actions, THEGRAPH_ID } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-
-const APIRUL = "https://api.thegraph.com/subgraphs/id/"+THEGRAPH_ID;
-
-const client = new ApolloClient({
-  uri: APIRUL,
-  cache: new InMemoryCache()
-});
-    
+import { gql } from "@apollo/client";
+import client from "../lib/apolloClient";
 
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
