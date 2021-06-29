@@ -222,6 +222,7 @@ function App(props) {
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
+<<<<<<< HEAD
       <div className={`app ${isSmallerScreen ? "tablet" : isSmallScreen ? "mobile" : "browser"}`}>
         <TopBar
           web3Modal={web3Modal}
@@ -265,6 +266,64 @@ function App(props) {
                   web3Modal={web3Modal}
                   loadWeb3Modal={loadWeb3Modal}
                 />
+=======
+      <GlobalStyles />
+      <div className="app">
+        <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}>
+          {!isSidebarExpanded &&
+          <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
+            <button
+              className="navbar-toggler"
+              type="button"
+              onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              data-toggle="collapse"
+              data-target="#navbarNav"
+              aria-controls="navbarNav"
+            >
+              <span className="navbar-toggler-icon" />
+            </button>
+          </nav>}
+
+          {isSidebarExpanded && (
+            <a
+              role="button"
+              className="close-nav"
+              onClick={() => setIsSidebarExpanded(false)}
+            >
+              <ClearIcon />
+            </a>
+          )}
+
+          <Sidebar
+            currentIndex={currentIndex}
+            isExpanded={isSidebarExpanded}
+            address={address}
+            theme={theme}
+            onClick={() => {isSidebarExpanded ? handleSidebarClose() : console.log('sidebar colapsed')}}
+          />
+
+          <Container maxWidth="xl">
+            <TopBar
+              web3Modal={web3Modal}
+              loadWeb3Modal={loadWeb3Modal}
+              logoutOfWeb3Modal={logoutOfWeb3Modal}
+              mainnetProvider={mainnetProvider}
+              blockExplorer={blockExplorer}
+              address={address}
+              theme={theme}
+              toggleTheme={toggleTheme}
+            />
+
+            <Switch>
+              <Route exact path="/dashboard">
+                <Dashboard address={address} provider={injectedProvider} />
+              </Route>
+
+              <Route exact path="/">
+                <Redirect to="/stake" />
+>>>>>>> Implement new menu design and only show add token when eth api is available
               </Route>
             </Route>
 
