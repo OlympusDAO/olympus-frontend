@@ -640,8 +640,6 @@ function App(props) {
               web3Modal={web3Modal}
               loadWeb3Modal={loadWeb3Modal}
               logoutOfWeb3Modal={logoutOfWeb3Modal}
-              mainnetProvider={mainnetProvider}
-              blockExplorer={blockExplorer}
               address={address}
               theme={theme}
               toggleTheme={toggleTheme}

@@ -151,6 +151,7 @@ function Dashboard() {
               {circSupply &&
                 new Intl.NumberFormat("en-US", {
                   maximumFractionDigits: 0,
+<<<<<<< HEAD
                   minimumFractionDigits: 0,
                 }).format(circSupply)}
               /
@@ -161,6 +162,17 @@ function Dashboard() {
                 }).format(totalSupply)}
             </Typography>
           </Paper>
+=======
+                  minimumFractionDigits: 0
+                }).format(circSupply)}/ 
+                {totalSupply && new Intl.NumberFormat("en-US", { 
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                }).format(totalSupply)}
+              </h3>
+            </div>
+          </div>
+>>>>>>> dashboard tiles use graph queries from app state
         </Grid>
       </Grid>
 

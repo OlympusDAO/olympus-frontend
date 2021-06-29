@@ -285,6 +285,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+<<<<<<< HEAD
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
   const classes = useStyles();
 <<<<<<< HEAD
@@ -306,7 +307,15 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
 =======
   const isBigScreen = useMediaQuery("(min-width: 2350px)");
 >>>>>>> Added new sOHM/Ohm mm logos and fixed layout bug in big screens
+<<<<<<< HEAD
 >>>>>>> Added new sOHM/Ohm mm logos and fixed layout bug in big screens
+=======
+=======
+function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, toggleTheme}) {
+	const isVerySmallScreen = useMediaQuery("(max-width: 649px)");
+	const isUltraSmallScreen = useMediaQuery("(max-width: 495px)");
+>>>>>>> dashboard tiles use graph queries from app state
+>>>>>>> dashboard tiles use graph queries from app state
 
   const modalButtons = [];
   if (web3Modal) {
