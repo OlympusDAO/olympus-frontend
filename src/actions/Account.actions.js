@@ -5,7 +5,10 @@ import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import apollo from "../lib/apolloClient";
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 =======
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
@@ -17,8 +20,11 @@ const client = new ApolloClient({
 });
     
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+<<<<<<< HEAD
 =======
 >>>>>>> imported new icons and got them working with theme colors
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
@@ -78,6 +84,22 @@ export const loadAccountDetails =
     // these work in playground but show up as null, maybe subgraph api not caught up? 
     // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
     // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
+=======
+    // const graphData = await client.query({
+    //   query: gql(accountQuery),
+    //   variables: { id: address }
+    // })
+    // .then(data => {
+    //   console.log('subgraph account data: ', data);
+    //   return data;
+    // })
+    // .catch(err => console.log('qraph ql error: ', err));
+
+    // these work in playground but show up as null, maybe subgraph api not caught up? 
+    // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
+    // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
+
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 

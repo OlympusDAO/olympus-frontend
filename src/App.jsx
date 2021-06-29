@@ -14,6 +14,7 @@ import useTheme from "./hooks/useTheme";
 import { calcBondDetails } from "./actions/Bond.actions.js";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { loadAppDetails /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
 =======
 import { loadAppDetails, /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
@@ -21,6 +22,12 @@ import { loadAppDetails, /*getMarketPrice, getTokenSupply*/ } from "./actions/Ap
 =======
 import { loadAppDetails } from "./actions/App.actions.js";
 >>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
+=======
+import { loadAppDetails } from "./actions/App.actions.js";
+=======
+import { loadAppDetails, /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
@@ -30,6 +37,7 @@ import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 import "./App.css";
 <<<<<<< HEAD
@@ -46,6 +54,8 @@ import { dark as darkTheme } from "./themes/dark";
 import "./style.scss";
 =======
 >>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 import { dark as darkTheme } from "./themes/dark.js";
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 import { light as lightTheme } from "./themes/light";
@@ -54,6 +64,16 @@ import { girth as gTheme } from "./themes/girth";
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
 import "./style.scss";
+=======
+import "./App.css";
+
+import { lightTheme, darkTheme, gTheme } from "./theme";
+import { GlobalStyles } from "./global";
+
+import { INFURA_ID, NETWORKS, BONDS } from "./constants";
+import { useUserProvider } from "./hooks";
+
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -201,6 +221,7 @@ function App(props) {
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
@@ -251,12 +272,43 @@ function App(props) {
 
 =======
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 
+<<<<<<< HEAD
 >>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
+=======
+=======
+  useEffect(() => {
+    if (isSidebarExpanded) handleSidebarClose();
+  }, [location])
+
+
+  // const currentBlock  = useSelector((state) => { return state.app.currentBlock });
+  const currentIndex = useSelector((state) => { return state.app.currentIndex });
+
+  // const fraxBondDiscount = useSelector(state => {
+  //   return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
+  // });
+
+  // const daiBondDiscount = useSelector(state => {
+  //   return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
+  // });
+
+  // const ohmDaiBondDiscount = useSelector(state => {
+  //   return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
+  // });
+
+  // const ohmFraxLpBondDiscount = useSelector(state => {
+  //   return state.bonding['ohm_frax_lp'] && state.bonding['ohm_frax_lp'].bondDiscount;
+  // })
+
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
 
@@ -293,6 +345,7 @@ function App(props) {
     await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
     
@@ -300,6 +353,12 @@ function App(props) {
 =======
 
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+
+=======
+    
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
     [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
@@ -307,10 +366,13 @@ function App(props) {
     });
   }
 
+<<<<<<< HEAD
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
   useEffect(() => {
     loadDetails();
   }, [injectedProvider, address]);

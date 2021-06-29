@@ -6,8 +6,11 @@ import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> formatting
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 import axios from "axios";
 import { contractForReserve, addressForAsset } from "../helpers";
 import { BONDS } from "../constants";
@@ -21,6 +24,9 @@ import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.j
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 const APIRUL = "https://api.thegraph.com/subgraphs/id/QmPkygj4BhudwpNWREYCz3uNkHXDRL1XKCt4SJYwMDcSoS";
 
 const protocolMetricsQuery = `
@@ -40,6 +46,16 @@ const protocolMetricsQuery = `
       }
     }
     `;
+<<<<<<< HEAD
+=======
+
+const client = new ApolloClient({
+  uri: APIRUL,
+  cache: new InMemoryCache()
+});
+    
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
 const client = new ApolloClient({
   uri: APIRUL,
@@ -57,8 +73,11 @@ export const fetchAppSuccess = payload => ({
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> formatting
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 export const loadAppDetails =
   ({ networkID, provider }) =>
   async dispatch => {
@@ -148,12 +167,36 @@ export const loadAppDetails =
       );
     }
 
+<<<<<<< HEAD
 >>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
     const currentBlock = await provider.getBlockNumber();
 =======
     const currentBlock = await provider.getBlockNumber(); 
 >>>>>>> dashboard tiles use graph queries from app state
 =======
+=======
+=======
+
+export const loadAppDetails =
+  ({ networkID, provider }) =>
+  async dispatch => {
+
+    const graphData = await client.query({
+      query: gql(protocolMetricsQuery)
+    })
+    .then(data => {
+      console.log('subgraph data: ', data);
+      return data;
+    })
+    .catch(err => console.log('qraph ql error: ', err));
+
+    const stakingTVL = graphData.data.protocolMetrics[0].totalValueLocked;
+    const marketPrice = graphData.data.protocolMetrics[0].ohmPrice;
+    const circSupply = parseFloat(graphData.data.protocolMetrics[0].circulatingSupply);
+    const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
+
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     const currentBlock = await provider.getBlockNumber();
 >>>>>>> formatting
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
@@ -193,6 +236,9 @@ export const loadAppDetails =
     let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
     markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
@@ -209,6 +255,28 @@ export const loadAppDetails =
 >>>>>>> formatting
 
     const treasuryBalance = daiAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
+=======
+    valuation    = await bondCalculator.valuation(addressForAsset({bond: BONDS.ohm_frax, networkID}), ohmFraxAmount);
+    markdown     = await bondCalculator.markdown(addressForAsset({bond: BONDS.ohm_frax, networkID}));
+    let ohmFraxUSD   = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18))
+
+    const treasuryBalance  = daiAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
+
+    // Calculate TVL staked
+    // let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    // let ohmInOldStaking = await ohmContract.balanceOf(addresses[networkID].OLD_STAKING_ADDRESS);
+    // const ohmInTreasury = ohmInNewStaking / Math.pow(10, 9) + ohmInOldStaking / Math.pow(10, 9);
+
+    // Calculate TVL staked
+    // let ohmInTreasury = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    // ohmInTreasury = ohmInTreasury / Math.pow(10, 9);
+
+    // Get market price of OHM
+    // const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
+    // const reserves = await pairContract.getReserves();
+    // const marketPrice = (reserves[1] / reserves[0]) / Math.pow(10, 9);
+    // const stakingTVL = marketPrice * ohmInTreasury;
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
     // Calculate TVL staked
     // let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
@@ -231,6 +299,7 @@ export const loadAppDetails =
     const stakingReward = epoch.distribute;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     const circ = await sohmMainContract.circulatingSupply();
 =======
     const circ =  await sohmMainContract.circulatingSupply();
@@ -238,6 +307,12 @@ export const loadAppDetails =
 =======
     const circ = await sohmMainContract.circulatingSupply();
 >>>>>>> formatting
+=======
+    const circ = await sohmMainContract.circulatingSupply();
+=======
+    const circ =  await sohmMainContract.circulatingSupply();
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     const stakingRebase = stakingReward / circ;
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
@@ -266,12 +341,18 @@ export const loadAppDetails =
         stakingRebase,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         marketCap,
 =======
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 =======
         marketCap,
 >>>>>>> dashboard tiles use graph queries from app state
+=======
+        marketCap,
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
         marketPrice,
         circSupply,
         totalSupply,
@@ -281,8 +362,11 @@ export const loadAppDetails =
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> formatting
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 export const getFraxData = () => async dispatch => {
   const resp = await axios.get("https://api.frax.finance/combineddata/");
   return dispatch({
@@ -291,6 +375,9 @@ export const getFraxData = () => async dispatch => {
   });
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 =======
 export const getFraxData = () =>
   async dispatch => {
@@ -301,5 +388,8 @@ export const getFraxData = () =>
     })
   };
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+<<<<<<< HEAD
 =======
 >>>>>>> formatting
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
