@@ -19,6 +19,7 @@ import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
 
 function ChooseBond() {
+<<<<<<< HEAD
   const bonds = useBonds();
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
@@ -26,17 +27,26 @@ function ChooseBond() {
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
+=======
+	const marketPrice = useSelector((state) => { return state.app.marketPrice });
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
   const treasuryBalance = useSelector(state => {
     return state.app.treasuryBalance;
   });
 
+<<<<<<< HEAD
   return (
     <div id="choose-bond-view">
       <Paper className="ohm-card">
         <Box className="card-header">
           <Typography variant="h5">Bond (1,1)</Typography>
         </Box>
+=======
+	const treasuryBalance = useSelector(state => {
+		return state.app.treasuryBalance;
+	});
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
         <Grid container item xs={12} style={{ margin: "30px 0" }}>
           <Grid item xs={6}>
@@ -90,6 +100,7 @@ function ChooseBond() {
         )}
       </Paper>
 
+<<<<<<< HEAD
       {isSmallScreen && (
         <Box className="ohm-card-container">
           <Grid container item spacing={2}>
@@ -105,5 +116,20 @@ function ChooseBond() {
     </div>
   );
 }
+=======
+          <div className="card-content">
+						<Grid container item xs={12} spacing={2}>
+							<Grid item sm={7} lg={9}>
+								<h3>Treasury Balance</h3>
+								<h2 className="content">
+									{treasuryBalance && new Intl.NumberFormat("en-US", {
+										style: "currency",
+										currency: "USD",
+										maximumFractionDigits: 0,
+										minimumFractionDigits: 0
+									}).format(treasuryBalance)}
+								</h2>
+							</Grid>
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
 export default ChooseBond;
