@@ -5,7 +5,7 @@ import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../../helper
 
 
 function RebaseTimer() {
-	const currentBlock  = useSelector((state ) => { return state.app.currentBlock });
+	const currentBlock  = useSelector((state) => { return state.app.currentBlock });
 
   const timeUntilRebase = () => {
     if (currentBlock) {
