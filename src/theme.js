@@ -27,7 +27,7 @@ export const darkTheme = {
     CTALpButtonColorHover: "#000000",
     CTALpButtonBorder: "2px solid #FFFFFF",
     CTALpButtonBorderHover: "2px solid #F4D092",
-    activeLinkColor: "#F5DDB4",
+    activeLinkColor: "#ffffff",
     activeLinkSvgColor: "brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%)",
     filter: "1",
 }
@@ -64,7 +64,7 @@ export const lightTheme = {
     CTALpButtonBorder: "2px solid #000000",
     CTALpButtonBorderHover: "2px solid #758cae",
     iconColor: "brightness(0) saturate(100%)",
-    activeLinkColor: "#759AAE",
+    activeLinkColor: "#222222",
     activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
     filter: "0",
 }
