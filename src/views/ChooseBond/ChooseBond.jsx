@@ -9,17 +9,16 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 
-function ChooseBond({ address, provider }) {
-
-	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
+function ChooseBond() {
+	const marketPrice = useSelector((state) => { return state.app.marketPrice });
 
 	const isSmallScreen = useMediaQuery("(max-width: 1125px)");
 	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
 	const isVerySmallScreen = useMediaQuery("(max-width: 589px)");
 
 	const treasuryBalance = useSelector(state => {
-    	return state.app.treasuryBalance;
-  	});
+		return state.app.treasuryBalance;
+	});
 
 	const bonds = useBonds();
 
@@ -33,7 +32,7 @@ function ChooseBond({ address, provider }) {
 							<Grid item sm={7} lg={9}>
 								<h3>Treasury Balance</h3>
 								<h2 className="content">
-									{new Intl.NumberFormat("en-US", {
+									{treasuryBalance && new Intl.NumberFormat("en-US", {
 										style: "currency",
 										currency: "USD",
 										maximumFractionDigits: 0,
