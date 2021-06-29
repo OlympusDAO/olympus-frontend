@@ -43,8 +43,33 @@
 }
 
 .add-ohm-wallet {
-    width: 20px !important;
-    height: 20px !important;
+    text-align: left;
+    z-index: 5;
+    width: 200px;
+    position: fixed;
+    right: 200px;
+    top: 80px;
+    padding: 20px;
+    borderRadius: 20px;
+    :hover {
+        background-color: unset !important;
+        color: unset !important;
+    }
+}
+
+.ohm-token-name {
+    font-weight: bold;
+    cursor: pointer
+}
+
+.add-token-title {
+    font-weight: 200;
+    font-size: 12px;
+}
+
+.ohm-menu-container {
+    text-align: left;
+    padding: 20px;
 }
 
 .get-ohm-button.btn,
