@@ -6,11 +6,11 @@ import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import axios from 'axios';
 import { contractForReserve, addressForAsset } from "../helpers";
-import { BONDS } from "../constants";
+import { BONDS, THEGRAPH_ID } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
-const APIRUL = "https://api.thegraph.com/subgraphs/id/QmPkygj4BhudwpNWREYCz3uNkHXDRL1XKCt4SJYwMDcSoS";
+const APIRUL = "https://api.thegraph.com/subgraphs/id/"+THEGRAPH_ID;
 
 const protocolMetricsQuery = `
     query {
