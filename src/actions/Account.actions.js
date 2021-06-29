@@ -1,17 +1,17 @@
 import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as OHMPreSale } from "../abi/OHMPreSale.json";
-import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
-import { abi as MigrateToOHM } from "../abi/MigrateToOHM.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { abi as LPStaking } from "../abi/LPStaking.json";
-import { abi as DistributorContract } from "../abi/DistributorContract.json";
-import { abi as BondContract } from "../abi/BondContract.json";
-import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
-const parseEther = ethers.utils.parseEther;
+const APIRUL = "https://api.thegraph.com/subgraphs/id/QmPkygj4BhudwpNWREYCz3uNkHXDRL1XKCt4SJYwMDcSoS";
+
+const client = new ApolloClient({
+  uri: APIRUL,
+  cache: new InMemoryCache()
+});
+    
 
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
@@ -24,21 +24,44 @@ export const loadAccountDetails =
     // console.log("networkID = ", networkID)
     // console.log("addresses = ",addresses)
 
-    let ohmContract;
     let ohmBalance = 0;
     let sohmBalance = 0;
     let oldsohmBalance = 0;
     let stakeAllowance = 0;
     let unstakeAllowance = 0;
-    let lpStakingContract;
-    const lpStaked = 0;
-    const pendingRewards = 0;
-    let lpStakeAllowance;
-    let distributorContract;
-    const lpBondAllowance = 0;
+    let lpStaked = 0;
+    let pendingRewards = 0;
+    let lpBondAllowance = 0;
     let daiBondAllowance = 0;
-    let migrateContract;
-    const aOHMAbleToClaim = 0;
+    let aOHMAbleToClaim = 0;
+
+    // const accountQuery = `
+    //   query($id: String) {
+    //     ohmie(id: $id) {
+    //       id
+    //       lastBalance {
+    //         ohmBalance
+    //         sohmBalance
+    //         bondBalance
+    //       }
+    //     }
+    //   }
+    // `;
+
+    // const graphData = await client.query({
+    //   query: gql(accountQuery),
+    //   variables: { id: address }
+    // })
+    // .then(data => {
+    //   console.log('subgraph account data: ', data);
+    //   return data;
+    // })
+    // .catch(err => console.log('qraph ql error: ', err));
+
+    // these work in playground but show up as null, maybe subgraph api not caught up? 
+    // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
+    // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
+
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);

@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Social from "../Social";
 import OlympusLogo from '../../assets/logo.svg';
 import externalUrls from './externalUrls';
@@ -10,6 +10,7 @@ import { trim } from "../../helpers";
 import "./sidebar.scss";
 import orderBy from 'lodash/orderBy'
 import useBonds from "../../hooks/Bonds";
+import { Paper, Drawer } from "@material-ui/core";
 
 function Sidebar({ isExpanded, theme, currentIndex }) {
   const [isActive] = useState();
@@ -36,11 +37,15 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
 
 
   return (
-    <div
-      className={`${isExpanded ? 'show' : '' } d-lg-block sidebar collapse`}
-      id="sidebarContent"
+    // <div
+    //   className={`${isExpanded ? 'show' : '' } d-lg-block sidebar collapse`}
+    //   id="sidebarContent"
+    // >
+    <Drawer
+      variant="permanent"
+      anchor="left"
     >
-      <div className="dapp-sidebar">
+      <Paper className="dapp-sidebar">
         <div className="dapp-menu-top">
           <div className="branding-header">
             <a href="https://olympusdao.finance" target="_blank">
@@ -71,7 +76,9 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
             <div className="dapp-menu-data discounts">
               <div className="bond-discounts">
                 <p>Bond discounts</p>
-                {bonds.map((bond, i) => <p key={i}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></p>)}
+                {bonds.map((bond, i) => (
+                  <Link to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
+                ))}
               </div>
             </div>
           </div>
@@ -103,8 +110,9 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
           <Social />
         </div>
 
-      </div>
-    </div>
+      </Paper>
+      </Drawer>
+    // </div>
   );
 }
 
