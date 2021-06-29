@@ -55,7 +55,7 @@ const ohmMenu = (isShown = false, theme = "light") => {
         <div>
           <a
             style={{ fontFamily: "Square", color: theme === "light" ? "black" : "white" }}
-            href="https://app.uniswap.org/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
+            href="https://app.uniswap.org/#/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
             target="_blank"
             rel="noreferrer"
           >
