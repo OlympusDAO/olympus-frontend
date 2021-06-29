@@ -16,7 +16,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
 import { calcBondDetails } from "./actions/Bond.actions.js";
-import { loadAppDetails, getMarketPrice, getTokenSupply } from "./actions/App.actions.js";
+import { loadAppDetails, /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
@@ -33,8 +33,8 @@ import { GlobalStyles } from "./global";
 
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
-// import Hints from "./Hints";
-// import { ExampleUI, Hints, Subgraph } from "./views";
+
+
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -121,24 +121,24 @@ function App(props) {
   }, [location])
 
 
-  const currentBlock  = useSelector((state) => { return state.app.currentBlock });
+  // const currentBlock  = useSelector((state) => { return state.app.currentBlock });
   const currentIndex = useSelector((state) => { return state.app.currentIndex });
 
-  const fraxBondDiscount = useSelector(state => {
-    return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
-  });
+  // const fraxBondDiscount = useSelector(state => {
+  //   return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
+  // });
 
-  const daiBondDiscount = useSelector(state => {
-    return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
-  });
+  // const daiBondDiscount = useSelector(state => {
+  //   return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
+  // });
 
-  const ohmDaiBondDiscount = useSelector(state => {
-    return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
-  });
+  // const ohmDaiBondDiscount = useSelector(state => {
+  //   return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
+  // });
 
-  const ohmFraxLpBondDiscount = useSelector(state => {
-    return state.bonding['ohm_frax_lp'] && state.bonding['ohm_frax_lp'].bondDiscount;
-  })
+  // const ohmFraxLpBondDiscount = useSelector(state => {
+  //   return state.bonding['ohm_frax_lp'] && state.bonding['ohm_frax_lp'].bondDiscount;
+  // })
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
@@ -174,9 +174,7 @@ function App(props) {
     if (injectedProvider) loadProvider = injectedProvider;
 
     await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
-    await dispatch(getMarketPrice({ networkID: 1, provider: loadProvider }));
-    await dispatch(getTokenSupply({ networkID: 1, provider: loadProvider }));
-
+    
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
     [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {

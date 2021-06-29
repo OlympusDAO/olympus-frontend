@@ -56,9 +56,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const stakingTVL = useSelector(state => {
     return state.app.stakingTVL;
   });
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
-  });
 
   const setMax = () => {
     if (view === "stake") {

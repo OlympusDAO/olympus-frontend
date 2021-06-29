@@ -2,20 +2,21 @@
   min-width: 280px;
 }
 .dapp-sidebar{
-  position: fixed;
-  left:0px;
-  top:0px;
-  min-width: 280px;
-  height:100%;
-  display:flex;
-  flex-flow:column;
-  justify-content: space-between;
-  background: rgba(33, 33, 33, 0.7);
-  font-family: 'Square';
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px); 
-  z-index: 5;
+  // left:0px;
+  // top:0px;
+  // bottom: 0px;
+  // width: 280px;
+  // height:100%;
+  // display:flex;
+  // flex-flow:column;
+  // justify-content: space-between;
+  // background: rgba(54, 56, 64, 0.5);
+  // font-family: 'Square';
+  // backdrop-filter: blur(60px);
+  // -webkit-backdrop-filter: blur(60px); 
+  // z-index: 5;
 
+  height: 100vh;
   #bond-nav span {
     margin-left: -2px;
   }
@@ -80,8 +81,6 @@
 .button-dapp-menu{
   display:flex;
   font-weight: normal !important;
-  // @extend .button-secondary;
-  // font-family: 'Square', 'cursive';
   height: auto;
   line-height: 150%;
   color: #fff;
@@ -177,16 +176,30 @@
   text-align: left;
   color: #999999;
   padding-left: calc(16% + 36px);
+
   p {
-    margin-bottom: 1px;
+    &:first-of-type {
+      margin-bottom: 8px;
+    }
+  }
+
+  .bond {
+    display: block;
     font-size: .85em;
-  }
-  p:first-of-type {
-    margin-bottom: 8px;
-  }
-  span {
-    margin-left: 23px;
-    float: right;
+    padding: unset;
+    margin-bottom: 0 0 1px 0;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      text-decoration: none;
+      border-bottom-color: rgba(255, 255, 255, 1);
+    }
+
+    span {
+      margin-left: 23px;
+      float: right;
+      border-bottom: 0 !important;
+    }
   }
 }
 
