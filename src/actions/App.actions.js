@@ -6,35 +6,28 @@ import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import axios from 'axios';
 import { contractForReserve, addressForAsset } from "../helpers";
-import { BONDS, THEGRAPH_ID } from "../constants";
+import { BONDS } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-
-const APIRUL = "https://api.thegraph.com/subgraphs/id/"+THEGRAPH_ID;
+import client from "../lib/apolloClient.js";
+import { gql } from "@apollo/client";
 
 const protocolMetricsQuery = `
-    query {
-      _meta {
-        block {
-          number
-        }
-      }
-      protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
-        timestamp
-        circulatingSupply
-        totalSupply
-        ohmPrice
-        marketCap
-        totalValueLocked
+  query {
+    _meta {
+      block {
+        number
       }
     }
-    `;
-
-const client = new ApolloClient({
-  uri: APIRUL,
-  cache: new InMemoryCache()
-});
-    
+    protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+      timestamp
+      circulatingSupply
+      totalSupply
+      ohmPrice
+      marketCap
+      totalValueLocked
+    }
+  }
+`;
 
 export const fetchAppSuccess = payload => ({
   type: Actions.FETCH_APP_SUCCESS,
