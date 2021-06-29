@@ -247,7 +247,7 @@ export const GlobalStyles = createGlobalStyle`
             }
         }
         &.active span {
-            border-bottom: 2px solid ${({ theme }) => theme.activeLinkColor};
+            border-bottom: 2px solid ${({ theme }) => theme.activeLinkColor} !important;
         }
       }
     .dapp-nav a:hover, .dapp-menu-external-links a:hover {
