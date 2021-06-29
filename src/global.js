@@ -240,12 +240,14 @@ export const GlobalStyles = createGlobalStyle`
     .dapp-nav a {
         border-bottom: 2px solid transparent;
     }
-    .dapp-nav a:hover {
-        > span {
-            border-bottom: 2px solid ${({ theme }) => theme.color};
+    .dapp-nav a{
+        &:hover {
+            > span {
+                border-bottom: 2px solid ${({ theme }) => theme.color};
+            }
         }
         &.active span {
-            border-bottom: 2px solid ${({ theme }) => theme.activeLinkColor};
+            border-bottom: 2px solid ${({ theme }) => theme.activeLinkColor} !important;
         }
       }
     .dapp-nav a:hover, .dapp-menu-external-links a:hover {
