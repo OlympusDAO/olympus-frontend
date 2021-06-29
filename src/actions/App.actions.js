@@ -55,18 +55,19 @@ export const loadAppDetails =
     })
     .catch(err => console.log('qraph ql error: ', err));
 
-    const stakingTVL = graphData.data.protocolMetrics[0].totalValueLocked;
-    const marketPrice = graphData.data.protocolMetrics[0].ohmPrice;
+    const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
+    const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
+    const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
     const circSupply = parseFloat(graphData.data.protocolMetrics[0].circulatingSupply);
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
+    // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
-    const currentBlock = await provider.getBlockNumber();
+    const currentBlock = await provider.getBlockNumber(); 
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
     const bondCalculator = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
-
 
     // Calculate Treasury Balance
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
@@ -131,6 +132,7 @@ export const loadAppDetails =
         stakingTVL,
         oldStakingAPY,
         stakingRebase,
+        marketCap,
         marketPrice,
         circSupply,
         totalSupply,

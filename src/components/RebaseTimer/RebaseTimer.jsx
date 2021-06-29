@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import "./rebasetimer.scss";
 import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../../helpers';
