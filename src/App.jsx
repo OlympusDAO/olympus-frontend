@@ -12,7 +12,11 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
 import { calcBondDetails } from "./actions/Bond.actions.js";
+<<<<<<< HEAD
 import { loadAppDetails } from "./actions/App.actions.js";
+=======
+import { loadAppDetails, /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
@@ -22,6 +26,7 @@ import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
 
+<<<<<<< HEAD
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light";
 import { girth as gTheme } from "./themes/girth";
@@ -29,6 +34,16 @@ import { girth as gTheme } from "./themes/girth";
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
 import "./style.scss";
+=======
+import "./App.css";
+
+import { lightTheme, darkTheme, gTheme } from "./theme";
+import { GlobalStyles } from "./global";
+
+import { INFURA_ID, NETWORKS, BONDS } from "./constants";
+import { useUserProvider } from "./hooks";
+
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
 /*
     Welcome to 🏗 scaffold-eth !
@@ -142,10 +157,37 @@ function App(props) {
     setIsSidebarExpanded(false);
   };
 
+<<<<<<< HEAD
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
 
+=======
+  useEffect(() => {
+    if (isSidebarExpanded) handleSidebarClose();
+  }, [location])
+
+
+  // const currentBlock  = useSelector((state) => { return state.app.currentBlock });
+  const currentIndex = useSelector((state) => { return state.app.currentIndex });
+
+  // const fraxBondDiscount = useSelector(state => {
+  //   return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
+  // });
+
+  // const daiBondDiscount = useSelector(state => {
+  //   return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
+  // });
+
+  // const ohmDaiBondDiscount = useSelector(state => {
+  //   return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
+  // });
+
+  // const ohmFraxLpBondDiscount = useSelector(state => {
+  //   return state.bonding['ohm_frax_lp'] && state.bonding['ohm_frax_lp'].bondDiscount;
+  // })
+
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
 
@@ -180,7 +222,11 @@ function App(props) {
     if (injectedProvider) loadProvider = injectedProvider;
 
     await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
     [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
@@ -188,10 +234,13 @@ function App(props) {
     });
   }
 
+<<<<<<< HEAD
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
+=======
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
   useEffect(() => {
     loadDetails();
   }, [injectedProvider, address]);

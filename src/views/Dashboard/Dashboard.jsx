@@ -27,6 +27,7 @@ function Dashboard() {
           </Paper>
         </Grid>
 
+<<<<<<< HEAD
         <Grid item lg={4} md={4} sm={7} xs={6}>
           <Paper className="ohm-card">
             <Typography variant="h6">Market Cap</Typography>
@@ -40,6 +41,22 @@ function Dashboard() {
                 }).format(marketCap)}
             </Typography>
           </Paper>
+=======
+        <Grid item lg={4} md={7} sm={7} xs={7}>
+          <div className="ohm-dashboard-card">
+            <div className="card-body">
+              <h4 className="title">Market Cap</h4>
+              <h3 className="content">
+                {marketCap && new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                }).format(marketCap)}
+              </h3>
+            </div>
+          </div>
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
         </Grid>
 
         <Grid item lg={4} md={4} sm={12} xs={12}>
