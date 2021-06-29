@@ -5,7 +5,7 @@ const darkTheme = {
     color: "#ffffff",
     backgroundColor: "#3A4050",
     // background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-    background: "linear-gradient(180deg, #080F35AA 0%, #00000A 100%), radial-gradient(circle at 25% 0%, rgba(180, 255, 217, 1), rgba(180, 255, 217, 0.3))",
+    background: "linear-gradient(180deg, #080F35AA 0%, #00000A 100%), radial-gradient(circle at 80% 80%, rgba(180, 255, 217, 1), rgba(180, 255, 217, 0.3))",
     // cardBg: "rgba(27, 29, 34, 0.4)",
     paperBg: "rgba(54, 56, 64, 0.5)",
     modalBg: "rgba(27, 29, 34, 0.8)",
@@ -60,17 +60,30 @@ export const dark = responsiveFontSizes(
       secondary: {
         main: "#00000000"
       },
-      contrastText: "#FCFCFC"
+			background: {
+				default: darkTheme.backgroundColor,
+				paper: darkTheme.paperBg,	
+			},
+      contrastText: "#FFFFFF"
     },
     overrides: {
       MuiContainer: {
         root: {
-         backgroundColor: darkTheme.backgroundColor,
-          background: darkTheme.background,
-          height: "100vh", // these will be in global makeStyle
-          width: "100vw"
+					backgroundColor: "transparent",
+					flexGrow: 1,
         }
       },
+			MuiDrawer: {
+				root: {
+					width: "280px",
+					flexShrink: 0,
+				},
+				paper: {
+					width: "inherit",
+					backgroundColor: "#00000000",
+					padding: 0,
+				}
+			},
       MuiButton: {
         root: {
           padding: "9px 20px",
@@ -96,11 +109,10 @@ export const dark = responsiveFontSizes(
       },
       MuiPaper: {
         root: {
-          backgroundColor: darkTheme.paperBg,
-          padding: "20px 0px 50px 0px", // global
+          padding: "20px 20px 20px 20px", // global
           backdropFilter: "blur(60px)", // global
-          borderRadius: "5px" // global
-        }
+          borderRadius: "5px", // global
+        },	
       }
     },
     props: {
@@ -108,7 +120,11 @@ export const dark = responsiveFontSizes(
         disableElevation: true,
         disableFocusRipple: true,
         disableRipple: true
-      }
+      },
+			MuiPaper: {
+				disableElevation: true,
+				elevation: 0,	
+			}
     }
   })
 );

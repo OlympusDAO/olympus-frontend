@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Flex } from "rimble-ui";
-import { Grid, Typography } from "@material-ui/core";
+import { Paper, Grid, Typography } from "@material-ui/core";
 import { trim } from "../../helpers";
 import "./dashboard.scss";
 
@@ -21,8 +20,8 @@ function Dashboard() {
 
   return (
     <div className="dashboard-view">
-      <Grid container spacing={2}>
-        <Grid item lg={4} md={5} sm={5} xs={5}>
+      <Grid container spacing={2} className="top-row-data">
+        <Grid item lg={4} md={5} sm={5} xs={5} className="olympus-card">
           <Paper>
               <Typography variant="h5">Price</Typography>
               <Typography variant="h4">${trim(marketPrice, 2)}</Typography>
@@ -30,6 +29,7 @@ function Dashboard() {
         </Grid>
 
         <Grid item lg={4} md={7} sm={7} xs={7}>
+<<<<<<< HEAD
           <div className="ohm-dashboard-card">
             <div className="card-body">
               <h4 className="title">Market Cap</h4>
@@ -44,11 +44,18 @@ function Dashboard() {
                   }).format(marketCap)}
 =======
                 {marketCap && new Intl.NumberFormat("en-US", {
+=======
+          <Paper>
+            <Typography variant="h5">Market Cap</Typography>
+            <Typography variant="h4">
+                ${marketCap && new Intl.NumberFormat("en-US", {
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
                 }).format(marketCap)}
+<<<<<<< HEAD
 >>>>>>> started testing paper and typography on dashboard card
               </h3>
             </div>
@@ -91,6 +98,32 @@ function Dashboard() {
       <Flex className="main-data-area">
         <div className="olympus-card">
           <div className="card-body">
+=======
+             </Typography>
+          </Paper> 
+        </Grid>
+
+        <Grid item lg={4} md={12} sm={12} xs={12}>
+          <Paper>
+            <Typography variant="h5">Supply (circulating/total)</Typography>
+              <Typography variant="h4">
+                  {circSupply && new Intl.NumberFormat("en-US", { 
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0
+                  }).format(circSupply)}/ 
+                  {totalSupply && new Intl.NumberFormat("en-US", { 
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0
+                  }).format(totalSupply)}
+              </Typography>
+            </Paper>
+        </Grid>
+      </Grid>
+      
+      <Grid container spacing={2} className="main-data-area">
+        <Grid item lg={4} sm={12}>
+          <div className="dune-card">
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -98,10 +131,17 @@ function Dashboard() {
               title="Total Value Staking"
             />
           </div>
+<<<<<<< HEAD
         </div>
 
         <div className="olympus-card">
           <div className="card-body">
+=======
+        </Grid>
+        
+        <Grid item lg={4} sm={12}>
+          <div className="dune-card">
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -109,10 +149,15 @@ function Dashboard() {
               title="Market value of Treasury"
             />
           </div>
-        </div>
+        </Grid>
 
+<<<<<<< HEAD
         <div className="olympus-card">
           <div className="card-body">
+=======
+        <Grid item lg={4} sm={12}>
+          <div className="dune-card">
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -120,10 +165,15 @@ function Dashboard() {
               title="Risk Free Value of Treasury"
             />
           </div>
-        </div>
+        </Grid>
 
+<<<<<<< HEAD
         <div className="olympus-card">
           <div className="card-body">
+=======
+        <Grid item lg={4} sm={12}>
+          <div className="dune-card">
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -131,10 +181,15 @@ function Dashboard() {
               title="Total Value Staking"
             />
           </div>
-        </div>
+        </Grid>
 
+<<<<<<< HEAD
         <div className="olympus-card">
           <div className="card-body">
+=======
+        <Grid item lg={4} sm={12}>
+          <div className="dune-card">
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -142,10 +197,15 @@ function Dashboard() {
               title="Holders"
             />
           </div>
-        </div>
+        </Grid>
 
+<<<<<<< HEAD
         <div className="olympus-card">
           <div className="card-body">
+=======
+        <Grid item lg={4} sm={12}>
+          <div className="dune-card">
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -153,10 +213,15 @@ function Dashboard() {
               title="APY Over Time"
             />
           </div>
-        </div>
+        </Grid>
 
+<<<<<<< HEAD
         <div className="olympus-card">
           <div className="card-body">
+=======
+        <Grid item lg={6} sm={12}>
+          <div className="dune-card">
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -164,10 +229,15 @@ function Dashboard() {
               title="OHM Stakers"
             />
           </div>
-        </div>
+        </Grid>
 
+<<<<<<< HEAD
         <div className="olympus-card">
           <div className="card-body">
+=======
+        <Grid item lg={6} sm={12}>
+          <div className="dune-card">
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -175,8 +245,14 @@ function Dashboard() {
               title="Runway Available"
             />
           </div>
+<<<<<<< HEAD
         </div>
       </Flex>
+=======
+        </Grid>
+      </Grid>
+      
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     </div>
   );
 }

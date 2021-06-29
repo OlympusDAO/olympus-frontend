@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useCallback, useState, useEffect } from "react";
+=======
+import React, { useCallback, useState, useEffect } from 'react';
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 import { Link, NavLink } from "react-router-dom";
 import Social from "../Social";
 import OlympusLogo from "../../assets/logo.svg";
@@ -10,6 +14,7 @@ import { shorten, trim } from "../../helpers";
 import "./sidebar.scss";
 import orderBy from "lodash/orderBy";
 import useBonds from "../../hooks/Bonds";
+import { Paper, Drawer } from "@material-ui/core";
 
 function Sidebar({ isExpanded, theme, currentIndex, address }) {
   const [isActive] = useState();
@@ -35,8 +40,20 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className={`${isExpanded ? "show" : ""} d-lg-block sidebar collapse`} id="sidebarContent">
       <div className="dapp-sidebar">
+=======
+    // <div
+    //   className={`${isExpanded ? 'show' : '' } d-lg-block sidebar collapse`}
+    //   id="sidebarContent"
+    // >
+    <Drawer
+      variant="permanent"
+      anchor="left"
+    >
+      <Paper className="dapp-sidebar">
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
         <div className="dapp-menu-top">
           <div className="branding-header">
             <a href="https://olympusdao.finance" target="_blank">
@@ -100,10 +117,14 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
               <div className="bond-discounts">
                 <p>Bond discounts</p>
                 {bonds.map((bond, i) => (
+<<<<<<< HEAD
                   <Link to={`/bonds/${bond.value}`} key={i} className={"bond"}>
                     {bond.name}
                     <span style={{ fontWeight: "bold" }}>{bond.discount ? trim(bond.discount * 100, 2) : ""} %</span>
                   </Link>
+=======
+                  <Link to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
                 ))}
               </div>
             </div>
@@ -135,8 +156,15 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
         <div className="dapp-menu-social">
           <Social />
         </div>
+<<<<<<< HEAD
       </div>
     </div>
+=======
+
+      </Paper>
+      </Drawer>
+    // </div>
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
   );
 }
 

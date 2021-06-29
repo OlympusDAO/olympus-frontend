@@ -16,7 +16,11 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
 import { calcBondDetails } from "./actions/Bond.actions.js";
+<<<<<<< HEAD
 import { loadAppDetails /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
+=======
+import { loadAppDetails, /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
@@ -37,6 +41,10 @@ import { GlobalStyles } from "./global";
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -126,6 +134,7 @@ function App(props) {
   }, [location]);
 
   // const currentBlock  = useSelector((state) => { return state.app.currentBlock });
+<<<<<<< HEAD
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
@@ -142,6 +151,22 @@ function App(props) {
   //   return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
   // });
 
+=======
+  const currentIndex = useSelector((state) => { return state.app.currentIndex });
+
+  // const fraxBondDiscount = useSelector(state => {
+  //   return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
+  // });
+
+  // const daiBondDiscount = useSelector(state => {
+  //   return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
+  // });
+
+  // const ohmDaiBondDiscount = useSelector(state => {
+  //   return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
+  // });
+
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
   // const ohmFraxLpBondDiscount = useSelector(state => {
   //   return state.bonding['ohm_frax_lp'] && state.bonding['ohm_frax_lp'].bondDiscount;
   // })
@@ -180,7 +205,11 @@ function App(props) {
     if (injectedProvider) loadProvider = injectedProvider;
 
     await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
     [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {

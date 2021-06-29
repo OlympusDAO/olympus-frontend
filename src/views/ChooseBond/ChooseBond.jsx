@@ -10,6 +10,7 @@ import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 
 function ChooseBond() {
+<<<<<<< HEAD
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
@@ -17,12 +18,21 @@ function ChooseBond() {
   const isSmallScreen = useMediaQuery("(max-width: 1125px)");
   const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 589px)");
+=======
+	const marketPrice = useSelector((state) => { return state.app.marketPrice });
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
   const treasuryBalance = useSelector(state => {
     return state.app.treasuryBalance;
   });
 
+<<<<<<< HEAD
   const bonds = useBonds();
+=======
+	const treasuryBalance = useSelector(state => {
+		return state.app.treasuryBalance;
+	});
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
   return (
     <Grid container id="choose-bond-view" justify="center" spacing={2}>
@@ -56,6 +66,7 @@ function ChooseBond() {
         </div>
         {!isSmallScreen ? (
           <div className="card-content">
+<<<<<<< HEAD
             <TableContainer>
               <Table aria-label="Available bonds">
                 <TableHead>
@@ -74,6 +85,26 @@ function ChooseBond() {
                 </TableBody>
               </Table>
             </TableContainer>
+=======
+						<Grid container item xs={12} spacing={2}>
+							<Grid item sm={7} lg={9}>
+								<h3>Treasury Balance</h3>
+								<h2 className="content">
+									{treasuryBalance && new Intl.NumberFormat("en-US", {
+										style: "currency",
+										currency: "USD",
+										maximumFractionDigits: 0,
+										minimumFractionDigits: 0
+									}).format(treasuryBalance)}
+								</h2>
+							</Grid>
+
+							<Grid item xs={5} sm={5} lg={3} className={`ohm-price ${isVerySmallScreen && "very-small"}`}>
+								<h3>OHM Price</h3>
+								<h2 className="content">{trim(marketPrice, 2)}</h2>
+							</Grid>
+						</Grid>
+>>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
           </div>
         ) : (
           <>
