@@ -81,12 +81,18 @@ const ohmMenu = (isShown = false, theme = "light", isBigScreen = false, networkI
   ) : null;
 };
 
+<<<<<<< HEAD
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme }) {
   const [showOhmMenu, setShowOhmMenu] = useState(false);
   const isBigScreen = useMediaQuery("(min-width: 2350px)");
   const networkID = useSelector(state => {
     return (state.app && state.app.networkID) || 1;
   });
+=======
+function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, toggleTheme}) {
+	const isVerySmallScreen = useMediaQuery("(max-width: 649px)");
+	const isUltraSmallScreen = useMediaQuery("(max-width: 495px)");
+>>>>>>> dashboard tiles use graph queries from app state
 
   const modalButtons = [];
   if (web3Modal) {

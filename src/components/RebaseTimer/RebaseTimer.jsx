@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React from "react";
 import { useSelector } from "react-redux";
+=======
+import React from 'react';
+import { useSelector } from 'react-redux';
+>>>>>>> dashboard tiles use graph queries from app state
 import "./rebasetimer.scss";
 import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
 
