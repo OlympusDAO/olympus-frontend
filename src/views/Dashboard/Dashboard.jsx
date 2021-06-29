@@ -5,20 +5,19 @@ import { Grid } from "@material-ui/core";
 import { trim } from "../../helpers";
 import "./dashboard.scss";
 
-function Dashboard({ provider, address }) {
+function Dashboard() {
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
   const circSupply = useSelector(state => {
-    return state.app.circulating;
+    return state.app.circSupply;
   });
   const totalSupply = useSelector(state => {
-    return state.app.total;
+    return state.app.totalSupply;
   });
-
-  const marketCap = () => {
-    if (marketPrice && circSupply) return marketPrice * (circSupply / Math.pow(10, 9));
-  };
+  const marketCap = useSelector(state => {
+    return state.app.marketCap;
+  });
 
   return (
     <div className="dashboard-view">
@@ -38,12 +37,12 @@ function Dashboard({ provider, address }) {
             <div className="card-body">
               <h4 className="title">Market Cap</h4>
               <h3 className="content">
-                {marketCap() && new Intl.NumberFormat("en-US", {
+                {marketCap && new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
-                }).format(marketCap())}
+                }).format(marketCap)}
               </h3>
             </div>
           </div>
@@ -57,12 +56,11 @@ function Dashboard({ provider, address }) {
                 {circSupply && new Intl.NumberFormat("en-US", { 
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
-                }).format(circSupply / Math.pow(10, 9))} /
-                
+                }).format(circSupply)}/ 
                 {totalSupply && new Intl.NumberFormat("en-US", { 
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
-                }).format(totalSupply / Math.pow(10, 9))}
+                }).format(totalSupply)}
               </h3>
             </div>
           </div>
