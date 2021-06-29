@@ -61,7 +61,7 @@ export const GlobalStyles = createGlobalStyle`
     .stake-table tbody,
     .olympus-sushi h3,
     .olympus-sushi a, 
-    #dapp p {
+    #dapp p, #dapp .bond {
         color: ${({ theme }) => theme.color} !important;
         font-family: Square !important;
     }
@@ -149,6 +149,9 @@ export const GlobalStyles = createGlobalStyle`
     }
     .dapp-nav a {
         border-bottom: 2px solid transparent;
+    }
+    #dapp .bond:hover {
+        border-bottom: 2px solid ${({ theme }) => theme.color};
     }
     .dapp-nav a{
         &:hover {
