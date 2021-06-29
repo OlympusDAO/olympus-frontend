@@ -71,7 +71,7 @@ const mainnetInfura = new StaticJsonRpcProvider("https://mainnet.infura.io/v3/" 
 // ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_ID
 
 // 🔭 block explorer URL
-const blockExplorer = targetNetwork.blockExplorer;
+// const blockExplorer = targetNetwork.blockExplorer;
 
 /*
   Web3 modal helps us "connect" external wallets:
@@ -252,8 +252,6 @@ function App(props) {
               web3Modal={web3Modal}
               loadWeb3Modal={loadWeb3Modal}
               logoutOfWeb3Modal={logoutOfWeb3Modal}
-              mainnetProvider={mainnetProvider}
-              blockExplorer={blockExplorer}
               address={address}
               theme={theme}
               toggleTheme={toggleTheme}

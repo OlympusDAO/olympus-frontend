@@ -56,12 +56,11 @@ function Dashboard() {
                 {circSupply && new Intl.NumberFormat("en-US", { 
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
-                }).format(circSupply / Math.pow(10, 9))} /
-                
+                }).format(circSupply)}/ 
                 {totalSupply && new Intl.NumberFormat("en-US", { 
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
-                }).format(totalSupply / Math.pow(10, 9))}
+                }).format(totalSupply)}
               </h3>
             </div>
           </div>
