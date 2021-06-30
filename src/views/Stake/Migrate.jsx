@@ -151,7 +151,7 @@ export default function Migrate({
   }, []);
 
   useEffect( ()=> {
-	fetchMigrationData()
+	dispatch(fetchMigrationData({ networkID: 1, address, provider: provider }));
    },[])
 
 	let modalButton = <></>;
