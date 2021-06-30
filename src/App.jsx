@@ -11,7 +11,7 @@ import "@fortawesome/fontawesome-free/js/all.js";
 import ClearIcon from "@material-ui/icons/Clear";
 import { useSelector, useDispatch } from "react-redux";
 import { Flex } from "rimble-ui";
-import { Container, Modal, Backdrop, useMediaQuery } from "@material-ui/core";
+import { Container, Button, Typography, useMediaQuery } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
@@ -26,6 +26,10 @@ import Migrate from "./views/Stake/Migrate";
 import NotFound from "./views/404/NotFound";
 
 import "./App.css";
+<<<<<<< HEAD
+=======
+// import "./style.scss";
+>>>>>>> added darktheme.js
 
 import { lightTheme, darkTheme, gTheme } from "./theme";
 import { GlobalStyles } from "./global";
@@ -221,6 +225,7 @@ function App(props) {
       <CssBaseline />
       <GlobalStyles />
       <div className="app">
+<<<<<<< HEAD
         <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}>
           {!isSidebarExpanded && (
             <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
@@ -238,6 +243,25 @@ function App(props) {
               </button>
             </nav>
           )}
+=======
+        {/* <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}> */}
+        <Container maxWidth="xl">
+          {!isSidebarExpanded &&
+          <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
+            <button
+              className="navbar-toggler"
+              type="button"
+              onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              data-toggle="collapse"
+              data-target="#navbarNav"
+              aria-controls="navbarNav"
+            >
+              <span className="navbar-toggler-icon" />
+            </button>
+          </nav>}
+>>>>>>> added darktheme.js
 
           {isSidebarExpanded && (
             <a role="button" className="close-nav" onClick={() => setIsSidebarExpanded(false)}>
@@ -255,7 +279,7 @@ function App(props) {
             }}
           />
 
-          <Container maxWidth="xl">
+          
             <TopBar
               web3Modal={web3Modal}
               loadWeb3Modal={loadWeb3Modal}
@@ -307,7 +331,7 @@ function App(props) {
               <Route component={NotFound} />
             </Switch>
           </Container>
-        </Flex>
+        {/* </Flex> */}
       </div>
     </ThemeProvider>
   );
