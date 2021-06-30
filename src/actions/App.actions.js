@@ -250,6 +250,7 @@ export const loadAppDetails =
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
@@ -268,6 +269,35 @@ export const loadAppDetails =
     markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 >>>>>>> formatting
+=======
+    valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
+    markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
+    let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
+=======
+    valuation    = await bondCalculator.valuation(addressForAsset({bond: BONDS.ohm_frax, networkID}), ohmFraxAmount);
+    markdown     = await bondCalculator.markdown(addressForAsset({bond: BONDS.ohm_frax, networkID}));
+    let ohmFraxUSD   = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18))
+
+    const treasuryBalance  = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10,18) + ohmDaiUSD + ohmFraxUSD;
+
+    // Calculate TVL staked
+    let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    let ohmInOldStaking = await ohmContract.balanceOf(addresses[networkID].OLD_STAKING_ADDRESS);
+    const ohmInTreasury = ohmInNewStaking / Math.pow(10, 9) + ohmInOldStaking / Math.pow(10, 9);
+
+    // Calculate TVL staked
+    // let ohmInTreasury = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    // ohmInTreasury = ohmInTreasury / Math.pow(10, 9);
+
+
+    // Get market price of OHM
+    const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
+    const reserves = await pairContract.getReserves();
+    const marketPrice = (reserves[1] / reserves[0]) / Math.pow(10, 9);
+
+    const stakingTVL = marketPrice * ohmInTreasury;
+>>>>>>> Add FRAX amount in treasury to total treasury bal.
+>>>>>>> Add FRAX amount in treasury to total treasury bal.
 
     const treasuryBalance = daiAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
