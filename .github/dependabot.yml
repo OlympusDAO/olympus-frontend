@@ -8,4 +8,4 @@ updates:
     schedule:
       interval: 'daily'
       time: '04:00'
-target_branch: 'develop'
+target-branch: 'develop'
