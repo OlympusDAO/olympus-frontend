@@ -10,6 +10,17 @@ const client = new ApolloClient({
 });
 
 
-export default client;
+const apollo = (queryString) => {
+	return client.query({
+		query: gql(queryString)
+	})
+	.then(data => {
+		return data;
+	})
+	.catch(err => console.log('qraph ql error: ', err));
+}
+
+
+export default apollo;
 
 
