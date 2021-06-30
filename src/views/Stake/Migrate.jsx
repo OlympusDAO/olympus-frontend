@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import { useState, useCallback, useEffect } from "react";
 import { Grid, Backdrop, Paper, Fade, Breadcrumbs } from "@material-ui/core";
 import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
+=======
+import React, { useState, useCallback, useEffect } from "react";
+import { Grid, Backdrop, Fade, Breadcrumbs } from "@material-ui/core";
+// import { changeStake, changeApproval } from "../../actions/Stake.actions";
+import { changeStake, getApproval, fetchMigrationData, TYPES, ACTIONS } from "../../actions/Migrate.actions";
+>>>>>>> Add fetch
 import { useSelector, useDispatch } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -139,7 +146,15 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
     else setView("done");
   }, []);
 
+<<<<<<< HEAD
   let modalButton = <></>;
+=======
+  useEffect( ()=> {
+	fetchMigrationData()
+   },[])
+
+	let modalButton = <></>;
+>>>>>>> Add fetch
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButton = (
