@@ -2,31 +2,17 @@
   min-width: 280px;
 }
 .dapp-sidebar{
-  // left:0px;
-  // top:0px;
-  // bottom: 0px;
-  // width: 280px;
-  // height:100%;
-  // display:flex;
-  // flex-flow:column;
-  // justify-content: space-between;
-  // background: rgba(54, 56, 64, 0.5);
-  // font-family: 'Square';
-  // backdrop-filter: blur(60px);
-  // -webkit-backdrop-filter: blur(60px); 
-  // z-index: 5;
-
   height: 100vh;
   #bond-nav span {
     margin-left: -2px;
   }
 }
 
-
 .show.sidebar {
   position: absolute;
   min-width: 100vw;
 }
+
 .show .dapp-sidebar {
   width: 100%;
 }
@@ -35,50 +21,51 @@
   display: flex;
   text-align: center;
   justify-content: center;
-  //font-family: 'Square';
 }
 
-.branding-header-icon {
-  width: 100px;
-  padding:0.5rem 1.2rem;
-  filter:invert(1);
-  display: block;
-  margin: 0 auto;
-}
 
-.dapp-menu-top a {
-  line-height: 0;
-  max-width: fit-content;
-}
-
-.dapp-menu-top {
+.branding-header {
   width: 100%;
   align-items: center;
   text-decoration: none;
   padding: 15px;
-  .branding-header {
-    padding: 0 1em;
+  .branding-header-icon {
+    width: 100px;
+    padding:0.5rem 1.2rem;
+    filter:invert(1);
+    display: block;
+    margin: 0 auto;
   }
   a {
     display: block;
-    vertical-align: middle;
+    line-height: 0;
+    max-width: fit-content;
     h3 {
       display: inline-block;
       vertical-align: middle;
       color: white;
-      // font-weight: bold;
       margin: 0;
       font-size: 2.2em;
     }
   }
 }
 
-.dapp-nav {
+
+.dapp-menu-top {
+  height: 50vh;
   display: flex;
-  flex-flow: column;
+  justify-content: flex-start;
+  flex-direction: column; 
+  .dapp-nav {
+    display: flex;
+    flex-flow: column;
+  }
+  .dapp-menu-links {
+    margin-top: 133px;
+  }
 }
 
-.button-dapp-menu{
+.button-dapp-menu {
   display:flex;
   font-weight: normal !important;
   height: auto;
@@ -95,6 +82,7 @@
   padding: 0 15%;
   background: transparent;
   margin-top: 0.5em;
+  align-items: center;
   margin-bottom: 0.5em;
   > span {
       border-bottom:2px solid transparent;
@@ -120,7 +108,7 @@
   a {
     display: flex;
     width: 100%;
-    padding: 0 15%;
+   
     margin-bottom: 15px;
   }
   a:first-of-type {
@@ -150,6 +138,8 @@
   &.bottom {
     flex-direction: column;
     margin-bottom: 2em;
+    height: 48%;
+    justify-content: space-between;
   }
   .data-rebase {
     justify-content: center;
@@ -262,12 +252,6 @@
       margin-top: 2.5em;
       font-size: 1.1em;
       .bond-discounts {
-        // padding-left: calc(16% + 5px);
-        // p {
-        //   min-width: max-content;
-        //   width: 200px;
-        //   font-size: 1em;
-        // }
         display: none;
       }
     }

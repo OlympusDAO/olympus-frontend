@@ -4,10 +4,10 @@ import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 const darkTheme = {
     color: "#ffffff",
     backgroundColor: "#3A4050",
-    // background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-    background: "linear-gradient(180deg, #080F35AA 0%, #00000A 100%), radial-gradient(circle at 80% 80%, rgba(180, 255, 217, 1), rgba(180, 255, 217, 0.3))",
+    background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
+    // background: "linear-gradient(180deg, #080F35AA 0%, #00000A 100%), radial-gradient(circle at 80% 80%, rgba(180, 255, 217, 1), rgba(180, 255, 217, 0.3))",
     // cardBg: "rgba(27, 29, 34, 0.4)",
-    paperBg: "rgba(54, 56, 64, 0.5)",
+    paperBg: "rgba(54, 56, 64, 0.4)",
     modalBg: "rgba(27, 29, 34, 0.8)",
     largeTextColor: "#F4D092",
     cardBorder: "none",
@@ -67,6 +67,15 @@ export const dark = responsiveFontSizes(
       contrastText: "#FFFFFF"
     },
     overrides: {
+			MuiCssBaseline: {
+				'@global': {
+					body: {
+						background: darkTheme.background,
+						backgroundRepeat: "no-repeat",
+						backgroundAttachment: "fixed",
+					}
+				}
+			},
       MuiContainer: {
         root: {
 					backgroundColor: "transparent",
