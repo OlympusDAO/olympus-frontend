@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Grid, Backdrop, Fade, Breadcrumbs } from "@material-ui/core";
 // import { changeStake, changeApproval } from "../../actions/Stake.actions";
-import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
+import { changeStake, getApproval, fetchMigrationData, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import { useSelector, useDispatch } from "react-redux";
 // import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
@@ -150,6 +150,9 @@ export default function Migrate({
     else setView("done");
   }, []);
 
+  useEffect( ()=> {
+	fetchMigrationData()
+   },[])
 
 	let modalButton = <></>;
   if (web3Modal) {
