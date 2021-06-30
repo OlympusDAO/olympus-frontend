@@ -39,7 +39,7 @@ export default function Migrate({
     return state.app.staking && state.app.staking.ohmStake;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.app.staking && state.app.staking.ohmUnstake;
+    return state.app.migrate && state.app.migrate.unstakeAllowanceSohm;
   });
 	const newStakingAPY = useSelector(state => {
     return (state.app && state.app.stakingAPY) || 0;

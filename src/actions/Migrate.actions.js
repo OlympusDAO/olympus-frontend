@@ -26,7 +26,7 @@ async function calculateAPY(sohmContract, stakingReward) {
 }
 
 // This method doens't work :(
-export const fetchMigrationData = (provider, networkID) => async dispatch => {
+export const fetchMigrationData = (provider, address, networkID) => async dispatch => {
   const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
   const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
 
@@ -41,10 +41,19 @@ export const fetchMigrationData = (provider, networkID) => async dispatch => {
   const newStakingAPY = calculateAPY(sohmMainContract, newStakingReward);
   const oldStakingAPY = calculateAPY(sohmOldContract, oldStakingReward);
 
+  const signer = provider.getSigner();
+  const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, signer);
+  const oldSohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, signer);
+
+  const stakeAllowanceOhm = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+  const unstakeAllowanceSohm = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+
   const dispatchData = fetchMigrateSuccess({
     migrate: {
       legacyAPY: oldStakingAPY,
       newAPY: newStakingAPY,
+      stakeAllowance: stakeAllowanceOhm,
+      unstakeAllowance: unstakeAllowanceSohm
     },
   });
 
