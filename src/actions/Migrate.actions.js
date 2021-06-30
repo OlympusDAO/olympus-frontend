@@ -26,6 +26,7 @@ async function calculateAPY(sohmContract, stakingReward) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 // This method doens't work :(
 export const fetchMigrationData = 
@@ -65,6 +66,8 @@ export const fetchMigrationData =
 };
 
 >>>>>>> working!
+=======
+>>>>>>> Remove deprecated method.o
 export const getApproval =
   ({ type, provider, address, networkID }) =>
   async dispatch => {
