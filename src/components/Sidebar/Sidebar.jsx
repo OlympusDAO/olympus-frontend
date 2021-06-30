@@ -41,6 +41,7 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
 
   return (
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div className={`${isExpanded ? "show" : ""} d-lg-block sidebar collapse`} id="sidebarContent">
       <div className="dapp-sidebar">
 =======
@@ -51,7 +52,13 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
     <Drawer
       variant="permanent"
       anchor="left"
+=======
+    <div
+      className={`${isExpanded ? 'show' : '' } d-lg-block sidebar collapse`}
+      id="sidebarContent"
+>>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
     >
+    <Drawer variant="permanent" anchor="left">
       <Paper className="dapp-sidebar">
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
         <div className="dapp-menu-top">
@@ -61,6 +68,7 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
               <h3>Olympus</h3>
             </a>
           </div>
+<<<<<<< HEAD
           {address && (
             <div className={`branding-header m-3`}>
               <a
@@ -73,6 +81,9 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
             </div>
           )}
         </div>
+=======
+        
+>>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
 
         <div className="dapp-menu-links">
           <div className="dapp-nav" id="navbarNav">
@@ -130,9 +141,11 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
             </div>
           </div>
         </div>
+        </div>
 
         <hr />
 
+<<<<<<< HEAD
         <div className="dapp-menu-external-links">
           {Object.keys(externalUrls).map((link, i) => {
             return (
@@ -146,10 +159,26 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
 
         <div className="dapp-menu-data bottom">
           {theme === "girth" && (
+=======
+        <div className="dapp-menu-data bottom">
+          <div className="dapp-menu-external-links">
+            { Object.keys(externalUrls).map((link, i) => {
+              return <a key={i} href={`${externalUrls[link].url}`} target="_blank" className="button button-dapp-menu">
+                {externalUrls[link].icon}
+                <span>{externalUrls[link].title}</span>
+              </a>
+              }
+            )}
+          </div>
+
+        
+          {theme === "girth" &&
+>>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
             <div className="data-ohm-index">
               <p>Current Index </p>
               <p>{trim(currentIndex, 4)} OHM</p>
             </div>
+<<<<<<< HEAD
           )}
         </div>
 
@@ -165,6 +194,19 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
       </Drawer>
     // </div>
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+          }
+          <div className="dapp-menu-social">
+            <Social />
+          </div>
+        </div>
+
+        
+
+      </Paper>
+      </Drawer>
+    </div>
+>>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
   );
 }
 
