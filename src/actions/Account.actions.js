@@ -1,10 +1,9 @@
 import { ethers } from "ethers";
-import { addresses, Actions, THEGRAPH_ID } from "../constants";
+import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { gql } from "@apollo/client";
-import client from "../lib/apolloClient";
+import apollo from "../lib/apolloClient";
 
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
@@ -41,15 +40,7 @@ export const loadAccountDetails =
     //   }
     // `;
 
-    // const graphData = await client.query({
-    //   query: gql(accountQuery),
-    //   variables: { id: address }
-    // })
-    // .then(data => {
-    //   console.log('subgraph account data: ', data);
-    //   return data;
-    // })
-    // .catch(err => console.log('qraph ql error: ', err));
+    // const graphData = await apollo(accountQuery);
 
     // these work in playground but show up as null, maybe subgraph api not caught up? 
     // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
