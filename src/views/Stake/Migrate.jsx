@@ -50,7 +50,7 @@ export default function Migrate({
   });
 	
 
-	const setMax = () => {
+  const setMax = () => {
     if (view === "unstake") {
       setQuantity(oldSohmBalance);
     } else {
@@ -151,8 +151,8 @@ export default function Migrate({
   }, []);
 
   useEffect( ()=> {
-	dispatch(fetchMigrationData({ networkID: 1, address, provider: provider }));
-   },[])
+	dispatch(fetchMigrationData({provider: provider, address: address, networkID: 1}));
+   },[provider, address])
 
 	let modalButton = <></>;
   if (web3Modal) {
