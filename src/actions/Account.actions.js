@@ -38,6 +38,7 @@ export const loadAccountDetails =
     const lpBondAllowance = 0;
     let daiBondAllowance = 0;
     let migrateContract;
+    let unstakeAllowanceSohm;
     const aOHMAbleToClaim = 0;
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
@@ -62,7 +63,11 @@ export const loadAccountDetails =
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
        const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
        oldsohmBalance = await oldsohmContract.balanceOf(address);
+
+       const signer = provider.getSigner();
+       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
      }
+
 
     return dispatch(
       fetchAccountSuccess({
@@ -75,6 +80,9 @@ export const loadAccountDetails =
         staking: {
           ohmStake: +stakeAllowance,
           ohmUnstake: +unstakeAllowance,
+        },
+        migrate: {
+          unstakeAllowance: unstakeAllowanceSohm,
         },
         bonding: {
           daiAllowance: daiBondAllowance,
