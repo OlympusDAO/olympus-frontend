@@ -6,8 +6,12 @@ import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.
 import React, { useState, useCallback, useEffect } from "react";
 import { Grid, Backdrop, Fade, Breadcrumbs } from "@material-ui/core";
 // import { changeStake, changeApproval } from "../../actions/Stake.actions";
+<<<<<<< HEAD
 import { changeStake, getApproval, fetchMigrationData, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 >>>>>>> Add fetch
+=======
+import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
+>>>>>>> Remove deprecated method.o
 import { useSelector, useDispatch } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -19,6 +23,7 @@ import "./migrate.scss";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
+<<<<<<< HEAD
 export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }) {
   const dispatch = useDispatch();
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
@@ -26,6 +31,20 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   const [quantity, setQuantity] = useState();
 
   const ohmBalance = useSelector(state => {
+=======
+export default function Migrate({
+	address,
+	provider,
+	web3Modal,
+	loadWeb3Modal
+}) {
+	const dispatch = useDispatch();
+	const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
+	const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
+	const [quantity, setQuantity] = useState();
+
+	const ohmBalance = useSelector(state => {
+>>>>>>> Remove deprecated method.o
     return state.app.balances && state.app.balances.ohm;
   });
   const oldSohmBalance = useSelector(state => {
@@ -147,12 +166,15 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   }, []);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   let modalButton = <></>;
 =======
   useEffect( ()=> {
 	dispatch(fetchMigrationData({provider: provider, address: address, networkID: 1}));
    },[])
 
+=======
+>>>>>>> Remove deprecated method.o
 	let modalButton = <></>;
 >>>>>>> Add fetch
   if (web3Modal) {
