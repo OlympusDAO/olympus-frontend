@@ -6,6 +6,7 @@ import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import apollo from "../lib/apolloClient";
 =======
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
@@ -26,6 +27,10 @@ const client = new ApolloClient({
 =======
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
+=======
+import apollo from "../lib/apolloClient.js";
+    
+>>>>>>> Add unstkae allowance during account load.
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
   payload,
@@ -46,6 +51,7 @@ export const loadAccountDetails =
     let pendingRewards = 0;
     let lpBondAllowance = 0;
     let daiBondAllowance = 0;
+
     let aOHMAbleToClaim = 0;
 
     // const accountQuery = `
@@ -61,13 +67,13 @@ export const loadAccountDetails =
     //   }
     // `;
 
-<<<<<<< HEAD
     // const graphData = await apollo(accountQuery);
 
     // these work in playground but show up as null, maybe subgraph api not caught up?
 <<<<<<< HEAD
     // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
     // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
+<<<<<<< HEAD
     let migrateContract;
     let unstakeAllowanceSohm;
 =======
@@ -100,8 +106,12 @@ export const loadAccountDetails =
     // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
 
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+>>>>>>> Add unstkae allowance during account load.
 
->>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+    let migrateContract;
+    let unstakeAllowanceSohm;
+    const aOHMAbleToClaim = 0;
 
 =======
     // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
@@ -128,6 +138,7 @@ export const loadAccountDetails =
     }
 
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
+<<<<<<< HEAD
       const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
       oldsohmBalance = await oldsohmContract.balanceOf(address);
 <<<<<<< HEAD
@@ -137,6 +148,15 @@ export const loadAccountDetails =
 =======
 >>>>>>> formatting
     }
+=======
+       const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+       oldsohmBalance = await oldsohmContract.balanceOf(address);
+
+       const signer = provider.getSigner();
+       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+     }
+
+>>>>>>> Add unstkae allowance during account load.
 
     return dispatch(
       fetchAccountSuccess({
