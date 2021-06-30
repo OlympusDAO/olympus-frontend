@@ -150,8 +150,8 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   let modalButton = <></>;
 =======
   useEffect( ()=> {
-	dispatch(fetchMigrationData({ networkID: 1, address, provider: provider }));
-   },[])
+	dispatch(fetchMigrationData({provider: provider, address: address, networkID: 1}));
+   },[provider, address])
 
 	let modalButton = <></>;
 >>>>>>> Add fetch
