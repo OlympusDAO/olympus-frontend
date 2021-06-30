@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Flex } from "rimble-ui";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { trim } from "../../helpers";
 import "./dashboard.scss";
 
@@ -23,12 +23,10 @@ function Dashboard() {
     <div className="dashboard-view">
       <Grid container spacing={2}>
         <Grid item lg={4} md={5} sm={5} xs={5}>
-          <div className="ohm-dashboard-card">
-            <div className="card-body">
-              <h4 className="title">Price</h4>
-              <h3 className="content">${trim(marketPrice, 2)}</h3>
-            </div>
-          </div>
+          <Paper>
+              <Typography variant="h5">Price</Typography>
+              <Typography variant="h4">${trim(marketPrice, 2)}</Typography>
+          </Paper> 
         </Grid>
 
         <Grid item lg={4} md={7} sm={7} xs={7}>
@@ -36,6 +34,7 @@ function Dashboard() {
             <div className="card-body">
               <h4 className="title">Market Cap</h4>
               <h3 className="content">
+<<<<<<< HEAD
                 {marketCap &&
                   new Intl.NumberFormat("en-US", {
                     style: "currency",
@@ -43,6 +42,14 @@ function Dashboard() {
                     maximumFractionDigits: 0,
                     minimumFractionDigits: 0,
                   }).format(marketCap)}
+=======
+                {marketCap && new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                }).format(marketCap)}
+>>>>>>> started testing paper and typography on dashboard card
               </h3>
             </div>
           </div>
@@ -53,6 +60,7 @@ function Dashboard() {
             <div className="card-body">
               <h4 className="title">Supply (circulating/total)</h4>
               <h3 className="content">
+<<<<<<< HEAD
                 {circSupply &&
                   new Intl.NumberFormat("en-US", {
                     maximumFractionDigits: 0,
@@ -64,6 +72,16 @@ function Dashboard() {
                     maximumFractionDigits: 0,
                     minimumFractionDigits: 0,
                   }).format(totalSupply)}
+=======
+                {circSupply && new Intl.NumberFormat("en-US", { 
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                }).format(circSupply)}/ 
+                {totalSupply && new Intl.NumberFormat("en-US", { 
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                }).format(totalSupply)}
+>>>>>>> started testing paper and typography on dashboard card
               </h3>
             </div>
           </div>
