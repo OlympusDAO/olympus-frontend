@@ -1,4 +1,3 @@
-import { createMuiTheme } from "@material-ui/core";
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
@@ -213,24 +212,3 @@ export const GlobalStyles = createGlobalStyle`
     }
     
 `;
-
-
-export const globalTheme = createMuiTheme({
-    overrides: {
-        MuiTypography: {
-            root: {
-                fontFamily: 'Square'
-            }
-        },
-        MuiButton: {
-            root: {
-                borderRadius: '5px'
-            }
-        },
-        MuiPaper: {
-            root: {
-                borderRadius: '5px'
-            }
-        }
-    }
-})
