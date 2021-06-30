@@ -1,6 +1,7 @@
 import { StaticJsonRpcProvider, Web3Provider, getDefaultProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { ThemeProvider } from "styled-components";
+// import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "@material-ui/core/styles"
 import { useUserAddress } from "eth-hooks";
 import React, { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
@@ -11,7 +12,7 @@ import "@fortawesome/fontawesome-free/js/all.js";
 import ClearIcon from '@material-ui/icons/Clear';
 import { useSelector, useDispatch } from "react-redux";
 import { Flex } from "rimble-ui";
-import { Container, Button, Typography, useMediaQuery } from "@material-ui/core";
+import { Container, useMediaQuery } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
@@ -28,7 +29,8 @@ import NotFound from "./views/404/NotFound";
 import "./App.css";
 // import "./style.scss";
 
-import { lightTheme, darkTheme, gTheme } from "./theme";
+import { lightTheme, gTheme } from "./theme";
+import { dark as darkTheme } from "./themes/dark";
 import { GlobalStyles } from "./global";
 
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
@@ -201,7 +203,7 @@ function App(props) {
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
-    themeMode = theme === "light" ? lightTheme : darkTheme;
+    themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
   });
 
   if (!mounted) {
@@ -211,10 +213,9 @@ function App(props) {
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
-      <GlobalStyles />
+      {/* <GlobalStyles /> */}
       <div className="app">
         {/* <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}> */}
-        <Container maxWidth="xl">
           {!isSidebarExpanded &&
           <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
             <button
@@ -231,6 +232,7 @@ function App(props) {
             </button>
           </nav>}
 
+
           {isSidebarExpanded && (
             <a
               role="button"
@@ -241,6 +243,7 @@ function App(props) {
             </a>
           )}
 
+          
           <Sidebar
             currentIndex={currentIndex}
             isExpanded={isSidebarExpanded}
@@ -249,6 +252,7 @@ function App(props) {
           />
 
           
+          <Container maxWidth="lg">
             <TopBar
               web3Modal={web3Modal}
               loadWeb3Modal={loadWeb3Modal}
@@ -300,7 +304,6 @@ function App(props) {
               <Route component={NotFound} />
             </Switch>
           </Container>
-        {/* </Flex> */}
       </div>
     </ThemeProvider>
   );
