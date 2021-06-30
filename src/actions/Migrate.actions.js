@@ -26,7 +26,9 @@ async function calculateAPY(sohmContract, stakingReward) {
 }
 
 // This method doens't work :(
-export const fetchMigrationData = (provider, address, networkID) => async dispatch => {
+export const fetchMigrationData = 
+  ({ provider, address, networkID }) => 
+  async dispatch => {
   const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
   const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
 
