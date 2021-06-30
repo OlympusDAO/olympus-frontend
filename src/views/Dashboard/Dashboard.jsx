@@ -1,36 +1,32 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Flex } from "rimble-ui";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { trim } from "../../helpers";
 import "./dashboard.scss";
 
-function Dashboard({ provider, address }) {
+function Dashboard() {
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
   const circSupply = useSelector(state => {
-    return state.app.circulating;
+    return state.app.circSupply;
   });
   const totalSupply = useSelector(state => {
-    return state.app.total;
+    return state.app.totalSupply;
   });
-
-  const marketCap = () => {
-    if (marketPrice && circSupply) return marketPrice * (circSupply / Math.pow(10, 9));
-  };
+  const marketCap = useSelector(state => {
+    return state.app.marketCap;
+  });
 
   return (
     <div className="dashboard-view">
-      
       <Grid container spacing={2}>
         <Grid item lg={4} md={5} sm={5} xs={5}>
-          <div className="ohm-dashboard-card">
-            <div className="card-body">
-              <h4 className="title">Price</h4>
-              <h3 className="content">${trim(marketPrice, 2)}</h3>
-            </div>
-          </div>
+          <Paper>
+              <Typography variant="h5">Price</Typography>
+              <Typography variant="h4">${trim(marketPrice, 2)}</Typography>
+          </Paper> 
         </Grid>
 
         <Grid item lg={4} md={7} sm={7} xs={7}>
@@ -38,12 +34,12 @@ function Dashboard({ provider, address }) {
             <div className="card-body">
               <h4 className="title">Market Cap</h4>
               <h3 className="content">
-                {marketCap() && new Intl.NumberFormat("en-US", {
+                {marketCap && new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
-                }).format(marketCap())}
+                }).format(marketCap)}
               </h3>
             </div>
           </div>
@@ -57,12 +53,11 @@ function Dashboard({ provider, address }) {
                 {circSupply && new Intl.NumberFormat("en-US", { 
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
-                }).format(circSupply / Math.pow(10, 9))} /
-                
+                }).format(circSupply)}/ 
                 {totalSupply && new Intl.NumberFormat("en-US", { 
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
-                }).format(totalSupply / Math.pow(10, 9))}
+                }).format(totalSupply)}
               </h3>
             </div>
           </div>
