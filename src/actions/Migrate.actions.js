@@ -25,32 +25,6 @@ async function calculateAPY(sohmContract, stakingReward) {
   return stakingAPY;
 }
 
-// This method doens't work :(
-export const fetchMigrationData = (provider, networkID) => async dispatch => {
-  const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
-  const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
-
-  const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
-  const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-
-  // Calculating stakingAPY
-  const epoch = await stakingContract.epoch();
-  const newStakingReward = epoch.distribute;
-
-  const oldStakingReward = oldStakingContract.ohmToDistributeNextEpoch();
-  const newStakingAPY = calculateAPY(sohmMainContract, newStakingReward);
-  const oldStakingAPY = calculateAPY(sohmOldContract, oldStakingReward);
-
-  const dispatchData = fetchMigrateSuccess({
-    migrate: {
-      legacyAPY: oldStakingAPY,
-      newAPY: newStakingAPY,
-    },
-  });
-
-  return dispatch(dispatchData);
-};
-
 export const getApproval =
   ({ type, provider, address, networkID }) =>
   async dispatch => {
