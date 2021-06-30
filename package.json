@@ -74,7 +74,7 @@
     "web3modal": "^1.9.1"
   },
   "devDependencies": {
-    "@testing-library/dom": "^6.12.2",
+    "@testing-library/dom": "^8.0.0",
     "@types/react": "^16.9.19",
     "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^10.2.4",
