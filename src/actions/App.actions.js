@@ -8,26 +8,8 @@ import axios from 'axios';
 import { contractForReserve, addressForAsset } from "../helpers";
 import { BONDS } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
-import client from "../lib/apolloClient.js";
-import { gql } from "@apollo/client";
+import apollo from "../lib/apolloClient.js";
 
-const protocolMetricsQuery = `
-  query {
-    _meta {
-      block {
-        number
-      }
-    }
-    protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
-      timestamp
-      circulatingSupply
-      totalSupply
-      ohmPrice
-      marketCap
-      totalValueLocked
-    }
-  }
-`;
 
 export const fetchAppSuccess = payload => ({
   type: Actions.FETCH_APP_SUCCESS,
@@ -39,13 +21,26 @@ export const loadAppDetails =
   ({ networkID, provider }) =>
   async dispatch => {
 
-    const graphData = await client.query({
-      query: gql(protocolMetricsQuery)
-    })
-    .then(data => {
-      return data;
-    })
-    .catch(err => console.log('qraph ql error: ', err));
+    const protocolMetricsQuery = `
+      query {
+        _meta {
+          block {
+            number
+          }
+        }
+        protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+          timestamp
+          circulatingSupply
+          totalSupply
+          ohmPrice
+          marketCap
+          totalValueLocked
+        }
+      }
+    `;
+    const graphData = await apollo(protocolMetricsQuery);
+
+    console.log(graphData);
 
     const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
     const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
