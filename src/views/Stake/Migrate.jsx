@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Grid, Backdrop, Fade, Breadcrumbs } from "@material-ui/core";
 // import { changeStake, changeApproval } from "../../actions/Stake.actions";
-import { changeStake, getApproval, fetchMigrationData, TYPES, ACTIONS } from "../../actions/Migrate.actions";
+import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import { useSelector, useDispatch } from "react-redux";
 // import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
@@ -15,7 +15,7 @@ import "./stake.scss";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
-export default function Migrate({ 
+export default function Migrate({
 	address,
 	provider,
 	web3Modal,
@@ -149,10 +149,6 @@ export default function Migrate({
     else if (ohmBalance > 0) setView("stake");
     else setView("done");
   }, []);
-
-  useEffect( ()=> {
-	dispatch(fetchMigrationData({provider: provider, address: address, networkID: 1}));
-   },[])
 
 	let modalButton = <></>;
   if (web3Modal) {
