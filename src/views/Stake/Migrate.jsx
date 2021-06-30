@@ -31,7 +31,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
     return state.app.staking && state.app.staking.ohmStake;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.app.migrate && state.app.migrate.unstakeAllowance;
+    return state.app.staking && state.app.staking.ohmUnstake;
   });
   const newStakingAPY = useSelector(state => {
     return (state.app && state.app.stakingAPY) || 0;
