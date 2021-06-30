@@ -37,14 +37,11 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
 
 
   return (
-    // <div
-    //   className={`${isExpanded ? 'show' : '' } d-lg-block sidebar collapse`}
-    //   id="sidebarContent"
-    // >
-    <Drawer
-      variant="permanent"
-      anchor="left"
+    <div
+      className={`${isExpanded ? 'show' : '' } d-lg-block sidebar collapse`}
+      id="sidebarContent"
     >
+    <Drawer variant="permanent" anchor="left">
       <Paper className="dapp-sidebar">
         <div className="dapp-menu-top">
           <div className="branding-header">
@@ -53,7 +50,7 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
               <h3>Olympus</h3>
             </a>
           </div>
-        </div>
+        
 
         <div className="dapp-menu-links">
           <div className="dapp-nav" id="navbarNav">
@@ -83,36 +80,38 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
             </div>
           </div>
         </div>
+        </div>
 
         <hr />
 
-        <div className="dapp-menu-external-links">
-          { Object.keys(externalUrls).map((link, i) => {
-            return <a key={i} href={`${externalUrls[link].url}`} target="_blank" className="button button-dapp-menu">
-              {externalUrls[link].icon}
-              <span>{externalUrls[link].title}</span>
-            </a>
-            }
-          )}
-        </div>
-
         <div className="dapp-menu-data bottom">
-
-        {theme === "girth" &&
-          <div className="data-ohm-index">
-            <p>Current Index </p>
-            <p>{trim(currentIndex, 4)} OHM</p>
+          <div className="dapp-menu-external-links">
+            { Object.keys(externalUrls).map((link, i) => {
+              return <a key={i} href={`${externalUrls[link].url}`} target="_blank" className="button button-dapp-menu">
+                {externalUrls[link].icon}
+                <span>{externalUrls[link].title}</span>
+              </a>
+              }
+            )}
           </div>
-        }
+
+        
+          {theme === "girth" &&
+            <div className="data-ohm-index">
+              <p>Current Index </p>
+              <p>{trim(currentIndex, 4)} OHM</p>
+            </div>
+          }
+          <div className="dapp-menu-social">
+            <Social />
+          </div>
         </div>
 
-        <div className="dapp-menu-social">
-          <Social />
-        </div>
+        
 
       </Paper>
       </Drawer>
-    // </div>
+    </div>
   );
 }
 
