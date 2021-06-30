@@ -3,19 +3,8 @@ import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-<<<<<<< HEAD
-=======
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-
-const APIRUL = "https://api.thegraph.com/subgraphs/id/QmPkygj4BhudwpNWREYCz3uNkHXDRL1XKCt4SJYwMDcSoS";
-
-const client = new ApolloClient({
-  uri: APIRUL,
-  cache: new InMemoryCache()
-});
+import apollo from "../lib/apolloClient.js";
     
->>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
-
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
   payload,
@@ -36,6 +25,7 @@ export const loadAccountDetails =
     let pendingRewards = 0;
     let lpBondAllowance = 0;
     let daiBondAllowance = 0;
+
     let aOHMAbleToClaim = 0;
 
     // const accountQuery = `
@@ -51,28 +41,15 @@ export const loadAccountDetails =
     //   }
     // `;
 
-<<<<<<< HEAD
     // const graphData = await apollo(accountQuery);
 
     // these work in playground but show up as null, maybe subgraph api not caught up?
     // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
     // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
-=======
-    // const graphData = await client.query({
-    //   query: gql(accountQuery),
-    //   variables: { id: address }
-    // })
-    // .then(data => {
-    //   console.log('subgraph account data: ', data);
-    //   return data;
-    // })
-    // .catch(err => console.log('qraph ql error: ', err));
 
-    // these work in playground but show up as null, maybe subgraph api not caught up? 
-    // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
-    // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
-
->>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+    let migrateContract;
+    let unstakeAllowanceSohm;
+    const aOHMAbleToClaim = 0;
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
@@ -94,9 +71,13 @@ export const loadAccountDetails =
     }
 
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
-      const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-      oldsohmBalance = await oldsohmContract.balanceOf(address);
-    }
+       const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+       oldsohmBalance = await oldsohmContract.balanceOf(address);
+
+       const signer = provider.getSigner();
+       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+     }
+
 
     return dispatch(
       fetchAccountSuccess({
@@ -109,6 +90,9 @@ export const loadAccountDetails =
         staking: {
           ohmStake: +stakeAllowance,
           ohmUnstake: +unstakeAllowance,
+        },
+        migrate: {
+          unstakeAllowance: unstakeAllowanceSohm,
         },
         bonding: {
           daiAllowance: daiBondAllowance,
