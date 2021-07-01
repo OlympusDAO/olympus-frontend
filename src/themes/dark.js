@@ -201,14 +201,14 @@ export const dark = responsiveFontSizes(
 			},
       MuiButton: {
         root: {
-          padding: "9px 20px",
           borderRadius: "5px"
         },
 				primary: {
 					color: "#333333"
 				},
-				secondary: {
-					backgroundColor: darkTheme.paperBg
+				containedSecondary: {
+					backgroundColor: darkTheme.paperBg,
+					color: darkTheme.color,
 				},
 				outlinedPrimary: {
           color: "#F8CC82",
