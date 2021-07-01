@@ -94,7 +94,7 @@
     "gulp-debug": "^4.0.0",
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^9.0.0",
-    "ipfs-http-client": "^45.0.0",
+    "ipfs-http-client": "^50.1.2",
     "less-plugin-npm-import": "^2.1.0",
     "prettier": "^2.0.5",
     "s3-folder-upload": "^2.3.1",

@@ -4,10 +4,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
-    "lib": [
-      "ESNext",
-      "dom"
-    ],
+    "lib": ["ESNext", "dom"],
     "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -24,17 +21,7 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "./index.d.ts",
-    "src",
-    "babel.config.js"
-  ],
-  "exclude": [
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "node_modules",
-    "vendor",
-    "public"
-  ],
+  "include": ["./index.d.ts", "src", "babel.config.js"],
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "node_modules", "vendor", "public"],
   "compileOnSave": false
 }
