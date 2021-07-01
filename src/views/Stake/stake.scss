@@ -1,20 +1,35 @@
 #stake-view {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    height: fit-content;
-    // overflow: auto;
-    .mobile .card-content {
-        padding-top: 0.4em !important;
-    }
-    .card-header {
-        background: transparent !important;
-    }
     .rebase-timer {
         margin: 0 !important;
         font-size: 0.9em !important;
         line-height: 110% !important;
+    }
+}
+
+.ohm-card {
+    max-width: 969px;
+    width: 95%;
+    margin-bottom: 2rem;
+    .card-header {
+        width: 100%;
+        box-shadow: none !important;
+        border: none !important;
+        top: 0;
+        padding: 1em;
+        background: transparent;
+    }
+    .card-content {
+        width: 100%;
+        position: relative;
+        align-items: left;
+        justify-content: center;
+        flex-flow: column;
+        padding: 1rem 2rem 1rem 2rem;
+        height: 100%;
     }
 }
 
@@ -135,65 +150,7 @@
     }
 }
 
-// ohm-card styles should be set to theme
-.ohm-card {
-    color: inherit;
-    overflow: hidden;
-    max-width: 969px;
-    width: 93%;
-    border-radius: 5px;
-    opacity: 1 !important;
-    opacity: 0.6 !important;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: unset !important;
-    border: none !important;
-    display: block;
-    justify-content:center;
-    flex-flow:wrap;
-    padding: 0px !important;
-    .card-header {
-        // position: absolute;
-        width: 100%;
-        // background-color:#42424200 !important;
-        box-shadow: none !important;
-        border: none !important;
-        // max-width: 60rem;
-        top: 0;
-        padding: 1em;
-        h5 {
-            font-weight: 600;
-            color: #efefef;
-            // text-decoration: underline;
-            // text-underline-offset: 10px;
-        }
-    }
-    .card-content {
-        width: 100%;
-        // max-width: 60rem;
-        position: relative;
-        // display: flex;
-        align-items: left;
-        justify-content: center;
-        border-radius: inherit;
-        //box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
-        flex-flow: column;
-        padding: 1rem 2rem 1rem 2rem;
-        height: 100%;
-        
-    }
-    &.primary {
-        margin-bottom: 2rem;
-        // min-height: 600px;
-        height: auto;
-    }
-    &.secondary {
-        height: auto;
-        // min-height: 250px;
-        // margin-bottom: 3.3rem;
-        padding-top: 0.5rem;
-    }
-}
+
 
 .stake-top-metrics {
     display: flex;
@@ -230,7 +187,6 @@
     }
     .stake-apy, .stake-tvl {
         flex: 1;
-        // text-align: left;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
@@ -401,13 +357,10 @@
 .stake-button, .stake-lp-button {
     display: block !important;
     margin-left: 1rem;
-    border-radius: 5px !important;
     padding: .4rem !important;
-    background-color: #ffffffee;
-    font-size: 1.2em !important;
+    font-size: 1em !important;
     height: auto;
     text-align: center !important;
-    font-family: 'Square-Light', cursive;
     line-height: 150%;
     svg {
         margin-left: 10px;
