@@ -183,14 +183,15 @@ export const dark = responsiveFontSizes(
 			MuiLink: {
 				root: {
 					color: darkTheme.color,
+					borderBottom: "2px solid",
 					"&:hover": {
-						borderBottom: "2px solid",
-						borderColor: "inherit",
+						borderColor: darkTheme.color,
 						cursor: "pointer",
+						color: darkTheme.color,
 					},
 					".active": {
 						color: darkTheme.textHighlightColor,
-					}
+					},
 				},
 			},
 			MuiTableCell: {
