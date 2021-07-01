@@ -255,6 +255,7 @@ function App(props) {
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
       {/* <GlobalStyles /> */}
+<<<<<<< HEAD
       <div className="app">
 <<<<<<< HEAD
         <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}>
@@ -275,6 +276,10 @@ function App(props) {
             </nav>
           )}
 =======
+=======
+
+      <div className={`app ${isSmallerScreen && "mobile"}`}>
+>>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
         {/* <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}> */}
           {!isSidebarExpanded &&
           <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">

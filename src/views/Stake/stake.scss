@@ -12,7 +12,7 @@
 
 .ohm-card {
     max-width: 969px;
-    width: 95%;
+    width: 100%;
     margin-bottom: 2rem;
     .card-header {
         width: 100%;
@@ -464,14 +464,14 @@
 
 .mobile .stake-pool {
     border: 1px solid #F4D09222;
-    // background: #000000ff;
     border-radius: 5px;
-    padding: 1.9em 2.3em;
+    padding: 1.5em 1.5em;
     display: flex;
     flex-direction: column;
     .pool-card-top-row {
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
     .ohm-logo-bg {
         height: 38px !important;
@@ -480,7 +480,8 @@
         margin-left: 0;
     }
     .ohm-pairs p {
-        font-size: 1.5em !important;
+        font-size: 1.05em !important;
+        margin-bottom: 0 !important;
     }
     .pool-data {
         margin-top: 15px;
@@ -534,10 +535,6 @@
 }
 
 
-
-
-
-
 /* Bond styles to be moved */
 .MuiTable-root {
     thead .MuiTableCell-root {
@@ -558,6 +555,7 @@
             width: 5em !important;
         }
     }
+<<<<<<< HEAD
 }
 
 .MuiTableCell-root {
@@ -761,3 +759,6 @@
     padding-right: 3rem !important;
     padding-bottom: 3rem !important;
 }
+=======
+}
+>>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links

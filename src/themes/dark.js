@@ -96,7 +96,6 @@ export const dark = responsiveFontSizes(
       MuiButton: {
         root: {
           padding: "9px 20px",
-          margin: "10px",
           borderRadius: "5px"
         },
 				primary: {
@@ -129,6 +128,7 @@ export const dark = responsiveFontSizes(
           padding: "20px 20px 20px 20px", // global
           backdropFilter: "blur(60px)", // global
           borderRadius: "5px", // global
+					maxWidth: "969px",
         },	
       }
     },

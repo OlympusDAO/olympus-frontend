@@ -574,6 +574,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
             )}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           </Grid>
         </div>
       </Card>
@@ -692,6 +693,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 =======
             
           
+=======
+>>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
           </Grid>
 >>>>>>> updated stake page to use paper and Button components, still need to override hover styles
         </Paper>
@@ -808,10 +811,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
               </div>
             )}
 
-          </div>
-          
-        </Paper>
-      {/* </Grid> */}
+        </div>
+      </Paper>
     </div>
   )
 >>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started

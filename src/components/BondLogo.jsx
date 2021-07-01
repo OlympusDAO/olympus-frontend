@@ -1,5 +1,8 @@
+<<<<<<< HEAD
+=======
+import React from 'react';
+>>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
 import { isBondLP } from "../helpers";
-// import "../views/Stake/stake.scss";
 
 function BondHeader({ bond }) {
   const ohmAssetImg = () => {
@@ -15,12 +18,21 @@ function BondHeader({ bond }) {
   };
 
   return (
+<<<<<<< HEAD
     <div className="ohm-pairs d-sm-flex d-none">
       {isBondLP(bond) && (
         <div className="ohm-pair" style={{ zIndex: 2 }}>
           <div className="ohm-logo-bg">
             <img className="ohm-pair-img" src={`${ohmAssetImg()}`} />
           </div>
+=======
+    <div className="ohm-pairs d-sm-flex">
+      {isBondLP(bond) && <div className="ohm-pair" style={{zIndex: 2}}>
+      <div className="ohm-logo-bg">
+        <img className="ohm-pair-img"
+          src={`${ohmAssetImg()}`}
+        />
+>>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
         </div>
       )}
 
