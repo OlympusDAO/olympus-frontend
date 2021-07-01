@@ -214,7 +214,8 @@ function App(props) {
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
       {/* <GlobalStyles /> */}
-      <div className="app">
+
+      <div className={`app ${isSmallerScreen && "mobile"}`}>
         {/* <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}> */}
           {!isSidebarExpanded &&
           <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">

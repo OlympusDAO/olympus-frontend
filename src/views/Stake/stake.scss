@@ -12,7 +12,7 @@
 
 .ohm-card {
     max-width: 969px;
-    width: 95%;
+    width: 100%;
     margin-bottom: 2rem;
     .card-header {
         width: 100%;
@@ -402,14 +402,14 @@
 
 .mobile .stake-pool {
     border: 1px solid #F4D09222;
-    // background: #000000ff;
     border-radius: 5px;
-    padding: 1.9em 2.3em;
+    padding: 1.5em 1.5em;
     display: flex;
     flex-direction: column;
     .pool-card-top-row {
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
     .ohm-logo-bg {
         height: 38px !important;
@@ -418,7 +418,8 @@
         margin-left: 0;
     }
     .ohm-pairs p {
-        font-size: 1.5em !important;
+        font-size: 1.05em !important;
+        margin-bottom: 0 !important;
     }
     .pool-data {
         margin-top: 15px;
@@ -472,10 +473,6 @@
 }
 
 
-
-
-
-
 /* Bond styles to be moved */
 .MuiTable-root {
     thead .MuiTableCell-root {
@@ -496,206 +493,4 @@
             width: 5em !important;
         }
     }
-}
-
-.MuiTableCell-root {
-    border-bottom: none !important;
-    font-size: 1em !important;
-    p {
-        margin-bottom: 0 !important;
-    }
-    &.MuiTableCell-alignLeft {
-        display: flex;
-    }
-}
-
-.MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
-    justify-content: space-evenly;
-    div.ohm-pairs {
-        width: 33%;
-        // padding-left: 8px;
-        vertical-align: middle !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin-bottom: 0 !important;
-        .ohm-pairs div.bond-name p, .ohm-pairs svg {
-            align-self: center !important;
-            line-height: 115%;
-            font-weight: bold !important;
-            margin-bottom: 0em !important;
-            padding: 0 !important;
-            font-family: inherit;
-            vertical-align: text-top !important;
-        }
-        .ohm-logo-bg {
-            margin-left: 0;
-            border-radius: 20px;
-            padding: 6px;
-            height: 40px;
-            width: 40px;
-        }
-    }
-    div.bond-name {
-        width: 60%;
-        margin-left: 8px !important;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        p {
-            margin-bottom: unset !important;
-        }
-        svg {
-            margin-left: 5px !important;
-        }
-    }
-}
-
-
-.ohm-card.mobile {
-    width: 99% !important;
-    max-width: 100% !important;
-    padding: 0.5rem;
-}
-
-.ohm-card.med {
-    width: 89% !important;
-    padding: 1.5rem;
-}
-
-
-#choose-bond-view {
-    
-    h1, h2, h3, h4 {
-        font-family: 'Square' !important;
-        font-weight: 500;
-        color: inherit;
-    }
-    h2 {
-        color: #F4D092;
-    }
-
-    .ohm-card.secondary {
-        margin-bottom: 2rem;
-        margin-top: 1.5rem;
-        .ohm-price {
-            text-align: right;
-        }
-    }
-
-    .MuiGrid-spacing-xs-2 {
-        margin: 0 !important;
-    }
-    
-
-    .ohm-card.mobile {
-        margin-bottom: 2em;
-        .ohm-logo-bg {
-            margin-left: 0;
-            border-radius: 20px;
-            padding: 10px;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            height: 40px;
-            width: 40px;
-        }
-        &.secondary {
-            // background: transparent !important;
-            box-shadow: none !important;
-            margin-top: 20px;
-            padding-top: 2rem !important;
-            .card-header,
-            .card-content {
-                .ohm-price {
-                    text-align: right;
-                    &.very-small {
-                        text-align: left;
-                    }
-                }
-            }
-            // .ohm-price {
-            //     text-align: right;
-            // }
-            h3 {
-                margin-bottom: 0;
-                font-size: 1.7em;
-                // text-decoration: underline;
-            }
-            h2 {
-                margin-bottom: 0;
-                font-size: 2.9em;
-            }
-        }
-        &.primary {
-            padding-top: 0 !important;        
-            .card-header {
-                background: transparent;
-            }
-            .card-content {
-                padding: 2rem 2rem 3rem 0.5rem !important;
-                height: auto;
-                align-items: center;
-                vertical-align: center;
-                display: flex;
-                width: 100%;
-                .bond-data-card {
-                    display: flex;
-                    width: 100%;
-                    align-items: center;
-                    justify-content: space-evenly;
-                    font-size: 1em;
-                    .bond-pair {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        width: 35%;
-                        .ohm-pair {
-                            height: 40px;
-                            width: 40px;
-                        }
-                        .bond-name {
-                            margin-top: 15px;
-                            svg {
-                                margin-left: 5px;
-                            }
-                        }
-                    }
-                    .bond-name,
-                    .bond-price,
-                    .bond-discount {
-                        text-align: center;
-                        margin-right: 10px;
-                        margin-left: 10px;
-                        vertical-align: middle;
-                        align-items: center;
-                        p {
-                            margin-bottom: 0 !important;
-                        }
-                    }
-                    .bond-price,
-                    .bond-discount {
-                        width: 16%;
-                    }
-                    .ohm-btn {
-                        min-width: 8rem !important;
-                        width: 8rem !important;
-                        margin-left: 0 !important;
-                    }
-                }
-            }
-        }
-    }
-
-    .MuiTableRow-head {
-        .MuiTableCell-alignLeft {
-            padding-left: 20px;
-        }
-    }
-}
-
-:not(.mobile) .ohm-card .card-content {
-    padding-left: 3rem !important;
-    padding-right: 3rem !important;
-    padding-bottom: 3rem !important;
 }

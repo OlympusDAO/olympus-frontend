@@ -342,8 +342,6 @@ if (web3Modal) {
                 </Grid>
               </>
             )}
-            
-          
           </Grid>
         </Paper>
 
@@ -459,10 +457,8 @@ if (web3Modal) {
               </div>
             )}
 
-          </div>
-          
-        </Paper>
-      {/* </Grid> */}
+        </div>
+      </Paper>
     </div>
   )
 }

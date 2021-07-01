@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from 'react-redux';
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core"
-import { Card } from "rimble-ui";
-import "../Stake/stake.scss";
-import { BondTableData, BondCardData } from './BondRow';
+import { Paper, Grid, Typography, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core"
+import { BondTableData, BondDataCard } from './BondRow';
 import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
+import "../Stake/stake.scss";
+import "./choosebond.scss";
 
 function ChooseBond() {
 	const marketPrice = useSelector((state) => { return state.app.marketPrice });
@@ -23,38 +23,37 @@ function ChooseBond() {
 	const bonds = useBonds();
 
 	return (
-		<Grid container id="choose-bond-view" justify="center" spacing={2}>
+		<Grid container id="choose-bond-view" justify="center" spacing={3}>
 
-        <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
-
-          <div className="card-content">
-						<Grid container item xs={12} spacing={2}>
-							<Grid item sm={7} lg={9}>
-								<h3>Treasury Balance</h3>
-								<h2 className="content">
-									{treasuryBalance && new Intl.NumberFormat("en-US", {
-										style: "currency",
-										currency: "USD",
-										maximumFractionDigits: 0,
-										minimumFractionDigits: 0
-									}).format(treasuryBalance)}
-								</h2>
+			{/* <Grid item xs={12}> */}
+        <Paper className="ohm-card">
+					<Typography variant="h6">Bond (1, 1)</Typography>
+          
+						<Grid container item xs={12} style={{ marginTop: "33px",  marginBottom: "15px" }}>
+							<Grid item xs={6}>
+								<Box textAlign="center">
+									<Typography variant="h6">Treasury Balance</Typography>
+									<h2 className="content">
+										{treasuryBalance && new Intl.NumberFormat("en-US", {
+											style: "currency",
+											currency: "USD",
+											maximumFractionDigits: 0,
+											minimumFractionDigits: 0
+										}).format(treasuryBalance)}
+									</h2>
+								</Box>
 							</Grid>
 
-							<Grid item xs={5} sm={5} lg={3} className={`ohm-price ${isVerySmallScreen && "very-small"}`}>
-								<h3>OHM Price</h3>
-								<h2 className="content">{trim(marketPrice, 2)}</h2>
+							<Grid item xs={6} className={`ohm-price`}>
+								<Box textAlign="center">
+									<Typography variant="h6">OHM Price</Typography>
+									<h2 className="content">{trim(marketPrice, 2)}</h2>
+								</Box>
 							</Grid>
 						</Grid>
-          </div>
-        </Card>
-
-        <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
-				<div className="card-header" style={{ background: 'transparent' }}>
-            <h5>Bonds (1, 1)</h5>
-          </div>
-					{ !isSmallScreen ?
-          		<div className="card-content">
+          
+						{ !isSmallScreen && (
+							<Grid container item>
 								<TableContainer>
 									<Table aria-label="Available bonds">
 										<TableHead>
@@ -73,19 +72,22 @@ function ChooseBond() {
 										</TableBody>
 									</Table>
 								</TableContainer>
-							</div>
-							:
-							<>
-								{/* { Object.keys(BONDS).map(bond => ( */}
-									{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
-										<div className="card-content" key={bond}>
-											<BondCardData key={bond} bond={bond} />
-										</div>
-								)) }
-							</>
-						}
+							</Grid>
+						)}
+        	</Paper>
+				{/* </Grid> */}
 
-        </Card>
+				{ isSmallScreen && (
+					<Grid container item spacing={2}>
+						{/* { Object.keys(BONDS).map(bond => ( */}
+							{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
+								<Grid item xs={12} key={bond}>
+									<BondDataCard key={bond} bond={bond} />
+								</Grid>
+						)) }
+					</Grid>
+				)}
+						
     </Grid>
 	);
   }
