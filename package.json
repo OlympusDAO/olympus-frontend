@@ -46,7 +46,7 @@
     "burner-provider": "^1.0.38",
     "dotenv": "^8.2.0",
     "eth-hooks": "^1.1.2",
-    "ethers": "^5.0.31",
+    "ethers": "^5.4.0",
     "graphiql": "^1.0.5",
     "graphql": "^15.3.0",
     "intl": "^1.2.5",
