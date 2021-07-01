@@ -214,8 +214,8 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
             <div className="dapp-menu-external-links">
               { Object.keys(externalUrls).map((link, i) => {
                 return <a key={i} href={`${externalUrls[link].url}`} target="_blank" className="button button-dapp-menu">
-                  {externalUrls[link].icon}
-                  <span>{externalUrls[link].title}</span>
+                  <span className="bond-pair-name">{externalUrls[link].icon}</span>
+                  <span className="bond-pair-roi">{externalUrls[link].title}</span>
                 </a>
                 }
               )}
