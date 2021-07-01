@@ -1,6 +1,5 @@
-import React, {  } from 'react';
+import React from 'react';
 import { isBondLP } from "../helpers";
-// import "../views/Stake/stake.scss";
 
 function BondHeader({ bond }) {
   const ohmAssetImg = () => {
@@ -16,7 +15,7 @@ function BondHeader({ bond }) {
   }
 
   return (
-    <div className="ohm-pairs d-sm-flex d-none">
+    <div className="ohm-pairs d-sm-flex">
       {isBondLP(bond) && <div className="ohm-pair" style={{zIndex: 2}}>
       <div className="ohm-logo-bg">
         <img className="ohm-pair-img"

@@ -2,13 +2,15 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { trim, bondName, lpURL, isBondLP } from "../../helpers";
 import BondLogo from '../../components/BondLogo';
-import { TableRow, TableCell, } from "@material-ui/core";
+import { Button, Box, Paper, Grid, Typography, TableRow, TableCell, } from "@material-ui/core";
 import { NavLink } from 'react-router-dom';
+import "./choosebond.scss";
 
 
-export function BondCardData({ bond }) {
+export function BondDataCard({ bond }) {
   const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
   const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
+  const bondPurchased = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].purchased });
 
   const daiAssetImg = () => {
     return 'https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png';
@@ -24,40 +26,63 @@ export function BondCardData({ bond }) {
   };
 
   return (
-    <div id={`${bond}--bond`} className="bond-data-card">
-      <div className="bond-pair">
-        {/* maket this whole thing a link if there is an lpurl */}
-        <BondLogo bond={bond} />
-        <div className="bond-name">
-          {bondName(bond)}
-          {isBondLP(bond) && <a href={lpURL(bond)} target="_blank">
-            <i className="fas fa-external-link-alt"></i>
-          </a>}
-        </div>
-      </div>
+    <Paper>
+      <div id={`${bond}--bond`} className="bond-data-card">
+        <Grid container>
+          <Grid item xs={12}>
+            <div className="bond-pair">
+              <BondLogo bond={bond} />
+              <div className="bond-name">
+                {bondName(bond)}
+                {isBondLP(bond) && <div>
+                    <a href={lpURL(bond)} target="_blank">
+                      View Contract <i className="fas fa-external-link-alt"></i>
+                    </a>
+                </div>}
+              </div>
+            </div>
+          </Grid>
 
-      <div className="bond-price">
-        <p>Price</p>
-         <p>${bondPrice && trim(bondPrice, 2)}</p>
-      </div>
+          <Grid item xs={12}>
+            <div className="bond-price">
+              <p>Price</p>
+              <p>${bondPrice && trim(bondPrice, 2)}</p>
+            </div>
+          </Grid>
 
-      <div className="bond-discount">
-        <p>ROI</p>
-        <p>{bondDiscount && trim(bondDiscount * 100, 2)}%</p>
-      </div>
+          <Grid item xs={12}>
+            <div className="bond-discount">
+              <p>ROI</p>
+              <p>{bondDiscount && trim(bondDiscount * 100, 2)}%</p>
+            </div>
+          </Grid>
 
-      {/* <TableCell>$4,102,030</TableCell> */}
-      <div className="bond-link">
-        <NavLink to={`/bonds/${bond}`}>
-          <button
-            type="button"
-            className="stake-lp-button ohm-btn"
-          >
-            Bond
-          </button>
-        </NavLink>
+          <Grid item xs={12}>
+            <div className="bond-discount">
+              <p>Purchased</p>
+              <p>
+                {bondPurchased && new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                }).format(bondPurchased)}
+              </p>
+            </div>
+          </Grid>
+
+          <Grid item xs={12} className="bond-link">
+            <Button
+              href={`/bonds/${bond}`}
+              variant="outlinedPrimary"
+            >
+              Bond
+            </Button>
+          </Grid>
+        </Grid>
+        
       </div>
-    </div>
+    </Paper>
   )
 }
 
@@ -107,7 +132,7 @@ export function BondTableData({bond}) {
       </TableCell>
       <TableCell align="right">
         <NavLink to={`/bonds/${bond}`}>
-          <button className="stake-lp-button ohm-btn">Bond</button>
+          <Button variant="outlinedPrimary">Bond</Button>
         </NavLink>
       </TableCell>
     </TableRow>

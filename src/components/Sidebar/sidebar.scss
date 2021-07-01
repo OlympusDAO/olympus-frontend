@@ -31,7 +31,7 @@
   padding: 15px;
   .branding-header-icon {
     width: 100px;
-    padding:0.5rem 1.2rem;
+    padding:0.5rem 1.1rem;
     filter:invert(1);
     display: block;
     margin: 0 auto;
@@ -59,9 +59,6 @@
   .dapp-nav {
     display: flex;
     flex-flow: column;
-  }
-  .dapp-menu-links {
-    margin-top: 133px;
   }
 }
 
@@ -137,8 +134,8 @@
   }
   &.bottom {
     flex-direction: column;
-    margin-bottom: 2em;
-    height: 48%;
+    max-height: 48%;
+    height: inherit;
     justify-content: space-between;
   }
   .data-rebase {
