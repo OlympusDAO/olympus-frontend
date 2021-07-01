@@ -159,6 +159,14 @@ export const dark = responsiveFontSizes(
 					flexGrow: 1,
         }
       },
+			MuiPaper: {
+        root: {
+          padding: "20px 20px 20px 20px", // global
+          backdropFilter: "blur(60px)", // global
+          borderRadius: "5px", // global
+					maxWidth: "969px",
+        },	
+      },
 			MuiDrawer: {
 				root: {
 					width: "280px",
@@ -168,6 +176,26 @@ export const dark = responsiveFontSizes(
 					width: "inherit",
 					backgroundColor: "#00000000",
 					padding: 0,
+					square: true,
+					rounded: false,
+				}
+			},
+			MuiLink: {
+				root: {
+					color: darkTheme.color,
+					"&:hover": {
+						borderBottom: "2px solid",
+						borderColor: "inherit",
+						cursor: "pointer",
+					},
+					".active": {
+						color: darkTheme.textHighlightColor,
+					}
+				},
+			},
+			MuiTableCell: {
+				root: {
+					borderBottom: 0,
 				}
 			},
       MuiButton: {
@@ -209,14 +237,6 @@ export const dark = responsiveFontSizes(
 					}
 				}
       },
-      MuiPaper: {
-        root: {
-          padding: "20px 20px 20px 20px", // global
-          backdropFilter: "blur(60px)", // global
-          borderRadius: "5px", // global
-					maxWidth: "969px",
-        },	
-      }
     },
     props: {
       MuiButton: {

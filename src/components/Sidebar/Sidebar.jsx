@@ -2,8 +2,12 @@
 import React, { useCallback, useState, useEffect } from "react";
 =======
 import React, { useCallback, useState, useEffect } from 'react';
+<<<<<<< HEAD
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 import { Link, NavLink } from "react-router-dom";
+=======
+import { NavLink } from "react-router-dom";
+>>>>>>> sidebar responsiveness tweaks and link styling, stake table replaced with mui table
 import Social from "../Social";
 import OlympusLogo from "../../assets/logo.svg";
 import externalUrls from "./externalUrls";
@@ -17,7 +21,7 @@ import orderBy from "lodash/orderBy";
 =======
 >>>>>>> updated stake page to use paper and Button components, still need to override hover styles
 import useBonds from "../../hooks/Bonds";
-import { Paper, Drawer } from "@material-ui/core";
+import { Paper, Drawer, Link, Button } from "@material-ui/core";
 
 function Sidebar({ isExpanded, theme, currentIndex, address }) {
   const [isActive] = useState();
@@ -169,7 +173,7 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
                   <div className="bond-discounts">
                     <p>Bond discounts</p>
                     {bonds.map((bond, i) => (
-                      <Link to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
+                      <Link color="primary" to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
                     ))}
                   </div>
                 </div>
