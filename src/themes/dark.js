@@ -207,6 +207,9 @@ export const dark = responsiveFontSizes(
 				primary: {
 					color: "#333333"
 				},
+				secondary: {
+					backgroundColor: darkTheme.paperBg
+				},
 				outlinedPrimary: {
           color: "#F8CC82",
           borderColor: "#F8CC82",

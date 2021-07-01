@@ -18,14 +18,19 @@
 .main-data-area {
     overflow-y: scroll;
     flex-flow: wrap;
+    display: flex;
     align-content: flex-start;
-    justify-content: space-evenly;
+    justify-content: center;
     height: 78%;
+    .MuiGrid-root.MuiGrid-item {
+        display: flex;
+        justify-content: center !important;
+    }
     .dune-card {
         margin: 20px;
         height: auto;
         min-width: 333px;
-        max-width: 620px;
+        max-width: 700px;
         width: auto;
         flex: auto;
         box-shadow: 0px 2px 28px rgba(0,0,0,0.1);

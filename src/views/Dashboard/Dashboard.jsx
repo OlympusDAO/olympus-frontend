@@ -23,16 +23,16 @@ function Dashboard() {
       <Grid container spacing={2} className="top-row-data">
         <Grid item lg={4} md={5} sm={5} xs={5} className="olympus-card">
           <Paper>
-              <Typography variant="h5">Price</Typography>
-              <Typography variant="h4">${trim(marketPrice, 2)}</Typography>
+              <Typography variant="h6">Price</Typography>
+              <Typography variant="h5">${trim(marketPrice, 2)}</Typography>
           </Paper> 
         </Grid>
 
         <Grid item lg={4} md={7} sm={7} xs={7}>
           <Paper>
-            <Typography variant="h5">Market Cap</Typography>
-            <Typography variant="h4">
-                ${marketCap && new Intl.NumberFormat("en-US", {
+            <Typography variant="h6">Market Cap</Typography>
+            <Typography variant="h5">
+                {marketCap && new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 0,
@@ -44,8 +44,8 @@ function Dashboard() {
 
         <Grid item lg={4} md={12} sm={12} xs={12}>
           <Paper>
-            <Typography variant="h5">Supply (circulating/total)</Typography>
-              <Typography variant="h4">
+            <Typography variant="h6">Supply (circulating/total)</Typography>
+              <Typography variant="h5">
                   {circSupply && new Intl.NumberFormat("en-US", { 
                     maximumFractionDigits: 0,
                     minimumFractionDigits: 0
