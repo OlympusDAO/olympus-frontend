@@ -8,7 +8,6 @@ import { ReactComponent as BondIcon } from "../../assets/icons/bond-icon.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-icon.svg";
 import { trim } from "../../helpers";
 import "./sidebar.scss";
-import orderBy from 'lodash/orderBy'
 import useBonds from "../../hooks/Bonds";
 import { Paper, Drawer } from "@material-ui/core";
 
