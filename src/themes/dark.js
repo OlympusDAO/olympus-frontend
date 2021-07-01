@@ -99,9 +99,17 @@ export const dark = responsiveFontSizes(
           margin: "10px",
           borderRadius: "5px"
         },
-        outlinedSecondary: {
+				primary: {
+					color: "#333333"
+				},
+				outlinedPrimary: {
           color: "#F8CC82",
           borderColor: "#F8CC82",
+          textTransform: "none"
+        },
+        outlinedSecondary: {
+          color: "#FFFFFF",
+          borderColor: "#FFFFFF",
           textTransform: "none"
         },
         textPrimary: {

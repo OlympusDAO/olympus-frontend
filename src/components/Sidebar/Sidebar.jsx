@@ -12,7 +12,10 @@ import { ReactComponent as BondIcon } from "../../assets/icons/bond-icon.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-icon.svg";
 import { shorten, trim } from "../../helpers";
 import "./sidebar.scss";
+<<<<<<< HEAD
 import orderBy from "lodash/orderBy";
+=======
+>>>>>>> updated stake page to use paper and Button components, still need to override hover styles
 import useBonds from "../../hooks/Bonds";
 import { Paper, Drawer } from "@material-ui/core";
 

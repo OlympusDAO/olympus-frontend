@@ -1,20 +1,35 @@
 #stake-view {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    height: fit-content;
-    // overflow: auto;
-    .mobile .card-content {
-        padding-top: 0.4em !important;
-    }
-    .card-header {
-        background: transparent !important;
-    }
     .rebase-timer {
         margin: 0 !important;
         font-size: 0.9em !important;
         line-height: 110% !important;
+    }
+}
+
+.ohm-card {
+    max-width: 969px;
+    width: 95%;
+    margin-bottom: 2rem;
+    .card-header {
+        width: 100%;
+        box-shadow: none !important;
+        border: none !important;
+        top: 0;
+        padding: 1em;
+        background: transparent;
+    }
+    .card-content {
+        width: 100%;
+        position: relative;
+        align-items: left;
+        justify-content: center;
+        flex-flow: column;
+        padding: 1rem 2rem 1rem 2rem;
+        height: 100%;
     }
 }
 
@@ -135,6 +150,7 @@
     }
 }
 
+<<<<<<< HEAD
 // ohm-card styles should be set to theme
 .ohm-card {
     color: inherit;
@@ -194,6 +210,9 @@
         padding-top: 0.5rem;
     }
 }
+=======
+
+>>>>>>> updated stake page to use paper and Button components, still need to override hover styles
 
 .stake-top-metrics {
     display: flex;
@@ -230,7 +249,6 @@
     }
     .stake-apy, .stake-tvl, .stake-index {
         flex: 1;
-        // text-align: left;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
@@ -401,13 +419,10 @@
 .stake-button, .stake-lp-button {
     display: block !important;
     margin-left: 1rem;
-    border-radius: 5px !important;
     padding: .4rem !important;
-    background-color: #ffffffee;
-    font-size: 1.2em !important;
+    font-size: 1em !important;
     height: auto;
     text-align: center !important;
-    font-family: 'Square-Light', cursive;
     line-height: 150%;
     svg {
         margin-left: 10px;

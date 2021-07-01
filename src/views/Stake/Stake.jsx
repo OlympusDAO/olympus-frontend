@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Flex, Card } from "rimble-ui";
-import { Grid } from "@material-ui/core";
-import Paper from '@material-ui/core/Paper';
+import { Flex } from "rimble-ui";
+import { Grid, Paper, Typography, Button } from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
@@ -22,8 +21,12 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
   const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
 
   const isSmallScreen = useMediaQuery("(max-width: 1125px)");
+<<<<<<< HEAD
   const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
   const isNarrowScreen = useMediaQuery("(max-width:460px)");
+=======
+	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
+>>>>>>> updated stake page to use paper and Button components, still need to override hover styles
 
   const fraxData = useSelector(state => {
     return state.fraxData;
@@ -107,9 +110,18 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 
   if (web3Modal) {
     modalButton.push(
+<<<<<<< HEAD
       <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={loadWeb3Modal} key={2}>
         Connect Wallet
       </button>,
+=======
+      <Button variant="contained" color="primary"
+        onClick={loadWeb3Modal}
+        key={2}
+      >
+        Connect Wallet
+      </Button>
+>>>>>>> updated stake page to use paper and Button components, still need to override hover styles
     );
   }
 
@@ -173,42 +185,39 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                       <h2 className="content">{stakingAPY && trim(stakingAPY * 100, 1)}%</h2>
 =======
     <div id="stake-view">
-      <Grid container direction="row" justify="center">
-        <Paper className={`ohm-card primary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
-          <div className="card-header">
-            <h5>Single Stake (3, 3)</h5>
+      <Paper className={`ohm-card`}>
+        <Grid container direction="column" justify="center" spacing={3}>
+          <Grid item>
+            <Typography variant="h6">Single Stake (3, 3)</Typography>
             <RebaseTimer />
 
-            {address && (oldSohmBalance > 0.01) && (
-              <div
-                className="migrate-sohm-button"
-                role="button"
-                aria-label="migrate-sohm"
-                onClick={openMigrationWizard}>
+              {address && (oldSohmBalance > 0.01) && (
+                <div
+                  className="migrate-sohm-button"
+                  role="button"
+                  aria-label="migrate-sohm"
+                  onClick={openMigrationWizard}>
+                    <NavLink to="/stake/migrate">
+                      <NewReleases />
+                      Migrate sOHM
+                    </NavLink>
+                </div>
+              )}
+              {address && (oldSohmBalance < 0.01) && (
+                <div
+                  className="migrate-sohm-button complete"
+                  role="button"
+                  aria-label="migrate-sohm-complete"
+                  onClick={openMigrationWizard}
+                >
                   <NavLink to="/stake/migrate">
-                    <NewReleases />
-                    Migrate sOHM
+                    <CheckCircleIcon />
+                    sOHM Migrated 
                   </NavLink>
-              </div>
-            )}
-            {address && (oldSohmBalance < 0.01) && (
-              <div
-                className="migrate-sohm-button complete"
-                role="button"
-                aria-label="migrate-sohm-complete"
-                onClick={openMigrationWizard}
-              >
-                <NavLink to="/stake/migrate">
-                  <CheckCircleIcon />
-                  sOHM Migrated 
-                </NavLink>
-              </div>
-            )}
-            
-          </div>
+                </div>
+              )}
+          </Grid>
 
-          <div className="card-content">
-            <Grid direction="row" justify="center" alignItems="center">
               <Grid item>
                 <div className="stake-top-metrics">
                   <Grid container spacing={2}>
@@ -266,23 +275,20 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                 <Grid item>
                   <div className="stake-toggle-row">
                     <div className="btn-group" role="group">
-                      <button
-                        type="button"
-                        className={`btn ${view === "stake" ? "btn-light" : ""}`}
+                      <Button
                         onClick={() => {
                           setView("stake");
                         }}
                       >
                         Stake
-                      </button>
-                      <button
-                        type="button"
-                        className={`btn ${view === "unstake" ? "btn-light" : ""}`}
+                      </Button>
+                      <Button
                         onClick={() => {
                           setView("unstake");
                         }}
                       >
                         Unstake
+<<<<<<< HEAD
                       </button>
 >>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
                     </div>
@@ -344,6 +350,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                       >
                         Unstake
                       </button>
+=======
+                      </Button>
+>>>>>>> updated stake page to use paper and Button components, still need to override hover styles
                     </div>
                   </div>
 
@@ -364,55 +373,53 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                         className="form-control stake-input"
                         placeholder="Type an amount"
                       />
-                      <button type="button" onClick={setMax}>
+                      <Button onClick={setMax}>
                         Max
-                      </button>
+                      </Button>
                     </div>
 
                     {address && hasAllowance("ohm") && view === "stake" && (
-                      <div
+                      <Button
                         className="stake-button"
                         onClick={() => {
                           onChangeStake("stake");
                         }}
                       >
                         Stake OHM
-                      </div>
+                      </Button>
                     )}
 
                     {address && hasAllowance("sohm") && view === "unstake" && (
-                      <div
-                        className="stake-button"
+                      <Button
+                      className="stake-button"
                         onClick={() => {
                           onChangeStake("unstake");
                         }}
                       >
                         Unstake OHM
-                      </div>
+                      </Button>
                     )}
 
                     {address && !hasAllowance("ohm") && view === "stake" && (
-                      <div
+                      <Button
                         className="stake-button"
                         onClick={() => {
                           onSeekApproval("ohm");
                         }}
                       >
-                        Approve
-                        {/* approve stake */}
-                      </div>
+                        Approve Stake
+                      </Button>
                     )}
 
                     {address && !hasAllowance("sohm") && view === "unstake" && (
-                      <div
+                      <Button
                         className="stake-button"
                         onClick={() => {
                           onSeekApproval("sohm");
                         }}
                       >
-                        Approve
-                        {/* approve unstake */}
-                      </div>
+                        Approve Unstake
+                      </Button>
                     )}
                   </Flex>
 
@@ -566,6 +573,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
               </>
             )}
 <<<<<<< HEAD
+<<<<<<< HEAD
           </Grid>
         </div>
       </Card>
@@ -681,6 +689,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 =======
             </Grid>
           </div>
+=======
+            
+          
+          </Grid>
+>>>>>>> updated stake page to use paper and Button components, still need to override hover styles
         </Paper>
 
         <Paper className={`ohm-card secondary ${isSmallScreen  && "mobile"}`}>
@@ -727,10 +740,15 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                         {fraxData && fraxData.balance || 0} LP
                     </td>
                     <td>
-                      <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
+                      <Button 
+                        variant="outlinedSecondary"
+                        href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' 
+                        target="_blank"
+                        className="stake-lp-button"
+                      >
                         Stake on Frax
                         <i className="fa fa-external-link-alt" />
-                      </a>
+                      </Button>
                     </td>
                   </tr>
                 </tbody>
@@ -751,10 +769,16 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                       OHM-FRAX
                     </p>
                   </Flex>
-                  <a role="button" href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' className="stake-lp-button" target="_blank">
+                  <Button 
+                    variant="outlinedSecondary"
+                    color="primary" 
+                    href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' 
+                    target="_blank"
+                    className="stake-lp-button"
+                  >
                     Stake on Frax
                     <i className="fa fa-external-link-alt" />
-                  </a>
+                  </Button>
                 </div>
                 <div className="pool-data">
                   <div className="pool-data-row">
@@ -785,8 +809,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
             )}
 
           </div>
+          
         </Paper>
-      </Grid>
+      {/* </Grid> */}
     </div>
   )
 >>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
