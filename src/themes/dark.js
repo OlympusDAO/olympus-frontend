@@ -1,19 +1,91 @@
-// import Square
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
+import SquareWOFF from "../assets/fonts/EuclidSquare-Regular.woff";
+import SquareBoldWOFF from "../assets/fonts/EuclidSquare-Bold.woff";
+import SquareItalicWOFF from "../assets/fonts/EuclidSquare-Italic.woff";
+import SquareLightWOFF from "../assets/fonts/EuclidSquare-Light.woff";
+import SquareMediumWOFF from "../assets/fonts/EuclidSquare-Medium.woff";
+
+const square = {
+	fontFamily: 'Square',
+	fontStyle: 'normal',
+	fontDisplay: 'swap',
+	fontWeight: 400,
+	src: `
+		local('EuclidSquare'),
+		local('EuclidSquare-Regular'),
+		url(${SquareWOFF}) format('woff')
+	`,
+	unicodeRange:
+		'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
+};
+
+const squareLight = {
+	fontFamily: 'Square',
+	fontStyle: 'light',
+	fontDisplay: 'swap',
+	fontWeight: 300,
+	src: `
+		local('EuclidSquare'),
+		local('EuclidSquare-Light'),
+		url(${SquareLightWOFF}) format('woff')
+	`,
+	unicodeRange:
+		'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
+};
+
+const squareMedium = {
+	fontFamily: 'Square',
+	fontStyle: 'medium',
+	fontDisplay: 'swap',
+	fontWeight: 500,
+	src: `
+		local('EuclidSquare'),
+		local('EuclidSquare-Medium'),
+		url(${SquareMediumWOFF}) format('woff')
+	`,
+	unicodeRange:
+		'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
+};
+
+const squareBold = {
+	fontFamily: 'Square',
+	fontStyle: 'bold',
+	fontDisplay: 'swap',
+	fontWeight: 800,
+	src: `
+		local('EuclidSquare-Bold'),
+		local('EuclidSquare-Bold'),
+		url(${SquareBoldWOFF}) format('woff')
+	`,
+	unicodeRange:
+		'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
+};
+
+const squareItalic = {
+	fontFamily: 'Square',
+	fontStyle: 'italic',
+	fontDisplay: 'swap',
+	fontWeight: 400,
+	src: `
+		local('EuclidSquare-Italic'),
+		local('EuclidSquare-Italic'),
+		url(${SquareItalicWOFF}) format('woff')
+	`,
+	unicodeRange:
+		'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
+}
+
+
 
 const darkTheme = {
     color: "#ffffff",
+		textHighlightColor: "#F4D092",
     backgroundColor: "#3A4050",
     background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
     // background: "linear-gradient(180deg, #080F35AA 0%, #00000A 100%), radial-gradient(circle at 80% 80%, rgba(180, 255, 217, 1), rgba(180, 255, 217, 0.3))",
-    // cardBg: "rgba(27, 29, 34, 0.4)",
     paperBg: "rgba(54, 56, 64, 0.4)",
     modalBg: "rgba(27, 29, 34, 0.8)",
     largeTextColor: "#F4D092",
-    cardBorder: "none",
-    logoColor: "invert(1)",
-    defaultButtonBg: "rgba(27, 29, 34, 0.6)",
-    // TopBarButtonBg: "rgba(33, 33, 33, 0.5)",
     TopBarButtonBg: "#1B1D22AA",
     TopBarButtonBgHover: "#5A6C7D",
     TopBarButtonColor: "#ffffff",
@@ -42,6 +114,7 @@ export const dark = responsiveFontSizes(
   createMuiTheme({
     typography: {
       fontSize: 16,
+			fontFamily: 'Square',
       props: {
         gutterBottom: false
       },
@@ -49,8 +122,11 @@ export const dark = responsiveFontSizes(
         padding: "10px"
       },
       h4: {
-        margin: "10px"
-      }
+        margin: "10px",
+      },
+			h5: {
+				fontWeight: "bold",
+			}
     },
     palette: {
       type: "dark",
@@ -69,11 +145,12 @@ export const dark = responsiveFontSizes(
     overrides: {
 			MuiCssBaseline: {
 				'@global': {
+					'@font-face': [square, squareLight, squareMedium, squareBold, squareItalic],
 					body: {
 						background: darkTheme.background,
 						backgroundRepeat: "no-repeat",
 						backgroundAttachment: "fixed",
-					}
+					},
 				}
 			},
       MuiContainer: {
@@ -121,7 +198,16 @@ export const dark = responsiveFontSizes(
             color: "#F8CC82",
             borderBottom: "#F8CC82"
           }
-        }
+        },
+				textSecondary: {
+					color: darkTheme.color,
+					textTransform: "none",
+					padding: "2px 2px",
+					"&:hover": {
+						color: darkTheme.textHighlightColor,
+						backgroundColor: "#00000000"
+					}
+				}
       },
       MuiPaper: {
         root: {
@@ -139,7 +225,6 @@ export const dark = responsiveFontSizes(
         disableRipple: true
       },
 			MuiPaper: {
-				disableElevation: true,
 				elevation: 0,	
 			}
     }

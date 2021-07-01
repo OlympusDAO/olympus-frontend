@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { trim, bondName, lpURL, isBondLP } from "../../helpers";
 import BondLogo from '../../components/BondLogo';
 import { Button, Box, Paper, Grid, Typography, TableRow, TableCell, } from "@material-ui/core";
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import "./choosebond.scss";
 
 
@@ -35,9 +35,9 @@ export function BondDataCard({ bond }) {
               <div className="bond-name">
                 {bondName(bond)}
                 {isBondLP(bond) && <div>
-                    <a href={lpURL(bond)} target="_blank">
+                    <Button color="secondary" variant="text" component={Link} href={lpURL(bond)} target="_blank">
                       View Contract <i className="fas fa-external-link-alt"></i>
-                    </a>
+                    </Button>
                 </div>}
               </div>
             </div>
@@ -74,7 +74,8 @@ export function BondDataCard({ bond }) {
           <Grid item xs={12} className="bond-link">
             <Button
               href={`/bonds/${bond}`}
-              variant="outlinedPrimary"
+              variant="outlined"
+              color="primary"
             >
               Bond
             </Button>
@@ -132,7 +133,7 @@ export function BondTableData({bond}) {
       </TableCell>
       <TableCell align="right">
         <NavLink to={`/bonds/${bond}`}>
-          <Button variant="outlinedPrimary">Bond</Button>
+          <Button variant="outlined" color="primary">Bond</Button>
         </NavLink>
       </TableCell>
     </TableRow>
