@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
+=======
+import React from 'react';
+import { shorten } from '../../helpers';
+import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
+>>>>>>> fixed links in bond discounts
 import { Flex } from "rimble-ui";
 import InfoIcon from "@material-ui/icons/Info";
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
