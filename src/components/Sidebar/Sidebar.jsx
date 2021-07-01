@@ -67,7 +67,7 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
                   <div className="bond-discounts">
                     <p>Bond discounts</p>
                     {bonds.map((bond, i) => (
-                      <Link color="primary" to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
+                      <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
                     ))}
                   </div>
                 </div>

@@ -1,7 +1,4 @@
 import React from 'react';
-// import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import { useSelector, useDispatch } from 'react-redux';
-// import Web3Modal from "web3modal";
 import { shorten } from '../../helpers';
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 import { Flex } from "rimble-ui";
