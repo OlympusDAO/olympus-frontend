@@ -23,8 +23,8 @@ function Dashboard() {
       <Grid container spacing={2} className="top-row-data">
         <Grid item lg={4} md={5} sm={5} xs={5} className="olympus-card">
           <Paper>
-              <Typography variant="h5">Price</Typography>
-              <Typography variant="h4">${trim(marketPrice, 2)}</Typography>
+              <Typography variant="h6">Price</Typography>
+              <Typography variant="h5">${trim(marketPrice, 2)}</Typography>
           </Paper> 
         </Grid>
 
@@ -46,10 +46,16 @@ function Dashboard() {
                 {marketCap && new Intl.NumberFormat("en-US", {
 =======
           <Paper>
+<<<<<<< HEAD
             <Typography variant="h5">Market Cap</Typography>
             <Typography variant="h4">
                 ${marketCap && new Intl.NumberFormat("en-US", {
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+            <Typography variant="h6">Market Cap</Typography>
+            <Typography variant="h5">
+                {marketCap && new Intl.NumberFormat("en-US", {
+>>>>>>> dashboard top card header cards adjusted and mobile tile view centered
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 0,
@@ -105,8 +111,8 @@ function Dashboard() {
 
         <Grid item lg={4} md={12} sm={12} xs={12}>
           <Paper>
-            <Typography variant="h5">Supply (circulating/total)</Typography>
-              <Typography variant="h4">
+            <Typography variant="h6">Supply (circulating/total)</Typography>
+              <Typography variant="h5">
                   {circSupply && new Intl.NumberFormat("en-US", { 
                     maximumFractionDigits: 0,
                     minimumFractionDigits: 0
