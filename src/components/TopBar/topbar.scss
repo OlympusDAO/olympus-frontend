@@ -34,7 +34,6 @@
 }
 
 .get-ohm-button {
-    // min-width: 111px;
     a {
         display: block;
         white-space: nowrap;
@@ -100,7 +99,7 @@
 
 .wallet-button {
     border:1px solid #0001;
-    background-color: transparent;
+    // background-color: transparent;
     border-radius: 5px;
     cursor:pointer;
     &:hover {
@@ -109,13 +108,13 @@
 }
 
 .dapp-sidebar-button-connect {
-    background-color: transparent;
+    // background-color: transparent;
     color: white;
     &:hover{background-color:white;color:black;}
 }
 
 .dapp-sidebar-button-connected {
-    background-color: white;
+    // background-color: white;
     color: black;
 }
 
