@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Flex } from "rimble-ui";
-import { Grid, Paper, Typography, Button } from "@material-ui/core";
+import { Grid, Paper, Typography, Button, TableHead, TableCell, TableBody, Table, TableRow, TableContainer } from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import RebaseTimer from '../../components/RebaseTimer/RebaseTimer';
@@ -159,61 +159,61 @@ if (web3Modal) {
                   </NavLink>
                 </div>
               )}
-          </Grid>
+            </Grid>
 
-              <Grid item>
-                <div className="stake-top-metrics">
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={12} lg={4}>
-                      <div className="olympus-sushi">
-                        <div>
-                          <img
-                            className="olympus-logo"
-                            src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                          />
-                          <h3>Olympus</h3>
-                        </div>
-                        <div>
-                          <a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
-                            Buy on Sushiswap
-                          </a>
-                          <i className="fa fa-external-link-alt" />
-                        </div>
+            <Grid item>
+              <div className="stake-top-metrics">
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} lg={4}>
+                    <div className="olympus-sushi">
+                      <div>
+                        <img
+                          className="olympus-logo"
+                          src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                        />
+                        <h3>Olympus</h3>
                       </div>
-                    </Grid>
-
-                    <Grid item xs={6} sm={6} lg={4}>
-                      <div className="stake-apy">
-                        <h2 className="title">APY</h2>
-                        <h2 className="content">{stakingAPY && trim(stakingAPY * 100, 1)}%</h2>
+                      <div>
+                        <a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
+                          Buy on Sushiswap
+                        </a>
+                        <i className="fa fa-external-link-alt" />
                       </div>
-                    </Grid>
-
-                    <Grid item xs={6} sm={6} lg={4}>
-                      <div className="stake-tvl">
-                        <h2 className="title">TVL</h2>
-                        <h2 className="content">
-                          {stakingTVL && new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            maximumFractionDigits: 0,
-                            minimumFractionDigits: 0
-                          }).format(stakingTVL)}
-                        </h2>
-                      </div>
-                    </Grid>
+                    </div>
                   </Grid>
-                </div>
-              </Grid>
 
-              {!address ? (
-                <div className="stake-wallet-notification">
-                  <h4>Connect your wallet to Stake OHM</h4>
-                  <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
-                  </div>
+                  <Grid item xs={6} sm={6} lg={4}>
+                    <div className="stake-apy">
+                      <h2 className="title">APY</h2>
+                      <h2 className="content">{stakingAPY && trim(stakingAPY * 100, 1)}%</h2>
+                    </div>
+                  </Grid>
+
+                  <Grid item xs={6} sm={6} lg={4}>
+                    <div className="stake-tvl">
+                      <h2 className="title">TVL</h2>
+                      <h2 className="content">
+                        {stakingTVL && new Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                          maximumFractionDigits: 0,
+                          minimumFractionDigits: 0
+                        }).format(stakingTVL)}
+                      </h2>
+                    </div>
+                  </Grid>
+                </Grid>
+              </div>
+            </Grid>
+
+            {!address ? (
+              <div className="stake-wallet-notification">
+                <h4>Connect your wallet to Stake OHM</h4>
+                <div className="wallet-menu" id="wallet-menu">
+                  {modalButton}
                 </div>
-                ) : (
+              </div>
+              ) : (
                 <>
                 <Grid item>
                   <div className="stake-toggle-row">
@@ -351,57 +351,58 @@ if (web3Modal) {
           </div>
           <div className="card-content">
             { !isSmallScreen ? (
-              <table className="table table-borderless stake-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Asset</th>
-                    <th scope="col">APR</th>
-                    <th scope="col">TVL</th>
-                    <th scope="col">Balance</th>
-                    <th scope="col" />
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <Flex className="ohm-pairs mr-2">
-                        <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
-                          <img src={`${ohmAssetImg()}`} />
-                        </div>
-                        <div className="ohm-pair" style={{ zIndex: 1 }}>
-                          <img src={`${fraxAssetImg()}`} />
-                        </div>
-                        <p>
-                          OHM-FRAX
-                        </p>
-                      </Flex>
-                    </td>
-                    <td>{fraxData && trim(fraxData.apy, 1)}%</td>
-                    <td>
-                      {fraxData && fraxData.tvl && new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0
-                      }).format(fraxData.tvl)}
-                    </td>
-                    <td>
-                        {fraxData && fraxData.balance || 0} LP
-                    </td>
-                    <td>
-                      <Button 
-                        variant="outlinedSecondary"
-                        href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' 
-                        target="_blank"
-                        className="stake-lp-button"
-                      >
-                        Stake on Frax
-                        <i className="fa fa-external-link-alt" />
-                      </Button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <TableContainer className="stake-table">
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Asset</TableCell>
+                      <TableCell>APR</TableCell>
+                      <TableCell>TVL</TableCell>
+                      <TableCell>Balance</TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>
+                        <Flex className="ohm-pairs mr-2">
+                          <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
+                            <img src={`${ohmAssetImg()}`} />
+                          </div>
+                          <div className="ohm-pair" style={{ zIndex: 1 }}>
+                            <img src={`${fraxAssetImg()}`} />
+                          </div>
+                          <p>
+                            OHM-FRAX
+                          </p>
+                        </Flex>
+                      </TableCell>
+                      <TableCell>{fraxData && trim(fraxData.apy, 1)}%</TableCell>
+                      <TableCell>
+                        {fraxData && fraxData.tvl && new Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                          maximumFractionDigits: 0,
+                          minimumFractionDigits: 0
+                        }).format(fraxData.tvl)}
+                      </TableCell>
+                      <TableCell> {fraxData && fraxData.balance || 0} LP </TableCell>
+                      <TableCell>
+                        <Button 
+                          variant="outlinedSecondary"
+                          href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' 
+                          target="_blank"
+                          className="stake-lp-button"
+                        >
+                          Stake on FRAX
+                          <i className="fa fa-external-link-alt" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
             ) : (
               <div className="stake-pool">
                 <div className="pool-card-top-row">
