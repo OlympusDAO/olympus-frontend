@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Social from "../Social";
 import OlympusLogo from '../../assets/logo.svg';
 import externalUrls from './externalUrls';
@@ -9,7 +9,7 @@ import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-ic
 import { trim } from "../../helpers";
 import "./sidebar.scss";
 import useBonds from "../../hooks/Bonds";
-import { Paper, Drawer } from "@material-ui/core";
+import { Paper, Drawer, Link, Button } from "@material-ui/core";
 
 function Sidebar({ isExpanded, theme, currentIndex }) {
   const [isActive] = useState();
@@ -67,7 +67,7 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
                   <div className="bond-discounts">
                     <p>Bond discounts</p>
                     {bonds.map((bond, i) => (
-                      <Link to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
+                      <Link color="primary" to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
                     ))}
                   </div>
                 </div>
