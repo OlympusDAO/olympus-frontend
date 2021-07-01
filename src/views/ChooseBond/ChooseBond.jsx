@@ -31,9 +31,14 @@ function ChooseBond() {
 	const marketPrice = useSelector((state) => { return state.app.marketPrice });
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
+<<<<<<< HEAD
   const treasuryBalance = useSelector(state => {
     return state.app.treasuryBalance;
   });
+=======
+	const isSmallScreen = useMediaQuery("(max-width: 800px)");
+	const isVerySmallScreen = useMediaQuery("(max-width: 400px)");
+>>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
 
 <<<<<<< HEAD
   const bonds = useBonds();
@@ -113,13 +118,12 @@ function ChooseBond() {
 	return (
 		<Grid container id="choose-bond-view" justify="center" spacing={3}>
 
-			{/* <Grid item xs={12}> */}
         <Paper className="ohm-card">
-					<Typography variant="h6">Bond (1, 1)</Typography>
+					<Typography variant="h5">Bond (1,1)</Typography>
           
 						<Grid container item xs={12} style={{ marginTop: "33px",  marginBottom: "15px" }}>
 							<Grid item xs={6}>
-								<Box textAlign="center">
+								<Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
 									<Typography variant="h6">Treasury Balance</Typography>
 									<h2 className="content">
 										{treasuryBalance && new Intl.NumberFormat("en-US", {
@@ -134,7 +138,7 @@ function ChooseBond() {
 							</Grid>
 
 							<Grid item xs={6} className={`ohm-price`}>
-								<Box textAlign="center">
+								<Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
 									<Typography variant="h6">OHM Price</Typography>
 									<h2 className="content">{trim(marketPrice, 2)}</h2>
 								</Box>
@@ -179,7 +183,6 @@ function ChooseBond() {
 							</Grid>
 						)}
         	</Paper>
-				{/* </Grid> */}
 
 				{ isSmallScreen && (
 					<Grid container item spacing={2}>

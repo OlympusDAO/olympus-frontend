@@ -11,17 +11,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import ClearIcon from "@material-ui/icons/Clear";
 import { useSelector, useDispatch } from "react-redux";
-import { Flex } from "rimble-ui";
 import { Container, useMediaQuery } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
 import { calcBondDetails } from "./actions/Bond.actions.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { loadAppDetails /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
 =======
 import { loadAppDetails, /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+import { loadAppDetails } from "./actions/App.actions.js";
+>>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
@@ -118,8 +121,13 @@ function App(props) {
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();
 
+<<<<<<< HEAD
   const isSmallerScreen = useMediaQuery("(max-width: 1125px)");
   const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
+=======
+  const isSmallerScreen = useMediaQuery("(max-width: 800px)");
+	const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
+>>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
@@ -135,6 +143,7 @@ function App(props) {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
+<<<<<<< HEAD
   // const currentBlock  = useSelector((state) => { return state.app.currentBlock });
 <<<<<<< HEAD
   const currentIndex = useSelector(state => {
@@ -173,6 +182,10 @@ function App(props) {
   //   return state.bonding['ohm_frax_lp'] && state.bonding['ohm_frax_lp'].bondDiscount;
   // })
 
+=======
+  const currentIndex = useSelector((state) => { return state.app.currentIndex });
+
+>>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
 
@@ -279,8 +292,11 @@ function App(props) {
 =======
 
       <div className={`app ${isSmallerScreen && "mobile"}`}>
+<<<<<<< HEAD
 >>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
         {/* <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}> */}
+=======
+>>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
           {!isSidebarExpanded &&
           <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
             <button
@@ -298,14 +314,12 @@ function App(props) {
           </nav>}
 >>>>>>> added darktheme.js
 
-
           {isSidebarExpanded && (
             <a role="button" className="close-nav" onClick={() => setIsSidebarExpanded(false)}>
               <ClearIcon />
             </a>
           )}
 
-          
           <Sidebar
             currentIndex={currentIndex}
             isExpanded={isSidebarExpanded}
@@ -315,7 +329,6 @@ function App(props) {
               isSidebarExpanded ? handleSidebarClose() : console.log("sidebar colapsed");
             }}
           />
-
           
           <Container maxWidth="lg">
             <TopBar
