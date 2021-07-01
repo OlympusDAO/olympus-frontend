@@ -28,7 +28,7 @@
   width: 100%;
   align-items: center;
   text-decoration: none;
-  padding: 15px;
+  margin-bottom: 33px;
   .branding-header-icon {
     width: 100px;
     padding:0.5rem 1.1rem;
@@ -52,10 +52,11 @@
 
 
 .dapp-menu-top {
-  height: 50vh;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-direction: column; 
+  margin-bottom: 60px;
+  min-height: 50%;
   .dapp-nav {
     display: flex;
     flex-flow: column;
@@ -76,9 +77,9 @@
 }
 
 .dapp-nav a {
-  padding: 0 15%;
+  padding: 0 11%;
   background: transparent;
-  margin-top: 0.5em;
+  margin-top: 0.7em;
   align-items: center;
   margin-bottom: 0.5em;
   > span {
@@ -102,10 +103,12 @@
   font-weight: 300;
   height: 30%;
   min-height: 18%;
+  width: 100%;
+  margin-left: 60px;
   a {
     display: flex;
     width: 100%;
-   
+    align-items: center;
     margin-bottom: 15px;
   }
   a:first-of-type {
@@ -120,7 +123,6 @@
     vertical-align: top;
     border-bottom:2px solid transparent;
   }
-  
 }
 
 .dapp-menu-data {
@@ -134,9 +136,10 @@
   }
   &.bottom {
     flex-direction: column;
-    max-height: 48%;
-    height: inherit;
-    justify-content: space-between;
+    justify-content: center;
+    max-height: 39%;
+    min-height: 15%;
+    height: auto;
   }
   .data-rebase {
     justify-content: center;
@@ -162,8 +165,7 @@
 .bond-discounts {
   text-align: left;
   color: #999999;
-  padding-left: calc(16% + 36px);
-
+  padding-left: calc(11% + 36px);
   p {
     &:first-of-type {
       margin-bottom: 8px;
@@ -172,16 +174,11 @@
 
   .bond {
     display: block;
-    font-size: .85em;
+    font-size: .83em;
     padding: unset;
     margin-bottom: 0 0 1px 0;
     border-bottom: 2px solid transparent;
-
-    &:hover {
-      text-decoration: none;
-      border-bottom-color: rgba(255, 255, 255, 1);
-    }
-
+    text-decoration: none !important;
     span {
       margin-left: 23px;
       float: right;
@@ -196,7 +193,7 @@
   flex-flow: column;
   justify-content: center;
   height: 80px;
-  position: relative;
+  position: absolute;
   bottom: 0px;
   left: 0px;
 }
@@ -241,7 +238,7 @@
     font-size: xx-large;
   }
   .dapp-menu-external-links a {
-    font-size: x-large;
+    font-size: large;
   }
 
   .dapp-nav {
