@@ -9,21 +9,19 @@
     flex-direction: row;
     align-items: center;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 1.33rem;
     button {
         vertical-align: middle;
         text-overflow: ellipsis !important;
         white-space: nowrap !important;
         overflow: hidden !important;
-        margin: 5px;
+        margin: 8px;
     }
 }
 
-.get-ohm-button {
-    a {
-        display: block;
-        white-space: nowrap;
-        text-decoration: none !important;
-        color: #FFF !important;
-    }
+.get-ohm-button a {
+    display: block;
+    white-space: nowrap;
+    text-decoration: none !important;
+    color: #FFF !important;
 }

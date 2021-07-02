@@ -1,8 +1,17 @@
 .sidebar {
   min-width: 280px;
+  z-index: 2;
+  border-radius: 0 !important;
 }
+
+.MuiDrawer-paper .MuiPaper-root {
+  border-radius: 0 !important;
+}
+
 .dapp-sidebar{
   height: 100vh;
+  border-radius: 0 !important;
+ 
   #bond-nav span {
     margin-left: -2px;
   }
@@ -69,9 +78,6 @@
   svg {
     height: 100%;
   }
-  &:hover {
-
-  }
 }
 
 .dapp-nav a {
@@ -81,15 +87,16 @@
   align-items: center;
   margin-bottom: 0.5em;
   > span {
-      border-bottom:2px solid transparent;
+      border-bottom: 2px solid transparent !important;
   }
   &.active {
     color: #F5DDB4;
-    border-bottom:2px solid transparent;
+    border-bottom:2px solid transparent !important;
     span {
-      border-bottom:2px solid transparent;
+      border-bottom:2px solid transparent !important;
     }
   }
+  
 }
 
 

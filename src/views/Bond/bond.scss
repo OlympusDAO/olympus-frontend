@@ -1,29 +1,27 @@
 #bond-view {
     position: absolute !important;
-    z-index: 7;
-    .MuiBackdrop-root {
-        background: rgba(0, 0, 0, 0.2) !important;
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        .ohm-card {
-            // background-color: #1B1D22FF !important;
-            opacity: 1 !important;  
-            -moz-opacity: 1 !important;
-            // background-color: rgba(27,29,34,0.9) !important;
-            height: 69vh;
-        }
-    }
+    width: 100%;
+    height: 100%;
+    z-index: 69;
+    // .MuiBackdrop-root {
+    //     background: rgba(0, 0, 0, 0.2) !important;
+    //     backdrop-filter: blur(15px);
+    //     -webkit-backdrop-filter: blur(15px);
+    //     .ohm-card {
+    //         opacity: 1 !important;  
+    //         -moz-opacity: 1 !important;            
+    //         height: 69vh;
+    //     }
+    // }
     .ohm-card,
     .card-content {
-        padding: 60px;
+        padding: 15px;
         opacity: 1 !important;
         -moz-opacity: 1 !important;
+        z-index: 70;
     }
     .ohm-card {
         padding-top: 0 !important;
-        .card-header {
-            background: transparent !important;
-        }
     }
     .bond-header {
         .bond-header-logo {

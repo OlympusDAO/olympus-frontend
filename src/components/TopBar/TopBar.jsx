@@ -17,6 +17,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 						type="button" 
 						variant="contained"
 						color="primary"
+						size="large"
 						onClick={logoutOfWeb3Modal} 
 						key={1}>
 						Disconnect
@@ -24,24 +25,18 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
       );
     } else {
       modalButtons.push(
-        <Button variant="contained" color="secondary" type="button" onClick={loadWeb3Modal} key={2}>Connect Wallet</Button>,
+        <Button variant="contained" color="secondary" type="button" size="large" onClick={loadWeb3Modal} key={2}>Connect Wallet</Button>,
       );
     }
   }
 
   return (
     <div className={`dapp-topbar`}>
-			{!(address && isUltraSmallScreen) &&  
-				<ThemeSwitcher 
-					theme={theme}
-					toggleTheme={toggleTheme} 
-				/>
-			}
-				
 			{!isVerySmallScreen && 
 				<Button
 					id="get-ohm"
 					className="get-ohm-button"
+					size="large"
 					variant="contained"
 					color="secondary"
 					title="Get OHM"
@@ -54,13 +49,18 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 				
 			<div className="wallet-menu" id="wallet-menu">
 				{modalButtons}
-				{address && <Button variant="contained" color="secondary">
+				{address && <Button variant="contained" color="secondary" size="large">
 					<a href={`https://etherscan.io/address/${address}`} target="_blank">
 						{shorten(address)}
 					</a>
 				</Button>
 				}
 			</div>
+
+			<ThemeSwitcher 
+					theme={theme}		
+					toggleTheme={toggleTheme} 
+				/>
     </div>
   );
 }

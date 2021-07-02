@@ -310,7 +310,6 @@
 
 .input-group.ohm-input-group {
     min-width: 50%;
-    // max-width: 420px;
     max-width: 60%;
     border: 0.8px solid #FFFFFF;
     border-radius: 5px !important;
@@ -340,8 +339,13 @@
     }
 }
 
+.staking-area {
+    margin: 33px;
+}
 
 .stake-price-data-row {
+    display: flex;
+    justify-content: space-between;
     .price-label,
     .price-data {
         font-size: 1.1em !important;
