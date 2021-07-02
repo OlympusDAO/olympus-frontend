@@ -36,7 +36,7 @@ const SOHM_TOKEN_IMAGE =
 const addOhmToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
     try {
-      const wasAdded = await window.ethereum.request({
+      await window.ethereum.request({
         method: "wallet_watchAsset",
         params: {
           type: "ERC20",
@@ -48,12 +48,6 @@ const addOhmToWallet = (tokenSymbol, tokenAddress) => async () => {
           },
         },
       });
-
-      if (wasAdded) {
-        console.log("Welcome aboard Ohmie!");
-      } else {
-        console.log("Woopsie!");
-      }
     } catch (error) {
       console.log(error);
     }
