@@ -62,15 +62,20 @@ export function lpURL(bond) {
   if (bond === BONDS.ohm_dai)
     return "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f";
 <<<<<<< HEAD
+<<<<<<< HEAD
   if (bond === BONDS.ohm_frax)
 =======
   else if (bond === BONDS.ohm_frax)
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
+=======
+  if (bond === BONDS.ohm_frax)
+>>>>>>> Added token image helper and fixed eslint issues
     return "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899";
 }
 
 export function bondName(bond) {
   if (bond === BONDS.dai) return "DAI Bond";
+<<<<<<< HEAD
 <<<<<<< HEAD
   if (bond === BONDS.ohm_dai) return "OHM-DAI SLP Bond";
   if (bond === BONDS.ohm_frax) return "OHM-FRAX LP Bond";
@@ -80,6 +85,11 @@ export function bondName(bond) {
   else if (bond === BONDS.ohm_frax) return "OHM-FRAX LP Bond";
   else if (bond === BONDS.frax) return "FRAX Bond";
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
+=======
+  if (bond === BONDS.ohm_dai) return "OHM-DAI SLP Bond";
+  if (bond === BONDS.ohm_frax) return "OHM-FRAX LP Bond";
+  if (bond === BONDS.frax) return "FRAX Bond";
+>>>>>>> Added token image helper and fixed eslint issues
 }
 
 export function contractForBond({ bond, networkID, provider }) {
