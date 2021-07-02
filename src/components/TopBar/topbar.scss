@@ -3,7 +3,7 @@
     display: flex;
     text-align: right;
     top: 0;
-    right: 0; 
+    right: 0;
     width: auto;
     height: 72px;
     background-color:inherit;
@@ -42,6 +42,35 @@
     }
 }
 
+.add-ohm-wallet {
+    text-align: left;
+    z-index: 5;
+    width: 200px;
+    position: fixed;
+    top: 80px;
+    padding: 20px;
+    borderRadius: 20px;
+    :hover {
+        background-color: unset !important;
+        color: unset !important;
+    }
+}
+
+.ohm-token-name {
+    font-weight: bold;
+    cursor: pointer
+}
+
+.add-token-title {
+    font-weight: 200;
+    font-size: 12px;
+}
+
+.ohm-menu-container {
+    text-align: left;
+    padding: 20px;
+}
+
 .get-ohm-button.btn,
 .wallet-menu .btn {
     //padding: 0px 25px !important;  -->> Padding moved into a since text was only clickable
@@ -60,7 +89,7 @@
     }
     .disconnect-button{
       margin-bottom: 15px;
-    }  
+    }
 }
 
 .wallet-button {
@@ -70,7 +99,7 @@
     cursor:pointer;
     &:hover {
       background-color:#e8e8e8;
-    } 
+    }
 }
 
 .dapp-sidebar-button-connect {

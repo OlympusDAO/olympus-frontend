@@ -6,12 +6,12 @@ import externalUrls from './externalUrls';
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake-icon.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond-icon.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-icon.svg";
-import { trim } from "../../helpers";
+import { shorten, trim } from "../../helpers";
 import "./sidebar.scss";
 import orderBy from 'lodash/orderBy'
 import useBonds from "../../hooks/Bonds";
 
-function Sidebar({ isExpanded, theme, currentIndex }) {
+function Sidebar({ isExpanded, theme, currentIndex, address }) {
   const [isActive] = useState();
   const bonds = useBonds();
 
@@ -48,6 +48,12 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
               <h3>Olympus</h3>
             </a>
           </div>
+          {address && <div className={`branding-header m-3`}>
+            <a href={`https://etherscan.io/address/${address}`} target="_blank">
+              {shorten(address)}
+            </a>
+          </div>
+          }
         </div>
 
         <div className="dapp-menu-links">

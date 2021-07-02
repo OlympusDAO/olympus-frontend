@@ -243,6 +243,7 @@ function App(props) {
           <Sidebar
             currentIndex={currentIndex}
             isExpanded={isSidebarExpanded}
+            address={address}
             theme={theme}
             onClick={() => {isSidebarExpanded ? handleSidebarClose() : console.log('sidebar colapsed')}}
           />
