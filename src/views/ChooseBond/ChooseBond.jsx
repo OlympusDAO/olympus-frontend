@@ -6,7 +6,6 @@ import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
-import "../Stake/stake.scss";
 import "./choosebond.scss";
 
 function ChooseBond() {

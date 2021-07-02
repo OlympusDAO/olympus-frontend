@@ -27,9 +27,9 @@ import NotFound from "./views/404/NotFound";
 
 import "./App.css";
 
-import { lightTheme, gTheme } from "./theme";
 import { dark as darkTheme } from "./themes/dark";
-import { GlobalStyles } from "./global";
+import { light as lightTheme } from "./themes/light";
+import { girth as gTheme } from "./themes/girth";
 
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
@@ -193,7 +193,6 @@ function App(props) {
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
-      {/* <GlobalStyles /> */}
 
       <div className={`app ${isSmallerScreen && "mobile"}`}>
           {!isSidebarExpanded &&
