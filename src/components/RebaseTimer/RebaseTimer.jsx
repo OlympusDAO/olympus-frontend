@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import "./rebasetimer.scss";
 import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from '../../helpers';
 
 
 function RebaseTimer() {
-	const currentBlock  = useSelector((state ) => { return state.app.currentBlock });
+	const currentBlock  = useSelector((state) => { return state.app.currentBlock });
 
   const timeUntilRebase = () => {
     if (currentBlock) {
