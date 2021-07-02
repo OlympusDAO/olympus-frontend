@@ -1,36 +1,22 @@
 .dapp-topbar {
     position: sticky;
     display: flex;
-    text-align: right;
     top: 0;
     right: 0; 
-    width: auto;
-    height: 72px;
-    background-color:inherit;
     z-index: 3;
     overflow: hidden;
-    padding: 0px;
-    justify-content: right;
-    flex-direction: row-reverse;
+    justify-content: flex-end;
+    flex-direction: row;
+    align-items: center;
     margin-top: 10px;
     margin-bottom: 20px;
     button {
-        border-radius: .7rem !important;
-        border-color: none !important;
-        font-size: 1.05em !important;
-        height: 46px !important;
-        min-width: fit-content !important;
-        line-height: 46px;
         vertical-align: middle;
         text-overflow: ellipsis !important;
         white-space: nowrap !important;
         overflow: hidden !important;
+        margin: 5px;
     }
-}
-
-.dapp-topbar-items {
-    float: right;
-    vertical-align: middle;
 }
 
 .get-ohm-button {
@@ -38,73 +24,6 @@
         display: block;
         white-space: nowrap;
         text-decoration: none !important;
+        color: #FFF !important;
     }
-}
-
-.get-ohm-button.btn,
-.wallet-menu .btn {
-    padding: 0px 25px !important;
-    min-width: fit-content !important;
-    line-height: 18px !important;
-}
-
-
-.wallet-menu {
-    display:flex;
-    float: right;
-    text-align: center;
-    justify-content:center;
-    a {
-      text-decoration: none;
-    }
-    .disconnect-button{
-      margin-bottom: 15px;
-    }  
-}
-
-.wallet-button {
-    border:1px solid #0001;
-    // background-color: transparent;
-    border-radius: 5px;
-    cursor:pointer;
-    &:hover {
-      background-color:#e8e8e8;
-    } 
-}
-
-.dapp-sidebar-button-connect {
-    // background-color: transparent;
-    color: white;
-    &:hover{background-color:white;color:black;}
-}
-
-.dapp-sidebar-button-connected {
-    // background-color: white;
-    color: black;
-}
-
-
-.top-bar-button {
-    height: 46px;
-    font-size: 1.05em;
-    border: none;
-    &:hover{
-        border: none;
-    }
-}
-
-.dapp-topbar .toggle-button svg {
-    width: 20px !important;
-    height: 20px !important;
-}
-
-.mobile .dapp-topbar {
-    margin: 0 !important;
-    margin-top: 5px !important;
-    margin-right: -1.12em !important;
-}
-
-.mobile .get-ohm-button,
-.mobile .wallet-menu button {
-    font-size: 1.2em !important;
 }
