@@ -151,6 +151,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
     }
   }
 
+<<<<<<< HEAD
   return (
     <Grid container id="sohm-migration-view">
       <Backdrop open={true}>
@@ -235,6 +236,87 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                         placeholder="Type an amount"
                       />
                       {/* <button type="button" onClick={setMax}>
+=======
+	return (
+		<Grid container id="sohm-migration-view">
+			<Backdrop open={true}>
+				<div className="ohm-modal ohm-card primary">
+						<div className="card-header">
+							<h3>sOHM Migration</h3>
+							
+							<div role="button" className="cancel">
+								<NavLink to="/stake" className="cancel-migrate">
+									<p><ClearIcon/> Cancel</p> 
+								</NavLink>
+							</div>
+						</div>
+
+						{!address ? (
+							<div className="stake-wallet-notification">
+								<h4>Connect your wallet to continue</h4>
+								<div className="wallet-menu" id="wallet-menu">
+									<button
+										type="button"
+										className="btn stake-button btn-overwrite-primer m-2"
+										onClick={loadWeb3Modal}
+									>
+										Connect Wallet
+									</button>
+								</div>
+							</div>
+						) : (
+							<div className="card-content">
+								<div className="stake-migration-help">
+									{view === "unstake" && (
+											<p>
+												Hey Ohmie, Olympus is updating the  
+												staking contract. So in order to continue earning those
+												juicy rewards you'll need to unstake your sOHM from the old contract
+												and restake it to the new sOHM contract. 												
+											</p>
+									)}
+
+									{view === "stake" && (
+										<p>
+											Youre almost done, all thats left now is to Stake your OHM to the new contract. 
+										</p>
+									)} 
+									
+									{view === "done" && (
+										<h4>Youre good to go, all OHM is staked to the new contract.</h4>
+									)}
+								</div>
+
+								<Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontSize="medium" />}>
+									<div role="button" onClick={() => {setView("unstake") }} className={`${currentStep === "1" ? "current-step" : "finished-step"}`}>
+										Step 1: Unstake sOHM (old)
+									</div>
+									<div role="button" onClick={() => { setView("stake") }} className={`${currentStep === "2" && "current-step"} ${currentStep === "3" && "finished-step"}`}>
+										Step 2: Stake sOHM (new)
+									</div>
+								</Breadcrumbs>
+
+							{ view !== "done" ? (
+								<>
+								<Flex className="stake-action-row">
+									<div className="input-group ohm-input-group">
+										<div className="logo-holder">
+											<div className="ohm-logo-bg">
+												<img
+													className="ohm-logo-tiny"
+													src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+												/>
+											</div>
+										</div>
+										<input
+											value={quantity}
+											onChange={e => setQuantity(e.target.value)}
+											type="number"
+											className="form-control stake-input"
+											placeholder="Type an amount"
+										/>
+										{/* <button type="button" onClick={setMax}>
+>>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
 											Max
 										</button> */}
                     </div>

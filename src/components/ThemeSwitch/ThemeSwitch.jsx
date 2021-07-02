@@ -7,6 +7,7 @@ import "./themeswitch.scss";
 
 function ThemeSwitcher({ theme, toggleTheme }) {
   return (
+<<<<<<< HEAD
     <ToggleButton
       className="toggle-button btn top-bar-button btn-overwrite-primer m-2"
       type="button"
@@ -16,6 +17,17 @@ function ThemeSwitcher({ theme, toggleTheme }) {
     >
       {theme === "dark" ? <MoonIcon className="moon" /> : <SunIcon className="sun" />}
     </ToggleButton>
+=======
+      <ToggleButton
+        className="toggle-button"
+        type="button"
+        title="Change Theme" 
+        value="check" 
+        onClick={e => toggleTheme(e)}
+      >
+        { theme === "dark" ? <MoonIcon className="moon"/> : <SunIcon className="sun"/> }
+      </ToggleButton>
+>>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
   );
 }
 

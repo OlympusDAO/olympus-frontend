@@ -8,7 +8,7 @@ import {
   bondAsset,
   redeemBond,
 } from "../../actions/Bond.actions.js";
-import { Grid, Backdrop } from "@material-ui/core";
+import { Grid, Backdrop, Paper } from "@material-ui/core";
 import BondHeader from "./BondHeader";
 import BondRedeemV1 from "./BondRedeemV1";
 import { BONDS } from "../../constants";
@@ -169,6 +169,7 @@ function Bond({ bond, address, provider }) {
   return (
     <Grid container id="bond-view">
       <Backdrop open={true}>
+<<<<<<< HEAD
         <div className="ohm-card ohm-modal">
           <div className="card-content">
             <BondHeader
@@ -185,6 +186,65 @@ function Bond({ bond, address, provider }) {
                 <h4 id="bond-price-id" className="price">
                   {trim(bondPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
                 </h4>
+=======
+      <Paper className="ohm-card ohm-modal">
+        <div className="card-content">
+        <BondHeader
+          bond={bond}
+          slippage={slippage}
+          recipientAddress={recipientAddress}
+          onSlippageChange={onSlippageChange}
+          onRecipientAddressChange={onRecipientAddressChange}
+        />
+
+        <div className="bond-price-data-row">
+          <div className="bond-price-data">
+            <h4>Bond Price</h4>
+            <h4 id="bond-price-id" className="price">
+              {trim(bondPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
+            </h4>
+          </div>
+          <div className="bond-price-data">
+            <h4>Market Price</h4>
+            <h4 id="bond-market-price-id" className="price">
+              {trim(marketPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
+            </h4>
+          </div>
+        </div>
+
+        <div className="bond-main-info">
+          <div className="swap-input-column">
+              <div className="stake-toggle-row">
+                <div className="btn-group" role="group">
+                  <button
+                    type="button"
+                    className={`btn ${view === "bond" ? "btn-light" : ""}`}
+                    onClick={() => {
+                      setView("bond");
+                    }}
+                  >
+                    Bond
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn ${view === "redeem" ? "btn-light" : ""}`}
+                    onClick={() => {
+                      setView("redeem");
+                    }}
+                  >
+                    Redeem
+                  </button>
+                  {bond !== 'frax' && <button
+                    type="button"
+                    className={`btn ${view === "redeem_v1" ? "btn-light" : ""}`}
+                    onClick={() => {
+                      setView("redeem_v1");
+                    }}
+                  >
+                    Redeem v1.0
+                  </button>}
+                </div>
+>>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
               </div>
               <div className="bond-price-data">
                 <h4>Market Price</h4>
@@ -403,6 +463,10 @@ function Bond({ bond, address, provider }) {
             </div>
           </div>
         </div>
+<<<<<<< HEAD
+=======
+      </Paper>
+>>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
       </Backdrop>
     </Grid>
   );

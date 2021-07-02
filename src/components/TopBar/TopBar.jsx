@@ -132,6 +132,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 						type="button" 
 						variant="contained"
 						color="primary"
+						size="large"
 						onClick={logoutOfWeb3Modal} 
 						key={1}>
 						Disconnect
@@ -140,11 +141,15 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
     } else {
       modalButtons.push(
 <<<<<<< HEAD
+<<<<<<< HEAD
         <Button variant="contained" color="secondary" type="button" className={`btn top-bar-button btn-overwrite-primer m-2`} onClick={loadWeb3Modal} key={2}>Connect Wallet</Button>,
 >>>>>>> top bar buttons basic theme applied
 =======
         <Button variant="contained" color="secondary" type="button" onClick={loadWeb3Modal} key={2}>Connect Wallet</Button>,
 >>>>>>> styled top bar/buttons, copied over light and girth theme (need work) and removed more redundnacy
+=======
+        <Button variant="contained" color="secondary" type="button" size="large" onClick={loadWeb3Modal} key={2}>Connect Wallet</Button>,
+>>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
       );
     }
   }
@@ -175,17 +180,11 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
       </Flex>
 =======
     <div className={`dapp-topbar`}>
-			{!(address && isUltraSmallScreen) &&  
-				<ThemeSwitcher 
-					theme={theme}
-					toggleTheme={toggleTheme} 
-				/>
-			}
-				
 			{!isVerySmallScreen && 
 				<Button
 					id="get-ohm"
 					className="get-ohm-button"
+					size="large"
 					variant="contained"
 					color="secondary"
 					title="Get OHM"
@@ -211,14 +210,22 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 =======
 			<div className="wallet-menu" id="wallet-menu">
 				{modalButtons}
-				{address && <Button variant="contained" color="secondary">
+				{address && <Button variant="contained" color="secondary" size="large">
 					<a href={`https://etherscan.io/address/${address}`} target="_blank">
 						{shorten(address)}
 					</a>
 				</Button>
 				}
 			</div>
+<<<<<<< HEAD
 >>>>>>> styled top bar/buttons, copied over light and girth theme (need work) and removed more redundnacy
+=======
+
+			<ThemeSwitcher 
+					theme={theme}		
+					toggleTheme={toggleTheme} 
+				/>
+>>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
     </div>
   );
 }
