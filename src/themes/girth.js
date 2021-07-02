@@ -1,24 +1,24 @@
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import fonts from "./fonts";
 
-
-const darkTheme = {
-    color: "#FCFCFC",
+export const gTheme = {
+    color: "#EFEFEF",
 		gold: "#F8CC82",
 		textHighlightColor: "#F4D092",
-    backgroundColor: "#3A4050",
-    background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-    // background: "linear-gradient(180deg, #080F35AA 0%, #00000A 100%), radial-gradient(circle at 80% 80%, rgba(180, 255, 217, 1), rgba(180, 255, 217, 0.3))",
-    paperBg: "rgba(54, 56, 64, 0.5)",
-    modalBg: "rgba(27, 29, 34, 0.8)",
-    largeTextColor: "#F4D092",
-    activeLinkColor: "#F5DDB4",
-    activeLinkSvgColor: "brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%)",
-    filter: "1",
+    backgroundColor: "#4158D0",
+    background: "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
+    paperBg: "#4242426A",
+		modalBg: "#F9F9F9AA",
+		primaryBtnBg: "#759AAE",
+    primaryBtnBgHover: "#93AEBC",
+		largeTextColor: "#759AAE",
+    activeLinkColor: "#222222",
+    CTAButtonBorder: "2px solid #FFF",
+    CTAButtonBorderColor: "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
 }
 
 
-export const dark = responsiveFontSizes(
+export const girth = responsiveFontSizes(
   createMuiTheme({
     typography: {
       fontSize: 16,
@@ -37,10 +37,10 @@ export const dark = responsiveFontSizes(
 			}
     },
     palette: {
-      type: "dark",
+      type: "light",
 			background: {
-				default: darkTheme.backgroundColor,
-				paper: darkTheme.paperBg,	
+					default: gTheme.backgroundColor,
+					paper: gTheme.paperBg,	
 			},
       contrastText: "#FAFAFA"
     },
@@ -49,7 +49,7 @@ export const dark = responsiveFontSizes(
 				'@global': {
 					'@font-face': fonts,
 					body: {
-						background: darkTheme.background,
+						background: gTheme.background,
 						backgroundRepeat: "no-repeat",
 						backgroundAttachment: "fixed",
 					},
@@ -84,14 +84,14 @@ export const dark = responsiveFontSizes(
 			},
 			MuiLink: {
 				root: {
-					color: darkTheme.color,
+					color: gTheme.color,
 					"&:hover": {
-						borderColor: darkTheme.color,
+						borderColor: gTheme.color,
 						cursor: "pointer",
-						color: darkTheme.color,
+						color: gTheme.color,
 					},
 					".active": {
-						color: darkTheme.textHighlightColor,
+						color: gTheme.textHighlightColor,
 					},
 				},
 			},
@@ -103,12 +103,12 @@ export const dark = responsiveFontSizes(
 			MuiTableCell: {
 				root: {
 					borderBottom: 0,
-					color: darkTheme.color,
+					color: gTheme.color,
 				}
 			},
 			MuiToggleButton: {
 				root: {
-					backgroundColor: darkTheme.paperBg,
+					backgroundColor: gTheme.paperBg,
 				}
 			},
       MuiButton: {
@@ -116,42 +116,45 @@ export const dark = responsiveFontSizes(
           borderRadius: "5px"
         },
 				containedPrimary: {
-					color: "#333333",
-					backgroundColor: darkTheme.gold
+					color: "#FAFAFA",
+					backgroundColor: gTheme.primaryBtnBg,
+					"&:hover": {
+						backgroundColor: gTheme.primaryBtnBgHover,
+					}
 				},
 				containedSecondary: {
-					backgroundColor: darkTheme.paperBg,
-					color: darkTheme.color,
+					backgroundColor: gTheme.paperBg,
+					color: gTheme.color,
 				},
 				outlinedPrimary: {
-          color: darkTheme.gold,
-          borderColor: darkTheme.gold,
+          color: gTheme.gold,
+          borderColor: gTheme.gold,
           textTransform: "none",
 					textDecoration: "none",
         },
         outlinedSecondary: {
-          color: darkTheme.color,
-          borderColor: darkTheme.color,
+          color: gTheme.color,
+          borderColor: gTheme.color,
           textTransform: "none",
 					textDecoration: "none",
         },
         textPrimary: {
           color: "#A3A3A3",
           "&:hover": {
-            color: darkTheme.gold,
+            color: gTheme.gold,
             backgroundColor: "#00000000"
           },
           "&:active": {
-            color: darkTheme.gold,
+            color: gTheme.gold,
             borderBottom: "#F8CC82"
           }
         },
 				textSecondary: {
-					color: darkTheme.color,
+					color: gTheme.color,
 					textTransform: "none",
 					padding: "2px 2px",
 					"&:hover": {
-						color: darkTheme.textHighlightColor,
+						color: gTheme.textHighlightColor,
 						backgroundColor: "#00000000"
 					}
 				}

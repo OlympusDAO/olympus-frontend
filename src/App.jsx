@@ -42,9 +42,9 @@ import "./App.css";
 =======
 >>>>>>> links and styles updated for bond table
 
-import { lightTheme, gTheme } from "./theme";
 import { dark as darkTheme } from "./themes/dark";
-import { GlobalStyles } from "./global";
+import { light as lightTheme } from "./themes/light";
+import { girth as gTheme } from "./themes/girth";
 
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
@@ -273,6 +273,7 @@ function App(props) {
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
+<<<<<<< HEAD
       {/* <GlobalStyles /> */}
 <<<<<<< HEAD
       <div className="app">
@@ -296,6 +297,8 @@ function App(props) {
           )}
 =======
 =======
+=======
+>>>>>>> styled top bar/buttons, copied over light and girth theme (need work) and removed more redundnacy
 
       <div className={`app ${isSmallerScreen && "mobile"}`}>
 <<<<<<< HEAD

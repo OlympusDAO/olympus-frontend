@@ -4,12 +4,15 @@ import React, { useState } from "react";
 import React from 'react';
 import { shorten } from '../../helpers';
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
+<<<<<<< HEAD
 >>>>>>> fixed links in bond discounts
 import { Flex } from "rimble-ui";
 <<<<<<< HEAD
 import InfoIcon from "@material-ui/icons/Info";
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 =======
+=======
+>>>>>>> styled top bar/buttons, copied over light and girth theme (need work) and removed more redundnacy
 import { Button } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 >>>>>>> top bar buttons basic theme applied
@@ -129,7 +132,6 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 						type="button" 
 						variant="contained"
 						color="primary"
-						className={`btn top-bar-button btn-overwrite-primer m-2`} 
 						onClick={logoutOfWeb3Modal} 
 						key={1}>
 						Disconnect
@@ -137,8 +139,12 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
       );
     } else {
       modalButtons.push(
+<<<<<<< HEAD
         <Button variant="contained" color="secondary" type="button" className={`btn top-bar-button btn-overwrite-primer m-2`} onClick={loadWeb3Modal} key={2}>Connect Wallet</Button>,
 >>>>>>> top bar buttons basic theme applied
+=======
+        <Button variant="contained" color="secondary" type="button" onClick={loadWeb3Modal} key={2}>Connect Wallet</Button>,
+>>>>>>> styled top bar/buttons, copied over light and girth theme (need work) and removed more redundnacy
       );
     }
   }
@@ -169,28 +175,28 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
       </Flex>
 =======
     <div className={`dapp-topbar`}>
-			<Flex className="dapp-topbar-items">		
-				{!(address && isUltraSmallScreen) &&  
-						<ThemeSwitcher 
-							theme={theme}
-							toggleTheme={toggleTheme} 
-						/>
-				}
+			{!(address && isUltraSmallScreen) &&  
+				<ThemeSwitcher 
+					theme={theme}
+					toggleTheme={toggleTheme} 
+				/>
+			}
 				
-				{!isVerySmallScreen && 
-					<Button
-						id="get-ohm"
-						className="get-ohm-button m-2 top-bar-button"
-						variant="contained"
-						color="secondary"
-						title="Get OHM"
-					>		
-						<a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
-							Get OHM
-						</a>
-					</Button>
-				}
+			{!isVerySmallScreen && 
+				<Button
+					id="get-ohm"
+					className="get-ohm-button"
+					variant="contained"
+					color="secondary"
+					title="Get OHM"
+				>		
+					<a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
+						Get OHM
+					</a>
+				</Button>
+			}
 				
+<<<<<<< HEAD
 				<div className="wallet-menu" id="wallet-menu">
 					{modalButtons}
 					{address && <button type="button" className={`btn top-bar-button btn-overwrite-primer m-2`}>
@@ -202,6 +208,17 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 				</div>
 			</Flex>
 >>>>>>> top bar buttons basic theme applied
+=======
+			<div className="wallet-menu" id="wallet-menu">
+				{modalButtons}
+				{address && <Button variant="contained" color="secondary">
+					<a href={`https://etherscan.io/address/${address}`} target="_blank">
+						{shorten(address)}
+					</a>
+				</Button>
+				}
+			</div>
+>>>>>>> styled top bar/buttons, copied over light and girth theme (need work) and removed more redundnacy
     </div>
   );
 }
