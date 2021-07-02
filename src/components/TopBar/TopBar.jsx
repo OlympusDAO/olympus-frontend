@@ -35,7 +35,6 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
     <div className={`dapp-topbar`}>
 			<Flex className="dapp-topbar-items">		
 				{!(address && isUltraSmallScreen) &&  
-				
 						<ThemeSwitcher 
 							theme={theme}
 							toggleTheme={toggleTheme} 

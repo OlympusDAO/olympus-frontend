@@ -23,7 +23,6 @@ function ChooseBond() {
 
 	return (
 		<Grid container id="choose-bond-view" justify="center" spacing={3}>
-
         <Paper className="ohm-card">
 					<Typography variant="h5">Bond (1,1)</Typography>
           

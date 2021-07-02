@@ -183,7 +183,6 @@ export const dark = responsiveFontSizes(
 			MuiLink: {
 				root: {
 					color: darkTheme.color,
-					borderBottom: "2px solid",
 					"&:hover": {
 						borderColor: darkTheme.color,
 						cursor: "pointer",
@@ -194,9 +193,20 @@ export const dark = responsiveFontSizes(
 					},
 				},
 			},
+			MuiTableRow: {
+				head: {
+					color: "#999999"
+				}
+			},
 			MuiTableCell: {
 				root: {
 					borderBottom: 0,
+					color: darkTheme.color,
+				}
+			},
+			MuiToggleButton: {
+				root: {
+					backgroundColor: darkTheme.paperBg,
 				}
 			},
       MuiButton: {
@@ -213,12 +223,14 @@ export const dark = responsiveFontSizes(
 				outlinedPrimary: {
           color: "#F8CC82",
           borderColor: "#F8CC82",
-          textTransform: "none"
+          textTransform: "none",
+					textDecoration: "none",
         },
         outlinedSecondary: {
           color: "#FFFFFF",
           borderColor: "#FFFFFF",
-          textTransform: "none"
+          textTransform: "none",
+					textDecoration: "none",
         },
         textPrimary: {
           color: "#A3A3A3",

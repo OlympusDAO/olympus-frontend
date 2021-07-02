@@ -1,4 +1,4 @@
-import { StaticJsonRpcProvider, Web3Provider, getDefaultProvider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 // import { ThemeProvider } from "styled-components";
 import { ThemeProvider } from "@material-ui/core/styles"
@@ -26,7 +26,6 @@ import Migrate from "./views/Stake/Migrate";
 import NotFound from "./views/404/NotFound";
 
 import "./App.css";
-// import "./style.scss";
 
 import { lightTheme, gTheme } from "./theme";
 import { dark as darkTheme } from "./themes/dark";
@@ -34,7 +33,6 @@ import { GlobalStyles } from "./global";
 
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
-
 
 /*
     Welcome to 🏗 scaffold-eth !
@@ -231,7 +229,7 @@ function App(props) {
             onClick={() => {isSidebarExpanded ? handleSidebarClose() : console.log('sidebar colapsed')}}
           />
           
-          <Container maxWidth="lg">
+          <Container maxWidth="xl">
             <TopBar
               web3Modal={web3Modal}
               loadWeb3Modal={loadWeb3Modal}

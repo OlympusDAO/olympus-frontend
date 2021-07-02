@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { trim, bondName, lpURL, isBondLP } from "../../helpers";
 import BondLogo from '../../components/BondLogo';
-import { Button, Box, Paper, Grid, Typography, TableRow, TableCell, } from "@material-ui/core";
-import { NavLink, Link } from 'react-router-dom';
+import { Button, Box, Link, Paper, Grid, Typography, TableRow, TableCell, } from "@material-ui/core";
+import { NavLink } from 'react-router-dom';
 import "./choosebond.scss";
 
 
@@ -112,12 +112,12 @@ export function BondTableData({bond}) {
         <BondLogo bond={bond} />
         <div className="bond-name">
         {bondName(bond)}
-        {isBondLP(bond) && <a href={lpURL(bond)} target="_blank">
+        {isBondLP(bond) && <Link color="primary" href={lpURL(bond)} target="_blank">
           <p>
-          Contract
+          View Contract
           <i className="fas fa-external-link-alt"></i>
           </p>
-        </a>}
+        </Link>}
 
         </div>
       </TableCell>
@@ -149,19 +149,6 @@ export function BondHeader({ bond }) {
     return state.bonding[bond] && state.bonding[bond].bondDiscount;
   });
 
-  const ohmAssetImg = () => {
-    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png";
-  };
-
-  const reserveAssetImg = () => {
-    if (bond.indexOf("frax") >= 0) {
-      return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
-    }
-    if (bond.indexOf("dai") >= 0) {
-      return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png";
-    }
-  };
-
   return (
     <li className="list-group-item d-flex align-items-center px-4">
       <div style={{ width: "80px" }}>
@@ -171,10 +158,10 @@ export function BondHeader({ bond }) {
       <div className="text-light col-auto">
         <h4 className="mb-0 text-white">{bondName(bond)}</h4>
         {isBondLP(bond) && (
-          <a href={lpURL(bond)} target="_blank" rel="noreferrer">
+          <Link color="primary" href={lpURL(bond)} target="_blank" rel="noreferrer">
             Contract
             <i className="fas fa-external-link-alt fa-sm ml-1" />
-          </a>
+          </Link>
         )}
         <p className="fs-6 mb-0">Bond Price: {trim(bondPrice, 2)} DAI</p>
         <p className="fs-6">ROI: {trim(bondDiscount * 100, 2)}%</p>
