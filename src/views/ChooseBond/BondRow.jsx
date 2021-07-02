@@ -140,36 +140,4 @@ export function BondTableData({bond}) {
   );
 }
 
-// dont really need this anyore
-export function BondHeader({ bond }) {
-  const bondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondPrice;
-  });
-  const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
-  });
 
-  return (
-    <li className="list-group-item d-flex align-items-center px-4">
-      <div style={{ width: "80px" }}>
-        <BondLogo bond={bond} />
-      </div>
-
-      <div className="text-light col-auto">
-        <h4 className="mb-0 text-white">{bondName(bond)}</h4>
-        {isBondLP(bond) && (
-          <Link color="primary" href={lpURL(bond)} target="_blank" rel="noreferrer">
-            Contract
-            <i className="fas fa-external-link-alt fa-sm ml-1" />
-          </Link>
-        )}
-        <p className="fs-6 mb-0">Bond Price: {trim(bondPrice, 2)} DAI</p>
-        <p className="fs-6">ROI: {trim(bondDiscount * 100, 2)}%</p>
-      </div>
-
-      <NavLink to={`/bonds/${bond}`} className="col text-end">
-        <button className="ohm-button btn col">View</button>
-      </NavLink>
-    </li>
-  );
-}

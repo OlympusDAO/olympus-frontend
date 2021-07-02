@@ -126,6 +126,10 @@ export const dark = responsiveFontSizes(
           borderColor: darkTheme.gold,
           textTransform: "none",
 					textDecoration: "none",
+					"&:hover": {
+            color: "#333333",
+            backgroundColor: darkTheme.gold
+          },
         },
         outlinedSecondary: {
           color: darkTheme.color,
