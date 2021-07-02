@@ -2,19 +2,29 @@ import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import fonts from "./fonts";
 
 
+// TODO: Break repeated use color values out into list of consts declared here
+// then set the values in darkTheme using the global color variables
+
 const darkTheme = {
     color: "#FCFCFC",
 		gold: "#F8CC82",
 		textHighlightColor: "#F4D092",
     backgroundColor: "#3A4050",
     background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-    // background: "linear-gradient(180deg, #080F35AA 0%, #00000A 100%), radial-gradient(circle at 80% 80%, rgba(180, 255, 217, 1), rgba(180, 255, 217, 0.3))",
     paperBg: "rgba(54, 56, 64, 0.5)",
     modalBg: "rgba(27, 29, 34, 0.8)",
     largeTextColor: "#F4D092",
     activeLinkColor: "#F5DDB4",
     activeLinkSvgColor: "brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%)",
     filter: "1",
+		primaryButtonBG: "#F4D092",
+		primaryButtonHoverBG: "#EDD8B4",
+		primaryButtonHoverColor: "#333333",
+		secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
+		outlinedPrimaryButtonHoverBG: "#F8CC82",
+		outlinedPrimaryButtonHoverColor: "#333333",
+		outlinedSecondaryButtonHoverBG: "#FCFCFC",
+		outlinedSecondaryButtonHoverColor: "#333333",
 }
 
 
@@ -82,15 +92,20 @@ export const dark = responsiveFontSizes(
 					rounded: false,
 				}
 			},
+			MuiBackdrop: {
+				root: {
+					backdropFilter: "blur(33px)"
+				}
+			},
 			MuiLink: {
 				root: {
 					color: darkTheme.color,
+					borderBottom: "2px solid #00000000",
 					"&:hover": {
-						borderColor: darkTheme.color,
 						cursor: "pointer",
 						color: darkTheme.color,
 					},
-					".active": {
+					"&:active": {
 						color: darkTheme.textHighlightColor,
 					},
 				},
@@ -107,7 +122,16 @@ export const dark = responsiveFontSizes(
 			MuiToggleButton: {
 				root: {
 					backgroundColor: darkTheme.paperBg,
-				}
+					border: 0,
+					borderRadius: "5px",
+					margin: "8px",
+					'&:hover': {
+						backgroundColor: darkTheme.secondaryButtonHoverBG,
+					},
+					selected: {
+						backgroundColor: darkTheme.secondaryButtonHoverBG,
+					}
+				},
 			},
       MuiButton: {
         root: {
@@ -118,18 +142,28 @@ export const dark = responsiveFontSizes(
 				containedPrimary: {
 					color: "#333333",
 					backgroundColor: darkTheme.gold,
+					border: 0,
+					fontWeight: "500",
+					'&:hover': {
+						backgroundColor: darkTheme.primaryButtonHoverBG,
+						color: darkTheme.primaryButtonHoverColor
+					}
 				},
 				containedSecondary: {
 					backgroundColor: darkTheme.paperBg,
 					color: darkTheme.color,
 					fontWeight: "400",
+					'&:hover': {
+						backgroundColor: darkTheme.secondaryButtonHoverBG,
+						// color: darkTheme.secondaryButtonHoverColor
+					}
 				},
 				outlinedPrimary: {
           color: darkTheme.gold,
           borderColor: darkTheme.gold,
 					"&:hover": {
-            color: "#333333",
-            backgroundColor: darkTheme.gold
+            color: darkTheme.outlinedPrimaryButtonHoverColor,
+            backgroundColor: darkTheme.primaryButtonHoverBG,
           },
         },
         outlinedSecondary: {
@@ -137,6 +171,11 @@ export const dark = responsiveFontSizes(
           borderColor: darkTheme.color,
           textTransform: "none",
 					textDecoration: "none",
+					"&:hover": {
+            color: darkTheme.outlinedSecondaryButtonHoverColor,
+            backgroundColor: darkTheme.outlinedSecondaryButtonHoverBG,
+						borderColor: "#333333"
+          },
         },
         textPrimary: {
           color: "#A3A3A3",
@@ -168,7 +207,7 @@ export const dark = responsiveFontSizes(
       },
 			MuiPaper: {
 				elevation: 0,	
-			}
+			},
     }
   })
 );

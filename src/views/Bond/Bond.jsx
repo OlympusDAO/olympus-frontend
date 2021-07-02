@@ -8,7 +8,7 @@ import {
   bondAsset,
   redeemBond,
 } from "../../actions/Bond.actions.js";
-import { Grid, Backdrop } from "@material-ui/core";
+import { Grid, Backdrop, Paper } from "@material-ui/core";
 import BondHeader from "./BondHeader";
 import BondRedeemV1 from "./BondRedeemV1";
 import { BONDS } from "../../constants";
@@ -169,7 +169,7 @@ function Bond({ bond, address, provider }) {
   return (
     <Grid container id="bond-view">
       <Backdrop open={true}>
-      <div className="ohm-card ohm-modal">
+      <Paper className="ohm-card ohm-modal">
         <div className="card-content">
         <BondHeader
           bond={bond}
@@ -408,7 +408,7 @@ function Bond({ bond, address, provider }) {
             </div>
           </div>
         </div>
-      </div>
+      </Paper>
       </Backdrop>
     </Grid>
     

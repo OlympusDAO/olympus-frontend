@@ -1,7 +1,4 @@
 .toggle-button {
-    height: 39px;
-    width: 40px;
-    border: none !important;
     .moon {
         filter: brightness(0) saturate(100%) invert(70%) sepia(46%) saturate(300%) hue-rotate(173deg) brightness(85%) contrast(84%);
     }
@@ -9,7 +6,7 @@
         filter: invert(1);
     }
     svg {
-        width: 20px !important;
-        height: 20px !important;
+        width: 23px !important;
+        height: 23px !important;
     }
 }

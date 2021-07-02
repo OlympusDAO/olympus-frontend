@@ -8,7 +8,7 @@ import "./themeswitch.scss";
 function ThemeSwitcher({theme, toggleTheme}) {
   return (
       <ToggleButton
-        className="toggle-button btn top-bar-button btn-overwrite-primer m-2"
+        className="toggle-button"
         type="button"
         title="Change Theme" 
         value="check" 

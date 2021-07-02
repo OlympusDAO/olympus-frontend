@@ -212,7 +212,7 @@ export default function Migrate({
 									)}
 								</div>
 
-								<Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontsize="medium" />}>
+								<Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontSize="medium" />}>
 									<div role="button" onClick={() => {setView("unstake") }} className={`${currentStep === "1" ? "current-step" : "finished-step"}`}>
 										Step 1: Unstake sOHM (old)
 									</div>

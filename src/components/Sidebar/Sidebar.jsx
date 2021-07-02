@@ -17,7 +17,6 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
-    const currentURL = window.location.href;
     if (currentPath.indexOf("dashboard") >= 0 && page === "dashboard") {
       return true;
     }
@@ -29,7 +28,6 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
     }
     return false;
   }, []);
-
 
   return (
     <div
@@ -48,17 +46,17 @@ function Sidebar({ isExpanded, theme, currentIndex }) {
           
             <div className="dapp-menu-links">
               <div className="dapp-nav" id="navbarNav">
-                <NavLink id="dash-nav" to="/dashboard" isActive={(match, location) => { return checkPage(match, location, "dashboard") }} className={`button button-dapp-menu ${isActive ? "active" : ""}`}>
+                <NavLink id="dash-nav" to="/dashboard" isActive={(match, location) => { return checkPage(match, location, "dashboard") }} className={`button-dapp-menu ${isActive ? "active" : ""}`}>
                   <DashboardIcon className="me-3" />
                   <span>Dashboard</span>
                 </NavLink>
 
-                <NavLink id="stake-nav" to="/" isActive={(match, location) => { return checkPage(match, location, "stake") }}  className={`button button-dapp-menu ${isActive ? "active" : ""}`} >
+                <NavLink id="stake-nav" to="/" isActive={(match, location) => { return checkPage(match, location, "stake") }}  className={`button-dapp-menu ${isActive ? "active" : ""}`} >
                   <StakeIcon className="me-3" />
                   <span>Stake</span>
                 </NavLink>
 
-                <NavLink id="bond-nav" to="/bonds" isActive={(match, location) => { return checkPage(match, location, "bonds") }} className={`button button-dapp-menu ${isActive ? "active" : ""}`}>
+                <NavLink id="bond-nav" to="/bonds" isActive={(match, location) => { return checkPage(match, location, "bonds") }} className={`button-dapp-menu ${isActive ? "active" : ""}`}>
                   <BondIcon className="me-3" />
                   <span>Bond</span>
                 </NavLink>

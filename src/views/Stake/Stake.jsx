@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Flex } from "rimble-ui";
-import { Grid, Paper, Typography, Button, TableHead, TableCell, TableBody, Table, TableRow, TableContainer } from "@material-ui/core";
+import { Grid, Paper, Typography, Button, TableHead, TableCell, TableBody, Table, TableRow, TableContainer, emphasize } from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import RebaseTimer from '../../components/RebaseTimer/RebaseTimer';
@@ -19,7 +19,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const [view, setView] = useState("stake");
   const [quantity, setQuantity] = useState();
   const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
-
+  const [txPending, setTxPending] = useState(false);
+  const [tx, setTx] = useState();
 
   const isSmallScreen = useMediaQuery("(max-width: 1125px)");
 	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
@@ -77,6 +78,41 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     }
   };
 
+
+  // https://docs.ethers.io/v5/single-page/#/v5/api/providers/provider/-%23-Provider--events
+  const transaction = (txHash) => { 
+    if (txHash.length > 0 && provider && address) {
+      provider.once(txHash, (tx) => {
+        console.log('transaction mined: ', tx);
+        return tx;
+      })
+    }
+    return;
+  };
+
+  const pending = () => {
+    if (provider && address) {
+      return provider.on("pending", (tx) => {
+        console.log('pending tx: ', tx);
+        transaction(tx);
+        return tx;
+      })
+    }
+    return false;
+  };
+
+
+  useEffect(() => {
+    setTxPending(true)
+    setTx(pending);
+  }, [pending])
+
+
+  useEffect(() => {
+    setTxPending(false)
+    setTx(transaction);
+  }, [transaction])
+
   const hasAllowance = useCallback(
     token => {
       if (token === "ohm") return stakeAllowance > 0;
@@ -97,6 +133,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const loadFraxData = async () => {
     dispatch(getFraxData());
   }
+
+  
 
   useEffect(() => {
     loadFraxData();
@@ -206,6 +244,7 @@ if (web3Modal) {
               </div>
             </Grid>
 
+          <div className="staking-area">
             {!address ? (
               <div className="stake-wallet-notification">
                 <h4>Connect your wallet to Stake OHM</h4>
@@ -260,44 +299,52 @@ if (web3Modal) {
                     {address && hasAllowance("ohm") && view === "stake" && (
                       <Button
                         className="stake-button"
+                        disabled={txPending}
                         onClick={() => {
                           onChangeStake("stake");
+                          pending();
                         }}
                       >
-                        Stake OHM
+                        { !txPending ? "Stake OHM" : (<emphasize>Pending</emphasize>) }
                       </Button>
                     )}
 
                     {address && hasAllowance("sohm") && view === "unstake" && (
                       <Button
-                      className="stake-button"
+                        className="stake-button"
+                        disabled={txPending}
                         onClick={() => {
                           onChangeStake("unstake");
+                          pending();
                         }}
                       >
-                        Unstake OHM
+                        { !txPending ? "Unstake OHM" : (<emphasize>Pending</emphasize>) }
                       </Button>
                     )}
 
                     {address && !hasAllowance("ohm") && view === "stake" && (
                       <Button
                         className="stake-button"
+                        disabled={txPending}
                         onClick={() => {
                           onSeekApproval("ohm");
+                          pending();
                         }}
                       >
-                        Approve Stake
+                        { !txPending ? "Approve Stake" : (<emphasize>Pending</emphasize>) }
                       </Button>
                     )}
 
                     {address && !hasAllowance("sohm") && view === "unstake" && (
                       <Button
                         className="stake-button"
+                        disabled={txPending}
                         onClick={() => {
                           onSeekApproval("sohm");
+                          pending();
                         }}
                       >
-                        Approve Unstake
+                        { !txPending ? "Approve Unstake" : (<emphasize>Pending</emphasize>) }
                       </Button>
                     )}
                   </Flex>
@@ -342,7 +389,8 @@ if (web3Modal) {
                 </Grid>
               </>
             )}
-          </Grid>
+            </div>
+          </Grid>  
         </Paper>
 
         <Paper className={`ohm-card secondary ${isSmallScreen  && "mobile"}`}>
@@ -390,7 +438,8 @@ if (web3Modal) {
                       <TableCell> {fraxData && fraxData.balance || 0} LP </TableCell>
                       <TableCell>
                         <Button 
-                          variant="outlinedSecondary"
+                          variant="outlined"
+                          color="secondary"
                           href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' 
                           target="_blank"
                           className="stake-lp-button"
@@ -420,7 +469,8 @@ if (web3Modal) {
                     </p>
                   </Flex>
                   <Button 
-                    variant="outlinedSecondary"
+                    variant="outlined"
+                    color="secondary"
                     color="primary" 
                     href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' 
                     target="_blank"
@@ -457,7 +507,6 @@ if (web3Modal) {
                 </div>
               </div>
             )}
-
         </div>
       </Paper>
     </div>
