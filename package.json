@@ -42,7 +42,7 @@
     "apollo-utilities": "^1.3.4",
     "axios": "^0.20.0",
     "bnc-notify": "^1.5.0",
-    "bootstrap": "^5.0.0-beta3",
+    "bootstrap": "^5.0.2",
     "burner-provider": "^1.0.38",
     "dotenv": "^10.0.0",
     "eth-hooks": "^1.1.2",
