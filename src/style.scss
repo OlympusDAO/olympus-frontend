@@ -242,6 +242,15 @@ nav {
   }
 }
 
+a {
+  color: unset;
+  text-decoration: none;
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
 
 // Sidebar animation
 
