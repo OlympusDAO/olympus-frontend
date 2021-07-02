@@ -1,4 +1,4 @@
-import { StaticJsonRpcProvider, Web3Provider, getDefaultProvider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 // import { ThemeProvider } from "styled-components";
 import { ThemeProvider } from "@material-ui/core/styles"
@@ -35,9 +35,12 @@ import NotFound from "./views/404/NotFound";
 
 import "./App.css";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 // import "./style.scss";
 >>>>>>> added darktheme.js
+=======
+>>>>>>> links and styles updated for bond table
 
 import { lightTheme, gTheme } from "./theme";
 import { dark as darkTheme } from "./themes/dark";
@@ -47,9 +50,12 @@ import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+>>>>>>> links and styles updated for bond table
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -330,7 +336,7 @@ function App(props) {
             }}
           />
           
-          <Container maxWidth="lg">
+          <Container maxWidth="xl">
             <TopBar
               web3Modal={web3Modal}
               loadWeb3Modal={loadWeb3Modal}
