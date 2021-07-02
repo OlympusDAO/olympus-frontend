@@ -111,21 +111,22 @@ export const dark = responsiveFontSizes(
 			},
       MuiButton: {
         root: {
-          borderRadius: "5px"
+          borderRadius: "5px",
+					textTransform: "none",
+					textDecoration: "none",
         },
 				containedPrimary: {
 					color: "#333333",
-					backgroundColor: darkTheme.gold
+					backgroundColor: darkTheme.gold,
 				},
 				containedSecondary: {
 					backgroundColor: darkTheme.paperBg,
 					color: darkTheme.color,
+					fontWeight: "400",
 				},
 				outlinedPrimary: {
           color: darkTheme.gold,
           borderColor: darkTheme.gold,
-          textTransform: "none",
-					textDecoration: "none",
 					"&:hover": {
             color: "#333333",
             backgroundColor: darkTheme.gold
