@@ -16,11 +16,14 @@ export { default as Transactor } from "./Transactor";
 export function addressForBond({ bond, networkID }) {
   if (bond === BONDS.ohm_dai) {
     return addresses[networkID].BONDS.OHM_DAI;
-  } else if (bond === BONDS.dai) {
+  }
+  if (bond === BONDS.dai) {
     return addresses[networkID].BONDS.DAI;
-  } else if (bond === BONDS.ohm_frax) {
+  }
+  if (bond === BONDS.ohm_frax) {
     return addresses[networkID].BONDS.OHM_FRAX;
-  } else if (bond === BONDS.frax) {
+  }
+  if (bond === BONDS.frax) {
     return addresses[networkID].BONDS.FRAX;
   }
 }
@@ -28,11 +31,14 @@ export function addressForBond({ bond, networkID }) {
 export function addressForAsset({ bond, networkID }) {
   if (bond === BONDS.ohm_dai) {
     return addresses[networkID].RESERVES.OHM_DAI;
-  } else if (bond === BONDS.dai) {
+  }
+  if (bond === BONDS.dai) {
     return addresses[networkID].RESERVES.DAI;
-  } else if (bond === BONDS.ohm_frax) {
+  }
+  if (bond === BONDS.ohm_frax) {
     return addresses[networkID].RESERVES.OHM_FRAX;
-  } else if (bond === BONDS.frax) {
+  }
+  if (bond === BONDS.frax) {
     return addresses[networkID].RESERVES.FRAX;
   }
 }
@@ -44,15 +50,15 @@ export function isBondLP(bond) {
 export function lpURL(bond) {
   if (bond === BONDS.ohm_dai)
     return "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f";
-  else if (bond === BONDS.ohm_frax)
+  if (bond === BONDS.ohm_frax)
     return "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899";
 }
 
 export function bondName(bond) {
   if (bond === BONDS.dai) return "DAI Bond";
-  else if (bond === BONDS.ohm_dai) return "OHM-DAI SLP Bond";
-  else if (bond === BONDS.ohm_frax) return "OHM-FRAX LP Bond";
-  else if (bond === BONDS.frax) return "FRAX Bond";
+  if (bond === BONDS.ohm_dai) return "OHM-DAI SLP Bond";
+  if (bond === BONDS.ohm_frax) return "OHM-FRAX LP Bond";
+  if (bond === BONDS.frax) return "FRAX Bond";
 }
 
 export function contractForBond({ bond, networkID, provider }) {
@@ -60,17 +66,23 @@ export function contractForBond({ bond, networkID, provider }) {
 
   if (bond === BONDS.ohm_dai) {
     return new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
-  } else if (bond === BONDS.dai) {
+  }
+  if (bond === BONDS.dai) {
     return new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
-  } else if (bond === BONDS.ohm_dai_v1) {
+  }
+  if (bond === BONDS.ohm_dai_v1) {
     return new ethers.Contract(addresses[networkID].BOND_ADDRESS, BondContract, provider);
-  } else if (bond === BONDS.dai_v1) {
+  }
+  if (bond === BONDS.dai_v1) {
     return new ethers.Contract(addresses[networkID].DAI_BOND_ADDRESS, DaiBondContract, provider);
-  } else if (bond === BONDS.ohm_frax) {
+  }
+  if (bond === BONDS.ohm_frax) {
     return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX, BondOhmFraxContract, provider);
-  } else if (bond === BONDS.ohm_frax_v1) {
+  }
+  if (bond === BONDS.ohm_frax_v1) {
     return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX_BOND_ADDRESS, BondOhmFraxContract, provider);
-  } else if (bond === BONDS.frax) {
+  }
+  if (bond === BONDS.frax) {
     return new ethers.Contract(address, FraxBondContract, provider);
   }
 }
@@ -80,11 +92,14 @@ export function contractForReserve({ bond, networkID, provider }) {
 
   if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
-  } else if (bond === BONDS.dai || bond === BONDS.dai_v1) {
+  }
+  if (bond === BONDS.dai || bond === BONDS.dai_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);
-  } else if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
+  }
+  if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_FRAX, ReserveOhmFraxContract, provider);
-  } else if (bond === BONDS.frax) {
+  }
+  if (bond === BONDS.frax) {
     return new ethers.Contract(address, ierc20Abi, provider);
   }
 }
@@ -154,12 +169,6 @@ export function prettifySeconds(seconds, resolution) {
 
   if (resolution === "day") {
     return d + (d == 1 ? " day" : " days");
-  } else {
-    const dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
-    const hDisplay = h > 0 ? h + (h == 1 ? " hr, " : " hrs, ") : "";
-    const mDisplay = m > 0 ? m + (m == 1 ? " min" : " mins") : "";
-
-    return dDisplay + hDisplay + mDisplay;
   }
 }
 
