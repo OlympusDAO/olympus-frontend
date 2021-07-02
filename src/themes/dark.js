@@ -95,15 +95,13 @@ export const dark = responsiveFontSizes(
 					},
 				},
 			},
-			MuiTableRow: {
-				head: {
-					color: "#999999"
-				}
-			},
 			MuiTableCell: {
 				root: {
 					borderBottom: 0,
 					color: darkTheme.color,
+				},
+				head: {
+					color: "#999999",
 				}
 			},
 			MuiToggleButton: {
