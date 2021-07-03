@@ -13,7 +13,7 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "target": "es5",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "skipLibCheck": true,
     "allowJs": true,
@@ -21,7 +21,8 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "./index.d.ts",

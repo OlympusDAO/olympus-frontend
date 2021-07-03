@@ -1,5 +1,4 @@
 /* eslint-disable global-require */
-/* eslint-disable @typescript-eslint/no-var-requires */
 
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';

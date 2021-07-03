@@ -2,20 +2,20 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: ["airbnb", "plugin:prettier/recommended", "prettier/react"],
+  extends: [/*"airbnb"*/ "plugin:prettier/recommended", "prettier/react"],
   plugins: ["babel"],
   rules: {
     "prettier/prettier": ["warn"],
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        js: "never",
-        jsx: "never",
-        ts: "never",
-        tsx: "never",
-      },
-    ],
+    // "import/extensions": [
+    //   "error",
+    //   "ignorePackages",
+    //   {
+    //     js: "never",
+    //     jsx: "never",
+    //     ts: "never",
+    //     tsx: "never",
+    //   },
+    // ],
     "import/prefer-default-export": "off",
     "prefer-destructuring": "off",
     "prefer-template": "off",
