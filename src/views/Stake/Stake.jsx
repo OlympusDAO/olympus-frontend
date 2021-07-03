@@ -305,7 +305,7 @@ if (web3Modal) {
                           pending();
                         }}
                       >
-                        { !txPending ? "Stake OHM" : (<emphasize>Pending</emphasize>) }
+                        { !txPending ? "Stake OHM" : (<emphasize>Pending...</emphasize>) }
                       </Button>
                     )}
 
@@ -318,7 +318,7 @@ if (web3Modal) {
                           pending();
                         }}
                       >
-                        { !txPending ? "Unstake OHM" : (<emphasize>Pending</emphasize>) }
+                        { !txPending ? "Unstake OHM" : (<emphasize>Pending...</emphasize>) }
                       </Button>
                     )}
 
@@ -331,7 +331,7 @@ if (web3Modal) {
                           pending();
                         }}
                       >
-                        { !txPending ? "Approve Stake" : (<emphasize>Pending</emphasize>) }
+                        { !txPending ? "Approve Stake" : (<emphasize>Pending...</emphasize>) }
                       </Button>
                     )}
 
@@ -344,7 +344,7 @@ if (web3Modal) {
                           pending();
                         }}
                       >
-                        { !txPending ? "Approve Unstake" : (<emphasize>Pending</emphasize>) }
+                        { !txPending ? "Approve Unstake" : (<emphasize>Pending...</emphasize>) }
                       </Button>
                     )}
                   </Flex>
