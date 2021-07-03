@@ -430,7 +430,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                           pending();
                         }}
                       >
-                        { !txPending ? "Stake OHM" : (<emphasize>Pending</emphasize>) }
+                        { !txPending ? "Stake OHM" : (<emphasize>Pending...</emphasize>) }
                       </Button>
                     )}
 
@@ -443,7 +443,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                           pending();
                         }}
                       >
-                        { !txPending ? "Unstake OHM" : (<emphasize>Pending</emphasize>) }
+                        { !txPending ? "Unstake OHM" : (<emphasize>Pending...</emphasize>) }
                       </Button>
                     )}
 
@@ -456,7 +456,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                           pending();
                         }}
                       >
-                        { !txPending ? "Approve Stake" : (<emphasize>Pending</emphasize>) }
+                        { !txPending ? "Approve Stake" : (<emphasize>Pending...</emphasize>) }
                       </Button>
                     )}
 
@@ -469,7 +469,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                           pending();
                         }}
                       >
-                        { !txPending ? "Approve Unstake" : (<emphasize>Pending</emphasize>) }
+                        { !txPending ? "Approve Unstake" : (<emphasize>Pending...</emphasize>) }
                       </Button>
                     )}
                   </Flex>
