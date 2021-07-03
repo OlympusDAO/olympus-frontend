@@ -5,6 +5,13 @@ import { useUserAddress } from "eth-hooks";
 import { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
+<<<<<<< HEAD
+=======
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/js/all.js";
+import ClearIcon from "@material-ui/icons/Clear";
+>>>>>>> commented out airbnb in eslint
 import { useSelector, useDispatch } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,6 +19,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
 import { calcBondDetails } from "./actions/Bond.actions.js";
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -23,11 +31,19 @@ import { loadAppDetails, /*getMarketPrice, getTokenSupply*/ } from "./actions/Ap
 import { loadAppDetails } from "./actions/App.actions.js";
 >>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
 =======
+=======
+>>>>>>> commented out airbnb in eslint
 import { loadAppDetails } from "./actions/App.actions.js";
 =======
 import { loadAppDetails, /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+<<<<<<< HEAD
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+=======
+import { loadAppDetails /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
+>>>>>>> commented out airbnb in eslint
+>>>>>>> commented out airbnb in eslint
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
@@ -73,8 +89,10 @@ import { GlobalStyles } from "./global";
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
 
+<<<<<<< HEAD
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -82,6 +100,10 @@ import { useUserProvider } from "./hooks";
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 =======
 >>>>>>> links and styles updated for bond table
+=======
+=======
+>>>>>>> commented out airbnb in eslint
+>>>>>>> commented out airbnb in eslint
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -147,12 +169,15 @@ const logoutOfWeb3Modal = async () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> removed unused scaffold-eth components and pruned scss
 =======
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 =======
+=======
+>>>>>>> commented out airbnb in eslint
 const drawerWidth = 280;
 const transitionDuration = 969;
 
@@ -192,6 +217,7 @@ function App(props) {
   const [theme, toggleTheme] = useTheme();
   const location = useLocation();
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
   const isSmallerScreen = useMediaQuery("(max-width: 1125px)");
@@ -207,6 +233,18 @@ function App(props) {
 
 =======
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
+=======
+=======
+function App(props) {
+  const dispatch = useDispatch();
+  const [theme, toggleTheme, mounted] = useTheme();
+  const location = useLocation();
+
+  const isSmallerScreen = useMediaQuery("(max-width: 1125px)");
+  const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
+
+>>>>>>> commented out airbnb in eslint
+>>>>>>> commented out airbnb in eslint
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
@@ -219,6 +257,7 @@ function App(props) {
   const handleSidebarClose = () => {
     setIsSidebarExpanded(false);
   };
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -277,7 +316,12 @@ function App(props) {
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
+<<<<<<< HEAD
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+=======
+>>>>>>> commented out airbnb in eslint
+>>>>>>> commented out airbnb in eslint
 
 <<<<<<< HEAD
 >>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
@@ -285,11 +329,12 @@ function App(props) {
 =======
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
-  }, [location])
-
+  }, [location]);
 
   // const currentBlock  = useSelector((state) => { return state.app.currentBlock });
-  const currentIndex = useSelector((state) => { return state.app.currentIndex });
+  const currentIndex = useSelector(state => {
+    return state.app.currentIndex;
+  });
 
   // const fraxBondDiscount = useSelector(state => {
   //   return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
@@ -346,6 +391,7 @@ function App(props) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
     
@@ -354,11 +400,19 @@ function App(props) {
 
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 =======
+=======
+>>>>>>> commented out airbnb in eslint
 
 =======
     
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+<<<<<<< HEAD
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+=======
+
+>>>>>>> commented out airbnb in eslint
+>>>>>>> commented out airbnb in eslint
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
     [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
@@ -601,28 +655,25 @@ function App(props) {
       <GlobalStyles />
       <div className="app">
         <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}>
-          {!isSidebarExpanded &&
-          <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
-            <button
-              className="navbar-toggler"
-              type="button"
-              onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              data-toggle="collapse"
-              data-target="#navbarNav"
-              aria-controls="navbarNav"
-            >
-              <span className="navbar-toggler-icon" />
-            </button>
-          </nav>}
+          {!isSidebarExpanded && (
+            <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
+              <button
+                className="navbar-toggler"
+                type="button"
+                onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+              >
+                <span className="navbar-toggler-icon" />
+              </button>
+            </nav>
+          )}
 
           {isSidebarExpanded && (
-            <a
-              role="button"
-              className="close-nav"
-              onClick={() => setIsSidebarExpanded(false)}
-            >
+            <a role="button" className="close-nav" onClick={() => setIsSidebarExpanded(false)}>
               <ClearIcon />
             </a>
           )}
@@ -632,7 +683,9 @@ function App(props) {
             isExpanded={isSidebarExpanded}
             address={address}
             theme={theme}
-            onClick={() => {isSidebarExpanded ? handleSidebarClose() : console.log('sidebar colapsed')}}
+            onClick={() => {
+              isSidebarExpanded ? handleSidebarClose() : console.log("sidebar colapsed");
+            }}
           />
 
           <Container maxWidth="xl">
@@ -655,6 +708,7 @@ function App(props) {
 >>>>>>> Implement new menu design and only show add token when eth api is available
 >>>>>>> Implement new menu design and only show add token when eth api is available
               </Route>
+<<<<<<< HEAD
             </Route>
 
             <Route path="/bonds">
@@ -672,6 +726,42 @@ function App(props) {
             <Route component={NotFound} />
           </Switch>
         </div>
+=======
+
+              <Route path="/stake">
+                <Stake
+                  address={address}
+                  provider={injectedProvider}
+                  web3Modal={web3Modal}
+                  loadWeb3Modal={loadWeb3Modal}
+                />
+                <Route exact path="/stake/migrate">
+                  <Migrate
+                    address={address}
+                    provider={injectedProvider}
+                    web3Modal={web3Modal}
+                    loadWeb3Modal={loadWeb3Modal}
+                  />
+                </Route>
+              </Route>
+
+              <Route path="/bonds">
+                {/* {Object.values(BONDS).map(bond => { */}
+                {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
+                  return (
+                    <Route exact key={bond} path={`/bonds/${bond}`}>
+                      <Bond bond={bond} address={address} provider={injectedProvider} />
+                    </Route>
+                  );
+                })}
+                <ChooseBond address={address} provider={injectedProvider} />
+              </Route>
+
+              <Route component={NotFound} />
+            </Switch>
+          </Container>
+        </Flex>
+>>>>>>> commented out airbnb in eslint
       </div>
     </ThemeProvider>
   );

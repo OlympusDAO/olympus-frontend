@@ -54,9 +54,15 @@
     "lodash": "^4.17.21",
     "material-ui": "^0.20.2",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "node-sass": "5.0.0",
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+    "node-sass": "5.0.0",
+=======
+>>>>>>> commented out airbnb in eslint
+>>>>>>> commented out airbnb in eslint
     "node-watch": "^0.7.1",
     "postcss": "^8.3.5",
     "qrcode.react": "^1.0.0",
