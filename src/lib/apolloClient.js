@@ -3,6 +3,7 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 <<<<<<< HEAD
 import { THE_GRAPH_URL } from "../constants";
 
+<<<<<<< HEAD
 const client = new ApolloClient({
   uri: THE_GRAPH_URL,
 =======
@@ -20,6 +21,12 @@ const client = new ApolloClient({
   uri: THE_GRAPH_URL,
 >>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
   cache: new InMemoryCache(),
+=======
+
+const client = new ApolloClient({
+	uri: THE_GRAPH_URL,
+	cache: new InMemoryCache()
+>>>>>>> Connect subgraph by name
 });
 
 const apollo = queryString => {
