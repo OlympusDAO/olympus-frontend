@@ -1,11 +1,9 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { THE_GRAPH_ID } from "../constants";
+import { THE_GRAPH_URL } from "../constants";
 
-
-const APIRUL = "https://api.thegraph.com/subgraphs/id/"+THE_GRAPH_ID;
 
 const client = new ApolloClient({
-	uri: APIRUL,
+	uri: THE_GRAPH_URL,
 	cache: new InMemoryCache()
 });
 
