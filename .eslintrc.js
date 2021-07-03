@@ -19,7 +19,11 @@ module.exports = {
   plugins: ["babel"],
   rules: {
     "prettier/prettier": ["warn"],
+<<<<<<< HEAD
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+<<<<<<< HEAD
+>>>>>>> updated eslint to 7.29 and changed prettier config to warn
     // "import/extensions": [
     //   "error",
     //   "ignorePackages",
@@ -30,6 +34,18 @@ module.exports = {
     //     tsx: "never",
     //   },
     // ],
+=======
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        js: "never",
+        jsx: "never",
+        ts: "never",
+        tsx: "never",
+      },
+    ],
+>>>>>>> updated eslint to 7.29 and changed prettier config to warn
     "import/prefer-default-export": "off",
     "prefer-destructuring": "off",
     "prefer-template": "off",
