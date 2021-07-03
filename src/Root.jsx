@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 =======
 
+<<<<<<< HEAD
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -12,6 +13,11 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import configureStore from './store';
 >>>>>>> commented out airbnb in eslint
+=======
+import React, { Component } from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+>>>>>>> autoformat test
 
 import App from "./App";
 import configureStore from "./store";
