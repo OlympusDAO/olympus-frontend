@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
   },
+<<<<<<< HEAD
   parserOptions: {
     ecmaVersion: 12,
     sourceType: "module",
@@ -13,6 +14,12 @@ module.exports = {
   plugins: ["prettier"],
   rules: {
     "prettier/prettier": ["error"],
+=======
+  extends: [/*"airbnb", */ "plugin:prettier/recommended", "prettier/react"],
+  plugins: ["babel"],
+  rules: {
+    "prettier/prettier": ["warn"],
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
     // "import/extensions": [
     //   "error",
     //   "ignorePackages",

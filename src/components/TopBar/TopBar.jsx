@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState } from "react";
 =======
 import React from 'react';
 import { shorten } from '../../helpers';
+=======
+import { shorten } from "../../helpers";
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 <<<<<<< HEAD
 >>>>>>> fixed links in bond discounts
@@ -22,6 +26,7 @@ import { addresses } from "../../constants";
 import { getOhmTokenImage, getSohmTokenImage } from "../../helpers";
 import { useSelector } from "react-redux";
 
+<<<<<<< HEAD
 const TOKEN_DECIMALS = 9;
 const SOHM_TOKEN_IMAGE = getSohmTokenImage();
 const OHM_TOKEN_IMAGE = getOhmTokenImage();
@@ -107,11 +112,16 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 	const isVerySmallScreen = useMediaQuery("(max-width: 649px)");
 	const isUltraSmallScreen = useMediaQuery("(max-width: 495px)");
 >>>>>>> dashboard tiles use graph queries from app state
+=======
+function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, toggleTheme }) {
+  const isVerySmallScreen = useMediaQuery("(max-width: 649px)");
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 
   const modalButtons = [];
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
+<<<<<<< HEAD
 <<<<<<< HEAD
         <button
           type="button"
@@ -150,6 +160,17 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 =======
         <Button variant="contained" color="secondary" type="button" size="large" onClick={loadWeb3Modal} key={2}>Connect Wallet</Button>,
 >>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
+=======
+        <Button type="button" color="secondary" variant="contained" size="large" onClick={logoutOfWeb3Modal} key={1}>
+          Disconnect
+        </Button>,
+      );
+    } else {
+      modalButtons.push(
+        <Button variant="contained" color="secondary" type="button" size="large" onClick={loadWeb3Modal} key={2}>
+          Connect Wallet
+        </Button>,
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
       );
     }
   }
@@ -180,6 +201,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
       </Flex>
 =======
     <div className={`dapp-topbar`}>
+<<<<<<< HEAD
 			{!isVerySmallScreen && 
 				<Button
 					id="get-ohm"
@@ -226,6 +248,38 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 					toggleTheme={toggleTheme} 
 				/>
 >>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
+=======
+      {!isVerySmallScreen && (
+        <Button
+          id="get-ohm"
+          className="get-ohm-button"
+          size="large"
+          variant="contained"
+          color="secondary"
+          title="Get OHM"
+        >
+          <a
+            href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
+            target="_blank"
+          >
+            Get OHM
+          </a>
+        </Button>
+      )}
+
+      <div className="wallet-menu" id="wallet-menu">
+        {modalButtons}
+        {address && (
+          <Button variant="contained" color="secondary" size="large">
+            <a href={`https://etherscan.io/address/${address}`} target="_blank">
+              {shorten(address)}
+            </a>
+          </Button>
+        )}
+      </div>
+
+      <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
     </div>
   );
 }

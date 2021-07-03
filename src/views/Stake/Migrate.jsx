@@ -1,9 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Grid, Backdrop, Fade, Breadcrumbs } from "@material-ui/core";
-// import { changeStake, changeApproval } from "../../actions/Stake.actions";
+import { Grid, Backdrop, Paper, Fade, Breadcrumbs } from "@material-ui/core";
 import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import { useSelector, useDispatch } from "react-redux";
+<<<<<<< HEAD
 // import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+=======
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import ClearIcon from "@material-ui/icons/Clear";
 import { trim } from "../../helpers";
@@ -152,6 +154,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   return (
     <Grid container id="sohm-migration-view">
       <Backdrop open={true}>
@@ -159,6 +162,14 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
           <div className="card-header">
             <h3>sOHM Migration</h3>
 
+=======
+  return (
+    <Grid container id="sohm-migration-view">
+      <Backdrop open={true}>
+        <Paper className="ohm-card ohm-modal">
+          <div className="card-header">
+            <h3>sOHM Migration</h3>
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
             <div role="button" className="cancel">
               <NavLink to="/stake" className="cancel-migrate">
                 <p>
@@ -195,7 +206,11 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                 {view === "done" && <h4>Youre good to go, all OHM is staked to the new contract.</h4>}
               </div>
 
+<<<<<<< HEAD
               <Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontsize="medium" />}>
+=======
+              <Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontSize="medium" />}>
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
                 <div
                   role="button"
                   onClick={() => {
@@ -236,6 +251,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                         placeholder="Type an amount"
                       />
                       {/* <button type="button" onClick={setMax}>
+<<<<<<< HEAD
 =======
 	return (
 		<Grid container id="sohm-migration-view">
@@ -317,6 +333,8 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
 										/>
 										{/* <button type="button" onClick={setMax}>
 >>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
+=======
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 											Max
 										</button> */}
                     </div>
@@ -420,7 +438,11 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
               </div>
             </div>
           )}
+<<<<<<< HEAD
         </div>
+=======
+        </Paper>
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
       </Backdrop>
     </Grid>
   );

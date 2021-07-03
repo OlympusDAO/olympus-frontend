@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useCallback, useState, useEffect } from "react";
 =======
 import React, { useCallback, useState, useEffect } from 'react';
@@ -6,6 +7,9 @@ import React, { useCallback, useState, useEffect } from 'react';
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 import { Link, NavLink } from "react-router-dom";
 =======
+=======
+import React, { useCallback, useState, useEffect } from "react";
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 import { NavLink } from "react-router-dom";
 >>>>>>> sidebar responsiveness tweaks and link styling, stake table replaced with mui table
 import Social from "../Social";
@@ -42,6 +46,7 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
   }, []);
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <div className={`${isExpanded ? "show" : ""} d-lg-block sidebar collapse`} id="sidebarContent">
@@ -141,6 +146,9 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
                 ))}
 =======
+=======
+    <div className={`${isExpanded ? "show" : ""} d-lg-block sidebar collapse`} id="sidebarContent">
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
       <Drawer variant="permanent" anchor="left">
         <Paper className="dapp-sidebar">
           <div className="dapp-menu-top">
@@ -150,20 +158,41 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
                 <h3>Olympus</h3>
               </a>
             </div>
-          
+
             <div className="dapp-menu-links">
               <div className="dapp-nav" id="navbarNav">
-                <NavLink id="dash-nav" to="/dashboard" isActive={(match, location) => { return checkPage(match, location, "dashboard") }} className={`button-dapp-menu ${isActive ? "active" : ""}`}>
+                <NavLink
+                  id="dash-nav"
+                  to="/dashboard"
+                  isActive={(match, location) => {
+                    return checkPage(match, location, "dashboard");
+                  }}
+                  className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                >
                   <DashboardIcon className="me-3" />
                   <span>Dashboard</span>
                 </NavLink>
 
-                <NavLink id="stake-nav" to="/" isActive={(match, location) => { return checkPage(match, location, "stake") }}  className={`button-dapp-menu ${isActive ? "active" : ""}`} >
+                <NavLink
+                  id="stake-nav"
+                  to="/"
+                  isActive={(match, location) => {
+                    return checkPage(match, location, "stake");
+                  }}
+                  className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                >
                   <StakeIcon className="me-3" />
                   <span>Stake</span>
                 </NavLink>
 
-                <NavLink id="bond-nav" to="/bonds" isActive={(match, location) => { return checkPage(match, location, "bonds") }} className={`button-dapp-menu ${isActive ? "active" : ""}`}>
+                <NavLink
+                  id="bond-nav"
+                  to="/bonds"
+                  isActive={(match, location) => {
+                    return checkPage(match, location, "bonds");
+                  }}
+                  className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                >
                   <BondIcon className="me-3" />
                   <span>Bond</span>
                 </NavLink>
@@ -172,7 +201,10 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
                   <div className="bond-discounts">
                     <p>Bond discounts</p>
                     {bonds.map((bond, i) => (
-                      <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
+                      <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>
+                        {bond.name}
+                        <span>{bond.discount ? trim(bond.discount * 100, 2) : ""}%</span>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -211,23 +243,29 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
 
           <div className="dapp-menu-data bottom">
             <div className="dapp-menu-external-links">
-              { Object.keys(externalUrls).map((link, i) => {
-                return <a key={i} href={`${externalUrls[link].url}`} target="_blank" className="button button-dapp-menu">
-                  <span className="bond-pair-name">{externalUrls[link].icon}</span>
-                  <span className="bond-pair-roi">{externalUrls[link].title}</span>
-                </a>
-                }
-              )}
+              {Object.keys(externalUrls).map((link, i) => {
+                return (
+                  <a key={i} href={`${externalUrls[link].url}`} target="_blank" className="button button-dapp-menu">
+                    <span className="bond-pair-name">{externalUrls[link].icon}</span>
+                    <span className="bond-pair-roi">{externalUrls[link].title}</span>
+                  </a>
+                );
+              })}
             </div>
 >>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
           </div>
 
+<<<<<<< HEAD
           {theme === "girth" &&
 >>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
+=======
+          {theme === "girth" && (
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
             <div className="data-ohm-index">
               <p>Current Index </p>
               <p>{trim(currentIndex, 4)} OHM</p>
             </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
           )}
         </div>
@@ -246,10 +284,12 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 =======
           }
+=======
+          )}
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
           <div className="dapp-menu-social">
             <Social />
           </div>
-          
         </Paper>
       </Drawer>
     </div>

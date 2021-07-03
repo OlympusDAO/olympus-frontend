@@ -1,9 +1,8 @@
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-// import { ThemeProvider } from "styled-components";
-import { ThemeProvider } from "@material-ui/core/styles"
+import { ThemeProvider } from "@material-ui/core/styles";
 import { useUserAddress } from "eth-hooks";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
 import "bootstrap";
@@ -119,9 +118,12 @@ const logoutOfWeb3Modal = async () => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> removed unused scaffold-eth components and pruned scss
+=======
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 function App(props) {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
@@ -132,8 +134,12 @@ function App(props) {
   const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
 =======
   const isSmallerScreen = useMediaQuery("(max-width: 800px)");
+<<<<<<< HEAD
 	const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
 >>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
+=======
+  const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
@@ -148,6 +154,7 @@ function App(props) {
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
+<<<<<<< HEAD
 
 <<<<<<< HEAD
   // const currentBlock  = useSelector((state) => { return state.app.currentBlock });
@@ -190,6 +197,12 @@ function App(props) {
 
 =======
   const currentIndex = useSelector((state) => { return state.app.currentIndex });
+=======
+
+  const currentIndex = useSelector(state => {
+    return state.app.currentIndex;
+  });
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 
 >>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
@@ -227,10 +240,14 @@ function App(props) {
 
     await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
     
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
     [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
@@ -302,11 +319,15 @@ function App(props) {
 
       <div className={`app ${isSmallerScreen && "mobile"}`}>
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
         {/* <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}> */}
 =======
 >>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
           {!isSidebarExpanded &&
+=======
+        {!isSidebarExpanded && (
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
           <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
             <button
               className="navbar-toggler"
@@ -320,6 +341,7 @@ function App(props) {
             >
               <span className="navbar-toggler-icon" />
             </button>
+<<<<<<< HEAD
           </nav>}
 >>>>>>> added darktheme.js
 
@@ -386,11 +408,77 @@ function App(props) {
                   );
                 })}
                 <ChooseBond address={address} provider={injectedProvider} />
-              </Route>
+=======
+          </nav>
+        )}
 
-              <Route component={NotFound} />
-            </Switch>
-          </Container>
+        {isSidebarExpanded && (
+          <a role="button" className="close-nav" onClick={() => setIsSidebarExpanded(false)}>
+            <ClearIcon />
+          </a>
+        )}
+
+        <Sidebar
+          currentIndex={currentIndex}
+          isExpanded={isSidebarExpanded}
+          theme={theme}
+          onClick={() => {
+            isSidebarExpanded ? handleSidebarClose() : console.log("sidebar colapsed");
+          }}
+        />
+
+        <Container maxWidth="xl">
+          <TopBar
+            web3Modal={web3Modal}
+            loadWeb3Modal={loadWeb3Modal}
+            logoutOfWeb3Modal={logoutOfWeb3Modal}
+            address={address}
+            theme={theme}
+            toggleTheme={toggleTheme}
+          />
+
+          <Switch>
+            <Route exact path="/dashboard">
+              <Dashboard address={address} provider={injectedProvider} />
+            </Route>
+
+            <Route exact path="/">
+              <Redirect to="/stake" />
+            </Route>
+
+            <Route path="/stake">
+              <Stake
+                address={address}
+                provider={injectedProvider}
+                web3Modal={web3Modal}
+                loadWeb3Modal={loadWeb3Modal}
+              />
+              <Route exact path="/stake/migrate">
+                <Migrate
+                  address={address}
+                  provider={injectedProvider}
+                  web3Modal={web3Modal}
+                  loadWeb3Modal={loadWeb3Modal}
+                />
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+              </Route>
+            </Route>
+
+            <Route path="/bonds">
+              {/* {Object.values(BONDS).map(bond => { */}
+              {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
+                return (
+                  <Route exact key={bond} path={`/bonds/${bond}`}>
+                    <Bond bond={bond} address={address} provider={injectedProvider} />
+                  </Route>
+                );
+              })}
+              <ChooseBond address={address} provider={injectedProvider} />
+            </Route>
+
+            <Route component={NotFound} />
+          </Switch>
+        </Container>
       </div>
     </ThemeProvider>
   );

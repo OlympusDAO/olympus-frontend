@@ -1,124 +1,123 @@
 #choose-bond-view {
-    h1, h2, h3, h4 {
-        font-family: 'Square' !important;
-        font-weight: 500;
-        color: inherit;
-    }
-    h2 {
-        color: #F4D092;
-    }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Square" !important;
+    font-weight: 500;
+    color: inherit;
+  }
+  h2 {
+    color: #f4d092;
+  }
 
-    .ohm-card {
-        width: 97%;
-    }
+  .ohm-logo-bg {
+    margin-left: 0;
+    border-radius: 20px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 40px;
+    width: 40px;
+  }
 
-    .ohm-logo-bg {
-        margin-left: 0;
-        border-radius: 20px;
-        padding: 10px;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+  .bond-data-card {
+    .ohm-pairs {
+      display: flex;
+      margin-right: 15px;
+    }
+    .bond-pair {
+      display: flex !important;
+      align-items: center;
+      justify-content: left;
+      margin-left: 10px;
+      margin-bottom: 15px;
+      .ohm-pair {
         height: 40px;
         width: 40px;
-    }        
-    .bond-data-card {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-evenly;
-        font-size: 1em;
-        .ohm-pairs {
-            display: flex;
-            margin-right: 15px;
+      }
+      .bond-name {
+        svg {
+          margin-left: 5px;
         }
-        .bond-pair {
-            display: flex !important;
-            align-items: center;
-            justify-content: left;
-            margin-left: 10px;
-            margin-bottom: 15px;
-            .ohm-pair {
-                height: 40px;
-                width: 40px;
-            }
-            .bond-name {
-                svg {
-                    margin-left: 5px;
-                }
-            }
-        }
-        .bond-price,
-        .bond-discount {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 15px;
-        }
-        .bond-link {
-            text-align: center;
-            a {
-                width: 95%;
-            }
-        }
+      }
     }
-    
+    .bond-price,
+    .bond-discount {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 15px;
+    }
+    .bond-link {
+      text-align: center;
+      a {
+        width: 95%;
+      }
+    }
+  }
 
-    .MuiTableRow-head {
-        .MuiTableCell-alignLeft {
-            padding-left: 20px;
-        }
+  .MuiTableRow-head {
+    .MuiTableCell-alignLeft {
+      padding-left: 20px;
     }
+  }
 
-    .MuiTableCell-root {
-        border-bottom: none !important;
-        font-size: 1em !important;
-        p {
-            margin-bottom: 0 !important;
-        }
-        &.MuiTableCell-alignLeft {
-            display: flex;
-        }
+  .MuiTableCell-root {
+    p {
+      margin-bottom: 0 !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      img {
+        margin-right: 3px;
+      }
     }
-    
-    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
-        justify-content: space-evenly;
-        div.ohm-pairs {
-            width: 33%;
-            // padding-left: 8px;
-            vertical-align: middle !important;
-            align-items: center !important;
-            justify-content: center !important;
-            margin-bottom: 0 !important;
-            .ohm-pairs div.bond-name p, .ohm-pairs svg {
-                align-self: center !important;
-                line-height: 115%;
-                font-weight: bold !important;
-                margin-bottom: 0em !important;
-                padding: 0 !important;
-                font-family: inherit;
-                vertical-align: text-top !important;
-            }
-            .ohm-logo-bg {
-                margin-left: 0;
-                border-radius: 20px;
-                padding: 6px;
-                height: 40px;
-                width: 40px;
-            }
-        }
-        div.bond-name {
-            width: 60%;
-            margin-left: 8px !important;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            p {
-                margin-bottom: unset !important;
-            }
-            svg {
-                margin-left: 5px !important;
-            }
-        }
+    &.MuiTableCell-alignLeft {
+      display: flex;
     }
-    
+  }
+
+  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+    justify-content: space-between;
+    div.ohm-pairs {
+      width: 33%;
+      vertical-align: middle !important;
+      align-items: center !important;
+      justify-content: center !important;
+      margin-bottom: 0 !important;
+      .ohm-pairs div.bond-name p,
+      .ohm-pairs svg {
+        align-self: center !important;
+        line-height: 115%;
+        font-weight: bold !important;
+        margin-bottom: 0em !important;
+        padding: 0 !important;
+        font-family: inherit;
+        vertical-align: text-top !important;
+      }
+      .ohm-logo-bg {
+        margin-left: 0;
+        border-radius: 20px;
+        padding: 6px;
+        height: 40px;
+        width: 40px;
+      }
+    }
+    div.bond-name {
+      width: 60%;
+      margin-left: 8px !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+      align-items: start;
+      p {
+        margin-bottom: unset !important;
+      }
+      svg {
+        margin-left: 5px !important;
+      }
+    }
+  }
 }

@@ -1,6 +1,10 @@
 /* eslint-disable global-require */
+<<<<<<< HEAD
 
 import React, { Component } from "react";
+=======
+import { Component } from "react";
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 

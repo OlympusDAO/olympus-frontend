@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { trim, bondName, lpURL, isBondLP } from "../../helpers";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import BondLogo from "../../components/BondLogo";
 import { TableRow, TableCell } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
@@ -17,14 +18,30 @@ export function BondCardData({ bond }) {
 import BondLogo from '../../components/BondLogo';
 import { Button, Box, Link, Paper, Grid, Typography, TableRow, TableCell, } from "@material-ui/core";
 import { NavLink } from 'react-router-dom';
+=======
+import BondLogo from "../../components/BondLogo";
+import { Button, Box, Link, Paper, Grid, Typography, TableRow, TableCell } from "@material-ui/core";
+import { NavLink } from "react-router-dom";
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 import "./choosebond.scss";
 
-
 export function BondDataCard({ bond }) {
+<<<<<<< HEAD
   const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
   const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
   const bondPurchased = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].purchased });
 >>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
+=======
+  const bondPrice = useSelector(state => {
+    return state.bonding[bond] && state.bonding[bond].bondPrice;
+  });
+  const bondDiscount = useSelector(state => {
+    return state.bonding[bond] && state.bonding[bond].bondDiscount;
+  });
+  const bondPurchased = useSelector(state => {
+    return state.bonding[bond] && state.bonding[bond].purchased;
+  });
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 
   const daiAssetImg = () => {
     return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png";
@@ -84,11 +101,13 @@ export function BondDataCard({ bond }) {
               <BondLogo bond={bond} />
               <div className="bond-name">
                 {bondName(bond)}
-                {isBondLP(bond) && <div>
+                {isBondLP(bond) && (
+                  <div>
                     <Button color="secondary" variant="text" component={Link} href={lpURL(bond)} target="_blank">
                       View Contract <i className="fas fa-external-link-alt"></i>
                     </Button>
-                </div>}
+                  </div>
+                )}
               </div>
             </div>
           </Grid>
@@ -96,7 +115,7 @@ export function BondDataCard({ bond }) {
           <Grid item xs={12}>
             <div className="bond-price">
               <p>Price</p>
-              <p>${bondPrice && trim(bondPrice, 2)}</p>
+              <p>{priceUnits(bond) && trim(bondPrice, 2)}</p>
             </div>
           </Grid>
 
@@ -111,31 +130,31 @@ export function BondDataCard({ bond }) {
             <div className="bond-discount">
               <p>Purchased</p>
               <p>
-                {bondPurchased && new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0
-                }).format(bondPurchased)}
+                {bondPurchased &&
+                  new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  }).format(bondPurchased)}
               </p>
             </div>
           </Grid>
 
           <Grid item xs={12} className="bond-link">
-            <Button
-              href={`/bonds/${bond}`}
-              variant="outlined"
-              color="primary"
-            >
+            <Button href={`/bonds/${bond}`} variant="outlined" color="primary">
               Bond
             </Button>
           </Grid>
         </Grid>
-        
       </div>
     </Paper>
+<<<<<<< HEAD
   )
 >>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
+=======
+  );
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 }
 
 export function BondTableData({ bond }) {
@@ -168,6 +187,7 @@ export function BondTableData({ bond }) {
         <BondLogo bond={bond} />
         <div className="bond-name">
 <<<<<<< HEAD
+<<<<<<< HEAD
           {bondName(bond)}
           {isBondLP(bond) && (
             <a href={lpURL(bond)} target="_blank">
@@ -187,6 +207,17 @@ export function BondTableData({ bond }) {
         </Link>}
 
 >>>>>>> links and styles updated for bond table
+=======
+          {bondName(bond)}
+          {isBondLP(bond) && (
+            <Link color="primary" href={lpURL(bond)} target="_blank">
+              <p>
+                View Contract
+                <i className="fas fa-external-link-alt"></i>
+              </p>
+            </Link>
+          )}
+>>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
         </div>
       </TableCell>
       <TableCell align="center">
@@ -206,11 +237,11 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell align="right">
         <NavLink to={`/bonds/${bond}`}>
-          <Button variant="outlined" color="primary">Bond</Button>
+          <Button variant="outlined" color="primary">
+            Bond
+          </Button>
         </NavLink>
       </TableCell>
     </TableRow>
   );
 }
-
-
