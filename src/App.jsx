@@ -1,15 +1,14 @@
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-// import { ThemeProvider } from "styled-components";
-import { ThemeProvider } from "@material-ui/core/styles"
+import { ThemeProvider } from "@material-ui/core/styles";
 import { useUserAddress } from "eth-hooks";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/js/all.js";
-import ClearIcon from '@material-ui/icons/Clear';
+import ClearIcon from "@material-ui/icons/Clear";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, useMediaQuery } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -96,31 +95,31 @@ const logoutOfWeb3Modal = async () => {
   }, 1);
 };
 
-
 function App(props) {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
-  const location = useLocation()
+  const location = useLocation();
 
   const isSmallerScreen = useMediaQuery("(max-width: 800px)");
-	const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
+  const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   const handleSidebarOpen = () => {
-    setIsSidebarExpanded(true)
-  }
+    setIsSidebarExpanded(true);
+  };
 
   const handleSidebarClose = () => {
-    setIsSidebarExpanded(false)
-  }
+    setIsSidebarExpanded(false);
+  };
 
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
-  }, [location])
+  }, [location]);
 
-
-  const currentIndex = useSelector((state) => { return state.app.currentIndex });
+  const currentIndex = useSelector(state => {
+    return state.app.currentIndex;
+  });
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
@@ -156,7 +155,7 @@ function App(props) {
     if (injectedProvider) loadProvider = injectedProvider;
 
     await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
-    
+
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
     [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
@@ -179,7 +178,6 @@ function App(props) {
     }
   }, [loadWeb3Modal]);
 
-
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
@@ -195,7 +193,7 @@ function App(props) {
       <CssBaseline />
 
       <div className={`app ${isSmallerScreen && "mobile"}`}>
-          {!isSidebarExpanded &&
+        {!isSidebarExpanded && (
           <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
             <button
               className="navbar-toggler"
@@ -209,76 +207,75 @@ function App(props) {
             >
               <span className="navbar-toggler-icon" />
             </button>
-          </nav>}
+          </nav>
+        )}
 
-          {isSidebarExpanded && (
-            <a
-              role="button"
-              className="close-nav"
-              onClick={() => setIsSidebarExpanded(false)}
-            >
-              <ClearIcon />
-            </a>
-          )}
+        {isSidebarExpanded && (
+          <a role="button" className="close-nav" onClick={() => setIsSidebarExpanded(false)}>
+            <ClearIcon />
+          </a>
+        )}
 
-          <Sidebar
-            currentIndex={currentIndex}
-            isExpanded={isSidebarExpanded}
+        <Sidebar
+          currentIndex={currentIndex}
+          isExpanded={isSidebarExpanded}
+          theme={theme}
+          onClick={() => {
+            isSidebarExpanded ? handleSidebarClose() : console.log("sidebar colapsed");
+          }}
+        />
+
+        <Container maxWidth="xl">
+          <TopBar
+            web3Modal={web3Modal}
+            loadWeb3Modal={loadWeb3Modal}
+            logoutOfWeb3Modal={logoutOfWeb3Modal}
+            address={address}
             theme={theme}
-            onClick={() => {isSidebarExpanded ? handleSidebarClose() : console.log('sidebar colapsed')}}
+            toggleTheme={toggleTheme}
           />
-          
-          <Container maxWidth="xl">
-            <TopBar
-              web3Modal={web3Modal}
-              loadWeb3Modal={loadWeb3Modal}
-              logoutOfWeb3Modal={logoutOfWeb3Modal}
-              address={address}
-              theme={theme}
-              toggleTheme={toggleTheme}
-            />
 
-            <Switch>
-              <Route exact path="/dashboard">
-                <Dashboard address={address} provider={injectedProvider} />
+          <Switch>
+            <Route exact path="/dashboard">
+              <Dashboard address={address} provider={injectedProvider} />
+            </Route>
+
+            <Route exact path="/">
+              <Redirect to="/stake" />
+            </Route>
+
+            <Route path="/stake">
+              <Stake
+                address={address}
+                provider={injectedProvider}
+                web3Modal={web3Modal}
+                loadWeb3Modal={loadWeb3Modal}
+              />
+              <Route exact path="/stake/migrate">
+                <Migrate
+                  address={address}
+                  provider={injectedProvider}
+                  web3Modal={web3Modal}
+                  loadWeb3Modal={loadWeb3Modal}
+                />
               </Route>
+            </Route>
 
-              <Route exact path="/">
-                <Redirect to="/stake" />
-              </Route>
+            <Route path="/bonds">
+              {/* {Object.values(BONDS).map(bond => { */}
+              {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
+                return (
+                  <Route exact key={bond} path={`/bonds/${bond}`}>
+                    <Bond bond={bond} address={address} provider={injectedProvider} />
+                  </Route>
+                );
+              })}
+              <ChooseBond address={address} provider={injectedProvider} />
+            </Route>
 
-              <Route path="/stake">
-                <Stake
-                    address={address}
-                    provider={injectedProvider}
-                    web3Modal={web3Modal}
-                    loadWeb3Modal={loadWeb3Modal}
-                  />
-                <Route exact path="/stake/migrate">
-                  <Migrate
-                    address={address}
-                    provider={injectedProvider}
-                    web3Modal={web3Modal}
-                    loadWeb3Modal={loadWeb3Modal}
-                  />
-                </Route>
-              </Route>
-
-              <Route path="/bonds">
-                {/* {Object.values(BONDS).map(bond => { */}
-                  {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
-                    return (
-                      <Route exact key={bond} path={`/bonds/${bond}`}>
-                        <Bond bond={bond} address={address} provider={injectedProvider} />
-                      </Route>
-                    );
-                })}
-                <ChooseBond address={address} provider={injectedProvider} />
-              </Route>
-
-              <Route component={NotFound} />
-            </Switch>
-          </Container>
+            <Route component={NotFound} />
+          </Switch>
+        </Container>
       </div>
     </ThemeProvider>
   );
@@ -286,7 +283,7 @@ function App(props) {
 
 /* eslint-disable */
 window.ethereum &&
-  window.ethereum.on("chainChanged", (chainId ) => {
+  window.ethereum.on("chainChanged", chainId => {
     web3Modal.cachedProvider &&
       setTimeout(() => {
         window.location.reload();
@@ -294,7 +291,7 @@ window.ethereum &&
   });
 
 window.ethereum &&
-  window.ethereum.on("accountsChanged", (accounts ) => {
+  window.ethereum.on("accountsChanged", accounts => {
     web3Modal.cachedProvider &&
       setTimeout(() => {
         window.location.reload();
