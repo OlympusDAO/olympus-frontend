@@ -2,11 +2,18 @@ module.exports = {
   env: {
     browser: true,
   },
+<<<<<<< HEAD
   extends: [/*"airbnb", */ "plugin:prettier/recommended", "prettier/react"],
   plugins: ["babel"],
   rules: {
     "prettier/prettier": ["warn"],
 <<<<<<< HEAD
+=======
+  extends: [/*"airbnb"*/ "plugin:prettier/recommended", "prettier/react"],
+  plugins: ["babel"],
+  rules: {
+    "prettier/prettier": ["warn"],
+>>>>>>> commented out airbnb in eslint
     // "import/extensions": [
     //   "error",
     //   "ignorePackages",
@@ -17,6 +24,7 @@ module.exports = {
     //     tsx: "never",
     //   },
     // ],
+<<<<<<< HEAD
 =======
     "import/extensions": [
       "error",
@@ -29,6 +37,8 @@ module.exports = {
       },
     ],
 >>>>>>> updated eslint to 7.29 and changed prettier config to warn
+=======
+>>>>>>> commented out airbnb in eslint
     "import/prefer-default-export": "off",
     "prefer-destructuring": "off",
     "prefer-template": "off",
