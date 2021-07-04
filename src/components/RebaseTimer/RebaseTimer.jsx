@@ -26,6 +26,7 @@ function RebaseTimer() {
       const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
       return prettifySeconds(seconds);
     }
+<<<<<<< HEAD
   };
 
   return (
@@ -41,7 +42,18 @@ function RebaseTimer() {
         <strong>{timeUntilRebase()}</strong> to next rebase
       </Typography>
     </Box>
+<<<<<<< HEAD
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
+=======
+=======
+  }
+
+  return (
+		<div className="rebase-timer">
+      <p><span style={{fontWeight: 'bold'}}>{timeUntilRebase()}</span> to next rebase</p>
+		</div>
+>>>>>>> Added more staking info and UI fixes
+>>>>>>> Added more staking info and UI fixes
   );
 }
 
