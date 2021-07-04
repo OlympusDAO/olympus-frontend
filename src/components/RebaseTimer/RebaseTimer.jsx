@@ -14,6 +14,7 @@ function RebaseTimer() {
       const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
       return prettifySeconds(seconds);
     }
+<<<<<<< HEAD
   };
 
   return (
@@ -22,6 +23,14 @@ function RebaseTimer() {
         <strong>{timeUntilRebase()}</strong> to next rebase
       </Typography>
     </Box>
+=======
+  }
+
+  return (
+		<div className="rebase-timer">
+      <p><span style={{fontWeight: 'bold'}}>{timeUntilRebase()}</span> to next rebase</p>
+		</div>
+>>>>>>> Added more staking info and UI fixes
   );
 }
 

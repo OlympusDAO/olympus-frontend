@@ -87,11 +87,11 @@ const ohmMenu = (isShown = false, theme = "light", isBigScreen = false, networkI
           <hr style={{ color: "grey", margin: "0px" }} />
           <div className="ohm-menu-container">
             <p className="add-token-title">ADD TOKEN TO WALLET</p>
-            <div onClick={addOhmToWallet("OHM", OHM_ADDRESS)}>
-              <p className="ohm-token-name">OHM</p>
+            <div className="ohm-token-name" onClick={addOhmToWallet("OHM", OHM_ADDRESS)}>
+              <p>OHM</p>
             </div>
-            <div onClick={addOhmToWallet("sOHM", SOHM_ADDRESS)}>
-              <p className="ohm-token-name">sOHM</p>
+            <div className="ohm-token-name" onClick={addOhmToWallet("sOHM", SOHM_ADDRESS)}>
+              <p>sOHM</p>
             </div>
           </div>
         </>
@@ -263,7 +263,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
             onClick={() => setShowOhmMenu(!showOhmMenu)}
           >
             <div style={{ paddingTop: "5px" }}>
-              <InfoIcon style={{ marginBottom: "5px" }} fontSize="small" /> <span>Ohm</span>
+              <InfoIcon style={{ marginBottom: "5px" }} fontSize="small" /> <span>OHM</span>
             </div>
           </button>
         </>
