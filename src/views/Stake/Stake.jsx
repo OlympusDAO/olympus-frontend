@@ -120,6 +120,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     setMigrationWizardOpen(false);
   };
 
+  const trimmedSOHMBalance = trim(sohmBalance, 4);
+  const stakingRebasePercentage = trim(stakingRebase * 100, 4);
+  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4)
+
+
   // TODO: the two grids need `container` props to justify.
   return (
     <Grid id="stake-view" direction="row" justify="center">
@@ -329,12 +334,17 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
                       <div className="stake-price-data-row">
                         <p className="price-label">Your Staked Balance</p>
-                        <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                        <p className="price-data">{trimmedSOHMBalance} sOHM</p>
                       </div>
 
                       <div className="stake-price-data-row">
-                        <p className="price-label">Reward Yield</p>
-                        <p className="price-data">{trim(stakingRebase * 100, 4)}%</p>
+                        <p className="price-label">Next Reward Value</p>
+                        <p className="price-data">{nextRewardValue} sOHM</p>
+                      </div>
+
+                      <div className="stake-price-data-row">
+                        <p className="price-label">Next Reward Yield</p>
+                        <p className="price-data">{stakingRebasePercentage}%</p>
                       </div>
 
                       <div className="stake-price-data-row">
