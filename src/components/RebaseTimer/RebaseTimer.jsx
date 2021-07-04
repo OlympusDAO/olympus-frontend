@@ -14,13 +14,10 @@ function RebaseTimer() {
       return prettifySeconds(seconds);
     }
   }
-  
+
   return (
 		<div className="rebase-timer">
-			<p>Next Rebase</p>
-			<p>
-       {timeUntilRebase()}
-      </p>
+      <p><span style={{fontWeight: 'bold'}}>{timeUntilRebase()}</span> to next rebase</p>
 		</div>
   );
 }
