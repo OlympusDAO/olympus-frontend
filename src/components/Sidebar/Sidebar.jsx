@@ -62,7 +62,7 @@ function Sidebar({ address }) {
             </a>
           </div>
           {address && <div className={`branding-header m-3`}>
-            <a href={`https://etherscan.io/address/${address}`} target="_blank">
+            <a style={{color: theme === "light" ? "black" : "white"}} href={`https://etherscan.io/address/${address}`} target="_blank">
               {shorten(address)}
             </a>
           </div>
