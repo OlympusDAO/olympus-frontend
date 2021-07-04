@@ -49,7 +49,7 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
             </a>
           </div>
           {address && <div className={`branding-header m-3`}>
-            <a href={`https://etherscan.io/address/${address}`} target="_blank">
+            <a style={{color: theme === "light" ? "black" : "white"}} href={`https://etherscan.io/address/${address}`} target="_blank">
               {shorten(address)}
             </a>
           </div>
@@ -78,7 +78,7 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
               <div className="bond-discounts">
                 <p>Bond discounts</p>
                 {bonds.map((bond, i) => (
-                  <Link to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span>{bond.discount ? trim(bond.discount * 100, 2) : ''}%</span></Link>
+                  <Link to={`/bonds/${bond.value}`} key={i} className={"bond"}>{bond.name}<span style={{fontWeight: 'bold'}}>{bond.discount ? trim(bond.discount * 100, 2) : ''} %</span></Link>
                 ))}
               </div>
             </div>
