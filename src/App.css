@@ -1,20 +1,19 @@
 body {
   margin: 0;
+  box-sizing: border-box;
 }
 
 .app {
   height: 100vh;
   width: 100vw;
-  box-sizing: border-box;
   display: flex;
+  flex-flow: column;
+  flex-direction: column;
+  z-index: 1;
+  background-size: cover;
+  font-family: "Square";
 }
 
-a.close-nav {
-  position: absolute !important;
-  z-index: 10;
-  top: 25px;
-  left: 35px;
+a {
+  text-decoration: none;
 }
-
-
-

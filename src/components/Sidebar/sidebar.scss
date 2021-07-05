@@ -11,10 +11,6 @@
 .dapp-sidebar {
   height: 100vh;
   border-radius: 0 !important;
-
-  #bond-nav span {
-    margin-left: -2px;
-  }
 }
 
 .branding-header {
@@ -24,25 +20,12 @@
   width: 100%;
   align-items: center;
   text-decoration: none;
-  margin-bottom: 73px;
+  margin: 30px 0;
   .branding-header-icon {
-    width: 100px;
-    padding: 0.5rem 1.1rem;
+    width: 50px;
     filter: invert(1);
     display: block;
     margin: 0 auto;
-  }
-  a {
-    display: block;
-    line-height: 0;
-    max-width: fit-content;
-    h3 {
-      display: inline-block;
-      vertical-align: middle;
-      color: white;
-      margin: 0;
-      font-size: 2.2em;
-    }
   }
 }
 
@@ -58,64 +41,36 @@
   }
 }
 
-.button-dapp-menu {
-  display: flex;
-  font-weight: normal !important;
-  height: auto;
-  line-height: 150%;
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.2em;
-  svg {
-    height: 100%;
-  }
-}
-
 .dapp-nav a {
   padding: 0 11%;
-  background: transparent;
-  margin-top: 0.7em;
+  margin-top: 0.7rem;
   align-items: center;
-  margin-bottom: 0.5em;
-  > span {
-    border-bottom: 2px solid transparent !important;
-  }
-  &.active {
-    color: #f5ddb4;
-    border-bottom: 2px solid transparent !important;
-    span {
-      border-bottom: 2px solid transparent !important;
-    }
+  margin-bottom: 0.5rem;
+  svg {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 10px;
   }
 }
 
 .dapp-menu-external-links {
   display: flex;
   flex-flow: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  font-weight: 300;
   height: 30%;
-  min-height: 18%;
-  width: 100%;
-  margin-left: 60px;
+  min-height: 19%;
+  margin-left: 33px;
   a {
     display: flex;
     width: 100%;
     align-items: center;
     margin-bottom: 15px;
   }
-  a:first-of-type {
-    svg {
-      margin-left: -3px;
-    }
-  }
-  span {
-    margin-left: 1rem;
-    height: 100%;
-    display: inline-block;
-    vertical-align: top;
-    border-bottom: 2px solid transparent;
+  a svg {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 10px;
   }
 }
 
@@ -130,52 +85,27 @@
   }
   &.bottom {
     flex-direction: column;
-    justify-content: center;
-    max-height: 39%;
+    justify-content: flex-end;
+    align-items: flex-start;
+    max-height: 38%;
     min-height: 15%;
     height: auto;
-  }
-  .data-rebase {
-    justify-content: center;
-    .rebase-timer {
-      text-align: center !important;
-      font-size: 1.1em;
-    }
-  }
-  .data-ohm-index {
-    min-width: 64px;
-    font-size: 1em;
-    margin-top: 1rem;
-    align-items: left;
-    margin-bottom: 1rem;
-    p {
-      display: block;
-      margin-bottom: -5px;
-    }
   }
 }
 
 .bond-discounts {
   text-align: left;
   color: #999999;
-  padding-left: calc(11% + 36px);
-  p {
-    &:first-of-type {
-      margin-bottom: 8px;
-    }
-  }
-
+  padding-left: calc(11% + 30px);
+  margin-top: 8px;
   .bond {
     display: block;
-    font-size: 0.83em;
     padding: unset;
     margin-bottom: 0 0 1px 0;
-    border-bottom: 2px solid transparent;
     text-decoration: none !important;
     span {
       margin-left: 23px;
       float: right;
-      // border-bottom: 0 !important;
     }
   }
 }
@@ -185,7 +115,6 @@
   display: block;
   flex-flow: column;
   justify-content: center;
-  height: 80px;
   position: absolute;
   bottom: 0px;
   left: 0px;
@@ -195,7 +124,7 @@
   display: flex;
   flex-flow: row;
   justify-content: space-evenly;
-  padding: 1.5rem;
+  padding: 1.3rem;
   a {
     &:hover {
       transform: scale(1.1);
@@ -230,18 +159,12 @@
       }
     }
   }
-  .dapp-nav a {
-    font-size: x-large;
-  }
   .dapp-menu-external-links a {
-    font-size: x-large;
     justify-content: left;
   }
-
   .dapp-nav {
     .dapp-menu-data.discounts {
       margin-top: 2.5em;
-      font-size: 1.1em;
       .bond-discounts {
         display: none;
       }
@@ -249,19 +172,19 @@
   }
 }
 
-.show.sidebar {
-  position: absolute;
-  min-width: 100vw;
-  z-index: 4;
-  .MuiDrawer-docked {
-    width: 100% !important;
-  }
-}
+// .show.sidebar {
+//   position: absolute;
+//   min-width: 100vw;
+//   z-index: 4;
+//   .MuiDrawer-docked {
+//     width: 100% !important;
+//   }
+// }
 
-.show .dapp-sidebar {
-  width: 100%;
-  .dapp-menu-top,
-  .dapp-menu-external-links {
-    align-items: center;
-  }
-}
+// .show .dapp-sidebar {
+//   width: 100%;
+//   .dapp-menu-top,
+//   .dapp-menu-external-links {
+//     align-items: center;
+//   }
+// }

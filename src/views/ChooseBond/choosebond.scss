@@ -1,16 +1,4 @@
 #choose-bond-view {
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: "Square" !important;
-    font-weight: 500;
-    color: inherit;
-  }
-  h2 {
-    color: #f4d092;
-  }
-
   .ohm-logo-bg {
     margin-left: 0;
     border-radius: 20px;
@@ -20,6 +8,12 @@
     text-align: center;
     height: 40px;
     width: 40px;
+  }
+
+  .ohm-card-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
   }
 
   .bond-data-card {
@@ -89,7 +83,7 @@
       .ohm-pairs div.bond-name p,
       .ohm-pairs svg {
         align-self: center !important;
-        line-height: 115%;
+        line-height: 100% !important;
         font-weight: bold !important;
         margin-bottom: 0em !important;
         padding: 0 !important;
