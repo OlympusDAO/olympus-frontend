@@ -5,12 +5,10 @@ import { useUserAddress } from "eth-hooks";
 import { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
-import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/js/all.js";
-import ClearIcon from "@material-ui/icons/Clear";
 import { useSelector, useDispatch } from "react-redux";
-import { Container, useMediaQuery } from "@material-ui/core";
+import { Container, Hidden, useMediaQuery } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
@@ -29,10 +27,13 @@ import { loadAccountDetails } from "./actions/Account.actions.js";
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
+import { TopBar2 } from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
+import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
 
 import "./App.css";
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -42,6 +43,10 @@ import "./App.css";
 >>>>>>> links and styles updated for bond table
 
 import { dark as darkTheme } from "./themes/dark";
+=======
+import "./style.scss";
+import { dark as darkTheme } from "./themes/dark.js";
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 import { light as lightTheme } from "./themes/light";
 import { girth as gTheme } from "./themes/girth";
 
@@ -119,15 +124,52 @@ const logoutOfWeb3Modal = async () => {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> removed unused scaffold-eth components and pruned scss
 =======
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+const drawerWidth = 280;
+const transitionDuration = 969;
+
+const useStyles = makeStyles(theme => ({
+  drawer: {
+    [theme.breakpoints.up("md")]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(1),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: transitionDuration,
+    }),
+    marginLeft: drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: transitionDuration,
+    }),
+    marginLeft: 0,
+  },
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+  },
+}));
+
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 function App(props) {
   const dispatch = useDispatch();
-  const [theme, toggleTheme, mounted] = useTheme();
+  const [theme, toggleTheme] = useTheme();
   const location = useLocation();
+<<<<<<< HEAD
 
 <<<<<<< HEAD
   const isSmallerScreen = useMediaQuery("(max-width: 1125px)");
@@ -141,7 +183,11 @@ function App(props) {
   const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 
+=======
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isSmallerScreen = useMediaQuery("(max-width: 979px)");
 
   const handleSidebarOpen = () => {
     setIsSidebarExpanded(true);
@@ -151,6 +197,7 @@ function App(props) {
     setIsSidebarExpanded(false);
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
@@ -199,6 +246,8 @@ function App(props) {
   const currentIndex = useSelector((state) => { return state.app.currentIndex });
 =======
 
+=======
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
@@ -256,6 +305,10 @@ function App(props) {
   }
 
   useEffect(() => {
+    if (isSidebarExpanded) handleSidebarClose();
+  }, [location]);
+
+  useEffect(() => {
     loadDetails();
   }, [injectedProvider, address]);
 
@@ -283,13 +336,16 @@ function App(props) {
     themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
   });
 
-  if (!mounted) {
-    return <div />;
-  }
+  const classes = useStyles();
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
+<<<<<<< HEAD
 <<<<<<< HEAD
       {/* <GlobalStyles /> */}
 <<<<<<< HEAD
@@ -421,22 +477,28 @@ function App(props) {
         <Sidebar
           currentIndex={currentIndex}
           isExpanded={isSidebarExpanded}
+=======
+      <div className={`app ${isSmallerScreen && "mobile"}`}>
+        <TopBar
+          web3Modal={web3Modal}
+          loadWeb3Modal={loadWeb3Modal}
+          logoutOfWeb3Modal={logoutOfWeb3Modal}
+          address={address}
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
           theme={theme}
-          onClick={() => {
-            isSidebarExpanded ? handleSidebarClose() : console.log("sidebar colapsed");
-          }}
+          toggleTheme={toggleTheme}
+          handleDrawerToggle={handleDrawerToggle}
         />
+        <nav className={classes.drawer}>
+          <Hidden mdUp>
+            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+          </Hidden>
+          <Hidden smDown>
+            <Sidebar currentIndex={currentIndex} theme={theme} />
+          </Hidden>
+        </nav>
 
-        <Container maxWidth="xl">
-          <TopBar
-            web3Modal={web3Modal}
-            loadWeb3Modal={loadWeb3Modal}
-            logoutOfWeb3Modal={logoutOfWeb3Modal}
-            address={address}
-            theme={theme}
-            toggleTheme={toggleTheme}
-          />
-
+        <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
             <Route exact path="/dashboard">
               <Dashboard address={address} provider={injectedProvider} />
@@ -478,7 +540,7 @@ function App(props) {
 
             <Route component={NotFound} />
           </Switch>
-        </Container>
+        </div>
       </div>
     </ThemeProvider>
   );

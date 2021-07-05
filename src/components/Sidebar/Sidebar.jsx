@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useCallback, useState, useEffect } from "react";
 =======
 import React, { useCallback, useState, useEffect } from 'react';
@@ -10,6 +11,9 @@ import { Link, NavLink } from "react-router-dom";
 =======
 import React, { useCallback, useState, useEffect } from "react";
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+import { useCallback, useState } from "react";
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 import { NavLink } from "react-router-dom";
 >>>>>>> sidebar responsiveness tweaks and link styling, stake table replaced with mui table
 import Social from "../Social";
@@ -18,16 +22,25 @@ import externalUrls from "./externalUrls";
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake-icon.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond-icon.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-icon.svg";
+<<<<<<< HEAD
 import { shorten, trim } from "../../helpers";
 import "./sidebar.scss";
 <<<<<<< HEAD
 import orderBy from "lodash/orderBy";
 =======
 >>>>>>> updated stake page to use paper and Button components, still need to override hover styles
+=======
+import { trim } from "../../helpers";
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 import useBonds from "../../hooks/Bonds";
-import { Paper, Drawer, Link, Button } from "@material-ui/core";
+import { Paper, Drawer, Link, Box, Button, Typography } from "@material-ui/core";
+import "./sidebar.scss";
 
+<<<<<<< HEAD
 function Sidebar({ isExpanded, theme, currentIndex, address }) {
+=======
+function Sidebar() {
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
   const [isActive] = useState();
   const bonds = useBonds();
 
@@ -46,6 +59,7 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
   }, []);
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -149,19 +163,25 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
 =======
     <div className={`${isExpanded ? "show" : ""} d-lg-block sidebar collapse`} id="sidebarContent">
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+    <div className={`sidebar`} id="sidebarContent">
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
       <Drawer variant="permanent" anchor="left">
         <Paper className="dapp-sidebar">
           <div className="dapp-menu-top">
-            <div className="branding-header">
-              <a href="https://olympusdao.finance" target="_blank">
+            <Box className="branding-header">
+              <Link href="https://olympusdao.finance" target="_blank">
                 <img className="branding-header-icon" src={OlympusLogo} alt="OlympusDAO" />
-                <h3>Olympus</h3>
-              </a>
-            </div>
+                <Typography variant="h2" color="primary">
+                  Olympus
+                </Typography>
+              </Link>
+            </Box>
 
             <div className="dapp-menu-links">
               <div className="dapp-nav" id="navbarNav">
-                <NavLink
+                <Link
+                  component={NavLink}
                   id="dash-nav"
                   to="/dashboard"
                   isActive={(match, location) => {
@@ -169,11 +189,14 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
                   }}
                   className={`button-dapp-menu ${isActive ? "active" : ""}`}
                 >
-                  <DashboardIcon className="me-3" />
-                  <span>Dashboard</span>
-                </NavLink>
+                  <Typography>
+                    <DashboardIcon />
+                    Dashboard
+                  </Typography>
+                </Link>
 
-                <NavLink
+                <Link
+                  component={NavLink}
                   id="stake-nav"
                   to="/"
                   isActive={(match, location) => {
@@ -181,11 +204,14 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
                   }}
                   className={`button-dapp-menu ${isActive ? "active" : ""}`}
                 >
-                  <StakeIcon className="me-3" />
-                  <span>Stake</span>
-                </NavLink>
+                  <Typography>
+                    <StakeIcon />
+                    Stake
+                  </Typography>
+                </Link>
 
-                <NavLink
+                <Link
+                  component={NavLink}
                   id="bond-nav"
                   to="/bonds"
                   isActive={(match, location) => {
@@ -193,17 +219,21 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
                   }}
                   className={`button-dapp-menu ${isActive ? "active" : ""}`}
                 >
-                  <BondIcon className="me-3" />
-                  <span>Bond</span>
-                </NavLink>
+                  <Typography>
+                    <BondIcon />
+                    Bond
+                  </Typography>
+                </Link>
 
                 <div className="dapp-menu-data discounts">
                   <div className="bond-discounts">
-                    <p>Bond discounts</p>
+                    <Typography variant="body2">Bond discounts</Typography>
                     {bonds.map((bond, i) => (
                       <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>
-                        {bond.name}
-                        <span>{bond.discount ? trim(bond.discount * 100, 2) : ""}%</span>
+                        <Typography variant="body2">
+                          {bond.name}
+                          <span>{bond.discount ? trim(bond.discount * 100, 2) : ""}%</span>
+                        </Typography>
                       </Link>
                     ))}
                   </div>
@@ -212,6 +242,7 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
               </div>
             </div>
           </div>
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -241,20 +272,23 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
 =======
           <hr />
 
+=======
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
           <div className="dapp-menu-data bottom">
             <div className="dapp-menu-external-links">
               {Object.keys(externalUrls).map((link, i) => {
                 return (
-                  <a key={i} href={`${externalUrls[link].url}`} target="_blank" className="button button-dapp-menu">
-                    <span className="bond-pair-name">{externalUrls[link].icon}</span>
-                    <span className="bond-pair-roi">{externalUrls[link].title}</span>
-                  </a>
+                  <Link key={i} href={`${externalUrls[link].url}`} target="_blank">
+                    <Typography className="bond-pair-name">{externalUrls[link].icon}</Typography>
+                    <Typography className="bond-pair-roi">{externalUrls[link].title}</Typography>
+                  </Link>
                 );
               })}
             </div>
 >>>>>>> sidebar spacing, mobile bond views, typography. anext up link colors and table format
           </div>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
           {theme === "girth" &&
 >>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
@@ -287,6 +321,8 @@ function Sidebar({ isExpanded, theme, currentIndex, address }) {
 =======
           )}
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
           <div className="dapp-menu-social">
             <Social />
           </div>

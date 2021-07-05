@@ -1,7 +1,19 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Flex } from "rimble-ui";
-import { Grid, Paper, Typography, Button, TableHead, TableCell, TableBody, Table, TableRow, TableContainer, emphasize } from "@material-ui/core";
+import {
+  Grid,
+  Box,
+  Paper,
+  Typography,
+  Button,
+  TableHead,
+  TableCell,
+  TableBody,
+  Table,
+  TableRow,
+  TableContainer,
+  Link,
+} from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
@@ -27,11 +39,15 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 
   const isSmallScreen = useMediaQuery("(max-width: 1125px)");
 <<<<<<< HEAD
+<<<<<<< HEAD
   const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
   const isNarrowScreen = useMediaQuery("(max-width:460px)");
 =======
 	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)")
 >>>>>>> updated stake page to use paper and Button components, still need to override hover styles
+=======
+  const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 
   const fraxData = useSelector(state => {
     return state.fraxData;
@@ -86,40 +102,37 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
     }
   };
 
-
   // https://docs.ethers.io/v5/single-page/#/v5/api/providers/provider/-%23-Provider--events
-  const transaction = (txHash) => { 
+  const transaction = txHash => {
     if (txHash.length > 0 && provider && address) {
-      provider.once(txHash, (tx) => {
-        console.log('transaction mined: ', tx);
+      provider.once(txHash, tx => {
+        console.log("transaction mined: ", tx);
         return tx;
-      })
+      });
     }
     return;
   };
 
   const pending = () => {
     if (provider && address) {
-      return provider.on("pending", (tx) => {
-        console.log('pending tx: ', tx);
+      return provider.on("pending", tx => {
+        console.log("pending tx: ", tx);
         transaction(tx);
         return tx;
-      })
+      });
     }
     return false;
   };
 
-
   useEffect(() => {
-    setTxPending(true)
+    setTxPending(true);
     setTx(pending);
-  }, [pending])
-
+  }, [pending]);
 
   useEffect(() => {
-    setTxPending(false)
+    setTxPending(false);
     setTx(transaction);
-  }, [transaction])
+  }, [transaction]);
 
   const hasAllowance = useCallback(
     token => {
@@ -141,8 +154,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
   const loadFraxData = async () => {
     dispatch(getFraxData());
   };
+<<<<<<< HEAD
 
   
+=======
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 
   useEffect(() => {
     loadFraxData();
@@ -152,6 +168,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 
   if (web3Modal) {
     modalButton.push(
+<<<<<<< HEAD
 <<<<<<< HEAD
       <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={loadWeb3Modal} key={2}>
         Connect Wallet
@@ -178,8 +195,18 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
   const trimmedSOHMBalance = trim(sohmBalance, 4);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
+=======
+      <Button variant="contained" color="primary" onClick={loadWeb3Modal} key={2}>
+        Connect Wallet
+      </Button>,
+    );
+  }
 
-  // TODO: the two grids need `container` props to justify.
+  const openMigrationWizard = () => {
+    setMigrationWizardOpen(true);
+  };
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
+
   return (
 <<<<<<< HEAD
     <Grid id="stake-view" direction="row" justify="center">
@@ -228,24 +255,26 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 =======
     <div id="stake-view">
       <Paper className={`ohm-card`}>
-        <Grid container direction="column" justify="center" spacing={3}>
+        <Grid container direction="column" justify="center" spacing={2}>
           <Grid item>
-            <Typography variant="h6">Single Stake (3, 3)</Typography>
-            <RebaseTimer />
+            <div className="card-header">
+              <Typography variant="h5">Single Stake (3, 3)</Typography>
+              <RebaseTimer />
 
-              {address && (oldSohmBalance > 0.01) && (
+              {address && oldSohmBalance > 0.01 && (
                 <div
                   className="migrate-sohm-button"
                   role="button"
                   aria-label="migrate-sohm"
-                  onClick={openMigrationWizard}>
-                    <NavLink to="/stake/migrate">
-                      <NewReleases />
-                      Migrate sOHM
-                    </NavLink>
+                  onClick={openMigrationWizard}
+                >
+                  <NavLink to="/stake/migrate">
+                    <NewReleases />
+                    Migrate sOHM
+                  </NavLink>
                 </div>
               )}
-              {address && (oldSohmBalance < 0.01) && (
+              {address && oldSohmBalance < 0.01 && (
                 <div
                   className="migrate-sohm-button complete"
                   role="button"
@@ -254,69 +283,78 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                 >
                   <NavLink to="/stake/migrate">
                     <CheckCircleIcon />
-                    sOHM Migrated 
+                    sOHM Migrated
                   </NavLink>
                 </div>
               )}
-            </Grid>
+            </div>
+          </Grid>
 
-            <Grid item>
-              <div className="stake-top-metrics">
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} lg={4}>
-                    <div className="olympus-sushi">
-                      <div>
-                        <img
-                          className="olympus-logo"
-                          src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                        />
-                        <h3>Olympus</h3>
-                      </div>
-                      <div>
-                        <a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
-                          Buy on Sushiswap
-                        </a>
-                        <i className="fa fa-external-link-alt" />
-                      </div>
+          <Grid item>
+            <div className="stake-top-metrics">
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={12} lg={4}>
+                  <div className="olympus-sushi">
+                    <div>
+                      <img
+                        className="olympus-logo"
+                        src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                      />
+                      <Typography variant="h4">Olympus</Typography>
                     </div>
-                  </Grid>
-
-                  <Grid item xs={6} sm={6} lg={4}>
-                    <div className="stake-apy">
-                      <h2 className="title">APY</h2>
-                      <h2 className="content">{stakingAPY && trim(stakingAPY * 100, 1)}%</h2>
+                    <div>
+                      <Link
+                        color="textPrimary"
+                        href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
+                        target="_blank"
+                      >
+                        Buy on Sushiswap
+                      </Link>
+                      <i className="fa fa-external-link-alt" />
                     </div>
-                  </Grid>
+                  </div>
+                </Grid>
 
-                  <Grid item xs={6} sm={6} lg={4}>
-                    <div className="stake-tvl">
-                      <h2 className="title">TVL</h2>
-                      <h2 className="content">
-                        {stakingTVL && new Intl.NumberFormat("en-US", {
+                <Grid item xs={6} sm={6} lg={4}>
+                  <div className="stake-apy">
+                    <Typography variant="h5">APY</Typography>
+                    <Typography variant="h4">{stakingAPY && trim(stakingAPY * 100, 1)}%</Typography>
+                  </div>
+                </Grid>
+
+                <Grid item xs={6} sm={6} lg={4}>
+                  <div className="stake-tvl">
+                    <Typography variant="h5">TVL</Typography>
+                    <Typography variant="h4">
+                      {stakingTVL &&
+                        new Intl.NumberFormat("en-US", {
                           style: "currency",
                           currency: "USD",
                           maximumFractionDigits: 0,
-                          minimumFractionDigits: 0
+                          minimumFractionDigits: 0,
                         }).format(stakingTVL)}
-                      </h2>
-                    </div>
-                  </Grid>
+                    </Typography>
+                  </div>
                 </Grid>
-              </div>
-            </Grid>
+              </Grid>
+            </div>
+          </Grid>
 
           <div className="staking-area">
             {!address ? (
               <div className="stake-wallet-notification">
-                <h4>Connect your wallet to Stake OHM</h4>
+                <Typography variant="h3" gutterBottom>
+                  Connect your wallet to Stake OHM
+                </Typography>
                 <div className="wallet-menu" id="wallet-menu">
                   {modalButton}
                 </div>
               </div>
-              ) : (
-                <>
+            ) : (
+              <>
                 <Grid item>
                   <div className="stake-toggle-row">
+<<<<<<< HEAD
                     <div className="btn-group" role="group">
                       <Button
                         onClick={() => {
@@ -397,9 +435,29 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                       </Button>
 >>>>>>> updated stake page to use paper and Button components, still need to override hover styles
                     </div>
+=======
+                    <Button
+                      variant="text"
+                      color="primary"
+                      onClick={() => {
+                        setView("stake");
+                      }}
+                    >
+                      Stake
+                    </Button>
+                    <Button
+                      variant="text"
+                      color="primary"
+                      onClick={() => {
+                        setView("unstake");
+                      }}
+                    >
+                      Unstake
+                    </Button>
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
                   </div>
 
-                  <Flex className="stake-action-row">
+                  <Box className="stake-action-row">
                     <div className="input-group ohm-input-group">
                       <div className="logo-holder">
                         <div className="ohm-logo-bg">
@@ -416,63 +474,69 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                         className="form-control stake-input"
                         placeholder="Type an amount"
                       />
-                      <Button onClick={setMax}>
-                        Max
-                      </Button>
+                      <Button onClick={setMax}>Max</Button>
                     </div>
 
                     {address && hasAllowance("ohm") && view === "stake" && (
                       <Button
                         className="stake-button"
+                        variant="contained"
+                        color="primary"
                         disabled={txPending}
                         onClick={() => {
                           onChangeStake("stake");
                           pending();
                         }}
                       >
-                        { !txPending ? "Stake OHM" : (<emphasize>Pending...</emphasize>) }
+                        {!txPending ? "Stake OHM" : <emphasize>Pending...</emphasize>}
                       </Button>
                     )}
 
                     {address && hasAllowance("sohm") && view === "unstake" && (
                       <Button
                         className="stake-button"
+                        variant="contained"
+                        color="primary"
                         disabled={txPending}
                         onClick={() => {
                           onChangeStake("unstake");
                           pending();
                         }}
                       >
-                        { !txPending ? "Unstake OHM" : (<emphasize>Pending...</emphasize>) }
+                        {!txPending ? "Unstake OHM" : <emphasize>Pending...</emphasize>}
                       </Button>
                     )}
 
                     {address && !hasAllowance("ohm") && view === "stake" && (
                       <Button
                         className="stake-button"
+                        variant="contained"
+                        color="primary"
                         disabled={txPending}
                         onClick={() => {
                           onSeekApproval("ohm");
                           pending();
                         }}
                       >
-                        { !txPending ? "Approve Stake" : (<emphasize>Pending...</emphasize>) }
+                        {!txPending ? "Approve Stake" : <emphasize>Pending...</emphasize>}
                       </Button>
                     )}
 
                     {address && !hasAllowance("sohm") && view === "unstake" && (
                       <Button
                         className="stake-button"
+                        variant="contained"
+                        color="primary"
                         disabled={txPending}
                         onClick={() => {
                           onSeekApproval("sohm");
                           pending();
                         }}
                       >
-                        { !txPending ? "Approve Unstake" : (<emphasize>Pending...</emphasize>) }
+                        {!txPending ? "Approve Unstake" : <emphasize>Pending...</emphasize>}
                       </Button>
                     )}
-                  </Flex>
+                  </Box>
 
                   <div className="stake-notification">
                     {address &&
@@ -482,6 +546,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                             Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
                             subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
                             transaction.
+<<<<<<< HEAD
                           </p>
                         </em>
                       )}
@@ -589,6 +654,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                           <p>
                             Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
                             subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.
+=======
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
                           </p>
                         </em>
                       )}
@@ -599,30 +666,36 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                   <div className={`stake-user-data`}>
                     <div className="stake-price-data-column">
                       <div className="stake-price-data-row">
-                        <p className="price-label">Your Balance</p>
-                        <p className="price-data">{trim(ohmBalance)} OHM</p>
+                        <Typography>Your Balance</Typography>
+                        <Typography>{trim(ohmBalance)} OHM</Typography>
                       </div>
 
                       <div className="stake-price-data-row">
-                        <p className="price-label">Your Staked Balance</p>
-                        <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                        <Typography>Your Staked Balance</Typography>
+                        <Typography>{trim(sohmBalance, 4)} sOHM</Typography>
                       </div>
 
                       <div className="stake-price-data-row">
-                        <p className="price-label">Reward Yield</p>
-                        <p className="price-data">{trim(stakingRebase * 100, 4)}%</p>
+                        <Typography>Reward Yield</Typography>
+                        <Typography>{trim(stakingRebase * 100, 4)}%</Typography>
                       </div>
 
                       <div className="stake-price-data-row">
+<<<<<<< HEAD
 >>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
                         <p className="price-label">ROI (5-Day Rate)</p>
                         <p className="price-data">{trim(fiveDayRate * 100, 4)}%</p>
+=======
+                        <Typography>ROI (5-Day Rate)</Typography>
+                        <Typography>{trim(fiveDayRate * 100, 4)}%</Typography>
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
                       </div>
                     </div>
                   </div>
                 </Grid>
               </>
             )}
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -758,122 +831,130 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
         <Paper className={`ohm-card secondary ${isSmallScreen  && "mobile"}`}>
           <div className="card-header">
             <h5>Farm Pools</h5>
+=======
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
           </div>
-          <div className="card-content">
-            { !isSmallScreen ? (
-              <TableContainer className="stake-table">
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Asset</TableCell>
-                      <TableCell>APR</TableCell>
-                      <TableCell>TVL</TableCell>
-                      <TableCell>Balance</TableCell>
-                      <TableCell></TableCell>
-                    </TableRow>
-                  </TableHead>
+        </Grid>
+      </Paper>
 
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>
-                        <Flex className="ohm-pairs mr-2">
-                          <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
-                            <img src={`${ohmAssetImg()}`} />
-                          </div>
-                          <div className="ohm-pair" style={{ zIndex: 1 }}>
-                            <img src={`${fraxAssetImg()}`} />
-                          </div>
-                          <p>
-                            OHM-FRAX
-                          </p>
-                        </Flex>
-                      </TableCell>
-                      <TableCell>{fraxData && trim(fraxData.apy, 1)}%</TableCell>
-                      <TableCell>
-                        {fraxData && fraxData.tvl && new Intl.NumberFormat("en-US", {
+      <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
+        <div className="card-header">
+          <Typography variant="h5">Farm Pools</Typography>
+        </div>
+        <div className="card-content">
+          {!isSmallScreen ? (
+            <TableContainer className="stake-table">
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Asset</TableCell>
+                    <TableCell>APR</TableCell>
+                    <TableCell>TVL</TableCell>
+                    <TableCell>Balance</TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+
+                <TableBody>
+                  <TableRow>
+                    <TableCell>
+                      <Box className="ohm-pairs">
+                        <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
+                          <img src={`${ohmAssetImg()}`} />
+                        </div>
+                        <div className="ohm-pair" style={{ zIndex: 1 }}>
+                          <img src={`${fraxAssetImg()}`} />
+                        </div>
+                        <Typography>OHM-FRAX</Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>{fraxData && trim(fraxData.apy, 1)}%</TableCell>
+                    <TableCell>
+                      {fraxData &&
+                        fraxData.tvl &&
+                        new Intl.NumberFormat("en-US", {
                           style: "currency",
                           currency: "USD",
                           maximumFractionDigits: 0,
-                          minimumFractionDigits: 0
+                          minimumFractionDigits: 0,
                         }).format(fraxData.tvl)}
-                      </TableCell>
-                      <TableCell> {fraxData && fraxData.balance || 0} LP </TableCell>
-                      <TableCell>
-                        <Button 
-                          variant="outlined"
-                          color="secondary"
-                          href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' 
-                          target="_blank"
-                          className="stake-lp-button"
-                        >
-                          Stake on FRAX
-                          <i className="fa fa-external-link-alt" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            ) : (
-              <div className="stake-pool">
-                <div className="pool-card-top-row">
-                  <Flex className="ohm-pairs mr-2">
-                    <div className="ohm-pair" style={{ zIndex: 2 }}>
+                    </TableCell>
+                    <TableCell> {(fraxData && fraxData.balance) || 0} LP </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
+                        target="_blank"
+                        className="stake-lp-button"
+                      >
+                        Stake on FRAX
+                        <i className="fa fa-external-link-alt" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <div className="stake-pool">
+              <div className="pool-card-top-row">
+                <Box className="ohm-pairs">
+                  <div className="ohm-pair" style={{ zIndex: 2 }}>
                     <div className="ohm-logo-bg">
                       <img src={`${ohmAssetImg()}`} />
-                      </div>
-                    </div>
-                    <div className="ohm-pair" style={{ zIndex: 1 }}>
-                      <img src={`${fraxAssetImg()}`} />
-                    </div>
-                    <p>
-                      OHM-FRAX
-                    </p>
-                  </Flex>
-                  <Button 
-                    variant="outlined"
-                    color="secondary"
-                    color="primary" 
-                    href='https://app.frax.finance/staking#Uniswap_FRAX_OHM' 
-                    target="_blank"
-                    className="stake-lp-button"
-                  >
-                    Stake on Frax
-                    <i className="fa fa-external-link-alt" />
-                  </Button>
-                </div>
-                <div className="pool-data">
-                  <div className="pool-data-row">
-                    <div className="pool-data-label">
-                      APR
-                    </div>
-                    <div className="pool-data-label">
-                      {fraxData && trim(fraxData.apy, 1)}%
                     </div>
                   </div>
-                  <div item className="pool-data-row">
-                    <div>TVL</div>
-                    <div>
-                      {fraxData && fraxData.tvl && new Intl.NumberFormat("en-US", {
+                  <div className="ohm-pair" style={{ zIndex: 1 }}>
+                    <img src={`${fraxAssetImg()}`} />
+                  </div>
+                  <Typography gutterBottom={false}>OHM-FRAX</Typography>
+                </Box>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
+                  target="_blank"
+                  className="stake-lp-button"
+                >
+                  Stake on FRAX
+                  <i className="fa fa-external-link-alt" />
+                </Button>
+              </div>
+              <div className="pool-data">
+                <div className="pool-data-row">
+                  <Typography>APR</Typography>
+                  <Typography>{fraxData && trim(fraxData.apy, 1)}%</Typography>
+                </div>
+                <div className="pool-data-row">
+                  <Typography>TVL</Typography>
+                  <Typography>
+                    {fraxData &&
+                      fraxData.tvl &&
+                      new Intl.NumberFormat("en-US", {
                         style: "currency",
                         currency: "USD",
                         maximumFractionDigits: 0,
-                        minimumFractionDigits: 0
+                        minimumFractionDigits: 0,
                       }).format(fraxData.tvl)}
-                    </div>
-                  </div>
-                  <div item className="pool-data-row">
-                    <div>Balance</div>
-                    <div>{fraxData && fraxData.balance || 0} LP</div>
-                  </div>
+                  </Typography>
+                </div>
+                <div className="pool-data-row">
+                  <Typography>Balance</Typography>
+                  <Typography>{(fraxData && fraxData.balance) || 0} LP</Typography>
                 </div>
               </div>
-            )}
+            </div>
+          )}
         </div>
       </Paper>
     </div>
+<<<<<<< HEAD
   )
 >>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
+=======
+  );
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 }
 
 export default Stake;

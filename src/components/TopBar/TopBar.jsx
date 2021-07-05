@@ -9,6 +9,7 @@ import { shorten } from "../../helpers";
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> fixed links in bond discounts
 import { Flex } from "rimble-ui";
 <<<<<<< HEAD
@@ -18,9 +19,14 @@ import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 =======
 >>>>>>> styled top bar/buttons, copied over light and girth theme (need work) and removed more redundnacy
 import { Button } from "@material-ui/core";
+=======
+import { AppBar, Toolbar, Button, Link, IconButton } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 >>>>>>> top bar buttons basic theme applied
 import "./topbar.scss";
+<<<<<<< HEAD
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { addresses } from "../../constants";
 import { getOhmTokenImage, getSohmTokenImage } from "../../helpers";
@@ -116,11 +122,40 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, toggleTheme }) {
   const isVerySmallScreen = useMediaQuery("(max-width: 649px)");
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+import { makeStyles } from "@material-ui/core/styles";
+
+const drawerWidth = 280;
+
+const useStyles = makeStyles(theme => ({
+  appBar: {
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+    background: "transparent",
+    padding: "10px",
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar,
+}));
+
+function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, toggleTheme, handleDrawerToggle }) {
+  const classes = useStyles();
+  const isVerySmallScreen = useMediaQuery("(max-width: 600px)");
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 
   const modalButtons = [];
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         <button
@@ -162,12 +197,15 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 >>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
 =======
         <Button type="button" color="secondary" variant="contained" size="large" onClick={logoutOfWeb3Modal} key={1}>
+=======
+        <Button color="secondary" variant="contained" size="large" onClick={logoutOfWeb3Modal} key={1}>
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
           Disconnect
         </Button>,
       );
     } else {
       modalButtons.push(
-        <Button variant="contained" color="secondary" type="button" size="large" onClick={loadWeb3Modal} key={2}>
+        <Button variant="contained" color="secondary" size="large" onClick={loadWeb3Modal} key={2}>
           Connect Wallet
         </Button>,
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
@@ -176,6 +214,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
   }
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
     <div className="dapp-topbar">
       {ohmMenu(showOhmMenu, theme, isBigScreen, networkID)}
@@ -257,30 +296,58 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
           variant="contained"
           color="secondary"
           title="Get OHM"
+=======
+    <AppBar position="sticky" className={classes.appBar} elevation="0">
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          className={classes.menuButton}
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
         >
-          <a
-            href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
-            target="_blank"
-          >
-            Get OHM
-          </a>
-        </Button>
-      )}
+          <MenuIcon />
+        </IconButton>
 
-      <div className="wallet-menu" id="wallet-menu">
-        {modalButtons}
-        {address && (
-          <Button variant="contained" color="secondary" size="large">
-            <a href={`https://etherscan.io/address/${address}`} target="_blank">
-              {shorten(address)}
-            </a>
+        {!isVerySmallScreen && (
+          <Button
+            id="get-ohm"
+            className="get-ohm-button"
+            size="large"
+            variant="contained"
+            color="secondary"
+            title="Get OHM"
+          >
+            <Link
+              href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
+              target="_blank"
+            >
+              Get OHM
+            </Link>
           </Button>
         )}
-      </div>
 
+<<<<<<< HEAD
       <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
     </div>
+=======
+        <div className="wallet-menu" id="wallet-menu">
+          {modalButtons}
+          {address && (
+            <Button variant="contained" color="secondary" size="large">
+              <a href={`https://etherscan.io/address/${address}`} target="_blank">
+                {shorten(address)}
+              </a>
+            </Button>
+          )}
+        </div>
+
+        <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
+      </Toolbar>
+    </AppBar>
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
   );
 }
 

@@ -1,215 +1,152 @@
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import fonts from "./fonts";
-
+import commonSettings from "./global.js";
 
 // TODO: Break repeated use color values out into list of consts declared here
 // then set the values in darkTheme using the global color variables
 
 const darkTheme = {
-    color: "#FCFCFC",
-		gold: "#F8CC82",
-		textHighlightColor: "#F4D092",
-    backgroundColor: "#3A4050",
-    background: "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-    paperBg: "rgba(54, 56, 64, 0.5)",
-    modalBg: "rgba(27, 29, 34, 0.8)",
-    largeTextColor: "#F4D092",
-    activeLinkColor: "#F5DDB4",
-    activeLinkSvgColor: "brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%)",
-    filter: "1",
-		primaryButtonBG: "#F4D092",
-		primaryButtonHoverBG: "#EDD8B4",
-		primaryButtonHoverColor: "#333333",
-		secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
-		outlinedPrimaryButtonHoverBG: "#F8CC82",
-		outlinedPrimaryButtonHoverColor: "#333333",
-		outlinedSecondaryButtonHoverBG: "#FCFCFC",
-		outlinedSecondaryButtonHoverColor: "#333333",
-}
-
+  color: "#FCFCFC",
+  gold: "#F8CC82",
+  gray: "#A3A3A3",
+  textHighlightColor: "#F4D092",
+  backgroundColor: "#3A4050",
+  background:
+    "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
+  paperBg: "rgba(54, 56, 64, 0.5)",
+  modalBg: "rgba(27, 29, 34, 0.8)",
+  largeTextColor: "#F4D092",
+  activeLinkColor: "#F5DDB4",
+  activeLinkSvgColor:
+    "brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%)",
+  primaryButtonBG: "#F4D092",
+  primaryButtonHoverBG: "#EDD8B4",
+  primaryButtonHoverColor: "#333333",
+  secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
+  outlinedPrimaryButtonHoverBG: "#F8CC82",
+  outlinedPrimaryButtonHoverColor: "#333333",
+  outlinedSecondaryButtonHoverBG: "#FCFCFC",
+  outlinedSecondaryButtonHoverColor: "#333333",
+};
 
 export const dark = responsiveFontSizes(
-  createMuiTheme({
-    typography: {
-      fontSize: 16,
-			fontFamily: 'Square',
-      props: {
-        gutterBottom: false
+  createMuiTheme(
+    {
+      primary: {
+        main: darkTheme.color,
       },
-      h3: {
-        padding: "10px"
-      },
-      h4: {
-        margin: "10px",
-      },
-			h5: {
-				fontWeight: "bold",
-			}
-    },
-    palette: {
-      type: "dark",
-			background: {
-				default: darkTheme.backgroundColor,
-				paper: darkTheme.paperBg,	
-			},
-      contrastText: "#FAFAFA"
-    },
-    overrides: {
-			MuiCssBaseline: {
-				'@global': {
-					'@font-face': fonts,
-					body: {
-						background: darkTheme.background,
-						backgroundRepeat: "no-repeat",
-						backgroundAttachment: "fixed",
-					},
-				}
-			},
-      MuiContainer: {
-        root: {
-					backgroundColor: "transparent",
-					flexGrow: 1,
-        }
-      },
-			MuiPaper: {
-        root: {
-          padding: "20px 20px 20px 20px", // global
-          backdropFilter: "blur(60px)", // global
-          borderRadius: "5px", // global
-					maxWidth: "869px",
-        },	
-      },
-			MuiDrawer: {
-				root: {
-					width: "280px",
-					flexShrink: 0,
-				},
-				paper: {
-					width: "inherit",
-					backgroundColor: "#00000000",
-					padding: 0,
-					square: true,
-					rounded: false,
-				}
-			},
-			MuiBackdrop: {
-				root: {
-					backdropFilter: "blur(33px)"
-				}
-			},
-			MuiLink: {
-				root: {
-					color: darkTheme.color,
-					borderBottom: "2px solid #00000000",
-					"&:hover": {
-						cursor: "pointer",
-						color: darkTheme.color,
-					},
-					"&:active": {
-						color: darkTheme.textHighlightColor,
-					},
-				},
-			},
-			MuiTableCell: {
-				root: {
-					borderBottom: 0,
-					color: darkTheme.color,
-				},
-				head: {
-					color: "#999999",
-				}
-			},
-			MuiToggleButton: {
-				root: {
-					backgroundColor: darkTheme.paperBg,
-					border: 0,
-					borderRadius: "5px",
-					margin: "8px",
-					'&:hover': {
-						backgroundColor: darkTheme.secondaryButtonHoverBG,
-					},
-					selected: {
-						backgroundColor: darkTheme.secondaryButtonHoverBG,
-					}
-				},
-			},
-      MuiButton: {
-        root: {
-          borderRadius: "5px",
-					textTransform: "none",
-					textDecoration: "none",
+      palette: {
+        type: "dark",
+        background: {
+          default: darkTheme.backgroundColor,
+          paper: darkTheme.paperBg,
         },
-				containedPrimary: {
-					color: "#333333",
-					backgroundColor: darkTheme.gold,
-					border: 0,
-					fontWeight: "500",
-					'&:hover': {
-						backgroundColor: darkTheme.primaryButtonHoverBG,
-						color: darkTheme.primaryButtonHoverColor
-					}
-				},
-				containedSecondary: {
-					backgroundColor: darkTheme.paperBg,
-					color: darkTheme.color,
-					fontWeight: "400",
-					'&:hover': {
-						backgroundColor: darkTheme.secondaryButtonHoverBG,
-						// color: darkTheme.secondaryButtonHoverColor
-					}
-				},
-				outlinedPrimary: {
-          color: darkTheme.gold,
-          borderColor: darkTheme.gold,
-					"&:hover": {
-            color: darkTheme.outlinedPrimaryButtonHoverColor,
-            backgroundColor: darkTheme.primaryButtonHoverBG,
+        contrastText: darkTheme.color,
+        primary: {
+          main: darkTheme.color,
+        },
+        neutral: {
+          main: darkTheme.color,
+          secondary: darkTheme.gray,
+        },
+      },
+      typography: {
+        fontFamily: "Square",
+      },
+      overrides: {
+        MuiCssBaseline: {
+          "@global": {
+            "@font-face": fonts,
+            body: {
+              background: darkTheme.background,
+            },
           },
         },
-        outlinedSecondary: {
-          color: darkTheme.color,
-          borderColor: darkTheme.color,
-          textTransform: "none",
-					textDecoration: "none",
-					"&:hover": {
-            color: darkTheme.outlinedSecondaryButtonHoverColor,
-            backgroundColor: darkTheme.outlinedSecondaryButtonHoverBG,
-						borderColor: "#333333"
+        MuiLink: {
+          root: {
+            color: darkTheme.color,
+            "&:hover": {
+              color: darkTheme.textHighlightColor,
+              textDecoration: "none",
+              "&.active": {
+                color: darkTheme.color,
+              },
+            },
+            "&.active": {
+              color: darkTheme.color,
+              textDecoration: "underline",
+            },
           },
         },
-        textPrimary: {
-          color: "#A3A3A3",
-          "&:hover": {
+        MuiTableCell: {
+          root: {
+            color: darkTheme.color,
+          },
+        },
+        MuiToggleButton: {
+          root: {
+            backgroundColor: darkTheme.paperBg,
+            "&:hover": {
+              backgroundColor: darkTheme.secondaryButtonHoverBG,
+            },
+            selected: {
+              backgroundColor: darkTheme.secondaryButtonHoverBG,
+            },
+          },
+        },
+        MuiButton: {
+          containedPrimary: {
+            color: "#333333",
+            backgroundColor: darkTheme.gold,
+            "&:hover": {
+              backgroundColor: darkTheme.primaryButtonHoverBG,
+              color: darkTheme.primaryButtonHoverColor,
+            },
+          },
+          containedSecondary: {
+            backgroundColor: darkTheme.paperBg,
+            color: darkTheme.color,
+            "&:hover": {
+              backgroundColor: darkTheme.secondaryButtonHoverBG,
+            },
+          },
+          outlinedPrimary: {
             color: darkTheme.gold,
-            backgroundColor: "#00000000"
+            borderColor: darkTheme.gold,
+            "&:hover": {
+              color: darkTheme.outlinedPrimaryButtonHoverColor,
+              backgroundColor: darkTheme.primaryButtonHoverBG,
+            },
           },
-          "&:active": {
-            color: darkTheme.gold,
-            borderBottom: "#F8CC82"
-          }
+          outlinedSecondary: {
+            color: darkTheme.color,
+            borderColor: darkTheme.color,
+            "&:hover": {
+              color: darkTheme.outlinedSecondaryButtonHoverColor,
+              backgroundColor: darkTheme.outlinedSecondaryButtonHoverBG,
+              borderColor: "#333333",
+            },
+          },
+          textPrimary: {
+            color: "#A3A3A3",
+            "&:hover": {
+              color: darkTheme.gold,
+              backgroundColor: "#00000000",
+            },
+            "&:active": {
+              color: darkTheme.gold,
+              borderBottom: "#F8CC82",
+            },
+          },
+          textSecondary: {
+            color: darkTheme.color,
+            "&:hover": {
+              color: darkTheme.textHighlightColor,
+            },
+          },
         },
-				textSecondary: {
-					color: darkTheme.color,
-					textTransform: "none",
-					padding: "2px 2px",
-					"&:hover": {
-						color: darkTheme.textHighlightColor,
-						backgroundColor: "#00000000"
-					}
-				}
       },
     },
-    props: {
-      MuiButton: {
-        disableElevation: true,
-        disableFocusRipple: true,
-        disableRipple: true
-      },
-			MuiPaper: {
-				elevation: 0,	
-			},
-    }
-  })
+    commonSettings,
+  ),
 );
-
-

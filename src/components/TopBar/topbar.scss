@@ -1,4 +1,5 @@
 .dapp-topbar {
+<<<<<<< HEAD
     position: sticky;
     display: flex;
     top: 0;
@@ -24,13 +25,35 @@
         overflow: hidden !important;
         margin: 8px;
     }
+=======
+  position: sticky;
+  display: flex;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  overflow: hidden;
+  justify-content: flex-end;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 1.33rem;
+  button {
+    vertical-align: middle;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    margin: 8px;
+  }
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 }
 
-.get-ohm-button a {
+.get-ohm-button {
+  a {
     display: block;
     white-space: nowrap;
     text-decoration: none !important;
-    color: #FFF !important;
+    color: #fff !important;
+  }
 }
 <<<<<<< HEAD
 

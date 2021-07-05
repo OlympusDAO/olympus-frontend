@@ -1,39 +1,16 @@
 #stake-view {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .rebase-timer {
-        margin: 0 !important;
-        font-size: 0.9em !important;
-        line-height: 110% !important;
-    }
-}
-
-.ohm-card {
-    max-width: 969px;
-    width: 100%;
-    margin-bottom: 2rem;
-    .card-header {
-        width: 100%;
-        box-shadow: none !important;
-        border: none !important;
-        top: 0;
-        padding: 1em;
-        background: transparent;
-    }
-    .card-content {
-        width: 100%;
-        position: relative;
-        align-items: left;
-        justify-content: center;
-        flex-flow: column;
-        padding: 1rem 2rem 1rem 2rem;
-        height: 100%;
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .rebase-timer {
+    margin: 0 !important;
+    line-height: 110% !important;
+  }
 }
 
 .migrate-sohm-button a {
+<<<<<<< HEAD
     position: absolute;
     right: 20px;
     top: 12px;
@@ -45,12 +22,26 @@
     svg {
         margin-right: 8px;
     }
+=======
+  position: absolute;
+  right: 20px;
+  top: 12px;
+  font-size: 1.3em;
+  display: flex;
+  align-items: center;
+  color: #f08080;
+  line-height: 30px;
+  svg {
+    margin-right: 8px;
+  }
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 }
 
 .migrate-sohm-button.complete a {
-    color: #35EE66 !important;
+  color: #35ee66 !important;
 }
 
+<<<<<<< HEAD
 
 .mobile #sohm-migration-view {
     .ohm-card {
@@ -214,39 +205,19 @@
 
 >>>>>>> updated stake page to use paper and Button components, still need to override hover styles
 
+=======
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 .stake-top-metrics {
-    display: flex;
-    width: 100%;
-    padding: 0;
-    text-align: center;
-    .olympus-sushi {
-        flex: 1;
-        div {
-            line-height: 150%;
-        }
-        .olympus-logo {
-            height: 1.7em;
-            width: 1.7em;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 5px;
-        }
-        h3 {
-            display: inline;
-            margin: 0;
-            vertical-align: middle;
-            font-size: 1.85em;
-            color: #ffffff;
-        }
-        a {
-            font-size: 0.85em;
-            margin-right: 5px;
-        }
-        .fa-external-link-alt {
-            width: 0.79em;
-            height: 0.79em;
-        }
+  display: flex;
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  .olympus-sushi {
+    flex: 1;
+    div {
+      line-height: 150%;
     }
+<<<<<<< HEAD
     .stake-apy, .stake-tvl, .stake-index {
         flex: 1;
         text-overflow: ellipsis;
@@ -266,54 +237,76 @@
         h2:first-of-type {
             margin-bottom: unset;
         }
+=======
+    .olympus-logo {
+      height: 1.7em;
+      width: 1.7em;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
     }
-    .next-rebase {
-        flex: 1;
-        text-align: right;
+    a {
+      margin-right: 5px;
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
     }
+    .fa-external-link-alt {
+      width: 0.79em;
+      height: 0.79em;
+    }
+  }
+  .stake-apy,
+  .stake-tvl {
+    flex: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .next-rebase {
+    flex: 1;
+    text-align: right;
+  }
 }
 
 // overriding original
 .stake-toggle-row {
-    margin: 2rem auto;
-    width: 100%;
-    display: block;
-    .btn-group button.btn {
-        color: #A9A9A9;
-        font-family: "Square-Medium" !important;
-        font-size: 1.6em;
-        border: unset;
-        border-radius: 0;
-        border-color: none !important;
-        background-color: transparent !important;
-        padding: 0 7px !important;
-        margin-right: 25px;
-        &:active,
-        &:focus {
-            outline: none;
-            border: none;
-            box-shadow: none;
-        }
-        &:hover {
-            color: #F5DDB4;
-        }
+  margin: 2rem auto;
+  width: 100%;
+  display: block;
+  .btn-group button.btn {
+    color: #a9a9a9;
+    font-family: "Square-Medium" !important;
+    border: unset;
+    border-radius: 0;
+    border-color: none !important;
+    background-color: transparent !important;
+    padding: 0 7px !important;
+    margin-right: 25px;
+    &:active,
+    &:focus {
+      outline: none;
+      border: none;
+      box-shadow: none;
     }
+    &:hover {
+      color: #f5ddb4;
+    }
+  }
 }
 
 .mobile .stake-toggle-row {
-    display: flex;
-    justify-content: space-evenly;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .stake-notification {
-    height: 1.75rem;
-    font-size: 0.75em;
-    line-height: 125%;
-    text-align: center;
-    margin-bottom: 10px;
+  height: 1.75rem;
+  line-height: 125%;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .ohm-logo-bg {
+<<<<<<< HEAD
     height: 25px;
     width: 25px;
     border-radius: 20px;
@@ -323,121 +316,157 @@
     align-items: center;
     justify-content: center;
     margin-left: 0.7rem;
+=======
+  height: 25px;
+  width: 25px;
+  border-radius: 20px;
+  display: flex;
+  background-color: white;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.7rem;
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 }
 
 .ohm-logo-tiny {
-    height: 15px;
-    width: 15px;
-    vertical-align: middle;
-    background-color: transparent;
+  height: 15px;
+  width: 15px;
+  vertical-align: middle;
+  background-color: transparent;
 }
 
 .logo-holder {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    background: none;
-    border: 0 !important;
-    border-radius: inherit;
-    color: #555;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  background: none;
+  border: 0 !important;
+  border-radius: inherit;
+  color: #555;
 }
 
 .stake-action-row {
-    margin-bottom: 20px;
-    line-height: 200%;
+  margin-bottom: 20px;
+  line-height: 200%;
 }
 
 .mobile .stake-action-row {
-    flex-direction: column;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    .input-group.ohm-input-group {
-        margin: 10px !important;
-        width: 75%;
-        min-width: 75%;
-        height: 55px;
-        font-size: 1.1em;
-    }
-    div.stake-button {
-        width: 75%;
-        min-width: 75%;
-        margin-left: 0;
-        margin-top: 15px;
-        height: 55px;
-        line-height: unset;
-    }
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  .input-group.ohm-input-group {
+    margin: 10px !important;
+    width: 75%;
+    min-width: 75%;
+    height: 55px;
+  }
+  div.stake-button {
+    width: 75%;
+    min-width: 75%;
+    margin-left: 0;
+    margin-top: 15px;
+    height: 55px;
+    line-height: unset;
+  }
 }
 
 .input-group.ohm-input-group {
-    min-width: 50%;
-    max-width: 60%;
-    border: 0.8px solid #FFFFFF;
-    border-radius: 5px !important;
-    input, button {
-        border-radius: none;
-        margin-left: 0 !important;
-        background: none !important;
-        border: none !important;
-        outline: none !important;
-        &:focus,
-        &:active {
-            outline: none !important;
-            box-shadow: none !important;
-        }
+  min-width: 50%;
+  max-width: 60%;
+  border: 0.8px solid #ffffff;
+  border-radius: 5px !important;
+  margin: 5px;
+  input,
+  button {
+    border-radius: none;
+    margin-left: 0 !important;
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    &:focus,
+    &:active {
+      outline: none !important;
+      box-shadow: none !important;
     }
-    input {
-        border: none !important;
+  }
+  input {
+    border: none !important;
+  }
+  button {
+    border-left: 0 !important;
+    border-top-right-radius: inherit !important;
+    border-bottom-right-radius: inherit !important;
+    background: none;
+    &:hover {
+      color: #f5ddb4 !important;
     }
-    button {
-        border-left: 0 !important;
-        border-top-right-radius: inherit !important;
-        border-bottom-right-radius: inherit !important;
-        background: none;
-        &:hover {
-            color: #F5DDB4 !important;
-        }
-    }
+  }
 }
 
 .staking-area {
-    margin: 33px;
+  margin: 13px 10px 13px 10px;
 }
 
 .stake-price-data-row {
-    display: flex;
-    justify-content: space-between;
-    .price-label,
-    .price-data {
-        font-size: 1.1em !important;
-    }
+  display: flex;
+  justify-content: space-between;
 }
 
 .stake-button {
-    min-width: 200px;
-    font-weight: 600;
-    width: 40%;
-    max-width: 60%;
+  min-width: 200px;
+  font-weight: 600;
+  width: 40%;
+  max-width: 60%;
+  margin: 5px !important;
 }
-.stake-button, .stake-lp-button {
-    display: block !important;
-    margin-left: 1rem;
-    padding: .4rem !important;
-    font-size: 1em !important;
-    height: auto;
-    text-align: center !important;
-    line-height: 150%;
-    svg {
-        margin-left: 10px;
-    }
+.stake-button,
+.stake-lp-button {
+  display: block !important;
+  margin-left: 0.8rem;
+  height: auto;
+  text-align: center !important;
+  svg {
+    margin-left: 8px;
+  }
 }
 
-.stake-table {
-    thead {
-        color: #999999;
-        font-size: 1.11em;
+.mobile .stake-table button {
+  padding: 0.4rem 1.7rem;
+  width: 8rem;
+}
+
+.mobile .stake-pool {
+  border: 1px solid #f4d09222;
+  border-radius: 5px;
+  padding: 1.69rem 1.69rem;
+  .pool-card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 2px;
+  }
+  .ohm-logo-bg {
+    height: 38px !important;
+    width: 38px !important;
+    padding: 8px !important;
+    margin-left: 0;
+  }
+  .ohm-pairs p {
+    margin-bottom: 0 !important;
+  }
+  .pool-data {
+    margin-top: 15px;
+    width: 100%;
+    .pool-data-row {
+      display: flex;
+      justify-content: space-between;
+      line-height: 225%;
     }
+<<<<<<< HEAD
     tbody {
         color: inherit;
         tr {
@@ -457,54 +486,104 @@
             padding: .25rem .65rem;
             width: 90%;
         }
+=======
+  }
+  .stake-lp-button {
+    min-width: 195px !important;
+    svg {
+      margin-left: 18px !important;
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
     }
+  }
 }
 
-.mobile .stake-table button {
-    padding: .4rem 1.7rem;
-    width: 8rem;
+.stake-wallet-notification {
+  padding: 5%;
+  margin-top: 10px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #f4d09266;
+  .wallet-menu {
+    text-align: center;
+    margin-top: 1.2rem;
+    .stake-button {
+      max-width: 300px !important;
+    }
+  }
 }
 
+// MIGRATE PAGE STYLES
+.mobile #sohm-migration-view {
+  .ohm-card {
+    width: 98% !important;
+  }
+}
 
-.mobile .stake-pool {
-    border: 1px solid #F4D09222;
-    border-radius: 5px;
-    padding: 1.5em 1.5em;
-    display: flex;
-    flex-direction: column;
-    .pool-card-top-row {
+#sohm-migration-view {
+  position: absolute !important;
+  z-index: 7;
+  .MuiBackdrop-root {
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    .ohm-card {
+      opacity: 1 !important;
+      padding: 1.5em !important;
+      padding-top: 1em !important;
+      justify-content: center;
+      .card-header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-    }
-    .ohm-logo-bg {
-        height: 38px !important;
-        width: 38px !important;
-        padding: 8px !important;
-        margin-left: 0;
-    }
-    .ohm-pairs p {
-        font-size: 1.05em !important;
+        div.cancel p {
+          color: #ff4343 !important;
+          vertical-align: middle;
+          padding: 0 !important;
+          &:hover {
+            color: #eeeeee;
+          }
+        }
+      }
+      .card-content {
+        background-color: inherit;
+        opacity: 1 !important;
+      }
+      p {
         margin-bottom: 0 !important;
-    }
-    .pool-data {
-        margin-top: 15px;
-        width: 100%;
-        .pool-data-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: larger;
-            line-height: 225%;
+      }
+      .MuiBreadcrumbs-root {
+        position: relative !important;
+        width: 100% !important;
+        margin-bottom: 3em;
+        .MuiBreadcrumbs-ol {
+          justify-content: center;
         }
-    }
-    .stake-lp-button {
-        margin-left: 0;
-        padding: 8px !important;
+        li {
+          color: #ffffff;
+        }
+        li > div:not(.current-step) {
+          color: #aaaaaa;
+        }
+        li > div.current-step {
+          color: #f4d092dd !important;
+          text-decoration: underline;
+          text-underline-offset: 5px;
+        }
+        li div.finished-step {
+          color: #35ee66 !important;
+        }
+      }
+      .MuiBreadcrumbs-root.step-2 {
+        li.MuiBreadcrumbs-separator .MuiSvgIcon-root {
+          color: #35ee66 !important;
+        }
+      }
+      .card-content {
         display: flex;
-        max-width: 12em;
-        svg {
-            margin-left: 18px !important;
+        align-items: center;
+        justify-content: center;
+        .stake-migration-help {
+          margin-bottom: 2rem;
         }
+<<<<<<< HEAD
     }
 }
 
@@ -533,9 +612,32 @@
             font-size: 1.5em !important;
             width: 20rem;
             max-width: 300px !important;
+=======
+        .stake-action-row {
+          width: 100%;
+          justify-content: center;
+          .input-group.ohm-input-group,
+          .stake-button {
+>>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
             height: 50px;
+            min-width: 40%;
+          }
+          .stake-button {
+            white-space: nowrap;
+          }
         }
+        .stake-user-data {
+          width: 100%;
+          .stake-price-data-row {
+            line-height: 200%;
+          }
+        }
+        .stake-notification {
+          width: 75%;
+        }
+      }
     }
+  }
 }
 <<<<<<< HEAD
 
