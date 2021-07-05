@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   Paper,
@@ -24,8 +23,8 @@ function ChooseBond() {
     return state.app.marketPrice;
   });
 
-  const isSmallScreen = useMediaQuery("(max-width: 800px)");
-  const isVerySmallScreen = useMediaQuery("(max-width: 400px)");
+  const isSmallScreen = useMediaQuery("(max-width: 1000px)");
+  const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
   const treasuryBalance = useSelector(state => {
     return state.app.treasuryBalance;
@@ -36,13 +35,15 @@ function ChooseBond() {
   return (
     <Grid container id="choose-bond-view" justify="center" spacing={3}>
       <Paper className="ohm-card">
-        <Typography variant="h5">Bond (1,1)</Typography>
+        <Box className="card-header">
+          <Typography variant="h5">Bond (1,1)</Typography>
+        </Box>
 
         <Grid container item xs={12} style={{ marginTop: "33px", marginBottom: "15px" }}>
           <Grid item xs={6}>
             <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
-              <Typography variant="h6">Treasury Balance</Typography>
-              <h2 className="content">
+              <Typography variant="h5">Treasury Balance</Typography>
+              <Typography variant="h4">
                 {treasuryBalance &&
                   new Intl.NumberFormat("en-US", {
                     style: "currency",
@@ -50,14 +51,14 @@ function ChooseBond() {
                     maximumFractionDigits: 0,
                     minimumFractionDigits: 0,
                   }).format(treasuryBalance)}
-              </h2>
+              </Typography>
             </Box>
           </Grid>
 
           <Grid item xs={6} className={`ohm-price`}>
             <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
-              <Typography variant="h6">OHM Price</Typography>
-              <h2 className="content">{trim(marketPrice, 2)}</h2>
+              <Typography variant="h5">OHM Price</Typography>
+              <Typography variant="h4">{trim(marketPrice, 2)}</Typography>
             </Box>
           </Grid>
         </Grid>
@@ -87,14 +88,16 @@ function ChooseBond() {
       </Paper>
 
       {isSmallScreen && (
-        <Grid container item spacing={2}>
-          {/* { Object.keys(BONDS).map(bond => ( */}
-          {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
-            <Grid item xs={12} key={bond}>
-              <BondDataCard key={bond} bond={bond} />
-            </Grid>
-          ))}
-        </Grid>
+        <Box className="ohm-card-container">
+          <Grid container item spacing={2}>
+            {/* { Object.keys(BONDS).map(bond => ( */}
+            {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
+              <Grid item xs={12} key={bond}>
+                <BondDataCard key={bond} bond={bond} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
       )}
     </Grid>
   );

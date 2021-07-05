@@ -31,61 +31,61 @@ export function BondDataCard({ bond }) {
   };
 
   return (
-    <Paper>
-      <div id={`${bond}--bond`} className="bond-data-card">
-        <Grid container>
-          <Grid item xs={12}>
-            <div className="bond-pair">
-              <BondLogo bond={bond} />
-              <div className="bond-name">
-                {bondName(bond)}
-                {isBondLP(bond) && (
-                  <div>
-                    <Button color="secondary" variant="text" component={Link} href={lpURL(bond)} target="_blank">
+    <Paper id={`${bond}--bond`} className="bond-data-card ohm-card">
+      <Grid container>
+        <Grid item xs={12}>
+          <div className="bond-pair">
+            <BondLogo bond={bond} />
+            <div className="bond-name">
+              <Typography>{bondName(bond)}</Typography>
+              {isBondLP(bond) && (
+                <div>
+                  <Button color="secondary" variant="text" component={Link} href={lpURL(bond)} target="_blank">
+                    <Typography variant="h6">
                       View Contract <i className="fas fa-external-link-alt"></i>
-                    </Button>
-                  </div>
-                )}
-              </div>
+                    </Typography>
+                  </Button>
+                </div>
+              )}
             </div>
-          </Grid>
-
-          <Grid item xs={12}>
-            <div className="bond-price">
-              <p>Price</p>
-              <p>{priceUnits(bond) && trim(bondPrice, 2)}</p>
-            </div>
-          </Grid>
-
-          <Grid item xs={12}>
-            <div className="bond-discount">
-              <p>ROI</p>
-              <p>{bondDiscount && trim(bondDiscount * 100, 2)}%</p>
-            </div>
-          </Grid>
-
-          <Grid item xs={12}>
-            <div className="bond-discount">
-              <p>Purchased</p>
-              <p>
-                {bondPurchased &&
-                  new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                    maximumFractionDigits: 0,
-                    minimumFractionDigits: 0,
-                  }).format(bondPurchased)}
-              </p>
-            </div>
-          </Grid>
-
-          <Grid item xs={12} className="bond-link">
-            <Button href={`/bonds/${bond}`} variant="outlined" color="primary">
-              Bond
-            </Button>
-          </Grid>
+          </div>
         </Grid>
-      </div>
+
+        <Grid item xs={12}>
+          <div className="bond-price">
+            <Typography>Price</Typography>
+            <Typography>{priceUnits(bond) && trim(bondPrice, 2)}</Typography>
+          </div>
+        </Grid>
+
+        <Grid item xs={12}>
+          <div className="bond-discount">
+            <Typography>ROI</Typography>
+            <Typography>{bondDiscount && trim(bondDiscount * 100, 2)}%</Typography>
+          </div>
+        </Grid>
+
+        <Grid item xs={12}>
+          <div className="bond-discount">
+            <Typography>Purchased</Typography>
+            <Typography>
+              {bondPurchased &&
+                new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0,
+                }).format(bondPurchased)}
+            </Typography>
+          </div>
+        </Grid>
+
+        <Grid item xs={12} className="bond-link">
+          <Button href={`/bonds/${bond}`} variant="outlined" color="primary">
+            Bond
+          </Button>
+        </Grid>
+      </Grid>
     </Paper>
   );
 }

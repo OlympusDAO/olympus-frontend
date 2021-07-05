@@ -5,12 +5,10 @@ import { useUserAddress } from "eth-hooks";
 import { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
-import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/js/all.js";
-import ClearIcon from "@material-ui/icons/Clear";
 import { useSelector, useDispatch } from "react-redux";
-import { Container, useMediaQuery } from "@material-ui/core";
+import { Container, Hidden, useMediaQuery } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
@@ -21,12 +19,14 @@ import { loadAccountDetails } from "./actions/Account.actions.js";
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
+import { TopBar2 } from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
+import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
 
 import "./App.css";
-
-import { dark as darkTheme } from "./themes/dark";
+import "./style.scss";
+import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light";
 import { girth as gTheme } from "./themes/girth";
 
@@ -95,15 +95,46 @@ const logoutOfWeb3Modal = async () => {
   }, 1);
 };
 
+const drawerWidth = 280;
+const transitionDuration = 969;
+
+const useStyles = makeStyles(theme => ({
+  drawer: {
+    [theme.breakpoints.up("md")]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(1),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: transitionDuration,
+    }),
+    marginLeft: drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: transitionDuration,
+    }),
+    marginLeft: 0,
+  },
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+  },
+}));
+
 function App(props) {
   const dispatch = useDispatch();
-  const [theme, toggleTheme, mounted] = useTheme();
+  const [theme, toggleTheme] = useTheme();
   const location = useLocation();
-
-  const isSmallerScreen = useMediaQuery("(max-width: 800px)");
-  const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
-
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isSmallerScreen = useMediaQuery("(max-width: 979px)");
 
   const handleSidebarOpen = () => {
     setIsSidebarExpanded(true);
@@ -112,10 +143,6 @@ function App(props) {
   const handleSidebarClose = () => {
     setIsSidebarExpanded(false);
   };
-
-  useEffect(() => {
-    if (isSidebarExpanded) handleSidebarClose();
-  }, [location]);
 
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
@@ -164,6 +191,10 @@ function App(props) {
   }
 
   useEffect(() => {
+    if (isSidebarExpanded) handleSidebarClose();
+  }, [location]);
+
+  useEffect(() => {
     loadDetails();
   }, [injectedProvider, address]);
 
@@ -184,57 +215,35 @@ function App(props) {
     themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
   });
 
-  if (!mounted) {
-    return <div />;
-  }
+  const classes = useStyles();
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
-
       <div className={`app ${isSmallerScreen && "mobile"}`}>
-        {!isSidebarExpanded && (
-          <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
-            <button
-              className="navbar-toggler"
-              type="button"
-              onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              data-toggle="collapse"
-              data-target="#navbarNav"
-              aria-controls="navbarNav"
-            >
-              <span className="navbar-toggler-icon" />
-            </button>
-          </nav>
-        )}
-
-        {isSidebarExpanded && (
-          <a role="button" className="close-nav" onClick={() => setIsSidebarExpanded(false)}>
-            <ClearIcon />
-          </a>
-        )}
-
-        <Sidebar
-          currentIndex={currentIndex}
-          isExpanded={isSidebarExpanded}
+        <TopBar
+          web3Modal={web3Modal}
+          loadWeb3Modal={loadWeb3Modal}
+          logoutOfWeb3Modal={logoutOfWeb3Modal}
+          address={address}
           theme={theme}
-          onClick={() => {
-            isSidebarExpanded ? handleSidebarClose() : console.log("sidebar colapsed");
-          }}
+          toggleTheme={toggleTheme}
+          handleDrawerToggle={handleDrawerToggle}
         />
+        <nav className={classes.drawer}>
+          <Hidden mdUp>
+            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+          </Hidden>
+          <Hidden smDown>
+            <Sidebar currentIndex={currentIndex} theme={theme} />
+          </Hidden>
+        </nav>
 
-        <Container maxWidth="xl">
-          <TopBar
-            web3Modal={web3Modal}
-            loadWeb3Modal={loadWeb3Modal}
-            logoutOfWeb3Modal={logoutOfWeb3Modal}
-            address={address}
-            theme={theme}
-            toggleTheme={toggleTheme}
-          />
-
+        <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
             <Route exact path="/dashboard">
               <Dashboard address={address} provider={injectedProvider} />
@@ -275,7 +284,7 @@ function App(props) {
 
             <Route component={NotFound} />
           </Switch>
-        </Container>
+        </div>
       </div>
     </ThemeProvider>
   );

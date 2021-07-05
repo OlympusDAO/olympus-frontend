@@ -1,135 +1,13 @@
-$primary: black;
-$secondary: white;
-$trinary: #000;
-$bg-topnav: #52576a;
-$bg-color: #000;
-$bg-disabled: #000;
-$text-disabled: #888888;
-$bg-background: #595652;
-
 * {
   outline: none;
 }
 
-header {
-  background-color: #272520;
-}
-
-@font-face {font-family: 'Square-Bold';
-  src: url('./assets/fonts/EuclidSquare-Bold.ttf') format("truetype");
-}
-@font-face {font-family: 'Square-Bold';
-  src: url('./assets/fonts/EuclidSquare-Bold.eot') format("embedded-opentype");
-}
-@font-face {font-family: 'Square-Bold';
-  src: url('./assets/fonts/EuclidSquare-Bold.woff') format("font-woff");
-}
-@font-face {font-family: 'Square-Bold';
-  src: url('./assets/fonts/EuclidSquare-Bold.woff2') format("woff2");
-}
-
-@font-face {font-family: 'Square-Semi-Bold';
-  src: url('./assets/fonts/EuclidSquare-Bold.ttf') format("truetype");
-}
-@font-face {font-family: 'Square-Semi-Bold';
-  src: url('./assets/fonts/EuclidSquare-Bold.eot') format("embedded-opentype");
-}
-@font-face {font-family: 'Square-Semi-Bold';
-  src: url('./assets/fonts/EuclidSquare-Bold.woff') format("font-woff");
-}
-@font-face {font-family: 'Square-Semi-Bold';
-  src: url('./assets/fonts/EuclidSquare-Bold.woff2') format("woff2");
-}
-
-@font-face {font-family: 'Square';
-  src: url('./assets/fonts/EuclidSquare-Regular.ttf') format("truetype");
-}
-@font-face {font-family: 'Square';
-  src: url('./assets/fonts/EuclidSquare-Regular.eot') format("embedded-opentype");
-}
-@font-face {font-family: 'Square';
-  src: url('./assets/fonts/EuclidSquare-Regular.woff') format("font-woff");
-}
-@font-face {font-family: 'Square';
-  src: url('./assets/fonts/EuclidSquare-Regular.woff2') format("woff2");
-}
-
-@font-face {font-family: 'Square-Medium';
-  src: url('./assets/fonts/EuclidSquare-Medium.ttf') format("truetype");
-}
-@font-face {font-family: 'Square-Medium';
-  src: url('./assets/fonts/EuclidSquare-Medium.eot') format("embedded-opentype");
-}
-@font-face {font-family: 'Square-Medium';
-  src: url('./assets/fonts/EuclidSquare-Medium.woff') format("font-woff");
-}
-@font-face {font-family: 'Square-Medium';
-  src: url('./assets/fonts/EuclidSquare-Medium.woff2') format("woff2");
-}
-
-@font-face {font-family: 'Square-Light';
-  src: url('./assets/fonts/EuclidSquare-Light.ttf') format("truetype");
-}
-@font-face {font-family: 'Square-Light';
-  src: url('./assets/fonts/EuclidSquare-Light.eot') format("embedded-opentype");
-}
-@font-face {font-family: 'Square-Light';
-  src: url('./assets/fonts/EuclidSquare-Light.woff') format("font-woff");
-}
-@font-face {font-family: 'Square-Light';
-  src: url('./assets/fonts/EuclidSquare-Light.woff2') format("woff2");
-}
-
-@font-face {font-family: 'Square-Italic';
-  src: url('./assets/fonts/EuclidSquare-Italic.ttf') format("truetype");
-}
-@font-face {font-family: 'Square-Italic';
-  src: url('./assets/fonts/EuclidSquare-Italic.eot') format("embedded-opentype");
-}
-@font-face {font-family: 'Square-Italic';
-  src: url('./assets/fonts/EuclidSquare-Italic.woff') format("font-woff");
-}
-@font-face {font-family: 'Square-Italic';
-  src: url('./assets/fonts/EuclidSquare-Italic.woff2') format("woff2");
-}
-
-@font-face {font-family: 'Square-Italic-Light';
-  src: url('./assets/fonts/EuclidSquare-LightItalic.ttf') format("truetype");
-}
-
-html, body, #app {
-  font-family: 'Square';
+html,
+body,
+#app {
+  font-family: "Square";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-#app {
-  z-index: 1;
-  background-size: cover;
-  min-height: 100vh;
-  min-width: 100vw;
-  background-color: #161616;
-}
-
-nav {
-  z-index: 6;
-  position: fixed;
-  width: 100vw;
-  &.navbar {
-    display: block;
-    align-items: center;
-  }
-  &.navbar-expand-lg {
-    width: fit-content;
-    height: fit-content;
-    display: inline-block;
-    top: 6px;
-    left: 20px;
-    position: absolute;
-  }
-  .show#sidebarContent {
-    position: absolute;
-  }
 }
 
 .ohm-backdrop {
@@ -138,39 +16,29 @@ nav {
   left: 0;
   z-index: 5;
   height: 100vh;
-  background-color: #000;
-  opacity: 0.2 !important;
 }
 
-.ohm-backdrop-show {
-  width: 100vw;
-  animation: backdrop 0.5s ease-out both;
-  .close-nav {
-    position: absolute;
-    top: 15px;
-    left: 25px;
-    font-size: 2em;
-    z-index: 20;
-    cursor: pointer;
+.ohm-card {
+  .card-header {
+    width: 100%;
+  }
+  .card-content {
+    width: 100%;
+    position: relative;
+    align-items: left;
+    justify-content: center;
+    flex-flow: column;
+    padding: 0.8rem 0.8rem 0.8rem 0.8rem;
+    height: 100%;
   }
 }
-.ohm-backdrop-close {
-  display: none;
-  @media (max-width: 768px) {
-    animation: hide-backdrop 0.5s ease-out both;
-  }
-}
-
-// List Group overrides
-.ohm-list-group {
-  .list-group-item {
-    background-color: $bg-background;
-  }
-}
-
-
 
 // For formatting the pairs
+// JBTD: -- move into its own component
+.ohm-pairs {
+  display: flex;
+}
+
 .ohm-pair {
   width: 40px;
   height: 40px;
@@ -178,14 +46,12 @@ nav {
   display: flex;
   overflow: hidden;
   position: relative;
-  font-size: 1.25rem;
   align-items: center;
   flex-shrink: 0;
   line-height: 1;
   user-select: none;
   border-radius: 50%;
   justify-content: center;
-
   img {
     color: transparent;
     width: 100%;
@@ -196,96 +62,21 @@ nav {
   }
 }
 
-
-
-// Variation on .button-primary
-.ohm-button {
-  height: 44px;
-  line-height: 38px;
-  text-align: center;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-family: 'Square', cursive;
-  color: $primary;
-  background-color: $secondary;
-  border-radius:22px;
-  text-transform: capitalize;
-  border:2px solid $secondary;
-  transform:translateY(0px);
-  transition:box-shadow 200ms, transform 200ms linear;
-
-  &:hover{
-    color: $primary !important;
-  }
-}
-
 .ohm-input-group {
-  input::-webkit-outer-spin-button, 
+  input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
   .form-control {
-    background-color: #282828 !important;
-    border-radius: 2rem;
-    padding: 0.5rem 1rem;
-
     background: transparent;
     border: unset;
     color: #555;
     &:focus {
-      color:#aaa;
+      color: #aaa;
     }
   }
   button {
     line-height: 36px;
     text-align: center;
-  }
-}
-
-a {
-  color: unset;
-  text-decoration: none;
-  &:hover {
-    color: inherit;
-    text-decoration: none;
-  }
-}
-
-
-// Sidebar animation
-
-@keyframes sidebar {
-  from,
-  0% {
-    opacity: 0;
-  }
-  to,
-  100% {
-    opacity: 1.0;
-  }
-}
-
-@keyframes backdrop {
-  from,
-  0% {
-    opacity: 0;
-  }
-  to,
-  100% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes hide-backdrop {
-  0% {
-    opacity: 0.5;
-    width: 100vw;
-  }
-  99% {
-    width: 100vw;
-  }
-  100% {
-    opacity: 0;
-    width: 0;
   }
 }
