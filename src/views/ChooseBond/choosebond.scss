@@ -17,6 +17,7 @@
   }
 
   .bond-data-card {
+    margin: auto !important;
     .ohm-pairs {
       display: flex;
       margin-right: 15px;
@@ -44,9 +45,10 @@
       padding: 0 15px;
     }
     .bond-link {
+      margin-top: 10px;
       text-align: center;
       a {
-        width: 95%;
+        width: 96%;
       }
     }
   }
@@ -59,7 +61,7 @@
 
   .MuiTableCell-root {
     p {
-      margin-bottom: 0 !important;
+      margin: 0 !important;
       display: flex !important;
       align-items: center;
       justify-content: center;

@@ -134,7 +134,7 @@ function App(props) {
   const location = useLocation();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 979px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 900px)");
 
   const handleSidebarOpen = () => {
     setIsSidebarExpanded(true);

@@ -15,7 +15,9 @@ const useStyles = makeStyles(theme => ({
       marginLeft: drawerWidth,
     },
     background: "transparent",
+    backdropFilter: "none",
     padding: "10px",
+    zIndex: 10,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -24,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
+  // toolbar: theme.mixins.toolbar,
 }));
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, toggleTheme, handleDrawerToggle }) {
@@ -50,7 +52,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 
   return (
     <AppBar position="sticky" className={classes.appBar} elevation="0">
-      <Toolbar>
+      <Toolbar disableGutters className="dapp-topbar">
         <IconButton
           color="inherit"
           aria-label="open drawer"
