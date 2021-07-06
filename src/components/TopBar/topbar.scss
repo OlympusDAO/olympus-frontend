@@ -1,21 +1,8 @@
 .dapp-topbar {
-  position: sticky;
-  display: flex;
-  top: 0;
-  right: 0;
-  z-index: 3;
-  overflow: hidden;
-  justify-content: flex-end;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 1.33rem;
   button {
-    vertical-align: middle;
-    text-overflow: ellipsis !important;
     white-space: nowrap !important;
     overflow: hidden !important;
-    margin: 8px;
+    margin: 8px !important;
   }
 }
 

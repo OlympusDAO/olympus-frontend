@@ -65,30 +65,10 @@
   }
 }
 
-// overriding original
 .stake-toggle-row {
   margin: 2rem auto;
   width: 100%;
   display: block;
-  .btn-group button.btn {
-    color: #a9a9a9;
-    font-family: "Square-Medium" !important;
-    border: unset;
-    border-radius: 0;
-    border-color: none !important;
-    background-color: transparent !important;
-    padding: 0 7px !important;
-    margin-right: 25px;
-    &:active,
-    &:focus {
-      outline: none;
-      border: none;
-      box-shadow: none;
-    }
-    &:hover {
-      color: #f5ddb4;
-    }
-  }
 }
 
 .mobile .stake-toggle-row {
@@ -204,18 +184,18 @@
 .stake-button {
   min-width: 200px;
   font-weight: 600;
-  width: 40%;
+  width: 50%;
   max-width: 60%;
-  margin: 5px !important;
+  margin: auto;
+  // margin: 5px !important;
 }
 .stake-button,
 .stake-lp-button {
   display: block !important;
-  margin-left: 0.8rem;
   height: auto;
   text-align: center !important;
   svg {
-    margin-left: 8px;
+    margin-left: 5px;
   }
 }
 
@@ -233,7 +213,16 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    padding: 2px;
+    &.small {
+      justify-content: center;
+      align-items: center;
+      .ohm-pairs {
+        margin-bottom: 5px;
+      }
+    }
+    .ohm-pairs p {
+      margin-bottom: 0 !important;
+    }
   }
   .ohm-logo-bg {
     height: 38px !important;
@@ -241,9 +230,7 @@
     padding: 8px !important;
     margin-left: 0;
   }
-  .ohm-pairs p {
-    margin-bottom: 0 !important;
-  }
+
   .pool-data {
     margin-top: 15px;
     width: 100%;
