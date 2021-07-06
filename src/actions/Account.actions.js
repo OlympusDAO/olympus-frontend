@@ -56,6 +56,7 @@ export const loadAccountDetails =
     // const graphData = await apollo(accountQuery);
 
     // these work in playground but show up as null, maybe subgraph api not caught up?
+<<<<<<< HEAD
     // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
     // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
     let migrateContract;
@@ -77,6 +78,11 @@ export const loadAccountDetails =
 
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
+=======
+    // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
+    // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
+
+>>>>>>> formatting
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
 
@@ -99,9 +105,12 @@ export const loadAccountDetails =
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
       const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
       oldsohmBalance = await oldsohmContract.balanceOf(address);
+<<<<<<< HEAD
 
       const signer = provider.getSigner();
       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+=======
+>>>>>>> formatting
     }
 
     return dispatch(

@@ -5,6 +5,9 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> formatting
 import axios from "axios";
 import { contractForReserve, addressForAsset } from "../helpers";
 import { BONDS } from "../constants";
@@ -17,6 +20,7 @@ import { BONDS } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
+<<<<<<< HEAD
 const APIRUL = "https://api.thegraph.com/subgraphs/id/QmPkygj4BhudwpNWREYCz3uNkHXDRL1XKCt4SJYwMDcSoS";
 
 const protocolMetricsQuery = `
@@ -44,12 +48,17 @@ const client = new ApolloClient({
     
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
+=======
+>>>>>>> formatting
 export const fetchAppSuccess = payload => ({
   type: Actions.FETCH_APP_SUCCESS,
   payload,
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> formatting
 export const loadAppDetails =
   ({ networkID, provider }) =>
   async dispatch => {
@@ -121,24 +130,34 @@ export const loadAppDetails =
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     const currentBlock = await provider.getBlockNumber();
 =======
     const currentBlock = await provider.getBlockNumber(); 
 >>>>>>> dashboard tiles use graph queries from app state
+=======
+    const currentBlock = await provider.getBlockNumber();
+>>>>>>> formatting
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> formatting
     const bondCalculator = new ethers.Contract(
       addresses[networkID].BONDS.OHM_DAI_CALC,
       BondOhmDaiCalcContract,
       provider,
     );
+<<<<<<< HEAD
 =======
     const bondCalculator = new ethers.Contract(addresses[networkID].BONDS.OHM_DAI_CALC, BondOhmDaiCalcContract, provider);
 >>>>>>> dashboard tiles use graph queries from app state
+=======
+>>>>>>> formatting
 
     // Calculate Treasury Balance
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
@@ -156,6 +175,7 @@ export const loadAppDetails =
     token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
     let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 <<<<<<< HEAD
+<<<<<<< HEAD
     valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
     markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
@@ -165,8 +185,13 @@ export const loadAppDetails =
     valuation    = await bondCalculator.valuation(addressForAsset({bond: BONDS.ohm_frax, networkID}), ohmFraxAmount);
     markdown     = await bondCalculator.markdown(addressForAsset({bond: BONDS.ohm_frax, networkID}));
     let ohmFraxUSD   = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18))
+=======
+    valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
+    markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
+    let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
+>>>>>>> formatting
 
-    const treasuryBalance  = daiAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
+    const treasuryBalance = daiAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
     // Calculate TVL staked
     // let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
@@ -188,10 +213,14 @@ export const loadAppDetails =
     const epoch = await stakingContract.epoch();
     const stakingReward = epoch.distribute;
 <<<<<<< HEAD
+<<<<<<< HEAD
     const circ = await sohmMainContract.circulatingSupply();
 =======
     const circ =  await sohmMainContract.circulatingSupply();
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+    const circ = await sohmMainContract.circulatingSupply();
+>>>>>>> formatting
     const stakingRebase = stakingReward / circ;
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
@@ -234,6 +263,9 @@ export const loadAppDetails =
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> formatting
 export const getFraxData = () => async dispatch => {
   const resp = await axios.get("https://api.frax.finance/combineddata/");
   return dispatch({
@@ -241,6 +273,7 @@ export const getFraxData = () => async dispatch => {
     payload: resp.data && resp.data.liq_staking && resp.data.liq_staking["Uniswap FRAX/OHM"],
   });
 };
+<<<<<<< HEAD
 =======
 export const getFraxData = () =>
   async dispatch => {
@@ -251,3 +284,5 @@ export const getFraxData = () =>
     })
   };
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+>>>>>>> formatting

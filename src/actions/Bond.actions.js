@@ -101,7 +101,11 @@ export const calcBondDetails =
         bondQuote = await bondContract.payoutFor(amountInWei);
         bondQuote = bondQuote / Math.pow(10, 18);
       }
+<<<<<<< HEAD
     } catch (e) {
+=======
+    } catch {
+>>>>>>> formatting
       debtRatio = 0;
       bondPrice = 0;
     }
