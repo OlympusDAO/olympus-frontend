@@ -42,10 +42,9 @@ export const loadAccountDetails =
 
     // const graphData = await apollo(accountQuery);
 
-    // these work in playground but show up as null, maybe subgraph api not caught up? 
+    // these work in playground but show up as null, maybe subgraph api not caught up?
     // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
     // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
-
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
@@ -67,9 +66,9 @@ export const loadAccountDetails =
     }
 
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
-       const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-       oldsohmBalance = await oldsohmContract.balanceOf(address);
-     }
+      const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+      oldsohmBalance = await oldsohmContract.balanceOf(address);
+    }
 
     return dispatch(
       fetchAccountSuccess({
