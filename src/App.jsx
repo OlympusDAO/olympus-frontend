@@ -187,7 +187,7 @@ function App(props) {
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 979px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 900px)");
 
   const handleSidebarOpen = () => {
     setIsSidebarExpanded(true);

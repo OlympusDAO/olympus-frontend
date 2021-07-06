@@ -1,5 +1,6 @@
 .dapp-topbar {
 <<<<<<< HEAD
+<<<<<<< HEAD
     position: sticky;
     display: flex;
     top: 0;
@@ -37,12 +38,12 @@
   align-items: center;
   margin-top: 10px;
   margin-bottom: 1.33rem;
+=======
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
   button {
-    vertical-align: middle;
-    text-overflow: ellipsis !important;
     white-space: nowrap !important;
     overflow: hidden !important;
-    margin: 8px;
+    margin: 8px !important;
   }
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 }

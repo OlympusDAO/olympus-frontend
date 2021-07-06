@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { Paper, Grid, Typography } from "@material-ui/core";
 import { trim } from "../../helpers";
@@ -19,15 +18,16 @@ function Dashboard() {
   });
 
   return (
-    <div className="dashboard-view">
-      <Grid container spacing={2} className="top-row-data">
-        <Grid item lg={4} md={5} sm={5} xs={5} className="olympus-card">
-          <Paper>
-              <Typography variant="h6">Price</Typography>
-              <Typography variant="h5">${trim(marketPrice, 2)}</Typography>
-          </Paper> 
+    <div id="dashboard-view">
+      <Grid container spacing={1} className="top-row-data">
+        <Grid item lg={4} md={4} sm={5} xs={6} className="olympus-card">
+          <Paper className="ohm-card">
+            <Typography variant="h6">Price</Typography>
+            <Typography variant="h5">${trim(marketPrice, 2)}</Typography>
+          </Paper>
         </Grid>
 
+<<<<<<< HEAD
         <Grid item lg={4} md={7} sm={7} xs={7}>
 <<<<<<< HEAD
           <div className="ohm-dashboard-card">
@@ -56,11 +56,20 @@ function Dashboard() {
             <Typography variant="h5">
                 {marketCap && new Intl.NumberFormat("en-US", {
 >>>>>>> dashboard top card header cards adjusted and mobile tile view centered
+=======
+        <Grid item lg={4} md={4} sm={7} xs={6}>
+          <Paper className="ohm-card">
+            <Typography variant="h6">Market Cap</Typography>
+            <Typography variant="h5">
+              {marketCap &&
+                new Intl.NumberFormat("en-US", {
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 0,
-                  minimumFractionDigits: 0
+                  minimumFractionDigits: 0,
                 }).format(marketCap)}
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> started testing paper and typography on dashboard card
               </h3>
@@ -107,25 +116,32 @@ function Dashboard() {
 =======
              </Typography>
           </Paper> 
+=======
+            </Typography>
+          </Paper>
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
         </Grid>
 
-        <Grid item lg={4} md={12} sm={12} xs={12}>
-          <Paper>
+        <Grid item lg={4} md={4} sm={12} xs={12}>
+          <Paper className="ohm-card">
             <Typography variant="h6">Supply (circulating/total)</Typography>
-              <Typography variant="h5">
-                  {circSupply && new Intl.NumberFormat("en-US", { 
-                    maximumFractionDigits: 0,
-                    minimumFractionDigits: 0
-                  }).format(circSupply)}/ 
-                  {totalSupply && new Intl.NumberFormat("en-US", { 
-                    maximumFractionDigits: 0,
-                    minimumFractionDigits: 0
-                  }).format(totalSupply)}
-              </Typography>
-            </Paper>
+            <Typography variant="h5">
+              {circSupply &&
+                new Intl.NumberFormat("en-US", {
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0,
+                }).format(circSupply)}
+              /
+              {totalSupply &&
+                new Intl.NumberFormat("en-US", {
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0,
+                }).format(totalSupply)}
+            </Typography>
+          </Paper>
         </Grid>
       </Grid>
-      
+
       <Grid container spacing={2} className="main-data-area">
         <Grid item lg={4} sm={12}>
           <div className="dune-card">
@@ -144,7 +160,7 @@ function Dashboard() {
           <div className="card-body">
 =======
         </Grid>
-        
+
         <Grid item lg={4} sm={12}>
           <div className="dune-card">
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
@@ -257,8 +273,11 @@ function Dashboard() {
 =======
         </Grid>
       </Grid>
+<<<<<<< HEAD
       
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
     </div>
   );
 }

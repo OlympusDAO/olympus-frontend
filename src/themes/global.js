@@ -78,7 +78,7 @@ const commonSettings = {
           maxWidth: "833px",
           minWidth: "333px",
           width: "97%",
-          margin: "auto",
+          // margin: "auto",
           marginBottom: "1.8rem",
           borderRadius: "10px",
         },
@@ -120,6 +120,7 @@ const commonSettings = {
         padding: 0,
         square: true,
         rounded: false,
+        zIndex: 10,
       },
     },
     MuiBackdrop: {
@@ -139,7 +140,6 @@ const commonSettings = {
         borderRadius: "5px",
         textTransform: "none",
         textDecoration: "none",
-        margin: "5px",
         whiteSpace: "nowrap",
       },
       containedPrimary: {
@@ -178,6 +178,9 @@ const commonSettings = {
     MuiTypograph: {
       gutterBottom: true,
       noWrap: true,
+    },
+    MuiLink: {
+      underlineHover: false,
     },
   },
 };

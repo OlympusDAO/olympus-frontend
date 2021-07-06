@@ -62,6 +62,11 @@ export const dark = responsiveFontSizes(
             },
           },
         },
+        MuiPaper: {
+          "&.ohm-modal": {
+            backgroundColor: darkTheme.modalBg,
+          },
+        },
         MuiLink: {
           root: {
             color: darkTheme.color,

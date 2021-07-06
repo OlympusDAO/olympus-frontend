@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
+import { shorten, trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
 import {
   changeApproval,
   calcBondDetails,
@@ -8,11 +8,22 @@ import {
   bondAsset,
   redeemBond,
 } from "../../actions/Bond.actions.js";
-import { Grid, Backdrop, Paper } from "@material-ui/core";
+import {
+  Grid,
+  Backdrop,
+  Paper,
+  Box,
+  Button,
+  ButtonGroup,
+  FormControl,
+  InputLabel,
+  InputAdornment,
+  Typography,
+  OutlinedInput,
+} from "@material-ui/core";
 import BondHeader from "./BondHeader";
 import BondRedeemV1 from "./BondRedeemV1";
 import { BONDS } from "../../constants";
-import "../Stake/stake.scss";
 import "./bond.scss";
 
 function Bond({ bond, address, provider }) {
@@ -170,7 +181,11 @@ function Bond({ bond, address, provider }) {
     <Grid container id="bond-view">
       <Backdrop open={true}>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <div className="ohm-card ohm-modal">
+=======
+        <Paper className="ohm-card ohm-modal">
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
           <div className="card-content">
             <BondHeader
               bond={bond}
@@ -180,6 +195,7 @@ function Bond({ bond, address, provider }) {
               onRecipientAddressChange={onRecipientAddressChange}
             />
 
+<<<<<<< HEAD
             <div className="bond-price-data-row">
               <div className="bond-price-data">
                 <h4>Bond Price</h4>
@@ -219,20 +235,46 @@ function Bond({ bond, address, provider }) {
                   <button
                     type="button"
                     className={`btn ${view === "bond" ? "btn-light" : ""}`}
+=======
+            <Box direction="row" className="bond-price-data-row">
+              <div className="bond-price-data">
+                <Typography variant="h4">Bond Price</Typography>
+                <Typography variant="h3" id="bond-price-id" className="price">
+                  {trim(bondPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
+                </Typography>
+              </div>
+              <div className="bond-price-data">
+                <Typography variant="h4">Market Price</Typography>
+                <Typography variant="h3" id="bond-market-price-id" className="price">
+                  {trim(marketPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
+                </Typography>
+              </div>
+            </Box>
+
+            <div className="bond-main-info">
+              <div className="swap-input-column">
+                <div className="bond-toggle-row">
+                  <Button
+                    variant="text"
+                    color="primary"
+                    className={`${view === "bond" ? "active" : ""}`}
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
                     onClick={() => {
                       setView("bond");
                     }}
                   >
                     Bond
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn ${view === "redeem" ? "btn-light" : ""}`}
+                  </Button>
+                  <Button
+                    variant="text"
+                    color="primary"
+                    className={`${view === "redeem" ? "active" : ""}`}
                     onClick={() => {
                       setView("redeem");
                     }}
                   >
                     Redeem
+<<<<<<< HEAD
                   </button>
                   {bond !== 'frax' && <button
                     type="button"
@@ -345,15 +387,114 @@ function Bond({ bond, address, provider }) {
                         <div id="bond-approve-btn" className="transaction-button stake-button" onClick={onSeekApproval}>
                           Approve
                         </div>
+=======
+                  </Button>
+                  {bond !== "frax" && (
+                    <Button
+                      variant="text"
+                      color="primary"
+                      className={`${view === "redeem_v1" ? "active" : ""}`}
+                      onClick={() => {
+                        setView("redeem_v1");
+                      }}
+                    >
+                      Redeem v1.0
+                    </Button>
+                  )}
+                </div>
+
+                {view === "redeem_v1" ? (
+                  <BondRedeemV1 provider={provider} address={address} bond={bond + "_v1"} />
+                ) : (
+                  <>
+                    <div className="input-row">
+                      {view === "bond" && (
+                        <FormControl className="ohm-input-group" variant="outlined" color="primary">
+                          <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+                          <OutlinedInput
+                            id="outlined-adornment-amount"
+                            value={quantity}
+                            onChange={e => setQuantity(e.target.value)}
+                            // startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                            labelWidth={70}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <Button variant="text" onClick={setMax}>
+                                  Max
+                                </Button>
+                              </InputAdornment>
+                            }
+                          />
+                        </FormControl>
+                      )}
+
+                      {view === "redeem" && (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          id="bond-claim-btn"
+                          className="transaction-button stake-button"
+                          onClick={() => {
+                            onRedeem({ autostake: false });
+                          }}
+                        >
+                          Claim
+                        </Button>
+                      )}
+
+                      {view === "redeem" && (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          id="bond-claim-autostake-btn"
+                          className="transaction-button stake-button"
+                          onClick={() => {
+                            onRedeem({ autostake: true });
+                          }}
+                        >
+                          Claim and Autostake
+                        </Button>
+                      )}
+
+                      {hasAllowance() && view === "bond" && (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          id="bond-btn"
+                          className="transaction-button stake-button"
+                          onClick={onBond}
+                        >
+                          Bond
+                        </Button>
+                      )}
+
+                      {!hasAllowance() && view === "bond" && (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          id="bond-approve-btn"
+                          className="transaction-button stake-button"
+                          onClick={onSeekApproval}
+                        >
+                          Approve
+                        </Button>
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
                       )}
 
                       {!hasAllowance() && view === "bond" && (
                         <div className="stake-notification">
                           <em>
+<<<<<<< HEAD
                             <p>
                               Note: The "Approve" transaction is only needed when bonding for the first time; subsequent
                               bonding only requires you to perform the "Bond" transaction.
                             </p>
+=======
+                            <Typography variant="body2">
+                              Note: The "Approve" transaction is only needed when bonding for the first time; subsequent
+                              bonding only requires you to perform the "Bond" transaction.
+                            </Typography>
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
                           </em>
                         </div>
                       )}
@@ -462,11 +603,15 @@ function Bond({ bond, address, provider }) {
               </div>
             </div>
           </div>
+<<<<<<< HEAD
         </div>
 <<<<<<< HEAD
 =======
       </Paper>
 >>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
+=======
+        </Paper>
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
       </Backdrop>
     </Grid>
   );

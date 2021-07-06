@@ -40,6 +40,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
   const isSmallScreen = useMediaQuery("(max-width: 1125px)");
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
   const isNarrowScreen = useMediaQuery("(max-width:460px)");
 =======
@@ -48,6 +49,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 =======
   const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
+=======
+  const isMobileScreen = useMediaQuery("(max-width: 513px)");
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
 
   const fraxData = useSelector(state => {
     return state.fraxData;
@@ -343,7 +347,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
           <div className="staking-area">
             {!address ? (
               <div className="stake-wallet-notification">
-                <Typography variant="h3" gutterBottom>
+                <Typography variant="h4" gutterBottom>
                   Connect your wallet to Stake OHM
                 </Typography>
                 <div className="wallet-menu" id="wallet-menu">
@@ -888,8 +892,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                         target="_blank"
                         className="stake-lp-button"
                       >
-                        Stake on FRAX
-                        <i className="fa fa-external-link-alt" />
+                        <Typography variant="h6">
+                          Stake on FRAX
+                          <i className="fa fa-external-link-alt" />
+                        </Typography>
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -898,7 +904,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
             </TableContainer>
           ) : (
             <div className="stake-pool">
-              <div className="pool-card-top-row">
+              <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                 <Box className="ohm-pairs">
                   <div className="ohm-pair" style={{ zIndex: 2 }}>
                     <div className="ohm-logo-bg">
@@ -917,8 +923,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                   target="_blank"
                   className="stake-lp-button"
                 >
-                  Stake on FRAX
-                  <i className="fa fa-external-link-alt" />
+                  <Typography variant="h6">
+                    Stake on FRAX
+                    <i className="fa fa-external-link-alt" />
+                  </Typography>
                 </Button>
               </div>
               <div className="pool-data">

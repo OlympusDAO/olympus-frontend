@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useCallback, useState, useEffect } from "react";
 =======
 import React, { useCallback, useState, useEffect } from 'react';
@@ -34,12 +35,17 @@ import { trim } from "../../helpers";
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 import useBonds from "../../hooks/Bonds";
 import { Paper, Drawer, Link, Box, Button, Typography } from "@material-ui/core";
+=======
+import { Drawer } from "@material-ui/core";
+import NavContent from "./NavContent.jsx";
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
 import "./sidebar.scss";
 
 <<<<<<< HEAD
 function Sidebar({ isExpanded, theme, currentIndex, address }) {
 =======
 function Sidebar() {
+<<<<<<< HEAD
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
   const [isActive] = useState();
   const bonds = useBonds();
@@ -58,6 +64,8 @@ function Sidebar() {
     return false;
   }, []);
 
+=======
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
   return (
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -167,6 +175,7 @@ function Sidebar() {
     <div className={`sidebar`} id="sidebarContent">
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
       <Drawer variant="permanent" anchor="left">
+<<<<<<< HEAD
         <Paper className="dapp-sidebar">
           <div className="dapp-menu-top">
             <Box className="branding-header">
@@ -327,6 +336,9 @@ function Sidebar() {
             <Social />
           </div>
         </Paper>
+=======
+        <NavContent />
+>>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
       </Drawer>
     </div>
 >>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
