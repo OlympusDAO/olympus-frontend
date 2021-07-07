@@ -265,6 +265,7 @@ function App(props) {
 
               <Route path="/stake">
                 <Stake
+                  currentIndex={currentIndex}
                   address={address}
                   provider={injectedProvider}
                   web3Modal={web3Modal}
