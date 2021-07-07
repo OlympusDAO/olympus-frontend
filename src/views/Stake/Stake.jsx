@@ -32,6 +32,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
   const [quantity, setQuantity] = useState();
   const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   const [txPending, setTxPending] = useState(false);
   const [tx, setTx] = useState();
@@ -50,6 +51,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
   const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 =======
+=======
+
+  const isSmallScreen = useMediaQuery("(max-width: 960px)");
+>>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 >>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
 
@@ -105,38 +110,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
       await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: 1 }));
     }
   };
-
-  // https://docs.ethers.io/v5/single-page/#/v5/api/providers/provider/-%23-Provider--events
-  const transaction = txHash => {
-    if (txHash.length > 0 && provider && address) {
-      provider.once(txHash, tx => {
-        console.log("transaction mined: ", tx);
-        return tx;
-      });
-    }
-    return;
-  };
-
-  const pending = () => {
-    if (provider && address) {
-      return provider.on("pending", tx => {
-        console.log("pending tx: ", tx);
-        transaction(tx);
-        return tx;
-      });
-    }
-    return false;
-  };
-
-  useEffect(() => {
-    setTxPending(true);
-    setTx(pending);
-  }, [pending]);
-
-  useEffect(() => {
-    setTxPending(false);
-    setTx(transaction);
-  }, [transaction]);
 
   const hasAllowance = useCallback(
     token => {
@@ -321,14 +294,18 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 
                 <Grid item xs={6} sm={6} lg={4}>
                   <div className="stake-apy">
-                    <Typography variant="h5">APY</Typography>
+                    <Typography variant="h5" color="textSecondary">
+                      APY
+                    </Typography>
                     <Typography variant="h4">{stakingAPY && trim(stakingAPY * 100, 1)}%</Typography>
                   </div>
                 </Grid>
 
                 <Grid item xs={6} sm={6} lg={4}>
                   <div className="stake-tvl">
-                    <Typography variant="h5">TVL</Typography>
+                    <Typography variant="h5" color="textSecondary">
+                      TVL
+                    </Typography>
                     <Typography variant="h4">
                       {stakingTVL &&
                         new Intl.NumberFormat("en-US", {
@@ -486,13 +463,12 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                         className="stake-button"
                         variant="contained"
                         color="primary"
-                        disabled={txPending}
                         onClick={() => {
                           onChangeStake("stake");
                           pending();
                         }}
                       >
-                        {!txPending ? "Stake OHM" : <emphasize>Pending...</emphasize>}
+                        Stake OHM
                       </Button>
                     )}
 
@@ -501,13 +477,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                         className="stake-button"
                         variant="contained"
                         color="primary"
-                        disabled={txPending}
                         onClick={() => {
                           onChangeStake("unstake");
-                          pending();
                         }}
                       >
-                        {!txPending ? "Unstake OHM" : <emphasize>Pending...</emphasize>}
+                        Unstake OHM
                       </Button>
                     )}
 
@@ -516,13 +490,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                         className="stake-button"
                         variant="contained"
                         color="primary"
-                        disabled={txPending}
                         onClick={() => {
                           onSeekApproval("ohm");
-                          pending();
                         }}
                       >
-                        {!txPending ? "Approve Stake" : <emphasize>Pending...</emphasize>}
+                        Approve Stake
                       </Button>
                     )}
 
@@ -531,13 +503,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                         className="stake-button"
                         variant="contained"
                         color="primary"
-                        disabled={txPending}
                         onClick={() => {
                           onSeekApproval("sohm");
-                          pending();
                         }}
                       >
-                        {!txPending ? "Approve Unstake" : <emphasize>Pending...</emphasize>}
+                        Approve Unstake
                       </Button>
                     )}
                   </Box>
@@ -546,10 +516,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                     {address &&
                       ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
                         <em>
-                          <p>
+                          <Typography variant="body2">
                             Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
                             subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
                             transaction.
+<<<<<<< HEAD
 <<<<<<< HEAD
                           </p>
                         </em>
@@ -661,6 +632,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 =======
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
                           </p>
+=======
+                          </Typography>
+>>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
                         </em>
                       )}
                   </div>

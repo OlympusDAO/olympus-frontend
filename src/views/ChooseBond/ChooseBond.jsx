@@ -221,7 +221,7 @@ function ChooseBond() {
     return state.app.marketPrice;
   });
 
-  const isSmallScreen = useMediaQuery("(max-width: 1000px)");
+  const isSmallScreen = useMediaQuery("(max-width: 960px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
   const treasuryBalance = useSelector(state => {
@@ -231,16 +231,18 @@ function ChooseBond() {
   const bonds = useBonds();
 
   return (
-    <Grid container id="choose-bond-view" justify="center" spacing={3}>
+    <div id="choose-bond-view">
       <Paper className="ohm-card">
         <Box className="card-header">
           <Typography variant="h5">Bond (1,1)</Typography>
         </Box>
 
-        <Grid container item xs={12} style={{ marginTop: "33px", marginBottom: "15px" }}>
+        <Grid container item xs={12} style={{ margin: "30px 0" }}>
           <Grid item xs={6}>
             <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
-              <Typography variant="h5">Treasury Balance</Typography>
+              <Typography variant="h5" color="textSecondary">
+                Treasury Balance
+              </Typography>
               <Typography variant="h4">
                 {treasuryBalance &&
                   new Intl.NumberFormat("en-US", {
@@ -255,7 +257,9 @@ function ChooseBond() {
 
           <Grid item xs={6} className={`ohm-price`}>
             <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
-              <Typography variant="h5">OHM Price</Typography>
+              <Typography variant="h5" color="textSecondary">
+                OHM Price
+              </Typography>
               <Typography variant="h4">{trim(marketPrice, 2)}</Typography>
             </Box>
           </Grid>
@@ -297,8 +301,12 @@ function ChooseBond() {
           </Grid>
         </Box>
       )}
+<<<<<<< HEAD
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
     </Grid>
+=======
+    </div>
+>>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
   );
 }
 

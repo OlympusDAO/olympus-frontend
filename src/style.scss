@@ -21,6 +21,10 @@ body,
 .ohm-card {
   .card-header {
     width: 100%;
+    min-height: 3rem;
+    h5 {
+      font-weight: 600 !important;
+    }
   }
   .card-content {
     width: 100%;

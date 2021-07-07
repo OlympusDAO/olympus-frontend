@@ -116,8 +116,12 @@ export function BondDataCard({ bond }) {
               {isBondLP(bond) && (
                 <div>
                   <Button color="secondary" variant="text" component={Link} href={lpURL(bond)} target="_blank">
+<<<<<<< HEAD
                     <Typography variant="h6">
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
+=======
+                    <Typography variant="h7">
+>>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
                       View Contract <i className="fas fa-external-link-alt"></i>
                     </Typography>
                   </Button>
@@ -158,7 +162,7 @@ export function BondDataCard({ bond }) {
 
         <Grid item xs={12} className="bond-link">
           <Button href={`/bonds/${bond}`} variant="outlined" color="primary">
-            Bond
+            <Typography>Bond</Typography>
           </Button>
         </Grid>
       </Grid>
@@ -225,10 +229,10 @@ export function BondTableData({ bond }) {
           {bondName(bond)}
           {isBondLP(bond) && (
             <Link color="primary" href={lpURL(bond)} target="_blank">
-              <p>
+              <Typography variant="h6">
                 View Contract
                 <i className="fas fa-external-link-alt"></i>
-              </p>
+              </Typography>
             </Link>
           )}
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page

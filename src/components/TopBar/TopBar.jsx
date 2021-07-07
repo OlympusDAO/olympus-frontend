@@ -160,6 +160,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <button
           type="button"
           className="btn top-bar-button btn-overwrite-primer m-2"
@@ -202,6 +203,9 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 =======
         <Button color="secondary" variant="contained" size="large" onClick={logoutOfWeb3Modal} key={1}>
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
+=======
+        <Button variant="contained" color="secondary" size="large" onClick={logoutOfWeb3Modal} key={1}>
+>>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
           Disconnect
         </Button>,
       );
@@ -216,6 +220,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
   }
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <div className="dapp-topbar">
@@ -300,6 +305,9 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
           title="Get OHM"
 =======
     <AppBar position="sticky" className={classes.appBar} elevation="0">
+=======
+    <AppBar position="sticky" className={classes.appBar} elevation={0}>
+>>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
       <Toolbar disableGutters className="dapp-topbar">
         <IconButton
           color="inherit"

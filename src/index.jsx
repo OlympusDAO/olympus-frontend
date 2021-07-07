@@ -1,6 +1,6 @@
 // import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
-import React from "react";
+// import React from "react";
 import ReactDOM from "react-dom";
 import Root from "./Root";
 
