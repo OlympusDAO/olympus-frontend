@@ -29,6 +29,7 @@ const commonSettings = {
     },
     h5: {
       fontSize: "1.25rem",
+      letterSpacing: "0.8px",
     },
     h6: {
       fontSize: "1rem",
@@ -141,6 +142,7 @@ const commonSettings = {
         textTransform: "none",
         textDecoration: "none",
         whiteSpace: "nowrap",
+        minWidth: "max-content",
       },
       containedPrimary: {
         border: 0,
@@ -170,17 +172,12 @@ const commonSettings = {
       disableElevation: true,
       disableFocusRipple: true,
       disableRipple: true,
-      noWrap: true,
     },
     MuiPaper: {
       elevation: 0,
     },
     MuiTypograph: {
       gutterBottom: true,
-      noWrap: true,
-    },
-    MuiLink: {
-      underlineHover: false,
     },
   },
 };

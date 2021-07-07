@@ -1,4 +1,7 @@
 #choose-bond-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   .ohm-logo-bg {
     margin-left: 0;
     border-radius: 20px;
@@ -8,12 +11,6 @@
     text-align: center;
     height: 40px;
     width: 40px;
-  }
-
-  .ohm-card-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
   }
 
   .bond-data-card {
@@ -107,7 +104,7 @@
       flex-direction: column;
       justify-content: center;
       text-align: left;
-      align-items: start;
+      align-items: flex-start;
       p {
         margin-bottom: unset !important;
       }

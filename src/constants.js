@@ -1,7 +1,8 @@
 // export const INFURA_ID = "d9836dbf00c2440d862ab571b462e4a3"; // Girth's fallback
 // 5e3c is owned by zeus@oly, 31e6 is owned by unbanksy. Use Girth's fallback if we run out of requests
-export const INFURA_ID = (process.env.NODE_ENV === "development" ? "5e3c4a19b5f64c99bf8cd8089c92b44d" : "31e6d348d16b4a4dacde5f8a47da1971");
-export const THE_GRAPH_ID = 'QmPHDKrwGD2nWsCyH9hyfCgKnUEDpxD1dezKEqDDZ36FTe';
+export const INFURA_ID =
+  process.env.NODE_ENV === "development" ? "5e3c4a19b5f64c99bf8cd8089c92b44d" : "31e6d348d16b4a4dacde5f8a47da1971";
+export const THE_GRAPH_ID = "QmPHDKrwGD2nWsCyH9hyfCgKnUEDpxD1dezKEqDDZ36FTe";
 export const EPOCH_INTERVAL = 2200;
 
 // NOTE could get this from an outside source since it changes slightly over time

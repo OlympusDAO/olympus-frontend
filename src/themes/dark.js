@@ -49,6 +49,10 @@ export const dark = responsiveFontSizes(
           main: darkTheme.color,
           secondary: darkTheme.gray,
         },
+        text: {
+          primary: darkTheme.color,
+          secondary: darkTheme.gray,
+        },
       },
       typography: {
         fontFamily: "Square",
@@ -63,8 +67,10 @@ export const dark = responsiveFontSizes(
           },
         },
         MuiPaper: {
-          "&.ohm-modal": {
-            backgroundColor: darkTheme.modalBg,
+          root: {
+            "&.ohm-modal": {
+              backgroundColor: darkTheme.modalBg,
+            },
           },
         },
         MuiLink: {

@@ -37,7 +37,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <Button color="secondary" variant="contained" size="large" onClick={logoutOfWeb3Modal} key={1}>
+        <Button variant="contained" color="secondary" size="large" onClick={logoutOfWeb3Modal} key={1}>
           Disconnect
         </Button>,
       );
@@ -51,7 +51,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
   }
 
   return (
-    <AppBar position="sticky" className={classes.appBar} elevation="0">
+    <AppBar position="sticky" className={classes.appBar} elevation={0}>
       <Toolbar disableGutters className="dapp-topbar">
         <IconButton
           color="inherit"
