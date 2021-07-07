@@ -36,6 +36,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg"
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 
+<<<<<<< HEAD
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -44,6 +45,9 @@ function a11yProps(index) {
 }
 
 function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
+=======
+function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
+>>>>>>> 153: adds current index following new design
   const dispatch = useDispatch();
 
   const [view, setView] = useState(0);
@@ -248,6 +252,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
             <Grid item>
               <div className="stake-top-metrics">
                 <Grid container spacing={2}>
+<<<<<<< HEAD
                   <Grid item xs={12} sm={12} lg={4}>
                     <div className="olympus-sushi">
                       <div>
@@ -281,6 +286,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     <Typography variant="h4">{stakingAPY && trim(stakingAPY * 100, 1)}%</Typography>
                   </div>
                 </Grid>
+=======
+>>>>>>> 153: adds current index following new design
 
 <<<<<<< HEAD
                 <Grid item xs={6} sm={6} lg={4}>
@@ -313,7 +320,17 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       </h2>
                     </div>
                   </Grid>
+<<<<<<< HEAD
 >>>>>>> commented out airbnb in eslint
+=======
+
+                  <Grid item xs={6} sm={6} lg={4}>
+                    <div className="stake-index">
+                      <h2 className="title">Current Index</h2>
+                      <h2 className="content">{currentIndex && trim(currentIndex, 1)} OHM</h2>
+                    </div>
+                  </Grid>
+>>>>>>> 153: adds current index following new design
                 </Grid>
 
                 <Grid item xs={6} sm={6} lg={4}>
