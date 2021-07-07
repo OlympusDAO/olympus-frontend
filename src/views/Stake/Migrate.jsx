@@ -15,7 +15,7 @@ import "./stake.scss";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
-export default function Migrate({ 
+export default function Migrate({
 	address,
 	provider,
 	web3Modal,
@@ -50,7 +50,7 @@ export default function Migrate({
   });
 	
 
-	const setMax = () => {
+  const setMax = () => {
     if (view === "unstake") {
       setQuantity(oldSohmBalance);
     } else {
@@ -149,7 +149,6 @@ export default function Migrate({
     else if (ohmBalance > 0) setView("stake");
     else setView("done");
   }, []);
-
 
 	let modalButton = <></>;
   if (web3Modal) {
