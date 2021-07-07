@@ -25,11 +25,11 @@
     font-size: 1.3em;
     display: flex;
     align-items: center;
-    color: #F08080;	
+    color: #F08080;
     line-height: 30px;
     svg {
         margin-right: 8px;
-    } 
+    }
 }
 
 .migrate-sohm-button.complete a {
@@ -39,7 +39,7 @@
 
 .mobile #sohm-migration-view {
     .ohm-card {
-        width: 98% !important;    
+        width: 98% !important;
     }
 }
 
@@ -62,7 +62,7 @@
             justify-content: center;
             .card-header {
                 display: flex;
-                justify-content: space-between;    
+                justify-content: space-between;
                 div.cancel p {
                     color: #FF4343 !important;
                     vertical-align: middle;
@@ -136,7 +136,7 @@
                     width: 75%;
                 }
             }
-            
+
         }
     }
 }
@@ -191,7 +191,7 @@
         flex-flow: column;
         padding: 1rem 2rem 1rem 2rem;
         height: 100%;
-        
+
     }
     &.primary {
         margin-bottom: 2rem;
@@ -239,7 +239,7 @@
             height: 0.79em;
         }
     }
-    .stake-apy, .stake-tvl {
+    .stake-apy, .stake-tvl, .stake-index {
         flex: 1;
         // text-align: left;
         text-overflow: ellipsis;
@@ -266,7 +266,7 @@
     }
 }
 
-// overriding original 
+// overriding original
 .stake-toggle-row {
     margin: 2rem auto;
     width: 100%;
@@ -311,7 +311,7 @@
     width: 25px;
     border-radius: 20px;
     display: flex;
-    background-color: white;    
+    background-color: white;
     vertical-align: middle;
     align-items: center;
     justify-content: center;
@@ -436,7 +436,7 @@
             vertical-align: middle;
             overflow-wrap: break-word;
             font-size: 1.08em;
-            align-items: center; 
+            align-items: center;
             .ohm-pairs p, .ohm-pairs svg {
                 align-self: center;
                 margin-left: 6px;
@@ -507,7 +507,7 @@
     border-radius: 5px;
     align-items: center;
     justify-content: center;
-    border: 1px solid #F4D09266; 
+    border: 1px solid #F4D09266;
     border-radius: 5px;
     h4 {
         color: inherit;
@@ -520,7 +520,7 @@
         text-align: center;
         float: unset;
         .stake-button {
-            color: #F4D092; 
+            color: #F4D092;
             font-size: 1.5em !important;
             width: 20rem;
             max-width: 300px !important;
@@ -622,7 +622,7 @@
 
 
 #choose-bond-view {
-    
+
     h1, h2, h3, h4 {
         font-family: 'Square' !important;
         font-weight: 500;
@@ -643,7 +643,7 @@
     .MuiGrid-spacing-xs-2 {
         margin: 0 !important;
     }
-    
+
 
     .ohm-card.mobile {
         margin-bottom: 2em;
@@ -685,7 +685,7 @@
             }
         }
         &.primary {
-            padding-top: 0 !important;        
+            padding-top: 0 !important;
             .card-header {
                 background: transparent;
             }
