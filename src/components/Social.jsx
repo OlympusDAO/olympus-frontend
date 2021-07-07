@@ -1,25 +1,42 @@
-import useTheme from "../hooks/useTheme";
-import GitHubImg from "../assets/github.svg";
-import MediumImg from "../assets/medium.svg";
-import TwitterImg from "../assets/twitter.svg";
-import DiscordImg from "../assets/discord.svg";
+import { SvgIcon, makeStyles } from "@material-ui/core";
+import { ReactComponent as GitHub } from "../assets/icons/v1.2/github-dark_mode.svg";
+import { ReactComponent as Medium } from "../assets/icons/v1.2/medium-dark_mode.svg";
+import { ReactComponent as Twitter } from "../assets/icons/v1.2/twitter-dark_mode.svg";
+import { ReactComponent as Discord } from "../assets/icons/v1.2/discord-dark_mode.svg";
+
+const useStyles = makeStyles(theme => ({
+  svgStyle: {
+    fillColor: theme.palette.text.primary,
+  },
+}));
 
 function Social() {
-  const [theme, toggleTheme] = useTheme();
+  const classes = useStyles();
 
   return (
     <div className="social-row">
       <a href="https://github.com/OlympusDAO">
-        <img src={GitHubImg} alt="github" target="_blank" className="social-icon-small" />
+        <SvgIcon className={classes.svgStyle}>
+          <GitHub />
+        </SvgIcon>
       </a>
+
       <a href="https://olympusdao.medium.com/">
-        <img src={MediumImg} alt="medium" target="_blank" className="social-icon-small" />
+        <SvgIcon className={classes.svgStyle}>
+          <Medium />
+        </SvgIcon>
       </a>
+
       <a href="https://twitter.com/OlympusDAO">
-        <img src={TwitterImg} alt="twitter" target="_blank" className="social-icon-small" />
+        <SvgIcon className={classes.svgStyle}>
+          <Twitter />
+        </SvgIcon>
       </a>
+
       <a href="https://discord.gg/6QjjtUcfM4">
-        <img src={DiscordImg} alt="discord" target="_blank" className="social-icon-small" />
+        <SvgIcon className={classes.svgStyle}>
+          <Discord />
+        </SvgIcon>
       </a>
     </div>
   );
