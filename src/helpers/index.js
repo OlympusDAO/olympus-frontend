@@ -1,21 +1,19 @@
-
 import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS } from "../constants";
 import { ethers } from "ethers";
-import { abi as ierc20Abi } from '../abi/IERC20.json';
-import { abi as CirculatingSupplyContract } from '../abi/CirculatingSupplyContract.json';
-import { abi as PairContract } from '../abi/PairContract.json';
+import { abi as ierc20Abi } from "../abi/IERC20.json";
+import { abi as PairContract } from "../abi/PairContract.json";
 
-import { abi as BondOhmDaiContract } from '../abi/bonds/OhmDaiContract.json';
-import { abi as BondOhmFraxContract } from '../abi/bonds/OhmFraxContract.json';
-import { abi as BondDaiContract } from '../abi/bonds/DaiContract.json';
-import { abi as ReserveOhmDaiContract } from '../abi/reserves/OhmDai.json';
-import { abi as ReserveOhmFraxContract } from '../abi/reserves/OhmFrax.json';
-import { abi as BondContract } from '../abi/BondContract.json';
-import { abi as DaiBondContract } from '../abi/DaiBondContract.json';
-import { abi as FraxBondContract } from '../abi/bonds/FraxContract.json';
+import { abi as BondOhmDaiContract } from "../abi/bonds/OhmDaiContract.json";
+import { abi as BondOhmFraxContract } from "../abi/bonds/OhmFraxContract.json";
+import { abi as BondDaiContract } from "../abi/bonds/DaiContract.json";
+import { abi as ReserveOhmDaiContract } from "../abi/reserves/OhmDai.json";
+import { abi as ReserveOhmFraxContract } from "../abi/reserves/OhmFrax.json";
+import { abi as BondContract } from "../abi/BondContract.json";
+import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
+import { abi as FraxBondContract } from "../abi/bonds/FraxContract.json";
 export { default as Transactor } from "./Transactor";
 
-export function addressForBond({bond, networkID}) {
+export function addressForBond({ bond, networkID }) {
   if (bond === BONDS.ohm_dai) {
     return addresses[networkID].BONDS.OHM_DAI;
   } else if (bond === BONDS.dai) {
@@ -27,7 +25,7 @@ export function addressForBond({bond, networkID}) {
   }
 }
 
-export function addressForAsset({bond, networkID}) {
+export function addressForAsset({ bond, networkID }) {
   if (bond === BONDS.ohm_dai) {
     return addresses[networkID].RESERVES.OHM_DAI;
   } else if (bond === BONDS.dai) {
@@ -40,29 +38,25 @@ export function addressForAsset({bond, networkID}) {
 }
 
 export function isBondLP(bond) {
-  return bond.indexOf('_lp') >= 0
+  return bond.indexOf("_lp") >= 0;
 }
 
 export function lpURL(bond) {
   if (bond === BONDS.ohm_dai)
-    return "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f"
+    return "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f";
   else if (bond === BONDS.ohm_frax)
-    return "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899"
+    return "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899";
 }
 
 export function bondName(bond) {
-  if (bond === BONDS.dai)
-    return 'DAI Bond'
-  else if (bond === BONDS.ohm_dai)
-    return 'OHM-DAI SLP Bond'
-  else if (bond === BONDS.ohm_frax)
-    return 'OHM-FRAX LP Bond'
-  else if (bond === BONDS.frax)
-    return 'FRAX Bond'
+  if (bond === BONDS.dai) return "DAI Bond";
+  else if (bond === BONDS.ohm_dai) return "OHM-DAI SLP Bond";
+  else if (bond === BONDS.ohm_frax) return "OHM-FRAX LP Bond";
+  else if (bond === BONDS.frax) return "FRAX Bond";
 }
 
 export function contractForBond({ bond, networkID, provider }) {
-  const address = addressForBond({bond, networkID});
+  const address = addressForBond({ bond, networkID });
 
   if (bond === BONDS.ohm_dai) {
     return new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
@@ -82,7 +76,7 @@ export function contractForBond({ bond, networkID, provider }) {
 }
 
 export function contractForReserve({ bond, networkID, provider }) {
-  const address = addressForAsset({bond, networkID});
+  const address = addressForAsset({ bond, networkID });
 
   if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
@@ -96,18 +90,13 @@ export function contractForReserve({ bond, networkID, provider }) {
 }
 
 export async function getMarketPrice({ networkID, provider }) {
-  const pairContract = new ethers.Contract(
-    addresses[networkID].LP_ADDRESS,
-    PairContract,
-    provider
-  );
+  const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
   const reserves = await pairContract.getReserves();
   const marketPrice = reserves[1] / reserves[0];
 
   // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });
   return marketPrice;
 }
-
 
 export function shorten(str) {
   if (str.length < 10) return str;
@@ -118,19 +107,17 @@ export function trim(number, precision) {
   if (number == undefined) {
     number = 0;
   }
-  const array = number.toString().split('.');
-  if (array.length === 1)
-    return number.toString();
+  const array = number.toString().split(".");
+  if (array.length === 1) return number.toString();
 
   array.push(array.pop().substring(0, precision));
-  const trimmedNumber = array.join('.');
+  const trimmedNumber = array.join(".");
   return trimmedNumber;
 }
 
 export function getRebaseBlock(currentBlock) {
   return currentBlock + EPOCH_INTERVAL - (currentBlock % EPOCH_INTERVAL);
 }
-
 
 export function secondsUntilBlock(startBlock, endBlock) {
   if (startBlock % EPOCH_INTERVAL === 0) {
@@ -145,12 +132,12 @@ export function secondsUntilBlock(startBlock, endBlock) {
 
 export function prettyVestingPeriod(currentBlock, vestingBlock) {
   if (vestingBlock === 0) {
-    return '';
+    return "";
   }
 
   const seconds = secondsUntilBlock(currentBlock, vestingBlock);
   if (seconds < 0) {
-    return 'Fully Vested';
+    return "Fully Vested";
   } else {
     return prettifySeconds(seconds);
   }
@@ -158,14 +145,14 @@ export function prettyVestingPeriod(currentBlock, vestingBlock) {
 
 export function prettifySeconds(seconds, resolution) {
   if (seconds !== 0 && !seconds) {
-    return '';
+    return "";
   }
 
-  const d = Math.floor(seconds / (3600*24));
-  const h = Math.floor(seconds % (3600*24) / 3600);
-  const m = Math.floor(seconds % 3600 / 60);
+  const d = Math.floor(seconds / (3600 * 24));
+  const h = Math.floor((seconds % (3600 * 24)) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
 
-  if (resolution === 'day') {
+  if (resolution === "day") {
     return d + (d == 1 ? " day" : " days");
   } else {
     const dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
@@ -174,5 +161,4 @@ export function prettifySeconds(seconds, resolution) {
 
     return dDisplay + hDisplay + mDisplay;
   }
-
 }

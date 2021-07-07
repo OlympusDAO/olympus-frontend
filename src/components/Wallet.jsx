@@ -100,7 +100,6 @@ export default function Wallet(props) {
         <QrcodeOutlined /> Hide
       </Button>
     );
-
   } else {
     const inputStyle = {
       padding: 10,

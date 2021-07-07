@@ -31,10 +31,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const [view, setView] = useState("stake");
   const [quantity, setQuantity] = useState();
   const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
-  const [txPending, setTxPending] = useState(false);
-  const [tx, setTx] = useState();
 
-  const isSmallScreen = useMediaQuery("(max-width: 1125px)");
+  const isSmallScreen = useMediaQuery("(max-width: 960px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const fraxData = useSelector(state => {
@@ -89,38 +87,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
       await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: 1 }));
     }
   };
-
-  // https://docs.ethers.io/v5/single-page/#/v5/api/providers/provider/-%23-Provider--events
-  const transaction = txHash => {
-    if (txHash.length > 0 && provider && address) {
-      provider.once(txHash, tx => {
-        console.log("transaction mined: ", tx);
-        return tx;
-      });
-    }
-    return;
-  };
-
-  const pending = () => {
-    if (provider && address) {
-      return provider.on("pending", tx => {
-        console.log("pending tx: ", tx);
-        transaction(tx);
-        return tx;
-      });
-    }
-    return false;
-  };
-
-  useEffect(() => {
-    setTxPending(true);
-    setTx(pending);
-  }, [pending]);
-
-  useEffect(() => {
-    setTxPending(false);
-    setTx(transaction);
-  }, [transaction]);
 
   const hasAllowance = useCallback(
     token => {
@@ -226,14 +192,18 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
                 <Grid item xs={6} sm={6} lg={4}>
                   <div className="stake-apy">
-                    <Typography variant="h5">APY</Typography>
+                    <Typography variant="h5" color="textSecondary">
+                      APY
+                    </Typography>
                     <Typography variant="h4">{stakingAPY && trim(stakingAPY * 100, 1)}%</Typography>
                   </div>
                 </Grid>
 
                 <Grid item xs={6} sm={6} lg={4}>
                   <div className="stake-tvl">
-                    <Typography variant="h5">TVL</Typography>
+                    <Typography variant="h5" color="textSecondary">
+                      TVL
+                    </Typography>
                     <Typography variant="h4">
                       {stakingTVL &&
                         new Intl.NumberFormat("en-US", {
@@ -308,13 +278,12 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                         className="stake-button"
                         variant="contained"
                         color="primary"
-                        disabled={txPending}
                         onClick={() => {
                           onChangeStake("stake");
                           pending();
                         }}
                       >
-                        {!txPending ? "Stake OHM" : <emphasize>Pending...</emphasize>}
+                        Stake OHM
                       </Button>
                     )}
 
@@ -323,13 +292,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                         className="stake-button"
                         variant="contained"
                         color="primary"
-                        disabled={txPending}
                         onClick={() => {
                           onChangeStake("unstake");
-                          pending();
                         }}
                       >
-                        {!txPending ? "Unstake OHM" : <emphasize>Pending...</emphasize>}
+                        Unstake OHM
                       </Button>
                     )}
 
@@ -338,13 +305,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                         className="stake-button"
                         variant="contained"
                         color="primary"
-                        disabled={txPending}
                         onClick={() => {
                           onSeekApproval("ohm");
-                          pending();
                         }}
                       >
-                        {!txPending ? "Approve Stake" : <emphasize>Pending...</emphasize>}
+                        Approve Stake
                       </Button>
                     )}
 
@@ -353,13 +318,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                         className="stake-button"
                         variant="contained"
                         color="primary"
-                        disabled={txPending}
                         onClick={() => {
                           onSeekApproval("sohm");
-                          pending();
                         }}
                       >
-                        {!txPending ? "Approve Unstake" : <emphasize>Pending...</emphasize>}
+                        Approve Unstake
                       </Button>
                     )}
                   </Box>
@@ -368,11 +331,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     {address &&
                       ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
                         <em>
-                          <p>
+                          <Typography variant="body2">
                             Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
                             subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
                             transaction.
-                          </p>
+                          </Typography>
                         </em>
                       )}
                   </div>

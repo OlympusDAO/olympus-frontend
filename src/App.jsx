@@ -7,7 +7,7 @@ import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
 import "@fortawesome/fontawesome-free/js/all.js";
 import { useSelector, useDispatch } from "react-redux";
-import { Container, Hidden, useMediaQuery } from "@material-ui/core";
+import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
@@ -19,7 +19,6 @@ import { loadAccountDetails } from "./actions/Account.actions.js";
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
-import { TopBar2 } from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
@@ -134,7 +133,7 @@ function App(props) {
   const location = useLocation();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 900px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 960px)");
 
   const handleSidebarOpen = () => {
     setIsSidebarExpanded(true);
