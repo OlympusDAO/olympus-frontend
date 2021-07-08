@@ -58,6 +58,11 @@ export const light = responsiveFontSizes(
       typography: {
         fontFamily: "Square",
       },
+      props: {
+        MuiSvgIcon: {
+          htmlColor: lightTheme.color,
+        },
+      },
       overrides: {
         MuiCssBaseline: {
           "@global": {
@@ -70,6 +75,11 @@ export const light = responsiveFontSizes(
         MuiPaper: {
           "&.ohm-modal": {
             backgroundColor: lightTheme.modalBg,
+          },
+        },
+        MuiSvgIcon: {
+          color: {
+            primary: lightTheme.color,
           },
         },
         MuiLink: {

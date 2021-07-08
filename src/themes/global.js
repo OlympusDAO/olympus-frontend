@@ -8,6 +8,13 @@ const breakpointValues = {
   xl: 1333,
 };
 
+// replace above with this later
+// const breakpointValues = {
+//   mobile: 590,
+//   tablet: 950,
+//   browser: 1333,
+// };
+
 const commonSettings = {
   direction: "ltr",
   typography: {
@@ -29,7 +36,7 @@ const commonSettings = {
     },
     h5: {
       fontSize: "1.25rem",
-      letterSpacing: "0.8px",
+      letterSpacing: "0.4px",
     },
     h6: {
       fontSize: "1rem",
@@ -37,9 +44,6 @@ const commonSettings = {
     h7: {
       fontSize: "0.875rem",
     },
-    // h8: {
-    //   fontSize: "0.75rem",
-    // },
     body1: {
       fontSize: "1.125rem",
       fontWeight: 500,
@@ -97,7 +101,7 @@ const commonSettings = {
         cursor: "pointer",
         "&:hover": {
           textDecoration: "none",
-          underline: 0,
+          underline: "none",
         },
       },
     },
@@ -178,6 +182,9 @@ const commonSettings = {
     },
     MuiTypograph: {
       gutterBottom: true,
+    },
+    MuiLink: {
+      underline: "none",
     },
   },
 };
