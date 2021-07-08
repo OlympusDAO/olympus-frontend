@@ -185,8 +185,15 @@ function App(props) {
   }, [injectedProvider, address]);
 
   const loadWeb3Modal = useCallback(async () => {
-    const provider = await web3Modal.connect();
-    setInjectedProvider(new Web3Provider(provider));
+    const rawProvider = await web3Modal.connect();
+    const provider = new Web3Provider(rawProvider);
+
+    const chainId = await provider.getNetwork().then(network => network.chainId);
+    if (chainId !== 1) {
+      alert("Wrong network, please switch to mainnet");
+    } else {
+      setInjectedProvider(provider);
+    }
   }, [setInjectedProvider]);
 
   useEffect(() => {
