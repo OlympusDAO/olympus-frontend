@@ -4,6 +4,7 @@ import BondLogo from "../../components/BondLogo";
 import AdvancedSettings from "./AdvancedSettings";
 import { bondName } from "../../helpers";
 import { Typography, IconButton } from "@material-ui/core";
+import ClearIcon from "@material-ui/icons/Clear";
 import { ReactComponent as SettingsIcon } from "../../assets/icons/settings-cog.svg";
 
 function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
@@ -12,9 +13,9 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
   return (
     <div className="bond-header">
       <div className="bond-settings">
-        <a role="button" onClick={() => setShowMenu(!showMenu)}>
+        <IconButton onClick={() => setShowMenu(!showMenu)}>
           <SettingsIcon />
-        </a>
+        </IconButton>
 
         {showMenu && (
           <AdvancedSettings
@@ -34,7 +35,7 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
       </div>
 
       <NavLink to="/bonds" className="cancel-bond">
-        <i className="fa fa-times"></i>
+        <ClearIcon color="primary" />
       </NavLink>
     </div>
   );
