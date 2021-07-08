@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import useTheme from "../hooks/useTheme";
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
@@ -9,11 +10,15 @@ import TwitterImg from "../assets/twitter.svg";
 import DiscordImg from "../assets/discord.svg";
 =======
 import { SvgIcon, makeStyles } from "@material-ui/core";
+=======
+import { SvgIcon, Link } from "@material-ui/core";
+>>>>>>> link hover styles no underline
 import { ReactComponent as GitHub } from "../assets/icons/v1.2/github-dark_mode.svg";
 import { ReactComponent as Medium } from "../assets/icons/v1.2/medium-dark_mode.svg";
 import { ReactComponent as Twitter } from "../assets/icons/v1.2/twitter-dark_mode.svg";
 import { ReactComponent as Discord } from "../assets/icons/v1.2/discord-dark_mode.svg";
 
+<<<<<<< HEAD
 const useStyles = makeStyles(theme => ({
   svgStyle: {
     fillColor: theme.palette.text.primary,
@@ -37,29 +42,30 @@ export default function Social() {
       <a href="https://discord.gg/6QjjtUcfM4" target="_blank">
         <img src={DiscordImg} alt="discord" className="social-icon-small" />
 =======
+=======
+>>>>>>> link hover styles no underline
 function Social() {
-  const classes = useStyles();
-
   return (
     <div className="social-row">
-      <a href="https://github.com/OlympusDAO">
-        <SvgIcon className={classes.svgStyle}>
+      <Link href="https://github.com/OlympusDAO">
+        <SvgIcon color="primary">
           <GitHub />
         </SvgIcon>
-      </a>
+      </Link>
 
-      <a href="https://olympusdao.medium.com/">
-        <SvgIcon className={classes.svgStyle}>
-          <Medium />
+      <Link href="https://olympusdao.medium.com/">
+        <SvgIcon>
+          <Medium color="primary" />
         </SvgIcon>
-      </a>
+      </Link>
 
-      <a href="https://twitter.com/OlympusDAO">
-        <SvgIcon className={classes.svgStyle}>
+      <Link href="https://twitter.com/OlympusDAO">
+        <SvgIcon color="primary">
           <Twitter />
         </SvgIcon>
-      </a>
+      </Link>
 
+<<<<<<< HEAD
       <a href="https://discord.gg/6QjjtUcfM4">
 <<<<<<< HEAD
         <img src={DiscordImg} alt="discord" target="_blank" className="social-icon-small" />
@@ -70,6 +76,13 @@ function Social() {
         </SvgIcon>
 >>>>>>> removed some unneeded pngs and updated social.jsx to use new components and materal svgicon component
       </a>
+=======
+      <Link href="https://discord.gg/6QjjtUcfM4">
+        <SvgIcon color="primary">
+          <Discord />
+        </SvgIcon>
+      </Link>
+>>>>>>> link hover styles no underline
     </div>
   );
 }
