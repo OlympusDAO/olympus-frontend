@@ -1,18 +1,18 @@
-import React from "react";
+import { Typography, Box } from "@material-ui/core";
 import "./bondSettings.scss";
 
 function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
   return (
-    <div className="card ohm-popover-card">
+    <Box className="ohm-popover-card">
       <div className="card-body">
-        <h2 className="card-title mb-4">Hades</h2>
+        <Typography variant="h3">Hades</Typography>
         <form>
-          <div className="mb-3">
+          <div>
             <label htmlFor="slippage" className="form-label">
               Slippage
             </label>
 
-            <div className="input-group ohm-input-group flex-nowrap d-flex">
+            <div className="input-group ohm-input-group">
               <input
                 value={slippage}
                 onChange={onSlippageChange}
@@ -27,11 +27,11 @@ function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange
               </span>
             </div>
             <div id="emailHelp" className="form-text">
-              Transaction may revert if price changes by more than slippage %
+              <Typography variant="body2">Transaction may revert if price changes by more than slippage %</Typography>
             </div>
           </div>
 
-          <div className="mb-3">
+          <div>
             <label htmlFor="slippage" className="form-label">
               Recipient Address
             </label>
@@ -50,7 +50,7 @@ function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange
           </div>
         </form>
       </div>
-    </div>
+    </Box>
   );
 }
 
