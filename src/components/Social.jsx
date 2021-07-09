@@ -1,4 +1,3 @@
-import React from "react";
 import GitHubImg from "../assets/github.svg";
 import MediumImg from "../assets/medium.svg";
 import TwitterImg from "../assets/twitter.svg";

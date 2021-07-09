@@ -1,5 +1,12 @@
 import { ethers } from "ethers";
-import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForBond, addressForAsset } from "../helpers";
+import {
+  isBondLP,
+  getMarketPrice,
+  contractForBond,
+  contractForReserve,
+  addressForBond,
+  addressForAsset,
+} from "../helpers";
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 
@@ -36,7 +43,8 @@ export const changeApproval =
           addresses[networkID].BONDS.DAI,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
-      else if (bond === BONDS.frax) // <-- added for frax
+      else if (bond === BONDS.frax)
+        // <-- added for frax
         approveTx = await reserveContract.approve(
           addresses[networkID].BONDS.FRAX,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
@@ -73,18 +81,17 @@ export const calcBondDetails =
 
     let debtRatio, bondPrice;
     try {
-
       bondPrice = await bondContract.bondPriceInUSD();
 
       bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
       if (bond === BONDS.ohm_dai) {
-        debtRatio = await bondContract.standardizedDebtRatio() / Math.pow(10, 9);
+        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
         // RFV = assume 1:1 backing
         valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
         bondQuote = await bondContract.payoutFor(valuation);
         bondQuote = bondQuote / Math.pow(10, 9);
       } else if (bond === BONDS.ohm_frax) {
-        debtRatio = await bondContract.standardizedDebtRatio() / Math.pow(10, 9);
+        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
         valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
         bondQuote = await bondContract.payoutFor(valuation);
         bondQuote = bondQuote / Math.pow(10, 9);
@@ -94,14 +101,10 @@ export const calcBondDetails =
         bondQuote = await bondContract.payoutFor(amountInWei);
         bondQuote = bondQuote / Math.pow(10, 18);
       }
-
-    } catch {
+    } catch (e) {
       debtRatio = 0;
       bondPrice = 0;
     }
-
-
-
 
     // Display error if user tries to exceed maximum.
     if (!!value && parseFloat(bondQuote) > maxBondPrice / Math.pow(10, 9)) {
@@ -112,20 +115,18 @@ export const calcBondDetails =
       );
     }
 
-
     // Calculate bonds purchased
     const token = contractForReserve({ bond, networkID, provider });
     let purchased = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
     // Value the bond
     if (isBondLP(bond)) {
-      const markdown  = await bondCalcContract.markdown(addressForAsset({bond, networkID}));
-      purchased = await bondCalcContract.valuation(addressForAsset({bond, networkID}), purchased);
-      purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9)) ;
+      const markdown = await bondCalcContract.markdown(addressForAsset({ bond, networkID }));
+      purchased = await bondCalcContract.valuation(addressForAsset({ bond, networkID }), purchased);
+      purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
     } else {
       purchased = purchased / Math.pow(10, 18);
     }
-
 
     return dispatch(
       fetchBondSuccess({
@@ -251,7 +252,7 @@ export const redeemBond =
 
     try {
       let redeemTx;
-      if (bond === BONDS.dai_v1 || bond === BONDS.ohm_dai_v1 || bond === BONDS.ohm_frax_v1 ) {
+      if (bond === BONDS.dai_v1 || bond === BONDS.ohm_dai_v1 || bond === BONDS.ohm_frax_v1) {
         redeemTx = await bondContract.redeem(false);
       } else {
         redeemTx = await bondContract.redeem(address, autostake === true);
