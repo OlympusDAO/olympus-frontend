@@ -109,6 +109,7 @@ export const loadAppDetails =
     `;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     if (!graphData || graphData == null) {
       console.error("Returned a null response when querying TheGraph");
       return;
@@ -151,6 +152,16 @@ export const loadAppDetails =
 =======
     const graphData = await apollo(protocolMetricsQuery);
 >>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
+=======
+    const graphData = await apollo(protocolMetricsQuery);
+=======
+    if (!graphData || graphData == null) {
+      console.error("Returned a null response when querying TheGraph");
+      return;
+    }
+
+>>>>>>> updated to ohmCirculatingSupply
+>>>>>>> updated to ohmCirculatingSupply
     const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
     const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
@@ -161,8 +172,11 @@ export const loadAppDetails =
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 =======
+=======
+>>>>>>> updated to ohmCirculatingSupply
     if (!provider) {
       console.error("failed to connect to provider, please connect your wallet");
       return dispatch(
@@ -178,7 +192,12 @@ export const loadAppDetails =
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
+=======
+=======
+>>>>>>> updated to ohmCirculatingSupply
+>>>>>>> updated to ohmCirculatingSupply
     const currentBlock = await provider.getBlockNumber();
 =======
     const currentBlock = await provider.getBlockNumber(); 
@@ -251,6 +270,7 @@ export const loadAppDetails =
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
@@ -270,6 +290,8 @@ export const loadAppDetails =
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 >>>>>>> formatting
 =======
+=======
+>>>>>>> updated to ohmCirculatingSupply
     valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
     markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
@@ -277,8 +299,13 @@ export const loadAppDetails =
     valuation    = await bondCalculator.valuation(addressForAsset({bond: BONDS.ohm_frax, networkID}), ohmFraxAmount);
     markdown     = await bondCalculator.markdown(addressForAsset({bond: BONDS.ohm_frax, networkID}));
     let ohmFraxUSD   = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18))
+=======
+    valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
+    markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
+    let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
+>>>>>>> updated to ohmCirculatingSupply
 
-    const treasuryBalance  = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10,18) + ohmDaiUSD + ohmFraxUSD;
+    const treasuryBalance = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
     // Calculate TVL staked
     let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
