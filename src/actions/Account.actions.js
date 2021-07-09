@@ -3,7 +3,6 @@ import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import apollo from "../lib/apolloClient";
 
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,

@@ -11,7 +11,7 @@ const breakpointValues = {
 // replace above with this later
 // const breakpointValues = {
 //   mobile: 590,
-//   tablet: 950,
+//   tablet: 970,
 //   browser: 1333,
 // };
 
@@ -41,12 +41,10 @@ const commonSettings = {
     h6: {
       fontSize: "1rem",
     },
-    h7: {
-      fontSize: "0.875rem",
-    },
     body1: {
-      fontSize: "1.125rem",
+      fontSize: "0.875rem",
       fontWeight: 500,
+      lineHeight: 1,
     },
     body2: {
       fontSize: "0.75rem",
@@ -185,6 +183,10 @@ const commonSettings = {
     },
     MuiLink: {
       underline: "none",
+    },
+    MuiSvgIcon: {
+      viewBox: "0 0 20 20",
+      fontSize: "small",
     },
   },
 };

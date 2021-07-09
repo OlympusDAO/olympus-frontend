@@ -3,6 +3,7 @@
     white-space: nowrap !important;
     overflow: hidden !important;
     margin: 8px !important;
+    min-width: fit-content !important;
   }
 }
 
@@ -11,6 +12,5 @@
     display: block;
     white-space: nowrap;
     text-decoration: none !important;
-    color: #fff !important;
   }
 }
