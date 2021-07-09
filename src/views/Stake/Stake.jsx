@@ -122,8 +122,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 
   const trimmedSOHMBalance = trim(sohmBalance, 4);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4)
-
+  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
 
   // TODO: the two grids need `container` props to justify.
   return (
@@ -162,7 +161,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
             <Grid item>
               <div className="stake-top-metrics">
                 <Grid container spacing={2}>
-
                   <Grid item xs={6} sm={6} lg={4}>
                     <div className="stake-apy">
                       <h2 className="title">APY</h2>
