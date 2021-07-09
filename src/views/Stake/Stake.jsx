@@ -5,6 +5,10 @@ import {
   Box,
   Paper,
   Typography,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Button,
   TableHead,
   TableCell,
@@ -254,24 +258,37 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   </div>
 
                   <Box className="stake-action-row">
-                    <div className="input-group ohm-input-group">
-                      <div className="logo-holder">
-                        <div className="ohm-logo-bg">
-                          <img
-                            className="ohm-logo-tiny"
-                            src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                          />
-                        </div>
-                      </div>
-                      <input
+                    <FormControl className="ohm-input-group" variant="outlined" color="primary">
+                      <InputLabel htmlFor="amount-input"></InputLabel>
+                      <OutlinedInput
+                        id="amount-input"
+                        type="number"
+                        placeholder="Enter an amount"
+                        className="stake-input"
                         value={quantity}
                         onChange={e => setQuantity(e.target.value)}
-                        type="number"
-                        className="form-control stake-input"
-                        placeholder="Type an amount"
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <div className="logo-holder">
+                              <div className="ohm-logo-bg">
+                                <img
+                                  className="ohm-logo-tiny"
+                                  src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                                />
+                              </div>
+                            </div>
+                          </InputAdornment>
+                        }
+                        labelWidth={0}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <Button variant="text" onClick={setMax}>
+                              Max
+                            </Button>
+                          </InputAdornment>
+                        }
                       />
-                      <Button onClick={setMax}>Max</Button>
-                    </div>
+                    </FormControl>
 
                     {address && hasAllowance("ohm") && view === "stake" && (
                       <Button
