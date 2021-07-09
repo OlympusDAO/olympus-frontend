@@ -20,7 +20,7 @@
   width: 100%;
   align-items: center;
   text-decoration: none;
-  margin: 30px 0;
+  margin: 30px 0 10px 0;
   .branding-header-icon {
     width: 50px;
     filter: invert(1);
@@ -40,16 +40,21 @@
     flex-flow: column;
   }
 }
-
+.dapp-menu-links {
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+}
 .dapp-nav a {
-  padding: 0 11%;
+  // padding: 0 11%;
   margin-top: 0.7rem;
+  margin-left: 33px;
   align-items: center;
   margin-bottom: 0.5rem;
   svg {
     width: 20px;
     height: 20px;
-    margin-right: 10px;
+    margin-right: 12px;
     vertical-align: middle;
   }
 }
@@ -71,7 +76,7 @@
   a svg {
     width: 20px;
     height: 20px;
-    margin-right: 10px;
+    margin-right: 12px;
     vertical-align: middle;
   }
 }
@@ -98,16 +103,20 @@
 .bond-discounts {
   text-align: left;
   color: #999999;
-  padding-left: calc(11% + 30px);
+  // margin-left: 33px;
+  padding-left: 33px;
   margin-top: 8px;
+  > p {
+    margin-left: 33px;
+  }
   .bond {
     display: block;
     padding: unset;
     margin-bottom: 0 0 1px 0;
     text-decoration: none !important;
     .bond-pair-roi {
-      margin-left: 23px;
       float: right;
+      margin-left: 33px;
     }
   }
 }
