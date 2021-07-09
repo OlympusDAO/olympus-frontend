@@ -284,7 +284,7 @@ function App(props) {
 
     const chainId = await provider.getNetwork().then(network => network.chainId);
     if (chainId !== 1) {
-      alert("Wrong network, please switch to mainnet");
+      console.error("Wrong network, please switch to mainnet");
     } else {
       setInjectedProvider(provider);
     }
