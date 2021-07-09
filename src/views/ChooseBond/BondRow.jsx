@@ -37,11 +37,11 @@ export function BondDataCard({ bond }) {
           <div className="bond-pair">
             <BondLogo bond={bond} />
             <div className="bond-name">
-              <Typography>{bondName(bond)}</Typography>
+              <Typography noGutterBottom>{bondName(bond)}</Typography>
               {isBondLP(bond) && (
                 <div>
                   <Button color="secondary" variant="text" component={Link} href={lpURL(bond)} target="_blank">
-                    <Typography variant="h7">
+                    <Typography variant="body1">
                       View Contract <i className="fas fa-external-link-alt"></i>
                     </Typography>
                   </Button>
@@ -119,10 +119,10 @@ export function BondTableData({ bond }) {
       <TableCell align="left">
         <BondLogo bond={bond} />
         <div className="bond-name">
-          {bondName(bond)}
+          <Typography variant="body1">{bondName(bond)}</Typography>
           {isBondLP(bond) && (
             <Link color="primary" href={lpURL(bond)} target="_blank">
-              <Typography variant="h6">
+              <Typography variant="body1">
                 View Contract
                 <i className="fas fa-external-link-alt"></i>
               </Typography>
@@ -148,7 +148,7 @@ export function BondTableData({ bond }) {
       <TableCell align="right">
         <NavLink to={`/bonds/${bond}`}>
           <Button variant="outlined" color="primary">
-            Bond
+            <Typography variant="h6">Bond</Typography>
           </Button>
         </NavLink>
       </TableCell>

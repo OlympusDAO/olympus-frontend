@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { BondTableData, BondDataCard } from "./BondRow";
+import ClaimBonds from "./ClaimBonds";
 import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
@@ -19,21 +20,21 @@ import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
 
 function ChooseBond() {
+  const bonds = useBonds();
+  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
+  const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
+
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
-
-  const isSmallScreen = useMediaQuery("(max-width: 960px)");
-  const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
   const treasuryBalance = useSelector(state => {
     return state.app.treasuryBalance;
   });
 
-  const bonds = useBonds();
-
   return (
     <div id="choose-bond-view">
+      {/* <ClaimBonds /> */}
       <Paper className="ohm-card">
         <Box className="card-header">
           <Typography variant="h5">Bond (1,1)</Typography>
