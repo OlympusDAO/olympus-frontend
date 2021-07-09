@@ -95,7 +95,7 @@ const commonSettings = {
     },
     MuiLink: {
       root: {
-        textUnderlineOffset: ".33rem",
+        textUnderlineOffset: ".23rem",
         cursor: "pointer",
         "&:hover": {
           textDecoration: "none",
