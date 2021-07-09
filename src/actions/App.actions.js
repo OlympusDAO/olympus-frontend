@@ -36,7 +36,15 @@ export const loadAppDetails =
       }
     `;
 
+<<<<<<< HEAD
     const graphData = await apollo(protocolMetricsQuery);
+=======
+    if (!graphData || graphData == null) {
+      console.error("Returned a null response when querying TheGraph");
+      return;
+    }
+
+>>>>>>> updated to ohmCirculatingSupply
     const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
     const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
@@ -44,6 +52,7 @@ export const loadAppDetails =
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
+<<<<<<< HEAD
     if (!provider) {
       console.error("failed to connect to provider, please connect your wallet");
       return dispatch(
@@ -57,6 +66,8 @@ export const loadAppDetails =
       );
     }
 
+=======
+>>>>>>> updated to ohmCirculatingSupply
     const currentBlock = await provider.getBlockNumber();
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
@@ -84,6 +95,7 @@ export const loadAppDetails =
     token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
     let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 <<<<<<< HEAD
+<<<<<<< HEAD
     valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
     markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
@@ -91,8 +103,13 @@ export const loadAppDetails =
     valuation    = await bondCalculator.valuation(addressForAsset({bond: BONDS.ohm_frax, networkID}), ohmFraxAmount);
     markdown     = await bondCalculator.markdown(addressForAsset({bond: BONDS.ohm_frax, networkID}));
     let ohmFraxUSD   = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18))
+=======
+    valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
+    markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
+    let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
+>>>>>>> updated to ohmCirculatingSupply
 
-    const treasuryBalance  = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10,18) + ohmDaiUSD + ohmFraxUSD;
+    const treasuryBalance = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
     // Calculate TVL staked
     let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
