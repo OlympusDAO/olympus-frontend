@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   extends: [/*"airbnb", */ "plugin:prettier/recommended", "prettier/react"],
   plugins: ["babel"],
   rules: {
@@ -14,6 +15,19 @@ module.exports = {
   rules: {
     "prettier/prettier": ["warn"],
 >>>>>>> commented out airbnb in eslint
+=======
+  parserOptions: {
+    ecmaVersion: 12,
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+  extends: ["plugin:prettier/recommended", "prettier/react"],
+  plugins: ["prettier"],
+  rules: {
+    "prettier/prettier": ["error"],
+>>>>>>> Linting fixes
     // "import/extensions": [
     //   "error",
     //   "ignorePackages",

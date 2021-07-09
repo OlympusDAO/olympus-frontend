@@ -182,8 +182,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 =======
   const trimmedSOHMBalance = trim(sohmBalance, 4);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4)
-
+  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
 
   // TODO: the two grids need `container` props to justify.
 >>>>>>> Added more staking info and UI fixes
@@ -253,6 +252,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
               <div className="stake-top-metrics">
                 <Grid container spacing={2}>
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <Grid item xs={12} sm={12} lg={4}>
                     <div className="olympus-sushi">
                       <div>
@@ -271,6 +271,12 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                         </a>
                         <i className="fa fa-external-link-alt" />
                       </div>
+=======
+                  <Grid item xs={6} sm={6} lg={4}>
+                    <div className="stake-apy">
+                      <h2 className="title">APY</h2>
+                      <h2 className="content">{stakingAPY && trim(stakingAPY * 100, 1)}%</h2>
+>>>>>>> Linting fixes
                     </div>
                   </Grid>
 >>>>>>> commented out airbnb in eslint

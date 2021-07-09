@@ -18,6 +18,7 @@ function Dashboard() {
   });
 
   return (
+<<<<<<< HEAD
     <div id="dashboard-view">
       <Grid container spacing={1} className="top-row-data">
         <Grid item lg={4} md={4} sm={5} xs={6} className="olympus-card">
@@ -25,6 +26,17 @@ function Dashboard() {
             <Typography variant="h6">Price</Typography>
             <Typography variant="h5">${trim(marketPrice, 2)}</Typography>
           </Paper>
+=======
+    <div className="dashboard-view">
+      <Grid container spacing={2}>
+        <Grid item lg={4} md={5} sm={5} xs={5}>
+          <div className="ohm-dashboard-card">
+            <div className="card-body">
+              <h4 className="title">Price</h4>
+              <h3 className="content">${trim(marketPrice, 2)}</h3>
+            </div>
+          </div>
+>>>>>>> Linting fixes
         </Grid>
 
 <<<<<<< HEAD
@@ -47,18 +59,20 @@ function Dashboard() {
             <div className="card-body">
               <h4 className="title">Market Cap</h4>
               <h3 className="content">
-                {marketCap && new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0
-                }).format(marketCap)}
+                {marketCap &&
+                  new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  }).format(marketCap)}
               </h3>
             </div>
           </div>
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
         </Grid>
 
+<<<<<<< HEAD
         <Grid item lg={4} md={4} sm={12} xs={12}>
           <Paper className="ohm-card">
             <Typography variant="h6">Supply (circulating/total)</Typography>
@@ -84,6 +98,24 @@ function Dashboard() {
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
                 }).format(totalSupply)}
+=======
+        <Grid item lg={4} md={12} sm={12} xs={12}>
+          <div className="ohm-dashboard-card">
+            <div className="card-body">
+              <h4 className="title">Supply (circulating/total)</h4>
+              <h3 className="content">
+                {circSupply &&
+                  new Intl.NumberFormat("en-US", {
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  }).format(circSupply)}
+                /
+                {totalSupply &&
+                  new Intl.NumberFormat("en-US", {
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  }).format(totalSupply)}
+>>>>>>> Linting fixes
               </h3>
             </div>
           </div>
@@ -91,9 +123,15 @@ function Dashboard() {
         </Grid>
       </Grid>
 
+<<<<<<< HEAD
       <Grid container spacing={2} className="main-data-area">
         <Grid item lg={4} sm={12}>
           <div className="dune-card">
+=======
+      <Flex className="main-data-area">
+        <div className="olympus-card">
+          <div className="card-body">
+>>>>>>> Linting fixes
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -103,8 +141,13 @@ function Dashboard() {
           </div>
         </Grid>
 
+<<<<<<< HEAD
         <Grid item lg={4} sm={12}>
           <div className="dune-card">
+=======
+        <div className="olympus-card">
+          <div className="card-body">
+>>>>>>> Linting fixes
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -114,8 +157,13 @@ function Dashboard() {
           </div>
         </Grid>
 
+<<<<<<< HEAD
         <Grid item lg={4} sm={12}>
           <div className="dune-card">
+=======
+        <div className="olympus-card">
+          <div className="card-body">
+>>>>>>> Linting fixes
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -125,8 +173,13 @@ function Dashboard() {
           </div>
         </Grid>
 
+<<<<<<< HEAD
         <Grid item lg={4} sm={12}>
           <div className="dune-card">
+=======
+        <div className="olympus-card">
+          <div className="card-body">
+>>>>>>> Linting fixes
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -136,8 +189,13 @@ function Dashboard() {
           </div>
         </Grid>
 
+<<<<<<< HEAD
         <Grid item lg={4} sm={12}>
           <div className="dune-card">
+=======
+        <div className="olympus-card">
+          <div className="card-body">
+>>>>>>> Linting fixes
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -147,8 +205,13 @@ function Dashboard() {
           </div>
         </Grid>
 
+<<<<<<< HEAD
         <Grid item lg={4} sm={12}>
           <div className="dune-card">
+=======
+        <div className="olympus-card">
+          <div className="card-body">
+>>>>>>> Linting fixes
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -158,8 +221,13 @@ function Dashboard() {
           </div>
         </Grid>
 
+<<<<<<< HEAD
         <Grid item lg={6} sm={12}>
           <div className="dune-card">
+=======
+        <div className="olympus-card">
+          <div className="card-body">
+>>>>>>> Linting fixes
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -169,8 +237,13 @@ function Dashboard() {
           </div>
         </Grid>
 
+<<<<<<< HEAD
         <Grid item lg={6} sm={12}>
           <div className="dune-card">
+=======
+        <div className="olympus-card">
+          <div className="card-body">
+>>>>>>> Linting fixes
             <iframe
               frameBorder="0"
               loading="lazy"
@@ -178,8 +251,13 @@ function Dashboard() {
               title="Runway Available"
             />
           </div>
+<<<<<<< HEAD
         </Grid>
       </Grid>
+=======
+        </div>
+      </Flex>
+>>>>>>> Linting fixes
     </div>
   );
 }

@@ -13,17 +13,27 @@ import { changeStake, getApproval, fetchMigrationData, TYPES, ACTIONS } from "..
 import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 >>>>>>> Remove deprecated method.o
 import { useSelector, useDispatch } from "react-redux";
+<<<<<<< HEAD
+=======
+// import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+>>>>>>> Linting fixes
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import ClearIcon from "@material-ui/icons/Clear";
 import { trim } from "../../helpers";
 import { Flex } from "rimble-ui";
 import { NavLink } from "react-router-dom";
 import "./stake.scss";
+<<<<<<< HEAD
 import "./migrate.scss";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
 <<<<<<< HEAD
+=======
+
+// this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
+
+>>>>>>> Linting fixes
 export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }) {
   const dispatch = useDispatch();
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
@@ -31,6 +41,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   const [quantity, setQuantity] = useState();
 
   const ohmBalance = useSelector(state => {
+<<<<<<< HEAD
 =======
 export default function Migrate({
 	address,
@@ -45,6 +56,8 @@ export default function Migrate({
 
 	const ohmBalance = useSelector(state => {
 >>>>>>> Remove deprecated method.o
+=======
+>>>>>>> Linting fixes
     return state.app.balances && state.app.balances.ohm;
   });
   const oldSohmBalance = useSelector(state => {
@@ -167,6 +180,7 @@ export default function Migrate({
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   let modalButton = <></>;
 =======
   useEffect( ()=> {
@@ -177,6 +191,9 @@ export default function Migrate({
 >>>>>>> Remove deprecated method.o
 	let modalButton = <></>;
 >>>>>>> Add fetch
+=======
+  let modalButton = <></>;
+>>>>>>> Linting fixes
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButton = (
@@ -190,9 +207,16 @@ export default function Migrate({
   return (
     <Grid container id="sohm-migration-view">
       <Backdrop open={true}>
+<<<<<<< HEAD
         <Paper className="ohm-card ohm-modal">
           <div className="card-header">
             <h3>sOHM Migration</h3>
+=======
+        <div className="ohm-modal ohm-card primary">
+          <div className="card-header">
+            <h3>sOHM Migration</h3>
+
+>>>>>>> Linting fixes
             <div role="button" className="cancel">
               <NavLink to="/stake" className="cancel-migrate">
                 <p>
@@ -229,7 +253,11 @@ export default function Migrate({
                 {view === "done" && <h4>Youre good to go, all OHM is staked to the new contract.</h4>}
               </div>
 
+<<<<<<< HEAD
               <Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontSize="medium" />}>
+=======
+              <Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontsize="medium" />}>
+>>>>>>> Linting fixes
                 <div
                   role="button"
                   onClick={() => {
@@ -373,7 +401,11 @@ export default function Migrate({
               </div>
             </div>
           )}
+<<<<<<< HEAD
         </Paper>
+=======
+        </div>
+>>>>>>> Linting fixes
       </Backdrop>
     </Grid>
   );

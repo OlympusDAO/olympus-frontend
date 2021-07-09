@@ -14,7 +14,11 @@ function BondHeader({ bond }) {
   };
 
   return (
+<<<<<<< HEAD
     <div className="ohm-pairs">
+=======
+    <div className="ohm-pairs d-sm-flex d-none">
+>>>>>>> Linting fixes
       {isBondLP(bond) && (
         <div className="ohm-pair" style={{ zIndex: 2 }}>
           <div className="ohm-logo-bg">
