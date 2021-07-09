@@ -2,6 +2,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import useTheme from "../hooks/useTheme";
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
@@ -14,6 +15,8 @@ import { SvgIcon, makeStyles } from "@material-ui/core";
 =======
 =======
 >>>>>>> Open social links in new tab
+=======
+>>>>>>> Linting fixes
 import { SvgIcon, Link } from "@material-ui/core";
 <<<<<<< HEAD
 >>>>>>> link hover styles no underline
@@ -92,6 +95,8 @@ function Social() {
 =======
 =======
 import React from "react";
+=======
+>>>>>>> Linting fixes
 import GitHubImg from "../assets/github.svg";
 import MediumImg from "../assets/medium.svg";
 import TwitterImg from "../assets/twitter.svg";
@@ -116,4 +121,7 @@ export default function Social() {
     </div>
   );
 }
+<<<<<<< HEAD
 >>>>>>> Open social links in new tab
+=======
+>>>>>>> Linting fixes

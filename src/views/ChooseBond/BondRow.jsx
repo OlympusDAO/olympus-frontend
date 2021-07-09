@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useSelector } from "react-redux";
 <<<<<<< HEAD
 import { trim, bondName, lpURL, isBondLP } from "../../helpers";
@@ -36,21 +37,53 @@ const priceUnits = bond => {
 
 export function BondDataCard({ bond }) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const bondPrice    = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondPrice });
   const bondDiscount = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].bondDiscount });
   const bondPurchased = useSelector((state ) => { return state.bonding[bond] && state.bonding[bond].purchased });
 >>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
 =======
+=======
+=======
+import React from "react";
+import { useSelector } from "react-redux";
+import { trim, bondName, lpURL, isBondLP } from "../../helpers";
+import BondLogo from "../../components/BondLogo";
+import { TableRow, TableCell } from "@material-ui/core";
+import { NavLink } from "react-router-dom";
+
+export function BondCardData({ bond }) {
+>>>>>>> Linting fixes
+>>>>>>> Linting fixes
   const bondPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondPrice;
   });
   const bondDiscount = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondDiscount;
   });
+<<<<<<< HEAD
   const bondPurchased = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].purchased;
   });
+<<<<<<< HEAD
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+=======
+
+  const daiAssetImg = () => {
+    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png";
+  };
+
+  const fraxAssetImg = () => {
+    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
+  };
+
+  const priceUnits = bond => {
+    if (bond.indexOf("frax") >= 0) return <img src={`${fraxAssetImg()}`} width="15px" height="15px" />;
+    else return <img src={`${daiAssetImg()}`} width="15px" height="15px" />;
+  };
+>>>>>>> Linting fixes
+>>>>>>> Linting fixes
 
   return (
 <<<<<<< HEAD
@@ -137,6 +170,7 @@ export function BondDataCard({ bond }) {
       <div className="bond-pair">
         <BondLogo bond={bond} />
         <div className="bond-name">
+<<<<<<< HEAD
           <Typography>{bondName(bond)}</Typography>
           {isBondLP(bond) && (
             <div>
@@ -148,13 +182,26 @@ export function BondDataCard({ bond }) {
               </Link>
 >>>>>>> staking updated with current index, button links fixed, bond cards styled
             </div>
+=======
+          {bondName(bond)}
+          {isBondLP(bond) && (
+            <a href={lpURL(bond)} target="_blank">
+              <i className="fas fa-external-link-alt"></i>
+            </a>
+>>>>>>> Linting fixes
           )}
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="data-row">
         <Typography>Price</Typography>
         <Typography>{priceUnits(bond) && trim(bondPrice, 2)}</Typography>
+=======
+      <div className="bond-price">
+        <p>Price</p>
+        <p>${bondPrice && trim(bondPrice, 2)}</p>
+>>>>>>> Linting fixes
       </div>
 
       <div className="data-row">
@@ -162,6 +209,7 @@ export function BondDataCard({ bond }) {
         <Typography>{bondDiscount && trim(bondDiscount * 100, 2)}%</Typography>
       </div>
 
+<<<<<<< HEAD
       <div className="data-row">
         <Typography>Purchased</Typography>
         <Typography>
@@ -197,12 +245,50 @@ export function BondTableData({ bond }) {
   const bondPurchased = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].purchased;
   });
+=======
+      {/* <TableCell>$4,102,030</TableCell> */}
+      <div className="bond-link">
+        <NavLink to={`/bonds/${bond}`}>
+          <button type="button" className="stake-lp-button ohm-btn">
+            Bond
+          </button>
+        </NavLink>
+      </div>
+    </div>
+  );
+}
+
+export function BondTableData({ bond }) {
+  const bondPrice = useSelector(state => {
+    return state.bonding[bond] && state.bonding[bond].bondPrice;
+  });
+  const bondDiscount = useSelector(state => {
+    return state.bonding[bond] && state.bonding[bond].bondDiscount;
+  });
+  const bondPurchased = useSelector(state => {
+    return state.bonding[bond] && state.bonding[bond].purchased;
+  });
+
+  const daiAssetImg = () => {
+    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png";
+  };
+
+  const fraxAssetImg = () => {
+    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
+  };
+
+  const priceUnits = bond => {
+    if (bond.indexOf("frax") >= 0) return <img src={`${fraxAssetImg()}`} width="15px" height="15px" />;
+    else return <img src={`${daiAssetImg()}`} width="15px" height="15px" />;
+  };
+>>>>>>> Linting fixes
 
   return (
     <TableRow id={`${bond}--bond`}>
       <TableCell align="left">
         <BondLogo bond={bond} />
         <div className="bond-name">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -228,6 +314,8 @@ export function BondTableData({ bond }) {
 =======
           {bondName(bond)}
 =======
+=======
+>>>>>>> Linting fixes
           <Typography variant="body1">{bondName(bond)}</Typography>
 >>>>>>> imported new icons and got them working with theme colors
           {isBondLP(bond) && (
@@ -237,6 +325,16 @@ export function BondTableData({ bond }) {
                 <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
               </Typography>
             </Link>
+=======
+          {bondName(bond)}
+          {isBondLP(bond) && (
+            <a href={lpURL(bond)} target="_blank">
+              <p>
+                Contract
+                <i className="fas fa-external-link-alt"></i>
+              </p>
+            </a>
+>>>>>>> Linting fixes
           )}
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
         </div>

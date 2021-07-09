@@ -27,6 +27,7 @@ function BondHeader({ bond }) {
   return (
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div className="ohm-pairs d-sm-flex d-none">
       {isBondLP(bond) && (
         <div className="ohm-pair" style={{ zIndex: 2 }}>
@@ -46,6 +47,12 @@ function BondHeader({ bond }) {
 =======
     <div className="ohm-pairs">
 >>>>>>> staking updated with current index, button links fixed, bond cards styled
+=======
+    <div className="ohm-pairs">
+=======
+    <div className="ohm-pairs d-sm-flex d-none">
+>>>>>>> Linting fixes
+>>>>>>> Linting fixes
       {isBondLP(bond) && (
         <div className="ohm-pair" style={{ zIndex: 2 }}>
           <div className="ohm-logo-bg">

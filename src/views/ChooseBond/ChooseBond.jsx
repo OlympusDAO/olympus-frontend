@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
@@ -17,6 +18,8 @@ import { BondTableData, BondDataCard } from './BondRow';
 import { useEffect } from "react";
 =======
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
+=======
+>>>>>>> Linting fixes
 import { useSelector } from "react-redux";
 import {
   Paper,
@@ -33,12 +36,23 @@ import {
 import { BondTableData, BondDataCard } from "./BondRow";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 =======
 import ClaimBonds from "./ClaimBonds";
 >>>>>>> imported new icons and got them working with theme colors
 =======
 >>>>>>> staking updated with current index, button links fixed, bond cards styled
+=======
+=======
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
+import { Card } from "rimble-ui";
+import "../Stake/stake.scss";
+import { BondTableData, BondCardData } from "./BondRow";
+>>>>>>> Linting fixes
+>>>>>>> Linting fixes
 import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
@@ -46,6 +60,7 @@ import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
 
 function ChooseBond() {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -229,6 +244,8 @@ function ChooseBond() {
 =======
 =======
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+>>>>>>> Linting fixes
   const bonds = useBonds();
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
@@ -346,5 +363,86 @@ function ChooseBond() {
 								</h2>
 							</Grid>
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+  const marketPrice = useSelector(state => {
+    return state.app.marketPrice;
+  });
+
+  const isSmallScreen = useMediaQuery("(max-width: 1125px)");
+  const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
+  const isVerySmallScreen = useMediaQuery("(max-width: 589px)");
+
+  const treasuryBalance = useSelector(state => {
+    return state.app.treasuryBalance;
+  });
+
+  const bonds = useBonds();
+
+  return (
+    <Grid container id="choose-bond-view" justify="center" spacing={2}>
+      <Card className={`ohm-card secondary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
+        <div className="card-content">
+          <Grid container item xs={12} spacing={2}>
+            <Grid item sm={7} lg={9}>
+              <h3>Treasury Balance</h3>
+              <h2 className="content">
+                {treasuryBalance &&
+                  new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  }).format(treasuryBalance)}
+              </h2>
+            </Grid>
+
+            <Grid item xs={5} sm={5} lg={3} className={`ohm-price ${isVerySmallScreen && "very-small"}`}>
+              <h3>OHM Price</h3>
+              <h2 className="content">{trim(marketPrice, 2)}</h2>
+            </Grid>
+          </Grid>
+        </div>
+      </Card>
+
+      <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
+        <div className="card-header" style={{ background: "transparent" }}>
+          <h5>Bonds (1, 1)</h5>
+        </div>
+        {!isSmallScreen ? (
+          <div className="card-content">
+            <TableContainer>
+              <Table aria-label="Available bonds">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="left">Bond</TableCell>
+                    <TableCell align="center">Price</TableCell>
+                    <TableCell>ROI</TableCell>
+                    <TableCell>Purchased</TableCell>
+                    <TableCell align="right"></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {bonds.map(bond => (
+                    <BondTableData key={bond.value} bond={bond.value} />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        ) : (
+          <>
+            {/* { Object.keys(BONDS).map(bond => ( */}
+            {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
+              <div className="card-content" key={bond}>
+                <BondCardData key={bond} bond={bond} />
+              </div>
+            ))}
+          </>
+        )}
+      </Card>
+    </Grid>
+  );
+}
+>>>>>>> Linting fixes
 
 export default ChooseBond;

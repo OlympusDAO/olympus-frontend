@@ -4,6 +4,7 @@ module.exports = {
   },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   parserOptions: {
     ecmaVersion: 12,
     sourceType: "module",
@@ -18,6 +19,8 @@ module.exports = {
 =======
 =======
 >>>>>>> commented out airbnb in eslint
+=======
+>>>>>>> Linting fixes
   extends: [/*"airbnb", */ "plugin:prettier/recommended", "prettier/react"],
   plugins: ["babel"],
   rules: {
@@ -35,7 +38,23 @@ module.exports = {
   rules: {
     "prettier/prettier": ["warn"],
 >>>>>>> commented out airbnb in eslint
+<<<<<<< HEAD
 >>>>>>> commented out airbnb in eslint
+=======
+=======
+  parserOptions: {
+    ecmaVersion: 12,
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+  extends: ["plugin:prettier/recommended", "prettier/react"],
+  plugins: ["prettier"],
+  rules: {
+    "prettier/prettier": ["error"],
+>>>>>>> Linting fixes
+>>>>>>> Linting fixes
     // "import/extensions": [
     //   "error",
     //   "ignorePackages",

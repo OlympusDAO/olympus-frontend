@@ -102,10 +102,17 @@ export const calcBondDetails =
         bondQuote = bondQuote / Math.pow(10, 18);
       }
 <<<<<<< HEAD
+<<<<<<< HEAD
     } catch (e) {
 =======
     } catch {
 >>>>>>> formatting
+=======
+    } catch {
+=======
+    } catch (e) {
+>>>>>>> Linting fixes
+>>>>>>> Linting fixes
       debtRatio = 0;
       bondPrice = 0;
     }

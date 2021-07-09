@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from "react";
 import { useSelector } from "react-redux";
 =======
@@ -9,11 +10,22 @@ import { useSelector } from 'react-redux';
 import "./rebasetimer.scss";
 import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
 =======
+=======
+>>>>>>> Linting fixes
 import { useSelector } from "react-redux";
 import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import { Box, Typography } from "@material-ui/core";
 import "./rebasetimer.scss";
+<<<<<<< HEAD
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
+=======
+=======
+import React from "react";
+import { useSelector } from "react-redux";
+import "./rebasetimer.scss";
+import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
+>>>>>>> Linting fixes
+>>>>>>> Linting fixes
 
 function RebaseTimer() {
   const currentBlock = useSelector(state => {
@@ -26,6 +38,7 @@ function RebaseTimer() {
       const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
       return prettifySeconds(seconds);
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
   };
 
@@ -53,7 +66,20 @@ function RebaseTimer() {
       <p><span style={{fontWeight: 'bold'}}>{timeUntilRebase()}</span> to next rebase</p>
 		</div>
 >>>>>>> Added more staking info and UI fixes
+<<<<<<< HEAD
 >>>>>>> Added more staking info and UI fixes
+=======
+=======
+  };
+
+  return (
+    <div className="rebase-timer">
+      <p>
+        <span style={{ fontWeight: "bold" }}>{timeUntilRebase()}</span> to next rebase
+      </p>
+    </div>
+>>>>>>> Linting fixes
+>>>>>>> Linting fixes
   );
 }
 
