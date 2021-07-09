@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { SvgIcon, Link } from "@material-ui/core";
 import { ReactComponent as GitHub } from "../assets/icons/v1.2/github.svg";
 import { ReactComponent as Medium } from "../assets/icons/v1.2/medium.svg";
@@ -25,6 +26,8 @@ function Social() {
       </Link>
 =======
 import React from "react";
+=======
+>>>>>>> Linting fixes
 import GitHubImg from "../assets/github.svg";
 import MediumImg from "../assets/medium.svg";
 import TwitterImg from "../assets/twitter.svg";
