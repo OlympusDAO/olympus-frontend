@@ -4,6 +4,7 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import apollo from "../lib/apolloClient";
 =======
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
@@ -16,6 +17,8 @@ const client = new ApolloClient({
 });
     
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+>>>>>>> imported new icons and got them working with theme colors
 
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,

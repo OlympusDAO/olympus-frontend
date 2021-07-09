@@ -112,16 +112,20 @@ export function BondDataCard({ bond }) {
           <div className="bond-pair">
             <BondLogo bond={bond} />
             <div className="bond-name">
-              <Typography>{bondName(bond)}</Typography>
+              <Typography noGutterBottom>{bondName(bond)}</Typography>
               {isBondLP(bond) && (
                 <div>
                   <Button color="secondary" variant="text" component={Link} href={lpURL(bond)} target="_blank">
+<<<<<<< HEAD
 <<<<<<< HEAD
                     <Typography variant="h6">
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 =======
                     <Typography variant="h7">
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
+=======
+                    <Typography variant="body1">
+>>>>>>> imported new icons and got them working with theme colors
                       View Contract <i className="fas fa-external-link-alt"></i>
                     </Typography>
                   </Button>
@@ -206,6 +210,7 @@ export function BondTableData({ bond }) {
         <div className="bond-name">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           {bondName(bond)}
           {isBondLP(bond) && (
             <a href={lpURL(bond)} target="_blank">
@@ -227,9 +232,12 @@ export function BondTableData({ bond }) {
 >>>>>>> links and styles updated for bond table
 =======
           {bondName(bond)}
+=======
+          <Typography variant="body1">{bondName(bond)}</Typography>
+>>>>>>> imported new icons and got them working with theme colors
           {isBondLP(bond) && (
             <Link color="primary" href={lpURL(bond)} target="_blank">
-              <Typography variant="h6">
+              <Typography variant="body1">
                 View Contract
                 <i className="fas fa-external-link-alt"></i>
               </Typography>
@@ -256,7 +264,7 @@ export function BondTableData({ bond }) {
       <TableCell align="right">
         <NavLink to={`/bonds/${bond}`}>
           <Button variant="outlined" color="primary">
-            Bond
+            <Typography variant="h6">Bond</Typography>
           </Button>
         </NavLink>
       </TableCell>

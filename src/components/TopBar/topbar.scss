@@ -44,6 +44,7 @@
     white-space: nowrap !important;
     overflow: hidden !important;
     margin: 8px !important;
+    min-width: fit-content !important;
   }
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 }
@@ -53,7 +54,6 @@
     display: block;
     white-space: nowrap;
     text-decoration: none !important;
-    color: #fff !important;
   }
 }
 <<<<<<< HEAD
