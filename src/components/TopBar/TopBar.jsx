@@ -13,6 +13,7 @@ import { shorten } from "../../helpers";
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> fixed links in bond discounts
 import { Flex } from "rimble-ui";
 <<<<<<< HEAD
@@ -24,6 +25,9 @@ import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 import { Button } from "@material-ui/core";
 =======
 import { AppBar, Toolbar, Button, Link, IconButton } from "@material-ui/core";
+=======
+import { AppBar, Toolbar, Box, Button, Link, IconButton } from "@material-ui/core";
+>>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
 import MenuIcon from "@material-ui/icons/Menu";
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -128,14 +132,13 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 =======
 import { makeStyles } from "@material-ui/core/styles";
 
-const drawerWidth = 280;
-
 const useStyles = makeStyles(theme => ({
   appBar: {
     [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      width: "100%",
     },
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
     background: "transparent",
     backdropFilter: "none",
     padding: "10px",
@@ -153,8 +156,12 @@ const useStyles = makeStyles(theme => ({
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
   const classes = useStyles();
+<<<<<<< HEAD
   const isVerySmallScreen = useMediaQuery("(max-width: 600px)");
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
+=======
+  const isVerySmallScreen = useMediaQuery("(max-width: 433px)");
+>>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
 
   const modalButtons = [];
   if (web3Modal) {
@@ -323,24 +330,26 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
           <MenuIcon />
         </IconButton>
 
-        {!isVerySmallScreen && (
-          <Button
-            id="get-ohm"
-            className="get-ohm-button"
-            size="large"
-            variant="contained"
-            color="secondary"
-            title="Get OHM"
-          >
-            <Link
-              href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
-              target="_blank"
+        <Box display="flex">
+          {!isVerySmallScreen && (
+            <Button
+              id="get-ohm"
+              className="get-ohm-button"
+              size="large"
+              variant="contained"
+              color="secondary"
+              title="Get OHM"
             >
-              Get OHM
-            </Link>
-          </Button>
-        )}
+              <Link
+                href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
+                target="_blank"
+              >
+                Get OHM
+              </Link>
+            </Button>
+          )}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
       <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
@@ -349,8 +358,14 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
         <div className="wallet-menu" id="wallet-menu">
           {modalButtons}
         </div>
+=======
+          <div className="wallet-menu" id="wallet-menu">
+            {modalButtons}
+          </div>
+>>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
 
-        <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
+          <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
+        </Box>
       </Toolbar>
     </AppBar>
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented

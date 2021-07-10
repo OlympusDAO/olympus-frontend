@@ -1,6 +1,7 @@
 .dapp-topbar {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     position: sticky;
     display: flex;
     top: 0;
@@ -40,6 +41,10 @@
   margin-bottom: 1.33rem;
 =======
 >>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
+=======
+  justify-content: space-between;
+  width: 100%;
+>>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
   button {
     white-space: nowrap !important;
     overflow: hidden !important;
@@ -48,7 +53,9 @@
   }
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 }
-
+.tablet .dapp-topbar {
+  justify-content: space-between;
+}
 .get-ohm-button {
   a {
     display: block;

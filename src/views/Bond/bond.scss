@@ -13,15 +13,12 @@
       height: auto;
     }
   }
+  .ohm0card {
+    max-width: 803px;
+  }
   .ohm-modal {
     max-width: 688px;
     min-height: 605px;
-  }
-  .ohm-card,
-  .card-content {
-    padding: 15px;
-    opacity: 1 !important;
-    -moz-opacity: 1 !important;
   }
   .bond-header {
     display: flex;

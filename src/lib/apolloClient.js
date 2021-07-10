@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { THE_GRAPH_URL } from "../constants";
 
 const client = new ApolloClient({
@@ -12,6 +13,12 @@ const APIRUL = "https://api.thegraph.com/subgraphs/id/" + THE_GRAPH_ID;
 const client = new ApolloClient({
   uri: APIRUL,
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
+=======
+import { THE_GRAPH_URL } from "../constants";
+
+const client = new ApolloClient({
+  uri: THE_GRAPH_URL,
+>>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
   cache: new InMemoryCache(),
 });
 

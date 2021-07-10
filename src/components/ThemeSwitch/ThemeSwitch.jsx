@@ -1,5 +1,4 @@
 import ToggleButton from "@material-ui/lab/ToggleButton";
-// import useTheme from "../../hooks/useTheme.js";
 import { ReactComponent as SunIcon } from "../../assets/icons/sun-icon.svg";
 import { ReactComponent as MoonIcon } from "../../assets/icons/moon-icon.svg";
 import "./themeswitch.scss";

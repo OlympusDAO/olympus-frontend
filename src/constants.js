@@ -3,10 +3,14 @@
 export const INFURA_ID =
   process.env.NODE_ENV === "development" ? "5e3c4a19b5f64c99bf8cd8089c92b44d" : "31e6d348d16b4a4dacde5f8a47da1971";
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
 =======
 export const THE_GRAPH_ID = "QmPHDKrwGD2nWsCyH9hyfCgKnUEDpxD1dezKEqDDZ36FTe";
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
+=======
+export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
+>>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
 export const EPOCH_INTERVAL = 2200;
 
 // NOTE could get this from an outside source since it changes slightly over time

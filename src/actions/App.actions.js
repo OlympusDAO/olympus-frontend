@@ -79,10 +79,8 @@ export const loadAppDetails =
         }
       }
     `;
-    const graphData = await apollo(protocolMetricsQuery);
 
-    console.log(graphData);
-
+<<<<<<< HEAD
     if (!graphData || graphData == null) {
       console.error("Returned a null response when querying TheGraph");
       return;
@@ -122,16 +120,35 @@ export const loadAppDetails =
     })
     .catch(err => console.log('qraph ql error: ', err));
 
+=======
+    const graphData = await apollo(protocolMetricsQuery);
+>>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
     const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
     const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
-    const circSupply = parseFloat(graphData.data.protocolMetrics[0].circulatingSupply);
+    const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+    if (!provider) {
+      console.error("failed to connect to provider, please connect your wallet");
+      return dispatch(
+        fetchAppSuccess({
+          stakingTVL,
+          marketPrice,
+          marketCap,
+          circSupply,
+          totalSupply,
+        }),
+      );
+    }
+
+>>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
     const currentBlock = await provider.getBlockNumber();
 =======
     const currentBlock = await provider.getBlockNumber(); 

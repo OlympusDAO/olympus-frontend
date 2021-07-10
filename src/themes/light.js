@@ -77,11 +77,6 @@ export const light = responsiveFontSizes(
             backgroundColor: lightTheme.modalBg,
           },
         },
-        MuiSvgIcon: {
-          color: {
-            primary: lightTheme.color,
-          },
-        },
         MuiLink: {
           root: {
             color: lightTheme.color,

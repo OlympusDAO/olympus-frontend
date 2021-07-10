@@ -5,7 +5,6 @@ import { useUserAddress } from "eth-hooks";
 import { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
-import "@fortawesome/fontawesome-free/js/all.js";
 import { useSelector, useDispatch } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -31,6 +30,7 @@ import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
 
+<<<<<<< HEAD
 import "./App.css";
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -44,6 +44,8 @@ import "./App.css";
 import { dark as darkTheme } from "./themes/dark";
 =======
 import "./style.scss";
+=======
+>>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
 import { dark as darkTheme } from "./themes/dark.js";
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 import { light as lightTheme } from "./themes/light";
@@ -51,6 +53,7 @@ import { girth as gTheme } from "./themes/girth";
 
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
+import "./style.scss";
 
 <<<<<<< HEAD
 <<<<<<< HEAD
