@@ -1,9 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import MailIcon from "@material-ui/icons/Mail";
-import MenuIcon from "@material-ui/icons/Menu";
-import IconButton from "@material-ui/core/IconButton";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
+import { Drawer } from "@material-ui/core";
 import NavContent from "./NavContent.jsx";
 
 const drawerWidth = 280;
@@ -22,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NavDrawer({ mobileOpen, handleDrawerToggle }) {
+function NavDrawer({ mobileOpen, handleDrawerToggle, address }) {
   const classes = useStyles();
 
   return (
@@ -38,7 +34,7 @@ function NavDrawer({ mobileOpen, handleDrawerToggle }) {
         keepMounted: true, // Better open performance on mobile.
       }}
     >
-      <NavContent />
+      <NavContent address={address} />
     </Drawer>
   );
 }

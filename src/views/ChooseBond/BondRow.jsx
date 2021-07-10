@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { trim, bondName, lpURL, isBondLP } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
@@ -37,7 +36,7 @@ export function BondDataCard({ bond }) {
           <div className="bond-pair">
             <BondLogo bond={bond} />
             <div className="bond-name">
-              <Typography noGutterBottom>{bondName(bond)}</Typography>
+              <Typography>{bondName(bond)}</Typography>
               {isBondLP(bond) && (
                 <div>
                   <Button color="secondary" variant="text" component={Link} href={lpURL(bond)} target="_blank">

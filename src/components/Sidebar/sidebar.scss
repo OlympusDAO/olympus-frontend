@@ -15,6 +15,7 @@
 
 .branding-header {
   display: flex;
+  flex-direction: column;
   text-align: center;
   justify-content: center;
   width: 100%;
@@ -26,6 +27,9 @@
     filter: invert(1);
     display: block;
     margin: 0 auto;
+  }
+  .wallet-link {
+    margin: 10px;
   }
 }
 
