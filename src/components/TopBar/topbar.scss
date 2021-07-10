@@ -1,4 +1,6 @@
 .dapp-topbar {
+  justify-content: space-between;
+  width: 100%;
   button {
     white-space: nowrap !important;
     overflow: hidden !important;
@@ -6,7 +8,9 @@
     min-width: fit-content !important;
   }
 }
-
+.tablet .dapp-topbar {
+  justify-content: space-between;
+}
 .get-ohm-button {
   a {
     display: block;

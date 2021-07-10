@@ -81,7 +81,6 @@ const commonSettings = {
           maxWidth: "833px",
           minWidth: "333px",
           width: "97%",
-          // margin: "auto",
           marginBottom: "1.8rem",
           borderRadius: "10px",
         },
@@ -168,11 +167,21 @@ const commonSettings = {
         },
       },
     },
+    MuiIconButton: {
+      root: {
+        "&:hover": {
+          backgroundColor: "#00000000",
+        },
+      },
+    },
   },
   props: {
     MuiButton: {
       disableElevation: true,
       disableFocusRipple: true,
+      disableRipple: true,
+    },
+    MuiIconButton: {
       disableRipple: true,
     },
     MuiPaper: {

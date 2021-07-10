@@ -1,18 +1,17 @@
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
-import { AppBar, Toolbar, Button, Link, IconButton } from "@material-ui/core";
+import { AppBar, Toolbar, Box, Button, Link, IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./topbar.scss";
 import { makeStyles } from "@material-ui/core/styles";
 
-const drawerWidth = 280;
-
 const useStyles = makeStyles(theme => ({
   appBar: {
     [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      width: "100%",
     },
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
     background: "transparent",
     backdropFilter: "none",
     padding: "10px",
@@ -30,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
   const classes = useStyles();
-  const isVerySmallScreen = useMediaQuery("(max-width: 600px)");
+  const isVerySmallScreen = useMediaQuery("(max-width: 433px)");
 
   const modalButtons = [];
   if (web3Modal) {
@@ -62,29 +61,31 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
           <MenuIcon />
         </IconButton>
 
-        {!isVerySmallScreen && (
-          <Button
-            id="get-ohm"
-            className="get-ohm-button"
-            size="large"
-            variant="contained"
-            color="secondary"
-            title="Get OHM"
-          >
-            <Link
-              href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
-              target="_blank"
+        <Box display="flex">
+          {!isVerySmallScreen && (
+            <Button
+              id="get-ohm"
+              className="get-ohm-button"
+              size="large"
+              variant="contained"
+              color="secondary"
+              title="Get OHM"
             >
-              Get OHM
-            </Link>
-          </Button>
-        )}
+              <Link
+                href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
+                target="_blank"
+              >
+                Get OHM
+              </Link>
+            </Button>
+          )}
 
-        <div className="wallet-menu" id="wallet-menu">
-          {modalButtons}
-        </div>
+          <div className="wallet-menu" id="wallet-menu">
+            {modalButtons}
+          </div>
 
-        <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
+          <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
+        </Box>
       </Toolbar>
     </AppBar>
   );

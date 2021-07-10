@@ -10,6 +10,7 @@ import {
   InputLabel,
   OutlinedInput,
   Button,
+  SvgIcon,
   TableHead,
   TableCell,
   TableBody,
@@ -25,7 +26,7 @@ import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "../../style.scss";
+import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 
@@ -189,7 +190,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       >
                         Buy on Sushiswap
                       </Link>
-                      <i className="fa fa-external-link-alt" />
+                      <SvgIcon component={ArrowUp} color="primary" />
                     </div>
                   </div>
                 </Grid>
@@ -436,7 +437,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       >
                         <Typography variant="h6">
                           Stake on FRAX
-                          <i className="fa fa-external-link-alt" />
+                          <SvgIcon component={ArrowUp} color="primary" />
                         </Typography>
                       </Button>
                     </TableCell>
@@ -467,16 +468,16 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                 >
                   <Typography variant="h6">
                     Stake on FRAX
-                    <i className="fa fa-external-link-alt" />
+                    <SvgIcon component={ArrowUp} color="primary" />
                   </Typography>
                 </Button>
               </div>
               <div className="pool-data">
-                <div className="pool-data-row">
+                <div className="data-row">
                   <Typography>APR</Typography>
                   <Typography>{fraxData && trim(fraxData.apy, 1)}%</Typography>
                 </div>
-                <div className="pool-data-row">
+                <div className="data-row">
                   <Typography>TVL</Typography>
                   <Typography>
                     {fraxData &&
@@ -489,7 +490,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       }).format(fraxData.tvl)}
                   </Typography>
                 </div>
-                <div className="pool-data-row">
+                <div className="data-row">
                   <Typography>Balance</Typography>
                   <Typography>{(fraxData && fraxData.balance) || 0} LP</Typography>
                 </div>
