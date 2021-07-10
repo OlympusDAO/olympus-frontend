@@ -235,154 +235,148 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               </div>
             ) : (
               <>
-                <Grid item>
-                  <div className="stake-toggle-row">
-                    <Button
-                      variant="text"
-                      color="primary"
-                      onClick={() => {
-                        setView("stake");
-                      }}
-                    >
-                      Stake
-                    </Button>
-                    <Button
-                      variant="text"
-                      color="primary"
-                      onClick={() => {
-                        setView("unstake");
-                      }}
-                    >
-                      Unstake
-                    </Button>
-                  </div>
+                <div className="stake-toggle-row">
+                  <Button
+                    variant="text"
+                    color="primary"
+                    onClick={() => {
+                      setView("stake");
+                    }}
+                  >
+                    Stake
+                  </Button>
+                  <Button
+                    variant="text"
+                    color="primary"
+                    onClick={() => {
+                      setView("unstake");
+                    }}
+                  >
+                    Unstake
+                  </Button>
+                </div>
 
-                  <Box className="stake-action-row">
-                    <FormControl className="ohm-input-group" variant="outlined" color="primary">
-                      <InputLabel htmlFor="amount-input"></InputLabel>
-                      <OutlinedInput
-                        id="amount-input"
-                        type="number"
-                        placeholder="Enter an amount"
-                        className="stake-input"
-                        value={quantity}
-                        onChange={e => setQuantity(e.target.value)}
-                        startAdornment={
-                          <InputAdornment position="start">
-                            <div className="logo-holder">
-                              <div className="ohm-logo-bg">
-                                <img
-                                  className="ohm-logo-tiny"
-                                  src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                                />
-                              </div>
+                <Box className="stake-action-row">
+                  <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
+                    <InputLabel htmlFor="amount-input"></InputLabel>
+                    <OutlinedInput
+                      id="amount-input"
+                      type="number"
+                      placeholder="Enter an amount"
+                      className="stake-input"
+                      value={quantity}
+                      onChange={e => setQuantity(e.target.value)}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <div className="logo-holder">
+                            <div className="ohm-logo-bg">
+                              <img
+                                className="ohm-logo-tiny"
+                                src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                              />
                             </div>
-                          </InputAdornment>
-                        }
-                        labelWidth={0}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <Button variant="text" onClick={setMax}>
-                              Max
-                            </Button>
-                          </InputAdornment>
-                        }
-                      />
-                    </FormControl>
+                          </div>
+                        </InputAdornment>
+                      }
+                      labelWidth={0}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <Button variant="text" onClick={setMax}>
+                            Max
+                          </Button>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
 
-                    {address && hasAllowance("ohm") && view === "stake" && (
-                      <Button
-                        className="stake-button"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          onChangeStake("stake");
-                          pending();
-                        }}
-                      >
-                        Stake OHM
-                      </Button>
+                  {address && hasAllowance("ohm") && view === "stake" && (
+                    <Button
+                      className="stake-button"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        onChangeStake("stake");
+                        pending();
+                      }}
+                    >
+                      Stake OHM
+                    </Button>
+                  )}
+
+                  {address && hasAllowance("sohm") && view === "unstake" && (
+                    <Button
+                      className="stake-button"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        onChangeStake("unstake");
+                      }}
+                    >
+                      Unstake OHM
+                    </Button>
+                  )}
+
+                  {address && !hasAllowance("ohm") && view === "stake" && (
+                    <Button
+                      className="stake-button"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        onSeekApproval("ohm");
+                      }}
+                    >
+                      Approve Stake
+                    </Button>
+                  )}
+
+                  {address && !hasAllowance("sohm") && view === "unstake" && (
+                    <Button
+                      className="stake-button"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        onSeekApproval("sohm");
+                      }}
+                    >
+                      Approve Unstake
+                    </Button>
+                  )}
+                </Box>
+
+                <div className="help-text">
+                  {address &&
+                    ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
+                      <em>
+                        <Typography variant="body2">
+                          Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
+                          subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
+                          transaction.
+                        </Typography>
+                      </em>
                     )}
+                </div>
 
-                    {address && hasAllowance("sohm") && view === "unstake" && (
-                      <Button
-                        className="stake-button"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          onChangeStake("unstake");
-                        }}
-                      >
-                        Unstake OHM
-                      </Button>
-                    )}
-
-                    {address && !hasAllowance("ohm") && view === "stake" && (
-                      <Button
-                        className="stake-button"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          onSeekApproval("ohm");
-                        }}
-                      >
-                        Approve Stake
-                      </Button>
-                    )}
-
-                    {address && !hasAllowance("sohm") && view === "unstake" && (
-                      <Button
-                        className="stake-button"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          onSeekApproval("sohm");
-                        }}
-                      >
-                        Approve Unstake
-                      </Button>
-                    )}
-                  </Box>
-
-                  <div className="stake-notification">
-                    {address &&
-                      ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
-                        <em>
-                          <Typography variant="body2">
-                            Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
-                            subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
-                            transaction.
-                          </Typography>
-                        </em>
-                      )}
+                <div className={`stake-user-data`}>
+                  <div className="data-row">
+                    <Typography>Your Balance</Typography>
+                    <Typography>{trim(ohmBalance)} OHM</Typography>
                   </div>
-                </Grid>
 
-                <Grid item>
-                  <div className={`stake-user-data`}>
-                    <div className="stake-price-data-column">
-                      <div className="stake-price-data-row">
-                        <Typography>Your Balance</Typography>
-                        <Typography>{trim(ohmBalance)} OHM</Typography>
-                      </div>
-
-                      <div className="stake-price-data-row">
-                        <Typography>Your Staked Balance</Typography>
-                        <Typography>{trim(sohmBalance, 4)} sOHM</Typography>
-                      </div>
-
-                      <div className="stake-price-data-row">
-                        <Typography>Reward Yield</Typography>
-                        <Typography>{trim(stakingRebase * 100, 4)}%</Typography>
-                      </div>
-
-                      <div className="stake-price-data-row">
-                        <Typography>ROI (5-Day Rate)</Typography>
-                        <Typography>{trim(fiveDayRate * 100, 4)}%</Typography>
-                      </div>
-                    </div>
+                  <div className="data-row">
+                    <Typography>Your Staked Balance</Typography>
+                    <Typography>{trim(sohmBalance, 4)} sOHM</Typography>
                   </div>
-                </Grid>
+
+                  <div className="data-row">
+                    <Typography>Reward Yield</Typography>
+                    <Typography>{trim(stakingRebase * 100, 4)}%</Typography>
+                  </div>
+
+                  <div className="data-row">
+                    <Typography>ROI (5-Day Rate)</Typography>
+                    <Typography>{trim(fiveDayRate * 100, 4)}%</Typography>
+                  </div>
+                </div>
               </>
             )}
           </div>

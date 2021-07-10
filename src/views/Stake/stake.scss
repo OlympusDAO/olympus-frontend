@@ -59,28 +59,12 @@
     white-space: nowrap;
     overflow: hidden;
   }
-  .next-rebase {
-    flex: 1;
-    text-align: right;
-  }
 }
 
 .stake-toggle-row {
-  margin: 2rem auto;
+  margin: 1rem auto;
   width: 100%;
   display: block;
-}
-
-.mobile .stake-toggle-row {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.stake-notification {
-  height: 1.75rem;
-  line-height: 125%;
-  text-align: center;
-  margin-bottom: 10px;
 }
 
 .ohm-logo-bg {
@@ -113,97 +97,48 @@
 }
 
 .stake-action-row {
-  margin-bottom: 20px;
-  line-height: 200%;
-}
-
-.mobile .stake-action-row {
-  flex-direction: column;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   width: 100%;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  .input-group.ohm-input-group {
-    margin: 10px !important;
-    width: 75%;
-    min-width: 75%;
-    height: 55px;
-  }
-  div.stake-button {
-    width: 75%;
-    min-width: 75%;
-    margin-left: 0;
-    margin-top: 15px;
-    height: 55px;
-    line-height: unset;
-  }
+  justify-content: space-around;
 }
 
-.input-group.ohm-input-group {
-  min-width: 50%;
-  max-width: 60%;
-  border: 0.8px solid #ffffff;
-  border-radius: 5px !important;
-  margin: 5px;
-  input,
-  button {
-    border-radius: none;
-    margin-left: 0 !important;
-    background: none !important;
-    border: none !important;
-    outline: none !important;
-    &:focus,
-    &:active {
-      outline: none !important;
-      box-shadow: none !important;
-    }
-  }
-  input {
-    border: none !important;
-  }
-  button {
-    border-left: 0 !important;
-    border-top-right-radius: inherit !important;
-    border-bottom-right-radius: inherit !important;
-    background: none;
-    &:hover {
-      color: #f5ddb4 !important;
-    }
-  }
+.ohm-input {
+  margin: 5px !important;
+  width: 69%;
+  max-width: 542px;
+}
+
+.stake-button {
+  min-width: 185px;
+  margin: 5px !important;
+}
+
+.mobile .stake-button,
+.tablet .stake-button {
+  width: 100% !important;
+  max-width: 542px;
 }
 
 .staking-area {
   margin: 13px 10px 13px 10px;
 }
 
-.stake-price-data-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.stake-button {
-  min-width: 200px;
-  font-weight: 600;
-  width: 50%;
-  max-width: 60%;
-  margin: auto;
-  // margin: 5px !important;
-}
 .stake-button,
 .stake-lp-button {
-  display: block !important;
-  height: auto;
   text-align: center !important;
   svg {
     margin-left: 5px;
   }
 }
 
-.mobile .stake-table button {
+.tablet .stake-table button {
   padding: 0.4rem 1.7rem;
   width: 8rem;
 }
 
+.tablet .stake-pool,
 .mobile .stake-pool {
   border: 1px solid #f4d09222;
   border-radius: 5px;
@@ -264,7 +199,7 @@
 }
 
 // MIGRATE PAGE STYLES
-.mobile #sohm-migration-view {
+.tablet #sohm-migration-view {
   .ohm-card {
     width: 98% !important;
   }

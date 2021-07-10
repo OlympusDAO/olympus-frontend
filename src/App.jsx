@@ -134,6 +134,7 @@ function App(props) {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const handleSidebarOpen = () => {
     setIsSidebarExpanded(true);
@@ -223,7 +224,7 @@ function App(props) {
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
-      <div className={`app ${isSmallerScreen && "mobile"}`}>
+      <div className={`app ${isSmallerScreen ? "tablet" : isSmallScreen ? "mobile" : "browser"}`}>
         <TopBar
           web3Modal={web3Modal}
           loadWeb3Modal={loadWeb3Modal}
