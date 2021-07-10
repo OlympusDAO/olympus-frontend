@@ -1,9 +1,15 @@
 import { useSelector } from "react-redux";
-import { trim, bondName, lpURL, isBondLP } from "../../helpers";
+import { trim, bondName, lpURL, isBondLP, getDaiAssetImg, getFraxAssetImg } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
-import { Button, Box, Link, Paper, Grid, Typography, TableRow, TableCell } from "@material-ui/core";
+import { Button, Box, Link, Paper, Grid, Typography, TableRow, TableCell, SvgIcon } from "@material-ui/core";
+import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
+
+const priceUnits = bond => {
+  if (bond.indexOf("frax") >= 0) return <img src={`${getFraxAssetImg()}`} width="15px" height="15px" />;
+  else return <img src={`${getDaiAssetImg()}`} width="15px" height="15px" />;
+};
 
 export function BondDataCard({ bond }) {
   const bondPrice = useSelector(state => {
@@ -15,19 +21,6 @@ export function BondDataCard({ bond }) {
   const bondPurchased = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].purchased;
   });
-
-  const daiAssetImg = () => {
-    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png";
-  };
-
-  const fraxAssetImg = () => {
-    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
-  };
-
-  const priceUnits = bond => {
-    if (bond.indexOf("frax") >= 0) return <img src={`${fraxAssetImg()}`} width="15px" height="15px" />;
-    else return <img src={`${daiAssetImg()}`} width="15px" height="15px" />;
-  };
 
   return (
     <Paper id={`${bond}--bond`} className="bond-data-card ohm-card">
@@ -41,7 +34,8 @@ export function BondDataCard({ bond }) {
                 <div>
                   <Button color="secondary" variant="text" component={Link} href={lpURL(bond)} target="_blank">
                     <Typography variant="body1">
-                      View Contract <i className="fas fa-external-link-alt"></i>
+                      View Contract
+                      <SvgIcon component={ArrowUp} color="primary" />
                     </Typography>
                   </Button>
                 </div>
@@ -100,19 +94,6 @@ export function BondTableData({ bond }) {
     return state.bonding[bond] && state.bonding[bond].purchased;
   });
 
-  const daiAssetImg = () => {
-    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png";
-  };
-
-  const fraxAssetImg = () => {
-    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
-  };
-
-  const priceUnits = bond => {
-    if (bond.indexOf("frax") >= 0) return <img src={`${fraxAssetImg()}`} width="15px" height="15px" />;
-    else return <img src={`${daiAssetImg()}`} width="15px" height="15px" />;
-  };
-
   return (
     <TableRow id={`${bond}--bond`}>
       <TableCell align="left">
@@ -123,7 +104,7 @@ export function BondTableData({ bond }) {
             <Link color="primary" href={lpURL(bond)} target="_blank">
               <Typography variant="body1">
                 View Contract
-                <i className="fas fa-external-link-alt"></i>
+                <SvgIcon component={ArrowUp} color="primary" />
               </Typography>
             </Link>
           )}

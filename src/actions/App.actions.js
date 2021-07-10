@@ -27,7 +27,7 @@ export const loadAppDetails =
         }
         protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
           timestamp
-          circulatingSupply
+          ohmCirculatingSupply
           totalSupply
           ohmPrice
           marketCap
@@ -35,16 +35,27 @@ export const loadAppDetails =
         }
       }
     `;
+
     const graphData = await apollo(protocolMetricsQuery);
-
-    console.log(graphData);
-
     const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
     const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
-    const circSupply = parseFloat(graphData.data.protocolMetrics[0].circulatingSupply);
+    const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
+
+    if (!provider) {
+      console.error("failed to connect to provider, please connect your wallet");
+      return dispatch(
+        fetchAppSuccess({
+          stakingTVL,
+          marketPrice,
+          marketCap,
+          circSupply,
+          totalSupply,
+        }),
+      );
+    }
 
     const currentBlock = await provider.getBlockNumber();
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);

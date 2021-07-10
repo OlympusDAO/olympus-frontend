@@ -13,7 +13,7 @@
   position: absolute;
   right: 20px;
   top: 12px;
-  font-size: 1.3em;
+  font-size: 1em;
   display: flex;
   align-items: center;
   color: #f08080;
@@ -125,9 +125,15 @@
   margin: 13px 10px 13px 10px;
 }
 
-.stake-button,
 .stake-lp-button {
   text-align: center !important;
+  display: flex;
+  h6 {
+    vertical-align: middle;
+    align-content: center;
+    align-items: center;
+    display: flex;
+  }
   svg {
     margin-left: 5px;
   }

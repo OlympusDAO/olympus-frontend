@@ -5,7 +5,6 @@ import { useUserAddress } from "eth-hooks";
 import { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
-import "@fortawesome/fontawesome-free/js/all.js";
 import { useSelector, useDispatch } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,14 +22,13 @@ import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
 
-import "./App.css";
-import "./style.scss";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light";
 import { girth as gTheme } from "./themes/girth";
 
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
+import "./style.scss";
 
 /*
     Welcome to 🏗 scaffold-eth !
