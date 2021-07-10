@@ -51,6 +51,18 @@ export const loadAppDetails =
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
+    if (!provider) {
+      console.error("failed to connect to provider, please connect your wallet");
+      return dispatch(
+        fetchAppSuccess({
+          stakingTVL,
+          marketPrice,
+          marketCap,
+          circSupply,
+          totalSupply,
+        }),
+      );
+    }
     const currentBlock = await provider.getBlockNumber();
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
