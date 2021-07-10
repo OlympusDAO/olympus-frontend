@@ -235,10 +235,10 @@ function App(props) {
         />
         <nav className={classes.drawer}>
           <Hidden mdUp>
-            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} address={address} />
           </Hidden>
           <Hidden smDown>
-            <Sidebar currentIndex={currentIndex} theme={theme} />
+            <Sidebar currentIndex={currentIndex} theme={theme} address={address} />
           </Hidden>
         </nav>
 

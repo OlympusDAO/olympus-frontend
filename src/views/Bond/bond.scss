@@ -10,18 +10,23 @@
     .ohm-card {
       opacity: 1 !important;
       -moz-opacity: 1 !important;
-      //   height: 69vh;
       height: auto;
     }
+  }
+  .ohm-modal {
+    max-width: 688px;
+    min-height: 605px;
   }
   .ohm-card,
   .card-content {
     padding: 15px;
     opacity: 1 !important;
     -moz-opacity: 1 !important;
-    z-index: 70;
   }
   .bond-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     .bond-header-logo {
       justify-content: center;
       align-items: center;
@@ -37,101 +42,33 @@
       .bond-header-name {
         text-align: center;
         margin-left: 15px;
-        h5 {
-          margin-bottom: 0 !important;
-        }
       }
     }
-    .bond-settings {
-      position: absolute;
-      left: 20px;
-      top: 20px;
-      a {
-        color: inherit;
-        svg {
-          transform: scale(1.4);
-        }
-      }
-    }
-    .cancel-bond {
-      position: absolute;
-      right: 25px;
-      top: 12px;
-      font-size: 1.6em;
-      a {
-        color: inherit;
-      }
-    }
-    .bond-main-info {
-      display: flex;
-      justify-content: center;
-      .input-group.ohm-input-group {
-        min-width: 50%;
-        height: 50px;
-      }
-    }
-    .alert.alert-warning {
-      a {
-        color: black !important;
-      }
-    }
-  }
-
-  .bond-toggle-row {
-    display: flex;
-    justify-content: space-evenly;
-    text-align: center;
-    align-items: center;
-    margin-bottom: 10px;
   }
 
   .bond-price-data-row {
     display: flex;
-    justify-content: space-evenly;
-    flex-direction: row;
-    margin: 1.9rem 0;
-    margin-bottom: 0.2rem;
-    .bond-price-data {
-      text-align: center;
-      h4 {
-        margin-bottom: 0;
-      }
-      h4.price {
-        font-weight: bold;
-        color: #f4d092 !important;
-      }
+    justify-content: space-around;
+    text-align: center;
+    margin: 33px;
+    h4 {
+      margin-bottom: 0;
+    }
+    h3.price {
+      font-weight: bold;
     }
   }
 
-  .stake-notification {
-    margin-bottom: 25px !important;
-    margin-top: 25px !important;
-  }
-
-  .input-row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 26px;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  .input-group {
+  .ohm-input {
     min-width: 50%;
-    width: 60%;
+    max-width: 408px;
+    margin: 5px;
   }
-  .transaction-button {
-    min-width: 30%;
-    width: 50%;
-    // margin-left: 0 !important;
-    margin-top: 10px !important;
-  }
+}
 
-  .stake-price-data-column {
-    margin: 0;
-    height: auto;
-    justify-content: normal;
-  }
+.transaction-button {
+  min-width: 185px !important;
+  margin: 5px !important;
 }
 
 .mobile #bond-view {

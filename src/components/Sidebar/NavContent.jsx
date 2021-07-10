@@ -6,12 +6,12 @@ import { ReactComponent as StakeIcon } from "../../assets/icons/v1.2/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/v1.2/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/v1.2/dashboard.svg";
 import { ReactComponent as OlympusIcon } from "../../assets/icons/v1.2/Olympus Logo.svg";
-import { trim } from "../../helpers";
+import { trim, shorten } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
-import { Paper, Link, Box, Button, Typography, LinearProgress, SvgIcon } from "@material-ui/core";
+import { Paper, Link, Box, Typography, LinearProgress, SvgIcon } from "@material-ui/core";
 import "./sidebar.scss";
 
-function NavContent() {
+function NavContent({ address }) {
   const [isActive] = useState();
   const bonds = useBonds();
 
@@ -34,7 +34,6 @@ function NavContent() {
       <div className="dapp-menu-top">
         <Box className="branding-header">
           <Link href="https://olympusdao.finance" target="_blank">
-            {/* <img className="branding-header-icon" src={OlympusLogo} alt="OlympusDAO" /> */}
             <SvgIcon
               color="primary"
               component={OlympusIcon}
@@ -45,6 +44,14 @@ function NavContent() {
               Olympus
             </Typography>
           </Link>
+
+          {address && (
+            <div className="wallet-link">
+              <Link href={`https://etherscan.io/address/${address}`} target="_blank">
+                {shorten(address)}
+              </Link>
+            </div>
+          )}
         </Box>
 
         <div className="dapp-menu-links">
