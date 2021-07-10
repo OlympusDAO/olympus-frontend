@@ -1,29 +1,23 @@
-.ohm-popover-card * {
-    font-family: 'Square';
-}
-
-.ohm-popover-card {
-    border: 2px solid #666666;
-    z-index: 10;
-    background-color: #1B1D22 !important;
-    box-shadow: 0px 4px 12px rgba(200, 200, 200, 0.1) !important;
-    width: 450px;
-    min-width: fit-content;
-    position:absolute;
-    right: 0;
-    border-radius: 5px;
-    h2.card-title {
-        color: #F4D092!important;
+#hades {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .ohm-popover {
+    max-width: 69%;
+    display: flex;
+    flex-direction: column;
+    h3 {
+      align-self: center;
+      justify-self: center;
+      width: 75%;
+      text-align: center;
     }
-    .input-group-text#basic-addon2 {
-        border-radius: unset;
+    label {
+      margin: 33px 0 10px;
     }
-    .ohm-input-group {
-        border-radius: 5px !important;
-        .ohm-form-control {
-            border-radius: 5px !important;
-            background-color: #39393988 !important;
-            color: #999999;
-        }
+    .help-text {
+      margin: 10px;
     }
+  }
 }

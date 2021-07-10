@@ -1,30 +1,21 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { shorten, trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
-import {
-  changeApproval,
-  calcBondDetails,
-  calculateUserBondDetails,
-  bondAsset,
-  redeemBond,
-} from "../../actions/Bond.actions.js";
-import {
-  Grid,
-  Backdrop,
-  Paper,
-  Box,
-  Button,
-  ButtonGroup,
-  FormControl,
-  InputLabel,
-  InputAdornment,
-  Typography,
-  OutlinedInput,
-} from "@material-ui/core";
+import { trim } from "../../helpers";
+import { calcBondDetails, calculateUserBondDetails } from "../../actions/Bond.actions.js";
+import { Grid, Backdrop, Paper, Box, Tab, Tabs, Typography } from "@material-ui/core";
+import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
 import BondRedeemV1 from "./BondRedeemV1";
-import { BONDS } from "../../constants";
+import BondRedeem from "./BondRedeem";
+import BondPurchase from "./BondPurchase";
 import "./bond.scss";
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 function Bond({ bond, address, provider }) {
   const dispatch = useDispatch();
@@ -32,60 +23,15 @@ function Bond({ bond, address, provider }) {
   const [slippage, setSlippage] = useState(0.5);
   const [recipientAddress, setRecipientAddress] = useState(address);
 
-  const [view, setView] = useState("bond");
+  const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
 
-  const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
-  });
-  const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
-  });
-
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
-  });
-  const bondMaturationBlock = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
-  });
-
-  const vestingTerm = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].vestingBlock;
-  });
   const marketPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].marketPrice;
   });
   const bondPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondPrice;
   });
-  const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
-  });
-  const maxBondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].maxBondPrice;
-  });
-  const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
-  });
-  const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
-  });
-  const debtRatio = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].debtRatio;
-  });
-  const bondQuote = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondQuote;
-  });
-  const balance = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].balance;
-  });
-  const allowance = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].allowance;
-  });
-
-  const hasEnteredAmount = () => {
-    return !(isNaN(quantity) || quantity === 0 || quantity === "");
-  };
 
   const onRecipientAddressChange = e => {
     return setRecipientAddress(e.target.value);
@@ -93,67 +39,6 @@ function Bond({ bond, address, provider }) {
 
   const onSlippageChange = e => {
     return setSlippage(e.target.value);
-  };
-
-  const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(vestingTerm);
-    const seconds = secondsUntilBlock(currentBlock, vestingBlock);
-    return prettifySeconds(seconds, "day");
-  };
-
-  const vestingTime = () => {
-    return prettyVestingPeriod(currentBlock, bondMaturationBlock);
-  };
-
-  async function onRedeem({ autostake }) {
-    await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake }));
-  }
-
-  async function onBond() {
-    console.log("slippage = ", slippage);
-    console.log("recipientAddress = ", recipientAddress);
-
-    if (quantity === "") {
-      alert("Please enter a value!");
-    } else if (isNaN(quantity)) {
-      alert("Please enter a valid value!");
-    } else if (interestDue > 0 || pendingPayout > 0) {
-      const shouldProceed = window.confirm(
-        "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?",
-      );
-      if (shouldProceed) {
-        await dispatch(
-          bondAsset({
-            value: quantity,
-            slippage,
-            bond,
-            networkID: 1,
-            provider,
-            address: recipientAddress || address,
-          }),
-        );
-      }
-    } else {
-      await dispatch(
-        bondAsset({
-          value: quantity,
-          slippage,
-          bond,
-          networkID: 1,
-          provider,
-          address: recipientAddress || address,
-        }),
-      );
-    }
-  }
-
-  const setMax = () => {
-    setQuantity(balance.toString());
-  };
-
-  const balanceUnits = () => {
-    if (bond.indexOf("_lp") >= 0) return "LP";
-    else if (bond === BONDS.dai) return "DAI";
   };
 
   async function loadBondDetails() {
@@ -169,13 +54,9 @@ function Bond({ bond, address, provider }) {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
-  const onSeekApproval = async () => {
-    await dispatch(changeApproval({ address, bond, provider, networkID: 1 }));
+  const changeView = (event, newView) => {
+    setView(newView);
   };
-
-  const hasAllowance = useCallback(() => {
-    return allowance > 0;
-  }, [allowance]);
 
   return (
     <Grid container id="bond-view">
@@ -185,6 +66,7 @@ function Bond({ bond, address, provider }) {
         <div className="ohm-card ohm-modal">
 =======
         <Paper className="ohm-card ohm-modal">
+<<<<<<< HEAD
 >>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
           <div className="card-content">
             <BondHeader
@@ -610,6 +492,57 @@ function Bond({ bond, address, provider }) {
       </Paper>
 >>>>>>> theme toggle styled, bonds page basic styles, fixed rounded sidebar issue
 =======
+=======
+          <BondHeader
+            bond={bond}
+            slippage={slippage}
+            recipientAddress={recipientAddress}
+            onSlippageChange={onSlippageChange}
+            onRecipientAddressChange={onRecipientAddressChange}
+          />
+
+          <Box direction="row" className="bond-price-data-row">
+            <div className="bond-price-data">
+              <Typography variant="h5" color="textSecondary">
+                Bond Price
+              </Typography>
+              <Typography variant="h3" className="price" color="textSecondary">
+                {trim(bondPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
+              </Typography>
+            </div>
+            <div className="bond-price-data">
+              <Typography variant="h5" color="textSecondary">
+                Market Price
+              </Typography>
+              <Typography variant="h3" color="textSecondary" className="price">
+                {trim(marketPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
+              </Typography>
+            </div>
+          </Box>
+
+          <Tabs
+            centered
+            value={view}
+            textColor="primary"
+            indicatorColor="primary"
+            onChange={changeView}
+            aria-label="bond tabs"
+          >
+            <Tab label="Bond" {...a11yProps(0)} />
+            <Tab label="Redeem" {...a11yProps(1)} />
+            <Tab label="Redeem v1" {...a11yProps(2)} disabled />
+          </Tabs>
+
+          <TabPanel value={view} index={0}>
+            <BondPurchase provider={provider} address={address} bond={bond} slippage={slippage} />
+          </TabPanel>
+          <TabPanel value={view} index={1}>
+            <BondRedeem provider={provider} address={address} bond={bond} />
+          </TabPanel>
+          <TabPanel value={view} index={2}>
+            <BondRedeemV1 provider={provider} address={address} bond={bond + "_v1"} />
+          </TabPanel>
+>>>>>>> refactored bond views
         </Paper>
 >>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
       </Backdrop>

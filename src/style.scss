@@ -35,6 +35,17 @@ body,
     padding: 0.8rem 0.8rem 0.8rem 0.8rem;
     height: 100%;
   }
+
+  .help-text {
+    margin: 13px;
+  }
+
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 10px 0;
+  }
 }
 
 // For formatting the pairs
@@ -67,23 +78,9 @@ body,
   }
 }
 
-.ohm-input-group {
-  display: flex;
-
+.ohm-input {
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
-  }
-  .form-control {
-    background: transparent;
-    border: unset;
-    color: #555;
-    &:focus {
-      color: #aaa;
-    }
-  }
-  button {
-    line-height: 36px;
-    text-align: center;
   }
 }

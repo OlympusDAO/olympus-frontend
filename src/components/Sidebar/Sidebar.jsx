@@ -42,6 +42,7 @@ import NavContent from "./NavContent.jsx";
 import "./sidebar.scss";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 function Sidebar({ isExpanded, theme, currentIndex, address }) {
 =======
 function Sidebar() {
@@ -66,6 +67,9 @@ function Sidebar() {
 
 =======
 >>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
+=======
+function Sidebar({ address }) {
+>>>>>>> refactored bond views
   return (
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -175,6 +179,7 @@ function Sidebar() {
     <div className={`sidebar`} id="sidebarContent">
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
       <Drawer variant="permanent" anchor="left">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <Paper className="dapp-sidebar">
           <div className="dapp-menu-top">
@@ -339,6 +344,9 @@ function Sidebar() {
 =======
         <NavContent />
 >>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
+=======
+        <NavContent address={address} />
+>>>>>>> refactored bond views
       </Drawer>
     </div>
 >>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started

@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState } from "react";
 =======
 import React from 'react';
@@ -7,6 +8,8 @@ import { shorten } from '../../helpers';
 =======
 import { shorten } from "../../helpers";
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
+=======
+>>>>>>> refactored bond views
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -148,7 +151,7 @@ const useStyles = makeStyles(theme => ({
   // toolbar: theme.mixins.toolbar,
 }));
 
-function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, toggleTheme, handleDrawerToggle }) {
+function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
   const classes = useStyles();
   const isVerySmallScreen = useMediaQuery("(max-width: 600px)");
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
@@ -345,13 +348,6 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 =======
         <div className="wallet-menu" id="wallet-menu">
           {modalButtons}
-          {address && (
-            <Button variant="contained" color="secondary" size="large">
-              <a href={`https://etherscan.io/address/${address}`} target="_blank">
-                {shorten(address)}
-              </a>
-            </Button>
-          )}
         </div>
 
         <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
