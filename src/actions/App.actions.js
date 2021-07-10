@@ -173,10 +173,15 @@ export const loadAppDetails =
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 =======
 =======
 >>>>>>> updated to ohmCirculatingSupply
+=======
+=======
+>>>>>>> short circuit provider not existing. feels bad
+>>>>>>> short circuit provider not existing. feels bad
     if (!provider) {
       console.error("failed to connect to provider, please connect your wallet");
       return dispatch(
@@ -189,6 +194,7 @@ export const loadAppDetails =
         }),
       );
     }
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -197,7 +203,12 @@ export const loadAppDetails =
 =======
 =======
 >>>>>>> updated to ohmCirculatingSupply
+<<<<<<< HEAD
 >>>>>>> updated to ohmCirculatingSupply
+=======
+=======
+>>>>>>> short circuit provider not existing. feels bad
+>>>>>>> short circuit provider not existing. feels bad
     const currentBlock = await provider.getBlockNumber();
 =======
     const currentBlock = await provider.getBlockNumber(); 
