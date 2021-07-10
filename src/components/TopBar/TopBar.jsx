@@ -7,6 +7,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { addresses } from "../../constants";
 import { getOhmTokenImage, getSohmTokenImage } from "../../helpers";
 import { useSelector } from "react-redux";
+import { useWeb3Context } from "src/hooks/Web3Context";
 
 const TOKEN_DECIMALS = 9;
 const SOHM_TOKEN_IMAGE = getSohmTokenImage();
@@ -81,7 +82,9 @@ const ohmMenu = (isShown = false, theme = "light", isBigScreen = false, networkI
   ) : null;
 };
 
-function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme }) {
+function TopBar({ theme, toggleTheme }) {
+  const { address, connect, disconnect } = useWeb3Context();
+
   const [showOhmMenu, setShowOhmMenu] = useState(false);
   const isBigScreen = useMediaQuery("(min-width: 2350px)");
   const networkID = useSelector(state => {
@@ -89,25 +92,23 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
   });
 
   const modalButtons = [];
-  if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButtons.push(
-        <button
-          type="button"
-          className="btn top-bar-button btn-overwrite-primer m-2"
-          onClick={logoutOfWeb3Modal}
-          key={1}
-        >
-          Disconnect
-        </button>,
-      );
-    } else {
-      modalButtons.push(
-        <button type="button" className="btn top-bar-button btn-overwrite-primer m-2" onClick={loadWeb3Modal} key={2}>
-          Connect Wallet
-        </button>,
-      );
-    }
+  if (address) {
+    modalButtons.push(
+      <button
+        type="button"
+        className="btn top-bar-button btn-overwrite-primer m-2"
+        onClick={disconnect}
+        key={1}
+      >
+        Disconnect
+      </button>,
+    );
+  } else {
+    modalButtons.push(
+      <button type="button" className="btn top-bar-button btn-overwrite-primer m-2" onClick={connect} key={2}>
+        Connect Wallet
+      </button>,
+    );
   }
 
   return (

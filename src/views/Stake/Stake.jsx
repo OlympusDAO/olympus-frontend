@@ -12,8 +12,11 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "../../style.scss";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
+import { useWeb3Context } from "src/hooks/Web3Context";
 
-function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
+function Stake() {
+  const { address, provider, connect } = useWeb3Context();
+
   const dispatch = useDispatch();
 
   const [view, setView] = useState("stake");
@@ -101,16 +104,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   useEffect(() => {
     loadFraxData();
   }, []);
-
-  let modalButton = [];
-
-  if (web3Modal) {
-    modalButton.push(
-      <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={loadWeb3Modal} key={2}>
-        Connect Wallet
-      </button>,
-    );
-  }
 
   const openMigrationWizard = () => {
     setMigrationWizardOpen(true);
@@ -212,7 +205,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               <div className="stake-wallet-notification">
                 <h4>Connect your wallet to Stake OHM</h4>
                 <div className="wallet-menu" id="wallet-menu">
-                  {modalButton}
+                  <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={connect} key={2}>
+                    Connect Wallet
+                  </button>
                 </div>
               </div>
             ) : (

@@ -10,17 +10,14 @@ import { trim } from "../../helpers";
 import { Flex } from "rimble-ui";
 import { NavLink } from "react-router-dom";
 import "./stake.scss";
-
+import { useWeb3Context } from "src/hooks/Web3Context";
 
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
-export default function Migrate({ 
-	address,
-	provider,
-	web3Modal,
-	loadWeb3Modal
-}) {
+export default function Migrate() {
+  const { address, provider, connect } = useWeb3Context();
+
 	const dispatch = useDispatch();
 	const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
 	const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
@@ -152,14 +149,12 @@ export default function Migrate({
 
 
 	let modalButton = <></>;
-  if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButton = (
-        <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={loadWeb3Modal}>
-          Connect Wallet
-        </button>
-      );
-    }
+  if (!address) {
+    modalButton = (
+      <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={connect}>
+        Connect Wallet
+      </button>
+    );
   }
 
 	return (
@@ -180,13 +175,7 @@ export default function Migrate({
 							<div className="stake-wallet-notification">
 								<h4>Connect your wallet to continue</h4>
 								<div className="wallet-menu" id="wallet-menu">
-									<button
-										type="button"
-										className="btn stake-button btn-overwrite-primer m-2"
-										onClick={loadWeb3Modal}
-									>
-										Connect Wallet
-									</button>
+									{modalButton}
 								</div>
 							</div>
 						) : (

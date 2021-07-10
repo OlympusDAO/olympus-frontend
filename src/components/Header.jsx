@@ -6,8 +6,12 @@ import ThemeSwitch from "./ThemeSwitch/ThemeSwitch";
 import OlympusLogo from "../assets/olympus_logo.png";
 
 import { shorten, trim, getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../helpers";
+import { useWeb3Context } from "src/hooks/Web3Context";
 
-export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3Modal }) {
+export default function Header() {
+  const { address, connect, disconnect } = useWeb3Context();
+  console.log('hre', address);
+
   const stakingAPY = useSelector(state => {
     return state.app.stakingAPY;
   });
@@ -25,20 +29,18 @@ export default function Header({ address, web3Modal, loadWeb3Modal, logoutOfWeb3
   });
 
   const modalButtons = [];
-  if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButtons.push(
-        <button type="button" className="btn btn-dark btn-overwrite-primer m-2" onClick={logoutOfWeb3Modal}>
-          Disconnect
-        </button>,
-      );
-    } else {
-      modalButtons.push(
-        <button type="button" className="btn btn-dark btn-overwrite-primer m-2" onClick={loadWeb3Modal}>
-          Connect Wallet
-        </button>,
-      );
-    }
+  if (address) {
+    modalButtons.push(
+      <button type="button" className="btn btn-dark btn-overwrite-primer m-2" onClick={disconnect}>
+        Disconnect
+      </button>,
+    );
+  } else {
+    modalButtons.push(
+      <button type="button" className="btn btn-dark btn-overwrite-primer m-2" onClick={connect}>
+        Connect Wallet
+      </button>,
+    );
   }
 
   const { currentTheme } = useThemeSwitcher();
