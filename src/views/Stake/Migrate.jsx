@@ -4,8 +4,8 @@ import { Grid, Backdrop, Fade, Breadcrumbs } from "@material-ui/core";
 import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import { useSelector, useDispatch } from "react-redux";
 // import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
-import ClearIcon from '@material-ui/icons/Clear';
+import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
+import ClearIcon from "@material-ui/icons/Clear";
 import { trim } from "../../helpers";
 import { Flex } from "rimble-ui";
 import { NavLink } from "react-router-dom";
@@ -27,8 +27,8 @@ export default function Migrate() {
     return state.app.balances && state.app.balances.ohm;
   });
   const oldSohmBalance = useSelector(state => {
-		return state.app.balances && state.app.balances.oldsohm;
-	})
+    return state.app.balances && state.app.balances.oldsohm;
+  });
   const sohmBalance = useSelector(state => {
     return state.app.balances && state.app.balances.sohm;
   });
@@ -38,16 +38,15 @@ export default function Migrate() {
   const unstakeAllowance = useSelector(state => {
     return state.app.migrate && state.app.migrate.unstakeAllowance;
   });
-	const newStakingAPY = useSelector(state => {
+  const newStakingAPY = useSelector(state => {
     return (state.app && state.app.stakingAPY) || 0;
   });
 
   const oldStakingAPY = useSelector(state => {
     return (state.app && state.app.oldStakingAPY) || 0;
   });
-	
 
-	const setMax = () => {
+  const setMax = () => {
     if (view === "unstake") {
       setQuantity(oldSohmBalance);
     } else {
@@ -55,7 +54,7 @@ export default function Migrate() {
     }
   };
 
-	const getStakeApproval = async () => {
+  const getStakeApproval = async () => {
     const dispatchObj = getApproval({
       type: TYPES.NEW,
       networkID: 1,
@@ -95,7 +94,6 @@ export default function Migrate() {
     await dispatch(changeStake({ action: ACTIONS.STAKE, address, value: quantity.toString(), provider, networkID: 1 }));
   };
 
- 
   const hasAllowance = useCallback(
     token => {
       if (token === "ohm") return stakeAllowance > 0;
@@ -105,48 +103,46 @@ export default function Migrate() {
     [stakeAllowance, unstakeAllowance],
   );
 
-	useEffect(() => {
-		// here we check the user's sohm and wsohm balance
-		// if they still have sohm (old) they remain on step 1 (unstake)
-		if (view === "unstake") {
+  useEffect(() => {
+    // here we check the user's sohm and wsohm balance
+    // if they still have sohm (old) they remain on step 1 (unstake)
+    if (view === "unstake") {
       setQuantity(oldSohmBalance);
     } else {
       setQuantity(ohmBalance);
     }
 
-		if (oldSohmBalance > 0) {
-			setCurrentStep("1");
-		} else if (sohmBalance > 0) {
-				setCurrentStep("3");
-		} else {
-			setCurrentStep("2");
-		}
-	}, [view])
+    if (oldSohmBalance > 0) {
+      setCurrentStep("1");
+    } else if (sohmBalance > 0) {
+      setCurrentStep("3");
+    } else {
+      setCurrentStep("2");
+    }
+  }, [view]);
 
-	useEffect(() => {
+  useEffect(() => {
     // setView based on sohm(new) vs sohm(old) balance
     // if there is any sohm(old) set to unstake
     if (oldSohmBalance > 0) {
-			setCurrentStep("1");
-			setView("unstake");
-		} else if (ohmBalance > 0) {
-			setCurrentStep("2");
-			setView("stake");
-		} else {
-			setCurrentStep("3");
-			setView("done");
-		} 
+      setCurrentStep("1");
+      setView("unstake");
+    } else if (ohmBalance > 0) {
+      setCurrentStep("2");
+      setView("stake");
+    } else {
+      setCurrentStep("3");
+      setView("done");
+    }
   }, [ohmBalance, oldSohmBalance, sohmBalance, stakeAllowance, unstakeAllowance]);
 
-
-	useEffect(() => {
+  useEffect(() => {
     // setView based on sohm(new) vs sohm(old) balance
     // if there is any sohm(old) set to unstake
     if (oldSohmBalance > 0) setView("unstake");
     else if (ohmBalance > 0) setView("stake");
     else setView("done");
   }, []);
-
 
 	let modalButton = <></>;
   if (!address) {
@@ -232,109 +228,109 @@ export default function Migrate() {
 										{/* <button type="button" onClick={setMax}>
 											Max
 										</button> */}
-									</div>
+                    </div>
 
-									{address && (hasAllowance("sohm") && view === "unstake") && (
-										<div
-											className="stake-button"
-											onClick={() => {
-												unStakeLegacy();
-												setView("stake");
-											}}
-										>
-											Unstake sOHM (legacy)
-										</div>
-									)}
+                    {address && hasAllowance("sohm") && view === "unstake" && (
+                      <div
+                        className="stake-button"
+                        onClick={() => {
+                          unStakeLegacy();
+                          setView("stake");
+                        }}
+                      >
+                        Unstake sOHM (legacy)
+                      </div>
+                    )}
 
-									{address && (hasAllowance("ohm") && view === "stake") && (
-										<div
-											className="stake-button"
-											onClick={() => {
-												stakeOhm();
-												setView("done");
-											}}
-										>
-											Stake OHM (new)
-										</div>
-									)}
+                    {address && hasAllowance("ohm") && view === "stake" && (
+                      <div
+                        className="stake-button"
+                        onClick={() => {
+                          stakeOhm();
+                          setView("done");
+                        }}
+                      >
+                        Stake OHM (new)
+                      </div>
+                    )}
 
-									{address && (!hasAllowance("sohm") && view === "unstake") && (
-										<div
-											className="stake-button"
-											onClick={() => {
-												getUnstakeLegacyApproval();
-											}}
-										>
-											Approve Unstake (legacy)
-										</div>
-									)}
+                    {address && !hasAllowance("sohm") && view === "unstake" && (
+                      <div
+                        className="stake-button"
+                        onClick={() => {
+                          getUnstakeLegacyApproval();
+                        }}
+                      >
+                        Approve Unstake (legacy)
+                      </div>
+                    )}
 
-									{address && (!hasAllowance("ohm") && view === "stake") && (
-										<div
-											className="stake-button"
-											onClick={() => {
-												getStakeApproval();
-											}}
-										>
-											Approve Stake (new)
-										</div>
-									)}
-								</Flex>
+                    {address && !hasAllowance("ohm") && view === "stake" && (
+                      <div
+                        className="stake-button"
+                        onClick={() => {
+                          getStakeApproval();
+                        }}
+                      >
+                        Approve Stake (new)
+                      </div>
+                    )}
+                  </Flex>
 
-								<div className="stake-notification">
-									{address &&
-										((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
-											<em>
-												<p>
-													"Approve" transaction is only needed when staking/unstaking for the first time;
-													subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.
-												</p>
-											</em>
-										)}
-								</div>
-								</>
-							) : (
-								<div>
-									<p> All you gotta do now is keep it (3, 3)</p>
-								</div>
-							)}
-						
-								<div className={`stake-user-data`}>
-									<div className="stake-price-data-column">
-										<div className="stake-price-data-row">
-											<p className="price-label">Ohm Balance</p>
-											<p className="price-data">{trim(ohmBalance)} OHM</p>
-										</div>
-										
-										<br/>
+                  <div className="stake-notification">
+                    {address &&
+                      ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
+                        <em>
+                          <p>
+                            "Approve" transaction is only needed when staking/unstaking for the first time; subsequent
+                            staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.
+                          </p>
+                        </em>
+                      )}
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <p> All you gotta do now is keep it (3, 3)</p>
+                </div>
+              )}
 
-										<div className="stake-price-data-row">
-											<p className="price-label">Staked (new)</p>											
-											<p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
-										</div>
+              <div className={`stake-user-data`}>
+                <div className="stake-price-data-column">
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Ohm Balance</p>
+                    <p className="price-data">{trim(ohmBalance)} OHM</p>
+                  </div>
 
-										<div className="stake-price-data-row">
-											<p className="price-label">APY (New)</p>
-											<p className="price-data">{trim(newStakingAPY * 100, 4)}%</p>
-										</div>
-										
-										<br/>
+                  <br />
 
-										<div className="stake-price-data-row">
-											<p className="price-label">Staked (legacy)</p>
-											<p className="price-data">{trim(oldSohmBalance, 4)} sOHM</p>
-										</div>
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Staked (new)</p>
+                    <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
+                  </div>
 
-										<div className="stake-price-data-row">
-											<p className="price-label">APY (Legacy)</p>
-											<p className="price-data">{trim(oldStakingAPY * 100, 4)}%</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						)}
-					</div>
-			</Backdrop>
-		</Grid>
-	)
+                  <div className="stake-price-data-row">
+                    <p className="price-label">APY (New)</p>
+                    <p className="price-data">{trim(newStakingAPY * 100, 4)}%</p>
+                  </div>
+
+                  <br />
+
+                  <div className="stake-price-data-row">
+                    <p className="price-label">Staked (legacy)</p>
+                    <p className="price-data">{trim(oldSohmBalance, 4)} sOHM</p>
+                  </div>
+
+                  <div className="stake-price-data-row">
+                    <p className="price-label">APY (Legacy)</p>
+                    <p className="price-data">{trim(oldStakingAPY * 100, 4)}%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </Backdrop>
+    </Grid>
+  );
 }

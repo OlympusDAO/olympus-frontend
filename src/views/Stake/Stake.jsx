@@ -115,8 +115,7 @@ function Stake() {
 
   const trimmedSOHMBalance = trim(sohmBalance, 4);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4)
-
+  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
 
   // TODO: the two grids need `container` props to justify.
   return (
@@ -155,27 +154,6 @@ function Stake() {
             <Grid item>
               <div className="stake-top-metrics">
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} lg={4}>
-                    <div className="olympus-sushi">
-                      <div>
-                        <img
-                          className="olympus-logo"
-                          src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                        />
-                        <h3>Olympus</h3>
-                      </div>
-                      <div>
-                        <a
-                          href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
-                          target="_blank"
-                        >
-                          Buy on Sushiswap
-                        </a>
-                        <i className="fa fa-external-link-alt" />
-                      </div>
-                    </div>
-                  </Grid>
-
                   <Grid item xs={6} sm={6} lg={4}>
                     <div className="stake-apy">
                       <h2 className="title">APY</h2>
@@ -195,6 +173,13 @@ function Stake() {
                             minimumFractionDigits: 0,
                           }).format(stakingTVL)}
                       </h2>
+                    </div>
+                  </Grid>
+
+                  <Grid item xs={6} sm={6} lg={4}>
+                    <div className="stake-index">
+                      <h2 className="title">Current Index</h2>
+                      <h2 className="content">{currentIndex && trim(currentIndex, 1)} OHM</h2>
                     </div>
                   </Grid>
                 </Grid>

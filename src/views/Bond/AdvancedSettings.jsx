@@ -1,6 +1,4 @@
-import React from 'react';
 import "./bondSettings.scss";
-
 
 function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
   return (
@@ -9,7 +7,9 @@ function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange
         <h2 className="card-title mb-4">Hades</h2>
         <form>
           <div className="mb-3">
-            <label htmlFor="slippage" className="form-label">Slippage</label>
+            <label htmlFor="slippage" className="form-label">
+              Slippage
+            </label>
 
             <div className="input-group ohm-input-group flex-nowrap d-flex">
               <input
@@ -21,7 +21,9 @@ function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange
                 className="form-control ohm-form-control"
                 id="slippage"
               />
-              <span className="input-group-text" id="basic-addon2">%</span>
+              <span className="input-group-text" id="basic-addon2">
+                %
+              </span>
             </div>
             <div id="emailHelp" className="form-text">
               Transaction may revert if price changes by more than slippage %
@@ -29,7 +31,9 @@ function AdvancedSettings({ slippage, recipientAddress, onRecipientAddressChange
           </div>
 
           <div className="mb-3">
-            <label htmlFor="slippage" className="form-label">Recipient Address</label>
+            <label htmlFor="slippage" className="form-label">
+              Recipient Address
+            </label>
 
             <div className="ohm-input-group">
               <input
