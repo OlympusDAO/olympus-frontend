@@ -53,6 +53,9 @@ export const loadAppDetails =
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> short circuit provider not existing. feels bad
     if (!provider) {
       console.error("failed to connect to provider, please connect your wallet");
       return dispatch(
@@ -65,9 +68,12 @@ export const loadAppDetails =
         }),
       );
     }
+<<<<<<< HEAD
 
 =======
 >>>>>>> updated to ohmCirculatingSupply
+=======
+>>>>>>> short circuit provider not existing. feels bad
     const currentBlock = await provider.getBlockNumber();
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
