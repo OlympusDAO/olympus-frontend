@@ -187,6 +187,7 @@ function App(props) {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const handleSidebarOpen = () => {
     setIsSidebarExpanded(true);
@@ -346,6 +347,7 @@ function App(props) {
       <CssBaseline />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       {/* <GlobalStyles /> */}
 <<<<<<< HEAD
       <div className="app">
@@ -478,6 +480,9 @@ function App(props) {
           isExpanded={isSidebarExpanded}
 =======
       <div className={`app ${isSmallerScreen && "mobile"}`}>
+=======
+      <div className={`app ${isSmallerScreen ? "tablet" : isSmallScreen ? "mobile" : "browser"}`}>
+>>>>>>> improved stake page styling
         <TopBar
           web3Modal={web3Modal}
           loadWeb3Modal={loadWeb3Modal}

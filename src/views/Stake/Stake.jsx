@@ -337,6 +337,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
               </div>
             ) : (
               <>
+<<<<<<< HEAD
                 <Grid item>
                   <div className="stake-toggle-row">
 <<<<<<< HEAD
@@ -421,100 +422,141 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 >>>>>>> updated stake page to use paper and Button components, still need to override hover styles
                     </div>
 =======
+=======
+                <div className="stake-toggle-row">
+                  <Button
+                    variant="text"
+                    color="primary"
+                    onClick={() => {
+                      setView("stake");
+                    }}
+                  >
+                    Stake
+                  </Button>
+                  <Button
+                    variant="text"
+                    color="primary"
+                    onClick={() => {
+                      setView("unstake");
+                    }}
+                  >
+                    Unstake
+                  </Button>
+                </div>
+
+                <Box className="stake-action-row">
+                  <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
+                    <InputLabel htmlFor="amount-input"></InputLabel>
+                    <OutlinedInput
+                      id="amount-input"
+                      type="number"
+                      placeholder="Enter an amount"
+                      className="stake-input"
+                      value={quantity}
+                      onChange={e => setQuantity(e.target.value)}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <div className="logo-holder">
+                            <div className="ohm-logo-bg">
+                              <img
+                                className="ohm-logo-tiny"
+                                src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                              />
+                            </div>
+                          </div>
+                        </InputAdornment>
+                      }
+                      labelWidth={0}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <Button variant="text" onClick={setMax}>
+                            Max
+                          </Button>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+
+                  {address && hasAllowance("ohm") && view === "stake" && (
+>>>>>>> improved stake page styling
                     <Button
-                      variant="text"
+                      className="stake-button"
+                      variant="contained"
                       color="primary"
                       onClick={() => {
-                        setView("stake");
+                        onChangeStake("stake");
+                        pending();
                       }}
                     >
-                      Stake
+                      Stake OHM
                     </Button>
+                  )}
+
+                  {address && hasAllowance("sohm") && view === "unstake" && (
                     <Button
-                      variant="text"
+                      className="stake-button"
+                      variant="contained"
                       color="primary"
                       onClick={() => {
-                        setView("unstake");
+                        onChangeStake("unstake");
                       }}
                     >
-                      Unstake
+                      Unstake OHM
                     </Button>
+<<<<<<< HEAD
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
                   </div>
+=======
+                  )}
+>>>>>>> improved stake page styling
 
-                  <Box className="stake-action-row">
-                    <FormControl className="ohm-input-group" variant="outlined" color="primary">
-                      <InputLabel htmlFor="amount-input"></InputLabel>
-                      <OutlinedInput
-                        id="amount-input"
-                        type="number"
-                        placeholder="Enter an amount"
-                        className="stake-input"
-                        value={quantity}
-                        onChange={e => setQuantity(e.target.value)}
-                        startAdornment={
-                          <InputAdornment position="start">
-                            <div className="logo-holder">
-                              <div className="ohm-logo-bg">
-                                <img
-                                  className="ohm-logo-tiny"
-                                  src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                                />
-                              </div>
-                            </div>
-                          </InputAdornment>
-                        }
-                        labelWidth={0}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <Button variant="text" onClick={setMax}>
-                              Max
-                            </Button>
-                          </InputAdornment>
-                        }
-                      />
-                    </FormControl>
+                  {address && !hasAllowance("ohm") && view === "stake" && (
+                    <Button
+                      className="stake-button"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        onSeekApproval("ohm");
+                      }}
+                    >
+                      Approve Stake
+                    </Button>
+                  )}
 
-                    {address && hasAllowance("ohm") && view === "stake" && (
-                      <Button
-                        className="stake-button"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          onChangeStake("stake");
-                          pending();
-                        }}
-                      >
-                        Stake OHM
-                      </Button>
+                  {address && !hasAllowance("sohm") && view === "unstake" && (
+                    <Button
+                      className="stake-button"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        onSeekApproval("sohm");
+                      }}
+                    >
+                      Approve Unstake
+                    </Button>
+                  )}
+                </Box>
+
+                <div className="help-text">
+                  {address &&
+                    ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
+                      <em>
+                        <Typography variant="body2">
+                          Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
+                          subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
+                          transaction.
+                        </Typography>
+                      </em>
                     )}
+                </div>
 
-                    {address && hasAllowance("sohm") && view === "unstake" && (
-                      <Button
-                        className="stake-button"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          onChangeStake("unstake");
-                        }}
-                      >
-                        Unstake OHM
-                      </Button>
-                    )}
+                <div className={`stake-user-data`}>
+                  <div className="data-row">
+                    <Typography>Your Balance</Typography>
+                    <Typography>{trim(ohmBalance)} OHM</Typography>
+                  </div>
 
-                    {address && !hasAllowance("ohm") && view === "stake" && (
-                      <Button
-                        className="stake-button"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          onSeekApproval("ohm");
-                        }}
-                      >
-                        Approve Stake
-                      </Button>
-                    )}
-
+<<<<<<< HEAD
                     {address && !hasAllowance("sohm") && view === "unstake" && (
                       <Button
                         className="stake-button"
@@ -654,9 +696,14 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
                         </em>
                       )}
+=======
+                  <div className="data-row">
+                    <Typography>Your Staked Balance</Typography>
+                    <Typography>{trim(sohmBalance, 4)} sOHM</Typography>
+>>>>>>> improved stake page styling
                   </div>
-                </Grid>
 
+<<<<<<< HEAD
                 <Grid item>
                   <div className={`stake-user-data`}>
                     <div className="stake-price-data-column">
@@ -686,8 +733,18 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
                       </div>
                     </div>
+=======
+                  <div className="data-row">
+                    <Typography>Reward Yield</Typography>
+                    <Typography>{trim(stakingRebase * 100, 4)}%</Typography>
+>>>>>>> improved stake page styling
                   </div>
-                </Grid>
+
+                  <div className="data-row">
+                    <Typography>ROI (5-Day Rate)</Typography>
+                    <Typography>{trim(fiveDayRate * 100, 4)}%</Typography>
+                  </div>
+                </div>
               </>
             )}
 <<<<<<< HEAD
