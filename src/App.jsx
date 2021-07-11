@@ -109,6 +109,8 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: transitionDuration,
     }),
+    height: "100%",
+    overflow: "auto",
     marginLeft: drawerWidth,
   },
   contentShift: {
