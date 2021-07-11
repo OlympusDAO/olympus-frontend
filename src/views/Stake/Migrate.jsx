@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Grid, Backdrop, Paper, Fade, Breadcrumbs } from "@material-ui/core";
 import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ import { trim } from "../../helpers";
 import { Flex } from "rimble-ui";
 import { NavLink } from "react-router-dom";
 import "./stake.scss";
+import "./migrate.scss";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
