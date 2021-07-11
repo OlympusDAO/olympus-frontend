@@ -144,6 +144,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     setView(newView);
   };
 
+  const trimmedSOHMBalance = trim(sohmBalance, 4);
+  const stakingRebasePercentage = trim(stakingRebase * 100, 4);
+  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
+
   return (
     <div id="stake-view">
       <Paper className={`ohm-card`}>
@@ -349,12 +353,17 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
                   <div className="data-row">
                     <Typography>Your Staked Balance</Typography>
-                    <Typography>{trim(sohmBalance, 4)} sOHM</Typography>
+                    <Typography>{trimmedSOHMBalance} sOHM</Typography>
                   </div>
 
                   <div className="data-row">
-                    <Typography>Reward Yield</Typography>
-                    <Typography>{trim(stakingRebase * 100, 4)}%</Typography>
+                    <Typography>Next Reward Amount</Typography>
+                    <Typography>{nextRewardValue} sOHM</Typography>
+                  </div>
+
+                  <div className="data-row">
+                    <Typography>Next Reward Yield</Typography>
+                    <Typography>{stakingRebasePercentage}%</Typography>
                   </div>
 
                   <div className="data-row">
