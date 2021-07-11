@@ -137,6 +137,11 @@
   svg {
     margin-left: 5px;
   }
+  &:hover {
+    svg {
+      color: inherit;
+    }
+  }
 }
 
 .tablet .stake-table button {

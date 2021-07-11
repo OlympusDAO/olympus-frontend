@@ -78,7 +78,6 @@ const commonSettings = {
           padding: "20px 20px 20px 20px",
           borderRadius: "10px",
           maxWidth: "833px",
-          minWidth: "333px",
           width: "97%",
           marginBottom: "1.8rem",
           borderRadius: "10px",
@@ -149,6 +148,7 @@ const commonSettings = {
         textDecoration: "none",
         whiteSpace: "nowrap",
         minWidth: "max-content",
+        height: "40px",
       },
       containedPrimary: {
         border: 0,
@@ -179,6 +179,17 @@ const commonSettings = {
         },
       },
     },
+    MuiInputBase: {
+      root: {
+        height: "40px",
+        padding: "5px",
+      },
+    },
+    MuiInputLabel: {
+      outlined: {
+        transform: "translate(16px, 14px) scale(1)",
+      },
+    },
   },
   props: {
     MuiButton: {
@@ -187,6 +198,10 @@ const commonSettings = {
       disableRipple: true,
     },
     MuiIconButton: {
+      disableRipple: true,
+    },
+    MuiTextButton: {
+      disableFocusRipple: true,
       disableRipple: true,
     },
     MuiPaper: {

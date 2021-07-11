@@ -12,7 +12,6 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { BondTableData, BondDataCard } from "./BondRow";
-import ClaimBonds from "./ClaimBonds";
 import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
@@ -34,7 +33,6 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
-      {/* <ClaimBonds /> */}
       <Paper className="ohm-card">
         <Box className="card-header">
           <Typography variant="h5">Bond (1,1)</Typography>

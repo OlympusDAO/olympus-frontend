@@ -1,4 +1,3 @@
-import React from "react";
 import { isBondLP } from "../helpers";
 
 function BondHeader({ bond }) {
@@ -15,7 +14,7 @@ function BondHeader({ bond }) {
   };
 
   return (
-    <div className="ohm-pairs d-sm-flex">
+    <div className="ohm-pairs">
       {isBondLP(bond) && (
         <div className="ohm-pair" style={{ zIndex: 2 }}>
           <div className="ohm-logo-bg">
