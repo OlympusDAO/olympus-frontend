@@ -209,6 +209,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   };
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 
+  const trimmedSOHMBalance = trim(sohmBalance, 4);
+  const stakingRebasePercentage = trim(stakingRebase * 100, 4);
+  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
+
   return (
 <<<<<<< HEAD
     <Grid id="stake-view" direction="row" justify="center">
@@ -767,8 +771,17 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 =======
                   <div className="data-row">
                     <Typography>Your Staked Balance</Typography>
+<<<<<<< HEAD
                     <Typography>{trim(sohmBalance, 4)} sOHM</Typography>
 >>>>>>> improved stake page styling
+=======
+                    <Typography>{trimmedSOHMBalance} sOHM</Typography>
+                  </div>
+
+                  <div className="data-row">
+                    <Typography>Next Reward Amount</Typography>
+                    <Typography>{nextRewardValue} sOHM</Typography>
+>>>>>>> added reward amount
                   </div>
 
 <<<<<<< HEAD
@@ -803,9 +816,14 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     </div>
 =======
                   <div className="data-row">
+<<<<<<< HEAD
                     <Typography>Reward Yield</Typography>
                     <Typography>{trim(stakingRebase * 100, 4)}%</Typography>
 >>>>>>> improved stake page styling
+=======
+                    <Typography>Next Reward Yield</Typography>
+                    <Typography>{stakingRebasePercentage}%</Typography>
+>>>>>>> added reward amount
                   </div>
 
                   <div className="data-row">
