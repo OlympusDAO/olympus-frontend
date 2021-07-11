@@ -90,8 +90,12 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 =======
 >>>>>>> staking view cleaned up, still needs some refactoring but fine for now
 
+<<<<<<< HEAD
   const isSmallScreen = useMediaQuery("(max-width: 960px)");
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
+=======
+  const isSmallScreen = useMediaQuery("(max-width: 705px)");
+>>>>>>> styled active buttons for dark theme, fixed sidebar spacing, updated stake pohm frax, improved top bar spacind for mobile
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 >>>>>>> fixed topbar, stake mobile buttons, bond view, bond modal
 
@@ -1083,18 +1087,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                   </div>
                   <Typography gutterBottom={false}>OHM-FRAX</Typography>
                 </Box>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
-                  target="_blank"
-                  className="stake-lp-button"
-                >
-                  <Typography variant="h6">
-                    Stake on FRAX
-                    <SvgIcon component={ArrowUp} color="primary" />
-                  </Typography>
-                </Button>
               </div>
               <div className="pool-data">
                 <div className="data-row">
@@ -1118,6 +1110,20 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                   <Typography>Balance</Typography>
                   <Typography>{(fraxData && fraxData.balance) || 0} LP</Typography>
                 </div>
+
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
+                  target="_blank"
+                  className="stake-lp-button"
+                  fullWidth
+                >
+                  <Typography variant="h6">
+                    Stake on FRAX
+                    <SvgIcon component={ArrowUp} color="primary" />
+                  </Typography>
+                </Button>
               </div>
             </div>
           )}
