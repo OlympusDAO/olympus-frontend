@@ -181,7 +181,7 @@ const commonSettings = {
     },
     MuiInputBase: {
       root: {
-        height: "40px",
+        height: "43px",
         padding: "5px",
       },
     },
