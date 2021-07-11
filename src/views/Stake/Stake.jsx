@@ -11,6 +11,8 @@ import {
   OutlinedInput,
   Button,
   SvgIcon,
+  Tab,
+  Tabs,
   TableHead,
   TableCell,
   TableBody,
@@ -22,6 +24,7 @@ import {
 import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
+import TabPanel from "../../components/TabPanel";
 import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
@@ -30,11 +33,23 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg"
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 
+<<<<<<< HEAD
 function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
+=======
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
+>>>>>>> staking view cleaned up, still needs some refactoring but fine for now
   const dispatch = useDispatch();
 
-  const [view, setView] = useState("stake");
+  const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
+<<<<<<< HEAD
   const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -57,6 +72,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 =======
 =======
+=======
+>>>>>>> staking view cleaned up, still needs some refactoring but fine for now
 
   const isSmallScreen = useMediaQuery("(max-width: 960px)");
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
@@ -187,8 +204,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
     );
   }
 
-  const openMigrationWizard = () => {
-    setMigrationWizardOpen(true);
+  const changeView = (event, newView) => {
+    setView(newView);
   };
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 
@@ -247,30 +264,21 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
               <RebaseTimer />
 
               {address && oldSohmBalance > 0.01 && (
-                <div
-                  className="migrate-sohm-button"
-                  role="button"
-                  aria-label="migrate-sohm"
-                  onClick={openMigrationWizard}
-                >
-                  <NavLink to="/stake/migrate">
-                    <NewReleases />
-                    Migrate sOHM
-                  </NavLink>
-                </div>
+                <Link className="migrate-sohm-button" component={NavLink} to="/stake/migrate" aria-label="migrate-sohm">
+                  <NewReleases viewBox="0 0 24 24" />
+                  <Typography>Migrate sOHM</Typography>
+                </Link>
               )}
               {address && oldSohmBalance < 0.01 && (
-                <div
+                <Link
+                  component={NavLink}
+                  to="/stake/migrate"
                   className="migrate-sohm-button complete"
-                  role="button"
                   aria-label="migrate-sohm-complete"
-                  onClick={openMigrationWizard}
                 >
-                  <NavLink to="/stake/migrate">
-                    <CheckCircleIcon />
-                    sOHM Migrated
-                  </NavLink>
-                </div>
+                  <CheckCircleIcon viewBox="0 0 24 24" />
+                  <Typography>sOHM Migrated</Typography>
+                </Link>
               )}
             </div>
           </Grid>
@@ -328,6 +336,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
               </div>
             ) : (
               <>
+<<<<<<< HEAD
 <<<<<<< HEAD
                 <Grid item>
                   <div className="stake-toggle-row">
@@ -430,12 +439,22 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                     onClick={() => {
                       setView("unstake");
                     }}
-                  >
-                    Unstake
-                  </Button>
-                </div>
-
+=======
                 <Box className="stake-action-row">
+                  <Tabs
+                    centered
+                    value={view}
+                    textColor="primary"
+                    indicatorColor="primary"
+                    className="stake-tab-buttons"
+                    onChange={changeView}
+                    aria-label="stake tabs"
+>>>>>>> staking view cleaned up, still needs some refactoring but fine for now
+                  >
+                    <Tab label="Stake" {...a11yProps(0)} />
+                    <Tab label="Untake" {...a11yProps(0)} />
+                  </Tabs>
+
                   <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
                     <InputLabel htmlFor="amount-input"></InputLabel>
                     <OutlinedInput
@@ -468,6 +487,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                     />
                   </FormControl>
 
+<<<<<<< HEAD
                   {address && hasAllowance("ohm") && view === "stake" && (
 >>>>>>> improved stake page styling
                     <Button
@@ -527,10 +547,66 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                     </Button>
                   )}
                 </Box>
+=======
+                  <TabPanel value={view} index={0} className="stake-tab-panel">
+                    {address && hasAllowance("ohm") ? (
+                      <Button
+                        className="stake-button"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={() => {
+                          onChangeStake("stake");
+                        }}
+                      >
+                        Stake OHM
+                      </Button>
+                    ) : (
+                      <Button
+                        className="stake-button"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={() => {
+                          onSeekApproval("ohm");
+                        }}
+                      >
+                        Approve Stake
+                      </Button>
+                    )}
+                  </TabPanel>
 
-                <div className="help-text">
-                  {address &&
-                    ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
+                  <TabPanel value={view} index={1} className="stake-tab-panel">
+                    {address && hasAllowance("sohm") ? (
+                      <Button
+                        className="stake-button"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={() => {
+                          onChangeStake("unstake");
+                        }}
+                      >
+                        Unstake OHM
+                      </Button>
+                    ) : (
+                      <Button
+                        className="stake-button"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={() => {
+                          onSeekApproval("sohm");
+                        }}
+                      >
+                        Approve Unstake
+                      </Button>
+                    )}
+                  </TabPanel>
+>>>>>>> staking view cleaned up, still needs some refactoring but fine for now
+
+                  <div className="help-text">
+                    {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
                       <em>
                         <Typography variant="body2">
                           Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
@@ -539,7 +615,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                         </Typography>
                       </em>
                     )}
-                </div>
+                  </div>
+                </Box>
 
                 <div className={`stake-user-data`}>
                   <div className="data-row">
