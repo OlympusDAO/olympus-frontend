@@ -29,8 +29,12 @@ const client = new ApolloClient({
 
 =======
 import apollo from "../lib/apolloClient.js";
+<<<<<<< HEAD
     
 >>>>>>> Add unstkae allowance during account load.
+=======
+
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
   payload,
@@ -51,8 +55,8 @@ export const loadAccountDetails =
     let pendingRewards = 0;
     let lpBondAllowance = 0;
     let daiBondAllowance = 0;
-
     let aOHMAbleToClaim = 0;
+    let unstakeAllowanceSohm;
 
     // const accountQuery = `
     //   query($id: String) {
@@ -109,6 +113,7 @@ export const loadAccountDetails =
 =======
 >>>>>>> Add unstkae allowance during account load.
 
+<<<<<<< HEAD
     let migrateContract;
     let unstakeAllowanceSohm;
     const aOHMAbleToClaim = 0;
@@ -118,6 +123,8 @@ export const loadAccountDetails =
     // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
 
 >>>>>>> formatting
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
 
@@ -139,6 +146,7 @@ export const loadAccountDetails =
 
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
       oldsohmBalance = await oldsohmContract.balanceOf(address);
 <<<<<<< HEAD
@@ -157,6 +165,14 @@ export const loadAccountDetails =
      }
 
 >>>>>>> Add unstkae allowance during account load.
+=======
+      const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+      oldsohmBalance = await oldsohmContract.balanceOf(address);
+
+      const signer = provider.getSigner();
+      unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+    }
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 
     return dispatch(
       fetchAccountSuccess({

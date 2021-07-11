@@ -3,8 +3,6 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 <<<<<<< HEAD
 import { THE_GRAPH_URL } from "../constants";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 const client = new ApolloClient({
   uri: THE_GRAPH_URL,
 =======
@@ -22,17 +20,6 @@ const client = new ApolloClient({
   uri: THE_GRAPH_URL,
 >>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
   cache: new InMemoryCache(),
-=======
-
-const client = new ApolloClient({
-	uri: THE_GRAPH_URL,
-	cache: new InMemoryCache()
->>>>>>> Connect subgraph by name
-=======
-const client = new ApolloClient({
-  uri: THE_GRAPH_URL,
-  cache: new InMemoryCache(),
->>>>>>> updated to ohmCirculatingSupply
 });
 
 const apollo = queryString => {
@@ -45,6 +32,7 @@ const apollo = queryString => {
     })
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     .catch(err => console.error("qraph ql error: ", err));
 =======
     .catch(err => console.log("qraph ql error: ", err));
@@ -55,6 +43,9 @@ const apollo = queryString => {
     .catch(err => console.error("qraph ql error: ", err));
 >>>>>>> updated to ohmCirculatingSupply
 >>>>>>> updated to ohmCirculatingSupply
+=======
+    .catch(err => console.log("qraph ql error: ", err));
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 };
 
 export default apollo;

@@ -5,13 +5,6 @@ import { useUserAddress } from "eth-hooks";
 import { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
-<<<<<<< HEAD
-=======
-import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "@fortawesome/fontawesome-free/js/all.js";
-import ClearIcon from "@material-ui/icons/Clear";
->>>>>>> commented out airbnb in eslint
 import { useSelector, useDispatch } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,6 +12,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
 import { calcBondDetails } from "./actions/Bond.actions.js";
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -44,6 +38,9 @@ import { loadAppDetails, /*getMarketPrice, getTokenSupply*/ } from "./actions/Ap
 import { loadAppDetails /*getMarketPrice, getTokenSupply*/ } from "./actions/App.actions.js";
 >>>>>>> commented out airbnb in eslint
 >>>>>>> commented out airbnb in eslint
+=======
+import { loadAppDetails } from "./actions/App.actions.js";
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
@@ -53,6 +50,7 @@ import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 import "./App.css";
@@ -72,6 +70,8 @@ import "./style.scss";
 >>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
 =======
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 import { dark as darkTheme } from "./themes/dark.js";
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 import { light as lightTheme } from "./themes/light";
@@ -80,9 +80,8 @@ import { girth as gTheme } from "./themes/girth";
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
 import "./style.scss";
-=======
-import "./App.css";
 
+<<<<<<< HEAD
 import { lightTheme, darkTheme, gTheme } from "./theme";
 import { GlobalStyles } from "./global";
 
@@ -104,12 +103,14 @@ import { useUserProvider } from "./hooks";
 =======
 >>>>>>> commented out airbnb in eslint
 >>>>>>> commented out airbnb in eslint
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 /*
     Welcome to 🏗 scaffold-eth !
 
     Code:
     https://github.com/austintgriffith/scaffold-eth
- 
+
     Support:
     https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA
     or DM @austingriffith on twitter or telegram
@@ -170,6 +171,7 @@ const logoutOfWeb3Modal = async () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> removed unused scaffold-eth components and pruned scss
@@ -178,6 +180,8 @@ const logoutOfWeb3Modal = async () => {
 =======
 =======
 >>>>>>> commented out airbnb in eslint
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 const drawerWidth = 280;
 const transitionDuration = 969;
 
@@ -218,6 +222,7 @@ function App(props) {
   const location = useLocation();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
   const isSmallerScreen = useMediaQuery("(max-width: 1125px)");
@@ -245,6 +250,8 @@ function App(props) {
 
 >>>>>>> commented out airbnb in eslint
 >>>>>>> commented out airbnb in eslint
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
@@ -257,6 +264,7 @@ function App(props) {
   const handleSidebarClose = () => {
     setIsSidebarExpanded(false);
   };
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 <<<<<<< HEAD
@@ -330,12 +338,14 @@ function App(props) {
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 
-  // const currentBlock  = useSelector((state) => { return state.app.currentBlock });
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
 
+<<<<<<< HEAD
   // const fraxBondDiscount = useSelector(state => {
   //   return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
   // });
@@ -354,6 +364,8 @@ function App(props) {
 
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
 
@@ -392,6 +404,7 @@ function App(props) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
     
@@ -413,6 +426,8 @@ function App(props) {
 
 >>>>>>> commented out airbnb in eslint
 >>>>>>> commented out airbnb in eslint
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
     [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
@@ -420,27 +435,17 @@ function App(props) {
     });
   }
 
-<<<<<<< HEAD
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
-=======
->>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
   useEffect(() => {
     loadDetails();
   }, [injectedProvider, address]);
 
   const loadWeb3Modal = useCallback(async () => {
-    const rawProvider = await web3Modal.connect();
-    const provider = new Web3Provider(rawProvider);
-
-    const chainId = await provider.getNetwork().then(network => network.chainId);
-    if (chainId !== 1) {
-      console.error("Wrong network, please switch to mainnet");
-    } else {
-      setInjectedProvider(provider);
-    }
+    const provider = await web3Modal.connect();
+    setInjectedProvider(new Web3Provider(provider));
   }, [setInjectedProvider]);
 
   useEffect(() => {
@@ -464,6 +469,7 @@ function App(props) {
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -603,6 +609,8 @@ function App(props) {
 =======
 =======
 >>>>>>> Implement new menu design and only show add token when eth api is available
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
       <div className={`app ${isSmallerScreen ? "tablet" : isSmallScreen ? "mobile" : "browser"}`}>
 >>>>>>> improved stake page styling
         <TopBar
@@ -617,10 +625,10 @@ function App(props) {
         />
         <nav className={classes.drawer}>
           <Hidden mdUp>
-            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} address={address} />
+            <NavDrawer address={address} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
           </Hidden>
           <Hidden smDown>
-            <Sidebar currentIndex={currentIndex} theme={theme} address={address} />
+            <Sidebar address={address} />
           </Hidden>
         </nav>
 
@@ -648,6 +656,7 @@ function App(props) {
                   web3Modal={web3Modal}
                   loadWeb3Modal={loadWeb3Modal}
                 />
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 =======
@@ -709,6 +718,9 @@ function App(props) {
 >>>>>>> Implement new menu design and only show add token when eth api is available
               </Route>
 <<<<<<< HEAD
+=======
+              </Route>
+>>>>>>> rebased from develop. everything appears to work except rebase timer
             </Route>
 
             <Route path="/bonds">
@@ -726,43 +738,6 @@ function App(props) {
             <Route component={NotFound} />
           </Switch>
         </div>
-=======
-
-              <Route path="/stake">
-                <Stake
-                  currentIndex={currentIndex}
-                  address={address}
-                  provider={injectedProvider}
-                  web3Modal={web3Modal}
-                  loadWeb3Modal={loadWeb3Modal}
-                />
-                <Route exact path="/stake/migrate">
-                  <Migrate
-                    address={address}
-                    provider={injectedProvider}
-                    web3Modal={web3Modal}
-                    loadWeb3Modal={loadWeb3Modal}
-                  />
-                </Route>
-              </Route>
-
-              <Route path="/bonds">
-                {/* {Object.values(BONDS).map(bond => { */}
-                {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
-                  return (
-                    <Route exact key={bond} path={`/bonds/${bond}`}>
-                      <Bond bond={bond} address={address} provider={injectedProvider} />
-                    </Route>
-                  );
-                })}
-                <ChooseBond address={address} provider={injectedProvider} />
-              </Route>
-
-              <Route component={NotFound} />
-            </Switch>
-          </Container>
-        </Flex>
->>>>>>> commented out airbnb in eslint
       </div>
     </ThemeProvider>
   );

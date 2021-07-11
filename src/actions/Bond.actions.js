@@ -103,6 +103,7 @@ export const calcBondDetails =
       }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     } catch (e) {
 =======
     } catch {
@@ -113,6 +114,9 @@ export const calcBondDetails =
     } catch (e) {
 >>>>>>> Linting fixes
 >>>>>>> Linting fixes
+=======
+    } catch (e) {
+>>>>>>> rebased from develop. everything appears to work except rebase timer
       debtRatio = 0;
       bondPrice = 0;
     }

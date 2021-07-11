@@ -48,6 +48,7 @@ import "./sidebar.scss";
 =======
 import { Drawer } from "@material-ui/core";
 import NavContent from "./NavContent.jsx";
+<<<<<<< HEAD
 >>>>>>> Linting fixes
 import React, { useCallback, useState, useEffect } from 'react';
 import { Link, NavLink } from "react-router-dom";
@@ -58,33 +59,9 @@ import { ReactComponent as StakeIcon } from "../../assets/icons/stake-icon.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond-icon.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard-icon.svg";
 import { shorten, trim } from "../../helpers";
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 import "./sidebar.scss";
-import orderBy from "lodash/orderBy";
-import useBonds from "../../hooks/Bonds";
-
-function Sidebar({ isExpanded, theme, currentIndex, address }) {
-  const [isActive] = useState();
-  const bonds = useBonds();
-
-  const checkPage = useCallback((match, location, page) => {
-    const currentPath = location.pathname.replace("/", "");
-    const currentURL = window.location.href;
-
-    if (currentPath.indexOf("dashboard") >= 0 && page === "dashboard") {
-      return true;
-    }
-
-    if (currentPath.indexOf("stake") >= 0 && page === "stake") {
-      return true;
-    }
-
-    if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
-      return true;
-    }
-
-    return false;
-  }, []);
-
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -399,6 +376,7 @@ function Sidebar({ address }) {
         <NavContent address={address} />
 >>>>>>> refactored bond views
       </Drawer>
+<<<<<<< HEAD
       <div className="dapp-sidebar">
         <div className="dapp-menu-top">
           <div className="branding-header">
@@ -503,6 +481,8 @@ function Sidebar({ address }) {
           <Social />
         </div>
       </div>
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
     </div>
 >>>>>>> sidebar almost finished, just need to overide link colors and hover styles, stake page started
   );

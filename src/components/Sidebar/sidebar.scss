@@ -106,7 +106,6 @@
 .bond-discounts {
   text-align: left;
   color: #999999;
-<<<<<<< HEAD
   padding-left: 33px;
   margin-top: 8px;
   > p {
@@ -120,32 +119,6 @@
     .bond-pair-roi {
       float: right;
       margin-left: 33px;
-=======
-  padding-left: calc(16% + 36px);
-
-  p {
-    &:first-of-type {
-      margin-bottom: 8px;
-    }
-  }
-
-  .bond {
-    display: block;
-    font-size: .85em;
-    padding: unset;
-    margin-bottom: 0 0 1px 0;
-    border-bottom: 2px solid transparent;
-
-    &:hover {
-      text-decoration: none;
-      border-bottom-color: rgba(255, 255, 255, 1);
-    }
-
-    span {
-      margin-left: 23px;
-      float: right;
-      border-bottom: 0 !important;
->>>>>>> Convert bond discounts to links (#173)
     }
   }
 }

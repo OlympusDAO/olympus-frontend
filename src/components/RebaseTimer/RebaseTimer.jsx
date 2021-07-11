@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from "react";
 import { useSelector } from "react-redux";
 =======
@@ -12,10 +13,13 @@ import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helper
 =======
 =======
 >>>>>>> Linting fixes
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 import { useSelector } from "react-redux";
 import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import { Box, Typography } from "@material-ui/core";
 import "./rebasetimer.scss";
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 =======
@@ -26,6 +30,8 @@ import "./rebasetimer.scss";
 import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
 >>>>>>> Linting fixes
 >>>>>>> Linting fixes
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 
 function RebaseTimer() {
   const currentBlock = useSelector(state => {
@@ -38,8 +44,6 @@ function RebaseTimer() {
       const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
       return prettifySeconds(seconds);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
   };
 
   return (
@@ -55,6 +59,7 @@ function RebaseTimer() {
         <strong>{timeUntilRebase()}</strong> to next rebase
       </Typography>
     </Box>
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 =======
@@ -80,6 +85,8 @@ function RebaseTimer() {
     </div>
 >>>>>>> Linting fixes
 >>>>>>> Linting fixes
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
   );
 }
 

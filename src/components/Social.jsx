@@ -3,6 +3,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import useTheme from "../hooks/useTheme";
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
@@ -17,6 +18,8 @@ import { SvgIcon, makeStyles } from "@material-ui/core";
 >>>>>>> Open social links in new tab
 =======
 >>>>>>> Linting fixes
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 import { SvgIcon, Link } from "@material-ui/core";
 <<<<<<< HEAD
 >>>>>>> link hover styles no underline
@@ -88,6 +91,7 @@ function Social() {
         <SvgIcon color="primary" component={Discord} />
       </Link>
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> link hover styles no underline
     </div>
   );
@@ -125,3 +129,10 @@ export default function Social() {
 >>>>>>> Open social links in new tab
 =======
 >>>>>>> Linting fixes
+=======
+    </div>
+  );
+}
+
+export default Social;
+>>>>>>> rebased from develop. everything appears to work except rebase timer

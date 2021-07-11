@@ -5,6 +5,7 @@ module.exports = {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   parserOptions: {
     ecmaVersion: 12,
     sourceType: "module",
@@ -21,10 +22,13 @@ module.exports = {
 >>>>>>> commented out airbnb in eslint
 =======
 >>>>>>> Linting fixes
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
   extends: [/*"airbnb", */ "plugin:prettier/recommended", "prettier/react"],
   plugins: ["babel"],
   rules: {
     "prettier/prettier": ["warn"],
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
@@ -55,6 +59,8 @@ module.exports = {
     "prettier/prettier": ["error"],
 >>>>>>> Linting fixes
 >>>>>>> Linting fixes
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
     // "import/extensions": [
     //   "error",
     //   "ignorePackages",
@@ -65,21 +71,6 @@ module.exports = {
     //     tsx: "never",
     //   },
     // ],
-<<<<<<< HEAD
-=======
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        js: "never",
-        jsx: "never",
-        ts: "never",
-        tsx: "never",
-      },
-    ],
->>>>>>> updated eslint to 7.29 and changed prettier config to warn
-=======
->>>>>>> commented out airbnb in eslint
     "import/prefer-default-export": "off",
     "prefer-destructuring": "off",
     "prefer-template": "off",

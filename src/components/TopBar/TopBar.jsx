@@ -4,6 +4,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState } from "react";
 =======
 import React from 'react';
@@ -142,28 +143,16 @@ import { makeStyles } from "@material-ui/core/styles";
 >>>>>>> Implemented wallet token integration
 =======
 >>>>>>> Implement new menu design and only show add token when eth api is available
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 import { AppBar, Toolbar, Box, Button, Link, IconButton, SvgIcon } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-=======
-import React, { Fragment } from "react";
-// import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import { useSelector, useDispatch } from 'react-redux';
-// import Web3Modal from "web3modal";
-import { shorten } from '../../helpers';
-import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
-import { Flex } from "rimble-ui";
->>>>>>> Implemented wallet token integration
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/v1.2/hamburger.svg";
 import OhmMenu from "./OhmMenu.jsx";
 import ThemeSwitcher from "./ThemeSwitch.jsx";
-=======
-import React, { useState } from "react";
-import { Flex } from "rimble-ui";
-import InfoIcon from "@material-ui/icons/Info";
-import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
->>>>>>> Implement new menu design and only show add token when eth api is available
 import "./topbar.scss";
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -279,6 +268,9 @@ const ohmMenu = (isShown = false, theme = "light", isBigScreen = false, networkI
 >>>>>>> Implement new menu design and only show add token when eth api is available
 
 <<<<<<< HEAD
+=======
+
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 const useStyles = makeStyles(theme => ({
   appBar: {
     [theme.breakpoints.up("sm")]: {
@@ -299,7 +291,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-<<<<<<< HEAD
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
   const classes = useStyles();
 <<<<<<< HEAD
@@ -307,6 +298,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 =======
   const isVerySmallScreen = useMediaQuery("(max-width: 433px)");
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
 =======
@@ -339,11 +331,14 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
   });
 >>>>>>> Use networkID
 >>>>>>> Use networkID
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 
   const modalButtons = [];
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -394,6 +389,8 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 =======
 =======
 >>>>>>> Implement new menu design and only show add token when eth api is available
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
         <Button variant="contained" color="secondary" size="large" onClick={logoutOfWeb3Modal} key={1}>
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
           Disconnect
@@ -404,6 +401,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
         <Button variant="contained" color="secondary" size="large" onClick={loadWeb3Modal} key={2}>
           Connect Wallet
         </Button>,
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 =======
@@ -424,11 +422,14 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
         </button>,
 >>>>>>> Implement new menu design and only show add token when eth api is available
 >>>>>>> Implement new menu design and only show add token when eth api is available
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
       );
     }
   }
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -521,6 +522,8 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 >>>>>>> Implemented wallet token integration
 =======
 >>>>>>> Implement new menu design and only show add token when eth api is available
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
       <Toolbar disableGutters className="dapp-topbar">
@@ -561,6 +564,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
         </Box>
       </Toolbar>
     </AppBar>
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 =======
@@ -658,6 +662,8 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
     </div>
 >>>>>>> Implemented wallet token integration
 >>>>>>> Implemented wallet token integration
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
   );
 }
 

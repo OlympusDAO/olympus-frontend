@@ -110,6 +110,7 @@ export const loadAppDetails =
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     if (!graphData || graphData == null) {
       console.error("Returned a null response when querying TheGraph");
       return;
@@ -153,22 +154,24 @@ export const loadAppDetails =
     const graphData = await apollo(protocolMetricsQuery);
 >>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
 =======
-    const graphData = await apollo(protocolMetricsQuery);
 =======
-    if (!graphData || graphData == null) {
-      console.error("Returned a null response when querying TheGraph");
-      return;
-    }
+>>>>>>> rebased from develop. everything appears to work except rebase timer
+    const graphData = await apollo(protocolMetricsQuery);
 
+<<<<<<< HEAD
 >>>>>>> updated to ohmCirculatingSupply
 >>>>>>> updated to ohmCirculatingSupply
     const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
+=======
+    let stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
+>>>>>>> rebased from develop. everything appears to work except rebase timer
     const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
     const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
-    // const currentBlock = parseFloat(graphData.data._meta.block.number);
+    // let currentBlock = parseFloat(graphData.data._meta.block.number);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -182,6 +185,8 @@ export const loadAppDetails =
 =======
 >>>>>>> short circuit provider not existing. feels bad
 >>>>>>> short circuit provider not existing. feels bad
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
     if (!provider) {
       console.error("failed to connect to provider, please connect your wallet");
       return dispatch(
@@ -190,12 +195,13 @@ export const loadAppDetails =
           marketPrice,
           marketCap,
           circSupply,
+          // currentBlock,
           totalSupply,
         }),
       );
     }
-<<<<<<< HEAD
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -239,6 +245,8 @@ export const loadAppDetails =
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 =======
 >>>>>>> dashboard tiles use graph queries from app state
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
     const currentBlock = await provider.getBlockNumber();
 >>>>>>> formatting
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
@@ -282,6 +290,7 @@ export const loadAppDetails =
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
     valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
@@ -311,24 +320,25 @@ export const loadAppDetails =
     markdown     = await bondCalculator.markdown(addressForAsset({bond: BONDS.ohm_frax, networkID}));
     let ohmFraxUSD   = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18))
 =======
+=======
+>>>>>>> rebased from develop. everything appears to work except rebase timer
     valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
     markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
->>>>>>> updated to ohmCirculatingSupply
 
     const treasuryBalance = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
     // Calculate TVL staked
-    let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
-    let ohmInOldStaking = await ohmContract.balanceOf(addresses[networkID].OLD_STAKING_ADDRESS);
-    const ohmInTreasury = ohmInNewStaking / Math.pow(10, 9) + ohmInOldStaking / Math.pow(10, 9);
+    // let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    // let ohmInOldStaking = await ohmContract.balanceOf(addresses[networkID].OLD_STAKING_ADDRESS);
+    // const ohmInTreasury = ohmInNewStaking / Math.pow(10, 9) + ohmInOldStaking / Math.pow(10, 9);
 
     // Calculate TVL staked
     // let ohmInTreasury = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
     // ohmInTreasury = ohmInTreasury / Math.pow(10, 9);
 
-
     // Get market price of OHM
+<<<<<<< HEAD
     const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
     const reserves = await pairContract.getReserves();
     const marketPrice = (reserves[1] / reserves[0]) / Math.pow(10, 9);
@@ -336,8 +346,13 @@ export const loadAppDetails =
     const stakingTVL = marketPrice * ohmInTreasury;
 >>>>>>> Add FRAX amount in treasury to total treasury bal.
 >>>>>>> Add FRAX amount in treasury to total treasury bal.
+=======
+    // const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
+    // const reserves = await pairContract.getReserves();
+>>>>>>> rebased from develop. everything appears to work except rebase timer
 
-    const treasuryBalance = daiAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
+    // marketPrice = reserves[1] / reserves[0] / Math.pow(10, 9);
+    // stakingTVL = marketPrice * ohmInTreasury;
 
     // Calculate TVL staked
     // let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);

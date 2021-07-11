@@ -28,6 +28,7 @@ function BondHeader({ bond }) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div className="ohm-pairs d-sm-flex d-none">
       {isBondLP(bond) && (
         <div className="ohm-pair" style={{ zIndex: 2 }}>
@@ -53,6 +54,9 @@ function BondHeader({ bond }) {
     <div className="ohm-pairs d-sm-flex d-none">
 >>>>>>> Linting fixes
 >>>>>>> Linting fixes
+=======
+    <div className="ohm-pairs">
+>>>>>>> rebased from develop. everything appears to work except rebase timer
       {isBondLP(bond) && (
         <div className="ohm-pair" style={{ zIndex: 2 }}>
           <div className="ohm-logo-bg">
