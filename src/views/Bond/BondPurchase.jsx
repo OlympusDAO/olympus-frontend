@@ -125,7 +125,7 @@ function BondPurchase({ provider, address, bond, slippage }) {
 
   return (
     <Box display="flex" flexDirection="column">
-      <Box display="flex" justifyContent="space-around">
+      <Box display="flex" justifyContent="space-around" flexWrap="wrap">
         <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
           <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
           <OutlinedInput
