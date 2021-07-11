@@ -130,10 +130,11 @@ function BondPurchase({ provider, address, bond, slippage }) {
           <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
           <OutlinedInput
             id="outlined-adornment-amount"
+            type="number"
             value={quantity}
             onChange={e => setQuantity(e.target.value)}
             // startAdornment={<InputAdornment position="start">$</InputAdornment>}
-            labelWidth={70}
+            labelWidth={55}
             endAdornment={
               <InputAdornment position="end">
                 <Button variant="text" onClick={setMax}>

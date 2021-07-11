@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState } from "react";
 =======
 import React from 'react';
@@ -133,11 +134,14 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 =======
 import { makeStyles } from "@material-ui/core/styles";
 =======
+=======
+>>>>>>> staking updated with current index, button links fixed, bond cards styled
 import { AppBar, Toolbar, Box, Button, Link, IconButton, SvgIcon } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/v1.2/hamburger.svg";
 import OhmMenu from "./OhmMenu.jsx";
+import ThemeSwitcher from "./ThemeSwitch.jsx";
 import "./topbar.scss";
 >>>>>>> top bar ohm info button integrated and refactored
 
@@ -328,16 +332,20 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
       <Toolbar disableGutters className="dapp-topbar">
-        <IconButton
+        <Button
+          id="hamburger"
           color="inherit"
           aria-label="open drawer"
           edge="start"
+          size="large"
+          variant="contained"
+          color="secondary"
           onClick={handleDrawerToggle}
           className={classes.menuButton}
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
         >
           <SvgIcon component={MenuIcon} />
-        </IconButton>
+        </Button>
 
         <Box display="flex">
           {!isVerySmallScreen && <OhmMenu />}

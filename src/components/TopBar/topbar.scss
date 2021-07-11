@@ -50,12 +50,16 @@
     overflow: hidden !important;
     margin: 8px !important;
     min-width: fit-content !important;
+    &#hamburger {
+      padding: 11px !important;
+    }
   }
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 }
 .tablet .dapp-topbar {
   justify-content: space-between;
 }
+<<<<<<< HEAD
 .get-ohm-button {
   a {
     display: block;
@@ -177,3 +181,5 @@
 }
 =======
 >>>>>>> styled top bar/buttons, copied over light and girth theme (need work) and removed more redundnacy
+=======
+>>>>>>> staking updated with current index, button links fixed, bond cards styled

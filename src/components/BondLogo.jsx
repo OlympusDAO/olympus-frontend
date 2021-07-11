@@ -1,11 +1,14 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import React from 'react';
 >>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
 =======
 import React from "react";
 >>>>>>> imported new icons (still need to implement), cformatted files to clear prettier warnings, still need to fix advanced settings and style input fields
+=======
+>>>>>>> staking updated with current index, button links fixed, bond cards styled
 import { isBondLP } from "../helpers";
 
 function BondHeader({ bond }) {
@@ -23,6 +26,7 @@ function BondHeader({ bond }) {
 
   return (
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div className="ohm-pairs d-sm-flex d-none">
       {isBondLP(bond) && (
         <div className="ohm-pair" style={{ zIndex: 2 }}>
@@ -39,6 +43,9 @@ function BondHeader({ bond }) {
         />
 >>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
 =======
+=======
+    <div className="ohm-pairs">
+>>>>>>> staking updated with current index, button links fixed, bond cards styled
       {isBondLP(bond) && (
         <div className="ohm-pair" style={{ zIndex: 2 }}>
           <div className="ohm-logo-bg">

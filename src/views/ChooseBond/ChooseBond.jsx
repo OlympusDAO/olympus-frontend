@@ -32,10 +32,13 @@ import {
 } from "@material-ui/core";
 import { BondTableData, BondDataCard } from "./BondRow";
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 =======
 import ClaimBonds from "./ClaimBonds";
 >>>>>>> imported new icons and got them working with theme colors
+=======
+>>>>>>> staking updated with current index, button links fixed, bond cards styled
 import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
@@ -238,7 +241,6 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
-      {/* <ClaimBonds /> */}
       <Paper className="ohm-card">
         <Box className="card-header">
           <Typography variant="h5">Bond (1,1)</Typography>
