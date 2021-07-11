@@ -92,7 +92,7 @@ export function BondTableData({ bond }) {
             <Link color="primary" href={lpURL(bond)} target="_blank">
               <Typography variant="body1">
                 View Contract
-                <SvgIcon component={ArrowUp} color="primary" />
+                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
               </Typography>
             </Link>
           )}

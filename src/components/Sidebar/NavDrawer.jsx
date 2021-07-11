@@ -11,8 +11,6 @@ const useStyles = makeStyles(theme => ({
       flexShrink: 0,
     },
   },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
   },
@@ -27,6 +25,7 @@ function NavDrawer({ mobileOpen, handleDrawerToggle, address }) {
       anchor={"left"}
       open={mobileOpen}
       onClose={handleDrawerToggle}
+      onClick={handleDrawerToggle}
       classes={{
         paper: classes.drawerPaper,
       }}
