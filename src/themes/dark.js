@@ -123,12 +123,19 @@ export const dark = responsiveFontSizes(
               backgroundColor: darkTheme.primaryButtonHoverBG,
               color: darkTheme.primaryButtonHoverColor,
             },
+            "&:active": {
+              backgroundColor: darkTheme.primaryButtonHoverBG,
+              color: darkTheme.primaryButtonHoverColor,
+            },
           },
           containedSecondary: {
             backgroundColor: darkTheme.paperBg,
             color: darkTheme.color,
             "&:hover": {
               backgroundColor: darkTheme.secondaryButtonHoverBG,
+            },
+            "&:active": {
+              backgroundColor: darkTheme.primaryButtonHoverBG,
             },
           },
           outlinedPrimary: {
