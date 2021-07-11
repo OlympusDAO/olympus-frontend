@@ -28,6 +28,7 @@ const darkTheme = {
   outlinedPrimaryButtonHoverColor: "#333333",
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
+  containedSecondaryButtonHoverBG: "#363840",
 };
 
 export const dark = responsiveFontSizes(
@@ -136,10 +137,13 @@ export const dark = responsiveFontSizes(
             backgroundColor: darkTheme.paperBg,
             color: darkTheme.color,
             "&:hover": {
-              backgroundColor: darkTheme.secondaryButtonHoverBG,
+              backgroundColor: darkTheme.containedSecondaryButtonHoverBG,
             },
             "&:active": {
-              backgroundColor: darkTheme.primaryButtonHoverBG,
+              backgroundColor: darkTheme.containedSecondaryButtonHoverBG,
+            },
+            "&:focus": {
+              backgroundColor: darkTheme.paperBg,
             },
           },
           outlinedPrimary: {
