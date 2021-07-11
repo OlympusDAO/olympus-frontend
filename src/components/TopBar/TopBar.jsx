@@ -52,7 +52,6 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
       <Toolbar disableGutters className="dapp-topbar">
         <Button
           id="hamburger"
-          color="inherit"
           aria-label="open drawer"
           edge="start"
           size="large"
