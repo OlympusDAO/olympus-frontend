@@ -1,9 +1,10 @@
 import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
-import { AppBar, Toolbar, Box, Button, Link, IconButton } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "./topbar.scss";
+import { AppBar, Toolbar, Box, Button, Link, IconButton, SvgIcon } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { ReactComponent as MenuIcon } from "../../assets/icons/v1.2/hamburger.svg";
+import OhmMenu from "./OhmMenu.jsx";
+import "./topbar.scss";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -58,27 +59,11 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
           onClick={handleDrawerToggle}
           className={classes.menuButton}
         >
-          <MenuIcon />
+          <SvgIcon component={MenuIcon} />
         </IconButton>
 
         <Box display="flex">
-          {!isVerySmallScreen && (
-            <Button
-              id="get-ohm"
-              className="get-ohm-button"
-              size="large"
-              variant="contained"
-              color="secondary"
-              title="Get OHM"
-            >
-              <Link
-                href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
-                target="_blank"
-              >
-                Get OHM
-              </Link>
-            </Button>
-          )}
+          {!isVerySmallScreen && <OhmMenu />}
 
           <div className="wallet-menu" id="wallet-menu">
             {modalButtons}

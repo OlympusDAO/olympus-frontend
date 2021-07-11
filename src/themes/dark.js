@@ -15,6 +15,7 @@ const darkTheme = {
     "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
   paperBg: "rgba(54, 56, 64, 0.5)",
   modalBg: "rgba(27, 29, 34, 0.8)",
+  menuBg: "#36384080",
   largeTextColor: "#F4D092",
   activeLinkColor: "#F5DDB4",
   activeLinkSvgColor:
@@ -75,6 +76,10 @@ export const dark = responsiveFontSizes(
           root: {
             "&.ohm-modal": {
               backgroundColor: darkTheme.modalBg,
+            },
+            "&.ohm-menu": {
+              backgroundColor: darkTheme.menuBg,
+              backdropFilter: "blur(60px)",
             },
           },
         },
