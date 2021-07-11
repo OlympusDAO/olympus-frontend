@@ -50,7 +50,7 @@ function BondRedeem({ provider, address, bond }) {
 
   return (
     <>
-      <Box display="flex" justifyContent="space-evenly">
+      <Box display="flex" justifyContent="space-evenly" flexWrap="wrap">
         <Button
           variant="contained"
           color="primary"

@@ -110,6 +110,10 @@ export const dark = responsiveFontSizes(
             "&:hover": {
               backgroundColor: darkTheme.secondaryButtonHoverBG,
             },
+            "&:active": {
+              backgroundColor: darkTheme.primaryButtonHoverBG,
+              color: darkTheme.primaryButtonHoverColor,
+            },
             selected: {
               backgroundColor: darkTheme.secondaryButtonHoverBG,
             },

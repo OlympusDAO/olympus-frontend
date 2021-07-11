@@ -5,8 +5,8 @@
   z-index: 69;
   .MuiBackdrop-root {
     background: rgba(0, 0, 0, 0.2) !important;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
     .ohm-card {
       opacity: 1 !important;
       -moz-opacity: 1 !important;
@@ -65,6 +65,8 @@
 
 .transaction-button {
   min-width: 185px !important;
+  max-width: 408px;
+  width: 100%;
   margin: 5px !important;
 }
 
