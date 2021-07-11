@@ -379,7 +379,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
         <div className="card-header">
-          <Typography variant="h5">Farm Pools</Typography>
+          <Typography variant="h5">Farm Pool</Typography>
         </div>
         <div className="card-content">
           {!isSmallScreen ? (
