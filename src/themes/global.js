@@ -77,12 +77,17 @@ const commonSettings = {
         "&.ohm-card": {
           padding: "20px 20px 20px 20px",
           borderRadius: "10px",
-          backdropFilter: "blur(60px)",
           maxWidth: "833px",
           minWidth: "333px",
           width: "97%",
           marginBottom: "1.8rem",
           borderRadius: "10px",
+          backdropFilter: "blur(60px)",
+        },
+        "&.ohm-menu": {
+          padding: "22px 20px",
+          borderRadius: "10px",
+          margin: "0px",
         },
       },
     },
