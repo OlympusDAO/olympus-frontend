@@ -24,8 +24,6 @@ const useStyles = makeStyles(theme => ({
       display: "none",
     },
   },
-  // necessary for content to be below app bar
-  // toolbar: theme.mixins.toolbar,
 }));
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {

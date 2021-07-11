@@ -7,12 +7,22 @@
     margin: 0 !important;
     line-height: 110% !important;
   }
+
+  .stake-tab-panel,
+  .stake-tab-panel > div.MuiBox-root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    width: 100%;
+    padding: 0;
+  }
 }
 
-.migrate-sohm-button a {
+.migrate-sohm-button {
   position: absolute;
   right: 20px;
-  top: 12px;
+  top: 20px;
   font-size: 1em;
   display: flex;
   align-items: center;
@@ -20,10 +30,11 @@
   line-height: 30px;
   svg {
     margin-right: 8px;
+    color: inherit;
   }
 }
 
-.migrate-sohm-button.complete a {
+.migrate-sohm-button.complete {
   color: #35ee66 !important;
 }
 
@@ -61,12 +72,6 @@
   }
 }
 
-.stake-toggle-row {
-  margin: 1rem auto;
-  width: 100%;
-  display: block;
-}
-
 .ohm-logo-bg {
   height: 25px;
   width: 25px;
@@ -80,15 +85,18 @@
 }
 
 .ohm-logo-tiny {
-  height: 15px;
-  width: 15px;
+  height: 14px;
+  width: 14px;
   vertical-align: middle;
   background-color: transparent;
+  align-self: center;
+  justify-self: center;
 }
 
 .logo-holder {
   align-items: center;
   justify-content: center;
+  text-align: center;
   display: flex;
   background: none;
   border: 0 !important;
@@ -104,21 +112,26 @@
   justify-content: space-around;
 }
 
-.ohm-input {
-  margin: 5px !important;
-  width: 69%;
+.stake-tab-buttons {
+  margin-bottom: 20px;
+}
+
+.mobile .ohm-input,
+.tablet .ohm-input {
+  margin-bottom: 13px;
   max-width: 542px;
 }
 
 .stake-button {
-  min-width: 185px;
-  margin: 5px !important;
+  margin: auto;
 }
 
 .mobile .stake-button,
 .tablet .stake-button {
   width: 100% !important;
   max-width: 542px;
+  align-self: center;
+  justify-self: center;
 }
 
 .staking-area {

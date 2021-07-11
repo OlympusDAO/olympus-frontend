@@ -11,6 +11,8 @@ import {
   OutlinedInput,
   Button,
   SvgIcon,
+  Tab,
+  Tabs,
   TableHead,
   TableCell,
   TableBody,
@@ -22,6 +24,7 @@ import {
 import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
+import TabPanel from "../../components/TabPanel";
 import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
@@ -30,12 +33,18 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg"
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
 function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const dispatch = useDispatch();
 
-  const [view, setView] = useState("stake");
+  const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
-  const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
 
   const isSmallScreen = useMediaQuery("(max-width: 960px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -131,8 +140,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     );
   }
 
-  const openMigrationWizard = () => {
-    setMigrationWizardOpen(true);
+  const changeView = (event, newView) => {
+    setView(newView);
   };
 
   return (
@@ -145,30 +154,21 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               <RebaseTimer />
 
               {address && oldSohmBalance > 0.01 && (
-                <div
-                  className="migrate-sohm-button"
-                  role="button"
-                  aria-label="migrate-sohm"
-                  onClick={openMigrationWizard}
-                >
-                  <NavLink to="/stake/migrate">
-                    <NewReleases />
-                    Migrate sOHM
-                  </NavLink>
-                </div>
+                <Link className="migrate-sohm-button" component={NavLink} to="/stake/migrate" aria-label="migrate-sohm">
+                  <NewReleases viewBox="0 0 24 24" />
+                  <Typography>Migrate sOHM</Typography>
+                </Link>
               )}
               {address && oldSohmBalance < 0.01 && (
-                <div
+                <Link
+                  component={NavLink}
+                  to="/stake/migrate"
                   className="migrate-sohm-button complete"
-                  role="button"
                   aria-label="migrate-sohm-complete"
-                  onClick={openMigrationWizard}
                 >
-                  <NavLink to="/stake/migrate">
-                    <CheckCircleIcon />
-                    sOHM Migrated
-                  </NavLink>
-                </div>
+                  <CheckCircleIcon viewBox="0 0 24 24" />
+                  <Typography>sOHM Migrated</Typography>
+                </Link>
               )}
             </div>
           </Grid>
@@ -226,28 +226,20 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               </div>
             ) : (
               <>
-                <div className="stake-toggle-row">
-                  <Button
-                    variant="text"
-                    color="primary"
-                    onClick={() => {
-                      setView("stake");
-                    }}
-                  >
-                    Stake
-                  </Button>
-                  <Button
-                    variant="text"
-                    color="primary"
-                    onClick={() => {
-                      setView("unstake");
-                    }}
-                  >
-                    Unstake
-                  </Button>
-                </div>
-
                 <Box className="stake-action-row">
+                  <Tabs
+                    centered
+                    value={view}
+                    textColor="primary"
+                    indicatorColor="primary"
+                    className="stake-tab-buttons"
+                    onChange={changeView}
+                    aria-label="stake tabs"
+                  >
+                    <Tab label="Stake" {...a11yProps(0)} />
+                    <Tab label="Untake" {...a11yProps(0)} />
+                  </Tabs>
+
                   <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
                     <InputLabel htmlFor="amount-input"></InputLabel>
                     <OutlinedInput
@@ -280,63 +272,64 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     />
                   </FormControl>
 
-                  {address && hasAllowance("ohm") && view === "stake" && (
-                    <Button
-                      className="stake-button"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        onChangeStake("stake");
-                        pending();
-                      }}
-                    >
-                      Stake OHM
-                    </Button>
-                  )}
+                  <TabPanel value={view} index={0} className="stake-tab-panel">
+                    {address && hasAllowance("ohm") ? (
+                      <Button
+                        className="stake-button"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={() => {
+                          onChangeStake("stake");
+                        }}
+                      >
+                        Stake OHM
+                      </Button>
+                    ) : (
+                      <Button
+                        className="stake-button"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={() => {
+                          onSeekApproval("ohm");
+                        }}
+                      >
+                        Approve Stake
+                      </Button>
+                    )}
+                  </TabPanel>
 
-                  {address && hasAllowance("sohm") && view === "unstake" && (
-                    <Button
-                      className="stake-button"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        onChangeStake("unstake");
-                      }}
-                    >
-                      Unstake OHM
-                    </Button>
-                  )}
+                  <TabPanel value={view} index={1} className="stake-tab-panel">
+                    {address && hasAllowance("sohm") ? (
+                      <Button
+                        className="stake-button"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={() => {
+                          onChangeStake("unstake");
+                        }}
+                      >
+                        Unstake OHM
+                      </Button>
+                    ) : (
+                      <Button
+                        className="stake-button"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        onClick={() => {
+                          onSeekApproval("sohm");
+                        }}
+                      >
+                        Approve Unstake
+                      </Button>
+                    )}
+                  </TabPanel>
 
-                  {address && !hasAllowance("ohm") && view === "stake" && (
-                    <Button
-                      className="stake-button"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        onSeekApproval("ohm");
-                      }}
-                    >
-                      Approve Stake
-                    </Button>
-                  )}
-
-                  {address && !hasAllowance("sohm") && view === "unstake" && (
-                    <Button
-                      className="stake-button"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        onSeekApproval("sohm");
-                      }}
-                    >
-                      Approve Unstake
-                    </Button>
-                  )}
-                </Box>
-
-                <div className="help-text">
-                  {address &&
-                    ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
+                  <div className="help-text">
+                    {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
                       <em>
                         <Typography variant="body2">
                           Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
@@ -345,7 +338,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                         </Typography>
                       </em>
                     )}
-                </div>
+                  </div>
+                </Box>
 
                 <div className={`stake-user-data`}>
                   <div className="data-row">

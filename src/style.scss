@@ -100,3 +100,7 @@ body {
     -webkit-appearance: none !important;
   }
 }
+
+a:hover svg {
+  color: inherit;
+}
