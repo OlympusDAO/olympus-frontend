@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import React from "react";
->>>>>>> Linting fixes
 import OlympusLogo from "../../assets/logo.svg";
 import "./notfound.scss";
 

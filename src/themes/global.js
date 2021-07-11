@@ -139,6 +139,7 @@ const commonSettings = {
         border: 0,
         borderRadius: "5px",
         margin: "8px",
+        padding: "10px",
       },
     },
     MuiButton: {

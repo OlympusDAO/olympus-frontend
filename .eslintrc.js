@@ -2,32 +2,10 @@ module.exports = {
   env: {
     browser: true,
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
   extends: [/*"airbnb", */ "plugin:prettier/recommended", "prettier/react"],
   plugins: ["babel"],
   rules: {
     "prettier/prettier": ["warn"],
-<<<<<<< HEAD
-=======
-  extends: [/*"airbnb"*/ "plugin:prettier/recommended", "prettier/react"],
-  plugins: ["babel"],
-  rules: {
-    "prettier/prettier": ["warn"],
->>>>>>> commented out airbnb in eslint
-=======
-  parserOptions: {
-    ecmaVersion: 12,
-    sourceType: "module",
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
-  extends: ["plugin:prettier/recommended", "prettier/react"],
-  plugins: ["prettier"],
-  rules: {
-    "prettier/prettier": ["error"],
->>>>>>> Linting fixes
     // "import/extensions": [
     //   "error",
     //   "ignorePackages",
@@ -38,21 +16,6 @@ module.exports = {
     //     tsx: "never",
     //   },
     // ],
-<<<<<<< HEAD
-=======
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        js: "never",
-        jsx: "never",
-        ts: "never",
-        tsx: "never",
-      },
-    ],
->>>>>>> updated eslint to 7.29 and changed prettier config to warn
-=======
->>>>>>> commented out airbnb in eslint
     "import/prefer-default-export": "off",
     "prefer-destructuring": "off",
     "prefer-template": "off",

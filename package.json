@@ -31,8 +31,8 @@
     "@popperjs/core": "^2.9.2",
     "@ramp-network/ramp-instant-sdk": "^2.2.0",
     "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.1.9",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.8",
     "@uniswap/sdk": "^3.0.3",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "@walletconnect/web3-provider": "^1.3.1",
@@ -53,12 +53,9 @@
     "isomorphic-fetch": "^3.0.0",
     "lodash": "^4.17.21",
     "material-ui": "^0.20.2",
-<<<<<<< HEAD
     "node-sass": "5.0.0",
-=======
->>>>>>> commented out airbnb in eslint
     "node-watch": "^0.7.1",
-    "postcss": "^8.3.5",
+    "postcss": "^8.2.6",
     "qrcode.react": "^1.0.0",
     "react": "^16.14.0",
     "react-blockies": "^1.4.1",
@@ -83,11 +80,7 @@
     "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^10.2.4",
     "chalk": "^4.1.0",
-<<<<<<< HEAD
-    "eslint": "7.29.0",
-=======
     "eslint": "^7.29.0",
->>>>>>> Bump eslint from 6.8.0 to 7.29.0
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-babel": "^5.3.1",
