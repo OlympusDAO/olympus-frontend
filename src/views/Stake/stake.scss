@@ -17,7 +17,14 @@
     justify-items: center;
     width: 100%;
     padding: 0;
-    margin-top: 10px;
+  }
+
+  .ohm-card .header {
+    min-height: 3em;
+  }
+  .ohm-card.secondary .card-header {
+    min-height: 33px !important;
+    height: 20px;
   }
 }
 
@@ -125,6 +132,7 @@
   margin: auto;
   align-self: center;
   max-width: 542px;
+  margin-top: 10px;
 }
 
 .mobile .stake-button,
@@ -133,6 +141,7 @@
   max-width: 542px;
   align-self: center;
   justify-self: center;
+  margin-top: 10px;
 }
 
 .staking-area {
@@ -158,6 +167,11 @@
   }
 }
 
+.stake-user-data {
+  max-width: 633px;
+  justify-content: center;
+}
+
 .tablet .stake-table button {
   padding: 0.4rem 1.7rem;
   width: 8rem;
@@ -165,21 +179,11 @@
 
 .tablet .stake-pool,
 .mobile .stake-pool {
-  border: 1px solid #f4d09222;
-  border-radius: 5px;
-  padding: 1.69rem 1.69rem;
   .pool-card-top-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    &.small {
-      justify-content: center;
-      align-items: center;
-      .ohm-pairs {
-        margin-bottom: 5px;
-      }
-    }
     .ohm-pairs p {
       margin-bottom: 0 !important;
     }
@@ -201,7 +205,7 @@
     }
   }
   .stake-lp-button {
-    min-width: 195px !important;
+    margin-top: 10px;
     svg {
       margin-left: 18px !important;
     }

@@ -10,12 +10,12 @@ const useStyles = makeStyles(theme => ({
   appBar: {
     [theme.breakpoints.up("sm")]: {
       width: "100%",
+      padding: "10px",
     },
     justifyContent: "flex-end",
     alignItems: "flex-end",
     background: "transparent",
     backdropFilter: "none",
-    padding: "10px",
     zIndex: 10,
   },
   menuButton: {

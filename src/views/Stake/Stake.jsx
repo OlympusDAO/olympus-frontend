@@ -46,7 +46,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
 
-  const isSmallScreen = useMediaQuery("(max-width: 960px)");
+  const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const currentIndex = useSelector(state => {
@@ -452,18 +452,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   </div>
                   <Typography gutterBottom={false}>OHM-FRAX</Typography>
                 </Box>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
-                  target="_blank"
-                  className="stake-lp-button"
-                >
-                  <Typography variant="h6">
-                    Stake on FRAX
-                    <SvgIcon component={ArrowUp} color="primary" />
-                  </Typography>
-                </Button>
               </div>
               <div className="pool-data">
                 <div className="data-row">
@@ -487,6 +475,20 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <Typography>Balance</Typography>
                   <Typography>{(fraxData && fraxData.balance) || 0} LP</Typography>
                 </div>
+
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
+                  target="_blank"
+                  className="stake-lp-button"
+                  fullWidth
+                >
+                  <Typography variant="h6">
+                    Stake on FRAX
+                    <SvgIcon component={ArrowUp} color="primary" />
+                  </Typography>
+                </Button>
               </div>
             </div>
           )}

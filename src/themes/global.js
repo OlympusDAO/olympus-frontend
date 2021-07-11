@@ -193,12 +193,12 @@ const commonSettings = {
     },
   },
   props: {
+    MuiButtonBase: {
+      disableRipple: true,
+    },
     MuiButton: {
       disableElevation: true,
       disableFocusRipple: true,
-      disableRipple: true,
-    },
-    MuiIconButton: {
       disableRipple: true,
     },
     MuiTextButton: {
