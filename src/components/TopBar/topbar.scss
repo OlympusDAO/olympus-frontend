@@ -6,15 +6,11 @@
     overflow: hidden !important;
     margin: 8px !important;
     min-width: fit-content !important;
+    &#hamburger {
+      padding: 11px !important;
+    }
   }
 }
 .tablet .dapp-topbar {
   justify-content: space-between;
-}
-.get-ohm-button {
-  a {
-    display: block;
-    white-space: nowrap;
-    text-decoration: none !important;
-  }
 }

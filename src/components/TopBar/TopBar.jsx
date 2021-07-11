@@ -1,9 +1,9 @@
-import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
 import { AppBar, Toolbar, Box, Button, Link, IconButton, SvgIcon } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/v1.2/hamburger.svg";
 import OhmMenu from "./OhmMenu.jsx";
+import ThemeSwitcher from "./ThemeSwitch.jsx";
 import "./topbar.scss";
 
 const useStyles = makeStyles(theme => ({
@@ -52,15 +52,19 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
   return (
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
       <Toolbar disableGutters className="dapp-topbar">
-        <IconButton
+        <Button
+          id="hamburger"
           color="inherit"
           aria-label="open drawer"
           edge="start"
+          size="large"
+          variant="contained"
+          color="secondary"
           onClick={handleDrawerToggle}
           className={classes.menuButton}
         >
           <SvgIcon component={MenuIcon} />
-        </IconButton>
+        </Button>
 
         <Box display="flex">
           {!isVerySmallScreen && <OhmMenu />}

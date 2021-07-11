@@ -40,6 +40,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const isSmallScreen = useMediaQuery("(max-width: 960px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
+  const currentIndex = useSelector(state => {
+    return state.app.currentIndex;
+  });
   const fraxData = useSelector(state => {
     return state.fraxData;
   });
@@ -173,28 +176,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
           <Grid item>
             <div className="stake-top-metrics">
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} lg={4}>
-                  <div className="olympus-sushi">
-                    <div>
-                      <img
-                        className="olympus-logo"
-                        src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                      />
-                      <Typography variant="h4">Olympus</Typography>
-                    </div>
-                    <div>
-                      <Link
-                        color="textPrimary"
-                        href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899"
-                        target="_blank"
-                      >
-                        Buy on Sushiswap
-                      </Link>
-                      <SvgIcon component={ArrowUp} color="primary" />
-                    </div>
-                  </div>
-                </Grid>
-
                 <Grid item xs={6} sm={6} lg={4}>
                   <div className="stake-apy">
                     <Typography variant="h5" color="textSecondary">
@@ -218,6 +199,15 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                           minimumFractionDigits: 0,
                         }).format(stakingTVL)}
                     </Typography>
+                  </div>
+                </Grid>
+
+                <Grid item xs={6} sm={6} lg={4}>
+                  <div className="stake-index">
+                    <Typography variant="h5" color="textSecondary">
+                      Current Index
+                    </Typography>
+                    <Typography variant="h4">{currentIndex && trim(currentIndex, 1)} OHM</Typography>
                   </div>
                 </Grid>
               </Grid>

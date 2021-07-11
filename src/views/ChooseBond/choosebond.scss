@@ -33,14 +33,13 @@
       .bond-name {
         svg {
           margin-left: 5px;
+          vertical-align: middle;
+          font-size: 15px;
         }
       }
     }
-    .bond-price,
-    .bond-discount {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 15px;
+    .data-row {
+      margin-bottom: 20px;
     }
     .bond-link {
       margin-top: 10px;
