@@ -294,6 +294,7 @@ const useStyles = makeStyles(theme => ({
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
   const classes = useStyles();
 <<<<<<< HEAD
+<<<<<<< HEAD
   const isVerySmallScreen = useMediaQuery("(max-width: 600px)");
 >>>>>>> top bar nearly done, sidebar refactored (mostly) to use material ui drawer, bootstrap removed, sidebar styled, typography implemented
 =======
@@ -333,6 +334,9 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, theme, t
 >>>>>>> Use networkID
 =======
 >>>>>>> rebased from develop. everything appears to work except rebase timer
+=======
+  const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
+>>>>>>> top bar positioning and disapearing ohm button fixed
 
   const modalButtons = [];
   if (web3Modal) {
