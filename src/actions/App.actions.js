@@ -36,26 +36,15 @@ export const loadAppDetails =
       }
     `;
 
-<<<<<<< HEAD
     const graphData = await apollo(protocolMetricsQuery);
-=======
-    if (!graphData || graphData == null) {
-      console.error("Returned a null response when querying TheGraph");
-      return;
-    }
 
->>>>>>> updated to ohmCirculatingSupply
-    const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
+    let stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
     const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
     const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
-    // const currentBlock = parseFloat(graphData.data._meta.block.number);
+    // let currentBlock = parseFloat(graphData.data._meta.block.number);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> short circuit provider not existing. feels bad
     if (!provider) {
       console.error("failed to connect to provider, please connect your wallet");
       return dispatch(
@@ -64,16 +53,12 @@ export const loadAppDetails =
           marketPrice,
           marketCap,
           circSupply,
+          // currentBlock,
           totalSupply,
         }),
       );
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> updated to ohmCirculatingSupply
-=======
->>>>>>> short circuit provider not existing. feels bad
     const currentBlock = await provider.getBlockNumber();
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
@@ -100,42 +85,27 @@ export const loadAppDetails =
 
     token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
     let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-<<<<<<< HEAD
-<<<<<<< HEAD
     valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
     markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
-=======
-    valuation    = await bondCalculator.valuation(addressForAsset({bond: BONDS.ohm_frax, networkID}), ohmFraxAmount);
-    markdown     = await bondCalculator.markdown(addressForAsset({bond: BONDS.ohm_frax, networkID}));
-    let ohmFraxUSD   = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18))
-=======
-    valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
-    markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
-    let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
->>>>>>> updated to ohmCirculatingSupply
 
     const treasuryBalance = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
     // Calculate TVL staked
-    let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
-    let ohmInOldStaking = await ohmContract.balanceOf(addresses[networkID].OLD_STAKING_ADDRESS);
-    const ohmInTreasury = ohmInNewStaking / Math.pow(10, 9) + ohmInOldStaking / Math.pow(10, 9);
+    // let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    // let ohmInOldStaking = await ohmContract.balanceOf(addresses[networkID].OLD_STAKING_ADDRESS);
+    // const ohmInTreasury = ohmInNewStaking / Math.pow(10, 9) + ohmInOldStaking / Math.pow(10, 9);
 
     // Calculate TVL staked
     // let ohmInTreasury = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
     // ohmInTreasury = ohmInTreasury / Math.pow(10, 9);
 
-
     // Get market price of OHM
-    const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
-    const reserves = await pairContract.getReserves();
-    const marketPrice = (reserves[1] / reserves[0]) / Math.pow(10, 9);
+    // const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
+    // const reserves = await pairContract.getReserves();
 
-    const stakingTVL = marketPrice * ohmInTreasury;
->>>>>>> Add FRAX amount in treasury to total treasury bal.
-
-    const treasuryBalance = daiAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
+    // marketPrice = reserves[1] / reserves[0] / Math.pow(10, 9);
+    // stakingTVL = marketPrice * ohmInTreasury;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();

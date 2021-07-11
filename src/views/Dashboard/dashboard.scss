@@ -4,31 +4,40 @@
   transform: translate3d(0, 0, 0) !important;
   -webkit-transform: translate3d(0, 0, 0) !important;
   .ohm-card {
-    min-width: 230px !important;
     white-space: nowrap;
-    margin: auto !important;
+    width: auto;
+    margin: auto;
   }
 }
 
 .top-row-data {
   position: sticky;
   overflow: hidden;
-  padding: 0 1rem;
+  flex-wrap: wrap;
+  z-index: 5;
 }
 
 .main-data-area {
   overflow-y: scroll;
   flex-flow: wrap;
-  display: flex;
-  align-content: flex-start;
+  display: flex !important;
+  width: 100%;
   justify-content: center;
-  height: 78%;
+  flex-direction: column;
+  margin-top: 10px;
+  height: 70vh;
+  z-index: 2;
   .MuiGrid-root.MuiGrid-item {
     display: flex;
     justify-content: center !important;
+    justify-self: center !important;
+  }
+  .data-grid {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
   .dune-card {
-    margin: 20px;
     height: auto;
     min-width: 333px;
     max-width: 700px;
