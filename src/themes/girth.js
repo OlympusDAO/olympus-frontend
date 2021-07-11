@@ -10,13 +10,17 @@ export const girthTheme = {
   background: "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
   paperBg: "#4242426A",
   modalBg: "#F9F9F9AA",
-  primaryButtonBG: "#759AAE",
-  primaryButtonBGHover: "#93AEBC",
+  primaryButtonBG: "#F8CC82",
+  primaryButtonHoverBG: "#759AAE",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
-  CTAButtonBorder: "2px solid #FFF",
   secondaryButtonBG: "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
-  secondaryyButtonBGHover: "#93AEBC",
+  secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
+  outlinedPrimaryButtonHoverBG: "#F8CC82",
+  outlinedPrimaryButtonHoverColor: "#333333",
+  outlinedSecondaryButtonHoverBG: "#FCFCFC",
+  outlinedSecondaryButtonHoverColor: "#333333",
+  containedSecondaryButtonHoverBG: "#363840",
 };
 
 export const girth = responsiveFontSizes(
@@ -100,7 +104,7 @@ export const girth = responsiveFontSizes(
         },
         MuiButton: {
           containedPrimary: {
-            color: girthTheme.color,
+            color: "#333333",
             backgroundColor: girthTheme.primaryButtonBG,
             "&:hover": {
               backgroundColor: girthTheme.primaryButtonHoverBG,
@@ -119,7 +123,7 @@ export const girth = responsiveFontSizes(
             borderColor: girthTheme.gold,
             "&:hover": {
               color: girthTheme.outlinedPrimaryButtonHoverColor,
-              backgroundColor: girthTheme.primaryButtonHoverBG,
+              backgroundColor: girthTheme.outlinedPrimaryButtonHoverBG,
             },
           },
           outlinedSecondary: {
