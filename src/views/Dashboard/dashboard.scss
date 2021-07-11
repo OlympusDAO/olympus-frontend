@@ -1,5 +1,6 @@
 #dashboard-view {
   overflow-y: hidden;
+  overflow-x: hidden;
   height: 100%;
   transform: translate3d(0, 0, 0) !important;
   -webkit-transform: translate3d(0, 0, 0) !important;
@@ -19,6 +20,7 @@
 
 .main-data-area {
   overflow-y: scroll;
+  overflow-x: hidden;
   flex-flow: wrap;
   display: flex !important;
   width: 100%;
