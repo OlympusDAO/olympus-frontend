@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
   const classes = useStyles();
-  const isVerySmallScreen = useMediaQuery("(max-width: 433px)");
+  const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
 
   const modalButtons = [];
   if (web3Modal) {
