@@ -1,17 +1,9 @@
 import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as OHMPreSale } from "../abi/OHMPreSale.json";
-import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
-import { abi as MigrateToOHM } from "../abi/MigrateToOHM.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { abi as LPStaking } from "../abi/LPStaking.json";
-import { abi as DistributorContract } from "../abi/DistributorContract.json";
-import { abi as BondContract } from "../abi/BondContract.json";
-import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
-
-const parseEther = ethers.utils.parseEther;
+import apollo from "../lib/apolloClient";
 
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
@@ -24,22 +16,37 @@ export const loadAccountDetails =
     // console.log("networkID = ", networkID)
     // console.log("addresses = ",addresses)
 
-    let ohmContract;
     let ohmBalance = 0;
     let sohmBalance = 0;
     let oldsohmBalance = 0;
     let stakeAllowance = 0;
     let unstakeAllowance = 0;
-    let lpStakingContract;
-    const lpStaked = 0;
-    const pendingRewards = 0;
-    let lpStakeAllowance;
-    let distributorContract;
-    const lpBondAllowance = 0;
+    let lpStaked = 0;
+    let pendingRewards = 0;
+    let lpBondAllowance = 0;
     let daiBondAllowance = 0;
+    let aOHMAbleToClaim = 0;
+
+    // const accountQuery = `
+    //   query($id: String) {
+    //     ohmie(id: $id) {
+    //       id
+    //       lastBalance {
+    //         ohmBalance
+    //         sohmBalance
+    //         bondBalance
+    //       }
+    //     }
+    //   }
+    // `;
+
+    // const graphData = await apollo(accountQuery);
+
+    // these work in playground but show up as null, maybe subgraph api not caught up?
+    // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
+    // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
     let migrateContract;
     let unstakeAllowanceSohm;
-    const aOHMAbleToClaim = 0;
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
@@ -61,13 +68,12 @@ export const loadAccountDetails =
     }
 
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
-       const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-       oldsohmBalance = await oldsohmContract.balanceOf(address);
+      const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+      oldsohmBalance = await oldsohmContract.balanceOf(address);
 
-       const signer = provider.getSigner();
-       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
-     }
-
+      const signer = provider.getSigner();
+      unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+    }
 
     return dispatch(
       fetchAccountSuccess({

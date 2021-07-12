@@ -4,7 +4,7 @@ import { app, bonding, fraxData } from "./reducers";
 const rootReducer = combineReducers({
   app,
   bonding,
-  fraxData
+  fraxData,
 });
 
 export default rootReducer;
