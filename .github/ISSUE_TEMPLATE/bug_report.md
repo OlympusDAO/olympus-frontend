@@ -20,6 +20,9 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
+**Workarounds (if any)**
+Is there an option to get around this bug to the intended action?
+
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 

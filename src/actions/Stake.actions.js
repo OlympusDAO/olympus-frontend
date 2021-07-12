@@ -1,15 +1,8 @@
 import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as OHMPreSale } from "../abi/OHMPreSale.json";
 import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
-import { abi as MigrateToOHM } from "../abi/MigrateToOHM.json";
-import { abi as sOHM } from "../abi/sOHM.json";
-import { abi as LPStaking } from "../abi/LPStaking.json";
-import { abi as DistributorContract } from "../abi/DistributorContract.json";
-import { abi as BondContract } from "../abi/BondContract.json";
-import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 
 export const fetchStakeSuccess = payload => ({
   type: Actions.FETCH_STAKE_SUCCESS,
