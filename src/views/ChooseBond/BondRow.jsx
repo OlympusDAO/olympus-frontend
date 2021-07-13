@@ -23,7 +23,7 @@ import { NavLink } from 'react-router-dom';
 import { trim, bondName, lpURL, isBondLP, getDaiAssetImg, getFraxAssetImg } from "../../helpers";
 >>>>>>> cleaned up topbar, made hamburger left anchored, removed font awesome for custom icons
 import BondLogo from "../../components/BondLogo";
-import { Button, Box, Link, Paper, Typography, TableRow, TableCell, SvgIcon } from "@material-ui/core";
+import { Button, Box, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
@@ -90,6 +90,7 @@ export function BondCardData({ bond }) {
 >>>>>>> rebased from develop. everything appears to work except rebase timer
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <div id={`${bond}--bond`} className="bond-data-card">
@@ -186,32 +187,51 @@ export function BondCardData({ bond }) {
 >>>>>>> staking updated with current index, button links fixed, bond cards styled
             </div>
           )}
+=======
+    <Slide direction="up" in={true}>
+      <Paper id={`${bond}--bond`} className="bond-data-card ohm-card">
+        <div className="bond-pair">
+          <BondLogo bond={bond} />
+          <div className="bond-name">
+            <Typography>{bondName(bond)}</Typography>
+            {isBondLP(bond) && (
+              <div>
+                <Link href={lpURL(bond)} target="_blank">
+                  <Typography variant="body1">
+                    View Contract
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                  </Typography>
+                </Link>
+              </div>
+            )}
+          </div>
+>>>>>>> added basic card animations
         </div>
-      </div>
 
-      <div className="data-row">
-        <Typography>Price</Typography>
-        <Typography>{priceUnits(bond) && trim(bondPrice, 2)}</Typography>
-      </div>
+        <div className="data-row">
+          <Typography>Price</Typography>
+          <Typography>{priceUnits(bond) && trim(bondPrice, 2)}</Typography>
+        </div>
 
-      <div className="data-row">
-        <Typography>ROI</Typography>
-        <Typography>{bondDiscount && trim(bondDiscount * 100, 2)}%</Typography>
-      </div>
+        <div className="data-row">
+          <Typography>ROI</Typography>
+          <Typography>{bondDiscount && trim(bondDiscount * 100, 2)}%</Typography>
+        </div>
 
-      <div className="data-row">
-        <Typography>Purchased</Typography>
-        <Typography>
-          {bondPurchased &&
-            new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-              maximumFractionDigits: 0,
-              minimumFractionDigits: 0,
-            }).format(bondPurchased)}
-        </Typography>
-      </div>
+        <div className="data-row">
+          <Typography>Purchased</Typography>
+          <Typography>
+            {bondPurchased &&
+              new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+                maximumFractionDigits: 0,
+                minimumFractionDigits: 0,
+              }).format(bondPurchased)}
+          </Typography>
+        </div>
 
+<<<<<<< HEAD
       <Button href={`/bonds/${bond}`} variant="outlined" color="primary" fullWidth>
         <Typography variant="h5">Bond {bondName(bond)}</Typography>
       </Button>
@@ -220,6 +240,13 @@ export function BondCardData({ bond }) {
   )
 >>>>>>> bond page components, stake page components, button and paper implemented still need to change typography and links
 =======
+=======
+        <Button href={`/bonds/${bond}`} variant="outlined" color="primary" fullWidth>
+          <Typography variant="h5">Bond {bondName(bond)}</Typography>
+        </Button>
+      </Paper>
+    </Slide>
+>>>>>>> added basic card animations
   );
 >>>>>>> fixed dep issues, updated formatting, styled mobile nav, styled migrate page
 }

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Paper, Grid, Typography, Box } from "@material-ui/core";
+import { Paper, Grid, Typography, Box, Zoom } from "@material-ui/core";
 import { trim } from "../../helpers";
 import "./dashboard.scss";
 
@@ -21,10 +21,12 @@ function Dashboard() {
     <div id="dashboard-view">
       <Grid container spacing={1} className="top-row-data">
         <Grid item lg={4} md={4} sm={4} xs={5} className="olympus-card">
-          <Paper className="ohm-card">
-            <Typography variant="h6">Price</Typography>
-            <Typography variant="h5">${marketPrice ? trim(marketPrice, 2) : " loading"}</Typography>
-          </Paper>
+          <Zoom in={true}>
+            <Paper className="ohm-card">
+              <Typography variant="h6">Price</Typography>
+              <Typography variant="h5">${marketPrice ? trim(marketPrice, 2) : " loading"}</Typography>
+            </Paper>
+          </Zoom>
         </Grid>
 
 <<<<<<< HEAD
@@ -64,6 +66,7 @@ function Dashboard() {
         <Grid item lg={4} md={4} sm={7} xs={6}>
 =======
         <Grid item lg={4} md={4} sm={4} xs={7}>
+<<<<<<< HEAD
 >>>>>>> rebased from develop. everything appears to work except rebase timer
           <Paper className="ohm-card">
             <Typography variant="h6">Market Cap</Typography>
@@ -140,6 +143,12 @@ function Dashboard() {
             <div className="card-body">
               <h4 className="title">Market Cap</h4>
               <h3 className="content">
+=======
+          <Zoom in={true}>
+            <Paper className="ohm-card">
+              <Typography variant="h6">Market Cap</Typography>
+              <Typography variant="h5">
+>>>>>>> added basic card animations
                 {marketCap &&
                   new Intl.NumberFormat("en-US", {
                     style: "currency",
@@ -147,6 +156,7 @@ function Dashboard() {
                     maximumFractionDigits: 0,
                     minimumFractionDigits: 0,
                   }).format(marketCap)}
+<<<<<<< HEAD
               </h3>
             </div>
           </div>
@@ -154,25 +164,33 @@ function Dashboard() {
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 =======
 >>>>>>> rebased from develop. everything appears to work except rebase timer
+=======
+                {!marketCap && "$ loading"}
+              </Typography>
+            </Paper>
+          </Zoom>
+>>>>>>> added basic card animations
         </Grid>
 
         <Grid item lg={4} md={4} sm={4} xs={12}>
-          <Paper className="ohm-card">
-            <Typography variant="h6">Supply (circulating/total)</Typography>
-            <Typography variant="h5">
-              {circSupply &&
-                new Intl.NumberFormat("en-US", {
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0,
-                }).format(circSupply)}
-              /
-              {totalSupply &&
-                new Intl.NumberFormat("en-US", {
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0,
-                }).format(totalSupply)}
-            </Typography>
-          </Paper>
+          <Zoom in={true}>
+            <Paper className="ohm-card">
+              <Typography variant="h6">Supply (circulating/total)</Typography>
+              <Typography variant="h5">
+                {circSupply &&
+                  new Intl.NumberFormat("en-US", {
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  }).format(circSupply)}
+                /
+                {totalSupply &&
+                  new Intl.NumberFormat("en-US", {
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  }).format(totalSupply)}
+              </Typography>
+            </Paper>
+          </Zoom>
         </Grid>
       </Grid>
 
