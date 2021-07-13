@@ -23,7 +23,7 @@ function Dashboard() {
         <Grid item lg={4} md={4} sm={4} xs={5} className="olympus-card">
           <Paper className="ohm-card">
             <Typography variant="h6">Price</Typography>
-            <Typography variant="h5">${trim(marketPrice, 2)}</Typography>
+            <Typography variant="h5">${marketPrice ? trim(marketPrice, 2) : " loading"}</Typography>
           </Paper>
         </Grid>
 
@@ -78,6 +78,7 @@ function Dashboard() {
                 }).format(marketCap)}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> started testing paper and typography on dashboard card
               </h3>
             </div>
@@ -124,6 +125,9 @@ function Dashboard() {
              </Typography>
           </Paper> 
 =======
+=======
+              {!marketCap && "$ loading"}
+>>>>>>> added fix for mobile topbar button styles, updated light themes to be closer to spec
             </Typography>
           </Paper>
 <<<<<<< HEAD
