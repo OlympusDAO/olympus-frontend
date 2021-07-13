@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { trim, bondName, lpURL, isBondLP, getDaiAssetImg, getFraxAssetImg } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
-import { Button, Box, Link, Paper, Typography, TableRow, TableCell, SvgIcon } from "@material-ui/core";
+import { Button, Box, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
@@ -23,51 +23,53 @@ export function BondDataCard({ bond }) {
   });
 
   return (
-    <Paper id={`${bond}--bond`} className="bond-data-card ohm-card">
-      <div className="bond-pair">
-        <BondLogo bond={bond} />
-        <div className="bond-name">
-          <Typography>{bondName(bond)}</Typography>
-          {isBondLP(bond) && (
-            <div>
-              <Link href={lpURL(bond)} target="_blank">
-                <Typography variant="body1">
-                  View Contract
-                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                </Typography>
-              </Link>
-            </div>
-          )}
+    <Slide direction="up" in={true}>
+      <Paper id={`${bond}--bond`} className="bond-data-card ohm-card">
+        <div className="bond-pair">
+          <BondLogo bond={bond} />
+          <div className="bond-name">
+            <Typography>{bondName(bond)}</Typography>
+            {isBondLP(bond) && (
+              <div>
+                <Link href={lpURL(bond)} target="_blank">
+                  <Typography variant="body1">
+                    View Contract
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                  </Typography>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className="data-row">
-        <Typography>Price</Typography>
-        <Typography>{priceUnits(bond) && trim(bondPrice, 2)}</Typography>
-      </div>
+        <div className="data-row">
+          <Typography>Price</Typography>
+          <Typography>{priceUnits(bond) && trim(bondPrice, 2)}</Typography>
+        </div>
 
-      <div className="data-row">
-        <Typography>ROI</Typography>
-        <Typography>{bondDiscount && trim(bondDiscount * 100, 2)}%</Typography>
-      </div>
+        <div className="data-row">
+          <Typography>ROI</Typography>
+          <Typography>{bondDiscount && trim(bondDiscount * 100, 2)}%</Typography>
+        </div>
 
-      <div className="data-row">
-        <Typography>Purchased</Typography>
-        <Typography>
-          {bondPurchased &&
-            new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-              maximumFractionDigits: 0,
-              minimumFractionDigits: 0,
-            }).format(bondPurchased)}
-        </Typography>
-      </div>
+        <div className="data-row">
+          <Typography>Purchased</Typography>
+          <Typography>
+            {bondPurchased &&
+              new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+                maximumFractionDigits: 0,
+                minimumFractionDigits: 0,
+              }).format(bondPurchased)}
+          </Typography>
+        </div>
 
-      <Button href={`/bonds/${bond}`} variant="outlined" color="primary" fullWidth>
-        <Typography variant="h5">Bond {bondName(bond)}</Typography>
-      </Button>
-    </Paper>
+        <Button href={`/bonds/${bond}`} variant="outlined" color="primary" fullWidth>
+          <Typography variant="h5">Bond {bondName(bond)}</Typography>
+        </Button>
+      </Paper>
+    </Slide>
   );
 }
 
