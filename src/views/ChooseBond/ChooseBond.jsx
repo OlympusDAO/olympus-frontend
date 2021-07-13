@@ -4,12 +4,14 @@ import {
   Grid,
   Typography,
   Box,
+  Slide,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Zoom,
 } from "@material-ui/core";
 import { BondTableData, BondDataCard } from "./BondRow";
 import { BONDS } from "../../constants";
@@ -33,62 +35,64 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
-      <Paper className="ohm-card">
-        <Box className="card-header">
-          <Typography variant="h5">Bond (1,1)</Typography>
-        </Box>
+      <Zoom in={true}>
+        <Paper className="ohm-card">
+          <Box className="card-header">
+            <Typography variant="h5">Bond (1,1)</Typography>
+          </Box>
 
-        <Grid container item xs={12} style={{ margin: "10px 0px 20px" }}>
-          <Grid item xs={6}>
-            <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
-              <Typography variant="h5" color="textSecondary">
-                Treasury Balance
-              </Typography>
-              <Typography variant="h4">
-                {treasuryBalance &&
-                  new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                    maximumFractionDigits: 0,
-                    minimumFractionDigits: 0,
-                  }).format(treasuryBalance)}
-              </Typography>
-            </Box>
+          <Grid container item xs={12} style={{ margin: "10px 0px 20px" }}>
+            <Grid item xs={6}>
+              <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
+                <Typography variant="h5" color="textSecondary">
+                  Treasury Balance
+                </Typography>
+                <Typography variant="h4">
+                  {treasuryBalance &&
+                    new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0,
+                    }).format(treasuryBalance)}
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={6} className={`ohm-price`}>
+              <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
+                <Typography variant="h5" color="textSecondary">
+                  OHM Price
+                </Typography>
+                <Typography variant="h4">{trim(marketPrice, 2)}</Typography>
+              </Box>
+            </Grid>
           </Grid>
 
-          <Grid item xs={6} className={`ohm-price`}>
-            <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
-              <Typography variant="h5" color="textSecondary">
-                OHM Price
-              </Typography>
-              <Typography variant="h4">{trim(marketPrice, 2)}</Typography>
-            </Box>
-          </Grid>
-        </Grid>
-
-        {!isSmallScreen && (
-          <Grid container item>
-            <TableContainer>
-              <Table aria-label="Available bonds">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center">Bond</TableCell>
-                    <TableCell align="center">Price</TableCell>
-                    <TableCell>ROI</TableCell>
-                    <TableCell>Purchased</TableCell>
-                    <TableCell align="right"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {bonds.map(bond => (
-                    <BondTableData key={bond.value} bond={bond.value} />
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        )}
-      </Paper>
+          {!isSmallScreen && (
+            <Grid container item>
+              <TableContainer>
+                <Table aria-label="Available bonds">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">Bond</TableCell>
+                      <TableCell align="center">Price</TableCell>
+                      <TableCell>ROI</TableCell>
+                      <TableCell>Purchased</TableCell>
+                      <TableCell align="right"></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {bonds.map(bond => (
+                      <BondTableData key={bond.value} bond={bond.value} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+          )}
+        </Paper>
+      </Zoom>
 
       {isSmallScreen && (
         <Box className="ohm-card-container">

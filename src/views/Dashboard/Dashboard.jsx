@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Paper, Grid, Typography, Box } from "@material-ui/core";
+import { Paper, Grid, Typography, Box, Zoom } from "@material-ui/core";
 import { trim } from "../../helpers";
 import "./dashboard.scss";
 
@@ -21,45 +21,51 @@ function Dashboard() {
     <div id="dashboard-view">
       <Grid container spacing={1} className="top-row-data">
         <Grid item lg={4} md={4} sm={4} xs={5} className="olympus-card">
-          <Paper className="ohm-card">
-            <Typography variant="h6">Price</Typography>
-            <Typography variant="h5">${marketPrice ? trim(marketPrice, 2) : " loading"}</Typography>
-          </Paper>
+          <Zoom in={true}>
+            <Paper className="ohm-card">
+              <Typography variant="h6">Price</Typography>
+              <Typography variant="h5">${marketPrice ? trim(marketPrice, 2) : " loading"}</Typography>
+            </Paper>
+          </Zoom>
         </Grid>
 
         <Grid item lg={4} md={4} sm={4} xs={7}>
-          <Paper className="ohm-card">
-            <Typography variant="h6">Market Cap</Typography>
-            <Typography variant="h5">
-              {marketCap &&
-                new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0,
-                }).format(marketCap)}
-              {!marketCap && "$ loading"}
-            </Typography>
-          </Paper>
+          <Zoom in={true}>
+            <Paper className="ohm-card">
+              <Typography variant="h6">Market Cap</Typography>
+              <Typography variant="h5">
+                {marketCap &&
+                  new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  }).format(marketCap)}
+                {!marketCap && "$ loading"}
+              </Typography>
+            </Paper>
+          </Zoom>
         </Grid>
 
         <Grid item lg={4} md={4} sm={4} xs={12}>
-          <Paper className="ohm-card">
-            <Typography variant="h6">Supply (circulating/total)</Typography>
-            <Typography variant="h5">
-              {circSupply &&
-                new Intl.NumberFormat("en-US", {
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0,
-                }).format(circSupply)}
-              /
-              {totalSupply &&
-                new Intl.NumberFormat("en-US", {
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0,
-                }).format(totalSupply)}
-            </Typography>
-          </Paper>
+          <Zoom in={true}>
+            <Paper className="ohm-card">
+              <Typography variant="h6">Supply (circulating/total)</Typography>
+              <Typography variant="h5">
+                {circSupply &&
+                  new Intl.NumberFormat("en-US", {
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  }).format(circSupply)}
+                /
+                {totalSupply &&
+                  new Intl.NumberFormat("en-US", {
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  }).format(totalSupply)}
+              </Typography>
+            </Paper>
+          </Zoom>
         </Grid>
       </Grid>
 
