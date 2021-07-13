@@ -328,6 +328,7 @@ export const loadAppDetails =
 
     const treasuryBalance = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
+<<<<<<< HEAD
     // Calculate TVL staked
     // let ohmInNewStaking = await ohmContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
     // let ohmInOldStaking = await ohmContract.balanceOf(addresses[networkID].OLD_STAKING_ADDRESS);
@@ -370,6 +371,8 @@ export const loadAppDetails =
     // const stakingTVL = marketPrice * ohmInTreasury;
 >>>>>>> apollo installed and implemented for basic app state. still getting issues with circ and total supply from the graph
 
+=======
+>>>>>>> fixed  next rebase issue
     // Calculating staking
     const epoch = await stakingContract.epoch();
     const stakingReward = epoch.distribute;
