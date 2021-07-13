@@ -23,7 +23,7 @@ function Dashboard() {
         <Grid item lg={4} md={4} sm={4} xs={5} className="olympus-card">
           <Paper className="ohm-card">
             <Typography variant="h6">Price</Typography>
-            <Typography variant="h5">${trim(marketPrice, 2)}</Typography>
+            <Typography variant="h5">${marketPrice ? trim(marketPrice, 2) : " loading"}</Typography>
           </Paper>
         </Grid>
 
@@ -38,6 +38,7 @@ function Dashboard() {
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0,
                 }).format(marketCap)}
+              {!marketCap && "$ loading"}
             </Typography>
           </Paper>
         </Grid>

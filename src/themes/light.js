@@ -8,16 +8,18 @@ const lightTheme = {
   gray: "#A3A3A3",
   textHighlightColor: "#F4D092",
   backgroundColor: "#83A5CB11",
-  background:
-    "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-  paperBg: "#F9F9F977",
+  // background:
+  // "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
+  background: "linear-gradient(180deg, #AFCDE9 0%, #F7FBE7 100%)",
+  paperBg: "rgba(255, 255, 255, 0.6)",
   modalBg: "#F9F9F9AA",
+  menuBg: "rgba(255, 255, 255, 0.6)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
   activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
-  primaryButtonBG: "#759AAE",
-  primaryButtonHoverBG: "#93AEBC",
-
+  // primaryButtonBG: "#759AAE",
+  primaryButtonBG: "#93AEBC",
+  primaryButtonHoverBG: "#759AAE",
   // these need fixing
   primaryButtonHoverColor: "#333333",
   secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
@@ -25,6 +27,7 @@ const lightTheme = {
   outlinedPrimaryButtonHoverColor: "#333333",
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
+  containedSecondaryButtonHoverBG: "#33333333",
   //
   // sidebarBorder: "#759AAE99",
   // iconColor: "brightness(0) saturate(100%)",
@@ -76,6 +79,15 @@ export const light = responsiveFontSizes(
           "&.ohm-modal": {
             backgroundColor: lightTheme.modalBg,
           },
+          "&.ohm-menu": {
+            backgroundColor: lightTheme.menuBg,
+            backdropFilter: "blur(60px)",
+          },
+        },
+        MuiBackdrop: {
+          root: {
+            backgroundColor: "rgba(255,255,255, 0.6)",
+          },
         },
         MuiLink: {
           root: {
@@ -102,10 +114,10 @@ export const light = responsiveFontSizes(
           root: {
             backgroundColor: lightTheme.paperBg,
             "&:hover": {
-              backgroundColor: lightTheme.secondaryButtonHoverBG,
+              backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
             },
             selected: {
-              backgroundColor: lightTheme.secondaryButtonHoverBG,
+              backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
             },
           },
         },
@@ -117,20 +129,35 @@ export const light = responsiveFontSizes(
               backgroundColor: lightTheme.primaryButtonHoverBG,
               color: lightTheme.primaryButtonHoverColor,
             },
+            "@media (hover:none)": {
+              color: lightTheme.color,
+              backgroundColor: lightTheme.primaryButtonBG,
+              "&:hover": {
+                backgroundColor: lightTheme.primaryButtonHoverBG,
+              },
+            },
           },
           containedSecondary: {
-            backgroundColor: lightTheme.paperBg,
             color: lightTheme.color,
+            backgroundColor: lightTheme.paperBg,
             "&:hover": {
-              backgroundColor: lightTheme.secondaryButtonHoverBG,
+              backgroundColor: `${lightTheme.containedSecondaryButtonHoverBG} !important`,
+            },
+            "@media (hover:none)": {
+              color: lightTheme.color,
+              backgroundColor: lightTheme.paperBg,
+              "&:hover": {
+                backgroundColor: `${lightTheme.containedSecondaryButtonHoverBG} !important`,
+              },
             },
           },
           outlinedPrimary: {
-            color: lightTheme.gold,
-            borderColor: lightTheme.gold,
+            color: lightTheme.primaryButtonBG,
+            borderColor: lightTheme.primaryButtonBG,
             "&:hover": {
-              color: lightTheme.outlinedPrimaryButtonHoverColor,
+              color: lightTheme.gold,
               backgroundColor: lightTheme.primaryButtonHoverBG,
+              borderColor: lightTheme.primaryButtonBG,
             },
           },
           outlinedSecondary: {
