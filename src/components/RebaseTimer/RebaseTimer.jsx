@@ -10,8 +10,12 @@ function RebaseTimer() {
 
   const timeUntilRebase = () => {
     if (currentBlock) {
+      console.log(currentBlock);
       const rebaseBlock = getRebaseBlock(currentBlock);
+      console.log(rebaseBlock);
       const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
+      console.log(seconds);
+      console.log(prettifySeconds(seconds));
       return prettifySeconds(seconds);
     }
   };
