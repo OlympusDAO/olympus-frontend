@@ -52,26 +52,7 @@
   width: 100%;
   padding: 0;
   text-align: center;
-  .olympus-sushi {
-    flex: 1;
-    div {
-      line-height: 150%;
-    }
-    .olympus-logo {
-      height: 1.7em;
-      width: 1.7em;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 5px;
-    }
-    a {
-      margin-right: 5px;
-    }
-    .fa-external-link-alt {
-      width: 0.79em;
-      height: 0.79em;
-    }
-  }
+  margin-top: 20px;
   .stake-apy,
   .stake-tvl {
     flex: 1;

@@ -110,12 +110,26 @@ export const girth = responsiveFontSizes(
               backgroundColor: girthTheme.primaryButtonHoverBG,
               color: girthTheme.primaryButtonHoverColor,
             },
+            "@media (hover:none)": {
+              color: girthTheme.color,
+              backgroundColor: girthTheme.primaryButtonBG,
+              "&:hover": {
+                backgroundColor: girthTheme.primaryButtonHoverBG,
+              },
+            },
           },
           containedSecondary: {
             backgroundColor: girthTheme.paperBg,
             color: girthTheme.color,
             "&:hover": {
               backgroundColor: girthTheme.secondaryButtonHoverBG,
+            },
+            "@media (hover:none)": {
+              color: girthTheme.color,
+              backgroundColor: girthTheme.paperBg,
+              "&:hover": {
+                backgroundColor: girthTheme.secondaryButtonHoverBG,
+              },
             },
           },
           outlinedPrimary: {
