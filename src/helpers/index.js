@@ -170,6 +170,12 @@ export function prettifySeconds(seconds, resolution) {
   if (resolution === "day") {
     return d + (d == 1 ? " day" : " days");
   }
+
+  const dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
+  const hDisplay = h > 0 ? h + (h == 1 ? " hr, " : " hrs, ") : "";
+  const mDisplay = m > 0 ? m + (m == 1 ? " min" : " mins") : "";
+
+  return dDisplay + hDisplay + mDisplay;
 }
 
 export function getSohmTokenImage() {
