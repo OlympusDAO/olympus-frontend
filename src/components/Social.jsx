@@ -4,7 +4,7 @@ import { ReactComponent as Medium } from "../assets/icons/v1.2/medium.svg";
 import { ReactComponent as Twitter } from "../assets/icons/v1.2/twitter.svg";
 import { ReactComponent as Discord } from "../assets/icons/v1.2/discord.svg";
 
-function Social() {
+export default function Social() {
   return (
     <div className="social-row">
       <Link href="https://github.com/OlympusDAO">

@@ -22,7 +22,7 @@ import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
 
-import { dark as darkTheme } from "./themes/dark.js";
+import { dark as darkTheme } from "./themes/dark";
 import { light as lightTheme } from "./themes/light";
 import { girth as gTheme } from "./themes/girth";
 
