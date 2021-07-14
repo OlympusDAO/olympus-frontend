@@ -243,7 +243,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       aria-label="stake tabs"
                     >
                       <Tab label="Stake" {...a11yProps(0)} />
-                      <Tab label="Untake" {...a11yProps(0)} />
+                      <Tab label="Unstake" {...a11yProps(0)} />
                     </Tabs>
 
                     <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
