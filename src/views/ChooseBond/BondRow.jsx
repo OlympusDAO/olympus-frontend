@@ -1,15 +1,10 @@
 import { useSelector } from "react-redux";
-import { trim, bondName, lpURL, isBondLP, getDaiAssetImg, getFraxAssetImg } from "../../helpers";
+import { trim, bondName, lpURL, isBondLP, priceUnits } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
-import { Button, Box, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
+import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
-
-const priceUnits = bond => {
-  if (bond.indexOf("frax") >= 0) return <img src={`${getFraxAssetImg()}`} width="15px" height="15px" />;
-  else return <img src={`${getDaiAssetImg()}`} width="15px" height="15px" />;
-};
 
 export function BondDataCard({ bond }) {
   const bondPrice = useSelector(state => {
