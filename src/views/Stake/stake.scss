@@ -15,6 +15,10 @@
     flex-direction: column;
     justify-content: center;
     justify-items: center;
+  }
+
+  .stake-top-metrics {
+    display: flex;
     width: 100%;
     padding: 0;
   }
@@ -195,16 +199,107 @@
 }
 
 .stake-wallet-notification {
+  min-height: 300px;
   padding: 5%;
-  margin-top: 10px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
   border-radius: 5px;
+  align-items: center;
+  justify-content: center;
   border: 1px solid #f4d09266;
+  border-radius: 5px;
+  h4 {
+    color: inherit;
+    text-align: center;
+    font-size: 2em;
+    font-weight: 100;
+    margin-bottom: 20px;
+  }
   .wallet-menu {
     text-align: center;
-    margin-top: 1.2rem;
+    float: unset;
     .stake-button {
+      color: #f4d092;
+      font-size: 1.5em !important;
+      width: 20rem;
       max-width: 300px !important;
+      height: 50px;
+    }
+  }
+}
+
+/* Bond styles to be moved */
+.MuiTable-root {
+  thead .MuiTableCell-root {
+    color: #999999 !important;
+  }
+  tbody .MuiTableCell-root {
+    color: #ffffff !important;
+    .ohm-pairs p,
+    .ohm-pairs svg {
+      align-self: center !important;
+      margin-left: 8px !important;
+      font-weight: bold !important;
+      margin-bottom: 0 !important;
+      font-family: inherit;
+      vertical-align: text-top !important;
+    }
+    button {
+      padding: 0.25rem 0.65rem;
+      width: 5em !important;
+    }
+  }
+}
+
+.MuiTableCell-root {
+  border-bottom: none !important;
+  font-size: 1em !important;
+  p {
+    margin-bottom: 0 !important;
+  }
+  &.MuiTableCell-alignLeft {
+    display: flex;
+  }
+}
+
+.MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+  justify-content: space-evenly;
+  div.ohm-pairs {
+    width: 33%;
+    // padding-left: 8px;
+    vertical-align: middle !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 0 !important;
+    .ohm-pairs div.bond-name p,
+    .ohm-pairs svg {
+      align-self: center !important;
+      line-height: 115%;
+      font-weight: bold !important;
+      margin-bottom: 0em !important;
+      padding: 0 !important;
+      font-family: inherit;
+      vertical-align: text-top !important;
+    }
+    .ohm-logo-bg {
+      margin-left: 0;
+      border-radius: 20px;
+      padding: 6px;
+      height: 40px;
+      width: 40px;
+    }
+  }
+  div.bond-name {
+    width: 60%;
+    margin-left: 8px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    p {
+      margin-bottom: unset !important;
+    }
+    svg {
+      margin-left: 5px !important;
     }
   }
 }

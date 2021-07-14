@@ -14,7 +14,7 @@ const apollo = queryString => {
     .then(data => {
       return data;
     })
-    .catch(err => console.log("qraph ql error: ", err));
+    .catch(err => console.error("qraph ql error: ", err));
 };
 
 export default apollo;

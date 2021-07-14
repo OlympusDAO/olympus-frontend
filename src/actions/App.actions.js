@@ -35,15 +35,21 @@ export const loadAppDetails =
         }
       }
     `;
-
     const graphData = await apollo(protocolMetricsQuery);
 
-    let stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
+    console.log(graphData);
+
+    if (!graphData || graphData == null) {
+      console.error("Returned a null response when querying TheGraph");
+      return;
+    }
+
+    const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
     const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
     const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
-    // let currentBlock = parseFloat(graphData.data._meta.block.number);
+    // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
     if (!provider) {
       console.error("failed to connect to provider, please connect your wallet");
@@ -53,12 +59,10 @@ export const loadAppDetails =
           marketPrice,
           marketCap,
           circSupply,
-          // currentBlock,
           totalSupply,
         }),
       );
     }
-
     const currentBlock = await provider.getBlockNumber();
     const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
