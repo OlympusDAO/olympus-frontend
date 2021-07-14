@@ -99,7 +99,7 @@ function Bond({ bond, address, provider }) {
           >
             <Tab label="Bond" {...a11yProps(0)} />
             <Tab label="Redeem" {...a11yProps(1)} />
-            <Tab label="Redeem v1" {...a11yProps(2)} disabled />
+            {/* <Tab label="Redeem v1" {...a11yProps(2)} disabled /> */}
           </Tabs>
 
           <TabPanel value={view} index={0}>
