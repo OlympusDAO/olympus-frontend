@@ -138,9 +138,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
       <Button variant="contained" color="primary" onClick={loadWeb3Modal} key={2}>
         Connect Wallet
       </Button>,
-      <Button variant="contained" color="primary" onClick={loadWeb3Modal} key={2}>
-        Connect Wallet
-      </Button>,
     );
   }
 

@@ -20,7 +20,7 @@ function Dashboard() {
   return (
     <div id="dashboard-view">
       <Grid container spacing={1} className="top-row-data">
-        <Grid item lg={4} md={4} sm={4} xs={5} className="olympus-card">
+        <Grid item lg={4} md={4} sm={3} xs={5} className="olympus-card">
           <Zoom in={true}>
             <Paper className="ohm-card">
               <Typography variant="h6">Price</Typography>
@@ -47,7 +47,7 @@ function Dashboard() {
           </Zoom>
         </Grid>
 
-        <Grid item lg={4} md={4} sm={4} xs={12}>
+        <Grid item lg={4} md={4} sm={5} xs={12}>
           <Zoom in={true}>
             <Paper className="ohm-card">
               <Typography variant="h6">Supply (circulating/total)</Typography>
