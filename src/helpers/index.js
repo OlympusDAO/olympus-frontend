@@ -153,9 +153,8 @@ export function prettyVestingPeriod(currentBlock, vestingBlock) {
   const seconds = secondsUntilBlock(currentBlock, vestingBlock);
   if (seconds < 0) {
     return "Fully Vested";
-  } else {
-    return prettifySeconds(seconds);
   }
+  return prettifySeconds(seconds);
 }
 
 export function prettifySeconds(seconds, resolution) {

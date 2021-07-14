@@ -35,7 +35,7 @@ import "./style.scss";
 
     Code:
     https://github.com/austintgriffith/scaffold-eth
-
+ 
     Support:
     https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA
     or DM @austingriffith on twitter or telegram
@@ -198,8 +198,15 @@ function App(props) {
   }, [injectedProvider, address]);
 
   const loadWeb3Modal = useCallback(async () => {
-    const provider = await web3Modal.connect();
-    setInjectedProvider(new Web3Provider(provider));
+    const rawProvider = await web3Modal.connect();
+    const provider = new Web3Provider(rawProvider);
+
+    const chainId = await provider.getNetwork().then(network => network.chainId);
+    if (chainId !== 1) {
+      console.error("Wrong network, please switch to mainnet");
+    } else {
+      setInjectedProvider(provider);
+    }
   }, [setInjectedProvider]);
 
   useEffect(() => {

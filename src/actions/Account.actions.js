@@ -3,7 +3,7 @@ import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import apollo from "../lib/apolloClient.js";
+import apollo from "../lib/apolloClient";
 
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
@@ -26,7 +26,6 @@ export const loadAccountDetails =
     let lpBondAllowance = 0;
     let daiBondAllowance = 0;
     let aOHMAbleToClaim = 0;
-    let unstakeAllowanceSohm;
 
     // const accountQuery = `
     //   query($id: String) {
@@ -46,6 +45,8 @@ export const loadAccountDetails =
     // these work in playground but show up as null, maybe subgraph api not caught up?
     // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
     // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
+    let migrateContract;
+    let unstakeAllowanceSohm;
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
