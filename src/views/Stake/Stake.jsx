@@ -156,7 +156,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     <div id="stake-view">
       <Zoom in={true}>
         <Paper className={`ohm-card`}>
-          <Grid container direction="column" justify="center" spacing={2}>
+          <Grid container direction="column" spacing={2}>
             <Grid item>
               <div className="card-header">
                 <Typography variant="h5">Single Stake (3, 3)</Typography>
