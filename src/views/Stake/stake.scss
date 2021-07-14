@@ -15,6 +15,8 @@
     flex-direction: column;
     justify-content: center;
     justify-items: center;
+    width: 100%;
+    padding: 0 !important;
   }
 
   .stake-top-metrics {
@@ -126,7 +128,6 @@
   max-width: 542px;
   align-self: center;
   justify-self: center;
-  margin-top: 10px;
 }
 
 .staking-area {
@@ -211,7 +212,6 @@
   h4 {
     color: inherit;
     text-align: center;
-    font-size: 2em;
     font-weight: 100;
     margin-bottom: 20px;
   }
@@ -219,7 +219,6 @@
     text-align: center;
     float: unset;
     .stake-button {
-      color: #f4d092;
       font-size: 1.5em !important;
       width: 20rem;
       max-width: 300px !important;
@@ -234,7 +233,6 @@
     color: #999999 !important;
   }
   tbody .MuiTableCell-root {
-    color: #ffffff !important;
     .ohm-pairs p,
     .ohm-pairs svg {
       align-self: center !important;
@@ -253,7 +251,6 @@
 
 .MuiTableCell-root {
   border-bottom: none !important;
-  font-size: 1em !important;
   p {
     margin-bottom: 0 !important;
   }
