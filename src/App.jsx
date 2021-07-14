@@ -5,11 +5,11 @@ import { useUserAddress } from "eth-hooks";
 import { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import useTheme from "./hooks/useTheme";
+import useTheme from "./hooks/useTheme.js";
 
 import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails } from "./actions/App.actions.js";
@@ -22,9 +22,9 @@ import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
 
-import { dark as darkTheme } from "./themes/dark";
-import { light as lightTheme } from "./themes/light";
-import { girth as gTheme } from "./themes/girth";
+import { dark as darkTheme } from "./themes/dark.js";
+import { light as lightTheme } from "./themes/light.js";
+import { girth as gTheme } from "./themes/girth.js";
 
 import { INFURA_ID, NETWORKS, BONDS } from "./constants";
 import { useUserProvider } from "./hooks";
@@ -129,24 +129,16 @@ const useStyles = makeStyles(theme => ({
 
 function App(props) {
   const dispatch = useDispatch();
-  const [theme, toggleTheme] = useTheme();
+  const [theme, toggleTheme, mounted] = useTheme("dark");
   const location = useLocation();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const handleSidebarOpen = () => {
-    setIsSidebarExpanded(true);
-  };
-
   const handleSidebarClose = () => {
     setIsSidebarExpanded(false);
   };
-
-  const currentIndex = useSelector(state => {
-    return state.app.currentIndex;
-  });
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
@@ -218,8 +210,9 @@ function App(props) {
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
+    console.log("theme: ", theme, "theme mode: ", themeMode);
     themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
-  });
+  }, [theme]);
 
   const classes = useStyles();
 
