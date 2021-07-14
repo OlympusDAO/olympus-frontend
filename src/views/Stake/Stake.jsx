@@ -26,7 +26,7 @@ import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim, getOhmTokenImage, getFraxTokenImage } from "../../helpers";
+import { trim, getTokenImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -40,6 +40,9 @@ function a11yProps(index) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+
+const ohmImg = getTokenImage("ohm");
+const fraxImg = getTokenImage("frax");
 
 function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const dispatch = useDispatch();
@@ -401,10 +404,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       <TableCell>
                         <Box className="ohm-pairs">
                           <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
-                            <img src={`${getOhmTokenImage()}`} />
+                            <img src={`${ohmImg}`} />
                           </div>
                           <div className="ohm-pair" style={{ zIndex: 1 }}>
-                            <img src={`${getFraxTokenImage()}`} />
+                            <img src={`${fraxImg}`} />
                           </div>
                           <Typography>OHM-FRAX</Typography>
                         </Box>
@@ -445,11 +448,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <Box className="ohm-pairs">
                     <div className="ohm-pair" style={{ zIndex: 2 }}>
                       <div className="ohm-logo-bg">
-                        <img src={`${getOhmTokenImage()}`} />
+                        <img src={`${ohmImg}`} />
                       </div>
                     </div>
                     <div className="ohm-pair" style={{ zIndex: 1 }}>
-                      <img src={`${getFraxTokenImage()}`} />
+                      <img src={`${fraxImg}`} />
                     </div>
                     <Typography gutterBottom={false}>OHM-FRAX</Typography>
                   </Box>

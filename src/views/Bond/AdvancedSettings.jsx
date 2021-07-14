@@ -22,7 +22,7 @@ function AdvancedSettings({
   onSlippageChange,
 }) {
   return (
-    <Modal id="hades" open={open} onClose={handleClose}>
+    <Modal id="hades" open={open} onClose={handleClose} hideBackdrop>
       <Paper className="ohm-card ohm-popover">
         <Box display="flex">
           <IconButton onClick={handleClose}>

@@ -8,6 +8,8 @@ export const EPOCH_INTERVAL = 2200;
 // NOTE could get this from an outside source since it changes slightly over time
 export const BLOCK_RATE_SECONDS = 13.14;
 
+export const TOKEN_DECIMALS = 9;
+
 export const addresses = {
   4: {
     DAI_ADDRESS: "0xda68f3C5F31A289a4d90927aE54d6b4Ae0b7F1F9",
