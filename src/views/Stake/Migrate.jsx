@@ -1,15 +1,14 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Grid, Backdrop, Fade, Breadcrumbs } from "@material-ui/core";
-// import { changeStake, changeApproval } from "../../actions/Stake.actions";
+import { useState, useCallback, useEffect } from "react";
+import { Grid, Backdrop, Paper, Fade, Breadcrumbs } from "@material-ui/core";
 import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import { useSelector, useDispatch } from "react-redux";
-// import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import ClearIcon from "@material-ui/icons/Clear";
 import { trim } from "../../helpers";
 import { Flex } from "rimble-ui";
 import { NavLink } from "react-router-dom";
 import "./stake.scss";
+import "./migrate.scss";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
@@ -154,10 +153,9 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   return (
     <Grid container id="sohm-migration-view">
       <Backdrop open={true}>
-        <div className="ohm-modal ohm-card primary">
+        <Paper className="ohm-card ohm-modal">
           <div className="card-header">
             <h3>sOHM Migration</h3>
-
             <div role="button" className="cancel">
               <NavLink to="/stake" className="cancel-migrate">
                 <p>
@@ -194,7 +192,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                 {view === "done" && <h4>Youre good to go, all OHM is staked to the new contract.</h4>}
               </div>
 
-              <Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontsize="medium" />}>
+              <Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontSize="medium" />}>
                 <div
                   role="button"
                   onClick={() => {
@@ -338,7 +336,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
               </div>
             </div>
           )}
-        </div>
+        </Paper>
       </Backdrop>
     </Grid>
   );

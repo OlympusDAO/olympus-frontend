@@ -1,0 +1,44 @@
+#ohm-menu-button {
+  padding: 10px 15px;
+  svg {
+    margin-right: 3px;
+  }
+}
+
+#ohm-popper {
+  background-color: #00000000;
+  backdrop-filter: blur(60px);
+  margin-top: 10px;
+  border-radius: 10px;
+  .MuiPaper-root.ohm-menu {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    a {
+      margin-bottom: 22px !important;
+      svg {
+        vertical-align: middle;
+        font-size: 20px;
+        margin-left: 3px;
+      }
+      &:hover {
+        svg {
+          color: inherit;
+        }
+      }
+    }
+  }
+
+  .add-tokens {
+    > p {
+      margin-top: 20px;
+      text-align: center;
+    }
+    button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-top: 3px;
+    }
+  }
+}

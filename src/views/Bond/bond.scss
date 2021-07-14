@@ -1,184 +1,101 @@
 #bond-view {
-    position: absolute !important;
-    z-index: 7;
-    .MuiBackdrop-root {
-        background: rgba(0, 0, 0, 0.2) !important;
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        .ohm-card {
-            // background-color: #1B1D22FF !important;
-            opacity: 1 !important;  
-            -moz-opacity: 1 !important;
-            // background-color: rgba(27,29,34,0.9) !important;
-            height: 69vh;
-        }
-    }
-    .ohm-card,
-    .card-content {
-        padding: 60px;
-        opacity: 1 !important;
-        -moz-opacity: 1 !important;
-    }
+  position: absolute !important;
+  width: 100%;
+  height: 100%;
+  z-index: 69;
+  .MuiBackdrop-root {
+    background: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
     .ohm-card {
-        padding-top: 0 !important;
-        .card-header {
-            background: transparent !important;
-        }
+      opacity: 1 !important;
+      -moz-opacity: 1 !important;
+      height: auto;
     }
-    .bond-header {
-        .bond-header-logo {
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            display: flex;
-            flex-direction: row;
-            .ohm-logo-bg {
-                height: 40px !important;
-                width: 40px !important;
-                padding: 8px !important;
-                margin-left: 0;
-            }
-            .bond-header-name {
-                text-align: center;
-                margin-left: 15px;
-                h5 {
-                    margin-bottom: 0 !important;
-                }
-            }
-        }
-        .bond-settings {
-            position: absolute;
-            left: 20px;
-            top: 20px; 
-            a { 
-                color: inherit;
-                svg {
-                    transform: scale(1.4);
-                }
-            }
-        }
-        .cancel-bond {
-            position: absolute;
-            right: 25px;
-            top: 12px;
-            font-size: 1.6em;
-            a {
-                color: inherit;
-            }
-        }
+  }
+  .ohm0card {
+    max-width: 803px;
+  }
+  .ohm-modal {
+    max-width: 688px;
+    min-height: 605px;
+  }
+  .bond-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .bond-header-logo {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      display: flex;
+      flex-direction: row;
+      .ohm-logo-bg {
+        height: 40px !important;
+        width: 40px !important;
+        padding: 8px !important;
+        margin-left: 0;
+      }
+      .bond-header-name {
+        text-align: center;
+        margin-left: 15px;
+      }
     }
+  }
 
-    .bond-price-data-row {
-        display: flex;
-        justify-content: space-evenly;
-        margin: 1.9rem 0;
-        margin-bottom: 0.2rem;
-        .bond-price-data {
-            text-align: center;
-            h4 {
-                margin-bottom: 0;
-            }
-            h4.price {
-                font-weight: bold;
-                color: #F4D092 !important;
-            }
-        }
+  .bond-price-data-row {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin: 33px;
+    h4 {
+      margin-bottom: 0;
     }
+    h3.price {
+      font-weight: bold;
+    }
+  }
 
-    /* need to rename this lol */
-    .stake-toggle-row {
-        display: flex !important;
-        justify-content: center !important;        
-        margin-bottom: 1.8rem;
-        margin-top: 0rem;
-        .btn-group button {
-            font-size: 1.3em;
-            width: 10rem;
-        }
-    }
-
-    .stake-notification {
-        margin-bottom: 25px !important;
-        margin-top: 25px !important;
-    }
-
-    .input-row {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 26px;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    .input-group {
-        // display: inline-flex;
-        min-width: 50%; 
-        width: 50%;  
-    }
-    .transaction-button {
-        min-width: 30%;
-        width: 50%;
-        margin-left: 0 !important;
-        margin-top: 10px;
-    }
-
-    .stake-price-data-column {
-        margin: 0;
-        height: auto;
-        justify-content: normal;
-    }
-    .stake-price-data-row {
-        height: 42px;
-    }
-
-    .card.ohm-popover-card {
-        position: relative !important;
-    }
+  .ohm-input {
+    min-width: 50%;
+    max-width: 408px;
+    margin: 5px;
+  }
 }
 
-#bond-view {
-    .bond-main-info {
-        display: flex;
-        justify-content: center;
-    }
-    .swap-input-column {
-        padding: 1em;
-    }
-    .alert.alert-warning {
-        a {
-            color: black !important;
-        }
-    }
+.transaction-button {
+  min-width: 185px !important;
+  max-width: 408px;
+  width: 100%;
+  margin: 5px !important;
 }
 
 .mobile #bond-view {
-    .ohm-card {
-        width: 97% !important;
-        // min-height: 69% !important;
-        .card-content {
-            justify-content: space-evenly !important;
-            .stake-toggle-row {
-                justify-content: space-evenly !important;
-            }
-            .input-row {
-                flex-direction: column;
-                width: 100%;
-                justify-content: center;
-                align-items: center;
-                align-content: center;
-                .input-group.ohm-input-group {
-                    margin: 10px !important;
-                    width: 75%;
-                    height: 50px;
-                }
-                div.stake-button {
-                    width: 75%;
-                    margin-left: 0;
-                    margin-top: 15px;
-                    height: 50px;
-                    font-size: 1.3em !important;
-                }
-            }
+  .ohm-card {
+    .card-content {
+      justify-content: space-evenly !important;
+      .bond-toggle-row {
+        justify-content: space-evenly !important;
+      }
+      .input-row {
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        .input-group.ohm-input-group {
+          margin: 10px !important;
+          width: 75%;
+          height: 50px;
         }
+        div.stake-button {
+          width: 75%;
+          margin-left: 0;
+          margin-top: 15px;
+          height: 50px;
+          font-size: 1.3em !important;
+        }
+      }
     }
+  }
 }
