@@ -1,4 +1,4 @@
-import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
+import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import fonts from "./fonts";
 import commonSettings from "./global.js";
 
@@ -24,7 +24,7 @@ export const girthTheme = {
 };
 
 export const girth = responsiveFontSizes(
-  createMuiTheme(
+  createTheme(
     {
       primary: {
         main: girthTheme.color,
