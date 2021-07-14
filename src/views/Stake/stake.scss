@@ -1,759 +1,210 @@
 #stake-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  .rebase-timer {
+    margin: 0 !important;
+    line-height: 110% !important;
+  }
+
+  .stake-tab-panel,
+  .stake-tab-panel > div.MuiBox-root {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    height: fit-content;
-    // overflow: auto;
-    .mobile .card-content {
-        padding-top: 0.4em !important;
-    }
-    .card-header {
-        background: transparent !important;
-    }
-    .rebase-timer {
-        margin: 0 !important;
-        font-size: 0.9em !important;
-        line-height: 110% !important;
-    }
+    justify-content: center;
+    justify-items: center;
+    width: 100%;
+    padding: 0;
+  }
+
+  .ohm-card .header {
+    min-height: 3em;
+  }
+  .ohm-card.secondary .card-header {
+    min-height: 33px !important;
+    height: 20px;
+  }
 }
 
-.migrate-sohm-button a {
-    position: absolute;
-    right: 20px;
-    top: 12px;
-    font-size: 1.3em;
-    display: flex;
-    align-items: center;
-    color: #F08080;
-    line-height: 30px;
-    svg {
-        margin-right: 8px;
-    }
-}
-
-.migrate-sohm-button.complete a {
-    color: #35EE66 !important;
-}
-
-
-.mobile #sohm-migration-view {
-    .ohm-card {
-        width: 98% !important;
-    }
-}
-
-#sohm-migration-view {
-    position: absolute !important;
-    z-index: 7;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    .MuiBackdrop-root {
-        // background: rgba(0, 0, 0, 0.2) !important;
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        .ohm-card {
-            // background-color: #1B1D22;
-            opacity: 1 !important;
-            // color: #FFFFFF;
-            padding: 1.5em !important;
-            padding-top: 1em !important;
-            justify-content: center;
-            .card-header {
-                display: flex;
-                justify-content: space-between;
-                div.cancel p {
-                    color: #FF4343 !important;
-                    vertical-align: middle;
-                    padding: 0 !important;
-                    &:hover {
-                        color: #EEEEEE;
-                    }
-                }
-            }
-            .card-content {
-                background-color: inherit;
-                opacity: 1 !important;
-            }
-            p {
-                margin-bottom: 0 !important;
-            }
-            .MuiBreadcrumbs-root {
-                position: relative !important;
-                width: 100% !important;
-                margin-bottom: 3em;
-                .MuiBreadcrumbs-ol {
-                    justify-content: center;
-                }
-                li {
-                    color: #FFFFFF;
-                }
-                li > div:not(.current-step) {
-                    color: #aaaaaa;
-                }
-                li > div.current-step {
-                    color: #F4D092dd !important;
-                    text-decoration: underline;
-                    text-underline-offset: 5px;
-                }
-                li div.finished-step {
-                    color: #35EE66 !important;
-                }
-            }
-            .MuiBreadcrumbs-root.step-2 {
-                li.MuiBreadcrumbs-separator .MuiSvgIcon-root {
-                    color: #35EE66 !important;
-                }
-            }
-            .card-content {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                .stake-migration-help {
-                    margin-bottom: 2rem;
-                }
-                .stake-action-row {
-                  width: 100%;
-                  justify-content: center;
-                  .input-group.ohm-input-group,
-                  .stake-button {
-                      height: 50px;
-                      min-width: 40%;
-                  }
-                  .stake-button {
-                      white-space: nowrap;
-                  }
-                }
-                .stake-user-data {
-                    width: 100%;
-                    .stake-price-data-row {
-                        font-size: 1.2em;
-                        line-height: 200%;
-                    }
-                }
-                .stake-notification {
-                    width: 75%;
-                }
-            }
-
-        }
-    }
-}
-
-// ohm-card styles should be set to theme
-.ohm-card {
+.migrate-sohm-button {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  color: #f08080;
+  line-height: 30px;
+  svg {
+    margin-right: 8px;
     color: inherit;
-    overflow: hidden;
-    max-width: 969px;
-    width: 93%;
-    border-radius: 5px;
-    opacity: 1 !important;
-    // background-color: transparent !important;
-    // background-color: rgba(27,29,34,0.5) !important;
-    // background-color: #1B1D22 !important;
-    opacity: 0.6 !important;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: unset !important;
-    border: none !important;
-    // display:flex;
-    display: block;
-    justify-content:center;
-    flex-flow:wrap;
-    padding: 0px !important;
-    // padding-top: 4.20rem !important;
-    .card-header {
-        // position: absolute;
-        width: 100%;
-        // background-color:#42424200 !important;
-        box-shadow: none !important;
-        border: none !important;
-        // max-width: 60rem;
-        top: 0;
-        padding: 1em;
-        h5 {
-            font-weight: 600;
-            color: #efefef;
-            // text-decoration: underline;
-            // text-underline-offset: 10px;
-        }
-    }
-    .card-content {
-        width: 100%;
-        // max-width: 60rem;
-        position: relative;
-        // display: flex;
-        align-items: left;
-        justify-content: center;
-        border-radius: inherit;
-        //box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
-        flex-flow: column;
-        padding: 1rem 2rem 1rem 2rem;
-        height: 100%;
+  }
+}
 
-    }
-    &.primary {
-        margin-bottom: 2rem;
-        // min-height: 600px;
-        height: auto;
-    }
-    &.secondary {
-        height: auto;
-        // min-height: 250px;
-        // margin-bottom: 3.3rem;
-        padding-top: 0.5rem;
-    }
+.migrate-sohm-button.complete {
+  color: #35ee66 !important;
 }
 
 .stake-top-metrics {
-    display: flex;
-    width: 100%;
-    padding: 0;
-    text-align: center;
-    .olympus-sushi {
-        flex: 1;
-        div {
-            line-height: 150%;
-        }
-        .olympus-logo {
-            height: 1.7em;
-            width: 1.7em;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 5px;
-        }
-        h3 {
-            display: inline;
-            margin: 0;
-            vertical-align: middle;
-            font-size: 1.85em;
-            color: #ffffff;
-        }
-        a {
-            font-size: 0.85em;
-            margin-right: 5px;
-        }
-        .fa-external-link-alt {
-            width: 0.79em;
-            height: 0.79em;
-        }
-    }
-    .stake-apy, .stake-tvl, .stake-index {
-        flex: 1;
-        // text-align: left;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        h2 {
-            font-family: "Square-Light", 'cursive' !important;
-            font-size: 1.85em !important;
-            line-height: 130%;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            &.content {
-                color: #F4D092;
-            }
-        }
-        h2:first-of-type {
-            margin-bottom: unset;
-        }
-    }
-    .next-rebase {
-        flex: 1;
-        text-align: right;
-    }
-}
-
-// overriding original
-.stake-toggle-row {
-    margin: 2rem auto;
-    width: 100%;
-    display: block;
-    .btn-group button.btn {
-        color: #A9A9A9;
-        font-family: "Square-Medium" !important;
-        font-size: 1.6em;
-        border: unset;
-        border-radius: 0;
-        border-color: none !important;
-        background-color: transparent !important;
-        padding: 0 7px !important;
-        margin-right: 25px;
-        &:active,
-        &:focus {
-            outline: none;
-            border: none;
-            box-shadow: none;
-        }
-        &:hover {
-            color: #F5DDB4;
-        }
-    }
-}
-
-.mobile .stake-toggle-row {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.stake-notification {
-    height: 1.75rem;
-    font-size: 0.75em;
-    line-height: 125%;
-    text-align: center;
-    margin-bottom: 10px;
+  display: flex;
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  margin-top: 20px;
+  .stake-apy,
+  .stake-tvl {
+    flex: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 
 .ohm-logo-bg {
-    height: 25px;
-    width: 25px;
-    border-radius: 20px;
-    display: flex;
-    background-color: white;
-    vertical-align: middle;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0.7rem;
+  height: 22px;
+  width: 22px;
+  border-radius: 20px;
+  display: flex;
+  background-color: white;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
 }
 
 .ohm-logo-tiny {
-    height: 15px;
-    width: 15px;
-    vertical-align: middle;
-    background-color: transparent;
+  height: 14px;
+  width: 14px;
+  vertical-align: middle;
+  background-color: transparent;
+  align-self: center;
+  justify-self: center;
 }
 
 .logo-holder {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    background: none;
-    border: 0 !important;
-    border-radius: inherit;
-    color: #555;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  background: none;
+  border: 0 !important;
+  border-radius: inherit;
+  color: #555;
 }
 
 .stake-action-row {
-    margin-bottom: 20px;
-    line-height: 200%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-around;
 }
 
-.mobile .stake-action-row {
-    flex-direction: column;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    .input-group.ohm-input-group {
-        margin: 10px !important;
-        width: 75%;
-        min-width: 75%;
-        height: 55px;
-        font-size: 1.1em;
-    }
-    div.stake-button {
-        width: 75%;
-        min-width: 75%;
-        margin-left: 0;
-        margin-top: 15px;
-        height: 55px;
-        line-height: unset;
-    }
+.stake-tab-buttons {
+  margin-bottom: 20px;
 }
 
-.input-group.ohm-input-group {
-    min-width: 50%;
-    // max-width: 420px;
-    max-width: 60%;
-    border: 0.8px solid #FFFFFF;
-    border-radius: 5px !important;
-    input, button {
-        border-radius: none;
-        margin-left: 0 !important;
-        background: none !important;
-        border: none !important;
-        outline: none !important;
-        &:focus,
-        &:active {
-            outline: none !important;
-            box-shadow: none !important;
-        }
-    }
-    input {
-        border: none !important;
-    }
-    button {
-        border-left: 0 !important;
-        border-top-right-radius: inherit !important;
-        border-bottom-right-radius: inherit !important;
-        background: none;
-        &:hover {
-            color: #F5DDB4 !important;
-        }
-    }
-}
-
-
-.stake-price-data-row {
-    .price-label,
-    .price-data {
-        font-size: 1.1em !important;
-    }
+.ohm-input {
+  max-width: 542px;
 }
 
 .stake-button {
-    min-width: 200px;
-    font-weight: 600;
-    width: 40%;
-    max-width: 60%;
-}
-.stake-button, .stake-lp-button {
-    display: block !important;
-    margin-left: 1rem;
-    border-radius: 5px !important;
-    padding: .4rem !important;
-    background-color: #ffffffee;
-    font-size: 1.2em !important;
-    height: auto;
-    text-align: center !important;
-    font-family: 'Square-Light', cursive;
-    line-height: 150%;
-    svg {
-        margin-left: 10px;
-    }
+  margin: auto;
+  align-self: center;
+  max-width: 542px;
+  margin-top: 10px !important;
 }
 
-.stake-table {
-    thead {
-        color: #999999;
-        font-size: 1.11em;
-    }
-    tbody {
-        color: inherit;
-        tr {
-            vertical-align: middle;
-            overflow-wrap: break-word;
-            font-size: 1.08em;
-            align-items: center;
-            .ohm-pairs p, .ohm-pairs svg {
-                align-self: center;
-                margin-left: 6px;
-                font-weight: bold;
-                margin-bottom: 0;
-                vertical-align: text-top;
-            }
-        }
-        button {
-            padding: .25rem .65rem;
-            width: 90%;
-        }
-    }
+.mobile .stake-button,
+.tablet .stake-button {
+  width: 100% !important;
+  max-width: 542px;
+  align-self: center;
+  justify-self: center;
+  margin-top: 10px;
 }
 
-.mobile .stake-table button {
-    padding: .4rem 1.7rem;
-    width: 8rem;
+.staking-area {
+  margin: 13px 10px 13px 10px;
 }
 
-
-.mobile .stake-pool {
-    border: 1px solid #F4D09222;
-    // background: #000000ff;
-    border-radius: 5px;
-    padding: 1.9em 2.3em;
+.stake-lp-button {
+  text-align: center !important;
+  display: flex;
+  h6 {
+    vertical-align: middle;
+    align-content: center;
+    align-items: center;
     display: flex;
-    flex-direction: column;
-    .pool-card-top-row {
-        display: flex;
-        justify-content: space-between;
+  }
+  svg {
+    margin-left: 5px;
+  }
+  &:hover {
+    svg {
+      color: inherit;
     }
-    .ohm-logo-bg {
-        height: 38px !important;
-        width: 38px !important;
-        padding: 8px !important;
-        margin-left: 0;
-    }
+  }
+}
+
+.stake-user-data {
+  max-width: 633px;
+  justify-content: center;
+  margin: auto;
+}
+
+.tablet .stake-table button {
+  padding: 0.4rem 1.7rem;
+  width: 8rem;
+}
+
+.tablet .stake-pool,
+.mobile .stake-pool {
+  .pool-card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
     .ohm-pairs p {
-        font-size: 1.5em !important;
+      margin-bottom: 0 !important;
     }
-    .pool-data {
-        margin-top: 15px;
-        width: 100%;
-        .pool-data-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: larger;
-            line-height: 225%;
-        }
+  }
+  .ohm-logo-bg {
+    height: 38px !important;
+    width: 38px !important;
+    padding: 8px !important;
+    margin-left: 0;
+  }
+
+  .pool-data {
+    margin-top: 15px;
+    width: 100%;
+    .pool-data-row {
+      display: flex;
+      justify-content: space-between;
+      line-height: 225%;
     }
-    .stake-lp-button {
-        margin-left: 0;
-        padding: 8px !important;
-        display: flex;
-        max-width: 12em;
-        svg {
-            margin-left: 18px !important;
-        }
+  }
+  .stake-lp-button {
+    margin-top: 10px;
+    svg {
+      margin-left: 18px !important;
     }
+  }
 }
 
 .stake-wallet-notification {
-    min-height: 300px;
-    padding: 5%;
-    display: flex;
-    flex-direction: column;
-    border-radius: 5px;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #F4D09266;
-    border-radius: 5px;
-    h4 {
-        color: inherit;
-        text-align: center;
-        font-size: 2em;
-        font-weight: 100;
-        margin-bottom: 20px;
+  padding: 5%;
+  margin-top: 10px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #f4d09266;
+  .wallet-menu {
+    text-align: center;
+    margin-top: 1.2rem;
+    .stake-button {
+      max-width: 300px !important;
     }
-    .wallet-menu {
-        text-align: center;
-        float: unset;
-        .stake-button {
-            color: #F4D092;
-            font-size: 1.5em !important;
-            width: 20rem;
-            max-width: 300px !important;
-            height: 50px;
-        }
-    }
-}
-
-
-
-
-
-
-/* Bond styles to be moved */
-.MuiTable-root {
-    thead .MuiTableCell-root {
-        color: #999999 !important;
-    }
-    tbody .MuiTableCell-root {
-        color: #ffffff !important;
-        .ohm-pairs p, .ohm-pairs svg {
-            align-self: center !important;
-            margin-left: 8px !important;
-            font-weight: bold !important;
-            margin-bottom: 0 !important;
-            font-family: inherit;
-            vertical-align: text-top !important;
-        }
-        button {
-            padding: .25rem .65rem;
-            width: 5em !important;
-        }
-    }
-}
-
-.MuiTableCell-root {
-    border-bottom: none !important;
-    font-size: 1em !important;
-    p {
-        margin-bottom: 0 !important;
-    }
-    &.MuiTableCell-alignLeft {
-        display: flex;
-    }
-}
-
-.MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
-    justify-content: space-evenly;
-    div.ohm-pairs {
-        width: 33%;
-        // padding-left: 8px;
-        vertical-align: middle !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin-bottom: 0 !important;
-        .ohm-pairs div.bond-name p, .ohm-pairs svg {
-            align-self: center !important;
-            line-height: 115%;
-            font-weight: bold !important;
-            margin-bottom: 0em !important;
-            padding: 0 !important;
-            font-family: inherit;
-            vertical-align: text-top !important;
-        }
-        .ohm-logo-bg {
-            margin-left: 0;
-            border-radius: 20px;
-            padding: 6px;
-            height: 40px;
-            width: 40px;
-        }
-    }
-    div.bond-name {
-        width: 60%;
-        margin-left: 8px !important;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        p {
-            margin-bottom: unset !important;
-        }
-        svg {
-            margin-left: 5px !important;
-        }
-    }
-}
-
-
-.ohm-card.mobile {
-    width: 99% !important;
-    max-width: 100% !important;
-    padding: 0.5rem;
-}
-
-.ohm-card.med {
-    width: 89% !important;
-    padding: 1.5rem;
-}
-
-
-#choose-bond-view {
-
-    h1, h2, h3, h4 {
-        font-family: 'Square' !important;
-        font-weight: 500;
-        color: inherit;
-    }
-    h2 {
-        color: #F4D092;
-    }
-
-    .ohm-card.secondary {
-        margin-bottom: 2rem;
-        margin-top: 1.5rem;
-        .ohm-price {
-            text-align: right;
-        }
-    }
-
-    .MuiGrid-spacing-xs-2 {
-        margin: 0 !important;
-    }
-
-
-    .ohm-card.mobile {
-        margin-bottom: 2em;
-        .ohm-logo-bg {
-            margin-left: 0;
-            border-radius: 20px;
-            padding: 10px;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            height: 40px;
-            width: 40px;
-        }
-        &.secondary {
-            // background: transparent !important;
-            box-shadow: none !important;
-            margin-top: 20px;
-            padding-top: 2rem !important;
-            .card-header,
-            .card-content {
-                .ohm-price {
-                    text-align: right;
-                    &.very-small {
-                        text-align: left;
-                    }
-                }
-            }
-            // .ohm-price {
-            //     text-align: right;
-            // }
-            h3 {
-                margin-bottom: 0;
-                font-size: 1.7em;
-                // text-decoration: underline;
-            }
-            h2 {
-                margin-bottom: 0;
-                font-size: 2.9em;
-            }
-        }
-        &.primary {
-            padding-top: 0 !important;
-            .card-header {
-                background: transparent;
-            }
-            .card-content {
-                padding: 2rem 2rem 3rem 0.5rem !important;
-                height: auto;
-                align-items: center;
-                vertical-align: center;
-                display: flex;
-                width: 100%;
-                .bond-data-card {
-                    display: flex;
-                    width: 100%;
-                    align-items: center;
-                    justify-content: space-evenly;
-                    font-size: 1em;
-                    .bond-pair {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        width: 35%;
-                        .ohm-pair {
-                            height: 40px;
-                            width: 40px;
-                        }
-                        .bond-name {
-                            margin-top: 15px;
-                            svg {
-                                margin-left: 5px;
-                            }
-                        }
-                    }
-                    .bond-name,
-                    .bond-price,
-                    .bond-discount {
-                        text-align: center;
-                        margin-right: 10px;
-                        margin-left: 10px;
-                        vertical-align: middle;
-                        align-items: center;
-                        p {
-                            margin-bottom: 0 !important;
-                        }
-                    }
-                    .bond-price,
-                    .bond-discount {
-                        width: 16%;
-                    }
-                    .ohm-btn {
-                        min-width: 8rem !important;
-                        width: 8rem !important;
-                        margin-left: 0 !important;
-                    }
-                }
-            }
-        }
-    }
-
-    .MuiTableRow-head {
-        .MuiTableCell-alignLeft {
-            padding-left: 20px;
-        }
-    }
-}
-
-:not(.mobile) .ohm-card .card-content {
-    padding-left: 3rem !important;
-    padding-right: 3rem !important;
-    padding-bottom: 3rem !important;
+  }
 }
