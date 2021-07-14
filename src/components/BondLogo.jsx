@@ -1,15 +1,15 @@
-import { isBondLP, getOhmTokenImage, getFraxTokenImage, getDaiTokenImage } from "../helpers";
+import { isBondLP, getTokenImage } from "../helpers";
 
 function BondHeader({ bond }) {
   const ohmAssetImg = () => {
-    return getOhmTokenImage();
+    return getTokenImage("ohm");
   };
 
   const reserveAssetImg = () => {
     if (bond.indexOf("frax") >= 0) {
-      return getFraxTokenImage();
+      return getTokenImage("frax");
     } else if (bond.indexOf("dai") >= 0) {
-      return getDaiTokenImage();
+      return getTokenImage("dai");
     }
   };
 

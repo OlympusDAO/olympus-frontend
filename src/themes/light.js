@@ -13,6 +13,7 @@ const lightTheme = {
   background: "linear-gradient(180deg, #AFCDE9 0%, #F7FBE7 100%)",
   paperBg: "rgba(255, 255, 255, 0.6)",
   modalBg: "#F9F9F9AA",
+  popoverrBg: "rgba(255, 255, 255, 0.8)",
   menuBg: "rgba(255, 255, 255, 0.6)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
@@ -76,12 +77,19 @@ export const light = responsiveFontSizes(
           },
         },
         MuiPaper: {
-          "&.ohm-modal": {
-            backgroundColor: lightTheme.modalBg,
-          },
-          "&.ohm-menu": {
-            backgroundColor: lightTheme.menuBg,
-            backdropFilter: "blur(60px)",
+          root: {
+            "&.ohm-modal": {
+              backgroundColor: lightTheme.modalBg,
+            },
+            "&.ohm-menu": {
+              backgroundColor: lightTheme.menuBg,
+              backdropFilter: "blur(60px)",
+            },
+            "&.ohm-popover": {
+              backgroundColor: lightTheme.popoverBg,
+              color: lightTheme.color,
+              backdropFilter: "blur(33px)",
+            },
           },
         },
         MuiBackdrop: {

@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { addresses } from "../../constants";
-import { getOhmTokenImage, getSohmTokenImage } from "../../helpers";
+import { addresses, TOKEN_DECIMALS } from "../../constants";
+import { getTokenImage } from "../../helpers";
 import { useSelector } from "react-redux";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/v1.2/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/v1.2/arrow-up.svg";
 import "./ohmmenu.scss";
 
-const TOKEN_DECIMALS = 9;
-const SOHM_TOKEN_IMAGE = getSohmTokenImage();
-const OHM_TOKEN_IMAGE = getOhmTokenImage();
+const sohmImg = getTokenImage("sohm");
+const ohmImg = getTokenImage("ohm");
+
 const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
     try {
@@ -21,7 +21,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
             address: tokenAddress,
             symbol: tokenSymbol,
             decimals: TOKEN_DECIMALS,
-            image: tokenSymbol === "OHM" ? OHM_TOKEN_IMAGE : SOHM_TOKEN_IMAGE,
+            image: tokenSymbol === "OHM" ? ohmImg : sohmImg,
           },
         },
       });

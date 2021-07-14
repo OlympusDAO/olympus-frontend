@@ -37,8 +37,6 @@ export const loadAppDetails =
     `;
     const graphData = await apollo(protocolMetricsQuery);
 
-    console.log(graphData);
-
     if (!graphData || graphData == null) {
       console.error("Returned a null response when querying TheGraph");
       return;
@@ -112,8 +110,6 @@ export const loadAppDetails =
 
     // Current index
     const currentIndex = await stakingContract.index();
-
-    console.log("graphData", graphData);
 
     return dispatch(
       fetchAppSuccess({
