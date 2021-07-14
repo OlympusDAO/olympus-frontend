@@ -1,7 +1,5 @@
-
-// Do not use! 
+// Do not use!
 // this is only a reference file for the old theme style definitions
-
 
 export const darkTheme = {
   color: "#ffffff",

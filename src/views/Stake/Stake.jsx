@@ -379,14 +379,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     <div className="data-row">
                       <Typography>ROI (5-Day Rate)</Typography>
                       <Typography>{trim(fiveDayRate * 100, 4)}%</Typography>
-                  </div>
-
-                    
+                    </div>
                   </div>
                 </>
               )}
             </div>
-
           </Grid>
         </Paper>
       </Zoom>
