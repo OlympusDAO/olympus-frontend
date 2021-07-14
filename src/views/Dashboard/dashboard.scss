@@ -27,8 +27,13 @@
   justify-content: center;
   flex-direction: column;
   margin-top: 10px;
-  height: 80vh;
+  height: 77vh;
   z-index: 2;
+  .MuiGrid-root.MuiGrid-item {
+    display: flex;
+    justify-content: center !important;
+    justify-self: center !important;
+  }
   .data-grid {
     justify-content: center;
     align-items: center;

@@ -1,9 +1,9 @@
-import { AppBar, Toolbar, Box, Button, Link, IconButton, SvgIcon } from "@material-ui/core";
+import { AppBar, Toolbar, Box, Button, SvgIcon } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/v1.2/hamburger.svg";
 import OhmMenu from "./OhmMenu.jsx";
-import ThemeSwitcher from "./ThemeSwitch.jsx";
+import ThemeSwitcher from "../ThemeSwitch.jsx";
 import "./topbar.scss";
 
 const useStyles = makeStyles(theme => ({
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
+function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, toggleTheme, handleDrawerToggle }) {
   const classes = useStyles();
   const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
 
@@ -70,7 +70,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
             {modalButtons}
           </div>
 
-          <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
+          <ThemeSwitcher toggleTheme={toggleTheme} />
         </Box>
       </Toolbar>
     </AppBar>
