@@ -218,6 +218,12 @@ const commonSettings = {
       viewBox: "0 0 20 20",
       fontSize: "small",
     },
+    MuiBackdrop: {
+      transitionDuration: 300,
+    },
+    MuiPopover: {
+      transitionDuration: 300,
+    },
   },
 };
 
