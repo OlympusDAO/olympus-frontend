@@ -59,10 +59,11 @@ export function BondDataCard({ bond }) {
               }).format(bondPurchased)}
           </Typography>
         </div>
-
-        <Button href={`/bonds/${bond}`} variant="outlined" color="primary" fullWidth>
-          <Typography variant="h5">Bond {bondName(bond)}</Typography>
-        </Button>
+        <Link component={NavLink} to={`/bonds/${bond}`}>
+          <Button variant="outlined" color="primary" fullWidth>
+            <Typography variant="h5">Bond {bondName(bond)}</Typography>
+          </Button>
+        </Link>
       </Paper>
     </Slide>
   );
@@ -111,7 +112,7 @@ export function BondTableData({ bond }) {
           }).format(bondPurchased)}
       </TableCell>
       <TableCell align="right">
-        <Link to={`/bonds/${bond}`} component={NavLink}>
+        <Link component={NavLink} to={`/bonds/${bond}`}>
           <Button variant="outlined" color="primary">
             <Typography variant="h6">Bond</Typography>
           </Button>
