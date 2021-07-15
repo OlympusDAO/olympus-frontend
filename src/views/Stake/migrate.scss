@@ -1,9 +1,4 @@
 // MIGRATE PAGE STYLES
-.tablet #sohm-migration-view {
-  .ohm-card {
-    width: 98% !important;
-  }
-}
 
 #sohm-migration-view {
   position: absolute !important;
@@ -28,10 +23,6 @@
           }
         }
       }
-      .card-content {
-        background-color: inherit;
-        opacity: 1 !important;
-      }
       p {
         margin-bottom: 0 !important;
       }
@@ -41,12 +32,12 @@
         margin-bottom: 3em;
         .MuiBreadcrumbs-ol {
           justify-content: center;
-        }
-        li {
-          color: #ffffff;
+          .breadcrumb:hover {
+            cursor: pointer !important;
+          }
         }
         li > div:not(.current-step) {
-          color: #aaaaaa;
+          color: #999999;
         }
         li > div.current-step {
           color: #f4d092dd !important;
@@ -83,9 +74,6 @@
         }
         .stake-user-data {
           width: 100%;
-          .stake-price-data-row {
-            line-height: 200%;
-          }
         }
         .stake-notification {
           width: 75%;
