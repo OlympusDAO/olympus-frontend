@@ -1,0 +1,33 @@
+#treasury-dashboard-view {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 100%;
+  transform: translate3d(0, 0, 0) !important;
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  .ohm-card {
+    white-space: nowrap;
+    width: auto;
+    margin: auto;
+    max-height: 360px;
+  }
+  .hero-metrics {
+    width: 100%;
+    margin-bottom: 23px;
+    .ohm-card {
+      max-width: unset !important;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      text-align: center;
+      h4 {
+        font-weight: bold;
+      }
+    }
+  }
+  .data-grid {
+    overflow: hidden;
+    overflow-y: auto;
+    height: calc(100vh - 186px);
+    justify-content: center;
+  }
+}
