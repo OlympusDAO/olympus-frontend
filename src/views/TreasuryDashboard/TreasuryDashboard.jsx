@@ -151,10 +151,9 @@ function TreasuryDashboard() {
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
-                type="area"
+                type="bar"
                 data={data}
                 dataKey={["holders"]}
-                stopColor={[["#333420", "#333420"]]}
                 stroke={["#333420"]}
                 headerText="Holders"
                 headerSubText={`${data && data[0].holders}`}

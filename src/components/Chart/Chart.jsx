@@ -1,4 +1,4 @@
-import { ResponsiveContainer, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
+import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { Typography, Box } from "@material-ui/core";
 import { trim } from "../../helpers";
 import _ from "lodash";
@@ -28,7 +28,7 @@ const renderAreaChart = (data, dataKey, stopColor, stroke) => (
       axisLine={false}
       tickLine={false}
       // tickFormatter={number => `${trim(parseFloat(number), 2)}`}
-      domain={[0, dataMax => parseFloat(dataMax) * 1.33]}
+      // domain={[0, dataMax => parseFloat(dataMax) * 1.2]}
       connectNulls={true}
       allowDataOverflow={false}
     />
@@ -64,14 +64,14 @@ const renderStackedAreaChart = (data, dataKey, stopColor, stroke) => (
       axisLine={false}
       tickLine={false}
       // tickFormatter={number => `${trim(parseFloat(number), 2)}`}
-      domain={[0, dataMax => parseFloat(dataMax) * 1.33]}
+      // domain={[0, dataMax => parseFloat(dataMax) * 1.2]}
       connectNulls={true}
       allowDataOverflow={false}
     />
     <Tooltip />
 
-    <Area type="monotone" dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
-    <Area type="monotone" dataKey={dataKey[1]} stroke={stroke[1]} fill={`url(#color-${dataKey[1]})`} fillOpacity={1} />
+    <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
+    <Area dataKey={dataKey[1]} stroke={stroke[1]} fill={`url(#color-${dataKey[1]})`} fillOpacity={1} />
   </AreaChart>
 );
 
@@ -84,16 +84,17 @@ const renderLineChart = (data, dataKey, stroke, color) => (
       tickLine={false}
       reversed={true}
       connectNulls={true}
-      type="string"
+      // type="string"
     />
     <YAxis
-      interval={dataMax => dataMax * 0.33}
+      // interval={dataMax => dataMax * 0.33}
       axisLine={false}
       tickLine={false}
       tickFormatter={number => `${trim(parseFloat(number), 2)}`}
-      domain={[0, dataMax => parseFloat(dataMax) * 1.3]}
+      // domain={[0, dataMax => parseFloat(dataMax) * 1.2]}
       connectNulls={true}
       allowDataOverflow={false}
+      // type="string"
     />
     <Tooltip />
     <Line type="monotone" dataKey={dataKey[0]} stroke={stroke[0]} color={color} dot={false} />;
@@ -109,14 +110,14 @@ const renderMultiLineChart = (data, dataKey, stroke, color) => (
       tickLine={false}
       reversed={true}
       connectNulls={true}
-      type="string"
+      // type="string"
     />
     <YAxis
       interval={dataMax => dataMax * 0.33}
       axisLine={false}
       tickLine={false}
       tickFormatter={number => `${trim(parseFloat(number), 2)}`}
-      domain={[0, dataMax => parseFloat(dataMax) * 1.3]}
+      // domain={[0, dataMax => parseFloat(dataMax) * 1.2]}
       connectNulls={true}
       allowDataOverflow={false}
     />
@@ -128,7 +129,14 @@ const renderMultiLineChart = (data, dataKey, stroke, color) => (
 );
 
 // JTBD: Bar chart for Holders
-const renderBarChart = () => {};
+const renderBarChart = (data, dataKey, stroke) => (
+  <BarChart data={data}>
+    <XAxis dataKey="timestamp" axisLine={false} tickCount={3} tickLine={false} reversed={true} />
+    <YAxis axisLine={false} tickLine={false} tickCount={3} />
+    <Tooltip />
+    <Bar dataKey={dataKey[0]} fill={stroke[0]} />
+  </BarChart>
+);
 
 function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, headerSubText }) {
   const renderChart = type => {
@@ -136,6 +144,7 @@ function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, head
     if (type === "area") return renderAreaChart(data, dataKey, stopColor, stroke);
     if (type === "stack") return renderStackedAreaChart(data, dataKey, stopColor, stroke);
     if (type === "multi") return renderMultiLineChart(data, dataKey, color, stroke);
+    if (type === "bar") return renderBarChart(data, dataKey, stroke);
   };
 
   useEffect(() => {
