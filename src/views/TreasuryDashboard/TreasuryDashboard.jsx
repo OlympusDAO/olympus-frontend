@@ -8,7 +8,7 @@ import "./treasury-dashboard.scss";
 import apollo from "../../lib/apolloClient";
 
 function TreasuryDashboard() {
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
@@ -25,6 +25,15 @@ function TreasuryDashboard() {
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
+
+  const formatCurrency = c => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+    }).format(c);
+  };
 
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
@@ -51,13 +60,7 @@ function TreasuryDashboard() {
                   Market Cap
                 </Typography>
                 <Typography variant="h4">
-                  {marketCap &&
-                    new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0,
-                    }).format(marketCap)}
+                  {marketCap && formatCurrency(marketCap)}
                   {!marketCap && "$ loading"}
                 </Typography>
               </Grid>
@@ -67,17 +70,7 @@ function TreasuryDashboard() {
                   Supply (circulating/total)
                 </Typography>
                 <Typography variant="h4">
-                  {circSupply &&
-                    new Intl.NumberFormat("en-US", {
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0,
-                    }).format(circSupply)}
-                  /
-                  {totalSupply &&
-                    new Intl.NumberFormat("en-US", {
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0,
-                    }).format(totalSupply)}
+                  {circSupply && formatCurrency(circSupply)}/{totalSupply && formatCurrency(totalSupply)}
                 </Typography>
               </Grid>
 
@@ -98,11 +91,10 @@ function TreasuryDashboard() {
                 type="area"
                 data={data}
                 dataKey={["totalValueLocked"]}
-                dataFormat="currency"
-                color="#333420"
-                stopColor={["#768299", "#98B3E9"]}
-                stroke={["#333420", "#98B3E9"]}
+                stopColor={[["#768299", "#98B3E9"]]}
+                stroke={["#333420"]}
                 headerText="Total Value Locked"
+                headerSubText={`${data && formatCurrency(data[0].totalValueLocked)}`}
               />
             </Paper>
           </Grid>
@@ -110,14 +102,16 @@ function TreasuryDashboard() {
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card ohm-chart-card">
               <Chart
-                type="area"
+                type="stack"
                 data={data}
-                dataKey={["treasuryMarketValue"]}
-                dataFormat="currency"
-                color="#333420"
-                stopColor={["#F5AC37", "#EA9276"]}
+                dataKey={["treasuryDaiMarketValue", "treasuryFraxRiskFreeValue"]}
+                stopColor={[
+                  ["#F5AC37", "#EA9276"],
+                  ["#768299", "#98B3E9"],
+                ]}
                 stroke={["#333420"]}
                 headerText="Market Value of Treasury Assets"
+                headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
               />
             </Paper>
           </Grid>
@@ -125,15 +119,17 @@ function TreasuryDashboard() {
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card ohm-chart-card">
               <Chart
-                type="area"
+                type="stack"
                 data={data}
                 format="currency"
-                dataKey={["treasuryRiskFreeValue"]}
-                dataFormat="currency"
-                color="#333420"
-                stopColor={["#F5AC37", "#EA9276", "#768299", "#98B3E9"]}
+                dataKey={["treasuryDaiRiskFreeValue", "treasuryFraxRiskFreeValue"]}
+                stopColor={[
+                  ["#F5AC37", "#EA9276"],
+                  ["#768299", "#98B3E9"],
+                ]}
                 stroke={["#333420"]}
                 headerText="Risk Free Value of Treasury Assets"
+                headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
               />
             </Paper>
           </Grid>
@@ -143,11 +139,11 @@ function TreasuryDashboard() {
               <Chart
                 type="area"
                 data={data}
-                dataKey={["marketCap"]}
-                color="#333420"
-                stopColor={["#80CC83", "#80CC8322"]}
+                dataKey={["treasuryXsushiMarketValue"]}
+                stopColor={[["#80CC83", "#80CC8322"]]}
                 stroke={["#333420"]}
                 headerText="Protocol-Owned Liquidity of OHM-DAI"
+                headerSubText={`${data && formatCurrency(data[0].treasuryXsushiMarketValue)}%`}
               />
             </Paper>
           </Grid>
@@ -157,11 +153,11 @@ function TreasuryDashboard() {
               <Chart
                 type="area"
                 data={data}
-                dataKey={["sOhmCirculatingSupply"]}
-                color="#333420"
-                stopColor={["#333420", "#333420"]}
+                dataKey={["holders"]}
+                stopColor={[["#333420", "#333420"]]}
                 stroke={["#333420"]}
                 headerText="Holders"
+                headerSubText={`${data && data[0].holders}`}
               />
             </Paper>
           </Grid>
@@ -172,10 +168,10 @@ function TreasuryDashboard() {
                 type="area"
                 data={data}
                 dataKey={["totalOHMstaked"]}
-                color="#333420"
-                stopColor={["#55EBC7", "#47ACEB"]}
+                stopColor={[["#55EBC7", "#47ACEB"]]}
                 stroke={["#333420"]}
                 headerText="OHM Staked"
+                headerSubText={`${data && trim(data[0].totalOHMstaked, 1)}% `}
               />
             </Paper>
           </Grid>
@@ -187,9 +183,9 @@ function TreasuryDashboard() {
                 data={data}
                 dataKey={["currentAPY"]}
                 color="#333420"
-                stopColor={["#333420"]}
                 stroke={["#333420"]}
                 headerText="APY over time"
+                headerSubText={`${data && trim(data[0].currentAPY, 1)}%`}
               />
             </Paper>
           </Grid>
@@ -197,13 +193,15 @@ function TreasuryDashboard() {
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
-                type="line"
+                type="multi"
                 data={data}
                 dataKey={["runway10k", "runway20k", "runway50k"]}
                 color="#333420"
-                stopColor={["#333420"]}
                 stroke={["#FFF", "#2EC608", "#49A1F2"]}
                 headerText="Runway Available"
+                headerSubText={`10K ${data && trim(data[0].runway10k, 1)} Days, 20K ${
+                  data && trim(data[0].runway20k, 1)
+                } Days, 50K ${data && trim(data[0].runway50k, 1)} Days`}
               />
             </Paper>
           </Grid>
