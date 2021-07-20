@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import BondLogo from "../../components/BondLogo";
 import AdvancedSettings from "./AdvancedSettings";
 import { bondName } from "../../helpers";
 import { Typography, IconButton, SvgIcon, Link } from "@material-ui/core";
 import { ReactComponent as SettingsIcon } from "../../assets/icons/v1.2/settings.svg";
 import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
+import useEscape from "../../hooks/useEscape";
 
 function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,13 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
   const handleClose = () => {
     setOpen(false);
   };
+
+  let history = useHistory();
+
+  useEscape(() => {
+    if (open) handleClose;
+    else history.push("/bonds");
+  });
 
   return (
     <div className="bond-header">
