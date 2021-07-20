@@ -3,122 +3,166 @@ import { Typography, Box } from "@material-ui/core";
 import { trim } from "../../helpers";
 import _ from "lodash";
 import "./chart.scss";
+import { useEffect } from "react";
 
-function Chart({ type, data, dataKey, dataFormat, color, stopColor, stroke, headerText }) {
-  const renderLineChart = () => (
-    <LineChart data={data}>
-      {dataKey.map(key => {
-        let i = _.indexOf(dataKey, key);
-        let lineStroke = stroke[i] ? stroke[i] : "#333";
-        return (
-          <Line
-            type="monotone"
-            key={`${dataKey}`}
-            dataKey={dataKey[0]}
-            stroke={stroke[lineStroke]}
-            color={color}
-            dot={false}
-          />
-        );
-      })}
-      <XAxis
-        dataKey="timestamp"
-        interval={30}
-        axisLine={false}
-        tickCount={3}
-        tickLine={false}
-        reversed={true}
-        connectNulls={true}
-        domain={["dataMin", "dataMax"]}
-      />
-      <YAxis
-        interval={dataMax => dataMax * 0.33}
-        tickCount={3}
-        axisLine={false}
-        tickLine={false}
-        tickFormatter={number => `${trim(parseFloat(number), 2)}`}
-        domain={[0, dataMax => parseFloat(dataMax) * 1.3]}
-        connectNulls={true}
-        type="number"
-        allowDataOverflow={false}
-      />
-      <Tooltip />
-    </LineChart>
-  );
+const renderAreaChart = (data, dataKey, stopColor, stroke) => (
+  <AreaChart data={data}>
+    <defs>
+      <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor={stopColor[0][0]} stopOpacity={1} />
+        <stop offset="90%" stopColor={stopColor[0][1]} stopOpacity={0.9} />
+      </linearGradient>
+    </defs>
+    <XAxis
+      dataKey="timestamp"
+      interval={30}
+      axisLine={false}
+      tickLine={false}
+      // tickFormatter={timestamp => formatDate(timstamp)}
+      reversed={true}
+      connectNulls={true}
+    />
+    <YAxis
+      interval={dataMax => dataMax * 0.33}
+      tickCount={3}
+      axisLine={false}
+      tickLine={false}
+      // tickFormatter={number => `${trim(parseFloat(number), 2)}`}
+      domain={[0, dataMax => parseFloat(dataMax) * 1.33]}
+      connectNulls={true}
+      allowDataOverflow={false}
+    />
+    <Tooltip />
+    <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
+  </AreaChart>
+);
 
-  const renderAreaChart = () => (
-    <AreaChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }} align="bottom">
-      <defs>
-        <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={stopColor[0]} stopOpacity={1} />
-          <stop offset="90%" stopColor={stopColor[1]} stopOpacity={0.9} />
-        </linearGradient>
-      </defs>
-      <XAxis
-        dataKey="timestamp"
-        interval={30}
-        axisLine={false}
-        tickCount={3}
-        tickLine={false}
-        reversed={true}
-        connectNulls={true}
-        domain={["dataMin", "dataMax"]}
-      />
-      <YAxis
-        interval={dataMax => dataMax * 0.33}
-        tickCount={3}
-        axisLine={false}
-        tickLine={false}
-        tickFormatter={number => `${trim(parseFloat(number), 2)}`}
-        domain={[0, dataMax => parseFloat(dataMax) * 2.53]}
-        connectNulls={true}
-        type="number"
-        allowDataOverflow={false}
-      />
-      <Tooltip />
-      <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey})`} fillOpacity={1} />
-    </AreaChart>
-  );
+const renderStackedAreaChart = (data, dataKey, stopColor, stroke) => (
+  <AreaChart data={data}>
+    <defs>
+      <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor={stopColor[0][0]} stopOpacity={1} />
+        <stop offset="90%" stopColor={stopColor[0][1]} stopOpacity={0.9} />
+      </linearGradient>
+      <linearGradient id={`color-${dataKey[1]}`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor={stopColor[1][0]} stopOpacity={1} />
+        <stop offset="90%" stopColor={stopColor[1][1]} stopOpacity={0.9} />
+      </linearGradient>
+    </defs>
+    <XAxis
+      dataKey="timestamp"
+      interval={30}
+      axisLine={false}
+      tickLine={false}
+      // tickFormatter={timestamp => formatDate(timstamp)}
+      reversed={true}
+      connectNulls={true}
+    />
+    <YAxis
+      interval={dataMax => dataMax * 0.33}
+      tickCount={3}
+      axisLine={false}
+      tickLine={false}
+      // tickFormatter={number => `${trim(parseFloat(number), 2)}`}
+      domain={[0, dataMax => parseFloat(dataMax) * 1.33]}
+      connectNulls={true}
+      allowDataOverflow={false}
+    />
+    <Tooltip />
 
-  // JTBD: Bar chart for Holders
-  const renderBarChart = () => {};
+    <Area type="monotone" dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
+    <Area type="monotone" dataKey={dataKey[1]} stroke={stroke[1]} fill={`url(#color-${dataKey[1]})`} fillOpacity={1} />
+  </AreaChart>
+);
 
-  const chartIndex = {
-    line: renderLineChart(),
-    area: renderAreaChart(),
+const renderLineChart = (data, dataKey, stroke, color) => (
+  <LineChart data={data}>
+    <XAxis
+      dataKey="timestamp"
+      axisLine={false}
+      tickCount={3}
+      tickLine={false}
+      reversed={true}
+      connectNulls={true}
+      type="string"
+    />
+    <YAxis
+      interval={dataMax => dataMax * 0.33}
+      axisLine={false}
+      tickLine={false}
+      tickFormatter={number => `${trim(parseFloat(number), 2)}`}
+      domain={[0, dataMax => parseFloat(dataMax) * 1.3]}
+      connectNulls={true}
+      allowDataOverflow={false}
+    />
+    <Tooltip />
+    <Line type="monotone" dataKey={dataKey[0]} stroke={stroke[0]} color={color} dot={false} />;
+  </LineChart>
+);
+
+const renderMultiLineChart = (data, dataKey, stroke, color) => (
+  <LineChart data={data}>
+    <XAxis
+      dataKey="timestamp"
+      axisLine={false}
+      tickCount={3}
+      tickLine={false}
+      reversed={true}
+      connectNulls={true}
+      type="string"
+    />
+    <YAxis
+      interval={dataMax => dataMax * 0.33}
+      axisLine={false}
+      tickLine={false}
+      tickFormatter={number => `${trim(parseFloat(number), 2)}`}
+      domain={[0, dataMax => parseFloat(dataMax) * 1.3]}
+      connectNulls={true}
+      allowDataOverflow={false}
+    />
+    <Tooltip />
+    <Line type="monotone" dataKey={dataKey[0]} stroke={stroke[0]} color={color} dot={false} />;
+    <Line type="monotone" dataKey={dataKey[1]} stroke={stroke[1]} color={color} dot={false} />;
+    <Line type="monotone" dataKey={dataKey[2]} stroke={stroke[2]} color={color} dot={false} />;
+  </LineChart>
+);
+
+// JTBD: Bar chart for Holders
+const renderBarChart = () => {};
+
+function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, headerSubText }) {
+  const renderChart = type => {
+    if (type === "line") return renderLineChart(data, dataKey, color, stroke);
+    if (type === "area") return renderAreaChart(data, dataKey, stopColor, stroke);
+    if (type === "stack") return renderStackedAreaChart(data, dataKey, stopColor, stroke);
+    if (type === "multi") return renderMultiLineChart(data, dataKey, color, stroke);
   };
 
+  useEffect(() => {
+    console.log("data loaded", data);
+  }, [data]);
+
   return (
-    <Box style={{ width: "100%", minWidth: "330px" }}>
+    <Box style={{ width: "100%", minWidth: "330px", height: "100%" }}>
       <div className="card-header">
         <Typography variant="h6" color="textSecondary">
           {headerText}
         </Typography>
         <Box display="flex">
           <Typography variant="h4" style={{ fontWeight: 600 }}>
-            {data &&
-              (dataFormat === "currency"
-                ? dataKey &&
-                  dataKey.map(key =>
-                    new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0,
-                    }).format(data[0][key]),
-                  )
-                : dataKey && dataKey.map(key => `${trim(data[0][key], 1)}% `))}
+            {headerSubText}
           </Typography>
-
           <Typography variant="h4" color="textSecondary" style={{ marginLeft: "3px" }}>
             Today
           </Typography>
         </Box>
       </div>
-      <Box className="ohm-chart" style={{ width: "100%", height: "250px" }}>
-        <ResponsiveContainer width="99%" minWidth="0" height="99%" aspect={3}>
-          {chartIndex[type]}
-        </ResponsiveContainer>
+      <Box>
+        {data && data.length > 0 && (
+          <ResponsiveContainer width="99%" minWidth="0" height="99%" aspect={3}>
+            {renderChart(type)}
+          </ResponsiveContainer>
+        )}
       </Box>
     </Box>
   );

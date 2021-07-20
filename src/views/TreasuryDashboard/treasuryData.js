@@ -4,6 +4,7 @@ import apollo from "../../lib/apolloClient";
 export const treasuryDataQuery = `
 query {
   protocolMetrics(first: 90, orderBy: timestamp, orderDirection: desc) {
+    id
     timestamp
     ohmCirculatingSupply
     sOhmCirculatingSupply
@@ -16,20 +17,21 @@ query {
     treasuryMarketValue
     nextEpochRebase
     nextDistributedOhm
+    treasuryDaiRiskFreeValue
+    treasuryFraxMarketValue
+    treasuryDaiMarketValue
+    treasuryFraxMarketValue
+    treasuryXsushiMarketValue
     currentAPY
     runway10k
     runway20k
     runway50k
-    runway70k
-    runway100k
     runwayCurrent
+    holders
   }
 }
 `;
 
-export const treasuryData = () => {
-  const graphData = apollo(treasuryDataQuery);
-  return graphData.data.protocolMetrics;
-};
+export const treasuryData = () => apollo(treasuryDataQuery).then(r => r.data.protocolMetrics);
 
-export default treasuryData;
+// export default treasuryData;
