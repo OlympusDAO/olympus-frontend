@@ -11,8 +11,8 @@ const lightTheme = {
   // background:
   // "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
   background: "linear-gradient(180deg, #AFCDE9 0%, #F7FBE7 100%)",
-  paperBg: "rgba(255, 255, 255, 0.6)",
-  modalBg: "#F9F9F9AA",
+  paperBg: "rgba(255, 255, 255, 0.5)",
+  modalBg: "#F9F9F9EE",
   popoverrBg: "rgba(255, 255, 255, 0.8)",
   menuBg: "rgba(255, 255, 255, 0.6)",
   largeTextColor: "#759AAE",
