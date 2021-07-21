@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/v1.2/hamburger.svg";
 import OhmMenu from "./OhmMenu.jsx";
-import ThemeSwitcher from "../ThemeSwitch.jsx";
+import ThemeSwitcher from "./ThemeSwitch.jsx";
 import "./topbar.scss";
 
 const useStyles = makeStyles(theme => ({
