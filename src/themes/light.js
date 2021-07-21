@@ -6,7 +6,7 @@ const lightTheme = {
   color: "#222222",
   gold: "#F8CC82",
   gray: "#A3A3A3",
-  textHighlightColor: "#F4D092",
+  textHighlightColor: "#93AEBC", // "#F4D092",
   backgroundColor: "#83A5CB11",
   // background:
   // "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
@@ -14,7 +14,7 @@ const lightTheme = {
   paperBg: "rgba(255, 255, 255, 0.5)",
   modalBg: "#F9F9F9EE",
   popoverrBg: "rgba(255, 255, 255, 0.8)",
-  menuBg: "rgba(255, 255, 255, 0.6)",
+  menuBg: "rgba(255, 255, 255, 0.5)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
   activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
@@ -29,9 +29,6 @@ const lightTheme = {
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
   containedSecondaryButtonHoverBG: "#33333333",
-  //
-  // sidebarBorder: "#759AAE99",
-  // iconColor: "brightness(0) saturate(100%)",
 };
 
 export const light = responsiveFontSizes(
@@ -127,6 +124,7 @@ export const light = responsiveFontSizes(
           root: {
             backgroundColor: lightTheme.paperBg,
             "&:hover": {
+              color: "#FCFCFC",
               backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
             },
             selected: {
@@ -134,9 +132,12 @@ export const light = responsiveFontSizes(
             },
           },
         },
+        MuiSvgIcon: {
+          color: "inherit",
+        },
         MuiButton: {
           containedPrimary: {
-            color: lightTheme.color,
+            color: "#FCFCFC",
             backgroundColor: lightTheme.primaryButtonBG,
             "&:hover": {
               backgroundColor: lightTheme.primaryButtonHoverBG,
@@ -154,12 +155,14 @@ export const light = responsiveFontSizes(
             color: lightTheme.color,
             backgroundColor: lightTheme.paperBg,
             "&:hover": {
+              color: "#FCFCFC",
               backgroundColor: `${lightTheme.containedSecondaryButtonHoverBG} !important`,
             },
             "@media (hover:none)": {
               color: lightTheme.color,
               backgroundColor: lightTheme.paperBg,
               "&:hover": {
+                color: "#FCFCFC",
                 backgroundColor: `${lightTheme.containedSecondaryButtonHoverBG} !important`,
               },
             },
@@ -185,7 +188,7 @@ export const light = responsiveFontSizes(
           textPrimary: {
             color: "#A3A3A3",
             "&:hover": {
-              color: lightTheme.gold,
+              color: lightTheme.textHighlightColor,
               backgroundColor: "#00000000",
             },
             "&:active": {

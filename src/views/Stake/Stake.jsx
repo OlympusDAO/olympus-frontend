@@ -347,28 +347,28 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
                   <div className={`stake-user-data`}>
                     <div className="data-row">
-                      <Typography>Your Balance</Typography>
-                      <Typography>{trim(ohmBalance)} OHM</Typography>
+                      <Typography variant="body1">Your Balance</Typography>
+                      <Typography variant="body1">{trim(ohmBalance)} OHM</Typography>
                     </div>
 
                     <div className="data-row">
-                      <Typography>Your Staked Balance</Typography>
-                      <Typography>{trimmedSOHMBalance} sOHM</Typography>
+                      <Typography variant="body1">Your Staked Balance</Typography>
+                      <Typography variant="body1">{trimmedSOHMBalance} sOHM</Typography>
                     </div>
 
                     <div className="data-row">
-                      <Typography>Next Reward Amount</Typography>
-                      <Typography>{nextRewardValue} sOHM</Typography>
+                      <Typography variant="body1">Next Reward Amount</Typography>
+                      <Typography variant="body1">{nextRewardValue} sOHM</Typography>
                     </div>
 
                     <div className="data-row">
-                      <Typography>Next Reward Yield</Typography>
-                      <Typography>{stakingRebasePercentage}%</Typography>
+                      <Typography variant="body1">Next Reward Yield</Typography>
+                      <Typography variant="body1">{stakingRebasePercentage}%</Typography>
                     </div>
 
                     <div className="data-row">
-                      <Typography>ROI (5-Day Rate)</Typography>
-                      <Typography>{trim(fiveDayRate * 100, 4)}%</Typography>
+                      <Typography variant="body1">ROI (5-Day Rate)</Typography>
+                      <Typography variant="body1">{trim(fiveDayRate * 100, 4)}%</Typography>
                     </div>
                   </div>
                 </>
