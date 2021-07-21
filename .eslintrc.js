@@ -9,8 +9,9 @@ module.exports = {
       jsx: true,
     },
   },
+  parser: "@typescript-eslint/parser",
   extends: ["plugin:prettier/recommended", "prettier/react"],
-  plugins: ["prettier"],
+  plugins: ["prettier", "@typescript-eslint"],
   rules: {
     "prettier/prettier": ["error"],
     // "import/extensions": [
