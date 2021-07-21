@@ -19,8 +19,8 @@ import { useSelector, useDispatch } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
 import { trim } from "../../helpers";
-import { Flex } from "rimble-ui";
-import { NavLink } from "react-router-dom";
+import useEscape from "../../hooks/useEscape";
+import { NavLink, useHistory } from "react-router-dom";
 import "./stake.scss";
 import "./migrate.scss";
 
@@ -28,6 +28,7 @@ import "./migrate.scss";
 
 export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }) {
   const dispatch = useDispatch();
+
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
   const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
   const [quantity, setQuantity] = useState();
@@ -153,11 +154,17 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
     else setView("done");
   }, []);
 
+  let history = useHistory();
+
+  useEscape(() => {
+    history.push("/stake");
+  });
+
   let modalButton = <></>;
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButton = (
-        <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={loadWeb3Modal}>
+        <button type="button" className="stake-button" onClick={loadWeb3Modal}>
           Connect Wallet
         </button>
       );
@@ -231,13 +238,13 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                 <>
                   <Box display="flex" className="stake-action-row">
                     <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
-                      <InputLabel htmlFor="amount-input"></InputLabel>
+                      <InputLabel htmlFor="migrate-input"></InputLabel>
                       <OutlinedInput
-                        id="amount-input"
+                        id="migrate-input"
                         type="number"
-                        placeholder="Enter an amount"
+                        placeholder={`${quantity}`}
                         className="stake-input"
-                        value={quantity}
+                        // value={quantity}
                         onChange={e => setQuantity(e.target.value)}
                         startAdornment={
                           <InputAdornment position="start">

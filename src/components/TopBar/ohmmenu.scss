@@ -1,13 +1,15 @@
 #ohm-menu-button {
-  padding: 10px 15px;
+  padding: 12px;
   svg {
     margin-right: 3px;
+    color: inherit !important;
   }
 }
 
 #ohm-popper {
-  background-color: #00000000;
-  backdrop-filter: blur(60px);
+  background-color: #00000011;
+  backdrop-filter: blur(33px);
+  -webkit-backdrop-filter: blur(33px);
   margin-top: 10px;
   border-radius: 10px;
   .MuiPaper-root.ohm-menu {
