@@ -132,9 +132,6 @@ export const light = responsiveFontSizes(
             },
           },
         },
-        MuiSvgIcon: {
-          color: "inherit",
-        },
         MuiButton: {
           containedPrimary: {
             color: "#FCFCFC",
