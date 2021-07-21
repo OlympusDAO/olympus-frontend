@@ -9,14 +9,21 @@
     line-height: 110% !important;
   }
 
-  .stake-tab-panel,
+  .stake-tab-buttons {
+    margin-bottom: 16px;
+  }
+
+  .stake-table-panel,
   .stake-tab-panel > div.MuiBox-root {
+    width: 100%;
+    padding: 0;
+  }
+  .mobile .stake-tab-panel,
+  .mobile .stake-tab-panel > div.MuiBox-root {
     display: flex;
     flex-direction: column;
     justify-content: center;
     justify-items: center;
-    width: 100%;
-    padding: 0;
   }
 
   .ohm-card .header {
@@ -52,7 +59,13 @@
   width: 100%;
   padding: 0;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 10px;
+  h5 {
+    font-weight: 500;
+  }
+  h4 {
+    font-weight: 500;
+  }
   .stake-apy,
   .stake-tvl {
     flex: 1;
@@ -60,6 +73,18 @@
     white-space: nowrap;
     overflow: hidden;
   }
+}
+
+.mobile .stake-top-metrics {
+  text-align: left;
+}
+
+.mobile .stake-apy {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
 }
 
 .ohm-logo-bg {
@@ -93,36 +118,60 @@
   color: #555;
 }
 
-.stake-action-row {
+.stake-action-area {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-around;
+  margin-top: 10px;
 }
 
-.stake-tab-buttons {
-  margin-bottom: 20px;
+.stake-action-row {
+  justify-content: space-around;
+  align-items: center;
+  height: auto;
+}
+
+.mobile .stake-action-row {
+  justify-content: center;
+}
+
+.stake-action-row [role="tabpanel"] {
+  width: 99%;
+  min-width: 162px;
+  max-width: 220px;
+  margin: 5px;
+}
+
+.mobile .stake-action-row {
+  flex-direction: column;
+  [role="tabpanel"] {
+    max-width: 100%;
+    width: 100% !important;
+  }
 }
 
 .ohm-input {
   max-width: 542px;
+  width: 100%;
+  margin: 5px !important;
 }
 
 .stake-button {
-  margin: auto;
   align-self: center;
-  max-width: 542px;
-  margin-top: 10px !important;
+  width: 100%;
+  min-width: 163px !important;
+  max-width: 542px !important;
+  height: 43px !important;
 }
 
-.mobile .stake-button,
-.tablet .stake-button {
+.mobile .stake-button {
   width: 100% !important;
   max-width: 542px;
   align-self: center;
   justify-self: center;
-  margin-top: 10px;
+  margin: 10px 0 0 0;
 }
 
 .staking-area {
@@ -149,9 +198,9 @@
 }
 
 .stake-user-data {
-  max-width: 633px;
   justify-content: center;
   margin: auto;
+  padding: 0 5px;
 }
 
 .tablet .stake-table button {

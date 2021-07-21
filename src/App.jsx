@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import useTheme from "./hooks/useTheme.js";
+import useTheme from "./hooks/useTheme";
 
 import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails } from "./actions/App.actions.js";
@@ -129,8 +129,9 @@ const useStyles = makeStyles(theme => ({
 
 function App(props) {
   const dispatch = useDispatch();
-  const [theme, toggleTheme, mounted] = useTheme("dark");
+  const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();
+  const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
@@ -210,25 +211,25 @@ function App(props) {
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
-    console.log("theme: ", theme, "theme mode: ", themeMode);
-    themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
-  }, [theme]);
-
-  const classes = useStyles();
+    themeMode = theme === "light" ? lightTheme : darkTheme;
+  });
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  if (!mounted) {
+    return <div />;
+  }
+
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
-      <div className={`app ${isSmallerScreen ? "tablet" : isSmallScreen ? "mobile" : "browser"}`}>
+      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"}`}>
         <TopBar
           web3Modal={web3Modal}
           loadWeb3Modal={loadWeb3Modal}
           logoutOfWeb3Modal={logoutOfWeb3Modal}
-          address={address}
           theme={theme}
           toggleTheme={toggleTheme}
           handleDrawerToggle={handleDrawerToggle}

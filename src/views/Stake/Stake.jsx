@@ -182,7 +182,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
             <Grid item>
               <div className="stake-top-metrics">
                 <Grid container spacing={2}>
-                  <Grid item xs={6} sm={6} lg={4}>
+                  <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-apy">
                       <Typography variant="h5" color="textSecondary">
                         APY
@@ -191,7 +191,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     </div>
                   </Grid>
 
-                  <Grid item xs={6} sm={6} lg={4}>
+                  <Grid item xs={6} sm={4} md={4} lg={4}>
                     <div className="stake-tvl">
                       <Typography variant="h5" color="textSecondary">
                         TVL
@@ -208,7 +208,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     </div>
                   </Grid>
 
-                  <Grid item xs={6} sm={6} lg={4}>
+                  <Grid item xs={6} sm={4} md={4} lg={4}>
                     <div className="stake-index">
                       <Typography variant="h5" color="textSecondary">
                         Current Index
@@ -232,7 +232,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                 </div>
               ) : (
                 <>
-                  <Box className="stake-action-row">
+                  <Box className="stake-action-area">
                     <Tabs
                       centered
                       value={view}
@@ -246,93 +246,91 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       <Tab label="Unstake" {...a11yProps(0)} />
                     </Tabs>
 
-                    <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
-                      <InputLabel htmlFor="amount-input"></InputLabel>
-                      <OutlinedInput
-                        id="amount-input"
-                        type="number"
-                        placeholder="Enter an amount"
-                        className="stake-input"
-                        value={quantity}
-                        onChange={e => setQuantity(e.target.value)}
-                        startAdornment={
-                          <InputAdornment position="start">
-                            <div className="logo-holder">
-                              <div className="ohm-logo-bg">
-                                <img
-                                  className="ohm-logo-tiny"
-                                  src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                                />
+                    <Box className="stake-action-row" display="flex" alignItems="center">
+                      <FormControl className="ohm-input" variant="outlined" color="primary">
+                        <InputLabel htmlFor="amount-input"></InputLabel>
+                        <OutlinedInput
+                          id="amount-input"
+                          type="number"
+                          placeholder="Enter an amount"
+                          className="stake-input"
+                          value={quantity}
+                          onChange={e => setQuantity(e.target.value)}
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <div className="logo-holder">
+                                <div className="ohm-logo-bg">
+                                  <img
+                                    className="ohm-logo-tiny"
+                                    src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                                  />
+                                </div>
                               </div>
-                            </div>
-                          </InputAdornment>
-                        }
-                        labelWidth={0}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <Button variant="text" onClick={setMax}>
-                              Max
-                            </Button>
-                          </InputAdornment>
-                        }
-                      />
-                    </FormControl>
+                            </InputAdornment>
+                          }
+                          labelWidth={0}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <Button variant="text" onClick={setMax}>
+                                Max
+                              </Button>
+                            </InputAdornment>
+                          }
+                        />
+                      </FormControl>
 
-                    <TabPanel value={view} index={0} className="stake-tab-panel">
-                      {address && hasAllowance("ohm") ? (
-                        <Button
-                          className="stake-button"
-                          variant="contained"
-                          color="primary"
-                          fullWidth
-                          onClick={() => {
-                            onChangeStake("stake");
-                          }}
-                        >
-                          Stake OHM
-                        </Button>
-                      ) : (
-                        <Button
-                          className="stake-button"
-                          variant="contained"
-                          color="primary"
-                          fullWidth
-                          onClick={() => {
-                            onSeekApproval("ohm");
-                          }}
-                        >
-                          Approve Stake
-                        </Button>
-                      )}
-                    </TabPanel>
+                      <TabPanel value={view} index={0} className="stake-tab-panel">
+                        {address && hasAllowance("ohm") ? (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              onChangeStake("stake");
+                            }}
+                          >
+                            Stake OHM
+                          </Button>
+                        ) : (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              onSeekApproval("ohm");
+                            }}
+                          >
+                            Approve Stake
+                          </Button>
+                        )}
+                      </TabPanel>
 
-                    <TabPanel value={view} index={1} className="stake-tab-panel">
-                      {address && hasAllowance("sohm") ? (
-                        <Button
-                          className="stake-button"
-                          variant="contained"
-                          color="primary"
-                          fullWidth
-                          onClick={() => {
-                            onChangeStake("unstake");
-                          }}
-                        >
-                          Unstake OHM
-                        </Button>
-                      ) : (
-                        <Button
-                          className="stake-button"
-                          variant="contained"
-                          color="primary"
-                          fullWidth
-                          onClick={() => {
-                            onSeekApproval("sohm");
-                          }}
-                        >
-                          Approve Unstake
-                        </Button>
-                      )}
-                    </TabPanel>
+                      <TabPanel value={view} index={1} className="stake-tab-panel">
+                        {address && hasAllowance("sohm") ? (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              onChangeStake("unstake");
+                            }}
+                          >
+                            Unstake OHM
+                          </Button>
+                        ) : (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              onSeekApproval("sohm");
+                            }}
+                          >
+                            Approve Unstake
+                          </Button>
+                        )}
+                      </TabPanel>
+                    </Box>
 
                     <div className="help-text">
                       {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
