@@ -27,6 +27,10 @@ body {
   overflow: hidden;
 }
 
+.MuiDrawer-paperAnchorDockedLeft {
+  border-right: 0 !important;
+}
+
 .ohm-card {
   .card-header {
     width: 100%;
