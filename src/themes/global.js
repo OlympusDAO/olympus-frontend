@@ -74,6 +74,7 @@ const commonSettings = {
     },
     MuiPaper: {
       root: {
+        backdropFilter: "blur(33px)",
         "&.ohm-card": {
           padding: "20px 20px 20px 20px",
           borderRadius: "10px",
@@ -81,7 +82,6 @@ const commonSettings = {
           width: "97%",
           marginBottom: "1.8rem",
           borderRadius: "10px",
-          backdropFilter: "blur(60px)",
         },
         "&.ohm-menu": {
           padding: "22px 20px",
@@ -122,8 +122,8 @@ const commonSettings = {
       },
       paper: {
         width: "inherit",
-        backgroundColor: "#00000011",
-        backdropFilter: "blur(15px)",
+        backdropFilter: "blur(33px)",
+        backgroundColor: "inherit",
         padding: 0,
         square: true,
         rounded: false,
