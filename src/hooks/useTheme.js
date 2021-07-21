@@ -7,11 +7,9 @@ const useTheme = e => {
   const setMode = mode => {
     window.localStorage.setItem("theme", mode);
     setTheme(mode);
-    console.log("theme set: ", mode);
   };
 
   const toggleTheme = e => {
-    console.log("toggleTheme triggered", e);
     if (e.metaKey) {
       setMode("girth");
     } else {
