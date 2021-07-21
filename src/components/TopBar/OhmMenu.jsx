@@ -89,10 +89,10 @@ function OhmMenu() {
             <Box className="add-tokens">
               <Divider color="secondary" />
               <p>ADD TOKEN TO WALLET</p>
-              <Button variant="text" onClick={addTokenToWallet("OHM", OHM_ADDRESS)}>
+              <Button variant="text" color="secondary" onClick={addTokenToWallet("OHM", OHM_ADDRESS)}>
                 <Typography>OHM</Typography>
               </Button>
-              <Button variant="text" onClick={addTokenToWallet("sOHM", SOHM_ADDRESS)}>
+              <Button variant="text" color="secondary" onClick={addTokenToWallet("sOHM", SOHM_ADDRESS)}>
                 <Typography>sOHM</Typography>
               </Button>
             </Box>

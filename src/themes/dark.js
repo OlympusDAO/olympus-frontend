@@ -16,9 +16,9 @@ const darkTheme = {
   // background:
   // "radial-gradient(circle at 5% -43%, rgba(187, 211, 204, 0.7), rgba(187,211,204,0) 40%), radial-gradient(circle at 90% 55%, rgba(125,163,169,0.3), rgba(125,163,169,0) 53%), radial-gradient(circle at 53% 10%, rgba(137, 151, 119, 0.5), rgba(137, 151, 119, 0.3) 33%), linear-gradient(180deg, #080F35 0%, #00000A 100%), linear-gradient(180deg, #99CFFF 0%, #B4FFD9 100%)",
   paperBg: "rgba(54, 56, 64, 0.5)",
-  modalBg: "rgba(27, 29, 34, 0.8)",
+  modalBg: "rgba(27, 29, 34, 0.3)",
   popoverBg: "rgba(54, 56, 64, 0.96)",
-  menuBg: "#36384080",
+  menuBg: "#36384069",
   largeTextColor: "#F4D092",
   activeLinkColor: "#F5DDB4",
   activeLinkSvgColor:
@@ -31,7 +31,7 @@ const darkTheme = {
   outlinedPrimaryButtonHoverColor: "#333333",
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
-  containedSecondaryButtonHoverBG: "#363840",
+  containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
 };
 
 export const dark = responsiveFontSizes(
@@ -122,11 +122,11 @@ export const dark = responsiveFontSizes(
           root: {
             backgroundColor: darkTheme.paperBg,
             "&:hover": {
-              backgroundColor: `${darkTheme.secondaryButtonHoverBG} !important`,
+              backgroundColor: `${darkTheme.containedSecondaryButtonHoverBG} !important`,
             },
             "&:active": {
-              backgroundColor: darkTheme.primaryButtonHoverBG,
-              color: darkTheme.primaryButtonHoverColor,
+              backgroundColor: darkTheme.paperBg,
+              color: darkTheme.color,
             },
             "&:focus": {
               backgroundColor: darkTheme.paperBg,
