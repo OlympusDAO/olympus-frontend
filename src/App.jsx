@@ -15,12 +15,11 @@ import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails } from "./actions/App.actions.js";
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
-import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether, NotFound } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
-import NotFound from "./views/404/NotFound";
 
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
@@ -279,6 +278,10 @@ function App(props) {
                 );
               })}
               <ChooseBond address={address} provider={injectedProvider} />
+            </Route>
+
+            <Route path="/33-together">
+              <PoolTogether address={address} provider={injectedProvider} />
             </Route>
 
             <Route component={NotFound} />
