@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, toggleTheme, handleDrawerToggle }) {
+function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
   const classes = useStyles();
   const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
 
@@ -70,7 +70,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, toggleTheme, hand
             {modalButtons}
           </div>
 
-          <ThemeSwitcher toggleTheme={toggleTheme} />
+          <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
         </Box>
       </Toolbar>
     </AppBar>

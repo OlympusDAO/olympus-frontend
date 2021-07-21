@@ -192,6 +192,20 @@ const commonSettings = {
         transform: "translate(16px, 14px) scale(1)",
       },
     },
+    MuiTabs: {
+      root: {
+        minHeight: "40px",
+        height: "40px",
+      },
+    },
+    MuiTab: {
+      root: {
+        minWidth: "fit-content !important",
+        width: "min-content",
+        padding: "0px",
+        margin: "0px 20px",
+      },
+    },
   },
   props: {
     MuiButtonBase: {
