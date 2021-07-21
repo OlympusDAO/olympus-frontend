@@ -1,12 +1,16 @@
 .dapp-topbar {
   width: 100%;
+  align-items: center;
   button {
     white-space: nowrap !important;
     overflow: hidden !important;
-    margin: 8px !important;
+    margin: 6px !important;
     min-width: fit-content !important;
     &#hamburger {
       padding: 11px !important;
+    }
+    &.toggle-button {
+      padding: 9.5px !important;
     }
   }
 }
