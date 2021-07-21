@@ -122,11 +122,12 @@ const commonSettings = {
       },
       paper: {
         width: "inherit",
-        backgroundColor: "#00000000",
+        backgroundColor: "#00000011",
+        backdropFilter: "blur(15px)",
         padding: 0,
         square: true,
         rounded: false,
-        zIndex: 10,
+        zIndex: 7,
       },
     },
     MuiBackdrop: {
@@ -163,7 +164,11 @@ const commonSettings = {
         textTransform: "none",
         textDecoration: "none",
       },
-      textPrimary: {},
+      text: {
+        "&:hover": {
+          backgroundColor: "#00000000",
+        },
+      },
       textSecondary: {
         textTransform: "none",
         textDecoration: "none",
@@ -189,6 +194,20 @@ const commonSettings = {
     MuiInputLabel: {
       outlined: {
         transform: "translate(16px, 14px) scale(1)",
+      },
+    },
+    MuiTabs: {
+      root: {
+        minHeight: "40px",
+        height: "40px",
+      },
+    },
+    MuiTab: {
+      root: {
+        minWidth: "fit-content !important",
+        width: "min-content",
+        padding: "0px",
+        margin: "0px 20px",
       },
     },
   },
