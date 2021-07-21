@@ -127,7 +127,7 @@ const commonSettings = {
         padding: 0,
         square: true,
         rounded: false,
-        zIndex: 10,
+        zIndex: 7,
       },
     },
     MuiBackdrop: {
@@ -164,7 +164,11 @@ const commonSettings = {
         textTransform: "none",
         textDecoration: "none",
       },
-      textPrimary: {},
+      text: {
+        "&:hover": {
+          backgroundColor: "#00000000",
+        },
+      },
       textSecondary: {
         textTransform: "none",
         textDecoration: "none",
