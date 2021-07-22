@@ -25,9 +25,10 @@ const darkTheme = {
     radial-gradient(circle at 11% 100%, rgba(131, 165, 203, 0.3), rgba(131, 165, 203, 0) 30%)
     `,
   paperBg: "rgba(54, 56, 64, 0.6)",
-  modalBg: "rgba(27, 29, 34, 0.3)",
+  modalBg: "rgba(36, 36, 38, 0.6)",
   popoverBg: "rgba(54, 56, 64, 0.96)",
   menuBg: "#36384069",
+  backdropBg: "rgba(54, 56, 64, 0.5)",
   largeTextColor: "#F4D092",
   activeLinkColor: "#F5DDB4",
   activeLinkSvgColor:
@@ -85,6 +86,12 @@ export const dark = responsiveFontSizes(
             },
           },
         },
+        MuiDrawer: {
+          paper: {
+            backgroundColor: darkTheme.paperBg,
+            zIndex: 7,
+          },
+        },
         MuiPaper: {
           root: {
             backgroundColor: darkTheme.paperBg,
@@ -101,13 +108,13 @@ export const dark = responsiveFontSizes(
             "&.ohm-popover": {
               backgroundColor: darkTheme.popoverBg,
               color: darkTheme.color,
-              backdropFilter: "blur(43px)",
+              backdropFilter: "blur(15px)",
             },
           },
         },
         MuiBackdrop: {
           root: {
-            backgroundColor: "#00000099",
+            backgroundColor: darkTheme.backdropBg,
           },
         },
         MuiLink: {
@@ -135,20 +142,23 @@ export const dark = responsiveFontSizes(
           root: {
             backgroundColor: darkTheme.paperBg,
             "&:hover": {
+              color: darkTheme.color,
               backgroundColor: `${darkTheme.containedSecondaryButtonHoverBG} !important`,
             },
-            "&:active": {
-              backgroundColor: darkTheme.paperBg,
-              color: darkTheme.color,
-            },
-            "&:focus": {
-              backgroundColor: darkTheme.paperBg,
-              color: darkTheme.primaryButtonHoverColor,
-              borderColor: "transparent",
-              outline: "#00000000",
-            },
             selected: {
-              backgroundColor: darkTheme.secondaryButtonHoverBG,
+              backgroundColor: darkTheme.containedSecondaryButtonHoverBG,
+            },
+            "@media (hover:none)": {
+              "&:hover": {
+                color: darkTheme.color,
+                backgroundColor: darkTheme.paperBg,
+              },
+              "&:focus": {
+                color: darkTheme.color,
+                backgroundColor: darkTheme.paperBg,
+                borderColor: "transparent",
+                outline: "#00000000",
+              },
             },
           },
         },

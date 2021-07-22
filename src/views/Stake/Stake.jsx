@@ -430,7 +430,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                           target="_blank"
                           className="stake-lp-button"
                         >
-                          <Typography variant="h6">
+                          <Typography variant="body1">
                             Stake on FRAX
                             <SvgIcon component={ArrowUp} color="primary" />
                           </Typography>
@@ -486,10 +486,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     className="stake-lp-button"
                     fullWidth
                   >
-                    <Typography variant="h6">
-                      Stake on FRAX
-                      <SvgIcon component={ArrowUp} color="primary" />
-                    </Typography>
+                    <Typography variant="body1">Stake on FRAX</Typography>
+                    <SvgIcon component={ArrowUp} color="primary" />
                   </Button>
                 </div>
               </div>
