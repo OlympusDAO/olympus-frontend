@@ -84,7 +84,7 @@ const commonSettings = {
           borderRadius: "10px",
         },
         "&.ohm-menu": {
-          padding: "22px 20px",
+          padding: "22px 0px",
           borderRadius: "10px",
           margin: "0px",
         },
@@ -132,7 +132,7 @@ const commonSettings = {
     },
     MuiBackdrop: {
       root: {
-        backdropFilter: "blur(33px)",
+        backdropFilter: "blur(15px)",
       },
     },
     MuiToggleButton: {
@@ -150,7 +150,7 @@ const commonSettings = {
         textDecoration: "none",
         whiteSpace: "nowrap",
         minWidth: "max-content",
-        height: "40px",
+        maxHeight: "40px",
       },
       containedPrimary: {
         border: 0,
@@ -159,10 +159,16 @@ const commonSettings = {
       containedSecondary: {
         fontWeight: "400",
       },
-      outlinedPrimary: {},
+      outlinedPrimary: {
+        height: "33px",
+        padding: "9px 20px",
+      },
       outlinedSecondary: {
         textTransform: "none",
         textDecoration: "none",
+        height: "33px",
+        fontSize: "1.1em",
+        padding: "9px 20px",
       },
       text: {
         "&:hover": {

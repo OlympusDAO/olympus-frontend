@@ -139,11 +139,38 @@ export const light = responsiveFontSizes(
           root: {
             backgroundColor: lightTheme.paperBg,
             "&:hover": {
-              color: "#FCFCFC",
+              color: lightTheme.color,
               backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
             },
             selected: {
               backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+            },
+            "@media (hover:none)": {
+              "&:hover": {
+                color: lightTheme.color,
+                backgroundColor: lightTheme.paperBg,
+              },
+              "&:focus": {
+                color: lightTheme.color,
+                backgroundColor: lightTheme.paperBg,
+              },
+            },
+          },
+        },
+        MuiIconButton: {
+          root: {
+            "&:hover": {
+              backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+            },
+            "@media (hover:none)": {
+              "&:hover": {
+                color: lightTheme.color,
+                backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+              },
+              "&:focus": {
+                color: lightTheme.color,
+                backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+              },
             },
           },
         },

@@ -75,7 +75,7 @@ function Bond({ bond, address, provider }) {
               <Typography variant="h5" color="textSecondary">
                 Bond Price
               </Typography>
-              <Typography variant="h3" className="price" color="textSecondary">
+              <Typography variant="h3" className="price" color="primary">
                 {trim(bondPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
               </Typography>
             </div>
@@ -83,7 +83,7 @@ function Bond({ bond, address, provider }) {
               <Typography variant="h5" color="textSecondary">
                 Market Price
               </Typography>
-              <Typography variant="h3" color="textSecondary" className="price">
+              <Typography variant="h3" color="primary" className="price">
                 {trim(marketPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
               </Typography>
             </div>

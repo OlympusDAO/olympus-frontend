@@ -41,7 +41,7 @@ function ChooseBond() {
             <Typography variant="h5">Bond (1,1)</Typography>
           </Box>
 
-          <Grid container item xs={12} style={{ margin: "10px 0px 20px" }}>
+          <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
             <Grid item xs={6}>
               <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
                 <Typography variant="h5" color="textSecondary">

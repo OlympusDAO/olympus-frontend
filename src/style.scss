@@ -50,14 +50,14 @@ body {
   }
 
   .help-text {
-    margin: 13px;
+    margin: 10px 0px;
   }
 
   .data-row {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    margin: 13px 0;
+    margin: 10px 0px;
   }
 }
 
@@ -91,11 +91,9 @@ body {
   }
 }
 
-.ohm-input {
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
-  }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
 }
 
 a:hover svg {

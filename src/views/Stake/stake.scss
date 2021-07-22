@@ -9,6 +9,10 @@
     line-height: 110% !important;
   }
 
+  .data-row {
+    margin: 13px 0px;
+  }
+
   .stake-tab-buttons {
     margin-bottom: 16px;
   }
@@ -61,7 +65,7 @@
   text-align: center;
   margin-top: 10px;
   h5 {
-    font-weight: 500;
+    font-weight: 400;
   }
   h4 {
     font-weight: 500;
@@ -84,7 +88,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  // align-items: center;
 }
 
 .ohm-logo-bg {
@@ -181,15 +184,12 @@
 
 .stake-lp-button {
   text-align: center !important;
-  display: flex;
-  h6 {
-    vertical-align: middle;
-    align-content: center;
-    align-items: center;
-    display: flex;
-  }
+  display: flex !important;
+  justify-content: center !important;
   svg {
-    margin-left: 5px;
+    margin-left: 4px;
+    vertical-align: middle;
+    font-size: 1.1em;
   }
   &:hover {
     svg {
@@ -202,11 +202,6 @@
   justify-content: center;
   margin: auto;
   padding: 0 5px;
-}
-
-.tablet .stake-table button {
-  padding: 0.4rem 1.7rem;
-  width: 8rem;
 }
 
 .tablet .stake-pool,
@@ -239,7 +234,8 @@
   .stake-lp-button {
     margin-top: 10px;
     svg {
-      margin-left: 18px !important;
+      margin-left: 10px !important;
+      // font-size: 1.2em;
     }
   }
 }

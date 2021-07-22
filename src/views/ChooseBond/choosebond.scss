@@ -4,6 +4,9 @@
   justify-content: center;
   flex-direction: column;
   overflow: hidden;
+  .ohm-card .bond-hero h4 {
+    font-weight: 600 !important;
+  }
   .ohm-logo-bg {
     margin-left: 0;
     border-radius: 20px;
@@ -40,7 +43,7 @@
       }
     }
     .data-row {
-      margin-bottom: 20px;
+      margin-bottom: 13px;
     }
     .bond-link {
       margin-top: 10px;
@@ -49,6 +52,10 @@
         width: 96%;
       }
     }
+  }
+
+  .MuiTable-root {
+    margin: 10px 0px;
   }
 
   .MuiTableRow-head {
