@@ -5,7 +5,7 @@ import externalUrls from "./externalUrls";
 import { ReactComponent as StakeIcon } from "../../assets/icons/v1.2/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/v1.2/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/v1.2/dashboard.svg";
-import { ReactComponent as OlympusIcon } from "../../assets/icons/v1.2/Olympus Logo.svg";
+import { ReactComponent as OlympusIcon } from "../../assets/icons/v1.2/olympus-nav-header.svg";
 import { trim, shorten } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import { Paper, Link, Box, Typography, LinearProgress, SvgIcon } from "@material-ui/core";
@@ -37,12 +37,9 @@ function NavContent({ address }) {
             <SvgIcon
               color="primary"
               component={OlympusIcon}
-              viewBox="0 0 50 50"
-              style={{ width: "50px", height: "50px" }}
+              viewBox="0 0 151 100"
+              style={{ minWdth: "151px", minHeight: "98px", width: "151px" }}
             />
-            <Typography variant="h2" color="primary">
-              Olympus
-            </Typography>
           </Link>
 
           {address && (
