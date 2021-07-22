@@ -13,7 +13,7 @@ const lightTheme = {
   background: "linear-gradient(180deg, #AFCDE9 1%, #F7FBE7 100%)",
   paperBg: "rgba(255, 255, 255, 0.6)",
   modalBg: "#F9F9F9EE",
-  popoverrBg: "rgba(255, 255, 255, 0.8)",
+  popoverBg: "rgba(255, 255, 255, 0.96)",
   menuBg: "rgba(255, 255, 255, 0.5)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
@@ -84,12 +84,12 @@ export const light = responsiveFontSizes(
             },
             "&.ohm-menu": {
               backgroundColor: lightTheme.menuBg,
-              backdropFilter: "blur(60px)",
+              backdropFilter: "blur(33px)",
             },
             "&.ohm-popover": {
               backgroundColor: lightTheme.popoverBg,
               color: lightTheme.color,
-              backdropFilter: "blur(33px)",
+              backdropFilter: "blur(15px)",
             },
           },
         },
