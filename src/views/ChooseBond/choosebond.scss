@@ -4,6 +4,9 @@
   justify-content: center;
   flex-direction: column;
   overflow: hidden;
+  .ohm-card .bond-hero h4 {
+    font-weight: 500 !important;
+  }
   .ohm-logo-bg {
     margin-left: 0;
     border-radius: 20px;
