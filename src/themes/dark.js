@@ -26,8 +26,8 @@ const darkTheme = {
     `,
   paperBg: "rgba(54, 56, 64, 0.6)",
   modalBg: "rgba(36, 36, 38, 0.6)",
-  popoverBg: "rgba(54, 56, 64, 0.96)",
-  menuBg: "#36384069",
+  popoverBg: "rgba(54, 56, 64, 0.969)",
+  menuBg: "#36384080",
   backdropBg: "rgba(54, 56, 64, 0.5)",
   largeTextColor: "#F4D092",
   activeLinkColor: "#F5DDB4",
@@ -39,8 +39,8 @@ const darkTheme = {
   secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
   outlinedPrimaryButtonHoverBG: "#F8CC82",
   outlinedPrimaryButtonHoverColor: "#333333",
-  outlinedSecondaryButtonHoverBG: "#FCFCFC",
-  outlinedSecondaryButtonHoverColor: "#333333",
+  outlinedSecondaryButtonHoverBG: "#FCFCFC00",
+  outlinedSecondaryButtonHoverColor: "#F8CC82", //gold
   containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
 };
 
@@ -138,6 +138,13 @@ export const dark = responsiveFontSizes(
             color: darkTheme.color,
           },
         },
+        MuiOutlinedInput: {
+          root: {
+            focused: {
+              borderColor: darkTheme.gold,
+            },
+          },
+        },
         MuiToggleButton: {
           root: {
             backgroundColor: darkTheme.paperBg,
@@ -225,7 +232,7 @@ export const dark = responsiveFontSizes(
             "&:hover": {
               color: darkTheme.outlinedSecondaryButtonHoverColor,
               backgroundColor: darkTheme.outlinedSecondaryButtonHoverBG,
-              borderColor: "#333333",
+              borderColor: darkTheme.outlinedSecondaryButtonHoverColor,
             },
           },
           textPrimary: {

@@ -84,7 +84,7 @@ const commonSettings = {
           borderRadius: "10px",
         },
         "&.ohm-menu": {
-          padding: "22px 20px",
+          padding: "22px 0px",
           borderRadius: "10px",
           margin: "0px",
         },
@@ -160,14 +160,14 @@ const commonSettings = {
         fontWeight: "400",
       },
       outlinedPrimary: {
-        height: "32px",
+        height: "33px",
         padding: "9px 20px",
       },
       outlinedSecondary: {
         textTransform: "none",
         textDecoration: "none",
-        height: "32px",
-        fontSize: "1em",
+        height: "33px",
+        fontSize: "1.1em",
         padding: "9px 20px",
       },
       text: {
