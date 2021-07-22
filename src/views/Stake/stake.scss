@@ -184,13 +184,12 @@
 
 .stake-lp-button {
   text-align: center !important;
-  display: flex;
-  vertical-align: middle;
-  line-height: 150%;
+  display: flex !important;
+  justify-content: center !important;
   svg {
     margin-left: 4px;
-    vertical-align: text-top;
-    font-size: 1.2em;
+    vertical-align: middle;
+    font-size: 1.1em;
   }
   &:hover {
     svg {
@@ -236,7 +235,7 @@
     margin-top: 10px;
     svg {
       margin-left: 10px !important;
-      font-size: 1.2em;
+      // font-size: 1.2em;
     }
   }
 }

@@ -390,9 +390,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <TableHead>
                     <TableRow>
                       <TableCell>Asset</TableCell>
-                      <TableCell>APR</TableCell>
-                      <TableCell>TVL</TableCell>
-                      <TableCell>Balance</TableCell>
+                      <TableCell align="left">APR</TableCell>
+                      <TableCell align="left">TVL</TableCell>
+                      <TableCell align="left">Balance</TableCell>
                       <TableCell></TableCell>
                     </TableRow>
                   </TableHead>
@@ -410,8 +410,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                           <Typography>OHM-FRAX</Typography>
                         </Box>
                       </TableCell>
-                      <TableCell>{fraxData && trim(fraxData.apy, 1)}%</TableCell>
-                      <TableCell>
+                      <TableCell align="left">{fraxData && trim(fraxData.apy, 1)}%</TableCell>
+                      <TableCell align="left">
                         {fraxData &&
                           fraxData.tvl &&
                           new Intl.NumberFormat("en-US", {
@@ -421,8 +421,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                             minimumFractionDigits: 0,
                           }).format(fraxData.tvl)}
                       </TableCell>
-                      <TableCell> {(fraxData && fraxData.balance) || 0} LP </TableCell>
-                      <TableCell>
+                      <TableCell align="left"> {(fraxData && fraxData.balance) || 0} LP </TableCell>
+                      <TableCell align="center">
                         <Button
                           variant="outlined"
                           color="secondary"
@@ -430,10 +430,8 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                           target="_blank"
                           className="stake-lp-button"
                         >
-                          <Typography variant="body1">
-                            Stake on FRAX
-                            <SvgIcon component={ArrowUp} color="primary" />
-                          </Typography>
+                          <Typography variant="body1">Stake on FRAX</Typography>
+                          <SvgIcon component={ArrowUp} color="primary" />
                         </Button>
                       </TableCell>
                     </TableRow>

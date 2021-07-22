@@ -24,6 +24,7 @@ function Bond({ bond, address, provider }) {
   const [recipientAddress, setRecipientAddress] = useState(address);
 
   const [view, setView] = useState(0);
+  const [quantity, setQuantity] = useState();
 
   const marketPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].marketPrice;
