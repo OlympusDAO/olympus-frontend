@@ -24,9 +24,9 @@ const darkTheme = {
     radial-gradient(circle at 10% 0%, rgba(187, 211, 204, 0.33), rgba(187,211,204,0) 35%),
     radial-gradient(circle at 11% 100%, rgba(131, 165, 203, 0.3), rgba(131, 165, 203, 0) 30%)
     `,
-  paperBg: "rgba(54, 56, 64, 0.6)",
+  paperBg: "rgba(54, 56, 64, 0.5)",
   modalBg: "rgba(36, 36, 38, 0.6)",
-  popoverBg: "rgba(54, 56, 64, 0.969)",
+  popoverBg: "rgba(54, 56, 64, 1)",
   menuBg: "#36384080",
   backdropBg: "rgba(54, 56, 64, 0.5)",
   largeTextColor: "#F4D092",
@@ -39,7 +39,7 @@ const darkTheme = {
   secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
   outlinedPrimaryButtonHoverBG: "#F8CC82",
   outlinedPrimaryButtonHoverColor: "#333333",
-  outlinedSecondaryButtonHoverBG: "#FCFCFC00",
+  outlinedSecondaryButtonHoverBG: "transparent",
   outlinedSecondaryButtonHoverColor: "#F8CC82", //gold
   containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
 };
@@ -232,7 +232,7 @@ export const dark = responsiveFontSizes(
             "&:hover": {
               color: darkTheme.outlinedSecondaryButtonHoverColor,
               backgroundColor: darkTheme.outlinedSecondaryButtonHoverBG,
-              borderColor: darkTheme.outlinedSecondaryButtonHoverColor,
+              borderColor: darkTheme.gold,
             },
           },
           textPrimary: {
