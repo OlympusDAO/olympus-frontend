@@ -88,7 +88,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   });
 
   const setMax = () => {
-    if (view === "stake") {
+    if (view === 0) {
       setQuantity(ohmBalance);
     } else {
       setQuantity(sohmBalance);
