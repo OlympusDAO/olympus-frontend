@@ -1,20 +1,34 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Grid, Backdrop, Fade, Breadcrumbs } from "@material-ui/core";
-// import { changeStake, changeApproval } from "../../actions/Stake.actions";
+import { useState, useCallback, useEffect } from "react";
+import {
+  Box,
+  Grid,
+  Backdrop,
+  Paper,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Typography,
+  Button,
+  SvgIcon,
+  Breadcrumbs,
+  Link,
+} from "@material-ui/core";
 import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
 import { useSelector, useDispatch } from "react-redux";
-// import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
-import ClearIcon from "@material-ui/icons/Clear";
+import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
 import { trim } from "../../helpers";
-import { Flex } from "rimble-ui";
-import { NavLink } from "react-router-dom";
+import useEscape from "../../hooks/useEscape";
+import { NavLink, useHistory } from "react-router-dom";
 import "./stake.scss";
+import "./migrate.scss";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
 export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }) {
   const dispatch = useDispatch();
+
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
   const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
   const [quantity, setQuantity] = useState();
@@ -140,11 +154,17 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
     else setView("done");
   }, []);
 
+  let history = useHistory();
+
+  useEscape(() => {
+    history.push("/stake");
+  });
+
   let modalButton = <></>;
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButton = (
-        <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={loadWeb3Modal}>
+        <button type="button" className="stake-button" onClick={loadWeb3Modal}>
           Connect Wallet
         </button>
       );
@@ -154,53 +174,50 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   return (
     <Grid container id="sohm-migration-view">
       <Backdrop open={true}>
-        <div className="ohm-modal ohm-card primary">
+        <Paper className="ohm-card ohm-modal">
           <div className="card-header">
-            <h3>sOHM Migration</h3>
-
-            <div role="button" className="cancel">
-              <NavLink to="/stake" className="cancel-migrate">
-                <p>
-                  <ClearIcon /> Cancel
-                </p>
-              </NavLink>
-            </div>
+            <Link component={NavLink} to="/stake" className="cancel-migrate">
+              <SvgIcon component={XIcon} />
+            </Link>
+            <Typography variant="h3">sOHM Migration</Typography>
           </div>
 
           {!address ? (
             <div className="stake-wallet-notification">
-              <h4>Connect your wallet to continue</h4>
+              <Typography variant="h4">Connect your wallet to continue</Typography>
               <div className="wallet-menu" id="wallet-menu">
-                <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={loadWeb3Modal}>
+                <Button variant="contained" color="primary" onClick={loadWeb3Modal}>
                   Connect Wallet
-                </button>
+                </Button>
               </div>
             </div>
           ) : (
             <div className="card-content">
               <div className="stake-migration-help">
                 {view === "unstake" && (
-                  <p>
+                  <Typography>
                     Hey Ohmie, Olympus is updating the staking contract. So in order to continue earning those juicy
                     rewards you'll need to unstake your sOHM from the old contract and restake it to the new sOHM
                     contract.
-                  </p>
+                  </Typography>
                 )}
 
                 {view === "stake" && (
-                  <p>Youre almost done, all thats left now is to Stake your OHM to the new contract.</p>
+                  <Typography>
+                    Youre almost done, all thats left now is to Stake your OHM to the new contract.
+                  </Typography>
                 )}
 
-                {view === "done" && <h4>Youre good to go, all OHM is staked to the new contract.</h4>}
+                {view === "done" && <Typography>Youre good to go, all OHM is staked to the new contract.</Typography>}
               </div>
 
-              <Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontsize="medium" />}>
+              <Breadcrumbs className={`migration-breadcrumbs`} separator={<DoubleArrowIcon fontSize="medium" />}>
                 <div
                   role="button"
                   onClick={() => {
                     setView("unstake");
                   }}
-                  className={`${currentStep === "1" ? "current-step" : "finished-step"}`}
+                  className={`breadcrumb ${currentStep === "1" ? "current-step" : "finished-step"}`}
                 >
                   Step 1: Unstake sOHM (old)
                 </div>
@@ -209,7 +226,9 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                   onClick={() => {
                     setView("stake");
                   }}
-                  className={`${currentStep === "2" && "current-step"} ${currentStep === "3" && "finished-step"}`}
+                  className={`breadcrumb ${currentStep === "2" && "current-step"} ${
+                    currentStep === "3" && "finished-step"
+                  }`}
                 >
                   Step 2: Stake sOHM (new)
                 </div>
@@ -217,30 +236,43 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
 
               {view !== "done" ? (
                 <>
-                  <Flex className="stake-action-row">
-                    <div className="input-group ohm-input-group">
-                      <div className="logo-holder">
-                        <div className="ohm-logo-bg">
-                          <img
-                            className="ohm-logo-tiny"
-                            src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                          />
-                        </div>
-                      </div>
-                      <input
-                        value={quantity}
-                        onChange={e => setQuantity(e.target.value)}
+                  <Box display="flex" className="stake-action-row">
+                    <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
+                      <InputLabel htmlFor="migrate-input"></InputLabel>
+                      <OutlinedInput
+                        id="migrate-input"
                         type="number"
-                        className="form-control stake-input"
-                        placeholder="Type an amount"
+                        placeholder={`${quantity}`}
+                        className="stake-input"
+                        // value={quantity}
+                        onChange={e => setQuantity(e.target.value)}
+                        startAdornment={
+                          <InputAdornment position="start">
+                            <div className="logo-holder">
+                              <div className="ohm-logo-bg">
+                                <img
+                                  className="ohm-logo-tiny"
+                                  src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                                />
+                              </div>
+                            </div>
+                          </InputAdornment>
+                        }
+                        labelWidth={0}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <Button variant="text" onClick={setMax}>
+                              Max
+                            </Button>
+                          </InputAdornment>
+                        }
                       />
-                      {/* <button type="button" onClick={setMax}>
-											Max
-										</button> */}
-                    </div>
+                    </FormControl>
 
                     {address && hasAllowance("sohm") && view === "unstake" && (
-                      <div
+                      <Button
+                        variant="contained"
+                        color="primary"
                         className="stake-button"
                         onClick={() => {
                           unStakeLegacy();
@@ -248,11 +280,13 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                         }}
                       >
                         Unstake sOHM (legacy)
-                      </div>
+                      </Button>
                     )}
 
                     {address && hasAllowance("ohm") && view === "stake" && (
-                      <div
+                      <Button
+                        variant="contained"
+                        color="primary"
                         className="stake-button"
                         onClick={() => {
                           stakeOhm();
@@ -260,85 +294,79 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                         }}
                       >
                         Stake OHM (new)
-                      </div>
+                      </Button>
                     )}
 
                     {address && !hasAllowance("sohm") && view === "unstake" && (
-                      <div
+                      <Button
+                        variant="contained"
+                        color="primary"
                         className="stake-button"
                         onClick={() => {
                           getUnstakeLegacyApproval();
                         }}
                       >
                         Approve Unstake (legacy)
-                      </div>
+                      </Button>
                     )}
 
                     {address && !hasAllowance("ohm") && view === "stake" && (
-                      <div
-                        className="stake-button"
+                      <Button
+                        variant="contained"
+                        color="primary"
                         onClick={() => {
                           getStakeApproval();
                         }}
                       >
                         Approve Stake (new)
-                      </div>
+                      </Button>
                     )}
-                  </Flex>
+                  </Box>
 
                   <div className="stake-notification">
                     {address &&
                       ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
                         <em>
-                          <p>
+                          <Typography>
                             "Approve" transaction is only needed when staking/unstaking for the first time; subsequent
                             staking/unstaking only requires you to perform the "Stake" or "Unstake" transaction.
-                          </p>
+                          </Typography>
                         </em>
                       )}
                   </div>
                 </>
               ) : (
-                <div>
-                  <p> All you gotta do now is keep it (3, 3)</p>
-                </div>
+                <Typography>Stay classy, stay (3, 3)</Typography>
               )}
 
-              <div className={`stake-user-data`}>
-                <div className="stake-price-data-column">
-                  <div className="stake-price-data-row">
-                    <p className="price-label">Ohm Balance</p>
-                    <p className="price-data">{trim(ohmBalance)} OHM</p>
-                  </div>
-
-                  <br />
-
-                  <div className="stake-price-data-row">
-                    <p className="price-label">Staked (new)</p>
-                    <p className="price-data">{trim(sohmBalance, 4)} sOHM</p>
-                  </div>
-
-                  <div className="stake-price-data-row">
-                    <p className="price-label">APY (New)</p>
-                    <p className="price-data">{trim(newStakingAPY * 100, 4)}%</p>
-                  </div>
-
-                  <br />
-
-                  <div className="stake-price-data-row">
-                    <p className="price-label">Staked (legacy)</p>
-                    <p className="price-data">{trim(oldSohmBalance, 4)} sOHM</p>
-                  </div>
-
-                  <div className="stake-price-data-row">
-                    <p className="price-label">APY (Legacy)</p>
-                    <p className="price-data">{trim(oldStakingAPY * 100, 4)}%</p>
-                  </div>
+              <Box className={`stake-user-data`}>
+                <div className="data-row">
+                  <Typography>Ohm Balance</Typography>
+                  <Typography>{trim(ohmBalance)} OHM</Typography>
                 </div>
-              </div>
+                <div className="data-row">
+                  <Typography>Staked (new)</Typography>
+                  <Typography>{trim(sohmBalance, 4)} sOHM</Typography>
+                </div>
+
+                <div className="data-row">
+                  <Typography>APY (New)</Typography>
+                  <Typography>{trim(newStakingAPY * 100, 4)}%</Typography>
+                </div>
+
+                <div className="data-row">
+                  <Typography>Staked (legacy)</Typography>
+                  <Typography>{trim(oldSohmBalance, 4)} sOHM</Typography>
+                </div>
+
+                <div className="data-row">
+                  <Typography>APY (Legacy)</Typography>
+                  <Typography>{trim(oldStakingAPY * 100, 4)}%</Typography>
+                </div>
+              </Box>
             </div>
           )}
-        </div>
+        </Paper>
       </Backdrop>
     </Grid>
   );
