@@ -1,7 +1,7 @@
-import React from "react";
 import { useSelector } from "react-redux";
-import "./rebasetimer.scss";
 import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
+import { Box, Typography } from "@material-ui/core";
+import "./rebasetimer.scss";
 
 function RebaseTimer() {
   const currentBlock = useSelector(state => {
@@ -17,11 +17,11 @@ function RebaseTimer() {
   };
 
   return (
-    <div className="rebase-timer">
-      <p>
-        <span style={{ fontWeight: "bold" }}>{timeUntilRebase()}</span> to next rebase
-      </p>
-    </div>
+    <Box className="rebase-timer">
+      <Typography variant="body2">
+        <strong>{timeUntilRebase()}</strong> to next rebase
+      </Typography>
+    </Box>
   );
 }
 

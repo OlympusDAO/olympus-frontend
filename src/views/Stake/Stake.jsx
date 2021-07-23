@@ -1,29 +1,61 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Flex, Card } from "rimble-ui";
-import { Grid } from "@material-ui/core";
+import {
+  Grid,
+  Box,
+  Paper,
+  Typography,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Button,
+  SvgIcon,
+  Tab,
+  Tabs,
+  TableHead,
+  TableCell,
+  TableBody,
+  Table,
+  TableRow,
+  TableContainer,
+  Link,
+  Zoom,
+} from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
-import { trim } from "../../helpers";
+import TabPanel from "../../components/TabPanel";
+import { trim, getTokenImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "../../style.scss";
+import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 
-function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+const ohmImg = getTokenImage("ohm");
+const fraxImg = getTokenImage("frax");
+
+function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const dispatch = useDispatch();
 
-  const [view, setView] = useState("stake");
+  const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
-  const [migrationWizardOpen, setMigrationWizardOpen] = useState(false);
 
-  const isSmallScreen = useMediaQuery("(max-width: 1125px)");
-  const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
-  const isNarrowScreen = useMediaQuery("(max-width:460px)");
+  const isSmallScreen = useMediaQuery("(max-width: 705px)");
+  const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
+  const currentIndex = useSelector(state => {
+    return state.app.currentIndex;
+  });
   const fraxData = useSelector(state => {
     return state.fraxData;
   });
@@ -86,14 +118,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
     [stakeAllowance],
   );
 
-  const ohmAssetImg = () => {
-    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png";
-  };
-
-  const fraxAssetImg = () => {
-    return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
-  };
-
   const loadFraxData = async () => {
     dispatch(getFraxData());
   };
@@ -106,72 +130,73 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
 
   if (web3Modal) {
     modalButton.push(
-      <button type="button" className="btn stake-button btn-overwrite-primer m-2" onClick={loadWeb3Modal} key={2}>
+      <Button variant="contained" color="primary" onClick={loadWeb3Modal} key={2}>
         Connect Wallet
-      </button>,
+      </Button>,
     );
   }
 
-  const openMigrationWizard = () => {
-    setMigrationWizardOpen(true);
-  };
-
-  const closeMigrationWizard = () => {
-    setMigrationWizardOpen(false);
+  const changeView = (event, newView) => {
+    setView(newView);
   };
 
   const trimmedSOHMBalance = trim(sohmBalance, 4);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
 
-  // TODO: the two grids need `container` props to justify.
   return (
-    <Grid id="stake-view" direction="row" justify="center">
-      {/* <Grid item sm={8} lg={6}> */}
-      <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
-        <div className="card-header">
-          <h5>Single Stake (3, 3)</h5>
-          <RebaseTimer />
+    <div id="stake-view">
+      <Zoom in={true}>
+        <Paper className={`ohm-card`}>
+          <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <div className="card-header">
+                <Typography variant="h5">Single Stake (3, 3)</Typography>
+                <RebaseTimer />
 
-          {address && oldSohmBalance > 0.01 && (
-            <div className="migrate-sohm-button" role="button" aria-label="migrate-sohm" onClick={openMigrationWizard}>
-              <NavLink to="/stake/migrate">
-                <NewReleases />
-                Migrate sOHM
-              </NavLink>
-            </div>
-          )}
-          {address && oldSohmBalance < 0.01 && (
-            <div
-              className="migrate-sohm-button complete"
-              role="button"
-              aria-label="migrate-sohm-complete"
-              onClick={openMigrationWizard}
-            >
-              <NavLink to="/stake/migrate">
-                <CheckCircleIcon />
-                sOHM Migrated
-              </NavLink>
-            </div>
-          )}
-        </div>
+                {address && oldSohmBalance > 0.01 && (
+                  <Link
+                    className="migrate-sohm-button"
+                    component={NavLink}
+                    to="/stake/migrate"
+                    aria-label="migrate-sohm"
+                  >
+                    <NewReleases viewBox="0 0 24 24" />
+                    <Typography>Migrate sOHM</Typography>
+                  </Link>
+                )}
+                {address && oldSohmBalance < 0.01 && (
+                  <Link
+                    component={NavLink}
+                    to="/stake/migrate"
+                    className="migrate-sohm-button complete"
+                    aria-label="migrate-sohm-complete"
+                  >
+                    <CheckCircleIcon viewBox="0 0 24 24" />
+                    <Typography>sOHM Migrated</Typography>
+                  </Link>
+                )}
+              </div>
+            </Grid>
 
-        <div className="card-content">
-          <Grid direction="row" justify="center" alignItems="center">
             <Grid item>
               <div className="stake-top-metrics">
                 <Grid container spacing={2}>
-                  <Grid item xs={6} sm={6} lg={4}>
+                  <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-apy">
-                      <h2 className="title">APY</h2>
-                      <h2 className="content">{stakingAPY && trim(stakingAPY * 100, 1)}%</h2>
+                      <Typography variant="h5" color="textSecondary">
+                        APY
+                      </Typography>
+                      <Typography variant="h4">{stakingAPY && trim(stakingAPY * 100, 1)}%</Typography>
                     </div>
                   </Grid>
 
-                  <Grid item xs={6} sm={6} lg={4}>
+                  <Grid item xs={6} sm={4} md={4} lg={4}>
                     <div className="stake-tvl">
-                      <h2 className="title">TVL</h2>
-                      <h2 className="content">
+                      <Typography variant="h5" color="textSecondary">
+                        TVL
+                      </Typography>
+                      <Typography variant="h4">
                         {stakingTVL &&
                           new Intl.NumberFormat("en-US", {
                             style: "currency",
@@ -179,279 +204,296 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal, currentIndex }) {
                             maximumFractionDigits: 0,
                             minimumFractionDigits: 0,
                           }).format(stakingTVL)}
-                      </h2>
+                      </Typography>
                     </div>
                   </Grid>
 
-                  <Grid item xs={6} sm={6} lg={4}>
+                  <Grid item xs={6} sm={4} md={4} lg={4}>
                     <div className="stake-index">
-                      <h2 className="title">Current Index</h2>
-                      <h2 className="content">{currentIndex && trim(currentIndex, 1)} OHM</h2>
+                      <Typography variant="h5" color="textSecondary">
+                        Current Index
+                      </Typography>
+                      <Typography variant="h4">{currentIndex && trim(currentIndex, 1)} OHM</Typography>
                     </div>
                   </Grid>
                 </Grid>
               </div>
             </Grid>
 
-            {!address ? (
-              <div className="stake-wallet-notification">
-                <h4>Connect your wallet to Stake OHM</h4>
-                <div className="wallet-menu" id="wallet-menu">
-                  {modalButton}
-                </div>
-              </div>
-            ) : (
-              <>
-                <Grid item>
-                  <div className="stake-toggle-row">
-                    <div className="btn-group" role="group">
-                      <button
-                        type="button"
-                        className={`btn ${view === "stake" ? "btn-light" : ""}`}
-                        onClick={() => {
-                          setView("stake");
-                        }}
-                      >
-                        Stake
-                      </button>
-                      <button
-                        type="button"
-                        className={`btn ${view === "unstake" ? "btn-light" : ""}`}
-                        onClick={() => {
-                          setView("unstake");
-                        }}
-                      >
-                        Unstake
-                      </button>
-                    </div>
+            <div className="staking-area">
+              {!address ? (
+                <div className="stake-wallet-notification">
+                  <Typography variant="h4" gutterBottom>
+                    Connect your wallet to Stake OHM
+                  </Typography>
+                  <div className="wallet-menu" id="wallet-menu">
+                    {modalButton}
                   </div>
+                </div>
+              ) : (
+                <>
+                  <Box className="stake-action-area">
+                    <Tabs
+                      centered
+                      value={view}
+                      textColor="primary"
+                      indicatorColor="primary"
+                      className="stake-tab-buttons"
+                      onChange={changeView}
+                      aria-label="stake tabs"
+                    >
+                      <Tab label="Stake" {...a11yProps(0)} />
+                      <Tab label="Unstake" {...a11yProps(0)} />
+                    </Tabs>
 
-                  <Flex className="stake-action-row">
-                    <div className="input-group ohm-input-group">
-                      <div className="logo-holder">
-                        <div className="ohm-logo-bg">
-                          <img
-                            className="ohm-logo-tiny"
-                            src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                          />
-                        </div>
-                      </div>
-                      <input
-                        value={quantity}
-                        onChange={e => setQuantity(e.target.value)}
-                        type="number"
-                        className="form-control stake-input"
-                        placeholder="Type an amount"
-                      />
-                      <button type="button" onClick={setMax}>
-                        Max
-                      </button>
-                    </div>
+                    <Box className="stake-action-row" display="flex" alignItems="center">
+                      <FormControl className="ohm-input" variant="outlined" color="primary">
+                        <InputLabel htmlFor="amount-input"></InputLabel>
+                        <OutlinedInput
+                          id="amount-input"
+                          type="number"
+                          placeholder="Enter an amount"
+                          className="stake-input"
+                          value={quantity}
+                          onChange={e => setQuantity(e.target.value)}
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <div className="logo-holder">
+                                <div className="ohm-logo-bg">
+                                  <img
+                                    className="ohm-logo-tiny"
+                                    src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
+                                  />
+                                </div>
+                              </div>
+                            </InputAdornment>
+                          }
+                          labelWidth={0}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <Button variant="text" onClick={setMax}>
+                                Max
+                              </Button>
+                            </InputAdornment>
+                          }
+                        />
+                      </FormControl>
 
-                    {address && hasAllowance("ohm") && view === "stake" && (
-                      <div
-                        className="stake-button"
-                        onClick={() => {
-                          onChangeStake("stake");
-                        }}
-                      >
-                        Stake OHM
-                      </div>
-                    )}
+                      <TabPanel value={view} index={0} className="stake-tab-panel">
+                        {address && hasAllowance("ohm") ? (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              onChangeStake("stake");
+                            }}
+                          >
+                            Stake OHM
+                          </Button>
+                        ) : (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              onSeekApproval("ohm");
+                            }}
+                          >
+                            Approve Stake
+                          </Button>
+                        )}
+                      </TabPanel>
 
-                    {address && hasAllowance("sohm") && view === "unstake" && (
-                      <div
-                        className="stake-button"
-                        onClick={() => {
-                          onChangeStake("unstake");
-                        }}
-                      >
-                        Unstake OHM
-                      </div>
-                    )}
+                      <TabPanel value={view} index={1} className="stake-tab-panel">
+                        {address && hasAllowance("sohm") ? (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              onChangeStake("unstake");
+                            }}
+                          >
+                            Unstake OHM
+                          </Button>
+                        ) : (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              onSeekApproval("sohm");
+                            }}
+                          >
+                            Approve Unstake
+                          </Button>
+                        )}
+                      </TabPanel>
+                    </Box>
 
-                    {address && !hasAllowance("ohm") && view === "stake" && (
-                      <div
-                        className="stake-button"
-                        onClick={() => {
-                          onSeekApproval("ohm");
-                        }}
-                      >
-                        Approve
-                        {/* approve stake */}
-                      </div>
-                    )}
-
-                    {address && !hasAllowance("sohm") && view === "unstake" && (
-                      <div
-                        className="stake-button"
-                        onClick={() => {
-                          onSeekApproval("sohm");
-                        }}
-                      >
-                        Approve
-                        {/* approve unstake */}
-                      </div>
-                    )}
-                  </Flex>
-
-                  <div className="stake-notification">
-                    {address &&
-                      ((!hasAllowance("ohm") && view === "stake") || (!hasAllowance("sohm") && view === "unstake")) && (
+                    <div className="help-text">
+                      {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
                         <em>
-                          <p>
+                          <Typography variant="body2">
                             Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
                             subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
                             transaction.
-                          </p>
+                          </Typography>
                         </em>
                       )}
-                  </div>
-                </Grid>
+                    </div>
+                  </Box>
 
-                <Grid item>
                   <div className={`stake-user-data`}>
-                    <div className="stake-price-data-column">
-                      <div className="stake-price-data-row">
-                        <p className="price-label">Your Balance</p>
-                        <p className="price-data">{trim(ohmBalance)} OHM</p>
-                      </div>
+                    <div className="data-row">
+                      <Typography variant="body1">Your Balance</Typography>
+                      <Typography variant="body1">{trim(ohmBalance)} OHM</Typography>
+                    </div>
 
-                      <div className="stake-price-data-row">
-                        <p className="price-label">Your Staked Balance</p>
-                        <p className="price-data">{trimmedSOHMBalance} sOHM</p>
-                      </div>
+                    <div className="data-row">
+                      <Typography variant="body1">Your Staked Balance</Typography>
+                      <Typography variant="body1">{trimmedSOHMBalance} sOHM</Typography>
+                    </div>
 
-                      <div className="stake-price-data-row">
-                        <p className="price-label">Next Reward Value</p>
-                        <p className="price-data">{nextRewardValue} sOHM</p>
-                      </div>
+                    <div className="data-row">
+                      <Typography variant="body1">Next Reward Amount</Typography>
+                      <Typography variant="body1">{nextRewardValue} sOHM</Typography>
+                    </div>
 
-                      <div className="stake-price-data-row">
-                        <p className="price-label">Next Reward Yield</p>
-                        <p className="price-data">{stakingRebasePercentage}%</p>
-                      </div>
+                    <div className="data-row">
+                      <Typography variant="body1">Next Reward Yield</Typography>
+                      <Typography variant="body1">{stakingRebasePercentage}%</Typography>
+                    </div>
 
-                      <div className="stake-price-data-row">
-                        <p className="price-label">ROI (5-Day Rate)</p>
-                        <p className="price-data">{trim(fiveDayRate * 100, 4)}%</p>
-                      </div>
+                    <div className="data-row">
+                      <Typography variant="body1">ROI (5-Day Rate)</Typography>
+                      <Typography variant="body1">{trim(fiveDayRate * 100, 4)}%</Typography>
                     </div>
                   </div>
-                </Grid>
-              </>
-            )}
-          </Grid>
-        </div>
-      </Card>
-
-      <Card className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-        <div className="card-header">
-          <h5>Farm Pools</h5>
-        </div>
-        <div className="card-content">
-          {!isSmallScreen ? (
-            <table className="table table-borderless stake-table">
-              <thead>
-                <tr>
-                  <th scope="col">Asset</th>
-                  <th scope="col">APR</th>
-                  <th scope="col">TVL</th>
-                  <th scope="col">Balance</th>
-                  <th scope="col" />
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <Flex className="ohm-pairs mr-2">
-                      <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
-                        <img src={`${ohmAssetImg()}`} />
-                      </div>
-                      <div className="ohm-pair" style={{ zIndex: 1 }}>
-                        <img src={`${fraxAssetImg()}`} />
-                      </div>
-                      <p>OHM-FRAX</p>
-                    </Flex>
-                  </td>
-                  <td>{fraxData && trim(fraxData.apy, 1)}%</td>
-                  <td>
-                    {fraxData &&
-                      fraxData.tvl &&
-                      new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0,
-                      }).format(fraxData.tvl)}
-                  </td>
-                  <td>{(fraxData && fraxData.balance) || 0} LP</td>
-                  <td>
-                    <a
-                      role="button"
-                      href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
-                      className="stake-lp-button"
-                      target="_blank"
-                    >
-                      Stake on Frax
-                      <i className="fa fa-external-link-alt" />
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          ) : (
-            <div className="stake-pool">
-              <div className="pool-card-top-row">
-                <Flex className="ohm-pairs mr-2">
-                  <div className="ohm-pair" style={{ zIndex: 2 }}>
-                    <div className="ohm-logo-bg">
-                      <img src={`${ohmAssetImg()}`} />
-                    </div>
-                  </div>
-                  <div className="ohm-pair" style={{ zIndex: 1 }}>
-                    <img src={`${fraxAssetImg()}`} />
-                  </div>
-                  <p>OHM-FRAX</p>
-                </Flex>
-                <a
-                  role="button"
-                  href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
-                  className="stake-lp-button"
-                  target="_blank"
-                >
-                  Stake on Frax
-                  <i className="fa fa-external-link-alt" />
-                </a>
-              </div>
-              <div className="pool-data">
-                <div className="pool-data-row">
-                  <div className="pool-data-label">APR</div>
-                  <div className="pool-data-label">{fraxData && trim(fraxData.apy, 1)}%</div>
-                </div>
-                <div item className="pool-data-row">
-                  <div>TVL</div>
-                  <div>
-                    {fraxData &&
-                      fraxData.tvl &&
-                      new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0,
-                      }).format(fraxData.tvl)}
-                  </div>
-                </div>
-                <div item className="pool-data-row">
-                  <div>Balance</div>
-                  <div>{(fraxData && fraxData.balance) || 0} LP</div>
-                </div>
-              </div>
+                </>
+              )}
             </div>
-          )}
-        </div>
-      </Card>
-    </Grid>
+          </Grid>
+        </Paper>
+      </Zoom>
+
+      <Zoom in={true}>
+        <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
+          <div className="card-header">
+            <Typography variant="h5">Farm Pool</Typography>
+          </div>
+          <div className="card-content">
+            {!isSmallScreen ? (
+              <TableContainer className="stake-table">
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Asset</TableCell>
+                      <TableCell align="left">APR</TableCell>
+                      <TableCell align="left">TVL</TableCell>
+                      <TableCell align="left">Balance</TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>
+                        <Box className="ohm-pairs">
+                          <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
+                            <img src={`${ohmImg}`} />
+                          </div>
+                          <div className="ohm-pair" style={{ zIndex: 1 }}>
+                            <img src={`${fraxImg}`} />
+                          </div>
+                          <Typography>OHM-FRAX</Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell align="left">{fraxData && trim(fraxData.apy, 1)}%</TableCell>
+                      <TableCell align="left">
+                        {fraxData &&
+                          fraxData.tvl &&
+                          new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                            maximumFractionDigits: 0,
+                            minimumFractionDigits: 0,
+                          }).format(fraxData.tvl)}
+                      </TableCell>
+                      <TableCell align="left"> {(fraxData && fraxData.balance) || 0} LP </TableCell>
+                      <TableCell align="center">
+                        <Button
+                          variant="outlined"
+                          color="secondary"
+                          href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
+                          target="_blank"
+                          className="stake-lp-button"
+                        >
+                          <Typography variant="body1">Stake on FRAX</Typography>
+                          <SvgIcon component={ArrowUp} color="primary" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : (
+              <div className="stake-pool">
+                <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
+                  <Box className="ohm-pairs">
+                    <div className="ohm-pair" style={{ zIndex: 2 }}>
+                      <div className="ohm-logo-bg">
+                        <img src={`${ohmImg}`} />
+                      </div>
+                    </div>
+                    <div className="ohm-pair" style={{ zIndex: 1 }}>
+                      <img src={`${fraxImg}`} />
+                    </div>
+                    <Typography gutterBottom={false}>OHM-FRAX</Typography>
+                  </Box>
+                </div>
+                <div className="pool-data">
+                  <div className="data-row">
+                    <Typography>APR</Typography>
+                    <Typography>{fraxData && trim(fraxData.apy, 1)}%</Typography>
+                  </div>
+                  <div className="data-row">
+                    <Typography>TVL</Typography>
+                    <Typography>
+                      {fraxData &&
+                        fraxData.tvl &&
+                        new Intl.NumberFormat("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                          maximumFractionDigits: 0,
+                          minimumFractionDigits: 0,
+                        }).format(fraxData.tvl)}
+                    </Typography>
+                  </div>
+                  <div className="data-row">
+                    <Typography>Balance</Typography>
+                    <Typography>{(fraxData && fraxData.balance) || 0} LP</Typography>
+                  </div>
+
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
+                    target="_blank"
+                    className="stake-lp-button"
+                    fullWidth
+                  >
+                    <Typography variant="body1">Stake on FRAX</Typography>
+                    <SvgIcon component={ArrowUp} color="primary" />
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </Paper>
+      </Zoom>
+    </div>
   );
 }
 
