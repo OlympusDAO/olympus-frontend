@@ -12,9 +12,10 @@ const lightTheme = {
   // "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
   background: "linear-gradient(180deg, #AFCDE9 1%, #F7FBE7 100%)",
   paperBg: "rgba(255, 255, 255, 0.6)",
-  modalBg: "#F9F9F9EE",
-  popoverBg: "rgba(255, 255, 255, 0.96)",
+  modalBg: "#FAFAFAEF",
+  popoverBg: "rgba(255, 255, 255, 0.95)",
   menuBg: "rgba(255, 255, 255, 0.5)",
+  backdropBg: "rgba(200, 200, 200, 0.4)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
   activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
@@ -93,14 +94,14 @@ export const light = responsiveFontSizes(
             },
           },
         },
-        MuiBackdrop: {
-          root: {
-            backgroundColor: "rgba(255,255,255, 0)",
-          },
-        },
         MuiDrawer: {
           paper: {
             backgroundColor: lightTheme.paperBg,
+          },
+        },
+        MuiBackdrop: {
+          root: {
+            backgroundColor: lightTheme.backdropBg,
           },
         },
         MuiLink: {
