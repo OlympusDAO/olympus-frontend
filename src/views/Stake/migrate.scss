@@ -1,0 +1,84 @@
+// MIGRATE PAGE STYLES
+
+#sohm-migration-view {
+  position: absolute !important;
+  z-index: 7;
+  .MuiBackdrop-root {
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    .ohm-card {
+      opacity: 1 !important;
+      padding: 1.5em !important;
+      padding-top: 1em !important;
+      justify-content: center;
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        div.cancel p {
+          color: #ff4343 !important;
+          vertical-align: middle;
+          padding: 0 !important;
+          &:hover {
+            color: #eeeeee;
+          }
+        }
+      }
+      p {
+        margin-bottom: 0 !important;
+      }
+      .MuiBreadcrumbs-root {
+        position: relative !important;
+        width: 100% !important;
+        margin-bottom: 3em;
+        .MuiBreadcrumbs-ol {
+          justify-content: center;
+          .breadcrumb:hover {
+            cursor: pointer !important;
+          }
+        }
+        li > div:not(.current-step) {
+          color: #999999;
+        }
+        li > div.current-step {
+          color: #f4d092dd !important;
+          text-decoration: underline;
+          text-underline-offset: 5px;
+        }
+        li div.finished-step {
+          color: #35ee66 !important;
+        }
+      }
+      .MuiBreadcrumbs-root.step-2 {
+        li.MuiBreadcrumbs-separator .MuiSvgIcon-root {
+          color: #35ee66 !important;
+        }
+      }
+      .card-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .stake-migration-help {
+          margin-bottom: 2rem;
+        }
+        .stake-action-row {
+          width: 100%;
+          justify-content: center;
+          .input-group.ohm-input-group,
+          .stake-button {
+            height: 50px;
+            min-width: 40%;
+          }
+          .stake-button {
+            white-space: nowrap;
+          }
+        }
+        .stake-user-data {
+          width: 100%;
+        }
+        .stake-notification {
+          width: 75%;
+        }
+      }
+    }
+  }
+}

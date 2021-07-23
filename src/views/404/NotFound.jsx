@@ -1,4 +1,3 @@
-import React from "react";
 import OlympusLogo from "../../assets/logo.svg";
 import "./notfound.scss";
 
