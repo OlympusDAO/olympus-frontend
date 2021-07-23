@@ -11,9 +11,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 
-import { calcBondDetails } from "./actions/Bond.actions.js";
-import { loadAppDetails } from "./actions/App.actions.js";
-import { loadAccountDetails } from "./actions/Account.actions.js";
+import { calcBondDetails } from "./actions/Bond.actions";
+import { loadAppDetails } from "./actions/App.actions";
+import { loadAccountDetails } from "./actions/Account.actions";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";

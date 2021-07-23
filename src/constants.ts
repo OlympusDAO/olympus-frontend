@@ -12,6 +12,8 @@ export const TOKEN_DECIMALS = 9;
 
 export type Nested = { [key: string]: string };
 
+// TS-REFACTOR-TODO: is there another way to define this data structure
+// so we don't have to do as string or as nested everywhere
 interface IAddresses {
   [key: number]: { [key: string]: Nested | string };
 }
