@@ -64,7 +64,6 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // Using StaticJsonRpcProvider as the chainId won't change see https://github.com/ethers-io/ethers.js/issues/901
 // const scaffoldEthProvider = new StaticJsonRpcProvider("https://rpc.scaffoldeth.io:48544");
 const mainnetInfura = new StaticJsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID);
-// ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_ID
 
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
@@ -84,13 +83,6 @@ const web3Modal = new Web3Modal({
     },
   },
 });
-
-const logoutOfWeb3Modal = async () => {
-  await web3Modal.clearCachedProvider();
-  setTimeout(() => {
-    window.location.reload();
-  }, 1);
-};
 
 const drawerWidth = 280;
 const transitionDuration = 969;
@@ -137,8 +129,19 @@ function App(props) {
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   const handleSidebarClose = () => {
     setIsSidebarExpanded(false);
+  };
+
+  const logoutOfWeb3Modal = async () => {
+    await web3Modal.clearCachedProvider();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1);
   };
 
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
@@ -183,10 +186,6 @@ function App(props) {
   }
 
   useEffect(() => {
-    if (isSidebarExpanded) handleSidebarClose();
-  }, [location]);
-
-  useEffect(() => {
     loadDetails();
   }, [injectedProvider, address]);
 
@@ -212,11 +211,11 @@ function App(props) {
 
   useEffect(() => {
     themeMode = theme === "light" ? lightTheme : darkTheme;
-  });
+  }, [theme]);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  useEffect(() => {
+    if (isSidebarExpanded) handleSidebarClose();
+  }, [location]);
 
   if (!mounted) {
     return <div />;
