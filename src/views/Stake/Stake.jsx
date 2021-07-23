@@ -130,7 +130,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
   if (web3Modal) {
     modalButton.push(
-      <Button variant="contained" color="primary" onClick={loadWeb3Modal} key={2}>
+      <Button variant="contained" color="primary" className="connect-button" onClick={loadWeb3Modal} key={2}>
         Connect Wallet
       </Button>,
     );
@@ -223,12 +223,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
             <div className="staking-area">
               {!address ? (
                 <div className="stake-wallet-notification">
-                  <Typography variant="h4" gutterBottom>
-                    Connect your wallet to Stake OHM
-                  </Typography>
                   <div className="wallet-menu" id="wallet-menu">
                     {modalButton}
                   </div>
+                  <Typography variant="h6">Connect your wallet to stake OHM</Typography>
                 </div>
               ) : (
                 <>
@@ -300,7 +298,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                               onSeekApproval("ohm");
                             }}
                           >
-                            Approve Stake
+                            Approve
                           </Button>
                         )}
                       </TabPanel>
@@ -326,7 +324,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                               onSeekApproval("sohm");
                             }}
                           >
-                            Approve Unstake
+                            Approve
                           </Button>
                         )}
                       </TabPanel>

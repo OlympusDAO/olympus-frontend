@@ -10,7 +10,6 @@
   .ohm-logo-bg {
     margin-left: 0;
     border-radius: 20px;
-    padding: 10px;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -100,7 +99,6 @@
       .ohm-logo-bg {
         margin-left: 0;
         border-radius: 20px;
-        padding: 6px;
         height: 40px;
         width: 40px;
       }
@@ -117,7 +115,8 @@
         margin-bottom: unset !important;
       }
       svg {
-        margin-left: 5px !important;
+        margin-left: 3px !important;
+        font-size: 1.1em !important;
       }
     }
   }
