@@ -223,7 +223,7 @@ export const calculateUserBondDetails =
       bondMaturationBlock = +bondDetails.vestingPeriod + +bondDetails.lastBlock;
       pendingPayout = await bondContract.pendingPayoutFor(address);
     } else {
-      const bondDetails = (await bondContract.bondInfo(address));
+      const bondDetails = await bondContract.bondInfo(address);
       interestDue = (bondDetails.payout as unknown as number) / Math.pow(10, 9);
       bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
       pendingPayout = await bondContract.pendingPayoutFor(address);
