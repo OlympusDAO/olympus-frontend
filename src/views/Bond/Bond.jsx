@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim } from "../../helpers";
-import { calcBondDetails, calculateUserBondDetails } from "../../actions/Bond.actions.js";
+import { calcBondDetails, calculateUserBondDetails } from "../../actions/Bond.actions";
 import { Grid, Backdrop, Paper, Box, Tab, Tabs, Typography } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
