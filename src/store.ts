@@ -11,6 +11,12 @@ import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
 import rootReducer from "./rootReducer";
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+
 const loggerMiddleware = createLogger({});
 
 const composeEnhancers =
@@ -20,7 +26,7 @@ const composeEnhancers =
 
 // This can now be used in Root.js as the Redux State Manager.
 // https://github.com/reduxjs/redux/blob/master/docs/api/createStore.md
-export default function configureStore(initialData) {
+export default function configureStore(initialData: {}) {
   if (process.env.NODE_ENV === "development") {
     return createStore(rootReducer, initialData, composeEnhancers(applyMiddleware(thunkMiddleware, loggerMiddleware)));
   }
