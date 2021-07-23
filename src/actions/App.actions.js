@@ -37,8 +37,6 @@ export const loadAppDetails =
     `;
     const graphData = await apollo(protocolMetricsQuery);
 
-    console.log(graphData);
-
     if (!graphData || graphData == null) {
       console.error("Returned a null response when querying TheGraph");
       return;

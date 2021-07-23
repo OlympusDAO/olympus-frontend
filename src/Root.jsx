@@ -1,6 +1,5 @@
 /* eslint-disable global-require */
-
-import React, { Component } from "react";
+import { Component } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
