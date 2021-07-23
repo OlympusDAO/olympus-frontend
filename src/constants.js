@@ -42,6 +42,10 @@ export const addresses = {
       OHM_FRAX: "", // JeffX to update
       FRAX: "", // JeffX to update
     },
+    POOL_TOGETHER: {
+      POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
+      START_AWARD_ADDRESS: "0x54c18FB75f946424AF15221414B15a814Ca1EFD0", // contract to start/compolete award
+    },
   },
   1: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
