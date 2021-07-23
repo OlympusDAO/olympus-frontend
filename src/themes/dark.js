@@ -11,10 +11,6 @@ const darkTheme = {
   gray: "#A3A3A3",
   textHighlightColor: "#F4D092",
   backgroundColor: "rgba(8, 15, 53, 1)",
-  // background:
-  //   "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-  // background:
-  //   "radial-gradient(circle at 5% -43%, rgba(187, 211, 204, 0.7), rgba(187,211,204,0) 40%), radial-gradient(circle at 90% 55%, rgba(125,163,169,0.3), rgba(125,163,169,0) 53%), radial-gradient(circle at 53% 10%, rgba(137, 151, 119, 0.5), rgba(137, 151, 119, 0.3) 33%), linear-gradient(180deg, #080F35 0%, #00000A 100%), linear-gradient(180deg, #99CFFF 0%, #B4FFD9 100%)",
   background: `
     linear-gradient(180deg, rgba(8, 15, 53, 0), rgba(0, 0, 10, 0.9)),
     linear-gradient(333deg, rgba(153, 207, 255, 0.2), rgba(180, 255, 217, 0.08)),
