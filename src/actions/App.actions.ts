@@ -109,31 +109,35 @@ export const loadAppDetails =
     // Calculate Treasury Balance
     // TS-REFACTOR-TODO: token can possibly be null, we aren't checking this possibility
     // currently just casting it as definitely not null to maintain the same logic
+
+    // TS-REFACTOR-TODO: addressForAsset can return null, we aren't checking this. casting as not null.
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider })!;
-    let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+
+    const treasuryAddress = addresses[networkID].TREASURY_ADDRESS as string;
+    let daiAmount = (await token.balanceOf(treasuryAddress)) as unknown as number;
 
     token = contractForReserve({ bond: BONDS.frax, networkID, provider })!;
-    let fraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let fraxAmount = (await token.balanceOf(treasuryAddress)) as unknown as number;
 
     token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider })!;
-    let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let ohmDaiAmount = await token.balanceOf(treasuryAddress);
     let valuation = (await bondCalculator.valuation(
-      addressForAsset({ bond: BONDS.ohm_dai, networkID }),
+      addressForAsset({ bond: BONDS.ohm_dai, networkID })!,
       ohmDaiAmount,
     )) as unknown as number;
     let markdown = (await bondCalculator.markdown(
-      addressForAsset({ bond: BONDS.ohm_dai, networkID }),
+      addressForAsset({ bond: BONDS.ohm_dai, networkID })!,
     )) as unknown as number;
     let ohmDaiUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 
     token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider })!;
-    let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let ohmFraxAmount = await token.balanceOf(treasuryAddress);
     valuation = (await bondCalculator.valuation(
-      addressForAsset({ bond: BONDS.ohm_frax, networkID }),
+      addressForAsset({ bond: BONDS.ohm_frax, networkID })!,
       ohmFraxAmount,
     )) as unknown as number;
     markdown = (await bondCalculator.markdown(
-      addressForAsset({ bond: BONDS.ohm_frax, networkID }),
+      addressForAsset({ bond: BONDS.ohm_frax, networkID })!,
     )) as unknown as number;
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 
