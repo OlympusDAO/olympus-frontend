@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Grid,
   Box,
@@ -33,8 +33,10 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
+import { IStakeMigrateProps } from "./Migrate";
+import { useAppSelector } from "src/hooks";
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
@@ -44,46 +46,49 @@ function a11yProps(index) {
 const ohmImg = getTokenImage("ohm");
 const fraxImg = getTokenImage("frax");
 
-function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
+function Stake({ provider, address, web3Modal, loadWeb3Modal }: IStakeMigrateProps) {
   const dispatch = useDispatch();
 
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(0); // TS-REFACTOR-TODO: I set this to 0 as state initially.
 
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
-  const currentIndex = useSelector(state => {
-    return state.app.currentIndex;
+  const currentIndex = useAppSelector(state => {
+    return Number(state.app.currentIndex);
   });
-  const fraxData = useSelector(state => {
+  const fraxData = useAppSelector(state => {
     return state.fraxData;
   });
-  const fiveDayRate = useSelector(state => {
+  const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;
   });
-  const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
+
+  // TS-REFACTOR-TODO: I convert the balances to type number as
+  // this component expects these to be numbers
+  const ohmBalance = useAppSelector(state => {
+    return state.app.balances && Number(state.app.balances.ohm);
   });
-  const oldSohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.oldsohm;
+  const oldSohmBalance = useAppSelector(state => {
+    return state.app.balances && Number(state.app.balances.oldsohm);
   });
-  const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
+  const sohmBalance = useAppSelector(state => {
+    return state.app.balances && Number(state.app.balances.sohm);
   });
-  const stakeAllowance = useSelector(state => {
+  const stakeAllowance = useAppSelector(state => {
     return state.app.staking && state.app.staking.ohmStake;
   });
-  const unstakeAllowance = useSelector(state => {
+  const unstakeAllowance = useAppSelector(state => {
     return state.app.staking && state.app.staking.ohmUnstake;
   });
-  const stakingRebase = useSelector(state => {
+  const stakingRebase = useAppSelector(state => {
     return state.app.stakingRebase;
   });
-  const stakingAPY = useSelector(state => {
+  const stakingAPY = useAppSelector(state => {
     return state.app.stakingAPY;
   });
-  const stakingTVL = useSelector(state => {
+  const stakingTVL = useAppSelector(state => {
     return state.app.stakingTVL;
   });
 
@@ -95,13 +100,13 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     }
   };
 
-  const onSeekApproval = async token => {
+  const onSeekApproval = async (token: string) => {
     await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
   };
 
-  const onChangeStake = async action => {
+  const onChangeStake = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(quantity) || quantity === 0 || quantity === "") {
+    if (isNaN(quantity) || quantity === 0) {
       // eslint-disable-next-line no-alert
       alert("Please enter a value!");
     } else {
@@ -136,7 +141,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     );
   }
 
-  const changeView = (event, newView) => {
+  const changeView = (event: React.ChangeEvent<{}>, newView: number) => {
     setView(newView);
   };
 
@@ -253,7 +258,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                           placeholder="Enter an amount"
                           className="stake-input"
                           value={quantity}
-                          onChange={e => setQuantity(e.target.value)}
+                          onChange={e => setQuantity(Number(e.target.value))}
                           startAdornment={
                             <InputAdornment position="start">
                               <div className="logo-holder">

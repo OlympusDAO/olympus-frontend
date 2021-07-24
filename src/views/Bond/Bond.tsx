@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim } from "../../helpers";
 import { calcBondDetails, calculateUserBondDetails } from "../../actions/Bond.actions";
@@ -9,36 +9,46 @@ import BondRedeemV1 from "./BondRedeemV1";
 import BondRedeem from "./BondRedeem";
 import BondPurchase from "./BondPurchase";
 import "./bond.scss";
+import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import { useAppSelector } from "src/hooks";
 
-function a11yProps(index) {
+interface IBondProps {
+  readonly bond: string;
+  readonly address: string;
+  readonly provider: StaticJsonRpcProvider | undefined;
+}
+
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-function Bond({ bond, address, provider }) {
+function Bond({ bond, address, provider }: IBondProps) {
   const dispatch = useDispatch();
 
   const [slippage, setSlippage] = useState(0.5);
   const [recipientAddress, setRecipientAddress] = useState(address);
 
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(""); // TS-REFACTOR-TODO: unset state
 
-  const marketPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].marketPrice;
+  // TS-REFACTOR-TODO: we don't check if state.bonding is undefined, but it can be
+  const marketPrice = useAppSelector(state => {
+    return state.bonding![bond] && state.bonding![bond].marketPrice;
   });
-  const bondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondPrice;
+  const bondPrice = useAppSelector(state => {
+    return state.bonding![bond] && state.bonding![bond].bondPrice;
   });
 
-  const onRecipientAddressChange = e => {
+  const onRecipientAddressChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     return setRecipientAddress(e.target.value);
   };
 
-  const onSlippageChange = e => {
-    return setSlippage(e.target.value);
+  const onSlippageChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    // TS-REFACTOR-TODO: would be best to convert e.target.value to number
+    return setSlippage(e.target.value as unknown as number);
   };
 
   async function loadBondDetails() {
@@ -54,7 +64,8 @@ function Bond({ bond, address, provider }) {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
-  const changeView = (event, newView) => {
+  // TS-REFACTOR-TODO: unused event param
+  const changeView = (event: React.ChangeEvent<{}>, newView: number) => {
     setView(newView);
   };
 
@@ -69,8 +80,8 @@ function Bond({ bond, address, provider }) {
             onSlippageChange={onSlippageChange}
             onRecipientAddressChange={onRecipientAddressChange}
           />
-
-          <Box direction="row" className="bond-price-data-row">
+          {/* TS-REFACTOR-TODO: deleted direction as this doesn't exist on Box component */}
+          <Box className="bond-price-data-row">
             <div className="bond-price-data">
               <Typography variant="h5" color="textSecondary">
                 Bond Price

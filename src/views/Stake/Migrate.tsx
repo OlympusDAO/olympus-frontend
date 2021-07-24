@@ -14,8 +14,9 @@ import {
   Breadcrumbs,
   Link,
 } from "@material-ui/core";
+import Web3Modal from "web3modal";
 import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
 import { trim } from "../../helpers";
@@ -23,39 +24,51 @@ import useEscape from "../../hooks/useEscape";
 import { NavLink, useHistory } from "react-router-dom";
 import "./stake.scss";
 import "./migrate.scss";
+import { useAppSelector } from "src/hooks";
+import { StaticJsonRpcProvider } from "@ethersproject/providers";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
-export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }) {
+export interface IStakeMigrateProps {
+  readonly address: string;
+  readonly provider: StaticJsonRpcProvider | undefined;
+  readonly web3Modal: Web3Modal;
+  readonly loadWeb3Modal: () => Promise<void>;
+}
+
+export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }: IStakeMigrateProps) {
   const dispatch = useDispatch();
 
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
   const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(0); // TS-REFACTOR-TODO: I set this to 0 as state initially.
 
-  const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
+  // TS-REFACTOR-TODO: I convert the balances to type number as
+  // this component expects these to be numbers
+  const ohmBalance = useAppSelector(state => {
+    return state.app.balances && Number(state.app.balances.ohm);
   });
-  const oldSohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.oldsohm;
+  const oldSohmBalance = useAppSelector(state => {
+    return state.app.balances && Number(state.app.balances.oldsohm);
   });
-  const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
+  const sohmBalance = useAppSelector(state => {
+    return state.app.balances && Number(state.app.balances.sohm);
   });
-  const stakeAllowance = useSelector(state => {
+  const stakeAllowance = useAppSelector(state => {
     return state.app.staking && state.app.staking.ohmStake;
   });
-  const unstakeAllowance = useSelector(state => {
+  const unstakeAllowance = useAppSelector(state => {
     return state.app.migrate && state.app.migrate.unstakeAllowance;
   });
-  const newStakingAPY = useSelector(state => {
+  const newStakingAPY = useAppSelector(state => {
     return (state.app && state.app.stakingAPY) || 0;
   });
 
-  const oldStakingAPY = useSelector(state => {
+  const oldStakingAPY = useAppSelector(state => {
     return (state.app && state.app.oldStakingAPY) || 0;
   });
 
+  // TS-REFACTOR-TODO: these are expecting number types
   const setMax = () => {
     if (view === "unstake") {
       setQuantity(oldSohmBalance);
@@ -85,7 +98,9 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   };
 
   const unStakeLegacy = async () => {
-    if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
+    // TS-REFACTOR-TODO: I remove the check for if quantity is an empty string
+    // when we setQuantity, if we set quantity = "" => Number("") = 0
+    if (Number.isNaN(quantity) || quantity === 0) {
       alert("Please enter a value!");
       return;
     }
@@ -96,7 +111,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   };
 
   const stakeOhm = async () => {
-    if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
+    if (Number.isNaN(quantity) || quantity === 0) {
       alert("Please enter a value!");
       return;
     }
@@ -245,7 +260,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                         placeholder={`${quantity}`}
                         className="stake-input"
                         // value={quantity}
-                        onChange={e => setQuantity(e.target.value)}
+                        onChange={e => setQuantity(Number(e.target.value))} // TS-REFACTOR-TODO: convert e.target.value to number type
                         startAdornment={
                           <InputAdornment position="start">
                             <div className="logo-holder">
