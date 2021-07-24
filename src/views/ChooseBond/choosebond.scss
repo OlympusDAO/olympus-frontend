@@ -17,6 +17,27 @@
     width: 40px;
   }
 
+  .claim-bonds-card {
+    .global-claim-buttons {
+      flex-wrap: wrap;
+      width: 100%;
+      button {
+        width: 100%;
+        max-width: 200px;
+      }
+    }
+    .small.global-claim-buttons {
+      flex-direction: column;
+      width: 100%;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      .transaction-button {
+        width: 100%;
+        min-width: 100% !important;
+      }
+    }
+  }
+
   .bond-data-card {
     margin: auto !important;
     .ohm-pairs {
@@ -43,6 +64,13 @@
     }
     .data-row {
       margin-bottom: 13px;
+    }
+    .claim-bond-card-buttons {
+      flex-wrap: wrap;
+      button {
+        min-width: 48% !important;
+        margin: 5px !important;
+      }
     }
     .bond-link {
       margin-top: 10px;
@@ -119,6 +147,15 @@
         margin-left: 3px !important;
         font-size: 1.2em !important;
       }
+    }
+  }
+}
+
+.mobile #choose-bond-view {
+  .bond-data-card .claim-bond-card-buttons {
+    width: 100%;
+    button {
+      width: 100% !important;
     }
   }
 }

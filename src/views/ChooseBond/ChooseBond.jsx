@@ -14,6 +14,7 @@ import {
   Zoom,
 } from "@material-ui/core";
 import { BondTableData, BondDataCard } from "./BondRow";
+import ClaimBonds from "./ClaimBonds";
 import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
@@ -35,6 +36,8 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
+      <ClaimBonds bonds={bonds} />
+
       <Zoom in={true}>
         <Paper className="ohm-card">
           <Box className="card-header">
@@ -75,7 +78,7 @@ function ChooseBond() {
                 <Table aria-label="Available bonds">
                   <TableHead>
                     <TableRow>
-                      <TableCell align="center">Bond</TableCell>
+                      <TableCell align="left">Bond</TableCell>
                       <TableCell align="center">Price</TableCell>
                       <TableCell>ROI</TableCell>
                       <TableCell>Purchased</TableCell>
