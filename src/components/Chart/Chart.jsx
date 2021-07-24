@@ -152,7 +152,7 @@ function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, head
   }, [data]);
 
   return (
-    <Box style={{ width: "100%", minWidth: "330px", height: "100%" }}>
+    <Box style={{ width: "100%", minWidth: "330px", height: "100%" }} className="ohm-chart">
       <div className="card-header">
         <Typography variant="h6" color="textSecondary">
           {headerText}

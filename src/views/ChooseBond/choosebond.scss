@@ -10,28 +10,29 @@
 
   .claim-bonds-card {
     .global-claim-buttons {
-      flex-wrap: wrap;
+      // flex-wrap: wrap;
       width: 100%;
+      margin: 15px 0px;
       button {
-        width: 100%;
+        // width: 100%;
         max-width: 233px;
-        margin: 10px !important;
+        // margin: 10px !important;
       }
     }
     .small.global-claim-buttons {
       flex-direction: column;
-      width: 100%;
       justify-content: space-around;
+      align-items: center;
       flex-wrap: wrap;
-      .transaction-button {
-        width: 100%;
-        min-width: 100% !important;
+      button {
+        max-width: unset;
+        width: 90%;
       }
     }
   }
 
   .bond-data-card {
-    margin: auto !important;
+    margin: auto;
     .ohm-pairs {
       display: flex;
       margin-right: 15px;
@@ -57,18 +58,19 @@
     .data-row {
       margin-bottom: 13px;
     }
-    .claim-bond-card-buttons {
-      flex-wrap: wrap;
-      button {
-        min-width: 48% !important;
-        margin: 8px !important;
-      }
-    }
     .bond-link {
       margin-top: 10px;
       text-align: center;
       a {
         width: 96%;
+      }
+    }
+
+    .claim-bond-card-buttons {
+      flex-wrap: wrap;
+      button {
+        min-width: 48%;
+        margin: 5px 0px;
       }
     }
   }
@@ -138,8 +140,18 @@
   }
 }
 
+.tablet #choose-bond-view {
+  .claim-bond-card-buttons {
+    width: 100%;
+    button {
+      width: 40%;
+    }
+  }
+}
+
 .mobile #choose-bond-view {
-  .bond-data-card .claim-bond-card-buttons {
+  .claim-bond-card-buttons {
+    flex-direction: column;
     width: 100%;
     button {
       width: 100% !important;
