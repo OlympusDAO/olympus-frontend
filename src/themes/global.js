@@ -76,7 +76,7 @@ const commonSettings = {
       root: {
         backdropFilter: "blur(33px)",
         "&.ohm-card": {
-          padding: "20px 30px 30px 30px",
+          padding: "20px 20px 30px 20px",
           borderRadius: "10px",
           maxWidth: "833px",
           width: "97%",

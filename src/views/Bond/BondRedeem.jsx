@@ -49,7 +49,7 @@ function BondRedeem({ provider, address, bond }) {
   });
 
   return (
-    <>
+    <Box display="flex" flexDirection="column">
       <Box display="flex" justifyContent="space-evenly" flexWrap="wrap">
         <Button
           variant="contained"
@@ -87,7 +87,7 @@ function BondRedeem({ provider, address, bond }) {
       </div>
       <div className="data-row">
         <Typography>Time until fully vested</Typography>
-        <Typography className="price-data">{vestingTime()}</Typography>
+        <Typography>{vestingTime()}</Typography>
       </div>
 
       <div className="data-row">
@@ -104,7 +104,7 @@ function BondRedeem({ provider, address, bond }) {
         <Typography>Vesting Term</Typography>
         <Typography>{vestingPeriod()}</Typography>
       </div>
-    </>
+    </Box>
   );
 }
 

@@ -23,6 +23,9 @@ function NavContent({ address }) {
     if (currentPath.indexOf("stake") >= 0 && page === "stake") {
       return true;
     }
+    if (currentPath.indexOf("33-together") >= 0 && page === "33-together") {
+      return true;
+    }
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
       return true;
     }
@@ -71,21 +74,6 @@ function NavContent({ address }) {
             <Link
               component={NavLink}
               id="stake-nav"
-              to="/33-together"
-              isActive={(match, location) => {
-                return checkPage(match, location, "stake");
-              }}
-              className={`button-dapp-menu ${isActive ? "active" : ""}`}
-            >
-              <Typography variant="h6">
-                <SvgIcon color="primary" component={StakeIcon} />
-                3,3 Together
-              </Typography>
-            </Link>
-
-            <Link
-              component={NavLink}
-              id="stake-nav"
               to="/stake"
               isActive={(match, location) => {
                 return checkPage(match, location, "stake");
@@ -110,6 +98,21 @@ function NavContent({ address }) {
               <Typography variant="h6">
                 <SvgIcon color="primary" component={BondIcon} />
                 Bond
+              </Typography>
+            </Link>
+
+            <Link
+              component={NavLink}
+              id="33-together-nav"
+              to="/33-together"
+              isActive={(match, location) => {
+                return checkPage(match, location, "33-together");
+              }}
+              className={`button-dapp-menu ${isActive ? "active" : ""}`}
+            >
+              <Typography variant="h6">
+                <SvgIcon color="primary" component={StakeIcon} />
+                3,3 Together
               </Typography>
             </Link>
 

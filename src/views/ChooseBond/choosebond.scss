@@ -7,15 +7,6 @@
   .ohm-card .bond-hero h4 {
     font-weight: 600 !important;
   }
-  .ohm-logo-bg {
-    margin-left: 0;
-    border-radius: 20px;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 40px;
-    width: 40px;
-  }
 
   .claim-bonds-card {
     .global-claim-buttons {
@@ -23,7 +14,8 @@
       width: 100%;
       button {
         width: 100%;
-        max-width: 200px;
+        max-width: 233px;
+        margin: 10px !important;
       }
     }
     .small.global-claim-buttons {
@@ -69,7 +61,7 @@
       flex-wrap: wrap;
       button {
         min-width: 48% !important;
-        margin: 5px !important;
+        margin: 8px !important;
       }
     }
     .bond-link {
@@ -81,6 +73,7 @@
     }
   }
 
+  // most of this can probably be added to global theme
   .MuiTable-root {
     margin: 10px 0px;
   }
@@ -123,12 +116,6 @@
         padding: 0 !important;
         font-family: inherit;
         vertical-align: text-top !important;
-      }
-      .ohm-logo-bg {
-        margin-left: 0;
-        border-radius: 20px;
-        height: 40px;
-        width: 40px;
       }
     }
     div.bond-name {

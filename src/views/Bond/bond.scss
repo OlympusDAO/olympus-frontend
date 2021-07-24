@@ -13,9 +13,6 @@
       height: auto;
     }
   }
-  .ohm-card {
-    max-width: 803px;
-  }
   .ohm-modal {
     max-width: 688px;
     min-height: 605px;
@@ -24,21 +21,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    .ohm-pair-img,
+    .reserve-pair-img {
+      height: 38px;
+      width: 38px;
+    }
     .bond-header-logo {
       justify-content: center;
       align-items: center;
       text-align: center;
       display: flex;
       flex-direction: row;
-      .ohm-logo-bg {
-        height: 40px !important;
-        width: 40px !important;
-        padding: 8px !important;
-        margin-left: 0;
-      }
       .bond-header-name {
         text-align: center;
-        margin-left: 15px;
+        margin-left: 0.33em;
       }
     }
   }
