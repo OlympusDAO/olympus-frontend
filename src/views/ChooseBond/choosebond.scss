@@ -10,13 +10,10 @@
 
   .claim-bonds-card {
     .global-claim-buttons {
-      // flex-wrap: wrap;
       width: 100%;
       margin: 15px 0px;
       button {
-        // width: 100%;
         max-width: 233px;
-        // margin: 10px !important;
       }
     }
     .small.global-claim-buttons {
@@ -68,21 +65,11 @@
 
     .claim-bond-card-buttons {
       flex-wrap: wrap;
+      width: 100%;
       button {
         min-width: 48%;
         margin: 5px 0px;
       }
-    }
-  }
-
-  // most of this can probably be added to global theme
-  .MuiTable-root {
-    margin: 10px 0px;
-  }
-
-  .MuiTableRow-head {
-    .MuiTableCell-alignLeft {
-      padding-left: 20px;
     }
   }
 
@@ -91,18 +78,16 @@
       margin: 0 !important;
       display: flex !important;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       img {
         margin-right: 3px;
       }
     }
-    &.MuiTableCell-alignLeft {
-      display: flex;
-    }
   }
 
-  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft.bond-name-cell {
     justify-content: space-between;
+    display: flex;
     div.ohm-pairs {
       width: 33%;
       vertical-align: middle !important;
@@ -142,7 +127,6 @@
 
 .tablet #choose-bond-view {
   .claim-bond-card-buttons {
-    width: 100%;
     button {
       width: 40%;
     }
@@ -152,9 +136,8 @@
 .mobile #choose-bond-view {
   .claim-bond-card-buttons {
     flex-direction: column;
-    width: 100%;
     button {
-      width: 100% !important;
+      width: 100%;
     }
   }
 }

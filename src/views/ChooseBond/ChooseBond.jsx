@@ -79,10 +79,10 @@ function ChooseBond() {
                   <TableHead>
                     <TableRow>
                       <TableCell align="left">Bond</TableCell>
-                      <TableCell align="center">Price</TableCell>
-                      <TableCell>ROI</TableCell>
+                      <TableCell align="left">Price</TableCell>
+                      <TableCell align="left">ROI</TableCell>
                       <TableCell>Purchased</TableCell>
-                      <TableCell align="right"></TableCell>
+                      <TableCell align="center"></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
