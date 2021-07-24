@@ -6,7 +6,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const apollo = queryString => {
+const apollo = (queryString: string) => {
   return client
     .query({
       query: gql(queryString),
