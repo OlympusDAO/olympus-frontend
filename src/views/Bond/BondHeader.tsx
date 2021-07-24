@@ -8,7 +8,21 @@ import { ReactComponent as SettingsIcon } from "../../assets/icons/v1.2/settings
 import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
 import useEscape from "../../hooks/useEscape";
 
-function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
+interface IBondHeaderProps {
+  readonly bond: string;
+  recipientAddress: string;
+  readonly slippage: number;
+  onRecipientAddressChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+  onSlippageChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+}
+
+function BondHeader({
+  bond,
+  slippage,
+  recipientAddress,
+  onRecipientAddressChange,
+  onSlippageChange,
+}: IBondHeaderProps) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
