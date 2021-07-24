@@ -1,8 +1,8 @@
 import { Drawer } from "@material-ui/core";
-import NavContent from "./NavContent.jsx";
+import NavContent from "./NavContent";
 import "./sidebar.scss";
 
-function Sidebar({ address }) {
+function Sidebar({ address }: { address: string }) {
   return (
     <div className={`sidebar`} id="sidebarContent">
       <Drawer variant="permanent" anchor="left">

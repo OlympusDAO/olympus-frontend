@@ -1,10 +1,20 @@
 import { AppBar, Toolbar, Box, Button, SvgIcon } from "@material-ui/core";
+import Web3Modal from "web3modal";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/v1.2/hamburger.svg";
-import OhmMenu from "./OhmMenu.jsx";
-import ThemeSwitcher from "./ThemeSwitch.jsx";
+import OhmMenu from "./OhmMenu";
+import ThemeSwitcher from "./ThemeSwitch";
 import "./topbar.scss";
+
+interface ITopBarProps {
+  readonly theme: string;
+  readonly web3Modal: Web3Modal;
+  readonly handleDrawerToggle: () => void;
+  readonly loadWeb3Modal: () => Promise<void>;
+  readonly logoutOfWeb3Modal: () => Promise<void>;
+  readonly toggleTheme: (e: KeyboardEvent) => void;
+}
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -26,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
+function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }: ITopBarProps) {
   const classes = useStyles();
   const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
 
@@ -53,7 +63,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
         <Button
           id="hamburger"
           aria-label="open drawer"
-          edge="start"
+          // edge="start" TS-REFACTOR-TODO: edge doesn't exist on button
           size="large"
           variant="contained"
           color="secondary"

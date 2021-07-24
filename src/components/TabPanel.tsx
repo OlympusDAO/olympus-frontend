@@ -1,8 +1,15 @@
+import React from "react";
 import Box from "@material-ui/core/Box";
-import PropTypes from "prop-types";
 
-function TabPanel(props) {
-  const { children, value, index, className, ...other } = props;
+interface ITabPanelProps {
+  readonly children: React.ReactNode;
+  readonly className?: string;
+  readonly index: number;
+  readonly value: number;
+}
+
+const TabPanel: React.FC<ITabPanelProps> = (props: ITabPanelProps) => {
+  const { value, children, index, className } = props;
 
   return (
     <div
@@ -10,18 +17,11 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
+      className={className}
     >
       {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-  className: PropTypes.any,
 };
 
 export default TabPanel;

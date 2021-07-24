@@ -1,6 +1,6 @@
 import { isBondLP, getTokenImage } from "../helpers";
 
-function BondHeader({ bond }) {
+function BondHeader({ bond }: { bond: string }) {
   const ohmAssetImg = () => {
     return getTokenImage("ohm");
   };
