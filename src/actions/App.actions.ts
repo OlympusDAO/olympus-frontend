@@ -46,10 +46,14 @@ export const loadAppDetails =
         protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
           timestamp
           ohmCirculatingSupply
+          sOhmCirculatingSupply
           totalSupply
           ohmPrice
           marketCap
           totalValueLocked
+          totalOHMstaked
+          nextEpochRebase
+          nextDistributedOhm
         }
       }
     `;
