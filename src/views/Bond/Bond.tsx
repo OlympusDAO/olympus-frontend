@@ -36,10 +36,10 @@ function Bond({ bond, address, provider }: IBondProps) {
 
   // TS-REFACTOR-TODO: we don't check if state.bonding is undefined, but it can be
   const marketPrice = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].marketPrice!; // TS-REFACTOR-TODO: this may be undefined
+    return state.bonding![bond] && (state.bonding![bond].marketPrice as number); // TS-REFACTOR-TODO: casted as number, may be undefined
   });
   const bondPrice = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].bondPrice!; // TS-REFACTOR-TODO: this may be undefined
+    return state.bonding![bond] && (state.bonding![bond].bondPrice as number); // TS-REFACTOR-TODO: casted as number, may be undefined
   });
 
   const onRecipientAddressChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {

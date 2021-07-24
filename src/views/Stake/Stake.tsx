@@ -110,7 +110,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }: IStakeMigratePro
       // eslint-disable-next-line no-alert
       alert("Please enter a value!");
     } else {
-      await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: 1 }));
+      await dispatch(changeStake({ address, action, value: quantity as unknown as string, provider, networkID: 1 }));
     }
   };
 

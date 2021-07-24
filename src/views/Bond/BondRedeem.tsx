@@ -20,19 +20,19 @@ function BondRedeem({ provider, address, bond }: IBondRedeemProps) {
 
   // TS-REFACTOR-TODO: casted as not null for all state.bonding
   const bondMaturationBlock = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].bondMaturationBlock!; // TS-REFACTOR-TODO: casted as not null
+    return state.bonding![bond] && (state.bonding![bond].bondMaturationBlock as number); // TS-REFACTOR-TODO: casted as number, may be undefined
   });
 
   const vestingTerm = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].vestingBlock!; // TS-REFACTOR-TODO: casted as not null
+    return state.bonding![bond] && (state.bonding![bond].vestingBlock as number); // TS-REFACTOR-TODO: casted as number, may be undefined
   });
 
   const interestDue = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].interestDue!; // TS-REFACTOR-TODO: casted as not null
+    return state.bonding![bond] && (state.bonding![bond].interestDue as number); // TS-REFACTOR-TODO: casted as number, may be undefined
   });
 
   const pendingPayout = useAppSelector(state => {
-    return state.bonding![bond] && Number(state.bonding![bond].pendingPayout!); // TS-REFACTOR-TODO: casted as not null number
+    return state.bonding![bond] && Number(state.bonding![bond].pendingPayout); // TS-REFACTOR-TODO: casted as number, may be undefined
   });
 
   async function onRedeem({ autostake }: { autostake: boolean }) {
@@ -44,17 +44,17 @@ function BondRedeem({ provider, address, bond }: IBondRedeemProps) {
   };
 
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock.toString()) + parseInt(vestingTerm.toString()); // TS-REFACTOR-TODO: converted to string
+    const vestingBlock = parseInt(currentBlock as unknown as string) + parseInt(vestingTerm as unknown as string); // TS-REFACTOR-TODO: casted as string
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
 
   const bondDiscount = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].bondDiscount!;
+    return state.bonding![bond] && (state.bonding![bond].bondDiscount as number); // TS-REFACTOR-TODO: casted as number, may be undefined
   });
 
   const debtRatio = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].debtRatio! as number); // TS-REFACTOR-TODO: casted as number
+    return state.bonding![bond] && (state.bonding![bond].debtRatio as number); // TS-REFACTOR-TODO: casted as number, may be undefined
   });
 
   return (
