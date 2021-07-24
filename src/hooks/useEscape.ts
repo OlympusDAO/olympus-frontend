@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 
-const useEscape = onEscape => {
+const useEscape = (onEscape: () => void) => {
   useEffect(() => {
-    const handleEsc = event => {
+    const handleEsc = (event: KeyboardEvent) => {
+      // TS-REFACTOR-TODO: keycode is deprecated
       if (event.keyCode === 27) onEscape();
     };
     window.addEventListener("keydown", handleEsc);

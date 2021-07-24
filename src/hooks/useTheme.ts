@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 
-const useTheme = e => {
+// TS-REFACTOR-TODO: e is not used
+const useTheme = (e: unknown) => {
   const [theme, setTheme] = useState("dark");
   const [mounted, setMounted] = useState(false);
 
-  const setMode = mode => {
+  const setMode = (mode: string) => {
     window.localStorage.setItem("theme", mode);
     setTheme(mode);
   };
 
-  const toggleTheme = e => {
+  const toggleTheme = (e: KeyboardEvent) => {
     if (e.metaKey) {
       setMode("girth");
     } else {
