@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { addresses, TOKEN_DECIMALS } from "../../constants";
+import React, { useState } from "react";
+import { addresses, Nested, TOKEN_DECIMALS } from "../../constants";
 import { getTokenImage } from "../../helpers";
-import { useSelector } from "react-redux";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/v1.2/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/v1.2/arrow-up.svg";
 import "./ohmmenu.scss";
+import { useAppSelector } from "src/hooks";
 
 const sohmImg = getTokenImage("sohm");
 const ohmImg = getTokenImage("ohm");
 
-const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
+const addTokenToWallet = (tokenSymbol: string, tokenAddress: string) => async () => {
   if (window.ethereum) {
     try {
       await window.ethereum.request({
@@ -32,17 +32,18 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
 };
 
 function OhmMenu() {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<any | null>(null); // TS-REFACTOR-TODO: is any or null
   const isEthereumAPIAvailable = window.ethereum;
 
-  const networkID = useSelector(state => {
+  const networkID = useAppSelector(state => {
     return (state.app && state.app.networkID) || 1;
   });
 
-  const SOHM_ADDRESS = addresses[networkID].SOHM_ADDRESS;
-  const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
+  const SOHM_ADDRESS = addresses[networkID].SOHM_ADDRESS as string;
+  const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS as string;
+  const RESERVES_ADDRESSES = addresses[networkID].RESERVES as Nested;
 
-  const handleClick = event => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
@@ -66,7 +67,7 @@ function OhmMenu() {
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start">
         <Paper className="ohm-menu" elevation={1}>
           <Link
-            href={`https://app.sushi.com/swap?inputCurrency=${addresses[networkID].RESERVES.DAI}&outputCurrency=${OHM_ADDRESS}`}
+            href={`https://app.sushi.com/swap?inputCurrency=${RESERVES_ADDRESSES.DAI}&outputCurrency=${OHM_ADDRESS}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -76,7 +77,7 @@ function OhmMenu() {
           </Link>
 
           <Link
-            href={`https://app.uniswap.org/#/swap?inputCurrency=${addresses[networkID].RESERVES.FRAX}&outputCurrency=${OHM_ADDRESS}`}
+            href={`https://app.uniswap.org/#/swap?inputCurrency=${RESERVES_ADDRESSES.FRAX}&outputCurrency=${OHM_ADDRESS}`}
             target="_blank"
             rel="noreferrer"
           >

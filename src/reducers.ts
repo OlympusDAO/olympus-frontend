@@ -44,6 +44,7 @@ interface IAppState {
   readonly fiveDayRate: number;
   readonly marketCap: number;
   readonly marketPrice: number;
+  readonly networkID?: number;
   readonly oldStakingAPY: number;
   readonly stakingAPY: number;
   readonly stakingRebase: number;
