@@ -32,10 +32,10 @@ function ClaimBonds({ bonds }) {
               <Table aria-label="Claimable bonds">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="left">Bond</TableCell>
+                    <TableCell align="center">Bond</TableCell>
                     <TableCell align="left">Claimable</TableCell>
                     <TableCell align="left">Pending</TableCell>
-                    <TableCell>Fully Vested</TableCell>
+                    <TableCell align="center">Fully Vested</TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>

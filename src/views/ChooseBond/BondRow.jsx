@@ -102,7 +102,7 @@ export function BondTableData({ bond }) {
         </p>
       </TableCell>
       <TableCell align="left">{bondDiscount && trim(bondDiscount * 100, 2)}%</TableCell>
-      <TableCell>
+      <TableCell align="center">
         {bondPurchased &&
           new Intl.NumberFormat("en-US", {
             style: "currency",
@@ -151,7 +151,7 @@ export function ClaimBondTableData({ bond }) {
       </TableCell>
       <TableCell align="left">33 OHM</TableCell>
       <TableCell align="left">11.33 OHM</TableCell>
-      <TableCell>3 days 3 hrs</TableCell>
+      <TableCell align="center">3 days 3 hrs</TableCell>
       <TableCell align="center">
         {/* <Link component={NavLink} to={`/bonds/${bond}`}> */}
         <Button variant="outlined" color="primary">
