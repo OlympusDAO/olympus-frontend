@@ -78,10 +78,10 @@ function ChooseBond() {
                 <Table aria-label="Available bonds">
                   <TableHead>
                     <TableRow>
-                      <TableCell align="left">Bond</TableCell>
+                      <TableCell align="center">Bond</TableCell>
                       <TableCell align="left">Price</TableCell>
                       <TableCell align="left">ROI</TableCell>
-                      <TableCell>Purchased</TableCell>
+                      <TableCell align="center">Purchased</TableCell>
                       <TableCell align="center"></TableCell>
                     </TableRow>
                   </TableHead>
