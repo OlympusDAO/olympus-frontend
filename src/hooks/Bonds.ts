@@ -1,8 +1,13 @@
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import orderBy from "lodash/orderBy";
+import { useAppSelector } from ".";
 
-export const makeBondsArray = (ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount) => {
+export const makeBondsArray = (
+  ohmDaiBondDiscount?: number | undefined,
+  ohmFraxLpBondDiscount?: number | undefined,
+  daiBondDiscount?: number | undefined,
+  fraxBondDiscount?: number | undefined,
+) => {
   return [
     {
       name: "OHM-DAI LP",
@@ -28,6 +33,8 @@ export const makeBondsArray = (ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBon
 };
 
 const BONDS_ARRAY = makeBondsArray();
+// TS-REFACTOR-TODO: this function is allowed to pass in undefined, not sure if this is the intent
+// as Number(undefined) = NaN.
 
 /**
  * Returns an array of bonds ordered by the most profitable ones first.
@@ -36,20 +43,21 @@ const BONDS_ARRAY = makeBondsArray();
  * @returns {[{name: string, discount: number, value: string}, {name: string, discount: number, value: string}, {name: string, discount: number, value: string}, {name: string, discount: number, value: string}]}
  */
 export default function useBonds() {
-  const fraxBondDiscount = useSelector(state => {
-    return state.bonding["frax"] && state.bonding["frax"].bondDiscount;
+  // TS-REFACTOR-TODO: we don't check if state.bonding is undefined, but it can be
+  const fraxBondDiscount = useAppSelector(state => {
+    return state.bonding!["frax"] && state.bonding!["frax"].bondDiscount;
   });
 
-  const daiBondDiscount = useSelector(state => {
-    return state.bonding["dai"] && state.bonding["dai"].bondDiscount;
+  const daiBondDiscount = useAppSelector(state => {
+    return state.bonding!["dai"] && state.bonding!["dai"].bondDiscount;
   });
 
-  const ohmDaiBondDiscount = useSelector(state => {
-    return state.bonding["ohm_dai_lp"] && state.bonding["ohm_dai_lp"].bondDiscount;
+  const ohmDaiBondDiscount = useAppSelector(state => {
+    return state.bonding!["ohm_dai_lp"] && state.bonding!["ohm_dai_lp"].bondDiscount;
   });
 
-  const ohmFraxLpBondDiscount = useSelector(state => {
-    return state.bonding["ohm_frax_lp"] && state.bonding["ohm_frax_lp"].bondDiscount;
+  const ohmFraxLpBondDiscount = useAppSelector(state => {
+    return state.bonding!["ohm_frax_lp"] && state.bonding!["ohm_frax_lp"].bondDiscount;
   });
 
   const [bonds, setBonds] = useState(BONDS_ARRAY);

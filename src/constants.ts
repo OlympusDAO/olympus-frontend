@@ -99,6 +99,7 @@ export const addresses: IAddresses = {
   },
 };
 
+// TS-REFACTOR-TODO: we can change all these different consts to types (BONDS, Actions)
 export const BONDS = {
   ohm_dai: "ohm_dai_lp",
   ohm_frax: "ohm_frax_lp",
