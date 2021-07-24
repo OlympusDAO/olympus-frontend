@@ -32,7 +32,7 @@ interface IBurnerProviderOptions {
   getPrivateKey?: (address: string, cb: () => void) => void;
 }
 
-const useUserProvider = (injectedProvider: StaticJsonRpcProvider, localProvider: StaticJsonRpcProvider | null) =>
+const useUserProvider = (injectedProvider: StaticJsonRpcProvider | undefined, localProvider: StaticJsonRpcProvider | null) =>
   useMemo(() => {
     if (injectedProvider) {
       // console.log("🦊 Using injected provider"); todo create dev environment with logging

@@ -119,7 +119,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function App(props) {
+// TS-REFACTOR-TODO: I have deleted props as this is not used in Root.jsx
+function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();
@@ -147,11 +148,11 @@ function App(props) {
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
 
-  const [injectedProvider, setInjectedProvider] = useState();
+  const [injectedProvider, setInjectedProvider] = useState<StaticJsonRpcProvider>();
 
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProvider = useUserProvider(injectedProvider, null);
-  const address = useUserAddress(userProvider);
+  const address = useUserAddress(userProvider as Web3Provider); // TS-REFACTOR-TODO:
 
   // You can warn the user if you would like them to be on a specific network
   // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
@@ -245,7 +246,7 @@ function App(props) {
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
             <Route exact path="/dashboard">
-              <Dashboard address={address} provider={injectedProvider} />
+              <Dashboard />
             </Route>
 
             <Route exact path="/">
@@ -278,7 +279,7 @@ function App(props) {
                   </Route>
                 );
               })}
-              <ChooseBond address={address} provider={injectedProvider} />
+              <ChooseBond />
             </Route>
 
             <Route component={NotFound} />
@@ -291,7 +292,7 @@ function App(props) {
 
 /* eslint-disable */
 window.ethereum &&
-  window.ethereum.on("chainChanged", chainId => {
+  window.ethereum.on("chainChanged", (chainId: number) => {
     web3Modal.cachedProvider &&
       setTimeout(() => {
         window.location.reload();
@@ -299,7 +300,7 @@ window.ethereum &&
   });
 
 window.ethereum &&
-  window.ethereum.on("accountsChanged", accounts => {
+  window.ethereum.on("accountsChanged", (accounts: string[]) => {
     web3Modal.cachedProvider &&
       setTimeout(() => {
         window.location.reload();

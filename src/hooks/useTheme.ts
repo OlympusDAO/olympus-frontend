@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-// TS-REFACTOR-TODO: e is not used
-const useTheme = (e: unknown) => {
+// TS-REFACTOR-TODO: I have deleted e as this is not used in either App.tsx or ThemeSwitch
+const useTheme = () => {
   const [theme, setTheme] = useState("dark");
   const [mounted, setMounted] = useState(false);
 
