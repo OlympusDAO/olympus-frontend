@@ -25,30 +25,24 @@ body {
   background-size: cover;
   font-family: "Square";
   overflow: hidden;
-  transform: translate3d(0, 0, 0);
-  -webkit-transform: translate3d(0, 0, 0);
+  // transform: translate3d(0, 0, 0);
+  // -webkit-transform: translate3d(0, 0, 0);
 }
 
+// JTBD: add to global theme def
 .MuiDrawer-paperAnchorDockedLeft {
   border-right: 0 !important;
 }
 
 .ohm-card {
+  max-width: 833px;
   .card-header {
     width: 100%;
-    min-height: 2rem;
+    min-height: 33px;
+    margin-bottom: 10px;
     h5 {
       font-weight: 600 !important;
     }
-  }
-  .card-content {
-    width: 100%;
-    position: relative;
-    align-items: left;
-    justify-content: center;
-    flex-flow: column;
-    padding: 0.8rem 0.8rem 0.8rem 0.8rem;
-    height: 100%;
   }
 
   .help-text {
@@ -83,6 +77,10 @@ body {
   user-select: none;
   border-radius: 50%;
   justify-content: center;
+  .ohm-logo-bg {
+    height: auto;
+    width: auto;
+  }
   img {
     color: transparent;
     width: 100%;

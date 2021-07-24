@@ -63,7 +63,7 @@ function ClaimBonds({ bonds }) {
               </Button>
             )}
             <Button variant="contained" color="primary" className="transaction-button" fullWidth>
-              Claim and Stake
+              Claim all and Stake
             </Button>
           </Box>
         </Box>

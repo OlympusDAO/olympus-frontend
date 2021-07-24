@@ -175,7 +175,7 @@ export function ClaimBondCardData({ bond }) {
   });
 
   return (
-    <Box id={`${bond}--claim`} className="bond-data-card" padding={1} paddingBottom={4} paddingTop={2}>
+    <Box id={`${bond}--claim`} className="claim-bond-data-card bond-data-card" style={{ marginBottom: "30px" }}>
       <Box className="bond-pair">
         <BondLogo bond={bond} />
         <Box className="bond-name">
@@ -205,7 +205,7 @@ export function ClaimBondCardData({ bond }) {
         <Typography>Fully Vested</Typography>
         <Typography>3 days 3 hrs</Typography>
       </div>
-      <Box display="flex" justifyContent="space-evenly" alignItems="center" className="claim-bond-card-buttons">
+      <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
         <Button variant="outlined" color="primary">
           <Typography variant="h5">Claim</Typography>
         </Button>

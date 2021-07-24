@@ -7,39 +7,29 @@
   .ohm-card .bond-hero h4 {
     font-weight: 600 !important;
   }
-  .ohm-logo-bg {
-    margin-left: 0;
-    border-radius: 20px;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 40px;
-    width: 40px;
-  }
 
   .claim-bonds-card {
     .global-claim-buttons {
-      flex-wrap: wrap;
       width: 100%;
+      margin: 15px 0px;
       button {
-        width: 100%;
-        max-width: 200px;
+        max-width: 233px;
       }
     }
     .small.global-claim-buttons {
       flex-direction: column;
-      width: 100%;
       justify-content: space-around;
+      align-items: center;
       flex-wrap: wrap;
-      .transaction-button {
-        width: 100%;
-        min-width: 100% !important;
+      button {
+        max-width: unset;
+        width: 90%;
       }
     }
   }
 
   .bond-data-card {
-    margin: auto !important;
+    margin: auto;
     .ohm-pairs {
       display: flex;
       margin-right: 15px;
@@ -65,13 +55,6 @@
     .data-row {
       margin-bottom: 13px;
     }
-    .claim-bond-card-buttons {
-      flex-wrap: wrap;
-      button {
-        min-width: 48% !important;
-        margin: 5px !important;
-      }
-    }
     .bond-link {
       margin-top: 10px;
       text-align: center;
@@ -79,8 +62,18 @@
         width: 96%;
       }
     }
+
+    .claim-bond-card-buttons {
+      flex-wrap: wrap;
+      width: 100%;
+      button {
+        min-width: 48%;
+        margin: 5px 0px;
+      }
+    }
   }
 
+  // most of this can probably be added to global theme
   .MuiTable-root {
     margin: 10px 0px;
   }
@@ -124,12 +117,6 @@
         font-family: inherit;
         vertical-align: text-top !important;
       }
-      .ohm-logo-bg {
-        margin-left: 0;
-        border-radius: 20px;
-        height: 40px;
-        width: 40px;
-      }
     }
     div.bond-name {
       width: 60%;
@@ -151,11 +138,19 @@
   }
 }
 
-.mobile #choose-bond-view {
-  .bond-data-card .claim-bond-card-buttons {
-    width: 100%;
+.tablet #choose-bond-view {
+  .claim-bond-card-buttons {
     button {
-      width: 100% !important;
+      width: 40%;
+    }
+  }
+}
+
+.mobile #choose-bond-view {
+  .claim-bond-card-buttons {
+    flex-direction: column;
+    button {
+      width: 100%;
     }
   }
 }
