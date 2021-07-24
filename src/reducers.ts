@@ -54,16 +54,23 @@ interface IAppState {
 
 type IAppStateType = IAppState & IMigrateState & IStakeDetails;
 
-interface IBondData {
-  readonly bond: string;
-  readonly bondDiscount: number;
-  readonly bondPrice: number;
-  readonly bondQuote: number;
-  readonly debtRatio: BigNumber;
-  readonly marketPrice: number;
-  readonly maxBondPrice: number;
-  readonly purchased: number;
-  readonly vestingTerm: BigNumber;
+// TS-REFACTOR-TODO: these types are probably not going to be number, will probably be BigNumber
+export interface IBondData {
+  readonly allowance?: number | BigNumber;
+  readonly balance?: string | BigNumber;
+  readonly bond: string; // TS-REFACTOR-TODO: maybe be more explicit w/ specific bond strings
+  readonly bondDiscount?: number;
+  readonly bondMaturationBlock?: number;
+  readonly bondPrice?: number;
+  readonly bondQuote?: number;
+  readonly debtRatio?: number | BigNumber;
+  readonly interestDue?: number;
+  readonly marketPrice?: number;
+  readonly maxBondPrice?: number;
+  readonly pendingPayout?: string;
+  readonly purchased?: number;
+  readonly vestingBlock?: number;
+  readonly vestingTerm?: number;
 }
 
 interface IFraxState {

@@ -2,32 +2,41 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, Typography, Box } from "@material-ui/core";
 import { redeemBond } from "../../actions/Bond.actions";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
+import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import { useAppSelector } from "src/hooks";
 
-function BondRedeem({ provider, address, bond }) {
+export interface IBondRedeemProps {
+  readonly address: string;
+  readonly bond: string;
+  readonly provider: StaticJsonRpcProvider | undefined;
+}
+
+function BondRedeem({ provider, address, bond }: IBondRedeemProps) {
   const dispatch = useDispatch();
 
-  const currentBlock = useSelector(state => {
+  const currentBlock = useAppSelector(state => {
     return state.app.currentBlock;
   });
 
-  const bondMaturationBlock = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
+  // TS-REFACTOR-TODO: casted as not null for all state.bonding
+  const bondMaturationBlock = useAppSelector(state => {
+    return state.bonding![bond] && state.bonding![bond].bondMaturationBlock!; // TS-REFACTOR-TODO: casted as not null
   });
 
-  const vestingTerm = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].vestingBlock;
+  const vestingTerm = useAppSelector(state => {
+    return state.bonding![bond] && state.bonding![bond].vestingBlock!; // TS-REFACTOR-TODO: casted as not null
   });
 
-  const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
+  const interestDue = useAppSelector(state => {
+    return state.bonding![bond] && state.bonding![bond].interestDue!; // TS-REFACTOR-TODO: casted as not null
   });
 
-  const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
+  const pendingPayout = useAppSelector(state => {
+    return state.bonding![bond] && Number(state.bonding![bond].pendingPayout!); // TS-REFACTOR-TODO: casted as not null number
   });
 
-  async function onRedeem({ autostake }) {
-    await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake }));
+  async function onRedeem({ autostake }: { autostake: boolean }) {
+    await dispatch(redeemBond({ address, bond, networkID: 1, provider: provider!, autostake })); // TS-REFACTOR-TODO: casted as not null
   }
 
   const vestingTime = () => {
@@ -35,17 +44,17 @@ function BondRedeem({ provider, address, bond }) {
   };
 
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(vestingTerm);
+    const vestingBlock = parseInt(currentBlock.toString()) + parseInt(vestingTerm.toString()); // TS-REFACTOR-TODO: converted to string
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
 
-  const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
+  const bondDiscount = useAppSelector(state => {
+    return state.bonding![bond] && state.bonding![bond].bondDiscount!;
   });
 
-  const debtRatio = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].debtRatio;
+  const debtRatio = useAppSelector(state => {
+    return state.bonding![bond] && (state.bonding![bond].debtRatio! as number); // TS-REFACTOR-TODO: casted as number
   });
 
   return (

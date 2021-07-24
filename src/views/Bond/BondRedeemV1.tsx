@@ -1,22 +1,25 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { trim, prettyVestingPeriod } from "../../helpers";
 import { calculateUserBondDetails, redeemBond } from "../../actions/Bond.actions";
+import { IBondRedeemProps } from "./BondRedeem";
+import { useAppSelector } from "src/hooks";
 
-function BondRedeemV1({ bond, provider, address }) {
+function BondRedeemV1({ bond, provider, address }: IBondRedeemProps) {
   const dispatch = useDispatch();
 
-  const currentBlock = useSelector(state => {
+  const currentBlock = useAppSelector(state => {
     return state.app.currentBlock;
   });
-  const bondMaturationBlock = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
+  // TS-REFACTOR-TODO: state.bonding casted as not null
+  const bondMaturationBlock = useAppSelector(state => {
+    return state.bonding![bond] && state.bonding![bond].bondMaturationBlock!; // TS-REFACTOR-TODO: casted as not null
   });
-  const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
+  const interestDue = useAppSelector(state => {
+    return state.bonding![bond] && state.bonding![bond].interestDue!; // TS-REFACTOR-TODO: casted as not null
   });
-  const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
+  const pendingPayout = useAppSelector(state => {
+    return state.bonding![bond] && Number(state.bonding![bond].pendingPayout!); // TS-REFACTOR-TODO: casted as not null number
   });
 
   const vestingTime = () => {
@@ -24,7 +27,8 @@ function BondRedeemV1({ bond, provider, address }) {
   };
 
   async function onRedeem() {
-    await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake: null }));
+    // TS-REFACTOR-TODO: casted as not null
+    await dispatch(redeemBond({ address, bond, networkID: 1, provider: provider!, autostake: null }));
   }
 
   async function loadBondDetails() {

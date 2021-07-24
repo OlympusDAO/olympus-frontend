@@ -12,24 +12,7 @@ import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.j
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { Dispatch } from "redux";
 import { OlympusBondingCalculator } from "../typechain";
-
-// TS-REFACTOR-TODO: these types are probably not going to be number, will probably be BigNumber
-interface IBondDetails {
-  readonly allowance?: number | BigNumber;
-  readonly balance?: string | BigNumber;
-  readonly bond: string; // TS-REFACTOR-TODO: maybe be more explicit w/ specific bond strings
-  readonly bondDiscount?: number | undefined;
-  readonly bondMaturationBlock?: number;
-  readonly bondPrice?: number | undefined;
-  readonly bondQuote?: number | undefined;
-  readonly debtRatio?: number | BigNumber;
-  readonly interestDue?: number;
-  readonly marketPrice?: number;
-  readonly maxBondPrice?: number;
-  readonly pendingPayout?: string;
-  readonly purchased?: number;
-  readonly vestingTerm?: number;
-}
+import { IBondData } from "src/reducers";
 
 interface IOldBondInfo {
   readonly lastBlock: BigNumber;
@@ -37,7 +20,46 @@ interface IOldBondInfo {
   readonly vestingPeriod: BigNumber;
 }
 
-export const fetchBondSuccess = (payload: IBondDetails) => ({
+interface IChangeApproval {
+  readonly address: string;
+  readonly bond: string;
+  readonly networkID: number;
+  readonly provider: StaticJsonRpcProvider | undefined;
+}
+
+interface ICalcBondDetails {
+  readonly bond: string;
+  readonly networkID: number;
+  readonly provider: StaticJsonRpcProvider | undefined;
+  readonly value: string | null;
+}
+
+interface ICalcUserBondDetails {
+  readonly address: string;
+  readonly bond: string;
+  readonly provider: StaticJsonRpcProvider;
+  readonly networkID: number;
+}
+
+interface IBondAsset {
+  readonly address: string;
+  readonly bond: string;
+  readonly networkID: number;
+  readonly provider: StaticJsonRpcProvider;
+  readonly slippage: number;
+  readonly value: string;
+}
+
+interface IRedeemBond {
+  readonly address: string;
+  readonly autostake: boolean | null;
+  readonly bond: string;
+  readonly networkID: number;
+  readonly provider: StaticJsonRpcProvider;
+}
+
+// TS-REFACTOR-TODO: these types are probably not going to be number, will probably be BigNumber (IBondData)
+export const fetchBondSuccess = (payload: IBondData) => ({
   type: Actions.FETCH_BOND_SUCCESS,
   payload,
 });
@@ -48,12 +70,7 @@ export const changeApproval =
     provider,
     address, // TS-REFACTOR-TODO: address not used
     networkID,
-  }: {
-    bond: string;
-    provider: StaticJsonRpcProvider;
-    address: string;
-    networkID: number;
-  }) =>
+  }: IChangeApproval) =>
   async (dispatch: Dispatch) => {
     // TS-REFACTOR-TODO: dispatch not used
     if (!provider) {
@@ -96,17 +113,7 @@ export const changeApproval =
   };
 
 export const calcBondDetails =
-  ({
-    bond,
-    value,
-    provider,
-    networkID,
-  }: {
-    bond: string;
-    value: string | null;
-    provider: StaticJsonRpcProvider;
-    networkID: number;
-  }) =>
+  ({ bond, value, provider, networkID }: ICalcBondDetails) =>
   async (dispatch: Dispatch) => {
     let amountInWei;
     if (!value || value === "") {
@@ -117,14 +124,14 @@ export const calcBondDetails =
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
     let bondDiscount, valuation, bondQuote;
-    const bondContract = contractForBond({ bond, networkID, provider })!; // TS-REFACTOR-TODO: can possibly be null
+    const bondContract = contractForBond({ bond, networkID, provider: provider! })!; // TS-REFACTOR-TODO: can possibly be null
     const bondCalcContract = new ethers.Contract(
       (addresses[networkID].BONDS as Nested).OHM_DAI_CALC,
       BondOhmDaiCalcContract,
       provider,
     ) as OlympusBondingCalculator;
 
-    const marketPrice = await getMarketPrice({ networkID, provider });
+    const marketPrice = await getMarketPrice({ networkID, provider: provider! });
     const terms = await bondContract.terms();
     const maxBondPrice = (await bondContract.maxPayout()) as unknown as number;
 
@@ -166,7 +173,7 @@ export const calcBondDetails =
     }
 
     // Calculate bonds purchased
-    const token = contractForReserve({ bond, networkID, provider })!; // TS-REFACTOR-TODO: can possibly be null, casting as not null
+    const token = contractForReserve({ bond, networkID, provider: provider! })!; // TS-REFACTOR-TODO: can possibly be null, casting as not null
     let purchased = (await token.balanceOf(addresses[networkID].TREASURY_ADDRESS as string)) as unknown as number;
 
     // Value the bond
@@ -198,17 +205,7 @@ export const calcBondDetails =
   };
 
 export const calculateUserBondDetails =
-  ({
-    address,
-    bond,
-    networkID,
-    provider,
-  }: {
-    address: string;
-    bond: string;
-    provider: StaticJsonRpcProvider;
-    networkID: number;
-  }) =>
+  ({ address, bond, networkID, provider }: ICalcUserBondDetails) =>
   async (dispatch: Dispatch) => {
     if (!address) return;
 
@@ -266,21 +263,7 @@ export const calculateUserBondDetails =
   };
 
 export const bondAsset =
-  ({
-    value,
-    address,
-    bond,
-    networkID,
-    provider,
-    slippage,
-  }: {
-    value: string;
-    address: string;
-    bond: string;
-    networkID: number;
-    provider: StaticJsonRpcProvider;
-    slippage: number;
-  }) =>
+  ({ value, address, bond, networkID, provider, slippage }: IBondAsset) =>
   async (dispatch: Dispatch) => {
     const depositorAddress = address;
     const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
@@ -321,19 +304,7 @@ export const bondAsset =
   };
 
 export const redeemBond =
-  ({
-    address,
-    bond,
-    networkID,
-    provider,
-    autostake,
-  }: {
-    autostake: boolean;
-    address: string;
-    bond: string;
-    provider: StaticJsonRpcProvider;
-    networkID: number;
-  }) =>
+  ({ address, bond, networkID, provider, autostake }: IRedeemBond) =>
   async (dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");
@@ -341,7 +312,7 @@ export const redeemBond =
     }
 
     const signer = provider.getSigner();
-    const bondContract = contractForBond({ bond, networkID, provider: signer })! as any; // TS-REFACTOR-TODO: can possibly be null
+    const bondContract = contractForBond({ bond, networkID, provider: signer })! as ethers.Contract; // TS-REFACTOR-TODO: can possibly be null
 
     try {
       let redeemTx;
