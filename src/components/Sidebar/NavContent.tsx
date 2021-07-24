@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { match, NavLink } from "react-router-dom";
 import Social from "../Social";
 import externalUrls from "./externalUrls";
 import { ReactComponent as StakeIcon } from "../../assets/icons/v1.2/stake.svg";
@@ -11,11 +11,11 @@ import useBonds from "../../hooks/Bonds";
 import { Paper, Link, Box, Typography, LinearProgress, SvgIcon } from "@material-ui/core";
 import "./sidebar.scss";
 
-function NavContent({ address }) {
+function NavContent({ address }: { address: string }) {
   const [isActive] = useState();
   const bonds = useBonds();
 
-  const checkPage = useCallback((match, location, page) => {
+  const checkPage = useCallback((match, location: Location, page) => {
     const currentPath = location.pathname.replace("/", "");
     if (currentPath.indexOf("dashboard") >= 0 && page === "dashboard") {
       return true;
@@ -38,7 +38,7 @@ function NavContent({ address }) {
               color="primary"
               component={OlympusIcon}
               viewBox="0 0 151 100"
-              style={{ minWdth: "151px", minHeight: "98px", width: "151px" }}
+              style={{ minWidth: "151px", minHeight: "98px", width: "151px" }} // TS-REFACTOR-TODO: minWidth spelled wrong previously
             />
           </Link>
 
@@ -57,7 +57,7 @@ function NavContent({ address }) {
               component={NavLink}
               id="dash-nav"
               to="/dashboard"
-              isActive={(match, location) => {
+              isActive={(match: match | null, location: any) => {
                 return checkPage(match, location, "dashboard");
               }}
               className={`button-dapp-menu ${isActive ? "active" : ""}`}
@@ -72,7 +72,7 @@ function NavContent({ address }) {
               component={NavLink}
               id="stake-nav"
               to="/"
-              isActive={(match, location) => {
+              isActive={(match: match | null, location: any) => {
                 return checkPage(match, location, "stake");
               }}
               className={`button-dapp-menu ${isActive ? "active" : ""}`}
@@ -87,7 +87,7 @@ function NavContent({ address }) {
               component={NavLink}
               id="bond-nav"
               to="/bonds"
-              isActive={(match, location) => {
+              isActive={(match: match | null, location: any) => {
                 return checkPage(match, location, "bonds");
               }}
               className={`button-dapp-menu ${isActive ? "active" : ""}`}
@@ -122,11 +122,11 @@ function NavContent({ address }) {
       </div>
       <div className="dapp-menu-data bottom">
         <div className="dapp-menu-external-links">
-          {Object.keys(externalUrls).map((link, i) => {
+          {Object.keys(externalUrls).map((x, i) => {
             return (
-              <Link key={i} href={`${externalUrls[link].url}`} target="_blank">
-                <Typography variant="h6">{externalUrls[link].icon}</Typography>
-                <Typography variant="h6">{externalUrls[link].title}</Typography>
+              <Link key={i} href={`${externalUrls[i].url}`} target="_blank">
+                <Typography variant="h6">{externalUrls[i].icon}</Typography>
+                <Typography variant="h6">{externalUrls[i].title}</Typography>
               </Link>
             );
           })}
