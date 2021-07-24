@@ -26,7 +26,18 @@ export declare type PayloadAction<P = void, T extends string = string, M = never
         error: E;
       });
 
-interface IAppData {
+interface IMigrateState {
+  readonly balances: { ohm: string; sohm: string; oldsohm: string };
+  readonly migrate: { stakeAllowance: number; unstakeAllowance: number };
+}
+
+interface IStakeDetails {
+  readonly ohm: string;
+  readonly sohm: string;
+  readonly staking: { ohmStake: number; ohmUnstake: number };
+}
+
+interface IAppState {
   readonly circSupply: number;
   readonly currentBlock: number;
   readonly currentIndex: string;
@@ -41,6 +52,8 @@ interface IAppData {
   readonly treasuryBalance: number;
 }
 
+type IAppStateType = IAppState & IMigrateState & IStakeDetails;
+
 interface IBondData {
   readonly bond: string;
   readonly bondDiscount: number;
@@ -53,7 +66,7 @@ interface IBondData {
   readonly vestingTerm: BigNumber;
 }
 
-interface IFraxData {
+interface IFraxState {
   readonly apy: number;
   readonly balance: number;
   readonly tvl: number;
@@ -63,7 +76,7 @@ interface IBondingState {
   readonly [bond: string]: IBondData;
 }
 
-export function app(state = {}, action: PayloadAction<IAppData>) {
+export function app(state = {} as IAppStateType, action: PayloadAction<IAppState>) {
   switch (action.type) {
     case Actions.FETCH_APP_SUCCESS:
     case Actions.FETCH_MIGRATE_SUCCESS:
@@ -74,7 +87,7 @@ export function app(state = {}, action: PayloadAction<IAppData>) {
   }
 }
 
-export function fraxData(state = {}, action: PayloadAction<IFraxData>) {
+export function fraxData(state = {} as IFraxState, action: PayloadAction<IFraxState>) {
   switch (action.type) {
     case Actions.FETCH_FRAX_SUCCESS:
       return { ...state, ...action.payload };

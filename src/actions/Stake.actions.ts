@@ -13,23 +13,28 @@ interface IStakeDetails {
   readonly staking?: { ohmStake: number; ohmUnstake: number };
 }
 
+interface IChangeApproval {
+  readonly token: string;
+  readonly provider: StaticJsonRpcProvider | undefined;
+  readonly address: string;
+  readonly networkID: number;
+}
+
+interface IChangeStake {
+  readonly action: string;
+  readonly value: string;
+  readonly provider: StaticJsonRpcProvider | undefined;
+  readonly address: string;
+  readonly networkID: number;
+}
+
 export const fetchStakeSuccess = (payload: IStakeDetails) => ({
   type: Actions.FETCH_STAKE_SUCCESS,
   payload,
 });
 
 export const changeApproval =
-  ({
-    token,
-    provider,
-    address,
-    networkID,
-  }: {
-    token: string;
-    provider: StaticJsonRpcProvider;
-    address: string;
-    networkID: number;
-  }) =>
+  ({ token, provider, address, networkID }: IChangeApproval) =>
   async (dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");
@@ -82,19 +87,7 @@ export const changeApproval =
   };
 
 export const changeStake =
-  ({
-    action,
-    value,
-    provider,
-    address,
-    networkID,
-  }: {
-    action: string;
-    value: string;
-    provider: StaticJsonRpcProvider;
-    address: string;
-    networkID: number;
-  }) =>
+  ({ action, value, provider, address, networkID }: IChangeStake) =>
   async (dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");

@@ -153,16 +153,18 @@ export function shorten(str: string) {
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
 }
 
-export function trim(number: number, precision: number) {
+// TS-REFACTOR-TODO: I believe the intent of this function is to return
+// something of type number. array.join returns a string.
+export function trim(number: number, precision?: number) {
   if (number == undefined) {
     number = 0;
   }
   const array = number.toString().split(".");
-  if (array.length === 1) return number.toString();
+  if (array.length === 1) return number.toString() as unknown as number;
 
   array.push(array.pop()!.substring(0, precision));
   const trimmedNumber = array.join(".");
-  return trimmedNumber;
+  return trimmedNumber as unknown as number;
 }
 
 export function getRebaseBlock(currentBlock: number) {

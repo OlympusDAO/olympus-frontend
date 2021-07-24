@@ -11,6 +11,21 @@ import { Dispatch } from "redux";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IERC20, IStakingHelper, SOlympus } from "../typechain";
 
+interface IGetApproval {
+  readonly type: string;
+  readonly provider: StaticJsonRpcProvider | undefined;
+  readonly address: string;
+  readonly networkID: number;
+}
+
+interface IChangeStake {
+  readonly action: string;
+  readonly value: string;
+  readonly provider: StaticJsonRpcProvider | undefined;
+  readonly address: string;
+  readonly networkID: number;
+}
+
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
 
@@ -34,17 +49,7 @@ async function calculateAPY(sohmContract: SOlympus, stakingReward: number) {
 }
 
 export const getApproval =
-  ({
-    type,
-    provider,
-    address,
-    networkID,
-  }: {
-    type: string;
-    provider: StaticJsonRpcProvider;
-    address: string;
-    networkID: number;
-  }) =>
+  ({ type, provider, address, networkID }: IGetApproval) =>
   async (dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");
@@ -104,19 +109,7 @@ export const getApproval =
   };
 
 export const changeStake =
-  ({
-    action,
-    value,
-    provider,
-    address,
-    networkID,
-  }: {
-    action: string;
-    value: string;
-    provider: StaticJsonRpcProvider;
-    address: string;
-    networkID: number;
-  }) =>
+  ({ action, value, provider, address, networkID }: IChangeStake) =>
   async (dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");
