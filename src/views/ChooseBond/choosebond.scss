@@ -73,29 +73,21 @@
     }
   }
 
-  .MuiTableRow-head {
-    .MuiTableCell-alignLeft {
-      padding-left: 33px;
-    }
-  }
-
   .MuiTableCell-root {
     p {
       margin: 0 !important;
       display: flex !important;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       img {
         margin-right: 3px;
       }
     }
-    &.MuiTableCell-alignLeft {
-      display: flex;
-    }
   }
 
-  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft.bond-name-cell {
     justify-content: space-between;
+    display: flex;
     div.ohm-pairs {
       width: 33%;
       vertical-align: middle !important;

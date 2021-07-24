@@ -82,7 +82,7 @@ export function BondTableData({ bond }) {
 
   return (
     <TableRow id={`${bond}--bond`}>
-      <TableCell align="left">
+      <TableCell align="left" className="bond-name-cell">
         <BondLogo bond={bond} />
         <div className="bond-name">
           <Typography variant="body1">{bondName(bond)}</Typography>
@@ -96,12 +96,12 @@ export function BondTableData({ bond }) {
           )}
         </div>
       </TableCell>
-      <TableCell align="center">
+      <TableCell align="left">
         <p>
           {priceUnits(bond)} {trim(bondPrice, 2)}
         </p>
       </TableCell>
-      <TableCell>{bondDiscount && trim(bondDiscount * 100, 2)}%</TableCell>
+      <TableCell align="left">{bondDiscount && trim(bondDiscount * 100, 2)}%</TableCell>
       <TableCell>
         {bondPurchased &&
           new Intl.NumberFormat("en-US", {
@@ -111,7 +111,7 @@ export function BondTableData({ bond }) {
             minimumFractionDigits: 0,
           }).format(bondPurchased)}
       </TableCell>
-      <TableCell>
+      <TableCell align="center">
         <Link component={NavLink} to={`/bonds/${bond}`}>
           <Button variant="outlined" color="primary">
             <Typography variant="h6">Bond</Typography>
@@ -135,7 +135,7 @@ export function ClaimBondTableData({ bond }) {
 
   return (
     <TableRow id={`${bond}--claim`}>
-      <TableCell align="left">
+      <TableCell align="left" className="bond-name-cell">
         <BondLogo bond={bond} />
         <div className="bond-name">
           <Typography variant="body1">{bondName(bond)}</Typography>
@@ -149,10 +149,10 @@ export function ClaimBondTableData({ bond }) {
           )}
         </div>
       </TableCell>
-      <TableCell align="center">33 OHM</TableCell>
-      <TableCell>11.33 OHM</TableCell>
+      <TableCell align="left">33 OHM</TableCell>
+      <TableCell align="left">11.33 OHM</TableCell>
       <TableCell>3 days 3 hrs</TableCell>
-      <TableCell>
+      <TableCell align="center">
         {/* <Link component={NavLink} to={`/bonds/${bond}`}> */}
         <Button variant="outlined" color="primary">
           <Typography variant="h6">Claim</Typography>

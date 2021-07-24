@@ -33,10 +33,10 @@ function ClaimBonds({ bonds }) {
                 <TableHead>
                   <TableRow>
                     <TableCell align="left">Bond</TableCell>
-                    <TableCell align="center">Claimable</TableCell>
-                    <TableCell>Pending</TableCell>
+                    <TableCell align="left">Claimable</TableCell>
+                    <TableCell align="left">Pending</TableCell>
                     <TableCell>Fully Vested</TableCell>
-                    <TableCell align="right"></TableCell>
+                    <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
