@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { NavLink } from "react-router-dom";
-import Social from "../Social";
+import Social from "./Social";
 import externalUrls from "./externalUrls";
 import { ReactComponent as StakeIcon } from "../../assets/icons/v1.2/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/v1.2/bond.svg";
