@@ -106,7 +106,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }:
     }
 
     await dispatch(
-      changeStake({ action: ACTIONS.UNSTAKE, address, value: quantity.toString(), provider, networkID: 1 }),
+      changeStake({ action: ACTIONS.UNSTAKE, address, value: quantity as unknown as string, provider, networkID: 1 }),
     );
   };
 
@@ -116,7 +116,9 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }:
       return;
     }
 
-    await dispatch(changeStake({ action: ACTIONS.STAKE, address, value: quantity.toString(), provider, networkID: 1 }));
+    await dispatch(
+      changeStake({ action: ACTIONS.STAKE, address, value: quantity as unknown as string, provider, networkID: 1 }),
+    );
   };
 
   const hasAllowance = useCallback(

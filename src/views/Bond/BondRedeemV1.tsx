@@ -13,13 +13,13 @@ function BondRedeemV1({ bond, provider, address }: IBondRedeemProps) {
   });
   // TS-REFACTOR-TODO: state.bonding casted as not null
   const bondMaturationBlock = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].bondMaturationBlock!; // TS-REFACTOR-TODO: casted as not null
+    return state.bonding![bond] && (state.bonding![bond].bondMaturationBlock as number); // TS-REFACTOR-TODO: casted as number, may be undefined
   });
   const interestDue = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].interestDue!; // TS-REFACTOR-TODO: casted as not null
+    return state.bonding![bond] && (state.bonding![bond].interestDue as number); // TS-REFACTOR-TODO: casted as number, may be undefined
   });
   const pendingPayout = useAppSelector(state => {
-    return state.bonding![bond] && Number(state.bonding![bond].pendingPayout!); // TS-REFACTOR-TODO: casted as not null number
+    return state.bonding![bond] && Number(state.bonding![bond].pendingPayout); // TS-REFACTOR-TODO: casted as not null number
   });
 
   const vestingTime = () => {

@@ -10,7 +10,7 @@ import useEscape from "../../hooks/useEscape";
 
 interface IBondHeaderProps {
   readonly bond: string;
-  recipientAddress: string;
+  readonly recipientAddress: string;
   readonly slippage: number;
   onRecipientAddressChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
   onSlippageChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
