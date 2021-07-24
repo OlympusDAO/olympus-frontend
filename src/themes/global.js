@@ -106,6 +106,11 @@ const commonSettings = {
         },
       },
     },
+    MuiTable: {
+      root: {
+        margin: "10px 0px",
+      },
+    },
     MuiTableCell: {
       root: {
         borderBottom: 0,

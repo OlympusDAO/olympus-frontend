@@ -8,8 +8,6 @@ import {
   Box,
   Link,
   Paper,
-  Grid,
-  Typography,
   TableContainer,
   TableHead,
   TableBody,
