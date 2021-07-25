@@ -128,7 +128,7 @@ export const loadAppDetails =
     let valuation = (await bondCalculator.valuation(
       addressForAsset({ bond: BONDS.ohm_dai, networkID })!,
       ohmDaiAmount,
-    )) as unknown as number;
+    )) as unknown as number; 
     let markdown = (await bondCalculator.markdown(
       addressForAsset({ bond: BONDS.ohm_dai, networkID })!,
     )) as unknown as number;
