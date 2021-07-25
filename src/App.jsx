@@ -167,7 +167,6 @@ function App() {
     injectedProvider && console.log(injectedProvider);
     await web3Modal.clearCachedProvider();
     if (injectedProvider && injectedProvider.provider && typeof injectedProvider.provider.disconnect == "function") {
-      console.log(injectedProvider.provider);
       await injectedProvider.provider.disconnect();
     }
     setTimeout(() => {
@@ -219,6 +218,11 @@ function App() {
 
     rawProvider.on("chainChanged", chainId => {
       console.log(`chain changed to ${chainId}! updating providers`);
+
+      if (chainId !== 1) {
+        console.log("Warning: Wrong network, please switch to mainnet");
+      }
+
       setInjectedProvider(provider);
     });
 
@@ -233,15 +237,11 @@ function App() {
 
     // Subscribe to session disconnection
     rawProvider.on("disconnect", message => {
-      console.log("diconnected", message);
+      console.log("diconnecting", message);
       logoutOfWeb3Modal();
     });
 
-    const chainId = await provider.getNetwork().then(network => network.chainId);
-
-    if (chainId !== 1) {
-      console.log("Warning: Wrong network, please switch to mainnet");
-    }
+    // const chainId = await provider.getNetwork().then(network => network.chainId);
   }, [setInjectedProvider]);
 
   useEffect(() => {
