@@ -112,7 +112,7 @@ export function contractForBond({
   }
 }
 
-// TS-REFACTOR-TODO: not sure if this is actually supposed to be IERC20...
+// TS-REFACTOR-TODO: not sure if this is actually supposed to be IERC20, but the contract expect IERC20 functions
 export function contractForReserve({
   bond,
   networkID,

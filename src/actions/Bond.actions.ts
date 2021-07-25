@@ -106,7 +106,7 @@ export const changeApproval =
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
 
-      await approveTx!.wait(); // TS-REFACTOR-TODO: approvetx may be null, we don't check this.
+      await approveTx!.wait(); // TS-REFACTOR-TODO: approvetx may be null, no else case
     } catch (error) {
       alert(error.message);
     }
@@ -312,7 +312,7 @@ export const redeemBond =
     }
 
     const signer = provider.getSigner();
-    const bondContract = contractForBond({ bond, networkID, provider: signer })! as ethers.Contract; // TS-REFACTOR-TODO: can possibly be null
+    const bondContract = contractForBond({ bond, networkID, provider: signer })! as ethers.Contract; // TS-REFACTOR-TODO: can possibly be null | OlympusBondDepository
 
     try {
       let redeemTx;
