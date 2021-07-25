@@ -1,8 +1,7 @@
-import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, Web3Provider, InfuraProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { useUserAddress } from "eth-hooks";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Web3Modal from "web3modal";
 import { useDispatch } from "react-redux";
@@ -26,8 +25,8 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
-import { INFURA_ID, NETWORKS, BONDS } from "./constants";
-import { useUserProvider } from "./hooks";
+import { INFURA_ID, NETWORKS, BONDS, INFURA_TESTNET_ID } from "./constants";
+import { useUserProvider, useUserSigner } from "./hooks";
 import "./style.scss";
 
 /*
@@ -63,8 +62,8 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // attempt to connect to our own scaffold eth rpc and if that fails fall back to infura...
 // Using StaticJsonRpcProvider as the chainId won't change see https://github.com/ethers-io/ethers.js/issues/901
 // const scaffoldEthProvider = new StaticJsonRpcProvider("https://rpc.scaffoldeth.io:48544");
-const mainnetInfura = new StaticJsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID);
-
+const mainnetInfura = navigator.onLine ? new InfuraProvider("mainnet", INFURA_ID) : null; // new StaticJsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID) : null;
+// const testnetInfura = new StaticJsonRpcProvider("https://rinkeby.infura.io/v3/" + INFURA_TESTNET_ID);
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
 
@@ -79,6 +78,13 @@ const web3Modal = new Web3Modal({
       package: WalletConnectProvider, // required
       options: {
         infuraId: INFURA_ID,
+        rpc: {
+          1: `https://mainnet.infura.io/v3/${INFURA_ID}`,
+          4: `https://rinkeby.infura.io/v3/${INFURA_TESTNET_ID}`,
+        },
+        qrcodeModalOptions: {
+          mobileLinks: ["rainbow", "metamask", "argent", "trust", "imtoken", "pillar"],
+        },
       },
     },
   },
@@ -119,13 +125,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function App(props) {
+function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [address, setAddress] = useState();
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
@@ -137,21 +144,36 @@ function App(props) {
     setIsSidebarExpanded(false);
   };
 
-  const logoutOfWeb3Modal = async () => {
-    await web3Modal.clearCachedProvider();
-    setTimeout(() => {
-      window.location.reload();
-    }, 1);
-  };
-
-  // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
 
   const [injectedProvider, setInjectedProvider] = useState();
 
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
-  const userProvider = useUserProvider(injectedProvider, null);
-  const address = useUserAddress(userProvider);
+  // const userProvider = useUserProvider(injectedProvider, null);
+  // const address = useUserAddress(userProvider);
+  const userSigner = useUserSigner(injectedProvider, null);
+
+  useEffect(() => {
+    async function getAddress() {
+      if (userSigner) {
+        const newAddress = await userSigner.getAddress();
+        setAddress(newAddress);
+      }
+    }
+    getAddress();
+  }, [userSigner]);
+
+  const logoutOfWeb3Modal = async () => {
+    injectedProvider && console.log(injectedProvider);
+    await web3Modal.clearCachedProvider();
+    if (injectedProvider && injectedProvider.provider && typeof injectedProvider.provider.disconnect == "function") {
+      console.log(injectedProvider.provider);
+      await injectedProvider.provider.disconnect();
+    }
+    setTimeout(() => {
+      window.location.reload();
+    }, 1);
+  };
 
   // You can warn the user if you would like them to be on a specific network
   // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
@@ -176,9 +198,10 @@ function App(props) {
   async function loadDetails() {
     let loadProvider = mainnetProvider;
     if (injectedProvider) loadProvider = injectedProvider;
+    const chainId = await loadProvider.getNetwork().then(network => network.chainId);
 
-    await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
-    if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
+    await dispatch(loadAppDetails({ networkID: chainId, provider: loadProvider }));
+    if (address) await dispatch(loadAccountDetails({ networkID: chainId, address, provider: loadProvider }));
 
     [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
       await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
@@ -192,12 +215,32 @@ function App(props) {
   const loadWeb3Modal = useCallback(async () => {
     const rawProvider = await web3Modal.connect();
     const provider = new Web3Provider(rawProvider);
+    setInjectedProvider(provider);
+
+    rawProvider.on("chainChanged", chainId => {
+      console.log(`chain changed to ${chainId}! updating providers`);
+      setInjectedProvider(provider);
+    });
+
+    rawProvider.on("accountsChanged", () => {
+      console.log(`account changed!`);
+      setInjectedProvider(provider);
+    });
+
+    rawProvider.on("connect", info => {
+      console.log("connected", info);
+    });
+
+    // Subscribe to session disconnection
+    rawProvider.on("disconnect", message => {
+      console.log("diconnected", message);
+      logoutOfWeb3Modal();
+    });
 
     const chainId = await provider.getNetwork().then(network => network.chainId);
+
     if (chainId !== 1) {
-      console.error("Wrong network, please switch to mainnet");
-    } else {
-      setInjectedProvider(provider);
+      console.log("Warning: Wrong network, please switch to mainnet");
     }
   }, [setInjectedProvider]);
 
@@ -290,21 +333,21 @@ function App(props) {
 }
 
 /* eslint-disable */
-window.ethereum &&
-  window.ethereum.on("chainChanged", chainId => {
-    web3Modal.cachedProvider &&
-      setTimeout(() => {
-        window.location.reload();
-      }, 1);
-  });
+// window.ethereum &&
+//   window.ethereum.on("chainChanged", chainId => {
+//     web3Modal.cachedProvider &&
+//       setTimeout(() => {
+//         window.location.reload();
+//       }, 1);
+//   });
 
-window.ethereum &&
-  window.ethereum.on("accountsChanged", accounts => {
-    web3Modal.cachedProvider &&
-      setTimeout(() => {
-        window.location.reload();
-      }, 1);
-  });
+// window.ethereum &&
+//   window.ethereum.on("accountsChanged", accounts => {
+//     web3Modal.cachedProvider &&
+//       setTimeout(() => {
+//         window.location.reload();
+//       }, 1);
+//   });
 /* eslint-enable */
 
 export default App;

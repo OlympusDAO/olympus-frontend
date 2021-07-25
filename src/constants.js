@@ -11,6 +11,8 @@ export const FALLBACK_INFURA_IDS = [
   "31e6d348d16b4a4dacde5f8a47da1971", // this is primary fallback
 ];
 
+export const INFURA_TESTNET_ID = "d9836dbf00c2440d862ab571b462e4a3";
+
 // NOTE could get this from an outside source since it changes slightly over time
 export const BLOCK_RATE_SECONDS = 13.14;
 
