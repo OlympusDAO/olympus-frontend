@@ -109,7 +109,7 @@ function TreasuryDashboard() {
                   ["#F5AC37", "#EA9276"],
                   ["#768299", "#98B3E9"],
                 ]}
-                stroke={["#333420", "#121212"]}
+                stroke={["#333420"]}
                 headerText="Market Value of Treasury Assets"
                 headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
               />

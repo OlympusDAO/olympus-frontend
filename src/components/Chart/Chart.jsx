@@ -2,8 +2,9 @@ import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, 
 import { Typography, Box } from "@material-ui/core";
 import { trim } from "../../helpers";
 import _ from "lodash";
+import { format } from "date-fns";
 import "./chart.scss";
-import { useEffect } from "react";
+import { useEffect, parseISO } from "react";
 
 const renderAreaChart = (data, dataKey, stopColor, stroke) => (
   <AreaChart data={data}>
@@ -18,17 +19,18 @@ const renderAreaChart = (data, dataKey, stopColor, stroke) => (
       interval={30}
       axisLine={false}
       tickLine={false}
-      // tickFormatter={timestamp => formatDate(timstamp)}
+      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
       reversed={true}
       connectNulls={true}
+      padding={{ right: 10 }}
     />
     <YAxis
       interval={dataMax => dataMax * 0.33}
       tickCount={3}
       axisLine={false}
       tickLine={false}
-      // tickFormatter={number => `${trim(parseFloat(number), 2)}`}
-      // domain={[0, dataMax => parseFloat(dataMax) * 1.2]}
+      tickFormatter={number => `${trim(parseFloat(number), 2)}`}
+      domain={[0, domain => domain * 1.5]}
       connectNulls={true}
       allowDataOverflow={false}
     />
@@ -54,9 +56,10 @@ const renderStackedAreaChart = (data, dataKey, stopColor, stroke) => (
       interval={30}
       axisLine={false}
       tickLine={false}
-      // tickFormatter={timestamp => formatDate(timstamp)}
+      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
       reversed={true}
       connectNulls={true}
+      padding={{ right: 10 }}
     />
     <YAxis
       interval={dataMax => dataMax * 0.33}
@@ -79,22 +82,23 @@ const renderLineChart = (data, dataKey, stroke, color) => (
   <LineChart data={data}>
     <XAxis
       dataKey="timestamp"
+      interval={30}
       axisLine={false}
       tickCount={3}
       tickLine={false}
       reversed={true}
       connectNulls={true}
-      // type="string"
+      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      padding={{ right: 10 }}
     />
     <YAxis
-      // interval={dataMax => dataMax * 0.33}
+      interval={dataMax => dataMax * 0.33}
       axisLine={false}
       tickLine={false}
       tickFormatter={number => `${trim(parseFloat(number), 2)}`}
-      // domain={[0, dataMax => parseFloat(dataMax) * 1.2]}
+      domain={[0, "auto"]}
       connectNulls={true}
       allowDataOverflow={false}
-      // type="string"
     />
     <Tooltip />
     <Line type="monotone" dataKey={dataKey[0]} stroke={stroke[0]} color={color} dot={false} />;
@@ -105,19 +109,21 @@ const renderMultiLineChart = (data, dataKey, stroke, color) => (
   <LineChart data={data}>
     <XAxis
       dataKey="timestamp"
+      interval={30}
       axisLine={false}
       tickCount={3}
       tickLine={false}
       reversed={true}
       connectNulls={true}
-      // type="string"
+      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      padding={{ right: 10 }}
     />
     <YAxis
       interval={dataMax => dataMax * 0.33}
       axisLine={false}
       tickLine={false}
       tickFormatter={number => `${trim(parseFloat(number), 2)}`}
-      // domain={[0, dataMax => parseFloat(dataMax) * 1.2]}
+      domain={[0, "auto"]}
       connectNulls={true}
       allowDataOverflow={false}
     />
@@ -131,7 +137,16 @@ const renderMultiLineChart = (data, dataKey, stroke, color) => (
 // JTBD: Bar chart for Holders
 const renderBarChart = (data, dataKey, stroke) => (
   <BarChart data={data}>
-    <XAxis dataKey="timestamp" axisLine={false} tickCount={3} tickLine={false} reversed={true} />
+    <XAxis
+      dataKey="timestamp"
+      interval={30}
+      axisLine={false}
+      tickCount={3}
+      tickLine={false}
+      reversed={true}
+      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      padding={{ right: 10 }}
+    />
     <YAxis axisLine={false} tickLine={false} tickCount={3} />
     <Tooltip />
     <Bar dataKey={dataKey[0]} fill={stroke[0]} />
@@ -152,7 +167,7 @@ function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, head
   }, [data]);
 
   return (
-    <Box style={{ width: "100%", minWidth: "330px", height: "100%" }}>
+    <Box style={{ width: "100%", height: "100%" }}>
       <div className="card-header">
         <Typography variant="h6" color="textSecondary">
           {headerText}
