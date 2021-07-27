@@ -3,7 +3,7 @@ import apollo from "../../lib/apolloClient";
 // TODO: add paramaterization
 export const treasuryDataQuery = `
 query {
-  protocolMetrics(first: 90, orderBy: timestamp, orderDirection: desc) {
+  protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
     id
     timestamp
     ohmCirculatingSupply
@@ -12,7 +12,6 @@ query {
     ohmPrice
     marketCap
     totalValueLocked
-    totalOHMstaked
     treasuryRiskFreeValue
     treasuryMarketValue
     nextEpochRebase
@@ -28,6 +27,15 @@ query {
     runway50k
     runwayCurrent
     holders
+  }
+}
+`;
+
+export const rebasesDataQuery = `
+query {
+  rebases(where: {contract: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a"}, orderBy: timestamp, first: 1000, orderDirection: desc) {
+    percentage
+    timestamp
   }
 }
 `;
