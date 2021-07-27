@@ -33,7 +33,7 @@ export const makeBondsArray = (
 };
 
 const BONDS_ARRAY = makeBondsArray();
-// TS-REFACTOR-TODO: this function is allowed to pass in undefined, not sure if this is the intent
+// TS-REFACTOR: this function is allowed to pass in undefined, not sure if this is the intent
 // as Number(undefined) = NaN.
 
 /**
@@ -43,21 +43,20 @@ const BONDS_ARRAY = makeBondsArray();
  * @returns {[{name: string, discount: number, value: string}, {name: string, discount: number, value: string}, {name: string, discount: number, value: string}, {name: string, discount: number, value: string}]}
  */
 export default function useBonds() {
-  // TS-REFACTOR-TODO: we don't check if state.bonding is undefined, but it can be
   const fraxBondDiscount = useAppSelector(state => {
-    return state.bonding!["frax"] && state.bonding!["frax"].bondDiscount;
+    return (state.bonding && state.bonding["frax"] && state.bonding["frax"].bondDiscount) || 0;
   });
 
   const daiBondDiscount = useAppSelector(state => {
-    return state.bonding!["dai"] && state.bonding!["dai"].bondDiscount;
+    return (state.bonding && state.bonding["dai"] && state.bonding["dai"].bondDiscount) || 0;
   });
 
   const ohmDaiBondDiscount = useAppSelector(state => {
-    return state.bonding!["ohm_dai_lp"] && state.bonding!["ohm_dai_lp"].bondDiscount;
+    return (state.bonding && state.bonding["ohm_dai_lp"] && state.bonding["ohm_dai_lp"].bondDiscount) || 0;
   });
 
   const ohmFraxLpBondDiscount = useAppSelector(state => {
-    return state.bonding!["ohm_frax_lp"] && state.bonding!["ohm_frax_lp"].bondDiscount;
+    return (state.bonding && state.bonding["ohm_frax_lp"] && state.bonding["ohm_frax_lp"].bondDiscount) || 0;
   });
 
   const [bonds, setBonds] = useState(BONDS_ARRAY);

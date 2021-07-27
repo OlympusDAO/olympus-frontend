@@ -50,7 +50,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }: IStakeMigratePro
   const dispatch = useDispatch();
 
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState(0); // TS-REFACTOR-TODO: I set this to 0 as state initially.
+  const [quantity, setQuantity] = useState(0);
 
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -65,8 +65,6 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }: IStakeMigratePro
     return state.app.fiveDayRate;
   });
 
-  // TS-REFACTOR-TODO: I convert the balances to type number as
-  // this component expects these to be numbers
   const ohmBalance = useAppSelector(state => {
     return state.app.balances && Number(state.app.balances.ohm);
   });

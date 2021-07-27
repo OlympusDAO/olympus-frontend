@@ -12,15 +12,14 @@ function priceUnits(bond: string) {
 }
 
 export function BondDataCard({ bond }: { bond: string }) {
-  // TS-REFACTOR-TODO: casted as not null for all state.bonding
   const bondPrice = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].bondPrice!;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondPrice) || 0;
   });
   const bondDiscount = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].bondDiscount;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondDiscount) || 0;
   });
   const bondPurchased = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].purchased;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].purchased) || 0;
   });
 
   return (
@@ -76,15 +75,14 @@ export function BondDataCard({ bond }: { bond: string }) {
 }
 
 export function BondTableData({ bond }: { bond: string }) {
-  // TS-REFACTOR-TODO: casted as not null for all state.bonding
   const bondPrice = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].bondPrice!; // TS-REFACTOR-TODO: casted as not null
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondPrice) || 0;
   });
   const bondDiscount = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].bondDiscount;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondDiscount) || 0;
   });
   const bondPurchased = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].purchased;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].purchased) || 0;
   });
 
   return (

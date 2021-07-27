@@ -55,11 +55,10 @@ interface IAppState {
 
 type IAppStateType = IAppState & IMigrateState & IStakeDetails;
 
-// TS-REFACTOR-TODO: these types are probably not going to be number, will probably be BigNumber
 export interface IBondData {
   readonly allowance?: number | BigNumber;
   readonly balance?: string | BigNumber;
-  readonly bond: string; // TS-REFACTOR-TODO: maybe be more explicit w/ specific bond strings
+  readonly bond: string; // TS-REFACTOR: maybe be more explicit w/ specific bond strings
   readonly bondDiscount?: number;
   readonly bondMaturationBlock?: number;
   readonly bondPrice?: number;

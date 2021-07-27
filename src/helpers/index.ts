@@ -1,5 +1,5 @@
 import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS, Nested } from "../constants";
-import { ethers } from "ethers";
+import { BigNumberish, ethers } from "ethers";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as PairContract } from "../abi/PairContract.json";
 
@@ -25,8 +25,8 @@ export function addressForBond({ bond, networkID }: { bond: string; networkID: n
   }
   if (bond === BONDS.ohm_frax) {
     return bondAddresses.OHM_FRAX;
-  }
-  if (bond === BONDS.frax) {
+  } else {
+    // bond === BONDS.frax
     return bondAddresses.FRAX;
   }
 }
@@ -41,8 +41,8 @@ export function addressForAsset({ bond, networkID }: { bond: string; networkID: 
   }
   if (bond === BONDS.ohm_frax) {
     return reserveAddresses.OHM_FRAX;
-  }
-  if (bond === BONDS.frax) {
+  } else {
+    // bond === BONDS.frax
     return reserveAddresses.FRAX;
   }
 }
@@ -100,19 +100,18 @@ export function contractForBond({
   if (bond === BONDS.ohm_frax) {
     return new ethers.Contract(bondAddresses.OHM_FRAX, BondOhmFraxContract, provider) as OlympusBondDepository;
   }
-  if (bond === BONDS.ohm_frax_v1) {
+  if (bond === BONDS.frax && address) {
+    return new ethers.Contract(address, FraxBondContract, provider) as OlympusBondDepository;
+  } else {
+    // bond === BONDS.ohm_frax_v1
     return new ethers.Contract(
       bondAddresses.OHM_FRAX_BOND_ADDRESS,
       BondOhmFraxContract,
       provider,
     ) as OlympusBondDepository;
   }
-  if (bond === BONDS.frax && address) {
-    return new ethers.Contract(address, FraxBondContract, provider) as OlympusBondDepository;
-  }
 }
 
-// TS-REFACTOR-TODO: not sure if this is actually supposed to be IERC20, but the contract expect IERC20 functions
 export function contractForReserve({
   bond,
   networkID,
@@ -131,11 +130,11 @@ export function contractForReserve({
   if (bond === BONDS.dai || bond === BONDS.dai_v1) {
     return new ethers.Contract(reserveAddresses.DAI, ierc20Abi, provider) as IERC20;
   }
-  if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
-    return new ethers.Contract(reserveAddresses.OHM_FRAX, ReserveOhmFraxContract, provider) as IERC20;
-  }
   if (bond === BONDS.frax && address) {
     return new ethers.Contract(address, ierc20Abi, provider) as IERC20;
+  } else {
+    // bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1
+    return new ethers.Contract(reserveAddresses.OHM_FRAX, ReserveOhmFraxContract, provider) as IERC20;
   }
 }
 
@@ -153,18 +152,16 @@ export function shorten(str: string) {
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
 }
 
-// TS-REFACTOR-TODO: I believe the intent of this function is to return
-// something of type number. array.join returns a string.
 export function trim(number: number, precision?: number) {
   if (number == undefined) {
     number = 0;
   }
   const array = number.toString().split(".");
-  if (array.length === 1) return number.toString() as unknown as number;
+  if (array.length === 1) return number;
 
   array.push(array.pop()!.substring(0, precision));
   const trimmedNumber = array.join(".");
-  return trimmedNumber as unknown as number;
+  return Number(trimmedNumber);
 }
 
 export function getRebaseBlock(currentBlock: number) {
@@ -239,4 +236,15 @@ export function getTokenImage(name: string) {
   if (name === "sohm") return getSohmTokenImage();
   if (name === "dai") return getDaiTokenImage();
   if (name === "frax") return getFraxTokenImage();
+}
+
+/**
+ * toNum takes BigNumber type and casts it as number type.
+ * For some reason it doesn't like it when you convert it
+ * to string then Number(strBigNum). This normally works.
+ * @param bigNum
+ * @returns BigNumber type value as number type value
+ */
+export function toNum(bigNum: BigNumberish) {
+  return bigNum as number;
 }

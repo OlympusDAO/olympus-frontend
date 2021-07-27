@@ -38,7 +38,7 @@ function NavContent({ address }: { address: string }) {
               color="primary"
               component={OlympusIcon}
               viewBox="0 0 151 100"
-              style={{ minWidth: "151px", minHeight: "98px", width: "151px" }} // TS-REFACTOR-TODO: minWidth spelled wrong previously
+              style={{ minWidth: "151px", minHeight: "98px", width: "151px" }}
             />
           </Link>
 

@@ -76,26 +76,23 @@ export const loadAccountDetails =
     }
 
     if (addresses[networkID].SOHM_ADDRESS) {
-      // TS-REFACTOR-TODO: await not necessary
-      const sohmContract = (await new ethers.Contract(
+      const sohmContract = new ethers.Contract(
         addresses[networkID].SOHM_ADDRESS as string,
         sOHMv2,
         provider,
-      )) as SOlympus;
+      ) as SOlympus;
       sohmBalance = await sohmContract.balanceOf(address);
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS as string);
     }
 
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
-      // TS-REFACTOR-TODO: await not necessary
-      const oldsohmContract = (await new ethers.Contract(
+      const oldsohmContract = new ethers.Contract(
         addresses[networkID].OLD_SOHM_ADDRESS as string,
         sOHM,
         provider,
-      )) as SOlympus;
+      ) as SOlympus;
       oldsohmBalance = await oldsohmContract.balanceOf(address);
 
-      const signer = provider.getSigner(); // TS-REFACTOR-TODO: unused variable
       unstakeAllowanceSohm = await oldsohmContract.allowance(
         address,
         addresses[networkID].OLD_STAKING_ADDRESS as string,

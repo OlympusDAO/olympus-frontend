@@ -15,7 +15,7 @@ function ThemeSwitcher({ theme, toggleTheme }: IThemeSwitcherProps) {
       type="button"
       title="Change Theme"
       value="check"
-      onClick={e => toggleTheme(e as unknown as KeyboardEvent)} // TS-REFACTOR-TODO: casted as KeyboardEvent because
+      onClick={e => toggleTheme(e as unknown as KeyboardEvent)} // TS-REFACTOR: casted as KeyboardEvent because
       // it is expected to be this via TopBar => App.tx => useTheme.ts
     >
       {theme === "dark" ? (

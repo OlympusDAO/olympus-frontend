@@ -48,8 +48,6 @@ function AdvancedSettings({
               value={slippage}
               onChange={onSlippageChange}
               type="number"
-              // max="100" TS-REFACTOR-TODO: these two properties don't exist on OutlinedInput
-              // min="100"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
             <div className="help-text">

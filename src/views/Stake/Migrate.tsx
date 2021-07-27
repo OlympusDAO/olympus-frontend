@@ -41,10 +41,8 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }:
 
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
   const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
-  const [quantity, setQuantity] = useState(0); // TS-REFACTOR-TODO: I set this to 0 as state initially.
+  const [quantity, setQuantity] = useState(0);
 
-  // TS-REFACTOR-TODO: I convert the balances to type number as
-  // this component expects these to be numbers
   const ohmBalance = useAppSelector(state => {
     return state.app.balances && Number(state.app.balances.ohm);
   });
@@ -68,7 +66,6 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }:
     return (state.app && state.app.oldStakingAPY) || 0;
   });
 
-  // TS-REFACTOR-TODO: these are expecting number types
   const setMax = () => {
     if (view === "unstake") {
       setQuantity(oldSohmBalance);
@@ -98,8 +95,6 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }:
   };
 
   const unStakeLegacy = async () => {
-    // TS-REFACTOR-TODO: I remove the check for if quantity is an empty string
-    // when we setQuantity, if we set quantity = "" => Number("") = 0
     if (Number.isNaN(quantity) || quantity === 0) {
       alert("Please enter a value!");
       return;
@@ -262,7 +257,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }:
                         placeholder={`${quantity}`}
                         className="stake-input"
                         // value={quantity}
-                        onChange={e => setQuantity(Number(e.target.value))} // TS-REFACTOR-TODO: convert e.target.value to number type
+                        onChange={e => setQuantity(Number(e.target.value))}
                         startAdornment={
                           <InputAdornment position="start">
                             <div className="logo-holder">

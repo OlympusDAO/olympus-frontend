@@ -32,7 +32,7 @@ const addTokenToWallet = (tokenSymbol: string, tokenAddress: string) => async ()
 };
 
 function OhmMenu() {
-  const [anchorEl, setAnchorEl] = useState<any | null>(null); // TS-REFACTOR-TODO: is any or null
+  const [anchorEl, setAnchorEl] = useState<any | null>(null); // TS-REFACTOR: is any or null
   const isEthereumAPIAvailable = window.ethereum;
 
   const networkID = useAppSelector(state => {
