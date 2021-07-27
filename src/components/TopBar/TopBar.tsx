@@ -63,7 +63,6 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
         <Button
           id="hamburger"
           aria-label="open drawer"
-          // edge="start" TS-REFACTOR-TODO: edge doesn't exist on button
           size="large"
           variant="contained"
           color="secondary"

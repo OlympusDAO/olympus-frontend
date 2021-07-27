@@ -32,14 +32,13 @@ function Bond({ bond, address, provider }: IBondProps) {
   const [recipientAddress, setRecipientAddress] = useState(address);
 
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState(""); // TS-REFACTOR-TODO: unset state
+  const [quantity, setQuantity] = useState(""); // TS-REFACTOR: quantity is never updated
 
-  // TS-REFACTOR-TODO: we don't check if state.bonding is undefined, but it can be
   const marketPrice = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].marketPrice as number); // TS-REFACTOR-TODO: casted as number, may be undefined
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].marketPrice) || 0;
   });
   const bondPrice = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].bondPrice as number); // TS-REFACTOR-TODO: casted as number, may be undefined
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondPrice) || 0;
   });
 
   const onRecipientAddressChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -47,8 +46,7 @@ function Bond({ bond, address, provider }: IBondProps) {
   };
 
   const onSlippageChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    // TS-REFACTOR-TODO: would be best to convert e.target.value to number
-    return setSlippage(e.target.value as unknown as number);
+    return setSlippage(Number(e.target.value));
   };
 
   async function loadBondDetails() {
@@ -64,8 +62,7 @@ function Bond({ bond, address, provider }: IBondProps) {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
-  // TS-REFACTOR-TODO: unused event param
-  const changeView = (event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
     setView(newView);
   };
 
@@ -80,7 +77,6 @@ function Bond({ bond, address, provider }: IBondProps) {
             onSlippageChange={onSlippageChange}
             onRecipientAddressChange={onRecipientAddressChange}
           />
-          {/* TS-REFACTOR-TODO: deleted direction as this doesn't exist on Box component */}
           <Box className="bond-price-data-row">
             <div className="bond-price-data">
               <Typography variant="h5" color="textSecondary">

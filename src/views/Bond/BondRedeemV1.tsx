@@ -11,15 +11,14 @@ function BondRedeemV1({ bond, provider, address }: IBondRedeemProps) {
   const currentBlock = useAppSelector(state => {
     return state.app.currentBlock;
   });
-  // TS-REFACTOR-TODO: state.bonding casted as not null
   const bondMaturationBlock = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].bondMaturationBlock as number); // TS-REFACTOR-TODO: casted as number, may be undefined
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondMaturationBlock) || 0;
   });
   const interestDue = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].interestDue as number); // TS-REFACTOR-TODO: casted as number, may be undefined
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].interestDue) || 0;
   });
   const pendingPayout = useAppSelector(state => {
-    return state.bonding![bond] && Number(state.bonding![bond].pendingPayout); // TS-REFACTOR-TODO: casted as not null number
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].pendingPayout)) || 0;
   });
 
   const vestingTime = () => {
@@ -27,8 +26,11 @@ function BondRedeemV1({ bond, provider, address }: IBondRedeemProps) {
   };
 
   async function onRedeem() {
-    // TS-REFACTOR-TODO: casted as not null
-    await dispatch(redeemBond({ address, bond, networkID: 1, provider: provider!, autostake: null }));
+    if (!provider) {
+      alert("Please connect your wallet!");
+      return;
+    }
+    await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake: null }));
   }
 
   async function loadBondDetails() {

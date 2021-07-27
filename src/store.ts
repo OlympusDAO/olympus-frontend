@@ -34,7 +34,7 @@ export default function configureStore(initialData: {}) {
   return createStore(rootReducer, initialData, composeEnhancers(applyMiddleware(thunkMiddleware)));
 }
 
-const store = configureStore({}); // TS-REFACTOR-TODO: ensure this doesn't cause some weird side effects.
+const store = configureStore({});
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

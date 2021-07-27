@@ -119,7 +119,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-// TS-REFACTOR-TODO: I have deleted props as this is not used in Root.jsx
 function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
@@ -152,7 +151,7 @@ function App() {
 
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProvider = useUserProvider(injectedProvider, null);
-  const address = useUserAddress(userProvider as Web3Provider); // TS-REFACTOR-TODO:
+  const address = useUserAddress(userProvider as Web3Provider);
 
   // You can warn the user if you would like them to be on a specific network
   // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;

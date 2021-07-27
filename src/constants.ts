@@ -18,7 +18,7 @@ export const TOKEN_DECIMALS = 9;
 
 export type Nested = { [key: string]: string };
 
-// TS-REFACTOR-TODO: is there another way to define this data structure
+// TS-REFACTOR: is there another way to define this data structure
 // so we don't have to do as string or as nested everywhere
 interface IAddresses {
   [key: number]: { [key: string]: Nested | string };
@@ -110,7 +110,7 @@ export const addresses: IAddresses = {
   },
 };
 
-// TS-REFACTOR-TODO: we can change all these different consts to types (BONDS, Actions)
+// TS-REFACTOR: we can change all these different consts to types (BONDS, Actions)
 export const BONDS = {
   ohm_dai: "ohm_dai_lp",
   ohm_frax: "ohm_frax_lp",

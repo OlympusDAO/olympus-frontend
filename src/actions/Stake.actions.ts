@@ -42,17 +42,8 @@ export const changeApproval =
     }
 
     const signer = provider.getSigner();
-    // TS-REFACTOR-TODO: await not necessary
-    const ohmContract = (await new ethers.Contract(
-      addresses[networkID].OHM_ADDRESS as string,
-      ierc20Abi,
-      signer,
-    )) as IERC20;
-    const sohmContract = (await new ethers.Contract(
-      addresses[networkID].SOHM_ADDRESS as string,
-      ierc20Abi,
-      signer,
-    )) as IERC20;
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer) as IERC20;
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer) as IERC20;
 
     let approveTx: ethers.ContractTransaction | null;
     try {
@@ -61,14 +52,15 @@ export const changeApproval =
           addresses[networkID].STAKING_HELPER_ADDRESS as string,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
-      } else if (token === "sohm") {
+      } else {
+        // token === "sohm"
         approveTx = await sohmContract.approve(
           addresses[networkID].STAKING_ADDRESS as string,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
 
-      await approveTx!.wait(); // TS-REFACTOR-TODO: can possibly be null
+      await approveTx.wait();
     } catch (error) {
       alert(error.message);
       return;
@@ -95,9 +87,9 @@ export const changeStake =
     }
 
     const signer = provider.getSigner();
-    // TS-REFACTOR-TODO: await not necessary | types arg accepted mismatch
-    const staking = await new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, OlympusStaking, signer);
-    const stakingHelper = await new ethers.Contract(
+    // TS-REFACTOR: types arg accepted mismatch
+    const staking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, OlympusStaking, signer);
+    const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
       StakingHelper,
       signer,

@@ -5,7 +5,7 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import axios from "axios";
-import { contractForReserve, addressForAsset } from "../helpers";
+import { contractForReserve, addressForAsset, toNum } from "../helpers";
 import { BONDS } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 import apollo from "../lib/apolloClient";
@@ -93,7 +93,7 @@ export const loadAppDetails =
       addresses[networkID].OLD_STAKING_ADDRESS as string,
       OlympusStaking,
       provider,
-    ); // TS-REFACTOR-TODO: need to get types for old staking contract
+    ); // TS-REFACTOR: need to get types for old staking contract
     const sohmMainContract = new ethers.Contract(
       addresses[networkID].SOHM_ADDRESS as string,
       sOHMv2,
@@ -111,54 +111,45 @@ export const loadAppDetails =
     ) as OlympusBondingCalculator;
 
     // Calculate Treasury Balance
-    // TS-REFACTOR-TODO: token can possibly be null, we aren't checking this possibility
-    // currently just casting it as definitely not null to maintain the same logic
-
-    // TS-REFACTOR-TODO: addressForAsset can return null, we aren't checking this. casting as not null.
-    let token = contractForReserve({ bond: BONDS.dai, networkID, provider })!;
+    let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
 
     const treasuryAddress = addresses[networkID].TREASURY_ADDRESS as string;
-    let daiAmount = (await token.balanceOf(treasuryAddress)) as unknown as number;
+    let daiAmount = toNum(await token.balanceOf(treasuryAddress));
 
     token = contractForReserve({ bond: BONDS.frax, networkID, provider })!;
-    let fraxAmount = (await token.balanceOf(treasuryAddress)) as unknown as number;
+    let fraxAmount = toNum(await token.balanceOf(treasuryAddress));
 
     token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider })!;
     let ohmDaiAmount = await token.balanceOf(treasuryAddress);
-    let valuation = (await bondCalculator.valuation(
-      addressForAsset({ bond: BONDS.ohm_dai, networkID })!,
-      ohmDaiAmount,
-    )) as unknown as number; 
-    let markdown = (await bondCalculator.markdown(
-      addressForAsset({ bond: BONDS.ohm_dai, networkID })!,
-    )) as unknown as number;
+
+    // TS-REFACTOR: addressForAsset may return undefined, we input empty string in the case it is
+    let valuation = toNum(
+      await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_dai, networkID }), ohmDaiAmount),
+    );
+    let markdown = toNum(await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_dai, networkID })));
     let ohmDaiUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 
     token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider })!;
     let ohmFraxAmount = await token.balanceOf(treasuryAddress);
-    valuation = (await bondCalculator.valuation(
-      addressForAsset({ bond: BONDS.ohm_frax, networkID })!,
-      ohmFraxAmount,
-    )) as unknown as number;
-    markdown = (await bondCalculator.markdown(
-      addressForAsset({ bond: BONDS.ohm_frax, networkID })!,
-    )) as unknown as number;
+    valuation = toNum(
+      await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID })!, ohmFraxAmount),
+    );
+    markdown = toNum(await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID })!));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 
     const treasuryBalance = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
-    // TS-REFACTOR-TODO: we are doing / with BigNumber and expecting it to be of type number
     // Calculating staking
     const epoch = await stakingContract.epoch();
-    const stakingReward = epoch.distribute as unknown as number;
-    const circ = (await sohmMainContract.circulatingSupply()) as unknown as number;
+    const stakingReward = toNum(epoch.distribute);
+    const circ = toNum(await sohmMainContract.circulatingSupply());
     const stakingRebase = stakingReward / circ;
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
 
     // TODO: remove this legacy shit
     const oldStakingReward = await oldStakingContract.ohmToDistributeNextEpoch();
-    const oldCircSupply = (await sohmOldContract.circulatingSupply()) as unknown as number;
+    const oldCircSupply = toNum(await sohmOldContract.circulatingSupply());
 
     const oldStakingRebase = oldStakingReward / oldCircSupply;
     const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3) - 1;

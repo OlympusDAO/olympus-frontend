@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-// TS-REFACTOR-TODO: I have deleted e as this is not used in either App.tsx or ThemeSwitch
 const useTheme = (): [string, (e: KeyboardEvent) => void, boolean] => {
   const [theme, setTheme] = useState("dark");
   const [mounted, setMounted] = useState(false);

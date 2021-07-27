@@ -18,40 +18,40 @@ function BondPurchase({ provider, address, bond, slippage }: IBondPurchaseProps)
   const dispatch = useDispatch();
 
   const [recipientAddress, setRecipientAddress] = useState(address);
-  const [quantity, setQuantity] = useState(0); // TS-REFACTOR-TODO: set initial state to 0
+  const [quantity, setQuantity] = useState(0);
 
   const currentBlock = useAppSelector(state => {
     return state.app.currentBlock;
   });
 
-  // TS-REFACTOR-TODO: casted as not null for all state.bonding
   const vestingTerm = useAppSelector(state => {
-    return state.bonding![bond] && state.bonding![bond].vestingBlock;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].vestingBlock) || 0;
   });
 
+  // TS-REFACTOR: If any of these values are undefined, would make sense to just set as 0.
   const bondDiscount = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].bondDiscount as number); // TS-REFACTOR-TODO: casted as number, may be undefined
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].bondDiscount)) || 0;
   });
   const maxBondPrice = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].maxBondPrice as number); // TS-REFACTOR-TODO: casted as number, may be undefined
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].maxBondPrice)) || 0;
   });
   const interestDue = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].interestDue as number); // TS-REFACTOR-TODO: casted as number, may be undefined
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].interestDue)) || 0;
   });
   const pendingPayout = useAppSelector(state => {
-    return state.bonding![bond] && Number(state.bonding![bond].pendingPayout); // TS-REFACTOR-TODO: converted tp number
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].pendingPayout)) || 0;
   });
   const debtRatio = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].debtRatio as number); // TS-REFACTOR-TODO: casted as not null, may be undefined
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].debtRatio)) || 0;
   });
   const bondQuote = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].bondQuote as number); // TS-REFACTOR-TODO: casted as number, may be undefined
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].bondQuote)) || 0;
   });
   const balance = useAppSelector(state => {
-    return state.bonding![bond] && Number(state.bonding![bond].balance); // TS-REFACTOR-TODO: converted to number
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].balance)) || 0;
   });
   const allowance = useAppSelector(state => {
-    return state.bonding![bond] && (state.bonding![bond].allowance as number); // TS-REFACTOR-TODO: casted as number, may be undefined
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].allowance)) || 0;
   });
 
   const hasEnteredAmount = () => {
@@ -59,9 +59,8 @@ function BondPurchase({ provider, address, bond, slippage }: IBondPurchaseProps)
   };
 
   const vestingPeriod = () => {
-    // TS-REFACTOR-TODO: we assume vestingTerm is not undefined here
     // casting vestingTerm as string
-    const vestingBlock = parseInt(currentBlock as unknown as string) + parseInt(vestingTerm as unknown as string);
+    const vestingBlock = parseInt(currentBlock.toString()) + parseInt(vestingTerm.toString());
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
@@ -69,8 +68,11 @@ function BondPurchase({ provider, address, bond, slippage }: IBondPurchaseProps)
   async function onBond() {
     console.log("slippage = ", slippage);
     console.log("recipientAddress = ", recipientAddress);
+    if (!provider) {
+      alert("Please connect your wallet!");
+      return;
+    }
 
-    // TS-REFACTOR-TODO: we check if quantity is 0 instead of "" as Number("") === 0
     if (quantity === 0) {
       alert("Please enter a value!");
     } else if (isNaN(quantity)) {
@@ -82,11 +84,11 @@ function BondPurchase({ provider, address, bond, slippage }: IBondPurchaseProps)
       if (shouldProceed) {
         await dispatch(
           bondAsset({
-            value: quantity as unknown as string,
+            value: quantity.toString(),
             slippage,
             bond,
             networkID: 1,
-            provider: provider!, // TS-REFACTOR-TODO: casting as not null
+            provider,
             address: recipientAddress || address,
           }),
         );
@@ -94,11 +96,11 @@ function BondPurchase({ provider, address, bond, slippage }: IBondPurchaseProps)
     } else {
       await dispatch(
         bondAsset({
-          value: quantity as unknown as string,
+          value: quantity.toString(),
           slippage,
           bond,
           networkID: 1,
-          provider: provider!, // TS-REFACTOR-TODO: casting as not null
+          provider,
           address: recipientAddress || address,
         }),
       );
@@ -120,9 +122,7 @@ function BondPurchase({ provider, address, bond, slippage }: IBondPurchaseProps)
   };
 
   async function loadBondDetails() {
-    // TS-REFACTOR-TODO: casted as number
-    if (provider)
-      await dispatch(calcBondDetails({ bond, value: quantity as unknown as string, provider, networkID: 1 }));
+    if (provider) await dispatch(calcBondDetails({ bond, value: quantity.toString(), provider, networkID: 1 }));
 
     if (provider && address) {
       await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: 1 }));
@@ -135,8 +135,11 @@ function BondPurchase({ provider, address, bond, slippage }: IBondPurchaseProps)
   }, [provider, quantity, address]);
 
   const onSeekApproval = async () => {
-    // TS-REFACTOR-TODO: casting provider as not null
-    await dispatch(changeApproval({ address, bond, provider: provider!, networkID: 1 }));
+    if (!provider) {
+      alert("Please connect your wallet!");
+      return;
+    }
+    await dispatch(changeApproval({ bond, provider, networkID: 1 }));
   };
 
   return (
@@ -148,7 +151,7 @@ function BondPurchase({ provider, address, bond, slippage }: IBondPurchaseProps)
             id="outlined-adornment-amount"
             type="number"
             value={quantity}
-            onChange={e => setQuantity(Number(e.target.value))} // TS-REFACTOR-TODO: cast as number
+            onChange={e => setQuantity(Number(e.target.value))}
             // startAdornment={<InputAdornment position="start">$</InputAdornment>}
             labelWidth={55}
             endAdornment={
