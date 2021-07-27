@@ -49,10 +49,10 @@ function TreasuryDashboard() {
       setData(metrics);
 
       let staked = r.data.protocolMetrics.map(entry => ({
-        stacked: (parseFloat(entry.sOhmCirculatingSupply) / parseFloat(entry.ohmCirculatingSupply)) * 100,
+        staked: (parseFloat(entry.sOhmCirculatingSupply) / parseFloat(entry.ohmCirculatingSupply)) * 100,
         timestamp: entry.timestamp,
       }));
-      staked = staked.filter(pm => pm.stacked < 100);
+      staked = staked.filter(pm => pm.staked < 100);
       setStaked(staked);
 
       let runway = metrics.filter(pm => pm.runway10k > 5);
@@ -201,11 +201,11 @@ function TreasuryDashboard() {
               <Chart
                 type="area"
                 data={staked}
-                dataKey={["stacked"]}
+                dataKey={["staked"]}
                 stopColor={[["#55EBC7", "#47ACEB"]]}
                 stroke={["#333420"]}
                 headerText="OHM Staked"
-                headerSubText={`${data && trim(data[0].totalOHMstaked, 1)}% `}
+                headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
               />
             </Paper>
           </Grid>
@@ -219,7 +219,7 @@ function TreasuryDashboard() {
                 color="#333420"
                 stroke={["#333420"]}
                 headerText="APY over time"
-                headerSubText={`${data && trim(data[0].currentAPY, 1)}%`}
+                headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
               />
             </Paper>
           </Grid>
@@ -233,9 +233,7 @@ function TreasuryDashboard() {
                 color="#333420"
                 stroke={["#000000", "#2EC608", "#49A1F2"]}
                 headerText="Runway Available"
-                headerSubText={`10K ${data && trim(data[0].runway10k, 1)} Days, 20K ${
-                  data && trim(data[0].runway20k, 1)
-                } Days, 50K ${data && trim(data[0].runway50k, 1)} Days`}
+                headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
               />
             </Paper>
           </Grid>

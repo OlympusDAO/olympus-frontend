@@ -180,9 +180,6 @@ function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, head
           <Typography variant="h4" style={{ fontWeight: 600 }}>
             {headerSubText}
           </Typography>
-          <Typography variant="h4" color="textSecondary" style={{ marginLeft: "3px" }}>
-            Today
-          </Typography>
         </Box>
       </div>
       <Box>
