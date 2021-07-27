@@ -20,7 +20,7 @@ query {
     treasuryDaiRiskFreeValue
     treasuryFraxMarketValue
     treasuryDaiMarketValue
-    treasuryFraxMarketValue
+    treasuryFraxRiskFreeValue
     treasuryXsushiMarketValue
     currentAPY
     runway10k
