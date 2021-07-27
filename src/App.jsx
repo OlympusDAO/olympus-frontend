@@ -10,6 +10,7 @@ import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
+import { useWeb3Context } from "./hooks/web3Context";
 
 import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails } from "./actions/App.actions.js";
@@ -137,13 +138,6 @@ function App(props) {
     setIsSidebarExpanded(false);
   };
 
-  const logoutOfWeb3Modal = async () => {
-    await web3Modal.clearCachedProvider();
-    setTimeout(() => {
-      window.location.reload();
-    }, 1);
-  };
-
   // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
   const mainnetProvider = mainnetInfura;
 
@@ -152,6 +146,7 @@ function App(props) {
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProvider = useUserProvider(injectedProvider, null);
   const address = useUserAddress(userProvider);
+  const { provider } = useWeb3Context();
 
   // You can warn the user if you would like them to be on a specific network
   // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
@@ -200,6 +195,13 @@ function App(props) {
       setInjectedProvider(provider);
     }
   }, [setInjectedProvider]);
+
+  const logoutOfWeb3Modal = async () => {
+    await web3Modal.clearCachedProvider();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1);
+  };
 
   useEffect(() => {
     if (web3Modal.cachedProvider) {
