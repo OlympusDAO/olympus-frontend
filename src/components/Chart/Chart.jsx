@@ -50,6 +50,10 @@ const renderStackedAreaChart = (data, dataKey, stopColor, stroke) => (
         <stop offset="0%" stopColor={stopColor[1][0]} stopOpacity={1} />
         <stop offset="90%" stopColor={stopColor[1][1]} stopOpacity={0.9} />
       </linearGradient>
+      <linearGradient id={`color-${dataKey[2]}`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor={stopColor[2][0]} stopOpacity={1} />
+        <stop offset="90%" stopColor={stopColor[2][1]} stopOpacity={0.9} />
+      </linearGradient>
     </defs>
     <XAxis
       dataKey="timestamp"
@@ -75,6 +79,7 @@ const renderStackedAreaChart = (data, dataKey, stopColor, stroke) => (
 
     <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
     <Area dataKey={dataKey[1]} stroke={stroke[1]} fill={`url(#color-${dataKey[1]})`} fillOpacity={1} />
+    <Area dataKey={dataKey[2]} stroke={stroke[2]} fill={`url(#color-${dataKey[2]})`} fillOpacity={2} />
   </AreaChart>
 );
 
@@ -101,7 +106,7 @@ const renderLineChart = (data, dataKey, stroke, color) => (
       allowDataOverflow={false}
     />
     <Tooltip />
-    <Line type="monotone" dataKey={dataKey[0]} stroke={stroke[0]} color={color} dot={false} />;
+    <Line type="monotone" dataKey={dataKey[0]} stroke="#49A1F2" color={color} dot={false} />;
   </LineChart>
 );
 
@@ -122,15 +127,14 @@ const renderMultiLineChart = (data, dataKey, stroke, color) => (
       interval={dataMax => dataMax * 0.33}
       axisLine={false}
       tickLine={false}
-      tickFormatter={number => `${trim(parseFloat(number), 2)}`}
       domain={[0, "auto"]}
       connectNulls={true}
       allowDataOverflow={false}
     />
     <Tooltip />
-    <Line type="monotone" dataKey={dataKey[0]} stroke={stroke[0]} color={color} dot={false} />;
-    <Line type="monotone" dataKey={dataKey[1]} stroke={stroke[1]} color={color} dot={false} />;
-    <Line type="monotone" dataKey={dataKey[2]} stroke={stroke[2]} color={color} dot={false} />;
+    <Line type="monotone" dataKey={dataKey[0]} stroke="#000000" dot={false} />;
+    <Line type="monotone" dataKey={dataKey[1]} stroke="#2EC608" dot={false} />;
+    <Line type="monotone" dataKey={dataKey[2]} stroke="#49A1F2" dot={false} />;
   </LineChart>
 );
 
@@ -175,9 +179,6 @@ function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, head
         <Box display="flex">
           <Typography variant="h4" style={{ fontWeight: 600 }}>
             {headerSubText}
-          </Typography>
-          <Typography variant="h4" color="textSecondary" style={{ marginLeft: "3px" }}>
-            Today
           </Typography>
         </Box>
       </div>

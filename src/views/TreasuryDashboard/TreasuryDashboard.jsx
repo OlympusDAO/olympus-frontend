@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Chart from "../../components/Chart/Chart.jsx";
 import { trim } from "../../helpers";
-import { treasuryDataQuery } from "./treasuryData.js";
+import { treasuryDataQuery, rebasesDataQuery } from "./treasuryData.js";
 import "./treasury-dashboard.scss";
 import apollo from "../../lib/apolloClient";
 
 function TreasuryDashboard() {
   const [data, setData] = useState(null);
+  const [apy, setApy] = useState(null);
+  const [runway, setRunway] = useState(null);
+  const [staked, setStaked] = useState(null);
+
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
@@ -37,8 +41,33 @@ function TreasuryDashboard() {
 
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
-      let metrics = r.data.protocolMetrics;
+      let metrics = r.data.protocolMetrics.map(entry =>
+        Object.entries(entry).reduce((obj, [key, value]) => ((obj[key] = parseFloat(value)), obj), {}),
+      );
+      metrics = metrics.filter(pm => pm.treasuryMarketValue > 0);
+      metrics = metrics.filter(pm => pm.totalValueLocked < 500000000);
       setData(metrics);
+
+      let staked = r.data.protocolMetrics.map(entry => ({
+        staked: (parseFloat(entry.sOhmCirculatingSupply) / parseFloat(entry.ohmCirculatingSupply)) * 100,
+        timestamp: entry.timestamp,
+      }));
+      staked = staked.filter(pm => pm.staked < 100);
+      setStaked(staked);
+
+      let runway = metrics.filter(pm => pm.runway10k > 5);
+      setRunway(runway);
+    });
+
+    apollo(rebasesDataQuery).then(r => {
+      let apy = r.data.rebases.map(entry => ({
+        apy: Math.pow(parseFloat(entry.percentage) + 1, 365 * 3) * 100,
+        timestamp: entry.timestamp,
+      }));
+
+      apy = apy.filter(pm => pm.apy < 300000);
+
+      setApy(apy);
     });
   }, []);
 
@@ -108,6 +137,7 @@ function TreasuryDashboard() {
                 stopColor={[
                   ["#F5AC37", "#EA9276"],
                   ["#768299", "#98B3E9"],
+                  ["#000", "#fff"],
                 ]}
                 stroke={["#333420"]}
                 headerText="Market Value of Treasury Assets"
@@ -126,6 +156,7 @@ function TreasuryDashboard() {
                 stopColor={[
                   ["#F5AC37", "#EA9276"],
                   ["#768299", "#98B3E9"],
+                  ["#000", "#fff"],
                 ]}
                 stroke={["#333420"]}
                 headerText="Risk Free Value of Treasury Assets"
@@ -137,10 +168,14 @@ function TreasuryDashboard() {
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
-                type="area"
+                type="stack"
                 data={data}
-                dataKey={["treasuryXsushiMarketValue"]}
-                stopColor={[["#80CC83", "#80CC8322"]]}
+                dataKey={["treasuryDaiMarketValue", "treasuryFraxMarketValue", "treasuryXsushiMarketValue"]}
+                stopColor={[
+                  ["#F5AC37", "#EA9276"],
+                  ["#768299", "#98B3E9"],
+                  ["#000", "#fff"],
+                ]}
                 stroke={["#333420"]}
                 headerText="Protocol-Owned Liquidity of OHM-DAI"
                 headerSubText={`${data && formatCurrency(data[0].treasuryXsushiMarketValue)}%`}
@@ -165,12 +200,12 @@ function TreasuryDashboard() {
             <Paper className="ohm-card">
               <Chart
                 type="area"
-                data={data}
-                dataKey={["totalOHMstaked"]}
+                data={staked}
+                dataKey={["staked"]}
                 stopColor={[["#55EBC7", "#47ACEB"]]}
                 stroke={["#333420"]}
                 headerText="OHM Staked"
-                headerSubText={`${data && trim(data[0].totalOHMstaked, 1)}% `}
+                headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
               />
             </Paper>
           </Grid>
@@ -179,12 +214,12 @@ function TreasuryDashboard() {
             <Paper className="ohm-card">
               <Chart
                 type="line"
-                data={data}
-                dataKey={["currentAPY"]}
+                data={apy}
+                dataKey={["apy"]}
                 color="#333420"
                 stroke={["#333420"]}
                 headerText="APY over time"
-                headerSubText={`${data && trim(data[0].currentAPY, 1)}%`}
+                headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
               />
             </Paper>
           </Grid>
@@ -193,14 +228,12 @@ function TreasuryDashboard() {
             <Paper className="ohm-card">
               <Chart
                 type="multi"
-                data={data}
+                data={runway}
                 dataKey={["runway10k", "runway20k", "runway50k"]}
                 color="#333420"
-                stroke={["#FFF", "#2EC608", "#49A1F2"]}
+                stroke={["#000000", "#2EC608", "#49A1F2"]}
                 headerText="Runway Available"
-                headerSubText={`10K ${data && trim(data[0].runway10k, 1)} Days, 20K ${
-                  data && trim(data[0].runway20k, 1)
-                } Days, 50K ${data && trim(data[0].runway50k, 1)} Days`}
+                headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
               />
             </Paper>
           </Grid>
