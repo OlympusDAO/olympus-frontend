@@ -37,7 +37,9 @@ function TreasuryDashboard() {
 
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
-      let metrics = r.data.protocolMetrics;
+      let metrics = r.data.protocolMetrics.map(entry =>
+        Object.entries(entry).reduce((obj, [key, value]) => ((obj[key] = parseFloat(value)), obj), {}),
+      );
       setData(metrics);
     });
   }, []);
