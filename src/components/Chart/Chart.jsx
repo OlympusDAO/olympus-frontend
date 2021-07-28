@@ -210,9 +210,9 @@ function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, data
           </Typography>
         </Box>
       </div>
-      <Box>
+      <Box minWidth={300} style={{ margin: "0 0 0 -15px" }}>
         {data && data.length > 0 && (
-          <ResponsiveContainer width="99%" minWidth="0" height="99%" aspect={3}>
+          <ResponsiveContainer width="99%" minWidth="300px" height="99%" minHeight="280px">
             {renderChart(type)}
           </ResponsiveContainer>
         )}

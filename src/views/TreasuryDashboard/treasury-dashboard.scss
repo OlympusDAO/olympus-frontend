@@ -2,13 +2,16 @@
   overflow-y: hidden;
   overflow-x: hidden;
   height: 100%;
-  transform: translate3d(0, 0, 0) !important;
-  -webkit-transform: translate3d(0, 0, 0) !important;
   .ohm-card {
     white-space: nowrap;
     width: auto;
     margin: auto;
     max-height: 360px;
+    .card-header {
+      margin-bottom: 1rem;
+    }
+    .recharts-responsive-container {
+    }
   }
   .hero-metrics {
     width: 100%;
