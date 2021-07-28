@@ -20,6 +20,7 @@ import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import NotFound from "./views/404/NotFound";
+import LoadingSplash from "./components/Loading/LoadingSplash.jsx";
 
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
@@ -95,7 +96,7 @@ const transitionDuration = 969;
 
 const useStyles = makeStyles(theme => ({
   drawer: {
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
       flexShrink: 0,
     },
@@ -133,8 +134,8 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [address, setAddress] = useState();
-  const isSmallerScreen = useMediaQuery("(max-width: 960px)");
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 900px)");
+  const isSmallScreen = useMediaQuery("(max-width: 620px)");
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -261,7 +262,7 @@ function App() {
   }, [location]);
 
   if (!mounted) {
-    return <div />;
+    return <LoadingSplash />;
   }
 
   return (

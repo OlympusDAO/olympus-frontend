@@ -2,9 +2,9 @@ import fonts from "./fonts";
 
 const breakpointValues = {
   xs: 0,
-  sm: 596,
-  md: 800,
-  lg: 1000,
+  sm: 590,
+  md: 780,
+  lg: 890,
   xl: 1333,
 };
 

@@ -32,3 +32,18 @@
     justify-content: center;
   }
 }
+
+.mobile #treasury-dashboard-view {
+  .hero-metrics {
+    .ohm-card {
+      .price,
+      .supply {
+        text-align: left;
+      }
+      .cap,
+      .index {
+        text-align: right;
+      }
+    }
+  }
+}
