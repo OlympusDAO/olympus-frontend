@@ -14,7 +14,7 @@ import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails } from "./actions/App.actions.js";
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
-import { Stake, ChooseBond, Bond, Dashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, PoolTogether, TreasuryDashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
@@ -288,7 +288,7 @@ function App() {
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
             <Route exact path="/dashboard">
-              <Dashboard address={address} provider={injectedProvider} />
+              <TreasuryDashboard />
             </Route>
 
             <Route exact path="/">
@@ -322,6 +322,10 @@ function App() {
                 );
               })}
               <ChooseBond address={address} provider={injectedProvider} />
+            </Route>
+
+            <Route path="/33-together">
+              <PoolTogether address={address} provider={injectedProvider} />
             </Route>
 
             <Route component={NotFound} />
