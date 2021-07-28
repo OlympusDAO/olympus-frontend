@@ -4,9 +4,18 @@ import { trim } from "../../helpers";
 import _ from "lodash";
 import { format } from "date-fns";
 import "./chart.scss";
-import { useEffect, parseISO } from "react";
+import { useEffect } from "react";
 
-const renderAreaChart = (data, dataKey, stopColor, stroke) => (
+const formatCurrency = c => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(c);
+};
+
+const renderAreaChart = (data, dataKey, stopColor, stroke, dataFormat) => (
   <AreaChart data={data}>
     <defs>
       <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
@@ -25,12 +34,17 @@ const renderAreaChart = (data, dataKey, stopColor, stroke) => (
       padding={{ right: 10 }}
     />
     <YAxis
-      interval={dataMax => dataMax * 0.33}
       tickCount={3}
       axisLine={false}
       tickLine={false}
-      tickFormatter={number => `${trim(parseFloat(number), 2)}`}
-      domain={[0, domain => domain * 1.5]}
+      tickFormatter={number =>
+        number !== 0
+          ? dataFormat !== "percent"
+            ? `${formatCurrency(parseFloat(number) / 1000000)}M`
+            : `${trim(parseFloat(number), 2)}%`
+          : ""
+      }
+      domain={[0, "auto"]}
       connectNulls={true}
       allowDataOverflow={false}
     />
@@ -39,7 +53,7 @@ const renderAreaChart = (data, dataKey, stopColor, stroke) => (
   </AreaChart>
 );
 
-const renderStackedAreaChart = (data, dataKey, stopColor, stroke) => (
+const renderStackedAreaChart = (data, dataKey, stopColor, stroke, dataFormat) => (
   <AreaChart data={data}>
     <defs>
       <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
@@ -66,11 +80,18 @@ const renderStackedAreaChart = (data, dataKey, stopColor, stroke) => (
       padding={{ right: 10 }}
     />
     <YAxis
-      interval={dataMax => dataMax * 0.33}
       tickCount={3}
       axisLine={false}
       tickLine={false}
-      tickFormatter={number => `${trim(parseFloat(number), 2)}`}
+      tickFormatter={number => {
+        if (number !== 0) {
+          if (dataFormat === "percent") {
+            return `${trim(parseFloat(number), 2)}%`;
+          } else if (dataFormat === "k") return `${formatCurrency(parseFloat(number) / 1000)}k`;
+          else return `${formatCurrency(parseFloat(number) / 1000000)}M`;
+        }
+        return "";
+      }}
       domain={[0, "auto"]}
       connectNulls={true}
       allowDataOverflow={false}
@@ -79,11 +100,11 @@ const renderStackedAreaChart = (data, dataKey, stopColor, stroke) => (
 
     <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
     <Area dataKey={dataKey[1]} stroke={stroke[1]} fill={`url(#color-${dataKey[1]})`} fillOpacity={1} />
-    <Area dataKey={dataKey[2]} stroke={stroke[2]} fill={`url(#color-${dataKey[2]})`} fillOpacity={2} />
+    <Area dataKey={dataKey[2]} stroke={stroke[2]} fill={`url(#color-${dataKey[2]})`} fillOpacity={1} />
   </AreaChart>
 );
 
-const renderLineChart = (data, dataKey, stroke, color) => (
+const renderLineChart = (data, dataKey, stroke, color, dataFormat) => (
   <LineChart data={data}>
     <XAxis
       dataKey="timestamp"
@@ -97,10 +118,16 @@ const renderLineChart = (data, dataKey, stroke, color) => (
       padding={{ right: 10 }}
     />
     <YAxis
-      interval={dataMax => dataMax * 0.33}
+      tickCount={3}
       axisLine={false}
       tickLine={false}
-      tickFormatter={number => `${trim(parseFloat(number), 2)}`}
+      tickFormatter={number =>
+        number !== 0
+          ? dataFormat !== "percent"
+            ? `${formatCurrency(parseFloat(number) / 1000000)}M`
+            : `${trim(parseFloat(number), 2)}%`
+          : ""
+      }
       domain={[0, "auto"]}
       connectNulls={true}
       allowDataOverflow={false}
@@ -110,7 +137,7 @@ const renderLineChart = (data, dataKey, stroke, color) => (
   </LineChart>
 );
 
-const renderMultiLineChart = (data, dataKey, stroke, color) => (
+const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat) => (
   <LineChart data={data}>
     <XAxis
       dataKey="timestamp"
@@ -124,9 +151,10 @@ const renderMultiLineChart = (data, dataKey, stroke, color) => (
       padding={{ right: 10 }}
     />
     <YAxis
-      interval={dataMax => dataMax * 0.33}
+      tickCount={3}
       axisLine={false}
       tickLine={false}
+      tickFormatter={number => (number !== 0 ? `${trim(parseFloat(number), 2)}` : "")}
       domain={[0, "auto"]}
       connectNulls={true}
       allowDataOverflow={false}
@@ -157,13 +185,13 @@ const renderBarChart = (data, dataKey, stroke) => (
   </BarChart>
 );
 
-function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, headerSubText }) {
+function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, dataFormat, headerSubText }) {
   const renderChart = type => {
-    if (type === "line") return renderLineChart(data, dataKey, color, stroke);
-    if (type === "area") return renderAreaChart(data, dataKey, stopColor, stroke);
-    if (type === "stack") return renderStackedAreaChart(data, dataKey, stopColor, stroke);
-    if (type === "multi") return renderMultiLineChart(data, dataKey, color, stroke);
-    if (type === "bar") return renderBarChart(data, dataKey, stroke);
+    if (type === "line") return renderLineChart(data, dataKey, color, stroke, dataFormat);
+    if (type === "area") return renderAreaChart(data, dataKey, stopColor, stroke, dataFormat);
+    if (type === "stack") return renderStackedAreaChart(data, dataKey, stopColor, stroke, dataFormat);
+    if (type === "multi") return renderMultiLineChart(data, dataKey, color, stroke, dataFormat);
+    if (type === "bar") return renderBarChart(data, dataKey, stroke, dataFormat);
   };
 
   useEffect(() => {

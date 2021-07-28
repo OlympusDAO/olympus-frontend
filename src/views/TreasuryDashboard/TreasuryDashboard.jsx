@@ -178,7 +178,8 @@ function TreasuryDashboard() {
                 ]}
                 stroke={["#333420"]}
                 headerText="Protocol-Owned Liquidity of OHM-DAI"
-                headerSubText={`${data && formatCurrency(data[0].treasuryXsushiMarketValue)}%`}
+                dataFormat="k"
+                headerSubText={`${data && formatCurrency(data[0].treasuryXsushiMarketValue)}`}
               />
             </Paper>
           </Grid>
@@ -205,6 +206,7 @@ function TreasuryDashboard() {
                 stopColor={[["#55EBC7", "#47ACEB"]]}
                 stroke={["#333420"]}
                 headerText="OHM Staked"
+                dataFormat="percent"
                 headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
               />
             </Paper>
@@ -219,6 +221,7 @@ function TreasuryDashboard() {
                 color="#333420"
                 stroke={["#333420"]}
                 headerText="APY over time"
+                dataFormat="percent"
                 headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
               />
             </Paper>
