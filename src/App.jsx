@@ -353,6 +353,6 @@ function App() {
 //         window.location.reload();
 //       }, 1);
 //   });
-/* eslint-enable */
 
 export default App;
+
