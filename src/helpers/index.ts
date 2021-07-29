@@ -152,7 +152,7 @@ export function shorten(str: string) {
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
 }
 
-export function trim(number: number, precision?: number) {
+export function trim(number: number | undefined, precision?: number) {
   if (number == undefined) {
     number = 0;
   }
