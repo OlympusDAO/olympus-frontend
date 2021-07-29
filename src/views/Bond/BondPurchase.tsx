@@ -21,7 +21,7 @@ function BondPurchase({ provider, address, bond, slippage }: IBondPurchaseProps)
   const [quantity, setQuantity] = useState(0);
 
   const currentBlock = useAppSelector(state => {
-    return state.app.currentBlock;
+    return state.app.currentBlock || 0;
   });
 
   const vestingTerm = useAppSelector(state => {

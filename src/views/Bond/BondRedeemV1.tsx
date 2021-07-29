@@ -9,7 +9,7 @@ function BondRedeemV1({ bond, provider, address }: IBondRedeemProps) {
   const dispatch = useDispatch();
 
   const currentBlock = useAppSelector(state => {
-    return state.app.currentBlock;
+    return state.app.currentBlock || 0;
   });
   const bondMaturationBlock = useAppSelector(state => {
     return (state.bonding && state.bonding[bond] && state.bonding[bond].bondMaturationBlock) || 0;

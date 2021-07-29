@@ -15,7 +15,7 @@ function BondRedeem({ provider, address, bond }: IBondRedeemProps) {
   const dispatch = useDispatch();
 
   const currentBlock = useAppSelector(state => {
-    return state.app.currentBlock;
+    return state.app.currentBlock || 0;
   });
 
   const bondMaturationBlock = useAppSelector(state => {
