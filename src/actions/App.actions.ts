@@ -122,7 +122,6 @@ export const loadAppDetails =
     token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider })!;
     let ohmDaiAmount = await token.balanceOf(treasuryAddress);
 
-    // TS-REFACTOR: addressForAsset may return undefined, we input empty string in the case it is
     let valuation = toNum(
       await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_dai, networkID }), ohmDaiAmount),
     );
