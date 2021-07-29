@@ -33,7 +33,6 @@ export const loadAppDetails =
           ohmPrice
           marketCap
           totalValueLocked
-          totalOHMstaked
           nextEpochRebase
           nextDistributedOhm
         }
