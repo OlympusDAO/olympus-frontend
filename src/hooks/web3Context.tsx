@@ -1,12 +1,9 @@
 import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
-import Web3Modal, { providers } from "web3modal";
+import Web3Modal from "web3modal";
 import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { useUserAddress } from "eth-hooks";
-import { ethers } from "ethers";
 
-import { INFURA_ID, NETWORKS, BONDS } from "../constants";
-import { getAccountPath } from "ethers/lib/utils";
+import { INFURA_ID, ,  } from "../constants";
 
 // TODO(zayenx): REMEMBER THIS!!!
 // Use this in production!
@@ -15,10 +12,12 @@ function getMainnetURI() {
     "5e3c4a19b5f64c99bf8cd8089c92b44d", // this is main dev node
     "d9836dbf00c2440d862ab571b462e4a3", // this is current prod node
     "31e6d348d16b4a4dacde5f8a47da1971", // this is primary fallback
+    "76cc9de4a72c4f5a8432074935d670a3", // Adding Zayen's to the mix
   ];
 
-  const chosenInfuraID = Math.floor(Math.random() * INFURA_ID_LIST.length);
-  return `https://mainnet.infura.io/v3/${chosenInfuraID}`;
+  const randomIndex = Math.floor(Math.random() * INFURA_ID_LIST.length);
+  const randomInfuraID = INFURA_ID_LIST[randomIndex];
+  return `https://mainnet.infura.io/v3/${randomInfuraID}`;
 }
 
 function getAlchemyAPI() {
@@ -55,23 +54,6 @@ export const useWeb3Context = () => {
   }, [web3Context]);
 };
 
-// export const useAddress = async () => {
-//   const web3Context = useContext(Web3Context);
-//   if (!web3Context) {
-//     throw new Error(
-//       "useAddress() can only be used inside of <Web3ContextProvider />, " + "please declare it at a higher level.",
-//     );
-//   }
-//   const { onChainProvider } = web3Context;
-//   if (!onChainProvider.connected) return;
-
-//   const signer = onChainProvider.provider.getSigner();
-//   if (!signer) return console.error("Connected but no signer!");
-
-//   const address = await signer.getAddress();
-//   return;
-// };
-
 export const useAddress = () => {
   const { address } = useWeb3Context();
   return address;
@@ -81,8 +63,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
   const [address, setAddress] = useState("");
-
-  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(getAlchemyAPI()));
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(getAlchemyAPI())); // TODO(ZayenX): pls remember to change this back to infura.
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
