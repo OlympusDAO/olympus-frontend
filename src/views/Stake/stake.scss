@@ -235,22 +235,18 @@
     margin-top: 10px;
     svg {
       margin-left: 10px !important;
-      // font-size: 1.2em;
     }
   }
 }
 
 .stake-wallet-notification {
-  padding: 5%;
-  margin-top: 10px;
   text-align: center;
-  border-radius: 5px;
-  border: 1px solid #f4d09266;
   .wallet-menu {
     text-align: center;
-    margin-top: 1.2rem;
-    .stake-button {
+    .connect-button {
       max-width: 300px !important;
+      min-width: 240px !important;
+      margin-bottom: 15px;
     }
   }
 }
