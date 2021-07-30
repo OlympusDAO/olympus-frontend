@@ -11,6 +11,7 @@ import { abi as ReserveOhmFraxContract } from "../abi/reserves/OhmFrax.json";
 import { abi as BondContract } from "../abi/BondContract.json";
 import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 import { abi as FraxBondContract } from "../abi/bonds/FraxContract.json";
+import { abi as EthBondContract } from "../abi/bonds/EthContract.json";
 export { default as Transactor } from "./Transactor";
 
 export function addressForBond({ bond, networkID }) {
@@ -59,6 +60,7 @@ export function bondName(bond) {
   if (bond === BONDS.ohm_dai) return "OHM-DAI SLP Bond";
   if (bond === BONDS.ohm_frax) return "OHM-FRAX LP Bond";
   if (bond === BONDS.frax) return "FRAX Bond";
+  if (bond == BONDS.eth) return "ETH Bond";
 }
 
 export function contractForBond({ bond, networkID, provider }) {
@@ -85,6 +87,9 @@ export function contractForBond({ bond, networkID, provider }) {
   if (bond === BONDS.frax) {
     return new ethers.Contract(address, FraxBondContract, provider);
   }
+  if (bond === BONDS.eth) {
+    return new ethers.Contract(address, EthBondContract, provider);
+  }
 }
 
 export function contractForReserve({ bond, networkID, provider }) {
@@ -100,6 +105,9 @@ export function contractForReserve({ bond, networkID, provider }) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_FRAX, ReserveOhmFraxContract, provider);
   }
   if (bond === BONDS.frax) {
+    return new ethers.Contract(address, ierc20Abi, provider);
+  }
+  if (bond === BONDS.eth) {
     return new ethers.Contract(address, ierc20Abi, provider);
   }
 }
@@ -197,14 +205,20 @@ function getFraxTokenImage() {
   return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
 }
 
+function getEthTokenImage() {
+  return "https://github.com/sushiswap/assets/raw/master/blockchains/ethereum/info/logo.png";
+}
+
 export function getTokenImage(name) {
   if (name === "ohm") return getOhmTokenImage();
   if (name === "sohm") return getSohmTokenImage();
   if (name === "dai") return getDaiTokenImage();
   if (name === "frax") return getFraxTokenImage();
+  if (name === "eth") return getEthTokenImage();
 }
 
 export function priceUnits(bond) {
   if (bond.indexOf("frax") >= 0) return <img src={`${getFraxTokenImage()}`} width="15px" height="15px" />;
+  else if (bond.indexOf("eth") >= 0) return <img src={`${getEthTokenImage()}`} width="15px" height="15px" />;
   else return <img src={`${getDaiTokenImage()}`} width="15px" height="15px" />;
 }

@@ -49,6 +49,12 @@ export const changeApproval =
           addresses[networkID].BONDS.FRAX,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
+      else if (bond === BONDS.eth)
+        // <-- added for eth
+        approveTx = await reserveContract.approve(
+          addresses[networkID].BONDS.eth,
+          ethers.utils.parseUnits("1000000000", "ether").toString(),
+        );
 
       await approveTx.wait();
     } catch (error) {
@@ -64,6 +70,23 @@ export const calcBondDetails =
       amountInWei = ethers.utils.parseEther("0.0001"); // Use a realistic SLP ownership
     } else {
       amountInWei = ethers.utils.parseEther(value);
+    }
+
+    // TODO(zx): Remove this after we have eth-bonds
+    if (bond === BONDS.eth) {
+      return dispatch(
+        fetchBondSuccess({
+          bond: bond,
+          bondDiscount: 0.69,
+          debtRatio: 0.69,
+          bondQuote: 69,
+          purchased: 690,
+          vestingTerm: 6.9,
+          maxBondPrice: 69,
+          bondPrice: 6.9,
+          marketPrice: 6.9 * 2,
+        }),
+      );
     }
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
@@ -184,6 +207,11 @@ export const calculateUserBondDetails =
       balance = ethers.utils.formatUnits(balance, "ether");
     } else if (bond === BONDS.frax) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.FRAX);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatUnits(balance, "ether");
+    } else if (bond === BONDS.eth) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.eth);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");

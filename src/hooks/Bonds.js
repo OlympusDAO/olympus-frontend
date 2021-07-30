@@ -2,7 +2,13 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import orderBy from "lodash/orderBy";
 
-export const makeBondsArray = (ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount) => {
+export const makeBondsArray = (
+  ohmDaiBondDiscount,
+  ohmFraxLpBondDiscount,
+  daiBondDiscount,
+  fraxBondDiscount,
+  ethBondDiscount,
+) => {
   return [
     {
       name: "OHM-DAI LP",
@@ -23,6 +29,11 @@ export const makeBondsArray = (ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBon
       name: "FRAX",
       value: "frax",
       discount: Number(fraxBondDiscount),
+    },
+    {
+      name: "ETH",
+      value: "eth",
+      discount: Number(ethBondDiscount),
     },
   ];
 };
@@ -52,13 +63,23 @@ export default function useBonds() {
     return state.bonding["ohm_frax_lp"] && state.bonding["ohm_frax_lp"].bondDiscount;
   });
 
+  const ethBondDiscount = useSelector(state => {
+    return state.bonding["eth"] && state.bonding["eth"].bondDiscount;
+  });
+
   const [bonds, setBonds] = useState(BONDS_ARRAY);
 
   useEffect(() => {
-    const bondValues = makeBondsArray(ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount);
+    const bondValues = makeBondsArray(
+      ohmDaiBondDiscount,
+      ohmFraxLpBondDiscount,
+      daiBondDiscount,
+      fraxBondDiscount,
+      ethBondDiscount,
+    );
     const mostProfitableBonds = orderBy(bondValues, "discount", "desc");
     setBonds(mostProfitableBonds);
-  }, [ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount]);
+  }, [ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount, ethBondDiscount]);
 
   return bonds;
 }

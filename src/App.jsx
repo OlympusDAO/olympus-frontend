@@ -89,7 +89,8 @@ function App(props) {
     await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
-    [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
+    // TODO(zx); Add BONDS.eth
+    [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax, BONDS.eth].map(async bond => {
       await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
     });
   }
@@ -149,7 +150,7 @@ function App(props) {
 
             <Route path="/bonds">
               {/* {Object.values(BONDS).map(bond => { */}
-              {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
+              {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax, BONDS.eth].map(bond => {
                 return (
                   <Route exact key={bond} path={`/bonds/${bond}`}>
                     <Bond bond={bond} />

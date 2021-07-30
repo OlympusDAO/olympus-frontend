@@ -76,11 +76,17 @@ export const loadAppDetails =
     );
 
     // Calculate Treasury Balance
+    // TODO: PLS DRY and modularize.
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
     let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
     token = contractForReserve({ bond: BONDS.frax, networkID, provider });
     let fraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+
+    // TODO(zayenx): uncomment for ethBonds
+    // token = contractForReserve({ bond: BONDS.eth, networkID, provider });
+    // let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    const ethAmount = 69;
 
     token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
     let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
@@ -94,7 +100,7 @@ export const loadAppDetails =
     markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 
-    const treasuryBalance = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
+    const treasuryBalance = (daiAmount + fraxAmount + ethAmount) / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
