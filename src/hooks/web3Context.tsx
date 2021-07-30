@@ -1,11 +1,12 @@
-import React, { useState, ReactElement, useContext } from "react";
-import Web3Modal from "web3modal";
-import { BaseProvider, Web3Provider } from "@ethersproject/providers";
+import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
+import Web3Modal, { providers } from "web3modal";
+import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
 import { ethers } from "ethers";
 
 import { INFURA_ID, NETWORKS, BONDS } from "../constants";
+import { getAccountPath } from "ethers/lib/utils";
 
 // TODO(zayenx): REMEMBER THIS!!!
 // Use this in production!
@@ -24,24 +25,67 @@ function getAlchemyAPI() {
   return "https://eth-mainnet.alchemyapi.io/v2/R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o";
 }
 
-class Web3Connector {
-  private _connected: Boolean;
-  _provider: BaseProvider | null;
-  _chainID: number;
-  _web3Modal: Web3Modal;
-  _updateCallback: Function;
+// getSigner().getAddress()
 
-  constructor() {
-    // We can configure which network we connectTo
-    this._chainID = 1;
-    // We can have methods to control this provider
-    this._provider = ethers.getDefaultProvider(getAlchemyAPI());
-    this._connected = false;
-    this._updateCallback = () => {
-      console.log("No updateCallback set for Web3Connector ");
-    };
+type onChainProvider = {
+  connect: () => void;
+  disconnect: () => void;
+  provider: JsonRpcProvider;
+  address: string;
+  connected: Boolean;
+  web3Modal: Web3Modal;
+};
 
-    this._web3Modal = new Web3Modal({
+export type Web3ContextData = {
+  onChainProvider: onChainProvider;
+} | null;
+
+const Web3Context = React.createContext<Web3ContextData>(null);
+
+export const useWeb3Context = () => {
+  const web3Context = useContext(Web3Context);
+  if (!web3Context) {
+    throw new Error(
+      "useWeb3Context() can only be used inside of <Web3ContextProvider />, " + "please declare it at a higher level.",
+    );
+  }
+  const { onChainProvider } = web3Context;
+  return useMemo(() => {
+    return { ...onChainProvider };
+  }, [web3Context]);
+};
+
+// export const useAddress = async () => {
+//   const web3Context = useContext(Web3Context);
+//   if (!web3Context) {
+//     throw new Error(
+//       "useAddress() can only be used inside of <Web3ContextProvider />, " + "please declare it at a higher level.",
+//     );
+//   }
+//   const { onChainProvider } = web3Context;
+//   if (!onChainProvider.connected) return;
+
+//   const signer = onChainProvider.provider.getSigner();
+//   if (!signer) return console.error("Connected but no signer!");
+
+//   const address = await signer.getAddress();
+//   return;
+// };
+
+export const useAddress = () => {
+  const { address } = useWeb3Context();
+  return address;
+};
+
+export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
+  const [connected, setConnected] = useState(false);
+  const [chainID, setChainID] = useState(1);
+  const [address, setAddress] = useState("");
+
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(getAlchemyAPI()));
+
+  const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
+    new Web3Modal({
       // network: "mainnet", // optional
       cacheProvider: true, // optional
       providerOptions: {
@@ -52,56 +96,46 @@ class Web3Connector {
           },
         },
       },
-    });
-  }
+    }),
+  );
 
-  get provider() {
-    return this._provider;
-  }
-  get connected(): Boolean {
-    return this._connected;
-  }
+  const _hasCachedProvider = (): Boolean => {
+    if (!web3Modal) return false;
+    if (!web3Modal.cachedProvider) return false;
+    return true;
+  };
 
-  set updateCallback(updateCallback: Function) {
-    this._updateCallback();
-  }
+  const _initListeners = useCallback(() => {
+    if (!provider) return;
 
-  _initListeners() {
-    if (!this._provider) return;
-
-    this._provider.on("accountsChanged", () => {
-      if (!this.hasCachedProvider()) return;
+    provider.on("accountsChanged", () => {
+      if (_hasCachedProvider()) return;
       setTimeout(() => window.location.reload(), 1);
     });
 
-    this._provider.on("chainChanged", () => {
-      if (!this.hasCachedProvider) return;
+    provider.on("chainChanged", () => {
+      if (_hasCachedProvider()) return;
       setTimeout(() => window.location.reload(), 1);
     });
-  }
+  }, [provider]);
 
-  hasCachedProvider(): Boolean {
-    if (this._web3Modal.cachedProvider) {
-      return true;
-    }
-    return false;
-  }
-
-  checkNetwork(chainID: number): Boolean {
-    if (this._chainID !== chainID) {
+  // Eventually we will not need this method.
+  const _checkNetwork = (chainID: number): Boolean => {
+    if (chainID !== chainID) {
       console.error("Wrong network, please switch to mainnet");
       return false;
     }
     return true;
-  }
+  };
 
-  async connect() {
+  const connect = useCallback(async () => {
     console.log("connecting");
-    const rawProvider = await this._web3Modal.connect();
-    const provider = new Web3Provider(rawProvider);
+    const rawProvider = await web3Modal.connect();
+    const connectedProvider = new Web3Provider(rawProvider);
 
-    const chainId = await provider.getNetwork().then(network => network.chainId);
-    const validNetwork = this.checkNetwork(chainId);
+    const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
+    const connectedAddress = await connectedProvider.getSigner().getAddress();
+    const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
       console.error("Wrong network, please switch to mainnet");
       return;
@@ -109,74 +143,39 @@ class Web3Connector {
     console.log("connected");
     // Save everything after we've validated the right nextwork.
     // Eventually we'll be fine without doing network validations.
-    this.updateConnectionState(true);
-    this._provider = provider;
-    this._initListeners();
-    return provider;
-  }
+    // const signer = onChainProvider.provider.getSigner();
+    // if (!signer) return console.error("Connected but no signer!");
+    // const address = await signer.getAddress();
 
-  async disconnect() {
+    // setAddress(address);
+    setConnected(true);
+    setAddress(connectedAddress);
+    setProvider(connectedProvider);
+    _initListeners();
+
+    return connectedProvider;
+  }, [provider, web3Modal, connected]);
+
+  const disconnect = useCallback(async () => {
     console.log("disconnecting");
-    this._web3Modal.clearCachedProvider();
-    this.updateConnectionState(false);
+    web3Modal.clearCachedProvider();
+    setConnected(false);
+
     setTimeout(() => {
       window.location.reload();
     }, 1);
-  }
+  }, [provider, web3Modal, connected]);
 
-  async updateConnectionState(isConnected: Boolean) {
-    this._connected = isConnected;
-    this._updateCallback(isConnected);
-  }
-}
-
-export type Web3ContextData = {
-  web3: Web3Connector;
-  web3Connected: Boolean;
-};
-
-const defaultWeb3 = new Web3Connector();
-
-export const Web3Context = React.createContext<Web3ContextData>({
-  web3: defaultWeb3,
-  web3Connected: false,
-});
-
-export const useWeb3Context = () => {
-  const { web3, web3Connected } = useContext(Web3Context);
-  const provider = web3.provider;
-
-  return { provider, web3, web3Connected };
-};
-
-export const useAddress = () => {
-  const { web3, web3Connected } = useContext(Web3Context);
-  if (!web3Connected) return;
-  if (!(web3.provider instanceof Web3Provider)) return;
-
-  return useUserAddress(web3.provider);
-};
-
-/*
-  Wrapper context provider around web3 react. 
-  Web3-react returns `library` while the codebase expects provider'
-  The only reason this file is a .tsx
-*/
-export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
-  const web3Context = useContext(Web3Context);
-  if (web3Context !== null) {
-    throw new Error("<Web3ContextProvider /> has already been declared.");
-  }
-
-  const [connected, setConnected] = useState<Boolean>(false);
-  const [address, setAddress] = useState<string>("");
-  const isConnectedCB = (isConnected: Boolean) => {
-    setConnected(isConnected);
-  };
-
-  defaultWeb3.updateCallback = isConnectedCB;
-
-  return (
-    <Web3Context.Provider value={{ web3: defaultWeb3, web3Connected: connected }}>{children}</Web3Context.Provider>
+  const onChainProvider = useMemo(
+    () => ({ connect, disconnect, provider, connected, address, web3Modal }),
+    [connect, disconnect, provider, connected, address, web3Modal],
   );
+
+  useEffect(() => {
+    if (_hasCachedProvider()) {
+      connect();
+    }
+  }, []);
+
+  return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };
