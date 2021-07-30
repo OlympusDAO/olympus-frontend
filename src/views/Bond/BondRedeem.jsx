@@ -3,8 +3,9 @@ import { Button, Typography, Box } from "@material-ui/core";
 import { redeemBond } from "../../actions/Bond.actions.js";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
 
-function BondRedeem({ provider, address, bond }) {
+function BondRedeem({ bond }) {
   const dispatch = useDispatch();
+  const { provider, address } = useWeb3Context();
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
