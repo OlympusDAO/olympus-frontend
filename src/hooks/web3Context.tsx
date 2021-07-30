@@ -20,6 +20,7 @@ function getMainnetURI() {
   return `https://mainnet.infura.io/v3/${randomInfuraID}`;
 }
 
+// https://cloudflare-eth.com is also an option
 function getAlchemyAPI() {
   return "https://eth-mainnet.alchemyapi.io/v2/R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o";
 }
