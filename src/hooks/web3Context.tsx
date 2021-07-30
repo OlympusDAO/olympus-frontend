@@ -25,8 +25,9 @@ function getAlchemyAPI() {
   return "https://eth-mainnet.alchemyapi.io/v2/R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o";
 }
 
-// getSigner().getAddress()
-
+/*
+  Types
+*/
 type onChainProvider = {
   connect: () => void;
   disconnect: () => void;
@@ -111,7 +112,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   };
 
   const connect = useCallback(async () => {
-    console.log("connecting");
     const rawProvider = await web3Modal.connect();
     const connectedProvider = new Web3Provider(rawProvider);
 
@@ -123,7 +123,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       console.error("Wrong network, please switch to mainnet");
       return;
     }
-    console.log("connected");
     // Save everything after we've validated the right nextwork.
     // Eventually we'll be fine without doing network validations.
     setConnected(true);
