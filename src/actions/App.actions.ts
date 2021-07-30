@@ -8,7 +8,7 @@ import axios from "axios";
 import { contractForReserve, addressForAsset } from "../helpers";
 import { BONDS } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
-import apollo from "../lib/apolloClient.js";
+import apollo from "../lib/apolloClient";
 
 export const fetchAppSuccess = payload => ({
   type: Actions.FETCH_APP_SUCCESS,
