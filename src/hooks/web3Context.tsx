@@ -116,6 +116,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
     const connectedAddress = await connectedProvider.getSigner().getAddress();
+    
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
       console.error("Wrong network, please switch to mainnet");
@@ -124,11 +125,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     console.log("connected");
     // Save everything after we've validated the right nextwork.
     // Eventually we'll be fine without doing network validations.
-    // const signer = onChainProvider.provider.getSigner();
-    // if (!signer) return console.error("Connected but no signer!");
-    // const address = await signer.getAddress();
-
-    // setAddress(address);
     setConnected(true);
     setAddress(connectedAddress);
     setProvider(connectedProvider);
