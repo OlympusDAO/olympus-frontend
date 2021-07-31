@@ -123,10 +123,10 @@ function App(props) {
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>
           <Hidden mdUp>
-            <NavDrawer address={address} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
           </Hidden>
           <Hidden smDown>
-            <Sidebar address={address} />
+            <Sidebar />
           </Hidden>
         </nav>
 
@@ -141,9 +141,9 @@ function App(props) {
             </Route>
 
             <Route path="/stake">
-              <Stake address={address} />
+              <Stake />
               <Route exact path="/stake/migrate">
-                <Migrate address={address} />
+                <Migrate />
               </Route>
             </Route>
 
@@ -152,11 +152,11 @@ function App(props) {
               {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
                 return (
                   <Route exact key={bond} path={`/bonds/${bond}`}>
-                    <Bond bond={bond} address={address} />
+                    <Bond bond={bond} />
                   </Route>
                 );
               })}
-              <ChooseBond address={address} />
+              <ChooseBond />
             </Route>
 
             <Route component={NotFound} />

@@ -2,11 +2,11 @@ import { Drawer } from "@material-ui/core";
 import NavContent from "./NavContent.jsx";
 import "./sidebar.scss";
 
-function Sidebar({ address }) {
+function Sidebar() {
   return (
     <div className={`sidebar`} id="sidebarContent">
       <Drawer variant="permanent" anchor="left">
-        <NavContent address={address} />
+        <NavContent />
       </Drawer>
     </div>
   );

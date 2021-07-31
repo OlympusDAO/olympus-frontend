@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Typography, Box } from "@material-ui/core";
 import { redeemBond } from "../../actions/Bond.actions.js";
+import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
 
 function BondRedeem({ bond }) {
