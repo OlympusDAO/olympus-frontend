@@ -15,4 +15,10 @@
 // export { default as usePoller } from "./Poller";
 // export { default as useResolveName } from "./ResolveName";
 // export { default as useTokenList } from "./TokenList";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "src/store";
+
+// export { default as useTokenList } from "./TokenList";
 export { default as useUserProvider } from "./UserProvider";
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
