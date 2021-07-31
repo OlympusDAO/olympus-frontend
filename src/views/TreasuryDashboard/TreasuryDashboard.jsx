@@ -170,16 +170,16 @@ function TreasuryDashboard() {
               <Chart
                 type="stack"
                 data={data}
-                dataKey={["treasuryDaiMarketValue", "treasuryFraxMarketValue", "treasuryXsushiMarketValue"]}
+                format="percentage"
+                dataKey={["treasuryOhmDaiPOL", "treasuryOhmFraxPOL", ""]}
                 stopColor={[
                   ["#F5AC37", "#EA9276"],
                   ["#768299", "#98B3E9"],
-                  ["#000", "#fff"],
+                  ["", ""],
                 ]}
                 stroke={["#333420"]}
-                headerText="Protocol-Owned Liquidity of OHM-DAI"
+                headerText="Protocol-Owned Liquidity"
                 dataFormat="k"
-                headerSubText={`${data && formatCurrency(data[0].treasuryXsushiMarketValue)}`}
               />
             </Paper>
           </Grid>
