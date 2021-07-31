@@ -165,7 +165,8 @@ export const calculateUserBondDetails =
       pendingPayout = await bondContract.pendingPayoutFor(address);
     }
 
-    let allowance, balance;
+    let allowance,
+      balance = 0;
     if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
 

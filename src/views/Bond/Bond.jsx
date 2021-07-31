@@ -9,6 +9,7 @@ import BondRedeemV1 from "./BondRedeemV1";
 import BondRedeem from "./BondRedeem";
 import BondPurchase from "./BondPurchase";
 import "./bond.scss";
+import { useWeb3Context } from "src/hooks/web3Context";
 
 function a11yProps(index) {
   return {
@@ -17,8 +18,9 @@ function a11yProps(index) {
   };
 }
 
-function Bond({ bond, address, provider }) {
+function Bond({ bond }) {
   const dispatch = useDispatch();
+  const { provider, address } = useWeb3Context();
 
   const [slippage, setSlippage] = useState(0.5);
   const [recipientAddress, setRecipientAddress] = useState(address);
@@ -103,13 +105,13 @@ function Bond({ bond, address, provider }) {
           </Tabs>
 
           <TabPanel value={view} index={0}>
-            <BondPurchase provider={provider} address={address} bond={bond} slippage={slippage} />
+            <BondPurchase bond={bond} slippage={slippage} />
           </TabPanel>
           <TabPanel value={view} index={1}>
-            <BondRedeem provider={provider} address={address} bond={bond} />
+            <BondRedeem bond={bond} />
           </TabPanel>
           <TabPanel value={view} index={2}>
-            <BondRedeemV1 provider={provider} address={address} bond={bond + "_v1"} />
+            <BondRedeemV1 bond={bond + "_v1"} />
           </TabPanel>
         </Paper>
       </Backdrop>

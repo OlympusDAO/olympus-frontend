@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NavDrawer({ mobileOpen, handleDrawerToggle, address }) {
+function NavDrawer({ mobileOpen, handleDrawerToggle }) {
   const classes = useStyles();
 
   return (
@@ -34,7 +34,7 @@ function NavDrawer({ mobileOpen, handleDrawerToggle, address }) {
         keepMounted: true, // Better open performance on mobile.
       }}
     >
-      <NavContent address={address} />
+      <NavContent />
     </Drawer>
   );
 }
