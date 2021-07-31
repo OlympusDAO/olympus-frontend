@@ -17,7 +17,7 @@ const formatCurrency = c => {
   }).format(c);
 };
 
-const renderAreaChart = (data, dataKey, stopColor, stroke, dataFormat) => (
+const renderAreaChart = (data, dataKey, stopColor, stroke, dataFormat, tooltip) => (
   <AreaChart data={data}>
     <defs>
       <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
@@ -50,7 +50,7 @@ const renderAreaChart = (data, dataKey, stopColor, stroke, dataFormat) => (
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip content={<AreaTooltip />} />
+    <Tooltip content={tooltip ? tooltip : <AreaTooltip />} />
     <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
   </AreaChart>
 );
@@ -186,10 +186,10 @@ const renderBarChart = (data, dataKey, stroke) => (
   </BarChart>
 );
 
-function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, dataFormat, headerSubText }) {
+function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, dataFormat, headerSubText, tooltip }) {
   const renderChart = type => {
     if (type === "line") return renderLineChart(data, dataKey, color, stroke, dataFormat);
-    if (type === "area") return renderAreaChart(data, dataKey, stopColor, stroke, dataFormat);
+    if (type === "area") return renderAreaChart(data, dataKey, stopColor, stroke, dataFormat, tooltip);
     if (type === "stack") return renderStackedAreaChart(data, dataKey, stopColor, stroke, dataFormat);
     if (type === "multi") return renderMultiLineChart(data, dataKey, color, stroke, dataFormat);
     if (type === "bar") return renderBarChart(data, dataKey, stroke, dataFormat);
