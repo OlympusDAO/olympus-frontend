@@ -98,7 +98,7 @@ const renderStackedAreaChart = (data, dataKey, stopColor, stroke, dataFormat) =>
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip formatter={value => trim(parseFloat(value), 2)} content={<StackedAreaTooltip />} />
+    <Tooltip formatter={value => trim(parseFloat(value), 2)} content={tooltip ? tooltip : <StackedAreaTooltip />} />
     <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
     <Area dataKey={dataKey[1]} stroke={stroke[1]} fill={`url(#color-${dataKey[1]})`} fillOpacity={1} />
     <Area dataKey={dataKey[2]} stroke={stroke[2]} fill={`url(#color-${dataKey[2]})`} fillOpacity={1} />
