@@ -83,11 +83,11 @@ const renderTooltipItems = payload => {
   ));
 };
 
-function CustomTooltip({ active, payload }) {
+function StackedAreaTooltip({ active, payload }) {
   if (active && payload && payload.length) {
     return <div style={tooltipStyle}>{renderTooltipItems(payload)}</div>;
   }
   return null;
 }
 
-export default CustomTooltip;
+export default StackedAreaTooltip;

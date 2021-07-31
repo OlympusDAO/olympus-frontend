@@ -1,4 +1,4 @@
-import CustomTooltip from "./CustomTooltip";
+import StackedAreaTooltip from "./StackedAreaTooltip";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { Typography, Box } from "@material-ui/core";
 import { trim } from "../../helpers";
@@ -97,7 +97,7 @@ const renderStackedAreaChart = (data, dataKey, stopColor, stroke, dataFormat) =>
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip formatter={value => trim(parseFloat(value), 2)} content={<CustomTooltip />} />
+    <Tooltip formatter={value => trim(parseFloat(value), 2)} content={<StackedAreaTooltip />} />
     <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
     <Area dataKey={dataKey[1]} stroke={stroke[1]} fill={`url(#color-${dataKey[1]})`} fillOpacity={1} />
     <Area dataKey={dataKey[2]} stroke={stroke[2]} fill={`url(#color-${dataKey[2]})`} fillOpacity={1} />
