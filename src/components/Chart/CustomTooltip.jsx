@@ -1,17 +1,4 @@
-const flex = {
-  display: "flex",
-  justifyContent: "space-between",
-  paddingRight: 12,
-  paddingLeft: 35,
-  marginBottom: -15,
-};
-
-const margin = {
-  marginTop: 20,
-  paddingLeft: 15,
-};
-
-const style = {
+const tooltipStyle = {
   minWidth: 175,
   padding: 5,
   paddingBottom: 15,
@@ -20,7 +7,20 @@ const style = {
   borderRadius: 10,
 };
 
-const ballColors = [
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  paddingRight: 12,
+  paddingLeft: 35,
+  marginBottom: -15,
+};
+
+const dateStyle = {
+  marginTop: 20,
+  paddingLeft: 15,
+};
+
+const bulletPointsStyle = [
   {
     position: "absolute",
     width: 16,
@@ -29,24 +29,26 @@ const ballColors = [
     top: -12,
     borderRadius: 10,
     background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
-    /* Inside Auto Layout */
-    flex: "none",
-    order: 0,
-    flexGrow: 0,
     margin: 10,
   },
   {
     position: "absolute",
     width: 16,
     height: 16,
-    right: 26,
+    right: 25,
     top: -12,
     borderRadius: 10,
     background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
-    /* Inside Auto Layout */
-    flex: "none",
-    order: 0,
-    flexGrow: 0,
+    margin: 10,
+  },
+  {
+    position: "absolute",
+    width: 16,
+    height: 16,
+    right: 29,
+    top: -12,
+    borderRadius: 10,
+    background: "linear-gradient(180deg, #DC30EB -10%, #EA98F1 100%)",
     margin: 10,
   },
 ];
@@ -55,7 +57,7 @@ const coinNames = ["DAI", "FRAX", "SUSHI"];
 
 const renderDate = (index, payload, item) => {
   return index === payload.length - 1 ? (
-    <div style={margin}>
+    <div style={dateStyle}>
       {new Date(item.payload.timestamp * 1000).toLocaleString("default", { month: "long" }).charAt(0).toUpperCase()}
       {new Date(item.payload.timestamp * 1000).toLocaleString("default", { month: "long" }).slice(1)}
       &nbsp;
@@ -69,9 +71,9 @@ const renderDate = (index, payload, item) => {
 const renderTooltipItems = payload => {
   return payload.map((item, index) => (
     <div key={index}>
-      <div style={flex}>
+      <div style={containerStyle}>
         <p style={{ position: "relative" }}>
-          <div style={ballColors[index]}></div>
+          <div style={bulletPointsStyle[index]}></div>
           {`${coinNames[index]}`}
         </p>
         <p>{`$${Math.round(item.value).toLocaleString("en-US")}`}</p>
@@ -83,7 +85,7 @@ const renderTooltipItems = payload => {
 
 function CustomTooltip({ active, payload }) {
   if (active && payload && payload.length) {
-    return <div style={style}>{renderTooltipItems(payload)}</div>;
+    return <div style={tooltipStyle}>{renderTooltipItems(payload)}</div>;
   }
   return null;
 }
