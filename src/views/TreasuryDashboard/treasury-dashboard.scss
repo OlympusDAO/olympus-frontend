@@ -1,0 +1,34 @@
+#treasury-dashboard-view {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 100%;
+  .ohm-card {
+    white-space: nowrap;
+    width: auto;
+    margin: auto;
+    max-height: 360px;
+    .card-header {
+      margin-bottom: 1rem;
+    }
+  }
+  .hero-metrics {
+    width: 100%;
+    margin-bottom: 23px;
+    .ohm-card {
+      max-width: unset !important;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      text-align: center;
+      h4 {
+        font-weight: bold;
+      }
+    }
+  }
+  .data-grid {
+    overflow: hidden;
+    overflow-y: auto;
+    height: calc(100vh - 203px);
+    justify-content: center;
+  }
+}
