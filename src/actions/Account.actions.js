@@ -38,8 +38,8 @@ export const loadAccountDetails =
       stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     }
 
-    if (addresses[networkID].DAI_BOND_ADDRESS) {
-      daiBondAllowance = await daiContract.allowance(address, addresses[networkID].DAI_BOND_ADDRESS);
+    if (addresses[networkID].BONDS.DAI) {
+      daiBondAllowance = await daiContract.allowance(address, addresses[networkID].BONDS.DAI);
     }
 
     if (addresses[networkID].SOHM_ADDRESS) {

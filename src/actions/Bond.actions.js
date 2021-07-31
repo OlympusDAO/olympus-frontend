@@ -9,6 +9,7 @@ import {
 } from "../helpers";
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
+import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -69,11 +70,7 @@ export const calcBondDetails =
     // const vestingTerm = VESTING_TERM; // hardcoded for now
     let bondDiscount, valuation, bondQuote;
     const bondContract = contractForBond({ bond, networkID, provider });
-    const bondCalcContract = new ethers.Contract(
-      addresses[networkID].BONDS.OHM_DAI_CALC,
-      BondOhmDaiCalcContract,
-      provider,
-    );
+    const bondCalcContract = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
 
     const marketPrice = await getMarketPrice({ networkID, provider });
     const terms = await bondContract.terms();

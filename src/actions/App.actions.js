@@ -69,11 +69,7 @@ export const loadAppDetails =
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-    const bondCalculator = new ethers.Contract(
-      addresses[networkID].BONDINGCALC_ADDRESS,
-      BondCalcContract.json,
-      provider,
-    );
+    const bondCalculator = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
 
     // Calculate Treasury Balance
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
