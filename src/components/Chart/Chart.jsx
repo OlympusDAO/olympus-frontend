@@ -96,13 +96,73 @@ const renderStackedAreaChart = (data, dataKey, stopColor, stroke, dataFormat) =>
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip formatter={value => trim(parseFloat(value), 2)} />
-
+    <Tooltip
+      formatter={value => trim(parseFloat(value), 2)}
+      itemStyle={itemStyle}
+      wrapperStyle={wrapperStyle}
+      contentStyle={contentStyle}
+      labelStyle={labelStyle}
+      content={<CustomTooltip />}
+    />
     <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
     <Area dataKey={dataKey[1]} stroke={stroke[1]} fill={`url(#color-${dataKey[1]})`} fillOpacity={1} />
     <Area dataKey={dataKey[2]} stroke={stroke[2]} fill={`url(#color-${dataKey[2]})`} fillOpacity={1} />
   </AreaChart>
 );
+
+//*This will go in a different module*/
+
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip" style={contentStyle}>
+        {payload.map((item, index) => (
+          <div key={index} style={flex}>
+            <p>{`${CoinNames[index]}`}</p>
+            <p>{`$${Math.round(item.value).toLocaleString("en-US")}`}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return null;
+};
+
+const CoinNames = ["DAI", "FRAX", "SUSHI"];
+
+const flex = {
+  display: "flex",
+  justifyContent: "space-between",
+};
+
+const marteloStyle = {
+  background: "rgba(54, 56, 64, 0.5)",
+  border: "1px solid rgba(118, 130, 153, 0.2)",
+};
+
+const itemStyle = {
+  color: `"white"`,
+  // listStyle: `"circle"`,
+};
+
+const wrapperStyle = {
+  // background: "rgba(54, 56, 64, 0.5)",
+  // border: "1px solid rgba(118, 130, 153, 0.2)",
+  // borderRadius: `"100px"`,
+};
+
+const contentStyle = {
+  minWidth: 175,
+  padding: 15,
+  background: "rgba(54, 56, 64, 0.5)",
+  border: "1px solid rgba(118, 130, 153, 0.2)",
+  borderRadius: 10,
+};
+
+const labelStyle = {};
+
+//*This will go in a different module*/
 
 const renderLineChart = (data, dataKey, stroke, color, dataFormat) => (
   <LineChart data={data}>
@@ -194,9 +254,9 @@ function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, data
     if (type === "bar") return renderBarChart(data, dataKey, stroke, dataFormat);
   };
 
-  useEffect(() => {
-    console.log("data loaded", data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log("data loaded", data);
+  // }, [data]);
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
