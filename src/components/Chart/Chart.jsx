@@ -1,5 +1,8 @@
-import StackedAreaTooltip from "./StackedAreaTooltip";
-import AreaTooltip from "./AreaTooltip";
+import StackedAreaTooltip from "../Tooltip/StackedAreaTooltip";
+import AreaTooltip from "../Tooltip/AreaTooltip";
+import LineTooltip from "../Tooltip/LineTooltip";
+import MultiLineTooltip from "../Tooltip/MultiLineTooltip";
+import BarTooltip from "../Tooltip/BarTooltip";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { Typography, Box } from "@material-ui/core";
 import { trim } from "../../helpers";
@@ -133,7 +136,7 @@ const renderLineChart = (data, dataKey, stroke, color, dataFormat) => (
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip />
+    <Tooltip content={<LineTooltip />} />
     <Line type="monotone" dataKey={dataKey[0]} stroke="#49A1F2" color={color} dot={false} />;
   </LineChart>
 );
@@ -160,8 +163,8 @@ const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat) => (
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip />
-    <Line type="monotone" dataKey={dataKey[0]} stroke="#000000" dot={false} />;
+    <Tooltip content={<MultiLineTooltip />} />
+    <Line type="monotone" dataKey={dataKey[0]} stroke="#FFFFFF" dot={false} />;
     <Line type="monotone" dataKey={dataKey[1]} stroke="#2EC608" dot={false} />;
     <Line type="monotone" dataKey={dataKey[2]} stroke="#49A1F2" dot={false} />;
   </LineChart>
@@ -181,7 +184,7 @@ const renderBarChart = (data, dataKey, stroke) => (
       padding={{ right: 10 }}
     />
     <YAxis axisLine={false} tickLine={false} tickCount={3} />
-    <Tooltip />
+    <Tooltip content={<BarTooltip />} />
     <Bar dataKey={dataKey[0]} fill={stroke[0]} />
   </BarChart>
 );

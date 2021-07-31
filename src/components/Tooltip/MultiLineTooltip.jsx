@@ -25,35 +25,35 @@ const bulletPointsStyle = [
     position: "absolute",
     width: 16,
     height: 16,
-    right: 15,
+    right: 45,
     top: -12,
     borderRadius: 10,
-    background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
+    background: "#FFFFFF",
     margin: 10,
   },
   {
     position: "absolute",
     width: 16,
     height: 16,
-    right: 25,
+    right: 48,
     top: -12,
     borderRadius: 10,
-    background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+    background: "#2EC608",
     margin: 10,
   },
   {
     position: "absolute",
     width: 16,
     height: 16,
-    right: 29,
+    right: 48,
     top: -12,
     borderRadius: 10,
-    background: "linear-gradient(180deg, #DC30EB -10%, #EA98F1 100%)",
+    background: "#49A1F2",
     margin: 10,
   },
 ];
 
-const coinNames = ["DAI", "FRAX", "SUSHI"];
+const apy = ["10K_APY", "20K_APY", "50K_APY"];
 
 const renderDate = (index, payload, item) => {
   return index === payload.length - 1 ? (
@@ -71,24 +71,23 @@ const renderDate = (index, payload, item) => {
 const renderTooltipItems = payload => {
   return payload.map((item, index) => (
     <div key={index}>
-      {console.log(payload)}
       <div style={containerStyle}>
         <p style={{ position: "relative" }}>
           <div style={bulletPointsStyle[index]}></div>
-          {`${coinNames[index]}`}
+          {`${apy[index]}`}
         </p>
-        <p>{`$${Math.round(item.value).toLocaleString("en-US")}`}</p>
+        <p>{`${Math.round(item.value)}`}</p>
       </div>
       <div>{renderDate(index, payload, item)}</div>
     </div>
   ));
 };
 
-function AreaTooltip({ active, payload }) {
+function MultiLineTooltip({ active, payload }) {
   if (active && payload && payload.length) {
     return <div style={tooltipStyle}>{renderTooltipItems(payload)}</div>;
   }
   return null;
 }
 
-export default AreaTooltip;
+export default MultiLineTooltip;

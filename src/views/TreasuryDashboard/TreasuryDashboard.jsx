@@ -2,7 +2,7 @@ import { Paper, Grid, Typography, Box, Zoom, Container } from "@material-ui/core
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Chart from "../../components/Chart/Chart.jsx";
-import StakeTooltip from "../../components/Chart/StakeTooltip.jsx";
+import StakeTooltip from "../../components/Tooltip/StakeTooltip.jsx";
 import { trim } from "../../helpers";
 import { treasuryDataQuery, rebasesDataQuery } from "./treasuryData.js";
 import "./treasury-dashboard.scss";
@@ -191,7 +191,7 @@ function TreasuryDashboard() {
                 type="bar"
                 data={data}
                 dataKey={["holders"]}
-                stroke={["#333420"]}
+                stroke={["#A3A3A3"]}
                 headerText="Holders"
                 headerSubText={`${data && data[0].holders}`}
               />
