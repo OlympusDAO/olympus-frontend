@@ -195,9 +195,9 @@ function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, data
     if (type === "bar") return renderBarChart(data, dataKey, stroke, dataFormat);
   };
 
-  // useEffect(() => {
-  //   console.log("data loaded", data);
-  // }, [data]);
+  useEffect(() => {
+    console.log("data loaded", data);
+  }, [data]);
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
