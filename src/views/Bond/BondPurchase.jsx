@@ -97,6 +97,7 @@ function BondPurchase({ provider, address, bond, slippage }) {
   }, [allowance]);
 
   const setMax = () => {
+    if (!balance) return;
     setQuantity(balance.toString());
   };
 
