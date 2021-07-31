@@ -105,7 +105,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // Eventually we will not need this method.
   const _checkNetwork = (otherChainID: number): Boolean => {
     if (chainID !== otherChainID) {
-      console.error("Wrong network, please switch to mainnet");
+      if (otherChainID === 4) {
+        console.warn("Hey Fren, you are switching to Rinkeby testnet - if you are not a developer you should go back");
+        return true;
+      }
+      console.error("Switching to an unsupported network, please revert to ethereum mainnet");
       return false;
     }
     return true;
