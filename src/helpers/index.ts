@@ -1,5 +1,5 @@
-import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS } from "../constants";
-import { ethers } from "ethers";
+import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS, Nested } from "../constants";
+import { BigNumberish, ethers } from "ethers";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as PairContract } from "../abi/PairContract.json";
 
@@ -11,101 +11,136 @@ import { abi as ReserveOhmFraxContract } from "../abi/reserves/OhmFrax.json";
 import { abi as BondContract } from "../abi/BondContract.json";
 import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 import { abi as FraxBondContract } from "../abi/bonds/FraxContract.json";
+import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { IERC20, OlympusBondDepository } from "src/typechain";
 export { default as Transactor } from "./Transactor";
 
-export function addressForBond({ bond, networkID }) {
+export function addressForBond({ bond, networkID }: { bond: string; networkID: number }) {
+  const bondAddresses = addresses[networkID].BONDS as Nested;
   if (bond === BONDS.ohm_dai) {
-    return addresses[networkID].BONDS.OHM_DAI;
+    return bondAddresses.OHM_DAI;
   }
   if (bond === BONDS.dai) {
-    return addresses[networkID].BONDS.DAI;
+    return bondAddresses.DAI;
   }
   if (bond === BONDS.ohm_frax) {
-    return addresses[networkID].BONDS.OHM_FRAX;
-  }
-  if (bond === BONDS.frax) {
-    return addresses[networkID].BONDS.FRAX;
+    return bondAddresses.OHM_FRAX;
+  } else {
+    // bond === BONDS.frax
+    return bondAddresses.FRAX;
   }
 }
 
-export function addressForAsset({ bond, networkID }) {
+export function addressForAsset({ bond, networkID }: { bond: string; networkID: number }) {
+  const reserveAddresses = addresses[networkID].RESERVES as Nested;
   if (bond === BONDS.ohm_dai) {
-    return addresses[networkID].RESERVES.OHM_DAI;
+    return reserveAddresses.OHM_DAI;
   }
   if (bond === BONDS.dai) {
-    return addresses[networkID].RESERVES.DAI;
+    return reserveAddresses.DAI;
   }
   if (bond === BONDS.ohm_frax) {
-    return addresses[networkID].RESERVES.OHM_FRAX;
-  }
-  if (bond === BONDS.frax) {
-    return addresses[networkID].RESERVES.FRAX;
+    return reserveAddresses.OHM_FRAX;
+  } else {
+    // bond === BONDS.frax
+    return reserveAddresses.FRAX;
   }
 }
 
-export function isBondLP(bond) {
+export function isBondLP(bond: string) {
   return bond.indexOf("_lp") >= 0;
 }
 
-export function lpURL(bond) {
+export function lpURL(bond: string) {
   if (bond === BONDS.ohm_dai)
     return "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f";
   if (bond === BONDS.ohm_frax)
     return "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899";
 }
 
-export function bondName(bond) {
+export function bondName(bond: string) {
   if (bond === BONDS.dai) return "DAI Bond";
   if (bond === BONDS.ohm_dai) return "OHM-DAI SLP Bond";
   if (bond === BONDS.ohm_frax) return "OHM-FRAX LP Bond";
   if (bond === BONDS.frax) return "FRAX Bond";
 }
 
-export function contractForBond({ bond, networkID, provider }) {
+// TS-REFACTOR-NOTE: it may be worthy to create a mapping in a constants file to abstract a lot of this logic out.
+export function contractForBond({
+  bond,
+  networkID,
+  provider,
+}: {
+  bond: string;
+  networkID: number;
+  provider: StaticJsonRpcProvider | JsonRpcSigner;
+}) {
   const address = addressForBond({ bond, networkID });
+  const bondAddresses = addresses[networkID].BONDS as Nested;
 
   if (bond === BONDS.ohm_dai) {
-    return new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
+    return new ethers.Contract(bondAddresses.OHM_DAI, BondOhmDaiContract, provider) as OlympusBondDepository;
   }
   if (bond === BONDS.dai) {
-    return new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
+    return new ethers.Contract(bondAddresses.DAI, BondDaiContract, provider) as OlympusBondDepository;
   }
   if (bond === BONDS.ohm_dai_v1) {
-    return new ethers.Contract(addresses[networkID].BOND_ADDRESS, BondContract, provider);
+    return new ethers.Contract(
+      addresses[networkID].BOND_ADDRESS as string,
+      BondContract,
+      provider,
+    ) as OlympusBondDepository;
   }
   if (bond === BONDS.dai_v1) {
-    return new ethers.Contract(addresses[networkID].DAI_BOND_ADDRESS, DaiBondContract, provider);
+    return new ethers.Contract(
+      addresses[networkID].DAI_BOND_ADDRESS as string,
+      DaiBondContract,
+      provider,
+    ) as OlympusBondDepository;
   }
   if (bond === BONDS.ohm_frax) {
-    return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX, BondOhmFraxContract, provider);
+    return new ethers.Contract(bondAddresses.OHM_FRAX, BondOhmFraxContract, provider) as OlympusBondDepository;
   }
   if (bond === BONDS.ohm_frax_v1) {
-    return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX_BOND_ADDRESS, BondOhmFraxContract, provider);
-  }
-  if (bond === BONDS.frax) {
-    return new ethers.Contract(address, FraxBondContract, provider);
+    return new ethers.Contract(
+      bondAddresses.OHM_FRAX_BOND_ADDRESS,
+      BondOhmFraxContract,
+      provider,
+    ) as OlympusBondDepository;
+  } else {
+    // bond === BONDS.frax
+    return new ethers.Contract(address, FraxBondContract, provider) as OlympusBondDepository;
   }
 }
 
-export function contractForReserve({ bond, networkID, provider }) {
+export function contractForReserve({
+  bond,
+  networkID,
+  provider,
+}: {
+  bond: string;
+  networkID: number;
+  provider: StaticJsonRpcProvider | JsonRpcSigner;
+}) {
   const address = addressForAsset({ bond, networkID });
+  const reserveAddresses = addresses[networkID].RESERVES as Nested;
 
   if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
-    return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
+    return new ethers.Contract(reserveAddresses.OHM_DAI, ReserveOhmDaiContract, provider) as IERC20;
   }
   if (bond === BONDS.dai || bond === BONDS.dai_v1) {
-    return new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);
+    return new ethers.Contract(reserveAddresses.DAI, ierc20Abi, provider) as IERC20;
   }
   if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
-    return new ethers.Contract(addresses[networkID].RESERVES.OHM_FRAX, ReserveOhmFraxContract, provider);
-  }
-  if (bond === BONDS.frax) {
-    return new ethers.Contract(address, ierc20Abi, provider);
+    return new ethers.Contract(reserveAddresses.OHM_FRAX, ReserveOhmFraxContract, provider) as IERC20;
+  } else {
+    // bond === BONDS.frax
+    return new ethers.Contract(address, ierc20Abi, provider) as IERC20;
   }
 }
 
-export async function getMarketPrice({ networkID, provider }) {
-  const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
+export async function getMarketPrice({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) {
+  const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS as string, PairContract, provider);
   const reserves = await pairContract.getReserves();
   const marketPrice = reserves[1] / reserves[0];
 
@@ -113,28 +148,28 @@ export async function getMarketPrice({ networkID, provider }) {
   return marketPrice;
 }
 
-export function shorten(str) {
+export function shorten(str: string) {
   if (str.length < 10) return str;
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
 }
 
-export function trim(number, precision) {
+export function trim(number: number | undefined, precision?: number) {
   if (number == undefined) {
     number = 0;
   }
   const array = number.toString().split(".");
   if (array.length === 1) return number.toString();
 
-  array.push(array.pop().substring(0, precision));
+  array.push((array.pop() as any).substring(0, precision));
   const trimmedNumber = array.join(".");
   return trimmedNumber;
 }
 
-export function getRebaseBlock(currentBlock) {
+export function getRebaseBlock(currentBlock: number) {
   return currentBlock + EPOCH_INTERVAL - (currentBlock % EPOCH_INTERVAL);
 }
 
-export function secondsUntilBlock(startBlock, endBlock) {
+export function secondsUntilBlock(startBlock: number, endBlock: number) {
   if (startBlock % EPOCH_INTERVAL === 0) {
     return 0;
   }
@@ -145,7 +180,7 @@ export function secondsUntilBlock(startBlock, endBlock) {
   return secondsAway;
 }
 
-export function prettyVestingPeriod(currentBlock, vestingBlock) {
+export function prettyVestingPeriod(currentBlock: number, vestingBlock: number) {
   if (vestingBlock === 0) {
     return "";
   }
@@ -157,7 +192,7 @@ export function prettyVestingPeriod(currentBlock, vestingBlock) {
   return prettifySeconds(seconds);
 }
 
-export function prettifySeconds(seconds, resolution) {
+export function prettifySeconds(seconds: number, resolution?: string) {
   if (seconds !== 0 && !seconds) {
     return "";
   }
@@ -197,14 +232,20 @@ function getFraxTokenImage() {
   return "https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x853d955aCEf822Db058eb8505911ED77F175b99e/logo.png";
 }
 
-export function getTokenImage(name) {
+export function getTokenImage(name: string) {
   if (name === "ohm") return getOhmTokenImage();
   if (name === "sohm") return getSohmTokenImage();
   if (name === "dai") return getDaiTokenImage();
   if (name === "frax") return getFraxTokenImage();
 }
 
-export function priceUnits(bond) {
-  if (bond.indexOf("frax") >= 0) return <img src={`${getFraxTokenImage()}`} width="15px" height="15px" />;
-  else return <img src={`${getDaiTokenImage()}`} width="15px" height="15px" />;
+/**
+ * toNum takes BigNumber type and casts it as number type.
+ * For some reason it doesn't like it when you convert it
+ * to string then Number(strBigNum). This normally works.
+ * @param bigNum
+ * @returns BigNumber type value as number type value
+ */
+export function toNum(bigNum: BigNumberish) {
+  return bigNum as number;
 }

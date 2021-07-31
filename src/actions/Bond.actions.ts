@@ -1,23 +1,63 @@
-import { ethers } from "ethers";
-import {
-  isBondLP,
-  getMarketPrice,
-  contractForBond,
-  contractForReserve,
-  addressForBond,
-  addressForAsset,
-} from "../helpers";
-import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
+import { BigNumber, ethers } from "ethers";
+import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForAsset, toNum } from "../helpers";
+import { addresses, Actions, BONDS, Nested } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
+import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import { IBondData } from "src/reducers";
+import { Dispatch } from "redux";
+import { OlympusBondingCalculator } from "src/typechain";
 
-export const fetchBondSuccess = payload => ({
+interface IOldBondInfo {
+  readonly lastBlock: BigNumber;
+  readonly payoutRemaining: BigNumber;
+  readonly vestingPeriod: BigNumber;
+}
+
+interface IChangeApproval {
+  readonly bond: string;
+  readonly networkID: number;
+  readonly provider: StaticJsonRpcProvider | undefined;
+}
+
+interface ICalcBondDetails {
+  readonly bond: string;
+  readonly networkID: number;
+  readonly provider: StaticJsonRpcProvider | undefined;
+  readonly value: string | null;
+}
+
+interface ICalcUserBondDetails {
+  readonly address: string;
+  readonly bond: string;
+  readonly provider: StaticJsonRpcProvider;
+  readonly networkID: number;
+}
+
+interface IBondAsset {
+  readonly address: string;
+  readonly bond: string;
+  readonly networkID: number;
+  readonly provider: StaticJsonRpcProvider;
+  readonly slippage: number;
+  readonly value: string;
+}
+
+interface IRedeemBond {
+  readonly address: string;
+  readonly autostake: boolean | null;
+  readonly bond: string;
+  readonly networkID: number;
+  readonly provider: StaticJsonRpcProvider;
+}
+
+export const fetchBondSuccess = (payload: IBondData) => ({
   type: Actions.FETCH_BOND_SUCCESS,
   payload,
 });
 
 export const changeApproval =
-  ({ bond, provider, address, networkID }) =>
-  async dispatch => {
+  ({ bond, provider, networkID }: IChangeApproval) =>
+  async (_dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -27,26 +67,28 @@ export const changeApproval =
     const reserveContract = contractForReserve({ bond, networkID, provider: signer });
 
     try {
-      let approveTx;
+      const bondAddresses = addresses[networkID].BONDS as Nested;
+      let approveTx: ethers.ContractTransaction;
       if (bond == BONDS.ohm_dai)
         approveTx = await reserveContract.approve(
-          addresses[networkID].BONDS.OHM_DAI,
+          bondAddresses.OHM_DAI,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
       else if (bond === BONDS.ohm_frax)
         approveTx = await reserveContract.approve(
-          addresses[networkID].BONDS.OHM_FRAX,
+          bondAddresses.OHM_FRAX,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
       else if (bond === BONDS.dai)
         approveTx = await reserveContract.approve(
-          addresses[networkID].BONDS.DAI,
+          bondAddresses.DAI,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
-      else if (bond === BONDS.frax)
-        // <-- added for frax
+      // <-- added for frax
+      // bond === BONDS.frax
+      else
         approveTx = await reserveContract.approve(
-          addresses[networkID].BONDS.FRAX,
+          bondAddresses.FRAX,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
 
@@ -57,8 +99,12 @@ export const changeApproval =
   };
 
 export const calcBondDetails =
-  ({ bond, value, provider, networkID }) =>
-  async dispatch => {
+  ({ bond, value, provider, networkID }: ICalcBondDetails) =>
+  async (dispatch: Dispatch) => {
+    if (!provider) {
+      alert("Please connect your wallet!");
+      return;
+    }
     let amountInWei;
     if (!value || value === "") {
       amountInWei = ethers.utils.parseEther("0.0001"); // Use a realistic SLP ownership
@@ -70,35 +116,35 @@ export const calcBondDetails =
     let bondDiscount, valuation, bondQuote;
     const bondContract = contractForBond({ bond, networkID, provider });
     const bondCalcContract = new ethers.Contract(
-      addresses[networkID].BONDS.OHM_DAI_CALC,
+      (addresses[networkID].BONDS as Nested).OHM_DAI_CALC,
       BondOhmDaiCalcContract,
       provider,
-    );
+    ) as OlympusBondingCalculator;
 
     const marketPrice = await getMarketPrice({ networkID, provider });
     const terms = await bondContract.terms();
-    const maxBondPrice = await bondContract.maxPayout();
+    const maxBondPrice = toNum(await bondContract.maxPayout());
 
     let debtRatio, bondPrice;
     try {
-      bondPrice = await bondContract.bondPriceInUSD();
+      bondPrice = toNum(await bondContract.bondPriceInUSD());
 
       bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
       if (bond === BONDS.ohm_dai) {
-        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
+        debtRatio = toNum(await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
         // RFV = assume 1:1 backing
-        valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
-        bondQuote = await bondContract.payoutFor(valuation);
+        valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS as string, amountInWei);
+        bondQuote = toNum(await bondContract.payoutFor(valuation));
         bondQuote = bondQuote / Math.pow(10, 9);
       } else if (bond === BONDS.ohm_frax) {
-        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
-        valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
-        bondQuote = await bondContract.payoutFor(valuation);
+        debtRatio = toNum(await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
+        valuation = await bondCalcContract.valuation((addresses[networkID].RESERVES as Nested).OHM_FRAX, amountInWei);
+        bondQuote = toNum(await bondContract.payoutFor(valuation));
         bondQuote = bondQuote / Math.pow(10, 9);
       } else {
         // RFV = DAI
         debtRatio = await bondContract.standardizedDebtRatio();
-        bondQuote = await bondContract.payoutFor(amountInWei);
+        bondQuote = toNum(await bondContract.payoutFor(amountInWei));
         bondQuote = bondQuote / Math.pow(10, 18);
       }
     } catch (e) {
@@ -107,7 +153,7 @@ export const calcBondDetails =
     }
 
     // Display error if user tries to exceed maximum.
-    if (!!value && parseFloat(bondQuote) > maxBondPrice / Math.pow(10, 9)) {
+    if (!!value && bondQuote && parseFloat(bondQuote.toString()) > maxBondPrice / Math.pow(10, 9)) {
       alert(
         "You're trying to bond more than the maximum payout available! The maximum bond payout is " +
           (maxBondPrice / Math.pow(10, 9)).toFixed(2).toString() +
@@ -117,12 +163,12 @@ export const calcBondDetails =
 
     // Calculate bonds purchased
     const token = contractForReserve({ bond, networkID, provider });
-    let purchased = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let purchased = toNum(await token.balanceOf(addresses[networkID].TREASURY_ADDRESS as string));
 
     // Value the bond
     if (isBondLP(bond)) {
-      const markdown = await bondCalcContract.markdown(addressForAsset({ bond, networkID }));
-      purchased = await bondCalcContract.valuation(addressForAsset({ bond, networkID }), purchased);
+      const markdown = toNum(await bondCalcContract.markdown(addressForAsset({ bond, networkID })));
+      purchased = toNum(await bondCalcContract.valuation(addressForAsset({ bond, networkID }), purchased));
       purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
     } else {
       purchased = purchased / Math.pow(10, 18);
@@ -135,7 +181,7 @@ export const calcBondDetails =
         debtRatio,
         bondQuote,
         purchased,
-        vestingTerm: terms.vestingTerm,
+        vestingTerm: toNum(terms.vestingTerm),
         maxBondPrice: maxBondPrice / Math.pow(10, 9),
         bondPrice: bondPrice / Math.pow(10, 18),
         marketPrice: marketPrice / Math.pow(10, 9),
@@ -144,8 +190,8 @@ export const calcBondDetails =
   };
 
 export const calculateUserBondDetails =
-  ({ address, bond, networkID, provider }) =>
-  async dispatch => {
+  ({ address, bond, networkID, provider }: ICalcUserBondDetails) =>
+  async (dispatch: Dispatch) => {
     if (!address) return;
 
     // Calculate bond details.
@@ -154,35 +200,36 @@ export const calculateUserBondDetails =
 
     let interestDue, pendingPayout, bondMaturationBlock;
     if (bond === BONDS.dai_v1 || bond === BONDS.ohm_frax_v1 || bond === BONDS.ohm_dai_v1) {
-      const bondDetails = await bondContract.bondInfo(address);
-      interestDue = bondDetails.payoutRemaining / Math.pow(10, 9);
+      const bondDetails = (await bondContract.bondInfo(address)) as unknown as IOldBondInfo;
+      interestDue = toNum(bondDetails.payoutRemaining) / Math.pow(10, 9);
       bondMaturationBlock = +bondDetails.vestingPeriod + +bondDetails.lastBlock;
       pendingPayout = await bondContract.pendingPayoutFor(address);
     } else {
       const bondDetails = await bondContract.bondInfo(address);
-      interestDue = bondDetails.payout / Math.pow(10, 9);
+      interestDue = toNum(bondDetails.payout) / Math.pow(10, 9);
       bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
       pendingPayout = await bondContract.pendingPayoutFor(address);
     }
 
     let allowance, balance;
+    const bondAddresses = addresses[networkID].BONDS as Nested;
     if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
-      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
+      allowance = await reserveContract.allowance(address, bondAddresses.OHM_DAI);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
     } else if (bond === BONDS.dai || bond === BONDS.dai_v1) {
-      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.DAI);
+      allowance = await reserveContract.allowance(address, bondAddresses.DAI);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatEther(balance);
     } else if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
-      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_FRAX);
+      allowance = await reserveContract.allowance(address, bondAddresses.OHM_FRAX);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
     } else if (bond === BONDS.frax) {
-      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.FRAX);
+      allowance = await reserveContract.allowance(address, bondAddresses.FRAX);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
@@ -201,8 +248,8 @@ export const calculateUserBondDetails =
   };
 
 export const bondAsset =
-  ({ value, address, bond, networkID, provider, slippage }) =>
-  async dispatch => {
+  ({ value, address, bond, networkID, provider, slippage }: IBondAsset) =>
+  async (dispatch: Dispatch) => {
     const depositorAddress = address;
     const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
@@ -213,7 +260,7 @@ export const bondAsset =
     // const calculatePremium = await bonding.calculatePremium();
     const signer = provider.getSigner();
     const bondContract = contractForBond({ bond, provider: signer, networkID });
-    const calculatePremium = await bondContract.bondPrice();
+    const calculatePremium = toNum(await bondContract.bondPrice());
     const maxPremium = Math.round(calculatePremium * (1 + acceptedSlippage));
 
     // Deposit the bond
@@ -240,15 +287,16 @@ export const bondAsset =
   };
 
 export const redeemBond =
-  ({ address, bond, networkID, provider, autostake }) =>
-  async dispatch => {
+  ({ address, bond, networkID, provider, autostake }: IRedeemBond) =>
+  async (_dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
     }
 
     const signer = provider.getSigner();
-    const bondContract = contractForBond({ bond, networkID, provider: signer });
+    // TS-REFACTOR-NOTE: contract type mismatch (need old bondContract)
+    const bondContract = contractForBond({ bond, networkID, provider: signer }) as ethers.Contract;
 
     try {
       let redeemTx;

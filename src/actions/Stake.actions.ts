@@ -3,34 +3,59 @@ import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
+import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import { IERC20, OlympusStaking as OlympusStakingType } from "../typechain";
+import { Dispatch } from "redux";
 
-export const fetchStakeSuccess = payload => ({
+interface IStakeDetails {
+  readonly ohm?: string;
+  readonly sohm?: string;
+  readonly staking?: { ohmStake: number; ohmUnstake: number };
+}
+
+interface IChangeApproval {
+  readonly token: string;
+  readonly provider: StaticJsonRpcProvider | undefined;
+  readonly address: string;
+  readonly networkID: number;
+}
+
+interface IChangeStake {
+  readonly action: string;
+  readonly value: string;
+  readonly provider: StaticJsonRpcProvider | undefined;
+  readonly address: string;
+  readonly networkID: number;
+}
+
+export const fetchStakeSuccess = (payload: IStakeDetails) => ({
   type: Actions.FETCH_STAKE_SUCCESS,
   payload,
 });
 
 export const changeApproval =
-  ({ token, provider, address, networkID }) =>
-  async dispatch => {
+  ({ token, provider, address, networkID }: IChangeApproval) =>
+  async (dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
     }
 
     const signer = provider.getSigner();
-    const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, signer);
-    const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer) as IERC20;
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer) as IERC20;
 
     let approveTx;
     try {
       if (token === "ohm") {
         approveTx = await ohmContract.approve(
-          addresses[networkID].STAKING_HELPER_ADDRESS,
+          addresses[networkID].STAKING_HELPER_ADDRESS as string,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
-      } else if (token === "sohm") {
+      } else {
+        // token === "sohm"
         approveTx = await sohmContract.approve(
-          addresses[networkID].STAKING_ADDRESS,
+          addresses[networkID].STAKING_ADDRESS as string,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
@@ -41,8 +66,8 @@ export const changeApproval =
       return;
     }
 
-    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS as string);
+    const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS as string);
     return dispatch(
       fetchStakeSuccess({
         staking: {
@@ -54,16 +79,22 @@ export const changeApproval =
   };
 
 export const changeStake =
-  ({ action, value, provider, address, networkID }) =>
-  async dispatch => {
+  ({ action, value, provider, address, networkID }: IChangeStake) =>
+  async (dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
     }
 
     const signer = provider.getSigner();
-    const staking = await new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStaking, signer);
-    const stakingHelper = await new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
+
+    // TS-REFACTOR-NOTE: types arg accepted mismatch
+    const staking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, OlympusStaking, signer);
+    const stakingHelper = new ethers.Contract(
+      addresses[networkID].STAKING_HELPER_ADDRESS as string,
+      StakingHelper,
+      signer,
+    );
 
     let stakeTx;
 
@@ -84,9 +115,13 @@ export const changeStake =
       return;
     }
 
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider) as IERC20;
     const ohmBalance = await ohmContract.balanceOf(address);
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
+    const sohmContract = new ethers.Contract(
+      addresses[networkID].SOHM_ADDRESS as string,
+      ierc20Abi,
+      provider,
+    ) as IERC20;
     const sohmBalance = await sohmContract.balanceOf(address);
 
     return dispatch(
