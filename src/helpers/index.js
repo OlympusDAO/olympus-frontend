@@ -1,4 +1,4 @@
-import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS } from "../constants";
+import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS, TOKEN_DECIMALS } from "../constants";
 import { ethers } from "ethers";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as PairContract } from "../abi/PairContract.json";
@@ -177,6 +177,49 @@ export function prettifySeconds(seconds, resolution) {
   return dDisplay + hDisplay + mDisplay;
 }
 
+export const getDateFromSeconds = seconds => {
+  const date = new Date(0);
+  date.setSeconds(seconds);
+  return date;
+};
+
+export const subtractDates = (dateA, dateB) => {
+  let msA = dateA.getTime();
+  let msB = dateB.getTime();
+
+  let diff = msA - msB;
+
+  let days = 0;
+  if (diff >= 86400000) {
+    days = parseInt(diff / 86400000, 10);
+    diff -= days * 86400000;
+  }
+
+  let hours = 0;
+  if (days || diff >= 3600000) {
+    hours = parseInt(diff / 3600000, 10);
+    diff -= hours * 3600000;
+  }
+
+  let minutes = 0;
+  if (hours || diff >= 60000) {
+    minutes = parseInt(diff / 60000, 10);
+    diff -= minutes * 60000;
+  }
+
+  let seconds = 0;
+  if (minutes || diff >= 1000) {
+    seconds = parseInt(diff / 1000, 10);
+  }
+
+  return {
+    days,
+    hours,
+    minutes,
+    seconds,
+  };
+};
+
 function getSohmTokenImage() {
   return (
     "data:image/png;base64,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" +
@@ -208,3 +251,133 @@ export function priceUnits(bond) {
   if (bond.indexOf("frax") >= 0) return <img src={`${getFraxTokenImage()}`} width="15px" height="15px" />;
   else return <img src={`${getDaiTokenImage()}`} width="15px" height="15px" />;
 }
+
+// this is only used by numberWithCommas
+export function stringWithPrecision(val, options = {}) {
+  let precision = 2;
+  if (options.precision !== undefined) {
+    precision = options.precision;
+  }
+
+  val = val.toString();
+
+  if (val && typeof val.indexOf === "function") {
+    return val.substr(0, val.indexOf(".") + precision + 1);
+  } else {
+    return val;
+  }
+}
+
+/**
+ * Pretty up a BigNumber using it's corresponding ERC20 decimals value with the proper amount of
+ * trailing decimal precision
+ * @param {*} amount BigNumber|string|number to format
+ * @param {*} decimals precision to use when converting from BigNumber to string
+ * example: a BigNumber value of 123456 for WBTC which has 8 decimals of precision
+ *          would be formatted as: 0.00123456
+ */
+export const numberWithCommas = (amount, options = {}) => {
+  if (options.decimals === undefined || options.decimals === null) {
+    options.decimals = TOKEN_DECIMALS;
+  }
+
+  if (!amount) {
+    return;
+  }
+
+  const amountFormatted =
+    typeof amount === "string" || typeof amount === "number"
+      ? amount
+      : ethers.utils.formatUnits(amount, options.decimals);
+
+  if (!options.precision && options.precision !== 0) {
+    options.precision = getPrecision(amountFormatted);
+  }
+
+  return _formatCommas(amountFormatted, options);
+};
+
+function _formatCommas(str, options = {}) {
+  if (!str) {
+    return typeof str === "number" ? str : "";
+  }
+
+  let precision = 2;
+  if (options.precision !== undefined) {
+    precision = options.precision;
+  }
+
+  let localeString = "en-GB";
+  if (options.currentLang && options.currentLang === "es") {
+    localeString = "es-ES";
+  }
+
+  // auto-round to the nearest whole number
+  if (precision === 0) {
+    str = Math.floor(Number(str));
+  }
+
+  // handle exponents
+  if (str.toString().match("e")) {
+    str = Number.parseFloat(str).toFixed(0);
+  }
+
+  let parts = str.toString().split(".");
+  parts[0] = parts[0].replace(",", "");
+
+  let numberStr = "";
+
+  if (parts.length > 1 && precision > 0) {
+    numberStr = stringWithPrecision(parts.join("."), { precision });
+  } else {
+    numberStr = parts[0];
+  }
+
+  if (options.removeTrailingZeros) {
+    numberStr = numberStr.replace(/(\.0+|0+)$/, "");
+  }
+
+  return Number(numberStr).toLocaleString(localeString, {
+    minimumFractionDigits: options.removeTrailingZeros ? 0 : precision,
+  });
+}
+
+/**
+ * Returns a standardized decimal precision depending on the number
+ * @param {*} num number to check
+ */
+export const getPrecision = num => {
+  num = parseFloat(num);
+
+  if (num > 10000) {
+    return 0;
+  } else if (num >= 0.1) {
+    return 2;
+  } else {
+    return getMinPrecision(num);
+  }
+};
+
+/**
+ * Returns the number of digits after a decimal place
+ * @param {*} num number to check
+ */
+export const getMaxPrecision = num => {
+  return String(num).split(".")[1]?.length || 0;
+};
+
+/**
+ * Counts the number of 0's past a decimal in a number and returns how many significant digits to keep
+ * plus additional digits so we always show a non-zero number.
+ * @param {*} num number to check
+ * @param {*} options
+ *    additionalDigits: Optional additional digits to keep past the first non-zero number
+ */
+export const getMinPrecision = (num, options = { additionalDigits: 2 }) => {
+  const { additionalDigits } = options;
+  const decimals = String(num).split(".")[1];
+
+  if (decimals === "0") return 0;
+  if (!decimals) return additionalDigits;
+  return decimals.match(/^0*/)[0].length + additionalDigits;
+};

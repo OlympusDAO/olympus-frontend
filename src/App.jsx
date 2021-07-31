@@ -12,7 +12,7 @@ import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails } from "./actions/App.actions.js";
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
-import { Stake, ChooseBond, Bond, Dashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
@@ -23,7 +23,7 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
-import { INFURA_ID, NETWORKS, BONDS } from "./constants";
+import { BONDS } from "./constants";
 import "./style.scss";
 
 // 😬 Sorry for all the console logging
@@ -77,8 +77,13 @@ function App(props) {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 960px)");
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 900px)");
+  const isSmallScreen = useMediaQuery("(max-width: 620px)");
+
+  // You can warn the user if you would like them to be on a specific network
+  // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
+
+  // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
   const { provider } = useWeb3Context();
   const address = useAddress();
@@ -145,6 +150,10 @@ function App(props) {
               <Route exact path="/stake/migrate">
                 <Migrate />
               </Route>
+            </Route>
+
+            <Route path="/33-together">
+              <PoolTogether />
             </Route>
 
             <Route path="/bonds">

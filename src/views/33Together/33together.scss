@@ -1,0 +1,10 @@
+#pool-together-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  .award-buttons button {
+    margin: 5px !important;
+  }
+}
