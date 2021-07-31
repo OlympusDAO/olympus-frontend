@@ -1,4 +1,5 @@
 import StackedAreaTooltip from "./StackedAreaTooltip";
+import AreaTooltip from "./AreaTooltip";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { Typography, Box } from "@material-ui/core";
 import { trim } from "../../helpers";
@@ -49,7 +50,7 @@ const renderAreaChart = (data, dataKey, stopColor, stroke, dataFormat) => (
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip />
+    <Tooltip content={<AreaTooltip />} />
     <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
   </AreaChart>
 );
@@ -194,9 +195,9 @@ function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, data
     if (type === "bar") return renderBarChart(data, dataKey, stroke, dataFormat);
   };
 
-  useEffect(() => {
-    console.log("data loaded", data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log("data loaded", data);
+  // }, [data]);
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
