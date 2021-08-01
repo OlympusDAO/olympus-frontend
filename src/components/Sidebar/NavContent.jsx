@@ -7,12 +7,14 @@ import { ReactComponent as BondIcon } from "../../assets/icons/v1.2/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/v1.2/dashboard.svg";
 import { ReactComponent as OlympusIcon } from "../../assets/icons/v1.2/olympus-nav-header.svg";
 import { trim, shorten } from "../../helpers";
+import { useAddress } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
 import { Paper, Link, Box, Typography, LinearProgress, SvgIcon } from "@material-ui/core";
 import "./sidebar.scss";
 
-function NavContent({ address }) {
+function NavContent() {
   const [isActive] = useState();
+  const address = useAddress();
   const bonds = useBonds();
 
   const checkPage = useCallback((match, location, page) => {

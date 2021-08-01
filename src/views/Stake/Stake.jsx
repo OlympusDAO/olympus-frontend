@@ -33,6 +33,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
+import { useWeb3Context } from "src/hooks/web3Context";
 
 function a11yProps(index) {
   return {
@@ -44,8 +45,9 @@ function a11yProps(index) {
 const ohmImg = getTokenImage("ohm");
 const fraxImg = getTokenImage("frax");
 
-function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
+function Stake() {
   const dispatch = useDispatch();
+  const { provider, address, connected, connect } = useWeb3Context();
 
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
@@ -128,13 +130,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
   let modalButton = [];
 
-  if (web3Modal) {
-    modalButton.push(
-      <Button variant="contained" color="primary" className="connect-button" onClick={loadWeb3Modal} key={2}>
-        Connect Wallet
-      </Button>,
-    );
-  }
+  modalButton.push(
+    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={2}>
+      Connect Wallet
+    </Button>,
+  );
 
   const changeView = (event, newView) => {
     setView(newView);

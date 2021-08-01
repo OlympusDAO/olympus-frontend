@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
   },
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 12,
     sourceType: "module",
@@ -10,20 +11,10 @@ module.exports = {
     },
   },
   parser: "@typescript-eslint/parser",
-  extends: ["plugin:prettier/recommended", "prettier/react"],
+  extends: ["plugin:prettier/recommended", "prettier/react", "prettier/@typescript-eslint"],
   plugins: ["prettier", "@typescript-eslint"],
   rules: {
     "prettier/prettier": ["error"],
-    // "import/extensions": [
-    //   "error",
-    //   "ignorePackages",
-    //   {
-    //     js: "never",
-    //     jsx: "never",
-    //     ts: "never",
-    //     tsx: "never",
-    //   },
-    // ],
     "import/prefer-default-export": "off",
     "prefer-destructuring": "off",
     "prefer-template": "off",
