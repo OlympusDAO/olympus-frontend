@@ -92,8 +92,8 @@ function App() {
   async function loadDetails() {
     let loadProvider = provider;
 
-    await dispatch(loadAppDetails({ networkID: chainId, provider: loadProvider }));
-    if (address) await dispatch(loadAccountDetails({ networkID: chainId, address, provider: loadProvider }));
+    await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
+    if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
     [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
       await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
@@ -166,10 +166,6 @@ function App() {
                 );
               })}
               <ChooseBond />
-            </Route>
-
-            <Route path="/33-together">
-              <PoolTogether address={address} provider={injectedProvider} />
             </Route>
 
             <Route component={NotFound} />

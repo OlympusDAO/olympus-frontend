@@ -278,7 +278,7 @@ function TreasuryDashboard() {
                 dataFormat="k"
                 bulletpointColors={coinBulletpointColors}
                 itemNames={coinItemNames}
-                itemType={dollarItemType}
+                itemType={percentageItemType}
               />
             </Paper>
           </Grid>

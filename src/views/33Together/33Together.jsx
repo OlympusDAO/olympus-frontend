@@ -1,8 +1,4 @@
 import { useState } from "react";
-<<<<<<< HEAD
-import { Paper, Box, Typography, Button, Tab, Tabs, Zoom } from "@material-ui/core";
-import TabPanel from "../../components/TabPanel";
-=======
 import { Paper, Box, Typography, Button, Tab, Tabs, Zoom, SvgIcon } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import { useWeb3Context } from "../../hooks";
@@ -10,7 +6,6 @@ import TabPanel from "../../components/TabPanel";
 import { PoolDeposit } from "./PoolDeposit";
 import { PoolWithdraw } from "./PoolWithdraw";
 import { Link } from "react-router-dom";
->>>>>>> 0bef2553caa39801c058de90d92cbcd443e73f5c
 import "./33together.scss";
 
 function a11yProps(index) {
@@ -20,15 +15,9 @@ function a11yProps(index) {
   };
 }
 
-<<<<<<< HEAD
-const PoolTogether = ({ address, provider }) => {
-  const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState();
-=======
 const PoolTogether = () => {
   const [view, setView] = useState(0);
   const { address, provider } = useWeb3Context();
->>>>>>> 0bef2553caa39801c058de90d92cbcd443e73f5c
 
   const changeView = (event, newView) => {
     setView(newView);
@@ -78,19 +67,12 @@ const PoolTogether = () => {
           </Tabs>
 
           <TabPanel value={view} index={0}>
-<<<<<<< HEAD
-            Deposit
-          </TabPanel>
-          <TabPanel value={view} index={1}>
-            Withraw
-=======
             <Box display="flex" justifyContent="center">
               {address !== null ? <PoolDeposit provider={provider} /> : ConnectButton}
             </Box>
           </TabPanel>
           <TabPanel value={view} index={1}>
             {address !== null ? <PoolWithdraw provider={provider} /> : ConnectButton}
->>>>>>> 0bef2553caa39801c058de90d92cbcd443e73f5c
           </TabPanel>
         </Paper>
       </Zoom>
@@ -106,17 +88,6 @@ const PoolTogether = () => {
             </div>
             <div className="data-row">
               <Typography>Total Deposits</Typography>
-<<<<<<< HEAD
-              <Typography>1,000,000 sOHM</Typography>
-            </div>
-            <div className="data-row">
-              <Typography>Yield Source</Typography>
-              <Typography>--</Typography>
-            </div>
-            <div className="data-row">
-              <Typography>Pool owner</Typography>
-              <Typography>pool address</Typography>
-=======
               <Typography>-- sOHM</Typography>
             </div>
             <div className="data-row">
@@ -131,7 +102,6 @@ const PoolTogether = () => {
                   <SvgIcon component={ArrowUp} fontSize="small" />
                 </Link>
               </Box>
->>>>>>> 0bef2553caa39801c058de90d92cbcd443e73f5c
             </div>
           </Box>
         </Paper>
