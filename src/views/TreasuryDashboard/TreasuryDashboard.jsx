@@ -114,6 +114,19 @@ function TreasuryDashboard() {
 
   const runawayItemNames = ["10K_APY", "20K_APY", "50K_APY"];
 
+  const stakedBulletpointColors = [
+    {
+      right: 45,
+      top: -11,
+      background: "linear-gradient(180deg, #55EBC7 -10%, rgba(71, 172, 235, 0) 100%)",
+    },
+    {
+      right: 68,
+      top: -12,
+      background: "rgba(151, 196, 224, 0.2)",
+    },
+  ];
+
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
       let metrics = r.data.protocolMetrics.map(entry =>
@@ -298,7 +311,8 @@ function TreasuryDashboard() {
                 headerText="OHM Staked"
                 dataFormat="percent"
                 headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
-                tooltip={<StakeTooltip />}
+                bulletpointColors={stakedBulletpointColors}
+                isStaked={true}
               />
             </Paper>
           </Grid>

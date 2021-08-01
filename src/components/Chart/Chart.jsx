@@ -31,6 +31,7 @@ const renderAreaChart = (
   bulletpointColors,
   itemNames,
   itemType,
+  isStaked,
 ) => (
   <AreaChart data={data}>
     <defs>
@@ -66,11 +67,12 @@ const renderAreaChart = (
     />
     <Tooltip
       content={
-        tooltip ? (
-          tooltip
-        ) : (
-          <CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />
-        )
+        <CustomTooltip
+          bulletpointColors={bulletpointColors}
+          itemNames={itemNames}
+          itemType={itemType}
+          isStaked={isStaked}
+        />
       }
     />
     <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
@@ -240,6 +242,7 @@ function Chart({
   bulletpointColors,
   itemNames,
   itemType,
+  isStaked,
 }) {
   const renderChart = type => {
     if (type === "line")
@@ -255,6 +258,7 @@ function Chart({
         bulletpointColors,
         itemNames,
         itemType,
+        isStaked,
       );
     if (type === "stack")
       return renderStackedAreaChart(
