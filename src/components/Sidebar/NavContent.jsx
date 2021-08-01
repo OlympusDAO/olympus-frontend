@@ -7,13 +7,15 @@ import { ReactComponent as BondIcon } from "../../assets/icons/v1.2/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/v1.2/dashboard.svg";
 import { ReactComponent as OlympusIcon } from "../../assets/icons/v1.2/olympus-nav-header.svg";
 import { trim, shorten } from "../../helpers";
+import { useAddress } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
 import { Paper, Link, Box, Typography, LinearProgress, SvgIcon } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
 
-function NavContent({ address }) {
+function NavContent() {
   const [isActive] = useState();
+  const address = useAddress();
   const bonds = useBonds();
 
   const checkPage = useCallback((match, location, page) => {
@@ -89,6 +91,21 @@ function NavContent({ address }) {
 
             <Link
               component={NavLink}
+              id="33-together-nav"
+              to="/33-together"
+              isActive={(match, location) => {
+                return checkPage(match, location, "33-together");
+              }}
+              className={`button-dapp-menu ${isActive ? "active" : ""}`}
+            >
+              <Typography variant="h6">
+                <SvgIcon color="primary" component={StakeIcon} />
+                3,3 Together
+              </Typography>
+            </Link>
+
+            <Link
+              component={NavLink}
               id="bond-nav"
               to="/bonds"
               isActive={(match, location) => {
@@ -123,7 +140,9 @@ function NavContent({ address }) {
                 {bonds.map((bond, i) => (
                   <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>
                     {!bond.discount ? (
-                      <Skeleton variant="text" width={150} />
+                      <>
+                        <Skeleton variant="text" width={150} />
+                      </>
                     ) : (
                       <Typography variant="body2">
                         {bond.name}

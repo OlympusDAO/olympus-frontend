@@ -164,14 +164,14 @@ function TreasuryDashboard() {
         <Box className="hero-metrics">
           <Paper className="ohm-card">
             <Grid container>
-              <Grid item xl={3} lg={2} md={2} sm={6} xs={6} className="price">
+              <Grid item lg={3} md={2} sm={3} xs={6}>
                 <Typography variant="h6" color="textSecondary">
                   Price
                 </Typography>
-                <Typography variant="h4">{marketPrice ? formatCurrency(marketPrice) : "S loading"}</Typography>
+                <Typography variant="h4">{marketPrice ? formatCurrency(marketPrice) : " loading"}</Typography>
               </Grid>
 
-              <Grid item xl={3} lg={4} md={4} sm={6} xs={6} className="cap">
+              <Grid item lg={3} md={3} sm={3} xs={6}>
                 <Typography variant="h6" color="textSecondary">
                   Market Cap
                 </Typography>
@@ -181,16 +181,16 @@ function TreasuryDashboard() {
                 </Typography>
               </Grid>
 
-              <Grid item xl={3} lg={4} md={4} sm={6} xs={8} className="supply">
+              <Grid item lg={3} md={4} sm={4} xs={6}>
                 <Typography variant="h6" color="textSecondary">
-                  Supply (circulating/total)
+                  Circulating Supply (total)
                 </Typography>
                 <Typography variant="h4">
-                  {circSupply && formatCurrency(circSupply)}/{totalSupply && formatCurrency(totalSupply)}
+                  {circSupply && parseInt(circSupply)} ({totalSupply && parseInt(totalSupply)})
                 </Typography>
               </Grid>
 
-              <Grid item xl={3} lg={2} md={2} sm={6} xs={4} className="index">
+              <Grid item lg={3} md={3} sm={2} xs={6}>
                 <Typography variant="h6" color="textSecondary">
                   Current Index
                 </Typography>
@@ -201,7 +201,7 @@ function TreasuryDashboard() {
         </Box>
 
         <Grid container spacing={2} className="data-grid">
-          <Grid item lg={6} md={12} sm={12} xs={12}>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card ohm-treasury-chart">
               <Chart
                 type="area"
@@ -218,7 +218,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={12} sm={12} xs={12}>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card ohm-chart-card">
               <Chart
                 type="stack"
@@ -239,7 +239,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={12} sm={12} xs={12}>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card ohm-chart-card">
               <Chart
                 type="stack"
@@ -261,21 +261,21 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={12} sm={12} xs={12}>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="stack"
                 data={data}
-                dataKey={["treasuryDaiMarketValue", "treasuryFraxMarketValue", "treasuryXsushiMarketValue"]}
+                format="percentage"
+                dataKey={["treasuryOhmDaiPOL", "treasuryOhmFraxPOL", ""]}
                 stopColor={[
                   ["#F5AC37", "#EA9276"],
                   ["#768299", "#98B3E9"],
-                  ["#000", "#fff"],
+                  ["", ""],
                 ]}
                 stroke={["#333420"]}
-                headerText="Protocol-Owned Liquidity of OHM-DAI"
+                headerText="Protocol-Owned Liquidity"
                 dataFormat="k"
-                headerSubText={`${data && formatCurrency(data[0].treasuryXsushiMarketValue)}`}
                 bulletpointColors={coinBulletpointColors}
                 itemNames={coinItemNames}
                 itemType={dollarItemType}
@@ -283,7 +283,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={12} sm={12} xs={12}>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="bar"
@@ -299,7 +299,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={12} sm={12} xs={12}>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="area"
@@ -316,7 +316,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={12} sm={12} xs={12}>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="line"
@@ -334,7 +334,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={12} sm={12} xs={12}>
+          <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="multi"

@@ -4,12 +4,14 @@ import { Typography, FormControl, Box, InputLabel, OutlinedInput, InputAdornment
 import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../actions/Bond.actions.js";
 import { BONDS } from "../../constants";
+import { useWeb3Context } from "src/hooks/web3Context";
 
-function BondPurchase({ provider, address, bond, slippage }) {
+function BondPurchase({ bond, slippage }) {
   const dispatch = useDispatch();
+  const { provider, address } = useWeb3Context();
 
   const [recipientAddress, setRecipientAddress] = useState(address);
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState("");
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;

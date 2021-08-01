@@ -1,20 +1,18 @@
-import { StaticJsonRpcProvider, Web3Provider, InfuraProvider } from "@ethersproject/providers";
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ThemeProvider } from "@material-ui/core/styles";
-import React, { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import Web3Modal from "web3modal";
 import { useDispatch } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
+import { useAddress, useWeb3Context } from "./hooks/web3Context";
 
 import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails } from "./actions/App.actions.js";
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
-import { Stake, ChooseBond, Bond, Dashboard, PoolTogether, TreasuryDashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
@@ -26,70 +24,17 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
-import { INFURA_ID, NETWORKS, BONDS, INFURA_TESTNET_ID } from "./constants";
-import { useUserProvider, useUserSigner } from "./hooks";
+import { BONDS } from "./constants";
 import "./style.scss";
-
-/*
-    Welcome to 🏗 scaffold-eth !
-
-    Code:
-    https://github.com/austintgriffith/scaffold-eth
- 
-    Support:
-    https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA
-    or DM @austingriffith on twitter or telegram
-
-    You should get your own Infura.io ID and put it in `constants.js`
-    (this is your connection to the main Ethereum network for ENS etc.)
-
-
-    🌏 EXTERNAL CONTRACTS:
-    You can also bring in contract artifacts in `constants.js`
-    (and then use the `useExternalContractLoader()` hook!)
-*/
-
-/// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS.mainnet; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
-// const mainnetProvider = getDefaultProvider("mainnet", { infura: INFURA_ID, etherscan: ETHERSCAN_KEY, quorum: 1 });
-// const mainnetProvider = new InfuraProvider("mainnet",INFURA_ID);
-//
-// attempt to connect to our own scaffold eth rpc and if that fails fall back to infura...
-// Using StaticJsonRpcProvider as the chainId won't change see https://github.com/ethers-io/ethers.js/issues/901
-// const scaffoldEthProvider = new StaticJsonRpcProvider("https://rpc.scaffoldeth.io:48544");
-const mainnetInfura = navigator.onLine ? new InfuraProvider("mainnet", INFURA_ID) : null; // new StaticJsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID) : null;
-// const testnetInfura = new StaticJsonRpcProvider("https://rinkeby.infura.io/v3/" + INFURA_TESTNET_ID);
+
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
-
-/*
-  Web3 modal helps us "connect" external wallets:
-*/
-const web3Modal = new Web3Modal({
-  // network: "mainnet", // optional
-  cacheProvider: true, // optional
-  providerOptions: {
-    walletconnect: {
-      package: WalletConnectProvider, // required
-      options: {
-        infuraId: INFURA_ID,
-        rpc: {
-          1: `https://mainnet.infura.io/v3/${INFURA_ID}`,
-          4: `https://rinkeby.infura.io/v3/${INFURA_TESTNET_ID}`,
-        },
-        qrcodeModalOptions: {
-          mobileLinks: ["rainbow", "metamask", "argent", "trust", "imtoken", "pillar"],
-        },
-      },
-    },
-  },
-});
 
 const drawerWidth = 280;
 const transitionDuration = 969;
@@ -133,73 +78,19 @@ function App() {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [address, setAddress] = useState();
   const isSmallerScreen = useMediaQuery("(max-width: 900px)");
   const isSmallScreen = useMediaQuery("(max-width: 620px)");
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const handleSidebarClose = () => {
-    setIsSidebarExpanded(false);
-  };
-
-  const mainnetProvider = mainnetInfura;
-
-  const [injectedProvider, setInjectedProvider] = useState();
-
-  // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
-  // const userProvider = useUserProvider(injectedProvider, null);
-  // const address = useUserAddress(userProvider);
-  const userSigner = useUserSigner(injectedProvider, null);
-
-  useEffect(() => {
-    async function getAddress() {
-      if (userSigner) {
-        const newAddress = await userSigner.getAddress();
-        setAddress(newAddress);
-      }
-    }
-    getAddress();
-  }, [userSigner]);
-
-  const logoutOfWeb3Modal = async () => {
-    injectedProvider && console.log(injectedProvider);
-    await web3Modal.clearCachedProvider();
-    if (injectedProvider && injectedProvider.provider && typeof injectedProvider.provider.disconnect == "function") {
-      console.log(injectedProvider.provider);
-      await injectedProvider.provider.disconnect();
-    }
-    setTimeout(() => {
-      window.location.reload();
-    }, 1);
-  };
 
   // You can warn the user if you would like them to be on a specific network
   // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
-  // Just plug in different 🛰 providers to get your balance on different chains:
-  // const yourMainnetBalance = useBalance(mainnetProvider, address);
-
-  // If you want to make 🔐 write transactions to your contracts, use the userProvider:
-  // const writeContracts = useContractLoader(userProvider);
-
-  // EXTERNAL CONTRACT EXAMPLE:
-  // If you want to bring in the mainnet DAI contract it would look like:
-  // const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
-
-  // If you want to call a function on a new block
-  /* useOnBlock(mainnetProvider, () => {
-    console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
-  }); */
+  const { provider } = useWeb3Context();
+  const address = useAddress();
 
   async function loadDetails() {
-    let loadProvider = mainnetProvider;
-    if (injectedProvider) loadProvider = injectedProvider;
-    const chainId = await loadProvider.getNetwork().then(network => network.chainId);
+    let loadProvider = provider;
 
     await dispatch(loadAppDetails({ networkID: chainId, provider: loadProvider }));
     if (address) await dispatch(loadAccountDetails({ networkID: chainId, address, provider: loadProvider }));
@@ -211,45 +102,15 @@ function App() {
 
   useEffect(() => {
     loadDetails();
-  }, [injectedProvider, address]);
+  }, [provider, address]);
 
-  const loadWeb3Modal = useCallback(async () => {
-    const rawProvider = await web3Modal.connect();
-    const provider = new Web3Provider(rawProvider);
-    setInjectedProvider(provider);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
-    rawProvider.on("chainChanged", chainId => {
-      console.log(`chain changed to ${chainId}! updating providers`);
-      setInjectedProvider(provider);
-    });
-
-    rawProvider.on("accountsChanged", () => {
-      console.log(`account changed!`);
-      setInjectedProvider(provider);
-    });
-
-    rawProvider.on("connect", info => {
-      console.log("connected", info);
-    });
-
-    // Subscribe to session disconnection
-    rawProvider.on("disconnect", message => {
-      console.log("diconnected", message);
-      logoutOfWeb3Modal();
-    });
-
-    const chainId = await provider.getNetwork().then(network => network.chainId);
-
-    if (chainId !== 1) {
-      console.log("Warning: Wrong network, please switch to mainnet");
-    }
-  }, [setInjectedProvider]);
-
-  useEffect(() => {
-    if (web3Modal.cachedProvider) {
-      loadWeb3Modal();
-    }
-  }, [loadWeb3Modal]);
+  const handleSidebarClose = () => {
+    setIsSidebarExpanded(false);
+  };
 
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
@@ -261,28 +122,17 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
-  if (!mounted) {
-    return <LoadingSplash />;
-  }
-
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
       <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"}`}>
-        <TopBar
-          web3Modal={web3Modal}
-          loadWeb3Modal={loadWeb3Modal}
-          logoutOfWeb3Modal={logoutOfWeb3Modal}
-          theme={theme}
-          toggleTheme={toggleTheme}
-          handleDrawerToggle={handleDrawerToggle}
-        />
+        <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>
           <Hidden mdUp>
-            <NavDrawer address={address} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
           </Hidden>
           <Hidden smDown>
-            <Sidebar address={address} />
+            <Sidebar />
           </Hidden>
         </nav>
 
@@ -297,32 +147,25 @@ function App() {
             </Route>
 
             <Route path="/stake">
-              <Stake
-                address={address}
-                provider={injectedProvider}
-                web3Modal={web3Modal}
-                loadWeb3Modal={loadWeb3Modal}
-              />
+              <Stake />
               <Route exact path="/stake/migrate">
-                <Migrate
-                  address={address}
-                  provider={injectedProvider}
-                  web3Modal={web3Modal}
-                  loadWeb3Modal={loadWeb3Modal}
-                />
+                <Migrate />
               </Route>
             </Route>
 
+            <Route path="/33-together">
+              <PoolTogether />
+            </Route>
+
             <Route path="/bonds">
-              {/* {Object.values(BONDS).map(bond => { */}
-              {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
+              {Object.values(BONDS).map(bond => {
                 return (
                   <Route exact key={bond} path={`/bonds/${bond}`}>
-                    <Bond bond={bond} address={address} provider={injectedProvider} />
+                    <Bond bond={bond} />
                   </Route>
                 );
               })}
-              <ChooseBond address={address} provider={injectedProvider} />
+              <ChooseBond />
             </Route>
 
             <Route path="/33-together">
@@ -337,22 +180,4 @@ function App() {
   );
 }
 
-/* eslint-disable */
-// window.ethereum &&
-//   window.ethereum.on("chainChanged", chainId => {
-//     web3Modal.cachedProvider &&
-//       setTimeout(() => {
-//         window.location.reload();
-//       }, 1);
-//   });
-
-// window.ethereum &&
-//   window.ethereum.on("accountsChanged", accounts => {
-//     web3Modal.cachedProvider &&
-//       setTimeout(() => {
-//         window.location.reload();
-//       }, 1);
-//   });
-
 export default App;
-

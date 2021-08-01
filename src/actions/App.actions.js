@@ -32,6 +32,8 @@ export const loadAppDetails =
           ohmPrice
           marketCap
           totalValueLocked
+          nextEpochRebase
+          nextDistributedOhm
         }
       }
     `;

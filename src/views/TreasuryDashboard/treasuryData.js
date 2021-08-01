@@ -27,6 +27,8 @@ query {
     runway50k
     runwayCurrent
     holders
+    treasuryOhmDaiPOL
+    treasuryOhmFraxPOL
   }
 }
 `;

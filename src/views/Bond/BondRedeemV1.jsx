@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim, prettyVestingPeriod } from "../../helpers";
 import { calculateUserBondDetails, redeemBond } from "../../actions/Bond.actions.js";
+import { useWeb3Context } from "src/hooks/web3Context";
 
-function BondRedeemV1({ bond, provider, address }) {
+function BondRedeemV1({ bond }) {
   const dispatch = useDispatch();
+  const { provider, address } = useWeb3Context();
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
