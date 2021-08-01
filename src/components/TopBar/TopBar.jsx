@@ -49,6 +49,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
 
   return (
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
+      {console.log(classes)}
       <Toolbar disableGutters className="dapp-topbar">
         <Button
           id="hamburger"

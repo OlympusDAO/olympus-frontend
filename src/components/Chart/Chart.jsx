@@ -269,9 +269,9 @@ function Chart({
       return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType);
   };
 
-  useEffect(() => {
-    console.log("data loaded", data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log("data loaded", data);
+  // }, [data]);
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
