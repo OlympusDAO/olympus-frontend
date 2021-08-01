@@ -1,0 +1,30 @@
+.tooltip-bulletpoint {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.tooltip-date {
+  margin-top: 20px;
+  padding-left: 15px;
+}
+
+.tooltip-container {
+  min-width: 175px;
+  padding: 5px;
+  padding-bottom: 15px;
+  background: rgba(54, 56, 64, 0.5);
+  border: 1px solid rgba(118, 130, 153, 0.2);
+  border-radius: 10px;
+  
+  .items {
+      display: flex;
+      justify-content: space-between;
+      padding-right: 12px;
+      padding-left: 35px;
+      margin-bottom: -15px;
+    }
+
+}

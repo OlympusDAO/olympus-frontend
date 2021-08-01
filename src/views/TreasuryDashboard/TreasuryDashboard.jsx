@@ -40,6 +40,18 @@ function TreasuryDashboard() {
     }).format(c);
   };
 
+  const tvlBulletpointColors = [
+    {
+      right: 20,
+      top: -12,
+      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+    },
+  ];
+
+  const tvlItemNames = ["TVL"];
+
+  const tvlItemType = "$";
+
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
       let metrics = r.data.protocolMetrics.map(entry =>
@@ -125,6 +137,9 @@ function TreasuryDashboard() {
                 stroke={["#333420"]}
                 headerText="Total Value Locked"
                 headerSubText={`${data && formatCurrency(data[0].totalValueLocked)}`}
+                bulletpointColors={tvlBulletpointColors}
+                itemNames={tvlItemNames}
+                itemType={tvlItemType}
               />
             </Paper>
           </Grid>

@@ -3,6 +3,7 @@ import AreaTooltip from "../Tooltip/AreaTooltip";
 import LineTooltip from "../Tooltip/LineTooltip";
 import MultiLineTooltip from "../Tooltip/MultiLineTooltip";
 import BarTooltip from "../Tooltip/BarTooltip";
+import CustomTooltip from "../Tooltip/CustomTooltip";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { Typography, Box } from "@material-ui/core";
 import { trim } from "../../helpers";
@@ -20,7 +21,17 @@ const formatCurrency = c => {
   }).format(c);
 };
 
-const renderAreaChart = (data, dataKey, stopColor, stroke, dataFormat, tooltip) => (
+const renderAreaChart = (
+  data,
+  dataKey,
+  stopColor,
+  stroke,
+  dataFormat,
+  tooltip,
+  bulletpointColors,
+  itemNames,
+  itemType,
+) => (
   <AreaChart data={data}>
     <defs>
       <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
@@ -53,12 +64,29 @@ const renderAreaChart = (data, dataKey, stopColor, stroke, dataFormat, tooltip) 
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip content={tooltip ? tooltip : <AreaTooltip />} />
+    <Tooltip
+      content={
+        tooltip ? (
+          tooltip
+        ) : (
+          <CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />
+        )
+      }
+    />
     <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
   </AreaChart>
 );
 
-const renderStackedAreaChart = (data, dataKey, stopColor, stroke, dataFormat) => (
+const renderStackedAreaChart = (
+  data,
+  dataKey,
+  stopColor,
+  stroke,
+  dataFormat,
+  bulletpointColors,
+  itemNames,
+  itemType,
+) => (
   <AreaChart data={data}>
     <defs>
       <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
@@ -108,7 +136,7 @@ const renderStackedAreaChart = (data, dataKey, stopColor, stroke, dataFormat) =>
   </AreaChart>
 );
 
-const renderLineChart = (data, dataKey, stroke, color, dataFormat) => (
+const renderLineChart = (data, dataKey, stroke, color, dataFormat, bulletpointColors, itemNames, itemType) => (
   <LineChart data={data}>
     <XAxis
       dataKey="timestamp"
@@ -141,7 +169,7 @@ const renderLineChart = (data, dataKey, stroke, color, dataFormat) => (
   </LineChart>
 );
 
-const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat) => (
+const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat, bulletpointColors, itemNames, itemType) => (
   <LineChart data={data}>
     <XAxis
       dataKey="timestamp"
@@ -171,7 +199,7 @@ const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat) => (
 );
 
 // JTBD: Bar chart for Holders
-const renderBarChart = (data, dataKey, stroke) => (
+const renderBarChart = (data, dataKey, stroke, bulletpointColors, itemNames, itemTypes) => (
   <BarChart data={data}>
     <XAxis
       dataKey="timestamp"
@@ -189,13 +217,51 @@ const renderBarChart = (data, dataKey, stroke) => (
   </BarChart>
 );
 
-function Chart({ type, data, dataKey, color, stopColor, stroke, headerText, dataFormat, headerSubText, tooltip }) {
+function Chart({
+  type,
+  data,
+  dataKey,
+  color,
+  stopColor,
+  stroke,
+  headerText,
+  dataFormat,
+  headerSubText,
+  tooltip,
+  bulletpointColors,
+  itemNames,
+  itemType,
+}) {
   const renderChart = type => {
-    if (type === "line") return renderLineChart(data, dataKey, color, stroke, dataFormat);
-    if (type === "area") return renderAreaChart(data, dataKey, stopColor, stroke, dataFormat, tooltip);
-    if (type === "stack") return renderStackedAreaChart(data, dataKey, stopColor, stroke, dataFormat);
-    if (type === "multi") return renderMultiLineChart(data, dataKey, color, stroke, dataFormat);
-    if (type === "bar") return renderBarChart(data, dataKey, stroke, dataFormat);
+    if (type === "line")
+      return renderLineChart(data, dataKey, color, stroke, dataFormat, bulletpointColors, itemNames, itemType);
+    if (type === "area")
+      return renderAreaChart(
+        data,
+        dataKey,
+        stopColor,
+        stroke,
+        dataFormat,
+        tooltip,
+        bulletpointColors,
+        itemNames,
+        itemType,
+      );
+    if (type === "stack")
+      return renderStackedAreaChart(
+        data,
+        dataKey,
+        stopColor,
+        stroke,
+        dataFormat,
+        bulletpointColors,
+        itemNames,
+        itemType,
+      );
+    if (type === "multi")
+      return renderMultiLineChart(data, dataKey, color, stroke, dataFormat, bulletpointColors, itemNames, itemType);
+    if (type === "bar")
+      return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType);
   };
 
   useEffect(() => {
