@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+
 import "./customtooltip.scss";
 
 const renderDate = (index, payload, item) => {
@@ -13,9 +16,14 @@ const renderDate = (index, payload, item) => {
   );
 };
 
-//create function to conditionally render itemType either in front 'if %' or in beginning 'if $'
-
-//ternary to check if staked chart or not;
+const useStyles = makeStyles(theme => ({
+  tooltipBgColorLight: {
+    background: "rgba(255, 255, 255, 0.6)",
+  },
+  tooltipBgColorDark: {
+    background: "rgba(54, 56, 64, 0.5)",
+  },
+}));
 
 const renderItem = (type, item) => {
   return type === "$" ? (
@@ -61,9 +69,15 @@ const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType, isS
 };
 
 function CustomTooltip({ active, payload, bulletpointColors, itemNames, itemType, isStaked }) {
+  const [localTheme] = useState(window.localStorage.getItem("theme"));
+  const classes = useStyles();
+  const lightDark = () => {
+    return localTheme === "dark" ? classes.tooltipBgColorDark : classes.tooltipBgColorLight;
+  };
+
   if (active && payload && payload.length) {
     return (
-      <div className="tooltip-container">
+      <div className={`tooltip-container ${lightDark()}`}>
         {renderTooltipItems(payload, bulletpointColors, itemNames, itemType, isStaked)}
       </div>
     );
