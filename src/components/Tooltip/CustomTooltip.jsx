@@ -1,7 +1,5 @@
 import "./customtooltip.scss";
 
-const apy = ["10K_APY", "20K_APY", "50K_APY"];
-
 const renderDate = (index, payload, item) => {
   return index === payload.length - 1 ? (
     <div className="tooltip-date">
@@ -22,7 +20,7 @@ const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType) => 
     <div key={index}>
       <div className="items">
         <p style={{ position: "relative" }}>
-          <div className="tooltip-bulletpoint" style={bulletpointColors[index]}></div>
+          <span className="tooltip-bulletpoint" style={bulletpointColors[index]}></span>
           {`${itemNames[index]}`}
         </p>
         <p>{`${itemType}${Math.round(item.value).toLocaleString("en-US")}`}</p>

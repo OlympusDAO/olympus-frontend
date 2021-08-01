@@ -202,7 +202,7 @@ const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat, bulletpo
 );
 
 // JTBD: Bar chart for Holders
-const renderBarChart = (data, dataKey, stroke, bulletpointColors, itemNames, itemType) => (
+const renderBarChart = (data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType) => (
   <BarChart data={data}>
     <XAxis
       dataKey="timestamp"
@@ -269,9 +269,9 @@ function Chart({
       return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType);
   };
 
-  useEffect(() => {
-    console.log("data loaded", data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log("data loaded", data);
+  // }, [data]);
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>

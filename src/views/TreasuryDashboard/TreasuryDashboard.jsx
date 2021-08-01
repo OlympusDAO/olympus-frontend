@@ -252,7 +252,7 @@ function TreasuryDashboard() {
                 headerSubText={`${data && data[0].holders}`}
                 bulletpointColors={holderBulletpointColors}
                 itemNames={holderItemNames}
-                itemType={""}
+                itemType={dollarItemType}
               />
             </Paper>
           </Grid>
