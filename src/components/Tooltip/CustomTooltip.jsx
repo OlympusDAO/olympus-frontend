@@ -15,6 +15,8 @@ const renderDate = (index, payload, item) => {
   );
 };
 
+//create function to conditionally render itemType either in front 'if %' or in beginning 'if $'
+
 const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType) => {
   return payload.map((item, index) => (
     <div key={index}>

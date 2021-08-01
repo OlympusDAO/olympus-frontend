@@ -40,6 +40,10 @@ function TreasuryDashboard() {
     }).format(c);
   };
 
+  const dollarItemType = "$";
+
+  const percentageItemType = "%";
+
   const tvlBulletpointColors = [
     {
       right: 20,
@@ -50,7 +54,35 @@ function TreasuryDashboard() {
 
   const tvlItemNames = ["TVL"];
 
-  const tvlItemType = "$";
+  const coinBulletpointColors = [
+    {
+      right: 15,
+      top: -12,
+      background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
+    },
+    {
+      right: 25,
+      top: -12,
+      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "linear-gradient(180deg, #DC30EB -10%, #EA98F1 100%)",
+    },
+  ];
+
+  const coinItemNames = ["DAI", "FRAX", "SUSHI"];
+
+  const holderBulletpointColors = [
+    {
+      right: 40,
+      top: -12,
+      background: "#A3A3A3",
+    },
+  ];
+
+  const holderItemNames = ["OHMies"];
 
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
@@ -139,7 +171,7 @@ function TreasuryDashboard() {
                 headerSubText={`${data && formatCurrency(data[0].totalValueLocked)}`}
                 bulletpointColors={tvlBulletpointColors}
                 itemNames={tvlItemNames}
-                itemType={tvlItemType}
+                itemType={dollarItemType}
               />
             </Paper>
           </Grid>
@@ -158,6 +190,9 @@ function TreasuryDashboard() {
                 stroke={["#333420"]}
                 headerText="Market Value of Treasury Assets"
                 headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
+                bulletpointColors={coinBulletpointColors}
+                itemNames={coinItemNames}
+                itemType={dollarItemType}
               />
             </Paper>
           </Grid>
@@ -177,6 +212,9 @@ function TreasuryDashboard() {
                 stroke={["#333420"]}
                 headerText="Risk Free Value of Treasury Assets"
                 headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
+                bulletpointColors={coinBulletpointColors}
+                itemNames={coinItemNames}
+                itemType={dollarItemType}
               />
             </Paper>
           </Grid>
@@ -196,6 +234,9 @@ function TreasuryDashboard() {
                 headerText="Protocol-Owned Liquidity of OHM-DAI"
                 dataFormat="k"
                 headerSubText={`${data && formatCurrency(data[0].treasuryXsushiMarketValue)}`}
+                bulletpointColors={coinBulletpointColors}
+                itemNames={coinItemNames}
+                itemType={dollarItemType}
               />
             </Paper>
           </Grid>
@@ -209,6 +250,9 @@ function TreasuryDashboard() {
                 stroke={["#A3A3A3"]}
                 headerText="Holders"
                 headerSubText={`${data && data[0].holders}`}
+                bulletpointColors={holderBulletpointColors}
+                itemNames={holderItemNames}
+                itemType={""}
               />
             </Paper>
           </Grid>

@@ -129,7 +129,10 @@ const renderStackedAreaChart = (
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip formatter={value => trim(parseFloat(value), 2)} content={<StackedAreaTooltip />} />
+    <Tooltip
+      formatter={value => trim(parseFloat(value), 2)}
+      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+    />
     <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
     <Area dataKey={dataKey[1]} stroke={stroke[1]} fill={`url(#color-${dataKey[1]})`} fillOpacity={1} />
     <Area dataKey={dataKey[2]} stroke={stroke[2]} fill={`url(#color-${dataKey[2]})`} fillOpacity={1} />
@@ -199,7 +202,7 @@ const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat, bulletpo
 );
 
 // JTBD: Bar chart for Holders
-const renderBarChart = (data, dataKey, stroke, bulletpointColors, itemNames, itemTypes) => (
+const renderBarChart = (data, dataKey, stroke, bulletpointColors, itemNames, itemType) => (
   <BarChart data={data}>
     <XAxis
       dataKey="timestamp"
@@ -212,7 +215,9 @@ const renderBarChart = (data, dataKey, stroke, bulletpointColors, itemNames, ite
       padding={{ right: 10 }}
     />
     <YAxis axisLine={false} tickLine={false} tickCount={3} />
-    <Tooltip content={<BarTooltip />} />
+    <Tooltip
+      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+    />
     <Bar dataKey={dataKey[0]} fill={stroke[0]} />
   </BarChart>
 );
