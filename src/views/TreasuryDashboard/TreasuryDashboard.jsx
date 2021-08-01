@@ -39,6 +39,93 @@ function TreasuryDashboard() {
     }).format(c);
   };
 
+  const tvlBulletpointColors = [
+    {
+      right: 20,
+      top: -12,
+      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+    },
+  ];
+
+  const coinBulletpointColors = [
+    {
+      right: 15,
+      top: -12,
+      background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
+    },
+    {
+      right: 25,
+      top: -12,
+      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "linear-gradient(180deg, #DC30EB -10%, #EA98F1 100%)",
+    },
+  ];
+
+  const holderBulletpointColors = [
+    {
+      right: 40,
+      top: -12,
+      background: "#A3A3A3",
+    },
+  ];
+
+  const apyBulletpointColors = [
+    {
+      right: 20,
+      top: -12,
+      background: "#49A1F2",
+    },
+  ];
+
+  const runawayBulletpointColors = [
+    {
+      right: 45,
+      top: -12,
+      background: "#FFFFFF",
+    },
+    {
+      right: 48,
+      top: -12,
+      background: "#2EC608",
+    },
+    {
+      right: 48,
+      top: -12,
+      background: "#49A1F2",
+    },
+  ];
+
+  const stakedBulletpointColors = [
+    {
+      right: 45,
+      top: -11,
+      background: "linear-gradient(180deg, #55EBC7 -10%, rgba(71, 172, 235, 0) 100%)",
+    },
+    {
+      right: 68,
+      top: -12,
+      background: "rgba(151, 196, 224, 0.2)",
+    },
+  ];
+
+  const dollarItemType = "$";
+
+  const percentageItemType = "%";
+
+  const tvlItemNames = ["TVL"];
+
+  const coinItemNames = ["DAI", "FRAX", "SUSHI"];
+
+  const holderItemNames = ["OHMies"];
+
+  const apyItemNames = ["APY"];
+
+  const runawayItemNames = ["10K_APY", "20K_APY", "50K_APY"];
+
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
       let metrics = r.data.protocolMetrics.map(entry =>
@@ -77,14 +164,14 @@ function TreasuryDashboard() {
         <Box className="hero-metrics">
           <Paper className="ohm-card">
             <Grid container>
-              <Grid item lg={3} md={2} sm={2} xs={6}>
+              <Grid item lg={3} md={2} sm={3} xs={6}>
                 <Typography variant="h6" color="textSecondary">
                   Price
                 </Typography>
-                <Typography variant="h4">${marketPrice ? trim(marketPrice, 2) : " loading"}</Typography>
+                <Typography variant="h4">{marketPrice ? formatCurrency(marketPrice) : " loading"}</Typography>
               </Grid>
 
-              <Grid item lg={3} md={3} sm={4} xs={6}>
+              <Grid item lg={3} md={3} sm={3} xs={6}>
                 <Typography variant="h6" color="textSecondary">
                   Market Cap
                 </Typography>
@@ -96,10 +183,10 @@ function TreasuryDashboard() {
 
               <Grid item lg={3} md={4} sm={4} xs={6}>
                 <Typography variant="h6" color="textSecondary">
-                  Supply (circulating/total)
+                  Circulating Supply (total)
                 </Typography>
                 <Typography variant="h4">
-                  {circSupply && formatCurrency(circSupply)}/{totalSupply && formatCurrency(totalSupply)}
+                  {circSupply && parseInt(circSupply)} ({totalSupply && parseInt(totalSupply)})
                 </Typography>
               </Grid>
 
@@ -124,6 +211,9 @@ function TreasuryDashboard() {
                 stroke={["#333420"]}
                 headerText="Total Value Locked"
                 headerSubText={`${data && formatCurrency(data[0].totalValueLocked)}`}
+                bulletpointColors={tvlBulletpointColors}
+                itemNames={tvlItemNames}
+                itemType={dollarItemType}
               />
             </Paper>
           </Grid>
@@ -142,6 +232,9 @@ function TreasuryDashboard() {
                 stroke={["#333420"]}
                 headerText="Market Value of Treasury Assets"
                 headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
+                bulletpointColors={coinBulletpointColors}
+                itemNames={coinItemNames}
+                itemType={dollarItemType}
               />
             </Paper>
           </Grid>
@@ -161,6 +254,9 @@ function TreasuryDashboard() {
                 stroke={["#333420"]}
                 headerText="Risk Free Value of Treasury Assets"
                 headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
+                bulletpointColors={coinBulletpointColors}
+                itemNames={coinItemNames}
+                itemType={dollarItemType}
               />
             </Paper>
           </Grid>
@@ -180,6 +276,9 @@ function TreasuryDashboard() {
                 stroke={["#333420"]}
                 headerText="Protocol-Owned Liquidity"
                 dataFormat="k"
+                bulletpointColors={coinBulletpointColors}
+                itemNames={coinItemNames}
+                itemType={percentageItemType}
               />
             </Paper>
           </Grid>
@@ -190,9 +289,12 @@ function TreasuryDashboard() {
                 type="bar"
                 data={data}
                 dataKey={["holders"]}
-                stroke={["#333420"]}
+                stroke={["#A3A3A3"]}
                 headerText="Holders"
                 headerSubText={`${data && data[0].holders}`}
+                bulletpointColors={holderBulletpointColors}
+                itemNames={holderItemNames}
+                itemType={""}
               />
             </Paper>
           </Grid>
@@ -208,6 +310,8 @@ function TreasuryDashboard() {
                 headerText="OHM Staked"
                 dataFormat="percent"
                 headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
+                bulletpointColors={stakedBulletpointColors}
+                isStaked={true}
               />
             </Paper>
           </Grid>
@@ -223,6 +327,9 @@ function TreasuryDashboard() {
                 headerText="APY over time"
                 dataFormat="percent"
                 headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
+                bulletpointColors={apyBulletpointColors}
+                itemNames={apyItemNames}
+                itemType={percentageItemType}
               />
             </Paper>
           </Grid>
@@ -237,6 +344,9 @@ function TreasuryDashboard() {
                 stroke={["#000000", "#2EC608", "#49A1F2"]}
                 headerText="Runway Available"
                 headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
+                bulletpointColors={runawayBulletpointColors}
+                itemNames={runawayItemNames}
+                itemType={""}
               />
             </Paper>
           </Grid>

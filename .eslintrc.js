@@ -12,7 +12,7 @@ module.exports = {
   extends: ["plugin:prettier/recommended", "prettier/react"],
   plugins: ["prettier"],
   rules: {
-    "prettier/prettier": ["error"],
+    "prettier/prettier": ["error", { endOfLine: "auto" }],
     // "import/extensions": [
     //   "error",
     //   "ignorePackages",
