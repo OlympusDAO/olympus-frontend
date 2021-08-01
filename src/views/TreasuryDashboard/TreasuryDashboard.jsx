@@ -77,14 +77,14 @@ function TreasuryDashboard() {
         <Box className="hero-metrics">
           <Paper className="ohm-card">
             <Grid container>
-              <Grid item lg={3} md={2} sm={2} xs={6}>
+              <Grid item lg={3} md={2} sm={3} xs={6}>
                 <Typography variant="h6" color="textSecondary">
                   Price
                 </Typography>
-                <Typography variant="h4">${marketPrice ? trim(marketPrice, 2) : " loading"}</Typography>
+                <Typography variant="h4">{marketPrice ? formatCurrency(marketPrice) : " loading"}</Typography>
               </Grid>
 
-              <Grid item lg={3} md={3} sm={4} xs={6}>
+              <Grid item lg={3} md={3} sm={3} xs={6}>
                 <Typography variant="h6" color="textSecondary">
                   Market Cap
                 </Typography>
@@ -96,10 +96,10 @@ function TreasuryDashboard() {
 
               <Grid item lg={3} md={4} sm={4} xs={6}>
                 <Typography variant="h6" color="textSecondary">
-                  Supply (circulating/total)
+                  Circulating Supply (total)
                 </Typography>
                 <Typography variant="h4">
-                  {circSupply && formatCurrency(circSupply)}/{totalSupply && formatCurrency(totalSupply)}
+                  {circSupply && parseInt(circSupply)} ({totalSupply && parseInt(totalSupply)})
                 </Typography>
               </Grid>
 

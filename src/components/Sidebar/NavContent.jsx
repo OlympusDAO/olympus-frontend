@@ -10,6 +10,7 @@ import { trim, shorten } from "../../helpers";
 import { useAddress } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
 import { Paper, Link, Box, Typography, LinearProgress, SvgIcon } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
 
 function NavContent() {
@@ -122,7 +123,7 @@ function NavContent() {
                   <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>
                     {!bond.discount ? (
                       <>
-                        <LinearProgress />
+                        <Skeleton variant="text" width={150} />
                       </>
                     ) : (
                       <Typography variant="body2">
