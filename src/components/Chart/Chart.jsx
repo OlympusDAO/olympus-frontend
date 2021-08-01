@@ -167,7 +167,9 @@ const renderLineChart = (data, dataKey, stroke, color, dataFormat, bulletpointCo
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip content={<LineTooltip />} />
+    <Tooltip
+      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+    />
     <Line type="monotone" dataKey={dataKey[0]} stroke="#49A1F2" color={color} dot={false} />;
   </LineChart>
 );
@@ -194,7 +196,9 @@ const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat, bulletpo
       connectNulls={true}
       allowDataOverflow={false}
     />
-    <Tooltip content={<MultiLineTooltip />} />
+    <Tooltip
+      content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
+    />
     <Line type="monotone" dataKey={dataKey[0]} stroke="#FFFFFF" dot={false} />;
     <Line type="monotone" dataKey={dataKey[1]} stroke="#2EC608" dot={false} />;
     <Line type="monotone" dataKey={dataKey[2]} stroke="#49A1F2" dot={false} />;
@@ -269,9 +273,9 @@ function Chart({
       return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType);
   };
 
-  // useEffect(() => {
-  //   console.log("data loaded", data);
-  // }, [data]);
+  useEffect(() => {
+    console.log("data loaded", data);
+  }, [data]);
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>

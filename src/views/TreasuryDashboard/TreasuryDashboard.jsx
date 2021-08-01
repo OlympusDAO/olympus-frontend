@@ -84,6 +84,36 @@ function TreasuryDashboard() {
 
   const holderItemNames = ["OHMies"];
 
+  const apyBulletpointColors = [
+    {
+      right: 20,
+      top: -12,
+      background: "#49A1F2",
+    },
+  ];
+
+  const apyItemNames = ["APY"];
+
+  const runawayBulletpointColors = [
+    {
+      right: 45,
+      top: -12,
+      background: "#FFFFFF",
+    },
+    {
+      right: 48,
+      top: -12,
+      background: "#2EC608",
+    },
+    {
+      right: 48,
+      top: -12,
+      background: "#49A1F2",
+    },
+  ];
+
+  const runawayItemNames = ["10K_APY", "20K_APY", "50K_APY"];
+
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
       let metrics = r.data.protocolMetrics.map(entry =>
@@ -252,7 +282,7 @@ function TreasuryDashboard() {
                 headerSubText={`${data && data[0].holders}`}
                 bulletpointColors={holderBulletpointColors}
                 itemNames={holderItemNames}
-                itemType={dollarItemType}
+                itemType={""}
               />
             </Paper>
           </Grid>
@@ -284,6 +314,9 @@ function TreasuryDashboard() {
                 headerText="APY over time"
                 dataFormat="percent"
                 headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
+                bulletpointColors={apyBulletpointColors}
+                itemNames={apyItemNames}
+                itemType={percentageItemType}
               />
             </Paper>
           </Grid>
@@ -298,6 +331,9 @@ function TreasuryDashboard() {
                 stroke={["#000000", "#2EC608", "#49A1F2"]}
                 headerText="Runway Available"
                 headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
+                bulletpointColors={runawayBulletpointColors}
+                itemNames={runawayItemNames}
+                itemType={""}
               />
             </Paper>
           </Grid>
