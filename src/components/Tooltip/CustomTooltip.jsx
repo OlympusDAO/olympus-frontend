@@ -3,6 +3,15 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import "./customtooltip.scss";
 
+const useStyles = makeStyles(theme => ({
+  tooltipBgColorLight: {
+    background: "rgba(255, 255, 255, 0.6)",
+  },
+  tooltipBgColorDark: {
+    background: "rgba(54, 56, 64, 0.5)",
+  },
+}));
+
 const renderDate = (index, payload, item) => {
   return index === payload.length - 1 ? (
     <div className="tooltip-date">
@@ -15,15 +24,6 @@ const renderDate = (index, payload, item) => {
     ""
   );
 };
-
-const useStyles = makeStyles(theme => ({
-  tooltipBgColorLight: {
-    background: "rgba(255, 255, 255, 0.6)",
-  },
-  tooltipBgColorDark: {
-    background: "rgba(54, 56, 64, 0.5)",
-  },
-}));
 
 const renderItem = (type, item) => {
   return type === "$" ? (
@@ -69,15 +69,19 @@ const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType, isS
 };
 
 function CustomTooltip({ active, payload, bulletpointColors, itemNames, itemType, isStaked }) {
-  const [localTheme] = useState(window.localStorage.getItem("theme"));
+  const [localTheme, setTheme] = useState(window.localStorage.getItem("theme"));
   const classes = useStyles();
-  const lightDark = () => {
+  const backgroundColor = () => {
     return localTheme === "dark" ? classes.tooltipBgColorDark : classes.tooltipBgColorLight;
   };
 
+  useEffect(() => {
+    setTheme(window.localStorage.getItem("theme"));
+  });
+
   if (active && payload && payload.length) {
     return (
-      <div className={`tooltip-container ${lightDark()}`}>
+      <div className={`tooltip-container ${backgroundColor()}`}>
         {renderTooltipItems(payload, bulletpointColors, itemNames, itemType, isStaked)}
       </div>
     );
