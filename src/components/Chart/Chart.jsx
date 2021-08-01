@@ -1,8 +1,3 @@
-import StackedAreaTooltip from "../Tooltip/StackedAreaTooltip";
-import AreaTooltip from "../Tooltip/AreaTooltip";
-import LineTooltip from "../Tooltip/LineTooltip";
-import MultiLineTooltip from "../Tooltip/MultiLineTooltip";
-import BarTooltip from "../Tooltip/BarTooltip";
 import CustomTooltip from "../Tooltip/CustomTooltip";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { Typography, Box } from "@material-ui/core";
@@ -27,7 +22,6 @@ const renderAreaChart = (
   stopColor,
   stroke,
   dataFormat,
-  tooltip,
   bulletpointColors,
   itemNames,
   itemType,
@@ -238,7 +232,6 @@ function Chart({
   headerText,
   dataFormat,
   headerSubText,
-  tooltip,
   bulletpointColors,
   itemNames,
   itemType,
@@ -254,7 +247,6 @@ function Chart({
         stopColor,
         stroke,
         dataFormat,
-        tooltip,
         bulletpointColors,
         itemNames,
         itemType,
