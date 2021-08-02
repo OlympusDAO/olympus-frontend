@@ -30,6 +30,54 @@ function TreasuryDashboard() {
     return state.app.currentIndex;
   });
 
+  const tvlBulletpointColors = useSelector(state => {
+    return state.tvlBulletpointColors;
+  });
+
+  const coinBulletpointColors = useSelector(state => {
+    return state.coinBulletpointColors;
+  });
+
+  const holderBulletpointColors = useSelector(state => {
+    return state.holderBulletpointColors;
+  });
+
+  const apyBulletpointColors = useSelector(state => {
+    return state.apyBulletpointColors;
+  });
+
+  const runawayBulletpointColors = useSelector(state => {
+    return state.runawayBulletpointColors;
+  });
+
+  const stakedBulletpointColors = useSelector(state => {
+    return state.stakedBulletpointColors;
+  });
+
+  const tvlItemNames = useSelector(state => {
+    return state.tvlItemNames;
+  });
+
+  const coinItemNames = useSelector(state => {
+    return state.coinItemNames;
+  });
+
+  const holderItemNames = useSelector(state => {
+    return state.holderItemNames;
+  });
+
+  const apyItemNames = useSelector(state => {
+    return state.apyItemNames;
+  });
+
+  const runawayItemNames = useSelector(state => {
+    return state.runawayItemNames;
+  });
+
+  const dollarItemType = "$";
+
+  const percentageItemType = "%";
+
   const formatCurrency = c => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -38,93 +86,6 @@ function TreasuryDashboard() {
       minimumFractionDigits: 0,
     }).format(c);
   };
-
-  const tvlBulletpointColors = [
-    {
-      right: 20,
-      top: -12,
-      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
-    },
-  ];
-
-  const coinBulletpointColors = [
-    {
-      right: 15,
-      top: -12,
-      background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
-    },
-    {
-      right: 25,
-      top: -12,
-      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
-    },
-    {
-      right: 29,
-      top: -12,
-      background: "linear-gradient(180deg, #DC30EB -10%, #EA98F1 100%)",
-    },
-  ];
-
-  const holderBulletpointColors = [
-    {
-      right: 40,
-      top: -12,
-      background: "#A3A3A3",
-    },
-  ];
-
-  const apyBulletpointColors = [
-    {
-      right: 20,
-      top: -12,
-      background: "#49A1F2",
-    },
-  ];
-
-  const runawayBulletpointColors = [
-    {
-      right: 45,
-      top: -12,
-      background: "#FFFFFF",
-    },
-    {
-      right: 48,
-      top: -12,
-      background: "#2EC608",
-    },
-    {
-      right: 48,
-      top: -12,
-      background: "#49A1F2",
-    },
-  ];
-
-  const stakedBulletpointColors = [
-    {
-      right: 45,
-      top: -11,
-      background: "linear-gradient(180deg, #55EBC7 -10%, rgba(71, 172, 235, 0) 100%)",
-    },
-    {
-      right: 68,
-      top: -12,
-      background: "rgba(151, 196, 224, 0.2)",
-    },
-  ];
-
-  const dollarItemType = "$";
-
-  const percentageItemType = "%";
-
-  const tvlItemNames = ["TVL"];
-
-  const coinItemNames = ["DAI", "FRAX", "SUSHI"];
-
-  const holderItemNames = ["OHMies"];
-
-  const apyItemNames = ["APY"];
-
-  const runawayItemNames = ["10K_APY", "20K_APY", "50K_APY"];
 
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
