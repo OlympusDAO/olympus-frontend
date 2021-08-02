@@ -93,6 +93,8 @@ export const Actions = {
   FETCH_BOND_SUCCESS: "bond/FETCH_BOND_SUCCESS",
   FETCH_MIGRATE_SUCCESS: "migrate/FETCH_MIGRATE_SUCCESS",
   FETCH_FRAX_SUCCESS: "FETCH_FRAX_SUCCESS",
+  FETCH_BULLETPOINTS_SUCCESS: "FETCH_BULLETPOINTS_SUCCESS",
+  FETCH_TOOLTIP_ITEMS_SUCCESS: "FETCH_TOOLTIP_ITEMS_SUCCESS",
 };
 
 // MY ETHERSCAN_ID, SWAP IN YOURS FROM https://etherscan.io/myapikey
@@ -469,85 +471,80 @@ export const NETWORKS = {
   },
 };
 
-// Base Dashboard Style & Items State //*starts here*
+export const BULLETPOINTS = {
+  tvl: [
+    {
+      right: 20,
+      top: -12,
+      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+    },
+  ],
+  coin: [
+    {
+      right: 15,
+      top: -12,
+      background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
+    },
+    {
+      right: 25,
+      top: -12,
+      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "linear-gradient(180deg, #DC30EB -10%, #EA98F1 100%)",
+    },
+  ],
+  holder: [
+    {
+      right: 40,
+      top: -12,
+      background: "#A3A3A3",
+    },
+  ],
+  apy: [
+    {
+      right: 20,
+      top: -12,
+      background: "#49A1F2",
+    },
+  ],
+  runaway: [
+    {
+      right: 45,
+      top: -12,
+      background: "#FFFFFF",
+    },
+    {
+      right: 48,
+      top: -12,
+      background: "#2EC608",
+    },
+    {
+      right: 48,
+      top: -12,
+      background: "#49A1F2",
+    },
+  ],
+  staked: [
+    {
+      right: 45,
+      top: -11,
+      background: "linear-gradient(180deg, #55EBC7 -10%, rgba(71, 172, 235, 0) 100%)",
+    },
+    {
+      right: 68,
+      top: -12,
+      background: "rgba(151, 196, 224, 0.2)",
+    },
+  ],
+};
 
-export const BASE_TVL_STATE = [
-  {
-    right: 20,
-    top: -12,
-    background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
-  },
-];
-
-export const BASE_COIN_STATE = [
-  {
-    right: 15,
-    top: -12,
-    background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
-  },
-  {
-    right: 25,
-    top: -12,
-    background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
-  },
-  {
-    right: 29,
-    top: -12,
-    background: "linear-gradient(180deg, #DC30EB -10%, #EA98F1 100%)",
-  },
-];
-
-export const BASE_HOLDER_STATE = [
-  {
-    right: 40,
-    top: -12,
-    background: "#A3A3A3",
-  },
-];
-
-export const BASE_APY_STATE = [
-  {
-    right: 20,
-    top: -12,
-    background: "#49A1F2",
-  },
-];
-
-export const BASE_RUNAWAY_STATE = [
-  {
-    right: 45,
-    top: -12,
-    background: "#FFFFFF",
-  },
-  {
-    right: 48,
-    top: -12,
-    background: "#2EC608",
-  },
-  {
-    right: 48,
-    top: -12,
-    background: "#49A1F2",
-  },
-];
-
-export const BASE_STAKED_STATE = [
-  {
-    right: 45,
-    top: -11,
-    background: "linear-gradient(180deg, #55EBC7 -10%, rgba(71, 172, 235, 0) 100%)",
-  },
-  {
-    right: 68,
-    top: -12,
-    background: "rgba(151, 196, 224, 0.2)",
-  },
-];
-
-export const BASE_TVL_ITEMS = ["TVL"];
-export const BASE_COIN_ITEMS = ["DAI", "FRAX", "SUSHI"];
-export const BASE_HOLDER_ITEMS = ["OHMies"];
-export const BASE_APY_ITEMS = ["APY"];
-export const BASE_RUNAWAY_ITEMS = ["10K_APY", "20K_APY", "50K_APY"];
-
-// Base Dashboard Style & Items State //*ends here*
+export const TOOLTIP_ITEMS = {
+  tvl: ["TVL"],
+  coin: ["DAI", "FRAX", "SUSHI"],
+  holder: ["OHMies"],
+  apy: ["APY"],
+  runaway: ["10K_APY", "20K_APY", "50K_APY"],
+};

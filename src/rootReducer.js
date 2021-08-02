@@ -1,36 +1,12 @@
 import { combineReducers } from "redux";
-import {
-  app,
-  bonding,
-  fraxData,
-  tvlBulletpointColors,
-  coinBulletpointColors,
-  holderBulletpointColors,
-  apyBulletpointColors,
-  runawayBulletpointColors,
-  stakedBulletpointColors,
-  tvlItemNames,
-  coinItemNames,
-  holderItemNames,
-  apyItemNames,
-  runawayItemNames,
-} from "./reducers";
+import { app, bonding, fraxData, bulletpoints, tooltipItems } from "./reducers";
 
 const rootReducer = combineReducers({
   app,
   bonding,
   fraxData,
-  tvlBulletpointColors,
-  coinBulletpointColors,
-  holderBulletpointColors,
-  apyBulletpointColors,
-  runawayBulletpointColors,
-  stakedBulletpointColors,
-  tvlItemNames,
-  coinItemNames,
-  holderItemNames,
-  apyItemNames,
-  runawayItemNames,
+  bulletpoints,
+  tooltipItems,
 });
 
 export default rootReducer;

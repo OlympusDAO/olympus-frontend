@@ -31,47 +31,47 @@ function TreasuryDashboard() {
   });
 
   const tvlBulletpointColors = useSelector(state => {
-    return state.tvlBulletpointColors;
+    return state.bulletpoints.tvl;
   });
 
   const coinBulletpointColors = useSelector(state => {
-    return state.coinBulletpointColors;
+    return state.bulletpoints.coin;
   });
 
   const holderBulletpointColors = useSelector(state => {
-    return state.holderBulletpointColors;
+    return state.bulletpoints.holder;
   });
 
   const apyBulletpointColors = useSelector(state => {
-    return state.apyBulletpointColors;
+    return state.bulletpoints.apy;
   });
 
   const runawayBulletpointColors = useSelector(state => {
-    return state.runawayBulletpointColors;
+    return state.bulletpoints.runaway;
   });
 
   const stakedBulletpointColors = useSelector(state => {
-    return state.stakedBulletpointColors;
+    return state.bulletpoints.staked;
   });
 
   const tvlItemNames = useSelector(state => {
-    return state.tvlItemNames;
+    return state.tooltipItems.tvl;
   });
 
   const coinItemNames = useSelector(state => {
-    return state.coinItemNames;
+    return state.tooltipItems.coin;
   });
 
   const holderItemNames = useSelector(state => {
-    return state.holderItemNames;
+    return state.tooltipItems.holder;
   });
 
   const apyItemNames = useSelector(state => {
-    return state.apyItemNames;
+    return state.tooltipItems.apy;
   });
 
   const runawayItemNames = useSelector(state => {
-    return state.runawayItemNames;
+    return state.tooltipItems.runaway;
   });
 
   const dollarItemType = "$";
