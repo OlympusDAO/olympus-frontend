@@ -73,21 +73,21 @@ export const calcBondDetails =
     }
 
     // TODO(zx): Remove this after we have eth-bonds
-    if (bond === BONDS.eth) {
-      return dispatch(
-        fetchBondSuccess({
-          bond: bond,
-          bondDiscount: 0.69,
-          debtRatio: 0.69,
-          bondQuote: 69,
-          purchased: 690,
-          vestingTerm: 6.9,
-          maxBondPrice: 69,
-          bondPrice: 6.9,
-          marketPrice: 6.9 * 2,
-        }),
-      );
-    }
+    // if (bond === BONDS.eth) {
+    //   return dispatch(
+    //     fetchBondSuccess({
+    //       bond: bond,
+    //       bondDiscount: 0.69,
+    //       debtRatio: 0.69,
+    //       bondQuote: 69,
+    //       purchased: 690,
+    //       vestingTerm: 6.9,
+    //       maxBondPrice: 69,
+    //       bondPrice: 6.9,
+    //       marketPrice: 6.9 * 2,
+    //     }),
+    //   );
+    // }
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
     let bondDiscount, valuation, bondQuote;

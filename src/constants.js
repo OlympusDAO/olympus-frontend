@@ -61,12 +61,12 @@ export const addresses = {
     LPSTAKING_ADDRESS: "0xF11f0F078BfaF05a28Eac345Bb84fcb2a3722223",
     LP_ADDRESS: "0x34d7d7Aaf50AD4944B70B320aCB24C95fa2def7c",
     DISTRIBUTOR_ADDRESS: "0xbe731507810C8747C3E01E62c676b1cA6F93242f",
-    // BOND_ADDRESS: "0x996668C46Fc0B764aFdA88d83eB58afc933a1626", // latest "v1" (deprecated)
+    BOND_ADDRESS: "0x996668C46Fc0B764aFdA88d83eB58afc933a1626", // latest "v1" (deprecated)
     BONDINGCALC_ADDRESS: "0x6a617Fe9163C1499b9D2773fb2d0105a2368Bedc",
     LP_BONDINGCALC_ADDRESS: "0xe2CABE86071f6Ae31e1b4634BAa06522b838a148",
-    // DAI_BOND_ADDRESS: "0xD03056323b7a63e2095AE97fA1AD92E4820ff045", // latest "v1" (deprecated)
+    DAI_BOND_ADDRESS: "0xD03056323b7a63e2095AE97fA1AD92E4820ff045", // latest "v1" (deprecated)
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
-    // OHM_FRAX_BOND_ADDRESS: "0x539b6c906244Ac34E348BbE77885cdfa994a3776", // v1 OHM_FRAX (deprecated)
+    OHM_FRAX_BOND_ADDRESS: "0x539b6c906244Ac34E348BbE77885cdfa994a3776", // v1 OHM_FRAX (deprecated)
     TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
 
     // This is V1.1. Some are copied from above.
@@ -75,6 +75,7 @@ export const addresses = {
       OHM_DAI: "0x34d7d7Aaf50AD4944B70B320aCB24C95fa2def7c",
       OHM_FRAX: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
       FRAX: "0x853d955acef822db058eb8505911ed77f175b99e",
+      ETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     },
 
     BONDS: {
@@ -83,7 +84,7 @@ export const addresses = {
       DAI: "0x575409F8d77c12B05feD8B455815f0e54797381c", // v1.1 updated
       OHM_FRAX: "0xc20CffF07076858a7e642E396180EC390E5A02f7", // v1.1 updated
       FRAX: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514", // FRAX Bonds
-      ETH: "", // TODO (zayenx): NEED CONTRACTS
+      ETH: "0x7464a65aa3fc15a625e2adfb8b340277d804d90d",
     },
   },
 };
@@ -94,9 +95,9 @@ export const BONDS = {
   dai: "dai",
   frax: "frax",
   eth: "eth",
-  dai_v1: "dai_v1",
-  ohm_dai_v1: "ohm_dai_lp_v1",
-  ohm_frax_v1: "ohm_frax_v1",
+  // dai_v1: "dai_v1",
+  // ohm_dai_v1: "ohm_dai_lp_v1",
+  // ohm_frax_v1: "ohm_frax_v1",
 };
 
 export const Actions = {

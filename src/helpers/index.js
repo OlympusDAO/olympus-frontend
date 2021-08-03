@@ -35,6 +35,9 @@ export function addressForBond({ bond, networkID }) {
   if (bond === BONDS.frax) {
     return addresses[networkID].BONDS.FRAX;
   }
+  if (bond === BONDS.eth) {
+    return addresses[networkID].BONDS.ETH;
+  }
 }
 
 export function addressForAsset({ bond, networkID }) {
@@ -49,6 +52,9 @@ export function addressForAsset({ bond, networkID }) {
   }
   if (bond === BONDS.frax) {
     return addresses[networkID].RESERVES.FRAX;
+  }
+  if (bond === BONDS.eth) {
+    return addresses[networkID].RESERVES.ETH;
   }
 }
 
@@ -72,8 +78,6 @@ export function bondName(bond) {
 }
 
 export function contractForBond({ bond, networkID, provider }) {
-  const address = addressForBond({ bond, networkID });
-
   if (bond === BONDS.ohm_dai) {
     return new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
   }
@@ -93,16 +97,14 @@ export function contractForBond({ bond, networkID, provider }) {
     return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX_BOND_ADDRESS, BondOhmFraxContract, provider);
   }
   if (bond === BONDS.frax) {
-    return new ethers.Contract(address, FraxBondContract, provider);
+    return new ethers.Contract(addresses[networkID].BONDS.FRAX, FraxBondContract, provider);
   }
   if (bond === BONDS.eth) {
-    return new ethers.Contract(address, EthBondContract, provider);
+    return new ethers.Contract(addresses[networkID].BONDS.ETH, EthBondContract, provider);
   }
 }
 
 export function contractForReserve({ bond, networkID, provider }) {
-  const address = addressForAsset({ bond, networkID });
-
   if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
   }
@@ -113,10 +115,10 @@ export function contractForReserve({ bond, networkID, provider }) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_FRAX, ReserveOhmFraxContract, provider);
   }
   if (bond === BONDS.frax) {
-    return new ethers.Contract(address, ierc20Abi, provider);
+    return new ethers.Contract(addresses[networkID].RESERVES.FRAX, ierc20Abi, provider);
   }
   if (bond === BONDS.eth) {
-    return new ethers.Contract(address, ierc20Abi, provider);
+    return new ethers.Contract(addresses[networkID].RESERVES.ETH, ierc20Abi, provider);
   }
 }
 

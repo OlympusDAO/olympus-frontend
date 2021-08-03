@@ -5,7 +5,7 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import axios from "axios";
-import { contractForReserve, addressForAsset } from "../helpers";
+import { contractForReserve, addressForAsset, contractForBond } from "../helpers";
 import { BONDS } from "../constants";
 import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 import apollo from "../lib/apolloClient.js";
@@ -84,9 +84,9 @@ export const loadAppDetails =
     let fraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
     // TODO(zayenx): uncomment for ethBonds
-    // token = contractForReserve({ bond: BONDS.eth, networkID, provider });
-    // let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    const ethAmount = 69;
+    token = contractForReserve({ bond: BONDS.eth, networkID, provider });
+    // const ethAmount = 0;
+    let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
     token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
     let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
