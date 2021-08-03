@@ -158,11 +158,11 @@ export function trim(number: number | undefined, precision?: number) {
     number = 0;
   }
   const array = number.toString().split(".");
-  if (array.length === 1) return number.toString();
+  if (array.length === 1) return number;
 
   array.push((array.pop() as any).substring(0, precision));
   const trimmedNumber = array.join(".");
-  return trimmedNumber;
+  return Number(trimmedNumber);
 }
 
 export function getRebaseBlock(currentBlock: number) {
