@@ -13,10 +13,10 @@ import { loadAppDetails } from "./actions/App.actions";
 import { loadAccountDetails } from "./actions/Account.actions";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
-import Sidebar from "./components/Sidebar/Sidebar.jsx";
-import TopBar from "./components/TopBar/TopBar.jsx";
+import Sidebar from "./components/Sidebar/Sidebar";
+import TopBar from "./components/TopBar/TopBar";
 import Migrate from "./views/Stake/Migrate";
-import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
+import NavDrawer from "./components/Sidebar/NavDrawer";
 import NotFound from "./views/404/NotFound";
 
 import { dark as darkTheme } from "./themes/dark";
