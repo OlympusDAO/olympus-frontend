@@ -13,6 +13,15 @@ import {
 import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
 import "./bondSettings.scss";
 
+interface IAdvancedSettingsProps {
+  readonly open: boolean;
+  readonly recipientAddress: string;
+  readonly slippage: number;
+  readonly handleClose: () => void;
+  readonly onRecipientAddressChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+  readonly onSlippageChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+}
+
 function AdvancedSettings({
   open,
   handleClose,
@@ -20,7 +29,7 @@ function AdvancedSettings({
   recipientAddress,
   onRecipientAddressChange,
   onSlippageChange,
-}) {
+}: IAdvancedSettingsProps) {
   return (
     <Modal id="hades" open={open} onClose={handleClose} hideBackdrop>
       <Paper className="ohm-card ohm-popover">
@@ -39,8 +48,6 @@ function AdvancedSettings({
               value={slippage}
               onChange={onSlippageChange}
               type="number"
-              max="100"
-              min="100"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
             <div className="help-text">
