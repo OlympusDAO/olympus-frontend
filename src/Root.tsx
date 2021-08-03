@@ -10,7 +10,7 @@ import configureStore from "./store";
 export default class Root extends Component {
   store;
 
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
     this.store = configureStore({});
   }

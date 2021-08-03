@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function App(props) {
+function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();
