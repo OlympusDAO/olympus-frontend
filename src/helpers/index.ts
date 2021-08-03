@@ -247,5 +247,7 @@ export function getTokenImage(name: string) {
  * @returns BigNumber type value as number type value
  */
 export function toNum(bigNum: BigNumberish) {
+  // TS-REFACTOR-TODO: investigate why attempting to do const string = bigNum.toString()
+  // return Number(string); breaks.
   return bigNum as number;
 }
