@@ -1,34 +1,35 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button, Typography, Box } from "@material-ui/core";
 import { redeemBond } from "../../actions/Bond.actions";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
+import { useAppSelector } from "src/hooks";
 
-function BondRedeem({ bond }) {
+function BondRedeem({ bond }: { bond: string }) {
   const dispatch = useDispatch();
   const { provider, address } = useWeb3Context();
 
-  const currentBlock = useSelector(state => {
+  const currentBlock = useAppSelector(state => {
     return state.app.currentBlock;
   });
 
-  const bondMaturationBlock = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
+  const bondMaturationBlock = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondMaturationBlock) || 0;
   });
 
-  const vestingTerm = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].vestingBlock;
+  const vestingTerm = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].vestingBlock) || 0;
   });
 
-  const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
+  const interestDue = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].interestDue) || 0;
   });
 
-  const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
+  const pendingPayout = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].pendingPayout)) || 0;
   });
 
-  async function onRedeem({ autostake }) {
+  async function onRedeem({ autostake }: { autostake: boolean }) {
     await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake }));
   }
 
@@ -37,17 +38,17 @@ function BondRedeem({ bond }) {
   };
 
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(vestingTerm);
+    const vestingBlock = parseInt(currentBlock.toString()) + parseInt(vestingTerm.toString());
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
 
-  const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
+  const bondDiscount = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondDiscount) || 0;
   });
 
-  const debtRatio = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].debtRatio;
+  const debtRatio = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].debtRatio)) || 0;
   });
 
   return (

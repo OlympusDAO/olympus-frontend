@@ -1,24 +1,25 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { trim, prettyVestingPeriod } from "../../helpers";
 import { calculateUserBondDetails, redeemBond } from "../../actions/Bond.actions";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { useAppSelector } from "src/hooks";
 
-function BondRedeemV1({ bond }) {
+function BondRedeemV1({ bond }: { bond: string }) {
   const dispatch = useDispatch();
   const { provider, address } = useWeb3Context();
 
-  const currentBlock = useSelector(state => {
+  const currentBlock = useAppSelector(state => {
     return state.app.currentBlock;
   });
-  const bondMaturationBlock = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
+  const bondMaturationBlock = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondMaturationBlock) || 0;
   });
-  const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
+  const interestDue = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].interestDue) || 0;
   });
-  const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
+  const pendingPayout = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].pendingPayout)) || 0;
   });
 
   const vestingTime = () => {
