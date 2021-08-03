@@ -15,7 +15,7 @@ import {
   Link,
 } from "@material-ui/core";
 import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
 import { trim } from "../../helpers";
@@ -24,38 +24,38 @@ import { NavLink, useHistory } from "react-router-dom";
 import "./stake.scss";
 import "./migrate.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { useAppSelector } from "src/hooks";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
 export default function Migrate() {
   const dispatch = useDispatch();
   const { provider, address, connected, connect } = useWeb3Context();
-  console.log(provider, address);
 
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
   const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(0);
 
-  const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
+  const ohmBalance = useAppSelector(state => {
+    return state.app.balances && Number(state.app.balances.ohm);
   });
-  const oldSohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.oldsohm;
+  const oldSohmBalance = useAppSelector(state => {
+    return state.app.balances && Number(state.app.balances.oldsohm);
   });
-  const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
+  const sohmBalance = useAppSelector(state => {
+    return state.app.balances && Number(state.app.balances.sohm);
   });
-  const stakeAllowance = useSelector(state => {
+  const stakeAllowance = useAppSelector(state => {
     return state.app.staking && state.app.staking.ohmStake;
   });
-  const unstakeAllowance = useSelector(state => {
+  const unstakeAllowance = useAppSelector(state => {
     return state.app.migrate && state.app.migrate.unstakeAllowance;
   });
-  const newStakingAPY = useSelector(state => {
+  const newStakingAPY = useAppSelector(state => {
     return (state.app && state.app.stakingAPY) || 0;
   });
 
-  const oldStakingAPY = useSelector(state => {
+  const oldStakingAPY = useAppSelector(state => {
     return (state.app && state.app.oldStakingAPY) || 0;
   });
 
@@ -88,7 +88,7 @@ export default function Migrate() {
   };
 
   const unStakeLegacy = async () => {
-    if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
+    if (Number.isNaN(quantity) || quantity === 0) {
       alert("Please enter a value!");
       return;
     }
@@ -99,7 +99,7 @@ export default function Migrate() {
   };
 
   const stakeOhm = async () => {
-    if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
+    if (Number.isNaN(quantity) || quantity === 0) {
       alert("Please enter a value!");
       return;
     }
@@ -246,7 +246,7 @@ export default function Migrate() {
                         placeholder={`${quantity}`}
                         className="stake-input"
                         // value={quantity}
-                        onChange={e => setQuantity(e.target.value)}
+                        onChange={e => setQuantity(Number(e.target.value))}
                         startAdornment={
                           <InputAdornment position="start">
                             <div className="logo-holder">

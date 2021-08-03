@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { trim } from "../../helpers";
 import { calcBondDetails, calculateUserBondDetails } from "../../actions/Bond.actions";
 import { Grid, Backdrop, Paper, Box, Tab, Tabs, Typography } from "@material-ui/core";
@@ -10,15 +10,16 @@ import BondRedeem from "./BondRedeem";
 import BondPurchase from "./BondPurchase";
 import "./bond.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { useAppSelector } from "src/hooks";
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-function Bond({ bond }) {
+function Bond({ bond }: { bond: string }) {
   const dispatch = useDispatch();
   const { provider, address } = useWeb3Context();
 
@@ -26,21 +27,21 @@ function Bond({ bond }) {
   const [recipientAddress, setRecipientAddress] = useState(address);
 
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(""); // TS-REFACTOR-NOTE: quantity is never updated
 
-  const marketPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].marketPrice;
+  const marketPrice = useAppSelector(state => {
+    return state.bonding && state.bonding[bond] && state.bonding[bond].marketPrice;
   });
-  const bondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondPrice;
+  const bondPrice = useAppSelector(state => {
+    return state.bonding && state.bonding[bond] && state.bonding[bond].bondPrice;
   });
 
-  const onRecipientAddressChange = e => {
+  const onRecipientAddressChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     return setRecipientAddress(e.target.value);
   };
 
-  const onSlippageChange = e => {
-    return setSlippage(e.target.value);
+  const onSlippageChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    return setSlippage(Number(e.target.value));
   };
 
   async function loadBondDetails() {
@@ -56,7 +57,7 @@ function Bond({ bond }) {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
-  const changeView = (event, newView) => {
+  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
     setView(newView);
   };
 
@@ -72,7 +73,7 @@ function Bond({ bond }) {
             onRecipientAddressChange={onRecipientAddressChange}
           />
 
-          <Box direction="row" className="bond-price-data-row">
+          <Box className="bond-price-data-row">
             <div className="bond-price-data">
               <Typography variant="h5" color="textSecondary">
                 Bond Price

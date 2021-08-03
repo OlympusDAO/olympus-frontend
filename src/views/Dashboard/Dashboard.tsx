@@ -1,19 +1,19 @@
-import { useSelector } from "react-redux";
 import { Paper, Grid, Typography, Box, Zoom } from "@material-ui/core";
 import { trim } from "../../helpers";
 import "./dashboard.scss";
+import { useAppSelector } from "src/hooks";
 
 function Dashboard() {
-  const marketPrice = useSelector(state => {
+  const marketPrice = useAppSelector(state => {
     return state.app.marketPrice;
   });
-  const circSupply = useSelector(state => {
+  const circSupply = useAppSelector(state => {
     return state.app.circSupply;
   });
-  const totalSupply = useSelector(state => {
+  const totalSupply = useAppSelector(state => {
     return state.app.totalSupply;
   });
-  const marketCap = useSelector(state => {
+  const marketCap = useAppSelector(state => {
     return state.app.marketCap;
   });
 
