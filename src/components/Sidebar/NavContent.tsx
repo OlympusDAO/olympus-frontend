@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { match, NavLink } from "react-router-dom";
 import Social from "../Social";
 import externalUrls from "./externalUrls";
 import { ReactComponent as StakeIcon } from "../../assets/icons/v1.2/stake.svg";
@@ -40,7 +40,7 @@ function NavContent() {
               color="primary"
               component={OlympusIcon}
               viewBox="0 0 151 100"
-              style={{ minWdth: "151px", minHeight: "98px", width: "151px" }}
+              style={{ minWidth: "151px", minHeight: "98px", width: "151px" }}
             />
           </Link>
 
@@ -59,7 +59,7 @@ function NavContent() {
               component={NavLink}
               id="dash-nav"
               to="/dashboard"
-              isActive={(match, location) => {
+              isActive={(match: match | null, location: any) => {
                 return checkPage(match, location, "dashboard");
               }}
               className={`button-dapp-menu ${isActive ? "active" : ""}`}
@@ -74,7 +74,7 @@ function NavContent() {
               component={NavLink}
               id="stake-nav"
               to="/"
-              isActive={(match, location) => {
+              isActive={(match: match | null, location: any) => {
                 return checkPage(match, location, "stake");
               }}
               className={`button-dapp-menu ${isActive ? "active" : ""}`}
@@ -89,7 +89,7 @@ function NavContent() {
               component={NavLink}
               id="bond-nav"
               to="/bonds"
-              isActive={(match, location) => {
+              isActive={(match: match | null, location: any) => {
                 return checkPage(match, location, "bonds");
               }}
               className={`button-dapp-menu ${isActive ? "active" : ""}`}
@@ -126,9 +126,9 @@ function NavContent() {
         <div className="dapp-menu-external-links">
           {Object.keys(externalUrls).map((link, i) => {
             return (
-              <Link key={i} href={`${externalUrls[link].url}`} target="_blank">
-                <Typography variant="h6">{externalUrls[link].icon}</Typography>
-                <Typography variant="h6">{externalUrls[link].title}</Typography>
+              <Link key={i} href={`${externalUrls[i].url}`} target="_blank">
+                <Typography variant="h6">{externalUrls[i].icon}</Typography>
+                <Typography variant="h6">{externalUrls[i].title}</Typography>
               </Link>
             );
           })}
