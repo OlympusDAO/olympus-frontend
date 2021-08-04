@@ -111,7 +111,7 @@ function NavContent() {
                     ) : (
                       <Typography variant="body2">
                         {bond.name}
-                        <span className="bond-pair-roi">{trim(bond.discount * 100, 2)}%</span>
+                        <span className="bond-pair-roi">{bond.discount && trim(bond.discount * 100, 2)}%</span>
                       </Typography>
                     )}
                   </Link>

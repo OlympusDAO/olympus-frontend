@@ -90,7 +90,7 @@ export const calcBondDetails =
     try {
       bondPrice = await bondContract.bondPriceInUSD();
 
-      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
+      bondDiscount = 1 - bondPrice / (marketPrice * Math.pow(10, 9)); // (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; //
       if (bond === BONDS.ohm_dai) {
         debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
         // RFV = assume 1:1 backing
