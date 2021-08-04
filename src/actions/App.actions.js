@@ -100,7 +100,12 @@ export const loadAppDetails =
     markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 
-    const treasuryBalance = (daiAmount + fraxAmount + ethAmount) / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
+    const treasuryBalance =
+      daiAmount / Math.pow(10, 18) +
+      fraxAmount / Math.pow(10, 18) +
+      ethAmount / Math.pow(10, 18) +
+      ohmDaiUSD +
+      ohmFraxUSD;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
