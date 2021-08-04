@@ -20,6 +20,10 @@ function getMainnetURI() {
   return `https://mainnet.infura.io/v3/${randomInfuraID}`;
 }
 
+function getTestnetURI() {
+  return "https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3";
+}
+
 // https://cloudflare-eth.com is also an option
 function getAlchemyAPI() {
   return "https://eth-mainnet.alchemyapi.io/v2/R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o";
@@ -64,8 +68,9 @@ export const useAddress = () => {
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
+  const [uri, setUri] = useState("");
   const [address, setAddress] = useState("");
-  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(getAlchemyAPI())); // TODO(ZayenX): pls remember to change this back to infura.
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(getTestnetURI())); // TODO(ZayenX): pls remember to change this back to infura.
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -105,7 +110,12 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // Eventually we will not need this method.
   const _checkNetwork = (otherChainID: number): Boolean => {
     if (chainID !== otherChainID) {
-      console.error("Wrong network, please switch to mainnet");
+      console.warn("You are switching networks");
+      if (otherChainID === 1 || otherChainID === 4) {
+        setChainID(otherChainID);
+        otherChainID === 1 ? setUri(getMainnetURI()) : setUri(getTestnetURI());
+        return true;
+      }
       return false;
     }
     return true;
@@ -144,8 +154,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, provider, connected, address, web3Modal }),
-    [connect, disconnect, provider, connected, address, web3Modal],
+    () => ({ connect, disconnect, provider, connected, address, chainID, web3Modal }),
+    [connect, disconnect, provider, connected, address, chainID, web3Modal],
   );
 
   useEffect(() => {

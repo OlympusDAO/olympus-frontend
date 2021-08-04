@@ -7,7 +7,7 @@ import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import axios from "axios";
 import { contractForReserve, addressForAsset, contractForBond } from "../helpers";
 import { BONDS } from "../constants";
-import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
+import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import apollo from "../lib/apolloClient.js";
 
 export const fetchAppSuccess = payload => ({
@@ -69,11 +69,7 @@ export const loadAppDetails =
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-    const bondCalculator = new ethers.Contract(
-      addresses[networkID].BONDS.OHM_DAI_CALC,
-      BondOhmDaiCalcContract,
-      provider,
-    );
+    const bondCalculator = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
 
     // Get ETH price
     const ethBondContract = contractForBond({ bond: BONDS.eth, networkID, provider });

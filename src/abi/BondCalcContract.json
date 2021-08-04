@@ -1,3 +1,47 @@
 {
-    "abi" : [{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"k_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amountDeposited_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"totalSupplyOfTokenDeposited_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"pendingDebtDue_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"managedTokenTotalSupply_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"bondScalingValue_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"interestDue_","type":"uint256"}],"name":"BondInterest","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"debtRatio_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"bondScalingValue_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"premium_","type":"uint256"}],"name":"BondPremium","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"k_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amountDeposited_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"totalSupplyOfTokenDeposited_","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"principleValuation_","type":"uint256"}],"name":"PrincipleValuation","type":"event"},{"inputs":[{"internalType":"uint256","name":"debtRatio_","type":"uint256"},{"internalType":"uint256","name":"bondScalingValue_","type":"uint256"}],"name":"calcBondPremium","outputs":[{"internalType":"uint256","name":"premium_","type":"uint256"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"uint256","name":"pendingDebtDue_","type":"uint256"},{"internalType":"uint256","name":"managedTokenTotalSupply_","type":"uint256"}],"name":"calcDebtRatio","outputs":[{"internalType":"uint256","name":"debtRatio_","type":"uint256"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"uint256","name":"k_","type":"uint256"},{"internalType":"uint256","name":"amountDeposited_","type":"uint256"},{"internalType":"uint256","name":"totalSupplyOfTokenDeposited_","type":"uint256"}],"name":"calcPrincipleValuation","outputs":[{"internalType":"uint256","name":"principleValuation_","type":"uint256"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"address","name":"treasury_","type":"address"},{"internalType":"address","name":"principleTokenAddress_","type":"address"},{"internalType":"uint256","name":"amountDeposited_","type":"uint256"},{"internalType":"uint256","name":"bondScalingValue_","type":"uint256"}],"name":"calculateBondInterest","outputs":[{"internalType":"uint256","name":"interestDue_","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"principleTokenAddress_","type":"address"},{"internalType":"uint256","name":"amountDeposited_","type":"uint256"}],"name":"principleValuation","outputs":[{"internalType":"uint256","name":"principleValuation_","type":"uint256"}],"stateMutability":"view","type":"function"}]
- }
+  "abi": [
+    {
+      "inputs": [{ "internalType": "address", "name": "_OHM", "type": "address" }],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "OHM",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "_pair", "type": "address" }],
+      "name": "getKValue",
+      "outputs": [{ "internalType": "uint256", "name": "k_", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "_pair", "type": "address" }],
+      "name": "getTotalValue",
+      "outputs": [{ "internalType": "uint256", "name": "_value", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "_pair", "type": "address" }],
+      "name": "markdown",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "_pair", "type": "address" },
+        { "internalType": "uint256", "name": "amount_", "type": "uint256" }
+      ],
+      "name": "valuation",
+      "outputs": [{ "internalType": "uint256", "name": "_value", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

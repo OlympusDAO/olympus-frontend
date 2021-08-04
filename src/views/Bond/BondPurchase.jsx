@@ -17,7 +17,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 
 function BondPurchase({ bond, slippage }) {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
+  const { provider, address, chainID } = useWeb3Context();
 
   const [recipientAddress, setRecipientAddress] = useState(address);
   const [quantity, setQuantity] = useState("");
@@ -119,10 +119,10 @@ function BondPurchase({ bond, slippage }) {
   };
 
   async function loadBondDetails() {
-    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: 1 }));
+    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
 
     if (provider && address) {
-      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: 1 }));
+      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
     }
   }
 
@@ -132,7 +132,7 @@ function BondPurchase({ bond, slippage }) {
   }, [provider, quantity, address]);
 
   const onSeekApproval = async () => {
-    await dispatch(changeApproval({ address, bond, provider, networkID: 1 }));
+    await dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
   };
 
   return (
