@@ -154,31 +154,25 @@ export const calculateUserBondDetails =
     const reserveContract = contractForReserve({ bond, networkID, provider });
 
     let interestDue, pendingPayout, bondMaturationBlock;
-    if (bond === BONDS.dai_v1 || bond === BONDS.ohm_frax_v1 || bond === BONDS.ohm_dai_v1) {
-      const bondDetails = await bondContract.bondInfo(address);
-      interestDue = bondDetails.payoutRemaining / Math.pow(10, 9);
-      bondMaturationBlock = +bondDetails.vestingPeriod + +bondDetails.lastBlock;
-      pendingPayout = await bondContract.pendingPayoutFor(address);
-    } else {
-      const bondDetails = await bondContract.bondInfo(address);
-      interestDue = bondDetails.payout / Math.pow(10, 9);
-      bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
-      pendingPayout = await bondContract.pendingPayoutFor(address);
-    }
+
+    const bondDetails = await bondContract.bondInfo(address);
+    interestDue = bondDetails.payout / Math.pow(10, 9);
+    bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
+    pendingPayout = await bondContract.pendingPayoutFor(address);
 
     let allowance,
       balance = 0;
-    if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
+    if (bond === BONDS.ohm_dai) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
-    } else if (bond === BONDS.dai || bond === BONDS.dai_v1) {
+    } else if (bond === BONDS.dai) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.DAI);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatEther(balance);
-    } else if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
+    } else if (bond === BONDS.ohm_frax) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_FRAX);
 
       balance = await reserveContract.balanceOf(address);
@@ -259,14 +253,13 @@ export const redeemBond =
 
     try {
       let redeemTx;
-      if (bond === BONDS.dai_v1 || bond === BONDS.ohm_dai_v1 || bond === BONDS.ohm_frax_v1) {
-        redeemTx = await bondContract.redeem(false);
-      } else {
-        redeemTx = await bondContract.redeem(address, autostake === true);
-      }
+
+      redeemTx = await bondContract.redeem(address, autostake === true);
 
       await redeemTx.wait();
     } catch (error) {
       alert(error.message);
     }
+
+    should;
   };
