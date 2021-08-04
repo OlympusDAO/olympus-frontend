@@ -4,10 +4,10 @@ import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
+import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import axios from "axios";
 import { contractForReserve, addressForAsset, contractForBond } from "../helpers";
 import { BONDS } from "../constants";
-import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import apollo from "../lib/apolloClient.js";
 
 export const fetchAppSuccess = payload => ({
@@ -102,7 +102,7 @@ export const loadAppDetails =
     const treasuryBalance =
       daiAmount / Math.pow(10, 18) +
       fraxAmount / Math.pow(10, 18) +
-      (ethAmount / Math.pow(10, 18)) * ethAmount +
+      (ethAmount / Math.pow(10, 18)) * ethPrice +
       ohmDaiUSD +
       ohmFraxUSD;
 

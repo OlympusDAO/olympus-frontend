@@ -74,39 +74,37 @@ export const calcBondDetails =
     }
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
-    let bondDiscount, valuation, bondQuote;
+    let bondPrice, bondDiscount, valuation, bondQuote;
+
     const bondContract = contractForBond({ bond, networkID, provider });
     const bondCalcContract = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
 
-    const marketPrice = await getMarketPrice({ networkID, provider });
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
+    const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
 
-    let debtRatio, bondPrice;
+    let marketPrice = await getMarketPrice({ networkID, provider });
+
     try {
       bondPrice = await bondContract.bondPriceInUSD();
-
-      bondDiscount = 1 - bondPrice / (marketPrice * Math.pow(10, 9)); // (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; //
-      if (bond === BONDS.ohm_dai) {
-        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
-        // RFV = assume 1:1 backing
-        valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
-        bondQuote = await bondContract.payoutFor(valuation);
-        bondQuote = bondQuote / Math.pow(10, 9);
-      } else if (bond === BONDS.ohm_frax) {
-        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
-        valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
-        bondQuote = await bondContract.payoutFor(valuation);
-        bondQuote = bondQuote / Math.pow(10, 9);
-      } else {
-        // RFV = DAI
-        debtRatio = await bondContract.standardizedDebtRatio();
-        bondQuote = await bondContract.payoutFor(amountInWei);
-        bondQuote = bondQuote / Math.pow(10, 18);
-      }
+      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
     } catch (e) {
-      debtRatio = 0;
-      bondPrice = 0;
+      console.log("error getting bondPriceInUSD", e);
+    }
+
+    if (bond === BONDS.ohm_dai) {
+      // RFV = assume 1:1 backing
+      valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_DAI, amountInWei);
+      bondQuote = await bondContract.payoutFor(valuation);
+      bondQuote = bondQuote / Math.pow(10, 9);
+    } else if (bond === BONDS.ohm_frax) {
+      valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
+      bondQuote = await bondContract.payoutFor(valuation);
+      bondQuote = bondQuote / Math.pow(10, 9);
+    } else {
+      // RFV = DAI
+      bondQuote = await bondContract.payoutFor(amountInWei);
+      bondQuote = bondQuote / Math.pow(10, 18);
     }
 
     // Display error if user tries to exceed maximum.
