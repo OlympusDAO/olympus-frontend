@@ -82,7 +82,7 @@ function Bond({ bond }) {
                 Bond Price
               </Typography>
               <Typography variant="h3" className="price" color="primary">
-                {trim(bondPrice, 2)} {bondToken}
+                {bond.indexOf("eth") >= 0 ? `$${trim(bondPrice, 2)}` : `${trim(bondPrice, 2)} ${bondToken}`}
               </Typography>
             </div>
             <div className="bond-price-data">
@@ -90,7 +90,7 @@ function Bond({ bond }) {
                 Market Price
               </Typography>
               <Typography variant="h3" color="primary" className="price">
-                {trim(marketPrice, 2)} {bondToken}
+                {bond.indexOf("eth") >= 0 ? `$${trim(marketPrice, 2)}` : `${trim(marketPrice, 2)} ${bondToken}`}
               </Typography>
             </div>
           </Box>
