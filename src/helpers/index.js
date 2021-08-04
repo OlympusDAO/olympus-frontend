@@ -8,8 +8,6 @@ import { abi as BondOhmFraxContract } from "../abi/bonds/OhmFraxContract.json";
 import { abi as BondDaiContract } from "../abi/bonds/DaiContract.json";
 import { abi as ReserveOhmDaiContract } from "../abi/reserves/OhmDai.json";
 import { abi as ReserveOhmFraxContract } from "../abi/reserves/OhmFrax.json";
-import { abi as BondContract } from "../abi/BondContract.json";
-import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 import { abi as FraxBondContract } from "../abi/bonds/FraxContract.json";
 import { abi as EthBondContract } from "../abi/bonds/EthContract.json";
 
