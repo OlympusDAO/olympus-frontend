@@ -105,6 +105,7 @@ function BondPurchase({ bond, slippage }) {
   const balanceUnits = () => {
     if (bond.indexOf("_lp") >= 0) return "LP";
     else if (bond === BONDS.dai) return "DAI";
+    else if (bond === BONDS.eth) return "ETH";
     else return "FRAX";
   };
 

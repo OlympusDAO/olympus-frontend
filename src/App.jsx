@@ -23,7 +23,7 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
-import { INFURA_ID, NETWORKS, BONDS } from "./constants";
+import { BONDS } from "./constants";
 import "./style.scss";
 
 // 😬 Sorry for all the console logging
@@ -89,7 +89,7 @@ function App(props) {
     await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
     if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
 
-    [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
+    Object.values(BONDS).map(async bond => {
       await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
     });
   }
@@ -148,8 +148,7 @@ function App(props) {
             </Route>
 
             <Route path="/bonds">
-              {/* {Object.values(BONDS).map(bond => { */}
-              {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
+              {Object.values(BONDS).map(bond => {
                 return (
                   <Route exact key={bond} path={`/bonds/${bond}`}>
                     <Bond bond={bond} />

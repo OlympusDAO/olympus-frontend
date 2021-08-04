@@ -60,6 +60,10 @@ function Bond({ bond }) {
     setView(newView);
   };
 
+  let bondToken = "DAI";
+  if (bond.indexOf("frax") >= 0) bondToken = "FRAX";
+  else if (bond.indexOf("eth") >= 0) bondToken = "ETH";
+
   return (
     <Grid container id="bond-view">
       <Backdrop open={true}>
@@ -78,7 +82,7 @@ function Bond({ bond }) {
                 Bond Price
               </Typography>
               <Typography variant="h3" className="price" color="primary">
-                {trim(bondPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
+                {bond.indexOf("eth") >= 0 ? `$${trim(bondPrice, 2)}` : `${trim(bondPrice, 2)} ${bondToken}`}
               </Typography>
             </div>
             <div className="bond-price-data">
@@ -86,7 +90,7 @@ function Bond({ bond }) {
                 Market Price
               </Typography>
               <Typography variant="h3" color="primary" className="price">
-                {trim(marketPrice, 2)} {bond.indexOf("frax") >= 0 ? "FRAX" : "DAI"}
+                {bond.indexOf("eth") >= 0 ? `$${trim(marketPrice, 2)}` : `${trim(marketPrice, 2)} ${bondToken}`}
               </Typography>
             </div>
           </Box>
@@ -101,7 +105,6 @@ function Bond({ bond }) {
           >
             <Tab label="Bond" {...a11yProps(0)} />
             <Tab label="Redeem" {...a11yProps(1)} />
-            {/* <Tab label="Redeem v1" {...a11yProps(2)} disabled /> */}
           </Tabs>
 
           <TabPanel value={view} index={0}>
@@ -109,9 +112,6 @@ function Bond({ bond }) {
           </TabPanel>
           <TabPanel value={view} index={1}>
             <BondRedeem bond={bond} />
-          </TabPanel>
-          <TabPanel value={view} index={2}>
-            <BondRedeemV1 bond={bond + "_v1"} />
           </TabPanel>
         </Paper>
       </Backdrop>

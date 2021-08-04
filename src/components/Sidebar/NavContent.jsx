@@ -9,7 +9,8 @@ import { ReactComponent as OlympusIcon } from "../../assets/icons/v1.2/olympus-n
 import { trim, shorten } from "../../helpers";
 import { useAddress } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
-import { Paper, Link, Box, Typography, LinearProgress, SvgIcon } from "@material-ui/core";
+import { Paper, Link, Box, Typography, SvgIcon } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
 
 function NavContent() {
@@ -106,9 +107,7 @@ function NavContent() {
                 {bonds.map((bond, i) => (
                   <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>
                     {!bond.discount ? (
-                      <>
-                        <LinearProgress />
-                      </>
+                      <Skeleton variant="text" width={"150px"} />
                     ) : (
                       <Typography variant="body2">
                         {bond.name}
