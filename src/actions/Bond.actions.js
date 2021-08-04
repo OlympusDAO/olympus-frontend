@@ -49,12 +49,13 @@ export const changeApproval =
           addresses[networkID].BONDS.FRAX,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
-      else if (bond === BONDS.eth)
+      else if (bond === BONDS.eth) {
         // <-- added for eth
         approveTx = await reserveContract.approve(
-          addresses[networkID].BONDS.eth,
+          addresses[networkID].BONDS.ETH,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
+      }
 
       await approveTx.wait();
     } catch (error) {
@@ -194,7 +195,7 @@ export const calculateUserBondDetails =
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
     } else if (bond === BONDS.eth) {
-      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.eth);
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.ETH);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
