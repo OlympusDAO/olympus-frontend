@@ -75,6 +75,11 @@ export const loadAppDetails =
       provider,
     );
 
+    // Get ETH price
+    const ethBondContract = contractForBond({ bond: BONDS.eth, networkID, provider });
+    let ethPrice = await ethBondContract.assetPrice();
+    ethPrice = ethPrice / Math.pow(10, 8);
+
     // Calculate Treasury Balance
     // TODO: PLS DRY and modularize.
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
@@ -101,7 +106,7 @@ export const loadAppDetails =
     const treasuryBalance =
       daiAmount / Math.pow(10, 18) +
       fraxAmount / Math.pow(10, 18) +
-      ethAmount / Math.pow(10, 18) +
+      (ethAmount / Math.pow(10, 18)) * ethAmount +
       ohmDaiUSD +
       ohmFraxUSD;
 
