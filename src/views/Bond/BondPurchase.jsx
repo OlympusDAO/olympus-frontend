@@ -1,6 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Typography, FormControl, Box, InputLabel, OutlinedInput, InputAdornment, Button } from "@material-ui/core";
+import {
+  Typography,
+  FormControl,
+  Box,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  Button,
+  Slide,
+} from "@material-ui/core";
 import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../actions/Bond.actions.js";
 import { BONDS } from "../../constants";
@@ -127,97 +136,101 @@ function BondPurchase({ bond, slippage }) {
   };
 
   return (
-    <Box display="flex" flexDirection="column">
-      <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-        <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
-          <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-amount"
-            type="number"
-            value={quantity}
-            onChange={e => setQuantity(e.target.value)}
-            // startAdornment={<InputAdornment position="start">$</InputAdornment>}
-            labelWidth={55}
-            endAdornment={
-              <InputAdornment position="end">
-                <Button variant="text" onClick={setMax}>
-                  Max
-                </Button>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        {hasAllowance() ? (
-          <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" onClick={onBond}>
-            Bond
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            color="primary"
-            id="bond-approve-btn"
-            className="transaction-button"
-            onClick={onSeekApproval}
-          >
-            Approve
-          </Button>
+    <Slide direction="left" in={true} mountOnEnter unmountOnExit>
+      <Box display="flex" flexDirection="column">
+        <Box display="flex" justifyContent="space-around" flexWrap="wrap">
+          <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
+            <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-amount"
+              type="number"
+              value={quantity}
+              onChange={e => setQuantity(e.target.value)}
+              // startAdornment={<InputAdornment position="start">$</InputAdornment>}
+              labelWidth={55}
+              endAdornment={
+                <InputAdornment position="end">
+                  <Button variant="text" onClick={setMax}>
+                    Max
+                  </Button>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          {hasAllowance() ? (
+            <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" onClick={onBond}>
+              Bond
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              id="bond-approve-btn"
+              className="transaction-button"
+              onClick={onSeekApproval}
+            >
+              Approve
+            </Button>
+          )}
+        </Box>
+
+        {!hasAllowance() && (
+          <div className="help-text">
+            <em>
+              <Typography variant="body2">
+                Note: The "Approve" transaction is only needed when bonding for the first time; subsequent bonding only
+                requires you to perform the "Bond" transaction.
+              </Typography>
+            </em>
+          </div>
         )}
-      </Box>
 
-      {!hasAllowance() && (
-        <div className="help-text">
-          <em>
-            <Typography variant="body2">
-              Note: The "Approve" transaction is only needed when bonding for the first time; subsequent bonding only
-              requires you to perform the "Bond" transaction.
+        <Box className="bond-data">
+          <div className="data-row">
+            <Typography>Your Balance</Typography>
+            <Typography>
+              {trim(balance, 4)} {balanceUnits()}
             </Typography>
-          </em>
-        </div>
-      )}
+          </div>
 
-      <div className="data-row">
-        <Typography>Your Balance</Typography>
-        <Typography>
-          {trim(balance, 4)} {balanceUnits()}
-        </Typography>
-      </div>
+          <div className={`data-row`}>
+            <Typography>You Will Get</Typography>
+            <Typography id="bond-value-id" className="price-data">
+              {trim(bondQuote, 4) || ""} OHM
+            </Typography>
+          </div>
 
-      <div className={`data-row`}>
-        <Typography>You Will Get</Typography>
-        <Typography id="bond-value-id" className="price-data">
-          {trim(bondQuote, 4) || ""} OHM
-        </Typography>
-      </div>
+          <div className={`data-row`}>
+            <Typography>Max You Can Buy</Typography>
+            <Typography id="bond-value-id" className="price-data">
+              {trim(maxBondPrice, 4) || ""} OHM
+            </Typography>
+          </div>
 
-      <div className={`data-row`}>
-        <Typography>Max You Can Buy</Typography>
-        <Typography id="bond-value-id" className="price-data">
-          {trim(maxBondPrice, 4) || ""} OHM
-        </Typography>
-      </div>
+          <div className="data-row">
+            <Typography>ROI</Typography>
+            <Typography>{trim(bondDiscount * 100, 2)}%</Typography>
+          </div>
 
-      <div className="data-row">
-        <Typography>ROI</Typography>
-        <Typography>{trim(bondDiscount * 100, 2)}%</Typography>
-      </div>
+          <div className="data-row">
+            <Typography>Debt Ratio</Typography>
+            <Typography>{trim(debtRatio / 10000000, 2)}%</Typography>
+          </div>
 
-      <div className="data-row">
-        <Typography>Debt Ratio</Typography>
-        <Typography>{trim(debtRatio / 10000000, 2)}%</Typography>
-      </div>
+          <div className="data-row">
+            <Typography>Vesting Term</Typography>
+            <Typography>{vestingPeriod()}</Typography>
+          </div>
 
-      <div className="data-row">
-        <Typography>Vesting Term</Typography>
-        <Typography>{vestingPeriod()}</Typography>
-      </div>
-
-      {recipientAddress !== address && (
-        <div className="data-row">
-          <Typography>Recipient</Typography>
-          <Typography>{shorten(recipientAddress)}</Typography>
-        </div>
-      )}
-    </Box>
+          {recipientAddress !== address && (
+            <div className="data-row">
+              <Typography>Recipient</Typography>
+              <Typography>{shorten(recipientAddress)}</Typography>
+            </div>
+          )}
+        </Box>
+      </Box>
+    </Slide>
   );
 }
 

@@ -5,7 +5,6 @@ import { calcBondDetails, calculateUserBondDetails } from "../../actions/Bond.ac
 import { Grid, Backdrop, Paper, Box, Tab, Tabs, Typography } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
-import BondRedeemV1 from "./BondRedeemV1";
 import BondRedeem from "./BondRedeem";
 import BondPurchase from "./BondPurchase";
 import "./bond.scss";
@@ -110,6 +109,7 @@ function Bond({ bond }) {
           <TabPanel value={view} index={0}>
             <BondPurchase bond={bond} slippage={slippage} />
           </TabPanel>
+
           <TabPanel value={view} index={1}>
             <BondRedeem bond={bond} />
           </TabPanel>
