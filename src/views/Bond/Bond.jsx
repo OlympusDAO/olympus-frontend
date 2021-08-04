@@ -105,7 +105,6 @@ function Bond({ bond }) {
           >
             <Tab label="Bond" {...a11yProps(0)} />
             <Tab label="Redeem" {...a11yProps(1)} />
-            {/* <Tab label="Redeem v1" {...a11yProps(2)} disabled /> */}
           </Tabs>
 
           <TabPanel value={view} index={0}>
@@ -113,9 +112,6 @@ function Bond({ bond }) {
           </TabPanel>
           <TabPanel value={view} index={1}>
             <BondRedeem bond={bond} />
-          </TabPanel>
-          <TabPanel value={view} index={2}>
-            <BondRedeemV1 bond={bond + "_v1"} />
           </TabPanel>
         </Paper>
       </Backdrop>

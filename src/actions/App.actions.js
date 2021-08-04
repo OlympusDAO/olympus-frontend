@@ -83,9 +83,7 @@ export const loadAppDetails =
     token = contractForReserve({ bond: BONDS.frax, networkID, provider });
     let fraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
-    // TODO(zayenx): uncomment for ethBonds
     token = contractForReserve({ bond: BONDS.eth, networkID, provider });
-    // const ethAmount = 0;
     let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
     token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
