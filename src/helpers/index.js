@@ -8,8 +8,6 @@ import { abi as BondOhmFraxContract } from "../abi/bonds/OhmFraxContract.json";
 import { abi as BondDaiContract } from "../abi/bonds/DaiContract.json";
 import { abi as ReserveOhmDaiContract } from "../abi/reserves/OhmDai.json";
 import { abi as ReserveOhmFraxContract } from "../abi/reserves/OhmFrax.json";
-import { abi as BondContract } from "../abi/BondContract.json";
-import { abi as DaiBondContract } from "../abi/DaiBondContract.json";
 import { abi as FraxBondContract } from "../abi/bonds/FraxContract.json";
 import { abi as EthBondContract } from "../abi/bonds/EthContract.json";
 
@@ -84,17 +82,8 @@ export function contractForBond({ bond, networkID, provider }) {
   if (bond === BONDS.dai) {
     return new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
   }
-  if (bond === BONDS.ohm_dai_v1) {
-    return new ethers.Contract(addresses[networkID].BOND_ADDRESS, BondContract, provider);
-  }
-  if (bond === BONDS.dai_v1) {
-    return new ethers.Contract(addresses[networkID].DAI_BOND_ADDRESS, DaiBondContract, provider);
-  }
   if (bond === BONDS.ohm_frax) {
     return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX, BondOhmFraxContract, provider);
-  }
-  if (bond === BONDS.ohm_frax_v1) {
-    return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX_BOND_ADDRESS, BondOhmFraxContract, provider);
   }
   if (bond === BONDS.frax) {
     return new ethers.Contract(addresses[networkID].BONDS.FRAX, FraxBondContract, provider);
@@ -105,13 +94,13 @@ export function contractForBond({ bond, networkID, provider }) {
 }
 
 export function contractForReserve({ bond, networkID, provider }) {
-  if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
+  if (bond === BONDS.ohm_dai) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
   }
-  if (bond === BONDS.dai || bond === BONDS.dai_v1) {
+  if (bond === BONDS.dai) {
     return new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);
   }
-  if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
+  if (bond === BONDS.ohm_frax) {
     return new ethers.Contract(addresses[networkID].RESERVES.OHM_FRAX, ReserveOhmFraxContract, provider);
   }
   if (bond === BONDS.frax) {
@@ -123,7 +112,7 @@ export function contractForReserve({ bond, networkID, provider }) {
 }
 
 export async function getMarketPrice({ networkID, provider }) {
-  const pairContract = new ethers.Contract(addresses[networkID].LP_ADDRESS, PairContract, provider);
+  const pairContract = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, PairContract, provider);
   const reserves = await pairContract.getReserves();
   const marketPrice = reserves[1] / reserves[0];
 

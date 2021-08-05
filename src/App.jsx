@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function App(props) {
+function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();
@@ -80,17 +80,17 @@ function App(props) {
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { provider } = useWeb3Context();
+  const { provider, chainID } = useWeb3Context();
   const address = useAddress();
 
   async function loadDetails() {
     let loadProvider = provider;
 
-    await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
-    if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
+    await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+    if (address) await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
 
     Object.values(BONDS).map(async bond => {
-      await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
+      await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
     });
   }
 

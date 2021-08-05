@@ -6,7 +6,7 @@ import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from ".
 
 function BondRedeem({ bond }) {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
+  const { provider, address, chainID } = useWeb3Context();
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
@@ -29,7 +29,7 @@ function BondRedeem({ bond }) {
   });
 
   async function onRedeem({ autostake }) {
-    await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake }));
+    await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
   }
 
   const vestingTime = () => {

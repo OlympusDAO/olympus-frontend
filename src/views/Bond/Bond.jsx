@@ -19,7 +19,7 @@ function a11yProps(index) {
 
 function Bond({ bond }) {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
+  const { provider, address, chainID } = useWeb3Context();
 
   const [slippage, setSlippage] = useState(0.5);
   const [recipientAddress, setRecipientAddress] = useState(address);
@@ -43,10 +43,10 @@ function Bond({ bond }) {
   };
 
   async function loadBondDetails() {
-    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: 1 }));
+    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
 
     if (provider && address) {
-      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: 1 }));
+      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
     }
   }
 
