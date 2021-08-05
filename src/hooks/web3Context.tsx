@@ -123,7 +123,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       console.warn("You are switching networks");
       if (otherChainID === 1 || otherChainID === 4) {
         setChainID(otherChainID);
-        otherChainID === 1 ? setUri(getMainnetURI()) : setUri(getTestnetURI());
+        otherChainID === 1 ? setUri(getAlchemyAPI()) : setUri(getTestnetURI());
         return true;
       }
       return false;
