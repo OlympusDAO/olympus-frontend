@@ -125,6 +125,11 @@ export const calcBondDetails =
       const markdown = await bondCalcContract.markdown(addressForAsset({ bond, networkID }));
       purchased = await bondCalcContract.valuation(addressForAsset({ bond, networkID }), purchased);
       purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
+    } else if (bond === BONDS.eth) {
+      purchased = purchased / Math.pow(10, 18);
+      let ethPrice = await bondContract.assetPrice();
+      ethPrice = ethPrice / Math.pow(10, 8);
+      purchased = purchased * ethPrice;
     } else {
       purchased = purchased / Math.pow(10, 18);
     }
