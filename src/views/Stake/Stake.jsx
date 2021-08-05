@@ -346,7 +346,7 @@ function Stake() {
                   <div className={`stake-user-data`}>
                     <div className="data-row">
                       <Typography variant="body1">Your Balance</Typography>
-                      <Typography variant="body1">{trim(ohmBalance)} OHM</Typography>
+                      <Typography variant="body1">{trim(ohmBalance, 4)} OHM</Typography>
                     </div>
 
                     <div className="data-row">

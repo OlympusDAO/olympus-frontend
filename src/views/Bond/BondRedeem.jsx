@@ -31,7 +31,7 @@ function BondRedeem({ bond }) {
   async function onRedeem({ autostake }) {
     await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
   }
-  a;
+
   const vestingTime = () => {
     return prettyVestingPeriod(currentBlock, bondMaturationBlock);
   };

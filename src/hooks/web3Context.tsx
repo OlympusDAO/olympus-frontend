@@ -3,9 +3,6 @@ import Web3Modal from "web3modal";
 import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
-import { INFURA_ID } from "../constants";
-import { checkDocument } from "@apollo/client/utilities";
-
 // TODO(zayenx): REMEMBER THIS!!!
 // Use this in production!
 function getMainnetURI() {
