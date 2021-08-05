@@ -88,7 +88,13 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       cacheProvider: true, // optional
       providerOptions: {
         walletconnect: {
-          package: WalletConnectProvider, // required
+          package: WalletConnectProvider,
+          options: {
+            rpc: {
+              1: getAlchemyAPI(chainID),
+              4: getTestnetURI(),
+            },
+          },
         },
       },
     }),
