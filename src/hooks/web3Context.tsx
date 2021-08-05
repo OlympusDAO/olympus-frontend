@@ -27,7 +27,7 @@ function getTestnetURI() {
 //   return "https://eth-mainnet.alchemyapi.io/v2/R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o";
 // }
 
-function getAlchemyAPI() {
+function getAlchemyAPI(chainID: Number) {
   const ALCHEMY_ID_LIST = [
     "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
     "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
@@ -35,7 +35,8 @@ function getAlchemyAPI() {
 
   const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
   const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
-  return `https://eth-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
+  if (chainID === 1) return `https://eth-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
+  else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO`; // unbanksy's
 }
 
 /*
@@ -77,7 +78,7 @@ export const useAddress = () => {
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
-  const [uri, setUri] = useState(getAlchemyAPI());
+  const [uri, setUri] = useState(getAlchemyAPI(chainID));
   const [address, setAddress] = useState("");
   const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri)); // TODO(ZayenX): pls remember to change this back to infura.
 
@@ -120,7 +121,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       console.warn("You are switching networks");
       if (otherChainID === 1 || otherChainID === 4) {
         setChainID(otherChainID);
-        otherChainID === 1 ? setUri(getAlchemyAPI()) : setUri(getTestnetURI());
+        otherChainID === 1 ? setUri(getAlchemyAPI(chainID)) : setUri(getTestnetURI());
         return true;
       }
       return false;
