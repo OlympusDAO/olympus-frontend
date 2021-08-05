@@ -84,6 +84,12 @@ function App() {
   const address = useAddress();
 
   async function loadDetails() {
+    // NOTE (unbanksy): If you encounter the following error:
+    // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
+    // it's because the initial provider loaded always starts with chainID=1. This causes
+    // address lookup on the wrong chain which then throws the error. To properly resolve this,
+    // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
+    // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
 
     await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
