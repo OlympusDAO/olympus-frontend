@@ -63,19 +63,19 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     return state.app.fiveDayRate;
   });
   const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
+    return state.account.balances && state.account.balances.ohm;
   });
   const oldSohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.oldsohm;
+    return state.account.balances && state.account.balances.oldsohm;
   });
   const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
+    return state.account.balances && state.account.balances.sohm;
   });
   const stakeAllowance = useSelector(state => {
-    return state.app.staking && state.app.staking.ohmStake;
+    return state.account.staking && state.account.staking.ohmStake;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.app.staking && state.app.staking.ohmUnstake;
+    return state.account.staking && state.account.staking.ohmUnstake;
   });
   const stakingRebase = useSelector(state => {
     return state.app.stakingRebase;

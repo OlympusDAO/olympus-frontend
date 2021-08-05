@@ -34,19 +34,19 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   const [quantity, setQuantity] = useState();
 
   const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
+    return state.account.balances && state.account.balances.ohm;
   });
   const oldSohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.oldsohm;
+    return state.account.balances && state.account.balances.oldsohm;
   });
   const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
+    return state.account.balances && state.account.balances.sohm;
   });
   const stakeAllowance = useSelector(state => {
-    return state.app.staking && state.app.staking.ohmStake;
+    return state.account.staking && state.account.staking.ohmStake;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.app.migrate && state.app.migrate.unstakeAllowance;
+    return state.account.migrate && state.account.migrate.unstakeAllowance;
   });
   const newStakingAPY = useSelector(state => {
     return (state.app && state.app.stakingAPY) || 0;
