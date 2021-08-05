@@ -26,13 +26,14 @@ import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim, getTokenImage } from "../../helpers";
+import { trim, getTokenImage, getPairImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
+import { useWeb3Context } from "src/hooks/web3Context";
 
 function a11yProps(index) {
   return {
@@ -42,10 +43,11 @@ function a11yProps(index) {
 }
 
 const ohmImg = getTokenImage("ohm");
-const fraxImg = getTokenImage("frax");
+const OhmFraxImg = getPairImage("frax");
 
-function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
+function Stake() {
   const dispatch = useDispatch();
+  const { provider, address, connected, connect, chainID } = useWeb3Context();
 
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
@@ -96,7 +98,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   };
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
+    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
   };
 
   const onChangeStake = async action => {
@@ -105,7 +107,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
       // eslint-disable-next-line no-alert
       alert("Please enter a value!");
     } else {
-      await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: 1 }));
+      await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
   };
 
@@ -128,13 +130,11 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
   let modalButton = [];
 
-  if (web3Modal) {
-    modalButton.push(
-      <Button variant="contained" color="primary" className="connect-button" onClick={loadWeb3Modal} key={2}>
-        Connect Wallet
-      </Button>,
-    );
-  }
+  modalButton.push(
+    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+      Connect Wallet
+    </Button>,
+  );
 
   const changeView = (event, newView) => {
     setView(newView);
@@ -346,7 +346,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <div className={`stake-user-data`}>
                     <div className="data-row">
                       <Typography variant="body1">Your Balance</Typography>
-                      <Typography variant="body1">{trim(ohmBalance)} OHM</Typography>
+                      <Typography variant="body1">{trim(ohmBalance, 4)} OHM</Typography>
                     </div>
 
                     <div className="data-row">
@@ -399,12 +399,14 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     <TableRow>
                       <TableCell>
                         <Box className="ohm-pairs">
-                          <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
+                          {/* <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
                             <img src={`${ohmImg}`} />
                           </div>
                           <div className="ohm-pair" style={{ zIndex: 1 }}>
                             <img src={`${fraxImg}`} />
-                          </div>
+                          </div> */}
+
+                          {OhmFraxImg}
                           <Typography>OHM-FRAX</Typography>
                         </Box>
                       </TableCell>
@@ -440,14 +442,15 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               <div className="stake-pool">
                 <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                   <Box className="ohm-pairs">
-                    <div className="ohm-pair" style={{ zIndex: 2 }}>
+                    {/* <div className="ohm-pair" style={{ zIndex: 2 }}>
                       <div className="ohm-logo-bg">
                         <img src={`${ohmImg}`} />
                       </div>
                     </div>
                     <div className="ohm-pair" style={{ zIndex: 1 }}>
                       <img src={`${fraxImg}`} />
-                    </div>
+                    </div> */}
+                    {OhmFraxImg}
                     <Typography gutterBottom={false}>OHM-FRAX</Typography>
                   </Box>
                 </div>

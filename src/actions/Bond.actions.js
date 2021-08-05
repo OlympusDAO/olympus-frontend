@@ -8,7 +8,7 @@ import {
   addressForAsset,
 } from "../helpers";
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
-import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
+import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -49,6 +49,13 @@ export const changeApproval =
           addresses[networkID].BONDS.FRAX,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
+      else if (bond === BONDS.eth) {
+        // <-- added for eth
+        approveTx = await reserveContract.approve(
+          addresses[networkID].BONDS.ETH,
+          ethers.utils.parseUnits("1000000000", "ether").toString(),
+        );
+      }
 
       await approveTx.wait();
     } catch (error) {
@@ -67,43 +74,37 @@ export const calcBondDetails =
     }
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
-    let bondDiscount, valuation, bondQuote;
-    const bondContract = contractForBond({ bond, networkID, provider });
-    const bondCalcContract = new ethers.Contract(
-      addresses[networkID].BONDS.OHM_DAI_CALC,
-      BondOhmDaiCalcContract,
-      provider,
-    );
+    let bondPrice, bondDiscount, valuation, bondQuote;
 
-    const marketPrice = await getMarketPrice({ networkID, provider });
+    const bondContract = contractForBond({ bond, networkID, provider });
+    const bondCalcContract = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
+
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
+    const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
 
-    let debtRatio, bondPrice;
+    let marketPrice = await getMarketPrice({ networkID, provider });
+
     try {
       bondPrice = await bondContract.bondPriceInUSD();
-
-      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
-      if (bond === BONDS.ohm_dai) {
-        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
-        // RFV = assume 1:1 backing
-        valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
-        bondQuote = await bondContract.payoutFor(valuation);
-        bondQuote = bondQuote / Math.pow(10, 9);
-      } else if (bond === BONDS.ohm_frax) {
-        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
-        valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
-        bondQuote = await bondContract.payoutFor(valuation);
-        bondQuote = bondQuote / Math.pow(10, 9);
-      } else {
-        // RFV = DAI
-        debtRatio = await bondContract.standardizedDebtRatio();
-        bondQuote = await bondContract.payoutFor(amountInWei);
-        bondQuote = bondQuote / Math.pow(10, 18);
-      }
+      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
     } catch (e) {
-      debtRatio = 0;
-      bondPrice = 0;
+      console.log("error getting bondPriceInUSD", e);
+    }
+
+    if (bond === BONDS.ohm_dai) {
+      // RFV = assume 1:1 backing
+      valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_DAI, amountInWei);
+      bondQuote = await bondContract.payoutFor(valuation);
+      bondQuote = bondQuote / Math.pow(10, 9);
+    } else if (bond === BONDS.ohm_frax) {
+      valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
+      bondQuote = await bondContract.payoutFor(valuation);
+      bondQuote = bondQuote / Math.pow(10, 9);
+    } else {
+      // RFV = DAI
+      bondQuote = await bondContract.payoutFor(amountInWei);
+      bondQuote = bondQuote / Math.pow(10, 18);
     }
 
     // Display error if user tries to exceed maximum.
@@ -153,36 +154,36 @@ export const calculateUserBondDetails =
     const reserveContract = contractForReserve({ bond, networkID, provider });
 
     let interestDue, pendingPayout, bondMaturationBlock;
-    if (bond === BONDS.dai_v1 || bond === BONDS.ohm_frax_v1 || bond === BONDS.ohm_dai_v1) {
-      const bondDetails = await bondContract.bondInfo(address);
-      interestDue = bondDetails.payoutRemaining / Math.pow(10, 9);
-      bondMaturationBlock = +bondDetails.vestingPeriod + +bondDetails.lastBlock;
-      pendingPayout = await bondContract.pendingPayoutFor(address);
-    } else {
-      const bondDetails = await bondContract.bondInfo(address);
-      interestDue = bondDetails.payout / Math.pow(10, 9);
-      bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
-      pendingPayout = await bondContract.pendingPayoutFor(address);
-    }
 
-    let allowance, balance;
-    if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
+    const bondDetails = await bondContract.bondInfo(address);
+    interestDue = bondDetails.payout / Math.pow(10, 9);
+    bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
+    pendingPayout = await bondContract.pendingPayoutFor(address);
+
+    let allowance,
+      balance = 0;
+    if (bond === BONDS.ohm_dai) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
-    } else if (bond === BONDS.dai || bond === BONDS.dai_v1) {
+    } else if (bond === BONDS.dai) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.DAI);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatEther(balance);
-    } else if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
+    } else if (bond === BONDS.ohm_frax) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_FRAX);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
     } else if (bond === BONDS.frax) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.FRAX);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatUnits(balance, "ether");
+    } else if (bond === BONDS.eth) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.ETH);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
@@ -252,14 +253,13 @@ export const redeemBond =
 
     try {
       let redeemTx;
-      if (bond === BONDS.dai_v1 || bond === BONDS.ohm_dai_v1 || bond === BONDS.ohm_frax_v1) {
-        redeemTx = await bondContract.redeem(false);
-      } else {
-        redeemTx = await bondContract.redeem(address, autostake === true);
-      }
+
+      redeemTx = await bondContract.redeem(address, autostake === true);
 
       await redeemTx.wait();
     } catch (error) {
       alert(error.message);
     }
+
+    should;
   };
