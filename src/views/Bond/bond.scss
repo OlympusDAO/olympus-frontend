@@ -4,16 +4,16 @@
   height: 100%;
   z-index: 69;
   .MuiBackdrop-root {
-    background: rgba(0, 0, 0, 0.2) !important;
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    background: rgba(100, 100, 100, 0.1) !important;
+    backdrop-filter: blur(60px);
+    -webkit-backdrop-filter: blur(60px);
     .ohm-card {
       opacity: 1 !important;
       -moz-opacity: 1 !important;
       height: auto;
     }
   }
-  .ohm0card {
+  .ohm-card {
     max-width: 803px;
   }
   .ohm-modal {
@@ -43,16 +43,20 @@
     }
   }
 
+  .bond-data {
+    margin: 10px 0 0 0;
+  }
+
   .bond-price-data-row {
     display: flex;
     justify-content: space-around;
     text-align: center;
-    margin: 33px;
+    margin: 23px;
     h4 {
       margin-bottom: 0;
     }
     h3.price {
-      font-weight: bold;
+      font-weight: 600 !important;
     }
   }
 

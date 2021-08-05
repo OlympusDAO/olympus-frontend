@@ -2,8 +2,6 @@
   overflow-y: hidden;
   overflow-x: hidden;
   height: 100%;
-  transform: translate3d(0, 0, 0) !important;
-  -webkit-transform: translate3d(0, 0, 0) !important;
   .ohm-card {
     white-space: nowrap;
     width: auto;
@@ -16,6 +14,9 @@
   overflow: hidden;
   flex-wrap: wrap;
   z-index: 5;
+  h5 {
+    font-weight: 600 !important;
+  }
 }
 
 .main-data-area {
@@ -27,7 +28,7 @@
   justify-content: center;
   flex-direction: column;
   margin-top: 10px;
-  height: 77vh;
+  height: 73vh;
   z-index: 2;
   .MuiGrid-root.MuiGrid-item {
     display: flex;
@@ -45,7 +46,7 @@
     max-width: 700px;
     width: auto;
     flex: auto;
-    box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.03);
     background-color: #ffffff0e;
     backdrop-filter: blur(60px);
     -webkit-backdrop-filter: blur(60px);

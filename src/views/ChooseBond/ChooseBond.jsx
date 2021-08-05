@@ -41,7 +41,7 @@ function ChooseBond() {
             <Typography variant="h5">Bond (1,1)</Typography>
           </Box>
 
-          <Grid container item xs={12} style={{ margin: "10px 0px 20px" }}>
+          <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
             <Grid item xs={6}>
               <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
                 <Typography variant="h5" color="textSecondary">
@@ -97,10 +97,9 @@ function ChooseBond() {
       {isSmallScreen && (
         <Box className="ohm-card-container">
           <Grid container item spacing={2}>
-            {/* { Object.keys(BONDS).map(bond => ( */}
-            {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
-              <Grid item xs={12} key={bond}>
-                <BondDataCard key={bond} bond={bond} />
+            {bonds.map(bond => (
+              <Grid item xs={12} key={bond.value}>
+                <BondDataCard key={bond.value} bond={bond.value} />
               </Grid>
             ))}
           </Grid>

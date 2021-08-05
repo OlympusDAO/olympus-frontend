@@ -74,6 +74,7 @@ const commonSettings = {
     },
     MuiPaper: {
       root: {
+        backdropFilter: "blur(33px)",
         "&.ohm-card": {
           padding: "20px 20px 20px 20px",
           borderRadius: "10px",
@@ -81,10 +82,9 @@ const commonSettings = {
           width: "97%",
           marginBottom: "1.8rem",
           borderRadius: "10px",
-          backdropFilter: "blur(60px)",
         },
         "&.ohm-menu": {
-          padding: "22px 20px",
+          padding: "22px 0px",
           borderRadius: "10px",
           margin: "0px",
         },
@@ -127,12 +127,12 @@ const commonSettings = {
         padding: 0,
         square: true,
         rounded: false,
-        zIndex: 10,
+        zIndex: 7,
       },
     },
     MuiBackdrop: {
       root: {
-        backdropFilter: "blur(33px)",
+        backdropFilter: "blur(15px)",
       },
     },
     MuiToggleButton: {
@@ -150,7 +150,7 @@ const commonSettings = {
         textDecoration: "none",
         whiteSpace: "nowrap",
         minWidth: "max-content",
-        height: "40px",
+        maxHeight: "40px",
       },
       containedPrimary: {
         border: 0,
@@ -159,12 +159,22 @@ const commonSettings = {
       containedSecondary: {
         fontWeight: "400",
       },
-      outlinedPrimary: {},
+      outlinedPrimary: {
+        height: "33px",
+        padding: "9px 20px",
+      },
       outlinedSecondary: {
         textTransform: "none",
         textDecoration: "none",
+        height: "33px",
+        fontSize: "1.1em",
+        padding: "9px 20px",
       },
-      textPrimary: {},
+      text: {
+        "&:hover": {
+          backgroundColor: "#00000000",
+        },
+      },
       textSecondary: {
         textTransform: "none",
         textDecoration: "none",
@@ -190,6 +200,20 @@ const commonSettings = {
     MuiInputLabel: {
       outlined: {
         transform: "translate(16px, 14px) scale(1)",
+      },
+    },
+    MuiTabs: {
+      root: {
+        minHeight: "40px",
+        height: "40px",
+      },
+    },
+    MuiTab: {
+      root: {
+        minWidth: "fit-content !important",
+        width: "min-content",
+        padding: "0px",
+        margin: "0px 20px",
       },
     },
   },

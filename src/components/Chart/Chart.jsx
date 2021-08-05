@@ -1,4 +1,4 @@
-import CustomTooltip from "../Tooltip/CustomTooltip";
+import CustomTooltip from "./CustomTooltip";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { Typography, Box } from "@material-ui/core";
 import { trim } from "../../helpers";

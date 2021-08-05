@@ -1,13 +1,15 @@
 #ohm-menu-button {
-  padding: 10px 15px;
+  padding: 12px;
   svg {
     margin-right: 3px;
+    color: inherit !important;
   }
 }
 
 #ohm-popper {
-  background-color: #00000000;
-  backdrop-filter: blur(60px);
+  background-color: #00000011;
+  backdrop-filter: blur(33px);
+  -webkit-backdrop-filter: blur(33px);
   margin-top: 10px;
   border-radius: 10px;
   .MuiPaper-root.ohm-menu {
@@ -15,7 +17,8 @@
     flex-direction: column;
     width: 200px;
     a {
-      margin-bottom: 22px !important;
+      margin-bottom: 18px !important;
+      padding-left: 20px !important;
       svg {
         vertical-align: middle;
         font-size: 20px;
@@ -31,14 +34,15 @@
 
   .add-tokens {
     > p {
-      margin-top: 20px;
+      margin: 15px 0px;
       text-align: center;
     }
     button {
       display: block;
       width: 100%;
       text-align: left;
-      margin-top: 3px;
+      margin-top: 18px;
+      padding-left: 20px;
     }
   }
 }

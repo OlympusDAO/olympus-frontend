@@ -3,18 +3,19 @@ import fonts from "./fonts";
 import commonSettings from "./global.js";
 
 const lightTheme = {
-  color: "#222222",
+  color: "rgb(37, 52, 73)",
   gold: "#F8CC82",
   gray: "#A3A3A3",
-  textHighlightColor: "#F4D092",
-  backgroundColor: "#83A5CB11",
+  textHighlightColor: "#93AEBC", // "#F4D092",
+  backgroundColor: "#AFCDE9",
   // background:
   // "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-  background: "linear-gradient(180deg, #AFCDE9 0%, #F7FBE7 100%)",
+  background: "linear-gradient(180deg, #AFCDE9 1%, #F7FBE7 100%)",
   paperBg: "rgba(255, 255, 255, 0.6)",
-  modalBg: "#F9F9F9AA",
-  popoverrBg: "rgba(255, 255, 255, 0.8)",
-  menuBg: "rgba(255, 255, 255, 0.6)",
+  modalBg: "#FAFAFAEF",
+  popoverBg: "rgba(255, 255, 255, 0.95)",
+  menuBg: "rgba(255, 255, 255, 0.5)",
+  backdropBg: "rgba(200, 200, 200, 0.4)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
   activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
@@ -29,9 +30,6 @@ const lightTheme = {
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
   containedSecondaryButtonHoverBG: "#33333333",
-  //
-  // sidebarBorder: "#759AAE99",
-  // iconColor: "brightness(0) saturate(100%)",
 };
 
 export const light = responsiveFontSizes(
@@ -78,18 +76,27 @@ export const light = responsiveFontSizes(
         },
         MuiPaper: {
           root: {
+            backgroundColor: lightTheme.paperBg,
+            "&.ohm-card": {
+              backgroundColor: lightTheme.paperBg,
+            },
             "&.ohm-modal": {
               backgroundColor: lightTheme.modalBg,
             },
             "&.ohm-menu": {
               backgroundColor: lightTheme.menuBg,
-              backdropFilter: "blur(60px)",
+              backdropFilter: "blur(33px)",
             },
             "&.ohm-popover": {
               backgroundColor: lightTheme.popoverBg,
               color: lightTheme.color,
-              backdropFilter: "blur(33px)",
+              backdropFilter: "blur(15px)",
             },
+          },
+        },
+        MuiDrawer: {
+          paper: {
+            backgroundColor: lightTheme.paperBg,
           },
         },
         MuiBackdrop: {
@@ -99,7 +106,7 @@ export const light = responsiveFontSizes(
         },
         MuiDrawer: {
           paper: {
-            backgroundColor: "#FFFFFF33",
+            backgroundColor: lightTheme.backdropBg,
           },
         },
         MuiLink: {
@@ -116,6 +123,17 @@ export const light = responsiveFontSizes(
               color: lightTheme.color,
               textDecoration: "underline",
             },
+            "@media (hover:none)": {
+              "&:hover": {
+                color: lightTheme.textHighlightColor,
+                textDecoration: "none",
+                backgroundColor: "#00000000 !important",
+              },
+              "&:focus": {
+                color: lightTheme.textHighlightColor,
+                backgroundColor: "#00000000 !important",
+              },
+            },
           },
         },
         MuiTableCell: {
@@ -127,16 +145,44 @@ export const light = responsiveFontSizes(
           root: {
             backgroundColor: lightTheme.paperBg,
             "&:hover": {
+              color: lightTheme.color,
               backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
             },
             selected: {
               backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
             },
+            "@media (hover:none)": {
+              "&:hover": {
+                color: lightTheme.color,
+                backgroundColor: lightTheme.paperBg,
+              },
+              "&:focus": {
+                color: lightTheme.color,
+                backgroundColor: lightTheme.paperBg,
+              },
+            },
+          },
+        },
+        MuiIconButton: {
+          root: {
+            "&:hover": {
+              backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+            },
+            "@media (hover:none)": {
+              "&:hover": {
+                color: lightTheme.color,
+                backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+              },
+              "&:focus": {
+                color: lightTheme.color,
+                backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+              },
+            },
           },
         },
         MuiButton: {
           containedPrimary: {
-            color: lightTheme.color,
+            color: "#FCFCFC",
             backgroundColor: lightTheme.primaryButtonBG,
             "&:hover": {
               backgroundColor: lightTheme.primaryButtonHoverBG,
@@ -154,12 +200,14 @@ export const light = responsiveFontSizes(
             color: lightTheme.color,
             backgroundColor: lightTheme.paperBg,
             "&:hover": {
+              color: "#FCFCFC",
               backgroundColor: `${lightTheme.containedSecondaryButtonHoverBG} !important`,
             },
             "@media (hover:none)": {
               color: lightTheme.color,
               backgroundColor: lightTheme.paperBg,
               "&:hover": {
+                color: "#FCFCFC",
                 backgroundColor: `${lightTheme.containedSecondaryButtonHoverBG} !important`,
               },
             },
@@ -171,6 +219,14 @@ export const light = responsiveFontSizes(
               color: lightTheme.gold,
               backgroundColor: lightTheme.primaryButtonHoverBG,
               borderColor: lightTheme.primaryButtonBG,
+            },
+            "@media (hover:none)": {
+              color: lightTheme.primaryButtonBG,
+              borderColor: lightTheme.primaryButtonBG,
+              "&:hover": {
+                color: `${lightTheme.gold} !important`,
+                backgroundColor: `${lightTheme.primaryButtonBG} !important`,
+              },
             },
           },
           outlinedSecondary: {
@@ -185,7 +241,7 @@ export const light = responsiveFontSizes(
           textPrimary: {
             color: "#A3A3A3",
             "&:hover": {
-              color: lightTheme.gold,
+              color: lightTheme.textHighlightColor,
               backgroundColor: "#00000000",
             },
             "&:active": {

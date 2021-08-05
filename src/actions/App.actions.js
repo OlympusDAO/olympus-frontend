@@ -4,10 +4,10 @@ import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
+import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import axios from "axios";
-import { contractForReserve, addressForAsset } from "../helpers";
+import { contractForReserve, addressForAsset, contractForBond } from "../helpers";
 import { BONDS } from "../constants";
-import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 import apollo from "../lib/apolloClient.js";
 
 export const fetchAppSuccess = payload => ({
@@ -28,10 +28,13 @@ export const loadAppDetails =
         protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
           timestamp
           ohmCirculatingSupply
+          sOhmCirculatingSupply
           totalSupply
           ohmPrice
           marketCap
           totalValueLocked
+          nextEpochRebase
+          nextDistributedOhm
         }
       }
     `;
@@ -66,18 +69,23 @@ export const loadAppDetails =
     const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-    const bondCalculator = new ethers.Contract(
-      addresses[networkID].BONDS.OHM_DAI_CALC,
-      BondOhmDaiCalcContract,
-      provider,
-    );
+    const bondCalculator = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
+
+    // Get ETH price
+    const ethBondContract = contractForBond({ bond: BONDS.eth, networkID, provider });
+    let ethPrice = await ethBondContract.assetPrice();
+    ethPrice = ethPrice / Math.pow(10, 18);
 
     // Calculate Treasury Balance
+    // TODO: PLS DRY and modularize.
     let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
     let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
     token = contractForReserve({ bond: BONDS.frax, networkID, provider });
     let fraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+
+    token = contractForReserve({ bond: BONDS.eth, networkID, provider });
+    let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
     token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
     let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
@@ -91,7 +99,12 @@ export const loadAppDetails =
     markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
     let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 
-    const treasuryBalance = daiAmount / Math.pow(10, 18) + fraxAmount / Math.pow(10, 18) + ohmDaiUSD + ohmFraxUSD;
+    const treasuryBalance =
+      daiAmount / Math.pow(10, 18) +
+      fraxAmount / Math.pow(10, 18) +
+      (ethAmount / Math.pow(10, 18)) * ethPrice +
+      ohmDaiUSD +
+      ohmFraxUSD;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();

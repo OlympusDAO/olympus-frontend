@@ -1,0 +1,22 @@
+.tooltip-container {
+  min-width: 175px;
+  border: 1px solid rgba(118, 130, 153, 0.2);
+
+  .item {
+    align-items: center;
+    justify-content: space-between;
+    min-height: 1.33em;
+  }
+
+  .tooltip-bulletpoint {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+
+  .tooltip-date {
+    margin-top: 20px;
+  }
+}

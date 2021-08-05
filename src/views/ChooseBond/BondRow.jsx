@@ -111,7 +111,7 @@ export function BondTableData({ bond }) {
             minimumFractionDigits: 0,
           }).format(bondPurchased)}
       </TableCell>
-      <TableCell align="right">
+      <TableCell>
         <Link component={NavLink} to={`/bonds/${bond}`}>
           <Button variant="outlined" color="primary">
             <Typography variant="h6">Bond</Typography>
