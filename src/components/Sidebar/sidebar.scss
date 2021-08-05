@@ -11,7 +11,7 @@
 .dapp-sidebar {
   height: 100vh;
   border-radius: 0 !important;
-  min-height: 633px;
+  // min-height: 500px;
 }
 
 .branding-header {
@@ -48,10 +48,11 @@
 
 .dapp-menu-bottom {
   height: 40vh;
+  min-height: 30vh;
 }
 
 .dapp-menu-links {
-  min-height: 40vh;
+  min-height: 35vh;
   display: flex;
   align-items: center;
 }
