@@ -80,7 +80,7 @@ export const addresses = {
       OHM_DAI: "0x956c43998316b6a2F21f89a1539f73fB5B78c151", // v1.1 updated
       OHM_FRAX: "0xc20CffF07076858a7e642E396180EC390E5A02f7", // v1.1 updated
       FRAX: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514", // FRAX Bonds
-      ETH: "0x7464a65aa3fc15a625e2adfb8b340277d804d90d",
+      ETH: "0xE6295201CD1ff13CeD5f063a5421c39A1D236F1c",
     },
   },
 };
