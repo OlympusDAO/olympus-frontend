@@ -4,6 +4,7 @@ import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@etherspro
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import { INFURA_ID } from "../constants";
+import { checkDocument } from "@apollo/client/utilities";
 
 // TODO(zayenx): REMEMBER THIS!!!
 // Use this in production!
@@ -68,9 +69,9 @@ export const useAddress = () => {
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
-  const [uri, setUri] = useState("");
+  const [uri, setUri] = useState(getMainnetURI());
   const [address, setAddress] = useState("");
-  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(getTestnetURI())); // TODO(ZayenX): pls remember to change this back to infura.
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri)); // TODO(ZayenX): pls remember to change this back to infura.
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -79,9 +80,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       providerOptions: {
         walletconnect: {
           package: WalletConnectProvider, // required
-          options: {
-            infuraId: INFURA_ID,
-          },
         },
       },
     }),
@@ -101,8 +99,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       setTimeout(() => window.location.reload(), 1);
     });
 
-    provider.on("chainChanged", () => {
+    provider.on("chainChanged", (chain: number) => {
       if (_hasCachedProvider()) return;
+      _checkNetwork(chain);
       setTimeout(() => window.location.reload(), 1);
     });
   }, [provider]);
