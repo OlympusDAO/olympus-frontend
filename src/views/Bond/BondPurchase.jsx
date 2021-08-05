@@ -8,6 +8,7 @@ import {
   OutlinedInput,
   InputAdornment,
   Button,
+  Fade,
   Slide,
 } from "@material-ui/core";
 import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
@@ -114,7 +115,7 @@ function BondPurchase({ bond, slippage }) {
   const balanceUnits = () => {
     if (bond.indexOf("_lp") >= 0) return "LP";
     else if (bond === BONDS.dai) return "DAI";
-    else if (bond === BONDS.eth) return "ETH";
+    else if (bond === BONDS.eth) return "wETH";
     else return "FRAX";
   };
 
@@ -136,43 +137,41 @@ function BondPurchase({ bond, slippage }) {
   };
 
   return (
-    <Slide direction="left" in={true} mountOnEnter unmountOnExit>
-      <Box display="flex" flexDirection="column">
-        <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-          <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
-            <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              type="number"
-              value={quantity}
-              onChange={e => setQuantity(e.target.value)}
-              // startAdornment={<InputAdornment position="start">$</InputAdornment>}
-              labelWidth={55}
-              endAdornment={
-                <InputAdornment position="end">
-                  <Button variant="text" onClick={setMax}>
-                    Max
-                  </Button>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-          {hasAllowance() ? (
-            <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" onClick={onBond}>
-              Bond
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              id="bond-approve-btn"
-              className="transaction-button"
-              onClick={onSeekApproval}
-            >
-              Approve
-            </Button>
-          )}
-        </Box>
+    <Box display="flex" flexDirection="column">
+      <Box display="flex" justifyContent="space-around" flexWrap="wrap">
+        <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
+          <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-amount"
+            type="number"
+            value={quantity}
+            onChange={e => setQuantity(e.target.value)}
+            // startAdornment={<InputAdornment position="start">$</InputAdornment>}
+            labelWidth={55}
+            endAdornment={
+              <InputAdornment position="end">
+                <Button variant="text" onClick={setMax}>
+                  Max
+                </Button>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        {hasAllowance() ? (
+          <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" onClick={onBond}>
+            Bond
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            id="bond-approve-btn"
+            className="transaction-button"
+            onClick={onSeekApproval}
+          >
+            Approve
+          </Button>
+        )}
 
         {!hasAllowance() && (
           <div className="help-text">
@@ -184,7 +183,9 @@ function BondPurchase({ bond, slippage }) {
             </em>
           </div>
         )}
+      </Box>
 
+      <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
           <div className="data-row">
             <Typography>Your Balance</Typography>
@@ -229,8 +230,8 @@ function BondPurchase({ bond, slippage }) {
             </div>
           )}
         </Box>
-      </Box>
-    </Slide>
+      </Slide>
+    </Box>
   );
 }
 

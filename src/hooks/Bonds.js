@@ -31,7 +31,7 @@ export const makeBondsArray = (
       discount: Number(fraxBondDiscount),
     },
     {
-      name: "ETH",
+      name: "wETH",
       value: "eth",
       discount: Number(ethBondDiscount),
     },

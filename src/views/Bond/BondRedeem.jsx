@@ -51,35 +51,35 @@ function BondRedeem({ bond }) {
   });
 
   return (
-    <Slide direction="right" in={true} mountOnEnter unmountOnExit>
-      <Box display="flex" flexDirection="column">
-        <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-          <Button
-            variant="contained"
-            color="primary"
-            id="bond-claim-btn"
-            className="transaction-button"
-            fullWidth
-            onClick={() => {
-              onRedeem({ autostake: false });
-            }}
-          >
-            Claim
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            id="bond-claim-autostake-btn"
-            className="transaction-button"
-            fullWidth
-            onClick={() => {
-              onRedeem({ autostake: true });
-            }}
-          >
-            Claim and Autostake
-          </Button>
-        </Box>
+    <Box display="flex" flexDirection="column">
+      <Box display="flex" justifyContent="space-around" flexWrap="wrap">
+        <Button
+          variant="contained"
+          color="primary"
+          id="bond-claim-btn"
+          className="transaction-button"
+          fullWidth
+          onClick={() => {
+            onRedeem({ autostake: false });
+          }}
+        >
+          Claim
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          id="bond-claim-autostake-btn"
+          className="transaction-button"
+          fullWidth
+          onClick={() => {
+            onRedeem({ autostake: true });
+          }}
+        >
+          Claim and Autostake
+        </Button>
+      </Box>
 
+      <Slide direction="right" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
           <div className="data-row">
             <Typography>Pending Rewards</Typography>
@@ -109,8 +109,8 @@ function BondRedeem({ bond }) {
             <Typography>{vestingPeriod()}</Typography>
           </div>
         </Box>
-      </Box>
-    </Slide>
+      </Slide>
+    </Box>
   );
 }
 
