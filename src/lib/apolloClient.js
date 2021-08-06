@@ -1,13 +1,14 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { THE_GRAPH_URL } from "../constants";
 
-const client = new ApolloClient({
-  uri: THE_GRAPH_URL,
-  cache: new InMemoryCache(),
-});
+const client = url =>
+  new ApolloClient({
+    uri: url || THE_GRAPH_URL,
+    cache: new InMemoryCache(),
+  });
 
-const apollo = queryString => {
-  return client
+const apollo = (queryString, url) => {
+  return client(url)
     .query({
       query: gql(queryString),
     })

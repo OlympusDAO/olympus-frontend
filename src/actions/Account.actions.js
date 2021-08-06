@@ -25,8 +25,6 @@ export const loadAccountDetails =
     let lpBondAllowance = 0;
     let daiBondAllowance = 0;
     let aOHMAbleToClaim = 0;
-
-    let migrateContract;
     let unstakeAllowanceSohm;
 
     const daiContract = new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);

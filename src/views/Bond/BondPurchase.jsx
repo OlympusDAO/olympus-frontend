@@ -1,6 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Typography, FormControl, Box, InputLabel, OutlinedInput, InputAdornment, Button } from "@material-ui/core";
+import {
+  Typography,
+  FormControl,
+  Box,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  Button,
+  Fade,
+  Slide,
+} from "@material-ui/core";
 import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../actions/Bond.actions.js";
 import { BONDS } from "../../constants";
@@ -8,7 +18,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 
 function BondPurchase({ bond, slippage }) {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
+  const { provider, address, chainID } = useWeb3Context();
 
   const [recipientAddress, setRecipientAddress] = useState(address);
   const [quantity, setQuantity] = useState("");
@@ -74,7 +84,7 @@ function BondPurchase({ bond, slippage }) {
             value: quantity,
             slippage,
             bond,
-            networkID: 1,
+            networkID: chainID,
             provider,
             address: recipientAddress || address,
           }),
@@ -86,7 +96,7 @@ function BondPurchase({ bond, slippage }) {
           value: quantity,
           slippage,
           bond,
-          networkID: 1,
+          networkID: chainID,
           provider,
           address: recipientAddress || address,
         }),
@@ -105,14 +115,15 @@ function BondPurchase({ bond, slippage }) {
   const balanceUnits = () => {
     if (bond.indexOf("_lp") >= 0) return "LP";
     else if (bond === BONDS.dai) return "DAI";
+    else if (bond === BONDS.eth) return "wETH";
     else return "FRAX";
   };
 
   async function loadBondDetails() {
-    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: 1 }));
+    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
 
     if (provider && address) {
-      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: 1 }));
+      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
     }
   }
 
@@ -122,7 +133,7 @@ function BondPurchase({ bond, slippage }) {
   }, [provider, quantity, address]);
 
   const onSeekApproval = async () => {
-    await dispatch(changeApproval({ address, bond, provider, networkID: 1 }));
+    await dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
   };
 
   return (
@@ -161,61 +172,65 @@ function BondPurchase({ bond, slippage }) {
             Approve
           </Button>
         )}
+
+        {!hasAllowance() && (
+          <div className="help-text">
+            <em>
+              <Typography variant="body2">
+                Note: The "Approve" transaction is only needed when bonding for the first time; subsequent bonding only
+                requires you to perform the "Bond" transaction.
+              </Typography>
+            </em>
+          </div>
+        )}
       </Box>
 
-      {!hasAllowance() && (
-        <div className="help-text">
-          <em>
-            <Typography variant="body2">
-              Note: The "Approve" transaction is only needed when bonding for the first time; subsequent bonding only
-              requires you to perform the "Bond" transaction.
+      <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
+        <Box className="bond-data">
+          <div className="data-row">
+            <Typography>Your Balance</Typography>
+            <Typography>
+              {trim(balance, 4)} {balanceUnits()}
             </Typography>
-          </em>
-        </div>
-      )}
+          </div>
 
-      <div className="data-row">
-        <Typography>Your Balance</Typography>
-        <Typography>
-          {trim(balance, 4)} {balanceUnits()}
-        </Typography>
-      </div>
+          <div className={`data-row`}>
+            <Typography>You Will Get</Typography>
+            <Typography id="bond-value-id" className="price-data">
+              {trim(bondQuote, 4) || ""} OHM
+            </Typography>
+          </div>
 
-      <div className={`data-row`}>
-        <Typography>You Will Get</Typography>
-        <Typography id="bond-value-id" className="price-data">
-          {trim(bondQuote, 4) || ""} OHM
-        </Typography>
-      </div>
+          <div className={`data-row`}>
+            <Typography>Max You Can Buy</Typography>
+            <Typography id="bond-value-id" className="price-data">
+              {trim(maxBondPrice, 4) || ""} OHM
+            </Typography>
+          </div>
 
-      <div className={`data-row`}>
-        <Typography>Max You Can Buy</Typography>
-        <Typography id="bond-value-id" className="price-data">
-          {trim(maxBondPrice, 4) || ""} OHM
-        </Typography>
-      </div>
+          <div className="data-row">
+            <Typography>ROI</Typography>
+            <Typography>{trim(bondDiscount * 100, 2)}%</Typography>
+          </div>
 
-      <div className="data-row">
-        <Typography>ROI</Typography>
-        <Typography>{trim(bondDiscount * 100, 2)}%</Typography>
-      </div>
+          <div className="data-row">
+            <Typography>Debt Ratio</Typography>
+            <Typography>{trim(debtRatio / 10000000, 2)}%</Typography>
+          </div>
 
-      <div className="data-row">
-        <Typography>Debt Ratio</Typography>
-        <Typography>{trim(debtRatio / 10000000, 2)}%</Typography>
-      </div>
+          <div className="data-row">
+            <Typography>Vesting Term</Typography>
+            <Typography>{vestingPeriod()}</Typography>
+          </div>
 
-      <div className="data-row">
-        <Typography>Vesting Term</Typography>
-        <Typography>{vestingPeriod()}</Typography>
-      </div>
-
-      {recipientAddress !== address && (
-        <div className="data-row">
-          <Typography>Recipient</Typography>
-          <Typography>{shorten(recipientAddress)}</Typography>
-        </div>
-      )}
+          {recipientAddress !== address && (
+            <div className="data-row">
+              <Typography>Recipient</Typography>
+              <Typography>{shorten(recipientAddress)}</Typography>
+            </div>
+          )}
+        </Box>
+      </Slide>
     </Box>
   );
 }

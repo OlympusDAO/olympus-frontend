@@ -80,21 +80,22 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 900px)");
   const isSmallScreen = useMediaQuery("(max-width: 620px)");
 
-  // You can warn the user if you would like them to be on a specific network
-  // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
-
-  // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
-
   const { provider, chainID } = useWeb3Context();
   const address = useAddress();
 
   async function loadDetails() {
+    // NOTE (unbanksy): If you encounter the following error:
+    // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
+    // it's because the initial provider loaded always starts with chainID=1. This causes
+    // address lookup on the wrong chain which then throws the error. To properly resolve this,
+    // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
+    // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
 
     await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
     if (address) await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
 
-    [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
+    Object.values(BONDS).map(async bond => {
       await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
     });
   }
