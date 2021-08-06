@@ -5,6 +5,7 @@ export function app(state = {}, action) {
     case Actions.FETCH_APP_SUCCESS:
     case Actions.FETCH_MIGRATE_SUCCESS:
     case Actions.FETCH_ACCOUNT_SUCCESS:
+    case Actions.FETCH_TXN_STATE:
       return { ...state, ...action.payload };
     default:
       return state;

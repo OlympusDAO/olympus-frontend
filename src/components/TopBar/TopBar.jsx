@@ -7,6 +7,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import ThemeSwitcher from "./ThemeSwitch.jsx";
 import "./topbar.scss";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -31,11 +32,18 @@ const useStyles = makeStyles(theme => ({
 function ConnectButton() {
   const { connect, disconnect, connected, web3 } = useWeb3Context();
   const [isConnected, setConnected] = useState(connected);
+  const txnHash = useSelector(state => {
+    return state.app && state.app.txnHash;
+  });
+
   let buttonText = "Connect Wallet";
   let clickFunc = connect;
   if (isConnected) {
     buttonText = "Disconnect";
     clickFunc = disconnect;
+  }
+  if (txnHash) {
+    buttonText = "Pending";
   }
 
   useEffect(() => {

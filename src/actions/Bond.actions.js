@@ -9,6 +9,7 @@ import {
 } from "../helpers";
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
+import { fetchTxnHash } from "./App.actions";
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -56,10 +57,12 @@ export const changeApproval =
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
       }
-
+      dispatch(fetchTxnHash({ txnHash: approveTx.hash }));
       await approveTx.wait();
     } catch (error) {
       alert(error.message);
+    } finally {
+      dispatch(fetchTxnHash({ txnHash: null }));
     }
   };
 
@@ -225,7 +228,11 @@ export const bondAsset =
     // Deposit the bond
     try {
       const bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+      dispatch(fetchTxnHash({ txnHash: bondTx.hash }));
       await bondTx.wait();
+      dispatch(fetchTxnHash({ txnHash: null }));
+      // TODO: it may make more sense to only have it in the finally.
+      // UX preference (show pending after txn complete or after balance updated)
 
       const reserveContract = contractForReserve({ bond, provider, networkID });
 
@@ -242,6 +249,8 @@ export const bondAsset =
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else alert(error.message);
       return;
+    } finally {
+      dispatch(fetchTxnHash({ txnHash: null }));
     }
   };
 
@@ -260,11 +269,12 @@ export const redeemBond =
       let redeemTx;
 
       redeemTx = await bondContract.redeem(address, autostake === true);
+      dispatch(fetchTxnHash({ txnHash: redeemTx.hash }));
 
       await redeemTx.wait();
     } catch (error) {
       alert(error.message);
+    } finally {
+      dispatch(fetchTxnHash({ txnHash: null }));
     }
-
-    should;
   };
