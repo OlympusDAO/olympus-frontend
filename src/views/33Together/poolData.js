@@ -56,11 +56,28 @@ query {
 }
 `;
 
+export const poolTimeQuery = `
+query {
+  prizeStrategy(id: "0xeeb552c4d5e155e50ee3f7402ed379bf72e36f23") {
+    multipleWinners {
+      numberOfWinners
+      prizePeriodSeconds
+      prizePeriodStartedAt
+      prizePeriodEndAt
+      externalErc20Awards {
+        name
+        symbol
+        decimals
+        balanceAwarded
+      }
+    }
+  }
+}`;
+
 // for if we want to have multiple discrete queries
 export const otherPoolDataQuery = `
 query {
   
-  }
 }
 `;
 

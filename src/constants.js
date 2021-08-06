@@ -4,8 +4,8 @@ export const INFURA_ID =
   process.env.NODE_ENV === "development" ? "5e3c4a19b5f64c99bf8cd8089c92b44d" : "31e6d348d16b4a4dacde5f8a47da1971";
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
 export const POOL_GRAPH_URLS = {
-  4: "https://api.thegraph.com/subgraph/name/pooltogether/rinkeby-v3_4_3",
-  1: "https://api.thegraph.com/subgraph/name/pooltogether/pooltogether-v3_4_3",
+  4: "https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3_4_3",
+  1: "https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_4_3",
 };
 export const EPOCH_INTERVAL = 2200;
 
@@ -50,7 +50,7 @@ export const addresses = {
     },
     POOL_TOGETHER: {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
-      AWARD_ADDRESS: "0x54c18FB75f946424AF15221414B15a814Ca1EFD0", // contract to start/compolete award
+      AWARD_ADDRESS: "0x54c18FB75f946424AF15221414B15a814Ca1EFD0", // contract to start/complete award
     },
   },
   1: {

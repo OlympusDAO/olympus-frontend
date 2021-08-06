@@ -77,7 +77,7 @@ export const useAddress = () => {
 
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
-  const [chainID, setChainID] = useState(1);
+  const [chainID, setChainID] = useState(4);
   const [uri, setUri] = useState(getAlchemyAPI(chainID));
   const [address, setAddress] = useState("");
   const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri)); // TODO(ZayenX): pls remember to change this back to infura.

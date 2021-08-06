@@ -6,24 +6,24 @@ import { Paper, Box, Typography, Button, Tab, Tabs, Zoom, SvgIcon, CircularProgr
 import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import { POOL_GRAPH_URLS } from "../../constants";
 import { poolDataQuery } from "./poolData.js";
-import apollo from "../../lib/apolloClient";
+import { apolloExt } from "../../lib/apolloClient";
 
 export const PoolInfo = () => {
   const { address, provider, chainID } = useWeb3Context();
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
   const [poolData, setPoolData] = useState(null);
-  const poolChainValuesIsFetched = typeof poolData !== null;
-  const loading = !poolChainValuesIsFetched || (address && !usersChainValuesIsFetched);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setGraphUrl(POOL_GRAPH_URLS[chainID]);
   }, [chainID]);
 
   useEffect(() => {
-    apollo(poolDataQuery, graphUrl).then(r => {
+    apolloExt(poolDataQuery, graphUrl).then(r => {
       console.log(r);
       // do something with r
       setPoolData(r);
+      setLoading(false);
     });
   }, []);
 
