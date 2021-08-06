@@ -141,6 +141,7 @@ function Stake() {
   };
 
   const trimmedSOHMBalance = trim(sohmBalance, 4);
+  const trimmedStakingAPY = trim(stakingAPY * 100, 1);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
 
@@ -187,7 +188,9 @@ function Stake() {
                       <Typography variant="h5" color="textSecondary">
                         APY
                       </Typography>
-                      <Typography variant="h4">{stakingAPY && trim(stakingAPY * 100, 1)}%</Typography>
+                      <Typography variant="h4">
+                        {stakingAPY && new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%
+                      </Typography>
                     </div>
                   </Grid>
 
@@ -351,7 +354,9 @@ function Stake() {
 
                     <div className="data-row">
                       <Typography variant="body1">Your Staked Balance</Typography>
-                      <Typography variant="body1">{trimmedSOHMBalance} sOHM</Typography>
+                      <Typography variant="body1">
+                        {new Intl.NumberFormat("en-US").format(trimmedSOHMBalance)} sOHM
+                      </Typography>
                     </div>
 
                     <div className="data-row">
