@@ -273,7 +273,7 @@ async ({ bond, provider, address, networkID }) => {
     }
   })
 
-  const migrateSlice = createSlice({
+  const bondingSlice = createSlice({
     name: 'bonding',
     initialState,
     reducers: {
@@ -294,9 +294,9 @@ async ({ bond, provider, address, networkID }) => {
 })
 
 
-export default bondSlice.reducer
+export default bondingSlice.reducer
 
-export const {fetchBondSuccess} = bondSlice.actions
+export const {fetchBondSuccess} = bondingSlice.actions
 
 
 export const {
