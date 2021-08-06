@@ -18,7 +18,8 @@ const initialState = accountAdapter.getInitialState({
   })
 
 
-export const loadAccountDetails = createAsyncThunk('account/loadAccountDetails', async (networkID, provider, address) => {
+export const loadAccountDetails = createAsyncThunk('account/loadAccountDetails',
+ async (networkID, provider, address) => {
     // console.log("networkID = ", networkID)
     // console.log("addresses = ",addresses)
 
@@ -129,7 +130,7 @@ export default accountSlice.reducer
 export const {fetchAccountSuccess} = accountSlice.actions
 
 export const {
-  selectAll,
+  selectAll
 } = accountAdapter.getSelectors((state) => state.account)
 
 export const getAccountState = createSelector(
