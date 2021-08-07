@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
-import { trim, bondName, lpURL, isBondLP, getTokenImage } from "../../helpers";
+import { trim, bondName, lpURL, isBondLP } from "../../helpers";
+import { getTokenImage } from "../../helpers/components";
 import BondLogo from "../../components/BondLogo";
 import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";

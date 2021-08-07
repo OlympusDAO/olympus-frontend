@@ -1,4 +1,5 @@
-import { isBondLP, getTokenImage, getPairImage } from "../helpers";
+import { isBondLP } from "../helpers";
+import { getTokenImage, getPairImage } from "../helpers/components";
 import { Box } from "@material-ui/core";
 
 function BondHeader({ bond }) {
