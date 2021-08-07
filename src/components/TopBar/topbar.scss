@@ -17,3 +17,17 @@
 .tablet .dapp-topbar {
   justify-content: space-between;
 }
+.pending-txn-container {
+  display: flex;
+  align-items: center;
+}
+#ohm-popper-pending {
+  .MuiPaper-root.ohm-menu {
+    a {
+      padding-right: 20px !important;
+    }
+  }
+}
+.rotated-caret {
+  transform: rotate(180deg);
+}

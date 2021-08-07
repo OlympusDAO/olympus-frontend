@@ -15,11 +15,6 @@ export const fetchAppSuccess = payload => ({
   payload,
 });
 
-export const fetchTxnHash = payload => ({
-  type: Actions.FETCH_TXN_STATE,
-  payload,
-});
-
 export const loadAppDetails =
   ({ networkID, provider }) =>
   async dispatch => {

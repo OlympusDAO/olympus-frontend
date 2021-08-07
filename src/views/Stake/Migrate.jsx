@@ -24,6 +24,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import "./stake.scss";
 import "./migrate.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { txnButtonText } from "src/actions/PendingTxns.actions";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
@@ -57,6 +58,10 @@ export default function Migrate() {
 
   const oldStakingAPY = useSelector(state => {
     return (state.app && state.app.oldStakingAPY) || 0;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
   });
 
   const setMax = () => {
@@ -280,7 +285,7 @@ export default function Migrate() {
                           setView("stake");
                         }}
                       >
-                        Unstake sOHM (legacy)
+                        {txnButtonText(pendingTransactions, "migrate_unstaking", "Unstake sOHM (legacy)")}
                       </Button>
                     )}
 
@@ -294,7 +299,7 @@ export default function Migrate() {
                           setView("done");
                         }}
                       >
-                        Stake OHM (new)
+                        {txnButtonText(pendingTransactions, "migrate_staking", "Stake OHM (new)")}
                       </Button>
                     )}
 
@@ -307,7 +312,7 @@ export default function Migrate() {
                           getUnstakeLegacyApproval();
                         }}
                       >
-                        Approve Unstake (legacy)
+                        {txnButtonText(pendingTransactions, "approve_migrate_unstaking", "Approve Unstake (legacy)")}
                       </Button>
                     )}
 
@@ -319,7 +324,7 @@ export default function Migrate() {
                           getStakeApproval();
                         }}
                       >
-                        Approve Stake (new)
+                        {txnButtonText(pendingTransactions, "approve_migrate_staking", "Approve Stake (new)")}
                       </Button>
                     )}
                   </Box>

@@ -7,7 +7,7 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
-import { fetchTxnHash } from "./App.actions";
+import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.actions";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
@@ -51,14 +51,24 @@ export const getApproval =
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
-      dispatch(fetchTxnHash({ txnHash: approveTx.hash }));
+      const text = "Approve " + (type === TYPES.OLD ? "Unstaking" : "Staking");
+      const pendingTxnType = type === TYPES.OLD ? "approve_migrate_unstaking" : "approve_migrate_staking";
+      dispatch(
+        fetchPendingTxns({
+          txnHash: approveTx.hash,
+          text,
+          type: pendingTxnType,
+        }),
+      );
 
       await approveTx.wait();
     } catch (error) {
       alert(error.message);
       return;
     } finally {
-      dispatch(fetchTxnHash({ txnHash: null }));
+      if (approveTx) {
+        dispatch(clearPendingTxn(approveTx.hash));
+      }
     }
 
     const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
@@ -94,7 +104,8 @@ export const changeStake =
       } else if (action === ACTIONS.UNSTAKE) {
         stakeTx = await oldStaking.unstakeOHM(ethers.utils.parseUnits(value, "gwei"));
       }
-      dispatch(fetchTxnHash({ txnHash: stakeTx.hash }));
+      const pendingTxnType = action === ACTIONS.STAKE ? "migrate_staking" : "migrate_unstaking";
+      dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
       await stakeTx.wait();
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
@@ -104,7 +115,9 @@ export const changeStake =
       alert(error.message);
       return;
     } finally {
-      dispatch(fetchTxnHash({ txnHash: null }));
+      if (stakeTx) {
+        dispatch(clearPendingTxn(stakeTx.hash));
+      }
     }
 
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);

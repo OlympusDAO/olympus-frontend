@@ -1,15 +1,8 @@
 import { ethers } from "ethers";
-import {
-  isBondLP,
-  getMarketPrice,
-  contractForBond,
-  contractForReserve,
-  addressForBond,
-  addressForAsset,
-} from "../helpers";
-import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
+import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForAsset, bondName } from "../helpers";
+import { addresses, Actions, BONDS } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
-import { fetchTxnHash } from "./App.actions";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxns.actions";
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -27,8 +20,8 @@ export const changeApproval =
     const signer = provider.getSigner();
     const reserveContract = contractForReserve({ bond, networkID, provider: signer });
 
+    let approveTx;
     try {
-      let approveTx;
       if (bond == BONDS.ohm_dai)
         approveTx = await reserveContract.approve(
           addresses[networkID].BONDS.OHM_DAI,
@@ -57,12 +50,18 @@ export const changeApproval =
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
       }
-      dispatch(fetchTxnHash({ txnHash: approveTx.hash }));
+
+      dispatch(
+        fetchPendingTxns({ txnHash: approveTx.hash, text: "Approving " + bondName(bond), type: "approve_" + bond }),
+      );
+
       await approveTx.wait();
     } catch (error) {
       alert(error.message);
     } finally {
-      dispatch(fetchTxnHash({ txnHash: null }));
+      if (approveTx) {
+        dispatch(clearPendingTxn(approveTx.hash));
+      }
     }
   };
 
@@ -226,11 +225,13 @@ export const bondAsset =
     const maxPremium = Math.round(calculatePremium * (1 + acceptedSlippage));
 
     // Deposit the bond
+    let bondTx;
     try {
-      const bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
-      dispatch(fetchTxnHash({ txnHash: bondTx.hash }));
+      bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+      dispatch(
+        fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + getBondTypeText(bond), type: "bond_" + bond }),
+      );
       await bondTx.wait();
-      dispatch(fetchTxnHash({ txnHash: null }));
       // TODO: it may make more sense to only have it in the finally.
       // UX preference (show pending after txn complete or after balance updated)
 
@@ -250,7 +251,9 @@ export const bondAsset =
       } else alert(error.message);
       return;
     } finally {
-      dispatch(fetchTxnHash({ txnHash: null }));
+      if (bondTx) {
+        dispatch(clearPendingTxn(bondTx.hash));
+      }
     }
   };
 
@@ -265,16 +268,19 @@ export const redeemBond =
     const signer = provider.getSigner();
     const bondContract = contractForBond({ bond, networkID, provider: signer });
 
+    let redeemTx;
     try {
-      let redeemTx;
-
       redeemTx = await bondContract.redeem(address, autostake === true);
-      dispatch(fetchTxnHash({ txnHash: redeemTx.hash }));
-
+      const pendingTxnType = "redeem_bond_" + bond + (autoStake === true ? "_autostake" : "");
+      dispatch(
+        fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
+      );
       await redeemTx.wait();
     } catch (error) {
       alert(error.message);
     } finally {
-      dispatch(fetchTxnHash({ txnHash: null }));
+      if (redeemTx) {
+        dispatch(clearPendingTxn(redeemTx.hash));
+      }
     }
   };

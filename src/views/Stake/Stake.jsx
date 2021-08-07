@@ -34,6 +34,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg"
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { txnButtonText } from "src/actions/PendingTxns.actions";
 
 function a11yProps(index) {
   return {
@@ -87,6 +88,10 @@ function Stake() {
   });
   const stakingTVL = useSelector(state => {
     return state.app.stakingTVL;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
   });
 
   const setMax = () => {
@@ -287,7 +292,7 @@ function Stake() {
                               onChangeStake("stake");
                             }}
                           >
-                            Stake OHM
+                            {txnButtonText(pendingTransactions, "staking", "Stake OHM")}
                           </Button>
                         ) : (
                           <Button
@@ -298,7 +303,7 @@ function Stake() {
                               onSeekApproval("ohm");
                             }}
                           >
-                            Approve
+                            {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
                           </Button>
                         )}
                       </TabPanel>
@@ -313,7 +318,7 @@ function Stake() {
                               onChangeStake("unstake");
                             }}
                           >
-                            Unstake OHM
+                            {txnButtonText(pendingTransactions, "unstaking", "Unstake OHM")}
                           </Button>
                         ) : (
                           <Button
@@ -324,7 +329,7 @@ function Stake() {
                               onSeekApproval("sohm");
                             }}
                           >
-                            Approve
+                            {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
                           </Button>
                         )}
                       </TabPanel>

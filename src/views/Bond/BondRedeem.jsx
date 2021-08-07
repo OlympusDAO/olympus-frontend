@@ -3,6 +3,7 @@ import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { redeemBond } from "../../actions/Bond.actions.js";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
+import { txnButtonText } from "src/actions/PendingTxns.actions";
 
 function BondRedeem({ bond }) {
   const dispatch = useDispatch();
@@ -26,6 +27,10 @@ function BondRedeem({ bond }) {
 
   const pendingPayout = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].pendingPayout;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
   });
 
   async function onRedeem({ autostake }) {
@@ -63,7 +68,7 @@ function BondRedeem({ bond }) {
             onRedeem({ autostake: false });
           }}
         >
-          Claim
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond, "Claim")}
         </Button>
         <Button
           variant="contained"
@@ -75,7 +80,7 @@ function BondRedeem({ bond }) {
             onRedeem({ autostake: true });
           }}
         >
-          Claim and Autostake
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond + "_autostake", "Claim and Autostake")}
         </Button>
       </Box>
 
