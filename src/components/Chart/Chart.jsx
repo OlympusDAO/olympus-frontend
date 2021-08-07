@@ -1,11 +1,12 @@
 import CustomTooltip from "./CustomTooltip";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
-import { Typography, Box } from "@material-ui/core";
+import { Typography, Box, SvgIcon } from "@material-ui/core";
 import { trim } from "../../helpers";
 import _ from "lodash";
 import { format } from "date-fns";
 import "./chart.scss";
 import { useEffect } from "react";
+import { ReactComponent as Info } from "../../assets/icons/v1.2/info.svg";
 
 const formatCurrency = c => {
   return new Intl.NumberFormat("en-US", {
@@ -269,16 +270,21 @@ function Chart({
       return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType);
   };
 
-  // useEffect(() => {
-  //   console.log("data loaded", data);
-  // }, [data]);
+  useEffect(() => {
+    console.log("data loaded", data);
+  }, [data]);
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
       <div className="card-header">
-        <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400, fontSize: 20 }}>
-          {headerText}
-        </Typography>
+        <Box display="flex">
+          <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400, fontSize: 20 }}>
+            {headerText}
+          </Typography>
+          <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23 }}>
+            <SvgIcon component={Info} color="primary" />
+          </Typography>
+        </Box>
         <Box display="flex">
           <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
             {headerSubText}
