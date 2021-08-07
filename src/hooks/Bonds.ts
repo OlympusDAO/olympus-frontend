@@ -7,6 +7,7 @@ export const makeBondsArray = (
   ohmFraxLpBondDiscount?: number | undefined,
   daiBondDiscount?: number | undefined,
   fraxBondDiscount?: number | undefined,
+  ethBondDiscount?: number | undefined,
 ) => {
   return [
     {
@@ -28,6 +29,11 @@ export const makeBondsArray = (
       name: "FRAX",
       value: "frax",
       discount: Number(fraxBondDiscount),
+    },
+    {
+      name: "wETH",
+      value: "eth",
+      discount: Number(ethBondDiscount),
     },
   ];
 };
@@ -57,13 +63,23 @@ export default function useBonds() {
     return (state.bonding && state.bonding["ohm_frax_lp"] && state.bonding["ohm_frax_lp"].bondDiscount) || 0;
   });
 
+  const ethBondDiscount = useAppSelector(state => {
+    return (state.bonding && state.bonding["eth"] && state.bonding["eth"].bondDiscount) || 0;
+  });
+
   const [bonds, setBonds] = useState(BONDS_ARRAY);
 
   useEffect(() => {
-    const bondValues = makeBondsArray(ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount);
+    const bondValues = makeBondsArray(
+      ohmDaiBondDiscount,
+      ohmFraxLpBondDiscount,
+      daiBondDiscount,
+      fraxBondDiscount,
+      ethBondDiscount,
+    );
     const mostProfitableBonds = orderBy(bondValues, "discount", "desc");
     setBonds(mostProfitableBonds);
-  }, [ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount]);
+  }, [ohmDaiBondDiscount, ohmFraxLpBondDiscount, daiBondDiscount, fraxBondDiscount, ethBondDiscount]);
 
   return bonds;
 }

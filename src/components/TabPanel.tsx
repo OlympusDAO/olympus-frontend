@@ -18,6 +18,7 @@ const TabPanel: React.FC<ITabPanelProps> = (props: ITabPanelProps) => {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
+      style={{ overflow: "hidden" }}
     >
       {value === index && <Box p={3}>{children}</Box>}
     </div>

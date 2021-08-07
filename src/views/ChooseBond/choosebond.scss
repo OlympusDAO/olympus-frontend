@@ -19,19 +19,13 @@
 
   .bond-data-card {
     margin: auto !important;
-    .ohm-pairs {
-      display: flex;
-      margin-right: 15px;
-    }
     .bond-pair {
       display: flex !important;
       align-items: center;
       justify-content: left;
-      margin-left: 10px;
       margin-bottom: 15px;
-      .ohm-pair {
-        height: 40px;
-        width: 40px;
+      .MuiBox-root {
+        margin-right: 10px;
       }
       .bond-name {
         svg {

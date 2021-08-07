@@ -7,7 +7,7 @@ import { useAppSelector } from "src/hooks";
 
 function BondRedeemV1({ bond }: { bond: string }) {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
+  const { provider, address, chainID } = useWeb3Context();
 
   const currentBlock = useAppSelector(state => {
     return state.app.currentBlock;
@@ -27,12 +27,12 @@ function BondRedeemV1({ bond }: { bond: string }) {
   };
 
   async function onRedeem() {
-    await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake: null }));
+    await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake: null }));
   }
 
   async function loadBondDetails() {
     if (provider && address) {
-      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: 1 }));
+      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
     }
   }
 
