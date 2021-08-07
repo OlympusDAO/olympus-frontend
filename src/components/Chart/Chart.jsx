@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import "./chart.scss";
 import { useEffect } from "react";
 import { ReactComponent as Info } from "../../assets/icons/v1.2/info.svg";
+import { ReactComponent as Fullscreen } from "../../assets/icons//v1.2/fullscreen.svg";
 
 const formatCurrency = c => {
   return new Intl.NumberFormat("en-US", {
@@ -277,13 +278,20 @@ function Chart({
   return (
     <Box style={{ width: "100%", height: "100%" }}>
       <div className="card-header">
-        <Box display="flex">
-          <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400, fontSize: 20 }}>
-            {headerText}
-          </Typography>
-          <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23 }}>
-            <SvgIcon component={Info} color="primary" />
-          </Typography>
+        <Box display="flex" justifyContent="space-between">
+          <Box display="flex">
+            <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400, fontSize: 20 }}>
+              {headerText}
+            </Typography>
+            <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23, cursor: "pointer" }}>
+              <SvgIcon component={Info} color="primary" />
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
+              <SvgIcon component={Fullscreen} color="primary" />
+            </Typography>
+          </Box>
         </Box>
         <Box display="flex">
           <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
