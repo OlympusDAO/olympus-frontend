@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Box, Button, SvgIcon, Typography, Popper, Paper, Divider, Link } from "@material-ui/core";
+import { Box, Button, SvgIcon, Typography, Popper, Paper, Divider, Link, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/v1.2/arrow-up.svg";
 import { ReactComponent as CaretDownIcon } from "../../assets/icons/v1.2/caret-down.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -9,6 +9,7 @@ function ConnectMenu({ theme }) {
   const { connect, disconnect, connected, web3 } = useWeb3Context();
   const [anchorEl, setAnchorEl] = useState(null);
   const [isConnected, setConnected] = useState(connected);
+  const [isHovering, setIsHovering] = useState(false);
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
@@ -49,11 +50,15 @@ function ConnectMenu({ theme }) {
         size="large"
         style={pendingTransactions.length > 0 ? { color: primaryColor } : {}}
         onClick={clickFunc}
+        onMouseOver={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
         key={1}
       >
         {buttonText}
         {pendingTransactions.length > 0 && (
-          <SvgIcon className={open ? "rotated-caret" : ""} component={CaretDownIcon} htmlColor={primaryColor} />
+          <Slide direction="left" in={isHovering} {...{ timeout: 333 }}>
+            <SvgIcon component={CaretDownIcon} htmlColor={primaryColor} />
+          </Slide>
         )}
       </Button>
 
