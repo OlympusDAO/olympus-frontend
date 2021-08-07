@@ -23,11 +23,14 @@ import useEscape from "../../hooks/useEscape";
 import { NavLink, useHistory } from "react-router-dom";
 import "./stake.scss";
 import "./migrate.scss";
+import { useWeb3Context } from "src/hooks/web3Context";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
-export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }) {
+export default function Migrate() {
   const dispatch = useDispatch();
+  const { provider, address, connected, connect } = useWeb3Context();
+  console.log(provider, address);
 
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
   const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
@@ -161,14 +164,12 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   });
 
   let modalButton = <></>;
-  if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButton = (
-        <button type="button" className="stake-button" onClick={loadWeb3Modal}>
-          Connect Wallet
-        </button>
-      );
-    }
+  if (!connected) {
+    modalButton = (
+      <button type="button" className="stake-button" onClick={connect}>
+        Connect Wallet
+      </button>
+    );
   }
 
   return (
@@ -186,7 +187,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
             <div className="stake-wallet-notification">
               <Typography variant="h4">Connect your wallet to continue</Typography>
               <div className="wallet-menu" id="wallet-menu">
-                <Button variant="contained" color="primary" onClick={loadWeb3Modal}>
+                <Button variant="contained" color="primary" onClick={connect}>
                   Connect Wallet
                 </Button>
               </div>

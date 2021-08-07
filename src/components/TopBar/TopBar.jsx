@@ -3,8 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/v1.2/hamburger.svg";
 import OhmMenu from "./OhmMenu.jsx";
+import { useWeb3Context } from "src/hooks/web3Context";
 import ThemeSwitcher from "./ThemeSwitch.jsx";
 import "./topbar.scss";
+import { useEffect, useState } from "react";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -26,26 +28,30 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleTheme, handleDrawerToggle }) {
+function ConnectButton() {
+  const { connect, disconnect, connected, web3 } = useWeb3Context();
+  const [isConnected, setConnected] = useState(connected);
+  let buttonText = "Connect Wallet";
+  let clickFunc = connect;
+  if (isConnected) {
+    buttonText = "Disconnect";
+    clickFunc = disconnect;
+  }
+
+  useEffect(() => {
+    setConnected(connected);
+  }, [web3, connected]);
+
+  return (
+    <Button variant="contained" color="secondary" size="large" onClick={clickFunc} key={1}>
+      {buttonText}
+    </Button>
+  );
+}
+
+function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
   const classes = useStyles();
   const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
-
-  const modalButtons = [];
-  if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButtons.push(
-        <Button variant="contained" color="secondary" size="large" onClick={logoutOfWeb3Modal} key={1}>
-          Disconnect
-        </Button>,
-      );
-    } else {
-      modalButtons.push(
-        <Button variant="contained" color="secondary" size="large" onClick={loadWeb3Modal} key={2}>
-          Connect Wallet
-        </Button>,
-      );
-    }
-  }
 
   return (
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
@@ -67,7 +73,7 @@ function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, theme, toggleThem
           {!isVerySmallScreen && <OhmMenu />}
 
           <div className="wallet-menu" id="wallet-menu">
-            {modalButtons}
+            <ConnectButton />
           </div>
 
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />

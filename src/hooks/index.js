@@ -15,4 +15,5 @@
 // export { default as usePoller } from "./Poller";
 // export { default as useResolveName } from "./ResolveName";
 // export { default as useTokenList } from "./TokenList";
-export { default as useUserProvider } from "./UserProvider";
+// export { default as useUserProvider } from "./UserProvider";
+export { useWeb3Context, useAddress } from "./web3Context";

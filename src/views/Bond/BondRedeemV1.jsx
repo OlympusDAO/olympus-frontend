@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim, prettyVestingPeriod } from "../../helpers";
 import { calculateUserBondDetails, redeemBond } from "../../actions/Bond.actions.js";
+import { useWeb3Context } from "src/hooks/web3Context";
 
-function BondRedeemV1({ bond, provider, address }) {
+function BondRedeemV1({ bond }) {
   const dispatch = useDispatch();
+  const { provider, address, chainID } = useWeb3Context();
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
@@ -24,12 +26,12 @@ function BondRedeemV1({ bond, provider, address }) {
   };
 
   async function onRedeem() {
-    await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake: null }));
+    await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake: null }));
   }
 
   async function loadBondDetails() {
     if (provider && address) {
-      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: 1 }));
+      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
     }
   }
 
