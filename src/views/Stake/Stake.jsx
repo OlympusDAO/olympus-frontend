@@ -34,7 +34,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg"
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { txnButtonText } from "src/actions/PendingTxns.actions";
+import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
 
 function a11yProps(index) {
   return {
@@ -291,6 +291,7 @@ function Stake() {
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "staking")}
                             onClick={() => {
                               onChangeStake("stake");
                             }}
@@ -302,6 +303,7 @@ function Stake() {
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "approve_staking")}
                             onClick={() => {
                               onSeekApproval("ohm");
                             }}
@@ -317,6 +319,7 @@ function Stake() {
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "unstaking")}
                             onClick={() => {
                               onChangeStake("unstake");
                             }}
@@ -328,6 +331,7 @@ function Stake() {
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                             onClick={() => {
                               onSeekApproval("sohm");
                             }}

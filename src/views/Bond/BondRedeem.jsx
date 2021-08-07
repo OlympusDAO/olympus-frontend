@@ -3,7 +3,7 @@ import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { redeemBond } from "../../actions/Bond.actions.js";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
-import { txnButtonText } from "src/actions/PendingTxns.actions";
+import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
 
 function BondRedeem({ bond }) {
   const dispatch = useDispatch();
@@ -64,6 +64,7 @@ function BondRedeem({ bond }) {
           id="bond-claim-btn"
           className="transaction-button"
           fullWidth
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond)}
           onClick={() => {
             onRedeem({ autostake: false });
           }}
@@ -76,6 +77,7 @@ function BondRedeem({ bond }) {
           id="bond-claim-autostake-btn"
           className="transaction-button"
           fullWidth
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond + "_autostake")}
           onClick={() => {
             onRedeem({ autostake: true });
           }}

@@ -21,6 +21,10 @@ export const getStakingTypeText = (action: string) => {
   return action === ACTIONS.STAKE ? "Staking OHM" : "Unstaking sOHM";
 };
 
+export const isPendingTxn = (pendingTransactions: IPendingTxn[], type: string) => {
+  return pendingTransactions.map(x => x.type).includes(type);
+};
+
 export const txnButtonText = (pendingTransactions: IPendingTxn[], type: string, defaultText: string) => {
-  return pendingTransactions.map(x => x.type).includes(type) ? "Pending..." : defaultText;
+  return isPendingTxn(pendingTransactions, type) ? "Pending..." : defaultText;
 };

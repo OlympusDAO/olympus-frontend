@@ -24,7 +24,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import "./stake.scss";
 import "./migrate.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { txnButtonText } from "src/actions/PendingTxns.actions";
+import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
@@ -280,6 +280,7 @@ export default function Migrate() {
                         variant="contained"
                         color="primary"
                         className="stake-button"
+                        disabled={isPendingTxn(pendingTransactions, "migrate_unstaking")}
                         onClick={() => {
                           unStakeLegacy();
                           setView("stake");
@@ -294,6 +295,7 @@ export default function Migrate() {
                         variant="contained"
                         color="primary"
                         className="stake-button"
+                        disabled={isPendingTxn(pendingTransactions, "migrate_staking")}
                         onClick={() => {
                           stakeOhm();
                           setView("done");
