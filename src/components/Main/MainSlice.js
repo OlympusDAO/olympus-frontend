@@ -140,13 +140,14 @@ export const loadAppDetails = createAsyncThunk('app/loadAppDetails',
       );
     });
 
-    export const getFraxData = createAsyncThunk('app/getFraxData', () => {
+
+    export const getFraxData = createAsyncThunk('app/getFraxData',  async () => {
         const resp = await axios.get("https://api.frax.finance/combineddata/")
         return ({
           type: Actions.FETCH_FRAX_SUCCESS,
           payload: resp.data && resp.data.liq_staking && resp.data.liq_staking["Uniswap FRAX/OHM"],
         });
-      })
+      });
 
 
 

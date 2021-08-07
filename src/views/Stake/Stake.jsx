@@ -28,7 +28,7 @@ import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { trim, getTokenImage, getPairImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
-import { getFraxData } from "../../actions/App.actions";
+import { getFraxData } from "../../components/Main/MainSlice";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
 import "./stake.scss";

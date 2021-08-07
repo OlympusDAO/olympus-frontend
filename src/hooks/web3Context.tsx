@@ -78,7 +78,7 @@ export const useAddress = () => {
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
-  const [uri, setUri] = useState(getAlchemyAPI(chainID));
+  const [uri, setUri] = useState(getMainnetURI());
   const [address, setAddress] = useState("");
   const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri)); // TODO(ZayenX): pls remember to change this back to infura.
 
@@ -91,7 +91,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           package: WalletConnectProvider,
           options: {
             rpc: {
-              1: getAlchemyAPI(chainID),
+              1: getMainnetURI(),
               4: getTestnetURI(),
             },
           },
@@ -127,7 +127,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       console.warn("You are switching networks");
       if (otherChainID === 1 || otherChainID === 4) {
         setChainID(otherChainID);
-        otherChainID === 1 ? setUri(getAlchemyAPI(chainID)) : setUri(getTestnetURI());
+        otherChainID === 1 ? setUri(getMainnetURI()) : setUri(getTestnetURI());
         return true;
       }
       return false;
