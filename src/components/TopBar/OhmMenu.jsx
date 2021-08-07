@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { addresses, TOKEN_DECIMALS } from "../../constants";
-import { getTokenImage } from "../../helpers/components";
+import { getTokenImage } from "../../helpers";
 import { useSelector } from "react-redux";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/v1.2/info-fill.svg";
