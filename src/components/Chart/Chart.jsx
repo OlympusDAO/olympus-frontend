@@ -269,19 +269,22 @@ function Chart({
       return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType);
   };
 
-  useEffect(() => {
-    console.log("data loaded", data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log("data loaded", data);
+  // }, [data]);
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
       <div className="card-header">
-        <Typography variant="h6" color="textSecondary">
+        <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400, fontSize: 20 }}>
           {headerText}
         </Typography>
         <Box display="flex">
-          <Typography variant="h4" style={{ fontWeight: 600 }}>
+          <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
             {headerSubText}
+          </Typography>
+          <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400, fontSize: 24 }}>
+            Today
           </Typography>
         </Box>
       </div>
