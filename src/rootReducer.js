@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { app, bonding, fraxData, bulletpoints, tooltipItems } from "./reducers";
+import { app, bonding, fraxData, bulletpoints, tooltipItems, infoTooltipMessages } from "./reducers";
 
 const rootReducer = combineReducers({
   app,
@@ -7,6 +7,7 @@ const rootReducer = combineReducers({
   fraxData,
   bulletpoints,
   tooltipItems,
+  infoTooltipMessages,
 });
 
 export default rootReducer;

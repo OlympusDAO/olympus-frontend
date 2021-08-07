@@ -1,13 +1,14 @@
 import CustomTooltip from "./CustomTooltip";
+import { useEffect } from "react";
+import { ReactComponent as Info } from "../../assets/icons/v1.2/info.svg";
+import { ReactComponent as Fullscreen } from "../../assets/icons//v1.2/fullscreen.svg";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { Typography, Box, SvgIcon } from "@material-ui/core";
 import { trim } from "../../helpers";
 import _ from "lodash";
 import { format } from "date-fns";
 import "./chart.scss";
-import { useEffect } from "react";
-import { ReactComponent as Info } from "../../assets/icons/v1.2/info.svg";
-import { ReactComponent as Fullscreen } from "../../assets/icons//v1.2/fullscreen.svg";
+import "./customtooltip.scss";
 
 const formatCurrency = c => {
   return new Intl.NumberFormat("en-US", {
@@ -238,6 +239,7 @@ function Chart({
   itemNames,
   itemType,
   isStaked,
+  infoTooltipMessage,
 }) {
   const renderChart = type => {
     if (type === "line")
@@ -300,7 +302,9 @@ function Chart({
           </Box>
           <Box display="flex" justifyContent="space-between" style={{ width: "100%" }}>
             <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23, cursor: "pointer" }}>
-              <SvgIcon component={Info} color="primary" />
+              <Box tooltip={infoTooltipMessage} className="info-tooltip">
+                <SvgIcon component={Info} color="primary" tooltip="Hello World!" className="info-tooltip" />
+              </Box>
             </Typography>
             <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
               <SvgIcon component={Fullscreen} color="primary" />
