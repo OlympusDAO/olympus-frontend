@@ -34,26 +34,6 @@ export const loadAccountDetails =
     let pendingRewards = 0;
     let lpBondAllowance = 0;
     let aOHMAbleToClaim = 0;
-
-    // const accountQuery = `
-    //   query($id: String) {
-    //     ohmie(id: $id) {
-    //       id
-    //       lastBalance {
-    //         ohmBalance
-    //         sohmBalance
-    //         bondBalance
-    //       }
-    //     }
-    //   }
-    // `;
-
-    // const graphData = await apollo(accountQuery);
-
-    // these work in playground but show up as null, maybe subgraph api not caught up?
-    // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
-    // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
-    let migrateContract;
     let unstakeAllowanceSohm;
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider) as IERC20;
