@@ -4,22 +4,17 @@ import { abi as ierc20Abi } from "../../abi/IERC20.json";
 import { abi as sOHM } from "../../abi/sOHM.json";
 import { abi as sOHMv2 } from "../../abi/sOhmv2.json";
 
-import {
-    createSlice,
-    createSelector,
-    createAsyncThunk,
-    createEntityAdapter,
-  } from '@reduxjs/toolkit'
+import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
-const accountAdapter = createEntityAdapter()
+const accountAdapter = createEntityAdapter();
 
 const initialState = accountAdapter.getInitialState({
-    status: 'idle',
-  })
+  status: "idle",
+});
 
-
-export const loadAccountDetails = createAsyncThunk('account/loadAccountDetails',
- async (networkID, provider, address) => {
+export const loadAccountDetails = createAsyncThunk(
+  "account/loadAccountDetails",
+  async (networkID, provider, address) => {
     // console.log("networkID = ", networkID)
     // console.log("addresses = ",addresses)
 
@@ -82,60 +77,56 @@ export const loadAccountDetails = createAsyncThunk('account/loadAccountDetails',
       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
     }
 
-    return (
-      fetchAccountSuccess({
-        balances: {
-          dai: ethers.utils.formatEther(daiBalance),
-          ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-          sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-          oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
-        },
-        staking: {
-          ohmStake: +stakeAllowance,
-          ohmUnstake: +unstakeAllowance,
-        },
-        migrate: {
-          unstakeAllowance: unstakeAllowanceSohm,
-        },
-        bonding: {
-          daiAllowance: daiBondAllowance,
-        },
-      })
-    );
-})
-  
+    return fetchAccountSuccess({
+      balances: {
+        dai: ethers.utils.formatEther(daiBalance),
+        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
+      },
+      staking: {
+        ohmStake: +stakeAllowance,
+        ohmUnstake: +unstakeAllowance,
+      },
+      migrate: {
+        unstakeAllowance: unstakeAllowanceSohm,
+      },
+      bonding: {
+        daiAllowance: daiBondAllowance,
+      },
+    });
+  },
+);
 
 const accountSlice = createSlice({
-    name: 'account',
-    initialState,
-    reducers: {
-      fetchAccountSuccess(state, action) {
-        accountAdapter.setAll(state, action.payload)
-      },
+  name: "account",
+  initialState,
+  reducers: {
+    fetchAccountSuccess(state, action) {
+      accountAdapter.setAll(state, action.payload);
     },
-    extraReducers: (builder) => {
-        builder
-          .addCase(loadAccountDetails.pending, (state, action) => {
-            state.status = 'loading'
-          })
-          .addCase(loadAccountDetails.fulfilled, (state, action) => {
-            accountAdapter.setAll(state, action.payload)
-            state.status = 'idle'
-          })
-      },
-})
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(loadAccountDetails.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(loadAccountDetails.fulfilled, (state, action) => {
+        accountAdapter.setAll(state, action.payload);
+        state.status = "idle";
+      });
+  },
+});
 
-export default accountSlice.reducer
+export default accountSlice.reducer;
 
-export const {fetchAccountSuccess} = accountSlice.actions
+export const { fetchAccountSuccess } = accountSlice.actions;
 
-export const {
-  selectAll
-} = accountAdapter.getSelectors((state) => state.account)
+export const { selectAll } = accountAdapter.getSelectors(state => state.account);
 
 export const getAccountState = createSelector(
   // watch the state for changes
   selectAll,
   // and return the new state upon changes
-  (account) => account
-)
+  account => account,
+);

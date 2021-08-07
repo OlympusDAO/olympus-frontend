@@ -8,9 +8,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 
-import { calcBondDetails } from "./actions/Bond.actions.js";
-import { loadAppDetails } from "./actions/App.actions.js";
-import { loadAccountDetails } from "./actions/Account.actions.js";
+import { calcBondDetails } from "./components/Bond/BondSlice";
+import { loadAppDetails } from "./components/Main/MainSlice";
+import { loadAccountDetails } from "./components/Account/AccountSlice";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";

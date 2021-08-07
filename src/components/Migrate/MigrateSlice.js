@@ -7,82 +7,70 @@ import { abi as sOHM } from "../../abi/sOHM.json";
 import { abi as sOHMv2 } from "../../abi/sOhmv2.json";
 import { abi as StakingHelper } from "../../abi/StakingHelper.json";
 
-import {
-    createSlice,
-    createSelector,
-    createAsyncThunk,
-    createEntityAdapter,
-  } from '@reduxjs/toolkit'
+import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
 
-const migrateAdapter = createEntityAdapter()
+const migrateAdapter = createEntityAdapter();
 
 const initialState = migrateAdapter.getInitialState({
-    status: 'idle',
-  })
-
-
-export const calculateAPY = createAsyncThunk('migrate/calculateAPY',
- async (sohmContract, stakingReward) => {
-    const circSupply = await sohmContract.circulatingSupply();
-
-    const stakingRebase = stakingReward / circSupply;
-    const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
-
-    return stakingAPY;
+  status: "idle",
 });
 
+export const calculateAPY = createAsyncThunk("migrate/calculateAPY", async (sohmContract, stakingReward) => {
+  const circSupply = await sohmContract.circulatingSupply();
 
-export const getApproval = createAsyncThunk('migrate/getApproval',
-  async ({ type, provider, address, networkID }) => {
-    if (!provider) {
-      alert("Please connect your wallet!");
-      return;
+  const stakingRebase = stakingReward / circSupply;
+  const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
+
+  return stakingAPY;
+});
+
+export const getApproval = createAsyncThunk("migrate/getApproval", async ({ type, provider, address, networkID }) => {
+  if (!provider) {
+    alert("Please connect your wallet!");
+    return;
+  }
+
+  const signer = provider.getSigner();
+  const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, signer);
+  const oldSohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, signer);
+
+  let approveTx;
+  try {
+    if (type === TYPES.OLD) {
+      approveTx = await oldSohmContract.approve(
+        addresses[networkID].OLD_STAKING_ADDRESS,
+        ethers.utils.parseUnits("1000000000", "gwei").toString(),
+      );
+    } else if (type === TYPES.NEW) {
+      approveTx = await ohmContract.approve(
+        addresses[networkID].STAKING_HELPER_ADDRESS,
+        ethers.utils.parseUnits("1000000000", "gwei").toString(),
+      );
     }
 
-    const signer = provider.getSigner();
-    const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, signer);
-    const oldSohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, signer);
+    await approveTx.wait();
+  } catch (error) {
+    alert(error.message);
+    return;
+  }
 
-    let approveTx;
-    try {
-      if (type === TYPES.OLD) {
-        approveTx = await oldSohmContract.approve(
-          addresses[networkID].OLD_STAKING_ADDRESS,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
-        );
-      } else if (type === TYPES.NEW) {
-        approveTx = await ohmContract.approve(
-          addresses[networkID].STAKING_HELPER_ADDRESS,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
-        );
-      }
+  const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+  const unstakeAllowance = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
 
-      await approveTx.wait();
-    } catch (error) {
-      alert(error.message);
-      return;
-    }
-
-    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    const unstakeAllowance = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
-
-    return (
-      fetchMigrateSuccess({
-        migrate: {
-          stakeAllowance,
-          unstakeAllowance,
-        }
-      })
-    );
+  return fetchMigrateSuccess({
+    migrate: {
+      stakeAllowance,
+      unstakeAllowance,
+    },
   });
+});
 
-
-  export const changeStake = createAsyncThunk( 'migrate/changeStake',
-    async ({ action, value, provider, address, networkID }) =>
-   {
+export const changeStake = createAsyncThunk(
+  "migrate/changeStake",
+  async ({ action, value, provider, address, networkID }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -118,50 +106,40 @@ export const getApproval = createAsyncThunk('migrate/getApproval',
     const oldSohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
     const oldsohmBalance = await oldSohmContract.balanceOf(address);
 
-    return(
-      fetchMigrateSuccess({
-        balances: {
-          ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-          sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-          oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
-        }
-      })
-    );
-  })
-
-
+    return fetchMigrateSuccess({
+      balances: {
+        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
+      },
+    });
+  },
+);
 
 const migrateSlice = createSlice({
-    name: 'migrate',
-    initialState,
-    reducers: {
-        fetchMigrateSuccess(state, action) {
-        migrateAdapter.setAll(state, action.payload)
-      },
+  name: "migrate",
+  initialState,
+  reducers: {
+    fetchMigrateSuccess(state, action) {
+      migrateAdapter.setAll(state, action.payload);
     },
-    extraReducers: (builder) => {
-        // builder
-        //   .addCase(loadAccountDetails.pending, (state, action) => {
-        //     state.status = 'loading'
-        //   })
-        //   .addCase(loadAccountDetails.fulfilled, (state, action) => {
-        //     accountAdapter.setAll(state, action.payload)
-        //     state.status = 'idle'
-        //   })
-      },
-})
+  },
+  extraReducers: builder => {
+    // builder
+    //   .addCase(loadAccountDetails.pending, (state, action) => {
+    //     state.status = 'loading'
+    //   })
+    //   .addCase(loadAccountDetails.fulfilled, (state, action) => {
+    //     accountAdapter.setAll(state, action.payload)
+    //     state.status = 'idle'
+    //   })
+  },
+});
 
+export default migrateSlice.reducer;
 
-export default migrateSlice.reducer
+export const { fetchMigrateSuccess } = migrateSlice.actions;
 
-export const {fetchMigrateSuccess} = migrateSlice.actions
+export const { selectAll } = migrateAdapter.getSelectors(state => state.migrate);
 
-
-export const {
-    selectAll
-  } = migrateAdapter.getSelectors((state) => state.migrate)
-  
-export const getMigrateState = createSelector(
-selectAll,
-(migrate) => migrate
-)
+export const getMigrateState = createSelector(selectAll, migrate => migrate);

@@ -8,7 +8,6 @@ import App from "./App";
 import store from "./store";
 
 export default class Root extends Component {
-
   constructor(props) {
     super(props);
   }

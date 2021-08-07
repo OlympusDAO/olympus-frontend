@@ -1,4 +1,3 @@
-
 import { ethers } from "ethers";
 import {
   isBondLP,
@@ -11,23 +10,17 @@ import {
 import { addresses, Actions, BONDS, VESTING_TERM } from "../../constants";
 import { abi as BondOhmDaiCalcContract } from "../../abi/bonds/OhmDaiCalcContract.json";
 
+import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
-import {
-    createSlice,
-    createSelector,
-    createAsyncThunk,
-    createEntityAdapter,
-  } from '@reduxjs/toolkit'
-
-const bondAdapter = createEntityAdapter()
+const bondAdapter = createEntityAdapter();
 
 const initialState = bondAdapter.getInitialState({
-    status: 'idle',
-  })
+  status: "idle",
+});
 
-
-export const changeApproval = createAsyncThunk('bonding/changeApproval',
-async ({ bond, provider, address, networkID }) => {
+export const changeApproval = createAsyncThunk(
+  "bonding/changeApproval",
+  async ({ bond, provider, address, networkID }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -64,10 +57,11 @@ async ({ bond, provider, address, networkID }) => {
     } catch (error) {
       alert(error.message);
     }
-  });
+  },
+);
 
-
-  export const calcBondDetails = createAsyncThunk('bonding/calcBondDetails',
+export const calcBondDetails = createAsyncThunk(
+  "bonding/calcBondDetails",
   async ({ bond, value, provider, networkID }) => {
     let amountInWei;
     if (!value || value === "") {
@@ -138,23 +132,22 @@ async ({ bond, provider, address, networkID }) => {
       purchased = purchased / Math.pow(10, 18);
     }
 
-    return(
-      fetchBondSuccess({
-        bond,
-        bondDiscount,
-        debtRatio,
-        bondQuote,
-        purchased,
-        vestingTerm: terms.vestingTerm,
-        maxBondPrice: maxBondPrice / Math.pow(10, 9),
-        bondPrice: bondPrice / Math.pow(10, 18),
-        marketPrice: marketPrice / Math.pow(10, 9),
-      })
-    );
-  })
+    return fetchBondSuccess({
+      bond,
+      bondDiscount,
+      debtRatio,
+      bondQuote,
+      purchased,
+      vestingTerm: terms.vestingTerm,
+      maxBondPrice: maxBondPrice / Math.pow(10, 9),
+      bondPrice: bondPrice / Math.pow(10, 18),
+      marketPrice: marketPrice / Math.pow(10, 9),
+    });
+  },
+);
 
-
-  export const calculateUserBondDetails = createAsyncThunk('bonding/calculateUserBondDetails', 
+export const calculateUserBondDetails = createAsyncThunk(
+  "bonding/calculateUserBondDetails",
   async ({ address, bond, networkID, provider }) => {
     if (!address) return;
 
@@ -198,20 +191,19 @@ async ({ bond, provider, address, networkID }) => {
       balance = ethers.utils.formatUnits(balance, "ether");
     }
 
-    return (
-      fetchBondSuccess({
-        bond,
-        allowance,
-        balance,
-        interestDue,
-        bondMaturationBlock,
-        pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
-      })
-    );
-  });
+    return fetchBondSuccess({
+      bond,
+      allowance,
+      balance,
+      interestDue,
+      bondMaturationBlock,
+      pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
+    });
+  },
+);
 
-
-  export const bondAsset = createAsyncThunk('bonding/bondAsset', 
+export const bondAsset = createAsyncThunk(
+  "bonding/bondAsset",
   async ({ value, address, bond, networkID, provider, slippage }) => {
     const depositorAddress = address;
     const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
@@ -240,17 +232,19 @@ async ({ bond, provider, address, networkID }) => {
         balance = ethers.utils.formatEther(balance);
       }
 
-      return (fetchBondSuccess({ bond, balance }));
+      return fetchBondSuccess({ bond, balance });
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else alert(error.message);
       return;
     }
-  })
+  },
+);
 
-  export const redeemBond = createAsyncThunk('bonding/redeemBond', 
-   async ({ address, bond, networkID, provider, autostake }) => {
+export const redeemBond = createAsyncThunk(
+  "bonding/redeemBond",
+  async ({ address, bond, networkID, provider, autostake }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -271,39 +265,33 @@ async ({ bond, provider, address, networkID }) => {
     } catch (error) {
       alert(error.message);
     }
-  })
+  },
+);
 
-  const bondingSlice = createSlice({
-    name: 'bonding',
-    initialState,
-    reducers: {
-      fetchBondSuccess(state, action) {
-        bondAdapter.setAll(state, action.payload)
-      },
+const bondingSlice = createSlice({
+  name: "bonding",
+  initialState,
+  reducers: {
+    fetchBondSuccess(state, action) {
+      bondAdapter.setAll(state, action.payload);
     },
-    extraReducers: (builder) => {
-        // builder
-        //   .addCase(loadAccountDetails.pending, (state, action) => {
-        //     state.status = 'loading'
-        //   })
-        //   .addCase(loadAccountDetails.fulfilled, (state, action) => {
-        //     accountAdapter.setAll(state, action.payload)
-        //     state.status = 'idle'
-        //   })
-      },
-})
+  },
+  extraReducers: builder => {
+    // builder
+    //   .addCase(loadAccountDetails.pending, (state, action) => {
+    //     state.status = 'loading'
+    //   })
+    //   .addCase(loadAccountDetails.fulfilled, (state, action) => {
+    //     accountAdapter.setAll(state, action.payload)
+    //     state.status = 'idle'
+    //   })
+  },
+});
 
+export default bondingSlice.reducer;
 
-export default bondingSlice.reducer
+export const { fetchBondSuccess } = bondingSlice.actions;
 
-export const {fetchBondSuccess} = bondingSlice.actions
+export const { selectAll } = bondAdapter.getSelectors(state => state.bonding);
 
-
-export const {
-    selectAll
-  } = bondAdapter.getSelectors((state) => state.bonding)
-  
-export const getBondState = createSelector(
-selectAll,
-(bonding) => bonding
-)
+export const getBondState = createSelector(selectAll, bonding => bonding);
