@@ -68,11 +68,11 @@ export function lpURL(bond) {
 }
 
 export function bondName(bond) {
-  if (bond === BONDS.dai) return "DAI Bond";
-  if (bond === BONDS.ohm_dai) return "OHM-DAI SLP Bond";
-  if (bond === BONDS.ohm_frax) return "OHM-FRAX LP Bond";
-  if (bond === BONDS.frax) return "FRAX Bond";
-  if (bond == BONDS.eth) return "wETH Bond";
+  if (bond === BONDS.dai) return "DAI";
+  if (bond === BONDS.ohm_dai) return "OHM-DAI SLP";
+  if (bond === BONDS.ohm_frax) return "OHM-FRAX LP";
+  if (bond === BONDS.frax) return "FRAX";
+  if (bond == BONDS.eth) return "wETH";
 }
 
 export function contractForBond({ bond, networkID, provider }) {
