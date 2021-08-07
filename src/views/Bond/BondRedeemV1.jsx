@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim, prettyVestingPeriod } from "../../helpers";
-import { calculateUserBondDetails, redeemBond } from "../../actions/Bond.actions.js";
+import { calculateUserBondDetails, redeemBond } from "../../components/Bond/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 function BondRedeemV1({ bond }) {
