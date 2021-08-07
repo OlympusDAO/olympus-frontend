@@ -292,16 +292,16 @@ function Chart({
   return (
     <Box style={{ width: "100%", height: "100%" }}>
       <div className="card-header">
-        <Box display="flex" justifyContent="space-between">
-          <Box display="flex">
+        <Box display="flex">
+          <Box>
             <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400, fontSize: 20 }}>
               {headerText}
             </Typography>
+          </Box>
+          <Box display="flex" justifyContent="space-between" style={{ width: "100%" }}>
             <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23, cursor: "pointer" }}>
               <SvgIcon component={Info} color="primary" />
             </Typography>
-          </Box>
-          <Box>
             <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
               <SvgIcon component={Fullscreen} color="primary" />
             </Typography>
