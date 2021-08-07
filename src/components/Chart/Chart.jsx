@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { ReactComponent as Info } from "../../assets/icons/v1.2/info.svg";
 import { ReactComponent as Fullscreen } from "../../assets/icons//v1.2/fullscreen.svg";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
-import { Typography, Box, SvgIcon } from "@material-ui/core";
+import { Typography, Box, SvgIcon, Paper } from "@material-ui/core";
 import { trim } from "../../helpers";
 import _ from "lodash";
 import { format } from "date-fns";
@@ -302,7 +302,7 @@ function Chart({
           </Box>
           <Box display="flex" justifyContent="space-between" style={{ width: "100%" }}>
             <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23, cursor: "pointer" }}>
-              <Box tooltip={infoTooltipMessage} className="info-tooltip">
+              <Box tooltip={infoTooltipMessage} className="ohm-card info-tooltip">
                 <SvgIcon component={Info} color="primary" tooltip="Hello World!" className="info-tooltip" />
               </Box>
             </Typography>
