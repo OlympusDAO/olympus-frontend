@@ -14,6 +14,9 @@ import {
     createEntityAdapter,
   } from '@reduxjs/toolkit'
 
+export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
+export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
+
 const migrateAdapter = createEntityAdapter()
 
 const initialState = migrateAdapter.getInitialState({
