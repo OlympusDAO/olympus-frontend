@@ -271,6 +271,20 @@ function Chart({
       return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType);
   };
 
+  const runwayExtraInfo = type =>
+    type === "multi" ? (
+      <Box display="flex">
+        <Typography variant="h4" style={{ fontWeight: 400, fontSize: 24, color: bulletpointColors[1].background }}>
+          {itemNames[1].substring(0, 3)}, {data && Math.floor(data[0].runway20k)}&nbsp;
+        </Typography>
+        <Typography variant="h4" style={{ fontWeight: 400, fontSize: 24, color: bulletpointColors[2].background }}>
+          {itemNames[2].substring(0, 3)}, {data && Math.floor(data[0].runway50k)}&nbsp;
+        </Typography>
+      </Box>
+    ) : (
+      ""
+    );
+
   useEffect(() => {
     console.log("data loaded", data);
   }, [data]);
@@ -297,6 +311,7 @@ function Chart({
           <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
             {headerSubText}
           </Typography>
+          {runwayExtraInfo(type)}
           <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400, fontSize: 24 }}>
             Today
           </Typography>
