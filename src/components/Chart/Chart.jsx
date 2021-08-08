@@ -1,6 +1,6 @@
 import CustomTooltip from "./CustomTooltip";
-import { useEffect } from "react";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import { useEffect } from "react";
 import { ReactComponent as Fullscreen } from "../../assets/icons//v1.2/fullscreen.svg";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { Typography, Box, SvgIcon } from "@material-ui/core";
@@ -287,9 +287,9 @@ function Chart({
       ""
     );
 
-  // useEffect(() => {
-  //   console.log("data loaded", data);
-  // }, [data]);
+  useEffect(() => {
+    console.log("data loaded", data);
+  }, [data]);
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
@@ -302,9 +302,7 @@ function Chart({
           </Box>
           <Box display="flex" justifyContent="space-between" style={{ width: "100%" }}>
             <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23, cursor: "pointer" }}>
-              <Box>
-                <InfoTooltip message={infoTooltipMessage} />
-              </Box>
+              <InfoTooltip message={infoTooltipMessage} />
             </Typography>
             <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
               <SvgIcon component={Fullscreen} color="primary" />

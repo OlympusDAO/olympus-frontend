@@ -1,16 +1,19 @@
-import { useEffect, useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 import { ReactComponent as Info } from "../../assets/icons/v1.2/info.svg";
-import { SvgIcon, Tooltip, Paper, Hidden } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+import { SvgIcon, Box, Paper, Hidden, Typography } from "@material-ui/core";
 import "./infotooltip.scss";
 
 function InfoTooltip({ message }) {
-  const [isVisible, setVisible] = useState(true);
+  const [isHidden, setHidden] = useState(true);
   return (
-    <Fragment>
-      <SvgIcon component={Info} onMouseOver={() => setVisible(false)} onMouseOut={() => setVisible(true)}></SvgIcon>
-      <Hidden xlUp={isVisible}>
-        <Paper className="info-tooltip ohm-card ">{message}</Paper>
+    <Fragment style={{ position: "relative" }}>
+      <SvgIcon component={Info} onMouseOver={() => setHidden(false)} onMouseOut={() => setHidden(true)}></SvgIcon>
+      <Hidden xsUp={isHidden}>
+        <Paper className="info-tooltip ohm-card">
+          <Box>
+            <Typography variant="body2">{message}</Typography>
+          </Box>
+        </Paper>
       </Hidden>
     </Fragment>
   );
