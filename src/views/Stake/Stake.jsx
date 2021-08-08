@@ -34,6 +34,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg"
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
 
 function a11yProps(index) {
   return {
@@ -87,6 +88,10 @@ function Stake() {
   });
   const stakingTVL = useSelector(state => {
     return state.app.stakingTVL;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
   });
 
   const setMax = () => {
@@ -286,22 +291,24 @@ function Stake() {
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "staking")}
                             onClick={() => {
                               onChangeStake("stake");
                             }}
                           >
-                            Stake OHM
+                            {txnButtonText(pendingTransactions, "staking", "Stake OHM")}
                           </Button>
                         ) : (
                           <Button
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "approve_staking")}
                             onClick={() => {
                               onSeekApproval("ohm");
                             }}
                           >
-                            Approve
+                            {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
                           </Button>
                         )}
                       </TabPanel>
@@ -312,22 +319,24 @@ function Stake() {
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "unstaking")}
                             onClick={() => {
                               onChangeStake("unstake");
                             }}
                           >
-                            Unstake OHM
+                            {txnButtonText(pendingTransactions, "unstaking", "Unstake OHM")}
                           </Button>
                         ) : (
                           <Button
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                             onClick={() => {
                               onSeekApproval("sohm");
                             }}
                           >
-                            Approve
+                            {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
                           </Button>
                         )}
                       </TabPanel>
