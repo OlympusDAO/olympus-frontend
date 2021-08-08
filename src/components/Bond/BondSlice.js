@@ -281,14 +281,14 @@ const bondingSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    // builder
-    //   .addCase(loadAccountDetails.pending, (state, action) => {
-    //     state.status = 'loading'
-    //   })
-    //   .addCase(loadAccountDetails.fulfilled, (state, action) => {
-    //     accountAdapter.setAll(state, action.payload)
-    //     state.status = 'idle'
-    //   })
+    builder
+      .addCase(calcBondDetails.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(calcBondDetails.fulfilled, (state, action) => {
+        bondAdapter.setAll(state, action.payload);
+        state.status = "idle";
+      });
   },
 });
 
