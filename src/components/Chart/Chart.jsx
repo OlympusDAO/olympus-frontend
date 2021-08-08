@@ -8,7 +8,6 @@ import { trim } from "../../helpers";
 import _ from "lodash";
 import { format } from "date-fns";
 import "./chart.scss";
-import "./customtooltip.scss";
 
 const formatCurrency = c => {
   return new Intl.NumberFormat("en-US", {
