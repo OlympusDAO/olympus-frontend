@@ -15,9 +15,6 @@ const initialState = accountAdapter.getInitialState({
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
   async (networkID, provider, address) => {
-    // console.log("networkID = ", networkID)
-    // console.log("addresses = ",addresses)
-
     let ohmBalance = 0;
     let sohmBalance = 0;
     let oldsohmBalance = 0;
@@ -29,24 +26,6 @@ export const loadAccountDetails = createAsyncThunk(
     let daiBondAllowance = 0;
     let aOHMAbleToClaim = 0;
 
-    // const accountQuery = `
-    //   query($id: String) {
-    //     ohmie(id: $id) {
-    //       id
-    //       lastBalance {
-    //         ohmBalance
-    //         sohmBalance
-    //         bondBalance
-    //       }
-    //     }
-    //   }
-    // `;
-
-    // const graphData = await apollo(accountQuery);
-
-    // these work in playground but show up as null, maybe subgraph api not caught up?
-    // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
-    // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
     let migrateContract;
     let unstakeAllowanceSohm;
 
