@@ -5,17 +5,15 @@ import { abi as OlympusStakingv2 } from "../../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../../abi/sOHM.json";
 import { abi as sOHMv2 } from "../../abi/sOhmv2.json";
 import axios from "axios";
-import { contractForReserve, addressForAsset } from "../../helpers";
+import { contractForReserve, addressForAsset, contractForBond } from "../../helpers";
 import { BONDS } from "../../constants";
-import { abi as BondOhmDaiCalcContract } from "../../abi/bonds/OhmDaiCalcContract.json";
+import { abi as BondCalcContract } from "../../abi/BondCalcContract.json";
 import apollo from "../../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
-const appAdapter = createEntityAdapter();
-
-const initialState = appAdapter.getInitialState({
+const initialState = {
   status: "idle",
-});
+};
 
 export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ networkID, provider }) => {
   const protocolMetricsQuery = `
@@ -38,6 +36,7 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
     }
   }
 `;
+
   const graphData = await apollo(protocolMetricsQuery);
 
   if (!graphData || graphData == null) {
@@ -54,17 +53,17 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
 
   if (!provider) {
     console.error("failed to connect to provider, please connect your wallet");
-    return dispatch(
-      fetchAppSuccess({
-        stakingTVL,
-        marketPrice,
-        marketCap,
-        circSupply,
-        totalSupply,
-      }),
-    );
+    return {
+      stakingTVL,
+      marketPrice,
+      marketCap,
+      circSupply,
+      totalSupply,
+    };
   }
+
   const currentBlock = await provider.getBlockNumber();
+
   const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
   const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
   const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
@@ -124,7 +123,24 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   // Current index
   const currentIndex = await stakingContract.index();
 
-  return fetchAppSuccess({
+  console.log(
+    "running =-=-=-=-=-=-=-=-=",
+    ethers.utils.formatUnits(currentIndex, "gwei"),
+    currentBlock,
+    fiveDayRate,
+    treasuryBalance,
+    stakingAPY,
+    stakingTVL,
+    oldStakingAPY,
+    stakingRebase,
+    marketCap,
+    marketPrice,
+    circSupply,
+    totalSupply,
+    "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=",
+  );
+
+  return {
     currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
     currentBlock,
     fiveDayRate,
@@ -137,7 +153,7 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
     marketPrice,
     circSupply,
     totalSupply,
-  });
+  };
 });
 
 export const getFraxData = createAsyncThunk("app/getFraxData", async () => {
@@ -148,30 +164,37 @@ export const getFraxData = createAsyncThunk("app/getFraxData", async () => {
   };
 });
 
+const setAll = (state, properties) => {
+  const props = Object.keys(properties);
+  props.forEach(key => {
+    state[key] = properties[key];
+  });
+};
+
 const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
     fetchAppSuccess(state, action) {
-      appAdapter.setAll(state, action.payload);
+      state = action.payload;
     },
   },
   extraReducers: builder => {
-    // builder
-    //   .addCase(loadAccountDetails.pending, (state, action) => {
-    //     state.status = 'loading'
-    //   })
-    //   .addCase(loadAccountDetails.fulfilled, (state, action) => {
-    //     accountAdapter.setAll(state, action.payload)
-    //     state.status = 'idle'
-    //   })
+    builder
+      .addCase(loadAppDetails.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(loadAppDetails.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.status = "idle";
+      });
   },
 });
+
+const baseInfo = state => state.app;
 
 export default appSlice.reducer;
 
 export const { fetchAppSuccess } = appSlice.actions;
 
-export const { selectAll } = appAdapter.getSelectors(state => state.app);
-
-export const getAppState = createSelector(selectAll, app => app);
+export const getAppState = createSelector(baseInfo, app => app);
