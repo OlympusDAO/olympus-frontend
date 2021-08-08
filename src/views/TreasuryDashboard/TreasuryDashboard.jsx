@@ -280,7 +280,6 @@ function TreasuryDashboard() {
               />
             </Paper>
           </Grid>
-          {console.log(data)}
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
