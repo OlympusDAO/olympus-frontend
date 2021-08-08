@@ -6,7 +6,7 @@ import { ReactComponent as CaretDownIcon } from "../../assets/icons/v1.2/caret-d
 import { useWeb3Context } from "src/hooks/web3Context";
 
 function ConnectMenu({ theme }) {
-  const { connect, disconnect, connected, web3 } = useWeb3Context();
+  const { connect, disconnect, connected, web3, chainID } = useWeb3Context();
   const [anchorEl, setAnchorEl] = useState(null);
   const [isConnected, setConnected] = useState(connected);
   const [isHovering, setIsHovering] = useState(false);
@@ -36,6 +36,18 @@ function ConnectMenu({ theme }) {
   const id = open ? "ohm-popper-pending" : undefined;
 
   const primaryColor = theme === "light" ? "#49A1F2" : "#F8CC82";
+  const buttonStyles =
+    "pending-txn-container" + (isHovering && pendingTransactions.length > 0 ? " hovered-button" : "");
+
+  const getEtherscanUrl = txnHash => {
+    return chainID === 4 ? "https://rinkeby.etherscan.io/tx/" + txnHash : "https://etherscan.io/tx/" + txnHash;
+  };
+
+  useEffect(() => {
+    if (pendingTransactions.length === 0) {
+      setAnchorEl(null);
+    }
+  }, [pendingTransactions]);
 
   useEffect(() => {
     setConnected(connected);
@@ -44,7 +56,7 @@ function ConnectMenu({ theme }) {
   return (
     <div className="wallet-menu" id="wallet-menu">
       <Button
-        className="pending-txn-container"
+        className={buttonStyles}
         variant="contained"
         color="secondary"
         size="large"
@@ -57,7 +69,7 @@ function ConnectMenu({ theme }) {
         {buttonText}
         {pendingTransactions.length > 0 && (
           <Slide direction="left" in={isHovering} {...{ timeout: 333 }}>
-            <SvgIcon component={CaretDownIcon} htmlColor={primaryColor} />
+            <SvgIcon className="caret-down" component={CaretDownIcon} htmlColor={primaryColor} />
           </Slide>
         )}
       </Button>
@@ -65,13 +77,7 @@ function ConnectMenu({ theme }) {
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start">
         <Paper className="ohm-menu" elevation={1}>
           {pendingTransactions.map(x => (
-            <Link
-              key={x.txnHash}
-              href={"https://etherscan.io/tx/" + x.txnHash}
-              color="primary"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <Link key={x.txnHash} href={getEtherscanUrl(x.txnHash)} color="primary" target="_blank" rel="noreferrer">
               <div className="pending-txn-container">
                 <Typography style={{ color: primaryColor }}>{x.text}</Typography>
                 <SvgIcon component={ArrowUpIcon} htmlColor={primaryColor} />
