@@ -3,7 +3,7 @@ import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import { useEffect } from "react";
 import { ReactComponent as Fullscreen } from "../../assets/icons//v1.2/fullscreen.svg";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
-import { Typography, Box, SvgIcon } from "@material-ui/core";
+import { Typography, Box, SvgIcon, Hidden } from "@material-ui/core";
 import { trim } from "../../helpers";
 import _ from "lodash";
 import { format } from "date-fns";
@@ -294,20 +294,32 @@ function Chart({
   return (
     <Box style={{ width: "100%", height: "100%" }}>
       <div className="card-header">
-        <Box display="flex">
-          <Box>
-            <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400, fontSize: 20 }}>
-              {headerText}
-            </Typography>
-          </Box>
-          <Box display="flex" justifyContent="space-between" style={{ width: "100%" }}>
-            <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23, cursor: "pointer" }}>
+        <Hidden smUp>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="h6" style={{ fontSize: 23, cursor: "pointer" }}>
               <InfoTooltip message={infoTooltipMessage} />
             </Typography>
             <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
               <SvgIcon component={Fullscreen} color="primary" />
             </Typography>
           </Box>
+        </Hidden>
+        <Box display="flex">
+          <Box>
+            <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400, fontSize: 20 }}>
+              {headerText}
+            </Typography>
+          </Box>
+          <Hidden xsDown>
+            <Box display="flex" justifyContent="space-between" style={{ width: "100%" }}>
+              <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23, cursor: "pointer" }}>
+                <InfoTooltip message={infoTooltipMessage} />
+              </Typography>
+              <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
+                <SvgIcon component={Fullscreen} color="primary" />
+              </Typography>
+            </Box>
+          </Hidden>
         </Box>
         <Box display="flex">
           <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>

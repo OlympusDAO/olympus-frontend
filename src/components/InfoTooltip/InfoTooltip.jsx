@@ -6,7 +6,7 @@ import "./infotooltip.scss";
 function InfoTooltip({ message }) {
   const [isHidden, setHidden] = useState(true);
   return (
-    <Fragment style={{ position: "relative" }}>
+    <Fragment>
       <SvgIcon component={Info} onMouseOver={() => setHidden(false)} onMouseOut={() => setHidden(true)}></SvgIcon>
       <Hidden xsUp={isHidden}>
         <Paper className="info-tooltip ohm-card">
