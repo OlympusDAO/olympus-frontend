@@ -1,6 +1,7 @@
 import CustomTooltip from "./CustomTooltip";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
-import { useEffect } from "react";
+import ExpandedChart from "./ExpandedChart";
+import { useEffect, useState } from "react";
 import { ReactComponent as Fullscreen } from "../../assets/icons//v1.2/fullscreen.svg";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { Typography, Box, SvgIcon, Hidden } from "@material-ui/core";
@@ -240,6 +241,16 @@ function Chart({
   isStaked,
   infoTooltipMessage,
 }) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const renderChart = type => {
     if (type === "line")
       return renderLineChart(data, dataKey, color, stroke, dataFormat, bulletpointColors, itemNames, itemType);
@@ -315,8 +326,19 @@ function Chart({
                 <InfoTooltip message={infoTooltipMessage} />
               </Typography>
               <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
-                <SvgIcon component={Fullscreen} color="primary" />
+                <SvgIcon component={Fullscreen} color="primary" onClick={handleOpen} />
               </Typography>
+              <ExpandedChart
+                open={open}
+                handleClose={handleClose}
+                renderChart={renderChart(type)}
+                uid={dataKey}
+                data={data}
+                infoTooltipMessage={infoTooltipMessage}
+                headerText={headerText}
+                headerSubText={headerSubText}
+                runwayExtraInfo={runwayExtraInfo(type)}
+              />
             </Box>
           </Hidden>
         </Box>
