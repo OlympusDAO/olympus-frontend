@@ -559,14 +559,11 @@ export const TOOLTIP_ITEMS = {
 
 export const INFO_TOOLTIP_MESSAGES = {
   tvl: "Total Value Locked, is in the dollar amount of all OHM staked in the protocol. This metric is often used as growth or health indicator in DeFi projects.",
-  mvt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae eleifend felis. Ut ligula tellus, fringilla id sollicitudin et, convallis eget lectus.",
-  rfv: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae eleifend felis. Ut ligula tellus, fringilla id sollicitudin et, convallis eget lectus.",
-  pol: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae eleifend felis. Ut ligula tellus, fringilla id sollicitudin et, convallis eget lectus.",
-  holder:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae eleifend felis. Ut ligula tellus, fringilla id sollicitudin et, convallis eget lectus.",
-  staked:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae eleifend felis. Ut ligula tellus, fringilla id sollicitudin et, convallis eget lectus.",
-  apy: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae eleifend felis. Ut ligula tellus, fringilla id sollicitudin et, convallis eget lectus.",
-  runway:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae eleifend felis. Ut ligula tellus, fringilla id sollicitudin et, convallis eget lectus.",
+  mvt: "Need copy...",
+  rfv: "Risk Free Value, is the amount of funds the treasury guarantees to use for backing OHM.",
+  pol: "Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.",
+  holder: "Need copy...",
+  staked: "Need copy...",
+  apy: "Annual Percentage Yield, is the normalized representation of an interest rate, based on a compounding period over one year. Note that APYs provided are rather ballpark level indicators and not so much precise future results.",
+  runway: "Need copy...",
 };
