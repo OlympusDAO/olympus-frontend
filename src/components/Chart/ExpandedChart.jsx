@@ -19,7 +19,7 @@ function ExpandedChart({
         <Paper className="ohm-card ohm-popover">
           <div className="chart-card-header">
             <Box display="flex">
-              <Box display="flex" alignItem="center" style={{ width: "max-content", whiteSpace: "nowrap" }}>
+              <Box display="flex" alignItems="center" style={{ width: "max-content", whiteSpace: "nowrap" }}>
                 <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400 }}>
                   {headerText}
                 </Typography>
