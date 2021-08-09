@@ -13,7 +13,6 @@ const initialState = {
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
   async (networkID, provider, address) => {
-    console.log("helloooooo");
     let ohmBalance = 0;
     let sohmBalance = 0;
     let oldsohmBalance = 0;
@@ -29,6 +28,7 @@ export const loadAccountDetails = createAsyncThunk(
     let unstakeAllowanceSohm;
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
+    console.log("first one");
     const daiBalance = await daiContract.balanceOf(address);
 
     if (addresses[networkID].OHM_ADDRESS) {
@@ -40,6 +40,8 @@ export const loadAccountDetails = createAsyncThunk(
     if (addresses[networkID].DAI_BOND_ADDRESS) {
       daiBondAllowance = await daiContract.allowance(address, addresses[networkID].DAI_BOND_ADDRESS);
     }
+
+    console.log("second one");
 
     if (addresses[networkID].SOHM_ADDRESS) {
       const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
@@ -54,6 +56,8 @@ export const loadAccountDetails = createAsyncThunk(
       const signer = provider.getSigner();
       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
     }
+
+    console.log("third");
 
     return {
       balances: {
@@ -106,8 +110,6 @@ const accountSlice = createSlice({
 export default accountSlice.reducer;
 
 export const { fetchAccountSuccess } = accountSlice.actions;
-
-export const { selectAll } = accountAdapter.getSelectors(state => state.account);
 
 const baseInfo = state => state.account;
 
