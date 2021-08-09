@@ -12,7 +12,7 @@ const initialState = {
 
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
-  async (networkID, provider, address) => {
+  async ({ networkID, provider, address }) => {
     let ohmBalance = 0;
     let sohmBalance = 0;
     let oldsohmBalance = 0;
@@ -27,8 +27,11 @@ export const loadAccountDetails = createAsyncThunk(
     let migrateContract;
     let unstakeAllowanceSohm;
 
+    console.log("network id whatever is");
+    console.log(networkID);
+    console.log(addresses[networkID]);
+
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
-    console.log("first one");
     const daiBalance = await daiContract.balanceOf(address);
 
     if (addresses[networkID].OHM_ADDRESS) {
