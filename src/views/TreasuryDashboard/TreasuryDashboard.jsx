@@ -3,7 +3,14 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Chart from "../../components/Chart/Chart.jsx";
 import { trim } from "../../helpers";
-import { treasuryDataQuery, rebasesDataQuery } from "./treasuryData.js";
+import {
+  treasuryDataQuery,
+  rebasesDataQuery,
+  bulletpoints,
+  tooltipItems,
+  tooltipInfoMessages,
+  itemType,
+} from "./treasuryData.js";
 import "./treasury-dashboard.scss";
 import apollo from "../../lib/apolloClient";
 
@@ -29,86 +36,6 @@ function TreasuryDashboard() {
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
-
-  const tvlBulletpointColors = useSelector(state => {
-    return state.bulletpoints.tvl;
-  });
-
-  const coinBulletpointColors = useSelector(state => {
-    return state.bulletpoints.coin;
-  });
-
-  const holderBulletpointColors = useSelector(state => {
-    return state.bulletpoints.holder;
-  });
-
-  const apyBulletpointColors = useSelector(state => {
-    return state.bulletpoints.apy;
-  });
-
-  const runawayBulletpointColors = useSelector(state => {
-    return state.bulletpoints.runway;
-  });
-
-  const stakedBulletpointColors = useSelector(state => {
-    return state.bulletpoints.staked;
-  });
-
-  const tvlItemNames = useSelector(state => {
-    return state.tooltipItems.tvl;
-  });
-
-  const coinItemNames = useSelector(state => {
-    return state.tooltipItems.coin;
-  });
-
-  const holderItemNames = useSelector(state => {
-    return state.tooltipItems.holder;
-  });
-
-  const apyItemNames = useSelector(state => {
-    return state.tooltipItems.apy;
-  });
-
-  const runwayItemNames = useSelector(state => {
-    return state.tooltipItems.runway;
-  });
-
-  const tvlInfoTooltip = useSelector(state => {
-    return state.infoTooltipMessages.tvl;
-  });
-
-  const mvtInfoTooltip = useSelector(state => {
-    return state.infoTooltipMessages.mvt;
-  });
-
-  const rfvInfoTooltip = useSelector(state => {
-    return state.infoTooltipMessages.rfv;
-  });
-
-  const polInfoTooltip = useSelector(state => {
-    return state.infoTooltipMessages.pol;
-  });
-
-  const holderInfoTooltip = useSelector(state => {
-    return state.infoTooltipMessages.holder;
-  });
-
-  const apyInfoTooltip = useSelector(state => {
-    return state.infoTooltipMessages.apy;
-  });
-
-  const stakedInfoTooltip = useSelector(state => {
-    return state.infoTooltipMessages.staked;
-  });
-
-  const runwayInfoTooltip = useSelector(state => {
-    return state.infoTooltipMessages.runway;
-  });
-
-  const dollarItemType = "$";
-
-  const percentageItemType = "%";
 
   const formatCurrency = c => {
     return new Intl.NumberFormat("en-US", {
@@ -203,10 +130,10 @@ function TreasuryDashboard() {
                 stroke={["#333420"]}
                 headerText="Total Value Locked"
                 headerSubText={`${data && formatCurrency(data[0].totalValueLocked)}`}
-                bulletpointColors={tvlBulletpointColors}
-                itemNames={tvlItemNames}
-                itemType={dollarItemType}
-                infoTooltipMessage={tvlInfoTooltip}
+                bulletpointColors={bulletpoints.tvl}
+                itemNames={tooltipItems.tvl}
+                itemType={itemType.dollar}
+                infoTooltipMessage={tooltipInfoMessages.tvl}
               />
             </Paper>
           </Grid>
@@ -225,10 +152,10 @@ function TreasuryDashboard() {
                 stroke={["#333420"]}
                 headerText="Market Value of Treasury Assets"
                 headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
-                bulletpointColors={coinBulletpointColors}
-                itemNames={coinItemNames}
-                itemType={dollarItemType}
-                infoTooltipMessage={mvtInfoTooltip}
+                bulletpointColors={bulletpoints.coin}
+                itemNames={tooltipItems.coin}
+                itemType={itemType.dollar}
+                infoTooltipMessage={tooltipInfoMessages.coin}
               />
             </Paper>
           </Grid>
@@ -248,10 +175,10 @@ function TreasuryDashboard() {
                 stroke={["#333420"]}
                 headerText="Risk Free Value of Treasury Assets"
                 headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
-                bulletpointColors={coinBulletpointColors}
-                itemNames={coinItemNames}
-                itemType={dollarItemType}
-                infoTooltipMessage={rfvInfoTooltip}
+                bulletpointColors={bulletpoints.coin}
+                itemNames={tooltipItems.coin}
+                itemType={itemType.dollar}
+                infoTooltipMessage={tooltipInfoMessages.coin}
               />
             </Paper>
           </Grid>
@@ -272,10 +199,10 @@ function TreasuryDashboard() {
                 headerText="Protocol-Owned Liquidity OHM-DAI"
                 headerSubText={`${data && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
                 dataFormat="k"
-                bulletpointColors={coinBulletpointColors}
-                itemNames={coinItemNames}
-                itemType={percentageItemType}
-                infoTooltipMessage={polInfoTooltip}
+                bulletpointColors={bulletpoints.coin}
+                itemNames={tooltipItems.coin}
+                itemType={itemType.percentage}
+                infoTooltipMessage={tooltipInfoMessages.coin}
               />
             </Paper>
           </Grid>
@@ -288,10 +215,10 @@ function TreasuryDashboard() {
                 stroke={["#A3A3A3"]}
                 headerText="Holders"
                 headerSubText={`${data && data[0].holders}`}
-                bulletpointColors={holderBulletpointColors}
-                itemNames={holderItemNames}
+                bulletpointColors={bulletpoints.holder}
+                itemNames={tooltipItems.holder}
                 itemType={""}
-                infoTooltipMessage={holderInfoTooltip}
+                infoTooltipMessage={tooltipInfoMessages.holder}
               />
             </Paper>
           </Grid>
@@ -307,9 +234,9 @@ function TreasuryDashboard() {
                 headerText="OHM Staked"
                 dataFormat="percent"
                 headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
-                bulletpointColors={stakedBulletpointColors}
+                bulletpointColors={bulletpoints.staked}
                 isStaked={true}
-                infoTooltipMessage={stakedInfoTooltip}
+                infoTooltipMessage={tooltipInfoMessages.staked}
               />
             </Paper>
           </Grid>
@@ -325,10 +252,10 @@ function TreasuryDashboard() {
                 headerText="APY over time"
                 dataFormat="percent"
                 headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
-                bulletpointColors={apyBulletpointColors}
-                itemNames={apyItemNames}
-                itemType={percentageItemType}
-                infoTooltipMessage={apyInfoTooltip}
+                bulletpointColors={bulletpoints.apy}
+                itemNames={tooltipItems.apy}
+                itemType={itemType.percentage}
+                infoTooltipMessage={tooltipInfoMessages.apy}
               />
             </Paper>
           </Grid>
@@ -343,10 +270,10 @@ function TreasuryDashboard() {
                 stroke={["#000000", "#2EC608", "#49A1F2"]}
                 headerText="Runway Available"
                 headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
-                bulletpointColors={runawayBulletpointColors}
-                itemNames={runwayItemNames}
+                bulletpointColors={bulletpoints.runway}
+                itemNames={tooltipItems.runway}
                 itemType={""}
-                infoTooltipMessage={runwayInfoTooltip}
+                infoTooltipMessage={tooltipInfoMessages.runway}
               />
             </Paper>
           </Grid>
