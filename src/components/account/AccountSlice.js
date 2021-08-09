@@ -4,17 +4,16 @@ import { abi as ierc20Abi } from "../../abi/IERC20.json";
 import { abi as sOHM } from "../../abi/sOHM.json";
 import { abi as sOHMv2 } from "../../abi/sOhmv2.json";
 
-import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
+import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
-const accountAdapter = createEntityAdapter();
-
-const initialState = accountAdapter.getInitialState({
+const initialState = {
   status: "idle",
-});
+};
 
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
   async (networkID, provider, address) => {
+    console.log("helloooooo");
     let ohmBalance = 0;
     let sohmBalance = 0;
     let oldsohmBalance = 0;
@@ -56,7 +55,7 @@ export const loadAccountDetails = createAsyncThunk(
       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
     }
 
-    return fetchAccountSuccess({
+    return {
       balances: {
         dai: ethers.utils.formatEther(daiBalance),
         ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
@@ -73,16 +72,23 @@ export const loadAccountDetails = createAsyncThunk(
       bonding: {
         daiAllowance: daiBondAllowance,
       },
-    });
+    };
   },
 );
+
+const setAll = (state, properties) => {
+  const props = Object.keys(properties);
+  props.forEach(key => {
+    state[key] = properties[key];
+  });
+};
 
 const accountSlice = createSlice({
   name: "account",
   initialState,
   reducers: {
     fetchAccountSuccess(state, action) {
-      accountAdapter.setAll(state, action.payload);
+      setAll(state, action.payload);
     },
   },
   extraReducers: builder => {
@@ -91,7 +97,7 @@ const accountSlice = createSlice({
         state.status = "loading";
       })
       .addCase(loadAccountDetails.fulfilled, (state, action) => {
-        accountAdapter.setAll(state, action.payload);
+        setAll(state, action.payload);
         state.status = "idle";
       });
   },
@@ -103,9 +109,6 @@ export const { fetchAccountSuccess } = accountSlice.actions;
 
 export const { selectAll } = accountAdapter.getSelectors(state => state.account);
 
-export const getAccountState = createSelector(
-  // watch the state for changes
-  selectAll,
-  // and return the new state upon changes
-  account => account,
-);
+const baseInfo = state => state.account;
+
+export const getAppState = createSelector(baseInfo, account => account);

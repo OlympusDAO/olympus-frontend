@@ -123,23 +123,6 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   // Current index
   const currentIndex = await stakingContract.index();
 
-  console.log(
-    "running =-=-=-=-=-=-=-=-=",
-    ethers.utils.formatUnits(currentIndex, "gwei"),
-    currentBlock,
-    fiveDayRate,
-    treasuryBalance,
-    stakingAPY,
-    stakingTVL,
-    oldStakingAPY,
-    stakingRebase,
-    marketCap,
-    marketPrice,
-    circSupply,
-    totalSupply,
-    "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=",
-  );
-
   return {
     currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
     currentBlock,
@@ -176,7 +159,7 @@ const appSlice = createSlice({
   initialState,
   reducers: {
     fetchAppSuccess(state, action) {
-      state = action.payload;
+      setAll(state, action.payload);
     },
   },
   extraReducers: builder => {

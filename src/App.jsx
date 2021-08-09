@@ -92,7 +92,7 @@ function App() {
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
 
-    dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+    await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
     if (address) await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
 
     Object.values(BONDS).map(async bond => {

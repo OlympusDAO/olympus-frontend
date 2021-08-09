@@ -12,11 +12,9 @@ import { abi as BondCalcContract } from "../../abi/bonds/OhmDaiCalcContract.json
 
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
-const bondAdapter = createEntityAdapter();
-
-const initialState = bondAdapter.getInitialState({
+const initialState = {
   status: "idle",
-});
+};
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
@@ -138,17 +136,17 @@ export const calcBondDetails = createAsyncThunk(
       purchased = purchased / Math.pow(10, 18);
     }
 
-    return fetchBondSuccess({
+    return {
       bond,
       bondDiscount,
       debtRatio,
       bondQuote,
       purchased,
-      vestingTerm: terms.vestingTerm,
+      vestingTerm: Number(terms.vestingTerm),
       maxBondPrice: maxBondPrice / Math.pow(10, 9),
       bondPrice: bondPrice / Math.pow(10, 18),
       marketPrice: marketPrice / Math.pow(10, 9),
-    });
+    };
   },
 );
 
@@ -272,6 +270,13 @@ export const redeemBond = createAsyncThunk(
   },
 );
 
+const setAll = (state, properties) => {
+  const props = Object.keys(properties);
+  props.forEach(key => {
+    state[key] = properties[key];
+  });
+};
+
 const bondingSlice = createSlice({
   name: "bonding",
   initialState,
@@ -286,7 +291,7 @@ const bondingSlice = createSlice({
         state.status = "loading";
       })
       .addCase(calcBondDetails.fulfilled, (state, action) => {
-        bondAdapter.setAll(state, action.payload);
+        setAll(state, action.payload);
         state.status = "idle";
       });
   },
@@ -296,6 +301,6 @@ export default bondingSlice.reducer;
 
 export const { fetchBondSuccess } = bondingSlice.actions;
 
-export const { selectAll } = bondAdapter.getSelectors(state => state.bonding);
+const baseInfo = state => state.bonding;
 
-export const getBondState = createSelector(selectAll, bonding => bonding);
+export const getBondingState = createSelector(baseInfo, bonding => bonding);
