@@ -102,6 +102,7 @@ export const Actions = {
   FETCH_FRAX_SUCCESS: "FETCH_FRAX_SUCCESS",
   FETCH_BULLETPOINTS_SUCCESS: "FETCH_BULLETPOINTS_SUCCESS",
   FETCH_TOOLTIP_ITEMS_SUCCESS: "FETCH_TOOLTIP_ITEMS_SUCCESS",
+  FETCH_INFO_TOOLTIP_MESSAGES_SUCCESS: "FETCH_INFO_TOOLTIP_MESSAGES_SUCCESS",
 };
 
 // MY ETHERSCAN_ID, SWAP IN YOURS FROM https://etherscan.io/myapikey
@@ -517,7 +518,7 @@ export const BULLETPOINTS = {
       background: "#49A1F2",
     },
   ],
-  runaway: [
+  runway: [
     {
       right: 45,
       top: -12,
@@ -553,5 +554,16 @@ export const TOOLTIP_ITEMS = {
   coin: ["DAI", "FRAX", "SUSHI"],
   holder: ["OHMies"],
   apy: ["APY"],
-  runaway: ["10K_APY", "20K_APY", "50K_APY"],
+  runway: ["10K_APY", "20K_APY", "50K_APY"],
+};
+
+export const INFO_TOOLTIP_MESSAGES = {
+  tvl: "Total Value Locked, is in the dollar amount of all OHM staked in the protocol. This metric is often used as growth or health indicator in DeFi projects.",
+  mvt: "Need copy...",
+  rfv: "Risk Free Value, is the amount of funds the treasury guarantees to use for backing OHM.",
+  pol: "Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.",
+  holder: "Need copy...",
+  staked: "Need copy...",
+  apy: "Annual Percentage Yield, is the normalized representation of an interest rate, based on a compounding period over one year. Note that APYs provided are rather ballpark level indicators and not so much precise future results.",
+  runway: "Need copy...",
 };

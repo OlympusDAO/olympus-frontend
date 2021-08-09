@@ -1,11 +1,14 @@
 import CustomTooltip from "./CustomTooltip";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import ExpandedChart from "./ExpandedChart";
+import { useEffect, useState } from "react";
+import { ReactComponent as Fullscreen } from "../../assets/icons//v1.2/fullscreen.svg";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
-import { Typography, Box } from "@material-ui/core";
+import { Typography, Box, SvgIcon, Hidden } from "@material-ui/core";
 import { trim } from "../../helpers";
 import _ from "lodash";
 import { format } from "date-fns";
 import "./chart.scss";
-import { useEffect } from "react";
 
 const formatCurrency = c => {
   return new Intl.NumberFormat("en-US", {
@@ -236,7 +239,18 @@ function Chart({
   itemNames,
   itemType,
   isStaked,
+  infoTooltipMessage,
 }) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const renderChart = type => {
     if (type === "line")
       return renderLineChart(data, dataKey, color, stroke, dataFormat, bulletpointColors, itemNames, itemType);
@@ -269,6 +283,20 @@ function Chart({
       return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType);
   };
 
+  const runwayExtraInfo = type =>
+    type === "multi" ? (
+      <Box display="flex">
+        <Typography variant="h4" style={{ fontWeight: 400, fontSize: 24, color: bulletpointColors[1].background }}>
+          {itemNames[1].substring(0, 3)}, {data && Math.floor(data[0].runway20k)}&nbsp;
+        </Typography>
+        <Typography variant="h4" style={{ fontWeight: 400, fontSize: 24, color: bulletpointColors[2].background }}>
+          {itemNames[2].substring(0, 3)}, {data && Math.floor(data[0].runway50k)}&nbsp;
+        </Typography>
+      </Box>
+    ) : (
+      ""
+    );
+
   useEffect(() => {
     console.log("data loaded", data);
   }, [data]);
@@ -276,12 +304,51 @@ function Chart({
   return (
     <Box style={{ width: "100%", height: "100%" }}>
       <div className="card-header">
-        <Typography variant="h6" color="textSecondary">
-          {headerText}
-        </Typography>
+        <Hidden smUp>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="h6" style={{ fontSize: 23, cursor: "pointer" }}>
+              <InfoTooltip message={infoTooltipMessage} />
+            </Typography>
+            <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
+              <SvgIcon component={Fullscreen} color="primary" />
+            </Typography>
+          </Box>
+        </Hidden>
         <Box display="flex">
-          <Typography variant="h4" style={{ fontWeight: 600 }}>
+          <Box>
+            <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400, fontSize: 20 }}>
+              {headerText}
+            </Typography>
+          </Box>
+          <Hidden xsDown>
+            <Box display="flex" justifyContent="space-between" style={{ width: "100%" }}>
+              <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23, cursor: "pointer" }}>
+                <InfoTooltip message={infoTooltipMessage} />
+              </Typography>
+              <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
+                <SvgIcon component={Fullscreen} color="primary" onClick={handleOpen} />
+              </Typography>
+              <ExpandedChart
+                open={open}
+                handleClose={handleClose}
+                renderChart={renderChart(type)}
+                uid={dataKey}
+                data={data}
+                infoTooltipMessage={infoTooltipMessage}
+                headerText={headerText}
+                headerSubText={headerSubText}
+                runwayExtraInfo={runwayExtraInfo(type)}
+              />
+            </Box>
+          </Hidden>
+        </Box>
+        <Box display="flex">
+          <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
             {headerSubText}
+          </Typography>
+          {runwayExtraInfo(type)}
+          <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400, fontSize: 24 }}>
+            Today
           </Typography>
         </Box>
       </div>

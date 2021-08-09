@@ -1,0 +1,13 @@
+.info-tooltip {
+  position: absolute;
+  max-width: 230px;
+  border: 1px solid rgba(118, 130, 153, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: justify;
+  white-space: pre-wrap !important;
+  z-index: 1;
+}

@@ -47,7 +47,7 @@ function TreasuryDashboard() {
   });
 
   const runawayBulletpointColors = useSelector(state => {
-    return state.bulletpoints.runaway;
+    return state.bulletpoints.runway;
   });
 
   const stakedBulletpointColors = useSelector(state => {
@@ -70,8 +70,40 @@ function TreasuryDashboard() {
     return state.tooltipItems.apy;
   });
 
-  const runawayItemNames = useSelector(state => {
-    return state.tooltipItems.runaway;
+  const runwayItemNames = useSelector(state => {
+    return state.tooltipItems.runway;
+  });
+
+  const tvlInfoTooltip = useSelector(state => {
+    return state.infoTooltipMessages.tvl;
+  });
+
+  const mvtInfoTooltip = useSelector(state => {
+    return state.infoTooltipMessages.mvt;
+  });
+
+  const rfvInfoTooltip = useSelector(state => {
+    return state.infoTooltipMessages.rfv;
+  });
+
+  const polInfoTooltip = useSelector(state => {
+    return state.infoTooltipMessages.pol;
+  });
+
+  const holderInfoTooltip = useSelector(state => {
+    return state.infoTooltipMessages.holder;
+  });
+
+  const apyInfoTooltip = useSelector(state => {
+    return state.infoTooltipMessages.apy;
+  });
+
+  const stakedInfoTooltip = useSelector(state => {
+    return state.infoTooltipMessages.staked;
+  });
+
+  const runwayInfoTooltip = useSelector(state => {
+    return state.infoTooltipMessages.runway;
   });
 
   const dollarItemType = "$";
@@ -175,6 +207,7 @@ function TreasuryDashboard() {
                 bulletpointColors={tvlBulletpointColors}
                 itemNames={tvlItemNames}
                 itemType={dollarItemType}
+                infoTooltipMessage={tvlInfoTooltip}
               />
             </Paper>
           </Grid>
@@ -196,6 +229,7 @@ function TreasuryDashboard() {
                 bulletpointColors={coinBulletpointColors}
                 itemNames={coinItemNames}
                 itemType={dollarItemType}
+                infoTooltipMessage={mvtInfoTooltip}
               />
             </Paper>
           </Grid>
@@ -218,6 +252,7 @@ function TreasuryDashboard() {
                 bulletpointColors={coinBulletpointColors}
                 itemNames={coinItemNames}
                 itemType={dollarItemType}
+                infoTooltipMessage={rfvInfoTooltip}
               />
             </Paper>
           </Grid>
@@ -235,15 +270,16 @@ function TreasuryDashboard() {
                   ["", ""],
                 ]}
                 stroke={["#333420"]}
-                headerText="Protocol-Owned Liquidity"
+                headerText="Protocol-Owned Liquidity OHM-DAI"
+                headerSubText={`${data && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
                 dataFormat="k"
                 bulletpointColors={coinBulletpointColors}
                 itemNames={coinItemNames}
                 itemType={percentageItemType}
+                infoTooltipMessage={polInfoTooltip}
               />
             </Paper>
           </Grid>
-
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
@@ -256,6 +292,7 @@ function TreasuryDashboard() {
                 bulletpointColors={holderBulletpointColors}
                 itemNames={holderItemNames}
                 itemType={""}
+                infoTooltipMessage={holderInfoTooltip}
               />
             </Paper>
           </Grid>
@@ -273,6 +310,7 @@ function TreasuryDashboard() {
                 headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
                 bulletpointColors={stakedBulletpointColors}
                 isStaked={true}
+                infoTooltipMessage={stakedInfoTooltip}
               />
             </Paper>
           </Grid>
@@ -291,6 +329,7 @@ function TreasuryDashboard() {
                 bulletpointColors={apyBulletpointColors}
                 itemNames={apyItemNames}
                 itemType={percentageItemType}
+                infoTooltipMessage={apyInfoTooltip}
               />
             </Paper>
           </Grid>
@@ -306,8 +345,9 @@ function TreasuryDashboard() {
                 headerText="Runway Available"
                 headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
                 bulletpointColors={runawayBulletpointColors}
-                itemNames={runawayItemNames}
+                itemNames={runwayItemNames}
                 itemType={""}
+                infoTooltipMessage={runwayInfoTooltip}
               />
             </Paper>
           </Grid>

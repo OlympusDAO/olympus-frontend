@@ -24,19 +24,19 @@ const renderItem = (type, item) => {
 
 const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType, isStaked = false) => {
   return isStaked ? (
-    <Box className="item" display="flex">
-      <Box display="flex" justifyContent="space-between">
+    <Box>
+      <Box className="item" display="flex" justifyContent="space-between">
         <Typography variant="body2">
           <span className="tooltip-bulletpoint" style={bulletpointColors[0]}></span>
           Staked
         </Typography>
         <Typography>{`${Math.round(payload[0].value)}%`}</Typography>
       </Box>
-      <Box>
-        <Box>
+      <Box className="item" display="flex" justifyContent="space-between">
+        <Typography variant="body2">
           <span className="tooltip-bulletpoint" style={bulletpointColors[1]}></span>
-          <Typography variant="body2">Not staked</Typography>
-        </Box>
+          Not staked
+        </Typography>
         <Typography>{`${Math.round(100 - payload[0].value)}%`}</Typography>
       </Box>
       <Box>{renderDate(0, payload, payload[0])}</Box>
@@ -46,8 +46,10 @@ const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType, isS
       <Box key={index}>
         <Box className="item" display="flex">
           <Box display="flex" justifyContent="space-between">
-            <span className="tooltip-bulletpoint" style={bulletpointColors[index]}></span>
-            <Typography variant="body2"> {`${itemNames[index]}`}</Typography>
+            <Typography variant="body2">
+              <span className="tooltip-bulletpoint" style={bulletpointColors[index]}></span>
+              {`${itemNames[index]}`}
+            </Typography>
           </Box>
           {renderItem(itemType, item.value)}
         </Box>
