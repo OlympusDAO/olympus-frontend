@@ -37,6 +37,7 @@ export function bonding(state = {}, action) {
   }
 }
 
+// -- do we need these?
 export function bulletpoints(state = BULLETPOINTS, action) {
   switch (action.type) {
     case Actions.FETCH_BULLETPOINTS_SUCCESS:
@@ -59,6 +60,18 @@ export function infoTooltipMessages(state = INFO_TOOLTIP_MESSAGES, action) {
   switch (action.type) {
     case Actions.FETCH_INFO_TOOLTIP_MESSAGES_SUCCESS:
       return { ...state, ...action.payload };
+    default:
+      return state;
+  }
+}
+// ----
+
+export function pendingTransactions(state = [], action) {
+  switch (action.type) {
+    case Actions.FETCH_PENDING_TXNS:
+      return [...state, action.payload];
+    case Actions.CLEAR_PENDING_TXN:
+      return [...state].filter(x => x.txnHash !== action.payload);
     default:
       return state;
   }

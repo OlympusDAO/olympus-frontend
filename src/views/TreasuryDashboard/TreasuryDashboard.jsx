@@ -156,15 +156,8 @@ function TreasuryDashboard() {
       <Container>
         <Box className="hero-metrics">
           <Paper className="ohm-card">
-            <Grid container>
-              <Grid item lg={3} md={2} sm={3} xs={6}>
-                <Typography variant="h6" color="textSecondary">
-                  Price
-                </Typography>
-                <Typography variant="h4">{marketPrice ? formatCurrency(marketPrice) : " loading"}</Typography>
-              </Grid>
-
-              <Grid item lg={3} md={3} sm={3} xs={6}>
+            <Box display="flex" justifyContent="space-evenly">
+              <Box>
                 <Typography variant="h6" color="textSecondary">
                   Market Cap
                 </Typography>
@@ -172,29 +165,35 @@ function TreasuryDashboard() {
                   {marketCap && formatCurrency(marketCap)}
                   {!marketCap && "$ loading"}
                 </Typography>
-              </Grid>
+              </Box>
+              <Box>
+                <Typography variant="h6" color="textSecondary">
+                  OHM Price
+                </Typography>
+                <Typography variant="h4">{marketPrice ? formatCurrency(marketPrice) : " loading"}</Typography>
+              </Box>
 
-              <Grid item lg={3} md={4} sm={4} xs={6}>
+              <Box>
                 <Typography variant="h6" color="textSecondary">
                   Circulating Supply (total)
                 </Typography>
                 <Typography variant="h4">
                   {circSupply && parseInt(circSupply)} ({totalSupply && parseInt(totalSupply)})
                 </Typography>
-              </Grid>
+              </Box>
 
-              <Grid item lg={3} md={3} sm={2} xs={6}>
+              <Box>
                 <Typography variant="h6" color="textSecondary">
                   Current Index
                 </Typography>
-                <Typography variant="h4">{trim(currentIndex, 2)}</Typography>
-              </Grid>
-            </Grid>
+                <Typography variant="h4">{trim(currentIndex, 2)} sOHM</Typography>
+              </Box>
+            </Box>
           </Paper>
         </Box>
 
         <Grid container spacing={2} className="data-grid">
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          <Grid item lg={6} md={12} sm={12} xs={12}>
             <Paper className="ohm-card ohm-treasury-chart">
               <Chart
                 type="area"
@@ -212,7 +211,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          <Grid item lg={6} md={12} sm={12} xs={12}>
             <Paper className="ohm-card ohm-chart-card">
               <Chart
                 type="stack"
@@ -234,7 +233,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          <Grid item lg={6} md={12} sm={12} xs={12}>
             <Paper className="ohm-card ohm-chart-card">
               <Chart
                 type="stack"
@@ -257,7 +256,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          <Grid item lg={6} md={12} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="stack"
@@ -280,7 +279,7 @@ function TreasuryDashboard() {
               />
             </Paper>
           </Grid>
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          <Grid item lg={6} md={12} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="bar"
@@ -297,7 +296,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          <Grid item lg={6} md={12} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="area"
@@ -315,7 +314,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          <Grid item lg={6} md={12} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="line"
@@ -334,7 +333,7 @@ function TreasuryDashboard() {
             </Paper>
           </Grid>
 
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          <Grid item lg={6} md={12} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="multi"

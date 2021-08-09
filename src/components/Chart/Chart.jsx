@@ -45,7 +45,7 @@ const renderAreaChart = (
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
       reversed={true}
       connectNulls={true}
-      padding={{ right: 10 }}
+      padding={{ right: 20 }}
     />
     <YAxis
       tickCount={3}
@@ -109,7 +109,7 @@ const renderStackedAreaChart = (
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
       reversed={true}
       connectNulls={true}
-      padding={{ right: 10 }}
+      padding={{ right: 20 }}
     />
     <YAxis
       tickCount={3}
@@ -149,7 +149,7 @@ const renderLineChart = (data, dataKey, stroke, color, dataFormat, bulletpointCo
       reversed={true}
       connectNulls={true}
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
-      padding={{ right: 10 }}
+      padding={{ right: 20 }}
     />
     <YAxis
       tickCount={3}
@@ -184,7 +184,7 @@ const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat, bulletpo
       reversed={true}
       connectNulls={true}
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
-      padding={{ right: 10 }}
+      padding={{ right: 20 }}
     />
     <YAxis
       tickCount={3}
@@ -215,9 +215,16 @@ const renderBarChart = (data, dataKey, stroke, dataFormat, bulletpointColors, it
       tickLine={false}
       reversed={true}
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
-      padding={{ right: 10 }}
+      padding={{ right: 20 }}
     />
-    <YAxis axisLine={false} tickLine={false} tickCount={3} />
+    <YAxis
+      axisLine={false}
+      tickLine={false}
+      tickCount={3}
+      domain={[0, "auto"]}
+      allowDataOverflow={false}
+      tickFormatter={number => (number !== 0 ? number : "")}
+    />
     <Tooltip
       content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
     />
@@ -286,10 +293,10 @@ function Chart({
   const runwayExtraInfo = type =>
     type === "multi" ? (
       <Box display="flex">
-        <Typography variant="h4" style={{ fontWeight: 400, fontSize: 24, color: bulletpointColors[1].background }}>
+        <Typography variant="h4" style={{ fontWeight: 400, color: bulletpointColors[1].background }}>
           {itemNames[1].substring(0, 3)}, {data && Math.floor(data[0].runway20k)}&nbsp;
         </Typography>
-        <Typography variant="h4" style={{ fontWeight: 400, fontSize: 24, color: bulletpointColors[2].background }}>
+        <Typography variant="h4" style={{ fontWeight: 400, color: bulletpointColors[2].background }}>
           {itemNames[2].substring(0, 3)}, {data && Math.floor(data[0].runway50k)}&nbsp;
         </Typography>
       </Box>
@@ -303,58 +310,49 @@ function Chart({
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
-      <div className="card-header">
-        <Hidden smUp>
-          <Box display="flex" justifyContent="space-between">
-            <Typography variant="h6" style={{ fontSize: 23, cursor: "pointer" }}>
+      <div className="chart-card-header">
+        <Box display="flex">
+          <Typography variant="h5" color="textSecondary" style={{ fontWeight: 400 }}>
+            {headerText}
+          </Typography>
+
+          <Box display="flex" justifyContent="space-between" alignItems="center" style={{ width: "100%" }}>
+            <Typography variant="body">
               <InfoTooltip message={infoTooltipMessage} />
             </Typography>
-            <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
-              <SvgIcon component={Fullscreen} color="primary" />
-            </Typography>
+            {/* could make this svgbutton */}
+            <SvgIcon
+              component={Fullscreen}
+              color="primary"
+              onClick={handleOpen}
+              style={{ fontSize: 16, cursor: "pointer" }}
+            />
+            <ExpandedChart
+              open={open}
+              handleClose={handleClose}
+              renderChart={renderChart(type)}
+              uid={dataKey}
+              data={data}
+              infoTooltipMessage={infoTooltipMessage}
+              headerText={headerText}
+              headerSubText={headerSubText}
+              runwayExtraInfo={runwayExtraInfo(type)}
+            />
           </Box>
-        </Hidden>
-        <Box display="flex">
-          <Box>
-            <Typography variant="h6" color="textSecondary" style={{ fontWeight: 400, fontSize: 20 }}>
-              {headerText}
-            </Typography>
-          </Box>
-          <Hidden xsDown>
-            <Box display="flex" justifyContent="space-between" style={{ width: "100%" }}>
-              <Typography variant="h6" style={{ marginLeft: 10, fontSize: 23, cursor: "pointer" }}>
-                <InfoTooltip message={infoTooltipMessage} />
-              </Typography>
-              <Typography variant="h6" style={{ fontSize: 24, cursor: "pointer" }}>
-                <SvgIcon component={Fullscreen} color="primary" onClick={handleOpen} />
-              </Typography>
-              <ExpandedChart
-                open={open}
-                handleClose={handleClose}
-                renderChart={renderChart(type)}
-                uid={dataKey}
-                data={data}
-                infoTooltipMessage={infoTooltipMessage}
-                headerText={headerText}
-                headerSubText={headerSubText}
-                runwayExtraInfo={runwayExtraInfo(type)}
-              />
-            </Box>
-          </Hidden>
         </Box>
         <Box display="flex">
           <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
             {headerSubText}
           </Typography>
           {runwayExtraInfo(type)}
-          <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400, fontSize: 24 }}>
+          <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
             Today
           </Typography>
         </Box>
       </div>
-      <Box minWidth={300} style={{ margin: "0 0 -10px -25px" }}>
+      <Box width="100%" style={{ margin: "0 0 0px -10px" }}>
         {data && data.length > 0 && (
-          <ResponsiveContainer width="99%" minWidth="280px" height="99%" minHeight="250px">
+          <ResponsiveContainer minHeight={260} minWidth={300}>
             {renderChart(type)}
           </ResponsiveContainer>
         )}

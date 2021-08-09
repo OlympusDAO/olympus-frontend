@@ -5,15 +5,16 @@
   .item {
     align-items: center;
     justify-content: space-between;
-    min-height: 1.33em;
+    height: 1.5em;
   }
 
   .tooltip-bulletpoint {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 0.9em;
+    height: 0.9em;
     border-radius: 50%;
     margin-right: 5px;
+    vertical-align: middle;
   }
 
   .tooltip-date {

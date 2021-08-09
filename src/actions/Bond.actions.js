@@ -1,14 +1,8 @@
 import { ethers } from "ethers";
-import {
-  isBondLP,
-  getMarketPrice,
-  contractForBond,
-  contractForReserve,
-  addressForBond,
-  addressForAsset,
-} from "../helpers";
-import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
+import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForAsset, bondName } from "../helpers";
+import { addresses, Actions, BONDS } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxns.actions";
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -26,8 +20,8 @@ export const changeApproval =
     const signer = provider.getSigner();
     const reserveContract = contractForReserve({ bond, networkID, provider: signer });
 
+    let approveTx;
     try {
-      let approveTx;
       if (bond == BONDS.ohm_dai)
         approveTx = await reserveContract.approve(
           addresses[networkID].BONDS.OHM_DAI,
@@ -57,9 +51,17 @@ export const changeApproval =
         );
       }
 
+      dispatch(
+        fetchPendingTxns({ txnHash: approveTx.hash, text: "Approving " + bondName(bond), type: "approve_" + bond }),
+      );
+
       await approveTx.wait();
     } catch (error) {
       alert(error.message);
+    } finally {
+      if (approveTx) {
+        dispatch(clearPendingTxn(approveTx.hash));
+      }
     }
   };
 
@@ -125,6 +127,11 @@ export const calcBondDetails =
       const markdown = await bondCalcContract.markdown(addressForAsset({ bond, networkID }));
       purchased = await bondCalcContract.valuation(addressForAsset({ bond, networkID }), purchased);
       purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
+    } else if (bond === BONDS.eth) {
+      purchased = purchased / Math.pow(10, 18);
+      let ethPrice = await bondContract.assetPrice();
+      ethPrice = ethPrice / Math.pow(10, 8);
+      purchased = purchased * ethPrice;
     } else {
       purchased = purchased / Math.pow(10, 18);
     }
@@ -218,9 +225,15 @@ export const bondAsset =
     const maxPremium = Math.round(calculatePremium * (1 + acceptedSlippage));
 
     // Deposit the bond
+    let bondTx;
     try {
-      const bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+      bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+      dispatch(
+        fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + getBondTypeText(bond), type: "bond_" + bond }),
+      );
       await bondTx.wait();
+      // TODO: it may make more sense to only have it in the finally.
+      // UX preference (show pending after txn complete or after balance updated)
 
       const reserveContract = contractForReserve({ bond, provider, networkID });
 
@@ -237,6 +250,10 @@ export const bondAsset =
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else alert(error.message);
       return;
+    } finally {
+      if (bondTx) {
+        dispatch(clearPendingTxn(bondTx.hash));
+      }
     }
   };
 
@@ -251,15 +268,19 @@ export const redeemBond =
     const signer = provider.getSigner();
     const bondContract = contractForBond({ bond, networkID, provider: signer });
 
+    let redeemTx;
     try {
-      let redeemTx;
-
       redeemTx = await bondContract.redeem(address, autostake === true);
-
+      const pendingTxnType = "redeem_bond_" + bond + (autoStake === true ? "_autostake" : "");
+      dispatch(
+        fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
+      );
       await redeemTx.wait();
     } catch (error) {
       alert(error.message);
+    } finally {
+      if (redeemTx) {
+        dispatch(clearPendingTxn(redeemTx.hash));
+      }
     }
-
-    should;
   };

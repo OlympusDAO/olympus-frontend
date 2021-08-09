@@ -6,7 +6,8 @@
   }
 }
 
-#ohm-popper {
+#ohm-popper, #ohm-popper-pending {
+  z-index: 5;
   background-color: #00000011;
   backdrop-filter: blur(33px);
   -webkit-backdrop-filter: blur(33px);

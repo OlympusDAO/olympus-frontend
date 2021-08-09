@@ -14,12 +14,11 @@
   .hero-metrics {
     width: 100%;
     margin-bottom: 23px;
+    text-align: center;
     .ohm-card {
       max-width: unset !important;
-      display: flex;
       flex-direction: row;
       justify-content: space-evenly;
-      text-align: center;
       h4 {
         font-weight: bold;
       }

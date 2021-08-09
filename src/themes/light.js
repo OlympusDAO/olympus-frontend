@@ -3,7 +3,7 @@ import fonts from "./fonts";
 import commonSettings from "./global.js";
 
 const lightTheme = {
-  color: "rgb(37, 52, 73)",
+  color: "#253449",
   gold: "#F8CC82",
   gray: "#A3A3A3",
   textHighlightColor: "#93AEBC", // "#F4D092",
