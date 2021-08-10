@@ -91,8 +91,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           package: WalletConnectProvider,
           options: {
             rpc: {
-              1: getAlchemyAPI(chainID),
-              4: getTestnetURI(),
+              1: getAlchemyAPI(1),
+              4: getAlchemyAPI(4),
             },
           },
         },

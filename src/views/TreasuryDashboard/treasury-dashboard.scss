@@ -2,9 +2,14 @@
   overflow-y: hidden;
   overflow-x: hidden;
   height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
   .ohm-card {
+    max-width: unset !important;
+    width: unset !important;
     white-space: nowrap;
-    width: auto;
     margin: auto;
     max-height: 360px;
     .card-header {
@@ -26,8 +31,7 @@
   }
   .data-grid {
     overflow: hidden;
-    overflow-y: auto;
-    height: calc(100vh - 203px);
+    // height: calc(100vh - 203px);
     justify-content: center;
   }
 }
