@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import accountReducer from "./components/Account/AccountSlice";
-import bondingReducer from "./components/Bond/BondSlice";
-import appReducer from "./components/Main/MainSlice";
-import stakeReducer from "./components/Stake/StakeSlice";
-import migrateReducer from "./components/Migrate/MigrateSlice";
+import accountReducer from "./slices/AccountSlice";
+import bondingReducer from "./slices/BondSlice";
+import appReducer from "./slices/MainSlice";
+import stakeReducer from "./slices/StakeSlice";
+import migrateReducer from "./slices/MigrateSlice";
 // reducers are named automatically based on the name field in the slice
 // exported in slice files by default as nameOfSlice.reducer
 

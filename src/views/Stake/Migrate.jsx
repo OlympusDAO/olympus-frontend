@@ -14,7 +14,7 @@ import {
   Breadcrumbs,
   Link,
 } from "@material-ui/core";
-import { changeStake, getApproval, TYPES, ACTIONS } from "../../components/Migrate/MigrateSlice";
+import { changeStake, getApproval, TYPES, ACTIONS } from "../../slices/MigrateSlice";
 import { useSelector, useDispatch } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";

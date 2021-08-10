@@ -6,10 +6,10 @@ import {
   contractForReserve,
   addressForBond,
   addressForAsset,
-} from "../../helpers";
-import { addresses, Actions, BONDS, VESTING_TERM } from "../../constants";
-import { abi as BondCalcContract } from "../../abi/bonds/OhmDaiCalcContract.json";
-import { setAll } from "../../helpers";
+  setAll,
+} from "../helpers";
+import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
+import { abi as BondCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 

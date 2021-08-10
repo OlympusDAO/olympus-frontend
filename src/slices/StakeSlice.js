@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
-import { addresses, Actions } from "../../constants";
-import { abi as ierc20Abi } from "../../abi/IERC20.json";
-import { abi as OlympusStaking } from "../../abi/OlympusStakingv2.json";
-import { abi as StakingHelper } from "../../abi/StakingHelper.json";
-import { setAll } from "../../helpers";
+import { addresses, Actions } from "../constants";
+import { abi as ierc20Abi } from "../abi/IERC20.json";
+import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
+import { abi as StakingHelper } from "../abi/StakingHelper.json";
+import { setAll } from "../helpers";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 

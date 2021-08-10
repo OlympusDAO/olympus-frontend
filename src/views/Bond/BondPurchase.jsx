@@ -12,7 +12,7 @@ import {
   Slide,
 } from "@material-ui/core";
 import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../components/Bond/BondSlice";
+import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../slices/BondSlice";
 import { BONDS } from "../../constants";
 import { useWeb3Context } from "src/hooks/web3Context";
 

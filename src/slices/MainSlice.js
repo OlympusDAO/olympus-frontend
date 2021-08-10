@@ -1,14 +1,14 @@
 import { ethers } from "ethers";
-import { addresses, Actions } from "../../constants";
-import { abi as OlympusStaking } from "../../abi/OlympusStaking.json";
-import { abi as OlympusStakingv2 } from "../../abi/OlympusStakingv2.json";
-import { abi as sOHM } from "../../abi/sOHM.json";
-import { abi as sOHMv2 } from "../../abi/sOhmv2.json";
+import { addresses, Actions } from "../constants";
+import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
+import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
+import { abi as sOHM } from "../abi/sOHM.json";
+import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import axios from "axios";
-import { contractForReserve, addressForAsset, contractForBond, setAll } from "../../helpers";
-import { BONDS } from "../../constants";
-import { abi as BondCalcContract } from "../../abi/BondCalcContract.json";
-import apollo from "../../lib/apolloClient.js";
+import { contractForReserve, addressForAsset, contractForBond, setAll } from "../helpers";
+import { BONDS } from "../constants";
+import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
+import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
 const initialState = {
