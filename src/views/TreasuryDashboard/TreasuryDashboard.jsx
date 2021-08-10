@@ -15,8 +15,7 @@ function TreasuryDashboard() {
   const [runway, setRunway] = useState(null);
   const [staked, setStaked] = useState(null);
   const theme = useTheme();
-
-  const isMobile = useMediaQuery("(max-width: 744px)");
+  const smallerScreen = useMediaQuery("(max-width: 680px)");
 
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
@@ -157,12 +156,12 @@ function TreasuryDashboard() {
   }, []);
 
   return (
-    <div id="treasury-dashboard-view">
+    <div id="treasury-dashboard-view" className={`${smallerScreen && "smaller"}`}>
       <Container>
-        <Box className="hero-metrics">
+        <Box className={`hero-metrics`}>
           <Paper className="ohm-card">
             <Box display="flex" justifyContent="space-evenly">
-              <Box>
+              <Box className="metric">
                 <Typography variant="h6" color="textSecondary">
                   Market Cap
                 </Typography>
@@ -171,7 +170,7 @@ function TreasuryDashboard() {
                   {!marketCap && <Skeleton type="text" />}
                 </Typography>
               </Box>
-              <Box>
+              <Box className="metric">
                 <Typography variant="h6" color="textSecondary">
                   OHM Price
                 </Typography>
@@ -180,7 +179,21 @@ function TreasuryDashboard() {
                 </Typography>
               </Box>
 
-              <Box>
+              <Box className="metric">
+                <Typography variant="h6" color="textSecondary">
+                  Current Index
+                </Typography>
+                <Typography variant="h4">
+                  {currentIndex ? (
+                    trim(currentIndex, 2)
+                  ) : (
+                    <Skeleton type="text" width="40%" style={{ display: "inline-block" }} />
+                  )}
+                  &nbsp;sOHM
+                </Typography>
+              </Box>
+
+              <Box className="metric">
                 <Typography variant="h6" color="textSecondary">
                   Circulating Supply (total)
                 </Typography>
@@ -197,20 +210,6 @@ function TreasuryDashboard() {
                     <Skeleton type="text" width="40%" style={{ display: "inline-block" }} />
                   )}
                   )
-                </Typography>
-              </Box>
-
-              <Box>
-                <Typography variant="h6" color="textSecondary">
-                  Current Index
-                </Typography>
-                <Typography variant="h4">
-                  {currentIndex ? (
-                    trim(currentIndex, 2)
-                  ) : (
-                    <Skeleton type="text" width="40%" style={{ display: "inline-block" }} />
-                  )}
-                  &nbsp;sOHM
                 </Typography>
               </Box>
             </Box>

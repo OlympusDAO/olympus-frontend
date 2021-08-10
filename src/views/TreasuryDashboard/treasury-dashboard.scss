@@ -24,6 +24,7 @@
       max-width: unset !important;
       flex-direction: row;
       justify-content: space-evenly;
+      min-width: none;
       h4 {
         font-weight: bold;
       }
@@ -33,5 +34,17 @@
     overflow: hidden;
     // height: calc(100vh - 203px);
     justify-content: center;
+  }
+}
+
+.smaller {
+  .hero-metrics .ohm-card {
+    > .MuiBox-root {
+      flex-wrap: wrap;
+    }
+    div.metric {
+      min-width: 40% !important;
+      text-align: left !important;
+    }
   }
 }
