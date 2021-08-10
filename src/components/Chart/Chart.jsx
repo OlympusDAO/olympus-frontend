@@ -4,7 +4,8 @@ import ExpandedChart from "./ExpandedChart";
 import { useEffect, useState } from "react";
 import { ReactComponent as Fullscreen } from "../../assets/icons//v1.2/fullscreen.svg";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
-import { Typography, Box, SvgIcon, Hidden } from "@material-ui/core";
+import { Typography, Box, SvgIcon } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import { trim } from "../../helpers";
 import _ from "lodash";
 import { format } from "date-fns";
@@ -72,7 +73,7 @@ const renderAreaChart = (
         />
       }
     />
-    <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
+    <Area dataKey={dataKey[0]} stroke="none" fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
   </AreaChart>
 );
 
@@ -132,9 +133,24 @@ const renderStackedAreaChart = (
       formatter={value => trim(parseFloat(value), 2)}
       content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
     />
-    <Area dataKey={dataKey[0]} stroke={stroke[0]} fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
-    <Area dataKey={dataKey[1]} stroke={stroke[1]} fill={`url(#color-${dataKey[1]})`} fillOpacity={1} />
-    <Area dataKey={dataKey[2]} stroke={stroke[2]} fill={`url(#color-${dataKey[2]})`} fillOpacity={1} />
+    <Area
+      dataKey={dataKey[0]}
+      stroke={stroke ? stroke[0] : "none"}
+      fill={`url(#color-${dataKey[0]})`}
+      fillOpacity={1}
+    />
+    <Area
+      dataKey={dataKey[1]}
+      stroke={stroke ? stroke[1] : "none"}
+      fill={`url(#color-${dataKey[1]})`}
+      fillOpacity={1}
+    />
+    <Area
+      dataKey={dataKey[2]}
+      stroke={stroke ? stroke[2] : "none"}
+      fill={`url(#color-${dataKey[2]})`}
+      fillOpacity={1}
+    />
   </AreaChart>
 );
 
@@ -169,7 +185,7 @@ const renderLineChart = (data, dataKey, stroke, color, dataFormat, bulletpointCo
     <Tooltip
       content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
     />
-    <Line type="monotone" dataKey={dataKey[0]} stroke="#49A1F2" color={color} dot={false} />;
+    <Line type="monotone" dataKey={dataKey[0]} stroke={stroke ? stroke : "none"} color={color} dot={false} />;
   </LineChart>
 );
 
@@ -198,9 +214,9 @@ const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat, bulletpo
     <Tooltip
       content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
     />
-    <Line type="monotone" dataKey={dataKey[0]} stroke="#FFFFFF" dot={false} />;
-    <Line type="monotone" dataKey={dataKey[1]} stroke="#2EC608" dot={false} />;
-    <Line type="monotone" dataKey={dataKey[2]} stroke="#49A1F2" dot={false} />;
+    <Line dataKey={dataKey[0]} stroke={stroke} dot={false} />;
+    <Line dataKey={dataKey[1]} stroke={stroke} dot={false} />;
+    <Line dataKey={dataKey[2]} stroke={stroke} dot={false} />;
   </LineChart>
 );
 
@@ -249,6 +265,7 @@ function Chart({
   infoTooltipMessage,
 }) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleOpen = () => {
     setOpen(true);
@@ -286,6 +303,7 @@ function Chart({
       );
     if (type === "multi")
       return renderMultiLineChart(data, dataKey, color, stroke, dataFormat, bulletpointColors, itemNames, itemType);
+
     if (type === "bar")
       return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType);
   };
@@ -294,10 +312,10 @@ function Chart({
     type === "multi" ? (
       <Box display="flex">
         <Typography variant="h4" style={{ fontWeight: 400, color: bulletpointColors[1].background }}>
-          {itemNames[1].substring(0, 3)}, {data && Math.floor(data[0].runway20k)}&nbsp;
+          {itemNames[1].substring(0, 3)} {data && Math.floor(data[0].runway20k)}&nbsp;
         </Typography>
         <Typography variant="h4" style={{ fontWeight: 400, color: bulletpointColors[2].background }}>
-          {itemNames[2].substring(0, 3)}, {data && Math.floor(data[0].runway50k)}&nbsp;
+          {itemNames[2].substring(0, 3)} {data && Math.floor(data[0].runway50k)}&nbsp;
         </Typography>
       </Box>
     ) : (
@@ -305,56 +323,73 @@ function Chart({
     );
 
   useEffect(() => {
-    console.log("data loaded", data);
+    if (data !== null || undefined) {
+      console.log("data loaded", data);
+      setLoading(false);
+    }
   }, [data]);
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
       <div className="chart-card-header">
-        <Box display="flex">
-          <Typography variant="h5" color="textSecondary" style={{ fontWeight: 400 }}>
-            {headerText}
-          </Typography>
-
-          <Box display="flex" justifyContent="space-between" alignItems="center" style={{ width: "100%" }}>
-            <Typography variant="body">
-              <InfoTooltip message={infoTooltipMessage} />
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          style={{ width: "100%", overflow: "hidden" }}
+        >
+          <Box display="flex" width="90%" alignItems="center">
+            <Typography
+              variant="h6"
+              color="textSecondary"
+              className="card-title-text"
+              style={{ fontWeight: 400, overflow: "hidden" }}
+            >
+              {headerText}
             </Typography>
-            {/* could make this svgbutton */}
-            <SvgIcon
-              component={Fullscreen}
-              color="primary"
-              onClick={handleOpen}
-              style={{ fontSize: 16, cursor: "pointer" }}
-            />
-            <ExpandedChart
-              open={open}
-              handleClose={handleClose}
-              renderChart={renderChart(type)}
-              uid={dataKey}
-              data={data}
-              infoTooltipMessage={infoTooltipMessage}
-              headerText={headerText}
-              headerSubText={headerSubText}
-              runwayExtraInfo={runwayExtraInfo(type)}
-            />
+            <InfoTooltip message={infoTooltipMessage} />
           </Box>
+          {/* could make this svgbutton */}
+
+          <SvgIcon
+            component={Fullscreen}
+            color="primary"
+            onClick={handleOpen}
+            style={{ fontSize: "1rem", cursor: "pointer" }}
+          />
+          <ExpandedChart
+            open={open}
+            handleClose={handleClose}
+            renderChart={renderChart(type)}
+            uid={dataKey}
+            data={data}
+            infoTooltipMessage={infoTooltipMessage}
+            headerText={headerText}
+            headerSubText={headerSubText}
+            runwayExtraInfo={runwayExtraInfo(type)}
+          />
         </Box>
-        <Box display="flex">
-          <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
-            {headerSubText}
-          </Typography>
-          {runwayExtraInfo(type)}
-          <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
-            Today
-          </Typography>
-        </Box>
+        {loading ? (
+          <Skeleton variant="text" width={100} />
+        ) : (
+          <Box display="flex">
+            <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
+              {headerSubText}
+            </Typography>
+            {runwayExtraInfo(type)}
+            <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
+              {type !== "multi" && "Today"}
+            </Typography>
+          </Box>
+        )}
       </div>
-      <Box width="100%" style={{ margin: "0 0 0px -10px" }}>
-        {data && data.length > 0 && (
+      <Box width="100%" minHeight={260} className="ohm-chart">
+        {loading || (data && data.length > 0) ? (
           <ResponsiveContainer minHeight={260} minWidth={300}>
             {renderChart(type)}
           </ResponsiveContainer>
+        ) : (
+          <Skeleton variant="rect" width="100%" height={260} />
         )}
       </Box>
     </Box>

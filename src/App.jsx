@@ -93,10 +93,10 @@ function App() {
     let loadProvider = provider;
 
     await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-    if (address) await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+    if (address) await dispatch(loadAccountDetails({ networkID: chainID, provider: loadProvider, address }));
 
     Object.values(BONDS).map(async bond => {
-      await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+      await dispatch(calcBondDetails({ address, bond, networkID: chainID, provider: loadProvider }));
     });
   }
 

@@ -1,13 +1,14 @@
-.info-tooltip {
+.info-icon {
+  cursor: pointer;
+}
+.info-tooltip.ohm-card {
   position: absolute;
-  right: 20%;
+  left: 10px;
   width: 270px !important;
   min-width: 250px;
   border: 1px solid rgba(118, 130, 153, 0.2);
-  backdrop-filter: blur(60px) !important;
-  -webkit-backdrop-filter: blur(60px) !important;
   white-space: pre-wrap !important;
-  z-index: 10 !important;
+  z-index: 10;
   .info-tooltip-text {
     line-height: 130%;
   }
