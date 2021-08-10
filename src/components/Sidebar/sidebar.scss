@@ -11,6 +11,7 @@
 .dapp-sidebar {
   height: 100vh;
   border-radius: 0 !important;
+  // min-height: 500px;
 }
 
 .branding-header {
@@ -38,14 +39,20 @@
   justify-content: flex-start;
   flex-direction: column;
   margin-bottom: 33px;
-  min-height: 50%;
+  min-height: max-content;
   .dapp-nav {
     display: flex;
     flex-flow: column;
   }
 }
+
+.dapp-menu-bottom {
+  height: 40vh;
+  min-height: 30vh;
+}
+
 .dapp-menu-links {
-  min-height: 40vh;
+  min-height: 35vh;
   display: flex;
   align-items: center;
 }
@@ -58,7 +65,7 @@
     width: 20px;
     height: 20px;
     margin-right: 12px;
-    vertical-align: middle;
+    vertical-align: -4px;
   }
 }
 
@@ -67,8 +74,6 @@
   flex-flow: column;
   align-items: flex-start;
   justify-content: center;
-  height: 30%;
-  min-height: 19%;
   margin-left: 33px;
   a {
     display: flex;
@@ -81,25 +86,6 @@
     height: 20px;
     margin-right: 12px;
     vertical-align: middle;
-  }
-}
-
-.dapp-menu-data {
-  align-items: center;
-  display: flex;
-  height: auto;
-  width: 100%;
-  justify-content: left;
-  &.discounts {
-    margin-top: 0.5em;
-  }
-  &.bottom {
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    max-height: 38%;
-    min-height: 15%;
-    height: auto;
   }
 }
 
@@ -121,16 +107,6 @@
       margin-left: 33px;
     }
   }
-}
-
-.dapp-menu-social {
-  width: 100%;
-  display: block;
-  flex-flow: column;
-  justify-content: center;
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
 }
 
 .social-row {

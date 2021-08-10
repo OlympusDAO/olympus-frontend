@@ -3,8 +3,6 @@ import Web3Modal from "web3modal";
 import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
-import { INFURA_ID } from "../constants";
-
 // TODO(zayenx): REMEMBER THIS!!!
 // Use this in production!
 function getMainnetURI() {
@@ -20,9 +18,25 @@ function getMainnetURI() {
   return `https://mainnet.infura.io/v3/${randomInfuraID}`;
 }
 
+function getTestnetURI() {
+  return "https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3";
+}
+
 // https://cloudflare-eth.com is also an option
-function getAlchemyAPI() {
-  return "https://eth-mainnet.alchemyapi.io/v2/R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o";
+// function getAlchemyAPI() {
+//   return "https://eth-mainnet.alchemyapi.io/v2/R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o";
+// }
+
+function getAlchemyAPI(chainID: Number) {
+  const ALCHEMY_ID_LIST = [
+    "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
+    "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
+  ];
+
+  const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
+  const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
+  if (chainID === 1) return `https://eth-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
+  else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO`; // unbanksy's
 }
 
 /*
@@ -64,8 +78,9 @@ export const useAddress = () => {
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
+  const [uri, setUri] = useState(getAlchemyAPI(chainID));
   const [address, setAddress] = useState("");
-  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(getAlchemyAPI())); // TODO(ZayenX): pls remember to change this back to infura.
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri)); // TODO(ZayenX): pls remember to change this back to infura.
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -73,9 +88,12 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       cacheProvider: true, // optional
       providerOptions: {
         walletconnect: {
-          package: WalletConnectProvider, // required
+          package: WalletConnectProvider,
           options: {
-            infuraId: INFURA_ID,
+            rpc: {
+              1: getAlchemyAPI(chainID),
+              4: getTestnetURI(),
+            },
           },
         },
       },
@@ -96,8 +114,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       setTimeout(() => window.location.reload(), 1);
     });
 
-    provider.on("chainChanged", () => {
+    provider.on("chainChanged", (chain: number) => {
       if (_hasCachedProvider()) return;
+      _checkNetwork(chain);
       setTimeout(() => window.location.reload(), 1);
     });
   }, [provider]);
@@ -105,7 +124,12 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // Eventually we will not need this method.
   const _checkNetwork = (otherChainID: number): Boolean => {
     if (chainID !== otherChainID) {
-      console.error("Wrong network, please switch to mainnet");
+      console.warn("You are switching networks");
+      if (otherChainID === 1 || otherChainID === 4) {
+        setChainID(otherChainID);
+        otherChainID === 1 ? setUri(getAlchemyAPI(chainID)) : setUri(getTestnetURI());
+        return true;
+      }
       return false;
     }
     return true;
@@ -144,8 +168,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, provider, connected, address, web3Modal }),
-    [connect, disconnect, provider, connected, address, web3Modal],
+    () => ({ connect, disconnect, provider, connected, address, chainID, web3Modal }),
+    [connect, disconnect, provider, connected, address, chainID, web3Modal],
   );
 
   useEffect(() => {

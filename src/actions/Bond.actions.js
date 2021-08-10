@@ -1,14 +1,8 @@
 import { ethers } from "ethers";
-import {
-  isBondLP,
-  getMarketPrice,
-  contractForBond,
-  contractForReserve,
-  addressForBond,
-  addressForAsset,
-} from "../helpers";
-import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
-import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
+import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForAsset, bondName } from "../helpers";
+import { addresses, Actions, BONDS } from "../constants";
+import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxns.actions";
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -26,8 +20,8 @@ export const changeApproval =
     const signer = provider.getSigner();
     const reserveContract = contractForReserve({ bond, networkID, provider: signer });
 
+    let approveTx;
     try {
-      let approveTx;
       if (bond == BONDS.ohm_dai)
         approveTx = await reserveContract.approve(
           addresses[networkID].BONDS.OHM_DAI,
@@ -49,10 +43,25 @@ export const changeApproval =
           addresses[networkID].BONDS.FRAX,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
+      else if (bond === BONDS.eth) {
+        // <-- added for eth
+        approveTx = await reserveContract.approve(
+          addresses[networkID].BONDS.ETH,
+          ethers.utils.parseUnits("1000000000", "ether").toString(),
+        );
+      }
+
+      dispatch(
+        fetchPendingTxns({ txnHash: approveTx.hash, text: "Approving " + bondName(bond), type: "approve_" + bond }),
+      );
 
       await approveTx.wait();
     } catch (error) {
       alert(error.message);
+    } finally {
+      if (approveTx) {
+        dispatch(clearPendingTxn(approveTx.hash));
+      }
     }
   };
 
@@ -67,43 +76,37 @@ export const calcBondDetails =
     }
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
-    let bondDiscount, valuation, bondQuote;
-    const bondContract = contractForBond({ bond, networkID, provider });
-    const bondCalcContract = new ethers.Contract(
-      addresses[networkID].BONDS.OHM_DAI_CALC,
-      BondOhmDaiCalcContract,
-      provider,
-    );
+    let bondPrice, bondDiscount, valuation, bondQuote;
 
-    const marketPrice = await getMarketPrice({ networkID, provider });
+    const bondContract = contractForBond({ bond, networkID, provider });
+    const bondCalcContract = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
+
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
+    const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
 
-    let debtRatio, bondPrice;
+    let marketPrice = await getMarketPrice({ networkID, provider });
+
     try {
       bondPrice = await bondContract.bondPriceInUSD();
-
-      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (marketPrice * Math.pow(10, 9));
-      if (bond === BONDS.ohm_dai) {
-        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
-        // RFV = assume 1:1 backing
-        valuation = await bondCalcContract.valuation(addresses[networkID].LP_ADDRESS, amountInWei);
-        bondQuote = await bondContract.payoutFor(valuation);
-        bondQuote = bondQuote / Math.pow(10, 9);
-      } else if (bond === BONDS.ohm_frax) {
-        debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
-        valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
-        bondQuote = await bondContract.payoutFor(valuation);
-        bondQuote = bondQuote / Math.pow(10, 9);
-      } else {
-        // RFV = DAI
-        debtRatio = await bondContract.standardizedDebtRatio();
-        bondQuote = await bondContract.payoutFor(amountInWei);
-        bondQuote = bondQuote / Math.pow(10, 18);
-      }
+      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
     } catch (e) {
-      debtRatio = 0;
-      bondPrice = 0;
+      console.log("error getting bondPriceInUSD", e);
+    }
+
+    if (bond === BONDS.ohm_dai) {
+      // RFV = assume 1:1 backing
+      valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_DAI, amountInWei);
+      bondQuote = await bondContract.payoutFor(valuation);
+      bondQuote = bondQuote / Math.pow(10, 9);
+    } else if (bond === BONDS.ohm_frax) {
+      valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
+      bondQuote = await bondContract.payoutFor(valuation);
+      bondQuote = bondQuote / Math.pow(10, 9);
+    } else {
+      // RFV = DAI
+      bondQuote = await bondContract.payoutFor(amountInWei);
+      bondQuote = bondQuote / Math.pow(10, 18);
     }
 
     // Display error if user tries to exceed maximum.
@@ -124,6 +127,11 @@ export const calcBondDetails =
       const markdown = await bondCalcContract.markdown(addressForAsset({ bond, networkID }));
       purchased = await bondCalcContract.valuation(addressForAsset({ bond, networkID }), purchased);
       purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
+    } else if (bond === BONDS.eth) {
+      purchased = purchased / Math.pow(10, 18);
+      let ethPrice = await bondContract.assetPrice();
+      ethPrice = ethPrice / Math.pow(10, 8);
+      purchased = purchased * ethPrice;
     } else {
       purchased = purchased / Math.pow(10, 18);
     }
@@ -153,37 +161,36 @@ export const calculateUserBondDetails =
     const reserveContract = contractForReserve({ bond, networkID, provider });
 
     let interestDue, pendingPayout, bondMaturationBlock;
-    if (bond === BONDS.dai_v1 || bond === BONDS.ohm_frax_v1 || bond === BONDS.ohm_dai_v1) {
-      const bondDetails = await bondContract.bondInfo(address);
-      interestDue = bondDetails.payoutRemaining / Math.pow(10, 9);
-      bondMaturationBlock = +bondDetails.vestingPeriod + +bondDetails.lastBlock;
-      pendingPayout = await bondContract.pendingPayoutFor(address);
-    } else {
-      const bondDetails = await bondContract.bondInfo(address);
-      interestDue = bondDetails.payout / Math.pow(10, 9);
-      bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
-      pendingPayout = await bondContract.pendingPayoutFor(address);
-    }
+
+    const bondDetails = await bondContract.bondInfo(address);
+    interestDue = bondDetails.payout / Math.pow(10, 9);
+    bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
+    pendingPayout = await bondContract.pendingPayoutFor(address);
 
     let allowance,
       balance = 0;
-    if (bond === BONDS.ohm_dai || bond === BONDS.ohm_dai_v1) {
+    if (bond === BONDS.ohm_dai) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
-    } else if (bond === BONDS.dai || bond === BONDS.dai_v1) {
+    } else if (bond === BONDS.dai) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.DAI);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatEther(balance);
-    } else if (bond === BONDS.ohm_frax || bond === BONDS.ohm_frax_v1) {
+    } else if (bond === BONDS.ohm_frax) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_FRAX);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
     } else if (bond === BONDS.frax) {
       allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.FRAX);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatUnits(balance, "ether");
+    } else if (bond === BONDS.eth) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.ETH);
 
       balance = await reserveContract.balanceOf(address);
       balance = ethers.utils.formatUnits(balance, "ether");
@@ -218,9 +225,15 @@ export const bondAsset =
     const maxPremium = Math.round(calculatePremium * (1 + acceptedSlippage));
 
     // Deposit the bond
+    let bondTx;
     try {
-      const bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+      bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+      dispatch(
+        fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + getBondTypeText(bond), type: "bond_" + bond }),
+      );
       await bondTx.wait();
+      // TODO: it may make more sense to only have it in the finally.
+      // UX preference (show pending after txn complete or after balance updated)
 
       const reserveContract = contractForReserve({ bond, provider, networkID });
 
@@ -237,6 +250,10 @@ export const bondAsset =
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else alert(error.message);
       return;
+    } finally {
+      if (bondTx) {
+        dispatch(clearPendingTxn(bondTx.hash));
+      }
     }
   };
 
@@ -251,16 +268,19 @@ export const redeemBond =
     const signer = provider.getSigner();
     const bondContract = contractForBond({ bond, networkID, provider: signer });
 
+    let redeemTx;
     try {
-      let redeemTx;
-      if (bond === BONDS.dai_v1 || bond === BONDS.ohm_dai_v1 || bond === BONDS.ohm_frax_v1) {
-        redeemTx = await bondContract.redeem(false);
-      } else {
-        redeemTx = await bondContract.redeem(address, autostake === true);
-      }
-
+      redeemTx = await bondContract.redeem(address, autostake === true);
+      const pendingTxnType = "redeem_bond_" + bond + (autoStake === true ? "_autostake" : "");
+      dispatch(
+        fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
+      );
       await redeemTx.wait();
     } catch (error) {
       alert(error.message);
+    } finally {
+      if (redeemTx) {
+        dispatch(clearPendingTxn(redeemTx.hash));
+      }
     }
   };
