@@ -232,3 +232,10 @@ export function priceUnits(bond) {
   else if (bond.indexOf("eth") >= 0) return <img src={`${getEthTokenImage()}`} width="15px" height="15px" />;
   else return <img src={`${getDaiTokenImage()}`} width="15px" height="15px" />;
 }
+
+export function setAll(state, properties) {
+  const props = Object.keys(properties);
+  props.forEach(key => {
+    state[key] = properties[key];
+  });
+}

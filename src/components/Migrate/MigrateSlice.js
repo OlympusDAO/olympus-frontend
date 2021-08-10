@@ -6,17 +6,17 @@ import { abi as OlympusStakingv2 } from "../../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../../abi/sOHM.json";
 import { abi as sOHMv2 } from "../../abi/sOhmv2.json";
 import { abi as StakingHelper } from "../../abi/StakingHelper.json";
+import { setAll } from "../../helpers";
 
-import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
+
+import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
 
-const migrateAdapter = createEntityAdapter();
-
-const initialState = migrateAdapter.getInitialState({
+const initialState = {
   status: "idle",
-});
+};
 
 export const calculateAPY = createAsyncThunk("migrate/calculateAPY", async (sohmContract, stakingReward) => {
   const circSupply = await sohmContract.circulatingSupply();
@@ -60,12 +60,12 @@ export const getApproval = createAsyncThunk("migrate/getApproval", async ({ type
   const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
   const unstakeAllowance = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
 
-  return fetchMigrateSuccess({
+  return {
     migrate: {
       stakeAllowance,
       unstakeAllowance,
     },
-  });
+  };
 });
 
 export const changeStake = createAsyncThunk(
@@ -106,13 +106,13 @@ export const changeStake = createAsyncThunk(
     const oldSohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
     const oldsohmBalance = await oldSohmContract.balanceOf(address);
 
-    return fetchMigrateSuccess({
+    return {
       balances: {
         ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
         oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
       },
-    });
+    };
   },
 );
 
@@ -121,7 +121,7 @@ const migrateSlice = createSlice({
   initialState,
   reducers: {
     fetchMigrateSuccess(state, action) {
-      migrateAdapter.setAll(state, action.payload);
+      setAll(state, action.payload);
     },
   },
   extraReducers: builder => {

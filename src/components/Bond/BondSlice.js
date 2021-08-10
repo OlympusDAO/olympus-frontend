@@ -9,6 +9,7 @@ import {
 } from "../../helpers";
 import { addresses, Actions, BONDS, VESTING_TERM } from "../../constants";
 import { abi as BondCalcContract } from "../../abi/bonds/OhmDaiCalcContract.json";
+import { setAll } from "../../helpers";
 
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
@@ -269,13 +270,6 @@ export const redeemBond = createAsyncThunk(
     should;
   },
 );
-
-const setAll = (state, properties) => {
-  const props = Object.keys(properties);
-  props.forEach(key => {
-    state[key] = properties[key];
-  });
-};
 
 const bondingSlice = createSlice({
   name: "bonding",

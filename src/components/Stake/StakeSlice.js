@@ -3,14 +3,14 @@ import { addresses, Actions } from "../../constants";
 import { abi as ierc20Abi } from "../../abi/IERC20.json";
 import { abi as OlympusStaking } from "../../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../../abi/StakingHelper.json";
+import { setAll } from "../../helpers";
 
-import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
-const stakeAdapter = createEntityAdapter();
+import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = stakeAdapter.getInitialState({
+const initialState = {
   status: "idle",
-});
+};
 
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
@@ -46,12 +46,12 @@ export const changeApproval = createAsyncThunk(
 
     const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-    return fetchStakeSuccess({
+    return {
       staking: {
         ohmStake: +stakeAllowance,
         ohmUnstake: +unstakeAllowance,
       },
-    });
+    };
   },
 );
 
@@ -91,10 +91,10 @@ export const changeStake = createAsyncThunk(
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
     const sohmBalance = await sohmContract.balanceOf(address);
 
-    return fetchStakeSuccess({
+    return {
       ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
       sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-    });
+    };
   },
 );
 
@@ -103,7 +103,7 @@ const stakeSlice = createSlice({
   initialState,
   reducers: {
     fetchStakeSuccess(state, action) {
-      stakeAdapter.setAll(state, action.payload);
+      setAll(state, action.payload);
     },
   },
   extraReducers: builder => {
@@ -112,14 +112,14 @@ const stakeSlice = createSlice({
         state.status = "loading";
       })
       .addCase(changeApproval.fulfilled, (state, action) => {
-        stakeAdapter.setAll(state, action.payload);
+        setAll(state, action.payload);
         state.status = "idle";
       })
       .addCase(changeStake.pending, (state, action) => {
         state.status = "loading";
       })
       .addCase(changeStake.fulfilled, (state, action) => {
-        stakeAdapter.setAll(state, action.payload);
+        setAll(state, action.payload);
         state.status = "idle";
       });
   },
@@ -129,6 +129,6 @@ export default stakeSlice.reducer;
 
 export const { fetchStakeSuccess } = stakeSlice.actions;
 
-export const { selectAll } = stakeAdapter.getSelectors(state => state.stake);
+const baseInfo = state => state.stake;
 
-export const getStakeState = createSelector(selectAll, stake => stake);
+export const getAppState = createSelector(baseInfo, stake => stake);

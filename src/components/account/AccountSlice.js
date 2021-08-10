@@ -3,6 +3,7 @@ import { addresses, Actions } from "../../constants";
 import { abi as ierc20Abi } from "../../abi/IERC20.json";
 import { abi as sOHM } from "../../abi/sOHM.json";
 import { abi as sOHMv2 } from "../../abi/sOhmv2.json";
+import { setAll } from "../../helpers";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -23,7 +24,6 @@ export const loadAccountDetails = createAsyncThunk(
     let lpBondAllowance = 0;
     let daiBondAllowance = 0;
     let aOHMAbleToClaim = 0;
-
     let migrateContract;
     let unstakeAllowanceSohm;
 
@@ -44,8 +44,6 @@ export const loadAccountDetails = createAsyncThunk(
       daiBondAllowance = await daiContract.allowance(address, addresses[networkID].DAI_BOND_ADDRESS);
     }
 
-    console.log("second one");
-
     if (addresses[networkID].SOHM_ADDRESS) {
       const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
       sohmBalance = await sohmContract.balanceOf(address);
@@ -59,8 +57,6 @@ export const loadAccountDetails = createAsyncThunk(
       const signer = provider.getSigner();
       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
     }
-
-    console.log("third");
 
     return {
       balances: {
@@ -82,13 +78,6 @@ export const loadAccountDetails = createAsyncThunk(
     };
   },
 );
-
-const setAll = (state, properties) => {
-  const props = Object.keys(properties);
-  props.forEach(key => {
-    state[key] = properties[key];
-  });
-};
 
 const accountSlice = createSlice({
   name: "account",

@@ -5,7 +5,7 @@ import { abi as OlympusStakingv2 } from "../../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../../abi/sOHM.json";
 import { abi as sOHMv2 } from "../../abi/sOhmv2.json";
 import axios from "axios";
-import { contractForReserve, addressForAsset, contractForBond } from "../../helpers";
+import { contractForReserve, addressForAsset, contractForBond, setAll } from "../../helpers";
 import { BONDS } from "../../constants";
 import { abi as BondCalcContract } from "../../abi/BondCalcContract.json";
 import apollo from "../../lib/apolloClient.js";
@@ -146,13 +146,6 @@ export const getFraxData = createAsyncThunk("app/getFraxData", async () => {
     payload: resp.data && resp.data.liq_staking && resp.data.liq_staking["Uniswap FRAX/OHM"],
   };
 });
-
-const setAll = (state, properties) => {
-  const props = Object.keys(properties);
-  props.forEach(key => {
-    state[key] = properties[key];
-  });
-};
 
 const appSlice = createSlice({
   name: "app",
