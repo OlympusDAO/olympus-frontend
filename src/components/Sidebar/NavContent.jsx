@@ -87,53 +87,37 @@ function NavContent() {
                 </Typography>
               </Link>
 
-            <Link
-              component={NavLink}
-              id="33-together-nav"
-              to="/33-together"
-              isActive={(match, location) => {
-                return checkPage(match, location, "33-together");
-              }}
-              className={`button-dapp-menu ${isActive ? "active" : ""}`}
-            >
-              <Typography variant="h6">
-                <SvgIcon color="primary" component={StakeIcon} />
-                3,3 Together
-              </Typography>
-            </Link>
+              <Link
+                component={NavLink}
+                id="bond-nav"
+                to="/bonds"
+                isActive={(match, location) => {
+                  return checkPage(match, location, "bonds");
+                }}
+                className={`button-dapp-menu ${isActive ? "active" : ""}`}
+              >
+                <Typography variant="h6">
+                  <SvgIcon color="primary" component={BondIcon} />
+                  Bond
+                </Typography>
+              </Link>
 
-            <Link
-              component={NavLink}
-              id="bond-nav"
-              to="/bonds"
-              isActive={(match, location) => {
-                return checkPage(match, location, "bonds");
-              }}
-              className={`button-dapp-menu ${isActive ? "active" : ""}`}
-            >
-              <Typography variant="h6">
-                <SvgIcon color="primary" component={BondIcon} />
-                Bond
-              </Typography>
-            </Link>
-
-            <div className="dapp-menu-data discounts">
-              <div className="bond-discounts">
-                <Typography variant="body2">Bond discounts</Typography>
-                {bonds.map((bond, i) => (
-                  <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>
-                    {!bond.discount ? (
-                      <>
-                        <Skeleton variant="text" width={150} />
-                      </>
-                    ) : (
-                      <Typography variant="body2">
-                        {bond.name}
-                        <span className="bond-pair-roi">{trim(bond.discount * 100, 2)}%</span>
-                      </Typography>
-                    )}
-                  </Link>
-                ))}
+              <div className="dapp-menu-data discounts">
+                <div className="bond-discounts">
+                  <Typography variant="body2">Bond discounts</Typography>
+                  {bonds.map((bond, i) => (
+                    <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>
+                      {!bond.discount ? (
+                        <Skeleton variant="text" width={"150px"} />
+                      ) : (
+                        <Typography variant="body2">
+                          {bond.name}
+                          <span className="bond-pair-roi">{bond.discount && trim(bond.discount * 100, 2)}%</span>
+                        </Typography>
+                      )}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

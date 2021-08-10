@@ -122,8 +122,8 @@ const commonSettings = {
       },
       paper: {
         width: "inherit",
-        backdropFilter: "blur(33px)",
-        backgroundColor: "inherit",
+        backgroundColor: "#00000011",
+        backdropFilter: "blur(15px)",
         padding: 0,
         square: true,
         rounded: false,
