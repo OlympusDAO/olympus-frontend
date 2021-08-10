@@ -27,7 +27,7 @@ export const loadAccountDetails =
     let aOHMAbleToClaim = 0;
     let unstakeAllowanceSohm;
 
-    const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
+    const daiContract = new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
 
     if (addresses[networkID].OHM_ADDRESS) {
@@ -36,8 +36,8 @@ export const loadAccountDetails =
       stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     }
 
-    if (addresses[networkID].DAI_BOND_ADDRESS) {
-      daiBondAllowance = await daiContract.allowance(address, addresses[networkID].DAI_BOND_ADDRESS);
+    if (addresses[networkID].BONDS.DAI) {
+      daiBondAllowance = await daiContract.allowance(address, addresses[networkID].BONDS.DAI);
     }
 
     if (addresses[networkID].SOHM_ADDRESS) {

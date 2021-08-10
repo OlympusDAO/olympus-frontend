@@ -80,11 +80,6 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 900px)");
   const isSmallScreen = useMediaQuery("(max-width: 620px)");
 
-  // You can warn the user if you would like them to be on a specific network
-  // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
-
-  // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
-
   const { provider, chainID } = useWeb3Context();
   const address = useAddress();
 
@@ -107,7 +102,7 @@ function App() {
 
   useEffect(() => {
     loadDetails();
-  }, [provider, address]);
+  }, [provider, address, chainID]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

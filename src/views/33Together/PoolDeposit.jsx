@@ -1,22 +1,14 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Box, Button, Typography } from "@material-ui/core";
+import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
 
 export const PoolDeposit = () => {
-  const { provider, address, web3Modal, loadWeb3Modal } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
 
-  let ConnectButton;
-  if (web3Modal) {
-    ConnectButton = (
-      <Button variant="contained" color="primary" className="connect-button" onClick={loadWeb3Modal} key={1} fullWidth>
-        Connect Wallet
-      </Button>
-    );
-  }
-
-  if (!address) {
-    return ConnectButton;
-  }
-
-  return <div className="pool-deposit-ui">Deposite sOHM</div>;
+  return (
+    <Box display="flex" justifyContent="center" className="pool-deposit-ui">
+      {!address ? <ConnectButton /> : <Typography>Deposit sOHM</Typography>}
+    </Box>
+  );
 };
