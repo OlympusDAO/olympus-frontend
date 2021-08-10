@@ -5,7 +5,6 @@ import { abi as OlympusStaking } from "../../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../../abi/StakingHelper.json";
 import { setAll } from "../../helpers";
 
-
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -131,4 +130,4 @@ export const { fetchStakeSuccess } = stakeSlice.actions;
 
 const baseInfo = state => state.stake;
 
-export const getAppState = createSelector(baseInfo, stake => stake);
+export const getStakeState = createSelector(baseInfo, stake => stake);

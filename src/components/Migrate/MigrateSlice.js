@@ -8,7 +8,6 @@ import { abi as sOHMv2 } from "../../abi/sOhmv2.json";
 import { abi as StakingHelper } from "../../abi/StakingHelper.json";
 import { setAll } from "../../helpers";
 
-
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
@@ -125,14 +124,21 @@ const migrateSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    // builder
-    //   .addCase(loadAccountDetails.pending, (state, action) => {
-    //     state.status = 'loading'
-    //   })
-    //   .addCase(loadAccountDetails.fulfilled, (state, action) => {
-    //     accountAdapter.setAll(state, action.payload)
-    //     state.status = 'idle'
-    //   })
+    builder
+      .addCase(getApproval.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(getApproval.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.status = "idle";
+      })
+      .addCase(changeStake.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(changeStake.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.status = "idle";
+      });
   },
 });
 
@@ -140,6 +146,6 @@ export default migrateSlice.reducer;
 
 export const { fetchMigrateSuccess } = migrateSlice.actions;
 
-export const { selectAll } = migrateAdapter.getSelectors(state => state.migrate);
+const baseInfo = state => state.migrate;
 
-export const getMigrateState = createSelector(selectAll, migrate => migrate);
+export const getMigrateState = createSelector(baseInfo, migrate => migrate);

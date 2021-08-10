@@ -70,7 +70,7 @@ export const loadAccountDetails = createAsyncThunk(
         ohmUnstake: +unstakeAllowance,
       },
       migrate: {
-        unstakeAllowance: unstakeAllowanceSohm,
+        unstakeAllowance: +unstakeAllowanceSohm,
       },
       bonding: {
         daiAllowance: daiBondAllowance,
