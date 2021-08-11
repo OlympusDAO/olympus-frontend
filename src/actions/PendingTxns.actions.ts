@@ -1,11 +1,6 @@
 import { Actions } from "src/constants";
+import { IPendingTxn } from "src/reducers";
 import { ACTIONS } from "./Migrate.actions";
-
-interface IPendingTxn {
-  readonly txnHash: string;
-  readonly text: string;
-  readonly type: string;
-}
 
 export const fetchPendingTxns = (payload: IPendingTxn) => ({
   type: Actions.FETCH_PENDING_TXNS,
