@@ -15,7 +15,7 @@ import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../slices/BondSlice";
 import { BONDS } from "../../constants";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxns.slice";
 
 function BondPurchase({ bond, slippage }) {
   const dispatch = useDispatch();

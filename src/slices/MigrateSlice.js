@@ -7,7 +7,7 @@ import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { setAll } from "../helpers";
-
+import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.slice";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
@@ -73,11 +73,11 @@ export const getApproval = createAsyncThunk("migrate/getApproval", async ({ type
   const unstakeAllowance = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
 
   return {
-      migrate: {
-        stakeAllowance,
-        unstakeAllowance,
-      }
-    }
+    migrate: {
+      stakeAllowance,
+      unstakeAllowance,
+    },
+  };
 });
 
 export const changeStake = createAsyncThunk(
@@ -124,13 +124,14 @@ export const changeStake = createAsyncThunk(
     const oldsohmBalance = await oldSohmContract.balanceOf(address);
 
     return {
-        balances: {
-          ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-          sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-          oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
-        }
-      }
-  });
+      balances: {
+        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
+      },
+    };
+  },
+);
 
 const migrateSlice = createSlice({
   name: "migrate",

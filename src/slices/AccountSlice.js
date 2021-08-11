@@ -7,8 +7,7 @@ import { setAll } from "../helpers";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = {
-};
+const initialState = {};
 
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",

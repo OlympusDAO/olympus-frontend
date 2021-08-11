@@ -4,7 +4,7 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { setAll } from "../helpers";
-import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.actions";
+import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.slice";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 

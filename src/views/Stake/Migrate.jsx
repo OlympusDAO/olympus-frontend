@@ -24,7 +24,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import "./stake.scss";
 import "./migrate.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxns.slice";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 

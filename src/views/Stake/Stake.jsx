@@ -34,7 +34,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg"
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxns.slice";
 
 function a11yProps(index) {
   return {
