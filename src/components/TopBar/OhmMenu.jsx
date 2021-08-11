@@ -97,6 +97,11 @@ function OhmMenu() {
               </Button>
             </Box>
           ) : null}
+
+          <Divider color="secondary" />
+          <Link href="https://docs.olympusdao.finance/using-the-website/unstaking_lp" target="_blank" rel="noreferrer">
+            <Typography>Unstake LP Token</Typography>
+          </Link>
         </Paper>
       </Popper>
     </>
