@@ -309,7 +309,7 @@ const bondingSlice = createSlice({
         state.status = "loading";
       })
       .addCase(calcBondDetails.fulfilled, (state, action) => {
-        setAll(state, action.payload);
+        state[action.payload.bond] = action.payload;
         state.status = "idle";
       });
   },
