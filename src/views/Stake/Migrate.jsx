@@ -31,7 +31,6 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxns.slice";
 export default function Migrate() {
   const dispatch = useDispatch();
   const { provider, address, connected, connect } = useWeb3Context();
-  console.log(provider, address);
 
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
   const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4

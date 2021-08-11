@@ -5,6 +5,7 @@ import bondingReducer from "./slices/BondSlice";
 import appReducer from "./slices/MainSlice";
 import stakeReducer from "./slices/StakeSlice";
 import migrateReducer from "./slices/MigrateSlice";
+import pendingTransactionsReducer from "./slices/PendingTxns.slice";
 // reducers are named automatically based on the name field in the slice
 // exported in slice files by default as nameOfSlice.reducer
 
@@ -17,6 +18,7 @@ const store = configureStore({
     app: appReducer,
     stake: stakeReducer,
     migrate: migrateReducer,
+    pendingTransactions: pendingTransactionsReducer,
   },
 });
 

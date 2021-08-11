@@ -204,14 +204,14 @@ export const calculateUserBondDetails = createAsyncThunk(
       balance = ethers.utils.formatUnits(balance, "ether");
     }
 
-    return fetchBondSuccess({
+    return {
       bond,
       allowance,
       balance,
       interestDue,
       bondMaturationBlock,
       pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
-    });
+    };
   },
 );
 
@@ -251,7 +251,7 @@ export const bondAsset = createAsyncThunk(
         balance = ethers.utils.formatEther(balance);
       }
 
-      return fetchBondSuccess({ bond, balance });
+      return { bond, balance };
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
@@ -300,7 +300,7 @@ const bondingSlice = createSlice({
   initialState,
   reducers: {
     fetchBondSuccess(state, action) {
-      bondAdapter.setAll(state, action.payload);
+      setAll(state, action.payload);
     },
   },
   extraReducers: builder => {
