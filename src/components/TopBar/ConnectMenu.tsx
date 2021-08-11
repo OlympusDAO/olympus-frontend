@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Box, Button, SvgIcon, Typography, Popper, Paper, Divider, Link, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/v1.2/arrow-up.svg";
 import { ReactComponent as CaretDownIcon } from "../../assets/icons/v1.2/caret-down.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { useAppSelector } from "src/hooks";
 
-function ConnectMenu({ theme }) {
-  const { connect, disconnect, connected, web3, chainID } = useWeb3Context();
-  const [anchorEl, setAnchorEl] = useState(null);
+function ConnectMenu({ theme }: { theme: string }) {
+  const { connect, disconnect, connected, chainID } = useWeb3Context();
+  const [anchorEl, setAnchorEl] = useState<(EventTarget & HTMLButtonElement) | null>(null);
   const [isConnected, setConnected] = useState(connected);
   const [isHovering, setIsHovering] = useState(false);
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
   let buttonText = "Connect Wallet";
-  let clickFunc = connect;
+  let clickFunc: any = connect;
 
-  const handleClick = event => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
@@ -39,7 +39,7 @@ function ConnectMenu({ theme }) {
   const buttonStyles =
     "pending-txn-container" + (isHovering && pendingTransactions.length > 0 ? " hovered-button" : "");
 
-  const getEtherscanUrl = txnHash => {
+  const getEtherscanUrl = (txnHash: string) => {
     return chainID === 4 ? "https://rinkeby.etherscan.io/tx/" + txnHash : "https://etherscan.io/tx/" + txnHash;
   };
 
@@ -51,7 +51,7 @@ function ConnectMenu({ theme }) {
 
   useEffect(() => {
     setConnected(connected);
-  }, [web3, connected]);
+  }, [connected]);
 
   return (
     <div className="wallet-menu" id="wallet-menu">
