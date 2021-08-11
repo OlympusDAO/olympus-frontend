@@ -2,7 +2,9 @@ import { ethers } from "ethers";
 import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForAsset, bondName } from "../helpers";
 import { addresses, Actions, BONDS } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
+import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxns.actions";
+import { fetchStakeSuccess } from "./Stake.actions";
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -235,16 +237,7 @@ export const bondAsset =
       // TODO: it may make more sense to only have it in the finally.
       // UX preference (show pending after txn complete or after balance updated)
 
-      const reserveContract = contractForReserve({ bond, provider, networkID });
-
-      if (bond === BONDS.ohm_dai || bond === BONDS.ohm_frax) {
-        balance = await reserveContract.balanceOf(address);
-      } else if (bond === BONDS.dai) {
-        balance = await reserveContract.balanceOf(address);
-        balance = ethers.utils.formatEther(balance);
-      }
-
-      return dispatch(fetchBondSuccess({ bond, balance }));
+      return dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
@@ -276,6 +269,20 @@ export const redeemBond =
         fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
       );
       await redeemTx.wait();
+      await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
+
+      const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
+      const ohmBalance = await ohmContract.balanceOf(address);
+      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
+      const sohmBalance = await sohmContract.balanceOf(address);
+      await dispatch(
+        fetchStakeSuccess({
+          balances: {
+            ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+            sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+          },
+        }),
+      );
     } catch (error) {
       alert(error.message);
     } finally {

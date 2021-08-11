@@ -103,8 +103,10 @@ export const changeStake =
 
     return dispatch(
       fetchStakeSuccess({
-        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        balances: {
+          ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+          sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        },
       }),
     );
   };
