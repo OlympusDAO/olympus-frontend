@@ -4,6 +4,7 @@ import { redeemBond } from "../../actions/Bond.actions";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
 import { useAppSelector } from "src/hooks";
+import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
 
 function BondRedeem({ bond }: { bond: string }) {
   const dispatch = useDispatch();
@@ -27,6 +28,10 @@ function BondRedeem({ bond }: { bond: string }) {
 
   const pendingPayout = useAppSelector(state => {
     return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].pendingPayout)) || 0;
+  });
+
+  const pendingTransactions = useAppSelector(state => {
+    return state.pendingTransactions;
   });
 
   async function onRedeem({ autostake }: { autostake: boolean }) {
@@ -60,11 +65,12 @@ function BondRedeem({ bond }: { bond: string }) {
           id="bond-claim-btn"
           className="transaction-button"
           fullWidth
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond)}
           onClick={() => {
             onRedeem({ autostake: false });
           }}
         >
-          Claim
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond, "Claim")}
         </Button>
         <Button
           variant="contained"
@@ -72,11 +78,12 @@ function BondRedeem({ bond }: { bond: string }) {
           id="bond-claim-autostake-btn"
           className="transaction-button"
           fullWidth
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond + "_autostake")}
           onClick={() => {
             onRedeem({ autostake: true });
           }}
         >
-          Claim and Autostake
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond + "_autostake", "Claim and Autostake")}
         </Button>
       </Box>
 

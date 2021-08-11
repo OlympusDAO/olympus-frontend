@@ -83,6 +83,12 @@ interface IBondingState {
   readonly [bond: string]: IBondData;
 }
 
+export interface IPendingTxn {
+  readonly txnHash: string;
+  readonly text: string;
+  readonly type: string;
+}
+
 export function app(state = {} as IAppStateType, action: PayloadAction<IAppState>) {
   switch (action.type) {
     case Actions.FETCH_APP_SUCCESS:
@@ -116,6 +122,17 @@ export function bonding(state = {} as IBondingState, action: PayloadAction<IBond
         };
       }
       break;
+    default:
+      return state;
+  }
+}
+
+export function pendingTransactions(state = [] as IPendingTxn[], action: PayloadAction<IPendingTxn | string>) {
+  switch (action.type) {
+    case Actions.FETCH_PENDING_TXNS:
+      return [...state, action.payload as IPendingTxn];
+    case Actions.CLEAR_PENDING_TXN:
+      return [...state].filter(x => x.txnHash !== (action.payload as string));
     default:
       return state;
   }

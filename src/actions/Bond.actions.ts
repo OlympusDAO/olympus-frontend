@@ -1,11 +1,20 @@
 import { BigNumber, ethers } from "ethers";
-import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForAsset, toNum } from "../helpers";
+import {
+  isBondLP,
+  getMarketPrice,
+  contractForBond,
+  contractForReserve,
+  addressForAsset,
+  toNum,
+  bondName,
+} from "../helpers";
 import { addresses, Actions, BONDS, Nested } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBondData } from "src/reducers";
 import { Dispatch } from "redux";
 import { OlympusBondingCalculator } from "src/typechain";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxns.actions";
 
 interface IChangeApproval {
   readonly bond: string;
@@ -51,7 +60,7 @@ export const fetchBondSuccess = (payload: IBondData) => ({
 
 export const changeApproval =
   ({ bond, provider, networkID }: IChangeApproval) =>
-  async (_dispatch: Dispatch) => {
+  async (dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -60,9 +69,9 @@ export const changeApproval =
     const signer = provider.getSigner();
     const reserveContract = contractForReserve({ bond, networkID, provider: signer });
 
+    let approveTx: ethers.ContractTransaction | null = null;
     try {
       const bondAddresses = addresses[networkID].BONDS as Nested;
-      let approveTx: ethers.ContractTransaction;
       if (bond == BONDS.ohm_dai)
         approveTx = await reserveContract.approve(
           bondAddresses.OHM_DAI,
@@ -93,9 +102,17 @@ export const changeApproval =
         );
       }
 
+      dispatch(
+        fetchPendingTxns({ txnHash: approveTx.hash, text: "Approving " + bondName(bond), type: "approve_" + bond }),
+      );
+
       await approveTx.wait();
     } catch (error) {
       alert(error.message);
+    } finally {
+      if (approveTx) {
+        dispatch(clearPendingTxn(approveTx.hash));
+      }
     }
   };
 
@@ -268,9 +285,13 @@ export const bondAsset =
     const maxPremium = Math.round(calculatePremium * (1 + acceptedSlippage));
 
     // Deposit the bond
+    let bondTx;
     try {
-      const bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+      bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+      dispatch(fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bondName(bond), type: "bond_" + bond }));
       await bondTx.wait();
+      // TODO: it may make more sense to only have it in the finally.
+      // UX preference (show pending after txn complete or after balance updated)
 
       const reserveContract = contractForReserve({ bond, provider, networkID });
 
@@ -287,12 +308,16 @@ export const bondAsset =
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else alert(error.message);
       return;
+    } finally {
+      if (bondTx) {
+        dispatch(clearPendingTxn(bondTx.hash));
+      }
     }
   };
 
 export const redeemBond =
   ({ address, bond, networkID, provider, autostake }: IRedeemBond) =>
-  async (_dispatch: Dispatch) => {
+  async (dispatch: Dispatch) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -302,13 +327,17 @@ export const redeemBond =
     // TS-REFACTOR-NOTE: contract type mismatch (need old bondContract)
     const bondContract = contractForBond({ bond, networkID, provider: signer }) as ethers.Contract;
 
+    let redeemTx;
     try {
-      let redeemTx;
-
       redeemTx = await bondContract.redeem(address, autostake === true);
-
+      const pendingTxnType = "redeem_bond_" + bond + (autostake === true ? "_autostake" : "");
+      dispatch(fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }));
       await redeemTx.wait();
     } catch (error) {
       alert(error.message);
+    } finally {
+      if (redeemTx) {
+        dispatch(clearPendingTxn(redeemTx.hash));
+      }
     }
   };

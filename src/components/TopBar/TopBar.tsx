@@ -3,10 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/v1.2/hamburger.svg";
 import OhmMenu from "./OhmMenu";
-import { useWeb3Context } from "src/hooks/web3Context";
 import ThemeSwitcher from "./ThemeSwitch";
+import ConnectMenu from "./ConnectMenu";
 import "./topbar.scss";
-import { useEffect, useState } from "react";
 
 interface ITopBarProps {
   readonly theme: string;
@@ -34,27 +33,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ConnectButton() {
-  const { connect, disconnect, connected } = useWeb3Context();
-  const [isConnected, setConnected] = useState(connected);
-  let buttonText = "Connect Wallet";
-  let clickFunc = connect;
-  if (isConnected) {
-    buttonText = "Disconnect";
-    clickFunc = disconnect;
-  }
-
-  useEffect(() => {
-    setConnected(connected);
-  }, [connected]);
-
-  return (
-    <Button variant="contained" color="secondary" size="large" onClick={clickFunc} key={1}>
-      {buttonText}
-    </Button>
-  );
-}
-
 function TopBar({ theme, toggleTheme, handleDrawerToggle }: ITopBarProps) {
   const classes = useStyles();
   const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
@@ -77,9 +55,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: ITopBarProps) {
         <Box display="flex">
           {!isVerySmallScreen && <OhmMenu />}
 
-          <div className="wallet-menu" id="wallet-menu">
-            <ConnectButton />
-          </div>
+          <ConnectMenu theme={theme} />
 
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
         </Box>

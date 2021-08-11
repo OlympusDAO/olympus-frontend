@@ -16,6 +16,7 @@ import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } 
 import { BONDS } from "../../constants";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { useAppSelector } from "src/hooks";
+import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
 
 interface IBondPurchaseProps {
   readonly bond: string;
@@ -62,7 +63,10 @@ function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
     return (state.bonding && state.bonding[bond] && state.bonding[bond].allowance) || 0;
   });
 
-  // TS-REFACTOR-NOTE: unused function
+  const pendingTransactions = useAppSelector(state => {
+    return state.pendingTransactions;
+  });
+
   const hasEnteredAmount = () => {
     return !(isNaN(quantity) || quantity === 0);
   };
@@ -166,8 +170,15 @@ function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
           />
         </FormControl>
         {hasAllowance() ? (
-          <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" onClick={onBond}>
-            Bond
+          <Button
+            variant="contained"
+            color="primary"
+            id="bond-btn"
+            className="transaction-button"
+            disabled={isPendingTxn(pendingTransactions, "bond_" + bond)}
+            onClick={onBond}
+          >
+            {txnButtonText(pendingTransactions, "bond_" + bond, "Bond")}
           </Button>
         ) : (
           <Button
@@ -175,9 +186,10 @@ function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
             color="primary"
             id="bond-approve-btn"
             className="transaction-button"
+            disabled={isPendingTxn(pendingTransactions, "approve_" + bond)}
             onClick={onSeekApproval}
           >
-            Approve
+            {txnButtonText(pendingTransactions, "approve_" + bond, "Approve")}
           </Button>
         )}
 
