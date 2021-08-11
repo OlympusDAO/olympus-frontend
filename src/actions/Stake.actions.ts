@@ -6,6 +6,7 @@ import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IERC20, OlympusStaking as OlympusStakingType } from "../typechain";
 import { Dispatch } from "redux";
+import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.actions";
 
 interface IStakeDetails {
   readonly ohm?: string;
@@ -59,11 +60,18 @@ export const changeApproval =
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
+      const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
+      const pendingTxnType = token === "ohm" ? "approve_staking" : "approve_unstaking";
+      dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
       await approveTx.wait();
     } catch (error) {
       alert(error.message);
       return;
+    } finally {
+      if (approveTx) {
+        dispatch(clearPendingTxn(approveTx.hash));
+      }
     }
 
     const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS as string);
@@ -101,11 +109,12 @@ export const changeStake =
     try {
       if (action === "stake") {
         stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"));
-        await stakeTx.wait();
       } else {
         stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
-        await stakeTx.wait();
       }
+      const pendingTxnType = action === "stake" ? "staking" : "unstaking";
+      dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
+      await stakeTx.wait();
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
@@ -113,6 +122,10 @@ export const changeStake =
         alert(error.message);
       }
       return;
+    } finally {
+      if (stakeTx) {
+        dispatch(clearPendingTxn(stakeTx.hash));
+      }
     }
 
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider) as IERC20;

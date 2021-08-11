@@ -17,3 +17,28 @@
 .tablet .dapp-topbar {
   justify-content: space-between;
 }
+.pending-txn-container {
+  display: flex;
+  align-items: center;
+  .MuiButton-label {
+    margin-right: 0;
+    transition: all 0.33s ease-out;
+  }
+}
+#ohm-popper-pending {
+  .MuiPaper-root.ohm-menu {
+    a {
+      padding-right: 20px !important;
+    }
+  }
+}
+.caret-down {
+  position: absolute;
+  right: 0.4rem;
+}
+.hovered-button {
+  .MuiButton-label {
+    margin-right: 0.5rem;
+    transition: all 0.33s ease-out;
+  }
+}

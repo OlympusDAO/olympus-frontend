@@ -15,6 +15,7 @@ import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../actions/Bond.actions";
 import { BONDS } from "../../constants";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
 
 function BondPurchase({ bond, slippage }) {
   const dispatch = useDispatch();
@@ -54,6 +55,10 @@ function BondPurchase({ bond, slippage }) {
   });
   const allowance = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].allowance;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
   });
 
   const hasEnteredAmount = () => {
@@ -110,7 +115,7 @@ function BondPurchase({ bond, slippage }) {
 
   const setMax = () => {
     if (!balance) return;
-    setQuantity(balance.toString());
+    setQuantity((balance || "").toString());
   };
 
   const balanceUnits = () => {
@@ -159,8 +164,15 @@ function BondPurchase({ bond, slippage }) {
           />
         </FormControl>
         {hasAllowance() ? (
-          <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" onClick={onBond}>
-            Bond
+          <Button
+            variant="contained"
+            color="primary"
+            id="bond-btn"
+            className="transaction-button"
+            disabled={isPendingTxn(pendingTransactions, "bond_" + bond)}
+            onClick={onBond}
+          >
+            {txnButtonText(pendingTransactions, "bond_" + bond, "Bond")}
           </Button>
         ) : (
           <Button
@@ -168,9 +180,10 @@ function BondPurchase({ bond, slippage }) {
             color="primary"
             id="bond-approve-btn"
             className="transaction-button"
+            disabled={isPendingTxn(pendingTransactions, "approve_" + bond)}
             onClick={onSeekApproval}
           >
-            Approve
+            {txnButtonText(pendingTransactions, "approve_" + bond, "Approve")}
           </Button>
         )}
 
