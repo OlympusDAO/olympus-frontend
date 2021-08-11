@@ -228,9 +228,7 @@ export const bondAsset =
     let bondTx;
     try {
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
-      dispatch(
-        fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bondName(bond), type: "bond_" + bond }),
-      );
+      dispatch(fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bondName(bond), type: "bond_" + bond }));
       await bondTx.wait();
       // TODO: it may make more sense to only have it in the finally.
       // UX preference (show pending after txn complete or after balance updated)
@@ -272,9 +270,7 @@ export const redeemBond =
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);
       const pendingTxnType = "redeem_bond_" + bond + (autostake === true ? "_autostake" : "");
-      dispatch(
-        fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
-      );
+      dispatch(fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }));
       await redeemTx.wait();
     } catch (error) {
       alert(error.message);
