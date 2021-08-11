@@ -112,7 +112,7 @@ export const loadAppDetails =
 
     // Get ETH price
     const ethBondContract = contractForBond({ bond: BONDS.eth, networkID, provider });
-    let ethPrice = await (ethBondContract as any).assetPrice(); // TS-REFACTOR: weird contract type mismatch
+    let ethPrice = await (ethBondContract as ethers.Contract).assetPrice();
     ethPrice = ethPrice / Math.pow(10, 18);
 
     // Calculate Treasury Balance
