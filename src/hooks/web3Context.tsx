@@ -33,16 +33,16 @@ function getAlchemyAPI(chainID: Number) {
   else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO`; // unbanksy's
 }
 
+const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
+const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
+const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
+
 function getMainnetURI(chainID: number): string {
   if (chainID === 4) {
     return "https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO";
   }
 
-  const infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
-  const alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-  const allURIs = [...infuraURIs, ...alchemyURIs];
-
-  const workingURI = allURIs.find(async uri => {
+  const workingURI = ALL_URIs.find(async uri => {
     try {
       const provider = new StaticJsonRpcProvider(uri);
       await provider.getNetwork();
@@ -56,8 +56,8 @@ function getMainnetURI(chainID: number): string {
   if (workingURI !== undefined || workingURI !== "") return workingURI as string;
 
   // Return a random one even though it won't work.  :(
-  const randomIndex = Math.floor(Math.random() * allURIs.length);
-  return allURIs[randomIndex];
+  const randomIndex = Math.floor(Math.random() * ALL_URIs.length);
+  return ALL_URIs[randomIndex];
 }
 
 /*
