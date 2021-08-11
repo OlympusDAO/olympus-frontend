@@ -42,7 +42,10 @@ function getMainnetURI(chainID: number): string {
     return "https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO";
   }
 
-  const workingURI = ALL_URIs.find(async uri => {
+  // Shuffles the URIs for "intelligent" loadbalancing
+  const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
+
+  const workingURI = allURIs.find(async uri => {
     try {
       const provider = new StaticJsonRpcProvider(uri);
       await provider.getNetwork();
@@ -56,8 +59,8 @@ function getMainnetURI(chainID: number): string {
   if (workingURI !== undefined || workingURI !== "") return workingURI as string;
 
   // Return a random one even though it won't work.  :(
-  const randomIndex = Math.floor(Math.random() * ALL_URIs.length);
-  return ALL_URIs[randomIndex];
+  const randomIndex = Math.floor(Math.random() * allURIs.length);
+  return allURIs[randomIndex];
 }
 
 /*
@@ -99,9 +102,9 @@ export const useAddress = () => {
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
-  const [uri, setUri] = useState(getAlchemyAPI(chainID));
+  const [uri, setUri] = useState(getMainnetURI(chainID));
   const [address, setAddress] = useState("");
-  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(getMainnetURI(chainID))); // TODO(ZayenX): pls remember to change this back to infura.
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -148,7 +151,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       console.warn("You are switching networks");
       if (otherChainID === 1 || otherChainID === 4) {
         setChainID(otherChainID);
-        otherChainID === 1 ? setUri(getAlchemyAPI(chainID)) : setUri(getTestnetURI());
+        otherChainID === 1 ? setUri(getMainnetURI(chainID)) : setUri(getTestnetURI());
         return true;
       }
       return false;
