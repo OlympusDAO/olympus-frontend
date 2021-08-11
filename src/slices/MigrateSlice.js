@@ -49,22 +49,35 @@ export const getApproval = createAsyncThunk("migrate/getApproval", async ({ type
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );
     }
+    const text = "Approve " + (type === TYPES.OLD ? "Unstaking" : "Staking");
+    const pendingTxnType = type === TYPES.OLD ? "approve_migrate_unstaking" : "approve_migrate_staking";
+    dispatch(
+      fetchPendingTxns({
+        txnHash: approveTx.hash,
+        text,
+        type: pendingTxnType,
+      }),
+    );
 
     await approveTx.wait();
   } catch (error) {
     alert(error.message);
     return;
+  } finally {
+    if (approveTx) {
+      dispatch(clearPendingTxn(approveTx.hash));
+    }
   }
 
   const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
   const unstakeAllowance = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
 
   return {
-    migrate: {
-      stakeAllowance,
-      unstakeAllowance,
-    },
-  };
+      migrate: {
+        stakeAllowance,
+        unstakeAllowance,
+      }
+    }
 });
 
 export const changeStake = createAsyncThunk(
@@ -84,11 +97,12 @@ export const changeStake = createAsyncThunk(
     try {
       if (action === ACTIONS.STAKE) {
         stakeTx = await staking.stake(ethers.utils.parseUnits(value, "gwei"));
-        await stakeTx.wait();
       } else if (action === ACTIONS.UNSTAKE) {
         stakeTx = await oldStaking.unstakeOHM(ethers.utils.parseUnits(value, "gwei"));
-        await stakeTx.wait();
       }
+      const pendingTxnType = action === ACTIONS.STAKE ? "migrate_staking" : "migrate_unstaking";
+      dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
+      await stakeTx.wait();
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
@@ -96,6 +110,10 @@ export const changeStake = createAsyncThunk(
       }
       alert(error.message);
       return;
+    } finally {
+      if (stakeTx) {
+        dispatch(clearPendingTxn(stakeTx.hash));
+      }
     }
 
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
@@ -106,14 +124,13 @@ export const changeStake = createAsyncThunk(
     const oldsohmBalance = await oldSohmContract.balanceOf(address);
 
     return {
-      balances: {
-        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-        oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
-      },
-    };
-  },
-);
+        balances: {
+          ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+          sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+          oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
+        }
+      }
+  });
 
 const migrateSlice = createSlice({
   name: "migrate",

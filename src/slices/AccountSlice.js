@@ -8,7 +8,6 @@ import { setAll } from "../helpers";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  status: "idle",
 };
 
 export const loadAccountDetails = createAsyncThunk(
