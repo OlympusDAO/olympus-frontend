@@ -51,21 +51,19 @@ export const getApproval = createAsyncThunk("migrate/getApproval", async ({ type
     }
     const text = "Approve " + (type === TYPES.OLD ? "Unstaking" : "Staking");
     const pendingTxnType = type === TYPES.OLD ? "approve_migrate_unstaking" : "approve_migrate_staking";
-    dispatch(
-      fetchPendingTxns({
-        txnHash: approveTx.hash,
-        text,
-        type: pendingTxnType,
-      }),
-    );
 
-    await approveTx.wait();
+    fetchPendingTxns({
+      txnHash: approveTx.hash,
+      text,
+      type: pendingTxnType,
+    }),
+      await approveTx.wait();
   } catch (error) {
     alert(error.message);
     return;
   } finally {
     if (approveTx) {
-      dispatch(clearPendingTxn(approveTx.hash));
+      clearPendingTxn(approveTx.hash);
     }
   }
 
@@ -101,7 +99,7 @@ export const changeStake = createAsyncThunk(
         stakeTx = await oldStaking.unstakeOHM(ethers.utils.parseUnits(value, "gwei"));
       }
       const pendingTxnType = action === ACTIONS.STAKE ? "migrate_staking" : "migrate_unstaking";
-      dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
+      fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType });
       await stakeTx.wait();
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
@@ -112,7 +110,7 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
-        dispatch(clearPendingTxn(stakeTx.hash));
+        clearPendingTxn(stakeTx.hash);
       }
     }
 

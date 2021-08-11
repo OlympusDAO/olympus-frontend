@@ -59,16 +59,13 @@ export const changeApproval = createAsyncThunk(
         );
       }
 
-      dispatch(
-        fetchPendingTxns({ txnHash: approveTx.hash, text: "Approving " + bondName(bond), type: "approve_" + bond }),
-      );
-
-      await approveTx.wait();
+      fetchPendingTxns({ txnHash: approveTx.hash, text: "Approving " + bondName(bond), type: "approve_" + bond }),
+        await approveTx.wait();
     } catch (error) {
       alert(error.message);
     } finally {
       if (approveTx) {
-        dispatch(clearPendingTxn(approveTx.hash));
+        clearPendingTxn(approveTx.hash);
       }
     }
   },
@@ -235,10 +232,8 @@ export const bondAsset = createAsyncThunk(
     let bondTx;
     try {
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
-      dispatch(
-        fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + getBondTypeText(bond), type: "bond_" + bond }),
-      );
-      await bondTx.wait();
+      fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + getBondTypeText(bond), type: "bond_" + bond }),
+        await bondTx.wait();
       // TODO: it may make more sense to only have it in the finally.
       // UX preference (show pending after txn complete or after balance updated)
 
@@ -259,7 +254,7 @@ export const bondAsset = createAsyncThunk(
       return;
     } finally {
       if (bondTx) {
-        dispatch(clearPendingTxn(bondTx.hash));
+        clearPendingTxn(bondTx.hash);
       }
     }
   },
@@ -280,15 +275,13 @@ export const redeemBond = createAsyncThunk(
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);
       const pendingTxnType = "redeem_bond_" + bond + (autoStake === true ? "_autostake" : "");
-      dispatch(
-        fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
-      );
-      await redeemTx.wait();
+      fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
+        await redeemTx.wait();
     } catch (error) {
       alert(error.message);
     } finally {
       if (redeemTx) {
-        dispatch(clearPendingTxn(redeemTx.hash));
+        clearPendingTxn(redeemTx.hash);
       }
     }
     should;

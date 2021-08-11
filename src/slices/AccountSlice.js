@@ -103,4 +103,4 @@ export const { fetchAccountSuccess } = accountSlice.actions;
 
 const baseInfo = state => state.account;
 
-export const getAppState = createSelector(baseInfo, account => account);
+export const getAccountState = createSelector(baseInfo, account => account);
