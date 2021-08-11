@@ -229,7 +229,7 @@ export const bondAsset =
     try {
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
       dispatch(
-        fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + getBondTypeText(bond), type: "bond_" + bond }),
+        fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bondName(bond), type: "bond_" + bond }),
       );
       await bondTx.wait();
       // TODO: it may make more sense to only have it in the finally.
@@ -271,9 +271,9 @@ export const redeemBond =
     let redeemTx;
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);
-      const pendingTxnType = "redeem_bond_" + bond + (autoStake === true ? "_autostake" : "");
+      const pendingTxnType = "redeem_bond_" + bond + (autostake === true ? "_autostake" : "");
       dispatch(
-        fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
+        fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
       );
       await redeemTx.wait();
     } catch (error) {
