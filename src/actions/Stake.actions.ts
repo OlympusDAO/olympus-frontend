@@ -7,6 +7,7 @@ import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IERC20, OlympusStaking as OlympusStakingType } from "../typechain";
 import { Dispatch } from "redux";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.actions";
+import { getBalances } from "./App.actions";
 
 interface IStakeDetails {
   readonly ohm?: string;
@@ -127,20 +128,5 @@ export const changeStake =
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
-
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider) as IERC20;
-    const ohmBalance = await ohmContract.balanceOf(address);
-    const sohmContract = new ethers.Contract(
-      addresses[networkID].SOHM_ADDRESS as string,
-      ierc20Abi,
-      provider,
-    ) as IERC20;
-    const sohmBalance = await sohmContract.balanceOf(address);
-
-    return dispatch(
-      fetchStakeSuccess({
-        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-      }),
-    );
+    return dispatch(getBalances({ address, networkID, provider }));
   };

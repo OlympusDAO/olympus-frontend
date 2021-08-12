@@ -18,7 +18,7 @@
     flex-direction: column;
     width: 200px;
     a {
-      margin-bottom: 18px !important;
+      margin-bottom: 18px;
       padding-left: 20px !important;
       svg {
         vertical-align: middle;
@@ -31,7 +31,14 @@
         }
       }
     }
+    a:last-child {
+      margin-bottom: 0px;
+    }
+    hr {
+      margin-bottom: 18px;
+    }
   }
+
 
   .add-tokens {
     > p {
@@ -42,7 +49,7 @@
       display: block;
       width: 100%;
       text-align: left;
-      margin-top: 18px;
+      margin-bottom: 18px;
       padding-left: 20px;
     }
   }

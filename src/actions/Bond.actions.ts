@@ -10,11 +10,10 @@ import {
 } from "../helpers";
 import { addresses, Actions, BONDS, Nested } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
-import { StaticJsonRpcProvider } from "@ethersproject/providers";
-import { IBondData } from "src/reducers";
-import { Dispatch } from "redux";
-import { OlympusBondingCalculator } from "src/typechain";
+import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxns.actions";
+import { fetchStakeSuccess } from "./Stake.actions";
+import { getBalances } from "./App.actions";
 
 interface IChangeApproval {
   readonly bond: string;
@@ -293,16 +292,7 @@ export const bondAsset =
       // TODO: it may make more sense to only have it in the finally.
       // UX preference (show pending after txn complete or after balance updated)
 
-      const reserveContract = contractForReserve({ bond, provider, networkID });
-
-      if (bond === BONDS.ohm_dai || bond === BONDS.ohm_frax) {
-        balance = await reserveContract.balanceOf(address);
-      } else if (bond === BONDS.dai) {
-        balance = await reserveContract.balanceOf(address);
-        balance = ethers.utils.formatEther(balance);
-      }
-
-      return dispatch(fetchBondSuccess({ bond, balance }));
+      return dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
@@ -333,6 +323,9 @@ export const redeemBond =
       const pendingTxnType = "redeem_bond_" + bond + (autostake === true ? "_autostake" : "");
       dispatch(fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }));
       await redeemTx.wait();
+      await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
+
+      return dispatch(getBalances({ address, networkID, provider }));
     } catch (error) {
       alert(error.message);
     } finally {
