@@ -11,8 +11,6 @@
 .dapp-sidebar {
   height: 100vh;
   border-radius: 0 !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 .branding-header {
@@ -70,6 +68,10 @@
   align-items: flex-start;
   justify-content: center;
   margin-left: 33px;
+  h6 {
+    display: flex;
+    align-self: center;
+  }
   a {
     display: flex;
     width: 100%;

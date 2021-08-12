@@ -11,7 +11,7 @@ import { abi as ReserveOhmFraxContract } from "../abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "../abi/bonds/FraxContract.json";
 import { abi as EthBondContract } from "../abi/bonds/EthContract.json";
 
-import { SvgIcon } from "@material-ui/core";
+import { Box, SvgIcon } from "@material-ui/core";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as DaiImg } from "../assets/tokens/DAI.svg";
 import { ReactComponent as OhmDaiImg } from "../assets/tokens/OHM-DAI.svg";
@@ -235,7 +235,7 @@ function getSohmTokenImage() {
 }
 
 function getOhmTokenImage() {
-  return <SvgIcon component={OhmImg} viewBox="0 0 32 32" />;
+  return <SvgIcon component={OhmImg} viewBox="0 0 32 32" style={{ height: "32px", width: "32px" }} />;
 }
 
 function getDaiTokenImage() {
@@ -266,9 +266,11 @@ export function getPairImage(name) {
 }
 
 export function priceUnits(bond) {
-  if (bond.indexOf("frax") >= 0) return <img src={`${getFraxTokenImage()}`} width="15px" height="15px" />;
-  else if (bond.indexOf("eth") >= 0) return <img src={`${getEthTokenImage()}`} width="15px" height="15px" />;
-  else return <img src={`${getDaiTokenImage()}`} width="15px" height="15px" />;
+  if (bond.indexOf("frax") >= 0)
+    return <SvgIcon component={FraxImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
+  else if (bond.indexOf("eth") >= 0)
+    return <SvgIcon component={wETHImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
+  else return <SvgIcon component={DaiImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
 }
 
 // this is only used by numberWithCommas
