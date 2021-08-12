@@ -1,4 +1,4 @@
-import { Actions, BULLETPOINTS, INFO_TOOLTIP_MESSAGES, TOOLTIP_ITEMS } from "./constants";
+import { Actions } from "./constants";
 
 export function app(state = {}, action) {
   switch (action.type) {
@@ -36,35 +36,6 @@ export function bonding(state = {}, action) {
       return state;
   }
 }
-
-// -- do we need these?
-export function bulletpoints(state = BULLETPOINTS, action) {
-  switch (action.type) {
-    case Actions.FETCH_BULLETPOINTS_SUCCESS:
-      return { ...state, ...action.payload };
-    default:
-      return state;
-  }
-}
-
-export function tooltipItems(state = TOOLTIP_ITEMS, action) {
-  switch (action.type) {
-    case Actions.FETCH_TOOLTIP_ITEMS_SUCCESS:
-      return { ...state, ...action.payload };
-    default:
-      return state;
-  }
-}
-
-export function infoTooltipMessages(state = INFO_TOOLTIP_MESSAGES, action) {
-  switch (action.type) {
-    case Actions.FETCH_INFO_TOOLTIP_MESSAGES_SUCCESS:
-      return { ...state, ...action.payload };
-    default:
-      return state;
-  }
-}
-// ----
 
 export function pendingTransactions(state = [], action) {
   switch (action.type) {
