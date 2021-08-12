@@ -1,7 +1,5 @@
-import { Actions } from "src/constants";
 import { ACTIONS } from "./MigrateSlice";
-import { setAll } from "../helpers";
-import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface IPendingTxn {
   readonly txnHash: string;
@@ -19,7 +17,8 @@ const pendingTxnsSlice = createSlice({
       state.push(action.payload);
     },
     clearPendingTxn(state, action) {
-      state.filter(x => x.txnHash !== action.payload);
+      const target = state.find(x => x.txnHash === action.payload);
+      state.splice(state.indexOf(target), 1);
     },
   },
 });

@@ -7,7 +7,7 @@ import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { setAll } from "../helpers";
-import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.slice";
+import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };

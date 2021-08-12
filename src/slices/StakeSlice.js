@@ -4,7 +4,7 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { setAll } from "../helpers";
-import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.slice";
+import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
 
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
-  async ({ token, provider, address, networkID }) => {
+  async ({ token, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -37,7 +37,7 @@ export const changeApproval = createAsyncThunk(
       }
       const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
       const pendingTxnType = token === "ohm" ? "approve_staking" : "approve_unstaking";
-      fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType });
+      dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
       await approveTx.wait();
     } catch (error) {
@@ -45,7 +45,7 @@ export const changeApproval = createAsyncThunk(
       return;
     } finally {
       if (approveTx) {
-        clearPendingTxn(approveTx.hash);
+        dispatch(clearPendingTxn(approveTx.hash));
       }
     }
 
@@ -62,7 +62,7 @@ export const changeApproval = createAsyncThunk(
 
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID }) => {
+  async ({ action, value, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -81,7 +81,7 @@ export const changeStake = createAsyncThunk(
         stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
       }
       const pendingTxnType = action === "stake" ? "staking" : "unstaking";
-      fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType });
+      dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
       await stakeTx.wait();
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
@@ -92,7 +92,7 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
-        clearPendingTxn(stakeTx.hash);
+        dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
 

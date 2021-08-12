@@ -3,7 +3,7 @@ import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { redeemBond } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxns.slice";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 function BondRedeem({ bond }) {
   const dispatch = useDispatch();
