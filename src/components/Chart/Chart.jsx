@@ -334,7 +334,7 @@ function Chart({
       <CircularProgress />
     </Box>
   ) : (
-    <Box style={{ width: "100%", height: "100%" }}>
+    <Box style={{ width: "100%", height: "100%", paddingRight: "10px" }}>
       <div className="chart-card-header">
         <Box
           display="flex"

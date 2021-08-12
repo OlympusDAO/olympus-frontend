@@ -1,19 +1,25 @@
 #treasury-dashboard-view {
   overflow-y: hidden;
   overflow-x: hidden;
-  height: 100%;
+  height: calc(100% - 10px);
   width: 100%;
+  min-width: 300px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   overflow-y: auto;
   .ohm-card {
     max-width: unset !important;
-    width: unset !important;
-    white-space: nowrap;
     margin: auto;
     max-height: 350px;
     .card-header {
       margin-bottom: 1rem;
+    }
+    &.ohm-chart-card {
+      .chart-card-header {
+        padding: 0px 20px !important;
+      }
     }
   }
   .hero-metrics {
@@ -28,6 +34,9 @@
       h4 {
         font-weight: bold;
       }
+      div.metric {
+        margin: 3px;
+      }
     }
   }
   .data-grid {
@@ -37,14 +46,44 @@
 }
 
 .smaller {
+  .ohm-card {
+    width: 97%;
+  }
   .hero-metrics .ohm-card {
     > .MuiBox-root {
       flex-wrap: wrap;
     }
     div.metric {
-      min-width: 50% !important;
-      width: 50%;
       text-align: left !important;
+    }
+  }
+}
+
+.mobile {
+  div.metric {
+    white-space: nowrap;
+    min-width: 30% !important;
+    max-width: 60%;
+    text-align: left !important;
+    &.circ,
+    &.market {
+      width: 67% !important;
+    }
+    &.price,
+    &.index {
+      width: 33% !important;
+    }
+    h4 {
+      font-size: medium;
+    }
+  }
+}
+
+.very-small {
+  .hero-metrics .ohm-card {
+    > .MuiBox-root {
+      flex-direction: column;
+      justify-content: center;
     }
   }
 }
