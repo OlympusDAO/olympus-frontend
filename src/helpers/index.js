@@ -229,7 +229,7 @@ export function getPairImage(name) {
 export function priceUnits(bond) {
   if (bond.indexOf("frax") >= 0)
     return <SvgIcon component={FraxImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
-  else if (bond.indexOf("eth") >= 0)
-    return <SvgIcon component={wETHImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
+  else if (bond.indexOf("eth") >= 0) return "$";
+  // <SvgIcon component={wETHImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
   else return <SvgIcon component={DaiImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
 }

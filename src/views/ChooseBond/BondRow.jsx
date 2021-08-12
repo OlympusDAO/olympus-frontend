@@ -97,9 +97,9 @@ export function BondTableData({ bond }) {
         </div>
       </TableCell>
       <TableCell align="center">
-        <p>
+        <Typography>
           {priceUnits(bond)} {trim(bondPrice, 2)}
-        </p>
+        </Typography>
       </TableCell>
       <TableCell>{bondDiscount && trim(bondDiscount * 100, 2)}%</TableCell>
       <TableCell>
