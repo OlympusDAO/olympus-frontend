@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Box, Button, SvgIcon, Typography, Popper, Paper, Divider, Link, Slide } from "@material-ui/core";
-<<<<<<< HEAD
-import { ReactComponent as ArrowUpIcon } from "../../assets/icons/v1.2/arrow-up.svg";
-import { ReactComponent as CaretDownIcon } from "../../assets/icons/v1.2/caret-down.svg";
-=======
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as CaretDownIcon } from "../../assets/icons/caret-down.svg";
->>>>>>> 0a6b715130fab2f4a2288da2353235b9ef762bce
 import { useWeb3Context } from "src/hooks/web3Context";
 
 function ConnectMenu({ theme }) {
@@ -91,11 +86,7 @@ function ConnectMenu({ theme }) {
           ))}
           <Box className="add-tokens">
             <Divider color="secondary" />
-<<<<<<< HEAD
-            <Button variant="text" color="secondary" onClick={disconnect}>
-=======
             <Button variant="text" color="secondary" onClick={disconnect} style={{ marginBottom: "0px" }}>
->>>>>>> 0a6b715130fab2f4a2288da2353235b9ef762bce
               <Typography>Disconnect</Typography>
             </Button>
           </Box>
