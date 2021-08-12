@@ -2,7 +2,10 @@ import { ethers } from "ethers";
 import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForAsset, bondName } from "../helpers";
 import { addresses, Actions, BONDS } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
+import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxns.actions";
+import { fetchStakeSuccess } from "./Stake.actions";
+import { getBalances } from "./App.actions";
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -228,23 +231,12 @@ export const bondAsset =
     let bondTx;
     try {
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
-      dispatch(
-        fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + getBondTypeText(bond), type: "bond_" + bond }),
-      );
+      dispatch(fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bondName(bond), type: "bond_" + bond }));
       await bondTx.wait();
       // TODO: it may make more sense to only have it in the finally.
       // UX preference (show pending after txn complete or after balance updated)
 
-      const reserveContract = contractForReserve({ bond, provider, networkID });
-
-      if (bond === BONDS.ohm_dai || bond === BONDS.ohm_frax) {
-        balance = await reserveContract.balanceOf(address);
-      } else if (bond === BONDS.dai) {
-        balance = await reserveContract.balanceOf(address);
-        balance = ethers.utils.formatEther(balance);
-      }
-
-      return dispatch(fetchBondSuccess({ bond, balance }));
+      return dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
@@ -271,11 +263,12 @@ export const redeemBond =
     let redeemTx;
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);
-      const pendingTxnType = "redeem_bond_" + bond + (autoStake === true ? "_autostake" : "");
-      dispatch(
-        fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
-      );
+      const pendingTxnType = "redeem_bond_" + bond + (autostake === true ? "_autostake" : "");
+      dispatch(fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }));
       await redeemTx.wait();
+      await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
+
+      return dispatch(getBalances({ address, networkID, provider }));
     } catch (error) {
       alert(error.message);
     } finally {

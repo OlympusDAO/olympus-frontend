@@ -4,6 +4,7 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.actions";
+import { getBalances } from "./App.actions";
 
 export const fetchStakeSuccess = payload => ({
   type: Actions.FETCH_STAKE_SUCCESS,
@@ -95,16 +96,5 @@ export const changeStake =
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
-
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
-    const ohmBalance = await ohmContract.balanceOf(address);
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
-    const sohmBalance = await sohmContract.balanceOf(address);
-
-    return dispatch(
-      fetchStakeSuccess({
-        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-      }),
-    );
+    return dispatch(getBalances({ address, networkID, provider }));
   };

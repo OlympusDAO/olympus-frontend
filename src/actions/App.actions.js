@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
+import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
@@ -14,6 +15,29 @@ export const fetchAppSuccess = payload => ({
   type: Actions.FETCH_APP_SUCCESS,
   payload,
 });
+
+export const fetchBalances = payload => ({
+  type: Actions.FETCH_BALANCES,
+  payload,
+});
+
+export const getBalances =
+  ({ address, networkID, provider }) =>
+  async dispatch => {
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
+    const ohmBalance = await ohmContract.balanceOf(address);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
+    const sohmBalance = await sohmContract.balanceOf(address);
+
+    return dispatch(
+      fetchBalances({
+        balances: {
+          ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+          sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        },
+      }),
+    );
+  };
 
 export const loadAppDetails =
   ({ networkID, provider }) =>

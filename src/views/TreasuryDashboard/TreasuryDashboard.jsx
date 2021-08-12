@@ -178,7 +178,7 @@ function TreasuryDashboard() {
                   bulletpointColors={bulletpoints.coin}
                   itemNames={tooltipItems.coin}
                   itemType={itemType.dollar}
-                  infoTooltipMessage={tooltipInfoMessages.coin}
+                  infoTooltipMessage={tooltipInfoMessages.mvt}
                 />
               </Paper>
             </Grid>

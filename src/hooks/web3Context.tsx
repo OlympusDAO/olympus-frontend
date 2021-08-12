@@ -5,14 +5,14 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 
 // TODO(zayenx): REMEMBER THIS!!!
 // Use this in production!
-function getMainnetURI() {
-  const INFURA_ID_LIST = [
-    "5e3c4a19b5f64c99bf8cd8089c92b44d", // this is main dev node
-    "d9836dbf00c2440d862ab571b462e4a3", // this is current prod node
-    "31e6d348d16b4a4dacde5f8a47da1971", // this is primary fallback
-    "76cc9de4a72c4f5a8432074935d670a3", // Adding Zayen's to the mix
-  ];
+const INFURA_ID_LIST = [
+  "5e3c4a19b5f64c99bf8cd8089c92b44d", // this is main dev node
+  "d9836dbf00c2440d862ab571b462e4a3", // this is current prod node
+  "31e6d348d16b4a4dacde5f8a47da1971", // this is primary fallback
+  "76cc9de4a72c4f5a8432074935d670a3", // Adding Zayen's to the mix
+];
 
+function getInfuraURI() {
   const randomIndex = Math.floor(Math.random() * INFURA_ID_LIST.length);
   const randomInfuraID = INFURA_ID_LIST[randomIndex];
   return `https://mainnet.infura.io/v3/${randomInfuraID}`;
@@ -22,21 +22,45 @@ function getTestnetURI() {
   return "https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3";
 }
 
-// https://cloudflare-eth.com is also an option
-// function getAlchemyAPI() {
-//   return "https://eth-mainnet.alchemyapi.io/v2/R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o";
-// }
-
+const ALCHEMY_ID_LIST = [
+  "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
+  "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
+];
 function getAlchemyAPI(chainID: Number) {
-  const ALCHEMY_ID_LIST = [
-    "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
-    "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
-  ];
-
   const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
   const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
   if (chainID === 1) return `https://eth-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
   else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO`; // unbanksy's
+}
+
+const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
+const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
+const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
+
+function getMainnetURI(chainID: number): string {
+  if (chainID === 4) {
+    return "https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO";
+  }
+
+  // Shuffles the URIs for "intelligent" loadbalancing
+  const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
+
+  const workingURI = allURIs.find(async uri => {
+    try {
+      const provider = new StaticJsonRpcProvider(uri);
+      await provider.getNetwork();
+      return true;
+    } catch (e) {
+      console.error("couldn't connect to: ", uri);
+      return false;
+    }
+  });
+
+  if (workingURI !== undefined || workingURI !== "") return workingURI as string;
+
+  // Return a random one even though it won't work.  :(
+  const randomIndex = Math.floor(Math.random() * allURIs.length);
+  return allURIs[randomIndex];
 }
 
 /*
@@ -78,9 +102,9 @@ export const useAddress = () => {
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
-  const [uri, setUri] = useState(getAlchemyAPI(chainID));
+  const [uri, setUri] = useState(getMainnetURI(chainID));
   const [address, setAddress] = useState("");
-  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri)); // TODO(ZayenX): pls remember to change this back to infura.
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -91,8 +115,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           package: WalletConnectProvider,
           options: {
             rpc: {
-              1: getAlchemyAPI(1),
-              4: getAlchemyAPI(4),
+              1: getMainnetURI(chainID),
+              4: getTestnetURI(),
             },
           },
         },
@@ -127,7 +151,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       console.warn("You are switching networks");
       if (otherChainID === 1 || otherChainID === 4) {
         setChainID(otherChainID);
-        otherChainID === 1 ? setUri(getAlchemyAPI(chainID)) : setUri(getTestnetURI());
+        otherChainID === 1 ? setUri(getMainnetURI(chainID)) : setUri(getTestnetURI());
         return true;
       }
       return false;

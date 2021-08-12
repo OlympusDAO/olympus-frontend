@@ -11,7 +11,7 @@
     width: unset !important;
     white-space: nowrap;
     margin: auto;
-    max-height: 360px;
+    max-height: 350px;
     .card-header {
       margin-bottom: 1rem;
     }
@@ -32,7 +32,6 @@
   }
   .data-grid {
     overflow: hidden;
-    // height: calc(100vh - 203px);
     justify-content: center;
   }
 }

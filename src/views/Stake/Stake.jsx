@@ -30,7 +30,7 @@ import { trim, getTokenImage, getPairImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
