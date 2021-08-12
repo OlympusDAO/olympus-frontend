@@ -18,7 +18,6 @@ import { ReactComponent as OhmDaiImg } from "../assets/tokens/OHM-DAI.svg";
 import { ReactComponent as FraxImg } from "../assets/tokens/FRAX.svg";
 import { ReactComponent as OhmFraxImg } from "../assets/tokens/OHM-FRAX.svg";
 import { ReactComponent as wETHImg } from "../assets/tokens/wETH.svg";
-import { indexOf } from "src/contracts/YourContract.abi";
 
 export function addressForBond({ bond, networkID }) {
   if (bond === BONDS.ohm_dai) {
