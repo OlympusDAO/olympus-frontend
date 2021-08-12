@@ -26,7 +26,7 @@ import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim, getTokenImage, getPairImage } from "../../helpers";
+import { trim, getTokenImage, getPairImage, getOhmTokenImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -43,7 +43,8 @@ function a11yProps(index) {
   };
 }
 
-const ohmImg = getTokenImage("ohm");
+const sOhmImg = getTokenImage("sohm");
+const ohmImg = getOhmTokenImage(16, 16);
 const OhmFraxImg = getPairImage("frax");
 
 function Stake() {
@@ -264,14 +265,7 @@ function Stake() {
                           onChange={e => setQuantity(e.target.value)}
                           startAdornment={
                             <InputAdornment position="start">
-                              <div className="logo-holder">
-                                <div className="ohm-logo-bg">
-                                  <img
-                                    className="ohm-logo-tiny"
-                                    src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                                  />
-                                </div>
-                              </div>
+                              <div className="logo-holder">{view === 0 ? ohmImg : sOhmImg}</div>
                             </InputAdornment>
                           }
                           labelWidth={0}
@@ -413,13 +407,6 @@ function Stake() {
                     <TableRow>
                       <TableCell>
                         <Box className="ohm-pairs">
-                          {/* <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
-                            <img src={`${ohmImg}`} />
-                          </div>
-                          <div className="ohm-pair" style={{ zIndex: 1 }}>
-                            <img src={`${fraxImg}`} />
-                          </div> */}
-
                           {OhmFraxImg}
                           <Typography>OHM-FRAX</Typography>
                         </Box>
@@ -456,14 +443,6 @@ function Stake() {
               <div className="stake-pool">
                 <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                   <Box className="ohm-pairs">
-                    {/* <div className="ohm-pair" style={{ zIndex: 2 }}>
-                      <div className="ohm-logo-bg">
-                        <img src={`${ohmImg}`} />
-                      </div>
-                    </div>
-                    <div className="ohm-pair" style={{ zIndex: 1 }}>
-                      <img src={`${fraxImg}`} />
-                    </div> */}
                     {OhmFraxImg}
                     <Typography gutterBottom={false}>OHM-FRAX</Typography>
                   </Box>
