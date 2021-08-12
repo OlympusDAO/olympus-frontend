@@ -1,21 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useWeb3Context } from "../../hooks";
-import { Paper, Box, Typography, Button, Tab, Tabs, Zoom, SvgIcon } from "@material-ui/core";
+import { Paper, Box, Typography } from "@material-ui/core";
 import { POOL_GRAPH_URLS } from "../../constants";
 import { poolTimeQuery } from "./poolData.js";
 import { apolloExt } from "../../lib/apolloClient";
 
 // TODO: Add countdown timer functionality using prizePeriodSeconds, prizePeriodEndAt from apollo
-const countdownTimer = end => {
-  const start = new Date();
-
-  console.log("countdown timer: ", end);
-
-  useEffect(() => {
-    // start timer
-  }, []);
-
-  return <Typography variant="h3">00:00:00</Typography>;
+const timerFormat = time => {
+  // parse epoch time into hr/min/sec and return
 };
 
 export const PoolPrize = () => {
@@ -23,34 +15,43 @@ export const PoolPrize = () => {
   // TODO: swap out hardcoded 4 for chainID when pool api available
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[4]);
   const [prize, setPrize] = useState(0);
-  const [end, setEnd] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [endTime, setEndTime] = useState(null);
+  const [timer, setTimer] = useState(0);
 
-  useEffect(() => {
-    setGraphUrl(POOL_GRAPH_URLS[4]);
-  }, []);
+  const decreaseNum = () => setTimer(prev => prev - 1);
+
+  let interval = useRef();
+
+  // useEffect(() => {
+  //   setGraphUrl(POOL_GRAPH_URLS[chainID]);
+  // }, [chainID]);
 
   useEffect(() => {
     apolloExt(poolTimeQuery, graphUrl).then(r => {
       let endTime = r.data.prizeStrategy.multipleWinners.prizePeriodEndAt;
       console.log("prize period ends at: ", endTime);
-      setEnd(endTime);
-      setPrize(2000); // need to replace this with actual data
+      setEndTime(endTime);
+      if (endTime - Date.now()) setTimer(endTime - Date.now());
+      setPrize(2000); // need to replace this with actual prize data
       setLoading(false);
     });
   }, []);
 
+  useEffect(() => {
+    interval.current = setInterval(decreaseNum, 1000);
+    return () => clearInterval(interval.current);
+  }, []);
+
   return (
-    <Zoom in={true}>
-      <Paper className="ohm-card">
-        <div className="card-header">
-          <Typography variant="h5">3, 3 Together</Typography>
-        </div>
-        <Box display="flex" flexDirection="column" alignItems="center">
-          <Typography variant="h2">{prize} sOHM</Typography>
-          {countdownTimer(end)}
-        </Box>
-      </Paper>
-    </Zoom>
+    <Paper className="ohm-card">
+      <div className="card-header">
+        <Typography variant="h5">3, 3 Together</Typography>
+      </div>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Typography variant="h1">{prize} sOHM</Typography>
+        <Typography variant="h3">{timer > 0 ? timer : "00:00:00"}</Typography>
+      </Box>
+    </Paper>
   );
 };

@@ -1,12 +1,10 @@
-import React from "react";
 import { Button } from "@material-ui/core";
-import { useWeb3Context } from "../hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
 
 const ConnectButton = () => {
   const { connect } = useWeb3Context();
-
   return (
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} fullWidth>
+    <Button variant="contained" color="primary" className="connect-button" onClick={connect}>
       Connect Wallet
     </Button>
   );
