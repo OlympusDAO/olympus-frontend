@@ -10,7 +10,7 @@ import {
 } from "../helpers";
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
 import { abi as BondCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
-
+import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -19,7 +19,7 @@ const initialState = {
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
-  async ({ bond, provider, address, networkID }) => {
+  async ({ bond, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -58,14 +58,15 @@ export const changeApproval = createAsyncThunk(
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
       }
-
-      fetchPendingTxns({ txnHash: approveTx.hash, text: "Approving " + bondName(bond), type: "approve_" + bond }),
-        await approveTx.wait();
+      dispatch(
+        fetchPendingTxns({ txnHash: approveTx.hash, text: "Approving " + bondName(bond), type: "approve_" + bond }),
+      );
+      await approveTx.wait();
     } catch (error) {
       alert(error.message);
     } finally {
       if (approveTx) {
-        clearPendingTxn(approveTx.hash);
+        dispatch(clearPendingTxn(approveTx.hash));
       }
     }
   },
@@ -214,7 +215,7 @@ export const calculateUserBondDetails = createAsyncThunk(
 
 export const bondAsset = createAsyncThunk(
   "bonding/bondAsset",
-  async ({ value, address, bond, networkID, provider, slippage }) => {
+  async ({ value, address, bond, networkID, provider, slippage }, { dispatch }) => {
     const depositorAddress = address;
     const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
@@ -254,7 +255,7 @@ export const bondAsset = createAsyncThunk(
       return;
     } finally {
       if (bondTx) {
-        clearPendingTxn(bondTx.hash);
+        dispatch(clearPendingTxn(bondTx.hash));
       }
     }
   },
@@ -262,7 +263,7 @@ export const bondAsset = createAsyncThunk(
 
 export const redeemBond = createAsyncThunk(
   "bonding/redeemBond",
-  async ({ address, bond, networkID, provider, autostake }) => {
+  async ({ address, bond, networkID, provider, autostake }, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -275,13 +276,15 @@ export const redeemBond = createAsyncThunk(
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);
       const pendingTxnType = "redeem_bond_" + bond + (autoStake === true ? "_autostake" : "");
-      fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
-        await redeemTx.wait();
+      dispatch(
+        fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
+      );
+      await redeemTx.wait();
     } catch (error) {
       alert(error.message);
     } finally {
       if (redeemTx) {
-        clearPendingTxn(redeemTx.hash);
+        dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
     should;
@@ -302,6 +305,13 @@ const bondingSlice = createSlice({
         state.status = "loading";
       })
       .addCase(calcBondDetails.fulfilled, (state, action) => {
+        state[action.payload.bond] = action.payload;
+        state.status = "idle";
+      })
+      .addCase(calculateUserBondDetails.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
         state[action.payload.bond] = action.payload;
         state.status = "idle";
       });
