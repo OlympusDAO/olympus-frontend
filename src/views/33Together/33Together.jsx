@@ -23,7 +23,9 @@ const PoolTogether = () => {
 
   return (
     <div id="pool-together-view">
+      {/* <Zoom in={true}> */}
       <PoolPrize />
+      {/* </Zoom> */}
 
       <Zoom in={true}>
         <Paper className="ohm-card">
