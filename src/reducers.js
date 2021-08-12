@@ -6,6 +6,7 @@ export function app(state = {}, action) {
     case Actions.FETCH_MIGRATE_SUCCESS:
     case Actions.FETCH_ACCOUNT_SUCCESS:
     case Actions.FETCH_STAKE_SUCCESS:
+    case Actions.FETCH_BALANCES:
       return { ...state, ...action.payload };
     default:
       return state;

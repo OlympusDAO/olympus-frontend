@@ -5,6 +5,7 @@ import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxns.actions";
 import { fetchStakeSuccess } from "./Stake.actions";
+import { getBalances } from "./App.actions";
 
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
@@ -271,18 +272,7 @@ export const redeemBond =
       await redeemTx.wait();
       await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
 
-      const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
-      const ohmBalance = await ohmContract.balanceOf(address);
-      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
-      const sohmBalance = await sohmContract.balanceOf(address);
-      await dispatch(
-        fetchStakeSuccess({
-          balances: {
-            ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-            sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-          },
-        }),
-      );
+      return dispatch(getBalances({ address, networkID, provider }));
     } catch (error) {
       alert(error.message);
     } finally {
