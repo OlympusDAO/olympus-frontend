@@ -293,7 +293,7 @@ const bondingSlice = createSlice({
   initialState,
   reducers: {
     fetchBondSuccess(state, action) {
-      setAll(state, action.payload);
+      state[action.payload.bond] = action.payload;
     },
   },
   extraReducers: builder => {

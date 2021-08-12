@@ -3,13 +3,10 @@ import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
-import { setAll } from "../helpers";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
-import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-
-const initialState = {
-  status: "idle",
-};
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchAccountSuccess } from "./AccountSlice";
+import { getBalances } from "./AccountSlice";
 
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
@@ -51,12 +48,14 @@ export const changeApproval = createAsyncThunk(
 
     const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-    return {
-      staking: {
-        ohmStake: +stakeAllowance,
-        ohmUnstake: +unstakeAllowance,
-      },
-    };
+    return dispatch(
+      fetchAccountSuccess({
+        staking: {
+          ohmStake: +stakeAllowance,
+          ohmUnstake: +unstakeAllowance,
+        },
+      }),
+    );
   },
 );
 
@@ -95,50 +94,6 @@ export const changeStake = createAsyncThunk(
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
-
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
-    const ohmBalance = await ohmContract.balanceOf(address);
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
-    const sohmBalance = await sohmContract.balanceOf(address);
-
-    return {
-      ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-      sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-    };
+    return dispatch(getBalances({ address, networkID, provider }));
   },
 );
-
-const stakeSlice = createSlice({
-  name: "stake",
-  initialState,
-  reducers: {
-    fetchStakeSuccess(state, action) {
-      setAll(state, action.payload);
-    },
-  },
-  extraReducers: builder => {
-    builder
-      .addCase(changeApproval.pending, (state, action) => {
-        state.status = "loading";
-      })
-      .addCase(changeApproval.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.status = "idle";
-      })
-      .addCase(changeStake.pending, (state, action) => {
-        state.status = "loading";
-      })
-      .addCase(changeStake.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.status = "idle";
-      });
-  },
-});
-
-export default stakeSlice.reducer;
-
-export const { fetchStakeSuccess } = stakeSlice.actions;
-
-const baseInfo = state => state.stake;
-
-export const getStakeState = createSelector(baseInfo, stake => stake);

@@ -14,10 +14,10 @@ import {
   Breadcrumbs,
   Link,
 } from "@material-ui/core";
-import { changeStake, getApproval, TYPES, ACTIONS } from "../../slices/MigrateSlice";
+import { changeStake, getApproval, TYPES, ACTIONS } from "../../slices/MigrateThunk";
 import { useSelector, useDispatch } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
-import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { trim } from "../../helpers";
 import useEscape from "../../hooks/useEscape";
 import { NavLink, useHistory } from "react-router-dom";

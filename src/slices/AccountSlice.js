@@ -9,6 +9,20 @@ import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit"
 
 const initialState = {};
 
+export const getBalances = createAsyncThunk("account/getBalances", async ({ address, networkID, provider }) => {
+  const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
+  const ohmBalance = await ohmContract.balanceOf(address);
+  const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
+  const sohmBalance = await sohmContract.balanceOf(address);
+
+  return {
+    balances: {
+      ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+      sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+    },
+  };
+});
+
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
   async ({ networkID, provider, address }) => {
@@ -87,10 +101,17 @@ const accountSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(loadAccountDetails.pending, (state, action) => {
+      .addCase(loadAccountDetails.pending, state => {
         state.status = "loading";
       })
       .addCase(loadAccountDetails.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.status = "idle";
+      })
+      .addCase(getBalances.pending, state => {
+        state.status = "loading";
+      })
+      .addCase(getBalances.fulfilled, (state, action) => {
         setAll(state, action.payload);
         state.status = "idle";
       });

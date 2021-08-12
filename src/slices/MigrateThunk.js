@@ -6,16 +6,12 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
-import { setAll } from "../helpers";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
-import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchAccountSuccess } from "./AccountSlice";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
-
-const initialState = {
-  status: "idle",
-};
 
 export const calculateAPY = createAsyncThunk("migrate/calculateAPY", async (sohmContract, stakingReward) => {
   const circSupply = await sohmContract.circulatingSupply();
@@ -26,57 +22,62 @@ export const calculateAPY = createAsyncThunk("migrate/calculateAPY", async (sohm
   return stakingAPY;
 });
 
-export const getApproval = createAsyncThunk("migrate/getApproval", async ({ type, provider, address, networkID }) => {
-  if (!provider) {
-    alert("Please connect your wallet!");
-    return;
-  }
-
-  const signer = provider.getSigner();
-  const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, signer);
-  const oldSohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, signer);
-
-  let approveTx;
-  try {
-    if (type === TYPES.OLD) {
-      approveTx = await oldSohmContract.approve(
-        addresses[networkID].OLD_STAKING_ADDRESS,
-        ethers.utils.parseUnits("1000000000", "gwei").toString(),
-      );
-    } else if (type === TYPES.NEW) {
-      approveTx = await ohmContract.approve(
-        addresses[networkID].STAKING_HELPER_ADDRESS,
-        ethers.utils.parseUnits("1000000000", "gwei").toString(),
-      );
+export const getApproval = createAsyncThunk(
+  "migrate/getApproval",
+  async ({ type, provider, address, networkID }, { dispatch }) => {
+    if (!provider) {
+      alert("Please connect your wallet!");
+      return;
     }
-    const text = "Approve " + (type === TYPES.OLD ? "Unstaking" : "Staking");
-    const pendingTxnType = type === TYPES.OLD ? "approve_migrate_unstaking" : "approve_migrate_staking";
 
-    fetchPendingTxns({
-      txnHash: approveTx.hash,
-      text,
-      type: pendingTxnType,
-    }),
-      await approveTx.wait();
-  } catch (error) {
-    alert(error.message);
-    return;
-  } finally {
-    if (approveTx) {
-      clearPendingTxn(approveTx.hash);
+    const signer = provider.getSigner();
+    const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, signer);
+    const oldSohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, ierc20Abi, signer);
+
+    let approveTx;
+    try {
+      if (type === TYPES.OLD) {
+        approveTx = await oldSohmContract.approve(
+          addresses[networkID].OLD_STAKING_ADDRESS,
+          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+        );
+      } else if (type === TYPES.NEW) {
+        approveTx = await ohmContract.approve(
+          addresses[networkID].STAKING_HELPER_ADDRESS,
+          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+        );
+      }
+      const text = "Approve " + (type === TYPES.OLD ? "Unstaking" : "Staking");
+      const pendingTxnType = type === TYPES.OLD ? "approve_migrate_unstaking" : "approve_migrate_staking";
+
+      fetchPendingTxns({
+        txnHash: approveTx.hash,
+        text,
+        type: pendingTxnType,
+      }),
+        await approveTx.wait();
+    } catch (error) {
+      alert(error.message);
+      return;
+    } finally {
+      if (approveTx) {
+        clearPendingTxn(approveTx.hash);
+      }
     }
-  }
 
-  const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-  const unstakeAllowance = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    const unstakeAllowance = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
 
-  return {
-    migrate: {
-      stakeAllowance,
-      unstakeAllowance,
-    },
-  };
-});
+    return dispatch(
+      fetchAccountSuccess({
+        migrate: {
+          stakeAllowance,
+          unstakeAllowance,
+        },
+      }),
+    );
+  },
+);
 
 export const changeStake = createAsyncThunk(
   "migrate/changeStake",
@@ -130,38 +131,3 @@ export const changeStake = createAsyncThunk(
     };
   },
 );
-
-const migrateSlice = createSlice({
-  name: "migrate",
-  initialState,
-  reducers: {
-    fetchMigrateSuccess(state, action) {
-      setAll(state, action.payload);
-    },
-  },
-  extraReducers: builder => {
-    builder
-      .addCase(getApproval.pending, (state, action) => {
-        state.status = "loading";
-      })
-      .addCase(getApproval.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.status = "idle";
-      })
-      .addCase(changeStake.pending, (state, action) => {
-        state.status = "loading";
-      })
-      .addCase(changeStake.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.status = "idle";
-      });
-  },
-});
-
-export default migrateSlice.reducer;
-
-export const { fetchMigrateSuccess } = migrateSlice.actions;
-
-const baseInfo = state => state.migrate;
-
-export const getMigrateState = createSelector(baseInfo, migrate => migrate);

@@ -1,4 +1,4 @@
-import { ACTIONS } from "./MigrateSlice";
+import { ACTIONS } from "./MigrateThunk";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IPendingTxn {
