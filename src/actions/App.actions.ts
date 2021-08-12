@@ -9,7 +9,6 @@ import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import axios from "axios";
 import { contractForReserve, addressForAsset, toNum, contractForBond } from "../helpers";
 import { BONDS } from "../constants";
-import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 import apollo from "../lib/apolloClient";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { Dispatch } from "redux";
@@ -30,22 +29,26 @@ interface IAppDetails {
   readonly treasuryBalance?: number;
 }
 
+interface IBalance {
+  readonly balances: { ohm: string; sohm: string };
+}
+
 export const fetchAppSuccess = (payload: IAppDetails) => ({
   type: Actions.FETCH_APP_SUCCESS,
   payload,
 });
 
-export const fetchBalances = payload => ({
+export const fetchBalances = (payload: IBalance) => ({
   type: Actions.FETCH_BALANCES,
   payload,
 });
 
 export const getBalances =
-  ({ address, networkID, provider }) =>
-  async dispatch => {
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
+  ({ address, networkID, provider }: { address: string; networkID: number; provider: StaticJsonRpcProvider }) =>
+  async (dispatch: Dispatch) => {
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider);
     const ohmBalance = await ohmContract.balanceOf(address);
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
     const sohmBalance = await sohmContract.balanceOf(address);
 
     return dispatch(

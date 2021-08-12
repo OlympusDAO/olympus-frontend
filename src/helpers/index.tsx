@@ -11,7 +11,6 @@ import { abi as ReserveOhmFraxContract } from "../abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "../abi/bonds/FraxContract.json";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IERC20, OlympusBondDepository } from "src/typechain";
-export { default as Transactor } from "./Transactor";
 import { abi as EthBondContract } from "../abi/bonds/EthContract.json";
 
 import { Box, SvgIcon } from "@material-ui/core";

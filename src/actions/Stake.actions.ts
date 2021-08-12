@@ -128,5 +128,5 @@ export const changeStake =
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
-    return dispatch(getBalances({ address, networkID, provider }));
+    return getBalances({ address, networkID, provider });
   };
