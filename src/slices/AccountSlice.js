@@ -39,10 +39,6 @@ export const loadAccountDetails = createAsyncThunk(
     let migrateContract;
     let unstakeAllowanceSohm;
 
-    console.log("network id whatever is");
-    console.log(networkID);
-    console.log(addresses[networkID]);
-
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
 

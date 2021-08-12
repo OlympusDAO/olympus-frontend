@@ -6,8 +6,9 @@ import {
   contractForReserve,
   addressForBond,
   addressForAsset,
-  setAll,
+  bondName,
 } from "../helpers";
+import { getBalances } from "./AccountSlice";
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
 import { abi as BondCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
@@ -204,8 +205,8 @@ export const calculateUserBondDetails = createAsyncThunk(
 
     return {
       bond,
-      allowance,
-      balance,
+      allowance: Number(allowance),
+      balance: Number(balance),
       interestDue,
       bondMaturationBlock,
       pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
@@ -233,21 +234,12 @@ export const bondAsset = createAsyncThunk(
     let bondTx;
     try {
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
-      fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + getBondTypeText(bond), type: "bond_" + bond }),
-        await bondTx.wait();
+      dispatch(fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bondName(bond), type: "bond_" + bond }));
+      await bondTx.wait();
       // TODO: it may make more sense to only have it in the finally.
       // UX preference (show pending after txn complete or after balance updated)
 
-      const reserveContract = contractForReserve({ bond, provider, networkID });
-
-      if (bond === BONDS.ohm_dai || bond === BONDS.ohm_frax) {
-        balance = await reserveContract.balanceOf(address);
-      } else if (bond === BONDS.dai) {
-        balance = await reserveContract.balanceOf(address);
-        balance = ethers.utils.formatEther(balance);
-      }
-
-      return { bond, balance };
+      return dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
@@ -275,11 +267,12 @@ export const redeemBond = createAsyncThunk(
     let redeemTx;
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);
-      const pendingTxnType = "redeem_bond_" + bond + (autoStake === true ? "_autostake" : "");
-      dispatch(
-        fetchPendingTxns({ txnHash: approveTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }),
-      );
+      const pendingTxnType = "redeem_bond_" + bond + (autostake === true ? "_autostake" : "");
+      dispatch(fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming " + bondName(bond), type: pendingTxnType }));
       await redeemTx.wait();
+      await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
+
+      return dispatch(getBalances({ address, networkID, provider }));
     } catch (error) {
       alert(error.message);
     } finally {
@@ -287,7 +280,6 @@ export const redeemBond = createAsyncThunk(
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
-    should;
   },
 );
 
@@ -312,7 +304,9 @@ const bondingSlice = createSlice({
         state.status = "loading";
       })
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
-        state[action.payload.bond] = action.payload;
+        const bond = action.payload.bond;
+        const newState = { ...state[bond], ...action.payload };
+        state[bond] = newState;
         state.status = "idle";
       });
   },
