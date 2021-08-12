@@ -20,14 +20,15 @@ const countdownTimer = end => {
 
 export const PoolPrize = () => {
   const { chainID } = useWeb3Context();
-  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
+  // TODO: swap out hardcoded 4 for chainID when pool api available
+  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[4]);
   const [prize, setPrize] = useState(0);
   const [end, setEnd] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setGraphUrl(POOL_GRAPH_URLS[chainID]);
-  }, [chainID]);
+    setGraphUrl(POOL_GRAPH_URLS[4]);
+  }, []);
 
   useEffect(() => {
     apolloExt(poolTimeQuery, graphUrl).then(r => {

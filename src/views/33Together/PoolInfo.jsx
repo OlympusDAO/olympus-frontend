@@ -3,7 +3,7 @@ import { useWeb3Context } from "../../hooks";
 import { Link } from "react-router-dom";
 // import { OhmDataLoading } from '../../components/Loading/OhmDataLoading'
 import { Paper, Box, Typography, Button, Tab, Tabs, Zoom, SvgIcon, CircularProgress } from "@material-ui/core";
-import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { POOL_GRAPH_URLS } from "../../constants";
 import { poolDataQuery } from "./poolData.js";
 import { apolloExt } from "../../lib/apolloClient";

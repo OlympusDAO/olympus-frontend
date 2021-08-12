@@ -30,10 +30,11 @@ import { trim, getTokenImage, getPairImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
 
 function a11yProps(index) {
   return {
@@ -89,6 +90,10 @@ function Stake() {
     return state.app.stakingTVL;
   });
 
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
+  });
+
   const setMax = () => {
     if (view === 0) {
       setQuantity(ohmBalance);
@@ -141,6 +146,7 @@ function Stake() {
   };
 
   const trimmedSOHMBalance = trim(sohmBalance, 4);
+  const trimmedStakingAPY = trim(stakingAPY * 100, 1);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
 
@@ -187,7 +193,9 @@ function Stake() {
                       <Typography variant="h5" color="textSecondary">
                         APY
                       </Typography>
-                      <Typography variant="h4">{stakingAPY && trim(stakingAPY * 100, 1)}%</Typography>
+                      <Typography variant="h4">
+                        {stakingAPY && new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%
+                      </Typography>
                     </div>
                   </Grid>
 
@@ -283,22 +291,24 @@ function Stake() {
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "staking")}
                             onClick={() => {
                               onChangeStake("stake");
                             }}
                           >
-                            Stake OHM
+                            {txnButtonText(pendingTransactions, "staking", "Stake OHM")}
                           </Button>
                         ) : (
                           <Button
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "approve_staking")}
                             onClick={() => {
                               onSeekApproval("ohm");
                             }}
                           >
-                            Approve
+                            {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
                           </Button>
                         )}
                       </TabPanel>
@@ -309,22 +319,24 @@ function Stake() {
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "unstaking")}
                             onClick={() => {
                               onChangeStake("unstake");
                             }}
                           >
-                            Unstake OHM
+                            {txnButtonText(pendingTransactions, "unstaking", "Unstake OHM")}
                           </Button>
                         ) : (
                           <Button
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                             onClick={() => {
                               onSeekApproval("sohm");
                             }}
                           >
-                            Approve
+                            {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
                           </Button>
                         )}
                       </TabPanel>
@@ -351,7 +363,9 @@ function Stake() {
 
                     <div className="data-row">
                       <Typography variant="body1">Your Staked Balance</Typography>
-                      <Typography variant="body1">{trimmedSOHMBalance} sOHM</Typography>
+                      <Typography variant="body1">
+                        {new Intl.NumberFormat("en-US").format(trimmedSOHMBalance)} sOHM
+                      </Typography>
                     </div>
 
                     <div className="data-row">
