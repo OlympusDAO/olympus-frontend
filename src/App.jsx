@@ -92,8 +92,6 @@ function App() {
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
 
-    console.log("loading details...\nchainId/provider: ", chainID, loadProvider);
-
     await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
     if (address) await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
 
