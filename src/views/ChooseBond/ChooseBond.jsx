@@ -14,7 +14,6 @@ import {
   Zoom,
 } from "@material-ui/core";
 import { BondTableData, BondDataCard } from "./BondRow";
-import { BONDS } from "../../constants";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";

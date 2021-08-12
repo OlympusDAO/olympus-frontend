@@ -1,6 +1,6 @@
-import { ReactComponent as ForumIcon } from "../../assets/icons/v1.2/forum.svg";
-import { ReactComponent as GovIcon } from "../../assets/icons/v1.2/governance.svg";
-import { ReactComponent as DocsIcon } from "../../assets/icons/v1.2/docs.svg";
+import { ReactComponent as ForumIcon } from "../../assets/icons/forum.svg";
+import { ReactComponent as GovIcon } from "../../assets/icons/governance.svg";
+import { ReactComponent as DocsIcon } from "../../assets/icons/docs.svg";
 import { SvgIcon } from "@material-ui/core";
 
 const externalUrls = [
