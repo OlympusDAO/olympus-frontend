@@ -1,6 +1,6 @@
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import { Box, Backdrop, Modal, Paper, SvgIcon, Typography, Fade } from "@material-ui/core";
-import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ResponsiveContainer } from "recharts";
 
 function ExpandedChart({

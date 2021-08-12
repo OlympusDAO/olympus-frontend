@@ -2,9 +2,9 @@ import CustomTooltip from "./CustomTooltip";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import ExpandedChart from "./ExpandedChart";
 import { useEffect, useState } from "react";
-import { ReactComponent as Fullscreen } from "../../assets/icons//v1.2/fullscreen.svg";
+import { ReactComponent as Fullscreen } from "../../assets/icons/fullscreen.svg";
 import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
-import { Typography, Box, SvgIcon } from "@material-ui/core";
+import { Typography, Box, SvgIcon, CircularProgress } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { trim } from "../../helpers";
 import _ from "lodash";
@@ -329,7 +329,11 @@ function Chart({
     }
   }, [data]);
 
-  return (
+  return loading ? (
+    <Box style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <CircularProgress />
+    </Box>
+  ) : (
     <Box style={{ width: "100%", height: "100%" }}>
       <div className="chart-card-header">
         <Box
