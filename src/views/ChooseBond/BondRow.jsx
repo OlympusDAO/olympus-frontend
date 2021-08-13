@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { trim, bondName, lpURL, isBondLP, priceUnits } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
 import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
-import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
 
@@ -97,9 +97,9 @@ export function BondTableData({ bond }) {
         </div>
       </TableCell>
       <TableCell align="center">
-        <p>
+        <Typography>
           {priceUnits(bond)} {trim(bondPrice, 2)}
-        </p>
+        </Typography>
       </TableCell>
       <TableCell>{bondDiscount && trim(bondDiscount * 100, 2)}%</TableCell>
       <TableCell>

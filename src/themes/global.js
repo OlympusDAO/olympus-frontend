@@ -125,8 +125,6 @@ const commonSettings = {
         backdropFilter: "blur(33px)",
         backgroundColor: "inherit",
         padding: 0,
-        square: true,
-        rounded: false,
         zIndex: 7,
       },
     },
@@ -210,7 +208,7 @@ const commonSettings = {
     },
     MuiTab: {
       root: {
-        minWidth: "fit-content !important",
+        minWidth: "min-content !important",
         width: "min-content",
         padding: "0px",
         margin: "0px 20px",
