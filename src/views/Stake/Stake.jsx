@@ -26,7 +26,7 @@ import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim, getTokenImage, getPairImage } from "../../helpers";
+import { trim, getTokenImage, getPairImage, getOhmTokenImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -43,7 +43,8 @@ function a11yProps(index) {
   };
 }
 
-const ohmImg = getTokenImage("ohm");
+const sOhmImg = getTokenImage("sohm");
+const ohmImg = getOhmTokenImage(16, 16);
 const OhmFraxImg = getPairImage("frax");
 
 function Stake() {
@@ -262,6 +263,14 @@ function Stake() {
                           className="stake-input"
                           value={quantity}
                           onChange={e => setQuantity(e.target.value)}
+<<<<<<< HEAD
+=======
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <div className="logo-holder">{view === 0 ? ohmImg : sOhmImg}</div>
+                            </InputAdornment>
+                          }
+>>>>>>> 542d6473a1fcf9fa3b17431193ecdee36bca0038
                           labelWidth={0}
                           endAdornment={
                             <InputAdornment position="end">
@@ -401,13 +410,6 @@ function Stake() {
                     <TableRow>
                       <TableCell>
                         <Box className="ohm-pairs">
-                          {/* <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
-                            <img src={`${ohmImg}`} />
-                          </div>
-                          <div className="ohm-pair" style={{ zIndex: 1 }}>
-                            <img src={`${fraxImg}`} />
-                          </div> */}
-
                           {OhmFraxImg}
                           <Typography>OHM-FRAX</Typography>
                         </Box>
@@ -444,14 +446,6 @@ function Stake() {
               <div className="stake-pool">
                 <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                   <Box className="ohm-pairs">
-                    {/* <div className="ohm-pair" style={{ zIndex: 2 }}>
-                      <div className="ohm-logo-bg">
-                        <img src={`${ohmImg}`} />
-                      </div>
-                    </div>
-                    <div className="ohm-pair" style={{ zIndex: 1 }}>
-                      <img src={`${fraxImg}`} />
-                    </div> */}
                     {OhmFraxImg}
                     <Typography gutterBottom={false}>OHM-FRAX</Typography>
                   </Box>
