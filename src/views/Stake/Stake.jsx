@@ -263,15 +263,10 @@ function Stake() {
                           className="stake-input"
                           value={quantity}
                           onChange={e => setQuantity(e.target.value)}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <div className="logo-holder">{view === 0 ? ohmImg : sOhmImg}</div>
-                            </InputAdornment>
-                          }
                           labelWidth={0}
                           endAdornment={
                             <InputAdornment position="end">
-                              <Button variant="text" onClick={setMax}>
+                              <Button variant="text" onClick={setMax} color="inherit">
                                 Max
                               </Button>
                             </InputAdornment>

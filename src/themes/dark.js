@@ -134,11 +134,30 @@ export const dark = responsiveFontSizes(
             color: darkTheme.color,
           },
         },
-        MuiOutlinedInput: {
+        MuiInputBase: {
           root: {
-            focused: {
-              borderColor: darkTheme.gold,
+            color: darkTheme.gold,
+          },
+        },
+        MuiOutlinedInput: {
+          notchedOutline: {
+            borderColor: `${darkTheme.gold} !important`,
+            "&:hover": {
+              borderColor: `${darkTheme.gold} !important`,
             },
+          },
+        },
+        MuiTab: {
+          textColorPrimary: {
+            color: darkTheme.gray,
+            "&$selected": {
+              color: darkTheme.gold,
+            },
+          },
+        },
+        PrivateTabIndicator: {
+          colorPrimary: {
+            backgroundColor: darkTheme.gold,
           },
         },
         MuiToggleButton: {
