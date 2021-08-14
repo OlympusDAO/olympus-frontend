@@ -147,6 +147,19 @@ export const dark = responsiveFontSizes(
             },
           },
         },
+        MuiTab: {
+          textColorPrimary: {
+            color: darkTheme.gray,
+            "&$selected": {
+              color: darkTheme.gold,
+            },
+          },
+        },
+        PrivateTabIndicator: {
+          colorPrimary: {
+            backgroundColor: darkTheme.gold,
+          },
+        },
         MuiToggleButton: {
           root: {
             backgroundColor: darkTheme.paperBg,
