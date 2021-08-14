@@ -141,6 +141,19 @@ export const light = responsiveFontSizes(
             color: lightTheme.color,
           },
         },
+        MuiInputBase: {
+          root: {
+            color: lightTheme.color,
+          },
+        },
+        MuiOutlinedInput: {
+          notchedOutline: {
+            borderColor: `${lightTheme.color} !important`,
+            "&:hover": {
+              borderColor: `${lightTheme.color} !important`,
+            },
+          },
+        },
         MuiToggleButton: {
           root: {
             backgroundColor: lightTheme.paperBg,
