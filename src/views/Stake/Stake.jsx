@@ -265,7 +265,7 @@ function Stake() {
                           labelWidth={0}
                           endAdornment={
                             <InputAdornment position="end">
-                              <Button variant="text" onClick={setMax}>
+                              <Button variant="text" onClick={setMax} color="inherit">
                                 Max
                               </Button>
                             </InputAdornment>
