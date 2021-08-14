@@ -134,10 +134,31 @@ export const dark = responsiveFontSizes(
             color: darkTheme.color,
           },
         },
+        MuiInputBase: {
+          root: {
+            color: darkTheme.gold,
+            "&:hover": {
+              borderColor: `${darkTheme.gold} !important`,
+            },
+          },
+        },
+        MuiInputAdornment: {
+          root: {
+            "&:hover": {
+              borderColor: `${darkTheme.gold} !important`,
+            },
+          },
+        },
         MuiOutlinedInput: {
           root: {
-            focused: {
+            "&:hover": {
               borderColor: darkTheme.gold,
+            },
+          },
+          notchedOutline: {
+            borderColor: darkTheme.gold,
+            "&:hover": {
+              borderColor: `${darkTheme.gold} !important`,
             },
           },
         },

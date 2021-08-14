@@ -262,18 +262,6 @@ function Stake() {
                           className="stake-input"
                           value={quantity}
                           onChange={e => setQuantity(e.target.value)}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <div className="logo-holder">
-                                <div className="ohm-logo-bg">
-                                  <img
-                                    className="ohm-logo-tiny"
-                                    src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                                  />
-                                </div>
-                              </div>
-                            </InputAdornment>
-                          }
                           labelWidth={0}
                           endAdornment={
                             <InputAdornment position="end">
