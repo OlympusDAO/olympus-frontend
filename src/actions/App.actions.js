@@ -11,6 +11,11 @@ import { contractForReserve, addressForAsset, contractForBond } from "../helpers
 import { BONDS } from "../constants";
 import apollo from "../lib/apolloClient.js";
 
+export const fetchAppInProgress = payload => ({
+  type: Actions.FETCH_APP_INPROGRESS,
+  payload,
+});
+
 export const fetchAppSuccess = payload => ({
   type: Actions.FETCH_APP_SUCCESS,
   payload,
@@ -42,6 +47,7 @@ export const getBalances =
 export const loadAppDetails =
   ({ networkID, provider }) =>
   async dispatch => {
+    dispatch(fetchAppInProgress({ loading: true }));
     const protocolMetricsQuery = `
       query {
         _meta {
@@ -80,6 +86,7 @@ export const loadAppDetails =
       console.error("failed to connect to provider, please connect your wallet");
       return dispatch(
         fetchAppSuccess({
+          loading: false,
           stakingTVL,
           marketPrice,
           marketCap,
@@ -150,6 +157,7 @@ export const loadAppDetails =
 
     return dispatch(
       fetchAppSuccess({
+        loading: false,
         currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
         currentBlock,
         fiveDayRate,
