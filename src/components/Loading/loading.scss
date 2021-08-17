@@ -1,0 +1,23 @@
+.loading-splash {
+  .loading-icon {
+    transform: scale(1);
+    animation: 3s linear 3s infinite pulse;
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.93);
+    opacity: 0.5;
+  }
+  60% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.93);
+    opacity: 0.5;
+  }
+}
