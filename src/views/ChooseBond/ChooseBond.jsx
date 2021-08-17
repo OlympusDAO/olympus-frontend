@@ -18,12 +18,14 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
+import { Skeleton } from "@material-ui/lab";
 
 function ChooseBond() {
   const bonds = useBonds();
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
+  const isAppLoading = useSelector(state => state.app.loading);
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
@@ -47,13 +49,16 @@ function ChooseBond() {
                   Treasury Balance
                 </Typography>
                 <Typography variant="h4">
-                  {treasuryBalance &&
+                  {isAppLoading ? (
+                    <Skeleton width="180px" />
+                  ) : (
                     new Intl.NumberFormat("en-US", {
                       style: "currency",
                       currency: "USD",
                       maximumFractionDigits: 0,
                       minimumFractionDigits: 0,
-                    }).format(treasuryBalance)}
+                    }).format(treasuryBalance)
+                  )}
                 </Typography>
               </Box>
             </Grid>
@@ -63,7 +68,9 @@ function ChooseBond() {
                 <Typography variant="h5" color="textSecondary">
                   OHM Price
                 </Typography>
-                <Typography variant="h4">{trim(marketPrice, 2)}</Typography>
+                <Typography variant="h4">
+                  {isAppLoading ? <Skeleton width="100px" /> : `$${trim(marketPrice, 2)}`}
+                </Typography>
               </Box>
             </Grid>
           </Grid>
@@ -76,8 +83,8 @@ function ChooseBond() {
                     <TableRow>
                       <TableCell align="center">Bond</TableCell>
                       <TableCell align="center">Price</TableCell>
-                      <TableCell>ROI</TableCell>
-                      <TableCell>Purchased</TableCell>
+                      <TableCell align="center">ROI</TableCell>
+                      <TableCell align="right">Purchased</TableCell>
                       <TableCell align="right"></TableCell>
                     </TableRow>
                   </TableHead>

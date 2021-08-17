@@ -12,7 +12,7 @@ export default class Root extends Component {
 
   constructor(props) {
     super(props);
-    this.store = configureStore({});
+    this.store = configureStore({ app: { loading: true } });
   }
 
   render() {

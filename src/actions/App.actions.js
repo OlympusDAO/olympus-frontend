@@ -11,9 +11,14 @@ import { contractForReserve, addressForAsset, contractForBond } from "../helpers
 import { BONDS } from "../constants";
 import apollo from "../lib/apolloClient.js";
 
+export const fetchAppInProgress = () => ({
+  type: Actions.FETCH_APP_INPROGRESS,
+  payload: { loading: true },
+});
+
 export const fetchAppSuccess = payload => ({
   type: Actions.FETCH_APP_SUCCESS,
-  payload,
+  payload: { ...payload, loading: false },
 });
 
 export const fetchBalances = payload => ({
@@ -42,6 +47,8 @@ export const getBalances =
 export const loadAppDetails =
   ({ networkID, provider }) =>
   async dispatch => {
+    dispatch(fetchAppInProgress());
+
     const protocolMetricsQuery = `
       query {
         _meta {

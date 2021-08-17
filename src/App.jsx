@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -17,6 +17,7 @@ import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
+import LoadingSplash from "./components/Loading/LoadingSplash";
 import NotFound from "./views/404/NotFound";
 
 import { dark as darkTheme } from "./themes/dark.js";
@@ -83,6 +84,8 @@ function App() {
   const { provider, chainID } = useWeb3Context();
   const address = useAddress();
 
+  const isAppLoading = useSelector(state => state.app.loading);
+
   async function loadDetails() {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
@@ -125,6 +128,7 @@ function App() {
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
+      {/* {isAppLoading && <LoadingSplash />} */}
       <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"}`}>
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>

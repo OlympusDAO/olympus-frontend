@@ -16,6 +16,7 @@ import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } 
 import { BONDS } from "../../constants";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
+import { Skeleton } from "@material-ui/lab";
 
 function BondPurchase({ bond, slippage }) {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function BondPurchase({ bond, slippage }) {
     return state.app.currentBlock;
   });
 
+  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
   const vestingTerm = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].vestingBlock;
   });
@@ -203,43 +205,49 @@ function BondPurchase({ bond, slippage }) {
           <div className="data-row">
             <Typography>Your Balance</Typography>
             <Typography>
-              {trim(balance, 4)} {balanceUnits()}
+              {isBondLoading ? (
+                <Skeleton width="100px" />
+              ) : (
+                <>
+                  {trim(balance, 4)} {balanceUnits()}
+                </>
+              )}
             </Typography>
           </div>
 
           <div className={`data-row`}>
             <Typography>You Will Get</Typography>
             <Typography id="bond-value-id" className="price-data">
-              {trim(bondQuote, 4) || ""} OHM
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bondQuote, 4) || "0"} OHM`}
             </Typography>
           </div>
 
           <div className={`data-row`}>
             <Typography>Max You Can Buy</Typography>
             <Typography id="bond-value-id" className="price-data">
-              {trim(maxBondPrice, 4) || ""} OHM
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(maxBondPrice, 4) || "0"} OHM`}
             </Typography>
           </div>
 
           <div className="data-row">
             <Typography>ROI</Typography>
-            <Typography>{trim(bondDiscount * 100, 2)}%</Typography>
+            <Typography>{isBondLoading ? <Skeleton width="100px" /> : `${trim(bondDiscount * 100, 2)}%`}</Typography>
           </div>
 
           <div className="data-row">
             <Typography>Debt Ratio</Typography>
-            <Typography>{trim(debtRatio / 10000000, 2)}%</Typography>
+            <Typography>{isBondLoading ? <Skeleton width="100px" /> : `${trim(debtRatio / 10000000, 2)}%`}</Typography>
           </div>
 
           <div className="data-row">
             <Typography>Vesting Term</Typography>
-            <Typography>{vestingPeriod()}</Typography>
+            <Typography>{isBondLoading ? <Skeleton width="100px" /> : vestingPeriod()}</Typography>
           </div>
 
           {recipientAddress !== address && (
             <div className="data-row">
               <Typography>Recipient</Typography>
-              <Typography>{shorten(recipientAddress)}</Typography>
+              <Typography>{isBondLoading ? <Skeleton width="100px" /> : shorten(recipientAddress)}</Typography>
             </div>
           )}
         </Box>
