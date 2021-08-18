@@ -1,10 +1,11 @@
 import { trim, bondName, lpURL, isBondLP, getTokenImage } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
 import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
-import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
 import { useAppSelector } from "src/hooks";
+import { Skeleton } from "@material-ui/lab";
 
 function priceUnits(bond: string) {
   if (bond.indexOf("frax") >= 0) return <img src={`${getTokenImage("frax")}`} width="15px" height="15px" />;
@@ -12,14 +13,15 @@ function priceUnits(bond: string) {
 }
 
 export function BondDataCard({ bond }: { bond: string }) {
+  const isBondLoading = useAppSelector(state => (state.bonding && state.bonding[bond]?.loading) ?? true);
   const bondPrice = useAppSelector(state => {
-    return state.bonding && state.bonding[bond] && state.bonding[bond].bondPrice;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondPrice) || 0;
   });
   const bondDiscount = useAppSelector(state => {
-    return state.bonding && state.bonding[bond] && state.bonding[bond].bondDiscount;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondDiscount) || 0;
   });
   const bondPurchased = useAppSelector(state => {
-    return state.bonding && state.bonding[bond] && state.bonding[bond].purchased;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].purchased) || 0;
   });
 
   return (
@@ -44,24 +46,31 @@ export function BondDataCard({ bond }: { bond: string }) {
 
         <div className="data-row">
           <Typography>Price</Typography>
-          <Typography>{priceUnits(bond) && trim(bondPrice, 2)}</Typography>
+          <Typography className="bond-price">
+            <>
+              {priceUnits(bond)} {isBondLoading ? <Skeleton width="50px" /> : trim(bondPrice, 2)}
+            </>
+          </Typography>
         </div>
 
         <div className="data-row">
           <Typography>ROI</Typography>
-          <Typography>{bondDiscount && trim(bondDiscount * 100, 2)}%</Typography>
+          <Typography>{isBondLoading ? <Skeleton width="50px" /> : `${trim(bondDiscount * 100, 2)}%`}</Typography>
         </div>
 
         <div className="data-row">
           <Typography>Purchased</Typography>
           <Typography>
-            {bondPurchased &&
+            {isBondLoading ? (
+              <Skeleton width="80px" />
+            ) : (
               new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
                 maximumFractionDigits: 0,
                 minimumFractionDigits: 0,
-              }).format(bondPurchased)}
+              }).format(bondPurchased)
+            )}
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond}`}>
@@ -75,14 +84,15 @@ export function BondDataCard({ bond }: { bond: string }) {
 }
 
 export function BondTableData({ bond }: { bond: string }) {
+  const isBondLoading = useAppSelector(state => (state.bonding && state.bonding[bond]?.loading) ?? true);
   const bondPrice = useAppSelector(state => {
-    return state.bonding && state.bonding[bond] && state.bonding[bond].bondPrice;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondPrice) || 0;
   });
   const bondDiscount = useAppSelector(state => {
-    return state.bonding && state.bonding[bond] && state.bonding[bond].bondDiscount;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondDiscount) || 0;
   });
   const bondPurchased = useAppSelector(state => {
-    return state.bonding && state.bonding[bond] && state.bonding[bond].purchased;
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].purchased) || 0;
   });
 
   return (
@@ -102,19 +112,25 @@ export function BondTableData({ bond }: { bond: string }) {
         </div>
       </TableCell>
       <TableCell align="center">
-        <p>
-          {priceUnits(bond)} {trim(bondPrice, 2)}
-        </p>
+        <Typography>
+          <>
+            <span className="currency-icon">{priceUnits(bond)}</span>{" "}
+            {isBondLoading ? <Skeleton width="50px" /> : trim(bondPrice, 2)}
+          </>
+        </Typography>
       </TableCell>
-      <TableCell>{bondDiscount && trim(bondDiscount * 100, 2)}%</TableCell>
-      <TableCell>
-        {bondPurchased &&
+      <TableCell align="right">{isBondLoading ? <Skeleton /> : `${trim(bondDiscount * 100, 2)}%`}</TableCell>
+      <TableCell align="right">
+        {isBondLoading ? (
+          <Skeleton />
+        ) : (
           new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
             maximumFractionDigits: 0,
             minimumFractionDigits: 0,
-          }).format(bondPurchased)}
+          }).format(bondPurchased)
+        )}
       </TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond}`}>

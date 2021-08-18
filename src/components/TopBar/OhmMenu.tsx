@@ -3,8 +3,8 @@ import { addresses, Nested, TOKEN_DECIMALS } from "../../constants";
 import { getTokenImage } from "../../helpers";
 import { useSelector } from "react-redux";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box } from "@material-ui/core";
-import { ReactComponent as InfoIcon } from "../../assets/icons/v1.2/info-fill.svg";
-import { ReactComponent as ArrowUpIcon } from "../../assets/icons/v1.2/arrow-up.svg";
+import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
+import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import "./ohmmenu.scss";
 import { useAppSelector } from "src/hooks";
 
@@ -99,6 +99,11 @@ function OhmMenu() {
               </Button>
             </Box>
           ) : null}
+
+          <Divider color="secondary" />
+          <Link href="https://docs.olympusdao.finance/using-the-website/unstaking_lp" target="_blank" rel="noreferrer">
+            <Typography>Unstake LP Token</Typography>
+          </Link>
         </Paper>
       </Popper>
     </>

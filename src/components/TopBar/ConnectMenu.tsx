@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Button, SvgIcon, Typography, Popper, Paper, Divider, Link, Slide } from "@material-ui/core";
-import { ReactComponent as ArrowUpIcon } from "../../assets/icons/v1.2/arrow-up.svg";
-import { ReactComponent as CaretDownIcon } from "../../assets/icons/v1.2/caret-down.svg";
+import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
+import { ReactComponent as CaretDownIcon } from "../../assets/icons/caret-down.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { useAppSelector } from "src/hooks";
 
@@ -86,7 +86,7 @@ function ConnectMenu({ theme }: { theme: string }) {
           ))}
           <Box className="add-tokens">
             <Divider color="secondary" />
-            <Button variant="text" color="secondary" onClick={disconnect}>
+            <Button variant="text" color="secondary" onClick={disconnect} style={{ marginBottom: "0px" }}>
               <Typography>Disconnect</Typography>
             </Button>
           </Box>

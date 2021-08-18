@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import orderBy from "lodash/orderBy";
-import { useAppSelector } from ".";
+import { useAppSelector } from "./index";
 
 export const makeBondsArray = (
-  ohmDaiBondDiscount?: number | undefined,
-  ohmFraxLpBondDiscount?: number | undefined,
-  daiBondDiscount?: number | undefined,
-  fraxBondDiscount?: number | undefined,
-  ethBondDiscount?: number | undefined,
+  ohmDaiBondDiscount?: number,
+  ohmFraxLpBondDiscount?: number,
+  daiBondDiscount?: number,
+  fraxBondDiscount?: number,
+  ethBondDiscount?: number,
 ) => {
   return [
     {

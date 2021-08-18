@@ -125,14 +125,13 @@ const commonSettings = {
         backdropFilter: "blur(33px)",
         backgroundColor: "inherit",
         padding: 0,
-        square: true,
-        rounded: false,
         zIndex: 7,
       },
     },
     MuiBackdrop: {
       root: {
         backdropFilter: "blur(15px)",
+        zIndex: 3,
       },
     },
     MuiToggleButton: {
@@ -210,10 +209,14 @@ const commonSettings = {
     },
     MuiTab: {
       root: {
-        minWidth: "fit-content !important",
+        minWidth: "min-content !important",
         width: "min-content",
         padding: "0px",
-        margin: "0px 20px",
+        margin: "0px 10px",
+        fontWeight: 400,
+        fontSize: "24px",
+        fontStyle: "normal",
+        lineHeight: "24px",
       },
     },
   },

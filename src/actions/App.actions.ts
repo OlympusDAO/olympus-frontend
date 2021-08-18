@@ -2,13 +2,13 @@ import { ethers } from "ethers";
 import { addresses, Actions, Nested } from "../constants";
 import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
+import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import axios from "axios";
 import { contractForReserve, addressForAsset, toNum, contractForBond } from "../helpers";
 import { BONDS } from "../constants";
-import { abi as BondOhmDaiCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 import apollo from "../lib/apolloClient";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { Dispatch } from "redux";
@@ -29,14 +29,47 @@ interface IAppDetails {
   readonly treasuryBalance?: number;
 }
 
+interface IBalance {
+  readonly balances: { ohm: string; sohm: string };
+}
+
+export const fetchAppInProgress = () => ({
+  type: Actions.FETCH_APP_INPROGRESS,
+  payload: { loading: true },
+});
+
 export const fetchAppSuccess = (payload: IAppDetails) => ({
   type: Actions.FETCH_APP_SUCCESS,
+  payload: { ...payload, loading: false },
+});
+
+export const fetchBalances = (payload: IBalance) => ({
+  type: Actions.FETCH_BALANCES,
   payload,
 });
+
+export const getBalances =
+  ({ address, networkID, provider }: { address: string; networkID: number; provider: StaticJsonRpcProvider }) =>
+  async (dispatch: Dispatch) => {
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider);
+    const ohmBalance = await ohmContract.balanceOf(address);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
+    const sohmBalance = await sohmContract.balanceOf(address);
+
+    return dispatch(
+      fetchBalances({
+        balances: {
+          ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+          sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        },
+      }),
+    );
+  };
 
 export const loadAppDetails =
   ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) =>
   async (dispatch: Dispatch) => {
+    dispatch(fetchAppInProgress());
     const protocolMetricsQuery = `
       query {
         _meta {
@@ -112,7 +145,7 @@ export const loadAppDetails =
 
     // Get ETH price
     const ethBondContract = contractForBond({ bond: BONDS.eth, networkID, provider });
-    let ethPrice = await (ethBondContract as any).assetPrice(); // TS-REFACTOR: weird contract type mismatch
+    let ethPrice = await (ethBondContract as ethers.Contract).assetPrice();
     ethPrice = ethPrice / Math.pow(10, 18);
 
     // Calculate Treasury Balance

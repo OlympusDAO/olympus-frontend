@@ -10,6 +10,7 @@ import BondPurchase from "./BondPurchase";
 import "./bond.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { useAppSelector } from "src/hooks";
+import { Skeleton } from "@material-ui/lab";
 
 function a11yProps(index: number) {
   return {
@@ -28,6 +29,7 @@ function Bond({ bond }: { bond: string }) {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState(""); // TS-REFACTOR-NOTE: quantity is never updated
 
+  const isBondLoading = useAppSelector(state => (state.bonding && state.bonding[bond]?.loading) ?? true);
   const marketPrice = useAppSelector(state => {
     return state.bonding && state.bonding[bond] && state.bonding[bond].marketPrice;
   });
@@ -84,7 +86,13 @@ function Bond({ bond }: { bond: string }) {
                     Bond Price
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    {bond.indexOf("eth") >= 0 ? `$${trim(bondPrice, 2)}` : `${trim(bondPrice, 2)} ${bondToken}`}
+                    {isBondLoading ? (
+                      <Skeleton />
+                    ) : bond.indexOf("eth") >= 0 ? (
+                      `$${trim(bondPrice, 2)}`
+                    ) : (
+                      `${trim(bondPrice, 2)} ${bondToken}`
+                    )}
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -92,7 +100,13 @@ function Bond({ bond }: { bond: string }) {
                     Market Price
                   </Typography>
                   <Typography variant="h3" color="primary" className="price">
-                    {bond.indexOf("eth") >= 0 ? `$${trim(marketPrice, 2)}` : `${trim(marketPrice, 2)} ${bondToken}`}
+                    {isBondLoading ? (
+                      <Skeleton />
+                    ) : bond.indexOf("eth") >= 0 ? (
+                      `$${trim(marketPrice, 2)}`
+                    ) : (
+                      `${trim(marketPrice, 2)} ${bondToken}`
+                    )}
                   </Typography>
                 </div>
               </Box>

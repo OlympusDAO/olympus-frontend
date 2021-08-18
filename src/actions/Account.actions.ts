@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from "ethers";
+import { BigNumber, BigNumberish, ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
@@ -9,9 +9,9 @@ import { IERC20 } from "src/typechain";
 
 interface IAccountDetails {
   readonly balances: { [token: string]: string };
-  readonly bonding: { daiAllowance: number | BigNumber };
+  readonly bonding: { daiAllowance: BigNumberish };
   readonly migrate: { unstakeAllowance: BigNumber | undefined };
-  readonly staking: { ohmStake: number | BigNumber; ohmUnstake: number | BigNumber };
+  readonly staking: { ohmStake: BigNumberish; ohmUnstake: BigNumberish };
 }
 export const fetchAccountSuccess = (payload: IAccountDetails) => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
@@ -24,12 +24,12 @@ export const loadAccountDetails =
     // console.log("networkID = ", networkID)
     // console.log("addresses = ",addresses)
 
-    let ohmBalance: number | BigNumber = 0;
-    let sohmBalance: number | BigNumber = 0;
-    let oldsohmBalance: number | BigNumber = 0;
-    let stakeAllowance: number | BigNumber = 0;
-    let unstakeAllowance: number | BigNumber = 0;
-    let daiBondAllowance: number | BigNumber = 0;
+    let ohmBalance: BigNumberish = 0;
+    let sohmBalance: BigNumberish = 0;
+    let oldsohmBalance: BigNumberish = 0;
+    let stakeAllowance: BigNumberish = 0;
+    let unstakeAllowance: BigNumberish = 0;
+    let daiBondAllowance: BigNumberish = 0;
     let lpStaked = 0;
     let pendingRewards = 0;
     let lpBondAllowance = 0;
@@ -75,8 +75,8 @@ export const loadAccountDetails =
           oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
         },
         staking: {
-          ohmStake: +stakeAllowance,
-          ohmUnstake: +unstakeAllowance,
+          ohmStake: stakeAllowance,
+          ohmUnstake: unstakeAllowance,
         },
         migrate: {
           unstakeAllowance: unstakeAllowanceSohm,
