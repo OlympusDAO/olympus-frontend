@@ -131,6 +131,7 @@ const commonSettings = {
     MuiBackdrop: {
       root: {
         backdropFilter: "blur(15px)",
+        zIndex: 3,
       },
     },
     MuiToggleButton: {
@@ -211,7 +212,11 @@ const commonSettings = {
         minWidth: "min-content !important",
         width: "min-content",
         padding: "0px",
-        margin: "0px 20px",
+        margin: "0px 10px",
+        fontWeight: 400,
+        fontSize: "24px",
+        fontStyle: "normal",
+        lineHeight: "24px",
       },
     },
   },

@@ -33,9 +33,14 @@ interface IBalance {
   readonly balances: { ohm: string; sohm: string };
 }
 
+export const fetchAppInProgress = () => ({
+  type: Actions.FETCH_APP_INPROGRESS,
+  payload: { loading: true },
+});
+
 export const fetchAppSuccess = (payload: IAppDetails) => ({
   type: Actions.FETCH_APP_SUCCESS,
-  payload,
+  payload: { ...payload, loading: false },
 });
 
 export const fetchBalances = (payload: IBalance) => ({
@@ -64,6 +69,7 @@ export const getBalances =
 export const loadAppDetails =
   ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) =>
   async (dispatch: Dispatch) => {
+    dispatch(fetchAppInProgress());
     const protocolMetricsQuery = `
       query {
         _meta {

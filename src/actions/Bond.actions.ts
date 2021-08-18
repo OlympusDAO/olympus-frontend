@@ -54,9 +54,14 @@ interface IRedeemBond {
   readonly provider: StaticJsonRpcProvider;
 }
 
+export const fetchBondInProgress = () => ({
+  type: Actions.FETCH_BOND_INPROGRESS,
+  payload: { loading: true },
+});
+
 export const fetchBondSuccess = (payload: IBondData) => ({
   type: Actions.FETCH_BOND_SUCCESS,
-  payload,
+  payload: { ...payload, loading: false },
 });
 
 export const changeApproval =
@@ -215,6 +220,8 @@ export const calculateUserBondDetails =
   ({ address, bond, networkID, provider }: ICalcUserBondDetails) =>
   async (dispatch: Dispatch) => {
     if (!address) return;
+
+    dispatch(fetchBondInProgress());
 
     // Calculate bond details.
     const bondContract = contractForBond({ bond, provider, networkID });
