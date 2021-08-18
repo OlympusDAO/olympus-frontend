@@ -7,9 +7,14 @@ import { clearPendingTxn, fetchPendingTxns } from "./PendingTxns.actions";
 import { fetchStakeSuccess } from "./Stake.actions";
 import { getBalances } from "./App.actions";
 
+export const fetchBondInProgress = () => ({
+  type: Actions.FETCH_BOND_INPROGRESS,
+  payload: { loading: true },
+});
+
 export const fetchBondSuccess = payload => ({
   type: Actions.FETCH_BOND_SUCCESS,
-  payload,
+  payload: { ...payload, loading: false },
 });
 
 export const changeApproval =
@@ -158,6 +163,8 @@ export const calculateUserBondDetails =
   ({ address, bond, networkID, provider }) =>
   async dispatch => {
     if (!address) return;
+
+    dispatch(fetchBondInProgress());
 
     // Calculate bond details.
     const bondContract = contractForBond({ bond, provider, networkID });

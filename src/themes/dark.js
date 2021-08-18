@@ -20,9 +20,9 @@ const darkTheme = {
     radial-gradient(circle at 10% 0%, rgba(187, 211, 204, 0.33), rgba(187,211,204,0) 35%),
     radial-gradient(circle at 11% 100%, rgba(131, 165, 203, 0.3), rgba(131, 165, 203, 0) 30%)
     `,
-  paperBg: "rgba(54, 56, 64, 0.5)",
-  modalBg: "rgba(36, 36, 38, 0.6)",
-  popoverBg: "rgba(54, 56, 64, 1)",
+  paperBg: "rgba(54, 56, 64, 0.4)",
+  modalBg: "#24242699",
+  popoverBg: "rgba(54, 56, 64, 0.99)",
   menuBg: "#36384080",
   backdropBg: "rgba(54, 56, 64, 0.5)",
   largeTextColor: "#F4D092",
@@ -134,11 +134,30 @@ export const dark = responsiveFontSizes(
             color: darkTheme.color,
           },
         },
-        MuiOutlinedInput: {
+        MuiInputBase: {
           root: {
-            focused: {
-              borderColor: darkTheme.gold,
+            // color: darkTheme.gold,
+          },
+        },
+        MuiOutlinedInput: {
+          notchedOutline: {
+            // borderColor: `${darkTheme.gold} !important`,
+            "&:hover": {
+              // borderColor: `${darkTheme.gold} !important`,
             },
+          },
+        },
+        MuiTab: {
+          textColorPrimary: {
+            color: darkTheme.gray,
+            "&$selected": {
+              color: darkTheme.gold,
+            },
+          },
+        },
+        PrivateTabIndicator: {
+          colorPrimary: {
+            backgroundColor: darkTheme.gold,
           },
         },
         MuiToggleButton: {
