@@ -95,12 +95,32 @@ function App() {
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
 
-    await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-    if (address) await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+    // NOTE (appleseed): loadDetails() runs three times on every app refresh...
+    // ... once with address === "" && loadProvider === StaticJsonRpcProvider (set inside of Web3ContextProvider)
+    // ... once with address === "[wallet address]" && loadProvider === StaticJsonRpcProvider (set inside of Web3Context.connect())
+    // ... once with address === "[wallet address]" && loadProvider === Web3Provider (set inside of Web3Context.connect() right after the above line)
+    // So we need to make sure we don't run `loadAccountDetails`, `loadAppDetails` & `calcBondDetails`...
+    // ... below each of the three times state is changed
+    // The below if statements are one way to prevent the 3x runs
+    //
+    // don't run except when address === "" && provider is a API Provider (not Metamask)
+    // `loadDetails()` always runs once with address === "" even when the user has a connected wallet.
+    if (address === "" && loadProvider.connection["url"] !== "metamask") {
+      await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+    }
+    // don't run unless provider is a Wallet...
+    // NOTE (appleseed): Is there a smarter way to verify that Provider is a Wallet (not just metamask)?
+    if (address && loadProvider.connection["url"] === "metamask") {
+      await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+    }
 
-    Object.values(BONDS).map(async bond => {
-      await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
-    });
+    // don't run except when address === "" && provider is a API Provider (not Metamask)
+    // `loadDetails()` always runs once with address === "" even when the user has a connected wallet.
+    if (address === "" && loadProvider.connection["url"] !== "metamask") {
+      Object.values(BONDS).map(async bond => {
+        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+      });
+    }
   }
 
   useEffect(() => {
