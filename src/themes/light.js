@@ -141,6 +141,32 @@ export const light = responsiveFontSizes(
             color: lightTheme.color,
           },
         },
+        MuiInputBase: {
+          root: {
+            color: lightTheme.color,
+          },
+        },
+        MuiOutlinedInput: {
+          notchedOutline: {
+            borderColor: `${lightTheme.color} !important`,
+            "&:hover": {
+              borderColor: `${lightTheme.color} !important`,
+            },
+          },
+        },
+        MuiTab: {
+          textColorPrimary: {
+            color: lightTheme.gray,
+            "&$selected": {
+              color: lightTheme.color,
+            },
+          },
+        },
+        PrivateTabIndicator: {
+          colorPrimary: {
+            backgroundColor: lightTheme.color,
+          },
+        },
         MuiToggleButton: {
           root: {
             backgroundColor: lightTheme.paperBg,

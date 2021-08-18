@@ -26,7 +26,7 @@ import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim, getTokenImage, getPairImage } from "../../helpers";
+import { trim, getTokenImage, getPairImage, getOhmTokenImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../actions/Stake.actions";
 import { getFraxData } from "../../actions/App.actions";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -35,6 +35,7 @@ import "./stake.scss";
 import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
+import { Skeleton } from "@material-ui/lab";
 
 function a11yProps(index) {
   return {
@@ -43,7 +44,8 @@ function a11yProps(index) {
   };
 }
 
-const ohmImg = getTokenImage("ohm");
+const sOhmImg = getTokenImage("sohm");
+const ohmImg = getOhmTokenImage(16, 16);
 const OhmFraxImg = getPairImage("frax");
 
 function Stake() {
@@ -56,6 +58,7 @@ function Stake() {
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
+  const isAppLoading = useSelector(state => state.app.loading);
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
@@ -194,7 +197,11 @@ function Stake() {
                         APY
                       </Typography>
                       <Typography variant="h4">
-                        {stakingAPY && new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%
+                        {stakingAPY ? (
+                          <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
+                        ) : (
+                          <Skeleton width="150px" />
+                        )}
                       </Typography>
                     </div>
                   </Grid>
@@ -205,13 +212,16 @@ function Stake() {
                         TVL
                       </Typography>
                       <Typography variant="h4">
-                        {stakingTVL &&
+                        {stakingTVL ? (
                           new Intl.NumberFormat("en-US", {
                             style: "currency",
                             currency: "USD",
                             maximumFractionDigits: 0,
                             minimumFractionDigits: 0,
-                          }).format(stakingTVL)}
+                          }).format(stakingTVL)
+                        ) : (
+                          <Skeleton width="150px" />
+                        )}
                       </Typography>
                     </div>
                   </Grid>
@@ -221,7 +231,9 @@ function Stake() {
                       <Typography variant="h5" color="textSecondary">
                         Current Index
                       </Typography>
-                      <Typography variant="h4">{currentIndex && trim(currentIndex, 1)} OHM</Typography>
+                      <Typography variant="h4">
+                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                      </Typography>
                     </div>
                   </Grid>
                 </Grid>
@@ -262,22 +274,10 @@ function Stake() {
                           className="stake-input"
                           value={quantity}
                           onChange={e => setQuantity(e.target.value)}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <div className="logo-holder">
-                                <div className="ohm-logo-bg">
-                                  <img
-                                    className="ohm-logo-tiny"
-                                    src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                                  />
-                                </div>
-                              </div>
-                            </InputAdornment>
-                          }
                           labelWidth={0}
                           endAdornment={
                             <InputAdornment position="end">
-                              <Button variant="text" onClick={setMax}>
+                              <Button variant="text" onClick={setMax} color="inherit">
                                 Max
                               </Button>
                             </InputAdornment>
@@ -358,29 +358,41 @@ function Stake() {
                   <div className={`stake-user-data`}>
                     <div className="data-row">
                       <Typography variant="body1">Your Balance</Typography>
-                      <Typography variant="body1">{trim(ohmBalance, 4)} OHM</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
+                      </Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Your Staked Balance</Typography>
                       <Typography variant="body1">
-                        {new Intl.NumberFormat("en-US").format(trimmedSOHMBalance)} sOHM
+                        {isAppLoading ? (
+                          <Skeleton width="80px" />
+                        ) : (
+                          <>{new Intl.NumberFormat("en-US").format(trimmedSOHMBalance)} sOHM</>
+                        )}
                       </Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Next Reward Amount</Typography>
-                      <Typography variant="body1">{nextRewardValue} sOHM</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
+                      </Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Next Reward Yield</Typography>
-                      <Typography variant="body1">{stakingRebasePercentage}%</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}
+                      </Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">ROI (5-Day Rate)</Typography>
-                      <Typography variant="body1">{trim(fiveDayRate * 100, 4)}%</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>}
+                      </Typography>
                     </div>
                   </div>
                 </>
@@ -413,13 +425,6 @@ function Stake() {
                     <TableRow>
                       <TableCell>
                         <Box className="ohm-pairs">
-                          {/* <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
-                            <img src={`${ohmImg}`} />
-                          </div>
-                          <div className="ohm-pair" style={{ zIndex: 1 }}>
-                            <img src={`${fraxImg}`} />
-                          </div> */}
-
                           {OhmFraxImg}
                           <Typography>OHM-FRAX</Typography>
                         </Box>
@@ -456,14 +461,6 @@ function Stake() {
               <div className="stake-pool">
                 <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                   <Box className="ohm-pairs">
-                    {/* <div className="ohm-pair" style={{ zIndex: 2 }}>
-                      <div className="ohm-logo-bg">
-                        <img src={`${ohmImg}`} />
-                      </div>
-                    </div>
-                    <div className="ohm-pair" style={{ zIndex: 1 }}>
-                      <img src={`${fraxImg}`} />
-                    </div> */}
                     {OhmFraxImg}
                     <Typography gutterBottom={false}>OHM-FRAX</Typography>
                   </Box>

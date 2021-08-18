@@ -6,9 +6,10 @@
   }
 }
 
-#ohm-popper, #ohm-popper-pending {
+#ohm-popper,
+#ohm-popper-pending {
   z-index: 5;
-  background-color: #00000011;
+  background-color: #00000003;
   backdrop-filter: blur(33px);
   -webkit-backdrop-filter: blur(33px);
   margin-top: 10px;
@@ -38,7 +39,6 @@
       margin-bottom: 18px;
     }
   }
-
 
   .add-tokens {
     > p {
