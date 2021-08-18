@@ -112,18 +112,7 @@ function TreasuryDashboard() {
                   Circulating Supply (total)
                 </Typography>
                 <Typography variant="h4">
-                  {circSupply ? (
-                    parseInt(circSupply)
-                  ) : (
-                    <Skeleton type="text" width="40%" style={{ display: "inline-block" }} />
-                  )}
-                  &nbsp;(
-                  {totalSupply ? (
-                    parseInt(totalSupply)
-                  ) : (
-                    <Skeleton type="text" width="40%" style={{ display: "inline-block" }} />
-                  )}
-                  )
+                  {circSupply && totalSupply ? parseInt(circSupply) / parseInt(totalSupply) : <Skeleton type="text" />}
                 </Typography>
               </Box>
 
@@ -132,12 +121,7 @@ function TreasuryDashboard() {
                   Current Index
                 </Typography>
                 <Typography variant="h4">
-                  {currentIndex ? (
-                    trim(currentIndex, 2)
-                  ) : (
-                    <Skeleton type="text" width="40%" style={{ display: "inline-block" }} />
-                  )}
-                  &nbsp;sOHM
+                  {currentIndex ? trim(currentIndex, 2) + " sOHM" : <Skeleton type="text" />}
                 </Typography>
               </Box>
             </Box>

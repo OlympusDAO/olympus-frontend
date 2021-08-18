@@ -52,6 +52,7 @@ const renderAreaChart = (
       tickCount={3}
       axisLine={false}
       tickLine={false}
+      width={dataFormat === "percent" ? 33 : 55}
       tickFormatter={number =>
         number !== 0
           ? dataFormat !== "percent"
@@ -116,6 +117,7 @@ const renderStackedAreaChart = (
       tickCount={3}
       axisLine={false}
       tickLine={false}
+      width={dataFormat === "percent" ? 33 : 55}
       tickFormatter={number => {
         if (number !== 0) {
           if (dataFormat === "percent") {
@@ -171,11 +173,12 @@ const renderLineChart = (data, dataKey, stroke, color, dataFormat, bulletpointCo
       tickCount={3}
       axisLine={false}
       tickLine={false}
+      width={27}
       tickFormatter={number =>
         number !== 0
           ? dataFormat !== "percent"
             ? `${formatCurrency(parseFloat(number) / 1000000)}M`
-            : `${trim(parseFloat(number), 2)}%`
+            : `${parseFloat(number) / 1000}k`
           : ""
       }
       domain={[0, "auto"]}
@@ -206,6 +209,7 @@ const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat, bulletpo
       tickCount={3}
       axisLine={false}
       tickLine={false}
+      width={25}
       tickFormatter={number => (number !== 0 ? `${trim(parseFloat(number), 2)}` : "")}
       domain={[0, "auto"]}
       connectNulls={true}
@@ -237,6 +241,7 @@ const renderBarChart = (data, dataKey, stroke, dataFormat, bulletpointColors, it
       axisLine={false}
       tickLine={false}
       tickCount={3}
+      width={33}
       domain={[0, "auto"]}
       allowDataOverflow={false}
       tickFormatter={number => (number !== 0 ? number : "")}
@@ -387,9 +392,9 @@ function Chart({
           </Box>
         )}
       </div>
-      <Box width="100%" minHeight={260} className="ohm-chart">
+      <Box width="100%" minHeight={260} minWidth={310} className="ohm-chart">
         {loading || (data && data.length > 0) ? (
-          <ResponsiveContainer minHeight={260} minWidth={300}>
+          <ResponsiveContainer minHeight={260} width="100%">
             {renderChart(type)}
           </ResponsiveContainer>
         ) : (
