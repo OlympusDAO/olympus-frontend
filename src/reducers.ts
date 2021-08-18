@@ -42,6 +42,7 @@ interface IAppState {
   readonly currentBlock: number;
   readonly currentIndex: string;
   readonly fiveDayRate: number;
+  readonly loading: boolean;
   readonly marketCap: number;
   readonly marketPrice: number;
   readonly networkID?: number;
@@ -65,6 +66,7 @@ export interface IBondData {
   readonly bondQuote?: number;
   readonly debtRatio?: number | BigNumber;
   readonly interestDue?: number;
+  readonly loading: boolean;
   readonly marketPrice?: number;
   readonly maxBondPrice?: number;
   readonly pendingPayout?: string;
