@@ -91,9 +91,12 @@ export interface IPendingTxn {
 
 export function app(state = {} as IAppStateType, action: PayloadAction<IAppState>) {
   switch (action.type) {
+    case Actions.FETCH_APP_INPROGRESS:
     case Actions.FETCH_APP_SUCCESS:
     case Actions.FETCH_MIGRATE_SUCCESS:
     case Actions.FETCH_ACCOUNT_SUCCESS:
+    case Actions.FETCH_STAKE_SUCCESS:
+    case Actions.FETCH_BALANCES:
       return { ...state, ...action.payload };
     default:
       return state;
