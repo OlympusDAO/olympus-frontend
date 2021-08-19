@@ -164,26 +164,17 @@ function Stake() {
                 <RebaseTimer />
 
                 {address && oldSohmBalance > 0.01 && (
-                  <Link
+                  <a
                     className="migrate-sohm-button"
                     component={NavLink}
-                    to="/stake/migrate"
+                    style={{ textDecoration: "none" }}
+                    href="https://docs.olympusdao.finance/using-the-website/migrate"
                     aria-label="migrate-sohm"
+                    target="_blank"
                   >
                     <NewReleases viewBox="0 0 24 24" />
-                    <Typography>Migrate sOHM</Typography>
-                  </Link>
-                )}
-                {address && oldSohmBalance < 0.01 && (
-                  <Link
-                    component={NavLink}
-                    to="/stake/migrate"
-                    className="migrate-sohm-button complete"
-                    aria-label="migrate-sohm-complete"
-                  >
-                    <CheckCircleIcon viewBox="0 0 24 24" />
-                    <Typography>sOHM Migrated</Typography>
-                  </Link>
+                    <Typography>Migrate sOHM!</Typography>
+                  </a>
                 )}
               </div>
             </Grid>
