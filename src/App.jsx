@@ -82,6 +82,11 @@ function App() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const { provider, chainID } = useWeb3Context();
+
+  provider.on("network", (_newNetwork, oldNetwork) => {
+    if (!oldNetwork) return;
+    window.location.reload();
+  });
   const address = useAddress();
 
   const isAppLoading = useSelector(state => state.app.loading);
