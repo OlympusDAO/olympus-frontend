@@ -300,6 +300,10 @@ const bondingSlice = createSlice({
         state[action.payload.bond] = action.payload;
         state.status = "idle";
       })
+      .addCase(calcBondDetails.rejected, (state, { error }) => {
+        state.status = "idle";
+        console.log(error);
+      })
       .addCase(calculateUserBondDetails.pending, (state, action) => {
         state.status = "loading";
       })
@@ -308,6 +312,10 @@ const bondingSlice = createSlice({
         const newState = { ...state[bond], ...action.payload };
         state[bond] = newState;
         state.status = "idle";
+      })
+      .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
+        state.status = "idle";
+        console.log(error);
       });
   },
 });

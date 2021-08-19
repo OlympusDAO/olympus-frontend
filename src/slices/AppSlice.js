@@ -163,6 +163,10 @@ const appSlice = createSlice({
       .addCase(loadAppDetails.fulfilled, (state, action) => {
         setAll(state, action.payload);
         state.status = "idle";
+      })
+      .addCase(loadAppDetails.rejected, (state, { error }) => {
+        state.status = "idle";
+        console.log(error);
       });
   },
 });

@@ -9,7 +9,7 @@ import useTheme from "./hooks/useTheme";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 
 import { calcBondDetails } from "./slices/BondSlice";
-import { loadAppDetails } from "./slices/MainSlice";
+import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails } from "./slices/AccountSlice";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";

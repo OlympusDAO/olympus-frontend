@@ -104,12 +104,20 @@ const accountSlice = createSlice({
         setAll(state, action.payload);
         state.status = "idle";
       })
+      .addCase(loadAccountDetails.rejected, (state, { error }) => {
+        state.status = "idle";
+        console.log(error);
+      })
       .addCase(getBalances.pending, state => {
         state.status = "loading";
       })
       .addCase(getBalances.fulfilled, (state, action) => {
         setAll(state, action.payload);
         state.status = "idle";
+      })
+      .addCase(getBalances.rejected, (state, { error }) => {
+        state.status = "idle";
+        console.log(error);
       });
   },
 });

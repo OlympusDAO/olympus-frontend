@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import accountReducer from "./slices/AccountSlice";
 import bondingReducer from "./slices/BondSlice";
-import appReducer from "./slices/MainSlice";
+import appReducer from "./slices/AppSlice";
 import pendingTransactionsReducer from "./slices/PendingTxnsSlice";
 // reducers are named automatically based on the name field in the slice
 // exported in slice files by default as nameOfSlice.reducer
