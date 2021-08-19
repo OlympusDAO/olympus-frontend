@@ -163,7 +163,7 @@ function Stake() {
                 <Typography variant="h5">Single Stake (3, 3)</Typography>
                 <RebaseTimer />
 
-                {address && oldSohmBalance < 0.01 && (
+                {address && oldSohmBalance > 0.01 && (
                   <a
                     className="migrate-sohm-button"
                     component={NavLink}
