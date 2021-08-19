@@ -6,6 +6,10 @@
   overflow: hidden;
   .ohm-card .bond-hero h4 {
     font-weight: 600 !important;
+
+    .MuiSkeleton-root {
+      margin: auto;
+    }
   }
   .ohm-logo-bg {
     margin-left: 0;
@@ -37,6 +41,15 @@
     }
     .data-row {
       margin-bottom: 13px;
+
+      .bond-price {
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-right: 5px;
+        }
+      }
     }
     .bond-link {
       margin-top: 10px;
@@ -45,6 +58,11 @@
         width: 96%;
       }
     }
+  }
+
+  .currency-icon {
+    display: inline-block;
+    min-width: 15px;
   }
 
   .MuiTable-root {
@@ -63,6 +81,7 @@
       display: flex !important;
       align-items: center;
       justify-content: space-evenly;
+      white-space: nowrap;
       img {
         margin-right: 3px;
       }

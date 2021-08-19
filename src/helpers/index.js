@@ -264,16 +264,16 @@ export function getTokenImage(name) {
 
 export function getPairImage(name) {
   if (name.indexOf("dai") >= 0)
-    return <SvgIcon component={OhmDaiImg} viewBox="0 0 64 32" style={{ height: "32px", width: "64px" }} />;
+    return <SvgIcon component={OhmDaiImg} viewBox="0 0 62 32" style={{ height: "32px", width: "62px" }} />;
   if (name.indexOf("frax") >= 0)
-    return <SvgIcon component={OhmFraxImg} viewBox="0 0 64 32" style={{ height: "32px", width: "64px" }} />;
+    return <SvgIcon component={OhmFraxImg} viewBox="0 0 62 32" style={{ height: "32px", width: "62px" }} />;
 }
 
 export function priceUnits(bond) {
   if (bond.indexOf("frax") >= 0)
     return <SvgIcon component={FraxImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
-  else if (bond.indexOf("eth") >= 0)
-    return <SvgIcon component={wETHImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
+  else if (bond.indexOf("eth") >= 0) return "$";
+  // <SvgIcon component={wETHImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
   else return <SvgIcon component={DaiImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
 }
 

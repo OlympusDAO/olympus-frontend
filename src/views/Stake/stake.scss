@@ -67,8 +67,12 @@
     font-weight: 500;
   }
   .stake-apy,
-  .stake-tvl {
+  .stake-tvl,
+  .stake-index {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -76,7 +80,11 @@
 }
 
 .mobile .stake-top-metrics {
-  text-align: left;
+  .stake-apy,
+  .stake-tvl,
+  .stake-index {
+    align-items: flex-start;
+  }
 }
 
 .mobile .stake-apy {
@@ -84,18 +92,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-.ohm-logo-bg {
-  height: 22px;
-  width: 22px;
-  border-radius: 20px;
-  display: flex;
-  background-color: white;
-  vertical-align: middle;
-  align-items: center;
-  justify-content: center;
-  border: 0.5px solid #333;
 }
 
 .ohm-logo-tiny {
@@ -209,12 +205,6 @@
     .ohm-pairs p {
       margin-bottom: 0 !important;
     }
-  }
-  .ohm-logo-bg {
-    height: 38px !important;
-    width: 38px !important;
-    padding: 8px !important;
-    margin-left: 0;
   }
 
   .pool-data {
