@@ -1,7 +1,7 @@
 #treasury-dashboard-view {
   overflow-y: hidden;
   overflow-x: hidden;
-  height: calc(100% - 10px);
+  height: 100%;
   width: 100%;
   min-width: 300px;
   display: flex;
@@ -12,13 +12,14 @@
   .ohm-card {
     max-width: unset !important;
     margin: auto;
-    max-height: 350px;
+    max-height: 355px;
     .card-header {
       margin-bottom: 1rem;
     }
     &.ohm-chart-card {
       .chart-card-header {
         padding: 0px 20px !important;
+        min-width: 300px;
       }
     }
   }

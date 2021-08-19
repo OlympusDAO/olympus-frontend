@@ -1,7 +1,8 @@
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
-import { Box, Backdrop, Modal, Paper, SvgIcon, Typography, Fade } from "@material-ui/core";
+import { Box, Backdrop, Modal, Paper, SvgIcon, Typography, Fade, useMediaQuery } from "@material-ui/core";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ResponsiveContainer } from "recharts";
+import { style } from "@material-ui/system";
 
 function ExpandedChart({
   open,
@@ -13,6 +14,8 @@ function ExpandedChart({
   headerSubText,
   runwayExtraInfo,
 }) {
+  const verySmallScreen = useMediaQuery("(max-width: 379px)");
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Backdrop open={true}>
@@ -41,7 +44,7 @@ function ExpandedChart({
                 </Box>
               </Box>
 
-              <Box display="flex">
+              <Box display="flex" flexWrap="wrap">
                 <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
                   {headerSubText}
                 </Typography>
