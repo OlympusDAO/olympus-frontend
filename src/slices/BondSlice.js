@@ -163,6 +163,8 @@ export const calculateUserBondDetails = createAsyncThunk(
   async ({ address, bond, networkID, provider }) => {
     if (!address) return;
 
+    dispatch(fetchBondInProgress());
+
     // Calculate bond details.
     const bondContract = contractForBond({ bond, provider, networkID });
     const reserveContract = contractForReserve({ bond, networkID, provider });
