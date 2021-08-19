@@ -73,6 +73,7 @@ type onChainProvider = {
   address: string;
   connected: Boolean;
   web3Modal: Web3Modal;
+  isWeb3Provider: Boolean;
 };
 
 export type Web3ContextData = {
@@ -105,6 +106,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [uri, setUri] = useState(getMainnetURI(chainID));
   const [address, setAddress] = useState("");
   const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
+  const [isWeb3Provider, setIsWeb3Provider] = useState(false);
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -176,24 +178,26 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     setConnected(true);
     setAddress(connectedAddress);
     setProvider(connectedProvider);
+    setIsWeb3Provider(true);
     _initListeners();
 
     return connectedProvider;
-  }, [provider, web3Modal, connected]);
+  }, [provider, web3Modal, connected, isWeb3Provider]);
 
   const disconnect = useCallback(async () => {
     console.log("disconnecting");
     web3Modal.clearCachedProvider();
     setConnected(false);
+    setIsWeb3Provider(false);
 
     setTimeout(() => {
       window.location.reload();
     }, 1);
-  }, [provider, web3Modal, connected]);
+  }, [provider, web3Modal, connected, isWeb3Provider]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, provider, connected, address, chainID, web3Modal }),
-    [connect, disconnect, provider, connected, address, chainID, web3Modal],
+    () => ({ connect, disconnect, provider, connected, address, chainID, web3Modal, isWeb3Provider }),
+    [connect, disconnect, provider, connected, address, chainID, web3Modal, isWeb3Provider],
   );
 
   useEffect(() => {

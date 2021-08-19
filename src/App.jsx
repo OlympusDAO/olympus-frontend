@@ -81,12 +81,12 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { provider, chainID } = useWeb3Context();
+  const { provider, chainID, isWeb3Provider } = useWeb3Context();
   const address = useAddress();
 
   const isAppLoading = useSelector(state => state.app.loading);
 
-  async function loadDetails() {
+  async function loadDetails(whichDetails) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
     // it's because the initial provider loaded always starts with chainID=1. This causes
@@ -94,6 +94,9 @@ function App() {
     // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
+
+    console.log("load details");
+    console.log(address, loadProvider, isWeb3Provider, whichDetails);
 
     // NOTE (appleseed): loadDetails() runs three times on every app refresh...
     // ... once with address === "" && loadProvider === StaticJsonRpcProvider (set inside of Web3ContextProvider)
@@ -105,18 +108,18 @@ function App() {
     //
     // don't run except when address === "" && provider is a API Provider (not Metamask)
     // `loadDetails()` always runs once with address === "" even when the user has a connected wallet.
-    if (address === "" && loadProvider.connection["url"] !== "metamask") {
+    if (whichDetails === "app") {
       await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
     }
     // don't run unless provider is a Wallet...
     // NOTE (appleseed): Is there a smarter way to verify that Provider is a Wallet (not just metamask)?
-    if (address && loadProvider.connection["url"] === "metamask") {
+    if (whichDetails === "account" && address && isWeb3Provider) {
       await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
     }
 
     // don't run except when address === "" && provider is a API Provider (not Metamask)
     // `loadDetails()` always runs once with address === "" even when the user has a connected wallet.
-    if (address === "" && loadProvider.connection["url"] !== "metamask") {
+    if (whichDetails === "app") {
       Object.values(BONDS).map(async bond => {
         await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
       });
@@ -124,8 +127,14 @@ function App() {
   }
 
   useEffect(() => {
-    loadDetails();
-  }, [provider, address]);
+    // runs only on initial paint
+    loadDetails("app");
+  }, []);
+
+  useEffect(() => {
+    // runs only when isWeb3Provider is changed
+    loadDetails("account");
+  }, [isWeb3Provider]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
