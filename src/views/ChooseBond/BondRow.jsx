@@ -5,8 +5,10 @@ import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
+import { Skeleton } from "@material-ui/lab";
 
 export function BondDataCard({ bond }) {
+  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
   const bondPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondPrice;
   });
@@ -39,24 +41,31 @@ export function BondDataCard({ bond }) {
 
         <div className="data-row">
           <Typography>Price</Typography>
-          <Typography>{priceUnits(bond) && trim(bondPrice, 2)}</Typography>
+          <Typography className="bond-price">
+            <>
+              {priceUnits(bond)} {isBondLoading ? <Skeleton width="50px" /> : trim(bondPrice, 2)}
+            </>
+          </Typography>
         </div>
 
         <div className="data-row">
           <Typography>ROI</Typography>
-          <Typography>{bondDiscount && trim(bondDiscount * 100, 2)}%</Typography>
+          <Typography>{isBondLoading ? <Skeleton width="50px" /> : `${trim(bondDiscount * 100, 2)}%`}</Typography>
         </div>
 
         <div className="data-row">
           <Typography>Purchased</Typography>
           <Typography>
-            {bondPurchased &&
+            {isBondLoading ? (
+              <Skeleton width="80px" />
+            ) : (
               new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
                 maximumFractionDigits: 0,
                 minimumFractionDigits: 0,
-              }).format(bondPurchased)}
+              }).format(bondPurchased)
+            )}
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond}`}>
@@ -70,6 +79,7 @@ export function BondDataCard({ bond }) {
 }
 
 export function BondTableData({ bond }) {
+  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
   const bondPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondPrice;
   });
@@ -97,19 +107,25 @@ export function BondTableData({ bond }) {
         </div>
       </TableCell>
       <TableCell align="center">
-        <p>
-          {priceUnits(bond)} {trim(bondPrice, 2)}
-        </p>
+        <Typography>
+          <>
+            <span class="currency-icon">{priceUnits(bond)}</span>{" "}
+            {isBondLoading ? <Skeleton width="50px" /> : trim(bondPrice, 2)}
+          </>
+        </Typography>
       </TableCell>
-      <TableCell>{bondDiscount && trim(bondDiscount * 100, 2)}%</TableCell>
-      <TableCell>
-        {bondPurchased &&
+      <TableCell align="right">{isBondLoading ? <Skeleton /> : `${trim(bondDiscount * 100, 2)}%`}</TableCell>
+      <TableCell align="right">
+        {isBondLoading ? (
+          <Skeleton />
+        ) : (
           new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
             maximumFractionDigits: 0,
             minimumFractionDigits: 0,
-          }).format(bondPurchased)}
+          }).format(bondPurchased)
+        )}
       </TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond}`}>

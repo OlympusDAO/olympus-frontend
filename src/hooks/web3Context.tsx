@@ -133,7 +133,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   const _initListeners = useCallback(() => {
     if (!provider) return;
-
     provider.on("accountsChanged", () => {
       if (_hasCachedProvider()) return;
       setTimeout(() => window.location.reload(), 1);
@@ -162,7 +161,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   const connect = useCallback(async () => {
     const rawProvider = await web3Modal.connect();
-    const connectedProvider = new Web3Provider(rawProvider);
+    const connectedProvider = new Web3Provider(rawProvider, "any");
 
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
     const connectedAddress = await connectedProvider.getSigner().getAddress();
