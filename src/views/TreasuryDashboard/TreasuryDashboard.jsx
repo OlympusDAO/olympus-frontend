@@ -112,7 +112,11 @@ function TreasuryDashboard() {
                   Circulating Supply (total)
                 </Typography>
                 <Typography variant="h4">
-                  {circSupply && totalSupply ? parseInt(circSupply) / parseInt(totalSupply) : <Skeleton type="text" />}
+                  {circSupply && totalSupply ? (
+                    parseInt(circSupply) + " / " + parseInt(totalSupply)
+                  ) : (
+                    <Skeleton type="text" />
+                  )}
                 </Typography>
               </Box>
 
