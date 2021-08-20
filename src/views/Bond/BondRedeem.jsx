@@ -14,7 +14,7 @@ function BondRedeem({ bond }) {
     return state.app.currentBlock;
   });
 
-  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
+  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const bondMaturationBlock = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
   });
