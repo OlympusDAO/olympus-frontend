@@ -81,7 +81,7 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { provider, chainID, isWeb3Provider, connected } = useWeb3Context();
+  const { provider, chainID, connected } = useWeb3Context();
   // TODO (zx): this should go into web3Context.tsx
   provider.on("network", (_newNetwork, oldNetwork) => {
     if (!oldNetwork) return;
@@ -100,9 +100,6 @@ function App() {
     // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
-
-    console.log("load details");
-    console.log(address, loadProvider, isWeb3Provider, whichDetails);
 
     // NOTE (appleseed): loadDetails() runs three times on every app refresh...
     // ... once with address === "" && loadProvider === StaticJsonRpcProvider (set inside of Web3ContextProvider)
