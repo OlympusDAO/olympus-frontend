@@ -1665,30 +1665,20 @@
   "ast": {
     "absolutePath": "/Users/guillem/Documents/Ethereum/Hedger/core/contracts/financial-templates/expiring-multiparty/ExpiringMultiParty.sol",
     "exportedSymbols": {
-      "ExpiringMultiParty": [
-        4883
-      ]
+      "ExpiringMultiParty": [4883]
     },
     "id": 4884,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 4867,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "0:23:25"
       },
       {
         "id": 4868,
-        "literals": [
-          "experimental",
-          "ABIEncoderV2"
-        ],
+        "literals": ["experimental", "ABIEncoderV2"],
         "nodeType": "PragmaDirective",
         "src": "24:33:25"
       },
@@ -1725,14 +1715,7 @@
             "src": "209:12:25"
           }
         ],
-        "contractDependencies": [
-          1164,
-          1844,
-          3686,
-          6813,
-          8663,
-          13206
-        ],
+        "contractDependencies": [1164, 1844, 3686, 6813, 8663, 13206],
         "contractKind": "contract",
         "documentation": {
           "id": 4870,
@@ -1742,15 +1725,7 @@
         },
         "fullyImplemented": true,
         "id": 4883,
-        "linearizedBaseContracts": [
-          4883,
-          6813,
-          8663,
-          13206,
-          3686,
-          1164,
-          1844
-        ],
+        "linearizedBaseContracts": [4883, 6813, 8663, 13206, 3686, 1164, 1844],
         "name": "ExpiringMultiParty",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -1867,30 +1842,20 @@
   "legacyAST": {
     "absolutePath": "/Users/guillem/Documents/Ethereum/Hedger/core/contracts/financial-templates/expiring-multiparty/ExpiringMultiParty.sol",
     "exportedSymbols": {
-      "ExpiringMultiParty": [
-        4883
-      ]
+      "ExpiringMultiParty": [4883]
     },
     "id": 4884,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 4867,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "0:23:25"
       },
       {
         "id": 4868,
-        "literals": [
-          "experimental",
-          "ABIEncoderV2"
-        ],
+        "literals": ["experimental", "ABIEncoderV2"],
         "nodeType": "PragmaDirective",
         "src": "24:33:25"
       },
@@ -1927,14 +1892,7 @@
             "src": "209:12:25"
           }
         ],
-        "contractDependencies": [
-          1164,
-          1844,
-          3686,
-          6813,
-          8663,
-          13206
-        ],
+        "contractDependencies": [1164, 1844, 3686, 6813, 8663, 13206],
         "contractKind": "contract",
         "documentation": {
           "id": 4870,
@@ -1944,15 +1902,7 @@
         },
         "fullyImplemented": true,
         "id": 4883,
-        "linearizedBaseContracts": [
-          4883,
-          6813,
-          8663,
-          13206,
-          3686,
-          1164,
-          1844
-        ],
+        "linearizedBaseContracts": [4883, 6813, 8663, 13206, 3686, 1164, 1844],
         "name": "ExpiringMultiParty",
         "nodeType": "ContractDefinition",
         "nodes": [

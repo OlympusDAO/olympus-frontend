@@ -14,7 +14,7 @@ import {
   Breadcrumbs,
   Link,
 } from "@material-ui/core";
-import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
+import { changeStake, getApproval, TYPES, ACTIONS } from "../../slices/MigrateThunk";
 import { useSelector, useDispatch } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
@@ -24,33 +24,32 @@ import { NavLink, useHistory } from "react-router-dom";
 import "./stake.scss";
 import "./migrate.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
 export default function Migrate() {
   const dispatch = useDispatch();
   const { provider, address, connected, connect } = useWeb3Context();
-  console.log(provider, address);
 
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
   const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
   const [quantity, setQuantity] = useState();
 
   const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
+    return state.account.balances && state.account.balances.ohm;
   });
   const oldSohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.oldsohm;
+    return state.account.balances && state.account.balances.oldsohm;
   });
   const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
+    return state.account.balances && state.account.balances.sohm;
   });
   const stakeAllowance = useSelector(state => {
-    return state.app.staking && state.app.staking.ohmStake;
+    return state.account.staking && state.account.staking.ohmStake;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.app.migrate && state.app.migrate.unstakeAllowance;
+    return state.account.migrate && state.account.migrate.unstakeAllowance;
   });
   const newStakingAPY = useSelector(state => {
     return (state.app && state.app.stakingAPY) || 0;

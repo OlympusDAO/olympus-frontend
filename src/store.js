@@ -1,29 +1,21 @@
-/* eslint-disable no-underscore-dangle */
+import { configureStore } from "@reduxjs/toolkit";
 
-import { createStore, applyMiddleware, compose } from "redux";
+import accountReducer from "./slices/AccountSlice";
+import bondingReducer from "./slices/BondSlice";
+import appReducer from "./slices/AppSlice";
+import pendingTransactionsReducer from "./slices/PendingTxnsSlice";
+// reducers are named automatically based on the name field in the slice
+// exported in slice files by default as nameOfSlice.reducer
 
-// Redux Thunk middleware allows you to write action creators that return a function instead of an action. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods dispatch and getState as parameters.
-// Redux Logger is... logger
-// If you're importing a constant, do NOT use brackets. If you're importing
-// a function, like createLogger, then you must use brackets.
-// See why we're loading redux-thunk: it's for async actions (https://redux.js.org/api-reference/store#dispatch)
-import thunkMiddleware from "redux-thunk";
-import { createLogger } from "redux-logger";
-import rootReducer from "./rootReducer";
+const store = configureStore({
+  reducer: {
+    //   we'll have state.account, state.bonding, etc, each handled by the corresponding
+    // reducer imported from the slice file
+    account: accountReducer,
+    bonding: bondingReducer,
+    app: appReducer,
+    pendingTransactions: pendingTransactionsReducer,
+  },
+});
 
-const loggerMiddleware = createLogger({});
-
-const composeEnhancers =
-  process.env.NODE_ENV === "development" && typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : compose;
-
-// This can now be used in Root.js as the Redux State Manager.
-// https://github.com/reduxjs/redux/blob/master/docs/api/createStore.md
-export default function configureStore(initialData) {
-  if (process.env.NODE_ENV === "development") {
-    return createStore(rootReducer, initialData, composeEnhancers(applyMiddleware(thunkMiddleware, loggerMiddleware)));
-  }
-
-  return createStore(rootReducer, initialData, composeEnhancers(applyMiddleware(thunkMiddleware)));
-}
+export default store;

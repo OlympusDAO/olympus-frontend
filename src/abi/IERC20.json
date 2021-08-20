@@ -196,21 +196,14 @@
   "ast": {
     "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
     "exportedSymbols": {
-      "IERC20": [
-        14984
-      ]
+      "IERC20": [14984]
     },
     "id": 14985,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 14908,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "0:23:65"
       },
@@ -227,9 +220,7 @@
         },
         "fullyImplemented": false,
         "id": 14984,
-        "linearizedBaseContracts": [
-          14984
-        ],
+        "linearizedBaseContracts": [14984],
         "name": "IERC20",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -1131,21 +1122,14 @@
   "legacyAST": {
     "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
     "exportedSymbols": {
-      "IERC20": [
-        14984
-      ]
+      "IERC20": [14984]
     },
     "id": 14985,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 14908,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "0:23:65"
       },
@@ -1162,9 +1146,7 @@
         },
         "fullyImplemented": false,
         "id": 14984,
-        "linearizedBaseContracts": [
-          14984
-        ],
+        "linearizedBaseContracts": [14984],
         "name": "IERC20",
         "nodeType": "ContractDefinition",
         "nodes": [
