@@ -73,7 +73,6 @@ type onChainProvider = {
   address: string;
   connected: Boolean;
   web3Modal: Web3Modal;
-  isWeb3Provider: Boolean;
 };
 
 export type Web3ContextData = {
@@ -177,26 +176,24 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     setConnected(true);
     setAddress(connectedAddress);
     setProvider(connectedProvider);
-    setIsWeb3Provider(true);
     _initListeners();
 
     return connectedProvider;
-  }, [provider, web3Modal, connected, isWeb3Provider]);
+  }, [provider, web3Modal, connected]);
 
   const disconnect = useCallback(async () => {
     console.log("disconnecting");
     web3Modal.clearCachedProvider();
     setConnected(false);
-    setIsWeb3Provider(false);
 
     setTimeout(() => {
       window.location.reload();
     }, 1);
-  }, [provider, web3Modal, connected, isWeb3Provider]);
+  }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, provider, connected, address, chainID, web3Modal, isWeb3Provider }),
-    [connect, disconnect, provider, connected, address, chainID, web3Modal, isWeb3Provider],
+    () => ({ connect, disconnect, provider, connected, address, chainID, web3Modal }),
+    [connect, disconnect, provider, connected, address, chainID, web3Modal],
   );
 
   useEffect(() => {

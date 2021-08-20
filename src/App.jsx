@@ -81,13 +81,13 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { provider, chainID, isWeb3Provider } = useWeb3Context();
+  const { provider, chainID, isWeb3Provider, connected } = useWeb3Context();
   // TODO (zx): this should go into web3Context.tsx
   provider.on("network", (_newNetwork, oldNetwork) => {
     if (!oldNetwork) return;
     window.location.reload();
   });
-  
+
   const address = useAddress();
 
   const isAppLoading = useSelector(state => state.app.loading);
@@ -119,7 +119,7 @@ function App() {
     }
     // don't run unless provider is a Wallet...
     // NOTE (appleseed): Is there a smarter way to verify that Provider is a Wallet (not just metamask)?
-    if (whichDetails === "account" && address && isWeb3Provider) {
+    if (whichDetails === "account" && address && connected) {
       await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
     }
 
@@ -138,9 +138,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // runs only when isWeb3Provider is changed
+    // runs only when connected is changed
     loadDetails("account");
-  }, [isWeb3Provider]);
+  }, [connected]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
