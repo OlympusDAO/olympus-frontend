@@ -82,12 +82,6 @@ function App() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const { provider, chainID, connected } = useWeb3Context();
-  // TODO (zx): this should go into web3Context.tsx
-  provider.on("network", (_newNetwork, oldNetwork) => {
-    if (!oldNetwork) return;
-    window.location.reload();
-  });
-
   const address = useAddress();
 
   const isAppLoading = useSelector(state => state.app.loading);
@@ -111,6 +105,7 @@ function App() {
     //
     // don't run except when address === "" && provider is a API Provider (not Metamask)
     // `loadDetails()` always runs once with address === "" even when the user has a connected wallet.
+    // console.log(whichDetails, address, connected, provider);
     if (whichDetails === "app") {
       await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
     }

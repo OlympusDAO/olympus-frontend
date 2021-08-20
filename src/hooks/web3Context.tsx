@@ -1,6 +1,6 @@
 import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
 import Web3Modal from "web3modal";
-import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, BaseProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 // TODO(zayenx): REMEMBER THIS!!!
@@ -19,7 +19,8 @@ function getInfuraURI() {
 }
 
 function getTestnetURI() {
-  return "https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3";
+  // return "https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3";
+  return "https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO";
 }
 
 const ALCHEMY_ID_LIST = [
@@ -37,28 +38,12 @@ const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3
 const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
 const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
 
-function getMainnetURI(chainID: number): string {
-  if (chainID === 4) {
-    return "https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO";
-  }
-
+function getMainnetURI(): string {
   // Shuffles the URIs for "intelligent" loadbalancing
   const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
 
-  const workingURI = allURIs.find(async uri => {
-    try {
-      const provider = new StaticJsonRpcProvider(uri);
-      await provider.getNetwork();
-      return true;
-    } catch (e) {
-      console.error("couldn't connect to: ", uri);
-      return false;
-    }
-  });
-
-  if (workingURI !== undefined || workingURI !== "") return workingURI as string;
-
-  // Return a random one even though it won't work.  :(
+  // There is no lightweight way to test each URL. so just return a random one.
+  // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
   const randomIndex = Math.floor(Math.random() * allURIs.length);
   return allURIs[randomIndex];
 }
@@ -102,8 +87,9 @@ export const useAddress = () => {
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
-  const [uri, setUri] = useState(getMainnetURI(chainID));
   const [address, setAddress] = useState("");
+
+  const [uri, setUri] = useState(getMainnetURI());
   const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
@@ -115,7 +101,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           package: WalletConnectProvider,
           options: {
             rpc: {
-              1: getMainnetURI(chainID),
+              1: getMainnetURI(),
               4: getTestnetURI(),
             },
           },
@@ -142,6 +128,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       _checkNetwork(chain);
       setTimeout(() => window.location.reload(), 1);
     });
+
+    provider.on("network", (_newNetwork, oldNetwork) => {
+      if (!oldNetwork) return;
+      window.location.reload();
+    });
   }, [provider]);
 
   // Eventually we will not need this method.
@@ -150,7 +141,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       console.warn("You are switching networks");
       if (otherChainID === 1 || otherChainID === 4) {
         setChainID(otherChainID);
-        otherChainID === 1 ? setUri(getMainnetURI(chainID)) : setUri(getTestnetURI());
+        otherChainID === 1 ? setUri(getMainnetURI()) : setUri(getTestnetURI());
         return true;
       }
       return false;
@@ -172,11 +163,12 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     }
     // Save everything after we've validated the right nextwork.
     // Eventually we'll be fine without doing network validations.
-    setConnected(true);
     setAddress(connectedAddress);
     setProvider(connectedProvider);
     _initListeners();
 
+    // Keep this at the bottom of the method, to ensure any repaints have the data we need
+    setConnected(true);
     return connectedProvider;
   }, [provider, web3Modal, connected]);
 
