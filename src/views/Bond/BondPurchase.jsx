@@ -29,7 +29,7 @@ function BondPurchase({ bond, slippage }) {
     return state.app.currentBlock;
   });
 
-  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
+  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const vestingTerm = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].vestingBlock;
   });

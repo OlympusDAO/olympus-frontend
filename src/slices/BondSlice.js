@@ -75,7 +75,7 @@ export const changeApproval = createAsyncThunk(
 
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
-  async ({ bond, value, provider, networkID }) => {
+  async ({ bond, value, provider, networkID }, { dispatch }) => {
     let amountInWei;
     if (!value || value === "") {
       amountInWei = ethers.utils.parseEther("0.0001"); // Use a realistic SLP ownership
@@ -160,10 +160,10 @@ export const calcBondDetails = createAsyncThunk(
 
 export const calculateUserBondDetails = createAsyncThunk(
   "bonding/calculateUserBondDetails",
-  async ({ address, bond, networkID, provider }) => {
+  async ({ address, bond, networkID, provider }, { dispatch }) => {
     if (!address) return;
 
-    dispatch(fetchBondInProgress());
+    // dispatch(fetchBondInProgress());
 
     // Calculate bond details.
     const bondContract = contractForBond({ bond, provider, networkID });
@@ -296,27 +296,27 @@ const bondingSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(calcBondDetails.pending, (state, action) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(calcBondDetails.fulfilled, (state, action) => {
         state[action.payload.bond] = action.payload;
-        state.status = "idle";
+        state.loading = false;
       })
       .addCase(calcBondDetails.rejected, (state, { error }) => {
-        state.status = "idle";
+        state.loading = false;
         console.log(error);
       })
       .addCase(calculateUserBondDetails.pending, (state, action) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
         const bond = action.payload.bond;
         const newState = { ...state[bond], ...action.payload };
         state[bond] = newState;
-        state.status = "idle";
+        state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
-        state.status = "idle";
+        state.loading = false;
         console.log(error);
       });
   },

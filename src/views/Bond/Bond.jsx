@@ -28,7 +28,7 @@ function Bond({ bond }) {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
 
-  const isBondLoading = useSelector(state => state.bonding[bond]?.bondPrice ?? true);
+  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const marketPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].marketPrice;
   });
