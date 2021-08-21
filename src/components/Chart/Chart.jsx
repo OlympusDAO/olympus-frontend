@@ -34,6 +34,10 @@ const formatCurrency = c => {
 
 const tickCount = 5;
 
+const renderExpandedChartStroke = (isExpanded, color) => {
+  return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
+};
+
 const renderAreaChart = (
   data,
   dataKey,
@@ -45,6 +49,7 @@ const renderAreaChart = (
   itemType,
   isStaked,
   isExpanded,
+  expandedGraphStrokeColor,
 ) => (
   <AreaChart data={data}>
     <defs>
@@ -64,7 +69,7 @@ const renderAreaChart = (
       padding={{ right: 20 }}
     />
     <YAxis
-      tickCount={4}
+      tickCount={tickCount}
       axisLine={false}
       tickLine={false}
       width={dataFormat === "percent" ? 33 : 55}
@@ -90,7 +95,7 @@ const renderAreaChart = (
       }
     />
     <Area dataKey={dataKey[0]} stroke="none" fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
-    {isExpanded ? <CartesianGrid vertical={false} stroke="#BFC3C7" /> : ""}
+    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </AreaChart>
 );
 
@@ -104,6 +109,7 @@ const renderStackedAreaChart = (
   itemNames,
   itemType,
   isExpanded,
+  expandedGraphStrokeColor,
 ) => (
   <AreaChart data={data}>
     <defs>
@@ -131,7 +137,7 @@ const renderStackedAreaChart = (
       padding={{ right: 20 }}
     />
     <YAxis
-      tickCount={3}
+      tickCount={tickCount}
       axisLine={false}
       tickLine={false}
       width={dataFormat === "percent" ? 33 : 55}
@@ -170,6 +176,7 @@ const renderStackedAreaChart = (
       fill={`url(#color-${dataKey[2]})`}
       fillOpacity={1}
     />
+    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </AreaChart>
 );
 
@@ -183,6 +190,7 @@ const renderLineChart = (
   itemNames,
   itemType,
   isExpanded,
+  expandedGraphStrokeColor,
 ) => (
   <LineChart data={data}>
     <XAxis
@@ -197,7 +205,7 @@ const renderLineChart = (
       padding={{ right: 20 }}
     />
     <YAxis
-      tickCount={3}
+      tickCount={tickCount}
       axisLine={false}
       tickLine={false}
       width={27}
@@ -216,6 +224,7 @@ const renderLineChart = (
       content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
     />
     <Line type="monotone" dataKey={dataKey[0]} stroke={stroke ? stroke : "none"} color={color} dot={false} />;
+    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </LineChart>
 );
 
@@ -229,6 +238,7 @@ const renderMultiLineChart = (
   itemNames,
   itemType,
   isExpanded,
+  expandedGraphStrokeColor,
 ) => (
   <LineChart data={data}>
     <XAxis
@@ -243,7 +253,7 @@ const renderMultiLineChart = (
       padding={{ right: 20 }}
     />
     <YAxis
-      tickCount={3}
+      tickCount={tickCount}
       axisLine={false}
       tickLine={false}
       width={25}
@@ -258,17 +268,28 @@ const renderMultiLineChart = (
     <Line dataKey={dataKey[0]} stroke={stroke} dot={false} />;
     <Line dataKey={dataKey[1]} stroke={stroke} dot={false} />;
     <Line dataKey={dataKey[2]} stroke={stroke} dot={false} />;
+    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </LineChart>
 );
 
 // JTBD: Bar chart for Holders
-const renderBarChart = (data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType, isExpanded) => (
+const renderBarChart = (
+  data,
+  dataKey,
+  stroke,
+  dataFormat,
+  bulletpointColors,
+  itemNames,
+  itemType,
+  isExpanded,
+  expandedGraphStrokeColor,
+) => (
   <BarChart data={data}>
     <XAxis
       dataKey="timestamp"
       interval={30}
       axisLine={false}
-      tickCount={3}
+      tickCount={tickCount}
       tickLine={false}
       reversed={true}
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
@@ -277,7 +298,7 @@ const renderBarChart = (data, dataKey, stroke, dataFormat, bulletpointColors, it
     <YAxis
       axisLine={false}
       tickLine={false}
-      tickCount={3}
+      tickCount={tickCount}
       width={33}
       domain={[0, "auto"]}
       allowDataOverflow={false}
@@ -287,6 +308,7 @@ const renderBarChart = (data, dataKey, stroke, dataFormat, bulletpointColors, it
       content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
     />
     <Bar dataKey={dataKey[0]} fill={stroke[0]} />
+    {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </BarChart>
 );
 
@@ -305,6 +327,7 @@ function Chart({
   itemType,
   isStaked,
   infoTooltipMessage,
+  expandedGraphStrokeColor,
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -319,7 +342,18 @@ function Chart({
 
   const renderChart = (type, isExpanded) => {
     if (type === "line")
-      return renderLineChart(data, dataKey, color, stroke, dataFormat, bulletpointColors, itemNames, itemType);
+      return renderLineChart(
+        data,
+        dataKey,
+        color,
+        stroke,
+        dataFormat,
+        bulletpointColors,
+        itemNames,
+        itemType,
+        isExpanded,
+        expandedGraphStrokeColor,
+      );
     if (type === "area")
       return renderAreaChart(
         data,
@@ -332,6 +366,7 @@ function Chart({
         itemType,
         isStaked,
         isExpanded,
+        expandedGraphStrokeColor,
       );
     if (type === "stack")
       return renderStackedAreaChart(
@@ -344,6 +379,7 @@ function Chart({
         itemNames,
         itemType,
         isExpanded,
+        expandedGraphStrokeColor,
       );
     if (type === "multi")
       return renderMultiLineChart(
@@ -356,10 +392,21 @@ function Chart({
         itemNames,
         itemType,
         isExpanded,
+        expandedGraphStrokeColor,
       );
 
     if (type === "bar")
-      return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType, isExpanded);
+      return renderBarChart(
+        data,
+        dataKey,
+        stroke,
+        dataFormat,
+        bulletpointColors,
+        itemNames,
+        itemType,
+        isExpanded,
+        expandedGraphStrokeColor,
+      );
   };
 
   const runwayExtraInfo = type =>

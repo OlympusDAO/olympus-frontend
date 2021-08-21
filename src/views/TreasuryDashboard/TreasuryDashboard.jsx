@@ -147,6 +147,7 @@ function TreasuryDashboard() {
                   itemNames={tooltipItems.tvl}
                   itemType={itemType.dollar}
                   infoTooltipMessage={tooltipInfoMessages.tvl}
+                  expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                 />
               </Paper>
             </Grid>
@@ -168,6 +169,7 @@ function TreasuryDashboard() {
                   itemNames={tooltipItems.coin}
                   itemType={itemType.dollar}
                   infoTooltipMessage={tooltipInfoMessages.mvt}
+                  expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                 />
               </Paper>
             </Grid>
@@ -190,6 +192,7 @@ function TreasuryDashboard() {
                   itemNames={tooltipItems.coin}
                   itemType={itemType.dollar}
                   infoTooltipMessage={tooltipInfoMessages.rfv}
+                  expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                 />
               </Paper>
             </Grid>
@@ -212,6 +215,7 @@ function TreasuryDashboard() {
                   itemNames={tooltipItems.coin}
                   itemType={itemType.percentage}
                   infoTooltipMessage={tooltipInfoMessages.pol}
+                  expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                 />
               </Paper>
             </Grid>
@@ -228,6 +232,7 @@ function TreasuryDashboard() {
                   itemNames={tooltipItems.holder}
                   itemType={""}
                   infoTooltipMessage={tooltipInfoMessages.holder}
+                  expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                 />
               </Paper>
             </Grid>
@@ -245,6 +250,7 @@ function TreasuryDashboard() {
                   isStaked={true}
                   bulletpointColors={bulletpoints.staked}
                   infoTooltipMessage={tooltipInfoMessages.staked}
+                  expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                 />
               </Paper>
             </Grid>
@@ -264,6 +270,7 @@ function TreasuryDashboard() {
                   itemNames={tooltipItems.apy}
                   itemType={itemType.percentage}
                   infoTooltipMessage={tooltipInfoMessages.apy}
+                  expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                 />
               </Paper>
             </Grid>
@@ -283,6 +290,7 @@ function TreasuryDashboard() {
                   itemNames={tooltipItems.runway}
                   itemType={""}
                   infoTooltipMessage={tooltipInfoMessages.runway}
+                  expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                 />
               </Paper>
             </Grid>
