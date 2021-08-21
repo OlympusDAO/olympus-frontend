@@ -32,6 +32,8 @@ const formatCurrency = c => {
   }).format(c);
 };
 
+const tickCount = 5;
+
 const renderAreaChart = (
   data,
   dataKey,
