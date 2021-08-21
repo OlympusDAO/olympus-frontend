@@ -32,7 +32,8 @@ const formatCurrency = c => {
   }).format(c);
 };
 
-const tickCount = 5;
+const tickCount = 3;
+const expandedTickCount = 5;
 
 const renderExpandedChartStroke = (isExpanded, color) => {
   return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
@@ -70,7 +71,7 @@ const renderAreaChart = (
       padding={{ right: 20 }}
     />
     <YAxis
-      tickCount={tickCount}
+      tickCount={isExpanded ? expandedTickCount : tickCount}
       axisLine={false}
       tickLine={false}
       width={dataFormat === "percent" ? 33 : 55}
@@ -139,7 +140,7 @@ const renderStackedAreaChart = (
       padding={{ right: 20 }}
     />
     <YAxis
-      tickCount={tickCount}
+      tickCount={isExpanded ? expandedTickCount : tickCount}
       axisLine={false}
       tickLine={false}
       width={dataFormat === "percent" ? 33 : 55}
@@ -207,7 +208,7 @@ const renderLineChart = (
       padding={{ right: 20 }}
     />
     <YAxis
-      tickCount={tickCount}
+      tickCount={isExpanded ? expandedTickCount : tickCount}
       axisLine={false}
       tickLine={false}
       width={27}
@@ -255,7 +256,7 @@ const renderMultiLineChart = (
       padding={{ right: 20 }}
     />
     <YAxis
-      tickCount={tickCount}
+      tickCount={isExpanded ? expandedTickCount : tickCount}
       axisLine={false}
       tickLine={false}
       width={25}
@@ -300,7 +301,7 @@ const renderBarChart = (
     <YAxis
       axisLine={false}
       tickLine={false}
-      tickCount={tickCount}
+      tickCount={isExpanded ? expandedTickCount : tickCount}
       width={33}
       domain={[0, "auto"]}
       allowDataOverflow={false}
