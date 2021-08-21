@@ -12,10 +12,10 @@ import {
   Slide,
 } from "@material-ui/core";
 import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../actions/Bond.actions.js";
+import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../slices/BondSlice";
 import { BONDS } from "../../constants";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 
 function BondPurchase({ bond, slippage }) {
@@ -29,7 +29,7 @@ function BondPurchase({ bond, slippage }) {
     return state.app.currentBlock;
   });
 
-  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
+  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const vestingTerm = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].vestingBlock;
   });

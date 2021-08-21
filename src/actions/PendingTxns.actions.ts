@@ -1,5 +1,4 @@
 import { Actions } from "../constants";
-import { ACTIONS } from "./Migrate.actions";
 
 interface IPendingTxn {
   readonly txnHash: string;

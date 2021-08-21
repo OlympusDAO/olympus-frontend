@@ -406,3 +406,9 @@ export const getMinPrecision = (num, options = { additionalDigits: 2 }) => {
   if (!decimals) return additionalDigits;
   return decimals.match(/^0*/)[0].length + additionalDigits;
 };
+export function setAll(state, properties) {
+  const props = Object.keys(properties);
+  props.forEach(key => {
+    state[key] = properties[key];
+  });
+}
