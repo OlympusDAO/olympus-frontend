@@ -233,8 +233,8 @@ const renderLineChart = (
 const renderMultiLineChart = (
   data,
   dataKey,
-  stroke,
   color,
+  stroke,
   dataFormat,
   bulletpointColors,
   itemNames,
@@ -267,9 +267,9 @@ const renderMultiLineChart = (
     <Tooltip
       content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
     />
-    <Line dataKey={dataKey[0]} stroke={stroke} dot={false} />;
-    <Line dataKey={dataKey[1]} stroke={stroke} dot={false} />;
-    <Line dataKey={dataKey[2]} stroke={stroke} dot={false} />;
+    <Line dataKey={dataKey[0]} stroke={stroke[0]} dot={false} />;
+    <Line dataKey={dataKey[1]} stroke={stroke[1]} dot={false} />;
+    <Line dataKey={dataKey[2]} stroke={stroke[2]} dot={false} />;{console.log(stroke)}
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </LineChart>
 );

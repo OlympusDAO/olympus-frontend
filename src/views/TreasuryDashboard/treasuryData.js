@@ -111,6 +111,7 @@ export const bulletpoints = {
       right: 68,
       top: -12,
       background: "rgba(151, 196, 224, 0.2)",
+      border: "1px solid rgba(54, 56, 64, 0.5)",
     },
   ],
   pol: [
@@ -123,6 +124,7 @@ export const bulletpoints = {
       right: 25,
       top: -12,
       background: "rgba(219, 242, 170, 1)",
+      border: "1px solid rgba(118, 130, 153, 1)",
     },
   ],
 };
