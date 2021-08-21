@@ -12,7 +12,7 @@ import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails } from "./slices/AccountSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether } from "./views";
+import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
@@ -101,19 +101,6 @@ function App() {
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
 
-<<<<<<< HEAD
-    await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-    if (address) await dispatch(loadAccountDetails({ networkID: chainID, provider: loadProvider, address }));
-
-    Object.values(BONDS).map(async bond => {
-      await dispatch(calcBondDetails({ address, bond, networkID: chainID, provider: loadProvider }));
-    });
-  }
-
-  useEffect(() => {
-    loadDetails();
-  }, [provider, address, chainID]);
-=======
     // NOTE (appleseed): loadDetails() runs three times on every app refresh...
     // ... once with address === "" && loadProvider === StaticJsonRpcProvider (set inside of Web3ContextProvider)
     // ... once with address === "[wallet address]" && loadProvider === StaticJsonRpcProvider (set inside of Web3Context.connect())
@@ -151,7 +138,6 @@ function App() {
     // runs only when connected is changed
     loadDetails("account");
   }, [connected]);
->>>>>>> origin/develop
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

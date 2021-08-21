@@ -82,19 +82,11 @@ const commonSettings = {
           width: "97%",
           marginBottom: "1.8rem",
           borderRadius: "10px",
-          overflow: "hidden",
         },
         "&.ohm-menu": {
           padding: "22px 0px",
           borderRadius: "10px",
           margin: "0px",
-        },
-        "&.ohm-chart-card": {
-          padding: "20px 0px",
-          whiteSpace: "nowrap",
-          maxWidth: "700px",
-          width: "97%",
-          marginBottom: "1.8rem",
         },
       },
     },
@@ -130,16 +122,14 @@ const commonSettings = {
       },
       paper: {
         width: "inherit",
-        backgroundColor: "#00000033",
-        backdropFilter: "blur(15px)",
+        backgroundColor: "inherit",
         padding: 0,
-        zIndex: 7,
       },
     },
     MuiBackdrop: {
       root: {
         backdropFilter: "blur(15px)",
-        zIndex: 3,
+        zIndex: 0,
       },
     },
     MuiToggleButton: {
