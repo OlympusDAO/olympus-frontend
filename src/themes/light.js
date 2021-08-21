@@ -30,6 +30,7 @@ const lightTheme = {
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
   containedSecondaryButtonHoverBG: "#33333333",
+  graphStrokeColor: "rgba(37, 52, 73, .2)",
 };
 
 export const light = responsiveFontSizes(
@@ -56,6 +57,7 @@ export const light = responsiveFontSizes(
           primary: lightTheme.color,
           secondary: lightTheme.gray,
         },
+        graphStrokeColor: lightTheme.graphStrokeColor,
       },
       typography: {
         fontFamily: "Square",

@@ -111,6 +111,20 @@ export const bulletpoints = {
       right: 68,
       top: -12,
       background: "rgba(151, 196, 224, 0.2)",
+      border: "1px solid rgba(54, 56, 64, 0.5)",
+    },
+  ],
+  pol: [
+    {
+      right: 15,
+      top: -12,
+      background: "linear-gradient(180deg, rgba(56, 223, 63, 1) -10%, rgba(182, 233, 152, 1) 100%)",
+    },
+    {
+      right: 25,
+      top: -12,
+      background: "rgba(219, 242, 170, 1)",
+      border: "1px solid rgba(118, 130, 153, 1)",
     },
   ],
 };
@@ -121,6 +135,7 @@ export const tooltipItems = {
   holder: ["OHMies"],
   apy: ["APY"],
   runway: ["10K_APY", "20K_APY", "50K_APY"],
+  pol: ["SLP Treasury", "Market SLP"],
 };
 
 export const tooltipInfoMessages = {

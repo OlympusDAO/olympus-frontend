@@ -22,7 +22,7 @@ const renderItem = (type, item) => {
   );
 };
 
-const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType, isStaked = false) => {
+const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType, isStaked = false, isPOL = false) => {
   return isStaked ? (
     <Box>
       <Box className="item" display="flex" justifyContent="space-between">
@@ -36,6 +36,24 @@ const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType, isS
         <Typography variant="body2">
           <span className="tooltip-bulletpoint" style={bulletpointColors[1]}></span>
           Not staked
+        </Typography>
+        <Typography>{`${Math.round(100 - payload[0].value)}%`}</Typography>
+      </Box>
+      <Box>{renderDate(0, payload, payload[0])}</Box>
+    </Box>
+  ) : isPOL ? (
+    <Box>
+      <Box className="item" display="flex" justifyContent="space-between">
+        <Typography variant="body2">
+          <span className="tooltip-bulletpoint" style={bulletpointColors[0]}></span>
+          {itemNames[0]}
+        </Typography>
+        <Typography>{`${Math.round(payload[0].value)}%`}</Typography>
+      </Box>
+      <Box className="item" display="flex" justifyContent="space-between">
+        <Typography variant="body2">
+          <span className="tooltip-bulletpoint" style={bulletpointColors[1]}></span>
+          {itemNames[1]}
         </Typography>
         <Typography>{`${Math.round(100 - payload[0].value)}%`}</Typography>
       </Box>
@@ -59,11 +77,11 @@ const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType, isS
   );
 };
 
-function CustomTooltip({ active, payload, bulletpointColors, itemNames, itemType, isStaked }) {
+function CustomTooltip({ active, payload, bulletpointColors, itemNames, itemType, isStaked, isPOL }) {
   if (active && payload && payload.length) {
     return (
       <Paper className={`ohm-card tooltip-container`}>
-        {renderTooltipItems(payload, bulletpointColors, itemNames, itemType, isStaked)}
+        {renderTooltipItems(payload, bulletpointColors, itemNames, itemType, isStaked, isPOL)}
       </Paper>
     );
   }
