@@ -43,7 +43,6 @@ function Bond({ bond }) {
     return setSlippage(e.target.value);
   };
 
-
   useEffect(() => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
