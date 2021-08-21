@@ -3,7 +3,19 @@ import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import ExpandedChart from "./ExpandedChart";
 import { useEffect, useState } from "react";
 import { ReactComponent as Fullscreen } from "../../assets/icons/fullscreen.svg";
-import { ResponsiveContainer, BarChart, Bar, AreaChart, LineChart, Line, XAxis, YAxis, Area, Tooltip } from "recharts";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  AreaChart,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Area,
+  CartesianGrid,
+  Tooltip,
+} from "recharts";
 import { Typography, Box, SvgIcon, CircularProgress } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { trim } from "../../helpers";
@@ -30,6 +42,7 @@ const renderAreaChart = (
   itemNames,
   itemType,
   isStaked,
+  isExpanded,
 ) => (
   <AreaChart data={data}>
     <defs>
@@ -49,7 +62,7 @@ const renderAreaChart = (
       padding={{ right: 20 }}
     />
     <YAxis
-      tickCount={3}
+      tickCount={4}
       axisLine={false}
       tickLine={false}
       width={dataFormat === "percent" ? 33 : 55}
@@ -75,6 +88,7 @@ const renderAreaChart = (
       }
     />
     <Area dataKey={dataKey[0]} stroke="none" fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
+    {isExpanded ? <CartesianGrid vertical={false} /> : ""}
   </AreaChart>
 );
 
@@ -87,6 +101,7 @@ const renderStackedAreaChart = (
   bulletpointColors,
   itemNames,
   itemType,
+  isExpanded,
 ) => (
   <AreaChart data={data}>
     <defs>
@@ -156,7 +171,17 @@ const renderStackedAreaChart = (
   </AreaChart>
 );
 
-const renderLineChart = (data, dataKey, stroke, color, dataFormat, bulletpointColors, itemNames, itemType) => (
+const renderLineChart = (
+  data,
+  dataKey,
+  stroke,
+  color,
+  dataFormat,
+  bulletpointColors,
+  itemNames,
+  itemType,
+  isExpanded,
+) => (
   <LineChart data={data}>
     <XAxis
       dataKey="timestamp"
@@ -192,7 +217,17 @@ const renderLineChart = (data, dataKey, stroke, color, dataFormat, bulletpointCo
   </LineChart>
 );
 
-const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat, bulletpointColors, itemNames, itemType) => (
+const renderMultiLineChart = (
+  data,
+  dataKey,
+  stroke,
+  color,
+  dataFormat,
+  bulletpointColors,
+  itemNames,
+  itemType,
+  isExpanded,
+) => (
   <LineChart data={data}>
     <XAxis
       dataKey="timestamp"
@@ -225,7 +260,7 @@ const renderMultiLineChart = (data, dataKey, stroke, color, dataFormat, bulletpo
 );
 
 // JTBD: Bar chart for Holders
-const renderBarChart = (data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType) => (
+const renderBarChart = (data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType, isExpanded) => (
   <BarChart data={data}>
     <XAxis
       dataKey="timestamp"
@@ -280,7 +315,7 @@ function Chart({
     setOpen(false);
   };
 
-  const renderChart = type => {
+  const renderChart = (type, isExpanded) => {
     if (type === "line")
       return renderLineChart(data, dataKey, color, stroke, dataFormat, bulletpointColors, itemNames, itemType);
     if (type === "area")
@@ -294,6 +329,7 @@ function Chart({
         itemNames,
         itemType,
         isStaked,
+        isExpanded,
       );
     if (type === "stack")
       return renderStackedAreaChart(
@@ -305,12 +341,23 @@ function Chart({
         bulletpointColors,
         itemNames,
         itemType,
+        isExpanded,
       );
     if (type === "multi")
-      return renderMultiLineChart(data, dataKey, color, stroke, dataFormat, bulletpointColors, itemNames, itemType);
+      return renderMultiLineChart(
+        data,
+        dataKey,
+        color,
+        stroke,
+        dataFormat,
+        bulletpointColors,
+        itemNames,
+        itemType,
+        isExpanded,
+      );
 
     if (type === "bar")
-      return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType);
+      return renderBarChart(data, dataKey, stroke, dataFormat, bulletpointColors, itemNames, itemType, isExpanded);
   };
 
   const runwayExtraInfo = type =>
@@ -369,7 +416,7 @@ function Chart({
           <ExpandedChart
             open={open}
             handleClose={handleClose}
-            renderChart={renderChart(type)}
+            renderChart={renderChart(type, true)}
             uid={dataKey}
             data={data}
             infoTooltipMessage={infoTooltipMessage}
@@ -395,7 +442,7 @@ function Chart({
       <Box width="100%" minHeight={260} minWidth={310} className="ohm-chart">
         {loading || (data && data.length > 0) ? (
           <ResponsiveContainer minHeight={260} width="100%">
-            {renderChart(type)}
+            {renderChart(type, false)}
           </ResponsiveContainer>
         ) : (
           <Skeleton variant="rect" width="100%" height={260} />
