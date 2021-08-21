@@ -269,7 +269,7 @@ const renderMultiLineChart = (
     />
     <Line dataKey={dataKey[0]} stroke={stroke[0]} dot={false} />;
     <Line dataKey={dataKey[1]} stroke={stroke[1]} dot={false} />;
-    <Line dataKey={dataKey[2]} stroke={stroke[2]} dot={false} />;{console.log(stroke)}
+    <Line dataKey={dataKey[2]} stroke={stroke[2]} dot={false} />;
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </LineChart>
 );
