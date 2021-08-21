@@ -12,7 +12,7 @@ import {
   Slide,
 } from "@material-ui/core";
 import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
-import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../slices/BondSlice";
+import { changeApproval, bondAsset } from "../../slices/BondSlice";
 import { BONDS } from "../../constants";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -126,16 +126,7 @@ function BondPurchase({ bond, slippage }) {
     else return "FRAX";
   };
 
-  async function loadBondDetails() {
-    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
-
-    if (provider && address) {
-      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
-    }
-  }
-
   useEffect(() => {
-    loadBondDetails();
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 

@@ -127,6 +127,11 @@ function App() {
         await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
       });
     }
+    if (whichDetails === "userBonds" && address && connected) {
+      Object.values(BONDS).map(async bond => {
+        await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+      });
+    }
   }
 
   useEffect(() => {
@@ -137,6 +142,7 @@ function App() {
   useEffect(() => {
     // runs only when connected is changed
     loadDetails("account");
+    loadDetails("userBonds");
   }, [connected]);
 
   const handleDrawerToggle = () => {
