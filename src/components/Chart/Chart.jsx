@@ -50,6 +50,7 @@ const renderAreaChart = (
   isStaked,
   isExpanded,
   expandedGraphStrokeColor,
+  isPOL,
 ) => (
   <AreaChart data={data}>
     <defs>
@@ -91,6 +92,7 @@ const renderAreaChart = (
           itemNames={itemNames}
           itemType={itemType}
           isStaked={isStaked}
+          isPOL={isPOL}
         />
       }
     />
@@ -328,6 +330,7 @@ function Chart({
   isStaked,
   infoTooltipMessage,
   expandedGraphStrokeColor,
+  isPOL,
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -367,6 +370,7 @@ function Chart({
         isStaked,
         isExpanded,
         expandedGraphStrokeColor,
+        isPOL,
       );
     if (type === "stack")
       return renderStackedAreaChart(

@@ -200,22 +200,19 @@ function TreasuryDashboard() {
             <Grid item lg={6} md={12} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <Chart
-                  type="stack"
+                  type="area"
                   data={data}
-                  dataKey={["treasuryOhmDaiPOL", "treasuryOhmFraxPOL", ""]}
-                  stopColor={[
-                    ["#F5AC37", "#EA9276"],
-                    ["#768299", "#98B3E9"],
-                    ["", ""],
-                  ]}
-                  headerText="Protocol-Owned Liquidity"
+                  dataKey={["treasuryOhmDaiPOL"]}
+                  stopColor={[["rgba(128, 204, 131, 1)", "rgba(128, 204, 131, 0)"]]}
+                  headerText="Protocol Owned Liquidity OHM-DAI"
                   headerSubText={`${data && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
                   dataFormat="percent"
-                  bulletpointColors={bulletpoints.coin}
-                  itemNames={tooltipItems.coin}
+                  bulletpointColors={bulletpoints.pol}
+                  itemNames={tooltipItems.pol}
                   itemType={itemType.percentage}
                   infoTooltipMessage={tooltipInfoMessages.pol}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                  isPOL={true}
                 />
               </Paper>
             </Grid>
