@@ -88,7 +88,7 @@ const renderAreaChart = (
       }
     />
     <Area dataKey={dataKey[0]} stroke="none" fill={`url(#color-${dataKey[0]})`} fillOpacity={1} />
-    {isExpanded ? <CartesianGrid vertical={false} /> : ""}
+    {isExpanded ? <CartesianGrid vertical={false} stroke="#BFC3C7" /> : ""}
   </AreaChart>
 );
 
