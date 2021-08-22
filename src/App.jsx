@@ -82,7 +82,7 @@ function App() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // NOTE (appleseed): does an OnChainProvider NEED to be saved to context? Or can it be called freshly each time?
-  const { provider, walletProvider, chainID, connected } = useWeb3Context();
+  const { provider, chainID, connected } = useWeb3Context();
   const address = useAddress();
 
   const isAppLoading = useSelector(state => state.app.loading);
@@ -95,7 +95,6 @@ function App() {
     // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
-    let loadWalletProvider = walletProvider;
 
     // NOTE (appleseed): loadDetails() runs three times on every app refresh (every time `connected` is set)...
     // ... once with address === "" && loadProvider === StaticJsonRpcProvider (set inside of Web3ContextProvider)
@@ -112,7 +111,7 @@ function App() {
 
     // don't run unless provider is a Wallet...
     if (whichDetails === "account" && address && connected) {
-      await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadWalletProvider }));
+      await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
     }
 
     // run with loadProvider (backend provider) so that user does need a connected wallet to see app details.
