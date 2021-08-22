@@ -4,7 +4,7 @@ import { Box, Button, Typography, FormControl, InputLabel, OutlinedInput, InputA
 import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
 import { trim, getTokenImage } from "src/helpers/index.js";
-import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
+import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 
 const sohmImg = getTokenImage("sohm");
 

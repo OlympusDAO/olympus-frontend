@@ -130,10 +130,6 @@ function App() {
   }
 
   useEffect(() => {
-<<<<<<< HEAD
-    loadDetails();
-  }, [provider, address, chainID]);
-=======
     // runs only on initial paint
     loadDetails("app");
   }, []);
@@ -142,7 +138,6 @@ function App() {
     // runs only when connected is changed
     loadDetails("account");
   }, [connected]);
->>>>>>> origin/develop
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

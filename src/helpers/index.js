@@ -277,7 +277,6 @@ export function priceUnits(bond) {
   else return <SvgIcon component={DaiImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
 }
 
-<<<<<<< HEAD
 // this is only used by numberWithCommas
 export function stringWithPrecision(val, options = {}) {
   let precision = 2;
@@ -407,11 +406,9 @@ export const getMinPrecision = (num, options = { additionalDigits: 2 }) => {
   if (!decimals) return additionalDigits;
   return decimals.match(/^0*/)[0].length + additionalDigits;
 };
-=======
 export function setAll(state, properties) {
   const props = Object.keys(properties);
   props.forEach(key => {
     state[key] = properties[key];
   });
 }
->>>>>>> origin/develop
