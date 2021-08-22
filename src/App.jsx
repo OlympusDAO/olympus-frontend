@@ -109,15 +109,15 @@ function App() {
 
     // run with loadProvider (backend provider) so that user doesn't need a connected wallet to see app details.
     if (whichDetails === "app") {
-      loadApp(provider);
+      loadApp(loadProvider);
     }
 
     // don't run unless provider is a Wallet...
     if (whichDetails === "account" && address && connected) {
-      loadAccount(provider);
+      loadAccount(loadProvider);
       if (isAppLoaded) return; // Don't need to do anything else if the app is already loaded.
 
-      loadApp(provider);
+      loadApp(loadProvider);
     }
   }
 
