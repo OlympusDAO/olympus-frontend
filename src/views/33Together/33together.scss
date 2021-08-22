@@ -3,8 +3,47 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  // overflow: hidden;
+  overflow-y: visible;
   .award-buttons button {
     margin: 5px !important;
+  }
+
+  .vegas-container {
+    max-height: 240px;
+    height: 100%;
+    max-width: 833px;
+    width: 97%;
+    margin-bottom: -20px;
+    margin-top: -20px;
+    z-index: 2;
+    position: sticky;
+  }
+}
+
+.vegas {
+  height: 240px;
+  width: 100%;
+  background-image: url("../../assets/images/33-together-spritesheet.png");
+  animation: sprite 3.33s steps(7) infinite;
+  background-size: 700%;
+  background-repeat: repeat-x;
+}
+
+.tablet .vegas {
+  height: 200px;
+}
+
+.mobile .vegas {
+  height: 160px;
+  margin-bottom: -10px;
+}
+
+@keyframes sprite {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: -700%;
   }
 }

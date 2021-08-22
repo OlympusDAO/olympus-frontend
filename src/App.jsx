@@ -78,7 +78,7 @@ function App() {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 900px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 933px)");
   const isSmallScreen = useMediaQuery("(max-width: 620px)");
 
   const { provider, chainID, connected } = useWeb3Context();

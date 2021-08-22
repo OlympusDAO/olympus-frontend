@@ -44,14 +44,19 @@ export const PoolPrize = () => {
   }, []);
 
   return (
-    <Paper className="ohm-card">
-      <div className="card-header">
-        <Typography variant="h5">3, 3 Together</Typography>
-      </div>
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <Typography variant="h1">{prize} sOHM</Typography>
-        <Typography variant="h3">{timer > 0 ? timer : "00:00:00"}</Typography>
+    <Box width="100%" display="flex" flexDirection="column" alignItems="center">
+      <Box className="vegas-container">
+        <Box className="vegas"></Box>
       </Box>
-    </Paper>
+      <Paper className="ohm-card">
+        <div className="card-header">
+          <Typography variant="h5">3, 3 Together</Typography>
+        </div>
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Typography variant="h1">{prize} sOHM</Typography>
+          <Typography variant="h3">{timer > 0 ? timer : "00:00:00"}</Typography>
+        </Box>
+      </Paper>
+    </Box>
   );
 };
