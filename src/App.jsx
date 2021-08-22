@@ -8,9 +8,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 
-import { calcBondDetails } from "./actions/Bond.actions.js";
-import { loadAppDetails } from "./actions/App.actions.js";
-import { loadAccountDetails } from "./actions/Account.actions.js";
+import { calcBondDetails } from "./slices/BondSlice";
+import { loadAppDetails } from "./slices/AppSlice";
+import { loadAccountDetails } from "./slices/AccountSlice";
 
 import { Stake, ChooseBond, Bond, Dashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
@@ -81,12 +81,18 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 900px)");
   const isSmallScreen = useMediaQuery("(max-width: 620px)");
 
-  const { provider, chainID } = useWeb3Context();
+  const { provider, chainID, connected } = useWeb3Context();
+  // TODO (zx): this should go into web3Context.tsx
+  provider.on("network", (_newNetwork, oldNetwork) => {
+    if (!oldNetwork) return;
+    window.location.reload();
+  });
+
   const address = useAddress();
 
   const isAppLoading = useSelector(state => state.app.loading);
 
-  async function loadDetails() {
+  async function loadDetails(whichDetails) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
     // it's because the initial provider loaded always starts with chainID=1. This causes
@@ -95,17 +101,48 @@ function App() {
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
 
-    await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-    if (address) await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+    // NOTE (appleseed): loadDetails() runs three times on every app refresh...
+    // ... once with address === "" && loadProvider === StaticJsonRpcProvider (set inside of Web3ContextProvider)
+    // ... once with address === "[wallet address]" && loadProvider === StaticJsonRpcProvider (set inside of Web3Context.connect())
+    // ... once with address === "[wallet address]" && loadProvider === Web3Provider (set inside of Web3Context.connect() right after the above line)
+    // So we need to make sure we don't run `loadAccountDetails`, `loadAppDetails` & `calcBondDetails`...
+    // ... below each of the three times state is changed
+    // The below if statements are one way to prevent the 3x runs
+    //
+    // don't run except when address === "" && provider is a API Provider (not Metamask)
+    // `loadDetails()` always runs once with address === "" even when the user has a connected wallet.
+    if (whichDetails === "app") {
+      await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+    }
+    // don't run unless provider is a Wallet...
+    // NOTE (appleseed): Is there a smarter way to verify that Provider is a Wallet (not just metamask)?
+    if (whichDetails === "account" && address && connected) {
+      await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+    }
 
-    Object.values(BONDS).map(async bond => {
-      await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
-    });
+    // don't run except when address === "" && provider is a API Provider (not Metamask)
+    // `loadDetails()` always runs once with address === "" even when the user has a connected wallet.
+    if (whichDetails === "app") {
+      Object.values(BONDS).map(async bond => {
+        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+      });
+    }
   }
 
   useEffect(() => {
+<<<<<<< HEAD
     loadDetails();
   }, [provider, address, chainID]);
+=======
+    // runs only on initial paint
+    loadDetails("app");
+  }, []);
+
+  useEffect(() => {
+    // runs only when connected is changed
+    loadDetails("account");
+  }, [connected]);
+>>>>>>> origin/develop
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

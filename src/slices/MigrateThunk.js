@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
@@ -7,28 +6,25 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
-import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.actions";
+import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchAccountSuccess } from "./AccountSlice";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
 
-export const fetchMigrateSuccess = payload => ({
-  type: Actions.FETCH_MIGRATE_SUCCESS,
-  payload,
-});
-
-async function calculateAPY(sohmContract, stakingReward) {
+export const calculateAPY = createAsyncThunk("migrate/calculateAPY", async (sohmContract, stakingReward) => {
   const circSupply = await sohmContract.circulatingSupply();
 
   const stakingRebase = stakingReward / circSupply;
   const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3);
 
   return stakingAPY;
-}
+});
 
-export const getApproval =
-  ({ type, provider, address, networkID }) =>
-  async dispatch => {
+export const getApproval = createAsyncThunk(
+  "migrate/getApproval",
+  async ({ type, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -53,21 +49,19 @@ export const getApproval =
       }
       const text = "Approve " + (type === TYPES.OLD ? "Unstaking" : "Staking");
       const pendingTxnType = type === TYPES.OLD ? "approve_migrate_unstaking" : "approve_migrate_staking";
-      dispatch(
-        fetchPendingTxns({
-          txnHash: approveTx.hash,
-          text,
-          type: pendingTxnType,
-        }),
-      );
 
-      await approveTx.wait();
+      fetchPendingTxns({
+        txnHash: approveTx.hash,
+        text,
+        type: pendingTxnType,
+      }),
+        await approveTx.wait();
     } catch (error) {
       alert(error.message);
       return;
     } finally {
       if (approveTx) {
-        dispatch(clearPendingTxn(approveTx.hash));
+        clearPendingTxn(approveTx.hash);
       }
     }
 
@@ -75,18 +69,19 @@ export const getApproval =
     const unstakeAllowance = await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
 
     return dispatch(
-      fetchMigrateSuccess({
+      fetchAccountSuccess({
         migrate: {
           stakeAllowance,
           unstakeAllowance,
         },
       }),
     );
-  };
+  },
+);
 
-export const changeStake =
-  ({ action, value, provider, address, networkID }) =>
-  async dispatch => {
+export const changeStake = createAsyncThunk(
+  "migrate/changeStake",
+  async ({ action, value, provider, address, networkID }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -105,7 +100,7 @@ export const changeStake =
         stakeTx = await oldStaking.unstakeOHM(ethers.utils.parseUnits(value, "gwei"));
       }
       const pendingTxnType = action === ACTIONS.STAKE ? "migrate_staking" : "migrate_unstaking";
-      dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
+      fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType });
       await stakeTx.wait();
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
@@ -116,7 +111,7 @@ export const changeStake =
       return;
     } finally {
       if (stakeTx) {
-        dispatch(clearPendingTxn(stakeTx.hash));
+        clearPendingTxn(stakeTx.hash);
       }
     }
 
@@ -127,13 +122,12 @@ export const changeStake =
     const oldSohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
     const oldsohmBalance = await oldSohmContract.balanceOf(address);
 
-    return dispatch(
-      fetchMigrateSuccess({
-        balances: {
-          ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-          sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-          oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
-        },
-      }),
-    );
-  };
+    return {
+      balances: {
+        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
+      },
+    };
+  },
+);

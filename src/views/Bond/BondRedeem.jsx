@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Typography, Box, Slide } from "@material-ui/core";
-import { redeemBond } from "../../actions/Bond.actions.js";
+import { redeemBond } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
-import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 
 function BondRedeem({ bond }) {
@@ -14,7 +14,7 @@ function BondRedeem({ bond }) {
     return state.app.currentBlock;
   });
 
-  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
+  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const bondMaturationBlock = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
   });

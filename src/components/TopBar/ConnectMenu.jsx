@@ -74,7 +74,7 @@ function ConnectMenu({ theme }) {
         )}
       </Button>
 
-      <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start">
+      <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-end">
         <Paper className="ohm-menu" elevation={1}>
           {pendingTransactions.map(x => (
             <Link key={x.txnHash} href={getEtherscanUrl(x.txnHash)} color="primary" target="_blank" rel="noreferrer">
