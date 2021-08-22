@@ -81,7 +81,8 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { provider, chainID, connected } = useWeb3Context();
+  // NOTE (appleseed): does an OnChainProvider NEED to be saved to context? Or can it be called freshly each time?
+  const { provider, walletProvider, chainID, connected } = useWeb3Context();
   const address = useAddress();
 
   const isAppLoading = useSelector(state => state.app.loading);
@@ -94,8 +95,9 @@ function App() {
     // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
+    let loadWalletProvider = walletProvider;
 
-    // NOTE (appleseed): loadDetails() runs three times on every app refresh...
+    // NOTE (appleseed): loadDetails() runs three times on every app refresh (every time `connected` is set)...
     // ... once with address === "" && loadProvider === StaticJsonRpcProvider (set inside of Web3ContextProvider)
     // ... once with address === "[wallet address]" && loadProvider === StaticJsonRpcProvider (set inside of Web3Context.connect())
     // ... once with address === "[wallet address]" && loadProvider === Web3Provider (set inside of Web3Context.connect() right after the above line)
@@ -103,20 +105,17 @@ function App() {
     // ... below each of the three times state is changed
     // The below if statements are one way to prevent the 3x runs
     //
-    // don't run except when address === "" && provider is a API Provider (not Metamask)
-    // `loadDetails()` always runs once with address === "" even when the user has a connected wallet.
-    // console.log(whichDetails, address, connected, provider);
+    // run with loadProvider (backend provider) so that user does need a connected wallet to see app details.
     if (whichDetails === "app") {
       await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
     }
+
     // don't run unless provider is a Wallet...
-    // NOTE (appleseed): Is there a smarter way to verify that Provider is a Wallet (not just metamask)?
     if (whichDetails === "account" && address && connected) {
-      await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+      await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadWalletProvider }));
     }
 
-    // don't run except when address === "" && provider is a API Provider (not Metamask)
-    // `loadDetails()` always runs once with address === "" even when the user has a connected wallet.
+    // run with loadProvider (backend provider) so that user does need a connected wallet to see app details.
     if (whichDetails === "app") {
       Object.values(BONDS).map(async bond => {
         await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));

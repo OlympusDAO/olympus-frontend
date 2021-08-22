@@ -91,6 +91,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   const [uri, setUri] = useState(getMainnetURI());
   const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
+  const [walletProvider, setWalletProvider] = useState<Web3Provider>();
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -116,24 +117,27 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     return true;
   };
 
+  // NOTE (appleseed): none of these listeners are needed for Backend API Providers, right?
+  // ... so I changed these listeners so that they only apply to walletProviders, eliminating
+  // ... polling to the backend providers for network changes
   const _initListeners = useCallback(() => {
-    if (!provider) return;
-    provider.on("accountsChanged", () => {
+    if (!walletProvider) return;
+    walletProvider.on("accountsChanged", () => {
       if (_hasCachedProvider()) return;
       setTimeout(() => window.location.reload(), 1);
     });
 
-    provider.on("chainChanged", (chain: number) => {
+    walletProvider.on("chainChanged", (chain: number) => {
       if (_hasCachedProvider()) return;
       _checkNetwork(chain);
       setTimeout(() => window.location.reload(), 1);
     });
 
-    provider.on("network", (_newNetwork, oldNetwork) => {
+    walletProvider.on("network", (_newNetwork, oldNetwork) => {
       if (!oldNetwork) return;
       window.location.reload();
     });
-  }, [provider]);
+  }, [walletProvider]);
 
   // Eventually we will not need this method.
   const _checkNetwork = (otherChainID: number): Boolean => {
@@ -149,6 +153,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     return true;
   };
 
+  // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
     const rawProvider = await web3Modal.connect();
     const connectedProvider = new Web3Provider(rawProvider, "any");
@@ -164,13 +169,13 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     // Save everything after we've validated the right nextwork.
     // Eventually we'll be fine without doing network validations.
     setAddress(connectedAddress);
-    setProvider(connectedProvider);
-    _initListeners();
+    setWalletProvider(connectedProvider);
 
     // Keep this at the bottom of the method, to ensure any repaints have the data we need
     setConnected(true);
+
     return connectedProvider;
-  }, [provider, web3Modal, connected]);
+  }, [walletProvider, web3Modal, connected]);
 
   const disconnect = useCallback(async () => {
     console.log("disconnecting");
@@ -180,11 +185,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     setTimeout(() => {
       window.location.reload();
     }, 1);
-  }, [provider, web3Modal, connected]);
+  }, [walletProvider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, provider, connected, address, chainID, web3Modal }),
-    [connect, disconnect, provider, connected, address, chainID, web3Modal],
+    () => ({ connect, disconnect, provider, connected, address, chainID, web3Modal, walletProvider }),
+    [connect, disconnect, provider, connected, address, chainID, web3Modal, walletProvider],
   );
 
   useEffect(() => {
@@ -192,6 +197,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       connect();
     }
   }, []);
+
+  // initListeners needs to be run after walletProvider state is updated
+  useEffect(() => {
+    _initListeners();
+  }, [walletProvider]);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };
