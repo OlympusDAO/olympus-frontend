@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Paper, Tab, Tabs, Zoom } from "@material-ui/core";
+import { Container, Paper, Tab, Tabs, Zoom } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import { PoolDeposit } from "./PoolDeposit";
 import { PoolWithdraw } from "./PoolWithdraw";

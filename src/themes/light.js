@@ -3,7 +3,7 @@ import fonts from "./fonts";
 import commonSettings from "./global.js";
 
 const lightTheme = {
-  color: "rgb(37, 52, 73)",
+  color: "#253449",
   gold: "#F8CC82",
   gray: "#A3A3A3",
   textHighlightColor: "#93AEBC", // "#F4D092",
@@ -30,6 +30,7 @@ const lightTheme = {
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
   containedSecondaryButtonHoverBG: "#33333333",
+  graphStrokeColor: "rgba(37, 52, 73, .2)",
 };
 
 export const light = responsiveFontSizes(
@@ -56,6 +57,7 @@ export const light = responsiveFontSizes(
           primary: lightTheme.color,
           secondary: lightTheme.gray,
         },
+        graphStrokeColor: lightTheme.graphStrokeColor,
       },
       typography: {
         fontFamily: "Square",
