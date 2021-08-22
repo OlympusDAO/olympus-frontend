@@ -105,8 +105,9 @@ function App() {
     // ... below each of the three times state is changed
     // The below if statements are one way to prevent the 3x runs
     //
-    // run with loadProvider (backend provider) so that user doesn't need a connected wallet to see app details.
     // console.log(whichDetails, connected, address, provider);
+
+    // run with loadProvider (backend provider) so that user doesn't need a connected wallet to see app details.
     if (whichDetails === "app") {
       loadApp(provider);
     }
