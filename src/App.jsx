@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@material-ui/core/styles";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
@@ -86,6 +86,7 @@ function App() {
   const address = useAddress();
 
   const isAppLoading = useSelector(state => state.app.loading);
+  const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
 
   async function loadDetails(whichDetails) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -104,23 +105,37 @@ function App() {
     // ... below each of the three times state is changed
     // The below if statements are one way to prevent the 3x runs
     //
-    // run with loadProvider (backend provider) so that user does need a connected wallet to see app details.
+    // run with loadProvider (backend provider) so that user doesn't need a connected wallet to see app details.
+    // console.log(whichDetails, connected, address, provider);
     if (whichDetails === "app") {
-      await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+      loadApp(provider);
     }
 
     // don't run unless provider is a Wallet...
     if (whichDetails === "account" && address && connected) {
-      await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
-    }
+      loadAccount(provider);
+      if (isAppLoaded) return; // Don't need to do anything else if the app is already loaded.
 
-    // run with loadProvider (backend provider) so that user does need a connected wallet to see app details.
-    if (whichDetails === "app") {
+      loadApp(provider);
+    }
+  }
+
+  const loadApp = useCallback(
+    loadProvider => {
+      dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
       Object.values(BONDS).map(async bond => {
         await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
       });
-    }
-  }
+    },
+    [connected],
+  );
+
+  const loadAccount = useCallback(
+    loadProvider => {
+      dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+    },
+    [connected],
+  );
 
   useEffect(() => {
     // runs only on initial paint

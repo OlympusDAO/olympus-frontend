@@ -1,10 +1,9 @@
 import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
 import Web3Modal from "web3modal";
-import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, BaseProvider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
-// TODO(zayenx): REMEMBER THIS!!!
-// Use this in production!
+// NOTE(zx): Want to move away from infura. Will probably remove these.
 const INFURA_ID_LIST = [
   "5e3c4a19b5f64c99bf8cd8089c92b44d", // this is main dev node
   "d9836dbf00c2440d862ab571b462e4a3", // this is current prod node
@@ -39,13 +38,17 @@ const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alche
 const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
 
 function getMainnetURI(): string {
-  // Shuffles the URIs for "intelligent" loadbalancing
-  const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
+  // TODO(zx): Remove this out post 8/25/2021 when we use our prod alchemyAPI key
+  const tempAPIkey = "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf";
+  return `https://eth-mainnet.alchemyapi.io/v2/${tempAPIkey}`;
+  // NOTE(zx): uncomment when we delete the above
+  // // Shuffles the URIs for "intelligent" loadbalancing
+  // const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
 
-  // There is no lightweight way to test each URL. so just return a random one.
-  // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
-  const randomIndex = Math.floor(Math.random() * allURIs.length);
-  return allURIs[randomIndex];
+  // // There is no lightweight way to test each URL. so just return a random one.
+  // // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
+  // const randomIndex = Math.floor(Math.random() * allURIs.length);
+  // return allURIs[randomIndex];
 }
 
 /*
