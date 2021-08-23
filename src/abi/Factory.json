@@ -832,30 +832,20 @@
   "ast": {
     "absolutePath": "/Users/guillem/Documents/Ethereum/Hedger/core/contracts/financial-templates/expiring-multiparty/ExpiringMultiPartyCreator.sol",
     "exportedSymbols": {
-      "ExpiringMultiPartyCreator": [
-        5767
-      ]
+      "ExpiringMultiPartyCreator": [5767]
     },
     "id": 5768,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 4885,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "0:23:26"
       },
       {
         "id": 4886,
-        "literals": [
-          "experimental",
-          "ABIEncoderV2"
-        ],
+        "literals": ["experimental", "ABIEncoderV2"],
         "nodeType": "PragmaDirective",
         "src": "24:33:26"
       },
@@ -1027,11 +1017,7 @@
             "src": "1423:8:26"
           }
         ],
-        "contractDependencies": [
-          1164,
-          1844,
-          8862
-        ],
+        "contractDependencies": [1164, 1844, 8862],
         "contractKind": "contract",
         "documentation": {
           "id": 4897,
@@ -1041,12 +1027,7 @@
         },
         "fullyImplemented": true,
         "id": 5767,
-        "linearizedBaseContracts": [
-          5767,
-          1164,
-          1844,
-          8862
-        ],
+        "linearizedBaseContracts": [5767, 1164, 1844, 8862],
         "name": "ExpiringMultiPartyCreator",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -2669,9 +2650,7 @@
                   "src": "6359:47:26"
                 },
                 {
-                  "assignments": [
-                    5051
-                  ],
+                  "assignments": [5051],
                   "declarations": [
                     {
                       "constant": false,
@@ -3214,9 +3193,7 @@
                   },
                   "id": 5090,
                   "initializationExpression": {
-                    "assignments": [
-                      5071
-                    ],
+                    "assignments": [5071],
                     "declarations": [
                       {
                         "constant": false,
@@ -3578,9 +3555,7 @@
               "src": "7631:1540:26",
               "statements": [
                 {
-                  "assignments": [
-                    5106
-                  ],
+                  "assignments": [5106],
                   "declarations": [
                     {
                       "constant": false,
@@ -3720,9 +3695,7 @@
                   "src": "7641:73:26"
                 },
                 {
-                  "assignments": [
-                    5115
-                  ],
+                  "assignments": [5115],
                   "declarations": [
                     {
                       "constant": false,
@@ -3858,9 +3831,7 @@
                   "src": "7724:67:26"
                 },
                 {
-                  "assignments": [
-                    5126
-                  ],
+                  "assignments": [5126],
                   "declarations": [
                     {
                       "constant": false,
@@ -3980,9 +3951,7 @@
                   "src": "7801:71:26"
                 },
                 {
-                  "assignments": [
-                    5136
-                  ],
+                  "assignments": [5136],
                   "declarations": [
                     {
                       "constant": false,
@@ -6370,9 +6339,7 @@
               "src": "9475:1373:26",
               "statements": [
                 {
-                  "assignments": [
-                    5303
-                  ],
+                  "assignments": [5303],
                   "declarations": [
                     {
                       "constant": false,
@@ -6460,9 +6427,7 @@
                   "src": "9485:61:26"
                 },
                 {
-                  "assignments": [
-                    5309
-                  ],
+                  "assignments": [5309],
                   "declarations": [
                     {
                       "constant": false,
@@ -6758,10 +6723,7 @@
                       "id": 5322,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "9681:7:26",
                       "typeDescriptions": {
@@ -6789,9 +6751,7 @@
                   "src": "9681:72:26"
                 },
                 {
-                  "assignments": [
-                    5334
-                  ],
+                  "assignments": [5334],
                   "declarations": [
                     {
                       "constant": false,
@@ -7449,9 +7409,7 @@
                   "src": "10030:76:26"
                 },
                 {
-                  "assignments": [
-                    5380
-                  ],
+                  "assignments": [5380],
                   "declarations": [
                     {
                       "constant": false,
@@ -7719,9 +7677,7 @@
                   "src": "10116:223:26"
                 },
                 {
-                  "assignments": [
-                    5397
-                  ],
+                  "assignments": [5397],
                   "declarations": [
                     {
                       "constant": false,
@@ -8706,9 +8662,7 @@
               "src": "10993:152:26",
               "statements": [
                 {
-                  "assignments": [
-                    5465
-                  ],
+                  "assignments": [5465],
                   "declarations": [
                     {
                       "constant": false,
@@ -9096,9 +9050,7 @@
               "src": "11753:384:26",
               "statements": [
                 {
-                  "assignments": [
-                    5505
-                  ],
+                  "assignments": [5505],
                   "declarations": [
                     {
                       "constant": false,
@@ -10430,9 +10382,7 @@
               "src": "13542:220:26",
               "statements": [
                 {
-                  "assignments": [
-                    5600
-                  ],
+                  "assignments": [5600],
                   "declarations": [
                     {
                       "constant": false,
@@ -11149,10 +11099,7 @@
                       "id": 5641,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "14396:7:26",
                       "typeDescriptions": {
@@ -11346,10 +11293,7 @@
                       "id": 5653,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "14480:7:26",
                       "typeDescriptions": {
@@ -11619,10 +11563,7 @@
                       "id": 5677,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "14720:7:26",
                       "typeDescriptions": {
@@ -12646,30 +12587,20 @@
   "legacyAST": {
     "absolutePath": "/Users/guillem/Documents/Ethereum/Hedger/core/contracts/financial-templates/expiring-multiparty/ExpiringMultiPartyCreator.sol",
     "exportedSymbols": {
-      "ExpiringMultiPartyCreator": [
-        5767
-      ]
+      "ExpiringMultiPartyCreator": [5767]
     },
     "id": 5768,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 4885,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "0:23:26"
       },
       {
         "id": 4886,
-        "literals": [
-          "experimental",
-          "ABIEncoderV2"
-        ],
+        "literals": ["experimental", "ABIEncoderV2"],
         "nodeType": "PragmaDirective",
         "src": "24:33:26"
       },
@@ -12841,11 +12772,7 @@
             "src": "1423:8:26"
           }
         ],
-        "contractDependencies": [
-          1164,
-          1844,
-          8862
-        ],
+        "contractDependencies": [1164, 1844, 8862],
         "contractKind": "contract",
         "documentation": {
           "id": 4897,
@@ -12855,12 +12782,7 @@
         },
         "fullyImplemented": true,
         "id": 5767,
-        "linearizedBaseContracts": [
-          5767,
-          1164,
-          1844,
-          8862
-        ],
+        "linearizedBaseContracts": [5767, 1164, 1844, 8862],
         "name": "ExpiringMultiPartyCreator",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -14483,9 +14405,7 @@
                   "src": "6359:47:26"
                 },
                 {
-                  "assignments": [
-                    5051
-                  ],
+                  "assignments": [5051],
                   "declarations": [
                     {
                       "constant": false,
@@ -15028,9 +14948,7 @@
                   },
                   "id": 5090,
                   "initializationExpression": {
-                    "assignments": [
-                      5071
-                    ],
+                    "assignments": [5071],
                     "declarations": [
                       {
                         "constant": false,
@@ -15392,9 +15310,7 @@
               "src": "7631:1540:26",
               "statements": [
                 {
-                  "assignments": [
-                    5106
-                  ],
+                  "assignments": [5106],
                   "declarations": [
                     {
                       "constant": false,
@@ -15534,9 +15450,7 @@
                   "src": "7641:73:26"
                 },
                 {
-                  "assignments": [
-                    5115
-                  ],
+                  "assignments": [5115],
                   "declarations": [
                     {
                       "constant": false,
@@ -15672,9 +15586,7 @@
                   "src": "7724:67:26"
                 },
                 {
-                  "assignments": [
-                    5126
-                  ],
+                  "assignments": [5126],
                   "declarations": [
                     {
                       "constant": false,
@@ -15794,9 +15706,7 @@
                   "src": "7801:71:26"
                 },
                 {
-                  "assignments": [
-                    5136
-                  ],
+                  "assignments": [5136],
                   "declarations": [
                     {
                       "constant": false,
@@ -18184,9 +18094,7 @@
               "src": "9475:1373:26",
               "statements": [
                 {
-                  "assignments": [
-                    5303
-                  ],
+                  "assignments": [5303],
                   "declarations": [
                     {
                       "constant": false,
@@ -18274,9 +18182,7 @@
                   "src": "9485:61:26"
                 },
                 {
-                  "assignments": [
-                    5309
-                  ],
+                  "assignments": [5309],
                   "declarations": [
                     {
                       "constant": false,
@@ -18572,10 +18478,7 @@
                       "id": 5322,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "9681:7:26",
                       "typeDescriptions": {
@@ -18603,9 +18506,7 @@
                   "src": "9681:72:26"
                 },
                 {
-                  "assignments": [
-                    5334
-                  ],
+                  "assignments": [5334],
                   "declarations": [
                     {
                       "constant": false,
@@ -19263,9 +19164,7 @@
                   "src": "10030:76:26"
                 },
                 {
-                  "assignments": [
-                    5380
-                  ],
+                  "assignments": [5380],
                   "declarations": [
                     {
                       "constant": false,
@@ -19533,9 +19432,7 @@
                   "src": "10116:223:26"
                 },
                 {
-                  "assignments": [
-                    5397
-                  ],
+                  "assignments": [5397],
                   "declarations": [
                     {
                       "constant": false,
@@ -20520,9 +20417,7 @@
               "src": "10993:152:26",
               "statements": [
                 {
-                  "assignments": [
-                    5465
-                  ],
+                  "assignments": [5465],
                   "declarations": [
                     {
                       "constant": false,
@@ -20910,9 +20805,7 @@
               "src": "11753:384:26",
               "statements": [
                 {
-                  "assignments": [
-                    5505
-                  ],
+                  "assignments": [5505],
                   "declarations": [
                     {
                       "constant": false,
@@ -22244,9 +22137,7 @@
               "src": "13542:220:26",
               "statements": [
                 {
-                  "assignments": [
-                    5600
-                  ],
+                  "assignments": [5600],
                   "declarations": [
                     {
                       "constant": false,
@@ -22963,10 +22854,7 @@
                       "id": 5641,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "14396:7:26",
                       "typeDescriptions": {
@@ -23160,10 +23048,7 @@
                       "id": 5653,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "14480:7:26",
                       "typeDescriptions": {
@@ -23433,10 +23318,7 @@
                       "id": 5677,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "14720:7:26",
                       "typeDescriptions": {

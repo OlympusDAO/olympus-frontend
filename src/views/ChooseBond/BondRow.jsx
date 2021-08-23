@@ -8,7 +8,7 @@ import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 
 export function BondDataCard({ bond }) {
-  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
+  const isBondLoading = useSelector(state => state.bonding[bond]?.bondPrice ?? true);
   const bondPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondPrice;
   });
@@ -79,7 +79,9 @@ export function BondDataCard({ bond }) {
 }
 
 export function BondTableData({ bond }) {
-  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
+  // Use BondPrice as indicator of loading.
+  const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
+
   const bondPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondPrice;
   });
@@ -109,7 +111,7 @@ export function BondTableData({ bond }) {
       <TableCell align="center">
         <Typography>
           <>
-            <span class="currency-icon">{priceUnits(bond)}</span>{" "}
+            <span className="currency-icon">{priceUnits(bond)}</span>{" "}
             {isBondLoading ? <Skeleton width="50px" /> : trim(bondPrice, 2)}
           </>
         </Typography>

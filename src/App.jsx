@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@material-ui/core/styles";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
@@ -8,9 +8,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 
-import { calcBondDetails } from "./actions/Bond.actions.js";
-import { loadAppDetails } from "./actions/App.actions.js";
-import { loadAccountDetails } from "./actions/Account.actions.js";
+import { calcBondDetails } from "./slices/BondSlice";
+import { loadAppDetails } from "./slices/AppSlice";
+import { loadAccountDetails } from "./slices/AccountSlice";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
@@ -81,12 +81,14 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { provider, chainID } = useWeb3Context();
+  // NOTE (appleseed): does an OnChainProvider NEED to be saved to context? Or can it be called freshly each time?
+  const { provider, chainID, connected } = useWeb3Context();
   const address = useAddress();
 
   const isAppLoading = useSelector(state => state.app.loading);
+  const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
 
-  async function loadDetails() {
+  async function loadDetails(whichDetails) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
     // it's because the initial provider loaded always starts with chainID=1. This causes
@@ -95,17 +97,56 @@ function App() {
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
 
-    await dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-    if (address) await dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+    // NOTE (appleseed): loadDetails() runs three times on every app refresh (every time `connected` is set)...
+    // ... once with address === "" && loadProvider === StaticJsonRpcProvider (set inside of Web3ContextProvider)
+    // ... once with address === "[wallet address]" && loadProvider === StaticJsonRpcProvider (set inside of Web3Context.connect())
+    // ... once with address === "[wallet address]" && loadProvider === Web3Provider (set inside of Web3Context.connect() right after the above line)
+    // So we need to make sure we don't run `loadAccountDetails`, `loadAppDetails` & `calcBondDetails`...
+    // ... below each of the three times state is changed
+    // The below if statements are one way to prevent the 3x runs
+    //
+    // console.log(whichDetails, connected, address, provider);
 
-    Object.values(BONDS).map(async bond => {
-      await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
-    });
+    // run with loadProvider (backend provider) so that user doesn't need a connected wallet to see app details.
+    if (whichDetails === "app") {
+      loadApp(loadProvider);
+    }
+
+    // don't run unless provider is a Wallet...
+    if (whichDetails === "account" && address && connected) {
+      loadAccount(loadProvider);
+      if (isAppLoaded) return; // Don't need to do anything else if the app is already loaded.
+
+      loadApp(loadProvider);
+    }
   }
 
+  const loadApp = useCallback(
+    loadProvider => {
+      dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+      Object.values(BONDS).map(async bond => {
+        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+      });
+    },
+    [connected],
+  );
+
+  const loadAccount = useCallback(
+    loadProvider => {
+      dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+    },
+    [connected],
+  );
+
   useEffect(() => {
-    loadDetails();
-  }, [provider, address]);
+    // runs only on initial paint
+    loadDetails("app");
+  }, []);
+
+  useEffect(() => {
+    // runs only when connected is changed
+    loadDetails("account");
+  }, [connected]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
