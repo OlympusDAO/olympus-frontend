@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Typography,
   FormControl,
@@ -15,60 +15,66 @@ import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers
 import { changeApproval, calcBondDetails, calculateUserBondDetails, bondAsset } from "../../actions/Bond.actions";
 import { BONDS } from "../../constants";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { useAppSelector } from "src/hooks";
 import { isPendingTxn, txnButtonText } from "src/actions/PendingTxns.actions";
 import { Skeleton } from "@material-ui/lab";
 
-function BondPurchase({ bond, slippage }) {
+interface IBondPurchaseProps {
+  readonly bond: string;
+  readonly slippage: number;
+}
+
+function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
 
   const [recipientAddress, setRecipientAddress] = useState(address);
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(0);
 
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
-  });
-
-  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
-  const vestingTerm = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].vestingBlock;
+  const currentBlock = useAppSelector(state => {
+    return state.app.currentBlock || 0;
   });
 
-  const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
-  });
-  const maxBondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].maxBondPrice;
-  });
-  const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
-  });
-  const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
-  });
-  const debtRatio = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].debtRatio;
-  });
-  const bondQuote = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondQuote;
-  });
-  const balance = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].balance;
-  });
-  const allowance = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].allowance;
+  const isBondLoading = useAppSelector(state => (state.bonding && state.bonding[bond]?.loading) ?? true);
+  const vestingTerm = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].vestingBlock) || 0;
   });
 
-  const pendingTransactions = useSelector(state => {
+  const bondDiscount = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondDiscount) || 0;
+  });
+  const maxBondPrice = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].maxBondPrice) || 0;
+  });
+  const interestDue = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].interestDue) || 0;
+  });
+  const pendingPayout = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].pendingPayout)) || 0;
+  });
+  const debtRatio = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].debtRatio)) || 0;
+  });
+  const bondQuote = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].bondQuote) || 0;
+  });
+  const balance = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && Number(state.bonding[bond].balance)) || 0;
+  });
+  const allowance = useAppSelector(state => {
+    return (state.bonding && state.bonding[bond] && state.bonding[bond].allowance) || 0;
+  });
+
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
   const hasEnteredAmount = () => {
-    return !(isNaN(quantity) || quantity === 0 || quantity === "");
+    return !(isNaN(quantity) || quantity === 0);
   };
 
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(vestingTerm);
+    const vestingBlock = parseInt(currentBlock.toString()) + parseInt(vestingTerm.toString());
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
@@ -77,8 +83,8 @@ function BondPurchase({ bond, slippage }) {
     console.log("slippage = ", slippage);
     console.log("recipientAddress = ", recipientAddress);
 
-    if (quantity === "") {
-      alert("Please enter a value!");
+    if (quantity === 0) {
+      alert("Please enter a value greater than 0!");
     } else if (isNaN(quantity)) {
       alert("Please enter a valid value!");
     } else if (interestDue > 0 || pendingPayout > 0) {
@@ -88,7 +94,7 @@ function BondPurchase({ bond, slippage }) {
       if (shouldProceed) {
         await dispatch(
           bondAsset({
-            value: quantity,
+            value: quantity.toString(),
             slippage,
             bond,
             networkID: chainID,
@@ -100,7 +106,7 @@ function BondPurchase({ bond, slippage }) {
     } else {
       await dispatch(
         bondAsset({
-          value: quantity,
+          value: quantity.toString(),
           slippage,
           bond,
           networkID: chainID,
@@ -117,7 +123,7 @@ function BondPurchase({ bond, slippage }) {
 
   const setMax = () => {
     if (!balance) return;
-    setQuantity((balance || "").toString());
+    setQuantity(balance);
   };
 
   const balanceUnits = () => {
@@ -128,7 +134,7 @@ function BondPurchase({ bond, slippage }) {
   };
 
   async function loadBondDetails() {
-    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
+    if (provider) await dispatch(calcBondDetails({ bond, value: quantity.toString(), provider, networkID: chainID }));
 
     if (provider && address) {
       await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
@@ -141,7 +147,7 @@ function BondPurchase({ bond, slippage }) {
   }, [provider, quantity, address]);
 
   const onSeekApproval = async () => {
-    await dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
+    await dispatch(changeApproval({ bond, provider, networkID: chainID }));
   };
 
   return (
@@ -153,7 +159,7 @@ function BondPurchase({ bond, slippage }) {
             id="outlined-adornment-amount"
             type="number"
             value={quantity}
-            onChange={e => setQuantity(e.target.value)}
+            onChange={e => setQuantity(Number(e.target.value))}
             // startAdornment={<InputAdornment position="start">$</InputAdornment>}
             labelWidth={55}
             endAdornment={

@@ -13,10 +13,10 @@ import { loadAppDetails } from "./actions/App.actions";
 import { loadAccountDetails } from "./actions/Account.actions";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
-import Sidebar from "./components/Sidebar/Sidebar.jsx";
-import TopBar from "./components/TopBar/TopBar.jsx";
+import Sidebar from "./components/Sidebar/Sidebar";
+import TopBar from "./components/TopBar/TopBar";
 import Migrate from "./views/Stake/Migrate";
-import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
+import NavDrawer from "./components/Sidebar/NavDrawer";
 import LoadingSplash from "./components/Loading/LoadingSplash";
 import NotFound from "./views/404/NotFound";
 
@@ -26,6 +26,7 @@ import { girth as gTheme } from "./themes/girth";
 
 import { BONDS } from "./constants";
 import "./style.scss";
+import { useAppSelector } from "./hooks";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -84,7 +85,7 @@ function App() {
   const { provider, chainID } = useWeb3Context();
   const address = useAddress();
 
-  const isAppLoading = useSelector(state => state.app.loading);
+  const isAppLoading = useAppSelector(state => state.app.loading);
 
   async function loadDetails() {
     // NOTE (unbanksy): If you encounter the following error:

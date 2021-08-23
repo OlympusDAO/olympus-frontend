@@ -2,10 +2,16 @@ import { AppBar, Toolbar, Box, Button, SvgIcon } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
-import OhmMenu from "./OhmMenu.jsx";
-import ThemeSwitcher from "./ThemeSwitch.jsx";
-import ConnectMenu from "./ConnectMenu.jsx";
+import OhmMenu from "./OhmMenu";
+import ThemeSwitcher from "./ThemeSwitch";
+import ConnectMenu from "./ConnectMenu";
 import "./topbar.scss";
+
+interface ITopBarProps {
+  readonly theme: string;
+  readonly handleDrawerToggle: () => void;
+  readonly toggleTheme: (e: KeyboardEvent) => void;
+}
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -27,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
+function TopBar({ theme, toggleTheme, handleDrawerToggle }: ITopBarProps) {
   const classes = useStyles();
   const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
 
@@ -37,7 +43,6 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
         <Button
           id="hamburger"
           aria-label="open drawer"
-          edge="start"
           size="large"
           variant="contained"
           color="secondary"

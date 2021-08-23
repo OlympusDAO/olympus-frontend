@@ -71,6 +71,7 @@ type onChainProvider = {
   disconnect: () => void;
   provider: JsonRpcProvider;
   address: string;
+  chainID: number;
   connected: Boolean;
   web3Modal: Web3Modal;
 };

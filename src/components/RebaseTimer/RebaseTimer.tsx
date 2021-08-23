@@ -1,12 +1,12 @@
-import { useSelector } from "react-redux";
 import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import { Box, Typography } from "@material-ui/core";
 import "./rebasetimer.scss";
+import { useAppSelector } from "src/hooks";
 import { Skeleton } from "@material-ui/lab";
 import { useMemo } from "react";
 
 function RebaseTimer() {
-  const currentBlock = useSelector(state => {
+  const currentBlock = useAppSelector(state => {
     return state.app.currentBlock;
   });
 

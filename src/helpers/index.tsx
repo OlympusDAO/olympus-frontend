@@ -158,11 +158,11 @@ export function trim(number: number | undefined, precision?: number) {
     number = 0;
   }
   const array = number.toString().split(".");
-  if (array.length === 1) return number.toString();
+  if (array.length === 1) return number;
 
   array.push((array.pop() as any).substring(0, precision));
   const trimmedNumber = array.join(".");
-  return trimmedNumber;
+  return Number(trimmedNumber);
 }
 
 export function getRebaseBlock(currentBlock: number) {
@@ -262,5 +262,7 @@ export function getPairImage(name: string) {
  * @returns BigNumber type value as number type value
  */
 export function toNum(bigNum: BigNumberish) {
+  // TS-REFACTOR-TODO: investigate why attempting to do const string = bigNum.toString()
+  // return Number(string); breaks.
   return bigNum as number;
 }

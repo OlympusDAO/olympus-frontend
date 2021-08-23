@@ -1,7 +1,7 @@
 import { getTokenImage, getPairImage, isBondLP } from "../helpers";
 import { Box } from "@material-ui/core";
 
-function BondHeader({ bond }) {
+function BondHeader({ bond }: { bond: string }) {
   const reserveAssetImg = () => {
     if (bond.indexOf("frax") >= 0) {
       return getTokenImage("frax");

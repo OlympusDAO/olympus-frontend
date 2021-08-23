@@ -1,10 +1,8 @@
-import { useSelector } from "react-redux";
 import {
   Paper,
   Grid,
   Typography,
   Box,
-  Slide,
   Table,
   TableBody,
   TableCell,
@@ -18,6 +16,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
+import { useAppSelector } from "src/hooks";
 import { Skeleton } from "@material-ui/lab";
 
 function ChooseBond() {
@@ -25,12 +24,12 @@ function ChooseBond() {
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
-  const isAppLoading = useSelector(state => state.app.loading);
-  const marketPrice = useSelector(state => {
+  const isAppLoading = useAppSelector(state => state.app.loading);
+  const marketPrice = useAppSelector(state => {
     return state.app.marketPrice;
   });
 
-  const treasuryBalance = useSelector(state => {
+  const treasuryBalance = useAppSelector(state => {
     return state.app.treasuryBalance;
   });
 
