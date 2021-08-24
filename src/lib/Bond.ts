@@ -9,7 +9,7 @@ export enum NetworkID {
 }
 
 export enum BondType {
-  StableCoin,
+  StableAsset,
   LP,
 }
 
@@ -21,6 +21,14 @@ export interface BondAddresses {
 export interface NetworkAddresses {
   [NetworkID.Mainnet]: BondAddresses;
   [NetworkID.Testnet]: BondAddresses;
+}
+
+interface BondOpts {
+  name: string;
+  displayName: string;
+  bondIconSvg: string;
+  bondContract: ethers.ContractInterface;
+  networkAddrs: NetworkAddresses;
 }
 
 abstract class Bond {
@@ -36,20 +44,13 @@ abstract class Bond {
   abstract isLP: Boolean;
   abstract reserveContract: ethers.ContractInterface; // Token ABI
 
-  constructor(
-    name: string,
-    displayName: string,
-    type: BondType,
-    bondIconSvg: string,
-    bondContract: ethers.ContractInterface,
-    networkAddrs: NetworkAddresses,
-  ) {
-    this.name = name;
-    this.displayName = displayName;
+  constructor(type: BondType, bondOpts: BondOpts) {
+    this.name = bondOpts.name;
+    this.displayName = bondOpts.displayName;
     this.type = type;
-    this.bondIconSvg = bondIconSvg;
-    this.bondContract = bondContract;
-    this.networkAddrs = networkAddrs;
+    this.bondIconSvg = bondOpts.bondIconSvg;
+    this.bondContract = bondOpts.bondContract;
+    this.networkAddrs = bondOpts.networkAddrs;
   }
 
   // Note: do we cache this and not recreate the object everytime?
@@ -65,41 +66,33 @@ abstract class Bond {
 }
 
 // Keep all LP specific fields/logic within the LPBond class
+export interface LPBondOpts extends BondOpts {
+  reserveContract: ethers.ContractInterface;
+  lpUrl: string;
+}
+
 export class LPBond extends Bond {
   readonly isLP = true;
   readonly lpUrl: string;
   readonly reserveContract: ethers.ContractInterface;
 
-  constructor(
-    name: string,
-    displayName: string,
-    lpUrl: string,
-    bondIconSvg: string,
-    bondContract: ethers.ContractInterface,
-    reserveContract: ethers.ContractInterface,
-    networkAddrs: NetworkAddresses,
-  ) {
-    super(name, displayName, BondType.LP, bondIconSvg, bondContract, networkAddrs);
+  constructor(lpBondOpts: LPBondOpts) {
+    super(BondType.LP, lpBondOpts);
 
-    this.lpUrl = lpUrl;
-    this.reserveContract = reserveContract;
+    this.lpUrl = lpBondOpts.lpUrl;
+    this.reserveContract = lpBondOpts.reserveContract;
   }
 }
 
 // Generic BondClass we should be using everywhere
 // Assumes the token being deposited follows the standard ERC20 spec
+export interface StableBondOpts extends BondOpts {}
 export class StableBond extends Bond {
   readonly isLP = false;
   readonly reserveContract: ethers.ContractInterface;
 
-  constructor(
-    name: string,
-    displayName: string,
-    bondIconSvg: string,
-    bondContract: ethers.ContractInterface,
-    networkAddrs: NetworkAddresses,
-  ) {
-    super(name, displayName, BondType.LP, bondIconSvg, bondContract, networkAddrs);
+  constructor(stableBondOpts: StableBondOpts) {
+    super(BondType.StableAsset, stableBondOpts);
 
     this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
   }
