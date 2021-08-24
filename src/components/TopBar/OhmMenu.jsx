@@ -50,7 +50,12 @@ function OhmMenu() {
   const id = "ohm-popper";
   return (
     <>
-      <div onMouseEnter={e => handleClick(e)} onMouseLeave={e => handleClick(e)} id="ohm-menu-button-hover">
+      <Box
+        component="div"
+        onMouseEnter={e => handleClick(e)}
+        onMouseLeave={e => handleClick(e)}
+        id="ohm-menu-button-hover"
+      >
         <Button
           id="ohm-menu-button"
           size="large"
@@ -68,7 +73,7 @@ function OhmMenu() {
             return (
               <Fade {...TransitionProps} timeout={200}>
                 <Paper className="ohm-menu" elevation={1}>
-                  <div className="buy-tokens">
+                  <Box component="div" className="buy-tokens">
                     <Link
                       href={`https://app.sushi.com/swap?inputCurrency=${addresses[networkID].RESERVES.DAI}&outputCurrency=${OHM_ADDRESS}`}
                       target="_blank"
@@ -92,7 +97,7 @@ function OhmMenu() {
                         </Typography>
                       </Button>
                     </Link>
-                  </div>
+                  </Box>
 
                   {isEthereumAPIAvailable ? (
                     <Box className="add-tokens">
@@ -132,7 +137,7 @@ function OhmMenu() {
             );
           }}
         </Popper>
-      </div>
+      </Box>
     </>
   );
 }
