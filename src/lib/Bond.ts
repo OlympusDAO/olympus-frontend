@@ -28,7 +28,7 @@ abstract class Bond {
   readonly name: string;
   readonly displayName: string;
   readonly type: BondType;
-  readonly bondIconUrl: string; // Its not a URL its  an svg.. HOW DO WE DO THIS.
+  readonly bondIconSvg: string; // Its not a URL its  an svg.. HOW DO WE DO THIS.
   readonly bondContract: ethers.ContractInterface; // Bond ABI
   readonly networkAddrs: NetworkAddresses;
 
@@ -40,14 +40,14 @@ abstract class Bond {
     name: string,
     displayName: string,
     type: BondType,
-    bondIconUrl: string,
+    bondIconSvg: string,
     bondContract: ethers.ContractInterface,
     networkAddrs: NetworkAddresses,
   ) {
     this.name = name;
     this.displayName = displayName;
     this.type = type;
-    this.bondIconUrl = bondIconUrl;
+    this.bondIconSvg = bondIconSvg;
     this.bondContract = bondContract;
     this.networkAddrs = networkAddrs;
   }
@@ -73,13 +73,13 @@ export class LPBond extends Bond {
   constructor(
     name: string,
     displayName: string,
-    bondIconUrl: string,
     lpUrl: string,
+    bondIconSvg: string,
     bondContract: ethers.ContractInterface,
     reserveContract: ethers.ContractInterface,
     networkAddrs: NetworkAddresses,
   ) {
-    super(name, displayName, BondType.LP, bondIconUrl, bondContract, networkAddrs);
+    super(name, displayName, BondType.LP, bondIconSvg, bondContract, networkAddrs);
 
     this.lpUrl = lpUrl;
     this.reserveContract = reserveContract;
@@ -95,11 +95,11 @@ export class StableBond extends Bond {
   constructor(
     name: string,
     displayName: string,
-    bondIconUrl: string,
+    bondIconSvg: string,
     bondContract: ethers.ContractInterface,
     networkAddrs: NetworkAddresses,
   ) {
-    super(name, displayName, BondType.LP, bondIconUrl, bondContract, networkAddrs);
+    super(name, displayName, BondType.LP, bondIconSvg, bondContract, networkAddrs);
 
     this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
   }
