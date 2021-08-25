@@ -8,6 +8,13 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
+import {
+  loadAppKey,
+  loadBondsKey,
+  loadAccountKey,
+  isRefreshAllowedForKey,
+  setStopperTimestamp,
+} from "./helpers/ApiStopper";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
@@ -125,17 +132,32 @@ function App() {
 
   const loadApp = useCallback(
     loadProvider => {
-      dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-      Object.values(BONDS).map(async bond => {
-        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
-      });
+      if (isRefreshAllowedForKey(loadAppKey, 2)) {
+        dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+
+        // NOTE (appleseed): is it possible for this to be set when requests FAILED?
+        setStopperTimestamp(loadAppKey);
+      }
+      if (isRefreshAllowedForKey(loadBondsKey, 0.5)) {
+        Object.values(BONDS).map(async bond => {
+          await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+        });
+
+        // NOTE (appleseed): could the API call fail & we still got here?
+        setStopperTimestamp(loadBondsKey);
+      }
     },
     [connected],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+      if (isRefreshAllowedForKey(loadAccountKey, 0.5)) {
+        dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+
+        // NOTE (appleseed): is it possible for this to be set when requests FAILED?
+        setStopperTimestamp(loadAccountKey);
+      }
     },
     [connected],
   );
