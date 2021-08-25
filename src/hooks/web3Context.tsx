@@ -28,7 +28,7 @@ const ALCHEMY_ID_LIST = [
 ];
 
 const TEMP_ALCHEMY_IDS = [
-  "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // appleseed-temp1
+  // "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // appleseed-temp1
   "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
 ];
 function getAlchemyAPI(chainID: Number) {
