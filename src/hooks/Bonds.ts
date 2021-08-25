@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import allBonds, { allBondsMap } from "src/helpers/AllBonds";
+import allBonds from "src/helpers/AllBonds";
 
 interface IBondingStateView {
   bonding: {
