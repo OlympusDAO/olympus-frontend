@@ -29,6 +29,7 @@ function useBonds() {
         name: bond.displayName,
         value: bond.name,
         discount: Number(bondDiscount),
+        bondInfo: bond,
       };
     });
 
