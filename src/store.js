@@ -8,8 +8,23 @@ import pendingTransactionsReducer from "./slices/PendingTxnsSlice";
 // reducers are named automatically based on the name field in the slice
 // exported in slice files by default as nameOfSlice.reducer
 
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+const saveToLocalStorage = state => {
+  try {
+    localStorage.setItem("state", JSON.stringify(state));
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const loadFromLocalStorage = () => {
+  try {
+    const stateStr = localStorage.getItem("state");
+    return stateStr ? JSON.parse(stateStr) : undefined;
+  } catch (e) {
+    console.error(e);
+    return undefined;
+  }
+};
 
 const rootReducer = combineReducers({
   account: accountReducer,
@@ -18,24 +33,15 @@ const rootReducer = combineReducers({
   pendingTransactions: pendingTransactionsReducer,
 });
 
-const persistConfig = {
-  key: "root",
-  storage,
-};
+const persistedStore = loadFromLocalStorage();
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
+// we must pass composeEnhancers into the createStore bc redux-thunk is dispatching
+// functions into the store, Chad explanation: https://stackoverflow.com/a/54066862
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(thunk)));
-// const store = configureStore({
-//   reducer: {
-//     //   we'll have state.account, state.bonding, etc, each handled by the corresponding
-//     // reducer imported from the slice file
-//     account: accountReducer,
-//     bonding: bondingReducer,
-//     app: appReducer,
-//     pendingTransactions: pendingTransactionsReducer,
-//   },
-// });
-const persistor = persistStore(store);
-export { store, persistor };
+const store = createStore(rootReducer, persistedStore, composeEnhancers(applyMiddleware(thunk)));
+
+store.subscribe(() => {
+  saveToLocalStorage(store.getState());
+});
+
+export default store;
