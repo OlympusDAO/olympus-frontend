@@ -27,6 +27,9 @@ const ALCHEMY_ID_LIST = [
   "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
 ];
 
+// this is the ethers common api key, it is rate limited somewhat
+const defaultApiKey = "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC";
+
 const TEMP_ALCHEMY_IDS = [
   // "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // appleseed-temp1
   "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
@@ -132,6 +135,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const _initListeners = useCallback(() => {
     // this IF stops the func if provider is !Web3Provider since we only want to run on WalletProviders
     if (!provider || provider instanceof Web3Provider !== true) return;
+
     provider.on("accountsChanged", () => {
       if (_hasCachedProvider()) return;
       setTimeout(() => window.location.reload(), 1);
@@ -166,6 +170,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
     const rawProvider = await web3Modal.connect();
+
     const connectedProvider = new Web3Provider(rawProvider, "any");
 
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
@@ -203,9 +208,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   );
 
   useEffect(() => {
-    if (_hasCachedProvider()) {
-      connect();
-    }
+    // Don't try to connect here. Do it in App.jsx
+    // console.log(_hasCachedProvider());
+    // if (_hasCachedProvider()) {
+    //   connect();
+    // }
   }, []);
 
   // initListeners needs to be run after walletProvider is connected
