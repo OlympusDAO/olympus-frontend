@@ -31,7 +31,7 @@ interface BondOpts {
   networkAddrs: NetworkAddresses;
 }
 
-abstract class Bond {
+export abstract class Bond {
   // Standard Bond fields regardless of LP bonds or stable bonds.
   readonly name: string;
   readonly displayName: string;
@@ -53,14 +53,19 @@ abstract class Bond {
     this.networkAddrs = bondOpts.networkAddrs;
   }
 
-  // Note: do we cache this and not recreate the object everytime?
+  getAddressForBond(networkID: NetworkID) {
+    return this.networkAddrs[networkID].bondAddress;
+  }
   getContractForBond(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
-    const bondAddress = this.networkAddrs[networkID].bondAddress;
+    const bondAddress = this.getAddressForBond(networkID);
     return new ethers.Contract(bondAddress, this.bondContract, provider);
   }
 
+  getAddressForReserve(networkID: NetworkID) {
+    return this.networkAddrs[networkID].reserveAddress;
+  }
   getContractForReserve(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
-    const bondAddress = this.networkAddrs[networkID].reserveAddress;
+    const bondAddress = this.getAddressForReserve(networkID);
     return new ethers.Contract(bondAddress, this.reserveContract, provider);
   }
 }
