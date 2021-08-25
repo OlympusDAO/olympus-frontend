@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useWeb3Context } from "../../hooks";
-import { Link } from "react-router-dom";
 // import { OhmDataLoading } from '../../components/Loading/OhmDataLoading'
-import { Paper, Box, Typography, Button, Tab, Tabs, Zoom, SvgIcon, CircularProgress } from "@material-ui/core";
+import { Box, CircularProgress, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { POOL_GRAPH_URLS } from "../../constants";
-import { poolDataQuery } from "./poolData.js";
+import { useWeb3Context } from "../../hooks";
 import { apolloExt } from "../../lib/apolloClient";
+import { poolDataQuery } from "./poolData.js";
 
 export const PoolInfo = () => {
   const { address, provider, chainID } = useWeb3Context();
@@ -37,7 +37,7 @@ export const PoolInfo = () => {
   if (loading) {
     return <CircularProgress />;
   }
-  
+
   return (
     <Zoom in={true}>
       <Paper className="ohm-card">
