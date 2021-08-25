@@ -14,11 +14,12 @@ import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
 
-const dai = new StableBond({
+export const dai = new StableBond({
   name: "dai",
   displayName: "DAI",
+  bondToken: "DAI",
   bondIconSvg: DaiImg,
-  bondContract: DaiBondContract,
+  bondContractABI: DaiBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x575409F8d77c12B05feD8B455815f0e54797381c",
@@ -31,11 +32,12 @@ const dai = new StableBond({
   },
 });
 
-const frax = new StableBond({
+export const frax = new StableBond({
   name: "frax",
   displayName: "FRAX",
+  bondToken: "FRAX",
   bondIconSvg: FraxImg,
-  bondContract: FraxBondContract,
+  bondContractABI: FraxBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514",
@@ -48,11 +50,12 @@ const frax = new StableBond({
   },
 });
 
-const eth = new StableBond({
+export const eth = new StableBond({
   name: "eth",
   displayName: "wETH",
+  bondToken: "wETH",
   bondIconSvg: wETHImg,
-  bondContract: EthBondContract,
+  bondContractABI: EthBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xE6295201CD1ff13CeD5f063a5421c39A1D236F1c",
@@ -65,11 +68,12 @@ const eth = new StableBond({
   },
 });
 
-const ohm_dai = new LPBond({
+export const ohm_dai = new LPBond({
   name: "ohm_dai_lp",
   displayName: "OHM-DAI SLP",
+  bondToken: "DAI",
   bondIconSvg: OhmDaiImg,
-  bondContract: BondOhmDaiContract,
+  bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -85,11 +89,12 @@ const ohm_dai = new LPBond({
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
 });
 
-const ohm_frax = new LPBond({
+export const ohm_frax = new LPBond({
   name: "ohm_frax_lp",
   displayName: "OHM-FRAX SLP",
+  bondToken: "FRAX",
   bondIconSvg: OhmFraxImg,
-  bondContract: FraxOhmBondContract,
+  bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
