@@ -26,6 +26,11 @@ const ALCHEMY_ID_LIST = [
   "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
   "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
 ];
+
+const TEMP_ALCHEMY_IDS = [
+  // "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // appleseed-temp1
+  "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
+];
 function getAlchemyAPI(chainID: Number) {
   const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
   const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
@@ -35,20 +40,22 @@ function getAlchemyAPI(chainID: Number) {
 
 const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
 const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
+
+// TODO(zx): Remove this out post 8/25/2021 when we use our prod alchemyAPI key
+// temp force into TEMP_ALCHEMY_IDS
+const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
+const ALL_URIs = [..._tempAlchemyURIs];
+// temp change ALL_URIs into TEMP_ALCHEMY_IDS
+// const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
 
 function getMainnetURI(): string {
-  // TODO(zx): Remove this out post 8/25/2021 when we use our prod alchemyAPI key
-  const tempAPIkey = "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf";
-  return `https://eth-mainnet.alchemyapi.io/v2/${tempAPIkey}`;
-  // NOTE(zx): uncomment when we delete the above
-  // // Shuffles the URIs for "intelligent" loadbalancing
-  // const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
+  // Shuffles the URIs for "intelligent" loadbalancing
+  const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
 
-  // // There is no lightweight way to test each URL. so just return a random one.
-  // // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
-  // const randomIndex = Math.floor(Math.random() * allURIs.length);
-  // return allURIs[randomIndex];
+  // There is no lightweight way to test each URL. so just return a random one.
+  // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
+  const randomIndex = Math.floor(Math.random() * allURIs.length);
+  return allURIs[randomIndex];
 }
 
 /*

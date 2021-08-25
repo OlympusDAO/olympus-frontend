@@ -13516,6 +13516,11 @@ react-event-listener@^0.6.2:
     prop-types "^15.6.0"
     warning "^4.0.1"
 
+react-ga4@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-ga4/-/react-ga4-1.0.5.tgz#a7b64378fe8ad1910bd7d00963908727712cb5cd"
+  integrity sha512-rWpDdh5EeeEhKdkrcm/87UW8e9BqX3WEWv4f3sIm8qQ4xng+KCgAG8HmJ6GVAF5JVk9ssk1Ahf2ial7hfSAt/A==
+
 react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
