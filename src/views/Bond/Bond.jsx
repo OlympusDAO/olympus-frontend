@@ -27,12 +27,13 @@ function Bond({ bond }) {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
 
+  const stateKey = bond.name;
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const marketPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].marketPrice;
+    return state.bonding[stateKey] && state.bonding[stateKey].marketPrice;
   });
   const bondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondPrice;
+    return state.bonding[stateKey] && state.bonding[stateKey].bondPrice;
   });
 
   const onRecipientAddressChange = e => {
@@ -50,10 +51,6 @@ function Bond({ bond }) {
   const changeView = (event, newView) => {
     setView(newView);
   };
-
-  let bondToken = "DAI";
-  if (bond.indexOf("frax") >= 0) bondToken = "FRAX";
-  else if (bond.indexOf("eth") >= 0) bondToken = "ETH";
 
   return (
     <Fade in={true} mountOnEnter unmountOnExit>
@@ -75,13 +72,7 @@ function Bond({ bond }) {
                     Bond Price
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    {isBondLoading ? (
-                      <Skeleton />
-                    ) : bond.indexOf("eth") >= 0 ? (
-                      `$${trim(bondPrice, 2)}`
-                    ) : (
-                      `${trim(bondPrice, 2)} ${bondToken}`
-                    )}
+                    {isBondLoading ? <Skeleton /> : `$${trim(marketPrice, 2)}`}
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -89,13 +80,7 @@ function Bond({ bond }) {
                     Market Price
                   </Typography>
                   <Typography variant="h3" color="primary" className="price">
-                    {isBondLoading ? (
-                      <Skeleton />
-                    ) : bond.indexOf("eth") >= 0 ? (
-                      `$${trim(marketPrice, 2)}`
-                    ) : (
-                      `${trim(marketPrice, 2)} ${bondToken}`
-                    )}
+                    {isBondLoading ? <Skeleton /> : `$${trim(marketPrice, 2)}`}
                   </Typography>
                 </div>
               </Box>

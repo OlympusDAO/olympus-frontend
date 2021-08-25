@@ -5,11 +5,12 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import axios from "axios";
-import { contractForReserve, addressForAsset, contractForBond, setAll } from "../helpers";
+import { setAll } from "../helpers";
 import { BONDS } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
+import allBonds, { ohm_dai, ohm_frax } from "src/helpers/AllBonds";
 
 const initialState = {
   loading: false,
@@ -76,6 +77,7 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
 
   // Calculate Treasury Balance
   // TODO: PLS DRY and modularize.
+  // REPLACE with new BONd logic.
   let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
   let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
@@ -87,14 +89,16 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
 
   token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
   let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-  let valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_dai, networkID }), ohmDaiAmount);
-  let markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_dai, networkID }));
+  const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
+  let valuation = await bondCalculator.valuation(ohm_dai_address, ohmDaiAmount);
+  let markdown = await bondCalculator.markdown(ohm_dai_address);
   let ohmDaiUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 
   token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
   let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-  valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
-  markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
+  const ohmFraxAddress = ohm_frax.getAddressForReserve(networkID);
+  valuation = await bondCalculator.valuation(ohmFraxAddress, ohmFraxAmount);
+  markdown = await bondCalculator.markdown(ohmFraxAddress);
   let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 
   const treasuryBalance =

@@ -13,7 +13,6 @@ import {
 } from "@material-ui/core";
 import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import { changeApproval, bondAsset } from "../../slices/BondSlice";
-import { BONDS } from "../../constants";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
@@ -29,16 +28,17 @@ function BondPurchase({ bond, slippage }) {
     return state.app.currentBlock;
   });
 
+  const stateKey = bond.name;
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const vestingTerm = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].vestingBlock;
   });
 
   const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
+    return state.bonding[stateKey] && state.bonding[stateKey].bondDiscount;
   });
   const maxBondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].maxBondPrice;
+    return state.bonding[stateKey] && state.bonding[stateKey].maxBondPrice;
   });
   const interestDue = useSelector(state => {
     return state.account[bond] && state.account[bond].interestDue;
@@ -47,10 +47,10 @@ function BondPurchase({ bond, slippage }) {
     return state.account[bond] && state.account[bond].pendingPayout;
   });
   const debtRatio = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].debtRatio;
+    return state.bonding[stateKey] && state.bonding[stateKey].debtRatio;
   });
   const bondQuote = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondQuote;
+    return state.bonding[stateKey] && state.bonding[stateKey].bondQuote;
   });
   const balance = useSelector(state => {
     return state.account[bond] && state.account[bond].balance;
@@ -116,13 +116,6 @@ function BondPurchase({ bond, slippage }) {
     setQuantity((balance || "").toString());
   };
 
-  const balanceUnits = () => {
-    if (bond.indexOf("_lp") >= 0) return "LP";
-    else if (bond === BONDS.dai) return "DAI";
-    else if (bond === BONDS.eth) return "wETH";
-    else return "FRAX";
-  };
-
   useEffect(() => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
@@ -130,6 +123,8 @@ function BondPurchase({ bond, slippage }) {
   const onSeekApproval = async () => {
     await dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
   };
+
+  const displayUnits = bond.displayUnits;
 
   return (
     <Box display="flex" flexDirection="column">
@@ -158,10 +153,10 @@ function BondPurchase({ bond, slippage }) {
             color="primary"
             id="bond-btn"
             className="transaction-button"
-            disabled={isPendingTxn(pendingTransactions, "bond_" + bond)}
+            disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
             onClick={onBond}
           >
-            {txnButtonText(pendingTransactions, "bond_" + bond, "Bond")}
+            {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
           </Button>
         ) : (
           <Button
@@ -169,10 +164,10 @@ function BondPurchase({ bond, slippage }) {
             color="primary"
             id="bond-approve-btn"
             className="transaction-button"
-            disabled={isPendingTxn(pendingTransactions, "approve_" + bond)}
+            disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
             onClick={onSeekApproval}
           >
-            {txnButtonText(pendingTransactions, "approve_" + bond, "Approve")}
+            {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
           </Button>
         )}
 
@@ -197,7 +192,7 @@ function BondPurchase({ bond, slippage }) {
                 <Skeleton width="100px" />
               ) : (
                 <>
-                  {trim(balance, 4)} {balanceUnits()}
+                  {trim(balance, 4)} {displayUnits}
                 </>
               )}
             </Typography>

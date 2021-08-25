@@ -126,9 +126,6 @@ function App() {
       allBonds.map(bond => {
         dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
       });
-      // Object.values(BONDS).map(async bond => {
-      //   await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
-      // });
     },
     [connected],
   );
@@ -229,9 +226,9 @@ function App() {
             </Route>
 
             <Route path="/bonds">
-              {Object.values(BONDS).map(bond => {
+              {allBonds.map(bond => {
                 return (
-                  <Route exact key={bond} path={`/bonds/${bond}`}>
+                  <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
                     <Bond bond={bond} />
                   </Route>
                 );
