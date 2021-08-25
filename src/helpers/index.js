@@ -219,6 +219,10 @@ export function getTokenImage(name) {
   if (name === "eth") return getEthTokenImage();
 }
 
+export function getTokenImageWithSVG(component) {
+  return <SvgIcon component={component} viewBox="0 0 32 32" style={{ height: "32px", width: "32px" }} />;
+}
+
 export function getPairImage(name) {
   if (name.indexOf("dai") >= 0)
     return <SvgIcon component={OhmDaiImg} viewBox="0 0 62 32" style={{ height: "32px", width: "62px" }} />;
