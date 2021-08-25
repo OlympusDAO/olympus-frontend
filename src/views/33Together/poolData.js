@@ -80,5 +80,3 @@ query {
   
 }
 `;
-
-// export const poolData = () => apollo(poolDataQuery).then(r => r.data.protocolMetrics);
