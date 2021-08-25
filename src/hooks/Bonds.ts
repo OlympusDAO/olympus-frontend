@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import allBonds from "src/helpers/AllBonds";
+import allBonds, { allBondsMap } from "src/helpers/AllBonds";
 
 interface IBondingStateView {
   bonding: {
@@ -9,9 +9,7 @@ interface IBondingStateView {
   };
 }
 
-const initialBondArray = allBonds.map(bond => {
-  return { name: bond.displayName, value: bond.name, discount: 0 };
-});
+const initialBondArray = allBonds;
 function useBonds() {
   // TODO(zx): find usages of this and make shit consistent from allBonds.ts usage (this is only a limited view into the world.)
   const bondLoading = useSelector((state: IBondingStateView) => !state.bonding.loading);
@@ -19,27 +17,23 @@ function useBonds() {
   const [bonds, setBonds] = useState(initialBondArray);
 
   useEffect(() => {
-    const discounts = allBonds.map(bond => {
-      let bondDiscount = 0;
+    const bondDetails = allBonds.map(bond => {
       if (bondState[bond.name] && bondState[bond.name].bondDiscount) {
-        bondDiscount = bondState[bond.name].bondDiscount;
+        return Object.assign(bond, bondState[bond.name]); // Keeps the object type
       }
-
-      return {
-        name: bond.displayName,
-        value: bond.name,
-        discount: Number(bondDiscount),
-        bondInfo: bond,
-      };
+      // We have no data regarding bonds yet
+      return bond;
     });
 
-    const mostProfitableBonds = discounts
+    const mostProfitableBonds = bondDetails
       .concat()
-      .sort((a, b) => (a["discount"] > b["discount"] ? -1 : b["discount"] > a["discount"] ? 1 : 0));
+      .sort((a, b) => (a["bondDiscount"] > b["bondDiscount"] ? -1 : b["bondDiscount"] > a["bondDiscount"] ? 1 : 0));
     setBonds(mostProfitableBonds);
   }, [bondState, bondLoading]);
 
-  return bonds;
+  // Debug Log:
+  console.log(bonds);
+  return { bonds, loading: bondLoading };
 }
 
 export default useBonds;
