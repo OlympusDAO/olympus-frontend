@@ -28,30 +28,15 @@ function BondPurchase({ bond, slippage }) {
     return state.app.currentBlock;
   });
 
-  const stateKey = bond.name;
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const vestingTerm = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].vestingBlock;
   });
 
-  const bondDiscount = useSelector(state => {
-    return state.bonding[stateKey] && state.bonding[stateKey].bondDiscount;
-  });
-  const maxBondPrice = useSelector(state => {
-    return state.bonding[stateKey] && state.bonding[stateKey].maxBondPrice;
-  });
-  const interestDue = useSelector(state => {
-    return state.account[bond] && state.account[bond].interestDue;
-  });
   const pendingPayout = useSelector(state => {
     return state.account[bond] && state.account[bond].pendingPayout;
   });
-  const debtRatio = useSelector(state => {
-    return state.bonding[stateKey] && state.bonding[stateKey].debtRatio;
-  });
-  const bondQuote = useSelector(state => {
-    return state.bonding[stateKey] && state.bonding[stateKey].bondQuote;
-  });
+
   const balance = useSelector(state => {
     return state.account[bond] && state.account[bond].balance;
   });
@@ -63,12 +48,8 @@ function BondPurchase({ bond, slippage }) {
     return state.pendingTransactions;
   });
 
-  const hasEnteredAmount = () => {
-    return !(isNaN(quantity) || quantity === 0 || quantity === "");
-  };
-
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(vestingTerm);
+    const vestingBlock = parseInt(currentBlock) + parseInt(bond.vestingTerm);
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
@@ -78,7 +59,7 @@ function BondPurchase({ bond, slippage }) {
       alert("Please enter a value!");
     } else if (isNaN(quantity)) {
       alert("Please enter a valid value!");
-    } else if (interestDue > 0 || pendingPayout > 0) {
+    } else if (bond.interestDue > 0 || bond.pendingPayout > 0) {
       const shouldProceed = window.confirm(
         "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?",
       );
@@ -109,11 +90,11 @@ function BondPurchase({ bond, slippage }) {
   }
 
   const hasAllowance = useCallback(() => {
-    return allowance > 0;
-  }, [allowance]);
+    return bond.allowance > 0;
+  }, [bond.allowance]);
 
   const setMax = () => {
-    setQuantity((balance || "").toString());
+    setQuantity((bond.balance || "").toString());
   };
 
   useEffect(() => {
@@ -192,7 +173,7 @@ function BondPurchase({ bond, slippage }) {
                 <Skeleton width="100px" />
               ) : (
                 <>
-                  {trim(balance, 4)} {displayUnits}
+                  {trim(bond.balance, 4)} {displayUnits}
                 </>
               )}
             </Typography>
@@ -201,25 +182,29 @@ function BondPurchase({ bond, slippage }) {
           <div className={`data-row`}>
             <Typography>You Will Get</Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bondQuote, 4) || "0"} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4) || "0"} OHM`}
             </Typography>
           </div>
 
           <div className={`data-row`}>
             <Typography>Max You Can Buy</Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(maxBondPrice, 4) || "0"} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice, 4) || "0"} OHM`}
             </Typography>
           </div>
 
           <div className="data-row">
             <Typography>ROI</Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : `${trim(bondDiscount * 100, 2)}%`}</Typography>
+            <Typography>
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}
+            </Typography>
           </div>
 
           <div className="data-row">
             <Typography>Debt Ratio</Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : `${trim(debtRatio / 10000000, 2)}%`}</Typography>
+            <Typography>
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.debtRatio / 10000000, 2)}%`}
+            </Typography>
           </div>
 
           <div className="data-row">
