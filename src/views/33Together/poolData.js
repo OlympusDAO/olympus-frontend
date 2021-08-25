@@ -81,4 +81,27 @@ query {
 }
 `;
 
+export const poolInfoQuery = `
+query {
+  prizePool(id: "0x60bc094cb0c966e60ed3be0549e92f3bc572e9f8") {
+    id
+    deactivated
+    owner
+    cumulativePrizeNet
+    cumulativePrizeGross
+    currentState
+    prizes(orderBy: id, orderDirection: desc, first: 1) {
+      id
+      prizePeriodStartedTimestamp
+      awardedBlock
+      lockBlock
+      awardedTimestamp
+      numberOfSubWinners
+      awardedTimestamp
+      numberOfExternalAwardedErc20Winners
+      totalTicketSupply
+    }
+  }
+}`;
+
 // export const poolData = () => apollo(poolDataQuery).then(r => r.data.protocolMetrics);
