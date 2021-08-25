@@ -26,6 +26,7 @@ import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
 import { BONDS } from "./constants";
+import allBonds from "./helpers/AllBonds";
 import "./style.scss";
 
 // 😬 Sorry for all the console logging
@@ -122,9 +123,12 @@ function App() {
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-      Object.values(BONDS).map(async bond => {
-        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+      allBonds.map(bond => {
+        dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
       });
+      // Object.values(BONDS).map(async bond => {
+      //   await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+      // });
     },
     [connected],
   );
