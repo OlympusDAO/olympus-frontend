@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
-import useGoogleAnalytics from "./hooks/analytics/useGoogleAnalytics";
+import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
