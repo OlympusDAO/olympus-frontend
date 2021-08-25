@@ -119,5 +119,6 @@ export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});
 
-console.log(allBondsMap);
+// Debug Log
+// console.log(allBondsMap);
 export default allBonds;

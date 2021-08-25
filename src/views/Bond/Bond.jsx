@@ -27,14 +27,7 @@ function Bond({ bond }) {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
 
-  const stateKey = bond.name;
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
-  const marketPrice = useSelector(state => {
-    return state.bonding[stateKey] && state.bonding[stateKey].marketPrice;
-  });
-  const bondPrice = useSelector(state => {
-    return state.bonding[stateKey] && state.bonding[stateKey].bondPrice;
-  });
 
   const onRecipientAddressChange = e => {
     return setRecipientAddress(e.target.value);
@@ -72,7 +65,7 @@ function Bond({ bond }) {
                     Bond Price
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    {isBondLoading ? <Skeleton /> : `$${trim(marketPrice, 2)}`}
+                    {isBondLoading ? <Skeleton /> : `$${trim(bond.marketPrice, 2)}`}
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -80,7 +73,7 @@ function Bond({ bond }) {
                     Market Price
                   </Typography>
                   <Typography variant="h3" color="primary" className="price">
-                    {isBondLoading ? <Skeleton /> : `$${trim(marketPrice, 2)}`}
+                    {isBondLoading ? <Skeleton /> : `$${trim(bond.marketPrice, 2)}`}
                   </Typography>
                 </div>
               </Box>

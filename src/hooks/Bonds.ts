@@ -32,7 +32,7 @@ function useBonds() {
   }, [bondState, bondLoading]);
 
   // Debug Log:
-  console.log(bonds);
+  // console.log(bonds);
   return { bonds, loading: bondLoading };
 }
 

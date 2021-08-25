@@ -6,6 +6,7 @@ import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
+import useBonds from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 
@@ -25,8 +26,6 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
-import { BONDS } from "./constants";
-import allBonds from "./helpers/AllBonds";
 import "./style.scss";
 
 // 😬 Sorry for all the console logging
@@ -90,7 +89,7 @@ function App() {
 
   const isAppLoading = useSelector(state => state.app.loading);
   const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
-
+  const { bonds } = useBonds();
   async function loadDetails(whichDetails) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
@@ -133,7 +132,7 @@ function App() {
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-      allBonds.map(bond => {
+      bonds.map(bond => {
         dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
       });
     },
@@ -209,7 +208,7 @@ function App() {
             </Route>
 
             <Route path="/bonds">
-              {allBonds.map(bond => {
+              {bonds.map(bond => {
                 return (
                   <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
                     <Bond bond={bond} />
