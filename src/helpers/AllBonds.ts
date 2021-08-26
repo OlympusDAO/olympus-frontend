@@ -14,6 +14,8 @@ import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
 
+// TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
+//   and include that in the definition of a bond
 export const dai = new StableBond({
   name: "dai",
   displayName: "DAI",
