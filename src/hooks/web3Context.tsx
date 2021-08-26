@@ -203,8 +203,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, provider, connected, address, chainID, web3Modal }),
-    [connect, disconnect, provider, connected, address, chainID, web3Modal],
+    () => ({ connect, disconnect, _hasCachedProvider, provider, connected, address, chainID, web3Modal }),
+    [connect, disconnect, _hasCachedProvider, provider, connected, address, chainID, web3Modal],
   );
 
   useEffect(() => {

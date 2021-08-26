@@ -84,7 +84,7 @@ function App() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // NOTE (appleseed): does an OnChainProvider NEED to be saved to context? Or can it be called freshly each time?
-  const { connect, provider, chainID, connected, web3Modal } = useWeb3Context();
+  const { connect, _hasCachedProvider, provider, chainID, connected, web3Modal } = useWeb3Context();
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
@@ -145,15 +145,15 @@ function App() {
   // ... if we don't wait we'll ALWAYS fire API calls via JsonRpc because provider has not
   // ... been reloaded within App.
   useEffect(() => {
-    // below is the equivalent of __hasCachedProvider() in web3Context
-    if (!web3Modal || !web3Modal.cachedProvider) {
-      // then user DOES NOT have a wallet
-      setWalletChecked(true);
-    } else {
+    // below is the equivalent of _hasCachedProvider() in web3Context
+    if (_hasCachedProvider()) {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
       });
+    } else {
+      // then user DOES NOT have a wallet
+      setWalletChecked(true);
     }
   }, []);
 
