@@ -136,7 +136,11 @@ export class StableBond extends Bond {
 
 // These are special bonds that have different valuation methods
 export interface CustomBondOpts extends BondOpts {
-  customTreasuryBalanceFunc: (networkID: NetworkID, provider: StaticJsonRpcProvider) => Promise<number>;
+  customTreasuryBalanceFunc: (
+    this: CustomBond,
+    networkID: NetworkID,
+    provider: StaticJsonRpcProvider,
+  ) => Promise<number>;
 }
 export class CustomBond extends StableBond {
   readonly isLP = false;
@@ -150,11 +154,5 @@ export class CustomBond extends StableBond {
     this.displayUnits = customBondOpts.displayName;
     this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
     this.getTreasuryBalance = customBondOpts.customTreasuryBalanceFunc.bind(this);
-  }
-
-  async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
-    let token = this.getContractForReserve(networkID, provider);
-    let tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    return tokenAmount / Math.pow(10, 18);
   }
 }
