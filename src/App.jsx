@@ -9,7 +9,7 @@ import useTheme from "./hooks/useTheme";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 
-import { calcBondDetails } from "./slices/BondSlice";
+import { calcBondDetails, calculateUserBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails } from "./slices/AccountSlice";
 
@@ -113,6 +113,12 @@ function App() {
 
       loadApp(loadProvider);
     }
+
+    if (whichDetails === "userBonds" && address && connected) {
+      Object.values(BONDS).map(async bond => {
+        await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+      });
+    }
   }
 
   const loadApp = useCallback(
@@ -157,6 +163,7 @@ function App() {
     if (walletChecked) {
       loadDetails("app");
       loadDetails("account");
+      loadDetails("userBonds");
     }
   }, [walletChecked]);
 
@@ -166,6 +173,7 @@ function App() {
     if (connected) {
       loadDetails("app");
       loadDetails("account");
+      loadDetails("userBonds");
     }
   }, [connected]);
 
