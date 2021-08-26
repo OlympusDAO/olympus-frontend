@@ -26,6 +26,7 @@ import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
+import BondLogo from "../../components/BondLogo";
 import { trim, getTokenImage, getPairImage, getOhmTokenImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../slices/StakeThunk";
 import { getFraxData } from "../../slices/FraxSlice";
@@ -36,6 +37,7 @@ import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
+import { ohm_frax } from "src/helpers/AllBonds";
 
 function a11yProps(index) {
   return {
@@ -46,7 +48,7 @@ function a11yProps(index) {
 
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
-const OhmFraxImg = getPairImage("frax");
+const OhmFraxImg = ohm_frax.bondIconSvg;
 
 function Stake() {
   const dispatch = useDispatch();
@@ -425,7 +427,7 @@ function Stake() {
                     <TableRow>
                       <TableCell>
                         <Box className="ohm-pairs">
-                          {OhmFraxImg}
+                          <BondLogo bond={ohm_frax}></BondLogo>
                           <Typography>OHM-FRAX</Typography>
                         </Box>
                       </TableCell>

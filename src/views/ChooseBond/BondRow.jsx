@@ -1,4 +1,4 @@
-import { trim, priceUnits } from "../../helpers";
+import { trim } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
 import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
@@ -34,9 +34,7 @@ export function BondDataCard({ bond }) {
         <div className="data-row">
           <Typography>Price</Typography>
           <Typography className="bond-price">
-            <>
-              {priceUnits(bond)} {isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}
-            </>
+            <>{isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}</>
           </Typography>
         </div>
 

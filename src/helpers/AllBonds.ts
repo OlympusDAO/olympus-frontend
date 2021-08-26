@@ -70,7 +70,7 @@ export const eth = new StableBond({
 
 export const ohm_dai = new LPBond({
   name: "ohm_dai_lp",
-  displayName: "OHM-DAI SLP",
+  displayName: "OHM-DAI LP",
   bondToken: "DAI",
   bondIconSvg: OhmDaiImg,
   bondContractABI: BondOhmDaiContract,
@@ -91,7 +91,7 @@ export const ohm_dai = new LPBond({
 
 export const ohm_frax = new LPBond({
   name: "ohm_frax_lp",
-  displayName: "OHM-FRAX SLP",
+  displayName: "OHM-FRAX LP",
   bondToken: "FRAX",
   bondIconSvg: OhmFraxImg,
   bondContractABI: FraxOhmBondContract,

@@ -20,99 +20,11 @@ import { ReactComponent as FraxImg } from "../assets/tokens/FRAX.svg";
 import { ReactComponent as OhmFraxImg } from "../assets/tokens/OHM-FRAX.svg";
 import { ReactComponent as wETHImg } from "../assets/tokens/wETH.svg";
 
-export function addressForBond({ bond, networkID }) {
-  if (bond === BONDS.ohm_dai) {
-    return addresses[networkID].BONDS.OHM_DAI;
-  }
-  if (bond === BONDS.dai) {
-    return addresses[networkID].BONDS.DAI;
-  }
-  if (bond === BONDS.ohm_frax) {
-    return addresses[networkID].BONDS.OHM_FRAX;
-  }
-  if (bond === BONDS.frax) {
-    return addresses[networkID].BONDS.FRAX;
-  }
-  if (bond === BONDS.eth) {
-    return addresses[networkID].BONDS.ETH;
-  }
-}
-
-export function addressForAsset({ bond, networkID }) {
-  if (bond === BONDS.ohm_dai) {
-    return addresses[networkID].RESERVES.OHM_DAI;
-  }
-  if (bond === BONDS.dai) {
-    return addresses[networkID].RESERVES.DAI;
-  }
-  if (bond === BONDS.ohm_frax) {
-    return addresses[networkID].RESERVES.OHM_FRAX;
-  }
-  if (bond === BONDS.frax) {
-    return addresses[networkID].RESERVES.FRAX;
-  }
-  if (bond === BONDS.eth) {
-    return addresses[networkID].RESERVES.ETH;
-  }
-}
-
-export function isBondLP(bond) {
-  return bond.indexOf("_lp") >= 0;
-}
-
-export function lpURL(bond) {
-  if (bond === BONDS.ohm_dai)
-    return "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f";
-  if (bond === BONDS.ohm_frax)
-    return "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899";
-}
-
-export function bondName(bond) {
-  if (bond === BONDS.dai) return "DAI";
-  if (bond === BONDS.ohm_dai) return "OHM-DAI SLP";
-  if (bond === BONDS.ohm_frax) return "OHM-FRAX LP";
-  if (bond === BONDS.frax) return "FRAX";
-  if (bond == BONDS.eth) return "wETH";
-}
-
-export function contractForBond({ bond, networkID, provider }) {
-  if (bond === BONDS.ohm_dai) {
-    return new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);
-  }
-  if (bond === BONDS.dai) {
-    return new ethers.Contract(addresses[networkID].BONDS.DAI, BondDaiContract, provider);
-  }
-  if (bond === BONDS.ohm_frax) {
-    return new ethers.Contract(addresses[networkID].BONDS.OHM_FRAX, BondOhmFraxContract, provider);
-  }
-  if (bond === BONDS.frax) {
-    return new ethers.Contract(addresses[networkID].BONDS.FRAX, FraxBondContract, provider);
-  }
-  if (bond === BONDS.eth) {
-    return new ethers.Contract(addresses[networkID].BONDS.ETH, EthBondContract, provider);
-  }
-}
-
-export function contractForReserve({ bond, networkID, provider }) {
-  if (bond === BONDS.ohm_dai) {
-    return new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, ReserveOhmDaiContract, provider);
-  }
-  if (bond === BONDS.dai) {
-    return new ethers.Contract(addresses[networkID].RESERVES.DAI, ierc20Abi, provider);
-  }
-  if (bond === BONDS.ohm_frax) {
-    return new ethers.Contract(addresses[networkID].RESERVES.OHM_FRAX, ReserveOhmFraxContract, provider);
-  }
-  if (bond === BONDS.frax) {
-    return new ethers.Contract(addresses[networkID].RESERVES.FRAX, ierc20Abi, provider);
-  }
-  if (bond === BONDS.eth) {
-    return new ethers.Contract(addresses[networkID].RESERVES.ETH, ierc20Abi, provider);
-  }
-}
+import { ohm_dai } from "./AllBonds";
 
 export async function getMarketPrice({ networkID, provider }) {
-  const pairContract = new ethers.Contract(addresses[networkID].RESERVES.OHM_DAI, PairContract, provider);
+  const ohm_dai_address = ohm_dai.getAddressForReserve(networkID, provider);
+  const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
   const reserves = await pairContract.getReserves();
   const marketPrice = reserves[1] / reserves[0];
 
@@ -199,43 +111,9 @@ export function getOhmTokenImage(w, h) {
   return <SvgIcon component={OhmImg} viewBox="0 0 32 32" style={{ height: h, width: w }} />;
 }
 
-function getDaiTokenImage() {
-  return <SvgIcon component={DaiImg} viewBox="0 0 32 32" style={{ height: "32px", width: "32px" }} />;
-}
-
-function getFraxTokenImage() {
-  return <SvgIcon component={FraxImg} viewBox="0 0 32 32" style={{ height: "32px", width: "32px" }} />;
-}
-
-function getEthTokenImage() {
-  return <SvgIcon component={wETHImg} viewBox="0 0 32 32" style={{ height: "32px", width: "32px" }} />;
-}
-
 export function getTokenImage(name) {
   if (name === "ohm") return getOhmTokenImage();
   if (name === "sohm") return getSohmTokenImage();
-  if (name === "dai") return getDaiTokenImage();
-  if (name === "frax") return getFraxTokenImage();
-  if (name === "eth") return getEthTokenImage();
-}
-
-export function getTokenImageWithSVG(component) {
-  return <SvgIcon component={component} viewBox="0 0 32 32" style={{ height: "32px", width: "32px" }} />;
-}
-
-export function getPairImage(name) {
-  if (name.indexOf("dai") >= 0)
-    return <SvgIcon component={OhmDaiImg} viewBox="0 0 62 32" style={{ height: "32px", width: "62px" }} />;
-  if (name.indexOf("frax") >= 0)
-    return <SvgIcon component={OhmFraxImg} viewBox="0 0 62 32" style={{ height: "32px", width: "62px" }} />;
-}
-
-export function priceUnits(bond) {
-  if (bond.indexOf("frax") >= 0)
-    return <SvgIcon component={FraxImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
-  else if (bond.indexOf("eth") >= 0) return "$";
-  // <SvgIcon component={wETHImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
-  else return <SvgIcon component={DaiImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />;
 }
 
 export function setAll(state, properties) {

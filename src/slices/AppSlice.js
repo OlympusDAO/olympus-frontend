@@ -10,7 +10,7 @@ import { BONDS } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
-import allBonds, { ohm_dai, ohm_frax } from "src/helpers/AllBonds";
+import allBonds, { dai, eth, frax, ohm_dai, ohm_frax } from "src/helpers/AllBonds";
 
 const initialState = {
   loading: false,
@@ -70,31 +70,30 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
   const bondCalculator = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
 
-  // Get ETH price
-  const ethBondContract = contractForBond({ bond: BONDS.eth, networkID, provider });
-  let ethPrice = await ethBondContract.assetPrice();
-  ethPrice = ethPrice / Math.pow(10, 18);
-
   // Calculate Treasury Balance
   // TODO: PLS DRY and modularize.
-  // REPLACE with new BONd logic.
-  let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
+  // Loop through all bonds & have generic logic to add up treasury balance
+  let token = dai.getContractForReserve(networkID, provider);
   let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
-  token = contractForReserve({ bond: BONDS.frax, networkID, provider });
+  token = frax.getContractForReserve(networkID, provider);
   let fraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
-  token = contractForReserve({ bond: BONDS.eth, networkID, provider });
+  // Eth specific logic
+  const ethBondContract = eth.getContractForBond(networkID, provider);
+  let ethPrice = await ethBondContract.assetPrice();
+  ethPrice = ethPrice / Math.pow(10, 18);
+  token = eth.getContractForReserve(networkID, provider);
   let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
 
-  token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
+  token = ohm_dai.getContractForReserve(networkID, provider);
   let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
   let valuation = await bondCalculator.valuation(ohm_dai_address, ohmDaiAmount);
   let markdown = await bondCalculator.markdown(ohm_dai_address);
   let ohmDaiUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
 
-  token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
+  token = ohm_frax.getContractForReserve(networkID, provider);
   let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
   const ohmFraxAddress = ohm_frax.getAddressForReserve(networkID);
   valuation = await bondCalculator.valuation(ohmFraxAddress, ohmFraxAmount);
@@ -160,8 +159,8 @@ const appSlice = createSlice({
         state.loading = false;
       })
       .addCase(loadAppDetails.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
+        state.status = false;
+        console.error(error.name, error.message, error.stack);
       });
   },
 });
