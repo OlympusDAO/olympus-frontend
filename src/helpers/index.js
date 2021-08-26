@@ -245,5 +245,4 @@ export const setBondState = (state, payload) => {
   const bond = payload.bond;
   const newState = { ...state[bond], ...payload };
   state[bond] = newState;
-  state.loading = false;
 };
