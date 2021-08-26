@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim } from "../../helpers";
-import { calcBondDetails, calculateUserBondDetails } from "../../actions/Bond.actions.js";
 import { Grid, Backdrop, Paper, Box, Tab, Tabs, Typography, Fade, Grow } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
@@ -28,7 +27,7 @@ function Bond({ bond }) {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
 
-  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
+  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const marketPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].marketPrice;
   });
@@ -44,16 +43,7 @@ function Bond({ bond }) {
     return setSlippage(e.target.value);
   };
 
-  async function loadBondDetails() {
-    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
-
-    if (provider && address) {
-      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
-    }
-  }
-
   useEffect(() => {
-    loadBondDetails();
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 

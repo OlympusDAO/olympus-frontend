@@ -5,7 +5,8 @@ import "./dashboard.scss";
 import { Skeleton } from "@material-ui/lab";
 
 function Dashboard() {
-  const isAppLoading = useSelector(state => state.app.loading ?? true);
+  // Use marketPrice as indicator of loading.
+  const isAppLoading = useSelector(state => !state.app?.marketPrice ?? true);
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });

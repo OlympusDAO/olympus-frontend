@@ -629,21 +629,14 @@
   "ast": {
     "absolutePath": "/Users/guillem/Documents/Ethereum/Hedger/core/contracts/financial-templates/common/SyntheticToken.sol",
     "exportedSymbols": {
-      "SyntheticToken": [
-        3844
-      ]
+      "SyntheticToken": [3844]
     },
     "id": 3845,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 3688,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "0:23:21"
       },
@@ -709,15 +702,7 @@
             "src": "334:8:21"
           }
         ],
-        "contractDependencies": [
-          401,
-          1164,
-          1772,
-          2035,
-          13688,
-          14573,
-          14984
-        ],
+        "contractDependencies": [401, 1164, 1772, 2035, 13688, 14573, 14984],
         "contractKind": "contract",
         "documentation": {
           "id": 3691,
@@ -727,16 +712,7 @@
         },
         "fullyImplemented": true,
         "id": 3844,
-        "linearizedBaseContracts": [
-          3844,
-          1164,
-          401,
-          1772,
-          14573,
-          2035,
-          14984,
-          13688
-        ],
+        "linearizedBaseContracts": [3844, 1164, 401, 1772, 14573, 2035, 14984, 13688],
         "name": "SyntheticToken",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -2594,21 +2570,14 @@
   "legacyAST": {
     "absolutePath": "/Users/guillem/Documents/Ethereum/Hedger/core/contracts/financial-templates/common/SyntheticToken.sol",
     "exportedSymbols": {
-      "SyntheticToken": [
-        3844
-      ]
+      "SyntheticToken": [3844]
     },
     "id": 3845,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 3688,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "0:23:21"
       },
@@ -2674,15 +2643,7 @@
             "src": "334:8:21"
           }
         ],
-        "contractDependencies": [
-          401,
-          1164,
-          1772,
-          2035,
-          13688,
-          14573,
-          14984
-        ],
+        "contractDependencies": [401, 1164, 1772, 2035, 13688, 14573, 14984],
         "contractKind": "contract",
         "documentation": {
           "id": 3691,
@@ -2692,16 +2653,7 @@
         },
         "fullyImplemented": true,
         "id": 3844,
-        "linearizedBaseContracts": [
-          3844,
-          1164,
-          401,
-          1772,
-          14573,
-          2035,
-          14984,
-          13688
-        ],
+        "linearizedBaseContracts": [3844, 1164, 401, 1772, 14573, 2035, 14984, 13688],
         "name": "SyntheticToken",
         "nodeType": "ContractDefinition",
         "nodes": [

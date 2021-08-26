@@ -3,17 +3,14 @@ import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
-import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxns.actions";
-import { getBalances } from "./App.actions";
+import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchAccountSuccess } from "./AccountSlice";
+import { getBalances } from "./AccountSlice";
 
-export const fetchStakeSuccess = payload => ({
-  type: Actions.FETCH_STAKE_SUCCESS,
-  payload,
-});
-
-export const changeApproval =
-  ({ token, provider, address, networkID }) =>
-  async dispatch => {
+export const changeApproval = createAsyncThunk(
+  "stake/changeApproval",
+  async ({ token, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -52,18 +49,19 @@ export const changeApproval =
     const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     return dispatch(
-      fetchStakeSuccess({
+      fetchAccountSuccess({
         staking: {
           ohmStake: +stakeAllowance,
           ohmUnstake: +unstakeAllowance,
         },
       }),
     );
-  };
+  },
+);
 
-export const changeStake =
-  ({ action, value, provider, address, networkID }) =>
-  async dispatch => {
+export const changeStake = createAsyncThunk(
+  "stake/changeStake",
+  async ({ action, value, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -97,4 +95,5 @@ export const changeStake =
       }
     }
     return dispatch(getBalances({ address, networkID, provider }));
-  };
+  },
+);
