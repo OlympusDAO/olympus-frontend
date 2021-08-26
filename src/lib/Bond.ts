@@ -2,6 +2,8 @@ import { StaticJsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 import { ethers } from "ethers";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
+import { getBondCalculator } from "src/helpers/BondCalculator";
+import { addresses } from "src/constants";
 
 export enum NetworkID {
   Mainnet = 1,
@@ -47,6 +49,9 @@ export abstract class Bond {
   abstract isLP: Boolean;
   abstract reserveContract: ethers.ContractInterface; // Token ABI
   abstract displayUnits: string;
+
+  // Async method that returns a Promise
+  abstract getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider): Promise<number>;
 
   constructor(type: BondType, bondOpts: BondOpts) {
     this.name = bondOpts.name;
@@ -94,6 +99,16 @@ export class LPBond extends Bond {
     this.reserveContract = lpBondOpts.reserveContract;
     this.displayUnits = "LP";
   }
+  async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
+    const token = this.getContractForReserve(networkID, provider);
+    const tokenAddress = this.getAddressForReserve(networkID);
+    const bondCalculator = getBondCalculator(networkID, provider);
+    const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
+    const markdown = await bondCalculator.markdown(tokenAddress);
+    let tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
+    return tokenUSD;
+  }
 }
 
 // Generic BondClass we should be using everywhere
@@ -110,5 +125,36 @@ export class StableBond extends Bond {
     // For stable bonds the display units are the same as the actual token
     this.displayUnits = stableBondOpts.displayName;
     this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
+  }
+
+  async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
+    let token = this.getContractForReserve(networkID, provider);
+    let tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    return tokenAmount / Math.pow(10, 18);
+  }
+}
+
+// These are special bonds that have different valuation methods
+export interface CustomBondOpts extends BondOpts {
+  customTreasuryBalanceFunc: (networkID: NetworkID, provider: StaticJsonRpcProvider) => Promise<number>;
+}
+export class CustomBond extends StableBond {
+  readonly isLP = false;
+  readonly reserveContract: ethers.ContractInterface;
+  readonly displayUnits: string;
+
+  constructor(customBondOpts: CustomBondOpts) {
+    super(customBondOpts);
+
+    // For stable bonds the display units are the same as the actual token
+    this.displayUnits = customBondOpts.displayName;
+    this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
+    this.getTreasuryBalance = customBondOpts.customTreasuryBalanceFunc.bind(this);
+  }
+
+  async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
+    let token = this.getContractForReserve(networkID, provider);
+    let tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    return tokenAmount / Math.pow(10, 18);
   }
 }

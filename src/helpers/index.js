@@ -1,24 +1,10 @@
-import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS } from "../constants";
+import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS } from "../constants";
 import { ethers } from "ethers";
-import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as PairContract } from "../abi/PairContract.json";
-
-import { abi as BondOhmDaiContract } from "../abi/bonds/OhmDaiContract.json";
-import { abi as BondOhmFraxContract } from "../abi/bonds/OhmFraxContract.json";
-import { abi as BondDaiContract } from "../abi/bonds/DaiContract.json";
-import { abi as ReserveOhmDaiContract } from "../abi/reserves/OhmDai.json";
-import { abi as ReserveOhmFraxContract } from "../abi/reserves/OhmFrax.json";
-import { abi as FraxBondContract } from "../abi/bonds/FraxContract.json";
-import { abi as EthBondContract } from "../abi/bonds/EthContract.json";
 
 import { Box, SvgIcon } from "@material-ui/core";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
-import { ReactComponent as DaiImg } from "../assets/tokens/DAI.svg";
-import { ReactComponent as OhmDaiImg } from "../assets/tokens/OHM-DAI.svg";
-import { ReactComponent as FraxImg } from "../assets/tokens/FRAX.svg";
-import { ReactComponent as OhmFraxImg } from "../assets/tokens/OHM-FRAX.svg";
-import { ReactComponent as wETHImg } from "../assets/tokens/wETH.svg";
 
 import { ohm_dai } from "./AllBonds";
 

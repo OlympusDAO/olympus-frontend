@@ -1,4 +1,5 @@
-import { StableBond, LPBond, NetworkID } from "src/lib/Bond";
+import { StableBond, LPBond, NetworkID, CustomBond } from "src/lib/Bond";
+import { addresses } from "src/constants";
 
 import DaiImg from "src/assets/tokens/DAI.svg";
 import OhmDaiImg from "src/assets/tokens/OHM-DAI.svg";
@@ -52,7 +53,7 @@ export const frax = new StableBond({
   },
 });
 
-export const eth = new StableBond({
+export const eth = new CustomBond({
   name: "eth",
   displayName: "wETH",
   bondToken: "wETH",
@@ -67,6 +68,14 @@ export const eth = new StableBond({
       bondAddress: "0xca7b90f8158A4FAA606952c023596EE6d322bcf0",
       reserveAddress: "0xc778417e063141139fce010982780140aa0cd5ab",
     },
+  },
+  customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
+    const ethBondContract = this.getContractForBond(networkID, provider);
+    let ethPrice = await ethBondContract.assetPrice();
+    ethPrice = ethPrice / Math.pow(10, 18);
+    const token = this.getContractForReserve(networkID, provider);
+    let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    return (ethAmount / Math.pow(10, 18)) * ethPrice;
   },
 });
 
