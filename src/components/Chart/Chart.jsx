@@ -430,7 +430,6 @@ function Chart({
 
   useEffect(() => {
     if (data !== null || undefined) {
-      console.log("data loaded", data);
       setLoading(false);
     }
   }, [data]);
