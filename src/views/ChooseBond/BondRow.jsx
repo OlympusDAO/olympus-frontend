@@ -93,7 +93,7 @@ export function BondTableData({ bond }) {
       <TableCell align="center">
         <Typography>
           <>
-            <span className="currency-icon">$</span>{" "}
+            <span className="currency-icon">$</span>
             {isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}
           </>
         </Typography>
