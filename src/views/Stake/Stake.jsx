@@ -53,7 +53,7 @@ function Stake() {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState("");
 
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
