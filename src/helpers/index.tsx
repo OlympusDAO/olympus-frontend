@@ -249,9 +249,9 @@ export function getTokenImage(name: string) {
 
 export function getPairImage(name: string) {
   if (name.indexOf("dai") >= 0)
-    return <SvgIcon component={OhmDaiImg} viewBox="0 0 64 32" style={{ height: "32px", width: "64px" }} />;
+    return <SvgIcon component={OhmDaiImg} viewBox="0 0 62 32" style={{ height: "32px", width: "62px" }} />;
   if (name.indexOf("frax") >= 0)
-    return <SvgIcon component={OhmFraxImg} viewBox="0 0 64 32" style={{ height: "32px", width: "64px" }} />;
+    return <SvgIcon component={OhmFraxImg} viewBox="0 0 62 32" style={{ height: "32px", width: "62px" }} />;
 }
 
 /**
@@ -263,4 +263,12 @@ export function getPairImage(name: string) {
  */
 export function toNum(bigNum: BigNumberish) {
   return bigNum as number;
+}
+
+// TS-REFACTOR-TODO: Don't use any if possible.
+export function setAll(state: any, properties: any) {
+  const props = Object.keys(properties);
+  props.forEach(key => {
+    state[key] = properties[key];
+  });
 }

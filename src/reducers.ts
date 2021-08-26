@@ -1,6 +1,9 @@
 import { BigNumber } from "ethers";
 import { Actions } from "./constants";
 
+// TS-REFACTOR-TODO: Delete this file, it is redundant/deprecated.
+// However, this file contains typings for the different slices.
+
 /**
  * An action with a string type and an associated payload. This is the
  * type of action returned by `createAction()` action creators.
