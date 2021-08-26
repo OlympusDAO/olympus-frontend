@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { redeemBond } from "../../slices/BondSlice";
@@ -35,6 +36,10 @@ function BondRedeem({ bond }) {
     return state.pendingTransactions;
   });
 
+  const userState = useSelector(state => {
+    return state.account && state.account;
+  });
+
   async function onRedeem({ autostake }) {
     await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
   }
@@ -56,6 +61,10 @@ function BondRedeem({ bond }) {
   const debtRatio = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].debtRatio;
   });
+
+  useEffect(() => {
+    console.log(userState);
+  }, [userState]);
 
   return (
     <Box display="flex" flexDirection="column">
