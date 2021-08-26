@@ -35,6 +35,7 @@ interface IMigrateDetails {
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
 
+// TS-REFACTOR-TODO: unused function
 export const calculateAPY = createAsyncThunk(
   "migrate/calculateAPY",
   async ({ sohmContract, stakingReward }: { sohmContract: SOlympus; stakingReward: number }) => {
