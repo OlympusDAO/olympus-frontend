@@ -6,7 +6,6 @@ import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import axios from "axios";
 import { setAll } from "../helpers";
-import { BONDS } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
@@ -68,44 +67,11 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
   const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
   const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-  const bondCalculator = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
 
   // Calculate Treasury Balance
-  // TODO: PLS DRY and modularize.
-  // Loop through all bonds & have generic logic to add up treasury balance
-  let token = dai.getContractForReserve(networkID, provider);
-  let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-
-  token = frax.getContractForReserve(networkID, provider);
-  let fraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-
-  // Eth specific logic
-  const ethBondContract = eth.getContractForBond(networkID, provider);
-  let ethPrice = await ethBondContract.assetPrice();
-  ethPrice = ethPrice / Math.pow(10, 18);
-  token = eth.getContractForReserve(networkID, provider);
-  let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-
-  token = ohm_dai.getContractForReserve(networkID, provider);
-  let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-  const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
-  let valuation = await bondCalculator.valuation(ohm_dai_address, ohmDaiAmount);
-  let markdown = await bondCalculator.markdown(ohm_dai_address);
-  let ohmDaiUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
-
-  token = ohm_frax.getContractForReserve(networkID, provider);
-  let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-  const ohmFraxAddress = ohm_frax.getAddressForReserve(networkID);
-  valuation = await bondCalculator.valuation(ohmFraxAddress, ohmFraxAmount);
-  markdown = await bondCalculator.markdown(ohmFraxAddress);
-  let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
-
-  const treasuryBalance =
-    daiAmount / Math.pow(10, 18) +
-    fraxAmount / Math.pow(10, 18) +
-    (ethAmount / Math.pow(10, 18)) * ethPrice +
-    ohmDaiUSD +
-    ohmFraxUSD;
+  const tokenBalPromises = allBonds.map(async bond => await bond.getTreasuryBalance(networkID, provider));
+  const tokenBalances = await Promise.all(tokenBalPromises);
+  const treasuryBalance = tokenBalances.reduce((treasuryBal, tokenBalance) => treasuryBal + tokenBalance, 0);
 
   // Calculating staking
   const epoch = await stakingContract.epoch();

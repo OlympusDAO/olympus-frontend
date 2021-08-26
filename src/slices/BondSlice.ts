@@ -3,10 +3,10 @@ import { getMarketPrice } from "../helpers";
 import { getBalances } from "./AccountSlice";
 import { Bond, NetworkID } from "../lib/Bond";
 import { addresses } from "../constants";
-import { abi as BondCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
+import { getBondCalculator } from "src/helpers/BondCalculator";
 
 interface IChangeApproval {
   bond: Bond;
@@ -66,7 +66,7 @@ export const calcBondDetails = createAsyncThunk(
     // const vestingTerm = VESTING_TERM; // hardcoded for now
     let bondPrice, bondDiscount, valuation, bondQuote;
     const bondContract = bond.getContractForBond(networkID, provider);
-    const bondCalcContract = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
+    const bondCalcContract = getBondCalculator(networkID, provider);
 
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();

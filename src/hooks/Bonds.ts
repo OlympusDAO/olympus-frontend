@@ -11,7 +11,6 @@ interface IBondingStateView {
 
 const initialBondArray = allBonds;
 function useBonds() {
-  // TODO(zx): find usages of this and make shit consistent from allBonds.ts usage (this is only a limited view into the world.)
   const bondLoading = useSelector((state: IBondingStateView) => !state.bonding.loading);
   const bondState = useSelector((state: IBondingStateView) => state.bonding);
   const [bonds, setBonds] = useState(initialBondArray);
