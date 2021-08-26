@@ -9,9 +9,9 @@ import useTheme from "./hooks/useTheme";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 
-import { calcBondDetails, calculateUserBondDetails } from "./slices/BondSlice";
+import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
-import { loadAccountDetails } from "./slices/AccountSlice";
+import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 
 import { Stake, ChooseBond, Bond, Dashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";

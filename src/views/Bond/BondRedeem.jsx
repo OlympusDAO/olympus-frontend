@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { redeemBond } from "../../slices/BondSlice";
@@ -16,7 +17,7 @@ function BondRedeem({ bond }) {
 
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const bondMaturationBlock = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
+    return state.account[bond] && state.account[bond].bondMaturationBlock;
   });
 
   const vestingTerm = useSelector(state => {
@@ -24,15 +25,19 @@ function BondRedeem({ bond }) {
   });
 
   const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
+    return state.account[bond] && state.account[bond].interestDue;
   });
 
   const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
+    return state.account[bond] && state.account[bond].pendingPayout;
   });
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
+  });
+
+  const userState = useSelector(state => {
+    return state.account && state.account;
   });
 
   async function onRedeem({ autostake }) {
@@ -56,6 +61,10 @@ function BondRedeem({ bond }) {
   const debtRatio = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].debtRatio;
   });
+
+  useEffect(() => {
+    console.log(userState);
+  }, [userState]);
 
   return (
     <Box display="flex" flexDirection="column">
