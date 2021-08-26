@@ -62,6 +62,9 @@ function ExpandedChart({
                 </ResponsiveContainer>
               )}
             </Box>
+            <Box display="flex" style={{ width: "100%", margin: "15px" }}>
+              <Typography variant="h6">{infoTooltipMessage}</Typography>
+            </Box>
           </Paper>
         </Fade>
       </Backdrop>

@@ -21,6 +21,7 @@ query {
     treasuryDaiMarketValue
     treasuryFraxRiskFreeValue
     treasuryXsushiMarketValue
+    treasuryWETHMarketValue
     currentAPY
     runway10k
     runway20k
@@ -68,6 +69,11 @@ export const bulletpoints = {
       right: 29,
       top: -12,
       background: "linear-gradient(180deg, #DC30EB -10%, #EA98F1 100%)",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "linear-gradient(180deg, #4C8C2A -10%, #8BFF4D 100%)",
     },
   ],
   holder: [
@@ -131,7 +137,7 @@ export const bulletpoints = {
 
 export const tooltipItems = {
   tvl: ["TVL"],
-  coin: ["DAI", "FRAX", "SUSHI"],
+  coin: ["DAI", "FRAX", "ETH", "SUSHI"],
   holder: ["OHMies"],
   apy: ["APY"],
   runway: ["10K APY", "20K APY", "50K APY"],
