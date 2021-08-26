@@ -1,6 +1,6 @@
 import { Box, Icon } from "@material-ui/core";
 
-function BondHeader({ bond }) {
+function BondLogo({ bond }) {
   let viewBox = "0 0 32 32";
   let style = { height: "32px", width: "32px" };
 
@@ -19,4 +19,4 @@ function BondHeader({ bond }) {
   );
 }
 
-export default BondHeader;
+export default BondLogo;
