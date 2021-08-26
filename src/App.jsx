@@ -21,9 +21,9 @@ import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import LoadingSplash from "./components/Loading/LoadingSplash";
 import NotFound from "./views/404/NotFound";
 
-import { dark as darkTheme } from "./themes/dark.js";
-import { light as lightTheme } from "./themes/light.js";
-import { girth as gTheme } from "./themes/girth.js";
+import { dark as darkTheme } from "./themes/dark";
+import { light as lightTheme } from "./themes/light";
+import { girth as gTheme } from "./themes/girth";
 
 import { BONDS } from "./constants";
 import "./style.scss";

@@ -1,11 +1,16 @@
 import { useSelector } from "react-redux";
-import { trim, bondName, lpURL, isBondLP, priceUnits } from "../../helpers";
+import { trim, bondName, lpURL, isBondLP, getTokenImage } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
 import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
+
+function priceUnits(bond) {
+  if (bond.indexOf("frax") >= 0) return <img src={`${getTokenImage("frax")}`} width="15px" height="15px" />;
+  else return <img src={`${getTokenImage("dai")}`} width="15px" height="15px" />;
+}
 
 export function BondDataCard({ bond }) {
   const isBondLoading = useSelector(state => state.bonding[bond]?.bondPrice ?? true);
