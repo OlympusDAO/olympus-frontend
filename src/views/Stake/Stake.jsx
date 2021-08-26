@@ -27,7 +27,7 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import BondLogo from "../../components/BondLogo";
-import { trim, getTokenImage, getPairImage, getOhmTokenImage } from "../../helpers";
+import { trim, getTokenImage, getOhmTokenImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../slices/StakeThunk";
 import { getFraxData } from "../../slices/FraxSlice";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
