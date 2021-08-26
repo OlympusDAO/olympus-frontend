@@ -41,8 +41,8 @@ function BondPurchase({ bond, slippage }) {
   };
 
   async function onBond() {
-    console.log("slippage = ", slippage);
-    console.log("recipientAddress = ", recipientAddress);
+    // console.log("slippage = ", slippage);
+    // console.log("recipientAddress = ", recipientAddress);
 
     if (quantity === "") {
       alert("Please enter a value!");
