@@ -16,7 +16,7 @@ function BondRedeem({ bond }) {
 
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const bondMaturationBlock = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
+    return state.account[bond] && state.account[bond].bondMaturationBlock;
   });
 
   const vestingTerm = useSelector(state => {
@@ -24,11 +24,11 @@ function BondRedeem({ bond }) {
   });
 
   const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
+    return state.account[bond] && state.account[bond].interestDue;
   });
 
   const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
+    return state.account[bond] && state.account[bond].pendingPayout;
   });
 
   const pendingTransactions = useSelector(state => {
