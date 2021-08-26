@@ -40,10 +40,6 @@ export function getRebaseBlock(currentBlock) {
 }
 
 export function secondsUntilBlock(startBlock, endBlock) {
-  if (startBlock % EPOCH_INTERVAL === 0) {
-    return 0;
-  }
-
   const blocksAway = endBlock - startBlock;
   const secondsAway = blocksAway * BLOCK_RATE_SECONDS;
 
