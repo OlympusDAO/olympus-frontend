@@ -61,7 +61,6 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
       totalSupply,
     };
   }
-
   const currentBlock = await provider.getBlockNumber();
 
   const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);

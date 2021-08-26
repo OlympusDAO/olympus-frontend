@@ -15,7 +15,7 @@ import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
 const initialState = {
-  status: "idle",
+  loading: false,
 };
 
 export const changeApproval = createAsyncThunk(
@@ -285,6 +285,13 @@ export const redeemBond = createAsyncThunk(
   },
 );
 
+const setBondState = (state, payload) => {
+  const bond = payload.bond;
+  const newState = { ...state[bond], ...payload };
+  state[bond] = newState;
+  state.loading = false;
+};
+
 const bondingSlice = createSlice({
   name: "bonding",
   initialState,
@@ -299,7 +306,7 @@ const bondingSlice = createSlice({
         state.loading = true;
       })
       .addCase(calcBondDetails.fulfilled, (state, action) => {
-        state[action.payload.bond] = action.payload;
+        setBondState(state, action.payload);
         state.loading = false;
       })
       .addCase(calcBondDetails.rejected, (state, { error }) => {
@@ -310,9 +317,7 @@ const bondingSlice = createSlice({
         state.loading = true;
       })
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
-        const bond = action.payload.bond;
-        const newState = { ...state[bond], ...action.payload };
-        state[bond] = newState;
+        setBondState(state, action.payload);
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
