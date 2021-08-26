@@ -113,8 +113,8 @@ function App() {
     }
 
     if (whichDetails === "userBonds" && address && connected) {
-      Object.values(BONDS).map(async bond => {
-        await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+      bonds.map(bond => {
+        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
       });
     }
   }
