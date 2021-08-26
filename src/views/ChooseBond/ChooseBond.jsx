@@ -25,7 +25,7 @@ function ChooseBond() {
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
-  const isAppLoading = useSelector(state => state.app.loading);
+  const isAppLoading = useSelector(state => state.app.status == "loading");
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
