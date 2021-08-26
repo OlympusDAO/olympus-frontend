@@ -144,45 +144,6 @@ export const calculateUserBondDetails = createAsyncThunk(
   },
 );
 
-export const bondAsset = createAsyncThunk(
-  "account/bondAsset",
-  async ({ value, address, bond, networkID, provider, slippage }, { dispatch }) => {
-    const depositorAddress = address;
-    const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
-    const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
-
-    let balance;
-
-    // Calculate maxPremium based on premium and slippage.
-    // const calculatePremium = await bonding.calculatePremium();
-    const signer = provider.getSigner();
-    const bondContract = contractForBond({ bond, provider: signer, networkID });
-    const calculatePremium = await bondContract.bondPrice();
-    const maxPremium = Math.round(calculatePremium * (1 + acceptedSlippage));
-
-    // Deposit the bond
-    let bondTx;
-    try {
-      bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
-      dispatch(fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bondName(bond), type: "bond_" + bond }));
-      await bondTx.wait();
-      // TODO: it may make more sense to only have it in the finally.
-      // UX preference (show pending after txn complete or after balance updated)
-
-      return dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
-        alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-      } else alert(error.message);
-      return;
-    } finally {
-      if (bondTx) {
-        dispatch(clearPendingTxn(bondTx.hash));
-      }
-    }
-  },
-);
-
 const accountSlice = createSlice({
   name: "account",
   initialState,

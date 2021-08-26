@@ -12,8 +12,7 @@ import {
   Slide,
 } from "@material-ui/core";
 import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
-import { changeApproval } from "../../slices/BondSlice";
-import { bondAsset } from "src/slices/AccountSlice";
+import { changeApproval, bondAsset } from "../../slices/BondSlice";
 import { BONDS } from "../../constants";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
