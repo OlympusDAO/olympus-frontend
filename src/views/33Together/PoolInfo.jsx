@@ -16,20 +16,18 @@ export const PoolInfo = () => {
   const [loading, setLoading] = useState(true);
   const [winners, setWinners] = useState(0);
   const [totalDeposits, setTotalDeposits] = useState(0);
-
   useEffect(() => {
     setGraphUrl(POOL_GRAPH_URLS[chainID]);
   }, [chainID]);
 
   useEffect(() => {
     apolloExt(poolDataQuery, graphUrl)
-      .then(r => {
-        console.log("Response:", r);
+      .then(poolData => {
+        setLoading(false);
         const poolWinners = poolData.data.prizePool.prizeStrategy.multipleWinners.numberOfWinners;
         const poolTotalDeposits = poolData.data.prizePool.controlledTokens[0].totalSupply / 1_000_000_000;
         setWinners(poolWinners);
         setTotalDeposits(poolTotalDeposits);
-        setLoading(false);
       })
       .catch(err => setPoolDataError(err));
   }, []);
