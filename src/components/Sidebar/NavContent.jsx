@@ -16,7 +16,7 @@ import "./sidebar.scss";
 function NavContent() {
   const [isActive] = useState();
   const address = useAddress();
-  const bonds = useBonds();
+  const { bonds } = useBonds();
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -106,13 +106,15 @@ function NavContent() {
                 <div className="bond-discounts">
                   <Typography variant="body2">Bond discounts</Typography>
                   {bonds.map((bond, i) => (
-                    <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>
-                      {!bond.discount ? (
+                    <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
+                      {!bond.bondDiscount ? (
                         <Skeleton variant="text" width={"150px"} />
                       ) : (
                         <Typography variant="body2">
-                          {bond.name}
-                          <span className="bond-pair-roi">{bond.discount && trim(bond.discount * 100, 2)}%</span>
+                          {bond.displayName}
+                          <span className="bond-pair-roi">
+                            {bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%
+                          </span>
                         </Typography>
                       )}
                     </Link>

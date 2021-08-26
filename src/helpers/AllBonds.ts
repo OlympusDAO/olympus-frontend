@@ -1,4 +1,5 @@
-import { StableBond, LPBond, NetworkID } from "src/lib/Bond";
+import { StableBond, LPBond, NetworkID, CustomBond } from "src/lib/Bond";
+import { addresses } from "src/constants";
 
 import DaiImg from "src/assets/tokens/DAI.svg";
 import OhmDaiImg from "src/assets/tokens/OHM-DAI.svg";
@@ -14,11 +15,14 @@ import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
 
-const dai = new StableBond({
+// TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
+//   and include that in the definition of a bond
+export const dai = new StableBond({
   name: "dai",
   displayName: "DAI",
+  bondToken: "DAI",
   bondIconSvg: DaiImg,
-  bondContract: DaiBondContract,
+  bondContractABI: DaiBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x575409F8d77c12B05feD8B455815f0e54797381c",
@@ -31,11 +35,12 @@ const dai = new StableBond({
   },
 });
 
-const frax = new StableBond({
+export const frax = new StableBond({
   name: "frax",
   displayName: "FRAX",
+  bondToken: "FRAX",
   bondIconSvg: FraxImg,
-  bondContract: FraxBondContract,
+  bondContractABI: FraxBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514",
@@ -48,11 +53,12 @@ const frax = new StableBond({
   },
 });
 
-const eth = new StableBond({
+export const eth = new CustomBond({
   name: "eth",
   displayName: "wETH",
+  bondToken: "wETH",
   bondIconSvg: wETHImg,
-  bondContract: EthBondContract,
+  bondContractABI: EthBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xE6295201CD1ff13CeD5f063a5421c39A1D236F1c",
@@ -63,13 +69,22 @@ const eth = new StableBond({
       reserveAddress: "0xc778417e063141139fce010982780140aa0cd5ab",
     },
   },
+  customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
+    const ethBondContract = this.getContractForBond(networkID, provider);
+    let ethPrice = await ethBondContract.assetPrice();
+    ethPrice = ethPrice / Math.pow(10, 18);
+    const token = this.getContractForReserve(networkID, provider);
+    let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    return (ethAmount / Math.pow(10, 18)) * ethPrice;
+  },
 });
 
-const ohm_dai = new LPBond({
+export const ohm_dai = new LPBond({
   name: "ohm_dai_lp",
-  displayName: "OHM-DAI SLP",
+  displayName: "OHM-DAI LP",
+  bondToken: "DAI",
   bondIconSvg: OhmDaiImg,
-  bondContract: BondOhmDaiContract,
+  bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -85,11 +100,12 @@ const ohm_dai = new LPBond({
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
 });
 
-const ohm_frax = new LPBond({
+export const ohm_frax = new LPBond({
   name: "ohm_frax_lp",
-  displayName: "OHM-FRAX SLP",
+  displayName: "OHM-FRAX LP",
+  bondToken: "FRAX",
   bondIconSvg: OhmFraxImg,
-  bondContract: FraxOhmBondContract,
+  bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -114,5 +130,6 @@ export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});
 
-console.log(allBondsMap);
+// Debug Log
+// console.log(allBondsMap);
 export default allBonds;

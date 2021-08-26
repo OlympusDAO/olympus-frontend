@@ -6,26 +6,41 @@ import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll } from "../helpers";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
+import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { NetworkID } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
 
-const initialState = {};
+interface IGetBalances {
+  address: string;
+  networkID: NetworkID;
+  provider: StaticJsonRpcProvider | JsonRpcProvider;
+}
 
-export const getBalances = createAsyncThunk("account/getBalances", async ({ address, networkID, provider }) => {
-  const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
-  const ohmBalance = await ohmContract.balanceOf(address);
-  const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, provider);
-  const sohmBalance = await sohmContract.balanceOf(address);
+export const getBalances = createAsyncThunk(
+  "account/getBalances",
+  async ({ address, networkID, provider }: IGetBalances) => {
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider);
+    const ohmBalance = await ohmContract.balanceOf(address);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
+    const sohmBalance = await sohmContract.balanceOf(address);
 
-  return {
-    balances: {
-      ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-      sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-    },
-  };
-});
+    return {
+      balances: {
+        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
+        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+      },
+    };
+  },
+);
+
+interface ILoadAccountDetails {
+  address: string;
+  networkID: NetworkID;
+  provider: StaticJsonRpcProvider | JsonRpcProvider;
+}
 
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
-  async ({ networkID, provider, address }) => {
+  async ({ networkID, provider, address }: ILoadAccountDetails) => {
     let ohmBalance = 0;
     let sohmBalance = 0;
     let oldsohmBalance = 0;
@@ -46,10 +61,6 @@ export const loadAccountDetails = createAsyncThunk(
       const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
       ohmBalance = await ohmContract.balanceOf(address);
       stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    }
-
-    if (addresses[networkID].DAI_BOND_ADDRESS) {
-      daiBondAllowance = await daiContract.allowance(address, addresses[networkID].DAI_BOND_ADDRESS);
     }
 
     if (addresses[networkID].SOHM_ADDRESS) {
@@ -86,6 +97,11 @@ export const loadAccountDetails = createAsyncThunk(
     };
   },
 );
+
+interface IAccountSlice {
+  [key: string]: any;
+}
+const initialState: IAccountSlice = {};
 
 const accountSlice = createSlice({
   name: "account",
@@ -126,6 +142,7 @@ export default accountSlice.reducer;
 
 export const { fetchAccountSuccess } = accountSlice.actions;
 
-const baseInfo = state => state.account;
+// TODO: Update the type of `state` when we have state definitions
+const baseInfo = (state: any) => state.account;
 
 export const getAccountState = createSelector(baseInfo, account => account);

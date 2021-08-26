@@ -21,11 +21,11 @@ import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 
 function ChooseBond() {
-  const bonds = useBonds();
+  const { bonds } = useBonds();
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
-  const isAppLoading = useSelector(state => state.app.loading);
+  const isAppLoading = useSelector(state => state.app.status == "loading");
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
@@ -90,7 +90,7 @@ function ChooseBond() {
                   </TableHead>
                   <TableBody>
                     {bonds.map(bond => (
-                      <BondTableData key={bond.value} bond={bond.value} />
+                      <BondTableData key={bond.name} bond={bond} />
                     ))}
                   </TableBody>
                 </Table>
@@ -105,7 +105,7 @@ function ChooseBond() {
           <Grid container item spacing={2}>
             {bonds.map(bond => (
               <Grid item xs={12} key={bond.value}>
-                <BondDataCard key={bond.value} bond={bond.value} />
+                <BondDataCard key={bond.name} bond={bond} />
               </Grid>
             ))}
           </Grid>
