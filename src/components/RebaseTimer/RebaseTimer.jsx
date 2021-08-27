@@ -30,7 +30,7 @@ function RebaseTimer() {
             <strong>rebasing</strong>
           )
         ) : (
-          <Skeleton width="200px" />
+          <Skeleton width="155px" />
         )}
       </Typography>
     </Box>
