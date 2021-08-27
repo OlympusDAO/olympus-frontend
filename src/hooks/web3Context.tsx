@@ -133,26 +133,27 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // NOTE (appleseed): none of these listeners are needed for Backend API Providers
   // ... so I changed these listeners so that they only apply to walletProviders, eliminating
   // ... polling to the backend providers for network changes
-  const _initListeners = useCallback(() => {
-    // this IF stops the func if provider is !Web3Provider since we only want to run on WalletProviders
-    if (!provider || provider instanceof Web3Provider !== true) return;
+  const _initListeners = useCallback(
+    rawProvider => {
+      if (!rawProvider.on) {
+        return;
+      }
+      rawProvider.on("accountsChanged", async (accounts: string[]) => {
+        setTimeout(() => window.location.reload(), 1);
+      });
 
-    provider.on("accountsChanged", () => {
-      if (hasCachedProvider()) return;
-      setTimeout(() => window.location.reload(), 1);
-    });
+      rawProvider.on("chainChanged", async (chain: number) => {
+        _checkNetwork(chain);
+        setTimeout(() => window.location.reload(), 1);
+      });
 
-    provider.on("chainChanged", (chain: number) => {
-      if (hasCachedProvider()) return;
-      _checkNetwork(chain);
-      setTimeout(() => window.location.reload(), 1);
-    });
-
-    provider.on("network", (_newNetwork, oldNetwork) => {
-      if (!oldNetwork) return;
-      window.location.reload();
-    });
-  }, [provider]);
+      rawProvider.on("network", (_newNetwork: any, oldNetwork: any) => {
+        if (!oldNetwork) return;
+        window.location.reload();
+      });
+    },
+    [provider],
+  );
 
   // Eventually we will not need this method.
   const _checkNetwork = (otherChainID: number): Boolean => {
@@ -171,6 +172,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
     const rawProvider = await web3Modal.connect();
+
+    // new _initListeners implementation matches Web3Modal Docs
+    // ... see here: https://github.com/Web3Modal/web3modal/blob/2ff929d0e99df5edf6bb9e88cff338ba6d8a3991/example/src/App.tsx#L185
+    _initListeners(rawProvider);
 
     const connectedProvider = new Web3Provider(rawProvider, "any");
 
@@ -216,10 +221,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     // }
   }, []);
 
-  // initListeners needs to be run after walletProvider is connected
-  useEffect(() => {
-    _initListeners();
-  }, [connected]);
+  // initListeners needs to be run on rawProvider... see connect()
+  // useEffect(() => {
+  //   _initListeners();
+  // }, [connected]);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };
