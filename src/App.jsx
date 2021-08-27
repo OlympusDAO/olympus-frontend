@@ -83,7 +83,6 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 960px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  // NOTE (appleseed): does an OnChainProvider NEED to be saved to context? Or can it be called freshly each time?
   const { connect, hasCachedProvider, provider, chainID, connected } = useWeb3Context();
   const address = useAddress();
 
@@ -101,7 +100,6 @@ function App() {
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
 
-    // run with loadProvider (backend provider) so that user doesn't need a connected wallet to see app details.
     if (whichDetails === "app") {
       loadApp(loadProvider);
     }

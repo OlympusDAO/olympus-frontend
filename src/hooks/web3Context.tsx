@@ -129,7 +129,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     return true;
   };
 
-  // NOTE (appleseed): none of these listeners are needed for Backend API Providers, right?
+  // NOTE (appleseed): none of these listeners are needed for Backend API Providers
   // ... so I changed these listeners so that they only apply to walletProviders, eliminating
   // ... polling to the backend providers for network changes
   const _initListeners = useCallback(() => {
