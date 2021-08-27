@@ -32,7 +32,8 @@ const defaultApiKey = "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfH
 
 const TEMP_ALCHEMY_IDS = [
   // "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // appleseed-temp1
-  "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
+  // "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
+  "j0QUyceqxu31tQrAQSotL2YMqmuzoGPh", // appleseed-temp3
 ];
 function getAlchemyAPI(chainID: Number) {
   const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
