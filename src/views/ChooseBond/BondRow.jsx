@@ -8,7 +8,7 @@ import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 
 export function BondDataCard({ bond }) {
-  const isBondLoading = useSelector(state => state.bonding[bond]?.bondPrice ?? true);
+  const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
   const bondPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondPrice;
   });
