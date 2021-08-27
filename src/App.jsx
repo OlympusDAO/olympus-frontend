@@ -145,9 +145,13 @@ function App() {
   useEffect(() => {
     if (hasCachedProvider()) {
       // then user DOES have a wallet
-      connect().then(() => {
-        setWalletChecked(true);
-      });
+      connect()
+        .then(() => {
+          setWalletChecked(true);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     } else {
       // then user DOES NOT have a wallet
       setWalletChecked(true);

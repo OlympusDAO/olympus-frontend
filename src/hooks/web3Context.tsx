@@ -171,7 +171,20 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
-    const rawProvider = await web3Modal.connect();
+    const rawProvider = await web3Modal
+      .connect()
+      .then(resp => {
+        // resp == rawProvider
+        return resp;
+      })
+      .catch(error => {
+        // when the user rejects the connection (clicks X box)
+        // no error response is returned by web3Modal
+        // we throw undefined so that we know something's not right
+        return undefined;
+      });
+    // catch undefined from web3Modal to prevent setting the remaining state in connect block
+    if (rawProvider === undefined) return undefined;
 
     // new _initListeners implementation matches Web3Modal Docs
     // ... see here: https://github.com/Web3Modal/web3modal/blob/2ff929d0e99df5edf6bb9e88cff338ba6d8a3991/example/src/App.tsx#L185
