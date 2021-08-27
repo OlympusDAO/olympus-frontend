@@ -123,7 +123,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     }),
   );
 
-  const _hasCachedProvider = (): Boolean => {
+  const hasCachedProvider = (): Boolean => {
     if (!web3Modal) return false;
     if (!web3Modal.cachedProvider) return false;
     return true;
@@ -137,12 +137,12 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     if (!provider || provider instanceof Web3Provider !== true) return;
 
     provider.on("accountsChanged", () => {
-      if (_hasCachedProvider()) return;
+      if (hasCachedProvider()) return;
       setTimeout(() => window.location.reload(), 1);
     });
 
     provider.on("chainChanged", (chain: number) => {
-      if (_hasCachedProvider()) return;
+      if (hasCachedProvider()) return;
       _checkNetwork(chain);
       setTimeout(() => window.location.reload(), 1);
     });
@@ -181,7 +181,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       console.error("Wrong network, please switch to mainnet");
       return;
     }
-    // Save everything after we've validated the right nextwork.
+    // Save everything after we've validated the right network.
     // Eventually we'll be fine without doing network validations.
     setAddress(connectedAddress);
     setProvider(connectedProvider);
@@ -203,14 +203,14 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, _hasCachedProvider, provider, connected, address, chainID, web3Modal }),
-    [connect, disconnect, _hasCachedProvider, provider, connected, address, chainID, web3Modal],
+    () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal }),
+    [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal],
   );
 
   useEffect(() => {
     // Don't try to connect here. Do it in App.jsx
-    // console.log(_hasCachedProvider());
-    // if (_hasCachedProvider()) {
+    // console.log(hasCachedProvider());
+    // if (hasCachedProvider()) {
     //   connect();
     // }
   }, []);
