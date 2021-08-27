@@ -5,7 +5,9 @@
     color: inherit !important;
   }
 }
-
+.ohm-menu-button-hover {
+  z-index: 9;
+}
 #ohm-popper,
 #ohm-popper-pending {
   z-index: 5;

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { trim, prettyVestingPeriod } from "../../helpers";
-import { calculateUserBondDetails, redeemBond } from "../../slices/BondSlice";
+import { redeemBond } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 function BondRedeemV1({ bond }) {
@@ -12,13 +12,13 @@ function BondRedeemV1({ bond }) {
     return state.app.currentBlock;
   });
   const bondMaturationBlock = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
+    return state.account[bond] && state.account[bond].bondMaturationBlock;
   });
   const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
+    return state.account[bond] && state.account[bond].interestDue;
   });
   const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
+    return state.account[bond] && state.account[bond].pendingPayout;
   });
 
   const vestingTime = () => {
@@ -28,16 +28,6 @@ function BondRedeemV1({ bond }) {
   async function onRedeem() {
     await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake: null }));
   }
-
-  async function loadBondDetails() {
-    if (provider && address) {
-      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
-    }
-  }
-
-  useEffect(() => {
-    loadBondDetails();
-  }, [provider, address]);
 
   return (
     <React.Fragment>

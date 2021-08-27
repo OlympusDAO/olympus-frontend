@@ -7,15 +7,16 @@ import {
   addressForBond,
   addressForAsset,
   bondName,
+  setBondState,
 } from "../helpers";
-import { getBalances } from "./AccountSlice";
+import { getBalances, calculateUserBondDetails } from "./AccountSlice";
 import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
 import { abi as BondCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
 import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
 const initialState = {
-  status: "idle",
+  loading: false,
 };
 
 export const changeApproval = createAsyncThunk(
@@ -68,6 +69,45 @@ export const changeApproval = createAsyncThunk(
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
+      }
+    }
+  },
+);
+
+export const bondAsset = createAsyncThunk(
+  "account/bondAsset",
+  async ({ value, address, bond, networkID, provider, slippage }, { dispatch }) => {
+    const depositorAddress = address;
+    const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
+    const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
+
+    let balance;
+
+    // Calculate maxPremium based on premium and slippage.
+    // const calculatePremium = await bonding.calculatePremium();
+    const signer = provider.getSigner();
+    const bondContract = contractForBond({ bond, provider: signer, networkID });
+    const calculatePremium = await bondContract.bondPrice();
+    const maxPremium = Math.round(calculatePremium * (1 + acceptedSlippage));
+
+    // Deposit the bond
+    let bondTx;
+    try {
+      bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+      dispatch(fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bondName(bond), type: "bond_" + bond }));
+      await bondTx.wait();
+      // TODO: it may make more sense to only have it in the finally.
+      // UX preference (show pending after txn complete or after balance updated)
+
+      return dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
+    } catch (error) {
+      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
+        alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
+      } else alert(error.message);
+      return;
+    } finally {
+      if (bondTx) {
+        dispatch(clearPendingTxn(bondTx.hash));
       }
     }
   },
@@ -158,103 +198,6 @@ export const calcBondDetails = createAsyncThunk(
   },
 );
 
-export const calculateUserBondDetails = createAsyncThunk(
-  "bonding/calculateUserBondDetails",
-  async ({ address, bond, networkID, provider }, { dispatch }) => {
-    if (!address) return;
-
-    // dispatch(fetchBondInProgress());
-
-    // Calculate bond details.
-    const bondContract = contractForBond({ bond, provider, networkID });
-    const reserveContract = contractForReserve({ bond, networkID, provider });
-
-    let interestDue, pendingPayout, bondMaturationBlock;
-
-    const bondDetails = await bondContract.bondInfo(address);
-    interestDue = bondDetails.payout / Math.pow(10, 9);
-    bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
-    pendingPayout = await bondContract.pendingPayoutFor(address);
-
-    let allowance,
-      balance = 0;
-    if (bond === BONDS.ohm_dai) {
-      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
-
-      balance = await reserveContract.balanceOf(address);
-      balance = ethers.utils.formatUnits(balance, "ether");
-    } else if (bond === BONDS.dai) {
-      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.DAI);
-
-      balance = await reserveContract.balanceOf(address);
-      balance = ethers.utils.formatEther(balance);
-    } else if (bond === BONDS.ohm_frax) {
-      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_FRAX);
-
-      balance = await reserveContract.balanceOf(address);
-      balance = ethers.utils.formatUnits(balance, "ether");
-    } else if (bond === BONDS.frax) {
-      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.FRAX);
-
-      balance = await reserveContract.balanceOf(address);
-      balance = ethers.utils.formatUnits(balance, "ether");
-    } else if (bond === BONDS.eth) {
-      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.ETH);
-
-      balance = await reserveContract.balanceOf(address);
-      balance = ethers.utils.formatUnits(balance, "ether");
-    }
-
-    return {
-      bond,
-      allowance: Number(allowance),
-      balance: Number(balance),
-      interestDue,
-      bondMaturationBlock,
-      pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
-    };
-  },
-);
-
-export const bondAsset = createAsyncThunk(
-  "bonding/bondAsset",
-  async ({ value, address, bond, networkID, provider, slippage }, { dispatch }) => {
-    const depositorAddress = address;
-    const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
-    const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
-
-    let balance;
-
-    // Calculate maxPremium based on premium and slippage.
-    // const calculatePremium = await bonding.calculatePremium();
-    const signer = provider.getSigner();
-    const bondContract = contractForBond({ bond, provider: signer, networkID });
-    const calculatePremium = await bondContract.bondPrice();
-    const maxPremium = Math.round(calculatePremium * (1 + acceptedSlippage));
-
-    // Deposit the bond
-    let bondTx;
-    try {
-      bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
-      dispatch(fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bondName(bond), type: "bond_" + bond }));
-      await bondTx.wait();
-      // TODO: it may make more sense to only have it in the finally.
-      // UX preference (show pending after txn complete or after balance updated)
-
-      return dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
-        alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-      } else alert(error.message);
-      return;
-    } finally {
-      if (bondTx) {
-        dispatch(clearPendingTxn(bondTx.hash));
-      }
-    }
-  },
-);
-
 export const redeemBond = createAsyncThunk(
   "bonding/redeemBond",
   async ({ address, bond, networkID, provider, autostake }, { dispatch }) => {
@@ -299,23 +242,10 @@ const bondingSlice = createSlice({
         state.loading = true;
       })
       .addCase(calcBondDetails.fulfilled, (state, action) => {
-        state[action.payload.bond] = action.payload;
+        setBondState(state, action.payload);
         state.loading = false;
       })
       .addCase(calcBondDetails.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
-      })
-      .addCase(calculateUserBondDetails.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
-        const bond = action.payload.bond;
-        const newState = { ...state[bond], ...action.payload };
-        state[bond] = newState;
-        state.loading = false;
-      })
-      .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       });

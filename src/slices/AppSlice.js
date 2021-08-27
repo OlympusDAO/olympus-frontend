@@ -12,7 +12,7 @@ import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 
 const initialState = {
-  status: "idle",
+  loading: false,
 };
 
 export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ networkID, provider }) => {
@@ -138,14 +138,6 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   };
 });
 
-export const getFraxData = createAsyncThunk("app/getFraxData", async () => {
-  const resp = await axios.get("https://api.frax.finance/combineddata/");
-  return {
-    type: Actions.FETCH_FRAX_SUCCESS,
-    payload: resp.data && resp.data.liq_staking && resp.data.liq_staking["Uniswap FRAX/OHM"],
-  };
-});
-
 const appSlice = createSlice({
   name: "app",
   initialState,
@@ -157,14 +149,14 @@ const appSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(loadAppDetails.pending, (state, action) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(loadAppDetails.fulfilled, (state, action) => {
         setAll(state, action.payload);
-        state.status = "idle";
+        state.loading = false;
       })
       .addCase(loadAppDetails.rejected, (state, { error }) => {
-        state.status = "idle";
+        state.loading = false;
         console.log(error);
       });
   },
