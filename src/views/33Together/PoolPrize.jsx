@@ -4,6 +4,8 @@ import { Paper, Box, Typography } from "@material-ui/core";
 import { POOL_GRAPH_URLS } from "../../constants";
 import { poolTimeQuery } from "./poolData.js";
 import { apolloExt } from "../../lib/apolloClient";
+import { poolDataQuery } from "./poolData.js";
+import { trim } from "src/helpers";
 
 // TODO: Add countdown timer functionality using prizePeriodSeconds, prizePeriodEndAt from apollo
 const timerFormat = time => {
@@ -23,17 +25,20 @@ export const PoolPrize = () => {
 
   let interval = useRef();
 
-  // useEffect(() => {
-  //   setGraphUrl(POOL_GRAPH_URLS[chainID]);
-  // }, [chainID]);
+  useEffect(() => {
+    setGraphUrl(POOL_GRAPH_URLS[chainID]);
+  }, [chainID]);
 
   useEffect(() => {
-    apolloExt(poolTimeQuery, graphUrl).then(r => {
-      let endTime = r.data.prizeStrategy.multipleWinners.prizePeriodEndAt;
+    apolloExt(poolDataQuery, graphUrl).then(r => {
+      const data = r.data.prizePool;
+      let endTime = data.prizeStrategy.multipleWinners.prizePeriodEndAt;
       console.log("prize period ends at: ", endTime);
       setEndTime(endTime);
       if (endTime - Date.now()) setTimer(endTime - Date.now());
-      setPrize(2000); // need to replace this with actual prize data
+
+      const currentPrize = data.cumulativePrizeGross / 1_000_000_000;
+      setPrize(trim(currentPrize, 2)); // need to replace this with actual prize data
       setLoading(false);
     });
   }, []);

@@ -1,6 +1,6 @@
 // import { OhmDataLoading } from '../../components/Loading/OhmDataLoading'
-import { Box, CircularProgress, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Box, CircularProgress, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { POOL_GRAPH_URLS } from "../../constants";
@@ -16,17 +16,42 @@ export const PoolInfo = () => {
   const [loading, setLoading] = useState(true);
   const [winners, setWinners] = useState(0);
   const [totalDeposits, setTotalDeposits] = useState(0);
+
+  // query correct pool subgraph depending on current chain
   useEffect(() => {
     setGraphUrl(POOL_GRAPH_URLS[chainID]);
   }, [chainID]);
 
+  // handle new data or query errors
+  useEffect(() => {
+    if (poolDataError) {
+      console.log("pool data error: ", poolDataError);
+    }
+    console.log("pool data updated", poolData);
+  }, [poolData, poolDataError]);
+
+  // query user pool data on wallet connect
+  useEffect(() => {
+    if (address) {
+      console.log("user connected, querying pool data...");
+      // run api query for user data
+    } else {
+      console.log("user not connected");
+    }
+  }, [address]);
+
   useEffect(() => {
     apolloExt(poolDataQuery, graphUrl)
       .then(poolData => {
+        // for development help
+        console.log(poolData);
+        setPoolData(poolData.data);
+
         setLoading(false);
         const poolWinners = poolData.data.prizePool.prizeStrategy.multipleWinners.numberOfWinners;
-        const poolTotalDeposits = poolData.data.prizePool.controlledTokens[0].totalSupply / 1_000_000_000;
         setWinners(poolWinners);
+
+        const poolTotalDeposits = poolData.data.prizePool.controlledTokens[0].totalSupply / 1_000_000_000;
         setTotalDeposits(poolTotalDeposits);
       })
       .catch(err => setPoolDataError(err));
@@ -36,13 +61,27 @@ export const PoolInfo = () => {
     return <CircularProgress />;
   }
 
+  // TODO: add user pool data rows
   return (
     <Zoom in={true}>
       <Paper className="ohm-card">
         <div className="card-header">
           <Typography variant="h5">Prize Pool Info</Typography>
         </div>
-        <Box display="flex" flexDirection="column">
+
+        {address && (
+          <>
+            <Box display="flex" flexDirection="column" className="user-pool-data">
+              <div className="data-row">
+                <Typography>Your odds</Typography>
+                <Typography>1 in 33</Typography>
+              </div>
+            </Box>
+            <Divider color="secondary" />
+          </>
+        )}
+
+        <Box display="flex" flexDirection="column" className="pool-data">
           <div className="data-row">
             <Typography>Winners / prize period</Typography>
             <Typography>{winners}</Typography>
