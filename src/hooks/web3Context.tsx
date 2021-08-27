@@ -134,6 +134,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // ... polling to the backend providers for network changes
   const _initListeners = useCallback(
     rawProvider => {
+      if (!rawProvider.on) {
+        return;
+      }
       rawProvider.on("accountsChanged", async (accounts: string[]) => {
         setTimeout(() => window.location.reload(), 1);
       });
