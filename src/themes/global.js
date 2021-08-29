@@ -130,16 +130,15 @@ const commonSettings = {
       },
       paper: {
         width: "inherit",
-        backgroundColor: "#00000033",
-        backdropFilter: "blur(15px)",
+        // backdropFilter: "blur(33px)",
+        backgroundColor: "inherit",
         padding: 0,
-        zIndex: 7,
       },
     },
     MuiBackdrop: {
       root: {
         backdropFilter: "blur(15px)",
-        zIndex: 3,
+        zIndex: 0,
       },
     },
     MuiToggleButton: {

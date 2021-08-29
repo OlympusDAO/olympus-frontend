@@ -12,13 +12,13 @@ function BondRedeemV1({ bond }) {
     return state.app.currentBlock;
   });
   const bondMaturationBlock = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
+    return state.account[bond] && state.account[bond].bondMaturationBlock;
   });
   const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
+    return state.account[bond] && state.account[bond].interestDue;
   });
   const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
+    return state.account[bond] && state.account[bond].pendingPayout;
   });
 
   const vestingTime = () => {

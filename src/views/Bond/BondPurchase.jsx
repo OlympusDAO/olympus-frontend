@@ -41,10 +41,10 @@ function BondPurchase({ bond, slippage }) {
     return state.bonding[bond] && state.bonding[bond].maxBondPrice;
   });
   const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
+    return state.account[bond] && state.account[bond].interestDue;
   });
   const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
+    return state.account[bond] && state.account[bond].pendingPayout;
   });
   const debtRatio = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].debtRatio;
@@ -53,10 +53,10 @@ function BondPurchase({ bond, slippage }) {
     return state.bonding[bond] && state.bonding[bond].bondQuote;
   });
   const balance = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].balance;
+    return state.account[bond] && state.account[bond].balance;
   });
   const allowance = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].allowance;
+    return state.account[bond] && state.account[bond].allowance;
   });
 
   const pendingTransactions = useSelector(state => {
@@ -74,9 +74,6 @@ function BondPurchase({ bond, slippage }) {
   };
 
   async function onBond() {
-    console.log("slippage = ", slippage);
-    console.log("recipientAddress = ", recipientAddress);
-
     if (quantity === "") {
       alert("Please enter a value!");
     } else if (isNaN(quantity)) {
