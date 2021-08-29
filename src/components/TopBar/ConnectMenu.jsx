@@ -85,7 +85,7 @@ function ConnectMenu({ theme }) {
             <Fade {...TransitionProps} timeout={200}>
               <Paper className="ohm-menu" elevation={1}>
                 {pendingTransactions.map(x => (
-                  <Box fullWidth>
+                  <Box>
                     <Link key={x.txnHash} href={getEtherscanUrl(x.txnHash)} target="_blank" rel="noreferrer">
                       <Button size="large" variant="contained" color="secondary" fullWidth>
                         <Typography align="left">
@@ -95,7 +95,7 @@ function ConnectMenu({ theme }) {
                     </Link>
                   </Box>
                 ))}
-                <Box className="add-tokens" fullWidth>
+                <Box className="add-tokens">
                   <Divider color="secondary" />
                   <Button
                     size="large"

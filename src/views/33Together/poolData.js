@@ -33,7 +33,6 @@ query {
       awardedBlock
       awardedTimestamp
     }
-    
     tokenCreditBalances {
       id
       balance

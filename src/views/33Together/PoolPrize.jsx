@@ -5,7 +5,7 @@ import { POOL_GRAPH_URLS } from "../../constants";
 import { poolTimeQuery } from "./poolData.js";
 import { apolloExt } from "../../lib/apolloClient";
 import { poolDataQuery } from "./poolData.js";
-import { trim } from "src/helpers";
+import { trim, getDateFromSeconds, subtractDates } from "src/helpers";
 
 // TODO: Add countdown timer functionality using prizePeriodSeconds, prizePeriodEndAt from apollo
 const timerFormat = time => {
@@ -19,7 +19,8 @@ export const PoolPrize = () => {
   const [prize, setPrize] = useState(0);
   const [loading, setLoading] = useState(true);
   const [endTime, setEndTime] = useState(null);
-  const [timer, setTimer] = useState(0);
+  const [startTime, setStartTime] = useState(null);
+  const [timer, setTimer] = useState();
 
   const decreaseNum = () => setTimer(prev => prev - 1);
 
@@ -33,12 +34,29 @@ export const PoolPrize = () => {
     apolloExt(poolDataQuery, graphUrl).then(r => {
       const data = r.data.prizePool;
       let endTime = data.prizeStrategy.multipleWinners.prizePeriodEndAt;
-      console.log("prize period ends at: ", endTime);
-      setEndTime(endTime);
-      if (endTime - Date.now()) setTimer(endTime - Date.now());
+      let startTime = data.prizeStrategy.multipleWinners.prizePeriodStartedAt;
 
-      const currentPrize = data.cumulativePrizeGross / 1_000_000_000;
-      setPrize(trim(currentPrize, 2)); // need to replace this with actual prize data
+      let e = getDateFromSeconds(endTime);
+      let s = getDateFromSeconds(startTime);
+
+      console.log("prize period started at: ", startTime, s);
+      console.log("prize period ends at: ", endTime, e);
+
+      let formatted = subtractDates(e, s);
+
+      console.log("formatted prize timmer: ", formatted);
+
+      setEndTime(endTime);
+
+      let currentTime = endTime - startTime;
+      if (endTime - startTime > 0) setTimer(currentTime);
+
+      const gross = data.cumulativePrizeGross / 1_000_000_000;
+      const net = data.cumulativePrizeNet / 1_000_000_000;
+      const prize = data.cumulativePrizeReserveFee;
+      const currentPrize = net - gross; // dont think this is correct
+      console.log(prize, currentPrize);
+      setPrize(trim(currentPrize, 2));
       setLoading(false);
     });
   }, []);
@@ -54,12 +72,18 @@ export const PoolPrize = () => {
         <Box className="vegas"></Box>
       </Box>
       <Paper className="ohm-card">
-        <div className="card-header">
-          <Typography variant="h5">3, 3 Together</Typography>
-        </div>
         <Box display="flex" flexDirection="column" alignItems="center">
-          <Typography variant="h1">{prize} sOHM</Typography>
-          <Typography variant="h3">{timer > 0 ? timer : "00:00:00"}</Typography>
+          <Box margin={2} textAlign="center">
+            <Typography variant="h1">{prize} sOHM</Typography>
+            <Typography variant="h4">Current Prize</Typography>
+          </Box>
+          <Typography>Next award</Typography>
+          <Box>
+            {timer && (
+              // <Typography variant="h3">{`${timer.days} days  ${timer.hours} hours  ${timer.minutes} minutes  ${timer.seconds} seconds`}</Typography>
+              <Typography variant="h3">{timer}</Typography>
+            )}
+          </Box>
         </Box>
       </Paper>
     </Box>

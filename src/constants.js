@@ -50,6 +50,7 @@ export const addresses = {
     },
     POOL_TOGETHER: {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
+      POOL_TOKEN_ADDRESS: "0x7e41da986c80eaba53236fab0d3ff407e7440fb3", // 33T token address
       AWARD_ADDRESS: "0x54c18FB75f946424AF15221414B15a814Ca1EFD0", // contract to start/complete award
     },
   },
