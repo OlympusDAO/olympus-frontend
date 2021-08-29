@@ -128,6 +128,10 @@ const renderStackedAreaChart = (
         <stop offset="0%" stopColor={stopColor[2][0]} stopOpacity={1} />
         <stop offset="90%" stopColor={stopColor[2][1]} stopOpacity={0.9} />
       </linearGradient>
+      <linearGradient id={`color-${dataKey[3]}`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor={stopColor[3][0]} stopOpacity={1} />
+        <stop offset="90%" stopColor={stopColor[3][1]} stopOpacity={0.9} />
+      </linearGradient>
     </defs>
     <XAxis
       dataKey="timestamp"
@@ -177,6 +181,12 @@ const renderStackedAreaChart = (
       dataKey={dataKey[2]}
       stroke={stroke ? stroke[2] : "none"}
       fill={`url(#color-${dataKey[2]})`}
+      fillOpacity={1}
+    />
+    <Area
+      dataKey={dataKey[3]}
+      stroke={stroke ? stroke[3] : "none"}
+      fill={`url(#color-${dataKey[3]})`}
       fillOpacity={1}
     />
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}

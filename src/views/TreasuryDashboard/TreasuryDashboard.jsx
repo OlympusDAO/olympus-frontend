@@ -157,11 +157,17 @@ function TreasuryDashboard() {
                 <Chart
                   type="stack"
                   data={data}
-                  dataKey={["treasuryDaiMarketValue", "treasuryFraxMarketValue"]}
+                  dataKey={[
+                    "treasuryDaiMarketValue",
+                    "treasuryFraxMarketValue",
+                    "treasuryWETHMarketValue",
+                    "treasuryXsushiMarketValue",
+                  ]}
                   stopColor={[
                     ["#F5AC37", "#EA9276"],
                     ["#768299", "#98B3E9"],
-                    ["#000", "#fff"],
+                    ["#DC30EB", "#EA98F1"],
+                    ["#8BFF4D", "#4C8C2A"],
                   ]}
                   headerText="Market Value of Treasury Assets"
                   headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
@@ -184,6 +190,7 @@ function TreasuryDashboard() {
                   stopColor={[
                     ["#F5AC37", "#EA9276"],
                     ["#768299", "#98B3E9"],
+                    ["#000", "#fff"],
                     ["#000", "#fff"],
                   ]}
                   headerText="Risk Free Value of Treasury Assets"
@@ -216,7 +223,7 @@ function TreasuryDashboard() {
                 />
               </Paper>
             </Grid>
-            <Grid item lg={6} md={12} sm={12} xs={12}>
+            {/* <Grid item lg={6} md={12} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <Chart
                   type="bar"
@@ -232,7 +239,7 @@ function TreasuryDashboard() {
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                 />
               </Paper>
-            </Grid>
+            </Grid> */}
 
             <Grid item lg={6} md={12} sm={12} xs={12}>
               <Paper className="ohm-card">
