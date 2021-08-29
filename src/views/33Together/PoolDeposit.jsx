@@ -60,12 +60,6 @@ export const PoolDeposit = () => {
         <ConnectButton />
       ) : (
         <Box>
-          <Box margin={2}>
-            <Typography variant="body1">
-              Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win
-              until your sOHM is withdrawn.
-            </Typography>
-          </Box>
           <Box display="flex" alignItems="center">
             <FormControl className="ohm-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
@@ -113,6 +107,12 @@ export const PoolDeposit = () => {
                 {txnButtonText(pendingTransactions, "approve_pool", "Approve")}
               </Button>
             )}
+          </Box>
+          <Box margin={2}>
+            <Typography variant="body2">
+              Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win
+              until your sOHM is withdrawn.
+            </Typography>
           </Box>
         </Box>
       )}

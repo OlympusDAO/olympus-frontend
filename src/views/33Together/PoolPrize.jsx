@@ -18,8 +18,9 @@ export const PoolPrize = () => {
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[4]);
   const [prize, setPrize] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [endTime, setEndTime] = useState(null);
-  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(0);
+  const [startTime, setStartTime] = useState(0);
+  const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState();
 
   const decreaseNum = () => setTimer(prev => prev - 1);
@@ -32,56 +33,80 @@ export const PoolPrize = () => {
 
   useEffect(() => {
     apolloExt(poolDataQuery, graphUrl).then(r => {
-      const data = r.data.prizePool;
-      let endTime = data.prizeStrategy.multipleWinners.prizePeriodEndAt;
-      let startTime = data.prizeStrategy.multipleWinners.prizePeriodStartedAt;
+      let data = r.data.prizePool;
+      if (data) {
+        let stratData = r.data.prizePool.prizeStrategy.multipleWinners;
+        let endTime = stratData.prizePeriodEndAt;
+        let startTime = stratData.pprizePeriodStartedAt;
 
-      let e = getDateFromSeconds(endTime);
-      let s = getDateFromSeconds(startTime);
+        setEndTime(endTime);
+        setStartTime(startTime);
 
-      console.log("prize period started at: ", startTime, s);
-      console.log("prize period ends at: ", endTime, e);
+        let e = getDateFromSeconds(endTime);
+        let s = getDateFromSeconds(startTime);
+        let currentTime = endTime - startTime;
+        let formatted = subtractDates(e, s);
 
-      let formatted = subtractDates(e, s);
+        console.log("prize period started at: ", startTime, s);
+        console.log("prize period ends at: ", endTime, e);
+        console.log("current prize timer -- ", currentTime);
+        console.log("formatted prize timmer: ", formatted);
 
-      console.log("formatted prize timmer: ", formatted);
+        setSecondsLeft(currentTime);
+        setTimer(formatted);
 
-      setEndTime(endTime);
-
-      let currentTime = endTime - startTime;
-      if (endTime - startTime > 0) setTimer(currentTime);
-
-      const gross = data.cumulativePrizeGross / 1_000_000_000;
-      const net = data.cumulativePrizeNet / 1_000_000_000;
-      const prize = data.cumulativePrizeReserveFee;
-      const currentPrize = net - gross; // dont think this is correct
-      console.log(prize, currentPrize);
-      setPrize(trim(currentPrize, 2));
-      setLoading(false);
+        const gross = data.cumulativePrizeGross / 1_000_000_000;
+        const net = data.cumulativePrizeNet / 1_000_000_000;
+        const prize = data.cumulativePrizeReserveFee;
+        const currentPrize = net - gross; // dont think this is correct
+        console.log(prize, currentPrize);
+        setPrize(trim(currentPrize, 2));
+        setLoading(false);
+      }
     });
   }, []);
 
   useEffect(() => {
-    interval.current = setInterval(decreaseNum, 1000);
-    return () => clearInterval(interval.current);
+    if (secondsLeft > 0) {
+      interval.current = setInterval(decreaseNum, 1000);
+      return () => clearInterval(interval.current);
+    }
   }, []);
 
   return (
-    <Box width="100%" display="flex" flexDirection="column" alignItems="center">
+    <Box width="100%" display="flex" flexDirection="column" alignItems="center" className="pool-prize-card">
       <Box className="vegas-container">
         <Box className="vegas"></Box>
       </Box>
       <Paper className="ohm-card">
         <Box display="flex" flexDirection="column" alignItems="center">
           <Box margin={2} textAlign="center">
-            <Typography variant="h1">{prize} sOHM</Typography>
+            <Typography variant="h1">{prize && prize} sOHM</Typography>
             <Typography variant="h4">Current Prize</Typography>
           </Box>
-          <Typography>Next award</Typography>
-          <Box>
+          <Typography variant="h6">Next award</Typography>
+          <Box className="pool-timer">
             {timer && (
-              // <Typography variant="h3">{`${timer.days} days  ${timer.hours} hours  ${timer.minutes} minutes  ${timer.seconds} seconds`}</Typography>
-              <Typography variant="h3">{timer}</Typography>
+              <>
+                <Box className="pool-timer-unit">
+                  <Typography variant="h3">{timer.days}</Typography>
+                  <Typography>day</Typography>
+                </Box>
+
+                <Box className="pool-timer-unit">
+                  <Typography variant="h3">{timer.hours}</Typography>
+                  <Typography>hrs</Typography>
+                </Box>
+
+                <Box className="pool-timer-unit">
+                  <Typography variant="h3">{timer.minutes}</Typography>
+                  <Typography>min</Typography>
+                </Box>
+                <Box className="pool-timer-unit">
+                  <Typography variant="h3">{timer.seconds}</Typography>
+                  <Typography>sec</Typography>
+                </Box>
+              </>
             )}
           </Box>
         </Box>

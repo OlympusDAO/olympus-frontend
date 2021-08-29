@@ -36,12 +36,6 @@ export const PoolWithdraw = () => {
         <ConnectButton />
       ) : (
         <Box>
-          <Box margin={2}>
-            <Typography variant="body1">
-              You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are
-              eliminating/reducing the chance to win the prize in this pool in the next prize periods
-            </Typography>
-          </Box>
           <Box display="flex" alignItems="center">
             <FormControl className="ohm-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
@@ -77,6 +71,12 @@ export const PoolWithdraw = () => {
               {/* {txnButtonText(pendingTransactions, "pool_withdraw", "Withdraw")} */}
               Withdraw
             </Button>
+          </Box>
+          <Box margin={2}>
+            <Typography variant="body2">
+              You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating /
+              reducing the chance to win the prize in this pool in future prize periods
+            </Typography>
           </Box>
         </Box>
       )}

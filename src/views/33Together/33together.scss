@@ -3,33 +3,48 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // overflow: hidden;
   overflow-y: visible;
+
   .award-buttons button {
     margin: 5px !important;
   }
 
-  .vegas-container {
-    max-height: 240px;
-    height: 100%;
-    max-width: 833px;
-    width: 97%;
-    margin-bottom: -18px;
-    margin-top: -10px;
-    z-index: 3;
-    position: sticky;
+  .pool-prize-card {
+    .vegas-container {
+      max-height: 240px;
+      height: 100%;
+      max-width: 833px;
+      width: 97%;
+      margin-bottom: -20px;
+      margin-top: -10px;
+      z-index: 3;
+      position: sticky;
+    }
+
+    .vegas {
+      width: 100%;
+      background-image: url("../../assets/images/33-together-spritesheet.png");
+      animation: sprite 3.33s steps(7) infinite;
+      background-size: 700%;
+      background-repeat: repeat-x;
+    }
+
+    .pool-timer {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin: 5px;
+      .pool-timer-unit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 3.3rem;
+      }
+    }
   }
 }
 
-.vegas {
-  height: 240px;
-  width: 100%;
-  background-image: url("../../assets/images/33-together-spritesheet.png");
-  animation: sprite 3.33s steps(7) infinite;
-  background-size: 700%;
-  background-repeat: repeat-x;
-}
-
+// Mobile styles
 .tablet .vegas {
   height: 200px;
 }
