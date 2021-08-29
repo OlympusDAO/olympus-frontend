@@ -15,7 +15,7 @@ export const PoolDeposit = () => {
   const [quantity, setQuantity] = useState(0);
 
   const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
+    return state.account.balances && state.account.balances.sohm;
   });
 
   const poolBalance = useSelector(state => {
@@ -37,11 +37,13 @@ export const PoolDeposit = () => {
   };
 
   const onDeposit = async action => {
+    console.log("TEMP deposit");
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
       alert("Please enter a value!");
     } else {
+      console.log("TEMP esle", address, action, quantity.toString(), provider, chainID);
       await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
   };
@@ -51,6 +53,7 @@ export const PoolDeposit = () => {
   }, [poolAllowance]);
 
   const setMax = () => {
+    console.log("TEMP sohmBalance", sohmBalance);
     setQuantity(sohmBalance);
   };
 
@@ -92,7 +95,7 @@ export const PoolDeposit = () => {
                 variant="contained"
                 color="primary"
                 disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
-                onClick={() => onDeposit()}
+                onClick={() => onDeposit("deposit")}
               >
                 {txnButtonText(pendingTransactions, "deposit", "Deposit sOHM")}
               </Button>

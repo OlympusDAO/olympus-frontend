@@ -61,11 +61,13 @@ export const poolDeposit = createAsyncThunk(
       alert("Please connect your wallet!");
       return;
     }
-
+    console.log("TEMP ool depsoti", addresses[networkID].POOL_TOGETHER.POOL_ADDRESS);
     const signer = provider.getSigner();
     const poolContract = await new ethers.Contract(addresses[networkID].POOL_TOGETHER.POOL_ADDRESS, PrizePool, signer);
     let poolTx;
 
+    // TODO (appleseed): ethers contract call broken above... not getting to here
+    console.log("TEMP in", action);
     try {
       if (action === "deposit") {
         poolTx = await poolContract.timelockDepositTo(
