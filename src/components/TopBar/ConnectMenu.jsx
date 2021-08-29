@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Box, Button, SvgIcon, Typography, Popper, Paper, Divider, Link, Slide } from "@material-ui/core";
+import { Box, Button, SvgIcon, Typography, Popper, Paper, Divider, Link, Slide, Fade } from "@material-ui/core";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as CaretDownIcon } from "../../assets/icons/caret-down.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -54,7 +54,12 @@ function ConnectMenu({ theme }) {
   }, [web3, connected]);
 
   return (
-    <div className="wallet-menu" id="wallet-menu">
+    <div
+      onMouseEnter={e => (pendingTransactions && pendingTransactions.length > 0 ? handleClick(e) : null)}
+      onMouseLeave={e => (pendingTransactions && pendingTransactions.length > 0 ? handleClick(e) : null)}
+      className="wallet-menu"
+      id="wallet-menu"
+    >
       <Button
         className={buttonStyles}
         variant="contained"
@@ -74,23 +79,39 @@ function ConnectMenu({ theme }) {
         )}
       </Button>
 
-      <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-end">
-        <Paper className="ohm-menu" elevation={1}>
-          {pendingTransactions.map(x => (
-            <Link key={x.txnHash} href={getEtherscanUrl(x.txnHash)} color="primary" target="_blank" rel="noreferrer">
-              <div className="pending-txn-container">
-                <Typography style={{ color: primaryColor }}>{x.text}</Typography>
-                <SvgIcon component={ArrowUpIcon} htmlColor={primaryColor} />
-              </div>
-            </Link>
-          ))}
-          <Box className="add-tokens">
-            <Divider color="secondary" />
-            <Button variant="text" color="secondary" onClick={disconnect} style={{ marginBottom: "0px" }}>
-              <Typography>Disconnect</Typography>
-            </Button>
-          </Box>
-        </Paper>
+      <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-end" transition>
+        {({ TransitionProps }) => {
+          return (
+            <Fade {...TransitionProps} timeout={200}>
+              <Paper className="ohm-menu" elevation={1}>
+                {pendingTransactions.map(x => (
+                  <Box fullWidth>
+                    <Link key={x.txnHash} href={getEtherscanUrl(x.txnHash)} target="_blank" rel="noreferrer">
+                      <Button size="large" variant="contained" color="secondary" fullWidth>
+                        <Typography align="left">
+                          {x.text} <SvgIcon component={ArrowUpIcon} />
+                        </Typography>
+                      </Button>
+                    </Link>
+                  </Box>
+                ))}
+                <Box className="add-tokens" fullWidth>
+                  <Divider color="secondary" />
+                  <Button
+                    size="large"
+                    variant="contained"
+                    color="secondary"
+                    onClick={disconnect}
+                    style={{ marginBottom: "0px" }}
+                    fullWidth
+                  >
+                    <Typography>Disconnect</Typography>
+                  </Button>
+                </Box>
+              </Paper>
+            </Fade>
+          );
+        }}
       </Popper>
     </div>
   );

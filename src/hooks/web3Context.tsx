@@ -27,9 +27,13 @@ const ALCHEMY_ID_LIST = [
   "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
 ];
 
+// this is the ethers common api key, it is rate limited somewhat
+const defaultApiKey = "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC";
+
 const TEMP_ALCHEMY_IDS = [
   // "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // appleseed-temp1
-  "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
+  // "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
+  "j0QUyceqxu31tQrAQSotL2YMqmuzoGPh", // appleseed-temp3
 ];
 function getAlchemyAPI(chainID: Number) {
   const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
@@ -121,34 +125,36 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     }),
   );
 
-  const _hasCachedProvider = (): Boolean => {
+  const hasCachedProvider = (): Boolean => {
     if (!web3Modal) return false;
     if (!web3Modal.cachedProvider) return false;
     return true;
   };
 
-  // NOTE (appleseed): none of these listeners are needed for Backend API Providers, right?
+  // NOTE (appleseed): none of these listeners are needed for Backend API Providers
   // ... so I changed these listeners so that they only apply to walletProviders, eliminating
   // ... polling to the backend providers for network changes
-  const _initListeners = useCallback(() => {
-    // this IF stops the func if provider is !Web3Provider since we only want to run on WalletProviders
-    if (!provider || provider instanceof Web3Provider !== true) return;
-    provider.on("accountsChanged", () => {
-      if (_hasCachedProvider()) return;
-      setTimeout(() => window.location.reload(), 1);
-    });
+  const _initListeners = useCallback(
+    rawProvider => {
+      if (!rawProvider.on) {
+        return;
+      }
+      rawProvider.on("accountsChanged", async (accounts: string[]) => {
+        setTimeout(() => window.location.reload(), 1);
+      });
 
-    provider.on("chainChanged", (chain: number) => {
-      if (_hasCachedProvider()) return;
-      _checkNetwork(chain);
-      setTimeout(() => window.location.reload(), 1);
-    });
+      rawProvider.on("chainChanged", async (chain: number) => {
+        _checkNetwork(chain);
+        setTimeout(() => window.location.reload(), 1);
+      });
 
-    provider.on("network", (_newNetwork, oldNetwork) => {
-      if (!oldNetwork) return;
-      window.location.reload();
-    });
-  }, [provider]);
+      rawProvider.on("network", (_newNetwork: any, oldNetwork: any) => {
+        if (!oldNetwork) return;
+        window.location.reload();
+      });
+    },
+    [provider],
+  );
 
   // Eventually we will not need this method.
   const _checkNetwork = (otherChainID: number): Boolean => {
@@ -167,6 +173,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
     const rawProvider = await web3Modal.connect();
+
+    // new _initListeners implementation matches Web3Modal Docs
+    // ... see here: https://github.com/Web3Modal/web3modal/blob/2ff929d0e99df5edf6bb9e88cff338ba6d8a3991/example/src/App.tsx#L185
+    _initListeners(rawProvider);
+
     const connectedProvider = new Web3Provider(rawProvider, "any");
 
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
@@ -177,7 +188,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       console.error("Wrong network, please switch to mainnet");
       return;
     }
-    // Save everything after we've validated the right nextwork.
+    // Save everything after we've validated the right network.
     // Eventually we'll be fine without doing network validations.
     setAddress(connectedAddress);
     setProvider(connectedProvider);
@@ -199,20 +210,22 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, provider, connected, address, chainID, web3Modal }),
-    [connect, disconnect, provider, connected, address, chainID, web3Modal],
+    () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal }),
+    [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal],
   );
 
   useEffect(() => {
-    if (_hasCachedProvider()) {
-      connect();
-    }
+    // Don't try to connect here. Do it in App.jsx
+    // console.log(hasCachedProvider());
+    // if (hasCachedProvider()) {
+    //   connect();
+    // }
   }, []);
 
-  // initListeners needs to be run after walletProvider is connected
-  useEffect(() => {
-    _initListeners();
-  }, [connected]);
+  // initListeners needs to be run on rawProvider... see connect()
+  // useEffect(() => {
+  //   _initListeners();
+  // }, [connected]);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };

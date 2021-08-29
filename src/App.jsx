@@ -9,9 +9,9 @@ import useTheme from "./hooks/useTheme";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 
-import { calcBondDetails, calculateUserBondDetails } from "./slices/BondSlice";
+import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
-import { loadAccountDetails } from "./slices/AccountSlice";
+import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 
 import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
@@ -83,9 +83,10 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 933px)");
   const isSmallScreen = useMediaQuery("(max-width: 620px)");
 
-  // NOTE (appleseed): does an OnChainProvider NEED to be saved to context? Or can it be called freshly each time?
-  const { provider, chainID, connected } = useWeb3Context();
+  const { connect, hasCachedProvider, provider, chainID, connected } = useWeb3Context();
   const address = useAddress();
+
+  const [walletChecked, setWalletChecked] = useState(false);
 
   const isAppLoading = useSelector(state => state.app.loading);
   const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
@@ -99,17 +100,6 @@ function App() {
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
 
-    // NOTE (appleseed): loadDetails() runs three times on every app refresh (every time `connected` is set)...
-    // ... once with address === "" && loadProvider === StaticJsonRpcProvider (set inside of Web3ContextProvider)
-    // ... once with address === "[wallet address]" && loadProvider === StaticJsonRpcProvider (set inside of Web3Context.connect())
-    // ... once with address === "[wallet address]" && loadProvider === Web3Provider (set inside of Web3Context.connect() right after the above line)
-    // So we need to make sure we don't run `loadAccountDetails`, `loadAppDetails` & `calcBondDetails`...
-    // ... below each of the three times state is changed
-    // The below if statements are one way to prevent the 3x runs
-    //
-    // console.log(whichDetails, connected, address, provider);
-
-    // run with loadProvider (backend provider) so that user doesn't need a connected wallet to see app details.
     if (whichDetails === "app") {
       loadApp(loadProvider);
     }
@@ -146,15 +136,42 @@ function App() {
     [connected],
   );
 
+  // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
+  //
+  // this useEffect checks Wallet Connection & then sets State for reload...
+  // ... we don't try to fire Api Calls on initial load because web3Context is not set yet
+  // ... if we don't wait we'll ALWAYS fire API calls via JsonRpc because provider has not
+  // ... been reloaded within App.
   useEffect(() => {
-    // runs only on initial paint
-    loadDetails("app");
+    if (hasCachedProvider()) {
+      // then user DOES have a wallet
+      connect().then(() => {
+        setWalletChecked(true);
+      });
+    } else {
+      // then user DOES NOT have a wallet
+      setWalletChecked(true);
+    }
   }, []);
 
+  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
   useEffect(() => {
-    // runs only when connected is changed
-    loadDetails("account");
-    loadDetails("userBonds");
+    // don't load ANY details until wallet is Checked
+    if (walletChecked) {
+      loadDetails("app");
+      loadDetails("account");
+      loadDetails("userBonds");
+    }
+  }, [walletChecked]);
+
+  // this useEffect picks up any time a user Connects via the button
+  useEffect(() => {
+    // don't load ANY details until wallet is Connected
+    if (connected) {
+      loadDetails("app");
+      loadDetails("account");
+      loadDetails("userBonds");
+    }
   }, [connected]);
 
   const handleDrawerToggle = () => {
