@@ -69,7 +69,7 @@ export const PoolWithdraw = () => {
               onClick={() => onWithdraw()}
             >
               {/* {txnButtonText(pendingTransactions, "pool_withdraw", "Withdraw")} */}
-              Withdraw
+              Withdraw sOHM
             </Button>
           </Box>
           <Box margin={2}>
