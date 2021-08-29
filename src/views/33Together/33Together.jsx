@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Container, Paper, Tab, Tabs, Zoom } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
+import CardHeader from "../../components/CardHeader/CardHeader";
 import { PoolDeposit } from "./PoolDeposit";
 import { PoolWithdraw } from "./PoolWithdraw";
 import { PoolInfo } from "./PoolInfo";
@@ -23,12 +24,11 @@ const PoolTogether = () => {
 
   return (
     <div id="pool-together-view">
-      {/* <Zoom in={true}> */}
       <PoolPrize />
-      {/* </Zoom> */}
 
       <Zoom in={true}>
         <Paper className="ohm-card">
+          <CardHeader title="3, 3 Together" />
           <Tabs
             centered
             value={view}
@@ -44,7 +44,6 @@ const PoolTogether = () => {
           <TabPanel value={view} index={0}>
             <PoolDeposit />
           </TabPanel>
-          {/* perhaps hide/disable withdraw when no deposit? */}
           <TabPanel value={view} index={1}>
             <PoolWithdraw />
           </TabPanel>

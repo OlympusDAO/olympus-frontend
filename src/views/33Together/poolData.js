@@ -11,6 +11,7 @@ query {
     currentState
     cumulativePrizeGross
     cumulativePrizeNet
+    cumulativePrizeReserveFee
     liquidityCap
     prizeStrategy {
       multipleWinners {
@@ -33,7 +34,6 @@ query {
       awardedBlock
       awardedTimestamp
     }
-    
     tokenCreditBalances {
       id
       balance
