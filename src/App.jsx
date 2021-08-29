@@ -145,8 +145,11 @@ function App() {
   useEffect(() => {
     if (hasCachedProvider()) {
       // then user DOES have a wallet
+      console.log("have cached provider");
       connect()
-        .then(() => {
+        .then(returnedProvider => {
+          console.log("here");
+          console.log(returnedProvider, address);
           setWalletChecked(true);
         })
         .catch(e => {
