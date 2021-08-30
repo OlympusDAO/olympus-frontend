@@ -115,8 +115,6 @@ function Stake() {
       // eslint-disable-next-line no-alert
       alert("Please enter a value!");
     } else {
-      console.log("esle", address, action, quantity.toString(), provider, chainID);
-
       await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
   };

@@ -70,7 +70,9 @@ export const changeStake = createAsyncThunk(
     const signer = provider.getSigner();
     const staking = await new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStaking, signer);
     const stakingHelper = await new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
+
     let stakeTx;
+
     try {
       if (action === "stake") {
         stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"));
