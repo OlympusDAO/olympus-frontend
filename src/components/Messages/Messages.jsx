@@ -1,38 +1,40 @@
 import { useDispatch, useSelector } from "react-redux";
-import { set } from "../../slices/MessagesSlice";
+import { close, handle_obsolete } from "../../slices/MessagesSlice";
 import store from "../../store";
+import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
-import "./messages.scss";
 import "./ConsoleInterceptor.js";
 
 // A component that displays error messages
 function Messages() {
   const messages = useSelector(state => state.messages);
+  // Returns a function that can closes a messages
+  const handleClose = function (message) {
+    return function () {
+      store.dispatch(close(message));
+    };
+  };
   return (
-    <div className="messages-pane">
-      {messages.items.map((message, index) => {
-        return (
-          <Alert icon={false} key={index} severity={message.severity}>
-            <AlertTitle>{message.title}</AlertTitle>
-            {message.text}
-          </Alert>
-        );
-      })}
+    <div>
+      <div>
+        {messages.items.map((message, index) => {
+          return (
+            <Snackbar open={message.open} key={index}>
+              <Alert icon={false} severity={message.severity} onClose={handleClose(message)}>
+                <AlertTitle>{message.title}</AlertTitle>
+                {message.text}
+              </Alert>
+            </Snackbar>
+          );
+        })}
+      </div>
     </div>
   );
   return res;
 }
-// Deletes expired message (should be in slice file but I cannot find a way to access the store from there)
-const MESSAGES_DISPLAY_DURATION = 5000;
+// Invoke repetedly obsolete messages deletion (should be in slice file but I cannot find a way to access the store from there)
 window.setInterval(() => {
-  const messages = store.getState().messages.items;
-  const activeMessages = messages.filter(message => {
-    return Date.now() - message.created < MESSAGES_DISPLAY_DURATION;
-  });
-  if (messages.length != activeMessages.length) {
-    store.dispatch(set(activeMessages));
-  }
+  store.dispatch(handle_obsolete());
 }, 100);
-
 export default Messages;
