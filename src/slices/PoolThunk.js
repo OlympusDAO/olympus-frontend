@@ -81,7 +81,7 @@ export const poolDeposit = createAsyncThunk(
     try {
       if (action === "deposit") {
         poolTx = await poolContract.depositTo(
-          addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
+          address,
           ethers.utils.parseUnits(value, "gwei"),
           addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS,
           "0x0000000000000000000000000000000000000000",
@@ -133,8 +133,8 @@ export const poolWithdraw = createAsyncThunk(
         // poolTx = await poolContract.withdrawInstantlyFrom(addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS, value, address, ethers.utils.parseUnits(value, "gwei"), , );
         const text = "Pool " + action;
         const pendingTxnType = "pool_withdraw";
-        // dispatch(fetchPendingTxns({ txnHash: poolTx.hash, text: text, type: pendingTxnType }));
-        // await poolTx.wait();
+        dispatch(fetchPendingTxns({ txnHash: poolTx.hash, text: text, type: pendingTxnType }));
+        await poolTx.wait();
       } else {
         console.log("unrecognized action: ", action);
       }
