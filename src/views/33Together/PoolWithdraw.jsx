@@ -15,7 +15,7 @@ export const PoolWithdraw = () => {
   const [quantity, setQuantity] = useState(0);
 
   const poolBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.poolBalance;
+    return state.account.balances && state.account.balances.poolBalance;
   });
 
   const pendingTransactions = useSelector(state => {

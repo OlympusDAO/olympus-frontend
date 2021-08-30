@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi.json";
+import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
@@ -26,7 +26,7 @@ export const changeApproval = createAsyncThunk(
     try {
       if (token === "sohm") {
         approveTx = await sohmContract.approve(
-          addresses[networkID].POOL_TOGETHER.POOL_ADDRESS,
+          addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
 
@@ -40,9 +40,16 @@ export const changeApproval = createAsyncThunk(
     } catch (error) {
       alert(error.message);
       return;
+    } finally {
+      if (approveTx) {
+        dispatch(clearPendingTxn(approveTx.hash));
+      }
     }
 
-    const depositAllowance = await sohmContract.allowance(address, addresses[networkID].POOL_TOGETHER.POOL_ADDRESS);
+    const depositAllowance = await sohmContract.allowance(
+      address,
+      addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
+    );
 
     return dispatch(
       fetchAccountSuccess({
@@ -54,6 +61,8 @@ export const changeApproval = createAsyncThunk(
   },
 );
 
+// NOTE (appleseed): https://docs.pooltogether.com/protocol/prize-pool#depositing
+// TODO (appleseed): what are referral rewards? ^^^, left as zero-address
 export const poolDeposit = createAsyncThunk(
   "pool/deposit",
   async ({ action, value, provider, address, networkID }, { dispatch }) => {
@@ -61,19 +70,21 @@ export const poolDeposit = createAsyncThunk(
       alert("Please connect your wallet!");
       return;
     }
-    console.log("TEMP ool depsoti", addresses[networkID].POOL_TOGETHER.POOL_ADDRESS);
     const signer = provider.getSigner();
-    const poolContract = await new ethers.Contract(addresses[networkID].POOL_TOGETHER.POOL_ADDRESS, PrizePool, signer);
+    const poolContract = await new ethers.Contract(
+      addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
+      PrizePool,
+      signer,
+    );
     let poolTx;
 
-    // TODO (appleseed): ethers contract call broken above... not getting to here
-    console.log("TEMP in", action);
     try {
       if (action === "deposit") {
-        poolTx = await poolContract.timelockDepositTo(
-          addresses[networkID].POOL_TOGETHER.POOL_ADDRESS,
+        poolTx = await poolContract.depositTo(
+          addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
           ethers.utils.parseUnits(value, "gwei"),
           addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS,
+          "0x0000000000000000000000000000000000000000",
         );
         const text = "Pool " + action;
         const pendingTxnType = "pool_deposit";
@@ -108,14 +119,18 @@ export const poolWithdraw = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const poolContract = await new ethers.Contract(addresses[networkID].POOL_TOGETHER.POOL_ADDRESS, PrizePool, signer);
+    const poolContract = await new ethers.Contract(
+      addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
+      PrizePool,
+      signer,
+    );
 
     let poolTx;
 
     try {
       if (action === "withdraw") {
         console.log("you tryin to withdraw eh?", action, poolContract);
-        // poolTx = await poolContract.withdrawInstantlyFrom(addresses[networkID].POOL_TOGETHER.POOL_ADDRESS, value, address, ethers.utils.parseUnits(value, "gwei"), , );
+        // poolTx = await poolContract.withdrawInstantlyFrom(addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS, value, address, ethers.utils.parseUnits(value, "gwei"), , );
         const text = "Pool " + action;
         const pendingTxnType = "pool_withdraw";
         // dispatch(fetchPendingTxns({ txnHash: poolTx.hash, text: text, type: pendingTxnType }));
