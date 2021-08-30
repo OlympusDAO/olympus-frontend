@@ -1,9 +1,10 @@
 import { ethers } from "ethers";
-import { addresses, Actions } from "../constants";
+import { addresses, Actions, BONDS } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { setAll } from "../helpers";
+import { setAll, setBondState, contractForBond, contractForReserve, bondName } from "../helpers";
+import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -87,6 +88,62 @@ export const loadAccountDetails = createAsyncThunk(
   },
 );
 
+export const calculateUserBondDetails = createAsyncThunk(
+  "account/calculateUserBondDetails",
+  async ({ address, bond, networkID, provider }, { dispatch }) => {
+    if (!address) return;
+
+    // Calculate bond details.
+    const bondContract = contractForBond({ bond, provider, networkID });
+    const reserveContract = contractForReserve({ bond, networkID, provider });
+
+    let interestDue, pendingPayout, bondMaturationBlock;
+
+    const bondDetails = await bondContract.bondInfo(address);
+    interestDue = bondDetails.payout / Math.pow(10, 9);
+    bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
+    pendingPayout = await bondContract.pendingPayoutFor(address);
+
+    let allowance,
+      balance = 0;
+    if (bond === BONDS.ohm_dai) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_DAI);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatUnits(balance, "ether");
+    } else if (bond === BONDS.dai) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.DAI);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatEther(balance);
+    } else if (bond === BONDS.ohm_frax) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.OHM_FRAX);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatUnits(balance, "ether");
+    } else if (bond === BONDS.frax) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.FRAX);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatUnits(balance, "ether");
+    } else if (bond === BONDS.eth) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].BONDS.ETH);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatUnits(balance, "ether");
+    }
+
+    return {
+      bond,
+      allowance: Number(allowance),
+      balance: Number(balance),
+      interestDue,
+      bondMaturationBlock,
+      pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
+    };
+  },
+);
+
 const accountSlice = createSlice({
   name: "account",
   initialState,
@@ -98,25 +155,37 @@ const accountSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(loadAccountDetails.pending, state => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(loadAccountDetails.fulfilled, (state, action) => {
         setAll(state, action.payload);
-        state.status = "idle";
+        state.loading = false;
       })
       .addCase(loadAccountDetails.rejected, (state, { error }) => {
-        state.status = "idle";
+        state.loading = false;
         console.log(error);
       })
       .addCase(getBalances.pending, state => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(getBalances.fulfilled, (state, action) => {
         setAll(state, action.payload);
-        state.status = "idle";
+        state.loading = false;
       })
       .addCase(getBalances.rejected, (state, { error }) => {
-        state.status = "idle";
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(calculateUserBondDetails.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
+        const bond = action.payload.bond;
+        state[bond] = action.payload;
+        state.loading = false;
+      })
+      .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
+        state.loading = false;
         console.log(error);
       });
   },
