@@ -112,6 +112,7 @@ function App() {
       loadApp(loadProvider);
     }
 
+    // Ideally this shouldn't be in its own little block under load details, and should be called when "loadAccount" is called
     if (whichDetails === "userBonds" && address && connected) {
       bonds.map(bond => {
         dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
