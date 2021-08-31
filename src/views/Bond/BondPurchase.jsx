@@ -49,9 +49,6 @@ function BondPurchase({ bond, slippage }) {
   const debtRatio = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].debtRatio;
   });
-  const bondQuote = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondQuote;
-  });
   const youWillGet = useSelector(state => {
     return state.bonding[bond] && quantity / state.bonding[bond].bondPrice;
   });
