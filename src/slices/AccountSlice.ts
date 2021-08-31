@@ -106,8 +106,15 @@ interface ICalcUserBondDetails {
   provider: StaticJsonRpcProvider | JsonRpcProvider;
   networkID: NetworkID;
 }
+export interface IUserBondDetails {
+  bond: string;
+  allowance: number;
+  interestDue: number;
+  bondMaturationBlock: number;
+  pendingPayout: string; //Payout formatted in gwei.
+}
 export const calculateUserBondDetails = createAsyncThunk(
-  "bonding/calculateUserBondDetails",
+  "account/calculateUserBondDetails",
   async ({ address, bond, networkID, provider }: ICalcUserBondDetails, { dispatch }) => {
     if (!address) return;
 
@@ -141,10 +148,12 @@ export const calculateUserBondDetails = createAsyncThunk(
   },
 );
 
+// TODO: update AccountSlice to accurately match the real data.
 interface IAccountSlice {
+  bonds: { [key: string]: IUserBondDetails };
   [key: string]: any;
 }
-const initialState: IAccountSlice = {};
+const initialState: IAccountSlice = { bonds: {} };
 
 const accountSlice = createSlice({
   name: "account",
@@ -183,9 +192,8 @@ const accountSlice = createSlice({
       })
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
         if (!action.payload) return;
-
         const bond = action.payload.bond;
-        state[bond] = action.payload;
+        state.bonds[bond] = action.payload;
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {

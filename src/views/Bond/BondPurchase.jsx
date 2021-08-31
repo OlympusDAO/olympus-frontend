@@ -30,17 +30,6 @@ function BondPurchase({ bond, slippage }) {
 
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
 
-  const pendingPayout = useSelector(state => {
-    return state.account[bond] && state.account[bond].pendingPayout;
-  });
-
-  const balance = useSelector(state => {
-    return state.account[bond] && state.account[bond].balance;
-  });
-  const allowance = useSelector(state => {
-    return state.account[bond] && state.account[bond].allowance;
-  });
-
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });

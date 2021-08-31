@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { redeemBond } from "../../slices/BondSlice";
@@ -16,24 +15,9 @@ function BondRedeem({ bond }) {
   });
 
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
-  const bondMaturationBlock = useSelector(state => {
-    return state.account[bond] && state.account[bond].bondMaturationBlock;
-  });
-
-  const interestDue = useSelector(state => {
-    return state.account[bond] && state.account[bond].interestDue;
-  });
-
-  const pendingPayout = useSelector(state => {
-    return state.account[bond] && state.account[bond].pendingPayout;
-  });
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
-  });
-
-  const userState = useSelector(state => {
-    return state.account && state.account;
   });
 
   async function onRedeem({ autostake }) {

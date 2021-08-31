@@ -4,12 +4,10 @@ import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import axios from "axios";
 import { setAll } from "../helpers";
-import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
-import allBonds, { dai, eth, frax, ohm_dai, ohm_frax } from "src/helpers/AllBonds";
+import allBonds from "src/helpers/AllBonds";
 
 const initialState = {
   loading: false,

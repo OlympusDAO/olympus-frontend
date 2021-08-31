@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { getMarketPrice } from "../helpers";
-import { getBalances } from "./AccountSlice";
+import { getBalances, calculateUserBondDetails } from "./AccountSlice";
 import { Bond, NetworkID } from "../lib/Bond";
 import { addresses } from "../constants";
 import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
@@ -53,9 +53,20 @@ interface ICalcBondDetails {
   networkID: NetworkID;
 }
 
+export interface IBondDetails {
+  bond: string;
+  bondDiscount: number;
+  debtRatio: number;
+  bondQuote: number;
+  purchased: number;
+  vestingTerm: number;
+  maxBondPrice: number;
+  bondPrice: number;
+  marketPrice: number;
+}
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
-  async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch }) => {
+  async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch }): Promise<IBondDetails> => {
     let amountInWei;
     if (!value || value === "") {
       amountInWei = ethers.utils.parseEther("0.0001"); // Use a realistic SLP ownership
@@ -64,7 +75,10 @@ export const calcBondDetails = createAsyncThunk(
     }
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
-    let bondPrice, bondDiscount, valuation, bondQuote;
+    let bondPrice = 0,
+      bondDiscount = 0,
+      valuation = 0,
+      bondQuote = 0;
     const bondContract = bond.getContractForBond(networkID, provider);
     const bondCalcContract = getBondCalculator(networkID, provider);
 
@@ -130,47 +144,6 @@ export const calcBondDetails = createAsyncThunk(
       maxBondPrice: maxBondPrice / Math.pow(10, 9),
       bondPrice: bondPrice / Math.pow(10, 18),
       marketPrice: marketPrice / Math.pow(10, 9),
-    };
-  },
-);
-
-interface ICalcUserBondDetails {
-  address: string;
-  bond: Bond;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  networkID: NetworkID;
-}
-export const calculateUserBondDetails = createAsyncThunk(
-  "bonding/calculateUserBondDetails",
-  async ({ address, bond, networkID, provider }: ICalcUserBondDetails, { dispatch }) => {
-    if (!address) return;
-
-    // dispatch(fetchBondInProgress());
-
-    // Calculate bond details.
-    const bondContract = bond.getContractForBond(networkID, provider);
-    const reserveContract = bond.getContractForReserve(networkID, provider);
-
-    let interestDue, pendingPayout, bondMaturationBlock;
-
-    const bondDetails = await bondContract.bondInfo(address);
-    interestDue = bondDetails.payout / Math.pow(10, 9);
-    bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
-    pendingPayout = await bondContract.pendingPayoutFor(address);
-
-    let allowance,
-      balance = 0;
-    allowance = await reserveContract.allowance(address, bond.getAddressForBond(networkID));
-    balance = await reserveContract.balanceOf(address);
-    const balanceVal = ethers.utils.formatEther(balance);
-
-    return {
-      bond: bond.name,
-      allowance: Number(allowance),
-      balance: Number(balanceVal),
-      interestDue,
-      bondMaturationBlock,
-      pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
     };
   },
 );
@@ -263,7 +236,7 @@ export const redeemBond = createAsyncThunk(
   },
 );
 
-// Note(zx): this is a barebones interface for the state
+// Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   status: string;
   [key: string]: any;
@@ -300,17 +273,6 @@ const bondingSlice = createSlice({
       .addCase(calcBondDetails.rejected, (state, { error }) => {
         state.loading = false;
         console.error(error.message);
-      })
-      .addCase(calculateUserBondDetails.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
-        if (!action.payload) return;
-        setBondState(state, action.payload);
-      })
-      .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
       });
   },
 });
