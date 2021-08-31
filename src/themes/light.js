@@ -6,6 +6,7 @@ const lightTheme = {
   color: "rgb(37, 52, 73)",
   gold: "#F8CC82",
   gray: "#A3A3A3",
+  blueish_gray: "#768299",
   textHighlightColor: "#93AEBC", // "#F4D092",
   backgroundColor: "#AFCDE9",
   // background:
@@ -54,7 +55,7 @@ export const light = responsiveFontSizes(
         },
         text: {
           primary: lightTheme.color,
-          secondary: lightTheme.gray,
+          secondary: lightTheme.blueish_gray,
         },
       },
       typography: {
@@ -151,7 +152,7 @@ export const light = responsiveFontSizes(
         },
         MuiTab: {
           textColorPrimary: {
-            color: lightTheme.gray,
+            color: lightTheme.blueish_gray,
             "&$selected": {
               color: lightTheme.color,
             },
@@ -260,7 +261,7 @@ export const light = responsiveFontSizes(
             },
           },
           textPrimary: {
-            color: "#A3A3A3",
+            color: lightTheme.gray,
             "&:hover": {
               color: lightTheme.textHighlightColor,
               backgroundColor: "#00000000",
