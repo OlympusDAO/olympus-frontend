@@ -52,6 +52,9 @@ function BondPurchase({ bond, slippage }) {
   const bondQuote = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].bondQuote;
   });
+  const youWillGet = useSelector(state => {
+    return state.bonding[bond] && quantity / state.bonding[bond].bondPrice;
+  });
   const balance = useSelector(state => {
     return state.account[bond] && state.account[bond].balance;
   });
@@ -206,7 +209,7 @@ function BondPurchase({ bond, slippage }) {
           <div className={`data-row`}>
             <Typography>You Will Get</Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bondQuote, 4) || "0"} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(youWillGet, 4) || "0"} OHM`}
             </Typography>
           </div>
 
