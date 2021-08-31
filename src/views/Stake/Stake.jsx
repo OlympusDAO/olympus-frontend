@@ -264,8 +264,7 @@ function Stake() {
                       <Tab label="Unstake" {...a11yProps(0)} />
                     </Tabs>
                     <Box className="help-text">
-                      {/* {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && ( */}
-                      {true && (
+                      {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
                         <Typography variant="body2" className="stake-note" color="textSecondary">
                           Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
                           subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
