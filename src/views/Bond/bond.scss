@@ -19,7 +19,7 @@
       min-height: 605px;
     }
   }
-  
+
   /* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
   @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
     .MuiBackdrop-root {
@@ -31,21 +31,14 @@
     .ohm-modal {
       max-width: 688px;
       min-height: 605px;
-      background-color:rgb(50, 50, 50);
-      opacity: .9
+      background-color: rgb(50, 50, 50);
+      opacity: 0.9;
     }
   }
-<<<<<<< HEAD
-  .ohm-modal {
-    max-width: 688px;
-    min-height: 605px;
-  }
-=======
   .ohm-card {
     max-width: 803px;
   }
 
->>>>>>> origin/develop
   .bond-header {
     display: flex;
     justify-content: space-between;

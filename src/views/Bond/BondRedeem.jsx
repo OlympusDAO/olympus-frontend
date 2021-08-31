@@ -68,11 +68,7 @@ function BondRedeem({ bond }) {
 
   return (
     <Box display="flex" flexDirection="column">
-<<<<<<< HEAD
-      <Box display="flex" justifyContent="space-evenly" flexWrap="wrap">
-=======
       <Box display="flex" justifyContent="space-around" flexWrap="wrap">
->>>>>>> origin/develop
         <Button
           variant="contained"
           color="primary"
@@ -101,35 +97,6 @@ function BondRedeem({ bond }) {
         </Button>
       </Box>
 
-<<<<<<< HEAD
-      <div className="data-row">
-        <Typography>Pending Rewards</Typography>
-        <Typography className="price-data">{trim(interestDue, 4)} OHM</Typography>
-      </div>
-      <div className="data-row">
-        <Typography>Claimable Rewards</Typography>
-        <Typography className="price-data">{trim(pendingPayout, 4)} OHM</Typography>
-      </div>
-      <div className="data-row">
-        <Typography>Time until fully vested</Typography>
-        <Typography>{vestingTime()}</Typography>
-      </div>
-
-      <div className="data-row">
-        <Typography>ROI</Typography>
-        <Typography>{trim(bondDiscount * 100, 2)}%</Typography>
-      </div>
-
-      <div className="data-row">
-        <Typography>Debt Ratio</Typography>
-        <Typography>{trim(debtRatio / 10000000, 2)}%</Typography>
-      </div>
-
-      <div className="data-row">
-        <Typography>Vesting Term</Typography>
-        <Typography>{vestingPeriod()}</Typography>
-      </div>
-=======
       <Slide direction="right" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
           <div className="data-row">
@@ -165,7 +132,6 @@ function BondRedeem({ bond }) {
           </div>
         </Box>
       </Slide>
->>>>>>> origin/develop
     </Box>
   );
 }

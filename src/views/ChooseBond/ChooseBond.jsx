@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import {
   Paper,
   Grid,
@@ -19,11 +20,17 @@ import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
+import ClaimBonds from "./ClaimBonds";
 
 function ChooseBond() {
   const bonds = useBonds();
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
+  const accountBonds = useSelector(state => state.accountBonds);
+
+  useEffect(() => {
+    console.log("account bonds: ", accountBonds);
+  }, []);
 
   const isAppLoading = useSelector(state => state.app.loading);
   const marketPrice = useSelector(state => {
@@ -36,7 +43,7 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
-      <ClaimBonds bonds={bonds} />
+      {accountBonds && <ClaimBonds bonds={accountBonds} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">

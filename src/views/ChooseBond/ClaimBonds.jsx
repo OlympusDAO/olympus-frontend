@@ -1,8 +1,8 @@
-import React from "react";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import { trim, bondName, lpURL, isBondLP } from "../../helpers";
-import { ClaimBondTableData, ClaimBondCardData } from "./BondRow";
+import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
 import CardHeader from "../../components/CardHeader/CardHeader";
-
 import {
   Button,
   Box,
