@@ -28,8 +28,6 @@ export const PoolDeposit = () => {
     return state.account.pooling && state.account.pooling.sohmPool;
   });
 
-  console.log("poolAllowance", poolAllowance);
-
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
@@ -39,13 +37,11 @@ export const PoolDeposit = () => {
   };
 
   const onDeposit = async action => {
-    console.log("TEMP deposit");
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
       alert("Please enter a value!");
     } else {
-      console.log("TEMP else", address, action, quantity.toString(), provider, chainID);
       await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
   };
@@ -55,7 +51,6 @@ export const PoolDeposit = () => {
   }, [poolAllowance]);
 
   const setMax = () => {
-    console.log("TEMP sohmBalance", sohmBalance);
     setQuantity(sohmBalance);
   };
 
@@ -123,7 +118,7 @@ export const PoolDeposit = () => {
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
-              <Typography variant="body1">Your Staked Balance (Poolable)</Typography>
+              <Typography variant="body1">Your Staked Balance (Depositable)</Typography>
               <Typography variant="body1">
                 {isAppLoading ? (
                   <Skeleton width="80px" />
