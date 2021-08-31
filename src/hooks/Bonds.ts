@@ -31,7 +31,7 @@ function useBonds() {
   useEffect(() => {
     let bondDetails: IAllBondData[];
     bondDetails = allBonds
-      .flatMap((bond: Bond) => {
+      .flatMap(bond => {
         if (bondState[bond.name] && bondState[bond.name].bondDiscount) {
           return Object.assign(bond, bondState[bond.name]); // Keeps the object type
         }
