@@ -1,6 +1,7 @@
 // import { OhmDataLoading } from '../../components/Loading/OhmDataLoading'
 import { Box, CircularProgress, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { POOL_GRAPH_URLS } from "../../constants";
@@ -16,6 +17,14 @@ export const PoolInfo = () => {
   const [loading, setLoading] = useState(true);
   const [winners, setWinners] = useState(0);
   const [totalDeposits, setTotalDeposits] = useState(0);
+
+  const sohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.sohm;
+  });
+
+  const poolBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.pool;
+  });
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
@@ -43,19 +52,17 @@ export const PoolInfo = () => {
   useEffect(() => {
     apolloExt(poolDataQuery, graphUrl)
       .then(poolData => {
-        // for development help
-        console.log(poolData);
-        setPoolData(poolData.data);
-
-        setLoading(false);
         const poolWinners = poolData.data.prizePool.prizeStrategy.multipleWinners.numberOfWinners;
         setWinners(poolWinners);
 
         const poolTotalDeposits = poolData.data.prizePool.controlledTokens[0].totalSupply / 1_000_000_000;
         setTotalDeposits(poolTotalDeposits);
+
+        setPoolData(poolData.data);
+        setLoading(false);
       })
       .catch(err => setPoolDataError(err));
-  }, []);
+  }, [graphUrl]);
 
   if (loading) {
     return <CircularProgress />;
@@ -72,6 +79,14 @@ export const PoolInfo = () => {
         {address && (
           <>
             <Box display="flex" flexDirection="column" className="user-pool-data">
+              <div className="data-row">
+                <Typography>Your deposits</Typography>
+                <Typography>{poolBalance}</Typography>
+              </div>
+              <div className="data-row">
+                <Typography>Your wallet balance</Typography>
+                <Typography>{sohmBalance}</Typography>
+              </div>
               <div className="data-row">
                 <Typography>Your odds</Typography>
                 <Typography>1 in 33</Typography>

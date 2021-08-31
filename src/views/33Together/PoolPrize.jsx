@@ -15,7 +15,7 @@ const timerFormat = time => {
 export const PoolPrize = () => {
   const { chainID } = useWeb3Context();
   // TODO: swap out hardcoded 4 for chainID when pool api available
-  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[4]);
+  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
   const [prize, setPrize] = useState(0);
   const [loading, setLoading] = useState(true);
   const [endTime, setEndTime] = useState(0);
@@ -71,7 +71,7 @@ export const PoolPrize = () => {
       interval.current = setInterval(decreaseNum, 1000);
       return () => clearInterval(interval.current);
     }
-  }, []);
+  }, [secondsLeft]);
 
   return (
     <Box width="100%" display="flex" flexDirection="column" alignItems="center" className="pool-prize-card">
