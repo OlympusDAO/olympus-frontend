@@ -6,6 +6,10 @@
   overflow: hidden;
   .ohm-card .bond-hero h4 {
     font-weight: 600 !important;
+
+    .MuiSkeleton-root {
+      margin: auto;
+    }
   }
 
   .claim-bonds-card {
@@ -38,11 +42,9 @@
       display: flex !important;
       align-items: center;
       justify-content: left;
-      margin-left: 10px;
       margin-bottom: 15px;
-      .ohm-pair {
-        height: 40px;
-        width: 40px;
+      .MuiBox-root {
+        margin-right: 10px;
       }
       .bond-name {
         svg {
@@ -54,6 +56,15 @@
     }
     .data-row {
       margin-bottom: 13px;
+
+      .bond-price {
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-right: 5px;
+        }
+      }
     }
     .bond-link {
       margin-top: 10px;
@@ -62,14 +73,23 @@
         width: 96%;
       }
     }
+  }
 
-    .claim-bond-card-buttons {
-      flex-wrap: wrap;
-      width: 100%;
-      button {
-        min-width: 48%;
-        margin: 5px 0px;
-      }
+  .currency-icon {
+    display: inline-block;
+    min-width: 15px;
+  }
+
+  .MuiTable-root {
+    margin: 10px 0px;
+  }
+
+  .claim-bond-card-buttons {
+    flex-wrap: wrap;
+    width: 100%;
+    button {
+      min-width: 48%;
+      margin: 5px 0px;
     }
   }
 
@@ -79,6 +99,7 @@
       display: flex !important;
       align-items: center;
       justify-content: flex-start;
+      white-space: nowrap;
       img {
         margin-right: 3px;
       }

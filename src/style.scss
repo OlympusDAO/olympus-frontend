@@ -8,6 +8,7 @@ body,
   font-family: "Square";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 body {
@@ -53,47 +54,22 @@ body {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    margin: 10px 0px;
+    margin: 12px 0px;
   }
 }
 
-// For formatting the pairs
-// JBTD: -- move into its own component
 .ohm-pairs {
   display: flex;
   align-items: center;
 }
 
-.ohm-pair {
-  width: 40px;
-  height: 40px;
-  margin-left: -8px;
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  align-items: center;
-  flex-shrink: 0;
-  line-height: 1;
-  user-select: none;
-  border-radius: 50%;
-  justify-content: center;
-  .ohm-logo-bg {
-    height: auto;
-    width: auto;
-  }
-  img {
-    color: transparent;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    text-align: center;
-    text-indent: 10000px;
-  }
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none !important;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield !important;
 }
 
 a:hover svg {

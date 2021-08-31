@@ -2,8 +2,11 @@ import { useSelector } from "react-redux";
 import { Paper, Grid, Typography, Box, Zoom } from "@material-ui/core";
 import { trim } from "../../helpers";
 import "./dashboard.scss";
+import { Skeleton } from "@material-ui/lab";
 
 function Dashboard() {
+  // Use marketPrice as indicator of loading.
+  const isAppLoading = useSelector(state => !state.app?.marketPrice ?? true);
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
@@ -24,7 +27,9 @@ function Dashboard() {
           <Zoom in={true}>
             <Paper className="ohm-card">
               <Typography variant="h6">Price</Typography>
-              <Typography variant="h5">${marketPrice ? trim(marketPrice, 2) : " loading"}</Typography>
+              <Typography variant="h5">
+                {isAppLoading ? <Skeleton width="100px" /> : `$${trim(marketPrice, 2)}`}
+              </Typography>
             </Paper>
           </Zoom>
         </Grid>
@@ -34,14 +39,16 @@ function Dashboard() {
             <Paper className="ohm-card">
               <Typography variant="h6">Market Cap</Typography>
               <Typography variant="h5">
-                {marketCap &&
+                {isAppLoading ? (
+                  <Skeleton width="160px" />
+                ) : (
                   new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
                     maximumFractionDigits: 0,
                     minimumFractionDigits: 0,
-                  }).format(marketCap)}
-                {!marketCap && "$ loading"}
+                  }).format(marketCap)
+                )}
               </Typography>
             </Paper>
           </Zoom>
@@ -52,17 +59,19 @@ function Dashboard() {
             <Paper className="ohm-card">
               <Typography variant="h6">Supply (circulating/total)</Typography>
               <Typography variant="h5">
-                {circSupply &&
-                  new Intl.NumberFormat("en-US", {
+                {isAppLoading ? (
+                  <Skeleton width="250px" />
+                ) : (
+                  `${new Intl.NumberFormat("en-US", {
                     maximumFractionDigits: 0,
                     minimumFractionDigits: 0,
                   }).format(circSupply)}
-                /
-                {totalSupply &&
-                  new Intl.NumberFormat("en-US", {
-                    maximumFractionDigits: 0,
-                    minimumFractionDigits: 0,
-                  }).format(totalSupply)}
+                    /
+                    ${new Intl.NumberFormat("en-US", {
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0,
+                    }).format(totalSupply)}`
+                )}
               </Typography>
             </Paper>
           </Zoom>

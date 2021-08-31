@@ -14,39 +14,42 @@ import {
   Breadcrumbs,
   Link,
 } from "@material-ui/core";
-import { changeStake, getApproval, TYPES, ACTIONS } from "../../actions/Migrate.actions";
+import { changeStake, getApproval, TYPES, ACTIONS } from "../../slices/MigrateThunk";
 import { useSelector, useDispatch } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
-import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { trim } from "../../helpers";
 import useEscape from "../../hooks/useEscape";
 import { NavLink, useHistory } from "react-router-dom";
 import "./stake.scss";
 import "./migrate.scss";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
-export default function Migrate({ address, provider, web3Modal, loadWeb3Modal }) {
+export default function Migrate() {
   const dispatch = useDispatch();
+  const { provider, address, connected, connect } = useWeb3Context();
 
   const [view, setView] = useState("unstake"); // views = (approve) > unstake > approve > stake > done
   const [currentStep, setCurrentStep] = useState("1"); // steps = 1,2,3,4
   const [quantity, setQuantity] = useState();
 
   const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
+    return state.account.balances && state.account.balances.ohm;
   });
   const oldSohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.oldsohm;
+    return state.account.balances && state.account.balances.oldsohm;
   });
   const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
+    return state.account.balances && state.account.balances.sohm;
   });
   const stakeAllowance = useSelector(state => {
-    return state.app.staking && state.app.staking.ohmStake;
+    return state.account.staking && state.account.staking.ohmStake;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.app.migrate && state.app.migrate.unstakeAllowance;
+    return state.account.migrate && state.account.migrate.unstakeAllowance;
   });
   const newStakingAPY = useSelector(state => {
     return (state.app && state.app.stakingAPY) || 0;
@@ -54,6 +57,10 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
 
   const oldStakingAPY = useSelector(state => {
     return (state.app && state.app.oldStakingAPY) || 0;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
   });
 
   const setMax = () => {
@@ -161,14 +168,12 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
   });
 
   let modalButton = <></>;
-  if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButton = (
-        <button type="button" className="stake-button" onClick={loadWeb3Modal}>
-          Connect Wallet
-        </button>
-      );
-    }
+  if (!connected) {
+    modalButton = (
+      <button type="button" className="stake-button" onClick={connect}>
+        Connect Wallet
+      </button>
+    );
   }
 
   return (
@@ -186,7 +191,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
             <div className="stake-wallet-notification">
               <Typography variant="h4">Connect your wallet to continue</Typography>
               <div className="wallet-menu" id="wallet-menu">
-                <Button variant="contained" color="primary" onClick={loadWeb3Modal}>
+                <Button variant="contained" color="primary" onClick={connect}>
                   Connect Wallet
                 </Button>
               </div>
@@ -274,12 +279,13 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                         variant="contained"
                         color="primary"
                         className="stake-button"
+                        disabled={isPendingTxn(pendingTransactions, "migrate_unstaking")}
                         onClick={() => {
                           unStakeLegacy();
                           setView("stake");
                         }}
                       >
-                        Unstake sOHM (legacy)
+                        {txnButtonText(pendingTransactions, "migrate_unstaking", "Unstake sOHM (legacy)")}
                       </Button>
                     )}
 
@@ -288,12 +294,13 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                         variant="contained"
                         color="primary"
                         className="stake-button"
+                        disabled={isPendingTxn(pendingTransactions, "migrate_staking")}
                         onClick={() => {
                           stakeOhm();
                           setView("done");
                         }}
                       >
-                        Stake OHM (new)
+                        {txnButtonText(pendingTransactions, "migrate_staking", "Stake OHM (new)")}
                       </Button>
                     )}
 
@@ -306,7 +313,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                           getUnstakeLegacyApproval();
                         }}
                       >
-                        Approve Unstake (legacy)
+                        {txnButtonText(pendingTransactions, "approve_migrate_unstaking", "Approve Unstake (legacy)")}
                       </Button>
                     )}
 
@@ -318,7 +325,7 @@ export default function Migrate({ address, provider, web3Modal, loadWeb3Modal })
                           getStakeApproval();
                         }}
                       >
-                        Approve Stake (new)
+                        {txnButtonText(pendingTransactions, "approve_migrate_staking", "Approve Stake (new)")}
                       </Button>
                     )}
                   </Box>

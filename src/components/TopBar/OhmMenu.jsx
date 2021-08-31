@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addresses, TOKEN_DECIMALS } from "../../constants";
 import { getTokenImage } from "../../helpers";
 import { useSelector } from "react-redux";
-import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box } from "@material-ui/core";
-import { ReactComponent as InfoIcon } from "../../assets/icons/v1.2/info-fill.svg";
-import { ReactComponent as ArrowUpIcon } from "../../assets/icons/v1.2/arrow-up.svg";
+import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, Slide } from "@material-ui/core";
+import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
+import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import "./ohmmenu.scss";
 
 const sohmImg = getTokenImage("sohm");
@@ -47,59 +47,89 @@ function OhmMenu() {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "ohm-popper" : undefined;
-
+  const id = "ohm-popper";
   return (
-    <>
-      <Button
-        id="ohm-menu-button"
-        size="large"
-        variant="contained"
-        color="secondary"
-        title="OHM"
-        onClick={handleClick}
-        aria-describedby={id}
-      >
+    <Box
+      component="div"
+      onMouseEnter={e => handleClick(e)}
+      onMouseLeave={e => handleClick(e)}
+      id="ohm-menu-button-hover"
+    >
+      <Button id="ohm-menu-button" size="large" variant="contained" color="secondary" title="OHM" aria-describedby={id}>
         <SvgIcon component={InfoIcon} color="primary" />
         <Typography>OHM</Typography>
       </Button>
-      <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start">
-        <Paper className="ohm-menu" elevation={1}>
-          <Link
-            href={`https://app.sushi.com/swap?inputCurrency=${addresses[networkID].RESERVES.DAI}&outputCurrency=${OHM_ADDRESS}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Typography>
-              Buy on Sushiswap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
-            </Typography>
-          </Link>
 
-          <Link
-            href={`https://app.uniswap.org/#/swap?inputCurrency=${addresses[networkID].RESERVES.FRAX}&outputCurrency=${OHM_ADDRESS}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Typography>
-              Buy on Uniswap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
-            </Typography>
-          </Link>
+      <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start" transition>
+        {({ TransitionProps }) => {
+          return (
+            <Fade {...TransitionProps} timeout={200}>
+              <Paper className="ohm-menu" elevation={1}>
+                <Box component="div" className="buy-tokens">
+                  <Link
+                    href={`https://app.sushi.com/swap?inputCurrency=${addresses[networkID].RESERVES.DAI}&outputCurrency=${OHM_ADDRESS}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Button size="large" variant="contained" color="secondary" fullWidth>
+                      <Typography align="left">
+                        Buy on Sushiswap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
+                      </Typography>
+                    </Button>
+                  </Link>
 
-          {isEthereumAPIAvailable ? (
-            <Box className="add-tokens">
-              <Divider color="secondary" />
-              <p>ADD TOKEN TO WALLET</p>
-              <Button variant="text" color="secondary" onClick={addTokenToWallet("OHM", OHM_ADDRESS)}>
-                <Typography>OHM</Typography>
-              </Button>
-              <Button variant="text" color="secondary" onClick={addTokenToWallet("sOHM", SOHM_ADDRESS)}>
-                <Typography>sOHM</Typography>
-              </Button>
-            </Box>
-          ) : null}
-        </Paper>
+                  <Link
+                    href={`https://app.uniswap.org/#/swap?inputCurrency=${addresses[networkID].RESERVES.FRAX}&outputCurrency=${OHM_ADDRESS}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Button size="large" variant="contained" color="secondary" fullWidth>
+                      <Typography align="left">
+                        Buy on Uniswap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
+                      </Typography>
+                    </Button>
+                  </Link>
+                </Box>
+
+                {isEthereumAPIAvailable ? (
+                  <Box className="add-tokens">
+                    <Divider color="secondary" />
+                    <p>ADD TOKEN TO WALLET</p>
+                    <Button
+                      size="large"
+                      variant="contained"
+                      color="secondary"
+                      onClick={addTokenToWallet("OHM", OHM_ADDRESS)}
+                    >
+                      <Typography>OHM</Typography>
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      color="secondary"
+                      onClick={addTokenToWallet("sOHM", SOHM_ADDRESS)}
+                    >
+                      <Typography>sOHM</Typography>
+                    </Button>
+                  </Box>
+                ) : null}
+
+                <Divider color="secondary" />
+                <Link
+                  href="https://docs.olympusdao.finance/using-the-website/unstaking_lp"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Button size="large" variant="contained" color="secondary" fullWidth>
+                    <Typography align="left">Unstake LP Token</Typography>
+                  </Button>
+                </Link>
+              </Paper>
+            </Fade>
+          );
+        }}
       </Popper>
-    </>
+    </Box>
   );
 }
 

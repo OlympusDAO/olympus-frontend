@@ -20,7 +20,6 @@
 }
 
 .main-data-area {
-  overflow-y: scroll;
   overflow-x: hidden;
   flex-flow: wrap;
   display: flex !important;
@@ -28,7 +27,7 @@
   justify-content: center;
   flex-direction: column;
   margin-top: 10px;
-  height: 77vh;
+  height: 73vh;
   z-index: 2;
   .MuiGrid-root.MuiGrid-item {
     display: flex;

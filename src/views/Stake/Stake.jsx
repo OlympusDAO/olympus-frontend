@@ -26,13 +26,16 @@ import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim, getTokenImage } from "../../helpers";
-import { changeStake, changeApproval } from "../../actions/Stake.actions";
-import { getFraxData } from "../../actions/App.actions";
+import { trim, getTokenImage, getPairImage, getOhmTokenImage } from "../../helpers";
+import { changeStake, changeApproval } from "../../slices/StakeThunk";
+import { getFraxData } from "../../slices/FraxSlice";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ReactComponent as ArrowUp } from "../../assets/icons/v1.2/arrow-up.svg";
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { Skeleton } from "@material-ui/lab";
 
 function a11yProps(index) {
   return {
@@ -41,11 +44,13 @@ function a11yProps(index) {
   };
 }
 
-const ohmImg = getTokenImage("ohm");
-const fraxImg = getTokenImage("frax");
+const sOhmImg = getTokenImage("sohm");
+const ohmImg = getOhmTokenImage(16, 16);
+const OhmFraxImg = getPairImage("frax");
 
-function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
+function Stake() {
   const dispatch = useDispatch();
+  const { provider, address, connected, connect, chainID } = useWeb3Context();
 
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
@@ -53,6 +58,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
+  const isAppLoading = useSelector(state => state.app.loading);
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
@@ -63,19 +69,19 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     return state.app.fiveDayRate;
   });
   const ohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.ohm;
+    return state.account.balances && state.account.balances.ohm;
   });
   const oldSohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.oldsohm;
+    return state.account.balances && state.account.balances.oldsohm;
   });
   const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
+    return state.account.balances && state.account.balances.sohm;
   });
   const stakeAllowance = useSelector(state => {
-    return state.app.staking && state.app.staking.ohmStake;
+    return state.account.staking && state.account.staking.ohmStake;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.app.staking && state.app.staking.ohmUnstake;
+    return state.account.staking && state.account.staking.ohmUnstake;
   });
   const stakingRebase = useSelector(state => {
     return state.app.stakingRebase;
@@ -87,6 +93,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
     return state.app.stakingTVL;
   });
 
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
+  });
+
   const setMax = () => {
     if (view === 0) {
       setQuantity(ohmBalance);
@@ -96,7 +106,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
   };
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: 1 }));
+    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
   };
 
   const onChangeStake = async action => {
@@ -105,7 +115,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
       // eslint-disable-next-line no-alert
       alert("Please enter a value!");
     } else {
-      await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: 1 }));
+      await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
   };
 
@@ -128,19 +138,18 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
 
   let modalButton = [];
 
-  if (web3Modal) {
-    modalButton.push(
-      <Button variant="contained" color="primary" className="connect-button" onClick={loadWeb3Modal} key={2}>
-        Connect Wallet
-      </Button>,
-    );
-  }
+  modalButton.push(
+    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+      Connect Wallet
+    </Button>,
+  );
 
   const changeView = (event, newView) => {
     setView(newView);
   };
 
   const trimmedSOHMBalance = trim(sohmBalance, 4);
+  const trimmedStakingAPY = trim(stakingAPY * 100, 1);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
 
@@ -187,7 +196,13 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       <Typography variant="h5" color="textSecondary">
                         APY
                       </Typography>
-                      <Typography variant="h4">{stakingAPY && trim(stakingAPY * 100, 1)}%</Typography>
+                      <Typography variant="h4">
+                        {stakingAPY ? (
+                          <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
+                        ) : (
+                          <Skeleton width="150px" />
+                        )}
+                      </Typography>
                     </div>
                   </Grid>
 
@@ -197,13 +212,16 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                         TVL
                       </Typography>
                       <Typography variant="h4">
-                        {stakingTVL &&
+                        {stakingTVL ? (
                           new Intl.NumberFormat("en-US", {
                             style: "currency",
                             currency: "USD",
                             maximumFractionDigits: 0,
                             minimumFractionDigits: 0,
-                          }).format(stakingTVL)}
+                          }).format(stakingTVL)
+                        ) : (
+                          <Skeleton width="150px" />
+                        )}
                       </Typography>
                     </div>
                   </Grid>
@@ -213,7 +231,9 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                       <Typography variant="h5" color="textSecondary">
                         Current Index
                       </Typography>
-                      <Typography variant="h4">{currentIndex && trim(currentIndex, 1)} OHM</Typography>
+                      <Typography variant="h4">
+                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                      </Typography>
                     </div>
                   </Grid>
                 </Grid>
@@ -254,22 +274,10 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                           className="stake-input"
                           value={quantity}
                           onChange={e => setQuantity(e.target.value)}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <div className="logo-holder">
-                                <div className="ohm-logo-bg">
-                                  <img
-                                    className="ohm-logo-tiny"
-                                    src="https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x383518188C0C6d7730D91b2c03a03C837814a899/logo.png"
-                                  />
-                                </div>
-                              </div>
-                            </InputAdornment>
-                          }
                           labelWidth={0}
                           endAdornment={
                             <InputAdornment position="end">
-                              <Button variant="text" onClick={setMax}>
+                              <Button variant="text" onClick={setMax} color="inherit">
                                 Max
                               </Button>
                             </InputAdornment>
@@ -283,22 +291,24 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "staking")}
                             onClick={() => {
                               onChangeStake("stake");
                             }}
                           >
-                            Stake OHM
+                            {txnButtonText(pendingTransactions, "staking", "Stake OHM")}
                           </Button>
                         ) : (
                           <Button
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "approve_staking")}
                             onClick={() => {
                               onSeekApproval("ohm");
                             }}
                           >
-                            Approve
+                            {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
                           </Button>
                         )}
                       </TabPanel>
@@ -309,22 +319,24 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "unstaking")}
                             onClick={() => {
                               onChangeStake("unstake");
                             }}
                           >
-                            Unstake OHM
+                            {txnButtonText(pendingTransactions, "unstaking", "Unstake OHM")}
                           </Button>
                         ) : (
                           <Button
                             className="stake-button"
                             variant="contained"
                             color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                             onClick={() => {
                               onSeekApproval("sohm");
                             }}
                           >
-                            Approve
+                            {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
                           </Button>
                         )}
                       </TabPanel>
@@ -346,27 +358,41 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                   <div className={`stake-user-data`}>
                     <div className="data-row">
                       <Typography variant="body1">Your Balance</Typography>
-                      <Typography variant="body1">{trim(ohmBalance)} OHM</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
+                      </Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Your Staked Balance</Typography>
-                      <Typography variant="body1">{trimmedSOHMBalance} sOHM</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? (
+                          <Skeleton width="80px" />
+                        ) : (
+                          <>{new Intl.NumberFormat("en-US").format(trimmedSOHMBalance)} sOHM</>
+                        )}
+                      </Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Next Reward Amount</Typography>
-                      <Typography variant="body1">{nextRewardValue} sOHM</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
+                      </Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Next Reward Yield</Typography>
-                      <Typography variant="body1">{stakingRebasePercentage}%</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}
+                      </Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">ROI (5-Day Rate)</Typography>
-                      <Typography variant="body1">{trim(fiveDayRate * 100, 4)}%</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>}
+                      </Typography>
                     </div>
                   </div>
                 </>
@@ -399,12 +425,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
                     <TableRow>
                       <TableCell>
                         <Box className="ohm-pairs">
-                          <div className="ohm-pair ohm-logo-bg" style={{ zIndex: 2 }}>
-                            <img src={`${ohmImg}`} />
-                          </div>
-                          <div className="ohm-pair" style={{ zIndex: 1 }}>
-                            <img src={`${fraxImg}`} />
-                          </div>
+                          {OhmFraxImg}
                           <Typography>OHM-FRAX</Typography>
                         </Box>
                       </TableCell>
@@ -440,14 +461,7 @@ function Stake({ provider, address, web3Modal, loadWeb3Modal }) {
               <div className="stake-pool">
                 <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                   <Box className="ohm-pairs">
-                    <div className="ohm-pair" style={{ zIndex: 2 }}>
-                      <div className="ohm-logo-bg">
-                        <img src={`${ohmImg}`} />
-                      </div>
-                    </div>
-                    <div className="ohm-pair" style={{ zIndex: 1 }}>
-                      <img src={`${fraxImg}`} />
-                    </div>
+                    {OhmFraxImg}
                     <Typography gutterBottom={false}>OHM-FRAX</Typography>
                   </Box>
                 </div>

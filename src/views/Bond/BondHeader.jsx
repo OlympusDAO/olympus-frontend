@@ -4,8 +4,8 @@ import BondLogo from "../../components/BondLogo";
 import AdvancedSettings from "./AdvancedSettings";
 import { bondName } from "../../helpers";
 import { Typography, IconButton, SvgIcon, Link } from "@material-ui/core";
-import { ReactComponent as SettingsIcon } from "../../assets/icons/v1.2/settings.svg";
-import { ReactComponent as XIcon } from "../../assets/icons/v1.2/x.svg";
+import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import useEscape from "../../hooks/useEscape";
 
 function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {

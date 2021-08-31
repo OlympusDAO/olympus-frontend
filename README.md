@@ -1,6 +1,8 @@
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 This is the front-end repo for Olympus that allows users be part of the future of Greece. 
 
+**_ Note We're currently in the process of switching to TypeScript. Please read  this  guide on how to use TypeScript for this repository. https://github.com/OlympusDAO/olympus-frontend/wiki/TypeScript-Refactor-General-Guidelines _**
+
 ##  🔧 Setting up Local Development
 
 Required: 
@@ -18,6 +20,12 @@ npm run start
 
 The site is now running at `http://localhost:3000`!
 Open the source code and start editing!
+
+## Rinkeby Testing
+The testnet faucet for sOHM can be found [here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet. 
+
+Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
+
 
 ### Architecture/Layout
 The app is written in [React](https://reactjs.org/) using [Redux](https://redux.js.org/) as the state container. 
@@ -70,7 +78,7 @@ Once you submit a PR, our CI will generate a temporary testing URL where you can
 *__NOTE__*: For big changes associated with feature releases/milestones, they will be merged onto the `develop` branch for more thorough QA before a final merge to `master`
 
 
-**Gatekeepers**: 
+**Defenders of the code**: 
 
 Only the following people have merge access for the master branch. 
 * [@Girth Brooks](https://github.com/dwjanus)

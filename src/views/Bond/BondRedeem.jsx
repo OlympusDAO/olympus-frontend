@@ -1,17 +1,23 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Typography, Box } from "@material-ui/core";
-import { redeemBond } from "../../actions/Bond.actions.js";
+import { Button, Typography, Box, Slide } from "@material-ui/core";
+import { redeemBond } from "../../slices/BondSlice";
+import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { Skeleton } from "@material-ui/lab";
 
-function BondRedeem({ provider, address, bond }) {
+function BondRedeem({ bond }) {
   const dispatch = useDispatch();
+  const { provider, address, chainID } = useWeb3Context();
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
   });
 
+  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const bondMaturationBlock = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondMaturationBlock;
+    return state.account[bond] && state.account[bond].bondMaturationBlock;
   });
 
   const vestingTerm = useSelector(state => {
@@ -19,15 +25,23 @@ function BondRedeem({ provider, address, bond }) {
   });
 
   const interestDue = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].interestDue;
+    return state.account[bond] && state.account[bond].interestDue;
   });
 
   const pendingPayout = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].pendingPayout;
+    return state.account[bond] && state.account[bond].pendingPayout;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
+  });
+
+  const userState = useSelector(state => {
+    return state.account && state.account;
   });
 
   async function onRedeem({ autostake }) {
-    await dispatch(redeemBond({ address, bond, networkID: 1, provider, autostake }));
+    await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
   }
 
   const vestingTime = () => {
@@ -48,20 +62,29 @@ function BondRedeem({ provider, address, bond }) {
     return state.bonding[bond] && state.bonding[bond].debtRatio;
   });
 
+  useEffect(() => {
+    console.log(userState);
+  }, [userState]);
+
   return (
     <Box display="flex" flexDirection="column">
+<<<<<<< HEAD
       <Box display="flex" justifyContent="space-evenly" flexWrap="wrap">
+=======
+      <Box display="flex" justifyContent="space-around" flexWrap="wrap">
+>>>>>>> origin/develop
         <Button
           variant="contained"
           color="primary"
           id="bond-claim-btn"
           className="transaction-button"
           fullWidth
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond)}
           onClick={() => {
             onRedeem({ autostake: false });
           }}
         >
-          Claim
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond, "Claim")}
         </Button>
         <Button
           variant="contained"
@@ -69,14 +92,16 @@ function BondRedeem({ provider, address, bond }) {
           id="bond-claim-autostake-btn"
           className="transaction-button"
           fullWidth
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond + "_autostake")}
           onClick={() => {
             onRedeem({ autostake: true });
           }}
         >
-          Claim and Autostake
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond + "_autostake", "Claim and Autostake")}
         </Button>
       </Box>
 
+<<<<<<< HEAD
       <div className="data-row">
         <Typography>Pending Rewards</Typography>
         <Typography className="price-data">{trim(interestDue, 4)} OHM</Typography>
@@ -104,6 +129,43 @@ function BondRedeem({ provider, address, bond }) {
         <Typography>Vesting Term</Typography>
         <Typography>{vestingPeriod()}</Typography>
       </div>
+=======
+      <Slide direction="right" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
+        <Box className="bond-data">
+          <div className="data-row">
+            <Typography>Pending Rewards</Typography>
+            <Typography className="price-data">
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(interestDue, 4)} OHM`}
+            </Typography>
+          </div>
+          <div className="data-row">
+            <Typography>Claimable Rewards</Typography>
+            <Typography className="price-data">
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(pendingPayout, 4)} OHM`}
+            </Typography>
+          </div>
+          <div className="data-row">
+            <Typography>Time until fully vested</Typography>
+            <Typography className="price-data">{isBondLoading ? <Skeleton width="100px" /> : vestingTime()}</Typography>
+          </div>
+
+          <div className="data-row">
+            <Typography>ROI</Typography>
+            <Typography>{isBondLoading ? <Skeleton width="100px" /> : `${trim(bondDiscount * 100, 2)}%`}</Typography>
+          </div>
+
+          <div className="data-row">
+            <Typography>Debt Ratio</Typography>
+            <Typography>{isBondLoading ? <Skeleton width="100px" /> : `${trim(debtRatio / 10000000, 2)}%`}</Typography>
+          </div>
+
+          <div className="data-row">
+            <Typography>Vesting Term</Typography>
+            <Typography>{isBondLoading ? <Skeleton width="100px" /> : vestingPeriod()}</Typography>
+          </div>
+        </Box>
+      </Slide>
+>>>>>>> origin/develop
     </Box>
   );
 }
