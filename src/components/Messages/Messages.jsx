@@ -10,7 +10,7 @@ import "./ConsoleInterceptor.js";
 function Messages() {
   const messages = useSelector(state => state.messages);
   const dispatch = useDispatch();
-  // Returns a function that can closes a messages
+  // Returns a function that can closes a message
   const handleClose = function (message) {
     return function () {
       dispatch(close(message));

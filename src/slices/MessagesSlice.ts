@@ -34,15 +34,15 @@ const messagesSlice = createSlice({
   name: "messages",
   initialState,
   reducers: {
-    // Create an error message
+    // Creates an error message
     error(state, action) {
       createMessage(state, "error", "Error", action.payload);
     },
-    // Create an information message
+    // Creates an information message
     info(state, action) {
       createMessage(state, "info", "Information", action.payload);
     },
-    // Close a message
+    // Closes a message
     close(state, action) {
       state.items = state.items.map(message => {
         return message.id == action.payload.id ? Object.assign({}, message, { open: false }) : message;
