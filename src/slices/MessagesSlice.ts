@@ -42,10 +42,6 @@ const messagesSlice = createSlice({
     info(state, action) {
       createMessage(state, "info", "Information", action.payload);
     },
-    // Create an information message
-    set(state, action) {
-      state.items = action.payload;
-    },
     // Close a message
     close(state, action) {
       state.items = state.items.map(message => {

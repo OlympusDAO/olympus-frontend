@@ -9,10 +9,11 @@ import "./ConsoleInterceptor.js";
 // A component that displays error messages
 function Messages() {
   const messages = useSelector(state => state.messages);
+  const dispatch = useDispatch();
   // Returns a function that can closes a messages
   const handleClose = function (message) {
     return function () {
-      store.dispatch(close(message));
+      dispatch(close(message));
     };
   };
   return (
