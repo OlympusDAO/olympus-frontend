@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { bondName, lpURL, isBondLP, shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
 import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
@@ -8,8 +9,14 @@ import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 
 export function ClaimBondTableData({ bond }) {
+  const currentBlock = useSelector(state => {
+    return state.app.currentBlock;
+  });
+
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(vestingTerm);
+    if (currentBlock > bond[1].bondMaturationBlock) return "Fully Vested";
+
+    const vestingBlock = parseInt(currentBlock) + parseInt(bond[1].bondMaturationBlock);
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
@@ -36,7 +43,7 @@ export function ClaimBondTableData({ bond }) {
       </TableCell>
       <TableCell align="left">{bond[1].interestDue}</TableCell>
       <TableCell align="left">need data</TableCell>
-      <TableCell align="center">{bond[1].bondMaturationBlock}</TableCell>
+      <TableCell align="center">{vestingPeriod()}</TableCell>
       <TableCell align="center">
         {/* Need to add button action */}
         <Button variant="outlined" color="primary">
@@ -77,7 +84,7 @@ export function ClaimBondCardData({ bond }) {
 
       <div className="data-row" style={{ marginBottom: "20px" }}>
         <Typography>Fully Vested</Typography>
-        <Typography>{bond[1].bondMaturationBlock}</Typography>
+        <Typography>{estingPeriod()}</Typography>
       </div>
       <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
         <Button variant="outlined" color="primary">
