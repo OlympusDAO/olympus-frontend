@@ -52,6 +52,8 @@ export const addresses = {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
       POOL_TOKEN_ADDRESS: "0x7e41da986c80eaba53236fab0d3ff407e7440fb3", // 33T token address
       AWARD_ADDRESS: "0x54c18FB75f946424AF15221414B15a814Ca1EFD0", // contract to start/complete award
+      PRIZE_POOL_ADDRESS: "0x60Bc094cb0c966E60Ed3bE0549E92f3BC572E9f8", // NEW
+      PRIZE_STRATEGY_ADDRESS: "0xeeb552c4D5e155E50EE3f7402ed379bf72e36F23", // NEW
     },
   },
   1: {
@@ -90,6 +92,8 @@ export const addresses = {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
       POOL_TOKEN_ADDRESS: "0x7e41da986c80eaba53236fab0d3ff407e7440fb3", // 33T token address
       AWARD_ADDRESS: "0x54c18FB75f946424AF15221414B15a814Ca1EFD0", // contract to start/complete award
+      PRIZE_POOL_ADDRESS: "0x60Bc094cb0c966E60Ed3bE0549E92f3BC572E9f8",
+      PRIZE_STRATEGY_ADDRESS: "0xeeb552c4D5e155E50EE3f7402ed379bf72e36F23",
     },
   },
 };

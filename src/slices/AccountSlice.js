@@ -64,7 +64,7 @@ export const loadAccountDetails = createAsyncThunk(
       const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
       sohmBalance = await sohmContract.balanceOf(address);
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-      poolAllowance = await sohmContract.allowance(address, addresses[networkID].POOL_TOGETHER.POOL_ADDRESS);
+      poolAllowance = await sohmContract.allowance(address, addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS);
     }
 
     if (addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS) {
