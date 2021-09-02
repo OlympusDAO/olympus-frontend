@@ -15,7 +15,7 @@
       height: 100%;
       max-width: 833px;
       width: 97%;
-      margin-bottom: -20px;
+      margin-bottom: -15px;
       margin-top: -10px;
       z-index: 3;
       position: sticky;
@@ -23,6 +23,9 @@
 
     .vegas {
       width: 100%;
+      max-height: 250px;
+      // height: 230px;
+      min-height: 150px;
       background-image: url("../../assets/images/33-together-spritesheet.png");
       animation: sprite 3.33s steps(7) infinite;
       background-size: 700%;
@@ -45,13 +48,18 @@
 }
 
 // Mobile styles
+:not(.tablet, .mobile) .vegas {
+  height: 240px;
+}
+
 .tablet .vegas {
   height: 200px;
+  margin-bottom: -10px;
 }
 
 .mobile .vegas {
-  height: 160px;
-  margin-bottom: -10px;
+  height: 160px !important;
+  margin-bottom: -18px;
 }
 
 @keyframes sprite {

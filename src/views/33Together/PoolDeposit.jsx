@@ -6,6 +6,7 @@ import { useWeb3Context } from "../../hooks";
 import { trim, getTokenImage } from "src/helpers/index.js";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { poolDeposit, changeApproval } from "../../slices/PoolThunk";
+import { Skeleton } from "@material-ui/lab";
 
 const sohmImg = getTokenImage("sohm");
 
@@ -13,20 +14,19 @@ export const PoolDeposit = () => {
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
   const [quantity, setQuantity] = useState(0);
+  const isAppLoading = useSelector(state => state.app.loading);
 
   const sohmBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.sohm;
+    return state.account.balances && state.account.balances.sohm;
   });
 
   const poolBalance = useSelector(state => {
-    return state.app.balances && state.app.balances.pool;
+    return state.account.balances && state.account.balances.pool;
   });
 
   const poolAllowance = useSelector(state => {
     return state.account.pooling && state.account.pooling.sohmPool;
   });
-
-  console.log(poolAllowance);
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
@@ -92,7 +92,7 @@ export const PoolDeposit = () => {
                 variant="contained"
                 color="primary"
                 disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
-                onClick={() => onDeposit()}
+                onClick={() => onDeposit("deposit")}
               >
                 {txnButtonText(pendingTransactions, "deposit", "Deposit sOHM")}
               </Button>
@@ -114,6 +114,20 @@ export const PoolDeposit = () => {
               until your sOHM is withdrawn.
             </Typography>
           </Box>
+
+          {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
+          <div className={`stake-user-data`}>
+            <div className="data-row">
+              <Typography variant="body1">Your Staked Balance (Depositable)</Typography>
+              <Typography variant="body1">
+                {isAppLoading ? (
+                  <Skeleton width="80px" />
+                ) : (
+                  <>{new Intl.NumberFormat("en-US").format(sohmBalance)} sOHM</>
+                )}
+              </Typography>
+            </div>
+          </div>
         </Box>
       )}
     </Box>
