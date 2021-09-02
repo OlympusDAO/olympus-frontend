@@ -49,7 +49,7 @@ function useBonds() {
     });
 
     setBonds(mostProfitableBonds);
-  }, [bondState, bondLoading]);
+  }, [bondState, accountBondsState, bondLoading]);
 
   // Debug Log:
   // console.log(bonds);
