@@ -8,7 +8,7 @@ import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = { balances: {}, staking: {}, bonds: {}, migrate: {} };
 
 export const getBalances = createAsyncThunk("account/getBalances", async ({ address, networkID, provider }) => {
   const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
@@ -181,7 +181,7 @@ const accountSlice = createSlice({
       })
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
         const bond = action.payload.bond;
-        state[bond] = action.payload;
+        if (action.payload.interestDue > 0) state.bonds[bond] = action.payload;
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {

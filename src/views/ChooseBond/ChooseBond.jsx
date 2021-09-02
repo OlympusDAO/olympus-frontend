@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Paper,
   Grid,
@@ -26,13 +26,11 @@ function ChooseBond() {
   const bonds = useBonds();
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
-  const accountBonds = useSelector(state => state.accountBonds);
-
-  useEffect(() => {
-    console.log("account bonds: ", accountBonds);
-  }, []);
 
   const isAppLoading = useSelector(state => state.app.loading);
+  const isAccountLoading = useSelector(state => state.account.loading);
+  const accountBonds = useSelector(state => state.account.bonds);
+
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
@@ -41,9 +39,14 @@ function ChooseBond() {
     return state.app.treasuryBalance;
   });
 
+  useEffect(() => {
+    console.log("account bonds: ", accountBonds);
+    // setUserBonds(activeBonds);
+  }, [accountBonds]);
+
   return (
     <div id="choose-bond-view">
-      {accountBonds && <ClaimBonds bonds={accountBonds} />}
+      {!isAccountLoading && accountBonds && <ClaimBonds bonds={accountBonds} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">

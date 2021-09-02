@@ -22,6 +22,10 @@ import "./choosebond.scss";
 function ClaimBonds({ bonds }) {
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
+  useEffect(() => {
+    console.log(bonds);
+  }, []);
+
   return (
     <Zoom in={true}>
       <Paper className="ohm-card claim-bonds-card">
@@ -40,15 +44,15 @@ function ClaimBonds({ bonds }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {bonds.map(bond => (
-                    <ClaimBondTableData key={bond.value} bond={bond.value} />
+                  {Object.entries(bonds).map(bond => (
+                    <ClaimBondTableData key={bond} bond={bond} />
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
           )}
 
-          {isSmallScreen && bonds.map(bond => <ClaimBondCardData key={bond.value} bond={bond.value} />)}
+          {isSmallScreen && bonds.map(bond => <ClaimBondCardData key={bond.bond} bond={bond} />)}
 
           <Box
             display="flex"
