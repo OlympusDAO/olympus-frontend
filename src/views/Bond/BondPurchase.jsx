@@ -16,7 +16,6 @@ import { changeApproval, bondAsset, calcBondDetails } from "../../slices/BondSli
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import { calculateUserBondDetails } from "src/slices/AccountSlice";
 
 function BondPurchase({ bond, slippage }) {
   const dispatch = useDispatch();
