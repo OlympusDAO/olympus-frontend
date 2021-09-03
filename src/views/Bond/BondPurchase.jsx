@@ -12,10 +12,11 @@ import {
   Slide,
 } from "@material-ui/core";
 import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
-import { changeApproval, bondAsset } from "../../slices/BondSlice";
+import { changeApproval, bondAsset, calcBondDetails } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
+import { calculateUserBondDetails } from "src/slices/AccountSlice";
 
 function BondPurchase({ bond, slippage }) {
   const dispatch = useDispatch();
@@ -86,6 +87,10 @@ function BondPurchase({ bond, slippage }) {
   useEffect(() => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
+
+  useEffect(() => {
+    dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
+  }, [quantity]);
 
   const onSeekApproval = async () => {
     await dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
