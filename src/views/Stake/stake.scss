@@ -10,7 +10,7 @@
   }
 
   .stake-tab-buttons {
-    margin-bottom: 16px;
+    margin-bottom: 0.25rem;
   }
 
   .stake-table-panel,
@@ -32,6 +32,10 @@
   .ohm-card.secondary .card-header {
     min-height: 33px !important;
     height: 20px;
+  }
+  .stake-note {
+    text-align: center;
+    font-style: italic;
   }
 }
 
@@ -127,6 +131,7 @@
   justify-content: space-around;
   align-items: center;
   height: auto;
+  padding-bottom: 1rem;
 }
 
 .mobile .stake-action-row {
