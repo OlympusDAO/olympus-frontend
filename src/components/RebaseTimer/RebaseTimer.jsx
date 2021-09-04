@@ -20,7 +20,6 @@ function RebaseTimer() {
       const rebaseBlock = getRebaseBlock(currentBlock);
       const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
       setSecondsToRebase(seconds);
-      debugger;
     }
   }, [currentBlock]);
 
