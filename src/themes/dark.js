@@ -10,6 +10,7 @@ const darkTheme = {
   gold: "#F8CC82",
   gray: "#A3A3A3",
   textHighlightColor: "#F4D092",
+  sidebarHighlightColor: "#C4C4C4",
   backgroundColor: "rgba(8, 15, 53, 1)",
   background: `
     linear-gradient(180deg, rgba(8, 15, 53, 0), rgba(0, 0, 10, 0.9)),
@@ -117,8 +118,15 @@ export const dark = responsiveFontSizes(
           root: {
             color: darkTheme.color,
             "&:hover": {
-              color: darkTheme.textHighlightColor,
-              textDecoration: "none",
+              textDecoration: "underline",
+              "&.branding-header-link": {
+                color: darkTheme.sidebarHighlightColor,
+                textDecoration: "none",
+              },
+              "&.social-link": {
+                color: darkTheme.sidebarHighlightColor,
+                textDecoration: "none",
+              },
               "&.active": {
                 color: darkTheme.color,
               },

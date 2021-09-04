@@ -37,7 +37,7 @@ function NavContent() {
       <Box className="dapp-sidebar" display="flex" justifyContent="space-between" flexDirection="column">
         <div className="dapp-menu-top">
           <Box className="branding-header">
-            <Link href="https://olympusdao.finance" target="_blank">
+            <Link className="branding-header-link" href="https://olympusdao.finance" target="_blank">
               <SvgIcon
                 color="primary"
                 component={OlympusIcon}
@@ -48,7 +48,7 @@ function NavContent() {
 
             {address && (
               <div className="wallet-link">
-                <Link href={`https://etherscan.io/address/${address}`} target="_blank">
+                <Link className="branding-header-link" href={`https://etherscan.io/address/${address}`} target="_blank">
                   {shorten(address)}
                 </Link>
               </div>
