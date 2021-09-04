@@ -121,11 +121,9 @@ export const dark = responsiveFontSizes(
               textDecoration: "underline",
               "&.branding-header-link": {
                 color: darkTheme.sidebarHighlightColor,
-                textDecoration: "none",
               },
               "&.social-link": {
                 color: darkTheme.sidebarHighlightColor,
-                textDecoration: "none",
               },
               "&.active": {
                 color: darkTheme.color,

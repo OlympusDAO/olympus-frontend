@@ -64,7 +64,7 @@ function NavContent() {
                 isActive={(match, location) => {
                   return checkPage(match, location, "dashboard");
                 }}
-                className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                className={`sidebar-menu button-dapp-menu ${isActive ? "active" : ""}`}
               >
                 <Typography variant="h6">
                   <SvgIcon color="primary" component={DashboardIcon} />
@@ -79,7 +79,7 @@ function NavContent() {
                 isActive={(match, location) => {
                   return checkPage(match, location, "stake");
                 }}
-                className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                className={`sidebar-menu button-dapp-menu ${isActive ? "active" : ""}`}
               >
                 <Typography variant="h6">
                   <SvgIcon color="primary" component={StakeIcon} />
@@ -94,7 +94,7 @@ function NavContent() {
                 isActive={(match, location) => {
                   return checkPage(match, location, "bonds");
                 }}
-                className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                className={`sidebar-menu button-dapp-menu ${isActive ? "active" : ""}`}
               >
                 <Typography variant="h6">
                   <SvgIcon color="primary" component={BondIcon} />
@@ -106,7 +106,7 @@ function NavContent() {
                 <div className="bond-discounts">
                   <Typography variant="body2">Bond discounts</Typography>
                   {bonds.map((bond, i) => (
-                    <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
+                    <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"sidebar-menu bond"}>
                       {!bond.bondDiscount ? (
                         <Skeleton variant="text" width={"150px"} />
                       ) : (
@@ -128,7 +128,7 @@ function NavContent() {
           <div className="dapp-menu-external-links">
             {Object.keys(externalUrls).map((link, i) => {
               return (
-                <Link key={i} href={`${externalUrls[link].url}`} target="_blank">
+                <Link key={i} href={`${externalUrls[link].url}`} target="_blank" className={"sidebar-menu"}>
                   <Typography variant="h6">{externalUrls[link].icon}</Typography>
                   <Typography variant="h6">{externalUrls[link].title}</Typography>
                 </Link>

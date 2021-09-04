@@ -113,11 +113,9 @@ export const light = responsiveFontSizes(
               textDecoration: "underline",
               "&.branding-header-link": {
                 color: lightTheme.sidebarHighlightColor,
-                textDecoration: "none",
               },
               "&.social-link": {
                 color: lightTheme.sidebarHighlightColor,
-                textDecoration: "none",
               },
               "&.active": {
                 color: lightTheme.color,
@@ -133,7 +131,6 @@ export const light = responsiveFontSizes(
                 backgroundColor: "#00000000 !important",
                 "&.branding-header-link": {
                   color: lightTheme.textHighlightColor,
-                  textDecoration: "none",
                 },
               },
               "&:focus": {

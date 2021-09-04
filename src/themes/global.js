@@ -101,7 +101,11 @@ const commonSettings = {
         textUnderlineOffset: ".23rem",
         cursor: "pointer",
         "&:hover": {
-          textDecoration: "underline",
+          textDecoration: "none",
+          underline: "none",
+          "&.sidebar-menu": {
+            textDecoration: "underline",
+          },
         },
       },
     },
