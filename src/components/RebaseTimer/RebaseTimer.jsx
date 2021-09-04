@@ -44,7 +44,7 @@ function RebaseTimer() {
     <Box className="rebase-timer">
       <Typography variant="body2">
         {currentBlock ? (
-          setSecondsToRebase ? (
+          secondsToRebase > 0 ? (
             <>
               <strong>{prettifySeconds(secondsToRebase)}</strong> to next rebase
             </>
