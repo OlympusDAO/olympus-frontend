@@ -32,6 +32,7 @@ const lightTheme = {
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
   containedSecondaryButtonHoverBG: "#33333333",
+  ohmMenuButtonHoverBG: "#CFD2D4",
 };
 
 export const light = responsiveFontSizes(
@@ -175,8 +176,7 @@ export const light = responsiveFontSizes(
           root: {
             backgroundColor: lightTheme.paperBg,
             "&:hover": {
-              color: lightTheme.color,
-              backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+              backgroundColor: lightTheme.paperBg,
             },
             selected: {
               backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
@@ -230,15 +230,19 @@ export const light = responsiveFontSizes(
             color: lightTheme.color,
             backgroundColor: lightTheme.paperBg,
             "&:hover": {
-              color: "#FCFCFC",
-              backgroundColor: `${lightTheme.containedSecondaryButtonHoverBG} !important`,
+              backgroundColor: `${lightTheme.paperBg} !important`,
+              "&.ohm-menu-button": {
+                backgroundColor: `${lightTheme.ohmMenuButtonHoverBG} !important`,
+              },
             },
             "@media (hover:none)": {
               color: lightTheme.color,
               backgroundColor: lightTheme.paperBg,
               "&:hover": {
-                color: "#FCFCFC",
-                backgroundColor: `${lightTheme.containedSecondaryButtonHoverBG} !important`,
+                "&.ohm-menu-button": {
+                  backgroundColor: `${lightTheme.ohmMenuButtonHoverBG} !important`,
+                },
+                backgroundColor: `${lightTheme.paperBg} !important`,
               },
             },
           },

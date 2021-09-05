@@ -39,6 +39,7 @@ const darkTheme = {
   outlinedSecondaryButtonHoverBG: "transparent",
   outlinedSecondaryButtonHoverColor: "#F8CC82", //gold
   containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
+  ohmMenuButtonHoverBG: "rgba(255, 255, 255, 0.15)",
 };
 
 export const dark = responsiveFontSizes(
@@ -170,8 +171,7 @@ export const dark = responsiveFontSizes(
           root: {
             backgroundColor: darkTheme.paperBg,
             "&:hover": {
-              color: darkTheme.color,
-              backgroundColor: `${darkTheme.containedSecondaryButtonHoverBG} !important`,
+              backgroundColor: `${darkTheme.paperBg} !important`,
             },
             selected: {
               backgroundColor: darkTheme.containedSecondaryButtonHoverBG,
@@ -214,7 +214,10 @@ export const dark = responsiveFontSizes(
             backgroundColor: darkTheme.paperBg,
             color: darkTheme.color,
             "&:hover": {
-              backgroundColor: `${darkTheme.containedSecondaryButtonHoverBG} !important`,
+              backgroundColor: `${darkTheme.paperBg} !important`,
+              "&.ohm-menu-button": {
+                backgroundColor: `${darkTheme.ohmMenuButtonHoverBG} !important`,
+              },
             },
             "&:active": {
               backgroundColor: darkTheme.containedSecondaryButtonHoverBG,
@@ -226,7 +229,10 @@ export const dark = responsiveFontSizes(
               color: darkTheme.color,
               backgroundColor: darkTheme.paperBg,
               "&:hover": {
-                backgroundColor: `${darkTheme.containedSecondaryButtonHoverBG} !important`,
+                "&.ohm-menu-button": {
+                  backgroundColor: `${darkTheme.ohmMenuButtonHoverBG} !important`,
+                },
+                backgroundColor: `${darkTheme.paperBg} !important`,
               },
             },
           },
