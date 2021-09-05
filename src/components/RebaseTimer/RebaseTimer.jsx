@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 function RebaseTimer() {
   const SECONDS_TO_REFRESH = 60;
   const [secondsToRebase, setSecondsToRebase] = useState(0);
+  const [rebaseString, setRebaseString] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
   const currentBlock = useSelector(state => {
@@ -20,6 +21,8 @@ function RebaseTimer() {
       const rebaseBlock = getRebaseBlock(currentBlock);
       const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
       setSecondsToRebase(seconds);
+      const prettified = prettifySeconds(seconds);
+      setRebaseString(prettified !== "" ? prettified : "Less than a minute");
     }
   }, [currentBlock]);
 
@@ -35,6 +38,8 @@ function RebaseTimer() {
       clearInterval(interval);
       setSecondsToRebase(secondsToRebase => secondsToRebase - SECONDS_TO_REFRESH);
       setSecondsToRefresh(SECONDS_TO_REFRESH);
+      const prettified = prettifySeconds(secondsToRebase);
+      setRebaseString(prettified !== "" ? prettified : "Less than a minute");
     }
     return () => clearInterval(interval);
   }, [secondsToRebase, secondsToRefresh]);
@@ -45,7 +50,7 @@ function RebaseTimer() {
         {currentBlock ? (
           secondsToRebase > 0 ? (
             <>
-              <strong>{prettifySeconds(secondsToRebase)}</strong> to next rebase
+              <strong>{rebaseString}</strong> to next rebase
             </>
           ) : (
             <strong>rebasing</strong>
