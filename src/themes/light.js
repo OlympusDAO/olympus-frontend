@@ -217,10 +217,13 @@ export const light = responsiveFontSizes(
         MuiButton: {
           containedPrimary: {
             color: "#FCFCFC",
-            backgroundColor: lightTheme.primaryButtonBG,
+            backgroundColor: lightTheme.blueish_gray,
             "&:hover": {
               backgroundColor: lightTheme.primaryButtonHoverBG,
               color: lightTheme.primaryButtonHoverColor,
+              "&.stake-button": {
+                backgroundColor: lightTheme.blueish_gray,
+              },
             },
             "@media (hover:none)": {
               color: lightTheme.color,

@@ -205,6 +205,9 @@ export const dark = responsiveFontSizes(
             "&:hover": {
               backgroundColor: darkTheme.primaryButtonHoverBG,
               color: darkTheme.primaryButtonHoverColor,
+              "&.stake-button": {
+                backgroundColor: darkTheme.gold,
+              },
             },
             "&:active": {
               backgroundColor: darkTheme.primaryButtonHoverBG,
