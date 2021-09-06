@@ -16,20 +16,9 @@ function BondRedeem({ bond }) {
   });
 
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
-  const bondMaturationBlock = useSelector(state => {
-    return state.account[bond] && state.account[bond].bondMaturationBlock;
-  });
 
   const vestingTerm = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].vestingBlock;
-  });
-
-  const interestDue = useSelector(state => {
-    return state.account[bond] && state.account[bond].interestDue;
-  });
-
-  const pendingPayout = useSelector(state => {
-    return state.account[bond] && state.account[bond].pendingPayout;
   });
 
   const pendingTransactions = useSelector(state => {
@@ -40,12 +29,16 @@ function BondRedeem({ bond }) {
     return state.account && state.account;
   });
 
+  const userBonds = useSelector(state => {
+    return state.account && state.account.bonds;
+  });
+
   async function onRedeem({ autostake }) {
     await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
   }
 
   const vestingTime = () => {
-    return prettyVestingPeriod(currentBlock, bondMaturationBlock);
+    return prettyVestingPeriod(currentBlock, userBonds[bond].bondMaturationBlock);
   };
 
   const vestingPeriod = () => {
@@ -61,10 +54,6 @@ function BondRedeem({ bond }) {
   const debtRatio = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].debtRatio;
   });
-
-  useEffect(() => {
-    console.log(userState);
-  }, [userState]);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -102,13 +91,13 @@ function BondRedeem({ bond }) {
           <div className="data-row">
             <Typography>Pending Rewards</Typography>
             <Typography className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(interestDue, 4)} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(userBonds[bond].interestDue, 4)} OHM`}
             </Typography>
           </div>
           <div className="data-row">
             <Typography>Claimable Rewards</Typography>
             <Typography className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(pendingPayout, 4)} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(userBonds[bond].pendingPayout, 4)} OHM`}
             </Typography>
           </div>
           <div className="data-row">
