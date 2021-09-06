@@ -1,11 +1,16 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
 import { Box, Typography } from "@material-ui/core";
 import "./rebasetimer.scss";
 import { Skeleton } from "@material-ui/lab";
 import { useEffect, useMemo, useState } from "react";
+import { loadAppDetails } from "../../slices/AppSlice";
+import { useWeb3Context } from "../../hooks/web3Context";
 
 function RebaseTimer() {
+  const dispatch = useDispatch();
+  const { provider, chainID } = useWeb3Context();
+
   const SECONDS_TO_REFRESH = 60;
   const [secondsToRebase, setSecondsToRebase] = useState(0);
   const [rebaseString, setRebaseString] = useState("");
@@ -15,14 +20,18 @@ function RebaseTimer() {
     return state.app.currentBlock;
   });
 
+  function initializeTimer() {
+    const rebaseBlock = getRebaseBlock(currentBlock);
+    const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
+    setSecondsToRebase(seconds);
+    const prettified = prettifySeconds(seconds);
+    setRebaseString(prettified !== "" ? prettified : "Less than a minute");
+  }
+
   // This initializes secondsToRebase as soon as currentBlock becomes available
   useMemo(() => {
     if (currentBlock) {
-      const rebaseBlock = getRebaseBlock(currentBlock);
-      const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
-      setSecondsToRebase(seconds);
-      const prettified = prettifySeconds(seconds);
-      setRebaseString(prettified !== "" ? prettified : "Less than a minute");
+      initializeTimer();
     }
   }, [currentBlock]);
 
@@ -40,6 +49,15 @@ function RebaseTimer() {
       setSecondsToRefresh(SECONDS_TO_REFRESH);
       const prettified = prettifySeconds(secondsToRebase);
       setRebaseString(prettified !== "" ? prettified : "Less than a minute");
+
+      // When the countdown goes negative, reload the app details and reinitialize the timer
+      if (secondsToRebase < 0) {
+        async function reload() {
+          await dispatch(loadAppDetails({ networkID: chainID, provider: provider }));
+          initializeTimer();
+        }
+        reload();
+      }
     }
     return () => clearInterval(interval);
   }, [secondsToRebase, secondsToRefresh]);
