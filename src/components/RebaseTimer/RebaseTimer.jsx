@@ -44,12 +44,6 @@ function RebaseTimer() {
         setSecondsToRefresh(secondsToRefresh => secondsToRefresh - 1);
       }, 1000);
     } else {
-      clearInterval(interval);
-      setSecondsToRebase(secondsToRebase => secondsToRebase - SECONDS_TO_REFRESH);
-      setSecondsToRefresh(SECONDS_TO_REFRESH);
-      const prettified = prettifySeconds(secondsToRebase);
-      setRebaseString(prettified !== "" ? prettified : "Less than a minute");
-
       // When the countdown goes negative, reload the app details and reinitialize the timer
       if (secondsToRebase < 0) {
         async function reload() {
@@ -57,6 +51,13 @@ function RebaseTimer() {
           initializeTimer();
         }
         reload();
+        setRebaseString("");
+      } else {
+        clearInterval(interval);
+        setSecondsToRebase(secondsToRebase => secondsToRebase - SECONDS_TO_REFRESH);
+        setSecondsToRefresh(SECONDS_TO_REFRESH);
+        const prettified = prettifySeconds(secondsToRebase);
+        setRebaseString(prettified !== "" ? prettified : "Less than a minute");
       }
     }
     return () => clearInterval(interval);
