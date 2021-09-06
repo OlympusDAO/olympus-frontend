@@ -75,7 +75,12 @@ export function prettifySeconds(seconds, resolution) {
   const hDisplay = h > 0 ? h + (h == 1 ? " hr, " : " hrs, ") : "";
   const mDisplay = m > 0 ? m + (m == 1 ? " min" : " mins") : "";
 
-  return dDisplay + hDisplay + mDisplay;
+  let result = dDisplay + hDisplay + mDisplay;
+  if (mDisplay === "") {
+    result = result.slice(0, result.length - 2);
+  }
+
+  return result;
 }
 
 function getSohmTokenImage() {
