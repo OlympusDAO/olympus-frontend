@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { redeemBond } from "../../slices/BondSlice";
@@ -17,16 +16,8 @@ function BondRedeem({ bond }) {
 
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
 
-  const vestingTerm = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].vestingBlock;
-  });
-
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
-  });
-
-  const userState = useSelector(state => {
-    return state.account && state.account;
   });
 
   const userBonds = useSelector(state => {
@@ -34,26 +25,12 @@ function BondRedeem({ bond }) {
   });
 
   async function onRedeem({ autostake }) {
-    await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
+    dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
   }
 
   const vestingTime = () => {
     return prettyVestingPeriod(currentBlock, userBonds[bond].bondMaturationBlock);
   };
-
-  const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(vestingTerm);
-    const seconds = secondsUntilBlock(currentBlock, vestingBlock);
-    return prettifySeconds(seconds, "day");
-  };
-
-  const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
-  });
-
-  const debtRatio = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].debtRatio;
-  });
 
   return (
     <Box display="flex" flexDirection="column">
@@ -107,12 +84,16 @@ function BondRedeem({ bond }) {
 
           <div className="data-row">
             <Typography>ROI</Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : `${trim(bondDiscount * 100, 2)}%`}</Typography>
+            <Typography>
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}
+            </Typography>
           </div>
 
           <div className="data-row">
             <Typography>Debt Ratio</Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : `${trim(debtRatio / 10000000, 2)}%`}</Typography>
+            <Typography>
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.debtRatio / 10000000, 2)}%`}
+            </Typography>
           </div>
 
           <div className="data-row">

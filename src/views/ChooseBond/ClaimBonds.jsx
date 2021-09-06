@@ -1,12 +1,9 @@
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { trim, bondName, lpURL, isBondLP } from "../../helpers";
 import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import {
   Button,
   Box,
-  Link,
   Paper,
   TableContainer,
   TableHead,
@@ -24,7 +21,9 @@ function ClaimBonds({ bonds }) {
 
   useEffect(() => {
     console.log(bonds);
-  }, []);
+  }, [bonds]);
+
+  if (bonds.length < 1) return;
 
   return (
     <Zoom in={true}>
@@ -45,14 +44,14 @@ function ClaimBonds({ bonds }) {
                 </TableHead>
                 <TableBody>
                   {Object.entries(bonds).map(bond => (
-                    <ClaimBondTableData key={bond} bond={bond} />
+                    <ClaimBondTableData key={bond.bond} userBond={bond} />
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
           )}
 
-          {isSmallScreen && bonds.map(bond => <ClaimBondCardData key={bond.bond} bond={bond} />)}
+          {isSmallScreen && bonds.map(bond => <ClaimBondCardData key={bond.bond} userBond={bond} />)}
 
           <Box
             display="flex"
