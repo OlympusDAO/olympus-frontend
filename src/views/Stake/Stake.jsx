@@ -164,9 +164,8 @@ function Stake() {
                 <RebaseTimer />
 
                 {address && oldSohmBalance > 0.01 && (
-                  <a
+                  <Link
                     className="migrate-sohm-button"
-                    component={NavLink}
                     style={{ textDecoration: "none" }}
                     href="https://docs.olympusdao.finance/using-the-website/migrate"
                     aria-label="migrate-sohm"
@@ -174,7 +173,7 @@ function Stake() {
                   >
                     <NewReleases viewBox="0 0 24 24" />
                     <Typography>Migrate sOHM!</Typography>
-                  </a>
+                  </Link>
                 )}
               </div>
             </Grid>
