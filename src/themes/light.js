@@ -294,6 +294,13 @@ export const light = responsiveFontSizes(
             },
           },
         },
+        MuiTypography: {
+          body1: {
+            "&:hover": {
+              color: lightTheme.blueish_gray,
+            },
+          },
+        },
       },
     },
     commonSettings,

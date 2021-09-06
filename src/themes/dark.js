@@ -288,6 +288,13 @@ export const dark = responsiveFontSizes(
             },
           },
         },
+        MuiTypography: {
+          body1: {
+            "&:hover": {
+              color: darkTheme.gray,
+            },
+          },
+        },
       },
     },
     commonSettings,
