@@ -74,7 +74,7 @@ function OhmMenu() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <Button className="ohm-menu-button" size="large" variant="contained" color="secondary" fullWidth>
+                    <Button className="ohm-menu-option" size="large" variant="contained" color="secondary" fullWidth>
                       <Typography align="left">
                         Buy on Sushiswap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
@@ -86,7 +86,7 @@ function OhmMenu() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <Button className="ohm-menu-button" size="large" variant="contained" color="secondary" fullWidth>
+                    <Button className="ohm-menu-option" size="large" variant="contained" color="secondary" fullWidth>
                       <Typography align="left">
                         Buy on Uniswap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
@@ -99,7 +99,7 @@ function OhmMenu() {
                     <Divider color="secondary" />
                     <p>ADD TOKEN TO WALLET</p>
                     <Button
-                      className="ohm-menu-button"
+                      className="ohm-menu-option"
                       size="large"
                       variant="contained"
                       color="secondary"
@@ -108,7 +108,7 @@ function OhmMenu() {
                       <Typography>OHM</Typography>
                     </Button>
                     <Button
-                      className="ohm-menu-button"
+                      className="ohm-menu-option"
                       variant="contained"
                       size="large"
                       color="secondary"
@@ -125,7 +125,7 @@ function OhmMenu() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <Button className="ohm-menu-button" size="large" variant="contained" color="secondary" fullWidth>
+                  <Button className="ohm-menu-option" size="large" variant="contained" color="secondary" fullWidth>
                     <Typography align="left">Unstake LP Token</Typography>
                   </Button>
                 </Link>

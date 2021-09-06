@@ -215,7 +215,7 @@ export const dark = responsiveFontSizes(
             color: darkTheme.color,
             "&:hover": {
               backgroundColor: `${darkTheme.paperBg} !important`,
-              "&.ohm-menu-button": {
+              "&.ohm-menu-option": {
                 backgroundColor: `${darkTheme.ohmMenuButtonHoverBG} !important`,
               },
             },
@@ -229,7 +229,7 @@ export const dark = responsiveFontSizes(
               color: darkTheme.color,
               backgroundColor: darkTheme.paperBg,
               "&:hover": {
-                "&.ohm-menu-button": {
+                "&.ohm-menu-option": {
                   backgroundColor: `${darkTheme.ohmMenuButtonHoverBG} !important`,
                 },
                 backgroundColor: `${darkTheme.paperBg} !important`,
