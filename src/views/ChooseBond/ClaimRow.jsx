@@ -42,7 +42,7 @@ export function ClaimBondTableData({ bond }) {
         </div>
       </TableCell>
       <TableCell align="left">{bond[1].interestDue}</TableCell>
-      <TableCell align="left">need data</TableCell>
+      <TableCell align="left">{bond[1].pendingPayout}</TableCell>
       <TableCell align="center">{vestingPeriod()}</TableCell>
       <TableCell align="center">
         {/* Need to add button action */}
@@ -74,12 +74,12 @@ export function ClaimBondCardData({ bond }) {
 
       <div className="data-row">
         <Typography>Claimable</Typography>
-        <Typography>{bond[1].pendingPayout}</Typography>
+        <Typography>{bond[1].interestDue}</Typography>
       </div>
 
       <div className="data-row">
         <Typography>Pending</Typography>
-        <Typography>need data</Typography>
+        <Typography>{bond[1].pendingPayout}</Typography>
       </div>
 
       <div className="data-row" style={{ marginBottom: "20px" }}>
