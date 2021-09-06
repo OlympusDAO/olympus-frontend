@@ -80,7 +80,8 @@ function BondPurchase({ bond, slippage }) {
   }, [bond.allowance]);
 
   const setMax = () => {
-    setQuantity((bond.balance || "").toString());
+    setQuantity((Math.min(bond.maxBondPrice * bond.bondPrice, bond.balance) || "").toString());
+    
   };
 
   useEffect(() => {
