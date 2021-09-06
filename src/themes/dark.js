@@ -162,9 +162,11 @@ export const dark = responsiveFontSizes(
               color: darkTheme.gold,
             },
             "&.stake-tabs": {
-              textDecoration: "underline",
-              textDecorationThickness: "2px",
-              textUnderlineOffset: "0.3125em",
+              "&:hover": {
+                textDecoration: "underline",
+                textDecorationThickness: "2px",
+                textUnderlineOffset: "0.3125em",
+              },
             },
           },
         },
