@@ -4,12 +4,10 @@ import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import axios from "axios";
-import { contractForReserve, addressForAsset, contractForBond, setAll } from "../helpers";
-import { BONDS } from "../constants";
-import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
+import { setAll } from "../helpers";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
+import allBonds from "src/helpers/AllBonds";
 
 const initialState = {
   loading: false,
@@ -67,42 +65,11 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
   const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
   const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
-  const bondCalculator = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
-
-  // Get ETH price
-  const ethBondContract = contractForBond({ bond: BONDS.eth, networkID, provider });
-  let ethPrice = await ethBondContract.assetPrice();
-  ethPrice = ethPrice / Math.pow(10, 18);
 
   // Calculate Treasury Balance
-  // TODO: PLS DRY and modularize.
-  let token = contractForReserve({ bond: BONDS.dai, networkID, provider });
-  let daiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-
-  token = contractForReserve({ bond: BONDS.frax, networkID, provider });
-  let fraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-
-  token = contractForReserve({ bond: BONDS.eth, networkID, provider });
-  let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-
-  token = contractForReserve({ bond: BONDS.ohm_dai, networkID, provider });
-  let ohmDaiAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-  let valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_dai, networkID }), ohmDaiAmount);
-  let markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_dai, networkID }));
-  let ohmDaiUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
-
-  token = contractForReserve({ bond: BONDS.ohm_frax, networkID, provider });
-  let ohmFraxAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-  valuation = await bondCalculator.valuation(addressForAsset({ bond: BONDS.ohm_frax, networkID }), ohmFraxAmount);
-  markdown = await bondCalculator.markdown(addressForAsset({ bond: BONDS.ohm_frax, networkID }));
-  let ohmFraxUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
-
-  const treasuryBalance =
-    daiAmount / Math.pow(10, 18) +
-    fraxAmount / Math.pow(10, 18) +
-    (ethAmount / Math.pow(10, 18)) * ethPrice +
-    ohmDaiUSD +
-    ohmFraxUSD;
+  const tokenBalPromises = allBonds.map(async bond => await bond.getTreasuryBalance(networkID, provider));
+  const tokenBalances = await Promise.all(tokenBalPromises);
+  const treasuryBalance = tokenBalances.reduce((treasuryBal, tokenBalance) => treasuryBal + tokenBalance, 0);
 
   // Calculating staking
   const epoch = await stakingContract.epoch();
@@ -156,8 +123,8 @@ const appSlice = createSlice({
         state.loading = false;
       })
       .addCase(loadAppDetails.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
+        state.status = false;
+        console.error(error.name, error.message, error.stack);
       });
   },
 });

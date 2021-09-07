@@ -26,7 +26,8 @@ import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim, getTokenImage, getPairImage, getOhmTokenImage } from "../../helpers";
+import BondLogo from "../../components/BondLogo";
+import { trim, getTokenImage, getOhmTokenImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../slices/StakeThunk";
 import { getFraxData } from "../../slices/FraxSlice";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -36,6 +37,7 @@ import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
+import { ohm_frax } from "src/helpers/AllBonds";
 
 function a11yProps(index) {
   return {
@@ -46,14 +48,14 @@ function a11yProps(index) {
 
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
-const OhmFraxImg = getPairImage("frax");
+const OhmFraxImg = ohm_frax.bondIconSvg;
 
 function Stake() {
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState("");
 
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -263,8 +265,16 @@ function Stake() {
                       <Tab label="Stake" {...a11yProps(0)} />
                       <Tab label="Unstake" {...a11yProps(0)} />
                     </Tabs>
-
-                    <Box className="stake-action-row" display="flex" alignItems="center">
+                    <Box className="help-text">
+                      {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
+                        <Typography variant="body2" className="stake-note" color="textSecondary">
+                          Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
+                          subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
+                          transaction.
+                        </Typography>
+                      )}
+                    </Box>
+                    <Box className="stake-action-row " display="flex" alignItems="center">
                       <FormControl className="ohm-input" variant="outlined" color="primary">
                         <InputLabel htmlFor="amount-input"></InputLabel>
                         <OutlinedInput
@@ -341,18 +351,6 @@ function Stake() {
                         )}
                       </TabPanel>
                     </Box>
-
-                    <div className="help-text">
-                      {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
-                        <em>
-                          <Typography variant="body2">
-                            Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
-                            subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
-                            transaction.
-                          </Typography>
-                        </em>
-                      )}
-                    </div>
                   </Box>
 
                   <div className={`stake-user-data`}>
@@ -425,7 +423,7 @@ function Stake() {
                     <TableRow>
                       <TableCell>
                         <Box className="ohm-pairs">
-                          {OhmFraxImg}
+                          <BondLogo bond={ohm_frax}></BondLogo>
                           <Typography>OHM-FRAX</Typography>
                         </Box>
                       </TableCell>
