@@ -265,8 +265,16 @@ function Stake() {
                       <Tab label="Stake" {...a11yProps(0)} />
                       <Tab label="Unstake" {...a11yProps(0)} />
                     </Tabs>
-
-                    <Box className="stake-action-row" display="flex" alignItems="center">
+                    <Box className="help-text">
+                      {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
+                        <Typography variant="body2" className="stake-note" color="textSecondary">
+                          Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
+                          subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
+                          transaction.
+                        </Typography>
+                      )}
+                    </Box>
+                    <Box className="stake-action-row " display="flex" alignItems="center">
                       <FormControl className="ohm-input" variant="outlined" color="primary">
                         <InputLabel htmlFor="amount-input"></InputLabel>
                         <OutlinedInput
@@ -343,18 +351,6 @@ function Stake() {
                         )}
                       </TabPanel>
                     </Box>
-
-                    <div className="help-text">
-                      {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
-                        <em>
-                          <Typography variant="body2">
-                            Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
-                            subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
-                            transaction.
-                          </Typography>
-                        </em>
-                      )}
-                    </div>
                   </Box>
 
                   <div className={`stake-user-data`}>
