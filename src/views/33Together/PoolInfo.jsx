@@ -1,13 +1,22 @@
-// import { OhmDataLoading } from '../../components/Loading/OhmDataLoading'
-import { Box, CircularProgress, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
+import { Box, Button, CircularProgress, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useWeb3Context } from "../../hooks";
+import { poolTogetherUILinks } from "../../helpers/33Together";
 
 export const PoolInfo = props => {
-  const { address } = useWeb3Context();
+  const { address, chainID } = useWeb3Context();
+
+  const creditMaturationInDays = useSelector(state => {
+    return state.app.pool && parseFloat(state.app.pool.creditMaturationInDays);
+  });
+
+  const creditLimitPercentage = useSelector(state => {
+    return state.app.pool && parseFloat(state.app.pool.creditLimitPercentage);
+  });
 
   if (props.loading) {
     return <CircularProgress />;
@@ -67,7 +76,35 @@ export const PoolInfo = props => {
               </Link>
             </Box>
           </div>
+          <Divider color="secondary" />
+          <div className="data-row">
+            <Typography>Early Exit Fee</Typography>
+            <Typography>{`${creditLimitPercentage}%`}</Typography>
+          </div>
+          <div className="data-row">
+            <Typography>Exit Fee Decay Time</Typography>
+            <Typography>{`${creditMaturationInDays} day${creditMaturationInDays === 1 ? "" : "s"}`}</Typography>
+          </div>
         </Box>
+        <Divider color="secondary" />
+
+        <div className="data-row-centered">
+          <Typography>Something not right, fren? Check Pool Together's UI below.</Typography>
+        </div>
+        <div className="data-row-centered">
+          <div className="marginedBtn">
+            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(chainID)[0]} target="_blank">
+              <Typography variant="body1">sOHM Prize Pool&nbsp;</Typography>
+              <SvgIcon component={ArrowUp} color="primary" />
+            </Button>
+          </div>
+          <div className="marginedBtn">
+            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(chainID)[1]} target="_blank">
+              <Typography variant="body1">sOHM Pool Details&nbsp;</Typography>
+              <SvgIcon component={ArrowUp} color="primary" />
+            </Button>
+          </div>
+        </div>
       </Paper>
     </Zoom>
   );

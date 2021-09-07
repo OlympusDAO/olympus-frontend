@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Container, Paper, Tab, Tabs, Zoom } from "@material-ui/core";
+import { Paper, Tab, Tabs, Zoom } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { PoolDeposit } from "./PoolDeposit";
@@ -12,6 +12,7 @@ import { POOL_GRAPH_URLS } from "../../constants";
 import { useWeb3Context } from "../../hooks";
 import { apolloExt } from "../../lib/apolloClient";
 import { poolDataQuery } from "./poolData.js";
+import { calculateOdds } from "../../helpers/33Together";
 
 function a11yProps(index) {
   return {
@@ -46,16 +47,6 @@ const PoolTogether = () => {
   const poolBalance = useSelector(state => {
     return state.account.balances && parseFloat(state.account.balances.pool);
   });
-
-  const calculateOdds = poolBalance => {
-    let userOdds;
-    if (poolBalance === undefined || poolBalance === 0 || parseInt(poolBalance) === 0) {
-      userOdds = "ngmi";
-    } else {
-      userOdds = 1 / (1 - Math.pow((totalDeposits - poolBalance) / totalDeposits, winners));
-    }
-    setYourOdds(userOdds);
-  };
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
@@ -100,7 +91,8 @@ const PoolTogether = () => {
   }, [graphUrl]);
 
   useEffect(() => {
-    calculateOdds(poolBalance);
+    let userOdds = calculateOdds(poolBalance, totalDeposits, winners);
+    setYourOdds(userOdds);
   }, [poolData, poolBalance]);
 
   return (
@@ -126,7 +118,7 @@ const PoolTogether = () => {
             <PoolDeposit />
           </TabPanel>
           <TabPanel value={view} index={1}>
-            <PoolWithdraw />
+            <PoolWithdraw totalPoolDeposits={totalDeposits} winners={winners} />
           </TabPanel>
         </Paper>
       </Zoom>
