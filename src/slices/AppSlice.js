@@ -130,9 +130,8 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
     PrizePool,
     provider,
   );
-  const poolAwardBalance = await poolReader.awardBalance();
+  const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
 
-  console.log("networkId", networkID, addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS);
   const awardReader = await new ethers.Contract(
     addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS,
     AwardPool,

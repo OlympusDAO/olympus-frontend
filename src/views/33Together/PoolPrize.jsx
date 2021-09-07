@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useWeb3Context } from "../../hooks";
@@ -9,10 +10,6 @@ export const PoolPrize = () => {
   const { chainID } = useWeb3Context();
   // TODO: swap out hardcoded 4 for chainID when pool api available
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
-  const [prize, setPrize] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [endTime, setEndTime] = useState(0);
-  const [startTime, setStartTime] = useState(0);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState();
 
@@ -51,7 +48,9 @@ export const PoolPrize = () => {
   }, [secondsLeft]);
 
   useEffect(() => {
-    setSecondsLeft(parseInt(poolAwardTimeRemaining, 10));
+    if (parseInt(poolAwardTimeRemaining, 10) > 0) {
+      setSecondsLeft(parseInt(poolAwardTimeRemaining, 10));
+    }
   }, [poolAwardTimeRemaining]);
 
   return (
