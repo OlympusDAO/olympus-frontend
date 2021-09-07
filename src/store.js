@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import accountReducer from "./slices/AccountSlice";
 import bondingReducer from "./slices/BondSlice";
 import appReducer from "./slices/AppSlice";
