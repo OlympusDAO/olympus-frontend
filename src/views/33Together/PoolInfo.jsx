@@ -17,6 +17,8 @@ export const PoolInfo = () => {
   const [loading, setLoading] = useState(true);
   const [winners, setWinners] = useState(0);
   const [totalDeposits, setTotalDeposits] = useState(0);
+  const [totalSponsorship, setTotalSponsorship] = useState(0);
+  const [yourOdds, setYourOdds] = useState(0);
 
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohm;
@@ -25,6 +27,16 @@ export const PoolInfo = () => {
   const poolBalance = useSelector(state => {
     return state.account.balances && state.account.balances.pool;
   });
+
+  const calculateOdds = poolBalance => {
+    let userOdds;
+    if (poolBalance === 0 || parseInt(poolBalance) === 0) {
+      userOdds = "ngmi";
+    } else {
+      userOdds = 1 / (1 - Math.pow((totalDeposits - poolBalance) / totalDeposits, winners));
+    }
+    setYourOdds(userOdds);
+  };
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
@@ -58,11 +70,21 @@ export const PoolInfo = () => {
         const poolTotalDeposits = poolData.data.prizePool.controlledTokens[0].totalSupply / 1_000_000_000;
         setTotalDeposits(poolTotalDeposits);
 
+        // sponsorship is deposited funds contributing to the prize without being eligible to win
+        const poolTotalSponsorship = poolData.data.prizePool.controlledTokens[1].totalSupply / 1_000_000_000;
+        setTotalSponsorship(poolTotalSponsorship);
+
         setPoolData(poolData.data);
         setLoading(false);
       })
       .catch(err => setPoolDataError(err));
   }, [graphUrl]);
+
+  useEffect(() => {
+    if (poolBalance) {
+      calculateOdds(poolBalance);
+    }
+  }, [poolData, poolBalance]);
 
   if (loading) {
     return <CircularProgress />;
@@ -89,7 +111,7 @@ export const PoolInfo = () => {
               </div>
               <div className="data-row">
                 <Typography>Your odds</Typography>
-                <Typography>1 in 33</Typography>
+                <Typography>1 in {yourOdds}</Typography>
               </div>
             </Box>
             <Divider color="secondary" />
@@ -104,6 +126,10 @@ export const PoolInfo = () => {
           <div className="data-row">
             <Typography>Total Deposits</Typography>
             <Typography>{totalDeposits.toLocaleString()} sOHM</Typography>
+          </div>
+          <div className="data-row">
+            <Typography>Total Sponsorship</Typography>
+            <Typography>{totalSponsorship.toLocaleString()} sOHM</Typography>
           </div>
           <div className="data-row">
             <Typography>Yield Source</Typography>
