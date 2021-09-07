@@ -48,7 +48,6 @@ function RebaseTimer() {
       if (secondsToRebase < 0) {
         async function reload() {
           await dispatch(loadAppDetails({ networkID: chainID, provider: provider }));
-          initializeTimer();
         }
         reload();
         setRebaseString("");
