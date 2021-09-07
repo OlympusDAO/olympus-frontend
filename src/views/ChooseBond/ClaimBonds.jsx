@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 import { redeemBond } from "src/slices/BondSlice";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -91,7 +91,11 @@ function ClaimBonds({ bonds: activeBonds }) {
                 onRedeem({ autostake: true });
               }}
             >
-              {txnButtonText(pendingTransactions, "redeem_bond_" + "dai" + "_autostake", "Claim all and Stake")}
+              {txnButtonTextGeneralPending(
+                pendingTransactions,
+                "redeem_bond_" + "dai" + "_autostake",
+                "Claim all and Stake",
+              )}
             </Button>
           </Box>
         </Box>

@@ -43,8 +43,8 @@ export function ClaimBondTableData({ userBond }) {
           )} */}
         </div>
       </TableCell>
-      <TableCell align="left">{bond.interestDue}</TableCell>
       <TableCell align="left">{bond.pendingPayout}</TableCell>
+      <TableCell align="left">{bond.interestDue}</TableCell>
       <TableCell align="center">{vestingPeriod()}</TableCell>
       <TableCell align="center">
         {/* Need to add button action */}
