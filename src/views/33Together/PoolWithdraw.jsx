@@ -38,6 +38,10 @@ export const PoolWithdraw = props => {
     return state.pendingTransactions;
   });
 
+  const poolIsLocked = useSelector(state => {
+    return state.app.pool && state.app.pool.isRngRequested;
+  });
+
   const setMax = () => {
     setQuantity(poolBalance);
   };
@@ -78,6 +82,21 @@ export const PoolWithdraw = props => {
       setExitFee(0);
     }
   }, [quantity]);
+
+  if (poolIsLocked) {
+    return (
+      <Box display="flex" alignItems="center" className="pool-deposit-ui" flexDirection="column">
+        {/*<img src={Warning} className="w-10 sm:w-14 mx-auto mb-4" />*/}
+        <Typography variant="h6">This Prize Pool is unable to accept withdrawals at this time.</Typography>
+        <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
+          Withdrawals can be made once the prize has been awarded.
+        </Typography>
+        <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
+          Check back soon!
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box display="flex" justifyContent="center" className="pool-deposit-ui">

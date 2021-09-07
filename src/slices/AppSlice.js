@@ -146,6 +146,7 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
     provider,
   );
   const poolAwardPeriodRemainingSeconds = await awardReader.prizePeriodRemainingSeconds();
+  const isRngRequested = await awardReader.isRngRequested();
 
   return {
     currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
@@ -165,6 +166,7 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
       awardPeriodRemainingSeconds: poolAwardPeriodRemainingSeconds.toString(),
       creditMaturationInDays: poolCredit[0],
       creditLimitPercentage: poolCredit[1],
+      isRngRequested: isRngRequested,
     },
   };
 });
