@@ -14,7 +14,7 @@ import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard, PoolTogether } from "./views";
+import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
@@ -80,7 +80,7 @@ function App() {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 900px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 933px)");
   const isSmallScreen = useMediaQuery("(max-width: 620px)");
 
   const { connect, hasCachedProvider, provider, chainID, connected } = useWeb3Context();
@@ -212,7 +212,7 @@ function App() {
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
             <Route exact path="/dashboard">
-              <Dashboard />
+              <TreasuryDashboard />
             </Route>
 
             <Route exact path="/">
