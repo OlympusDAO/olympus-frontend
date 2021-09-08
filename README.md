@@ -1,6 +1,8 @@
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 This is the front-end repo for Olympus that allows users be part of the future of Greece. 
 
+**_ Note We're currently in the process of switching to TypeScript. Please read  this  guide on how to use TypeScript for this repository. https://github.com/OlympusDAO/olympus-frontend/wiki/TypeScript-Refactor-General-Guidelines _**
+
 ##  🔧 Setting up Local Development
 
 Required: 
