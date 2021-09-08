@@ -25,6 +25,7 @@ function getTestnetURI() {
 const ALCHEMY_ID_LIST = [
   "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
   "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
+  "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // this is appleseed's
 ];
 
 // this is the ethers common api key, it is rate limited somewhat
@@ -48,8 +49,9 @@ const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alche
 
 // TODO(zx): Remove this out post 8/25/2021 when we use our prod alchemyAPI key
 // temp force into TEMP_ALCHEMY_IDS
-const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-const ALL_URIs = [..._tempAlchemyURIs];
+// const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
+// const ALL_URIs = [..._tempAlchemyURIs];
+const ALL_URIs = [..._alchemyURIs];
 // temp change ALL_URIs into TEMP_ALCHEMY_IDS
 // const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
 

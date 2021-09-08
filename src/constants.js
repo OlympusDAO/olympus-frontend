@@ -3,6 +3,8 @@
 export const INFURA_ID =
   process.env.NODE_ENV === "development" ? "5e3c4a19b5f64c99bf8cd8089c92b44d" : "31e6d348d16b4a4dacde5f8a47da1971";
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
+
+// TODO (appleseed): verify production graph URL
 export const POOL_GRAPH_URLS = {
   4: "https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3_4_3",
   1: "https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_4_3",
@@ -41,6 +43,7 @@ export const addresses = {
       FRAX: "0x2F7249cb599139e560f0c81c269Ab9b04799E453",
       ETH: "0xc778417e063141139fce010982780140aa0cd5ab",
     },
+    // NOTE (appleseed): looks like these are declared directly in src/helpers/AllBonds.ts. Can be removed from here?
     BONDS: {
       DAI: "0xDea5668E815dAF058e3ecB30F645b04ad26374Cf",
       OHM_DAI: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
@@ -48,6 +51,8 @@ export const addresses = {
       FRAX: "0xF651283543fB9D61A91f318b78385d187D300738",
       ETH: "0xca7b90f8158A4FAA606952c023596EE6d322bcf0",
     },
+
+    // TODO (appleseed), the POOL_ADDRESS & AWARD_ADDRESS are old & can be removed
     POOL_TOGETHER: {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
       POOL_TOKEN_ADDRESS: "0x7e41da986c80eaba53236fab0d3ff407e7440fb3", // 33T token address
@@ -70,7 +75,7 @@ export const addresses = {
     BONDINGCALC_ADDRESS: "0xcaaa6a2d4b26067a391e7b7d65c16bb2d5fa571a",
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
     TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
-    DAO: "0x245cc372C84B3645Bf0Ffe6538620B04a217988B",
+    DAO: "0x245cc372C84B3645Bf0Ffe6538620B04a217988B", // NOTE (appleseed): this doesn't appear to be used
     RESERVES: {
       DAI: "0x6b175474e89094c44da98b954eedeac495271d0f",
       OHM_DAI: "0x34d7d7Aaf50AD4944B70B320aCB24C95fa2def7c",
@@ -78,7 +83,7 @@ export const addresses = {
       FRAX: "0x853d955acef822db058eb8505911ed77f175b99e",
       ETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     },
-
+    // NOTE (appleseed): looks like these are declared directly in src/helpers/AllBonds.ts. Can be removed from here?
     BONDS: {
       DAI: "0x575409F8d77c12B05feD8B455815f0e54797381c", // v1.1 updated
       OHM_DAI: "0x956c43998316b6a2F21f89a1539f73fB5B78c151", // v1.1 updated
@@ -87,7 +92,7 @@ export const addresses = {
       ETH: "0xE6295201CD1ff13CeD5f063a5421c39A1D236F1c",
     },
 
-    // These are currntly all rinkeby addresses (change before prod launch)
+    // TODO (appleseed): These are currently all rinkeby addresses (change before prod launch)
     POOL_TOGETHER: {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
       POOL_TOKEN_ADDRESS: "0x7e41da986c80eaba53236fab0d3ff407e7440fb3", // 33T token address
