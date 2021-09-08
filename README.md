@@ -12,10 +12,15 @@ Required:
 
 
 ```bash
-git clone https://github.com/OlympusDAO/olympusdao.git
-cd olympusdao
-yarn install
-npm run start
+$ git clone https://github.com/OlympusDAO/olympusdao.git
+$ cd olympusdao
+
+# set up your environment variables
+$ cp .env.example .env
+
+# fill in your own values in .env, then =>
+$ yarn
+$ yarn start
 ```
 
 The site is now running at `http://localhost:3000`!

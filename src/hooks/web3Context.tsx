@@ -4,43 +4,30 @@ import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@etherspro
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 // NOTE(zx): Want to move away from infura. Will probably remove these.
-const INFURA_ID_LIST = [
-  "5e3c4a19b5f64c99bf8cd8089c92b44d", // this is main dev node
-  "d9836dbf00c2440d862ab571b462e4a3", // this is current prod node
-  "31e6d348d16b4a4dacde5f8a47da1971", // this is primary fallback
-  "76cc9de4a72c4f5a8432074935d670a3", // Adding Zayen's to the mix
-];
-
-function getInfuraURI() {
-  const randomIndex = Math.floor(Math.random() * INFURA_ID_LIST.length);
-  const randomInfuraID = INFURA_ID_LIST[randomIndex];
-  return `https://mainnet.infura.io/v3/${randomInfuraID}`;
+var INFURA_ID_LIST: any[];
+if (process.env.REACT_APP_INFURA_IDS) {
+  INFURA_ID_LIST = process.env.REACT_APP_INFURA_IDS.split(" ");
+} else {
+  INFURA_ID_LIST = [];
 }
 
 function getTestnetURI() {
-  // return "https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3";
-  return "https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO";
+  return `https://eth-rinkeby.alchemyapi.io/v2/${process.env.REACT_APP_TESTNET_ALCHEMY}`;
 }
 
-const ALCHEMY_ID_LIST = [
-  "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
-  "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
-  "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // this is appleseed's
-];
+var ALCHEMY_ID_LIST: any[];
+if (process.env.NODE_ENV === "production" && process.env.REACT_APP_ALCHEMY_IDS) {
+  ALCHEMY_ID_LIST = process.env.REACT_APP_ALCHEMY_IDS.split(" ");
+} else {
+  // this is the ethers common API key, suitable for testing, not prod
+  ALCHEMY_ID_LIST = ["_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC"];
+}
 
-// this is the ethers common api key, it is rate limited somewhat
-const defaultApiKey = "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC";
-
-const TEMP_ALCHEMY_IDS = [
-  // "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // appleseed-temp1
-  // "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
-  "j0QUyceqxu31tQrAQSotL2YMqmuzoGPh", // appleseed-temp3
-];
 function getAlchemyAPI(chainID: Number) {
   const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
   const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
   if (chainID === 1) return `https://eth-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
-  else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO`; // unbanksy's
+  else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/${process.env.REACT_APP_TESTNET_ALCHEMY}`; // unbanksy's
 }
 
 const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
