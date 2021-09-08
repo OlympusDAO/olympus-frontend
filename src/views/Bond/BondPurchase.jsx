@@ -16,6 +16,7 @@ import { changeApproval, bondAsset, calcBondDetails } from "../../slices/BondSli
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
+import useDebounce from "../../hooks/Debounce";
 
 function BondPurchase({ bond, slippage }) {
   const SECONDS_TO_REFRESH = 60;
@@ -34,10 +35,6 @@ function BondPurchase({ bond, slippage }) {
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
-  });
-
-  const youWillGet = useSelector(() => {
-    return bond && quantity / bond.bondPrice;
   });
 
   const vestingPeriod = () => {
@@ -92,6 +89,12 @@ function BondPurchase({ bond, slippage }) {
   useEffect(() => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
+
+  const bondDetailsDebounce = useDebounce(quantity, 1000);
+
+  useEffect(() => {
+    dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
+  }, [bondDetailsDebounce]);
 
   useEffect(() => {
     let interval = null;
@@ -188,7 +191,7 @@ function BondPurchase({ bond, slippage }) {
           <div className={`data-row`}>
             <Typography>You Will Get</Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(youWillGet, 4) || "0"} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4) || "0"} OHM`}
             </Typography>
           </div>
 
