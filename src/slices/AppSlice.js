@@ -4,6 +4,9 @@ import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
+import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
+import { abi as AwardPool } from "../abi/33-together/AwardAbi2.json";
+import { getCreditMaturationDaysAndLimitPercentage } from "../helpers/33Together";
 import { setAll } from "../helpers";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
@@ -89,6 +92,29 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   // Current index
   const currentIndex = await stakingContract.index();
 
+  // calculate 33-together
+  const poolReader = await new ethers.Contract(
+    addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
+    PrizePool,
+    provider,
+  );
+  const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
+  const creditPlanOf = await poolReader.creditPlanOf(addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS);
+  console.log(creditPlanOf);
+  const poolCredit = getCreditMaturationDaysAndLimitPercentage(
+    creditPlanOf.creditRateMantissa,
+    creditPlanOf.creditLimitMantissa,
+  );
+  console.log(poolCredit);
+
+  const awardReader = await new ethers.Contract(
+    addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS,
+    AwardPool,
+    provider,
+  );
+  const poolAwardPeriodRemainingSeconds = await awardReader.prizePeriodRemainingSeconds();
+  const isRngRequested = await awardReader.isRngRequested();
+
   return {
     currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
     currentBlock,
@@ -102,6 +128,13 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
     marketPrice,
     circSupply,
     totalSupply,
+    pool: {
+      awardBalance: ethers.utils.formatUnits(poolAwardBalance, "gwei"),
+      awardPeriodRemainingSeconds: poolAwardPeriodRemainingSeconds.toString(),
+      creditMaturationInDays: poolCredit[0],
+      creditLimitPercentage: poolCredit[1],
+      isRngRequested: isRngRequested,
+    },
   };
 });
 

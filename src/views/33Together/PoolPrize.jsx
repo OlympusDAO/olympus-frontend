@@ -1,29 +1,27 @@
+import { ethers } from "ethers";
 import { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import { useWeb3Context } from "../../hooks";
 import { Paper, Box, Typography } from "@material-ui/core";
 import { POOL_GRAPH_URLS } from "../../constants";
-import { poolTimeQuery } from "./poolData.js";
-import { apolloExt } from "../../lib/apolloClient";
-import { poolDataQuery } from "./poolData.js";
-import { trim, getDateFromSeconds, subtractDates } from "src/helpers";
-
-// TODO: Add countdown timer functionality using prizePeriodSeconds, prizePeriodEndAt from apollo
-const timerFormat = time => {
-  // parse epoch time into hr/min/sec and return
-};
+import { subtractDates } from "src/helpers";
 
 export const PoolPrize = () => {
   const { chainID } = useWeb3Context();
   // TODO: swap out hardcoded 4 for chainID when pool api available
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
-  const [prize, setPrize] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [endTime, setEndTime] = useState(0);
-  const [startTime, setStartTime] = useState(0);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState();
 
-  const decreaseNum = () => setTimer(prev => prev - 1);
+  const poolAwardTimeRemaining = useSelector(state => {
+    return state.app.pool && state.app.pool.awardPeriodRemainingSeconds;
+  });
+
+  const poolAwardBalance = useSelector(state => {
+    return state.app.pool && state.app.pool.awardBalance;
+  });
+
+  const decreaseNum = () => setSecondsLeft(prev => prev - 1);
 
   let interval = useRef();
 
@@ -31,47 +29,29 @@ export const PoolPrize = () => {
     setGraphUrl(POOL_GRAPH_URLS[chainID]);
   }, [chainID]);
 
+  // the seconds countdown timer...
   useEffect(() => {
-    apolloExt(poolDataQuery, graphUrl).then(r => {
-      let data = r.data.prizePool;
-      if (data) {
-        let stratData = r.data.prizePool.prizeStrategy.multipleWinners;
-        let endTime = stratData.prizePeriodEndAt;
-        let startTime = stratData.pprizePeriodStartedAt;
+    const currentDate = new Date(Date.now());
+    // multiply integerTimeRemaining by 1000 for milliseconds
+    const futureDate = new Date(currentDate.getTime() + secondsLeft * 1000);
 
-        setEndTime(endTime);
-        setStartTime(startTime);
+    const formatted = subtractDates(futureDate, currentDate);
+    // NOTE (appleseed): PoolTogether uses the following boolean too
+    // const timeRemaining = Boolean(days || hours || minutes || seconds);
 
-        let e = getDateFromSeconds(endTime);
-        let s = getDateFromSeconds(startTime);
-        let currentTime = endTime - startTime;
-        let formatted = subtractDates(e, s);
+    setTimer(formatted);
 
-        console.log("prize period started at: ", startTime, s);
-        console.log("prize period ends at: ", endTime, e);
-        console.log("current prize timer -- ", currentTime);
-        console.log("formatted prize timmer: ", formatted);
-
-        setSecondsLeft(currentTime);
-        setTimer(formatted);
-
-        const gross = data.cumulativePrizeGross / 1_000_000_000;
-        const net = data.cumulativePrizeNet / 1_000_000_000;
-        const prize = data.cumulativePrizeReserveFee;
-        const currentPrize = net - gross; // dont think this is correct
-        console.log(prize, currentPrize);
-        setPrize(trim(currentPrize, 2));
-        setLoading(false);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
     if (secondsLeft > 0) {
       interval.current = setInterval(decreaseNum, 1000);
       return () => clearInterval(interval.current);
     }
   }, [secondsLeft]);
+
+  useEffect(() => {
+    if (parseInt(poolAwardTimeRemaining, 10) > 0) {
+      setSecondsLeft(parseInt(poolAwardTimeRemaining, 10));
+    }
+  }, [poolAwardTimeRemaining]);
 
   return (
     <Box width="100%" display="flex" flexDirection="column" alignItems="center" className="pool-prize-card">
@@ -81,7 +61,7 @@ export const PoolPrize = () => {
       <Paper className="ohm-card">
         <Box display="flex" flexDirection="column" alignItems="center">
           <Box margin={2} textAlign="center">
-            <Typography variant="h1">{prize && prize} sOHM</Typography>
+            <Typography variant="h1">{poolAwardBalance} sOHM</Typography>
             <Typography variant="h4">Current Prize</Typography>
           </Box>
           <Typography variant="h6">Next award</Typography>
