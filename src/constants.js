@@ -62,6 +62,7 @@ export const addresses = {
     },
   },
   1: {
+    DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
     OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     SOHM_ADDRESS: "0x04F2694C8fcee23e8Fd0dfEA1d4f5Bb8c352111F",
     STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // lastest staking contract
