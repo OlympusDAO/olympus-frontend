@@ -5,43 +5,26 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { EnvHelper } from "../helpers/Environment";
 
 // NOTE(zx): Want to move away from infura. Will probably remove these.
-var INFURA_ID_LIST: any[];
-if (EnvHelper.env.REACT_APP_INFURA_IDS) {
-  INFURA_ID_LIST = EnvHelper.env.REACT_APP_INFURA_IDS.split(" ");
-} else {
-  INFURA_ID_LIST = [];
-}
+const INFURA_ID_LIST = EnvHelper.getInfuraIdList();
 
+/**
+ * kept as function to mimic `getMainnetURI()`
+ * @returns string
+ */
 function getTestnetURI() {
-  return `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_TESTNET_ALCHEMY}`;
+  return EnvHelper.alchemyTestnetURI;
 }
 
-var ALCHEMY_ID_LIST: any[];
-if (EnvHelper.env.NODE_ENV === "production" && EnvHelper.env.REACT_APP_ALCHEMY_IDS) {
-  ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(" ");
-} else {
-  // this is the ethers common API key, suitable for testing, not prod
-  ALCHEMY_ID_LIST = ["_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC"];
-}
-
-function getAlchemyAPI(chainID: Number) {
-  const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
-  const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
-  if (chainID === 1) return `https://eth-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
-  else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_TESTNET_ALCHEMY}`; // unbanksy's
-}
+const ALCHEMY_ID_LIST = EnvHelper.getAlchemyAPIKeyList();
 
 const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
 const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-
-// TODO(zx): Remove this out post 8/25/2021 when we use our prod alchemyAPI key
-// temp force into TEMP_ALCHEMY_IDS
-// const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-// const ALL_URIs = [..._tempAlchemyURIs];
 const ALL_URIs = [..._alchemyURIs];
-// temp change ALL_URIs into TEMP_ALCHEMY_IDS
-// const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
 
+/**
+ * "intelligently" loadbalances production API Keys
+ * @returns string
+ */
 function getMainnetURI(): string {
   // Shuffles the URIs for "intelligent" loadbalancing
   const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
