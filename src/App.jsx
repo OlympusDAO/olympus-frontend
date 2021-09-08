@@ -6,6 +6,7 @@ import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
+import useBonds from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 
@@ -19,13 +20,13 @@ import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import LoadingSplash from "./components/Loading/LoadingSplash";
+import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
-import { BONDS } from "./constants";
 import "./style.scss";
 
 // 😬 Sorry for all the console logging
@@ -33,7 +34,6 @@ const DEBUG = false;
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
-
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
 
@@ -90,7 +90,7 @@ function App() {
 
   const isAppLoading = useSelector(state => state.app.loading);
   const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
-
+  const { bonds } = useBonds();
   async function loadDetails(whichDetails) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
@@ -112,9 +112,10 @@ function App() {
       loadApp(loadProvider);
     }
 
+    // Ideally this shouldn't be in its own little block under load details, and should be called when "loadAccount" is called
     if (whichDetails === "userBonds" && address && connected) {
-      Object.values(BONDS).map(async bond => {
-        await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+      bonds.map(bond => {
+        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
       });
     }
   }
@@ -122,8 +123,8 @@ function App() {
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-      Object.values(BONDS).map(async bond => {
-        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+      bonds.map(bond => {
+        dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
       });
     },
     [connected],
@@ -197,6 +198,7 @@ function App() {
       <CssBaseline />
       {/* {isAppLoading && <LoadingSplash />} */}
       <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"}`}>
+        <Messages />
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>
           <Hidden mdUp>
@@ -225,9 +227,9 @@ function App() {
             </Route>
 
             <Route path="/bonds">
-              {Object.values(BONDS).map(bond => {
+              {bonds.map(bond => {
                 return (
-                  <Route exact key={bond} path={`/bonds/${bond}`}>
+                  <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
                     <Bond bond={bond} />
                   </Route>
                 );
