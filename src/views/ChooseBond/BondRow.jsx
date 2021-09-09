@@ -17,17 +17,6 @@ export function BondDataCard({ bond }) {
         <div className="bond-pair">
           <BondLogo bond={bond} />
           <div className="bond-name">
-            <Typography>{bondName(bond)}</Typography>
-            {isBondLP(bond) && (
-              <div>
-                <Link href={lpURL(bond)} target="_blank">
-                  <Typography variant="body1">
-                    View Contract
-                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                  </Typography>
-                </Link>
-              </div>
-            )}
           </div>
         </div>
 
