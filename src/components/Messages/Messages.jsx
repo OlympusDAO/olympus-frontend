@@ -16,13 +16,14 @@ function Messages() {
       dispatch(close(message));
     };
   };
+  console.log(messages);
   return (
     <div>
       <div>
         {messages.items.map((message, index) => {
           return (
-            <Snackbar open={message.open} key={index}>
-              <Alert icon={false} severity={message.severity} onClose={handleClose(message)}>
+            <Snackbar open={message.open} key={index} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+              <Alert variant="filled" icon={false} severity={message.severity} onClose={handleClose(message)}>
                 <AlertTitle>{message.title}</AlertTitle>
                 {message.text}
               </Alert>
@@ -37,5 +38,5 @@ function Messages() {
 // Invoke repetedly obsolete messages deletion (should be in slice file but I cannot find a way to access the store from there)
 window.setInterval(() => {
   store.dispatch(handle_obsolete());
-}, 100);
+}, 1000);
 export default Messages;
