@@ -1,23 +1,15 @@
-import { useSelector } from "react-redux";
-import { trim, bondName, lpURL, isBondLP, priceUnits } from "../../helpers";
+import { trim } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
 import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
+import useBonds from "src/hooks/Bonds";
 
 export function BondDataCard({ bond }) {
-  const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
-  const bondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondPrice;
-  });
-  const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
-  });
-  const bondPurchased = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].purchased;
-  });
+  const { loading } = useBonds();
+  const isBondLoading = loading ?? true;
 
   return (
     <Slide direction="up" in={true}>
@@ -42,15 +34,13 @@ export function BondDataCard({ bond }) {
         <div className="data-row">
           <Typography>Price</Typography>
           <Typography className="bond-price">
-            <>
-              {priceUnits(bond)} {isBondLoading ? <Skeleton width="50px" /> : trim(bondPrice, 2)}
-            </>
+            <>{isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}</>
           </Typography>
         </div>
 
         <div className="data-row">
           <Typography>ROI</Typography>
-          <Typography>{isBondLoading ? <Skeleton width="50px" /> : `${trim(bondDiscount * 100, 2)}%`}</Typography>
+          <Typography>{isBondLoading ? <Skeleton width="50px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}</Typography>
         </div>
 
         <div className="data-row">
@@ -64,13 +54,13 @@ export function BondDataCard({ bond }) {
                 currency: "USD",
                 maximumFractionDigits: 0,
                 minimumFractionDigits: 0,
-              }).format(bondPurchased)
+              }).format(bond.purchased)
             )}
           </Typography>
         </div>
-        <Link component={NavLink} to={`/bonds/${bond}`}>
+        <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" fullWidth>
-            <Typography variant="h5">Bond {bondName(bond)}</Typography>
+            <Typography variant="h5">Bond {bond.displayName}</Typography>
           </Button>
         </Link>
       </Paper>
@@ -80,26 +70,18 @@ export function BondDataCard({ bond }) {
 
 export function BondTableData({ bond }) {
   // Use BondPrice as indicator of loading.
-  const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
 
-  const bondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondPrice;
-  });
-  const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
-  });
-  const bondPurchased = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].purchased;
-  });
+  const isBondLoading = !bond.bondPrice ?? true;
+  // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
 
   return (
-    <TableRow id={`${bond}--bond`}>
+    <TableRow id={`${bond.name}--bond`}>
       <TableCell align="left">
         <BondLogo bond={bond} />
         <div className="bond-name">
-          <Typography variant="body1">{bondName(bond)}</Typography>
-          {isBondLP(bond) && (
-            <Link color="primary" href={lpURL(bond)} target="_blank">
+          <Typography variant="body1">{bond.displayName}</Typography>
+          {bond.isLP && (
+            <Link color="primary" href={bond.lpUrl} target="_blank">
               <Typography variant="body1">
                 View Contract
                 <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
@@ -111,12 +93,12 @@ export function BondTableData({ bond }) {
       <TableCell align="center">
         <Typography>
           <>
-            <span className="currency-icon">{priceUnits(bond)}</span>{" "}
-            {isBondLoading ? <Skeleton width="50px" /> : trim(bondPrice, 2)}
+            <span className="currency-icon">$</span>
+            {isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}
           </>
         </Typography>
       </TableCell>
-      <TableCell align="right">{isBondLoading ? <Skeleton /> : `${trim(bondDiscount * 100, 2)}%`}</TableCell>
+      <TableCell align="right">{isBondLoading ? <Skeleton /> : `${trim(bond.bondDiscount * 100, 2)}%`}</TableCell>
       <TableCell align="right">
         {isBondLoading ? (
           <Skeleton />
@@ -126,11 +108,11 @@ export function BondTableData({ bond }) {
             currency: "USD",
             maximumFractionDigits: 0,
             minimumFractionDigits: 0,
-          }).format(bondPurchased)
+          }).format(bond.purchased)
         )}
       </TableCell>
       <TableCell>
-        <Link component={NavLink} to={`/bonds/${bond}`}>
+        <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary">
             <Typography variant="h6">Bond</Typography>
           </Button>

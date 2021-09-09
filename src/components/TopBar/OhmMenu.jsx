@@ -6,6 +6,7 @@ import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, S
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import "./ohmmenu.scss";
+import { dai, frax } from "src/helpers/AllBonds";
 
 const sohmImg = getTokenImage("sohm");
 const ohmImg = getTokenImage("ohm");
@@ -48,6 +49,8 @@ function OhmMenu() {
 
   const open = Boolean(anchorEl);
   const id = "ohm-popper";
+  const daiAddress = dai.getAddressForReserve(networkID);
+  const fraxAddress = frax.getAddressForReserve(networkID);
   return (
     <Box
       component="div"
@@ -67,7 +70,7 @@ function OhmMenu() {
               <Paper className="ohm-menu" elevation={1}>
                 <Box component="div" className="buy-tokens">
                   <Link
-                    href={`https://app.sushi.com/swap?inputCurrency=${addresses[networkID].RESERVES.DAI}&outputCurrency=${OHM_ADDRESS}`}
+                    href={`https://app.sushi.com/swap?inputCurrency=${daiAddress}&outputCurrency=${OHM_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -79,7 +82,7 @@ function OhmMenu() {
                   </Link>
 
                   <Link
-                    href={`https://app.uniswap.org/#/swap?inputCurrency=${addresses[networkID].RESERVES.FRAX}&outputCurrency=${OHM_ADDRESS}`}
+                    href={`https://app.uniswap.org/#/swap?inputCurrency=${fraxAddress}&outputCurrency=${OHM_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
                   >
