@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { getMarketPrice } from "../helpers";
 import { getBalances, calculateUserBondDetails } from "./AccountSlice";
+import { error } from "./MessagesSlice";
 import { Bond, NetworkID } from "../lib/Bond";
 import { addresses } from "../constants";
 import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
@@ -107,11 +108,11 @@ export const calcBondDetails = createAsyncThunk(
 
     // Display error if user tries to exceed maximum.
     if (!!value && parseFloat(bondQuote.toString()) > maxBondPrice / Math.pow(10, 9)) {
-      alert(
+      const errorString =
         "You're trying to bond more than the maximum payout available! The maximum bond payout is " +
-          (maxBondPrice / Math.pow(10, 9)).toFixed(2).toString() +
-          " OHM.",
-      );
+        (maxBondPrice / Math.pow(10, 9)).toFixed(2).toString() +
+        " OHM.";
+      dispatch(error(errorString));
     }
 
     // Calculate bonds purchased
