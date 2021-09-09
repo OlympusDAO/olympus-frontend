@@ -459,7 +459,7 @@ function Stake() {
               <div className="stake-pool">
                 <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                   <Box className="ohm-pairs">
-                    {OhmFraxImg}
+                    <BondLogo bond={ohm_frax}></BondLogo>
                     <Typography gutterBottom={false}>OHM-FRAX</Typography>
                   </Box>
                 </div>
