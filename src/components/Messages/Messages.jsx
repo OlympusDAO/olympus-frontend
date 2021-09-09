@@ -16,7 +16,6 @@ function Messages() {
       dispatch(close(message));
     };
   };
-  console.log(messages);
   return (
     <div>
       <div>
