@@ -1,4 +1,5 @@
 import { trim } from "../../helpers";
+
 import BondLogo from "../../components/BondLogo";
 import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
@@ -16,19 +17,7 @@ export function BondDataCard({ bond }) {
       <Paper id={`${bond}--bond`} className="bond-data-card ohm-card">
         <div className="bond-pair">
           <BondLogo bond={bond} />
-          <div className="bond-name">
-            <Typography>{bondName(bond)}</Typography>
-            {isBondLP(bond) && (
-              <div>
-                <Link href={lpURL(bond)} target="_blank">
-                  <Typography variant="body1">
-                    View Contract
-                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                  </Typography>
-                </Link>
-              </div>
-            )}
-          </div>
+          <div className="bond-name"></div>
         </div>
 
         <div className="data-row">
