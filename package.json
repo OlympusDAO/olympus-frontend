@@ -115,6 +115,7 @@
     "ship": "yarn surge",
     "theme": "npx gulp less",
     "watch": "node ./scripts/watch.js",
-    "cypress": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   }
 }

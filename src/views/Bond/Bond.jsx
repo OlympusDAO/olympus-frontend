@@ -28,12 +28,6 @@ function Bond({ bond }) {
   const [quantity, setQuantity] = useState();
 
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
-  const marketPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].marketPrice;
-  });
-  const bondPrice = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondPrice;
-  });
 
   const onRecipientAddressChange = e => {
     return setRecipientAddress(e.target.value);
@@ -50,10 +44,6 @@ function Bond({ bond }) {
   const changeView = (event, newView) => {
     setView(newView);
   };
-
-  let bondToken = "DAI";
-  if (bond.indexOf("frax") >= 0) bondToken = "FRAX";
-  else if (bond.indexOf("eth") >= 0) bondToken = "ETH";
 
   return (
     <Fade in={true} mountOnEnter unmountOnExit>
@@ -75,13 +65,7 @@ function Bond({ bond }) {
                     Bond Price
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    {isBondLoading ? (
-                      <Skeleton />
-                    ) : bond.indexOf("eth") >= 0 ? (
-                      `$${trim(bondPrice, 2)}`
-                    ) : (
-                      `${trim(bondPrice, 2)} ${bondToken}`
-                    )}
+                    {isBondLoading ? <Skeleton /> : `$${trim(bond.marketPrice, 2)}`}
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -89,13 +73,7 @@ function Bond({ bond }) {
                     Market Price
                   </Typography>
                   <Typography variant="h3" color="primary" className="price">
-                    {isBondLoading ? (
-                      <Skeleton />
-                    ) : bond.indexOf("eth") >= 0 ? (
-                      `$${trim(marketPrice, 2)}`
-                    ) : (
-                      `${trim(marketPrice, 2)} ${bondToken}`
-                    )}
+                    {isBondLoading ? <Skeleton /> : `$${trim(bond.marketPrice, 2)}`}
                   </Typography>
                 </div>
               </Box>

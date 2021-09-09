@@ -1,0 +1,25 @@
+{
+    "data": {
+        "_meta": {
+            "__typename": "_Meta_",
+            "block": {
+                "__typename": "_Block_",
+                "number": 13186975
+            }
+        },
+        "protocolMetrics": [
+            {
+                "__typename": "ProtocolMetric",
+                "marketCap": "548440574.6936588745642074641741288",
+                "nextDistributedOhm": "5622.860071279",
+                "nextEpochRebase": "0.3997613842587950955481336393193218",
+                "ohmCirculatingSupply": "1554127.467395748",
+                "ohmPrice": "352.8929165718182423814941418753892",
+                "sOhmCirculatingSupply": "1406554.08268221",
+                "timestamp": "1631059317",
+                "totalSupply": "1900279.701096587",
+                "totalValueLocked": "496362972.5537234715982161096489949"
+            }
+        ]
+    }
+}
