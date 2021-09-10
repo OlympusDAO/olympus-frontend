@@ -9,6 +9,7 @@ const darkTheme = {
   color: "#FCFCFC",
   gold: "#F8CC82",
   gray: "#A3A3A3",
+  darkerGray: "#444444",
   textHighlightColor: "#F4D092",
   sidebarHighlightColor: "#C4C4C4",
   backgroundColor: "rgba(8, 15, 53, 1)",
@@ -207,6 +208,7 @@ export const dark = responsiveFontSizes(
               color: darkTheme.primaryButtonHoverColor,
               "&.stake-button": {
                 backgroundColor: darkTheme.gold,
+                color: darkTheme.darkerGray,
               },
             },
             "&:active": {

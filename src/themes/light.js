@@ -7,6 +7,7 @@ const lightTheme = {
   gold: "#F8CC82",
   gray: "#A3A3A3",
   blueish_gray: "#768299",
+  lightGray: "rgba(255, 255, 255, 0.75)",
   textHighlightColor: "#93AEBC", // "#F4D092",
   sidebarHighlightColor: "rgba(54, 56, 64, 0.5)",
   backgroundColor: "#AFCDE9",
@@ -224,6 +225,7 @@ export const light = responsiveFontSizes(
               color: lightTheme.primaryButtonHoverColor,
               "&.stake-button": {
                 backgroundColor: lightTheme.blueish_gray,
+                color: lightTheme.lightGray,
               },
             },
             "@media (hover:none)": {
