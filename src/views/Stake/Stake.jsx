@@ -54,6 +54,7 @@ function Stake() {
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
+  const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
 
@@ -157,7 +158,7 @@ function Stake() {
 
   return (
     <div id="stake-view">
-      <Zoom in={true}>
+      <Zoom in={true} onEntered={() => setZoomed(true)}>
         <Paper className={`ohm-card`}>
           <Grid container direction="column" spacing={2}>
             <Grid item>
@@ -254,6 +255,7 @@ function Stake() {
                 <>
                   <Box className="stake-action-area">
                     <Tabs
+                      key={String(zoomed)}
                       centered
                       value={view}
                       textColor="primary"
@@ -263,7 +265,7 @@ function Stake() {
                       aria-label="stake tabs"
                     >
                       <Tab label="Stake" {...a11yProps(0)} />
-                      <Tab label="Unstake" {...a11yProps(0)} />
+                      <Tab label="Unstake" {...a11yProps(1)} />
                     </Tabs>
                     <Box className="help-text">
                       {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
