@@ -68,12 +68,7 @@ export interface IBondDetails {
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
   async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch }): Promise<IBondDetails> => {
-    let amountInWei;
-    if (!value || value === "") {
-      amountInWei = ethers.utils.parseEther("0.0001"); // Use a realistic SLP ownership
-    } else {
-      amountInWei = ethers.utils.parseEther(value);
-    }
+    const amountInWei = ethers.utils.parseEther(value);
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
     let bondPrice = 0,
