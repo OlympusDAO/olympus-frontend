@@ -35,6 +35,10 @@ export const txnButtonText = (pendingTransactions: IPendingTxn[], type: string, 
   return isPendingTxn(pendingTransactions, type) ? "Pending..." : defaultText;
 };
 
+export const txnButtonTextGeneralPending = (pendingTransactions: IPendingTxn[], type: string, defaultText: string) => {
+  return pendingTransactions.length >= 1 ? "Pending..." : defaultText;
+};
+
 export const { fetchPendingTxns, clearPendingTxn } = pendingTxnsSlice.actions;
 
 export default pendingTxnsSlice.reducer;
