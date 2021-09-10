@@ -21,7 +21,7 @@ export function BondDataCard({ bond }) {
             {bond.isLP && (
               <div>
                 <Link href={bond.lpUrl} target="_blank">
-                  <Typography variant="body1">
+                  <Typography className="bond-view-contract" variant="body1">
                     View Contract
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
                   </Typography>
@@ -82,7 +82,7 @@ export function BondTableData({ bond }) {
           <Typography variant="body1">{bond.displayName}</Typography>
           {bond.isLP && (
             <Link color="primary" href={bond.lpUrl} target="_blank">
-              <Typography variant="body1">
+              <Typography className="bond-view-contract" variant="body1">
                 View Contract
                 <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
               </Typography>

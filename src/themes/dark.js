@@ -293,8 +293,10 @@ export const dark = responsiveFontSizes(
         },
         MuiTypography: {
           body1: {
-            "&:hover": {
-              color: darkTheme.gray,
+            "&.bond-view-contract": {
+              "&:hover": {
+                color: darkTheme.gray,
+              },
             },
           },
         },
