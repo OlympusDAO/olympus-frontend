@@ -35,7 +35,7 @@ function Messages() {
   return res;
 }
 // Invoke repetedly obsolete messages deletion (should be in slice file but I cannot find a way to access the store from there)
-// window.setInterval(() => {
-//   store.dispatch(handle_obsolete());
-// }, 100);
+window.setInterval(() => {
+  store.dispatch(handle_obsolete());
+}, 100);
 export default Messages;

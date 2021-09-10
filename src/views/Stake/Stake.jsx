@@ -94,7 +94,6 @@ function Stake() {
   const stakingTVL = useSelector(state => {
     return state.app.stakingTVL;
   });
-
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
@@ -200,11 +199,11 @@ function Stake() {
                       </Typography>
                       <Typography variant="h4">
                         {stakingAPY ? (
-                          <span id="staking-apy-value">
+                          <span data-testid="staking-apy-value">
                             {new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%
                           </span>
                         ) : (
-                          <Skeleton width="150px" />
+                          <Skeleton width="150px" data-testid="staking-apy-loading" />
                         )}
                       </Typography>
                     </div>

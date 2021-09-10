@@ -15,25 +15,25 @@ const initialState = {
 
 export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ networkID, provider }) => {
   const protocolMetricsQuery = `
-  query {
-    _meta {
-      block {
-        number
+    query {
+      _meta {
+        block {
+          number
+        }
+      }
+      protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+        timestamp
+        ohmCirculatingSupply
+        sOhmCirculatingSupply
+        totalSupply
+        ohmPrice
+        marketCap
+        totalValueLocked
+        nextEpochRebase
+        nextDistributedOhm
       }
     }
-    protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
-      timestamp
-      ohmCirculatingSupply
-      sOhmCirculatingSupply
-      totalSupply
-      ohmPrice
-      marketCap
-      totalValueLocked
-      nextEpochRebase
-      nextDistributedOhm
-    }
-  }
-`;
+  `;
 
   const graphData = await apollo(protocolMetricsQuery);
 
