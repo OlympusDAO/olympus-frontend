@@ -38,6 +38,9 @@ export class EnvHelper {
     return INFURA_ID_LIST;
   }
 
+  /**
+   * @returns {Array} Array of websocket addresses
+   */
   static getSelfHostedSockets() {
     var WS_LIST: any[];
     if (EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS) {
