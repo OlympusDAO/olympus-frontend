@@ -127,6 +127,7 @@ export const light = responsiveFontSizes(
             "&.active": {
               color: lightTheme.color,
               textDecoration: "underline",
+              textDecorationThickness: "2px",
             },
             "@media (hover:none)": {
               "&:hover": {

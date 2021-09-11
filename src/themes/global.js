@@ -105,6 +105,11 @@ const commonSettings = {
           underline: "none",
           "&.sidebar-menu": {
             textDecoration: "underline",
+            textDecorationThickness: "2px",
+          },
+          "&.bond": {
+            textDecoration: "underline",
+            textDecorationThickness: "1px",
           },
         },
       },

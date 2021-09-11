@@ -134,6 +134,7 @@ export const dark = responsiveFontSizes(
             "&.active": {
               color: darkTheme.color,
               textDecoration: "underline",
+              textDecorationThickness: "2px",
             },
           },
         },

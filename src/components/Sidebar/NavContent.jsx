@@ -106,7 +106,7 @@ function NavContent() {
                 <div className="bond-discounts">
                   <Typography variant="body2">Bond discounts</Typography>
                   {bonds.map((bond, i) => (
-                    <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"sidebar-menu bond"}>
+                    <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
                       {!bond.bondDiscount ? (
                         <Skeleton variant="text" width={"150px"} />
                       ) : (
