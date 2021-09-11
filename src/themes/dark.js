@@ -9,7 +9,6 @@ const darkTheme = {
   color: "#FCFCFC",
   gold: "#F8CC82",
   gray: "#A3A3A3",
-  darkerGray: "#444444",
   textHighlightColor: "#F4D092",
   sidebarHighlightColor: "#C4C4C4",
   backgroundColor: "rgba(8, 15, 53, 1)",
@@ -34,6 +33,7 @@ const darkTheme = {
   primaryButtonColor: "#333333",
   primaryButtonBG: "#F4D092",
   primaryButtonHoverBG: "#EDD8B4",
+  primaryButtonHoverColor: "#777777",
   secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
   outlinedPrimaryButtonHoverBG: "#F8CC82",
   outlinedPrimaryButtonHoverColor: "#333333",
@@ -205,22 +205,19 @@ export const dark = responsiveFontSizes(
             color: darkTheme.primaryButtonColor,
             backgroundColor: darkTheme.gold,
             "&:hover": {
-              backgroundColor: darkTheme.primaryButtonHoverBG,
               color: darkTheme.primaryButtonHoverColor,
-              "&.stake-button": {
-                backgroundColor: darkTheme.gold,
-                color: darkTheme.darkerGray,
-              },
+              backgroundColor: darkTheme.gold,
             },
             "&:active": {
-              backgroundColor: darkTheme.primaryButtonHoverBG,
               color: darkTheme.primaryButtonHoverColor,
+              backgroundColor: darkTheme.gold,
             },
             "@media (hover:none)": {
               color: darkTheme.primaryButtonColor,
               backgroundColor: darkTheme.gold,
               "&:hover": {
-                backgroundColor: darkTheme.primaryButtonHoverBG,
+                color: darkTheme.primaryButtonHoverColor,
+                backgroundColor: darkTheme.gold,
               },
             },
           },

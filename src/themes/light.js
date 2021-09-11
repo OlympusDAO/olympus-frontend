@@ -24,6 +24,7 @@ const lightTheme = {
   activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
   // primaryButtonBG: "#759AAE",
   primaryButtonBG: "#93AEBC",
+  primaryButtonColor: "#FCFCFC",
   primaryButtonHoverBG: "#759AAE",
   // these need fixing
   primaryButtonHoverColor: "#333333",
@@ -219,21 +220,18 @@ export const light = responsiveFontSizes(
         },
         MuiButton: {
           containedPrimary: {
-            color: "#FCFCFC",
+            color: lightTheme.primaryButtonColor,
             backgroundColor: lightTheme.blueish_gray,
             "&:hover": {
-              backgroundColor: lightTheme.primaryButtonHoverBG,
-              color: lightTheme.primaryButtonHoverColor,
-              "&.stake-button": {
-                backgroundColor: lightTheme.blueish_gray,
-                color: lightTheme.lightGray,
-              },
+              color: lightTheme.lightGray,
+              backgroundColor: lightTheme.blueish_gray,
             },
             "@media (hover:none)": {
-              color: lightTheme.color,
-              backgroundColor: lightTheme.primaryButtonBG,
+              color: lightTheme.primaryButtonColor,
+              backgroundColor: lightTheme.blueish_gray,
               "&:hover": {
-                backgroundColor: lightTheme.primaryButtonHoverBG,
+                color: lightTheme.lightGray,
+                backgroundColor: lightTheme.blueish_gray,
               },
             },
           },
