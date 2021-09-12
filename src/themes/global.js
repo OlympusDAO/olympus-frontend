@@ -81,7 +81,6 @@ const commonSettings = {
           maxWidth: "833px",
           width: "97%",
           marginBottom: "1.8rem",
-          borderRadius: "10px",
         },
         "&.ohm-menu": {
           padding: "22px 0px",
