@@ -35,8 +35,11 @@ const darkTheme = {
   primaryButtonHoverBG: "#EDD8B4",
   primaryButtonHoverColor: "#777777",
   secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
+  outlinedPrimaryButtonBorderColor: "#F8CC82",
+  outlinedPrimaryButtonColor: "#F8CC82",
   outlinedPrimaryButtonHoverBG: "#F8CC82",
   outlinedPrimaryButtonHoverColor: "#333333",
+  outlinedPrimaryButtonHoverBorderColor: "#F8CC82",
   outlinedSecondaryButtonHoverBG: "transparent",
   outlinedSecondaryButtonHoverColor: "#F8CC82", //gold
   containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
@@ -248,18 +251,20 @@ export const dark = responsiveFontSizes(
             },
           },
           outlinedPrimary: {
-            color: darkTheme.gold,
-            borderColor: darkTheme.gold,
+            color: darkTheme.outlinedPrimaryButtonColor,
+            borderColor: darkTheme.outlinedPrimaryButtonBorderColor,
             "&:hover": {
               color: darkTheme.outlinedPrimaryButtonHoverColor,
-              backgroundColor: darkTheme.primaryButtonHoverBG,
+              backgroundColor: darkTheme.outlinedPrimaryButtonHoverBG,
+              borderColor: darkTheme.outlinedPrimaryButtonHoverBorderColor,
             },
             "@media (hover:none)": {
               color: darkTheme.gold,
               borderColor: darkTheme.gold,
               "&:hover": {
                 color: darkTheme.outlinedPrimaryButtonHoverColor,
-                backgroundColor: `${darkTheme.primaryButtonHoverBG} !important`,
+                backgroundColor: `${darkTheme.outlinedPrimaryButtonHoverBG} !important`,
+                borderColor: darkTheme.outlinedPrimaryButtonHoverBorderColor,
                 textDecoration: "none !important",
               },
             },
