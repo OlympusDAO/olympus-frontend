@@ -1,0 +1,6 @@
+SECRET_WORDS="test test test test test test test test test test test ohm"
+PASSWORD=TestMetaMask
+METAMASK_VERSION=latest 
+NETWORK_NAME=rinkeby 
+RPC_URL=https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161
+CHAIN_ID=4

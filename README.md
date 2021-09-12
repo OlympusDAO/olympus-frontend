@@ -32,8 +32,8 @@ Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day
 # Cypress tests
 
 ## Setting up the test environnement
-You must create a .env file in the root folder of the project file as described in cypress-metamask documentation: https://github.com/CraftAcademyLabs/cypress-metamask
-This .env file descibes the network and the wallet used to interact with OHM smart contracts. The wallet must old a sufficent ballance in ETH and sOHM
+You must create a .env file (from ._env.dist for example) in the root folder of the project file as described in cypress-metamask documentation: https://github.com/CraftAcademyLabs/cypress-metamask
+This .env file describes the network and the wallet used to interact with OHM smart contracts. The wallet must old a sufficent balance in ETH and sOHM
 
 ## Running Cypress tests
 npm run cyress:run
