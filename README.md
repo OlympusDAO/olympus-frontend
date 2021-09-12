@@ -28,6 +28,20 @@ The testnet faucet for sOHM can be found [here](https://rinkeby.etherscan.io/add
 
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 
+
+# Cypress tests
+
+## Setting up the test environnement
+You must create a .env file in the root folder of the project file as described in cypress-metamask documentation: https://github.com/CraftAcademyLabs/cypress-metamask
+This .env file descibes the network and the wallet used to interact with OHM smart contracts. The wallet must old a sufficent ballance in ETH and sOHM
+
+## Running Cypress tests
+npm run cyress:run
+
+## Troubleshooting/Developping Cypress tests
+npm run cyress:open
+
+
 ### Architecture/Layout
 
 The app is written in [React](https://reactjs.org/) using [Redux](https://redux.js.org/) as the state container.

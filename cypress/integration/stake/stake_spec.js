@@ -1,5 +1,7 @@
-describe("stake tets", () => {
+describe("stake tests", () => {
   beforeEach(() => {
+    cy.setupMetamask();
+    //cy.changeMetamaskNetwork("rinkeby");
     cy.visit("/");
   });
   it("navigates to the staking page", () => {
@@ -13,5 +15,10 @@ describe("stake tets", () => {
     cy.get(".stake-apy").should("exist");
     cy.get(".stake-tvl").should("exist");
     cy.get(".stake-index").should("exist");
+  });
+  it("Connects MetaMask", () => {
+    cy.get("#wallet-button").click();
+    cy.get(".web3modal-provider-name").contains("MetaMask").click();
+    cy.acceptMetamaskAccess();
   });
 });

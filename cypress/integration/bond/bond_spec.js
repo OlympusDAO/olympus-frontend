@@ -1,4 +1,4 @@
-describe("bond tets", () => {
+describe("bond tests", () => {
   beforeEach(() => {
     cy.visit("/");
   });
