@@ -4,6 +4,11 @@
   justify-content: center;
   flex-direction: column;
   overflow: hidden;
+
+  @media (max-width: 540px) {
+    margin-bottom: 108px;
+  }
+
   .ohm-card .bond-hero h4 {
     font-weight: 600 !important;
 
