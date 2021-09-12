@@ -98,7 +98,14 @@ export const calcBondDetails = createAsyncThunk(
     if (bond.isLP) {
       valuation = await bondCalcContract.valuation(bond.getAddressForReserve(networkID), amountInWei);
       bondQuote = await bondContract.payoutFor(valuation);
-      bondQuote = bondQuote / Math.pow(10, 9);
+
+      if (!amountInWei.isZero() && bondQuote < 100000) {
+        bondQuote = 0;
+        const errorString = "Amount is too small!";
+        dispatch(error(errorString));
+      } else {
+        bondQuote = bondQuote / Math.pow(10, 9);
+      }
     } else {
       // RFV = DAI
       bondQuote = await bondContract.payoutFor(amountInWei);
