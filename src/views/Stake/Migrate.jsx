@@ -248,7 +248,7 @@ export default function Migrate() {
                         id="migrate-input"
                         type="number"
                         placeholder={`${quantity}`}
-                        className="stake-input"
+                        className="outlined-input"
                         // value={quantity}
                         onChange={e => setQuantity(e.target.value)}
                         startAdornment={
@@ -266,7 +266,7 @@ export default function Migrate() {
                         labelWidth={0}
                         endAdornment={
                           <InputAdornment position="end">
-                            <Button variant="text" onClick={setMax}>
+                            <Button className="max-button" variant="text" onClick={setMax} color="primary">
                               Max
                             </Button>
                           </InputAdornment>

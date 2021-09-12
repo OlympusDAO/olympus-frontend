@@ -281,13 +281,13 @@ function Stake() {
                           id="amount-input"
                           type="number"
                           placeholder="Enter an amount"
-                          className="stake-input"
+                          className="outlined-input"
                           value={quantity}
                           onChange={e => setQuantity(e.target.value)}
                           labelWidth={0}
                           endAdornment={
                             <InputAdornment position="end">
-                              <Button className="stake-max-button" variant="text" onClick={setMax} color="primary">
+                              <Button className="max-button" variant="text" onClick={setMax} color="primary">
                                 Max
                               </Button>
                             </InputAdornment>

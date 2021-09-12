@@ -125,12 +125,13 @@ function BondPurchase({ bond, slippage }) {
             id="outlined-adornment-amount"
             type="number"
             value={quantity}
+            className="outlined-input"
             onChange={e => setQuantity(e.target.value)}
             // startAdornment={<InputAdornment position="start">$</InputAdornment>}
             labelWidth={55}
             endAdornment={
               <InputAdornment position="end">
-                <Button variant="text" onClick={setMax}>
+                <Button className="max-button" variant="text" onClick={setMax} color="primary">
                   Max
                 </Button>
               </InputAdornment>
