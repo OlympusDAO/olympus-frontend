@@ -34,7 +34,7 @@ const lightTheme = {
   outlinedPrimaryButtonHoverBG: "#768299",
   outlinedPrimaryButtonHoverColor: "#FFFFFFFF",
   outlinedPrimaryButtonHoverBorderColor: "#768299",
-  outlinedSecondaryButtonHoverBG: "#FCFCFC",
+  outlinedSecondaryButtonHoverBG: "#FFFFFF",
   outlinedSecondaryButtonHoverColor: "#333333",
   containedSecondaryButtonHoverBG: "#33333333",
   ohmMenuButtonHoverBG: "#CFD2D4",
