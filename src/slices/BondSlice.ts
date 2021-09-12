@@ -102,7 +102,14 @@ export const calcBondDetails = createAsyncThunk(
     } else {
       // RFV = DAI
       bondQuote = await bondContract.payoutFor(amountInWei);
-      bondQuote = bondQuote / Math.pow(10, 18);
+
+      if (!amountInWei.isZero() && bondQuote < 100000000000000) {
+        bondQuote = 0;
+        const errorString = "Amount is too small!";
+        dispatch(error(errorString));
+      } else {
+        bondQuote = bondQuote / Math.pow(10, 18);
+      }
     }
 
     // Display error if user tries to exceed maximum.
