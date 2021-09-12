@@ -169,7 +169,7 @@ export const light = responsiveFontSizes(
             "&$selected": {
               color: lightTheme.color,
             },
-            "&.stake-tabs": {
+            "&.tabs": {
               "&:hover": {
                 textDecoration: "underline",
                 textDecorationThickness: "2px",

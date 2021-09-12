@@ -262,8 +262,8 @@ function Stake() {
                       onChange={changeView}
                       aria-label="stake tabs"
                     >
-                      <Tab className="stake-tabs" label="Stake" {...a11yProps(0)} />
-                      <Tab className="stake-tabs" label="Unstake" {...a11yProps(0)} />
+                      <Tab className="tabs" label="Stake" {...a11yProps(0)} />
+                      <Tab className="tabs" label="Unstake" {...a11yProps(0)} />
                     </Tabs>
                     <Box className="help-text">
                       {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (

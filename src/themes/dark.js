@@ -166,7 +166,7 @@ export const dark = responsiveFontSizes(
             "&$selected": {
               color: darkTheme.gold,
             },
-            "&.stake-tabs": {
+            "&.tabs": {
               "&:hover": {
                 textDecoration: "underline",
                 textDecorationThickness: "2px",

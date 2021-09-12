@@ -86,8 +86,8 @@ function Bond({ bond }) {
                 onChange={changeView}
                 aria-label="bond tabs"
               >
-                <Tab label="Bond" {...a11yProps(0)} />
-                <Tab label="Redeem" {...a11yProps(1)} />
+                <Tab className="tabs" label="Bond" {...a11yProps(0)} />
+                <Tab className="tabs" label="Redeem" {...a11yProps(1)} />
               </Tabs>
 
               <TabPanel value={view} index={0}>
