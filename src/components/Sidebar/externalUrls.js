@@ -23,7 +23,7 @@ const externalUrls = [
   {
     title: "Feedback",
     url: "https://olympusdao.canny.io/",
-    icon: <SvgIcon color="primary" viewBox="0 0 24 24" component={FeedbackIcon} />,
+    icon: <SvgIcon color="primary" viewBox="0 0 400,575.4010695187166" component={FeedbackIcon} />,
   },
 ];
 
