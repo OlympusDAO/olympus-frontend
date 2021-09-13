@@ -4,15 +4,9 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll } from "../helpers";
-import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createSelector, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-
-interface IAccountDetails {
-  readonly balances: { [token: string]: string };
-  readonly bonding: { daiAllowance: BigNumberish };
-  readonly migrate: { unstakeAllowance: BigNumber | undefined };
-  readonly staking: { ohmStake: BigNumberish; ohmUnstake: BigNumberish };
-}
+import { RootState } from "src/store";
 
 interface IGetBalances {
   address: string;
@@ -76,7 +70,6 @@ export const loadAccountDetails = createAsyncThunk(
       const oldsohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS as string, sOHM, provider);
       oldsohmBalance = await oldsohmContract.balanceOf(address);
 
-      const signer = provider.getSigner();
       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
     }
 
@@ -94,20 +87,23 @@ export const loadAccountDetails = createAsyncThunk(
       migrate: {
         unstakeAllowance: +unstakeAllowanceSohm,
       },
-      bonding: {
-        daiAllowance: daiBondAllowance,
-      },
     };
   },
 );
 
-// TS-REFACTOR-TODO: figure out the correct typing of this slice's state.
-interface IAccountSlice {
-  status: string;
-  [key: string]: any;
+interface IAccountData {
+  readonly balances: { [token: string]: string };
+  readonly migrate: { unstakeAllowance: BigNumber | undefined };
+  readonly staking: { ohmStake: BigNumberish; ohmUnstake: BigNumberish };
 }
 
-const initialState: IAccountSlice = {
+interface IAccountState {
+  data: IAccountData | null;
+  status: string;
+}
+
+const initialState: IAccountState = {
+  data: null,
   status: "idle",
 };
 
@@ -115,8 +111,8 @@ const accountSlice = createSlice({
   name: "account",
   initialState,
   reducers: {
-    fetchAccountSuccess(state, action) {
-      setAll(state, action.payload);
+    fetchAccountSuccess(state, action: PayloadAction<IAccountData>) {
+      state.data = action.payload;
     },
   },
   extraReducers: builder => {
@@ -150,6 +146,6 @@ export default accountSlice.reducer;
 
 export const { fetchAccountSuccess } = accountSlice.actions;
 
-const baseInfo = (state: any) => state.account;
+const baseInfo = (state: RootState) => state.account;
 
 export const getAccountState = createSelector(baseInfo, account => account);

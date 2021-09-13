@@ -9,31 +9,9 @@ import { contractForReserve, addressForAsset, contractForBond, setAll, toNum } f
 import { BONDS } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import apollo from "../lib/apolloClient.js";
-import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
+import { createSlice, createSelector, createAsyncThunk, createEntityAdapter, PayloadAction } from "@reduxjs/toolkit";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
-
-interface IAppDetails {
-  readonly circSupply: number;
-  readonly currentIndex?: string;
-  readonly currentBlock?: number;
-  readonly fiveDayRate?: number;
-  readonly marketCap: number;
-  readonly marketPrice: number;
-  readonly oldStakingAPY?: number;
-  readonly stakingAPY?: number;
-  readonly stakingRebase?: number;
-  readonly stakingTVL: number;
-  readonly totalSupply: number;
-  readonly treasuryBalance?: number;
-}
-
-interface IBalance {
-  readonly balances: { ohm: string; sohm: string };
-}
-
-const initialState = {
-  status: "idle",
-};
+import { RootState } from "src/store";
 
 export const loadAppDetails = createAsyncThunk(
   "app/loadAppDetails",
@@ -170,7 +148,7 @@ export const loadAppDetails = createAsyncThunk(
       marketPrice,
       circSupply,
       totalSupply,
-    } as IAppDetails;
+    } as IAppData;
   },
 );
 
@@ -182,12 +160,51 @@ export const getFraxData = createAsyncThunk("app/getFraxData", async () => {
   };
 });
 
+interface IAppData {
+  readonly circSupply: number;
+  readonly currentIndex?: string;
+  readonly currentBlock?: number;
+  readonly fiveDayRate?: number;
+  readonly marketCap: number;
+  readonly marketPrice: number;
+  readonly oldStakingAPY?: number;
+  readonly stakingAPY?: number;
+  readonly stakingRebase?: number;
+  readonly stakingTVL: number;
+  readonly totalSupply: number;
+  readonly treasuryBalance?: number;
+}
+
+const initialAppData = {
+  circSupply: 0,
+  currentIndex: "",
+  currentBlock: 0,
+  fiveDayRate: 0,
+  marketCap: 0,
+  marketPrice: 0,
+  oldStakingAPY: 0,
+  stakingAPY: 0,
+  stakingRebase: 0,
+  stakingTVL: 0,
+  totalSupply: 0,
+  treasuryBalance: 0,
+};
+
+interface IAppState {
+  data: IAppData;
+  status: string;
+}
+const initialState: IAppState = {
+  data: initialAppData,
+  status: "idle",
+};
+
 const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    fetchAppSuccess(state, action) {
-      setAll(state, action.payload);
+    fetchAppSuccess(state, action: PayloadAction<IAppData>) {
+      state.data = action.payload;
     },
   },
   extraReducers: builder => {
@@ -196,8 +213,10 @@ const appSlice = createSlice({
         state.status = "loading";
       })
       .addCase(loadAppDetails.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.status = "idle";
+        if (action.payload) {
+          state.data = action.payload;
+          state.status = "idle";
+        }
       })
       .addCase(loadAppDetails.rejected, (state, { error }) => {
         state.status = "idle";
@@ -206,8 +225,7 @@ const appSlice = createSlice({
   },
 });
 
-// TODO: don't use any if possible.
-const baseInfo = (state: any) => state.app;
+const baseInfo = (state: RootState) => state.app;
 
 export default appSlice.reducer;
 

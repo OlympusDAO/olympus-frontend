@@ -11,6 +11,7 @@ import { toNum } from "src/helpers";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
+import store from "src/store";
 
 interface IGetApproval {
   readonly type: string;
@@ -96,19 +97,18 @@ export const getApproval = createAsyncThunk(
       }
     }
 
-    const stakeAllowance = toNum(
-      await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS as string),
+    const unstakeAllowance = await oldSohmContract.allowance(
+      address,
+      addresses[networkID].OLD_STAKING_ADDRESS as string,
     );
-    const unstakeAllowance = toNum(
-      await oldSohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS as string),
-    );
-
+    const state = store.getState();
     return dispatch(
       fetchAccountSuccess({
+        balances: state.account.data ? state.account.data.balances : {},
         migrate: {
-          stakeAllowance,
           unstakeAllowance,
         },
+        staking: state.account.data ? state.account.data.staking : { ohmStake: 0, ohmUnstake: 0 },
       }),
     );
   },

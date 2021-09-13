@@ -9,6 +9,7 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { getBalances } from "./AccountSlice";
+import store from "src/store";
 
 interface IStakeDetails {
   readonly ohm?: string;
@@ -73,8 +74,12 @@ export const changeApproval = createAsyncThunk(
 
     const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS as string);
     const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS as string);
+
+    const state = store.getState();
     return dispatch(
       fetchAccountSuccess({
+        balances: state.account.data ? state.account.data.balances : {},
+        migrate: state.account.data ? state.account.data.migrate : { unstakeAllowance: ethers.BigNumber.from(0) },
         staking: {
           ohmStake: +stakeAllowance,
           ohmUnstake: +unstakeAllowance,
