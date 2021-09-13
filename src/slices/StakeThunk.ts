@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { addresses, Actions } from "../constants";
+import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
@@ -7,18 +7,26 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { getBalances } from "./AccountSlice";
+import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
+
+interface IChangeApproval {
+  token: string;
+  provider: StaticJsonRpcProvider | JsonRpcProvider;
+  address: string;
+  networkID: number;
+}
 
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
-  async ({ token, provider, address, networkID }, { dispatch }) => {
+  async ({ token, provider, address, networkID }: IChangeApproval, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
     }
 
     const signer = provider.getSigner();
-    const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, signer);
-    const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
+    const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer);
+    const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
     let approveTx;
     try {
       if (token === "ohm") {
@@ -59,17 +67,29 @@ export const changeApproval = createAsyncThunk(
   },
 );
 
+interface IChangeStake {
+  action: string;
+  value: string;
+  provider: StaticJsonRpcProvider | JsonRpcProvider;
+  address: string;
+  networkID: number;
+}
+
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID }, { dispatch }) => {
+  async ({ action, value, provider, address, networkID }: IChangeStake, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
     }
 
     const signer = provider.getSigner();
-    const staking = await new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStaking, signer);
-    const stakingHelper = await new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
+    const staking = await new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, OlympusStaking, signer);
+    const stakingHelper = await new ethers.Contract(
+      addresses[networkID].STAKING_HELPER_ADDRESS as string,
+      StakingHelper,
+      signer,
+    );
 
     let stakeTx;
 
@@ -94,6 +114,6 @@ export const changeStake = createAsyncThunk(
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
-    return dispatch(getBalances({ address, networkID, provider }));
+    return dispatch(getBalances({ address: address, networkID: networkID, provider: provider }));
   },
 );
