@@ -1,6 +1,7 @@
 import axios from "axios";
 import { setAll } from "../helpers";
-import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
+import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "src/store";
 
 const initialState = {
   loading: false,
@@ -15,10 +16,11 @@ export const getFraxData = createAsyncThunk("app/getFraxData", async () => {
 
 const fraxSlice = createSlice({
   name: "fraxData",
+  reducers: {},
   initialState,
   extraReducers: builder => {
     builder
-      .addCase(getFraxData.pending, (state, action) => {
+      .addCase(getFraxData.pending, state => {
         state.loading = true;
       })
       .addCase(getFraxData.fulfilled, (state, action) => {
@@ -26,7 +28,7 @@ const fraxSlice = createSlice({
         state.loading = false;
       })
       .addCase(getFraxData.rejected, (state, { error }) => {
-        state.status = false;
+        state.loading = false;
         console.log(error);
       });
   },
@@ -34,6 +36,6 @@ const fraxSlice = createSlice({
 
 export default fraxSlice.reducer;
 
-const baseInfo = state => state.fraxData;
+const baseInfo = (state: RootState) => state.fraxData;
 
 export const getFraxState = createSelector(baseInfo, app => app);

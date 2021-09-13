@@ -265,7 +265,7 @@ const bondingSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(calcBondDetails.pending, (state, _action) => {
+      .addCase(calcBondDetails.pending, state => {
         state.loading = true;
       })
       .addCase(calcBondDetails.fulfilled, (state, action) => {
