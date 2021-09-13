@@ -158,11 +158,6 @@ export const light = responsiveFontSizes(
             color: lightTheme.color,
           },
         },
-        MuiOutlinedInput: {
-          "&:hover $notchedOutline": {
-            borderColor: `${lightTheme.color} !important`,
-          },
-        },
         MuiTab: {
           textColorPrimary: {
             color: lightTheme.blueish_gray,
