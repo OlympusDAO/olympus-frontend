@@ -1,4 +1,7 @@
 import { ethers } from "ethers";
+import { addresses } from "../constants";
+import { addEthersEventListener, removeEthersEventListener } from "./ethersEventListener";
+
 /**
  * Calculates user's odds of winning based on their pool balance
  * @param {*} usersPoolBalance the user's total balance of pool tokens
@@ -67,5 +70,66 @@ export const poolTogetherUILinks = chainID => {
       "https://community.pooltogether.com/pools/rinkeby/0x60bc094cb0c966e60ed3be0549e92f3bc572e9f8/home",
       "https://community.pooltogether.com/pools/rinkeby/0x60bc094cb0c966e60ed3be0549e92f3bc572e9f8/manage#stats",
     ];
+  }
+};
+
+/**
+ * listen for the RNG Complete Event.
+ * Should set this listener AFTER Pool Award Started
+ * Listener will fire When Award Completed.
+ * @param {*} provider
+ * @param {*} networkID
+ */
+export const listenAndHandleRNGCompleteEvent = (provider, networkID, eventHandler) => {
+  // const contractAddress = "0xeeb552c4d5e155e50ee3f7402ed379bf72e36f23";
+  const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS;
+  const topicString = "RandomNumberCompleted(uint32,uint256)";
+
+  const handlerFunc = () => {
+    removeEthersEventListener(provider, topicString, contractAddress);
+    eventHandler();
+    setTimeout(() => window.location.reload(), 15000);
+  };
+
+  addEthersEventListener(provider, topicString, contractAddress, handlerFunc);
+};
+
+export const listenAndHandleDepositEvent = (provider, networkID, eventHandler) => {
+  const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS;
+  const topicString = "Deposited(address,address,address,uint256,address)";
+
+  const handlerFunc = () => {
+    removeEthersEventListener(provider, topicString, contractAddress);
+    eventHandler();
+    setTimeout(() => window.location.reload(), 15000);
+  };
+
+  addEthersEventListener(provider, topicString, contractAddress, handlerFunc);
+};
+
+/**
+ * listen for the RNG Start Event.
+ * Should set this listener When Pool Timer === 0
+ * Listener will fire When Award Started.
+ * @param {*} provider
+ * @param {*} networkID
+ * @param {*} timeRemaining time left on PoolTogether timer
+ * @param {*} secondsLeft our countdown to 0 (starts at 0 on init)
+ */
+export const listenAndHandleRNGStartEvent = (provider, networkID, secondsLeft, eventHandler) => {
+  // const contractAddress = "0xeeb552c4d5e155e50ee3f7402ed379bf72e36f23";
+  const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS;
+  const topicString = "RandomNumberRequested(uint32,address)";
+  if (secondsLeft <= 0) {
+    console.log("start listener");
+    const handlerFunc = () => {
+      removeEthersEventListener(provider, topicString, contractAddress);
+      eventHandler();
+      setTimeout(() => window.location.reload(), 15000);
+    };
+    addEthersEventListener(provider, topicString, contractAddress, handlerFunc);
+  } else {
+    console.log("end listener");
+    removeEthersEventListener(provider, topicString, contractAddress);
   }
 };

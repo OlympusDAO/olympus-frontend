@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Paper, Tab, Tabs, Zoom } from "@material-ui/core";
+
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { PoolDeposit } from "./PoolDeposit";
@@ -13,6 +14,7 @@ import { useWeb3Context } from "../../hooks";
 import { apolloExt } from "../../lib/apolloClient";
 import { poolDataQuery } from "./poolData.js";
 import { calculateOdds } from "../../helpers/33Together";
+import { trim } from "../../helpers/index.js";
 
 function a11yProps(index) {
   return {
@@ -34,11 +36,13 @@ const PoolTogether = () => {
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
   const [poolData, setPoolData] = useState(null);
   const [poolDataError, setPoolDataError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [graphLoading, setGraphLoading] = useState(true);
   const [winners, setWinners] = useState(0);
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
   const [yourOdds, setYourOdds] = useState(0);
+
+  const isAccountLoading = useSelector(state => state.account.loading ?? true);
 
   const sohmBalance = useSelector(state => {
     return state.account.balances && parseFloat(state.account.balances.sohm);
@@ -85,7 +89,7 @@ const PoolTogether = () => {
         setTotalSponsorship(poolTotalSponsorship);
 
         setPoolData(poolData.data);
-        setLoading(false);
+        setGraphLoading(false);
       })
       .catch(err => setPoolDataError(err));
   }, [graphUrl]);
@@ -98,7 +102,6 @@ const PoolTogether = () => {
   return (
     <div id="pool-together-view">
       <PoolPrize />
-
       <Zoom in={true}>
         <Paper className="ohm-card">
           <CardHeader title="3, 3 Together" />
@@ -124,10 +127,11 @@ const PoolTogether = () => {
       </Zoom>
 
       <PoolInfo
-        loading={loading}
-        poolBalance={poolBalance}
-        sohmBalance={sohmBalance}
-        yourOdds={yourOdds}
+        graphLoading={graphLoading}
+        isAccountLoading={isAccountLoading}
+        poolBalance={trim(poolBalance, 4)}
+        sohmBalance={trim(sohmBalance, 4)}
+        yourOdds={trim(yourOdds, 0)}
         winners={winners}
         totalDeposits={totalDeposits}
         totalSponsorship={totalSponsorship}
