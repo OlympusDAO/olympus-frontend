@@ -8,6 +8,7 @@ import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
+import { RootState } from "src/store";
 
 interface IChangeApproval {
   bond: Bond;
@@ -264,7 +265,7 @@ const bondingSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(calcBondDetails.pending, (state, action) => {
+      .addCase(calcBondDetails.pending, (state, _action) => {
         state.loading = true;
       })
       .addCase(calcBondDetails.fulfilled, (state, action) => {
@@ -282,7 +283,6 @@ export default bondingSlice.reducer;
 
 export const { fetchBondSuccess } = bondingSlice.actions;
 
-// TODO: Update the type of `state` when we have state definitions
-const baseInfo = (state: any) => state.bonding;
+const baseInfo = (state: RootState) => state.bonding;
 
 export const getBondingState = createSelector(baseInfo, bonding => bonding);
