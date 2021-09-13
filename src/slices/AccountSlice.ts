@@ -1,15 +1,15 @@
 import { ethers } from "ethers";
-import { addresses } from "../constants";
+import { addresses, Actions, BONDS } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 
 import { setAll } from "../helpers";
+import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { Bond, NetworkID } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
-import { RootState } from "src/store";
 
 interface IGetBalances {
   address: string;
@@ -38,25 +38,6 @@ interface ILoadAccountDetails {
   address: string;
   networkID: NetworkID;
   provider: StaticJsonRpcProvider | JsonRpcProvider;
-}
-
-interface IUserAccountDetails {
-  balances: {
-    dai: string;
-    ohm: string;
-    sohm: string;
-    oldsohm: string;
-  };
-  staking: {
-    ohmStake: number;
-    ohmUnstake: number;
-  };
-  migrate: {
-    unstakeAllowance: number;
-  };
-  bonding: {
-    daiAllowance: number;
-  };
 }
 
 export const loadAccountDetails = createAsyncThunk(
@@ -139,9 +120,8 @@ export interface IUserBondDetails {
 export const calculateUserBondDetails = createAsyncThunk(
   "account/calculateUserBondDetails",
   async ({ address, bond, networkID, provider }: ICalcUserBondDetails, { dispatch }) => {
-    if (!address) {
-      return { bond: "", allowance: 0, balance: 0, interestDue: 0, bondMaturationBlock: 0, pendingPayout: "" };
-    }
+    if (!address) return;
+
     // dispatch(fetchBondInProgress());
 
     // Calculate bond details.
@@ -172,21 +152,12 @@ export const calculateUserBondDetails = createAsyncThunk(
   },
 );
 
+// TODO: update AccountSlice to accurately match the real data.
 interface IAccountSlice {
   bonds: { [key: string]: IUserBondDetails };
-  balances: {
-    ohm: string;
-    sohm: string;
-    dai: string;
-    oldsohm: string;
-  };
-  loading: boolean;
+  [key: string]: any;
 }
-const initialState: IAccountSlice = {
-  loading: false,
-  bonds: {},
-  balances: { ohm: "", sohm: "", dai: "", oldsohm: "" },
-};
+const initialState: IAccountSlice = { bonds: {} };
 
 const accountSlice = createSlice({
   name: "account",
@@ -220,7 +191,7 @@ const accountSlice = createSlice({
         state.loading = false;
         console.log(error);
       })
-      .addCase(calculateUserBondDetails.pending, (state, _action) => {
+      .addCase(calculateUserBondDetails.pending, (state, action) => {
         state.loading = true;
       })
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
@@ -240,6 +211,7 @@ export default accountSlice.reducer;
 
 export const { fetchAccountSuccess } = accountSlice.actions;
 
-const baseInfo = (state: RootState) => state.account;
+// TODO: Update the type of `state` when we have state definitions
+const baseInfo = (state: any) => state.account;
 
 export const getAccountState = createSelector(baseInfo, account => account);

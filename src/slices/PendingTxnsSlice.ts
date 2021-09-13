@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ACTIONS } from "./MigrateThunk";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface IPendingTxn {
   readonly txnHash: string;
@@ -6,20 +7,18 @@ interface IPendingTxn {
   readonly type: string;
 }
 
-const initialState: Array<IPendingTxn> = [];
+const initialState: Array<any> = [];
 
 const pendingTxnsSlice = createSlice({
   name: "pendingTransactions",
   initialState,
   reducers: {
-    fetchPendingTxns(state, action: PayloadAction<IPendingTxn>) {
+    fetchPendingTxns(state, action) {
       state.push(action.payload);
     },
-    clearPendingTxn(state, action: PayloadAction<string>) {
+    clearPendingTxn(state, action) {
       const target = state.find(x => x.txnHash === action.payload);
-      if (target) {
-        state.splice(state.indexOf(target), 1);
-      }
+      state.splice(state.indexOf(target), 1);
     },
   },
 });

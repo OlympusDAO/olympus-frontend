@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const MESSAGES_MAX_DISPLAY_DURATION = 60000;
 let nb_messages = 0;
@@ -35,21 +35,21 @@ const messagesSlice = createSlice({
   initialState,
   reducers: {
     // Creates an error message
-    error(state, action: PayloadAction<string>) {
+    error(state, action) {
       createMessage(state, "error", "Error", action.payload);
     },
     // Creates an information message
-    info(state, action: PayloadAction<string>) {
+    info(state, action) {
       createMessage(state, "info", "Information", action.payload);
     },
     // Closes a message
-    close(state, action: PayloadAction<Message>) {
+    close(state, action) {
       state.items = state.items.map(message => {
         return message.id == action.payload.id ? Object.assign({}, message, { open: false }) : message;
       });
     },
     // Finds and removes obsolete messages
-    handle_obsolete(state, _action) {
+    handle_obsolete(state, action) {
       let activeMessages = state.items.filter(message => {
         return Date.now() - message.created < MESSAGES_MAX_DISPLAY_DURATION;
       });
