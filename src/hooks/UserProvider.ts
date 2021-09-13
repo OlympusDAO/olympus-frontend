@@ -1,4 +1,4 @@
-import { Web3Provider } from "@ethersproject/providers";
+import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import BurnerProvider from "burner-provider";
 import { useMemo } from "react";
 import { INFURA_ID } from "../constants";
@@ -21,7 +21,20 @@ import { INFURA_ID } from "../constants";
     const tx = Transactor(userProvider, gasPrice)
 */
 
-const useUserProvider = (injectedProvider, localProvider) =>
+interface IBurnerProviderOptions {
+  index?: number;
+  mnemonic?: string;
+  namespace?: string;
+  privateKey?: string;
+  provider?: JsonRpcProvider;
+  rpcUrl?: string;
+  getAccounts?: (cb: () => void) => void;
+  getPrivateKey?: (address: string, cb: () => void) => void;
+}
+const useUserProvider = (
+  injectedProvider: StaticJsonRpcProvider | undefined,
+  localProvider: StaticJsonRpcProvider | null,
+) =>
   useMemo(() => {
     if (injectedProvider) {
       // console.log("🦊 Using injected provider"); todo create dev environment with logging
@@ -29,7 +42,7 @@ const useUserProvider = (injectedProvider, localProvider) =>
     }
     if (!localProvider) return undefined;
 
-    const burnerConfig = {};
+    const burnerConfig: IBurnerProviderOptions = {};
 
     if (window.location.pathname) {
       if (window.location.pathname.indexOf("/pk") >= 0) {
