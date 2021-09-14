@@ -65,8 +65,7 @@ function getMainnetURI(): string {
 }
 
 function getArbitrumURI(): string {
-  // TODO: this function :)
-  return "";
+  return "https://arb-mainnet.g.alchemy.com/v2/qArKEu7I-QeBI1d6Y0BiL_XZOgBmQD2W";
 }
 
 /*
