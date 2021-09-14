@@ -1,8 +1,10 @@
-import { Backdrop, Fade, Grid, Link, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Backdrop, Fade, Grid, IconButton, Link, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import "./changenetwork.scss";
 import useEscape from "../../hooks/useEscape";
+import Button from "@material-ui/core/Button";
+import { switchChain } from "../../hooks/web3Context";
 
 function ChangeNetwork() {
   const history = useHistory();
@@ -10,6 +12,10 @@ function ChangeNetwork() {
   const handleClose = () => {
     history.goBack();
     history.push("/network");
+  };
+
+  const handleSwitchChain = id => {
+    return () => switchChain(id);
   };
 
   useEscape(() => {
@@ -32,6 +38,15 @@ function ChangeNetwork() {
                 </div>
 
                 <div />
+              </div>
+
+              <div className="network-list">
+                <Button variant="contained" color="primary" size="large" onClick={handleSwitchChain(1)}>
+                  <Typography>Ethereum</Typography>
+                </Button>
+                <Button variant="contained" color="primary" size="large" onClick={handleSwitchChain(42161)}>
+                  <Typography>Arbitrum</Typography>
+                </Button>
               </div>
             </Paper>
           </Fade>

@@ -104,6 +104,10 @@ export const useAddress = () => {
   return address;
 };
 
+export const switchChain = (id: number) => {
+  console.log("switching to " + id);
+};
+
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
