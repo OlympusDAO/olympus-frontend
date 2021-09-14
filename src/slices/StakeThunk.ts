@@ -114,6 +114,6 @@ export const changeStake = createAsyncThunk(
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
-    dispatch(getBalances({ address: address, networkID: networkID, provider: provider }));
+    dispatch(getBalances({ address, networkID, provider }));
   },
 );
