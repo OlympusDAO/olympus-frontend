@@ -64,6 +64,11 @@ function getMainnetURI(): string {
   return allURIs[randomIndex];
 }
 
+function getArbitrumURI(): string {
+  // TODO: this function :)
+  return "";
+}
+
 /*
   Types
 */
@@ -103,6 +108,7 @@ export const useAddress = () => {
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
+  const [chainName, setChainName] = useState("Ethereum");
   const [address, setAddress] = useState("");
 
   const [uri, setUri] = useState(getMainnetURI());
@@ -119,6 +125,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
             rpc: {
               1: getMainnetURI(),
               4: getTestnetURI(),
+              42161: getArbitrumURI(),
             },
           },
         },
@@ -161,9 +168,22 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const _checkNetwork = (otherChainID: number): Boolean => {
     if (chainID !== otherChainID) {
       console.warn("You are switching networks");
-      if (otherChainID === 1 || otherChainID === 4) {
+      if (otherChainID === 1 || otherChainID === 4 || otherChainID === 42161) {
         setChainID(otherChainID);
-        otherChainID === 1 ? setUri(getMainnetURI()) : setUri(getTestnetURI());
+        switch (otherChainID) {
+          case 1:
+            setUri(getMainnetURI());
+            setChainName("Ethereum");
+            break;
+          case 4:
+            setUri(getTestnetURI());
+            setChainName("Rinkeby Testnet");
+            break;
+          case 42161:
+            setUri(getArbitrumURI());
+            setChainName("Arbitrum");
+            break;
+        }
         return true;
       }
       return false;
@@ -211,8 +231,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal }),
-    [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal],
+    () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, chainName, web3Modal }),
+    [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, chainName, web3Modal],
   );
 
   useEffect(() => {
