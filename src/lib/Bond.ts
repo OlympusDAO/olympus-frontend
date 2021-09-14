@@ -8,6 +8,8 @@ import { addresses } from "src/constants";
 export enum NetworkID {
   Mainnet = 1,
   Testnet = 4,
+  Arbitrum = 42161,
+  ArbitrumTestnet = 421611,
 }
 
 export enum BondType {
@@ -23,6 +25,8 @@ export interface BondAddresses {
 export interface NetworkAddresses {
   [NetworkID.Mainnet]: BondAddresses;
   [NetworkID.Testnet]: BondAddresses;
+  [NetworkID.Arbitrum]: BondAddresses;
+  [NetworkID.ArbitrumTestnet]: BondAddresses;
 }
 
 interface BondOpts {
