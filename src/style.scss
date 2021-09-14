@@ -31,6 +31,14 @@ body {
   // -webkit-transform: translate3d(0, 0, 0);
 }
 
+.app * {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
 .MuiDrawer-paperAnchorDockedLeft {
   border-right: 0 !important;
 }
