@@ -484,4 +484,26 @@ export const NETWORKS = {
     faucet: "https://faucet.matic.network/",
     blockExplorer: "https://mumbai-explorer.matic.today/",
   },
+  arbitrum: {
+    name: "Arbitrum",
+    chainId: 42161,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+    blockExplorerUrls: ["https://explorer.arbitrum.io/#/"],
+  },
+  arbitrum_testnet: {
+    name: "Arbitrum Testnet",
+    chainId: 421611,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://rinkeby.arbitrum.io/rpc"],
+    blockExplorerUrls: ["https://rinkeby-explorer.arbitrum.io/#/"],
+  },
 };

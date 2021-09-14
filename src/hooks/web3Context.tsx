@@ -2,6 +2,7 @@ import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallb
 import Web3Modal from "web3modal";
 import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { NETWORK } from "../constants";
 
 // NOTE(zx): Want to move away from infura. Will probably remove these.
 const INFURA_ID_LIST = [
@@ -104,10 +105,6 @@ export const useAddress = () => {
   return address;
 };
 
-export const switchChain = (id: number) => {
-  console.log("switching to " + id);
-};
-
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [chainID, setChainID] = useState(1);
@@ -194,6 +191,31 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     return true;
   };
 
+  const switchChain = async (id: number) => {
+    const hexString = "0x" + id.toString(16);
+    try {
+      await provider.send("wallet_switchEthereumChain", [{ chainId: hexString }]);
+    } catch (e) {
+      // If the chain has not been added to the user's wallet
+      if (e.code === 4902) {
+        try {
+          const params = [
+            {
+              chainId: hexString,
+              chainName: NETWORK(id)["name"],
+              nativeCurrency: NETWORK(id)["nativeCurrency"],
+              rpcUrls: NETWORK(id)["rpcUrls"],
+              blockExplorerUrls: NETWORK(id)["blockExplorerUrls"],
+            },
+          ];
+          await provider.send("wallet_addEthereumChain", params);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+  };
+
   // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
     const rawProvider = await web3Modal.connect();
@@ -234,8 +256,19 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, chainName, web3Modal }),
-    [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, chainName, web3Modal],
+    () => ({
+      connect,
+      disconnect,
+      switchChain,
+      hasCachedProvider,
+      provider,
+      connected,
+      address,
+      chainID,
+      chainName,
+      web3Modal,
+    }),
+    [connect, disconnect, switchChain, hasCachedProvider, provider, connected, address, chainID, chainName, web3Modal],
   );
 
   useEffect(() => {

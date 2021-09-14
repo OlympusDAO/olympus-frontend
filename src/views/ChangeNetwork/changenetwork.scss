@@ -16,7 +16,7 @@
     }
     .ohm-modal {
       max-width: 688px;
-      min-height: 605px;
+      min-height: 405px;
     }
   }
 
@@ -30,7 +30,7 @@
     }
     .ohm-modal {
       max-width: 688px;
-      min-height: 605px;
+      min-height: 405px;
       opacity: .9
     }
   }
@@ -45,6 +45,13 @@
     .change-network-header-name {
       text-align: center;
     }
+  }
+
+  .network-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
   }
 }
 
