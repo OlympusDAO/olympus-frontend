@@ -26,6 +26,7 @@ body {
   background-size: cover;
   font-family: "Square";
   overflow: hidden;
+  transition: all ease 0.33ms;
   // transform: translate3d(0, 0, 0);
   // -webkit-transform: translate3d(0, 0, 0);
 }
@@ -61,6 +62,16 @@ body {
     justify-content: space-between;
     flex-direction: row;
     margin: 12px 0px;
+  }
+
+  .data-row-centered {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    margin: 12px 0px;
+    .marginedBtn {
+      margin: 1rem;
+    }
   }
 }
 

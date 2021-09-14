@@ -1,17 +1,29 @@
-// import { OhmDataLoading } from '../../components/Loading/OhmDataLoading'
-import { Box, CircularProgress, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
+import { Box, Button, CircularProgress, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { Skeleton } from "@material-ui/lab";
 
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useWeb3Context } from "../../hooks";
+import { poolTogetherUILinks } from "../../helpers/33Together";
 
 export const PoolInfo = props => {
-  const { address } = useWeb3Context();
+  const { address, chainID } = useWeb3Context();
 
-  if (props.loading) {
-    return <CircularProgress />;
-  }
+  const isAppLoading = useSelector(state => state.app.loading ?? true);
+
+  const creditMaturationInDays = useSelector(state => {
+    return state.app.pool && parseFloat(state.app.pool.creditMaturationInDays);
+  });
+
+  const creditLimitPercentage = useSelector(state => {
+    return state.app.pool && parseFloat(state.app.pool.creditLimitPercentage);
+  });
+
+  // if (props.loading) {
+  //   return <CircularProgress />;
+  // }
 
   // TODO: add user pool data rows
   return (
@@ -26,15 +38,22 @@ export const PoolInfo = props => {
             <Box display="flex" flexDirection="column" className="user-pool-data">
               <div className="data-row">
                 <Typography>Your deposits</Typography>
-                <Typography>{props.poolBalance}</Typography>
+                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.poolBalance}</Typography>
               </div>
               <div className="data-row">
                 <Typography>Your wallet balance</Typography>
-                <Typography>{props.sohmBalance}</Typography>
+                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.sohmBalance}</Typography>
               </div>
               <div className="data-row">
                 <Typography>Your odds</Typography>
-                <Typography>1 in {props.yourOdds}</Typography>
+                <Typography>
+                  1 in{" "}
+                  {props.isAccountLoading || props.graphLoading ? (
+                    <Skeleton width={50} style={{ display: "inline-block" }} />
+                  ) : (
+                    props.yourOdds
+                  )}
+                </Typography>
               </div>
             </Box>
             <Divider color="secondary" />
@@ -44,15 +63,19 @@ export const PoolInfo = props => {
         <Box display="flex" flexDirection="column" className="pool-data">
           <div className="data-row">
             <Typography>Winners / prize period</Typography>
-            <Typography>{props.winners}</Typography>
+            <Typography>{props.graphLoading ? <Skeleton width={100} /> : props.winners}</Typography>
           </div>
           <div className="data-row">
             <Typography>Total Deposits</Typography>
-            <Typography>{props.totalDeposits.toLocaleString()} sOHM</Typography>
+            <Typography>
+              {props.graphLoading ? <Skeleton width={100} /> : props.totalDeposits.toLocaleString()} sOHM
+            </Typography>
           </div>
           <div className="data-row">
             <Typography>Total Sponsorship</Typography>
-            <Typography>{props.totalSponsorship.toLocaleString()} sOHM</Typography>
+            <Typography>
+              {props.graphLoading ? <Skeleton width={100} /> : props.totalSponsorship.toLocaleString()} sOHM
+            </Typography>
           </div>
           <div className="data-row">
             <Typography>Yield Source</Typography>
@@ -67,14 +90,49 @@ export const PoolInfo = props => {
               </Link>
             </Box>
           </div>
+          <Divider color="secondary" />
+          <div className="data-row">
+            <Typography>Early Exit Fee</Typography>
+            <Typography>{isAppLoading ? <Skeleton width={100} /> : `${creditLimitPercentage}%`}</Typography>
+          </div>
+          <div className="data-row">
+            <Typography>Exit Fee Decay Time</Typography>
+            <Typography>
+              {isAppLoading ? (
+                <Skeleton width={100} />
+              ) : (
+                `${creditMaturationInDays} day${creditMaturationInDays === 1 ? "" : "s"}`
+              )}
+            </Typography>
+          </div>
         </Box>
+        <Divider color="secondary" />
+
+        <div className="data-row-centered">
+          <Typography>Something not right, fren? Check Pool Together's UI below.</Typography>
+        </div>
+        <div className="data-row-centered">
+          <div className="marginedBtn">
+            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(chainID)[0]} target="_blank">
+              <Typography variant="body1">sOHM Prize Pool&nbsp;</Typography>
+              <SvgIcon component={ArrowUp} color="primary" />
+            </Button>
+          </div>
+          <div className="marginedBtn">
+            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(chainID)[1]} target="_blank">
+              <Typography variant="body1">sOHM Pool Details&nbsp;</Typography>
+              <SvgIcon component={ArrowUp} color="primary" />
+            </Button>
+          </div>
+        </div>
       </Paper>
     </Zoom>
   );
 };
 
 PoolInfo.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  graphLoading: PropTypes.bool.isRequired,
+  isAccountLoading: PropTypes.bool.isRequired,
   poolBalance: PropTypes.number,
   sohmBalance: PropTypes.number,
   yourOdds: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Container, Paper, Tab, Tabs, Zoom } from "@material-ui/core";
+import { Paper, Tab, Tabs, Zoom } from "@material-ui/core";
+
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { PoolDeposit } from "./PoolDeposit";
@@ -12,6 +13,8 @@ import { POOL_GRAPH_URLS } from "../../constants";
 import { useWeb3Context } from "../../hooks";
 import { apolloExt } from "../../lib/apolloClient";
 import { poolDataQuery } from "./poolData.js";
+import { calculateOdds } from "../../helpers/33Together";
+import { trim } from "../../helpers/index.js";
 
 function a11yProps(index) {
   return {
@@ -33,11 +36,13 @@ const PoolTogether = () => {
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
   const [poolData, setPoolData] = useState(null);
   const [poolDataError, setPoolDataError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [graphLoading, setGraphLoading] = useState(true);
   const [winners, setWinners] = useState(0);
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
   const [yourOdds, setYourOdds] = useState(0);
+
+  const isAccountLoading = useSelector(state => state.account.loading ?? true);
 
   const sohmBalance = useSelector(state => {
     return state.account.balances && parseFloat(state.account.balances.sohm);
@@ -46,16 +51,6 @@ const PoolTogether = () => {
   const poolBalance = useSelector(state => {
     return state.account.balances && parseFloat(state.account.balances.pool);
   });
-
-  const calculateOdds = poolBalance => {
-    let userOdds;
-    if (poolBalance === undefined || poolBalance === 0 || parseInt(poolBalance) === 0) {
-      userOdds = "ngmi";
-    } else {
-      userOdds = 1 / (1 - Math.pow((totalDeposits - poolBalance) / totalDeposits, winners));
-    }
-    setYourOdds(userOdds);
-  };
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
@@ -94,19 +89,19 @@ const PoolTogether = () => {
         setTotalSponsorship(poolTotalSponsorship);
 
         setPoolData(poolData.data);
-        setLoading(false);
+        setGraphLoading(false);
       })
       .catch(err => setPoolDataError(err));
   }, [graphUrl]);
 
   useEffect(() => {
-    calculateOdds(poolBalance);
+    let userOdds = calculateOdds(poolBalance, totalDeposits, winners);
+    setYourOdds(userOdds);
   }, [poolData, poolBalance]);
 
   return (
     <div id="pool-together-view">
       <PoolPrize />
-
       <Zoom in={true}>
         <Paper className="ohm-card">
           <CardHeader title="3, 3 Together" />
@@ -126,16 +121,17 @@ const PoolTogether = () => {
             <PoolDeposit />
           </TabPanel>
           <TabPanel value={view} index={1}>
-            <PoolWithdraw />
+            <PoolWithdraw totalPoolDeposits={totalDeposits} winners={winners} />
           </TabPanel>
         </Paper>
       </Zoom>
 
       <PoolInfo
-        loading={loading}
-        poolBalance={poolBalance}
-        sohmBalance={sohmBalance}
-        yourOdds={yourOdds}
+        graphLoading={graphLoading}
+        isAccountLoading={isAccountLoading}
+        poolBalance={trim(poolBalance, 4)}
+        sohmBalance={trim(sohmBalance, 4)}
+        yourOdds={trim(yourOdds, 0)}
         winners={winners}
         totalDeposits={totalDeposits}
         totalSponsorship={totalSponsorship}
