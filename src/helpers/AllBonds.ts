@@ -162,13 +162,12 @@ export const ohm_frax = new LPBond({
     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
 });
 
-export const ohm_weth = new LPBond({
+export const ohm_weth = new CustomBond({
   name: "ohm_weth_lp",
   displayName: "OHM-WETH LP",
   bondToken: "WETH",
   bondIconSvg: wETHImg,
   bondContractABI: FraxOhmBondContract, //replace
-  reserveContract: ReserveOhmFraxContract, //replace
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7", //replace
@@ -187,8 +186,14 @@ export const ohm_weth = new LPBond({
       reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
     },
   },
-  lpUrl:
-    "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899", // replace?
+  customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
+    const ohmwethBondContract = this.getContractForBond(networkID, provider);
+    let ohmwethPrice = await ohmwethBondContract.assetPrice();
+    ohmwethPrice = ohmwethPrice / Math.pow(10, 18);
+    const token = this.getContractForReserve(networkID, provider);
+    let ohmwethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    return (ohmwethAmount / Math.pow(10, 18)) * ohmwethPrice;
+  }, // @unbasky this needs review, not sure as it's simply a copy of previously implemented CustomBond;
 });
 
 export const lusd = new StableBond({
