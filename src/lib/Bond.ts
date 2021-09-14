@@ -25,8 +25,8 @@ export interface BondAddresses {
 export interface NetworkAddresses {
   [NetworkID.Mainnet]: BondAddresses;
   [NetworkID.Testnet]: BondAddresses;
-  [NetworkID.Arbitrum]: BondAddresses;
-  [NetworkID.ArbitrumTestnet]: BondAddresses;
+  [NetworkID.Arbitrum]: BondAddresses; //Should we leave it like this and make so every object has this prop, even if no Arbitrum interaction is needed ? Or should we find a cleaner way to set this up, so this isn't mandatory for every object ?
+  [NetworkID.ArbitrumTestnet]: BondAddresses; //Should we leave it like this and make so every object has this prop, even if no Arbitrum interaction is needed ? Or should we find a cleaner way to set this up, so this isn't mandatory for every object ?
 }
 
 interface BondOpts {
