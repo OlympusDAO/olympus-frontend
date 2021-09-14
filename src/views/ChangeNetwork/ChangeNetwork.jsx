@@ -4,9 +4,10 @@ import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import "./changenetwork.scss";
 import useEscape from "../../hooks/useEscape";
 import Button from "@material-ui/core/Button";
-import { switchChain } from "../../hooks/web3Context";
+import { useWeb3Context } from "../../hooks/web3Context";
 
 function ChangeNetwork() {
+  const { switchChain } = useWeb3Context();
   const history = useHistory();
 
   const handleClose = () => {
@@ -15,7 +16,9 @@ function ChangeNetwork() {
   };
 
   const handleSwitchChain = id => {
-    return () => switchChain(id);
+    return () => {
+      switchChain(id);
+    };
   };
 
   useEscape(() => {
