@@ -1,4 +1,4 @@
-import { StableBond, ArbitrumBond, LPBond, NetworkID, ArbitrumNetworkID, CustomBond } from "src/lib/Bond";
+import { StableBond, LPBond, NetworkID, CustomBond } from "src/lib/Bond";
 import { addresses } from "src/constants";
 
 import DaiImg from "src/assets/tokens/DAI.svg";
@@ -32,6 +32,14 @@ export const dai = new StableBond({
       bondAddress: "0xDea5668E815dAF058e3ecB30F645b04ad26374Cf",
       reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C",
     },
+    [NetworkID.Arbitrum]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
+    [NetworkID.ArbitrumTestnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
   },
 });
 
@@ -50,6 +58,14 @@ export const frax = new StableBond({
       bondAddress: "0xF651283543fB9D61A91f318b78385d187D300738",
       reserveAddress: "0x2F7249cb599139e560f0c81c269Ab9b04799E453",
     },
+    [NetworkID.Arbitrum]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
+    [NetworkID.ArbitrumTestnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
   },
 });
 
@@ -67,6 +83,14 @@ export const eth = new CustomBond({
     [NetworkID.Testnet]: {
       bondAddress: "0xca7b90f8158A4FAA606952c023596EE6d322bcf0",
       reserveAddress: "0xc778417e063141139fce010982780140aa0cd5ab",
+    },
+    [NetworkID.Arbitrum]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
+    [NetworkID.ArbitrumTestnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
     },
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
@@ -95,7 +119,16 @@ export const ohm_dai = new LPBond({
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
+    [NetworkID.Arbitrum]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
+    [NetworkID.ArbitrumTestnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
   },
+
   lpUrl:
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
 });
@@ -116,41 +149,47 @@ export const ohm_frax = new LPBond({
       bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
       reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
     },
+    [NetworkID.Arbitrum]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
+    [NetworkID.ArbitrumTestnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
   },
   lpUrl:
     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
 });
 
-export const ohm_weth = new ArbitrumBond(
-  {
-    name: "ohm_weth_lp",
-    displayName: "OHM-WETH LP",
-    bondToken: "WETH",
-    bondIconSvg: wETHImg,
-    bondContractABI: FraxOhmBondContract, //replace
-    networkAddrs: {
-      //need to find a way to make networkAddrs not necessary for ArbitrumBond, as we use the ones in second argument.
-      [NetworkID.Mainnet]: {
-        bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7", //replace
-        reserveAddress: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877", //replace
-      },
-      [NetworkID.Testnet]: {
-        bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
-        reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
-      },
+export const ohm_weth = new LPBond({
+  name: "ohm_weth_lp",
+  displayName: "OHM-WETH LP",
+  bondToken: "WETH",
+  bondIconSvg: wETHImg,
+  bondContractABI: FraxOhmBondContract, //replace
+  reserveContract: ReserveOhmFraxContract, //replace
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7", //replace
+      reserveAddress: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877", //replace
     },
-  },
-  {
-    [ArbitrumNetworkID.Arbitrum]: {
+    [NetworkID.Testnet]: {
       bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
       reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
     },
-    [ArbitrumNetworkID.ArbitrumTestnet]: {
+    [NetworkID.Arbitrum]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
+    [NetworkID.ArbitrumTestnet]: {
       bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
       reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
     },
   },
-);
+  lpUrl:
+    "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899", // replace?
+});
 
 export const lusd = new StableBond({
   name: "lusd",
@@ -166,6 +205,14 @@ export const lusd = new StableBond({
     [NetworkID.Testnet]: {
       bondAddress: "0xF651283543fB9D61A91f318b78385d187D300738", //replace
       reserveAddress: "0x2F7249cb599139e560f0c81c269Ab9b04799E453", //replace
+    },
+    [NetworkID.Arbitrum]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
+    [NetworkID.ArbitrumTestnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
     },
   },
 });
