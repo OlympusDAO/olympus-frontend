@@ -11,13 +11,14 @@ export class EnvHelper {
   static env = process.env;
   static alchemyTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_TESTNET_ALCHEMY}`;
 
+  static whitespaceRegex = /\s+/;
   /**
    * @returns Array of Alchemy API Keys
    */
   static getAlchemyAPIKeyList() {
     var ALCHEMY_ID_LIST: any[];
     if (EnvHelper.env.NODE_ENV === "production" && EnvHelper.env.REACT_APP_ALCHEMY_IDS) {
-      ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(" ");
+      ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
     } else {
       // this is the ethers common API key, suitable for testing, not prod
       ALCHEMY_ID_LIST = ["_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC"];
@@ -31,7 +32,7 @@ export class EnvHelper {
   static getInfuraIdList() {
     var INFURA_ID_LIST: any[];
     if (EnvHelper.env.REACT_APP_INFURA_IDS) {
-      INFURA_ID_LIST = EnvHelper.env.REACT_APP_INFURA_IDS.split(" ");
+      INFURA_ID_LIST = EnvHelper.env.REACT_APP_INFURA_IDS.split(new RegExp(EnvHelper.whitespaceRegex));
     } else {
       INFURA_ID_LIST = [];
     }
