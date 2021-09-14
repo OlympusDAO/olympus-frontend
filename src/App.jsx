@@ -28,6 +28,7 @@ import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
 import "./style.scss";
+import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -235,6 +236,10 @@ function App() {
                 );
               })}
               <ChooseBond />
+            </Route>
+
+            <Route path="/network">
+              <ChangeNetwork />
             </Route>
 
             <Route component={NotFound} />

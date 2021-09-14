@@ -1,0 +1,57 @@
+#change-network-view {
+  position: absolute !important;
+  width: 100%;
+  height: 100%;
+  z-index: 69;
+
+  @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    .MuiBackdrop-root {
+      background: rgba(100, 100, 100, 0.1) !important;
+      backdrop-filter: blur(33px) !important;
+      -webkit-backdrop-filter: blur(33px) !important;
+      .ohm-card {
+        opacity: 1 !important;
+        height: auto;
+      }
+    }
+    .ohm-modal {
+      max-width: 688px;
+      min-height: 605px;
+    }
+  }
+
+  /* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+  @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .MuiBackdrop-root {
+      background: rgba(100, 100, 100, 0.95);
+      .ohm-card {
+        height: auto;
+      }
+    }
+    .ohm-modal {
+      max-width: 688px;
+      min-height: 605px;
+      opacity: .9
+    }
+  }
+  .ohm-card {
+    max-width: 803px;
+  }
+
+  .change-network-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .change-network-header-name {
+      text-align: center;
+    }
+  }
+}
+
+.mobile #change-network-view {
+  .ohm-card {
+    .card-content {
+      justify-content: space-evenly !important;
+    }
+  }
+}
