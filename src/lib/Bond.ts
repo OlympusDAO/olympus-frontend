@@ -8,6 +8,9 @@ import { addresses } from "src/constants";
 export enum NetworkID {
   Mainnet = 1,
   Testnet = 4,
+}
+
+export enum ArbitrumNetworkID {
   Arbitrum = 42161,
   ArbitrumTestnet = 421611,
 }
@@ -25,8 +28,11 @@ export interface BondAddresses {
 export interface NetworkAddresses {
   [NetworkID.Mainnet]: BondAddresses;
   [NetworkID.Testnet]: BondAddresses;
-  [NetworkID.Arbitrum]: BondAddresses; //Should we leave it like this and make so every object has this prop, even if no Arbitrum interaction is needed ? Or should we find a cleaner way to set this up, so this isn't mandatory for every object ?
-  [NetworkID.ArbitrumTestnet]: BondAddresses; //Should we leave it like this and make so every object has this prop, even if no Arbitrum interaction is needed ? Or should we find a cleaner way to set this up, so this isn't mandatory for every object ?
+}
+
+export interface ArbitrumNetworkAddresses {
+  [ArbitrumNetworkID.Arbitrum]: BondAddresses;
+  [ArbitrumNetworkID.ArbitrumTestnet]: BondAddresses;
 }
 
 interface BondOpts {
@@ -128,6 +134,29 @@ export class StableBond extends Bond {
 
     // For stable bonds the display units are the same as the actual token
     this.displayUnits = stableBondOpts.displayName;
+    this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
+  }
+
+  async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
+    let token = this.getContractForReserve(networkID, provider);
+    let tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    return tokenAmount / Math.pow(10, 18);
+  }
+}
+
+// ArbitrumBond Class
+export class ArbitrumBond extends Bond {
+  readonly isLP = false;
+  readonly reserveContract: ethers.ContractInterface;
+  readonly displayUnits: string;
+  readonly arbitrumNetworkAddresses: ArbitrumNetworkAddresses;
+
+  constructor(stableBondOpts: StableBondOpts, arbitrumNetworkAddrs: ArbitrumNetworkAddresses) {
+    super(BondType.StableAsset, stableBondOpts);
+
+    // For stable bonds the display units are the same as the actual token
+    this.displayUnits = stableBondOpts.displayName;
+    this.arbitrumNetworkAddresses = arbitrumNetworkAddrs;
     this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
   }
 
