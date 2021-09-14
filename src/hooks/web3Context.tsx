@@ -1,6 +1,6 @@
 import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
 import Web3Modal from "web3modal";
-import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { EnvHelper } from "../helpers/Environment";
 
@@ -16,10 +16,12 @@ function getTestnetURI() {
 }
 
 const ALCHEMY_ID_LIST = EnvHelper.getAlchemyAPIKeyList();
+const SELF_HOSTED_LIST = EnvHelper.getSelfHostedSockets();
 
 const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
 const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-const ALL_URIs = [..._alchemyURIs];
+const _selfHostedURIs = SELF_HOSTED_LIST;
+const ALL_URIs = [..._alchemyURIs, ..._selfHostedURIs];
 
 /**
  * "intelligently" loadbalances production API Keys
@@ -77,7 +79,16 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [address, setAddress] = useState("");
 
   const [uri, setUri] = useState(getMainnetURI());
-  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
+
+  // if websocket we need to change providerType
+  const providerType = () => {
+    if (uri.includes("ws://")) {
+      return new WebSocketProvider(uri);
+    } else {
+      return new StaticJsonRpcProvider(uri);
+    }
+  };
+  const [provider, setProvider] = useState<JsonRpcProvider>(providerType);
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({

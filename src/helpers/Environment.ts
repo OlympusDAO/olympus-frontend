@@ -17,7 +17,7 @@ export class EnvHelper {
    */
   static getAlchemyAPIKeyList() {
     var ALCHEMY_ID_LIST: any[];
-    if (EnvHelper.env.NODE_ENV === "production" && EnvHelper.env.REACT_APP_ALCHEMY_IDS) {
+    if (EnvHelper.env.NODE_ENV !== "development" && EnvHelper.env.REACT_APP_ALCHEMY_IDS) {
       ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
     } else {
       // this is the ethers common API key, suitable for testing, not prod
@@ -37,5 +37,18 @@ export class EnvHelper {
       INFURA_ID_LIST = [];
     }
     return INFURA_ID_LIST;
+  }
+
+  /**
+   * @returns {Array} Array of websocket addresses
+   */
+  static getSelfHostedSockets() {
+    var WS_LIST: any[];
+    if (EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS) {
+      WS_LIST = EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS.split(new RegExp(EnvHelper.whitespaceRegex));
+    } else {
+      WS_LIST = [];
+    }
+    return WS_LIST;
   }
 }
