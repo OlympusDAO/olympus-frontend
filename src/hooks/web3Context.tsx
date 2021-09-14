@@ -2,6 +2,7 @@ import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallb
 import Web3Modal from "web3modal";
 import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { NETWORK } from "../constants";
 
 // NOTE(zx): Want to move away from infura. Will probably remove these.
 const INFURA_ID_LIST = [
@@ -195,7 +196,23 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     try {
       await provider.send("wallet_switchEthereumChain", [{ chainId: hexString }]);
     } catch (e) {
-      console.log(e);
+      // If the chain has not been added to the user's wallet
+      if (e.code === 4902) {
+        try {
+          const params = [
+            {
+              chainId: hexString,
+              chainName: NETWORK(id)["name"],
+              nativeCurrency: NETWORK(id)["nativeCurrency"],
+              rpcUrls: NETWORK(id)["rpcUrls"],
+              blockExplorerUrls: NETWORK(id)["blockExplorerUrls"],
+            },
+          ];
+          await provider.send("wallet_addEthereumChain", params);
+        } catch (e) {
+          console.log(e);
+        }
+      }
     }
   };
 
