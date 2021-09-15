@@ -47,11 +47,15 @@
     }
   }
 
-  .network-list {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+  .grid-container {
+    justify-content: center;
     align-items: center;
+    height: 300px;
+    .grid-button {
+      align-items: center;
+      max-height: 100px;
+      height: 100px;
+    }
   }
 }
 

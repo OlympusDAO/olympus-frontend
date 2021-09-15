@@ -45,20 +45,37 @@ function ChangeNetwork() {
                 <div />
               </div>
 
-              <Typography variant="h6">You are currently connected to the {GetCurrentChain()} network.</Typography>
-
-              <Box className="network-list">
-                <Box p={1}>
-                  <Button variant="contained" color="primary" size="large" fullWidth onClick={handleSwitchChain(1)}>
+              <Grid container spacing={2} className="grid-container">
+                <Grid item xs={12} justifyContent="center">
+                  <Typography variant="h6" align="center">
+                    You are currently connected to the {GetCurrentChain()} network.
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <Button
+                    className="grid-button"
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    fullWidth
+                    onClick={handleSwitchChain(1)}
+                  >
                     <Typography>Ethereum</Typography>
                   </Button>
-                </Box>
-                <Box p={2}>
-                  <Button variant="contained" color="primary" size="large" fullWidth onClick={handleSwitchChain(42161)}>
+                </Grid>
+                <Grid item xs>
+                  <Button
+                    className="grid-button"
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    fullWidth
+                    onClick={handleSwitchChain(42161)}
+                  >
                     <Typography>Arbitrum</Typography>
                   </Button>
-                </Box>
-              </Box>
+                </Grid>
+              </Grid>
             </Paper>
           </Fade>
         </Backdrop>
