@@ -52,9 +52,16 @@
     align-items: center;
     height: 300px;
     .grid-button {
+      justify-content: start;
       align-items: center;
-      max-height: 100px;
-      height: 100px;
+      max-height: 102px;
+      height: 102px;
+      padding: 0px;
+      padding-top: 8px;
+      .grid-button-content {
+        justify-content: start;
+        align-items: center;
+      }
     }
   }
 }

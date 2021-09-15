@@ -6,6 +6,8 @@ import useEscape from "../../hooks/useEscape";
 import Button from "@material-ui/core/Button";
 import { useWeb3Context } from "../../hooks/web3Context";
 import { useEffect, useState } from "react";
+import ethereum from "../../assets/ethereum.jpg";
+import arbitrum from "../../assets/arbitrum.jpg";
 
 function ChangeNetwork() {
   const { switchChain, chainName } = useWeb3Context();
@@ -62,7 +64,7 @@ function ChangeNetwork() {
                     {message}
                   </Typography>
                 </Grid>
-                <Grid item xs>
+                <Grid item sm={6} xs={12}>
                   <Button
                     className="grid-button"
                     variant="contained"
@@ -71,10 +73,15 @@ function ChangeNetwork() {
                     fullWidth
                     onClick={handleSwitchChain(1)}
                   >
-                    <Typography>Ethereum</Typography>
+                    <Grid item xs={3} className="grid-button-content">
+                      <img src={ethereum} alt="Ethereum Logo" />
+                    </Grid>
+                    <Grid item xs={9} className="grid-button-content">
+                      <Typography>Ethereum</Typography>
+                    </Grid>
                   </Button>
                 </Grid>
-                <Grid item xs>
+                <Grid item sm={6} xs={12}>
                   <Button
                     className="grid-button"
                     variant="contained"
@@ -83,7 +90,12 @@ function ChangeNetwork() {
                     fullWidth
                     onClick={handleSwitchChain(42161)}
                   >
-                    <Typography>Arbitrum</Typography>
+                    <Grid item xs={3} className="grid-button-content">
+                      <img src={arbitrum} alt="Arbitrum Logo" />
+                    </Grid>
+                    <Grid item xs={9} className="grid-button-content">
+                      <Typography>Arbitrum</Typography>
+                    </Grid>
                   </Button>
                 </Grid>
               </Grid>
