@@ -1,17 +1,9 @@
 import { Button, Link, Typography } from "@material-ui/core";
-import { useWeb3Context } from "../../hooks/web3Context";
-import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Box from "@material-ui/core/Box";
+import GetCurrentChain from "../../hooks/GetCurrentChain";
 
 function NetworkMenu() {
-  const { chainName } = useWeb3Context();
-  const [name, setName] = useState("");
-
-  useEffect(() => {
-    setName(chainName);
-  }, [chainName]);
-
   return (
     <Box component="div">
       <Button
@@ -23,7 +15,7 @@ function NetworkMenu() {
         component={NavLink}
         to="/network"
       >
-        <Typography>{name}</Typography>
+        <Typography>{GetCurrentChain()}</Typography>
       </Button>
     </Box>
   );

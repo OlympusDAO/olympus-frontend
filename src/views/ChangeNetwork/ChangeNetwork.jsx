@@ -5,6 +5,7 @@ import "./changenetwork.scss";
 import useEscape from "../../hooks/useEscape";
 import Button from "@material-ui/core/Button";
 import { useWeb3Context } from "../../hooks/web3Context";
+import GetCurrentChain from "../../hooks/GetCurrentChain";
 
 function ChangeNetwork() {
   const { switchChain } = useWeb3Context();
@@ -43,6 +44,8 @@ function ChangeNetwork() {
 
                 <div />
               </div>
+
+              <Typography variant="h6">You are currently connected to the {GetCurrentChain()} network.</Typography>
 
               <Box className="network-list">
                 <Box p={1}>
