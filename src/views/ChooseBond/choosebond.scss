@@ -106,29 +106,12 @@
     }
   }
 
-  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft.bond-name-cell {
+  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
     justify-content: space-between;
     display: flex;
-    div.ohm-pairs {
-      width: 33%;
-      vertical-align: middle !important;
-      align-items: center !important;
-      justify-content: center !important;
-      margin-bottom: 0 !important;
-      .ohm-pairs div.bond-name p,
-      .ohm-pairs svg {
-        align-self: center !important;
-        line-height: 100% !important;
-        font-weight: bold !important;
-        margin-bottom: 0em !important;
-        padding: 0 !important;
-        font-family: inherit;
-        vertical-align: text-top !important;
-      }
-    }
     div.bond-name {
       width: 60%;
-      margin-left: 8px !important;
+      margin-left: 5px !important;
       display: flex;
       flex-direction: column;
       justify-content: center;

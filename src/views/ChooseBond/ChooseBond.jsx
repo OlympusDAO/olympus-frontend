@@ -21,6 +21,7 @@ import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import ClaimBonds from "./ClaimBonds";
+import _ from "lodash";
 
 function ChooseBond() {
   const { bonds } = useBonds();
@@ -45,7 +46,7 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
-      {!isAccountLoading && accountBonds && <ClaimBonds bonds={accountBonds} />}
+      {!isAccountLoading && !_.isEmpty(accountBonds) && <ClaimBonds bonds={accountBonds} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">
