@@ -5,11 +5,22 @@ import "./changenetwork.scss";
 import useEscape from "../../hooks/useEscape";
 import Button from "@material-ui/core/Button";
 import { useWeb3Context } from "../../hooks/web3Context";
-import GetCurrentChain from "../../hooks/GetCurrentChain";
+import { useEffect, useState } from "react";
 
 function ChangeNetwork() {
-  const { switchChain } = useWeb3Context();
+  const { switchChain, chainName } = useWeb3Context();
   const history = useHistory();
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    let newMessage = "";
+    if (chainName !== "Unsupported Chain!") {
+      newMessage = "You are currently connected to the " + chainName + " network.";
+    } else {
+      newMessage = "You are connected to an unsupported network. Please select a chain from the list below.";
+    }
+    setMessage(newMessage);
+  }, [chainName]);
 
   const handleClose = () => {
     history.goBack();
@@ -48,7 +59,7 @@ function ChangeNetwork() {
               <Grid container spacing={2} className="grid-container">
                 <Grid item xs={12} justifyContent="center">
                   <Typography variant="h6" align="center">
-                    You are currently connected to the {GetCurrentChain()} network.
+                    {message}
                   </Typography>
                 </Grid>
                 <Grid item xs>

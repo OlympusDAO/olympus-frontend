@@ -69,6 +69,10 @@ function getArbitrumURI(): string {
   return "https://arb-mainnet.g.alchemy.com/v2/qArKEu7I-QeBI1d6Y0BiL_XZOgBmQD2W";
 }
 
+function getArbitrumTestnetURI(): string {
+  return "";
+}
+
 /*
   Types
 */
@@ -126,6 +130,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
               1: getMainnetURI(),
               4: getTestnetURI(),
               42161: getArbitrumURI(),
+              421611: getArbitrumTestnetURI(),
             },
           },
         },
@@ -183,6 +188,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
             setUri(getArbitrumURI());
             setChainName("Arbitrum");
             break;
+          case 42161:
+            setUri(getArbitrumTestnetURI());
+            setChainName("Arbitrum Testnet");
+            break;
         }
         return true;
       }
@@ -232,6 +241,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
       console.error("Wrong network, please switch to mainnet");
+      setChainName("Unsupported Chain!");
       return;
     }
     // Save everything after we've validated the right network.
