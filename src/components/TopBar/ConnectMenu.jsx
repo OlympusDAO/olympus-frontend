@@ -40,7 +40,16 @@ function ConnectMenu({ theme }) {
     "pending-txn-container" + (isHovering && pendingTransactions.length > 0 ? " hovered-button" : "");
 
   const getEtherscanUrl = txnHash => {
-    return chainID === 4 ? "https://rinkeby.etherscan.io/tx/" + txnHash : "https://etherscan.io/tx/" + txnHash;
+    switch (chainID) {
+      case 1:
+        return "https://etherscan.io/tx/" + txnHash;
+      case 4:
+        return "https://rinkeby.etherscan.io/tx/" + txnHash;
+      case 42161:
+        return "https://explorer.arbitrum.io/tx/" + txnHash;
+      case 421611:
+        return "https://rinkeby-explorer.arbitrum.io/tx/" + txnHash;
+    }
   };
 
   useEffect(() => {
