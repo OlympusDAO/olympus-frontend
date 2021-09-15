@@ -10,6 +10,7 @@ import {
   OutlinedInput,
   InputAdornment,
   Link,
+  useMediaQuery,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import ConnectButton from "../../components/ConnectButton.jsx";
@@ -29,6 +30,7 @@ export const PoolWithdraw = props => {
   const [exitFee, setExitFee] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
   const isAppLoading = useSelector(state => state.app.loading);
+  const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const poolBalance = useSelector(state => {
     return state.account.balances && parseFloat(state.account.balances.pool);
@@ -104,7 +106,7 @@ export const PoolWithdraw = props => {
         <ConnectButton />
       ) : (
         <Box>
-          <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
             <FormControl className="ohm-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
               <OutlinedInput

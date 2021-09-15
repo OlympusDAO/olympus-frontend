@@ -139,36 +139,38 @@ export const PoolPrize = () => {
           {/* Timer won't show when poolIsLocked */}
           {poolIsLocked && (
             <Box margin={2} display="flex" style={{ flexDirection: "column", gap: 4, justifyContent: "center" }}>
-              <Typography variant="h6" color="textSecondary">
-                Click 'Complete Award' to distribute and start a new prize period
-              </Typography>
               <Button
                 id="pool-complete-award-button"
+                className="pool-complete-award-button"
                 variant="contained"
                 color="primary"
                 onClick={handleCompleteAward}
-                style={{ alignSelf: "center" }}
+                style={{ alignSelf: "center", margin: "5px" }}
               >
                 Complete Award
               </Button>
+              <Typography variant="body" color="textSecondary" padding={2}>
+                Click 'Complete Award' to distribute and start a new prize period
+              </Typography>
             </Box>
           )}
 
           {/* Timer still shows (0s) for poolIsLocked === false */}
           {poolIsLocked === false && showAwardStart && (
             <Box margin={2} display="flex" style={{ flexDirection: "column", gap: 4, justifyContent: "center" }}>
-              <Typography variant="h6" color="textSecondary">
-                Award period has finished, click 'Start Award' to begin distribution
-              </Typography>
               <Button
                 id="pool-start-award-button"
+                className="pool-start-award-button"
                 variant="contained"
                 color="primary"
                 onClick={handleStartAward}
-                style={{ alignSelf: "center" }}
+                style={{ alignSelf: "center", margin: "5px" }}
               >
                 Start Award
               </Button>
+              <Typography variant="body" color="textSecondary">
+                Award period has finished, click 'Start Award' to begin distribution
+              </Typography>
             </Box>
           )}
         </Box>

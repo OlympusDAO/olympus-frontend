@@ -1,6 +1,15 @@
 import { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Button, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Typography,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  useMediaQuery,
+} from "@material-ui/core";
 import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
 import { trim, getTokenImage } from "src/helpers/index.js";
@@ -17,6 +26,7 @@ export const PoolDeposit = () => {
   const [quantity, setQuantity] = useState(0);
   const [rngCompleted, setRngCompleted] = useState(false);
   const isAppLoading = useSelector(state => state.app.loading);
+  const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohm;
@@ -151,7 +161,7 @@ export const PoolDeposit = () => {
         <ConnectButton />
       ) : (
         <Box>
-          <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
             <FormControl className="ohm-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
               <OutlinedInput
@@ -184,6 +194,7 @@ export const PoolDeposit = () => {
                 color="primary"
                 disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
                 onClick={() => onDeposit("deposit")}
+                fullWidth
               >
                 {txnButtonText(pendingTransactions, "deposit", "Deposit sOHM")}
               </Button>
