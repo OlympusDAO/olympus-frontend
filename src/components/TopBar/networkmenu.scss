@@ -1,0 +1,17 @@
+.network-menu-container {
+  justify-content: center;
+  align-items: center;
+  .network-menu-button {
+    justify-content: start;
+    align-items: center;
+    padding: 0px;
+  }
+  .network-menu-button-content {
+    padding: 8px;
+  }
+  img {
+     height: 40px;
+     width: 40px;
+   }
+}
+
