@@ -1,11 +1,13 @@
 .dapp-topbar {
   width: 100%;
   align-items: center;
+  a,
   button {
     white-space: nowrap !important;
     overflow: hidden !important;
     margin: 6px !important;
     min-width: fit-content !important;
+    min-height: 40px !important;
     &#hamburger {
       padding: 11px !important;
     }
