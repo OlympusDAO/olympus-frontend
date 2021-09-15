@@ -30,7 +30,7 @@ export function shorten(str) {
  * @returns {String} trimmedNumber, i.e. `trim(10.012345, 2) => '10.01'`
  */
 export function trim(number, precision) {
-  if (number == undefined) {
+  if (number === undefined) {
     number = 0;
   }
   const array = number.toString().split(".");
