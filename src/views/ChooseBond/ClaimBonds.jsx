@@ -74,7 +74,8 @@ function ClaimBonds({ bonds: activeBonds }) {
             </TableContainer>
           )}
 
-          {isSmallScreen && activeBonds.map(bond => <ClaimBondCardData key={bond.name} userBond={bond} />)}
+          {isSmallScreen &&
+            Object.entries(activeBonds).map(bond => <ClaimBondCardData key={bond.name} userBond={bond} />)}
 
           <Box
             display="flex"

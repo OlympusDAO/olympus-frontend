@@ -116,7 +116,7 @@ function ChooseBond() {
         <Box className="ohm-card-container">
           <Grid container item spacing={2}>
             {bonds.map(bond => (
-              <Grid item xs={12} key={bond.value}>
+              <Grid item xs={12} key={bond.name}>
                 <BondDataCard key={bond.name} bond={bond} />
               </Grid>
             ))}

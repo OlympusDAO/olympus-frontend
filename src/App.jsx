@@ -20,6 +20,7 @@ import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import LoadingSplash from "./components/Loading/LoadingSplash";
+import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 
 import { dark as darkTheme } from "./themes/dark.js";
@@ -33,7 +34,6 @@ const DEBUG = false;
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
-
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
 
@@ -198,6 +198,7 @@ function App() {
       <CssBaseline />
       {/* {isAppLoading && <LoadingSplash />} */}
       <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"}`}>
+        <Messages />
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>
           <Hidden mdUp>

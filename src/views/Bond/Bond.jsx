@@ -65,7 +65,7 @@ function Bond({ bond }) {
                     Bond Price
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    {isBondLoading ? <Skeleton /> : `$${trim(bond.marketPrice, 2)}`}
+                    {isBondLoading ? <Skeleton /> : `$${trim(bond.bondPrice, 2)}`}
                   </Typography>
                 </div>
                 <div className="bond-price-data">

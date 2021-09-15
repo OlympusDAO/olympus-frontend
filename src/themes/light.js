@@ -98,6 +98,7 @@ export const light = responsiveFontSizes(
         MuiDrawer: {
           paper: {
             backgroundColor: lightTheme.paperBg,
+            zIndex: 7,
           },
         },
         MuiBackdrop: {
