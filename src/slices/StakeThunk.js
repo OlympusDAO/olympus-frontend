@@ -97,8 +97,6 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
-        console.log("Pre ga function");
-        console.log("Data going into ga function", gaData);
         ga(gaData);
         dispatch(clearPendingTxn(stakeTx.hash));
       }
