@@ -9,6 +9,7 @@ import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context, useBonds } from "src/hooks";
+import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 
 export function ClaimBondTableData({ userBond }) {
   const dispatch = useDispatch();
@@ -36,10 +37,6 @@ export function ClaimBondTableData({ userBond }) {
     await dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
   }
 
-  useEffect(() => {
-    console.log(userBond);
-  }, []);
-
   return (
     <TableRow id={`${bondName}--claim`}>
       <TableCell align="left" className="bond-name-cell">
@@ -60,8 +57,15 @@ export function ClaimBondTableData({ userBond }) {
       <TableCell align="left">{bond.interestDue}</TableCell>
       <TableCell align="center">{vestingPeriod()}</TableCell>
       <TableCell align="center">
-        <Button variant="outlined" color="primary" onClick={() => onRedeem({ autostake: false })}>
-          <Typography variant="h6">Claim</Typography>
+        <Button
+          variant="outlined"
+          color="primary"
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
+          onClick={() => onRedeem({ autostake: false })}
+        >
+          <Typography variant="h6">
+            {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
+          </Typography>
         </Button>
       </TableCell>
     </TableRow>
@@ -75,8 +79,13 @@ export function ClaimBondCardData({ userBond }) {
 
   const bondName = userBond[0];
   const bond = userBond[1];
+
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
   });
 
   const vestingPeriod = () => {
@@ -88,10 +97,6 @@ export function ClaimBondCardData({ userBond }) {
     console.log(currentBond);
     await dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
   }
-
-  useEffect(() => {
-    console.log(userBond);
-  }, []);
 
   return (
     <Box id={`${bondName}--claim`} className="claim-bond-data-card bond-data-card" style={{ marginBottom: "30px" }}>
@@ -117,11 +122,24 @@ export function ClaimBondCardData({ userBond }) {
         <Typography>{vestingPeriod()}</Typography>
       </div>
       <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
-        <Button variant="outlined" color="primary" onClick={() => onRedeem({ autostake: false })}>
-          <Typography variant="h5">Claim</Typography>
+        <Button
+          variant="outlined"
+          color="primary"
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
+          onClick={() => onRedeem({ autostake: false })}
+        >
+          <Typography variant="h5">
+            {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
+          </Typography>
         </Button>
         <Button variant="outlined" color="primary" onClick={() => onRedeem({ autostake: true })}>
-          <Typography variant="h5">Claim and Stake</Typography>
+          <Typography variant="h5">
+            {txnButtonTextGeneralPending(
+              pendingTransactions,
+              "redeem_bond_" + bondName + "_autostake",
+              "Claim and Stake",
+            )}
+          </Typography>
         </Button>
       </Box>
     </Box>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
-import { txnButtonTextGeneralPending, isPendingTxn } from "src/slices/PendingTxnsSlice";
+import { txnButtonText, isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 import { redeemBond } from "src/slices/BondSlice";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { useWeb3Context } from "src/hooks/web3Context";
