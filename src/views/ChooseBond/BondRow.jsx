@@ -9,7 +9,7 @@ import useBonds from "src/hooks/Bonds";
 
 export function BondDataCard({ bond }) {
   const { loading } = useBonds();
-  const isBondLoading = loading ?? true;
+  const isBondLoading = !bond.bondPrice ?? true;
 
   return (
     <Slide direction="up" in={true}>
@@ -17,10 +17,10 @@ export function BondDataCard({ bond }) {
         <div className="bond-pair">
           <BondLogo bond={bond} />
           <div className="bond-name">
-            <Typography>{bondName(bond)}</Typography>
-            {isBondLP(bond) && (
+            <Typography>{bond.displayName}</Typography>
+            {bond.isLP && (
               <div>
-                <Link href={lpURL(bond)} target="_blank">
+                <Link href={bond.lpUrl} target="_blank">
                   <Typography variant="body1">
                     View Contract
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
