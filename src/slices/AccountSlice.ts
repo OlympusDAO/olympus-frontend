@@ -108,9 +108,6 @@ interface ICalcUserBondDetails {
   networkID: NetworkID;
 }
 export interface IUserBondDetails {
-  // name: string;
-  // displayName: string;
-  // isLP: Boolean;
   allowance: number;
   interestDue: number;
   bondMaturationBlock: number;
@@ -141,7 +138,7 @@ export const calculateUserBondDetails = createAsyncThunk(
     const balanceVal = ethers.utils.formatEther(balance);
 
     return {
-      name: bond.name,
+      bond: bond.name,
       displayName: bond.displayName,
       bondIconSvg: bond.bondIconSvg,
       isLP: bond.isLP,
@@ -198,8 +195,8 @@ const accountSlice = createSlice({
       })
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
         if (!action.payload) return;
-        const bondName = action.payload.name;
-        if (action.payload.interestDue > 0) state.bonds[bondName] = action.payload;
+        const bond = action.payload.bond;
+        if (action.payload.interestDue > 0) state.bonds[bond] = action.payload;
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {

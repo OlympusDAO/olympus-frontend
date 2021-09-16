@@ -46,7 +46,7 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
-      {!isAccountLoading && !_.isEmpty(accountBonds) && <ClaimBonds bonds={accountBonds} />}
+      {!isAccountLoading && !_.isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">

@@ -8,7 +8,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 
 function BondRedeem({ bond }) {
-  // const { name: bondName } = bond;
+  // const { bond: bondName } = bond;
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
 
@@ -56,7 +56,7 @@ function BondRedeem({ bond }) {
           id="bond-claim-btn"
           className="transaction-button"
           fullWidth
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond)}
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name)}
           onClick={() => {
             onRedeem({ autostake: false });
           }}
@@ -69,12 +69,12 @@ function BondRedeem({ bond }) {
           id="bond-claim-autostake-btn"
           className="transaction-button"
           fullWidth
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond + "_autostake")}
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name + "_autostake")}
           onClick={() => {
             onRedeem({ autostake: true });
           }}
         >
-          {txnButtonText(pendingTransactions, "redeem_bond_" + bond + "_autostake", "Claim and Autostake")}
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name + "_autostake", "Claim and Autostake")}
         </Button>
       </Box>
 
