@@ -3,17 +3,14 @@
 export const INFURA_ID =
   process.env.NODE_ENV === "development" ? "5e3c4a19b5f64c99bf8cd8089c92b44d" : "31e6d348d16b4a4dacde5f8a47da1971";
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
+
+// TODO (appleseed): verify production graph URL
 export const POOL_GRAPH_URLS = {
   4: "https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3_4_3",
   1: "https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_4_3",
 };
-export const EPOCH_INTERVAL = 2200;
 
-export const FALLBACK_INFURA_IDS = [
-  "5e3c4a19b5f64c99bf8cd8089c92b44d", // this is main dev node
-  "d9836dbf00c2440d862ab571b462e4a3", // this is current prod node
-  "31e6d348d16b4a4dacde5f8a47da1971", // this is primary fallback
-];
+export const EPOCH_INTERVAL = 2200;
 
 // NOTE could get this from an outside source since it changes slightly over time
 export const BLOCK_RATE_SECONDS = 13.14;
@@ -34,7 +31,7 @@ export const addresses = {
     BONDINGCALC_ADDRESS: "0xaDBE4FA3c2fcf36412D618AfCfC519C869400CEB",
     CIRCULATING_SUPPLY_ADDRESS: "0x5b0AA7903FD2EaA16F1462879B71c3cE2cFfE868",
     TREASURY_ADDRESS: "0x0d722D813601E48b7DAcb2DF9bae282cFd98c6E7",
-
+    // TODO (appleseed), the POOL_ADDRESS & AWARD_ADDRESS are old & can be removed
     POOL_TOGETHER: {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
       POOL_TOKEN_ADDRESS: "0x7e41da986c80eaba53236fab0d3ff407e7440fb3", // 33T token address
@@ -44,7 +41,7 @@ export const addresses = {
     },
   },
   1: {
-    DAI_ADDRESS: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
     OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     SOHM_ADDRESS: "0x04F2694C8fcee23e8Fd0dfEA1d4f5Bb8c352111F",
     STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // lastest staking contract
@@ -61,12 +58,13 @@ export const addresses = {
     DAO: "0x245cc372C84B3645Bf0Ffe6538620B04a217988B",
 
     // These are currntly all rinkeby addresses (change before prod launch)
+    // TODO (appleseed): These are currently all rinkeby addresses (change before prod launch)
     POOL_TOGETHER: {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
       POOL_TOKEN_ADDRESS: "0x7e41da986c80eaba53236fab0d3ff407e7440fb3", // 33T token address
       AWARD_ADDRESS: "0x54c18FB75f946424AF15221414B15a814Ca1EFD0", // contract to start/complete award
-      PRIZE_POOL_ADDRESS: "0x60Bc094cb0c966E60Ed3bE0549E92f3BC572E9f8",
-      PRIZE_STRATEGY_ADDRESS: "0xeeb552c4D5e155E50EE3f7402ed379bf72e36F23",
+      PRIZE_POOL_ADDRESS: "0x60Bc094cb0c966E60Ed3bE0549E92f3BC572E9f8", // NEW
+      PRIZE_STRATEGY_ADDRESS: "0xeeb552c4D5e155E50EE3f7402ed379bf72e36F23", // NEW
     },
   },
 };
@@ -103,10 +101,6 @@ export const ETHERSCAN_KEY = "";
 
 // BLOCKNATIVE ID FOR Notify.js:
 export const BLOCKNATIVE_DAPPID = "";
-
-// EXTERNAL CONTRACTS
-
-export const DAI_ADDRESS = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
 
 export const NETWORK = chainId => {
   for (const n in NETWORKS) {

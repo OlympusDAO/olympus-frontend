@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
+import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
@@ -9,30 +10,38 @@ import {
   OutlinedInput,
   InputAdornment,
   Link,
+  useMediaQuery,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
 import { trim, getTokenImage } from "src/helpers/index.js";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { poolWithdraw } from "../../slices/PoolThunk";
 import { getEarlyExitFee } from "../../slices/PoolThunk";
-import { Skeleton } from "@material-ui/lab";
+import { calculateOdds } from "../../helpers/33Together";
 
 const sohmImg = getTokenImage("sohm");
 
-export const PoolWithdraw = () => {
+export const PoolWithdraw = props => {
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
   const [quantity, setQuantity] = useState(0);
   const [exitFee, setExitFee] = useState(0);
+  const [newOdds, setNewOdds] = useState(0);
   const isAppLoading = useSelector(state => state.app.loading);
+  const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const poolBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.pool;
+    return state.account.balances && parseFloat(state.account.balances.pool);
   });
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
+  });
+
+  const poolIsLocked = useSelector(state => {
+    return state.app.pool && state.app.pool.isRngRequested;
   });
 
   const setMax = () => {
@@ -55,6 +64,10 @@ export const PoolWithdraw = () => {
       getEarlyExitFee({ value: quantity.toString(), provider, address, networkID: chainID }),
     );
     if (result.payload) {
+      let userBalanceAfterWithdraw = poolBalance - quantity;
+      let userOdds = calculateOdds(userBalanceAfterWithdraw, props.totalPoolDeposits, props.winners);
+      console.log("userOdds", userBalanceAfterWithdraw, props.totalPoolDeposits, props.winners, userOdds);
+      setNewOdds(userOdds);
       setExitFee(result.payload.withdraw.stringExitFee);
     } else {
       alert(result.error.message);
@@ -64,16 +77,28 @@ export const PoolWithdraw = () => {
 
   useEffect(() => {
     // when user types quantity display a warning with their early exit fee
-    const quantityNum = parseFloat(quantity);
-    const poolBalanceNum = parseFloat(poolBalance);
-
-    if (quantity > 0 && quantityNum <= poolBalanceNum) {
+    if (quantity > 0 && quantity <= poolBalance) {
       calcEarlyExitFee();
-    } else if (quantityNum > poolBalanceNum) {
+    } else if (quantity > poolBalance) {
       alert("You cannot withdraw more than your pool balance");
       setExitFee(0);
     }
   }, [quantity]);
+
+  if (poolIsLocked) {
+    return (
+      <Box display="flex" alignItems="center" className="pool-deposit-ui" flexDirection="column">
+        {/*<img src={Warning} className="w-10 sm:w-14 mx-auto mb-4" />*/}
+        <Typography variant="h6">This Prize Pool is unable to accept withdrawals at this time.</Typography>
+        <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
+          Withdrawals can be made once the prize has been awarded.
+        </Typography>
+        <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
+          Check back soon!
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box display="flex" justifyContent="center" className="pool-deposit-ui">
@@ -81,7 +106,7 @@ export const PoolWithdraw = () => {
         <ConnectButton />
       ) : (
         <Box>
-          <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
             <FormControl className="ohm-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
               <OutlinedInput
@@ -90,7 +115,7 @@ export const PoolWithdraw = () => {
                 placeholder="Enter an amount"
                 className="pool-input"
                 value={quantity}
-                onChange={e => setQuantity(e.target.value)}
+                onChange={e => setQuantity(parseFloat(e.target.value))}
                 startAdornment={
                   <InputAdornment position="start">
                     <div className="logo-holder">{sohmImg}</div>
@@ -135,6 +160,13 @@ export const PoolWithdraw = () => {
               </Typography>
             </Box>
           )}
+          {newOdds > 0 && quantity > 0 && (
+            <Box margin={2}>
+              <Typography color="error">
+                After withdrawing {quantity} sOHM your odds of winning would be 1 in {newOdds}.&nbsp;
+              </Typography>
+            </Box>
+          )}
           <Box margin={2}>
             <Typography variant="body2">
               You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating /
@@ -159,4 +191,9 @@ export const PoolWithdraw = () => {
       )}
     </Box>
   );
+};
+
+PoolWithdraw.propTypes = {
+  totalPoolDeposits: PropTypes.number,
+  winners: PropTypes.number,
 };

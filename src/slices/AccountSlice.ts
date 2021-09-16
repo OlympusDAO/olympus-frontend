@@ -24,11 +24,18 @@ export const getBalances = createAsyncThunk(
     const ohmBalance = await ohmContract.balanceOf(address);
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
     const sohmBalance = await sohmContract.balanceOf(address);
+    const poolTokenContract = new ethers.Contract(
+      addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS,
+      ierc20Abi,
+      provider,
+    );
+    const poolBalance = await poolTokenContract.balanceOf(address);
 
     return {
       balances: {
         ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        pool: ethers.utils.formatUnits(poolBalance, "gwei"),
       },
     };
   },
