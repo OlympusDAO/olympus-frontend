@@ -82,10 +82,10 @@ function ConnectMenu({ theme }) {
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-end" transition>
         {({ TransitionProps }) => {
           return (
-            <Fade {...TransitionProps} timeout={200}>
+            <Fade {...TransitionProps} timeout={100}>
               <Paper className="ohm-menu" elevation={1}>
-                {pendingTransactions.map(x => (
-                  <Box>
+                {pendingTransactions.map((x, i) => (
+                  <Box key={i} fullWidth>
                     <Link key={x.txnHash} href={getEtherscanUrl(x.txnHash)} target="_blank" rel="noreferrer">
                       <Button size="large" variant="contained" color="secondary" fullWidth>
                         <Typography align="left">

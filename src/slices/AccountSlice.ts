@@ -9,7 +9,8 @@ import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { Bond, NetworkID } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
+import { Bond, CustomBond, LPBond, NetworkID, StableBond } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
+import React from "react";
 
 interface IGetBalances {
   address: string;
@@ -128,7 +129,6 @@ interface ICalcUserBondDetails {
   networkID: NetworkID;
 }
 export interface IUserBondDetails {
-  bond: string;
   allowance: number;
   interestDue: number;
   bondMaturationBlock: number;
@@ -160,6 +160,9 @@ export const calculateUserBondDetails = createAsyncThunk(
 
     return {
       bond: bond.name,
+      displayName: bond.displayName,
+      bondIconSvg: bond.bondIconSvg,
+      isLP: bond.isLP,
       allowance: Number(allowance),
       balance: Number(balanceVal),
       interestDue,
@@ -214,7 +217,7 @@ const accountSlice = createSlice({
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
         if (!action.payload) return;
         const bond = action.payload.bond;
-        state.bonds[bond] = action.payload;
+        if (action.payload.interestDue > 0) state.bonds[bond] = action.payload;
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {

@@ -149,7 +149,7 @@ export const PoolPrize = () => {
               >
                 Complete Award
               </Button>
-              <Typography variant="body" color="textSecondary" padding={2}>
+              <Typography variant="body1" color="textSecondary" padding={2}>
                 Click 'Complete Award' to distribute and start a new prize period
               </Typography>
             </Box>

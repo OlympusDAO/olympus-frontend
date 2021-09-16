@@ -66,7 +66,7 @@ function OhmMenu() {
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start" transition>
         {({ TransitionProps }) => {
           return (
-            <Fade {...TransitionProps} timeout={200}>
+            <Fade {...TransitionProps} timeout={100}>
               <Paper className="ohm-menu" elevation={1}>
                 <Box component="div" className="buy-tokens">
                   <Link

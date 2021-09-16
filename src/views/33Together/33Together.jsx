@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Paper, Tab, Tabs, Zoom } from "@material-ui/core";
+import { Paper, Tab, Tabs, Fade } from "@material-ui/core";
 
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
@@ -102,29 +102,28 @@ const PoolTogether = () => {
   return (
     <div id="pool-together-view">
       <PoolPrize />
-      <Zoom in={true}>
-        <Paper className="ohm-card">
-          <CardHeader title="3, 3 Together" />
-          <Tabs
-            centered
-            value={view}
-            textColor="primary"
-            indicatorColor="primary"
-            onChange={changeView}
-            aria-label="pool tabs"
-          >
-            <Tab label="Deposit" {...a11yProps(0)} />
-            <Tab label="Withdraw" {...a11yProps(1)} />
-          </Tabs>
 
-          <TabPanel value={view} index={0}>
-            <PoolDeposit />
-          </TabPanel>
-          <TabPanel value={view} index={1}>
-            <PoolWithdraw totalPoolDeposits={totalDeposits} winners={winners} />
-          </TabPanel>
-        </Paper>
-      </Zoom>
+      <Paper className="ohm-card">
+        <CardHeader title="3, 3 Together" />
+        <Tabs
+          centered
+          value={view}
+          textColor="primary"
+          indicatorColor="primary"
+          onChange={changeView}
+          aria-label="pool tabs"
+        >
+          <Tab label="Deposit" {...a11yProps(0)} />
+          <Tab label="Withdraw" {...a11yProps(1)} />
+        </Tabs>
+
+        <TabPanel value={view} index={0}>
+          <PoolDeposit />
+        </TabPanel>
+        <TabPanel value={view} index={1}>
+          <PoolWithdraw totalPoolDeposits={totalDeposits} winners={winners} />
+        </TabPanel>
+      </Paper>
 
       <PoolInfo
         graphLoading={graphLoading}
