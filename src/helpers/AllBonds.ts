@@ -4,16 +4,20 @@ import { addresses } from "src/constants";
 import DaiImg from "src/assets/tokens/DAI.svg";
 import OhmDaiImg from "src/assets/tokens/OHM-DAI.svg";
 import FraxImg from "src/assets/tokens/FRAX.svg";
-import OhmFraxImg from "src/assets/tokens/OHM-FRAX.svg";
+// import OhmFraxImg from "src/assets/tokens/OHM-FRAX.svg";
 import wETHImg from "src/assets/tokens/wETH.svg";
+// TODO (appleseed-lusd): Liquity LUSD token icon in SVG
+import LusdImg from "src/assets/tokens/LUSD.svg";
 
+// TODO (appleseed-lusd): delete ohm-frax refs
 import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
-import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
+// import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
 import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
 import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
-import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
+// import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
+// TODO (appleseed-lusd): get contracts
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
@@ -49,6 +53,27 @@ export const frax = new StableBond({
     [NetworkID.Testnet]: {
       bondAddress: "0xF651283543fB9D61A91f318b78385d187D300738",
       reserveAddress: "0x2F7249cb599139e560f0c81c269Ab9b04799E453",
+    },
+  },
+});
+
+export const lusd = new StableBond({
+  name: "lusd",
+  displayName: "LUSD",
+  bondToken: "LUSD",
+  bondIconSvg: LusdImg,
+  // TODO (appleseed-lusd): update these refs>>>
+  bondContractABI: FraxBondContract,
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      // replace bondAddress
+      bondAddress: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514",
+      reserveAddress: "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
+    },
+    [NetworkID.Testnet]: {
+      // replace bondAddress
+      bondAddress: "0xF651283543fB9D61A91f318b78385d187D300738",
+      reserveAddress: "0x3040f5959d2c666e1a0868702e2d7623a271a656",
     },
   },
 });
@@ -100,32 +125,35 @@ export const ohm_dai = new LPBond({
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
 });
 
-export const ohm_frax = new LPBond({
-  name: "ohm_frax_lp",
-  displayName: "OHM-FRAX LP",
-  bondToken: "FRAX",
-  bondIconSvg: OhmFraxImg,
-  bondContractABI: FraxOhmBondContract,
-  reserveContract: ReserveOhmFraxContract,
-  networkAddrs: {
-    [NetworkID.Mainnet]: {
-      bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
-      reserveAddress: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
-    },
-    [NetworkID.Testnet]: {
-      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
-      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
-    },
-  },
-  lpUrl:
-    "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
-});
+// TODO (appleseed-lusd): delete below ....
+// export const ohm_frax = new LPBond({
+//   name: "ohm_frax_lp",
+//   displayName: "OHM-FRAX LP",
+//   bondToken: "FRAX",
+//   bondIconSvg: OhmFraxImg,
+//   bondContractABI: FraxOhmBondContract,
+//   reserveContract: ReserveOhmFraxContract,
+//   networkAddrs: {
+//     [NetworkID.Mainnet]: {
+//       bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
+//       reserveAddress: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
+//     },
+//     [NetworkID.Testnet]: {
+//       bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
+//       reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
+//     },
+//   },
+//   lpUrl:
+//     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
+// });
 
 // HOW TO ADD A NEW BOND:
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax];
+// TODO (appleseed-lusd): delete below>>>>
+// export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, lusd];
+export const allBonds = [dai, frax, eth, ohm_dai, lusd];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});

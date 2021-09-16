@@ -37,7 +37,8 @@ import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import { ohm_frax } from "src/helpers/AllBonds";
+// TODO (appleseed-lusd): delete below
+// import { ohm_frax } from "src/helpers/AllBonds";
 
 function a11yProps(index) {
   return {
@@ -48,7 +49,8 @@ function a11yProps(index) {
 
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
-const OhmFraxImg = ohm_frax.bondIconSvg;
+// TODO (appleseed-lusd): delete below or replace w our own staking
+// const OhmFraxImg = ohm_frax.bondIconSvg;
 
 function Stake() {
   const dispatch = useDispatch();
@@ -421,12 +423,13 @@ function Stake() {
 
                   <TableBody>
                     <TableRow>
+                      {/* TODO (appleseed-lusd): delete or replace
                       <TableCell>
                         <Box className="ohm-pairs">
                           <BondLogo bond={ohm_frax}></BondLogo>
                           <Typography>OHM-FRAX</Typography>
                         </Box>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell align="left">{fraxData && trim(fraxData.apy, 1)}%</TableCell>
                       <TableCell align="left">
                         {fraxData &&
@@ -457,12 +460,13 @@ function Stake() {
               </TableContainer>
             ) : (
               <div className="stake-pool">
+                {/* TODO (appleseed-lusd): dlete or rpleace
                 <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                   <Box className="ohm-pairs">
                     <BondLogo bond={ohm_frax}></BondLogo>
                     <Typography gutterBottom={false}>OHM-FRAX</Typography>
                   </Box>
-                </div>
+                </div> */}
                 <div className="pool-data">
                   <div className="data-row">
                     <Typography>APR</Typography>
