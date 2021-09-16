@@ -1,18 +1,29 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { shorten, trim, prettyVestingPeriod } from "../../helpers";
+import { redeemBond } from "../../slices/BondSlice";
 import BondLogo from "../../components/BondLogo";
 import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
+import { useWeb3Context, useBonds } from "src/hooks";
 
 export function ClaimBondTableData({ userBond }) {
+  const dispatch = useDispatch();
+  const { bonds } = useBonds();
+  const { address, chainID, provider } = useWeb3Context();
+
   const bondName = userBond[0];
   const bond = userBond[1];
+
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
   });
 
   const vestingPeriod = () => {
@@ -20,7 +31,9 @@ export function ClaimBondTableData({ userBond }) {
   };
 
   async function onRedeem({ autostake }) {
-    dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
+    let currentBond = bonds.find(bnd => bnd.name === bondName);
+    console.log(currentBond);
+    await dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
   }
 
   useEffect(() => {
@@ -28,7 +41,7 @@ export function ClaimBondTableData({ userBond }) {
   }, []);
 
   return (
-    <TableRow id={`${bond.name}--claim`}>
+    <TableRow id={`${bondName}--claim`}>
       <TableCell align="left" className="bond-name-cell">
         <BondLogo bond={bond} />
         <div className="bond-name">
@@ -47,8 +60,7 @@ export function ClaimBondTableData({ userBond }) {
       <TableCell align="left">{bond.interestDue}</TableCell>
       <TableCell align="center">{vestingPeriod()}</TableCell>
       <TableCell align="center">
-        {/* Need to add button action */}
-        <Button variant="outlined" color="primary" onClick={onRedeem}>
+        <Button variant="outlined" color="primary" onClick={() => onRedeem({ autostake: false })}>
           <Typography variant="h6">Claim</Typography>
         </Button>
       </TableCell>
@@ -57,6 +69,10 @@ export function ClaimBondTableData({ userBond }) {
 }
 
 export function ClaimBondCardData({ userBond }) {
+  const dispatch = useDispatch();
+  const { bonds } = useBonds();
+  const { address, chainID, provider } = useWeb3Context();
+
   const bondName = userBond[0];
   const bond = userBond[1];
   const currentBlock = useSelector(state => {
@@ -68,7 +84,9 @@ export function ClaimBondCardData({ userBond }) {
   };
 
   async function onRedeem({ autostake }) {
-    dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
+    let currentBond = bonds.find(bnd => bnd.name === bondName);
+    console.log(currentBond);
+    await dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
   }
 
   useEffect(() => {
@@ -99,10 +117,10 @@ export function ClaimBondCardData({ userBond }) {
         <Typography>{vestingPeriod()}</Typography>
       </div>
       <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
-        <Button variant="outlined" color="primary" onClick={onRedeem}>
+        <Button variant="outlined" color="primary" onClick={() => onRedeem({ autostake: false })}>
           <Typography variant="h5">Claim</Typography>
         </Button>
-        <Button variant="outlined" color="primary">
+        <Button variant="outlined" color="primary" onClick={() => onRedeem({ autostake: true })}>
           <Typography variant="h5">Claim and Stake</Typography>
         </Button>
       </Box>

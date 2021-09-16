@@ -22,7 +22,7 @@ import "./choosebond.scss";
 import { useSelector, useDispatch } from "react-redux";
 
 function ClaimBonds({ bonds: activeBonds }) {
-  const [numberOfBonds, setNumberOfBonds] = useState(Object.keys(activeBonds).length);
+  const [numberOfBonds, setNumberOfBonds] = useState(0);
   const { bonds } = useBonds();
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
@@ -41,7 +41,7 @@ function ClaimBonds({ bonds: activeBonds }) {
   const dispatch = useDispatch();
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
-  if (numberOfBonds.length < 1) return;
+  if (numberOfBonds < 1) return;
 
   useEffect(() => {
     let bondCount = Object.keys(activeBonds).length;
@@ -50,67 +50,70 @@ function ClaimBonds({ bonds: activeBonds }) {
 
   return (
     <Zoom in={true}>
-      <Paper className="ohm-card claim-bonds-card">
-        <CardHeader title="Your Bonds (1,1)" />
-        <Box>
-          {!isSmallScreen && (
-            <TableContainer>
-              <Table aria-label="Claimable bonds">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center">Bond</TableCell>
-                    <TableCell align="left">Claimable</TableCell>
-                    <TableCell align="left">Pending</TableCell>
-                    <TableCell align="center">Fully Vested</TableCell>
-                    <TableCell align="center"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {Object.entries(activeBonds).map(bond => (
-                    <ClaimBondTableData key={bond.name} userBond={bond} />
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
+      {numberOfBonds > 0 && (
+        <Paper className="ohm-card claim-bonds-card">
+          <CardHeader title="Your Bonds (1,1)" />
+          <Box>
+            {!isSmallScreen && (
+              <TableContainer>
+                <Table aria-label="Claimable bonds">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">Bond</TableCell>
+                      <TableCell align="left">Claimable</TableCell>
+                      <TableCell align="left">Pending</TableCell>
+                      <TableCell align="center">Fully Vested</TableCell>
+                      <TableCell align="center"></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {Object.entries(activeBonds).map((bond, i) => (
+                      <ClaimBondTableData key={i} userBond={bond} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
 
-          {isSmallScreen &&
-            Object.entries(activeBonds).map(bond => <ClaimBondCardData key={bond.name} userBond={bond} />)}
+            {isSmallScreen &&
+              Object.entries(activeBonds).map((bond, i) => <ClaimBondCardData key={i} userBond={bond} />)}
 
-          <Box
-            display="flex"
-            justifyContent="center"
-            className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
-          >
-            {activeBonds.length > 1 && (
+            <Box
+              display="flex"
+              justifyContent="center"
+              className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
+            >
+              {activeBonds.length > 1 && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="transaction-button"
+                  fullWidth
+                  disabled={isPendingTxn(pendingTransactions, "redeem_all_bonds")}
+                  onClick={() => {
+                    onRedeemAll({ autostake: false });
+                  }}
+                >
+                  {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", "Claim all")}
+                </Button>
+              )}
               <Button
                 variant="contained"
                 color="primary"
+                id="claim-all-and-stake-btn"
                 className="transaction-button"
                 fullWidth
+                disabled={isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")}
                 onClick={() => {
-                  onRedeemAll({ autostake: false });
+                  onRedeemAll({ autostake: true });
                 }}
               >
-                {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", "Claim all")}
+                {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds_autostake", "Claim all and Stake")}
               </Button>
-            )}
-            <Button
-              variant="contained"
-              color="primary"
-              id="claim-all-and-stake-btn"
-              className="transaction-button"
-              fullWidth
-              // disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond + "_autostake")}
-              onClick={() => {
-                onRedeemAll({ autostake: true });
-              }}
-            >
-              {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds_autostake", "Claim all and Stake")}
-            </Button>
+            </Box>
           </Box>
-        </Box>
-      </Paper>
+        </Paper>
+      )}
     </Zoom>
   );
 }
