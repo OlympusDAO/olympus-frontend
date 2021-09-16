@@ -9,7 +9,8 @@ import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { Bond, NetworkID } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
+import { Bond, CustomBond, LPBond, NetworkID, StableBond } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
+import React from "react";
 
 interface IGetBalances {
   address: string;
@@ -24,18 +25,11 @@ export const getBalances = createAsyncThunk(
     const ohmBalance = await ohmContract.balanceOf(address);
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
     const sohmBalance = await sohmContract.balanceOf(address);
-    const poolTokenContract = new ethers.Contract(
-      addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS,
-      ierc20Abi,
-      provider,
-    );
-    const poolBalance = await poolTokenContract.balanceOf(address);
 
     return {
       balances: {
         ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-        pool: ethers.utils.formatUnits(poolBalance, "gwei"),
       },
     };
   },
@@ -60,9 +54,8 @@ export const loadAccountDetails = createAsyncThunk(
     let lpBondAllowance = 0;
     let daiBondAllowance = 0;
     let aOHMAbleToClaim = 0;
+    let migrateContract;
     let unstakeAllowanceSohm;
-    let poolBalance = 0;
-    let poolAllowance = 0;
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
@@ -77,22 +70,13 @@ export const loadAccountDetails = createAsyncThunk(
       const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
       sohmBalance = await sohmContract.balanceOf(address);
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-      poolAllowance = await sohmContract.allowance(address, addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS);
-    }
-
-    if (addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS) {
-      const poolTokenContract = await new ethers.Contract(
-        addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS,
-        ierc20Abi,
-        provider,
-      );
-      poolBalance = await poolTokenContract.balanceOf(address);
-      // poolAllowance = await poolTokenContract.allowance(address, addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS);
     }
 
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
       const oldsohmContract = await new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
       oldsohmBalance = await oldsohmContract.balanceOf(address);
+
+      const signer = provider.getSigner();
       unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
     }
 
@@ -102,7 +86,6 @@ export const loadAccountDetails = createAsyncThunk(
         ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
         oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
-        pool: ethers.utils.formatUnits(poolBalance, "gwei"),
       },
       staking: {
         ohmStake: +stakeAllowance,
@@ -113,9 +96,6 @@ export const loadAccountDetails = createAsyncThunk(
       },
       bonding: {
         daiAllowance: daiBondAllowance,
-      },
-      pooling: {
-        sohmPool: +poolAllowance,
       },
     };
   },
@@ -128,7 +108,7 @@ interface ICalcUserBondDetails {
   networkID: NetworkID;
 }
 export interface IUserBondDetails {
-  bond: string;
+  // bond: string;
   allowance: number;
   interestDue: number;
   bondMaturationBlock: number;
@@ -160,6 +140,9 @@ export const calculateUserBondDetails = createAsyncThunk(
 
     return {
       bond: bond.name,
+      displayName: bond.displayName,
+      bondIconSvg: bond.bondIconSvg,
+      isLP: bond.isLP,
       allowance: Number(allowance),
       balance: Number(balanceVal),
       interestDue,
@@ -214,7 +197,7 @@ const accountSlice = createSlice({
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
         if (!action.payload) return;
         const bond = action.payload.bond;
-        state.bonds[bond] = action.payload;
+        if (action.payload.interestDue > 0) state.bonds[bond] = action.payload;
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
