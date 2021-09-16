@@ -7,7 +7,7 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { getBalances } from "./AccountSlice";
-import { ga } from "../../src/hooks/GoogleAnalyticHelpers";
+import { ua } from "../hooks/userAnalyticHelpers";
 
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
@@ -73,7 +73,7 @@ export const changeStake = createAsyncThunk(
     const stakingHelper = await new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
 
     let stakeTx;
-    let gaData = {
+    let uaData = {
       address: address,
       value: value,
     };
@@ -97,7 +97,7 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
-        ga(gaData);
+        ua(uaData);
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }

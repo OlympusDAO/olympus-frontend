@@ -8,6 +8,7 @@ import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
+import { ua } from "../hooks/userAnalyticHelpers";
 
 interface IChangeApproval {
   bond: Bond;
@@ -166,7 +167,6 @@ export const bondAsset = createAsyncThunk(
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
 
     let balance;
-
     // Calculate maxPremium based on premium and slippage.
     // const calculatePremium = await bonding.calculatePremium();
     const signer = provider.getSigner();
@@ -176,6 +176,12 @@ export const bondAsset = createAsyncThunk(
 
     // Deposit the bond
     let bondTx;
+    let uaData = {
+      address: address,
+      value: value,
+      type: "Bond",
+      bondName: bond,
+    };
     try {
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
       dispatch(
@@ -192,6 +198,7 @@ export const bondAsset = createAsyncThunk(
       } else alert(error.message);
     } finally {
       if (bondTx) {
+        ua(uaData);
         dispatch(clearPendingTxn(bondTx.hash));
       }
     }
