@@ -34,20 +34,7 @@ export const addresses = {
     BONDINGCALC_ADDRESS: "0xaDBE4FA3c2fcf36412D618AfCfC519C869400CEB",
     CIRCULATING_SUPPLY_ADDRESS: "0x5b0AA7903FD2EaA16F1462879B71c3cE2cFfE868",
     TREASURY_ADDRESS: "0x0d722D813601E48b7DAcb2DF9bae282cFd98c6E7",
-    RESERVES: {
-      DAI: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C",
-      OHM_DAI: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
-      OHM_FRAX: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
-      FRAX: "0x2F7249cb599139e560f0c81c269Ab9b04799E453",
-      ETH: "0xc778417e063141139fce010982780140aa0cd5ab",
-    },
-    BONDS: {
-      DAI: "0xDea5668E815dAF058e3ecB30F645b04ad26374Cf",
-      OHM_DAI: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
-      OHM_FRAX: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
-      FRAX: "0xF651283543fB9D61A91f318b78385d187D300738",
-      ETH: "0xca7b90f8158A4FAA606952c023596EE6d322bcf0",
-    },
+
     POOL_TOGETHER: {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
       POOL_TOKEN_ADDRESS: "0x7e41da986c80eaba53236fab0d3ff407e7440fb3", // 33T token address
@@ -57,6 +44,7 @@ export const addresses = {
     },
   },
   1: {
+    DAI_ADDRESS: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
     OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     SOHM_ADDRESS: "0x04F2694C8fcee23e8Fd0dfEA1d4f5Bb8c352111F",
     STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // lastest staking contract
@@ -71,21 +59,6 @@ export const addresses = {
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
     TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
     DAO: "0x245cc372C84B3645Bf0Ffe6538620B04a217988B",
-    RESERVES: {
-      DAI: "0x6b175474e89094c44da98b954eedeac495271d0f",
-      OHM_DAI: "0x34d7d7Aaf50AD4944B70B320aCB24C95fa2def7c",
-      OHM_FRAX: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
-      FRAX: "0x853d955acef822db058eb8505911ed77f175b99e",
-      ETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    },
-
-    BONDS: {
-      DAI: "0x575409F8d77c12B05feD8B455815f0e54797381c", // v1.1 updated
-      OHM_DAI: "0x956c43998316b6a2F21f89a1539f73fB5B78c151", // v1.1 updated
-      OHM_FRAX: "0xc20CffF07076858a7e642E396180EC390E5A02f7", // v1.1 updated
-      FRAX: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514", // FRAX Bonds
-      ETH: "0xE6295201CD1ff13CeD5f063a5421c39A1D236F1c",
-    },
 
     // These are currntly all rinkeby addresses (change before prod launch)
     POOL_TOGETHER: {
@@ -126,291 +99,14 @@ export const Actions = {
 };
 
 // MY ETHERSCAN_ID, SWAP IN YOURS FROM https://etherscan.io/myapikey
-export const ETHERSCAN_KEY = "PSW8C433Q667DVEX5BCRMGNAH9FSGFZ7Q8";
+export const ETHERSCAN_KEY = "";
 
 // BLOCKNATIVE ID FOR Notify.js:
-export const BLOCKNATIVE_DAPPID = "0b58206a-f3c0-4701-a62f-73c7243e8c77";
+export const BLOCKNATIVE_DAPPID = "";
 
 // EXTERNAL CONTRACTS
 
 export const DAI_ADDRESS = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
-
-export const DAI_ABI = [
-  {
-    inputs: [{ internalType: "uint256", name: "chainId_", type: "uint256" }],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: true, internalType: "address", name: "src", type: "address" },
-      { indexed: true, internalType: "address", name: "guy", type: "address" },
-      { indexed: false, internalType: "uint256", name: "wad", type: "uint256" },
-    ],
-    name: "Approval",
-    type: "event",
-  },
-  {
-    anonymous: true,
-    inputs: [
-      { indexed: true, internalType: "bytes4", name: "sig", type: "bytes4" },
-      { indexed: true, internalType: "address", name: "usr", type: "address" },
-      { indexed: true, internalType: "bytes32", name: "arg1", type: "bytes32" },
-      { indexed: true, internalType: "bytes32", name: "arg2", type: "bytes32" },
-      { indexed: false, internalType: "bytes", name: "data", type: "bytes" },
-    ],
-    name: "LogNote",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: true, internalType: "address", name: "src", type: "address" },
-      { indexed: true, internalType: "address", name: "dst", type: "address" },
-      { indexed: false, internalType: "uint256", name: "wad", type: "uint256" },
-    ],
-    name: "Transfer",
-    type: "event",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "DOMAIN_SEPARATOR",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "PERMIT_TYPEHASH",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [
-      { internalType: "address", name: "", type: "address" },
-      { internalType: "address", name: "", type: "address" },
-    ],
-    name: "allowance",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      { internalType: "address", name: "usr", type: "address" },
-      { internalType: "uint256", name: "wad", type: "uint256" },
-    ],
-    name: "approve",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "balanceOf",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      { internalType: "address", name: "usr", type: "address" },
-      { internalType: "uint256", name: "wad", type: "uint256" },
-    ],
-    name: "burn",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "decimals",
-    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [{ internalType: "address", name: "guy", type: "address" }],
-    name: "deny",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      { internalType: "address", name: "usr", type: "address" },
-      { internalType: "uint256", name: "wad", type: "uint256" },
-    ],
-    name: "mint",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      { internalType: "address", name: "src", type: "address" },
-      { internalType: "address", name: "dst", type: "address" },
-      { internalType: "uint256", name: "wad", type: "uint256" },
-    ],
-    name: "move",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "name",
-    outputs: [{ internalType: "string", name: "", type: "string" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "nonces",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      { internalType: "address", name: "holder", type: "address" },
-      { internalType: "address", name: "spender", type: "address" },
-      { internalType: "uint256", name: "nonce", type: "uint256" },
-      { internalType: "uint256", name: "expiry", type: "uint256" },
-      { internalType: "bool", name: "allowed", type: "bool" },
-      { internalType: "uint8", name: "v", type: "uint8" },
-      { internalType: "bytes32", name: "r", type: "bytes32" },
-      { internalType: "bytes32", name: "s", type: "bytes32" },
-    ],
-    name: "permit",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      { internalType: "address", name: "usr", type: "address" },
-      { internalType: "uint256", name: "wad", type: "uint256" },
-    ],
-    name: "pull",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      { internalType: "address", name: "usr", type: "address" },
-      { internalType: "uint256", name: "wad", type: "uint256" },
-    ],
-    name: "push",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [{ internalType: "address", name: "guy", type: "address" }],
-    name: "rely",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "symbol",
-    outputs: [{ internalType: "string", name: "", type: "string" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "totalSupply",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      { internalType: "address", name: "dst", type: "address" },
-      { internalType: "uint256", name: "wad", type: "uint256" },
-    ],
-    name: "transfer",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      { internalType: "address", name: "src", type: "address" },
-      { internalType: "address", name: "dst", type: "address" },
-      { internalType: "uint256", name: "wad", type: "uint256" },
-    ],
-    name: "transferFrom",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "version",
-    outputs: [{ internalType: "string", name: "", type: "string" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "wards",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-];
 
 export const NETWORK = chainId => {
   for (const n in NETWORKS) {

@@ -25,15 +25,16 @@ function getTestnetURI() {
 const ALCHEMY_ID_LIST = [
   "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
   "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
+  "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // this is appleseed's
 ];
 
 // this is the ethers common api key, it is rate limited somewhat
 const defaultApiKey = "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC";
 
 const TEMP_ALCHEMY_IDS = [
-  // "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // appleseed-temp1
-  // "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
-  "j0QUyceqxu31tQrAQSotL2YMqmuzoGPh", // appleseed-temp3
+  "bErYsMwjnuqkMp_7kv_j56fqhX-hrchd", // appleseed temps
+  "etQyv_Wo6jLx81t7XeFXQLLiufFjsgvl",
+  "bFrROI7I86II_WsChT44YuoyuGfL4vdA",
 ];
 function getAlchemyAPI(chainID: Number) {
   const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
@@ -50,6 +51,7 @@ const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alche
 // temp force into TEMP_ALCHEMY_IDS
 const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
 const ALL_URIs = [..._tempAlchemyURIs];
+// const ALL_URIs = [..._alchemyURIs];
 // temp change ALL_URIs into TEMP_ALCHEMY_IDS
 // const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
 
