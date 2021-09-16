@@ -9,6 +9,12 @@
   justify-content: flex-start;
   align-items: center;
   overflow-y: auto;
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+
   .ohm-card {
     max-width: unset !important;
     width: 100%;
@@ -75,9 +81,9 @@
     &.index {
       width: 33% !important;
     }
-    h4 {
-      font-size: medium;
-    }
+    // h4 {
+    //   font-size: medium;
+    // }
   }
 }
 
