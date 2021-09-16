@@ -70,6 +70,7 @@ function ConnectMenu({ theme }) {
         onMouseOver={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         key={1}
+        id="wallet-button"
       >
         {buttonText}
         {pendingTransactions.length > 0 && (

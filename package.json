@@ -80,6 +80,7 @@
     "autoprefixer": "^10.2.4",
     "chalk": "^4.1.0",
     "cypress": "^8.3.1",
+    "cypress-metamask": "^1.0.5-development",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -115,7 +116,7 @@
     "ship": "yarn surge",
     "theme": "npx gulp less",
     "watch": "node ./scripts/watch.js",
-    "cypress:open": "cypress open",
+    "cypress:open": "CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open",
     "cypress:run": "cypress run"
   }
 }
