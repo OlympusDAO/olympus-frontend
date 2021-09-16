@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
 import { txnButtonText, isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { redeemBond } from "src/slices/BondSlice";
+import { redeemAllBonds, redeemBond } from "src/slices/BondSlice";
+import { calculateUserBondDetails } from "src/slices/AccountSlice";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "src/hooks/Bonds";
@@ -22,25 +23,35 @@ import "./choosebond.scss";
 import { useSelector, useDispatch } from "react-redux";
 
 function ClaimBonds({ activeBonds }) {
-  const [numberOfBonds, setNumberOfBonds] = useState(0);
-
+  const dispatch = useDispatch();
+  const { provider, address, chainID } = useWeb3Context();
   const { bonds } = useBonds();
+
+  const [numberOfBonds, setNumberOfBonds] = useState(0);
+  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
+
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
 
-  const { provider, address, chainID } = useWeb3Context();
+  const pendingClaim = () => {
+    if (
+      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
+    ) {
+      return true;
+    }
 
-  const onRedeemAll = async ({ autostake }) => {
-    Object.keys(activeBonds).forEach(async bond => {
-      const currentBond = bonds.find(bnd => bnd.name === bond);
-      console.log(currentBond);
-      dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
-    });
+    return false;
   };
 
-  const dispatch = useDispatch();
-  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
+  const onRedeemAll = async ({ autostake }) => {
+    console.log("redeeming all bonds");
+
+    await dispatch(redeemAllBonds({ address, bonds, networkID: chainID, provider, autostake }));
+
+    console.log("redeem all complete");
+  };
 
   useEffect(() => {
     let bondCount = Object.keys(activeBonds).length;
@@ -90,7 +101,7 @@ function ClaimBonds({ activeBonds }) {
                       color="primary"
                       className="transaction-button"
                       fullWidth
-                      disabled={isPendingTxn(pendingTransactions, "redeem_all_bonds")}
+                      disabled={pendingClaim()}
                       onClick={() => {
                         onRedeemAll({ autostake: false });
                       }}
@@ -104,7 +115,7 @@ function ClaimBonds({ activeBonds }) {
                       id="claim-all-and-stake-btn"
                       className="transaction-button"
                       fullWidth
-                      disabled={isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")}
+                      disabled={pendingClaim()}
                       onClick={() => {
                         onRedeemAll({ autostake: true });
                       }}
