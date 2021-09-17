@@ -15,8 +15,14 @@
       }
     }
     .ohm-modal {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0px 0px 50px;
+      position: relative;
       max-width: 688px;
-      min-height: 405px;
+      min-height: 290px;
+      border-radius: 10px;
     }
   }
 
@@ -29,38 +35,121 @@
       }
     }
     .ohm-modal {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0px 0px 50px;
+      position: relative;
       max-width: 688px;
-      min-height: 405px;
-      opacity: .9
+      min-height: 290px;
+      border-radius: 10px;
     }
   }
-  .ohm-card {
-    max-width: 803px;
-  }
-
-  .change-network-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .change-network-header-name {
-      text-align: center;
-    }
-  }
-
   .grid-container {
-    justify-content: center;
-    align-items: center;
-    height: 300px;
-    .grid-button {
-      justify-content: start;
-      align-items: center;
-      max-height: 102px;
+    .grid-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 30px;
+      position: static;
+      height: 78px;
+      left: calc(50% - 688px / 2);
+
+      .grid-header-content {
+        flex: none;
+        order: 0;
+        align-self: stretch;
+        flex-grow: 0;
+      }
+    }
+    .grid-message {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      grid-gap: 15px;
+      padding: 20px 40px 30px;
+      position: static;
+      width: 688px;
       height: 102px;
-      padding: 0px;
-      padding-top: 8px;
-      .grid-button-content {
-        justify-content: start;
+
+      .grid-message-typography {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        justify-content: center;
+        align-self: stretch;
         align-items: center;
+        position: static;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 20px;
+      }
+    }
+    .grid-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      grid-gap: 15px;
+      padding: 20px 40px 30px;
+      position: static;
+      width: 688px;
+      height: 102px;
+      left: 0px;
+      top: 138px;
+
+      .grid-button {
+        flex: none;
+        order: 3;
+        align-self: stretch;
+        flex-grow: 1;
+        margin: 0px 0px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 20px;
+        position: static;
+        width: 296.5px;
+        max-height: 58px;
+        height: 58px;
+        left: 351.5px;
+        top: calc(50% - 58px/2 - 2px);
+        border: 1px solid;
+        box-sizing: border-box;
+        border-radius: 5px;
+
+        .grid-button-content {
+          flex: none;
+          order: 0;
+          flex-grow: 0;
+          margin: 0 15px;
+
+          .grid-button-icon {
+            margin-top: 12px;
+            position: static;
+            width: 32px;
+            height: 32px;
+            left: 93.75px;
+            top: 13px;
+            border-radius: 50%;
+          }
+
+          .grid-button-text {
+            position: static;
+            width: 69px;
+            height: 16px;
+            left: 133.75px;
+            top: 21px;
+            font-family: Euclid Square;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 16px;
+            display: flex;
+            align-items: center;
+          }
+        }
       }
     }
   }

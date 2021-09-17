@@ -31,6 +31,8 @@ const lightTheme = {
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
   containedSecondaryButtonHoverBG: "#33333333",
+  gridButtonHoverBackground: "rgba(118, 130, 153, 0.2)",
+  gridButtonActiveBackground: "rgba(118, 130, 153, 0.7)",
 };
 
 export const light = responsiveFontSizes(
@@ -276,6 +278,32 @@ export const light = responsiveFontSizes(
             color: lightTheme.color,
             "&:hover": {
               color: lightTheme.textHighlightColor,
+            },
+          },
+          "&.grid-button-text": {
+            color: "#FFFFFF",
+          },
+        },
+        MuiTypography: {
+          root: {
+            "&.grid-message-typography": {
+              color: lightTheme.blueish_gray,
+            },
+          },
+        },
+        MuiGrid: {
+          root: {
+            "&.grid-button": {
+              borderColor: `${lightTheme.gridButtonActiveBackground} !important`,
+              "&:hover": {
+                backgroundColor: lightTheme.gridButtonHoverBackground,
+              },
+              "&:active": {
+                backgroundColor: lightTheme.gridButtonActiveBackground,
+                "&:hover": {
+                  backgroundColor: lightTheme.gridButtonHoverBackground,
+                },
+              },
             },
           },
         },

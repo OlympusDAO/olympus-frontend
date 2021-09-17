@@ -38,6 +38,8 @@ const darkTheme = {
   outlinedSecondaryButtonHoverBG: "transparent",
   outlinedSecondaryButtonHoverColor: "#F8CC82", //gold
   containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
+  gridButtonHoverBackground: "rgba(255, 255, 255, 0.6)",
+  gridButtonActiveBackground: "rgba(255, 255, 255, 0.3)",
 };
 
 export const dark = responsiveFontSizes(
@@ -265,6 +267,32 @@ export const dark = responsiveFontSizes(
             color: darkTheme.color,
             "&:hover": {
               color: darkTheme.textHighlightColor,
+            },
+          },
+          "&.grid-button-text": {
+            color: "#FFFFFF",
+          },
+        },
+        MuiTypography: {
+          root: {
+            "&.grid-message-typography": {
+              color: "#A3A3A3",
+            },
+          },
+        },
+        MuiGrid: {
+          root: {
+            "&.grid-button": {
+              borderColor: `#FFFFFF !important`,
+              "&:hover": {
+                backgroundColor: darkTheme.gridButtonHoverBackground,
+              },
+              "&:active": {
+                backgroundColor: darkTheme.gridButtonActiveBackground,
+                "&:hover": {
+                  backgroundColor: darkTheme.gridButtonHoverBackground,
+                },
+              },
             },
           },
         },
