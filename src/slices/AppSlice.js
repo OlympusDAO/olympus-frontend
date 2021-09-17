@@ -1,13 +1,14 @@
 import { ethers } from "ethers";
-import { addresses, Actions } from "../constants";
+import { addresses } from "../constants";
 import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll } from "../helpers";
 import apollo from "../lib/apolloClient.js";
-import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import allBonds from "src/helpers/AllBonds";
+import axios from "axios";
 
 const initialState = {
   loading: false,
@@ -35,19 +36,41 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   }
 `;
 
+  const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
+  const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
+  const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
+  const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
   const graphData = await apollo(protocolMetricsQuery);
 
-  if (!graphData || graphData == null) {
-    console.error("Returned a null response when querying TheGraph");
-    return;
-  }
+  let stakingTVL;
+  let marketPrice;
+  let marketCap;
+  let circSupply;
+  let totalSupply;
 
-  const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
-  const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
-  const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
-  const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
-  const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
-  // const currentBlock = parseFloat(graphData.data._meta.block.number);
+  // If we are on Ethereum, use graphData, if on Arbitrum get staking balance from the contract, everything else from CoinGecko
+  if (networkID !== 42161) {
+    if (!graphData || graphData == null) {
+      console.error("Returned a null response when querying TheGraph");
+      return;
+    }
+
+    stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
+    marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
+    marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
+    circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
+    totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
+    // const currentBlock = parseFloat(graphData.data._meta.block.number);
+  } else {
+    const stakingContractBalance = await stakingContract.contractBalance();
+    await axios.get("https://api.coingecko.com/api/v3/coins/olympus").then(result => {
+      marketPrice = parseFloat(result.data["market_data"]["current_price"]["usd"]);
+      marketCap = parseFloat(result.data["market_data"]["market_cap"]["usd"]);
+      circSupply = parseFloat(result.data["market_data"]["circulating_supply"]);
+      totalSupply = parseFloat(result.data["market_data"]["total_supply"]);
+      stakingTVL = ethers.utils.formatUnits(stakingContractBalance, "gwei") * marketPrice;
+    });
+  }
 
   if (!provider) {
     console.error("failed to connect to provider, please connect your wallet");
@@ -59,12 +82,8 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
       totalSupply,
     };
   }
-  const currentBlock = await provider.getBlockNumber();
 
-  const stakingContract = new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStakingv2, provider);
-  const oldStakingContract = new ethers.Contract(addresses[networkID].OLD_STAKING_ADDRESS, OlympusStaking, provider);
-  const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
-  const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
+  const currentBlock = await provider.getBlockNumber();
 
   // Calculate Treasury Balance
   const tokenBalPromises = allBonds.map(async bond => await bond.getTreasuryBalance(networkID, provider));
