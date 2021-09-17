@@ -287,7 +287,7 @@ export const dark = responsiveFontSizes(
               "&:hover": {
                 backgroundColor: darkTheme.gridButtonHoverBackground,
               },
-              "&:active": {
+              "&.current": {
                 backgroundColor: darkTheme.gridButtonActiveBackground,
                 "&:hover": {
                   backgroundColor: darkTheme.gridButtonHoverBackground,

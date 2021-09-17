@@ -64,7 +64,7 @@ function ChangeNetwork() {
                 </Grid>
 
                 <Grid className="grid-buttons">
-                  <Grid className="grid-button">
+                  <Grid className={chainName === "Ethereum" ? "grid-button current" : "grid-button"}>
                     <Button onClick={handleSwitchChain(1)}>
                       <Grid className="grid-button-content">
                         <img className="grid-button-icon" src={ethereum} alt="Ethereum Logo" />
@@ -75,7 +75,7 @@ function ChangeNetwork() {
                     </Button>
                   </Grid>
 
-                  <Grid className="grid-button">
+                  <Grid className={chainName === "Arbitrum" ? "grid-button current" : "grid-button"}>
                     <Button onClick={handleSwitchChain(42161)}>
                       <Grid className="grid-button-content">
                         <img className="grid-button-icon" src={arbitrum} alt="Arbitrum Logo" />
