@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { getMarketPrice } from "../helpers";
+import { getMarketPrice, contractForRedeemHelper } from "../helpers";
 import { getBalances, calculateUserBondDetails } from "./AccountSlice";
 import { error } from "./MessagesSlice";
 import { Bond, NetworkID } from "../lib/Bond";
@@ -14,6 +14,7 @@ interface IChangeApproval {
   provider: StaticJsonRpcProvider | JsonRpcProvider;
   networkID: NetworkID;
 }
+
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
   async ({ bond, provider, networkID }: IChangeApproval, { dispatch }) => {
@@ -205,6 +206,7 @@ interface IRedeemBond {
   networkID: NetworkID;
   autostake: Boolean;
 }
+
 export const redeemBond = createAsyncThunk(
   "bonding/redeemBond",
   async ({ address, bond, networkID, provider, autostake }: IRedeemBond, { dispatch }) => {
@@ -237,11 +239,59 @@ export const redeemBond = createAsyncThunk(
   },
 );
 
+interface IRedeemAllBonds {
+  bonds: Bond[];
+  address: string;
+  provider: StaticJsonRpcProvider | JsonRpcProvider;
+  networkID: NetworkID;
+  autostake: Boolean;
+}
+
+export const redeemAllBonds = createAsyncThunk(
+  "bonding/redeemAllBonds",
+  async ({ bonds, address, networkID, provider, autostake }: IRedeemAllBonds, { dispatch }) => {
+    if (!provider) {
+      alert("Please connect your wallet!");
+      return;
+    }
+
+    const signer = provider.getSigner();
+    const redeemHelperContract = contractForRedeemHelper({ networkID, provider: signer });
+
+    let redeemAllTx;
+
+    try {
+      redeemAllTx = await redeemHelperContract.redeemAll(address, autostake);
+      const pendingTxnType = "redeem_all_bonds" + (autostake === true ? "_autostake" : "");
+
+      await dispatch(
+        fetchPendingTxns({ txnHash: redeemAllTx.hash, text: "Redeeming All Bonds", type: pendingTxnType }),
+      );
+
+      await redeemAllTx.wait();
+
+      bonds &&
+        bonds.forEach(async bond => {
+          dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
+        });
+
+      dispatch(getBalances({ address, networkID, provider }));
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      if (redeemAllTx) {
+        dispatch(clearPendingTxn(redeemAllTx.hash));
+      }
+    }
+  },
+);
+
 // Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   status: string;
   [key: string]: any;
 }
+
 const setBondState = (state: IBondSlice, payload: any) => {
   const bond = payload.bond;
   const newState = { ...state[bond], ...payload };
