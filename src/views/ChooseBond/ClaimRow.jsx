@@ -42,21 +42,19 @@ export function ClaimBondTableData({ userBond }) {
       <TableCell align="left" className="bond-name-cell">
         <BondLogo bond={bond} />
         <div className="bond-name">
-          <Typography variant="body1">{bond.displayName}</Typography>
-          {/* {bond.isLP && (
-            <Link color="primary" href={bond.lpUrl} target="_blank">
-              <Typography variant="body1">
-                View Contract
-                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-              </Typography>
-            </Link>
-          )} */}
+          <Typography variant="body1">
+            {bond.displayName ? trim(bond.displayName, 4) : <Skeleton width={100} />}
+          </Typography>
         </div>
       </TableCell>
-      <TableCell align="left">{bond.pendingPayout}</TableCell>
-      <TableCell align="left">{bond.interestDue}</TableCell>
-      <TableCell align="center">{vestingPeriod()}</TableCell>
       <TableCell align="center">
+        {bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />}
+      </TableCell>
+      <TableCell align="center">{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</TableCell>
+      <TableCell align="right" style={{ whiteSpace: "nowrap" }}>
+        {vestingPeriod()}
+      </TableCell>
+      <TableCell align="right">
         <Button
           variant="outlined"
           color="primary"
@@ -103,18 +101,18 @@ export function ClaimBondCardData({ userBond }) {
       <Box className="bond-pair">
         <BondLogo bond={bond} />
         <Box className="bond-name">
-          <Typography>{bond.displayName}</Typography>
+          <Typography>{bond.displayName ? trim(bond.displayName, 4) : <Skeleton width={100} />}</Typography>
         </Box>
       </Box>
 
       <div className="data-row">
         <Typography>Claimable</Typography>
-        <Typography>{bond.interestDue}</Typography>
+        <Typography>{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</Typography>
       </div>
 
       <div className="data-row">
         <Typography>Pending</Typography>
-        <Typography>{bond.pendingPayout}</Typography>
+        <Typography>{bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />}</Typography>
       </div>
 
       <div className="data-row" style={{ marginBottom: "20px" }}>

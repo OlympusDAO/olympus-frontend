@@ -89,7 +89,7 @@ export function BondTableData({ bond }) {
           )}
         </div>
       </TableCell>
-      <TableCell align="center">
+      <TableCell align="left">
         <Typography>
           <>
             <span className="currency-icon">$</span>
@@ -97,7 +97,7 @@ export function BondTableData({ bond }) {
           </>
         </Typography>
       </TableCell>
-      <TableCell align="right">{isBondLoading ? <Skeleton /> : `${trim(bond.bondDiscount * 100, 2)}%`}</TableCell>
+      <TableCell align="left">{isBondLoading ? <Skeleton /> : `${trim(bond.bondDiscount * 100, 2)}%`}</TableCell>
       <TableCell align="right">
         {isBondLoading ? (
           <Skeleton />
