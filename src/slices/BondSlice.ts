@@ -224,6 +224,12 @@ export const redeemBond = createAsyncThunk(
     const bondContract = bond.getContractForBond(networkID, signer);
 
     let redeemTx;
+    let uaData = {
+      address: address,
+      type: "Redeem",
+      bondName: bond,
+      autoStake: autostake,
+    };
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);
       const pendingTxnType = "redeem_bond_" + bond + (autostake === true ? "_autostake" : "");
@@ -238,6 +244,7 @@ export const redeemBond = createAsyncThunk(
       alert(error.message);
     } finally {
       if (redeemTx) {
+        ua(uaData);
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
