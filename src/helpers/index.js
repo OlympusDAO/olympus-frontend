@@ -1,6 +1,7 @@
-import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS } from "../constants";
+import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS, addresses } from "../constants";
 import { ethers } from "ethers";
 import { abi as PairContract } from "../abi/PairContract.json";
+import { abi as RedeemHelperAbi } from "../abi/RedeemHelper.json";
 
 import { Box, SvgIcon } from "@material-ui/core";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
@@ -115,3 +116,7 @@ export const setBondState = (state, payload) => {
   const newState = { ...state[bond], ...payload };
   state[bond] = newState;
 };
+
+export function contractForRedeemHelper({ networkID, provider }) {
+  return new ethers.Contract(addresses[networkID].REDEEM_HELPER_ADDRESS, RedeemHelperAbi, provider);
+}

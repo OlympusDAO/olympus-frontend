@@ -75,8 +75,13 @@ function BondPurchase({ bond, slippage }) {
           address: recipientAddress || address,
         }),
       );
+      clearInput();
     }
   }
+
+  const clearInput = () => {
+    setQuantity(0);
+  };
 
   const hasAllowance = useCallback(() => {
     return bond.allowance > 0;
@@ -111,7 +116,7 @@ function BondPurchase({ bond, slippage }) {
   }, [secondsToRefresh, quantity]);
 
   const onSeekApproval = async () => {
-    await dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
+    dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
   };
 
   const displayUnits = bond.displayUnits;
