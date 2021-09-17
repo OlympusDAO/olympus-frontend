@@ -1,6 +1,6 @@
-import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
+import React, { ReactElement, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Web3Modal from "web3modal";
-import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { NETWORK } from "../constants";
 
@@ -41,7 +41,9 @@ function getAlchemyAPI(chainID: Number) {
   const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
   const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
   if (chainID === 1) return `https://eth-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
-  else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO`; // unbanksy's
+  // unbanksy's
+  else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO`;
+  else if (chainID === 42161) return `https://arb-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
 }
 
 const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
@@ -66,7 +68,7 @@ function getMainnetURI(): string {
 }
 
 function getArbitrumURI(): string {
-  return "https://arb-mainnet.g.alchemy.com/v2/qArKEu7I-QeBI1d6Y0BiL_XZOgBmQD2W";
+  return "https://arb-mainnet.alchemyapi.io/v2/qArKEu7I-QeBI1d6Y0BiL_XZOgBmQD2W";
 }
 
 function getArbitrumTestnetURI(): string {
