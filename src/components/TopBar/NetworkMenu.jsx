@@ -1,11 +1,11 @@
-import { Button, Link, Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
-import Box from "@material-ui/core/Box";
 import { useWeb3Context } from "../../hooks/web3Context";
 import React, { useEffect, useState } from "react";
 import "./networkmenu.scss";
-import ethereum from "../../assets/ethereum.jpg";
-import arbitrum from "../../assets/arbitrum.jpg";
+import ethereum from "../../assets/ethereum.png";
+import arbitrum from "../../assets/arbitrum.png";
+import Grid from "@material-ui/core/Grid";
 
 function NetworkMenu() {
   const { chainName } = useWeb3Context();
@@ -22,7 +22,7 @@ function NetworkMenu() {
   }, [chainName]);
 
   return (
-    <Box component="div" className="network-menu-container">
+    <Grid container className="network-menu-container">
       <Button
         aria-label="change-network"
         size="large"
@@ -33,10 +33,10 @@ function NetworkMenu() {
         to="/network"
         className="network-menu-button"
       >
-        <img src={image} alt={chainName} height="40px" width="40px" />
+        <img src={image} alt={chainName} />
         <Typography className="network-menu-button-content">{name}</Typography>
       </Button>
-    </Box>
+    </Grid>
   );
 }
 

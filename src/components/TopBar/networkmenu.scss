@@ -4,14 +4,15 @@
   .network-menu-button {
     justify-content: start;
     align-items: center;
-    padding: 0px;
+    padding: 10px;
   }
   .network-menu-button-content {
-    padding: 8px;
+    padding-left: 5px;
   }
   img {
-     height: 40px;
-     width: 40px;
-   }
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+  }
 }
 
