@@ -175,7 +175,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const _checkNetwork = (otherChainID: number): Boolean => {
     if (chainID !== otherChainID) {
       console.warn("You are switching networks");
-      if (otherChainID === 1 || otherChainID === 4 || otherChainID === 42161) {
+      if (otherChainID === 1 || otherChainID === 4 || otherChainID === 42161 || otherChainID === 421611) {
         setChainID(otherChainID);
         switch (otherChainID) {
           case 1:
@@ -190,7 +190,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
             setUri(getArbitrumURI());
             setChainName("Arbitrum");
             break;
-          case 42161:
+          case 421611:
             setUri(getArbitrumTestnetURI());
             setChainName("Arbitrum Testnet");
             break;
