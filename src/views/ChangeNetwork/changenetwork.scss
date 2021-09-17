@@ -84,7 +84,11 @@
         font-style: normal;
         font-weight: normal;
         font-size: 20px;
+        .chain-highlight {
+          font-size: 20px;
+        }
       }
+
     }
     .grid-buttons {
       display: flex;

@@ -278,6 +278,9 @@ export const dark = responsiveFontSizes(
             "&.grid-message-typography": {
               color: "#A3A3A3",
             },
+            "&.chain-highlight": {
+              color: "#DADADA",
+            },
           },
         },
         MuiGrid: {

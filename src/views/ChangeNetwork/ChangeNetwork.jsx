@@ -60,7 +60,17 @@ function ChangeNetwork() {
                 </Grid>
 
                 <Grid className="grid-message">
-                  <Typography className="grid-message-typography">{message}</Typography>
+                  {chainName !== "Unsupported Chain!" ? (
+                    <Typography className="grid-message-typography">
+                      You are currently on the&nbsp;
+                      <Typography className="chain-highlight">{chainName}</Typography>
+                      &nbsp;network.
+                    </Typography>
+                  ) : (
+                    <Typography className="grid-message-typography">
+                      You are connected to an unsupported network. Please select a network from the list below.
+                    </Typography>
+                  )}
                 </Grid>
 
                 <Grid className="grid-buttons">
