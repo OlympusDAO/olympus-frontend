@@ -6,7 +6,6 @@ import OhmDaiImg from "src/assets/tokens/OHM-DAI.svg";
 import FraxImg from "src/assets/tokens/FRAX.svg";
 // import OhmFraxImg from "src/assets/tokens/OHM-FRAX.svg";
 import wETHImg from "src/assets/tokens/wETH.svg";
-// TODO (appleseed-lusd): Liquity LUSD token icon in SVG
 import LusdImg from "src/assets/tokens/LUSD.svg";
 
 // TODO (appleseed-lusd): delete ohm-frax refs
@@ -16,8 +15,9 @@ import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
 import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
 // import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
+import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
-// TODO (appleseed-lusd): get contracts
+// TODO (appleseed-lusd): get MAINNET contracts
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
@@ -62,8 +62,8 @@ export const lusd = new StableBond({
   displayName: "LUSD",
   bondToken: "LUSD",
   bondIconSvg: LusdImg,
-  // TODO (appleseed-lusd): update these refs>>>
-  bondContractABI: FraxBondContract,
+  // TODO (appleseed-lusd): update these refs for MAINNET>>>
+  bondContractABI: LusdBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       // replace bondAddress
@@ -71,9 +71,8 @@ export const lusd = new StableBond({
       reserveAddress: "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
     },
     [NetworkID.Testnet]: {
-      // replace bondAddress
-      bondAddress: "0xF651283543fB9D61A91f318b78385d187D300738",
-      reserveAddress: "0x3040f5959d2c666e1a0868702e2d7623a271a656",
+      bondAddress: "0x3aD02C4E4D1234590E87A1f9a73B8E0fd8CF8CCa",
+      reserveAddress: "0x45754dF05AA6305114004358eCf8D04FF3B84e26",
     },
   },
 });
