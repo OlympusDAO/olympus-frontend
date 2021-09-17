@@ -47,9 +47,13 @@ export function ClaimBondTableData({ userBond }) {
           </Typography>
         </div>
       </TableCell>
-      <TableCell align="left">{bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />}</TableCell>
-      <TableCell align="left">{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</TableCell>
-      <TableCell align="right">{vestingPeriod()}</TableCell>
+      <TableCell align="center">
+        {bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />}
+      </TableCell>
+      <TableCell align="center">{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</TableCell>
+      <TableCell align="right" style={{ whiteSpace: "nowrap" }}>
+        {vestingPeriod()}
+      </TableCell>
       <TableCell align="right">
         <Button
           variant="outlined"
