@@ -6,7 +6,7 @@
     align-items: center;
     padding: 10px;
   }
-  .network-menu-button-content {
+  .network-menu-button-text {
     padding-left: 5px;
   }
   img {
@@ -16,3 +16,6 @@
   }
 }
 
+.mobile .network-menu-button-text {
+  display: none !important;
+}

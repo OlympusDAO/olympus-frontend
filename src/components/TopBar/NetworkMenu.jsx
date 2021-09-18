@@ -41,7 +41,7 @@ function NetworkMenu() {
         className="network-menu-button"
       >
         <img src={image} alt={chainName} />
-        <Typography className="network-menu-button-content">{name}</Typography>
+        <Typography className="network-menu-button-text">{name}</Typography>
       </Button>
     </Grid>
   );
