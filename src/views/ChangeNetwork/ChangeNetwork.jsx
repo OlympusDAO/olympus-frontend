@@ -1,4 +1,4 @@
-import { Backdrop, Fade, Grid, Link, Paper, SvgIcon, Typography, Box } from "@material-ui/core";
+import { Backdrop, Fade, Grid, Link, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import "./changenetwork.scss";
