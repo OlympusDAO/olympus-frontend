@@ -13,6 +13,8 @@ function ChangeNetwork() {
   const { switchChain, chainName } = useWeb3Context();
   const history = useHistory();
   const [message, setMessage] = useState("");
+  const arbitrumId = 42161;
+  const ethereumId = 1;
 
   useEffect(() => {
     let newMessage = "";
@@ -26,7 +28,6 @@ function ChangeNetwork() {
 
   const handleClose = () => {
     history.goBack();
-    history.push("/network");
   };
 
   const handleSwitchChain = id => {
@@ -75,7 +76,7 @@ function ChangeNetwork() {
 
                 <Grid className="grid-buttons">
                   <Grid className={chainName === "Ethereum" ? "grid-button current" : "grid-button"}>
-                    <Button fullWidth fullHeight onClick={handleSwitchChain(1)}>
+                    <Button fullWidth fullHeight onClick={handleSwitchChain(ethereumId)}>
                       <Grid className="grid-button-content">
                         <img className="grid-button-icon" src={ethereum} alt="Ethereum Logo" />
                       </Grid>
@@ -86,7 +87,7 @@ function ChangeNetwork() {
                   </Grid>
 
                   <Grid className={chainName === "Arbitrum" ? "grid-button current" : "grid-button"}>
-                    <Button fullWidth fullHeight onClick={handleSwitchChain(42161)}>
+                    <Button fullWidth fullHeight onClick={handleSwitchChain(arbitrumId)}>
                       <Grid className="grid-button-content">
                         <img className="grid-button-icon" src={arbitrum} alt="Arbitrum Logo" />
                       </Grid>

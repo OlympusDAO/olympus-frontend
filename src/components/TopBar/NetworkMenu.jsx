@@ -12,13 +12,20 @@ function NetworkMenu() {
   const [name, setName] = useState("");
   const [image, setImage] = useState();
 
-  useEffect(() => {
+  const setChain = () => {
     setName(chainName);
-    if (chainName === "Ethereum") {
-      setImage(ethereum);
-    } else if (chainName === "Arbitrum") {
-      setImage(arbitrum);
+    switch (chainName) {
+      case "Ethereum":
+        setImage(ethereum);
+        break;
+      case "Arbitrum":
+        setImage(arbitrum);
+        break;
     }
+  };
+
+  useEffect(() => {
+    setChain();
   }, [chainName]);
 
   return (
