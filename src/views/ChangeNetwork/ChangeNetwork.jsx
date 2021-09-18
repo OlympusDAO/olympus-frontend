@@ -5,9 +5,9 @@ import "./changenetwork.scss";
 import useEscape from "../../hooks/useEscape";
 import Button from "@material-ui/core/Button";
 import { useWeb3Context } from "../../hooks/web3Context";
-import { useState } from "react";
 import arbitrum from "../../assets/arbitrum.png";
 import ethereum from "../../assets/ethereum.png";
+import React from "react";
 
 function ChangeNetwork() {
   const { switchChain, chainName } = useWeb3Context();
@@ -37,13 +37,13 @@ function ChangeNetwork() {
           <Fade in={true}>
             <Paper className="ohm-card ohm-modal">
               <Grid container className="grid-container">
-                <Grid className="grid-header" item xs={12}>
-                  <Grid className="grid-header-content">
-                    <Link styles="button" onClick={handleClose}>
+                <Grid className="grid-header" xs={12}>
+                  <Grid>
+                    <Link onClick={handleClose}>
                       <SvgIcon color="primary" component={XIcon} />
                     </Link>
                   </Grid>
-                  <Grid className="grid-header-content">
+                  <Grid className="grid-header-title" xs={10}>
                     <Typography variant="h5">Select a Network</Typography>
                   </Grid>
                   <Grid />

@@ -18,7 +18,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      padding: 0px 0px 50px;
+      padding: 0 0 50px;
       position: relative;
       max-width: 688px;
       min-height: 290px;
@@ -38,7 +38,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      padding: 0px 0px 50px;
+      padding: 0 0 50px;
       position: relative;
       max-width: 688px;
       min-height: 290px;
@@ -52,36 +52,33 @@
       justify-content: space-between;
       align-items: flex-start;
       padding: 30px;
-      position: static;
       height: 78px;
       left: calc(50% - 688px / 2);
 
-      .grid-header-content {
+      .grid-header-title {
         flex: none;
         order: 0;
         align-self: stretch;
         flex-grow: 0;
       }
+
+      h5 {
+        font-weight: 600;
+      }
     }
     .grid-message {
-      display: flex;
       flex-direction: row;
       justify-content: space-between;
       grid-gap: 15px;
       padding: 20px 40px 30px;
-      position: static;
       width: 688px;
       height: 102px;
 
       .grid-message-typography {
         display: flex;
         flex-direction: row;
-        flex-grow: 1;
         justify-content: center;
-        align-self: stretch;
         align-items: center;
-        position: static;
-        font-style: normal;
         font-weight: normal;
         font-size: 20px;
         .chain-highlight {
@@ -92,26 +89,17 @@
     .grid-buttons {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: center;
       grid-gap: 15px;
-      padding: 20px 40px 30px;
-      position: static;
+      padding-top: 20px;
+      padding-bottom: 30px;
       width: 688px;
       height: 102px;
-      left: 0px;
       top: 138px;
 
       .grid-button {
-        flex: none;
-        order: 3;
-        align-self: stretch;
-        flex-grow: 1;
-        margin: 0px 0px;
-        display: flex;
-        flex-direction: row;
         justify-content: center;
         align-items: center;
-        position: static;
         width: 296.5px;
         max-height: 58px;
         height: 58px;
@@ -129,14 +117,10 @@
         }
 
         .grid-button-content {
-          flex: none;
-          order: 0;
-          flex-grow: 0;
-          margin: 0 15px;
+          margin: 0 4px;
 
           .grid-button-icon {
             margin-top: 12px;
-            position: static;
             width: 32px;
             height: 32px;
             left: 93.75px;
@@ -145,18 +129,13 @@
           }
 
           .grid-button-text {
-            position: static;
             width: 69px;
             height: 16px;
             left: 133.75px;
             top: 21px;
-            font-family: Euclid Square;
-            font-style: normal;
             font-weight: 500;
             font-size: 16px;
             line-height: 16px;
-            display: flex;
-            align-items: center;
           }
         }
       }
@@ -175,6 +154,8 @@
   }
   .grid-buttons {
     flex-direction: column;
+    padding-top: 80px;
+    align-items: center;
   }
   .grid-container {
     .grid-message {
