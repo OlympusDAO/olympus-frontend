@@ -32,9 +32,9 @@ const ALCHEMY_ID_LIST = [
 const defaultApiKey = "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC";
 
 const TEMP_ALCHEMY_IDS = [
-  // "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // appleseed-temp1
-  // "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
-  "j0QUyceqxu31tQrAQSotL2YMqmuzoGPh", // appleseed-temp3
+  "bErYsMwjnuqkMp_7kv_j56fqhX-hrchd", // appleseed temps
+  "etQyv_Wo6jLx81t7XeFXQLLiufFjsgvl",
+  "bFrROI7I86II_WsChT44YuoyuGfL4vdA",
 ];
 function getAlchemyAPI(chainID: Number) {
   const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
@@ -48,9 +48,9 @@ const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alche
 
 // TODO(zx): Remove this out post 8/25/2021 when we use our prod alchemyAPI key
 // temp force into TEMP_ALCHEMY_IDS
-// const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-// const ALL_URIs = [..._tempAlchemyURIs];
-const ALL_URIs = [..._alchemyURIs];
+const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
+const ALL_URIs = [..._tempAlchemyURIs];
+// const ALL_URIs = [..._alchemyURIs];
 // temp change ALL_URIs into TEMP_ALCHEMY_IDS
 // const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
 
