@@ -88,7 +88,6 @@
           font-size: 20px;
         }
       }
-
     }
     .grid-buttons {
       display: flex;
@@ -117,7 +116,7 @@
         max-height: 58px;
         height: 58px;
         left: 351.5px;
-        top: calc(50% - 58px/2 - 2px);
+        top: calc(50% - 58px / 2 - 2px);
         border: 1px solid;
         box-sizing: border-box;
         border-radius: 5px;
@@ -176,5 +175,15 @@
   }
   .grid-buttons {
     flex-direction: column;
+  }
+  .grid-container {
+    .grid-message {
+      display: block;
+      text-align: center;
+      .grid-message-typography {
+        display: block;
+        text-align: center;
+      }
+    }
   }
 }
