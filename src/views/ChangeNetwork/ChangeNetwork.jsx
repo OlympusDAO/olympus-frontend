@@ -5,26 +5,15 @@ import "./changenetwork.scss";
 import useEscape from "../../hooks/useEscape";
 import Button from "@material-ui/core/Button";
 import { useWeb3Context } from "../../hooks/web3Context";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import arbitrum from "../../assets/arbitrum.png";
 import ethereum from "../../assets/ethereum.png";
 
 function ChangeNetwork() {
   const { switchChain, chainName } = useWeb3Context();
   const history = useHistory();
-  const [message, setMessage] = useState("");
   const arbitrumId = 42161;
   const ethereumId = 1;
-
-  useEffect(() => {
-    let newMessage = "";
-    if (chainName !== "Unsupported Chain!") {
-      newMessage = "You are currently on the " + chainName + " network.";
-    } else {
-      newMessage = "You are connected to an unsupported network. Please select a network from the list below.";
-    }
-    setMessage(newMessage);
-  }, [chainName]);
 
   const handleClose = () => {
     history.goBack();
