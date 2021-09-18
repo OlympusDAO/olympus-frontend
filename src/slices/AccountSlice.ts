@@ -130,7 +130,6 @@ interface ICalcUserBondDetails {
   networkID: NetworkID;
 }
 export interface IUserBondDetails {
-  bond: string;
   allowance: number;
   interestDue: number;
   bondMaturationBlock: number;
@@ -140,7 +139,17 @@ export const calculateUserBondDetails = createAsyncThunk(
   "account/calculateUserBondDetails",
   async ({ address, bond, networkID, provider }: ICalcUserBondDetails, { dispatch }) => {
     if (!address) {
-      return { bond: "", allowance: 0, balance: 0, interestDue: 0, bondMaturationBlock: 0, pendingPayout: "" };
+      return {
+        bond: "",
+        displayName: "",
+        bondIconSvg: "",
+        isLP: false,
+        allowance: 0,
+        balance: 0,
+        interestDue: 0,
+        bondMaturationBlock: 0,
+        pendingPayout: "",
+      };
     }
     // dispatch(fetchBondInProgress());
 
@@ -163,6 +172,9 @@ export const calculateUserBondDetails = createAsyncThunk(
 
     return {
       bond: bond.name,
+      displayName: bond.displayName,
+      bondIconSvg: bond.bondIconSvg,
+      isLP: bond.isLP,
       allowance: Number(allowance),
       balance: Number(balanceVal),
       interestDue,
@@ -226,7 +238,7 @@ const accountSlice = createSlice({
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
         if (!action.payload) return;
         const bond = action.payload.bond;
-        state.bonds[bond] = action.payload;
+        if (action.payload.interestDue > 0) state.bonds[bond] = action.payload;
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {

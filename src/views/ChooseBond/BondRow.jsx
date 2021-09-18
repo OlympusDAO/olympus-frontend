@@ -1,6 +1,6 @@
 import { trim } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
-import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
+import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
@@ -13,7 +13,7 @@ export function BondDataCard({ bond }) {
 
   return (
     <Slide direction="up" in={true}>
-      <Paper id={`${bond}--bond`} className="bond-data-card ohm-card">
+      <Paper id={`${bond.name}--bond`} className="bond-data-card ohm-card">
         <div className="bond-pair">
           <BondLogo bond={bond} />
           <div className="bond-name">
@@ -70,13 +70,12 @@ export function BondDataCard({ bond }) {
 
 export function BondTableData({ bond }) {
   // Use BondPrice as indicator of loading.
-
   const isBondLoading = !bond.bondPrice ?? true;
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
 
   return (
     <TableRow id={`${bond.name}--bond`}>
-      <TableCell align="left">
+      <TableCell align="left" className="bond-name-cell">
         <BondLogo bond={bond} />
         <div className="bond-name">
           <Typography variant="body1">{bond.displayName}</Typography>
@@ -90,7 +89,7 @@ export function BondTableData({ bond }) {
           )}
         </div>
       </TableCell>
-      <TableCell align="center">
+      <TableCell align="left">
         <Typography>
           <>
             <span className="currency-icon">$</span>
@@ -98,7 +97,7 @@ export function BondTableData({ bond }) {
           </>
         </Typography>
       </TableCell>
-      <TableCell align="right">{isBondLoading ? <Skeleton /> : `${trim(bond.bondDiscount * 100, 2)}%`}</TableCell>
+      <TableCell align="left">{isBondLoading ? <Skeleton /> : `${trim(bond.bondDiscount * 100, 2)}%`}</TableCell>
       <TableCell align="right">
         {isBondLoading ? (
           <Skeleton />
