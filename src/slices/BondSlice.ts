@@ -8,6 +8,7 @@ import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
+import { ErrorResponse } from "@json-rpc-tools/types/dist/cjs/jsonrpc.d";
 
 interface IChangeApproval {
   bond: Bond;
@@ -39,7 +40,7 @@ export const changeApproval = createAsyncThunk(
       );
       await approveTx.wait();
     } catch (error) {
-      alert(error.message);
+      alert((error as Error).message);
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
@@ -187,7 +188,8 @@ export const bondAsset = createAsyncThunk(
       // UX preference (show pending after txn complete or after balance updated)
 
       dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
-    } catch (error) {
+    } catch (e) {
+      let error = e as ErrorResponse;
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else alert(error.message);
