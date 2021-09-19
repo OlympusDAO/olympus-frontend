@@ -14,7 +14,7 @@ import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
@@ -212,7 +212,7 @@ function App() {
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
             <Route exact path="/dashboard">
-              <Dashboard />
+              <TreasuryDashboard />
             </Route>
 
             <Route exact path="/">
