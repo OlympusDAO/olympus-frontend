@@ -8,8 +8,8 @@ import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
 
-const sohmImg = getTokenImage("sohm");
-const ohmImg = getTokenImage("ohm");
+import OhmImg from "src/assets/tokens/token_OHM.svg";
+import SOhmImg from "src/assets/tokens/token_sOHM.svg";
 
 const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
@@ -22,7 +22,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
             address: tokenAddress,
             symbol: tokenSymbol,
             decimals: TOKEN_DECIMALS,
-            image: tokenSymbol === "OHM" ? ohmImg : sohmImg,
+            image: tokenSymbol === "OHM" ? OhmImg : SOhmImg,
           },
         },
       });
