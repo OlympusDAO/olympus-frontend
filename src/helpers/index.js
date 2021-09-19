@@ -115,12 +115,8 @@ export function getTokenImage(name) {
  */
 export function getTokenAsset(name) {
   let image = new Image();
-  if (name === "ohm") {
-    image.src = RawOhmImg;
-  }
-  if (name === "sohm") {
-    image.src = RawSOhmImg;
-  }
+  if (name === "ohm") image.src = RawOhmImg;
+  if (name === "sohm") image.src = RawSOhmImg;
   return image;
 }
 
