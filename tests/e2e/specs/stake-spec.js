@@ -21,6 +21,7 @@ describe("Stake tests", () => {
       cy.get("#user-balance")
         .not(`:contains(${balance_before})`)
         .then($p => {
+          // Check new balance
           const balance_after = $p.text();
           expect(parseFloat(balance_after)).to.eq(parseFloat(balance_before) - STAKE_AMOUNT);
         });

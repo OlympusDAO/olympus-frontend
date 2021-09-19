@@ -27,19 +27,18 @@ The testnet faucet for sOHM can be found [here](https://rinkeby.etherscan.io/add
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 
 ## End to end test
-To run end to end tests you have to set up synpress to use the adequate network and wallet. For instance if you want to run tests on rinkeby network you could export
+To run end to end tests you have to:
+- set up synpress to use the adequate network and wallet. For instance if you want to run tests on rinkeby network you could export
 ```
 SECRET_WORDS=<your secret words>
 NETWORK_NAME=rinkeby 
 ```
 More options are available, please check: https://github.com/Synthetixio/synpress#-important
 
-Then you run the tests with:
-`yarn synpress:run`
+- Make sure we have sufficent balance to run the tests
 
-You can also open the cypress app with:
-`yarn synpress:open`
-Be careful though, in this case metamask state is not reset between tests.
+- Actually run the tests
+`yarn synpress:run`
 
 
 ### Architecture/Layout
