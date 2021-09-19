@@ -1,4 +1,9 @@
 var STAKE_AMOUNT = 0.1;
+// Sometimes we need to round float values because bigint type does not exist (yet) in javascript
+function ohmRound(val) {
+  var m = Math.pow(10, 10);
+  return Math.round(parseFloat(val) * m) / m;
+}
 describe("Stake tests", () => {
   beforeEach(() => {
     cy.visit("/#/");
@@ -13,17 +18,18 @@ describe("Stake tests", () => {
     cy.confirmMetamaskPermissionToSpend();
     // Stake and check that balance changed accordingly
     cy.get("#user-balance").then($p => {
-      const balance_before = $p.text();
+      const balance_before_txt = $p.text();
+      const target_balance = ohmRound(ohmRound(balance_before_txt) - STAKE_AMOUNT);
       // Stake
       cy.get(".stake-button").click();
       cy.confirmMetamaskTransaction();
       // Wait for balance to change
       cy.get("#user-balance")
-        .not(`:contains(${balance_before})`)
+        .not(`:contains(${balance_before_txt})`)
         .then($p => {
           // Check new balance
-          const balance_after = $p.text();
-          expect(parseFloat(balance_after)).to.eq(parseFloat(balance_before) - STAKE_AMOUNT);
+          const balance_after = ohmRound($p.text());
+          expect(balance_after).to.eq(target_balance);
         });
     });
 
