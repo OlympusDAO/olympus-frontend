@@ -356,14 +356,14 @@ function Stake() {
                   <div className={`stake-user-data`}>
                     <div className="data-row">
                       <Typography variant="body1">Your Balance</Typography>
-                      <Typography variant="body1">
+                      <Typography variant="body1" id="user-balance">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
                       </Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Your Staked Balance</Typography>
-                      <Typography variant="body1">
+                      <Typography variant="body1" id="user-staked-balance">
                         {isAppLoading ? (
                           <Skeleton width="80px" />
                         ) : (
