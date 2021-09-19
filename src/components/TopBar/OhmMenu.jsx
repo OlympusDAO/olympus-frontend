@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { addresses, TOKEN_DECIMALS } from "../../constants";
-import { getTokenImage } from "../../helpers";
+import { getTokenAsset } from "../../helpers";
 import { useSelector } from "react-redux";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, Slide } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
@@ -8,24 +8,26 @@ import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
 
-const sohmImg = getTokenImage("sohm");
-const ohmImg = getTokenImage("ohm");
+const sohmImg = getTokenAsset("sohm");
+const ohmImg = getTokenAsset("ohm");
 
 const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
     try {
-      await window.ethereum.request({
-        method: "wallet_watchAsset",
-        params: {
-          type: "ERC20",
-          options: {
-            address: tokenAddress,
-            symbol: tokenSymbol,
-            decimals: TOKEN_DECIMALS,
-            image: tokenSymbol === "OHM" ? ohmImg : sohmImg,
+      await window.ethereum
+        .request({
+          method: "wallet_watchAsset",
+          params: {
+            type: "ERC20",
+            options: {
+              address: tokenAddress,
+              symbol: tokenSymbol,
+              decimals: TOKEN_DECIMALS,
+              image: tokenSymbol === "OHM" ? ohmImg.src : sohmImg.src,
+            },
           },
-        },
-      });
+        })
+        .then(resp => console.log(resp));
     } catch (error) {
       console.log(error);
     }

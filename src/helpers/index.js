@@ -6,6 +6,8 @@ import { abi as RedeemHelperAbi } from "../abi/RedeemHelper.json";
 import { Box, SvgIcon } from "@material-ui/core";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
+import RawOhmImg from "../assets/tokens/token_OHM.svg";
+import RawSOhmImg from "../assets/tokens/token_sOHM.svg";
 
 import { ohm_dai } from "./AllBonds";
 
@@ -93,15 +95,33 @@ function getSohmTokenImage() {
   return <SvgIcon component={SOhmImg} viewBox="0 0 100 100" style={{ height: "1rem", width: "1rem" }} />;
 }
 
+// NOTE (appleseed): this does not appear to be used anymore.
 export function getOhmTokenImage(w, h) {
   h !== null ? (h = `${h}px`) : "32px";
   w !== null ? (w = `${w}px`) : "32px";
   return <SvgIcon component={OhmImg} viewBox="0 0 32 32" style={{ height: h, width: w }} />;
 }
 
+// NOTE (appleseed): this does not appear to be used anymore.
 export function getTokenImage(name) {
   if (name === "ohm") return getOhmTokenImage();
   if (name === "sohm") return getSohmTokenImage();
+}
+
+/**
+ * for viewing token image when adding token via `window.ethereum`
+ * @param {String} name is either `ohm` or `sohm`
+ * @returns a loaded `Image()` asset
+ */
+export function getTokenAsset(name) {
+  let image = new Image();
+  if (name === "ohm") {
+    image.src = RawOhmImg;
+  }
+  if (name === "sohm") {
+    image.src = RawSOhmImg;
+  }
+  return image;
 }
 
 export function setAll(state, properties) {
