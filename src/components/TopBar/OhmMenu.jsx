@@ -15,7 +15,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
     const host = window.location.origin;
     const tokenPath = tokenSymbol === "OHM" ? OhmImg : SOhmImg;
-    const imageURL = `${host}${tokenPath}`;
+    const imageURL = `${host}/${tokenPath}`;
 
     try {
       await window.ethereum.request({
