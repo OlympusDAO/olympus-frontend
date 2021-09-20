@@ -29,7 +29,7 @@ import TabPanel from "../../components/TabPanel";
 import BondLogo from "../../components/BondLogo";
 import { trim, getTokenImage, getOhmTokenImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../slices/StakeThunk";
-import { getFraxData } from "../../slices/FraxSlice";
+import { getLusdData } from "../../slices/LusdSlice";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import "./stake.scss";
@@ -67,8 +67,8 @@ function Stake() {
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
-  const fraxData = useSelector(state => {
-    return state.fraxData;
+  const lusdData = useSelector(state => {
+    return state.lusdData;
   });
   const fiveDayRate = useSelector(state => {
     return state.app.fiveDayRate;
@@ -133,13 +133,13 @@ function Stake() {
     [stakeAllowance],
   );
 
-  const loadFraxData = async () => {
-    dispatch(getFraxData());
+  const loadLusdData = async () => {
+    await dispatch(getLusdData({ address: address, provider: provider, networkID: chainID }));
   };
 
   useEffect(() => {
-    loadFraxData();
-  }, []);
+    loadLusdData();
+  }, [provider]);
 
   let modalButton = [];
 
@@ -424,26 +424,26 @@ function Stake() {
 
                   <TableBody>
                     <TableRow>
-                      {/* TODO (appleseed-lusd): delete or replace */}
                       <TableCell>
                         <Box className="ohm-pairs">
                           <BondLogo bond={{ bondIconSvg: OhmLusdImg, isLP: true }}></BondLogo>
                           <Typography>OHM-LUSD</Typography>
                         </Box>
                       </TableCell>
-                      <TableCell align="left">{fraxData && trim(fraxData.apy, 1)}%</TableCell>
+                      <TableCell align="left">{lusdData && trim(lusdData.apy, 1)}%</TableCell>
                       <TableCell align="left">
-                        {fraxData &&
-                          fraxData.tvl &&
+                        {lusdData &&
+                          lusdData.tvl &&
                           new Intl.NumberFormat("en-US", {
                             style: "currency",
                             currency: "USD",
                             maximumFractionDigits: 0,
                             minimumFractionDigits: 0,
-                          }).format(fraxData.tvl)}
+                          }).format(lusdData.tvl)}
                       </TableCell>
-                      <TableCell align="left"> {(fraxData && fraxData.balance) || 0} LP </TableCell>
+                      <TableCell align="left"> {(lusdData && trim(lusdData.balance, 2)) || 0} LP </TableCell>
                       <TableCell align="center">
+                        {/* TODO (appleseed-lusd): replace button link */}
                         <Button
                           variant="outlined"
                           color="secondary"
@@ -461,7 +461,6 @@ function Stake() {
               </TableContainer>
             ) : (
               <div className="stake-pool">
-                {/* TODO (appleseed-lusd): dlete or rpleace */}
                 <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                   <Box className="ohm-pairs">
                     <BondLogo bond={ohm_lusd}></BondLogo>
@@ -471,26 +470,27 @@ function Stake() {
                 <div className="pool-data">
                   <div className="data-row">
                     <Typography>APR</Typography>
-                    <Typography>{fraxData && trim(fraxData.apy, 1)}%</Typography>
+                    <Typography>{lusdData && trim(lusdData.apy, 1)}%</Typography>
                   </div>
                   <div className="data-row">
                     <Typography>TVL</Typography>
                     <Typography>
-                      {fraxData &&
-                        fraxData.tvl &&
+                      {lusdData &&
+                        lusdData.tvl &&
                         new Intl.NumberFormat("en-US", {
                           style: "currency",
                           currency: "USD",
                           maximumFractionDigits: 0,
                           minimumFractionDigits: 0,
-                        }).format(fraxData.tvl)}
+                        }).format(lusdData.tvl)}
                     </Typography>
                   </div>
                   <div className="data-row">
                     <Typography>Balance</Typography>
-                    <Typography>{(fraxData && fraxData.balance) || 0} LP</Typography>
+                    <Typography>{(lusdData && trim(lusdData.balance, 2)) || 0} LP</Typography>
                   </div>
 
+                  {/* TODO (appleseed-lusd): replace button link */}
                   <Button
                     variant="outlined"
                     color="secondary"
