@@ -60,7 +60,7 @@ export const BONDS = {
   dai: "dai",
   frax: "frax",
   eth: "eth",
-  lusd: "eth",
+  lusd: "lusd",
 };
 
 export const Actions = {
