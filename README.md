@@ -26,6 +26,20 @@ The testnet faucet for sOHM can be found [here](https://rinkeby.etherscan.io/add
 
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 
+## End to end test
+To run end to end tests you have to:
+- set up synpress to use the adequate network and wallet. For instance if you want to run tests on rinkeby network you could export
+```
+SECRET_WORDS=<your secret words>
+NETWORK_NAME=rinkeby 
+```
+More options are available, please check: https://github.com/Synthetixio/synpress#-important
+
+- Make sure we have sufficent balance to run the tests
+
+- Actually run the tests
+`yarn synpress:run`
+
 
 ### Architecture/Layout
 The app is written in [React](https://reactjs.org/) using [Redux](https://redux.js.org/) as the state container. 
