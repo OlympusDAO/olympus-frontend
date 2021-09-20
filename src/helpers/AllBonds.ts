@@ -4,7 +4,7 @@ import { addresses } from "src/constants";
 import DaiImg from "src/assets/tokens/DAI.svg";
 import OhmDaiImg from "src/assets/tokens/OHM-DAI.svg";
 import FraxImg from "src/assets/tokens/FRAX.svg";
-// import OhmFraxImg from "src/assets/tokens/OHM-FRAX.svg";
+import OhmLusdImg from "src/assets/tokens/OHM-LUSD.svg";
 import wETHImg from "src/assets/tokens/wETH.svg";
 import LusdImg from "src/assets/tokens/LUSD.svg";
 
@@ -125,13 +125,13 @@ export const ohm_dai = new LPBond({
 });
 
 // TODO (appleseed-lusd): delete below ....
-// export const ohm_frax = new LPBond({
-//   name: "ohm_frax_lp",
-//   displayName: "OHM-FRAX LP",
-//   bondToken: "FRAX",
-//   bondIconSvg: OhmFraxImg,
-//   bondContractABI: FraxOhmBondContract,
-//   reserveContract: ReserveOhmFraxContract,
+// export const ohm_lusd = new LPBond({
+//   name: "ohm_lusd_lp",
+//   displayName: "OHM-LUSD LP",
+//   bondToken: "LUSD",
+//   bondIconSvg: OhmLusdImg,
+//   bondContractABI: undefined,
+//   reserveContract: undefined,
 //   networkAddrs: {
 //     [NetworkID.Mainnet]: {
 //       bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
@@ -151,7 +151,7 @@ export const ohm_dai = new LPBond({
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
 // TODO (appleseed-lusd): delete below>>>>
-// export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, lusd];
+// export const allBonds = [dai, frax, eth, ohm_dai, ohm_lusd, lusd];
 export const allBonds = [dai, frax, eth, ohm_dai, lusd];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };

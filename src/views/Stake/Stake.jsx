@@ -39,6 +39,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 // TODO (appleseed-lusd): delete below
 // import { ohm_frax } from "src/helpers/AllBonds";
+import OhmLusdImg from "src/assets/tokens/OHM-LUSD.svg";
 
 function a11yProps(index) {
   return {
@@ -423,13 +424,13 @@ function Stake() {
 
                   <TableBody>
                     <TableRow>
-                      {/* TODO (appleseed-lusd): delete or replace
+                      {/* TODO (appleseed-lusd): delete or replace */}
                       <TableCell>
                         <Box className="ohm-pairs">
-                          <BondLogo bond={ohm_frax}></BondLogo>
-                          <Typography>OHM-FRAX</Typography>
+                          <BondLogo bond={{ bondIconSvg: OhmLusdImg, isLP: true }}></BondLogo>
+                          <Typography>OHM-LUSD</Typography>
                         </Box>
-                      </TableCell> */}
+                      </TableCell>
                       <TableCell align="left">{fraxData && trim(fraxData.apy, 1)}%</TableCell>
                       <TableCell align="left">
                         {fraxData &&
@@ -450,7 +451,7 @@ function Stake() {
                           target="_blank"
                           className="stake-lp-button"
                         >
-                          <Typography variant="body1">Stake on FRAX</Typography>
+                          <Typography variant="body1">Stake on Pickle</Typography>
                           <SvgIcon component={ArrowUp} color="primary" />
                         </Button>
                       </TableCell>
@@ -460,13 +461,13 @@ function Stake() {
               </TableContainer>
             ) : (
               <div className="stake-pool">
-                {/* TODO (appleseed-lusd): dlete or rpleace
+                {/* TODO (appleseed-lusd): dlete or rpleace */}
                 <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                   <Box className="ohm-pairs">
-                    <BondLogo bond={ohm_frax}></BondLogo>
-                    <Typography gutterBottom={false}>OHM-FRAX</Typography>
+                    <BondLogo bond={ohm_lusd}></BondLogo>
+                    <Typography gutterBottom={false}>OHM-LUSD</Typography>
                   </Box>
-                </div> */}
+                </div>
                 <div className="pool-data">
                   <div className="data-row">
                     <Typography>APR</Typography>
@@ -498,7 +499,7 @@ function Stake() {
                     className="stake-lp-button"
                     fullWidth
                   >
-                    <Typography variant="body1">Stake on FRAX</Typography>
+                    <Typography variant="body1">Stake on Pickle</Typography>
                     <SvgIcon component={ArrowUp} color="primary" />
                   </Button>
                 </div>
