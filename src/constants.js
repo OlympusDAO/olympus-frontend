@@ -58,15 +58,6 @@ export const addresses = {
   },
 };
 
-export const BONDS = {
-  ohm_dai: "ohm_dai_lp",
-  ohm_frax: "ohm_frax_lp",
-  dai: "dai",
-  frax: "frax",
-  eth: "eth",
-  lusd: "lusd",
-};
-
 export const Actions = {
   FETCH_ACCOUNT_SUCCESS: "account/FETCH_ACCOUNT_SUCCESS",
   FETCH_APP_INPROGRESS: "app/FETCH_APP_INPROGRESS",

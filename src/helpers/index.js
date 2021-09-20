@@ -1,4 +1,4 @@
-import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS } from "../constants";
+import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS } from "../constants";
 import { ethers } from "ethers";
 import { abi as PairContract } from "../abi/PairContract.json";
 

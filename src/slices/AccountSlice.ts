@@ -1,11 +1,10 @@
 import { ethers } from "ethers";
-import { addresses, Actions, BONDS } from "../constants";
+import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 
 import { setAll } from "../helpers";
-import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";

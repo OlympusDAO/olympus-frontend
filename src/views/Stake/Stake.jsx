@@ -37,8 +37,6 @@ import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-// TODO (appleseed-lusd): delete below
-// import { ohm_frax } from "src/helpers/AllBonds";
 import OhmLusdImg from "src/assets/tokens/OHM-LUSD.svg";
 
 function a11yProps(index) {
@@ -50,8 +48,6 @@ function a11yProps(index) {
 
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
-// TODO (appleseed-lusd): delete below or replace w our own staking
-// const OhmFraxImg = ohm_frax.bondIconSvg;
 
 function Stake() {
   const dispatch = useDispatch();
@@ -447,7 +443,7 @@ function Stake() {
                         <Button
                           variant="outlined"
                           color="secondary"
-                          href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
+                          href="https://app.pickle.finance/farms"
                           target="_blank"
                           className="stake-lp-button"
                         >
@@ -494,7 +490,7 @@ function Stake() {
                   <Button
                     variant="outlined"
                     color="secondary"
-                    href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
+                    href="https://app.pickle.finance/farms"
                     target="_blank"
                     className="stake-lp-button"
                     fullWidth

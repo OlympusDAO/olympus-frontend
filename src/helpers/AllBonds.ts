@@ -8,16 +8,12 @@ import OhmLusdImg from "src/assets/tokens/OHM-LUSD.svg";
 import wETHImg from "src/assets/tokens/wETH.svg";
 import LusdImg from "src/assets/tokens/LUSD.svg";
 
-// TODO (appleseed-lusd): delete ohm-frax refs
 import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
-// import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
 import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
 import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
-// import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
-// TODO (appleseed-lusd): get MAINNET contracts
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
@@ -62,12 +58,10 @@ export const lusd = new StableBond({
   displayName: "LUSD",
   bondToken: "LUSD",
   bondIconSvg: LusdImg,
-  // TODO (appleseed-lusd): update these refs for MAINNET>>>
   bondContractABI: LusdBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
-      // replace bondAddress
-      bondAddress: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514",
+      bondAddress: "0x10C0f93f64e3C8D0a1b0f4B87d6155fd9e89D08D",
       reserveAddress: "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
     },
     [NetworkID.Testnet]: {
@@ -124,7 +118,7 @@ export const ohm_dai = new LPBond({
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
 });
 
-// TODO (appleseed-lusd): delete below ....
+// TODO (appleseed-lusd): below for when we add ohm_lusd bond...
 // export const ohm_lusd = new LPBond({
 //   name: "ohm_lusd_lp",
 //   displayName: "OHM-LUSD LP",
@@ -134,12 +128,12 @@ export const ohm_dai = new LPBond({
 //   reserveContract: undefined,
 //   networkAddrs: {
 //     [NetworkID.Mainnet]: {
-//       bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
-//       reserveAddress: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
+//       bondAddress: undefined,
+//       reserveAddress: undefined,
 //     },
 //     [NetworkID.Testnet]: {
-//       bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
-//       reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
+//       bondAddress: undefined,
+//       reserveAddress: undefined,
 //     },
 //   },
 //   lpUrl:
@@ -150,8 +144,6 @@ export const ohm_dai = new LPBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-// TODO (appleseed-lusd): delete below>>>>
-// export const allBonds = [dai, frax, eth, ohm_dai, ohm_lusd, lusd];
 export const allBonds = [dai, frax, eth, ohm_dai, lusd];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
