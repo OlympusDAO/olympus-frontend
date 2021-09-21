@@ -1,16 +1,14 @@
 import { ethers } from "ethers";
-import { addresses, Actions, BONDS } from "../constants";
+import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 
 import { setAll } from "../helpers";
-import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 
-import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { Bond, CustomBond, LPBond, NetworkID, StableBond } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
-import React from "react";
+import { Bond, NetworkID } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
 
 interface IGetBalances {
   address: string;
@@ -196,7 +194,7 @@ const accountSlice = createSlice({
       .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
         if (!action.payload) return;
         const bond = action.payload.bond;
-        if (action.payload.interestDue > 0) state.bonds[bond] = action.payload;
+        state.bonds[bond] = action.payload;
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {

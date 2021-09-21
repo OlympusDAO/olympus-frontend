@@ -1,20 +1,19 @@
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
-  Paper,
-  Grid,
-  Typography,
   Box,
-  Slide,
+  Grid,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   Zoom,
 } from "@material-ui/core";
-import { BondTableData, BondDataCard } from "./BondRow";
+import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
@@ -30,7 +29,16 @@ function ChooseBond() {
 
   const isAppLoading = useSelector(state => state.app.loading);
   const isAccountLoading = useSelector(state => state.account.loading);
-  const accountBonds = useSelector(state => state.account.bonds);
+
+  const accountBonds = useSelector(state => {
+    const withInterestDue = [];
+    for (const bond in state.account.bonds) {
+      if (state.account.bonds[bond].interestDue > 0) {
+        withInterestDue.push(state.account.bonds[bond]);
+      }
+    }
+    return withInterestDue;
+  });
 
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
