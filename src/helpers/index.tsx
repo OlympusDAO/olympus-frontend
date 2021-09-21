@@ -1,15 +1,17 @@
-import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS } from "../constants";
+import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses } from "../constants";
 import { ethers } from "ethers";
 import { abi as PairContract } from "../abi/PairContract.json";
+import { abi as RedeemHelperAbi } from "../abi/RedeemHelper.json";
 
 import { Box, SvgIcon } from "@material-ui/core";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 
 import { ohm_dai } from "./AllBonds";
+import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 
-export async function getMarketPrice({ networkID, provider }) {
-  const ohm_dai_address = ohm_dai.getAddressForReserve(networkID, provider);
+export async function getMarketPrice({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) {
+  const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
   const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
   const reserves = await pairContract.getReserves();
   const marketPrice = reserves[1] / reserves[0];
@@ -18,35 +20,35 @@ export async function getMarketPrice({ networkID, provider }) {
   return marketPrice;
 }
 
-export function shorten(str) {
+export function shorten(str: string) {
   if (str.length < 10) return str;
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
 }
 
-export function trim(number, precision) {
+export function trim(number: number | undefined, precision: number | undefined) {
   if (number == undefined) {
     number = 0;
   }
   const array = number.toString().split(".");
   if (array.length === 1) return number.toString();
 
-  array.push(array.pop().substring(0, precision));
+  array.push((array.pop() ?? "0").substring(0, precision));
   const trimmedNumber = array.join(".");
   return trimmedNumber;
 }
 
-export function getRebaseBlock(currentBlock) {
+export function getRebaseBlock(currentBlock: number) {
   return currentBlock + EPOCH_INTERVAL - (currentBlock % EPOCH_INTERVAL);
 }
 
-export function secondsUntilBlock(startBlock, endBlock) {
+export function secondsUntilBlock(startBlock: number, endBlock: number) {
   const blocksAway = endBlock - startBlock;
   const secondsAway = blocksAway * BLOCK_RATE_SECONDS;
 
   return secondsAway;
 }
 
-export function prettyVestingPeriod(currentBlock, vestingBlock) {
+export function prettyVestingPeriod(currentBlock: number, vestingBlock: number) {
   if (vestingBlock === 0) {
     return "";
   }
@@ -58,7 +60,7 @@ export function prettyVestingPeriod(currentBlock, vestingBlock) {
   return prettifySeconds(seconds);
 }
 
-export function prettifySeconds(seconds, resolution) {
+export function prettifySeconds(seconds: number, resolution?: string) {
   if (seconds !== 0 && !seconds) {
     return "";
   }
@@ -92,26 +94,37 @@ function getSohmTokenImage() {
   return <SvgIcon component={SOhmImg} viewBox="0 0 100 100" style={{ height: "1rem", width: "1rem" }} />;
 }
 
-export function getOhmTokenImage(w, h) {
-  h !== null ? (h = `${h}px`) : "32px";
-  w !== null ? (w = `${w}px`) : "32px";
-  return <SvgIcon component={OhmImg} viewBox="0 0 32 32" style={{ height: h, width: w }} />;
+export function getOhmTokenImage(w?: number, h?: number) {
+  const height = h == null ? "32px" : `${h}px`;
+  const width = w == null ? "32px" : `${w}px`;
+  return <SvgIcon component={OhmImg} viewBox="0 0 32 32" style={{ height, width }} />;
 }
 
-export function getTokenImage(name) {
+export function getTokenImage(name: string) {
   if (name === "ohm") return getOhmTokenImage();
   if (name === "sohm") return getSohmTokenImage();
 }
 
-export function setAll(state, properties) {
+// TS-REFACTOR-NOTE: these may have to be any for now...
+export function setAll(state: any, properties: any) {
   const props = Object.keys(properties);
   props.forEach(key => {
     state[key] = properties[key];
   });
 }
 
-export const setBondState = (state, payload) => {
+export const setBondState = (state: any, payload: any) => {
   const bond = payload.bond;
   const newState = { ...state[bond], ...payload };
   state[bond] = newState;
 };
+
+export function contractForRedeemHelper({
+  networkID,
+  provider,
+}: {
+  networkID: number;
+  provider: StaticJsonRpcProvider | JsonRpcSigner;
+}) {
+  return new ethers.Contract(addresses[networkID].REDEEM_HELPER_ADDRESS as string, RedeemHelperAbi, provider);
+}

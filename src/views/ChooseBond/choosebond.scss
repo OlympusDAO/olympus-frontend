@@ -11,18 +11,33 @@
       margin: auto;
     }
   }
-  .ohm-logo-bg {
-    margin-left: 0;
-    border-radius: 20px;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 40px;
-    width: 40px;
+
+  .claim-bonds-card {
+    .global-claim-buttons {
+      width: 100%;
+      margin: 15px 0px;
+      button {
+        max-width: 233px;
+      }
+    }
+    .small.global-claim-buttons {
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      button {
+        max-width: unset;
+        width: 90%;
+      }
+    }
   }
 
   .bond-data-card {
-    margin: auto !important;
+    margin: auto;
+    .ohm-pairs {
+      display: flex;
+      margin-right: 15px;
+    }
     .bond-pair {
       display: flex !important;
       align-items: center;
@@ -69,9 +84,12 @@
     margin: 10px 0px;
   }
 
-  .MuiTableRow-head {
-    .MuiTableCell-alignLeft {
-      padding-left: 20px;
+  .claim-bond-card-buttons {
+    flex-wrap: wrap;
+    width: 100%;
+    button {
+      min-width: 48%;
+      margin: 5px 0px;
     }
   }
 
@@ -80,45 +98,20 @@
       margin: 0 !important;
       display: flex !important;
       align-items: center;
-      justify-content: space-evenly;
+      // justify-content: flex-start;
       white-space: nowrap;
       img {
         margin-right: 3px;
       }
     }
-    &.MuiTableCell-alignLeft {
-      display: flex;
-    }
   }
 
-  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft.bond-name-cell {
     justify-content: space-between;
-    div.ohm-pairs {
-      width: 33%;
-      vertical-align: middle !important;
-      align-items: center !important;
-      justify-content: center !important;
-      margin-bottom: 0 !important;
-      .ohm-pairs div.bond-name p,
-      .ohm-pairs svg {
-        align-self: center !important;
-        line-height: 100% !important;
-        font-weight: bold !important;
-        margin-bottom: 0em !important;
-        padding: 0 !important;
-        font-family: inherit;
-        vertical-align: text-top !important;
-      }
-      .ohm-logo-bg {
-        margin-left: 0;
-        border-radius: 20px;
-        height: 40px;
-        width: 40px;
-      }
-    }
+    display: flex;
     div.bond-name {
       width: 60%;
-      margin-left: 8px !important;
+      margin-left: 5px !important;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -132,6 +125,23 @@
         margin-left: 3px !important;
         font-size: 1.2em !important;
       }
+    }
+  }
+}
+
+.tablet #choose-bond-view {
+  .claim-bond-card-buttons {
+    button {
+      width: 40%;
+    }
+  }
+}
+
+.mobile #choose-bond-view {
+  .claim-bond-card-buttons {
+    flex-direction: column;
+    button {
+      width: 100%;
     }
   }
 }

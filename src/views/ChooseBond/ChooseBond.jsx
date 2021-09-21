@@ -1,31 +1,45 @@
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import {
-  Paper,
-  Grid,
-  Typography,
   Box,
-  Slide,
+  Grid,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   Zoom,
 } from "@material-ui/core";
-import { BondTableData, BondDataCard } from "./BondRow";
+import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
+import ClaimBonds from "./ClaimBonds";
+import _ from "lodash";
 
 function ChooseBond() {
   const { bonds } = useBonds();
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
-  const isAppLoading = useSelector(state => state.app.status == "loading");
+  const isAppLoading = useSelector(state => state.app.loading);
+  const isAccountLoading = useSelector(state => state.account.loading);
+
+  const accountBonds = useSelector(state => {
+    const withInterestDue = [];
+    for (const bond in state.account.bonds) {
+      if (state.account.bonds[bond].interestDue > 0) {
+        withInterestDue.push(state.account.bonds[bond]);
+      }
+    }
+    return withInterestDue;
+  });
+
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
@@ -34,8 +48,14 @@ function ChooseBond() {
     return state.app.treasuryBalance;
   });
 
+  useEffect(() => {
+    console.log("account bonds: ", accountBonds);
+  }, [accountBonds]);
+
   return (
     <div id="choose-bond-view">
+      {!isAccountLoading && !_.isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
+
       <Zoom in={true}>
         <Paper className="ohm-card">
           <Box className="card-header">
@@ -82,8 +102,8 @@ function ChooseBond() {
                   <TableHead>
                     <TableRow>
                       <TableCell align="center">Bond</TableCell>
-                      <TableCell align="center">Price</TableCell>
-                      <TableCell align="center">ROI</TableCell>
+                      <TableCell align="left">Price</TableCell>
+                      <TableCell align="left">ROI</TableCell>
                       <TableCell align="right">Purchased</TableCell>
                       <TableCell align="right"></TableCell>
                     </TableRow>
