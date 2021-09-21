@@ -1,12 +1,12 @@
 import { StableBond, LPBond, NetworkID, CustomBond } from "src/lib/Bond";
 import { addresses } from "src/constants";
 
-import DaiImg from "src/assets/tokens/DAI.svg";
-import OhmDaiImg from "src/assets/tokens/OHM-DAI.svg";
-import FraxImg from "src/assets/tokens/FRAX.svg";
-import OhmLusdImg from "src/assets/tokens/OHM-LUSD.svg";
-import wETHImg from "src/assets/tokens/wETH.svg";
-import LusdImg from "src/assets/tokens/LUSD.svg";
+import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
+import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
+import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
+import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
+import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
+import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 
 import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
 import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
