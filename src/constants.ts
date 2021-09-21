@@ -16,7 +16,28 @@ export const BLOCK_RATE_SECONDS = 13.14;
 
 export const TOKEN_DECIMALS = 9;
 
-export const addresses = {
+export type Nested = { [key: string]: string };
+
+interface IAddresses {
+  [key: number]: { [key: string]: Nested | string };
+}
+
+interface INetwork {
+  readonly blockExplorer: string;
+  readonly chainId: number;
+  readonly color: string;
+  readonly faucet?: string;
+  readonly gasPrice?: number;
+  readonly name: string;
+  readonly price?: number;
+  readonly rpcUrl: string;
+}
+
+interface INetworks {
+  readonly [key: string]: INetwork;
+}
+
+export const addresses: IAddresses = {
   4: {
     DAI_ADDRESS: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // duplicate
     OHM_ADDRESS: "0xC0b491daBf3709Ee5Eb79E603D73289Ca6060932",
@@ -30,6 +51,7 @@ export const addresses = {
     BONDINGCALC_ADDRESS: "0xaDBE4FA3c2fcf36412D618AfCfC519C869400CEB",
     CIRCULATING_SUPPLY_ADDRESS: "0x5b0AA7903FD2EaA16F1462879B71c3cE2cFfE868",
     TREASURY_ADDRESS: "0x0d722D813601E48b7DAcb2DF9bae282cFd98c6E7",
+    REDEEM_HELPER_ADDRESS: "0xBd35d8b2FDc2b720842DB372f5E419d39B24781f",
 
     POOL_TOGETHER: {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
@@ -51,6 +73,7 @@ export const addresses = {
     BONDINGCALC_ADDRESS: "0xcaaa6a2d4b26067a391e7b7d65c16bb2d5fa571a",
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
     TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
+    REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   },
 };
 
@@ -72,6 +95,11 @@ export const Actions = {
   FETCH_BOND_SUCCESS: "bond/FETCH_BOND_SUCCESS",
   FETCH_MIGRATE_SUCCESS: "migrate/FETCH_MIGRATE_SUCCESS",
   FETCH_FRAX_SUCCESS: "FETCH_FRAX_SUCCESS",
+  // do we need these for the bullet points?
+  FETCH_BULLETPOINTS_SUCCESS: "FETCH_BULLETPOINTS_SUCCESS",
+  FETCH_TOOLTIP_ITEMS_SUCCESS: "FETCH_TOOLTIP_ITEMS_SUCCESS",
+  FETCH_INFO_TOOLTIP_MESSAGES_SUCCESS: "FETCH_INFO_TOOLTIP_MESSAGES_SUCCESS",
+  //
   FETCH_PENDING_TXNS: "FETCH_PENDING_TXNS",
   CLEAR_PENDING_TXN: "CLEAR_PENDING_TXN",
 };
@@ -363,7 +391,7 @@ export const DAI_ABI = [
   },
 ];
 
-export const NETWORK = chainId => {
+export const NETWORK = (chainId: number) => {
   for (const n in NETWORKS) {
     if (NETWORKS[n].chainId === chainId) {
       return NETWORKS[n];
@@ -371,7 +399,7 @@ export const NETWORK = chainId => {
   }
 };
 
-export const NETWORKS = {
+export const NETWORKS: INetworks = {
   localhost: {
     name: "localhost",
     color: "#666666",

@@ -8,11 +8,15 @@ import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
 
-const sohmImg = getTokenImage("sohm");
-const ohmImg = getTokenImage("ohm");
+import OhmImg from "src/assets/tokens/token_OHM.svg";
+import SOhmImg from "src/assets/tokens/token_sOHM.svg";
 
 const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
+    const host = window.location.origin;
+    const tokenPath = tokenSymbol === "OHM" ? OhmImg : SOhmImg;
+    const imageURL = `${host}/${tokenPath}`;
+
     try {
       await window.ethereum.request({
         method: "wallet_watchAsset",
@@ -22,7 +26,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
             address: tokenAddress,
             symbol: tokenSymbol,
             decimals: TOKEN_DECIMALS,
-            image: tokenSymbol === "OHM" ? ohmImg : sohmImg,
+            image: imageURL,
           },
         },
       });
@@ -66,7 +70,7 @@ function OhmMenu() {
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start" transition>
         {({ TransitionProps }) => {
           return (
-            <Fade {...TransitionProps} timeout={200}>
+            <Fade {...TransitionProps} timeout={100}>
               <Paper className="ohm-menu" elevation={1}>
                 <Box component="div" className="buy-tokens">
                   <Link

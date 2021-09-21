@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { getMarketPrice } from "../helpers";
+import { getMarketPrice, contractForRedeemHelper } from "../helpers";
 import { getBalances, calculateUserBondDetails } from "./AccountSlice";
 import { error } from "./MessagesSlice";
 import { Bond, NetworkID } from "../lib/Bond";
@@ -14,6 +14,7 @@ interface IChangeApproval {
   provider: StaticJsonRpcProvider | JsonRpcProvider;
   networkID: NetworkID;
 }
+
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
   async ({ bond, provider, networkID }: IChangeApproval, { dispatch }) => {
@@ -68,12 +69,11 @@ export interface IBondDetails {
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
   async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch }): Promise<IBondDetails> => {
-    let amountInWei;
-    if (!value || value === "") {
-      amountInWei = ethers.utils.parseEther("0.0001"); // Use a realistic SLP ownership
-    } else {
-      amountInWei = ethers.utils.parseEther(value);
+    if (!value) {
+      value = "0";
     }
+
+    const amountInWei = ethers.utils.parseEther(value);
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
     let bondPrice = 0,
@@ -99,11 +99,25 @@ export const calcBondDetails = createAsyncThunk(
     if (bond.isLP) {
       valuation = await bondCalcContract.valuation(bond.getAddressForReserve(networkID), amountInWei);
       bondQuote = await bondContract.payoutFor(valuation);
-      bondQuote = bondQuote / Math.pow(10, 9);
+
+      if (!amountInWei.isZero() && bondQuote < 100000) {
+        bondQuote = 0;
+        const errorString = "Amount is too small!";
+        dispatch(error(errorString));
+      } else {
+        bondQuote = bondQuote / Math.pow(10, 9);
+      }
     } else {
       // RFV = DAI
       bondQuote = await bondContract.payoutFor(amountInWei);
-      bondQuote = bondQuote / Math.pow(10, 18);
+
+      if (!amountInWei.isZero() && bondQuote < 100000000000000) {
+        bondQuote = 0;
+        const errorString = "Amount is too small!";
+        dispatch(error(errorString));
+      } else {
+        bondQuote = bondQuote / Math.pow(10, 18);
+      }
     }
 
     // Display error if user tries to exceed maximum.
@@ -205,6 +219,7 @@ interface IRedeemBond {
   networkID: NetworkID;
   autostake: Boolean;
 }
+
 export const redeemBond = createAsyncThunk(
   "bonding/redeemBond",
   async ({ address, bond, networkID, provider, autostake }: IRedeemBond, { dispatch }) => {
@@ -237,11 +252,59 @@ export const redeemBond = createAsyncThunk(
   },
 );
 
+interface IRedeemAllBonds {
+  bonds: Bond[];
+  address: string;
+  provider: StaticJsonRpcProvider | JsonRpcProvider;
+  networkID: NetworkID;
+  autostake: Boolean;
+}
+
+export const redeemAllBonds = createAsyncThunk(
+  "bonding/redeemAllBonds",
+  async ({ bonds, address, networkID, provider, autostake }: IRedeemAllBonds, { dispatch }) => {
+    if (!provider) {
+      alert("Please connect your wallet!");
+      return;
+    }
+
+    const signer = provider.getSigner();
+    const redeemHelperContract = contractForRedeemHelper({ networkID, provider: signer });
+
+    let redeemAllTx;
+
+    try {
+      redeemAllTx = await redeemHelperContract.redeemAll(address, autostake);
+      const pendingTxnType = "redeem_all_bonds" + (autostake === true ? "_autostake" : "");
+
+      await dispatch(
+        fetchPendingTxns({ txnHash: redeemAllTx.hash, text: "Redeeming All Bonds", type: pendingTxnType }),
+      );
+
+      await redeemAllTx.wait();
+
+      bonds &&
+        bonds.forEach(async bond => {
+          dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
+        });
+
+      dispatch(getBalances({ address, networkID, provider }));
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      if (redeemAllTx) {
+        dispatch(clearPendingTxn(redeemAllTx.hash));
+      }
+    }
+  },
+);
+
 // Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   status: string;
   [key: string]: any;
 }
+
 const setBondState = (state: IBondSlice, payload: any) => {
   const bond = payload.bond;
   const newState = { ...state[bond], ...payload };

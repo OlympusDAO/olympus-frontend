@@ -26,8 +26,17 @@ body {
   background-size: cover;
   font-family: "Square";
   overflow: hidden;
+  transition: all ease 0.33ms;
   // transform: translate3d(0, 0, 0);
   // -webkit-transform: translate3d(0, 0, 0);
+}
+
+.app * {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
 }
 
 .MuiDrawer-paperAnchorDockedLeft {
@@ -35,21 +44,14 @@ body {
 }
 
 .ohm-card {
+  max-width: 833px;
   .card-header {
     width: 100%;
-    min-height: 2rem;
+    min-height: 33px;
+    margin-bottom: 10px;
     h5 {
       font-weight: 600 !important;
     }
-  }
-  .card-content {
-    width: 100%;
-    position: relative;
-    align-items: left;
-    justify-content: center;
-    flex-flow: column;
-    padding: 0.8rem 0.8rem 0.8rem 0.8rem;
-    height: 100%;
   }
 
   .help-text {

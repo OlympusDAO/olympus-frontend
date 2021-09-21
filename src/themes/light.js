@@ -3,7 +3,7 @@ import fonts from "./fonts";
 import commonSettings from "./global.js";
 
 const lightTheme = {
-  color: "rgb(37, 52, 73)",
+  color: "#253449",
   gold: "#F8CC82",
   gray: "#A3A3A3",
   blueish_gray: "#768299",
@@ -31,6 +31,7 @@ const lightTheme = {
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
   containedSecondaryButtonHoverBG: "#33333333",
+  graphStrokeColor: "rgba(37, 52, 73, .2)",
 };
 
 export const light = responsiveFontSizes(
@@ -57,6 +58,7 @@ export const light = responsiveFontSizes(
           primary: lightTheme.color,
           secondary: lightTheme.blueish_gray,
         },
+        graphStrokeColor: lightTheme.graphStrokeColor,
       },
       typography: {
         fontFamily: "Square",
@@ -97,13 +99,13 @@ export const light = responsiveFontSizes(
         },
         MuiDrawer: {
           paper: {
-            backgroundColor: lightTheme.paperBg,
+            backgroundColor: lightTheme.backdropBg,
             zIndex: 7,
           },
         },
         MuiBackdrop: {
           root: {
-            backgroundColor: lightTheme.backdropBg,
+            backgroundColor: "rgba(255,255,255, 0)",
           },
         },
         MuiLink: {
