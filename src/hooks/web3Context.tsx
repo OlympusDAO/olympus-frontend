@@ -4,9 +4,6 @@ import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, WebSocketProvider
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { EnvHelper } from "../helpers/Environment";
 
-// NOTE(zx): Want to move away from infura. Will probably remove these.
-const INFURA_ID_LIST = EnvHelper.getInfuraIdList();
-
 /**
  * kept as function to mimic `getMainnetURI()`
  * @returns string
@@ -15,13 +12,7 @@ function getTestnetURI() {
   return EnvHelper.alchemyTestnetURI;
 }
 
-const ALCHEMY_ID_LIST = EnvHelper.getAlchemyAPIKeyList();
-const SELF_HOSTED_LIST = EnvHelper.getSelfHostedSockets();
-
-const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
-const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-const _selfHostedURIs = SELF_HOSTED_LIST;
-const ALL_URIs = [..._alchemyURIs, ..._selfHostedURIs];
+const ALL_URIs = EnvHelper.getAPIUris();
 
 /**
  * "intelligently" loadbalances production API Keys
@@ -82,7 +73,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   // if websocket we need to change providerType
   const providerType = () => {
-    if (uri.includes("ws://")) {
+    if (uri.indexOf("ws://") > 0 || uri.indexOf("wss://") > 0) {
       return new WebSocketProvider(uri);
     } else {
       return new StaticJsonRpcProvider(uri);

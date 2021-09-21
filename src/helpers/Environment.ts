@@ -12,27 +12,59 @@ export class EnvHelper {
   static alchemyTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_TESTNET_ALCHEMY}`;
 
   static whitespaceRegex = /\s+/;
+
+  static isNotEmpty(envVariable: string) {
+    if (envVariable.length > 10) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   /**
-   * @returns Array of Alchemy API Keys
+   * in development environment will return the `ethers` community api key so that devs don't need to add elements to their .env
+   * @returns Array of Alchemy API URIs or empty set
    */
   static getAlchemyAPIKeyList() {
-    var ALCHEMY_ID_LIST: any[];
-    if (EnvHelper.env.NODE_ENV !== "development" && EnvHelper.env.REACT_APP_ALCHEMY_IDS) {
+    let ALCHEMY_ID_LIST: string[];
+
+    // split the provided API keys on whitespace
+    if (
+      EnvHelper.env.NODE_ENV !== "development" &&
+      EnvHelper.env.REACT_APP_ALCHEMY_IDS &&
+      EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ALCHEMY_IDS)
+    ) {
       ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
     } else {
       // this is the ethers common API key, suitable for testing, not prod
       ALCHEMY_ID_LIST = ["_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC"];
     }
+
+    // now add the uri path
+    if (ALCHEMY_ID_LIST.length > 0) {
+      ALCHEMY_ID_LIST = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
+    } else {
+      ALCHEMY_ID_LIST = [];
+    }
     return ALCHEMY_ID_LIST;
   }
 
   /**
+   * NOTE(zx): Want to move away from infura. Will probably remove these.
    * @returns {Array} Array of Infura API Ids
    */
   static getInfuraIdList() {
-    var INFURA_ID_LIST: any[];
-    if (EnvHelper.env.REACT_APP_INFURA_IDS) {
+    let INFURA_ID_LIST: string[];
+
+    // split the provided API keys on whitespace
+    if (EnvHelper.env.REACT_APP_INFURA_IDS && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_INFURA_IDS)) {
       INFURA_ID_LIST = EnvHelper.env.REACT_APP_INFURA_IDS.split(new RegExp(EnvHelper.whitespaceRegex));
+    } else {
+      INFURA_ID_LIST = [];
+    }
+
+    // now add the uri path
+    if (INFURA_ID_LIST.length > 0) {
+      INFURA_ID_LIST = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
     } else {
       INFURA_ID_LIST = [];
     }
@@ -40,15 +72,30 @@ export class EnvHelper {
   }
 
   /**
-   * @returns {Array} Array of websocket addresses
+   * @returns {Array} Array of websocket addresses or empty set
    */
   static getSelfHostedSockets() {
-    var WS_LIST: any[];
-    if (EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS) {
+    let WS_LIST: string[];
+    if (
+      EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS &&
+      EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS)
+    ) {
       WS_LIST = EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS.split(new RegExp(EnvHelper.whitespaceRegex));
     } else {
       WS_LIST = [];
     }
     return WS_LIST;
+  }
+
+  /**
+   * in development will always return the `ethers` community key url even if .env is blank
+   * in prod if .env is blank API connections will fail
+   * @returns array of API urls
+   */
+  static getAPIUris() {
+    console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());
+    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getSelfHostedSockets()];
+    if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
+    return ALL_URIs;
   }
 }
