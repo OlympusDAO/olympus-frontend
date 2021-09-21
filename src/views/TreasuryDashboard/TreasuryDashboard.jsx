@@ -57,7 +57,6 @@ function TreasuryDashboard() {
         Object.entries(entry).reduce((obj, [key, value]) => ((obj[key] = parseFloat(value)), obj), {}),
       );
       metrics = metrics.filter(pm => pm.treasuryMarketValue > 0);
-      metrics = metrics.filter(pm => pm.totalValueLocked < 500000000);
       setData(metrics);
 
       let staked = r.data.protocolMetrics.map(entry => ({
