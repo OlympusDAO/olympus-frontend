@@ -76,6 +76,8 @@ export const changeStake = createAsyncThunk(
     let uaData = {
       address: address,
       value: value,
+      approved: true,
+      txHash: null,
     };
     try {
       if (action === "stake") {
@@ -86,9 +88,11 @@ export const changeStake = createAsyncThunk(
         stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
       }
       const pendingTxnType = action === "stake" ? "staking" : "unstaking";
+      uaData.txHash = stakeTx.hash;
       dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
       await stakeTx.wait();
     } catch (error) {
+      uaData.approved = false;
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else {
