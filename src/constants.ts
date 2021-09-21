@@ -16,7 +16,28 @@ export const BLOCK_RATE_SECONDS = 13.14;
 
 export const TOKEN_DECIMALS = 9;
 
-export const addresses = {
+export type Nested = { [key: string]: string };
+
+interface IAddresses {
+  [key: number]: { [key: string]: Nested | string };
+}
+
+interface INetwork {
+  readonly blockExplorer: string;
+  readonly chainId: number;
+  readonly color: string;
+  readonly faucet?: string;
+  readonly gasPrice?: number;
+  readonly name: string;
+  readonly price?: number;
+  readonly rpcUrl: string;
+}
+
+interface INetworks {
+  readonly [key: string]: INetwork;
+}
+
+export const addresses: IAddresses = {
   4: {
     DAI_ADDRESS: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // duplicate
     OHM_ADDRESS: "0xC0b491daBf3709Ee5Eb79E603D73289Ca6060932",
@@ -370,7 +391,7 @@ export const DAI_ABI = [
   },
 ];
 
-export const NETWORK = chainId => {
+export const NETWORK = (chainId: number) => {
   for (const n in NETWORKS) {
     if (NETWORKS[n].chainId === chainId) {
       return NETWORKS[n];
@@ -378,7 +399,7 @@ export const NETWORK = chainId => {
   }
 };
 
-export const NETWORKS = {
+export const NETWORKS: INetworks = {
   localhost: {
     name: "localhost",
     color: "#666666",
