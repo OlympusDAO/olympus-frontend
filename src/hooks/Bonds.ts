@@ -38,7 +38,7 @@ function useBonds() {
         return bond;
       })
       .flatMap(bond => {
-        if (accountBondsState[bond.name] && accountBondsState[bond.name].bond) {
+        if (accountBondsState[bond.name]) {
           return Object.assign(bond, accountBondsState[bond.name]);
         }
         return bond;

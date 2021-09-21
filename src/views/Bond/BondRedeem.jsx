@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { redeemBond } from "../../slices/BondSlice";
@@ -7,17 +8,23 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 
 function BondRedeem({ bond }) {
+  // const { bond: bondName } = bond;
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
+
+  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
   });
-
-  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
-
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
+  });
+  const bondingState = useSelector(state => {
+    return state.bonding && state.bonding[bond.name];
+  });
+  const bondDetails = useSelector(state => {
+    return state.account.bonds && state.account.bonds[bond.name];
   });
 
   async function onRedeem({ autostake }) {
@@ -29,10 +36,16 @@ function BondRedeem({ bond }) {
   };
 
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(bond.vestingTerm);
+    const vestingBlock = parseInt(currentBlock) + parseInt(bondingState.vestingTerm);
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
+
+  useEffect(() => {
+    console.log(bond);
+    console.log(bondingState);
+    console.log(bondDetails);
+  }, []);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -43,12 +56,12 @@ function BondRedeem({ bond }) {
           id="bond-claim-btn"
           className="transaction-button"
           fullWidth
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond)}
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name)}
           onClick={() => {
             onRedeem({ autostake: false });
           }}
         >
-          {txnButtonText(pendingTransactions, "redeem_bond_" + bond, "Claim")}
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name, "Claim")}
         </Button>
         <Button
           variant="contained"
@@ -56,12 +69,12 @@ function BondRedeem({ bond }) {
           id="bond-claim-autostake-btn"
           className="transaction-button"
           fullWidth
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond + "_autostake")}
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name + "_autostake")}
           onClick={() => {
             onRedeem({ autostake: true });
           }}
         >
-          {txnButtonText(pendingTransactions, "redeem_bond_" + bond + "_autostake", "Claim and Autostake")}
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name + "_autostake", "Claim and Autostake")}
         </Button>
       </Box>
 
