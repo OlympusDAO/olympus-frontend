@@ -9,9 +9,14 @@ describe("Stake tests", () => {
     cy.visit("/#/");
   });
   it(`Stake ${STAKE_AMOUNT} OHM`, () => {
+    // check that wallet button says "connect"
+    // check that connect wallet button is present instead of staking input
+    cy.get("#wallet-button span").contains("Connect Wallet"); // test check for poopies to see if it fails
     cy.get("#wallet-button").click();
     cy.get(".web3modal-provider-name").contains("MetaMask").click();
     cy.acceptMetamaskAccess();
+    // check that button says "stake" (or maybe "approve"?) now
+    cy.get(".stake-button").contains("Approve");
     cy.get("#amount-input").type(STAKE_AMOUNT);
     // Approve spend limit
     cy.get(".stake-button").click();
@@ -21,6 +26,8 @@ describe("Stake tests", () => {
       const balance_before_txt = $p.text();
       const target_balance = ohmRound(ohmRound(balance_before_txt) - STAKE_AMOUNT);
       // Stake
+      // can/should we chain this contains + click?
+      cy.get(".stake-button").contains("Approve");
       cy.get(".stake-button").click();
       cy.confirmMetamaskTransaction();
       // Wait for balance to change
@@ -32,6 +39,14 @@ describe("Stake tests", () => {
           expect(balance_after).to.eq(target_balance);
         });
     });
+    // TODO
+    // it(`Unstakes ${STAKE_AMOUNT} sOHM`, () => {
+
+    // })
+    // TODO
+    // it(`disconnects wallet from app`, () => {
+
+    // })
 
     assert(true);
   });
