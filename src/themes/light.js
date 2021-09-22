@@ -99,18 +99,13 @@ export const light = responsiveFontSizes(
         },
         MuiDrawer: {
           paper: {
-            backgroundColor: lightTheme.paperBg,
+            backgroundColor: lightTheme.backdropBg,
             zIndex: 7,
           },
         },
         MuiBackdrop: {
           root: {
             backgroundColor: "rgba(255,255,255, 0)",
-          },
-        },
-        MuiDrawer: {
-          paper: {
-            backgroundColor: lightTheme.backdropBg,
           },
         },
         MuiLink: {
