@@ -1,9 +1,10 @@
-import { StaticJsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
+import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { addresses } from "src/constants";
+import React from "react";
 
 export enum NetworkID {
   Mainnet = 1,
@@ -32,7 +33,7 @@ export interface NetworkAddresses {
 interface BondOpts {
   name: string; // Internal name used for references
   displayName: string; // Displayname on UI
-  bondIconSvg: string; //  SVG path for icons
+  bondIconSvg: React.ReactNode; //  SVG path for icons
   bondContractABI: ethers.ContractInterface; // ABI for contract
   networkAddrs: NetworkAddresses; // Mapping of network --> Addresses
   bondToken: string; // Unused, but native token to buy the bond.
@@ -44,7 +45,7 @@ export abstract class Bond {
   readonly name: string;
   readonly displayName: string;
   readonly type: BondType;
-  readonly bondIconSvg: string;
+  readonly bondIconSvg: React.ReactNode;
   readonly bondContractABI: ethers.ContractInterface; // Bond ABI
   readonly networkAddrs: NetworkAddresses;
   readonly bondToken: string;

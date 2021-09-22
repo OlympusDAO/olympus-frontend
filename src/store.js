@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-
 import accountReducer from "./slices/AccountSlice";
 import bondingReducer from "./slices/BondSlice";
 import appReducer from "./slices/AppSlice";
@@ -20,6 +19,7 @@ const store = configureStore({
     fraxData: fraxDataReducer,
     messages: messagesReducer,
   },
+  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;

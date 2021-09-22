@@ -76,17 +76,25 @@ const commonSettings = {
       root: {
         backdropFilter: "blur(33px)",
         "&.ohm-card": {
-          padding: "20px 20px 20px 20px",
+          padding: "20px 30px 30px 30px",
           borderRadius: "10px",
           maxWidth: "833px",
           width: "97%",
           marginBottom: "1.8rem",
           borderRadius: "10px",
+          overflow: "hidden",
         },
         "&.ohm-menu": {
           padding: "22px 0px",
           borderRadius: "10px",
           margin: "0px",
+        },
+        "&.ohm-chart-card": {
+          padding: "20px 0px",
+          whiteSpace: "nowrap",
+          maxWidth: "700px",
+          width: "97%",
+          marginBottom: "1.8rem",
         },
       },
     },
@@ -104,6 +112,11 @@ const commonSettings = {
           textDecoration: "none",
           underline: "none",
         },
+      },
+    },
+    MuiTable: {
+      root: {
+        margin: "10px 0px",
       },
     },
     MuiTableCell: {

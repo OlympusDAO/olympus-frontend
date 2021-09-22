@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Box, Button, SvgIcon, Typography, Popper, Paper, Divider, Link, Slide, Fade } from "@material-ui/core";
+import { Box, Button, Divider, Fade, Link, Paper, Popper, Slide, SvgIcon, Typography } from "@material-ui/core";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as CaretDownIcon } from "../../assets/icons/caret-down.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -91,10 +91,10 @@ function ConnectMenu({ theme }) {
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-end" transition>
         {({ TransitionProps }) => {
           return (
-            <Fade {...TransitionProps} timeout={200}>
+            <Fade {...TransitionProps} timeout={100}>
               <Paper className="ohm-menu" elevation={1}>
-                {pendingTransactions.map(x => (
-                  <Box fullWidth>
+                {pendingTransactions.map((x, i) => (
+                  <Box key={i} fullWidth>
                     <Link key={x.txnHash} href={getEtherscanUrl(x.txnHash)} target="_blank" rel="noreferrer">
                       <Button size="large" variant="contained" color="secondary" fullWidth>
                         <Typography align="left">

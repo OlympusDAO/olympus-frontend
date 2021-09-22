@@ -38,6 +38,7 @@ const darkTheme = {
   outlinedSecondaryButtonHoverBG: "transparent",
   outlinedSecondaryButtonHoverColor: "#F8CC82", //gold
   containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
+  graphStrokeColor: "rgba(255, 255, 255, .1)",
   gridButtonHoverBackground: "rgba(255, 255, 255, 0.6)",
   gridButtonActiveBackground: "rgba(255, 255, 255, 0.3)",
 };
@@ -66,6 +67,7 @@ export const dark = responsiveFontSizes(
           primary: darkTheme.color,
           secondary: darkTheme.gray,
         },
+        graphStrokeColor: darkTheme.graphStrokeColor,
       },
       typography: {
         fontFamily: "Square",

@@ -1,9 +1,8 @@
-import { ThemeProvider } from "@material-ui/core/styles";
-import { useEffect, useState, useCallback } from "react";
-import { Route, Redirect, Switch, useLocation } from "react-router-dom";
+import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
+import { useCallback, useEffect, useState } from "react";
+import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Hidden, useMediaQuery } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/Bonds";
@@ -12,14 +11,13 @@ import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
-import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
+import { calculateUserBondDetails, loadAccountDetails } from "./slices/AccountSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard } from "./views";
+import { Bond, ChooseBond, Stake, TreasuryDashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
-import LoadingSplash from "./components/Loading/LoadingSplash";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 
@@ -81,7 +79,7 @@ function App() {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 960px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 958px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const { connect, hasCachedProvider, provider, chainID, connected } = useWeb3Context();
@@ -213,7 +211,7 @@ function App() {
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
             <Route exact path="/dashboard">
-              <Dashboard />
+              <TreasuryDashboard />
             </Route>
 
             <Route exact path="/">

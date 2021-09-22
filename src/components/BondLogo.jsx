@@ -1,4 +1,4 @@
-import { Box, Icon } from "@material-ui/core";
+import { Box, SvgIcon } from "@material-ui/core";
 
 function BondLogo({ bond }) {
   let viewBox = "0 0 32 32";
@@ -12,9 +12,7 @@ function BondLogo({ bond }) {
 
   return (
     <Box display="flex" alignItems="center" justifyContent="center" width={"64px"}>
-      <Icon viewBox={viewBox} style={style}>
-        <img src={bond.bondIconSvg} viewBox={viewBox} style={style} />
-      </Icon>
+      <SvgIcon component={bond.bondIconSvg} viewBox={viewBox} style={style} />
     </Box>
   );
 }
