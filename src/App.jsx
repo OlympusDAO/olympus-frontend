@@ -9,6 +9,7 @@ import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
+import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
@@ -74,6 +75,7 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   useGoogleAnalytics();
+  useSegmentAnalytics();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();

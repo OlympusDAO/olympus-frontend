@@ -1,6 +1,7 @@
-import ReactGA from "react-ga4";
-
-// Pushing data to google analytics
+// Pushing data to segment analytics
 export function ua(data) {
   const stringifiedData = JSON.stringify(data);
+  analytics.track(data.type, {
+    data,
+  });
 }
