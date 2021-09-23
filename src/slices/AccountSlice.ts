@@ -3,6 +3,7 @@ import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
+import { abi as fuseProxy } from "../abi/FuseProxy.json";
 
 import { setAll } from "../helpers";
 
@@ -44,6 +45,7 @@ export const loadAccountDetails = createAsyncThunk(
   async ({ networkID, provider, address }: ILoadAccountDetails) => {
     let ohmBalance = 0;
     let sohmBalance = 0;
+    let fsohmBalance = 0;
     let oldsohmBalance = 0;
     let stakeAllowance = 0;
     let unstakeAllowance = 0;
@@ -70,6 +72,20 @@ export const loadAccountDetails = createAsyncThunk(
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     }
 
+    for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM"]) {
+      if (addresses[networkID][fuseAddressKey]) {
+        const fsohmContract = await new ethers.Contract(
+          addresses[networkID][fuseAddressKey] as string,
+          fuseProxy,
+          provider,
+        );
+        fsohmContract.signer;
+        const exchangeRate = ethers.utils.formatEther(await fsohmContract.exchangeRateStored());
+        const balance = ethers.utils.formatUnits(await fsohmContract.balanceOf(address), "gwei");
+        fsohmBalance += Number(balance) * Number(exchangeRate);
+      }
+    }
+
     if (addresses[networkID].OLD_SOHM_ADDRESS) {
       const oldsohmContract = await new ethers.Contract(
         addresses[networkID].OLD_SOHM_ADDRESS as string,
@@ -87,6 +103,7 @@ export const loadAccountDetails = createAsyncThunk(
         dai: ethers.utils.formatEther(daiBalance),
         ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        fsohm: fsohmBalance,
         oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
       },
       staking: {
