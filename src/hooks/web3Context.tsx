@@ -1,59 +1,23 @@
 import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
 import Web3Modal from "web3modal";
-import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { EnvHelper } from "../helpers/Environment";
 
-// NOTE(zx): Want to move away from infura. Will probably remove these.
-const INFURA_ID_LIST = [
-  "5e3c4a19b5f64c99bf8cd8089c92b44d", // this is main dev node
-  "d9836dbf00c2440d862ab571b462e4a3", // this is current prod node
-  "31e6d348d16b4a4dacde5f8a47da1971", // this is primary fallback
-  "76cc9de4a72c4f5a8432074935d670a3", // Adding Zayen's to the mix
-];
-
-function getInfuraURI() {
-  const randomIndex = Math.floor(Math.random() * INFURA_ID_LIST.length);
-  const randomInfuraID = INFURA_ID_LIST[randomIndex];
-  return `https://mainnet.infura.io/v3/${randomInfuraID}`;
-}
-
+/**
+ * kept as function to mimic `getMainnetURI()`
+ * @returns string
+ */
 function getTestnetURI() {
-  // return "https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3";
-  return "https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO";
+  return EnvHelper.alchemyTestnetURI;
 }
 
-const ALCHEMY_ID_LIST = [
-  "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
-  "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
-  "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // this is appleseed's
-];
+const ALL_URIs = EnvHelper.getAPIUris();
 
-// this is the ethers common api key, it is rate limited somewhat
-const defaultApiKey = "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC";
-
-const TEMP_ALCHEMY_IDS = [
-  "2r-cx5vxSAd01BrN4qMcG8wt5eIeNtlk",
-  "rnDn5t-JvZCh-Uy_GxJ-8_NvyOf-GWvu",
-  "jqqDxL3pS9B1rvSQeU5WIWnd0sBvLE0a",
-];
-function getAlchemyAPI(chainID: Number) {
-  const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
-  const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
-  if (chainID === 1) return `https://eth-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
-  else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO`; // unbanksy's
-}
-
-const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
-const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-
-// TODO(zx): Remove this out post 8/25/2021 when we use our prod alchemyAPI key
-// temp force into TEMP_ALCHEMY_IDS
-const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-const ALL_URIs = [..._tempAlchemyURIs];
-// const ALL_URIs = [..._alchemyURIs];
-// temp change ALL_URIs into TEMP_ALCHEMY_IDS
-// const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
-
+/**
+ * "intelligently" loadbalances production API Keys
+ * @returns string
+ */
 function getMainnetURI(): string {
   // Shuffles the URIs for "intelligent" loadbalancing
   const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
@@ -106,7 +70,16 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [address, setAddress] = useState("");
 
   const [uri, setUri] = useState(getMainnetURI());
-  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
+
+  // if websocket we need to change providerType
+  const providerType = () => {
+    if (uri.indexOf("ws://") > 0 || uri.indexOf("wss://") > 0) {
+      return new WebSocketProvider(uri);
+    } else {
+      return new StaticJsonRpcProvider(uri);
+    }
+  };
+  const [provider, setProvider] = useState<JsonRpcProvider>(providerType);
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
