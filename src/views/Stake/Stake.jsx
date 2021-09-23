@@ -66,6 +66,9 @@ function Stake() {
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
+  const fsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.fsohm;
+  });
   const stakeAllowance = useSelector(state => {
     return state.account.staking && state.account.staking.ohmStake;
   });
@@ -129,10 +132,10 @@ function Stake() {
     setView(newView);
   };
 
-  const trimmedSOHMBalance = trim(sohmBalance, 4);
+  const trimmedBalance = Number(trim(sohmBalance, 4)) + Number(trim(fsohmBalance, 4));
   const trimmedStakingAPY = trim(stakingAPY * 100, 1);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
+  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
   return (
     <div id="stake-view">
@@ -337,7 +340,7 @@ function Stake() {
                         {isAppLoading ? (
                           <Skeleton width="80px" />
                         ) : (
-                          <>{new Intl.NumberFormat("en-US").format(trimmedSOHMBalance)} sOHM</>
+                          <>{new Intl.NumberFormat("en-US").format(trimmedBalance)} sOHM</>
                         )}
                       </Typography>
                     </div>
