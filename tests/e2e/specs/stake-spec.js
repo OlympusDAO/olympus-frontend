@@ -15,7 +15,6 @@ describe("Stake tests", () => {
     cy.get("#wallet-button").click();
     cy.get(".web3modal-provider-name").contains("MetaMask").click();
     cy.acceptMetamaskAccess();
-    // check that button says "stake" (or maybe "approve"?) now
     cy.get(".stake-button").contains("Approve");
     cy.get("#amount-input").type(STAKE_AMOUNT);
     // Approve spend limit
@@ -27,9 +26,12 @@ describe("Stake tests", () => {
       const target_balance = ohmRound(ohmRound(balance_before_txt) - STAKE_AMOUNT);
       // Stake
       // can/should we chain this contains + click?
-      cy.get(".stake-button").contains("Approve");
+      cy.get(".stake-button").contains("Stake OHM");
       cy.get(".stake-button").click();
+      // check wallet button says "in progress"
+      cy.get("#wallet-button").contains("In progress");
       cy.confirmMetamaskTransaction();
+      cy.get(".stake-button").contains("Pending...");
       // Wait for balance to change
       cy.get("#user-balance")
         .not(`:contains(${balance_before_txt})`)
