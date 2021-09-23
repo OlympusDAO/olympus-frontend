@@ -1,3 +1,5 @@
+const EnvHelper = require('../helpers/Environment');
+const REACT_APP_SEGMENT_KEY = EnvHelper.getSegmentKey();
 export default function useSegmentAnalytics() {
   !(function () {
     var analytics = (window.analytics = window.analytics || []);
@@ -48,9 +50,9 @@ export default function useSegmentAnalytics() {
           n.parentNode.insertBefore(t, n);
           analytics._loadOptions = e;
         };
-        analytics._writeKey = "nhYamX4lIWdDsEvqHRonx1bbwFEcA2TD";
+        analytics._writeKey = REACT_APP_SEGMENT_KEY;
         analytics.SNIPPET_VERSION = "4.15.3";
-        analytics.load("nhYamX4lIWdDsEvqHRonx1bbwFEcA2TD");
+        analytics.load(REACT_APP_SEGMENT_KEY);
         analytics.page();
       }
   })();
