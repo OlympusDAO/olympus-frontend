@@ -18,6 +18,11 @@ interface ICalculateAPY {
   stakingReward: number;
 }
 
+interface IJsonRPCError {
+  readonly message: string;
+  readonly code: number;
+}
+
 export const calculateAPY = createAsyncThunk(
   "migrate/calculateAPY",
   async ({ sohmContract, stakingReward }: ICalculateAPY) => {
@@ -75,8 +80,8 @@ export const getApproval = createAsyncThunk(
         type: pendingTxnType,
       }),
         await approveTx.wait();
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      alert((error as IJsonRPCError).message);
       return;
     } finally {
       if (approveTx) {
@@ -129,12 +134,13 @@ export const changeStake = createAsyncThunk(
       const pendingTxnType = action === ACTIONS.STAKE ? "migrate_staking" : "migrate_unstaking";
       fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType });
       await stakeTx.wait();
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
+    } catch (error: unknown) {
+      const rpcError = error as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
         return;
       }
-      alert(error.message);
+      alert(rpcError.message);
       return;
     } finally {
       if (stakeTx) {

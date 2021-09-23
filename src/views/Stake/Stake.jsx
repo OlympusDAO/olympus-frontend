@@ -10,15 +10,8 @@ import {
   InputLabel,
   OutlinedInput,
   Button,
-  SvgIcon,
   Tab,
   Tabs,
-  TableHead,
-  TableCell,
-  TableBody,
-  Table,
-  TableRow,
-  TableContainer,
   Link,
   Zoom,
 } from "@material-ui/core";
@@ -26,18 +19,15 @@ import NewReleases from "@material-ui/icons/NewReleases";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import BondLogo from "../../components/BondLogo";
 import { trim, getTokenImage, getOhmTokenImage } from "../../helpers";
 import { changeStake, changeApproval } from "../../slices/StakeThunk";
-import { getFraxData } from "../../slices/FraxSlice";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import "./stake.scss";
 import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import { ohm_frax } from "src/helpers/AllBonds";
+import ExternalStakePool from "./ExternalStakePool";
 
 function a11yProps(index) {
   return {
@@ -48,7 +38,6 @@ function a11yProps(index) {
 
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
-const OhmFraxImg = ohm_frax.bondIconSvg;
 
 function Stake() {
   const dispatch = useDispatch();
@@ -63,9 +52,6 @@ function Stake() {
   const isAppLoading = useSelector(state => state.app.loading);
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
-  });
-  const fraxData = useSelector(state => {
-    return state.fraxData;
   });
   const fiveDayRate = useSelector(state => {
     return state.app.fiveDayRate;
@@ -130,14 +116,6 @@ function Stake() {
     [stakeAllowance],
   );
 
-  const loadFraxData = async () => {
-    dispatch(getFraxData());
-  };
-
-  useEffect(() => {
-    loadFraxData();
-  }, []);
-
   let modalButton = [];
 
   modalButton.push(
@@ -168,23 +146,13 @@ function Stake() {
                 {address && oldSohmBalance > 0.01 && (
                   <Link
                     className="migrate-sohm-button"
-                    component={NavLink}
-                    to="/stake/migrate"
+                    style={{ textDecoration: "none" }}
+                    href="https://docs.olympusdao.finance/using-the-website/migrate"
                     aria-label="migrate-sohm"
+                    target="_blank"
                   >
                     <NewReleases viewBox="0 0 24 24" />
-                    <Typography>Migrate sOHM</Typography>
-                  </Link>
-                )}
-                {address && oldSohmBalance < 0.01 && (
-                  <Link
-                    component={NavLink}
-                    to="/stake/migrate"
-                    className="migrate-sohm-button complete"
-                    aria-label="migrate-sohm-complete"
-                  >
-                    <CheckCircleIcon viewBox="0 0 24 24" />
-                    <Typography>sOHM Migrated</Typography>
+                    <Typography>Migrate sOHM!</Typography>
                   </Link>
                 )}
               </div>
@@ -400,109 +368,8 @@ function Stake() {
         </Paper>
       </Zoom>
 
-      <Zoom in={true}>
-        <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-          <div className="card-header">
-            <Typography variant="h5">Farm Pool</Typography>
-          </div>
-          <div className="card-content">
-            {!isSmallScreen ? (
-              <TableContainer className="stake-table">
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Asset</TableCell>
-                      <TableCell align="left">APR</TableCell>
-                      <TableCell align="left">TVL</TableCell>
-                      <TableCell align="left">Balance</TableCell>
-                      <TableCell></TableCell>
-                    </TableRow>
-                  </TableHead>
-
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>
-                        <Box className="ohm-pairs">
-                          <BondLogo bond={ohm_frax}></BondLogo>
-                          <Typography>OHM-FRAX</Typography>
-                        </Box>
-                      </TableCell>
-                      <TableCell align="left">{fraxData && trim(fraxData.apy, 1)}%</TableCell>
-                      <TableCell align="left">
-                        {fraxData &&
-                          fraxData.tvl &&
-                          new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            maximumFractionDigits: 0,
-                            minimumFractionDigits: 0,
-                          }).format(fraxData.tvl)}
-                      </TableCell>
-                      <TableCell align="left"> {(fraxData && fraxData.balance) || 0} LP </TableCell>
-                      <TableCell align="center">
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
-                          target="_blank"
-                          className="stake-lp-button"
-                        >
-                          <Typography variant="body1">Stake on FRAX</Typography>
-                          <SvgIcon component={ArrowUp} color="primary" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            ) : (
-              <div className="stake-pool">
-                <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
-                  <Box className="ohm-pairs">
-                    <BondLogo bond={ohm_frax}></BondLogo>
-                    <Typography gutterBottom={false}>OHM-FRAX</Typography>
-                  </Box>
-                </div>
-                <div className="pool-data">
-                  <div className="data-row">
-                    <Typography>APR</Typography>
-                    <Typography>{fraxData && trim(fraxData.apy, 1)}%</Typography>
-                  </div>
-                  <div className="data-row">
-                    <Typography>TVL</Typography>
-                    <Typography>
-                      {fraxData &&
-                        fraxData.tvl &&
-                        new Intl.NumberFormat("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                          maximumFractionDigits: 0,
-                          minimumFractionDigits: 0,
-                        }).format(fraxData.tvl)}
-                    </Typography>
-                  </div>
-                  <div className="data-row">
-                    <Typography>Balance</Typography>
-                    <Typography>{(fraxData && fraxData.balance) || 0} LP</Typography>
-                  </div>
-
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    href="https://app.frax.finance/staking#Uniswap_FRAX_OHM"
-                    target="_blank"
-                    className="stake-lp-button"
-                    fullWidth
-                  >
-                    <Typography variant="body1">Stake on FRAX</Typography>
-                    <SvgIcon component={ArrowUp} color="primary" />
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
-        </Paper>
-      </Zoom>
+      {/* TODO (appleseed-lusd): hiding Stake Pool temporarily, when ready update button links */}
+      {/* <ExternalStakePool /> */}
     </div>
   );
 }

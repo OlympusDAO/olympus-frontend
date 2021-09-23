@@ -1,4 +1,4 @@
-import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS, addresses } from "../constants";
+import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses } from "../constants";
 import { ethers } from "ethers";
 import { abi as PairContract } from "../abi/PairContract.json";
 import { abi as RedeemHelperAbi } from "../abi/RedeemHelper.json";
@@ -32,7 +32,8 @@ export function trim(number: number | undefined, precision: number | undefined) 
   const array = number.toString().split(".");
   if (array.length === 1) return number.toString();
 
-  array.push((array.pop() ?? "0").substring(0, precision));
+  const poppedNumber = array.pop() || "0";
+  array.push(poppedNumber.substring(0, precision));
   const trimmedNumber = array.join(".");
   return trimmedNumber;
 }
