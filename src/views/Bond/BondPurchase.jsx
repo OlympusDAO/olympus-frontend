@@ -1,29 +1,27 @@
-import { useState, useEffect, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  Typography,
-  FormControl,
   Box,
+  Button,
+  FormControl,
+  InputAdornment,
   InputLabel,
   OutlinedInput,
-  InputAdornment,
-  Button,
-  Fade,
   Slide,
+  Typography,
 } from "@material-ui/core";
-import { shorten, trim, secondsUntilBlock, prettifySeconds } from "../../helpers";
-import { changeApproval, bondAsset, calcBondDetails } from "../../slices/BondSlice";
+import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
+import { bondAsset, calcBondDetails, changeApproval } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import useDebounce from "../../hooks/Debounce";
 
-function BondPurchase({ bond, slippage }) {
+function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
 
-  const [recipientAddress, setRecipientAddress] = useState(address);
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
@@ -90,10 +88,6 @@ function BondPurchase({ bond, slippage }) {
   const setMax = () => {
     setQuantity((Math.min(bond.maxBondPrice * bond.bondPrice, bond.balance) || "").toString());
   };
-
-  useEffect(() => {
-    if (address) setRecipientAddress(address);
-  }, [provider, quantity, address]);
 
   const bondDetailsDebounce = useDebounce(quantity, 1000);
 
