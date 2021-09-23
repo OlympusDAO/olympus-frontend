@@ -37,12 +37,12 @@ export const PoolInfo = props => {
           <>
             <Box display="flex" flexDirection="column" className="user-pool-data">
               <div className="data-row">
-                <Typography>Your deposits</Typography>
-                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.poolBalance}</Typography>
+                <Typography>Your pool deposits</Typography>
+                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.poolBalance} 33T</Typography>
               </div>
               <div className="data-row">
                 <Typography>Your wallet balance</Typography>
-                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.sohmBalance}</Typography>
+                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.sohmBalance} sOHM</Typography>
               </div>
               <div className="data-row">
                 <Typography>Your odds</Typography>
@@ -133,8 +133,8 @@ export const PoolInfo = props => {
 PoolInfo.propTypes = {
   graphLoading: PropTypes.bool.isRequired,
   isAccountLoading: PropTypes.bool.isRequired,
-  poolBalance: PropTypes.number,
-  sohmBalance: PropTypes.number,
+  poolBalance: PropTypes.string,
+  sohmBalance: PropTypes.string,
   yourOdds: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   winners: PropTypes.number,
   totalDeposits: PropTypes.number,

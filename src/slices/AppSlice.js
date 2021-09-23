@@ -93,13 +93,17 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   // Current index
   const currentIndex = await stakingContract.index();
 
+  // TODO (appleseed-33t): move these calls into PoolThunk to only call when on 33-t screens
+  // ... also seems like this only works for signers, not readers...
   // calculate 33-together
   const poolReader = await new ethers.Contract(
     addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
     PrizePool,
     provider,
   );
+  console.log("before", provider);
   const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
+  console.log(poolAwardBalance);
   const creditPlanOf = await poolReader.creditPlanOf(addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS);
   console.log(creditPlanOf);
   const poolCredit = getCreditMaturationDaysAndLimitPercentage(
@@ -115,6 +119,8 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   );
   const poolAwardPeriodRemainingSeconds = await awardReader.prizePeriodRemainingSeconds();
   const isRngRequested = await awardReader.isRngRequested();
+  let isRngTimedOut = false;
+  if (isRngRequested) isRngTimedOut = await awardReader.isRngTimedOut();
 
   return {
     currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
@@ -135,6 +141,7 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
       creditMaturationInDays: poolCredit[0],
       creditLimitPercentage: poolCredit[1],
       isRngRequested: isRngRequested,
+      isRngTimedOut: isRngTimedOut,
     },
   };
 });

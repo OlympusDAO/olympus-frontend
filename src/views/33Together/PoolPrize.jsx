@@ -1,8 +1,10 @@
 import { ethers } from "ethers";
 import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useWeb3Context } from "../../hooks";
 import { listenAndHandleRNGStartEvent } from "../../helpers/33Together.js";
+import { awardProcess } from "../../slices/PoolThunk";
+
 import { Paper, Box, Typography, Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
@@ -11,6 +13,8 @@ import { trim, subtractDates } from "src/helpers";
 
 export const PoolPrize = () => {
   const { provider, chainID } = useWeb3Context();
+  const dispatch = useDispatch();
+
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState(null);
@@ -31,17 +35,28 @@ export const PoolPrize = () => {
     return state.app.pool && state.app.pool.isRngRequested;
   });
 
-  // TODO (appleseed): finish these buttons
-  const handleStartAward = () => {
-    console.log("run Start Award on contract");
-  };
+  const isRngTimedOut = useSelector(state => {
+    return state.app.pool && state.app.pool.isRngTimedOut;
+  });
 
   // TODO (appleseed): finish these buttons
-  const handleCompleteAward = () => {
-    console.log("run Complete Award on contract");
+  const handleAward = async action => {
+    console.log(`run ${action} on pool`);
+    await dispatch(awardProcess({ action, provider, networkID: chainID }));
   };
 
-  const decreaseNum = () => setSecondsLeft(prev => prev - 1);
+  const decreaseNum = () => {
+    if (secondsLeft <= 1) {
+      console.log("debugging, set startlistener", poolAwardTimeRemaining, secondsLeft);
+      // Time has ticked down.
+      // There is no time left, attach RNG (Award) Start listener
+      setShowAwardStart(true);
+      listenAndHandleRNGStartEvent(provider, chainID, secondsLeft, () => {
+        setRngStarted(true);
+      });
+    }
+    setSecondsLeft(prev => prev - 1);
+  };
 
   let interval = useRef();
 
@@ -60,20 +75,6 @@ export const PoolPrize = () => {
     // const timeRemaining = Boolean(days || hours || minutes || seconds);
 
     setTimer(formatted);
-
-    if (
-      poolIsLocked === false &&
-      poolAwardTimeRemaining &&
-      parseInt(poolAwardTimeRemaining, 10) > 0 &&
-      secondsLeft <= 0
-    ) {
-      // Time has ticked down.
-      // There is no time left, attach RNG (Award) Start listener
-      setShowAwardStart(true);
-      listenAndHandleRNGStartEvent(provider, chainID, secondsLeft, () => {
-        setRngStarted(true);
-      });
-    }
     if (secondsLeft > 0) {
       interval.current = setInterval(decreaseNum, 1000);
       return () => clearInterval(interval.current);
@@ -86,7 +87,7 @@ export const PoolPrize = () => {
     } else if (parseInt(poolAwardTimeRemaining, 10) > 0) {
       setSecondsLeft(parseInt(poolAwardTimeRemaining, 10));
     } else if (parseInt(poolAwardTimeRemaining, 10) <= 0) {
-      console.log("setting");
+      console.log("setting start listener");
       // There is no time left, attach RNG (Award) Start listener
       setShowAwardStart(true);
       listenAndHandleRNGStartEvent(provider, chainID, 0, () => {
@@ -144,13 +145,32 @@ export const PoolPrize = () => {
                 className="pool-complete-award-button"
                 variant="contained"
                 color="primary"
-                onClick={handleCompleteAward}
+                onClick={() => handleAward("completeAward")}
                 style={{ alignSelf: "center", margin: "5px" }}
               >
                 Complete Award
               </Button>
               <Typography variant="body1" color="textSecondary" padding={2}>
                 Click 'Complete Award' to distribute and start a new prize period
+              </Typography>
+            </Box>
+          )}
+
+          {isRngTimedOut && (
+            <Box margin={2} display="flex" style={{ flexDirection: "column", gap: 4, justifyContent: "center" }}>
+              <Button
+                id="pool-complete-award-button"
+                className="pool-complete-award-button"
+                variant="contained"
+                color="primary"
+                onClick={() => handleAward("cancelAward")}
+                style={{ alignSelf: "center", margin: "5px" }}
+              >
+                Complete Award
+              </Button>
+              <Typography variant="body1" color="textSecondary" padding={2}>
+                The random number generator has timed out. You must cancel the awarding process to unlock users funds
+                users funds and start the awarding process again.
               </Typography>
             </Box>
           )}
@@ -163,12 +183,12 @@ export const PoolPrize = () => {
                 className="pool-start-award-button"
                 variant="contained"
                 color="primary"
-                onClick={handleStartAward}
+                onClick={() => handleAward("startAward")}
                 style={{ alignSelf: "center", margin: "5px" }}
               >
                 Start Award
               </Button>
-              <Typography variant="body" color="textSecondary">
+              <Typography variant="body1" color="textSecondary">
                 Award period has finished, click 'Start Award' to begin distribution
               </Typography>
             </Box>

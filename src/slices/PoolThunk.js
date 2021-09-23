@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
+import { abi as AwardPool } from "../abi/33-together/AwardAbi2.json";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
@@ -181,6 +182,55 @@ export const poolWithdraw = createAsyncThunk(
       }
     } catch (error) {
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
+        alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
+      } else {
+        alert(error.message);
+      }
+      return;
+    } finally {
+      if (poolTx) {
+        dispatch(clearPendingTxn(poolTx.hash));
+      }
+    }
+
+    return dispatch(getBalances({ address, networkID, provider }));
+  },
+);
+
+export const awardProcess = createAsyncThunk(
+  "pool/awardProcess",
+  async ({ action, provider, address, networkID }, { dispatch }) => {
+    if (!provider) {
+      alert("Please connect your wallet!");
+      return;
+    }
+
+    const signer = provider.getSigner();
+    const poolContract = await new ethers.Contract(
+      addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS,
+      AwardPool,
+      signer,
+    );
+
+    let poolTx;
+
+    try {
+      if (action === "startAward") {
+        poolTx = await poolContract.startAward();
+      } else if (action === "completeAward") {
+        poolTx = await poolContract.completeAward();
+      } else if (action === "cancelAward") {
+        poolTx = await poolContract.cancelAward();
+      } else {
+        console.log("unrecognized action: ", action);
+      }
+      const text = "Pool " + action;
+      const pendingTxnType = "pool_" + action;
+      dispatch(fetchPendingTxns({ txnHash: poolTx.hash, text: text, type: pendingTxnType }));
+      await poolTx.wait();
+    } catch (error) {
+      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
+        // TODO (appleseed-33t): update this
         alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else {
         alert(error.message);

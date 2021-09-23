@@ -50,9 +50,9 @@ const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alche
 
 // TODO(zx): Remove this out post 8/25/2021 when we use our prod alchemyAPI key
 // temp force into TEMP_ALCHEMY_IDS
-// const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
+const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
 // const ALL_URIs = [..._tempAlchemyURIs];
-const ALL_URIs = [..._alchemyURIs];
+const ALL_URIs = [..._tempAlchemyURIs];
 // temp change ALL_URIs into TEMP_ALCHEMY_IDS
 // const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
 

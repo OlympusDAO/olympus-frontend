@@ -83,6 +83,7 @@ export const poolTogetherUILinks = chainID => {
 export const listenAndHandleRNGCompleteEvent = (provider, networkID, eventHandler) => {
   // const contractAddress = "0xeeb552c4d5e155e50ee3f7402ed379bf72e36f23";
   const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS;
+  // "RngRequestFailed"
   const topicString = "RandomNumberCompleted(uint32,uint256)";
 
   const handlerFunc = () => {
@@ -133,3 +134,81 @@ export const listenAndHandleRNGStartEvent = (provider, networkID, secondsLeft, e
     removeEthersEventListener(provider, topicString, contractAddress);
   }
 };
+
+// other PoolTogether Events
+// event PrizePoolOpened(
+//     address indexed operator,
+//     uint256 indexed prizePeriodStartedAt
+//   );
+
+//   event RngRequestFailed();
+
+//   event PrizePoolAwardStarted(
+//     address indexed operator,
+//     address indexed prizePool,
+//     uint32 indexed rngRequestId,
+//     uint32 rngLockBlock
+//   );
+
+//   event PrizePoolAwardCancelled(
+//     address indexed operator,
+//     address indexed prizePool,
+//     uint32 indexed rngRequestId,
+//     uint32 rngLockBlock
+//   );
+
+//   event PrizePoolAwarded(
+//     address indexed operator,
+//     uint256 randomNumber
+//   );
+
+//   event RngServiceUpdated(
+//     RNGInterface indexed rngService
+//   );
+
+//   event TokenListenerUpdated(
+//     TokenListenerInterface indexed tokenListener
+//   );
+
+//   event RngRequestTimeoutSet(
+//     uint32 rngRequestTimeout
+//   );
+
+//   event PrizePeriodSecondsUpdated(
+//     uint256 prizePeriodSeconds
+//   );
+
+//   event BeforeAwardListenerSet(
+//     BeforeAwardListenerInterface indexed beforeAwardListener
+//   );
+
+//   event PeriodicPrizeStrategyListenerSet(
+//     PeriodicPrizeStrategyListenerInterface indexed periodicPrizeStrategyListener
+//   );
+
+//   event ExternalErc721AwardAdded(
+//     IERC721Upgradeable indexed externalErc721,
+//     uint256[] tokenIds
+//   );
+
+//   event ExternalErc20AwardAdded(
+//     IERC20Upgradeable indexed externalErc20
+//   );
+
+//   event ExternalErc721AwardRemoved(
+//     IERC721Upgradeable indexed externalErc721Award
+//   );
+
+//   event ExternalErc20AwardRemoved(
+//     IERC20Upgradeable indexed externalErc20Award
+//   );
+
+//   event Initialized(
+//     uint256 prizePeriodStart,
+//     uint256 prizePeriodSeconds,
+//     PrizePool indexed prizePool,
+//     TicketInterface ticket,
+//     IERC20Upgradeable sponsorship,
+//     RNGInterface rng,
+//     IERC20Upgradeable[] externalErc20Awards
+//   );
