@@ -49,7 +49,7 @@ const messagesSlice = createSlice({
       });
     },
     // Finds and removes obsolete messages
-    handle_obsolete(state, _action) {
+    handle_obsolete(state) {
       let activeMessages = state.items.filter(message => {
         return Date.now() - message.created < MESSAGES_MAX_DISPLAY_DURATION;
       });

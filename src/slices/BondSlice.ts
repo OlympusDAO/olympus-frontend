@@ -9,6 +9,7 @@ import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit"
 import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { RootState } from "src/store";
+import { IJsonRPCError } from "./interfaces";
 
 interface IChangeApproval {
   bond: Bond;
@@ -39,8 +40,8 @@ export const changeApproval = createAsyncThunk(
         }),
       );
       await approveTx.wait();
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      alert((error as IJsonRPCError).message);
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
@@ -201,10 +202,11 @@ export const bondAsset = createAsyncThunk(
       // UX preference (show pending after txn complete or after balance updated)
 
       dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
+    } catch (error: unknown) {
+      const rpcError = error as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-      } else alert(error.message);
+      } else alert(rpcError.message);
     } finally {
       if (bondTx) {
         dispatch(clearPendingTxn(bondTx.hash));
@@ -243,8 +245,8 @@ export const redeemBond = createAsyncThunk(
       await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      alert((error as IJsonRPCError).message);
     } finally {
       if (redeemTx) {
         dispatch(clearPendingTxn(redeemTx.hash));
@@ -290,8 +292,8 @@ export const redeemAllBonds = createAsyncThunk(
         });
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      alert((error as IJsonRPCError).message);
     } finally {
       if (redeemAllTx) {
         dispatch(clearPendingTxn(redeemAllTx.hash));

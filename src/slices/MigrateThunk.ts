@@ -9,6 +9,7 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { IJsonRPCError } from "./interfaces";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
@@ -16,11 +17,6 @@ export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
 interface ICalculateAPY {
   sohmContract: Contract;
   stakingReward: number;
-}
-
-interface IJsonRPCError {
-  readonly message: string;
-  readonly code: number;
 }
 
 export const calculateAPY = createAsyncThunk(
@@ -51,12 +47,8 @@ export const getApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer);
-    const oldSohmContract = await new ethers.Contract(
-      addresses[networkID].OLD_SOHM_ADDRESS as string,
-      ierc20Abi,
-      signer,
-    );
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer);
+    const oldSohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS as string, ierc20Abi, signer);
 
     let approveTx;
     try {

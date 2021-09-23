@@ -8,6 +8,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { getBalances } from "./AccountSlice";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { IJsonRPCError } from "./interfaces";
 
 interface IChangeApproval {
   token: string;
@@ -25,8 +26,8 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer);
-    const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
     let approveTx;
     try {
       if (token === "ohm") {
@@ -45,8 +46,8 @@ export const changeApproval = createAsyncThunk(
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
       await approveTx.wait();
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      alert((error as IJsonRPCError).message);
       return;
     } finally {
       if (approveTx) {
@@ -84,8 +85,8 @@ export const changeStake = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const staking = await new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, OlympusStaking, signer);
-    const stakingHelper = await new ethers.Contract(
+    const staking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, OlympusStaking, signer);
+    const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
       StakingHelper,
       signer,
@@ -102,11 +103,12 @@ export const changeStake = createAsyncThunk(
       const pendingTxnType = action === "stake" ? "staking" : "unstaking";
       dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
       await stakeTx.wait();
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
+    } catch (error: unknown) {
+      const rpcError = error as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else {
-        alert(error.message);
+        alert(rpcError.message);
       }
       return;
     } finally {
