@@ -73,7 +73,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   // if websocket we need to change providerType
   const providerType = () => {
-    if (uri.indexOf("ws://") > 0 || uri.indexOf("wss://") > 0) {
+    console.log("providerType", uri);
+    if (uri.indexOf("ws://") >= 0 || uri.indexOf("wss://") >= 0) {
       return new WebSocketProvider(uri);
     } else {
       return new StaticJsonRpcProvider(uri);
