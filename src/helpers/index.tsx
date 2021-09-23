@@ -32,7 +32,8 @@ export function trim(number: number | undefined, precision: number | undefined) 
   const array = number.toString().split(".");
   if (array.length === 1) return number.toString();
 
-  array.push((array.pop() ?? "0").substring(0, precision));
+  const poppedNumber = array.pop() || "0";
+  array.push(poppedNumber.substring(0, precision));
   const trimmedNumber = array.join(".");
   return trimmedNumber;
 }
