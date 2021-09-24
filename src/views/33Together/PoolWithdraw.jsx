@@ -29,7 +29,7 @@ export const PoolWithdraw = props => {
   const [quantity, setQuantity] = useState(0);
   const [exitFee, setExitFee] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
-  const isAppLoading = useSelector(state => state.app.loading);
+  const isPoolLoading = useSelector(state => state.poolData.loading);
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const poolBalance = useSelector(state => {
@@ -41,7 +41,7 @@ export const PoolWithdraw = props => {
   });
 
   const poolIsLocked = useSelector(state => {
-    return state.app.pool && state.app.pool.isRngRequested;
+    return state.poolData && state.poolData.isRngRequested;
   });
 
   const setMax = () => {
@@ -178,7 +178,7 @@ export const PoolWithdraw = props => {
             <div className="data-row">
               <Typography variant="body1">Your Pooled Balance (withdrawable)</Typography>
               <Typography variant="body1">
-                {isAppLoading ? (
+                {isPoolLoading ? (
                   <Skeleton width="80px" />
                 ) : (
                   <>{new Intl.NumberFormat("en-US").format(poolBalance)} sOHM</>

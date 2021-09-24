@@ -11,21 +11,16 @@ import { poolTogetherUILinks } from "../../helpers/33Together";
 export const PoolInfo = props => {
   const { address, chainID } = useWeb3Context();
 
-  const isAppLoading = useSelector(state => state.app.loading ?? true);
+  const isPoolLoading = useSelector(state => state.poolData.loading ?? true);
 
   const creditMaturationInDays = useSelector(state => {
-    return state.app.pool && parseFloat(state.app.pool.creditMaturationInDays);
+    return state.poolData && parseFloat(state.poolData.creditMaturationInDays);
   });
 
   const creditLimitPercentage = useSelector(state => {
-    return state.app.pool && parseFloat(state.app.pool.creditLimitPercentage);
+    return state.poolData && parseFloat(state.poolData.creditLimitPercentage);
   });
 
-  // if (props.loading) {
-  //   return <CircularProgress />;
-  // }
-
-  // TODO: add user pool data rows
   return (
     <Zoom in={true}>
       <Paper className="ohm-card">
@@ -93,12 +88,12 @@ export const PoolInfo = props => {
           <Divider color="secondary" />
           <div className="data-row">
             <Typography>Early Exit Fee</Typography>
-            <Typography>{isAppLoading ? <Skeleton width={100} /> : `${creditLimitPercentage}%`}</Typography>
+            <Typography>{isPoolLoading ? <Skeleton width={100} /> : `${creditLimitPercentage}%`}</Typography>
           </div>
           <div className="data-row">
             <Typography>Exit Fee Decay Time</Typography>
             <Typography>
-              {isAppLoading ? (
+              {isPoolLoading ? (
                 <Skeleton width={100} />
               ) : (
                 `${creditMaturationInDays} day${creditMaturationInDays === 1 ? "" : "s"}`

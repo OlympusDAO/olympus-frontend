@@ -47,7 +47,7 @@ export const PoolDeposit = props => {
   });
 
   const poolIsLocked = useSelector(state => {
-    return state.app.pool && state.app.pool.isRngRequested;
+    return state.poolData && state.poolData.isRngRequested;
   });
 
   const onSeekApproval = async token => {

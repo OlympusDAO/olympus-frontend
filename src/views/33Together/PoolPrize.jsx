@@ -21,22 +21,22 @@ export const PoolPrize = () => {
   const [rngStarted, setRngStarted] = useState(false);
   const [showAwardStart, setShowAwardStart] = useState(false);
 
-  const isAppLoading = useSelector(state => state.app.loading ?? true);
+  const isPoolLoading = useSelector(state => state.poolData.loading ?? true);
 
   const poolAwardTimeRemaining = useSelector(state => {
-    return state.app.pool && state.app.pool.awardPeriodRemainingSeconds;
+    return state.poolData && state.poolData.awardPeriodRemainingSeconds;
   });
 
   const poolAwardBalance = useSelector(state => {
-    return state.app.pool && state.app.pool.awardBalance;
+    return state.poolData && state.poolData.awardBalance;
   });
 
   const poolIsLocked = useSelector(state => {
-    return state.app.pool && state.app.pool.isRngRequested;
+    return state.poolData && state.poolData.isRngRequested;
   });
 
   const isRngTimedOut = useSelector(state => {
-    return state.app.pool && state.app.pool.isRngTimedOut;
+    return state.poolData && state.poolData.isRngTimedOut;
   });
 
   // TODO (appleseed): finish these buttons
@@ -123,21 +123,21 @@ export const PoolPrize = () => {
             {timer && poolIsLocked !== true && (
               <>
                 <Box className="pool-timer-unit">
-                  <Typography variant="h3">{isAppLoading ? <Skeleton width={20} /> : timer.days}</Typography>
+                  <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.days}</Typography>
                   <Typography>day</Typography>
                 </Box>
 
                 <Box className="pool-timer-unit">
-                  <Typography variant="h3">{isAppLoading ? <Skeleton width={20} /> : timer.hours}</Typography>
+                  <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.hours}</Typography>
                   <Typography>hrs</Typography>
                 </Box>
 
                 <Box className="pool-timer-unit">
-                  <Typography variant="h3">{isAppLoading ? <Skeleton width={20} /> : timer.minutes}</Typography>
+                  <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.minutes}</Typography>
                   <Typography>min</Typography>
                 </Box>
                 <Box className="pool-timer-unit">
-                  <Typography variant="h3">{isAppLoading ? <Skeleton width={20} /> : timer.seconds}</Typography>
+                  <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.seconds}</Typography>
                   <Typography>sec</Typography>
                 </Box>
               </>

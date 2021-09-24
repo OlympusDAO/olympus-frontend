@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Paper, Tab, Tabs, Fade } from "@material-ui/core";
 import { listenAndHandleDepositEvent } from "../../helpers/33Together.js";
 
@@ -15,6 +15,7 @@ import { useWeb3Context } from "../../hooks";
 import { apolloExt } from "../../lib/apolloClient";
 import { poolDataQuery } from "./poolData.js";
 import { calculateOdds } from "../../helpers/33Together";
+import { getPoolValues } from "../../slices/PoolThunk";
 import { trim } from "../../helpers/index.js";
 
 function a11yProps(index) {
@@ -33,11 +34,13 @@ const PoolTogether = () => {
 
   // NOTE (appleseed): these calcs were previously in PoolInfo, however would be need in PoolPrize, too, if...
   // ... we ever were to implement other types of awards
-  const { address, provider, chainID } = useWeb3Context();
+  const { connect, address, provider, chainID, connected, hasCachedProvider } = useWeb3Context();
+  const dispatch = useDispatch();
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
   const [poolData, setPoolData] = useState(null);
   const [poolDataError, setPoolDataError] = useState(null);
   const [graphLoading, setGraphLoading] = useState(true);
+  const [walletChecked, setWalletChecked] = useState(false);
   const [winners, setWinners] = useState(0);
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
@@ -100,13 +103,25 @@ const PoolTogether = () => {
     setYourOdds(userOdds);
   }, [poolData, poolBalance]);
 
-  // NOTE (appleseed-33t): temporary UseEffect below, just trying to get events working
   useEffect(() => {
-    console.log("useEffect before handler");
-    listenAndHandleDepositEvent(provider, chainID, () => {
-      console.log("eventHandler");
-    }).then(resp => console.log("then", resp));
+    if (hasCachedProvider()) {
+      // then user DOES have a wallet
+      connect().then(() => {
+        setWalletChecked(true);
+      });
+    } else {
+      // then user DOES NOT have a wallet
+      setWalletChecked(true);
+    }
   }, []);
+
+  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
+  useEffect(() => {
+    // don't load ANY details until wallet is Checked
+    if (walletChecked) {
+      dispatch(getPoolValues({ networkID: chainID, provider: provider }));
+    }
+  }, [walletChecked]);
 
   return (
     <div id="pool-together-view">
