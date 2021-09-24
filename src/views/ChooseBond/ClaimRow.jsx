@@ -13,8 +13,10 @@ export function ClaimBondTableData({ userBond }) {
   const { bonds } = useBonds();
   const { address, chainID, provider } = useWeb3Context();
 
-  const bondName = userBond[0];
   const bond = userBond[1];
+  const bondName = bond.bond;
+
+  const isAppLoading = useSelector(state => state.app.loading ?? true);
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
@@ -30,7 +32,6 @@ export function ClaimBondTableData({ userBond }) {
 
   async function onRedeem({ autostake }) {
     let currentBond = bonds.find(bnd => bnd.name === bondName);
-    console.log(currentBond);
     await dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
   }
 
@@ -49,7 +50,7 @@ export function ClaimBondTableData({ userBond }) {
       </TableCell>
       <TableCell align="center">{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</TableCell>
       <TableCell align="right" style={{ whiteSpace: "nowrap" }}>
-        {vestingPeriod()}
+        {isAppLoading ? <Skeleton /> : vestingPeriod()}
       </TableCell>
       <TableCell align="right">
         <Button

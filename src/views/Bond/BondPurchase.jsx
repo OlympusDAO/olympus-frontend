@@ -17,12 +17,11 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import useDebounce from "../../hooks/Debounce";
 
-function BondPurchase({ bond, slippage }) {
+function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
 
-  const [recipientAddress, setRecipientAddress] = useState(address);
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
@@ -89,10 +88,6 @@ function BondPurchase({ bond, slippage }) {
   const setMax = () => {
     setQuantity((Math.min(bond.maxBondPrice * bond.bondPrice, bond.balance) || "").toString());
   };
-
-  useEffect(() => {
-    if (address) setRecipientAddress(address);
-  }, [provider, quantity, address]);
 
   const bondDetailsDebounce = useDebounce(quantity, 1000);
 

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { addresses, TOKEN_DECIMALS } from "../../constants";
-import { getTokenImage } from "../../helpers";
 import { useSelector } from "react-redux";
 import { Box, Button, Divider, Fade, Link, Paper, Popper, SvgIcon, Typography } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
@@ -9,11 +8,15 @@ import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
 import Grid from "@material-ui/core/Grid";
 
-const sohmImg = getTokenImage("sohm");
-const ohmImg = getTokenImage("ohm");
+import OhmImg from "src/assets/tokens/token_OHM.svg";
+import SOhmImg from "src/assets/tokens/token_sOHM.svg";
 
 const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
+    const host = window.location.origin;
+    const tokenPath = tokenSymbol === "OHM" ? OhmImg : SOhmImg;
+    const imageURL = `${host}/${tokenPath}`;
+
     try {
       await window.ethereum.request({
         method: "wallet_watchAsset",
@@ -23,7 +26,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
             address: tokenAddress,
             symbol: tokenSymbol,
             decimals: TOKEN_DECIMALS,
-            image: tokenSymbol === "OHM" ? ohmImg : sohmImg,
+            image: imageURL,
           },
         },
       });

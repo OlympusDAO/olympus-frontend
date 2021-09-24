@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import {
   Box,
   Grid,
@@ -29,7 +28,16 @@ function ChooseBond() {
 
   const isAppLoading = useSelector(state => state.app.loading);
   const isAccountLoading = useSelector(state => state.account.loading);
-  const accountBonds = useSelector(state => state.account.bonds);
+
+  const accountBonds = useSelector(state => {
+    const withInterestDue = [];
+    for (const bond in state.account.bonds) {
+      if (state.account.bonds[bond].interestDue > 0) {
+        withInterestDue.push(state.account.bonds[bond]);
+      }
+    }
+    return withInterestDue;
+  });
 
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
@@ -38,10 +46,6 @@ function ChooseBond() {
   const treasuryBalance = useSelector(state => {
     return state.app.treasuryBalance;
   });
-
-  useEffect(() => {
-    console.log("account bonds: ", accountBonds);
-  }, [accountBonds]);
 
   return (
     <div id="choose-bond-view">

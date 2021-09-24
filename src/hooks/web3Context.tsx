@@ -1,78 +1,35 @@
 import React, { ReactElement, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Web3Modal from "web3modal";
-import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { NETWORK } from "../constants";
+import { EnvHelper } from "../helpers/Environment";
 
-// NOTE(zx): Want to move away from infura. Will probably remove these.
-const INFURA_ID_LIST = [
-  "5e3c4a19b5f64c99bf8cd8089c92b44d", // this is main dev node
-  "d9836dbf00c2440d862ab571b462e4a3", // this is current prod node
-  "31e6d348d16b4a4dacde5f8a47da1971", // this is primary fallback
-  "76cc9de4a72c4f5a8432074935d670a3", // Adding Zayen's to the mix
-];
-
-function getInfuraURI() {
-  const randomIndex = Math.floor(Math.random() * INFURA_ID_LIST.length);
-  const randomInfuraID = INFURA_ID_LIST[randomIndex];
-  return `https://mainnet.infura.io/v3/${randomInfuraID}`;
+/**
+ * kept as function to mimic `getMainnetURI()`
+ * @returns string
+ */
+function getTestnetURI(chainId: number) {
+  switch (chainId) {
+    case 4:
+      return EnvHelper.alchemyEthereumTestnetURI;
+    case 421611:
+      return EnvHelper.alchemyArbitrumTestnetURI;
+  }
+  return "";
 }
 
-function getTestnetURI() {
-  // return "https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3";
-  return "https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO";
-}
-
-const ALCHEMY_ID_LIST = [
-  "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
-  "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
-  "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // this is appleseed's
-];
-
-// this is the ethers common api key, it is rate limited somewhat
-const defaultApiKey = "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC";
-
-const TEMP_ALCHEMY_IDS = [
-  "bErYsMwjnuqkMp_7kv_j56fqhX-hrchd", // appleseed temps
-  "etQyv_Wo6jLx81t7XeFXQLLiufFjsgvl",
-  "bFrROI7I86II_WsChT44YuoyuGfL4vdA",
-];
-function getAlchemyAPI(chainID: Number) {
-  const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
-  const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
-  if (chainID === 1) return `https://eth-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
-  // unbanksy's
-  else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO`;
-  else if (chainID === 42161) return `https://arb-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
-}
-
-const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
-const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-
-// TODO(zx): Remove this out post 8/25/2021 when we use our prod alchemyAPI key
-// temp force into TEMP_ALCHEMY_IDS
-const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-const ALL_URIs = [..._tempAlchemyURIs];
-// const ALL_URIs = [..._alchemyURIs];
-// temp change ALL_URIs into TEMP_ALCHEMY_IDS
-// const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
-
-function getMainnetURI(): string {
+/**
+ * "intelligently" loadbalances production API Keys
+ * @returns string
+ */
+function getMainnetURI(chainId: number): string {
   // Shuffles the URIs for "intelligent" loadbalancing
-  const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
+  const allURIs = EnvHelper.getAPIUris(chainId).sort(() => Math.random() - 0.5);
 
   // There is no lightweight way to test each URL. so just return a random one.
   // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
   const randomIndex = Math.floor(Math.random() * allURIs.length);
   return allURIs[randomIndex];
-}
-
-function getArbitrumURI(): string {
-  return "https://arb-mainnet.alchemyapi.io/v2/qArKEu7I-QeBI1d6Y0BiL_XZOgBmQD2W";
-}
-
-function getArbitrumTestnetURI(): string {
-  return "";
 }
 
 /*
@@ -116,9 +73,17 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [chainID, setChainID] = useState(1);
   const [chainName, setChainName] = useState("Ethereum");
   const [address, setAddress] = useState("");
+  const [uri, setUri] = useState(getMainnetURI(1));
 
-  const [uri, setUri] = useState(getMainnetURI());
-  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
+  // if websocket we need to change providerType
+  const providerType = () => {
+    if (uri.indexOf("ws://") > 0 || uri.indexOf("wss://") > 0) {
+      return new WebSocketProvider(uri);
+    } else {
+      return new StaticJsonRpcProvider(uri);
+    }
+  };
+  const [provider, setProvider] = useState<JsonRpcProvider>(providerType);
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -129,10 +94,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           package: WalletConnectProvider,
           options: {
             rpc: {
-              1: getMainnetURI(),
-              4: getTestnetURI(),
-              42161: getArbitrumURI(),
-              421611: getArbitrumTestnetURI(),
+              1: getMainnetURI(1),
+              4: getTestnetURI(4),
+              42161: getMainnetURI(42161),
+              421611: getTestnetURI(421611),
             },
           },
         },
@@ -179,19 +144,19 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
         setChainID(otherChainID);
         switch (otherChainID) {
           case 1:
-            setUri(getMainnetURI());
+            setUri(getMainnetURI(otherChainID));
             setChainName("Ethereum");
             break;
           case 4:
-            setUri(getTestnetURI());
+            setUri(getTestnetURI(4));
             setChainName("Rinkeby Testnet");
             break;
           case 42161:
-            setUri(getArbitrumURI());
+            setUri(getMainnetURI(otherChainID));
             setChainName("Arbitrum");
             break;
           case 421611:
-            setUri(getArbitrumTestnetURI());
+            setUri(getTestnetURI(421611));
             setChainName("Arbitrum Testnet");
             break;
         }
@@ -210,6 +175,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       // If the chain has not been added to the user's wallet
       if (e.code === 4902) {
         try {
+          /*
           const params = [
             {
               chainId: hexString,
@@ -220,6 +186,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
             },
           ];
           await provider.send("wallet_addEthereumChain", params);
+           */
         } catch (e) {
           console.log(e);
         }
