@@ -3,6 +3,7 @@ import Web3Modal from "web3modal";
 import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { EnvHelper } from "../helpers/Environment";
+import { NETWORKS } from "../constants";
 
 /**
  * kept as function to mimic `getMainnetURI()`
@@ -168,6 +169,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   };
 
   const switchChain = async (id: number) => {
+    // We use decimal numbers for the chain ID, before making a request to the wallet, we need to format this as a hex string
     const hexString = "0x" + id.toString(16);
     try {
       await provider.send("wallet_switchEthereumChain", [{ chainId: hexString }]);
@@ -175,18 +177,17 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       // If the chain has not been added to the user's wallet
       if (e.code === 4902) {
         try {
-          /*
+          const network = NETWORKS[id];
           const params = [
             {
               chainId: hexString,
-              chainName: NETWORK(id)["name"],
-              nativeCurrency: NETWORK(id)["nativeCurrency"],
-              rpcUrls: NETWORK(id)["rpcUrls"],
-              blockExplorerUrls: NETWORK(id)["blockExplorerUrls"],
+              chainName: network["chainName"],
+              nativeCurrency: network["nativeCurrency"],
+              rpcUrls: network["rpcUrls"],
+              blockExplorerUrls: network["blockExplorerUrls"],
             },
           ];
           await provider.send("wallet_addEthereumChain", params);
-           */
         } catch (e) {
           console.log(e);
         }

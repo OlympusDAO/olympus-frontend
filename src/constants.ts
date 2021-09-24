@@ -95,3 +95,46 @@ export const addresses: IAddresses = {
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   }, // TODO: Replace with Arbitrum Testnet contract addresses when ready
 };
+
+/**
+ * Network details required to add a network to a user's wallet, as defined in EIP-3085 (https://eips.ethereum.org/EIPS/eip-3085)
+ */
+
+interface INativeCurrency {
+  name: string;
+  symbol: string;
+  decimals: number;
+}
+
+interface INetwork {
+  chainName: string;
+  chainId: number;
+  nativeCurrency: INativeCurrency;
+  rpcUrls: string[];
+  blockExplorerUrls: string[];
+}
+
+export const NETWORKS: { [key: number]: INetwork } = {
+  42161: {
+    chainName: "Arbitrum",
+    chainId: 42161,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+    blockExplorerUrls: ["https://explorer.arbitrum.io/#/"],
+  },
+  421611: {
+    chainName: "Arbitrum Testnet",
+    chainId: 421611,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://rinkeby.arbitrum.io/rpc"],
+    blockExplorerUrls: ["https://rinkeby-explorer.arbitrum.io/#/"],
+  },
+};
