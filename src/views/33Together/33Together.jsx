@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Paper, Tab, Tabs, Fade } from "@material-ui/core";
+import { listenAndHandleDepositEvent } from "../../helpers/33Together.js";
 
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
@@ -99,6 +100,13 @@ const PoolTogether = () => {
     setYourOdds(userOdds);
   }, [poolData, poolBalance]);
 
+  useEffect(() => {
+    console.log("ueseFecct before handler");
+    listenAndHandleDepositEvent(provider, chainID, () => {
+      console.log("eventHandler");
+    });
+  }, []);
+
   return (
     <div id="pool-together-view">
       <PoolPrize />
@@ -118,7 +126,7 @@ const PoolTogether = () => {
         </Tabs>
 
         <TabPanel value={view} index={0}>
-          <PoolDeposit />
+          <PoolDeposit totalPoolDeposits={totalDeposits} winners={winners} />
         </TabPanel>
         <TabPanel value={view} index={1}>
           <PoolWithdraw totalPoolDeposits={totalDeposits} winners={winners} />

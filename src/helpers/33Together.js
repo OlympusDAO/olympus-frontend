@@ -1,6 +1,8 @@
 import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { addEthersEventListener, removeEthersEventListener } from "./ethersEventListener";
+import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
+import { abi as AwardPool } from "../abi/33-together/AwardAbi2.json";
 
 /**
  * Calculates user's odds of winning based on their pool balance
@@ -59,16 +61,18 @@ export const secondsToDaysForInput = seconds => {
  * @returns {Array} [PrizePoolURI, PoolDetailsURI]
  */
 export const poolTogetherUILinks = chainID => {
+  const contractAddress = addresses[chainID].POOL_TOGETHER.PRIZE_POOL_ADDRESS;
+
   if (chainID === 4) {
     return [
-      "https://community.pooltogether.com/pools/rinkeby/0x60bc094cb0c966e60ed3be0549e92f3bc572e9f8/home",
-      "https://community.pooltogether.com/pools/rinkeby/0x60bc094cb0c966e60ed3be0549e92f3bc572e9f8/manage#stats",
+      `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/home`,
+      `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/manage#stats`,
     ];
   } else {
-    // TODO: these are the rinkeby urls again
+    // TODO (appleseed-33t): these are the rinkeby urls again
     return [
-      "https://community.pooltogether.com/pools/rinkeby/0x60bc094cb0c966e60ed3be0549e92f3bc572e9f8/home",
-      "https://community.pooltogether.com/pools/rinkeby/0x60bc094cb0c966e60ed3be0549e92f3bc572e9f8/manage#stats",
+      `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/home`,
+      `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/manage#stats`,
     ];
   }
 };
@@ -92,18 +96,22 @@ export const listenAndHandleRNGCompleteEvent = (provider, networkID, eventHandle
     setTimeout(() => window.location.reload(), 15000);
   };
 
-  addEthersEventListener(provider, topicString, contractAddress, handlerFunc);
+  const poolReader = new ethers.Contract(contractAddress, AwardPool, provider);
+
+  addEthersEventListener(poolReader, topicString, contractAddress, handlerFunc);
 };
 
 export const listenAndHandleDepositEvent = (provider, networkID, eventHandler) => {
   const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS;
-  const topicString = "Deposited(address,address,address,uint256,address)";
+  const topicString = "CreditMinted(address,address,uint256)";
 
   const handlerFunc = () => {
     removeEthersEventListener(provider, topicString, contractAddress);
     eventHandler();
     setTimeout(() => window.location.reload(), 15000);
   };
+
+  const poolReader = new ethers.Contract(contractAddress, PrizePool, provider);
 
   addEthersEventListener(provider, topicString, contractAddress, handlerFunc);
 };
@@ -128,9 +136,12 @@ export const listenAndHandleRNGStartEvent = (provider, networkID, secondsLeft, e
       eventHandler();
       setTimeout(() => window.location.reload(), 15000);
     };
-    addEthersEventListener(provider, topicString, contractAddress, handlerFunc);
+
+    const poolReader = new ethers.Contract(contractAddress, AwardPool, provider);
+
+    addEthersEventListener(poolReader, topicString, contractAddress, handlerFunc);
   } else {
     console.log("end listener");
-    removeEthersEventListener(provider, topicString, contractAddress);
+    removeEthersEventListener(poolReader, topicString, contractAddress);
   }
 };

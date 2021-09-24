@@ -7,13 +7,14 @@ import { ethers } from "ethers";
  * NO SPACES AFTER COMMAS IN PARAMS
  * @param {*} contractAddress that you took the topicString from
  * @param {*} handlerFunc what to do when event fires, i.e. `setTimeout(() => window.location.reload(), 1);`
+ * @param {*} networkID
  * @returns {object} `{ base: topicBaseName, full: topicString }` where topicBaseName is the topicString before `(`
  */
-export function addEthersEventListener(provider, topicString, contractAddress, handlerFunc) {
+export function addEthersEventListener(contract, topicString, contractAddress, handlerFunc) {
   console.log("addEventListener");
   let filter = buildFilter(topicString, contractAddress);
 
-  provider.once(filter, result => {
+  contract.once(filter, result => {
     console.log("hook result", result, topicString);
     const topicBaseName = topicString.split("(")[0];
     handlerFunc();
@@ -23,13 +24,13 @@ export function addEthersEventListener(provider, topicString, contractAddress, h
     // provider.removeListener(filter, result => {
     //   null;
     // });
-    provider.off(filter);
+    poolReader.off(filter);
   };
 }
 
-export function removeEthersEventListener(provider, topicString, contractAddress) {
+export function removeEthersEventListener(contract, topicString, contractAddress) {
   let filter = buildFilter(topicString, contractAddress);
-  provider.off(filter);
+  contract.off(filter);
 }
 
 const buildFilter = (topicString, contractAddress) => {

@@ -15,7 +15,7 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
-import { trim, getTokenImage } from "src/helpers/index.js";
+import { getTokenImage } from "src/helpers/index.js";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { poolWithdraw } from "../../slices/PoolThunk";
 import { getEarlyExitFee } from "../../slices/PoolThunk";
@@ -66,7 +66,6 @@ export const PoolWithdraw = props => {
     if (result.payload) {
       let userBalanceAfterWithdraw = poolBalance - quantity;
       let userOdds = calculateOdds(userBalanceAfterWithdraw, props.totalPoolDeposits, props.winners);
-      console.log("userOdds", userBalanceAfterWithdraw, props.totalPoolDeposits, props.winners, userOdds);
       setNewOdds(userOdds);
       setExitFee(result.payload.withdraw.stringExitFee);
     } else {

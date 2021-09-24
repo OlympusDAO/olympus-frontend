@@ -103,10 +103,17 @@ export const PoolPrize = () => {
       </Box>
       <Paper className="ohm-card">
         <Box display="flex" flexDirection="column" alignItems="center">
-          <Box margin={2} textAlign="center">
-            <Typography variant="h1">{trim(poolAwardBalance, 2)} sOHM</Typography>
-            <Typography variant="h4">Current Prize</Typography>
-          </Box>
+          {parseFloat(poolAwardBalance) === 0 ? (
+            <Box margin={2} textAlign="center">
+              <Typography variant="h3">Pool Award Balance is currently 0.</Typography>
+              <Typography variant="h4">Award Balance will grow at 1st rebase.</Typography>
+            </Box>
+          ) : (
+            <Box margin={2} textAlign="center">
+              <Typography variant="h1">{trim(poolAwardBalance, 2)} sOHM</Typography>
+              <Typography variant="h4">Current Prize</Typography>
+            </Box>
+          )}
           {poolIsLocked ? (
             <Typography variant="h6">Prize is being awarded</Typography>
           ) : (

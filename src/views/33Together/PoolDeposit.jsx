@@ -12,7 +12,8 @@ import {
 } from "@material-ui/core";
 import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
-import { trim, getTokenImage } from "src/helpers/index.js";
+import { getTokenImage } from "src/helpers/index.js";
+import { calculateOdds } from "../../helpers/33Together";
 import { listenAndHandleRNGCompleteEvent, listenAndHandleDepositEvent } from "../../helpers/33Together.js";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { poolDeposit, changeApproval } from "../../slices/PoolThunk";
@@ -20,10 +21,11 @@ import { Skeleton } from "@material-ui/lab";
 
 const sohmImg = getTokenImage("sohm");
 
-export const PoolDeposit = () => {
+export const PoolDeposit = props => {
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
   const [quantity, setQuantity] = useState(0);
+  const [newOdds, setNewOdds] = useState(0);
   const [rngCompleted, setRngCompleted] = useState(false);
   const isAppLoading = useSelector(state => state.app.loading);
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -33,7 +35,7 @@ export const PoolDeposit = () => {
   });
 
   const poolBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.pool;
+    return state.account.balances && parseFloat(state.account.balances.pool);
   });
 
   const poolAllowance = useSelector(state => {
@@ -44,66 +46,6 @@ export const PoolDeposit = () => {
     return state.pendingTransactions;
   });
 
-  // TODO (appleseed): listen to event for open screens
-  // events:
-  // from main
-  // Awarded
-  // event Awarded(
-  //   address indexed winner,
-  //   address indexed token,
-  //   uint256 amount
-  // );
-  //
-  // from 0xeeb552c4d5e155e50ee3f7402ed379bf72e36f23
-  // event PrizePoolOpened(
-  //   address indexed operator,
-  //   uint256 indexed prizePeriodStartedAt
-  // );
-  // event RngRequestFailed();
-  // event PrizePoolAwardStarted(
-  //   address indexed operator,
-  //   address indexed prizePool,
-  //   uint32 indexed rngRequestId,
-  //   uint32 rngLockBlock
-  // );
-  // event PrizePoolAwardCancelled(
-  //   address indexed operator,
-  //   address indexed prizePool,
-  //   uint32 indexed rngRequestId,
-  //   uint32 rngLockBlock
-  // );
-  // event PrizePoolAwarded(
-  //   address indexed operator,
-  //   uint256 randomNumber
-  // );
-  // event RngServiceUpdated(
-  //   RNGInterface indexed rngService
-  // );
-  // event TokenListenerUpdated(
-  //   TokenListenerInterface indexed tokenListener
-  // );
-  // event RngRequestTimeoutSet(
-  //   uint32 rngRequestTimeout
-  // );
-  // event PrizePeriodSecondsUpdated(
-  //   uint256 prizePeriodSeconds
-  // );
-  // event BeforeAwardListenerSet(
-  //   BeforeAwardListenerInterface indexed beforeAwardListener
-  // );
-  // event PeriodicPrizeStrategyListenerSet(
-  //   PeriodicPrizeStrategyListenerInterface indexed periodicPrizeStrategyListener
-  // );
-  //
-  // /// @notice Emitted when a new request for a random number has been submitted
-  // /// @param requestId The indexed ID of the request used to get the results of the RNG service
-  // /// @param sender The indexed address of the sender of the request
-  // event RandomNumberRequested(uint32 indexed requestId, address indexed sender);
-
-  // /// @notice Emitted when an existing request for a random number has been completed
-  // /// @param requestId The indexed ID of the request used to get the results of the RNG service
-  // /// @param randomNumber The random number produced by the 3rd-party service
-  // event RandomNumberCompleted(uint32 indexed requestId, uint256 randomNumber);
   const poolIsLocked = useSelector(state => {
     return state.app.pool && state.app.pool.isRngRequested;
   });
@@ -128,6 +70,15 @@ export const PoolDeposit = () => {
 
   const setMax = () => {
     setQuantity(sohmBalance);
+  };
+
+  const updateDepositQuantity = e => {
+    const value = parseFloat(e.target.value);
+    setQuantity(value);
+    let userBalanceAfterDeposit = poolBalance + value;
+
+    let userOdds = calculateOdds(userBalanceAfterDeposit, props.totalPoolDeposits + value, props.winners);
+    setNewOdds(userOdds);
   };
 
   // TODO (appleseed): fire one event here & one when timer is 0.
@@ -170,7 +121,7 @@ export const PoolDeposit = () => {
                 placeholder="Enter an amount"
                 className="pool-input"
                 value={quantity}
-                onChange={e => setQuantity(e.target.value)}
+                onChange={e => updateDepositQuantity(e)}
                 startAdornment={
                   <InputAdornment position="start">
                     <div className="logo-holder">{sohmImg}</div>
@@ -210,6 +161,13 @@ export const PoolDeposit = () => {
               </Button>
             )}
           </Box>
+          {newOdds > 0 && quantity > 0 && (
+            <Box margin={2}>
+              <Typography color="error">
+                After depositing {quantity} sOHM your odds of winning would be 1 in {newOdds}.&nbsp;
+              </Typography>
+            </Box>
+          )}
           <Box margin={2}>
             <Typography variant="body2">
               Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win
