@@ -100,11 +100,12 @@ const PoolTogether = () => {
     setYourOdds(userOdds);
   }, [poolData, poolBalance]);
 
+  // NOTE (appleseed-33t): temporary UseEffect below, just trying to get events working
   useEffect(() => {
-    console.log("ueseFecct before handler");
+    console.log("useEffect before handler");
     listenAndHandleDepositEvent(provider, chainID, () => {
       console.log("eventHandler");
-    });
+    }).then(resp => console.log("then", resp));
   }, []);
 
   return (

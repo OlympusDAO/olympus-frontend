@@ -10,15 +10,16 @@ import { ethers } from "ethers";
  * @param {*} networkID
  * @returns {object} `{ base: topicBaseName, full: topicString }` where topicBaseName is the topicString before `(`
  */
-export function addEthersEventListener(contract, topicString, contractAddress, handlerFunc) {
-  console.log("addEventListener");
-  let filter = buildFilter(topicString, contractAddress);
+export function addEthersEventListener(contract, filter, contractAddress, handlerFunc) {
+  // let filter = buildFilter(topicString, contractAddress);
+  // let filter = topicString;
+  console.log("addEventListener", filter);
 
-  contract.once(filter, result => {
+  contract.on(filter, result => {
     console.log("hook result", result, topicString);
-    const topicBaseName = topicString.split("(")[0];
     handlerFunc();
   });
+  console.log("after");
   return () => {
     // remove eventListener per: https://github.com/ethers-io/ethers.js/issues/175
     // provider.removeListener(filter, result => {
@@ -28,6 +29,7 @@ export function addEthersEventListener(contract, topicString, contractAddress, h
   };
 }
 
+// todo check this
 export function removeEthersEventListener(contract, topicString, contractAddress) {
   let filter = buildFilter(topicString, contractAddress);
   contract.off(filter);

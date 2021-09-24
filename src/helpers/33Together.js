@@ -88,7 +88,8 @@ export const listenAndHandleRNGCompleteEvent = (provider, networkID, eventHandle
   // const contractAddress = "0xeeb552c4d5e155e50ee3f7402ed379bf72e36f23";
   const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS;
   // "RngRequestFailed"
-  const topicString = "RandomNumberCompleted(uint32,uint256)";
+  // const topicString = "RandomNumberCompleted(uint32,uint256)";
+  const topicString = "RandomNumberCompleted";
 
   const handlerFunc = () => {
     removeEthersEventListener(provider, topicString, contractAddress);
@@ -101,19 +102,30 @@ export const listenAndHandleRNGCompleteEvent = (provider, networkID, eventHandle
   addEthersEventListener(poolReader, topicString, contractAddress, handlerFunc);
 };
 
-export const listenAndHandleDepositEvent = (provider, networkID, eventHandler) => {
-  const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS;
-  const topicString = "CreditMinted(address,address,uint256)";
+// NOTE(appleseed-33t): just using this func to debug events
+export const listenAndHandleDepositEvent = async (provider, networkID, eventHandler) => {
+  const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS;
+  // const topicString = "Deposited(operator, to, controlledToken, amount, referrer)";
+  // Deposited(operator, to, controlledToken, amount, referrer);
+  // const topicString = "CreditMinted(address,address,uint256)";
 
-  const handlerFunc = () => {
-    removeEthersEventListener(provider, topicString, contractAddress);
-    eventHandler();
-    setTimeout(() => window.location.reload(), 15000);
-  };
+  const poolReader = new ethers.Contract(contractAddress, AwardPool, provider);
 
-  const poolReader = new ethers.Contract(contractAddress, PrizePool, provider);
+  const filter = poolReader.filters.PrizePoolAwardStarted(null, null, null, null);
+  // const filter = "CreditMinted";
 
-  addEthersEventListener(provider, topicString, contractAddress, handlerFunc);
+  // const handlerFunc = () => {
+  //   removeEthersEventListener(poolReader, filter, contractAddress);
+  //   eventHandler();
+  //   setTimeout(() => window.location.reload(), 15000);
+  // };
+
+  // addEthersEventListener(poolReader, filter, contractAddress, handlerFunc);
+  console.log("filter", filter);
+  let response = await poolReader.queryFilter(filter, 9345000, "latest").then(resp => {
+    console.log("awaited", resp);
+  });
+  console.log("response", response);
 };
 
 /**
@@ -128,7 +140,8 @@ export const listenAndHandleDepositEvent = (provider, networkID, eventHandler) =
 export const listenAndHandleRNGStartEvent = (provider, networkID, secondsLeft, eventHandler) => {
   // const contractAddress = "0xeeb552c4d5e155e50ee3f7402ed379bf72e36f23";
   const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS;
-  const topicString = "RandomNumberRequested(uint32,address)";
+  // const topicString = "RandomNumberRequested(uint32,address)";
+  const topicString = "RandomNumberRequested";
   if (secondsLeft <= 0) {
     console.log("start listener");
     const handlerFunc = () => {
