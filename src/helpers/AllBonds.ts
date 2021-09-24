@@ -97,24 +97,6 @@ export const lusd = new StableBond({
   },
 });
 
-export const lusd = new StableBond({
-  name: "lusd",
-  displayName: "LUSD",
-  bondToken: "LUSD",
-  bondIconSvg: LusdImg,
-  bondContractABI: LusdBondContract,
-  networkAddrs: {
-    [NetworkID.Mainnet]: {
-      bondAddress: "0x10C0f93f64e3C8D0a1b0f4B87d6155fd9e89D08D",
-      reserveAddress: "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
-    },
-    [NetworkID.Testnet]: {
-      bondAddress: "0x3aD02C4E4D1234590E87A1f9a73B8E0fd8CF8CCa",
-      reserveAddress: "0x45754dF05AA6305114004358eCf8D04FF3B84e26",
-    },
-  },
-});
-
 export const eth = new CustomBond({
   name: "eth",
   displayName: "wETH",
