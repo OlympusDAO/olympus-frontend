@@ -48,10 +48,6 @@ function ChooseBond() {
     return state.app.treasuryBalance;
   });
 
-  useEffect(() => {
-    console.log("account bonds: ", accountBonds);
-  }, [accountBonds]);
-
   return (
     <div id="choose-bond-view">
       {!isAccountLoading && !_.isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
