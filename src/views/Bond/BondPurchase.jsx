@@ -115,10 +115,6 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
 
   const displayUnits = bond.displayUnits;
 
-  useEffect(() => {
-    console.log("bond ue", bond, bond.balance);
-  }, [bond]);
-
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" justifyContent="space-around" flexWrap="wrap">
