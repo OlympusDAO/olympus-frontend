@@ -15,7 +15,7 @@ import { apolloExt } from "../../lib/apolloClient";
 import { poolDataQuery } from "./poolData.js";
 import { calculateOdds } from "../../helpers/33Together";
 import { getPoolValues, getRNGStatus } from "../../slices/PoolThunk";
-import { trim } from "../../helpers/index.js";
+import { trim } from "../../helpers/index";
 
 function a11yProps(index) {
   return {

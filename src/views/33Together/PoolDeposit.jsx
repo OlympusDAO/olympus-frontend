@@ -12,7 +12,8 @@ import {
 } from "@material-ui/core";
 import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
-import { getTokenImage } from "src/helpers/index.js";
+import { getTokenImage } from "src/helpers/index";
+import { trim } from "src/helpers";
 import { calculateOdds } from "../../helpers/33Together";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { poolDeposit, changeApproval } from "../../slices/PoolThunk";
@@ -77,7 +78,7 @@ export const PoolDeposit = props => {
     let userBalanceAfterDeposit = poolBalance + value;
 
     let userOdds = calculateOdds(userBalanceAfterDeposit, props.totalPoolDeposits + value, props.winners);
-    setNewOdds(userOdds);
+    setNewOdds(trim(userOdds, 2));
   };
 
   if (poolIsLocked) {
@@ -153,7 +154,7 @@ export const PoolDeposit = props => {
           {newOdds > 0 && quantity > 0 && (
             <Box margin={2}>
               <Typography color="error">
-                After depositing {quantity} sOHM your odds of winning would be 1 in {newOdds}.&nbsp;
+                After depositing {quantity} sOHM your odds of winning would increase to 1 in {newOdds}.&nbsp;
               </Typography>
             </Box>
           )}

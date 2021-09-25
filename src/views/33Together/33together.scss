@@ -53,15 +53,13 @@
 }
 
 :not(.mobile) .pool-deposit-button,
-:not(.mobile) .pool-withdraw-button,
 .pool-start-award-button,
 .pool-complete-award-button {
   width: 200px;
   min-width: 200px;
 }
 
-.mobile .pool-deposit-button,
-.mobile .pool-withdraw-button {
+.mobile .pool-deposit-button {
   max-width: 100% !important;
   width: 100%;
 }
