@@ -14,7 +14,6 @@ import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
 import { getTokenImage } from "src/helpers/index.js";
 import { calculateOdds } from "../../helpers/33Together";
-import { listenAndHandleRNGCompleteEvent, listenAndHandleDepositEvent } from "../../helpers/33Together.js";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { poolDeposit, changeApproval } from "../../slices/PoolThunk";
 import { Skeleton } from "@material-ui/lab";
@@ -80,16 +79,6 @@ export const PoolDeposit = props => {
     let userOdds = calculateOdds(userBalanceAfterDeposit, props.totalPoolDeposits + value, props.winners);
     setNewOdds(userOdds);
   };
-
-  // TODO (appleseed): fire one event here & one when timer is 0.
-  useEffect(() => {
-    console.log("locked", poolIsLocked);
-    if (poolIsLocked) {
-      listenAndHandleRNGCompleteEvent(provider, chainID, () => {
-        setRngCompleted(true);
-      });
-    }
-  }, [poolIsLocked]);
 
   if (poolIsLocked) {
     return (

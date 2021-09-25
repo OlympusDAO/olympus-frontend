@@ -2,8 +2,7 @@ import { ethers } from "ethers";
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useWeb3Context } from "../../hooks";
-import { listenAndHandleRNGStartEvent } from "../../helpers/33Together.js";
-import { awardProcess } from "../../slices/PoolThunk";
+import { awardProcess, getRNGStatus } from "../../slices/PoolThunk";
 
 import { Paper, Box, Typography, Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
@@ -14,7 +13,6 @@ import { trim, subtractDates } from "src/helpers";
 export const PoolPrize = () => {
   const { provider, chainID } = useWeb3Context();
   const dispatch = useDispatch();
-
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState(null);
@@ -31,13 +29,22 @@ export const PoolPrize = () => {
     return state.poolData && state.poolData.awardBalance;
   });
 
+  // when true someone has started the award
   const poolIsLocked = useSelector(state => {
     return state.poolData && state.poolData.isRngRequested;
   });
 
+  // when true we need to cancel award
   const isRngTimedOut = useSelector(state => {
     return state.poolData && state.poolData.isRngTimedOut;
   });
+
+  // when true the award is complete & timer should reset.
+  const rngRequestCompleted = useSelector(state => {
+    return state.poolData && state.poolData.rngRequestCompleted;
+  });
+
+  let timerInterval = useRef();
 
   // TODO (appleseed): finish these buttons
   const handleAward = async action => {
@@ -45,20 +52,19 @@ export const PoolPrize = () => {
     await dispatch(awardProcess({ action, provider, networkID: chainID }));
   };
 
+  const rngQueryFunc = () => {
+    console.log("time", poolAwardTimeRemaining);
+    dispatch(getRNGStatus({ networkID: chainID, provider: provider }));
+  };
+
   const decreaseNum = () => {
     if (secondsLeft <= 1) {
-      console.log("debugging, set startlistener", poolAwardTimeRemaining, secondsLeft);
       // Time has ticked down.
       // There is no time left, attach RNG (Award) Start listener
-      setShowAwardStart(true);
-      listenAndHandleRNGStartEvent(provider, chainID, secondsLeft, () => {
-        setRngStarted(true);
-      });
+      rngQueryFunc();
     }
     setSecondsLeft(prev => prev - 1);
   };
-
-  let interval = useRef();
 
   useEffect(() => {
     setGraphUrl(POOL_GRAPH_URLS[chainID]);
@@ -69,32 +75,33 @@ export const PoolPrize = () => {
     const currentDate = new Date(Date.now());
     // multiply integerTimeRemaining by 1000 for milliseconds
     const futureDate = new Date(currentDate.getTime() + secondsLeft * 1000);
-
     const formatted = subtractDates(futureDate, currentDate);
-    // NOTE (appleseed): PoolTogether uses the following boolean too
-    // const timeRemaining = Boolean(days || hours || minutes || seconds);
-
     setTimer(formatted);
     if (secondsLeft > 0) {
-      interval.current = setInterval(decreaseNum, 1000);
-      return () => clearInterval(interval.current);
+      timerInterval.current = setInterval(decreaseNum, 1000);
+      return () => clearInterval(timerInterval.current);
     }
   }, [secondsLeft]);
 
   useEffect(() => {
-    if (poolIsLocked) {
-      // timer doesn't matter
-    } else if (parseInt(poolAwardTimeRemaining, 10) > 0) {
+    if (parseInt(poolAwardTimeRemaining, 10) > 0) {
+      setShowAwardStart(false);
       setSecondsLeft(parseInt(poolAwardTimeRemaining, 10));
+    } else if (poolIsLocked) {
+      setShowAwardStart(false);
+      // wait 30 seconds... we're just waiting for award
+      setTimeout(() => {
+        rngQueryFunc();
+      }, 30000);
     } else if (parseInt(poolAwardTimeRemaining, 10) <= 0) {
-      console.log("setting start listener");
-      // There is no time left, attach RNG (Award) Start listener
       setShowAwardStart(true);
-      listenAndHandleRNGStartEvent(provider, chainID, 0, () => {
-        setRngStarted(true);
-      });
+      // There is no time left, attach RNG (Award) Start listener
+      // the rngQueryFunc will run repeatedly once the above conditions are true;
+      setTimeout(() => {
+        rngQueryFunc();
+      }, 7000);
     }
-  }, [poolAwardTimeRemaining, poolIsLocked]);
+  }, [poolAwardTimeRemaining, poolIsLocked, rngRequestCompleted]);
 
   return (
     <Box width="100%" display="flex" flexDirection="column" alignItems="center" className="pool-prize-card">
@@ -165,6 +172,7 @@ export const PoolPrize = () => {
 
           {isRngTimedOut && (
             <Box margin={2} display="flex" style={{ flexDirection: "column", gap: 4, justifyContent: "center" }}>
+              {/* TODO (appleseed-33t): handle cancel award */}
               <Button
                 id="pool-complete-award-button"
                 className="pool-complete-award-button"
@@ -173,7 +181,7 @@ export const PoolPrize = () => {
                 onClick={() => handleAward("cancelAward")}
                 style={{ alignSelf: "center", margin: "5px" }}
               >
-                Complete Award
+                Cancel Award
               </Button>
               <Typography variant="body1" color="textSecondary" padding={2}>
                 The random number generator has timed out. You must cancel the awarding process to unlock users funds
@@ -183,7 +191,7 @@ export const PoolPrize = () => {
           )}
 
           {/* Timer still shows (0s) for poolIsLocked === false */}
-          {poolIsLocked === false && showAwardStart && (
+          {!poolIsLocked && showAwardStart && (
             <Box margin={2} display="flex" style={{ flexDirection: "column", gap: 4, justifyContent: "center" }}>
               <Button
                 id="pool-start-award-button"

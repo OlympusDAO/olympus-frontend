@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Tab, Tabs, Fade } from "@material-ui/core";
-import { listenAndHandleDepositEvent } from "../../helpers/33Together.js";
 
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
@@ -15,7 +14,7 @@ import { useWeb3Context } from "../../hooks";
 import { apolloExt } from "../../lib/apolloClient";
 import { poolDataQuery } from "./poolData.js";
 import { calculateOdds } from "../../helpers/33Together";
-import { getPoolValues } from "../../slices/PoolThunk";
+import { getPoolValues, getRNGStatus } from "../../slices/PoolThunk";
 import { trim } from "../../helpers/index.js";
 
 function a11yProps(index) {
@@ -120,6 +119,7 @@ const PoolTogether = () => {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
       dispatch(getPoolValues({ networkID: chainID, provider: provider }));
+      dispatch(getRNGStatus({ networkID: chainID, provider: provider }));
     }
   }, [walletChecked]);
 
