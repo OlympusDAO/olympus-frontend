@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
 import { addresses } from "../constants";
-import { addEthersEventListener, removeEthersEventListener } from "./ethersEventListener";
 import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
 import { abi as AwardPool } from "../abi/33-together/AwardAbi2.json";
+import { abi as SOhmAbi } from "../abi/sOHM.json";
 
 /**
  * Calculates user's odds of winning based on their pool balance
@@ -74,87 +74,5 @@ export const poolTogetherUILinks = chainID => {
       `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/home`,
       `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/manage#stats`,
     ];
-  }
-};
-
-/**
- * listen for the RNG Complete Event.
- * Should set this listener AFTER Pool Award Started
- * Listener will fire When Award Completed.
- * @param {*} provider
- * @param {*} networkID
- */
-export const listenAndHandleRNGCompleteEvent = (provider, networkID, eventHandler) => {
-  // const contractAddress = "0xeeb552c4d5e155e50ee3f7402ed379bf72e36f23";
-  const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS;
-  // "RngRequestFailed"
-  // const topicString = "RandomNumberCompleted(uint32,uint256)";
-  const topicString = "RandomNumberCompleted";
-
-  const handlerFunc = () => {
-    removeEthersEventListener(provider, topicString, contractAddress);
-    eventHandler();
-    setTimeout(() => window.location.reload(), 15000);
-  };
-
-  const poolReader = new ethers.Contract(contractAddress, AwardPool, provider);
-
-  addEthersEventListener(poolReader, topicString, contractAddress, handlerFunc);
-};
-
-// NOTE(appleseed-33t): just using this func to debug events
-export const listenAndHandleDepositEvent = async (provider, networkID, eventHandler) => {
-  const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS;
-  // const topicString = "Deposited(operator, to, controlledToken, amount, referrer)";
-  // Deposited(operator, to, controlledToken, amount, referrer);
-  // const topicString = "CreditMinted(address,address,uint256)";
-
-  const poolReader = new ethers.Contract(contractAddress, AwardPool, provider);
-
-  const filter = poolReader.filters.PrizePoolAwardStarted(null, null, null, null);
-  // const filter = "CreditMinted";
-
-  // const handlerFunc = () => {
-  //   removeEthersEventListener(poolReader, filter, contractAddress);
-  //   eventHandler();
-  //   setTimeout(() => window.location.reload(), 15000);
-  // };
-
-  // addEthersEventListener(poolReader, filter, contractAddress, handlerFunc);
-  console.log("filter", filter);
-  let response = await poolReader.queryFilter(filter, 9345000, "latest").then(resp => {
-    console.log("awaited", resp);
-  });
-  console.log("response", response);
-};
-
-/**
- * listen for the RNG Start Event.
- * Should set this listener When Pool Timer === 0
- * Listener will fire When Award Started.
- * @param {*} provider
- * @param {*} networkID
- * @param {*} timeRemaining time left on PoolTogether timer
- * @param {*} secondsLeft our countdown to 0 (starts at 0 on init)
- */
-export const listenAndHandleRNGStartEvent = (provider, networkID, secondsLeft, eventHandler) => {
-  // const contractAddress = "0xeeb552c4d5e155e50ee3f7402ed379bf72e36f23";
-  const contractAddress = addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS;
-  // const topicString = "RandomNumberRequested(uint32,address)";
-  const topicString = "RandomNumberRequested";
-  if (secondsLeft <= 0) {
-    console.log("start listener");
-    const handlerFunc = () => {
-      removeEthersEventListener(provider, topicString, contractAddress);
-      eventHandler();
-      setTimeout(() => window.location.reload(), 15000);
-    };
-
-    const poolReader = new ethers.Contract(contractAddress, AwardPool, provider);
-
-    addEthersEventListener(poolReader, topicString, contractAddress, handlerFunc);
-  } else {
-    console.log("end listener");
-    removeEthersEventListener(poolReader, topicString, contractAddress);
   }
 };
