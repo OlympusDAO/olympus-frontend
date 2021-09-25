@@ -132,7 +132,7 @@ function Stake() {
     setView(newView);
   };
 
-  const trimmedBalance = Number(trim(sohmBalance, 4)) + Number(trim(fsohmBalance, 4));
+  const trimmedBalance = Number(trim(sohmBalance, 4)) + Number(fsohmBalance.toFixed(4));
   const trimmedStakingAPY = trim(stakingAPY * 100, 1);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
