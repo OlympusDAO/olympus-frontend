@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { addresses, Actions } from "../constants";
+import { addresses } from "../constants";
 import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";

@@ -12,23 +12,15 @@ import { setAll } from "../helpers";
 export const getPoolValues = createAsyncThunk("pool/getPoolValues", async ({ networkID, provider }) => {
   // TODO (appleseed-33t): seems like this only works for signers, not readers...
   // calculate 33-together
-  const poolReader = await new ethers.Contract(
-    addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
-    PrizePool,
-    provider,
-  );
+  const poolReader = await new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
   const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
-  const creditPlanOf = await poolReader.creditPlanOf(addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS);
+  const creditPlanOf = await poolReader.creditPlanOf(addresses[networkID].PT_TOKEN_ADDRESS);
   const poolCredit = getCreditMaturationDaysAndLimitPercentage(
     creditPlanOf.creditRateMantissa,
     creditPlanOf.creditLimitMantissa,
   );
 
-  const awardReader = await new ethers.Contract(
-    addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS,
-    AwardPool,
-    provider,
-  );
+  const awardReader = await new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, provider);
   const poolAwardPeriodRemainingSeconds = await awardReader.prizePeriodRemainingSeconds();
 
   return {
@@ -40,11 +32,7 @@ export const getPoolValues = createAsyncThunk("pool/getPoolValues", async ({ net
 });
 
 export const getRNGStatus = createAsyncThunk("pool/getRNGStatus", async ({ networkID, provider }) => {
-  const awardReader = await new ethers.Contract(
-    addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS,
-    AwardPool,
-    provider,
-  );
+  const awardReader = await new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, provider);
   const isRngRequested = await awardReader.isRngRequested();
   let isRngTimedOut = false;
   if (isRngRequested) isRngTimedOut = await awardReader.isRngTimedOut();
@@ -71,7 +59,7 @@ export const changeApproval = createAsyncThunk(
     try {
       if (token === "sohm") {
         approveTx = await sohmContract.approve(
-          addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
+          addresses[networkID].PT_PRIZE_POOL_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
 
@@ -91,10 +79,7 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const depositAllowance = await sohmContract.allowance(
-      address,
-      addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
-    );
+    const depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
@@ -116,11 +101,7 @@ export const poolDeposit = createAsyncThunk(
       return;
     }
     const signer = provider.getSigner();
-    const poolContract = await new ethers.Contract(
-      addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
-      PrizePool,
-      signer,
-    );
+    const poolContract = await new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, signer);
     let poolTx;
 
     try {
@@ -128,7 +109,7 @@ export const poolDeposit = createAsyncThunk(
         poolTx = await poolContract.depositTo(
           address,
           ethers.utils.parseUnits(value, "gwei"),
-          addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS,
+          addresses[networkID].PT_TOKEN_ADDRESS,
           "0x0000000000000000000000000000000000000000", // referral address
         );
         const text = "Pool " + action;
@@ -158,7 +139,7 @@ export const poolDeposit = createAsyncThunk(
 export const getEarlyExitFee = createAsyncThunk(
   "pool/getEarlyExitFee",
   async ({ value, provider, address, networkID }) => {
-    const poolReader = new ethers.Contract(addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS, PrizePool, provider);
+    const poolReader = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
     // NOTE (appleseed): we chain callStatic in the below function to force the transaction through w/o a gas fee
     // ... this may be a result of `calculateEarlyExitFee` not being explicity declared as `view` or `pure` in the contract.
     // Explanation from ethers docs: https://docs.ethers.io/v5/api/contract/contract/#contract-callStatic
@@ -170,14 +151,11 @@ export const getEarlyExitFee = createAsyncThunk(
     //
     const earlyExitFee = await poolReader.callStatic.calculateEarlyExitFee(
       address,
-      addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS,
+      addresses[networkID].PT_TOKEN_ADDRESS,
       ethers.utils.parseUnits(value, "gwei"),
     );
     // NOTE (appleseed): poolTogether calcs this credit, but it's not used...
-    const credit = await poolReader.callStatic.balanceOfCredit(
-      address,
-      addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS,
-    );
+    const credit = await poolReader.callStatic.balanceOfCredit(address, addresses[networkID].PT_TOKEN_ADDRESS);
 
     return {
       withdraw: {
@@ -199,11 +177,7 @@ export const poolWithdraw = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const poolContract = await new ethers.Contract(
-      addresses[networkID].POOL_TOGETHER.PRIZE_POOL_ADDRESS,
-      PrizePool,
-      signer,
-    );
+    const poolContract = await new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, signer);
 
     let poolTx;
 
@@ -214,7 +188,7 @@ export const poolWithdraw = createAsyncThunk(
         poolTx = await poolContract.withdrawInstantlyFrom(
           address,
           ethers.utils.parseUnits(value, "gwei"),
-          addresses[networkID].POOL_TOGETHER.POOL_TOKEN_ADDRESS,
+          addresses[networkID].PT_TOKEN_ADDRESS,
           earlyExitFee.payload.withdraw.earlyExitFee.exitFee, // maximum exit fee
         );
         const text = "Pool " + action;
@@ -250,11 +224,7 @@ export const awardProcess = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const poolContract = await new ethers.Contract(
-      addresses[networkID].POOL_TOGETHER.PRIZE_STRATEGY_ADDRESS,
-      AwardPool,
-      signer,
-    );
+    const poolContract = await new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, signer);
 
     let poolTx;
 
