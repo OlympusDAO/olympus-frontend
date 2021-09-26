@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Paper, Tab, Tabs, Fade } from "@material-ui/core";
 
 import TabPanel from "../../components/TabPanel";
@@ -35,6 +36,7 @@ const PoolTogether = () => {
   // ... we ever were to implement other types of awards
   const { connect, address, provider, chainID, connected, hasCachedProvider } = useWeb3Context();
   const dispatch = useDispatch();
+  let history = useHistory();
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
   const [poolData, setPoolData] = useState(null);
   const [poolDataError, setPoolDataError] = useState(null);
@@ -57,6 +59,7 @@ const PoolTogether = () => {
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
+    if (chainID !== 4) history.push("/stake");
     setGraphUrl(POOL_GRAPH_URLS[chainID]);
   }, [chainID]);
 
