@@ -10,9 +10,19 @@ export class EnvHelper {
    */
   static env = process.env;
   static alchemyTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_TESTNET_ALCHEMY}`;
-
   static whitespaceRegex = /\s+/;
 
+  /**
+   * Returns env contingent segment api key
+   * @returns segment
+   */
+  static getSegmentKey() {
+    if (EnvHelper.env.NODE_ENV !== "development" && EnvHelper.env.REACT_APP_PROD_SEGMENT_KEY) {
+      return EnvHelper.env.REACT_APP_PROD_SEGMENT_KEY;
+    } else if (EnvHelper.env.REACT_APP_TESTNET_SEGMENT_KEY) {
+      return EnvHelper.env.REACT_APP_TESTNET_SEGMENT_KEY;
+    }
+  }
   static isNotEmpty(envVariable: string) {
     if (envVariable.length > 10) {
       return true;
@@ -98,17 +108,5 @@ export class EnvHelper {
     const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getSelfHostedSockets()];
     if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
     return ALL_URIs;
-  }
-
-  /**
-   * Returns env contingent segment api key
-   * @returns segment
-   */
-  static getSegmentKey() {
-    if (EnvHelper.env.NODE_ENV !== "development" && EnvHelper.env.REACT_APP_PROD_SEGMENT_KEY) {
-      return EnvHelper.env.REACT_APP_PROD_SEGMENT_KEY;
-    } else if (EnvHelper.env.REACT_APP_TESTNET_SEGMENT_KEY) {
-      return EnvHelper.env.REACT_APP_TESTNET_SEGMENT_KEY;
-    }
   }
 }

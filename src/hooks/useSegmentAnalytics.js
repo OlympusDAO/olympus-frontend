@@ -1,5 +1,6 @@
-const EnvHelper = require("../helpers/Environment");
-const REACT_APP_SEGMENT_KEY = EnvHelper.getSegmentKey();
+const helper = require("../helpers/Environment");
+const getSegmentKey = helper.EnvHelper.getSegmentKey;
+const REACT_APP_SEGMENT_KEY = getSegmentKey();
 export default function useSegmentAnalytics() {
   !(function () {
     var analytics = (window.analytics = window.analytics || []);
