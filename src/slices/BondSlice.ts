@@ -194,7 +194,7 @@ export const bondAsset = createAsyncThunk(
       address: address,
       value: value,
       type: "Bond",
-      bondName: bond,
+      bondName: bond.displayName,
       approved: true,
       txHash: null,
     };
@@ -246,7 +246,7 @@ export const redeemBond = createAsyncThunk(
     let uaData = {
       address: address,
       type: "Redeem",
-      bondName: bond,
+      bondName: bond.displayName,
       autoStake: autostake,
       approved: true,
       txHash: null,

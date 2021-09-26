@@ -17,11 +17,7 @@ export class EnvHelper {
    * @returns segment
    */
   static getSegmentKey() {
-    if (EnvHelper.env.NODE_ENV !== "development" && EnvHelper.env.REACT_APP_PROD_SEGMENT_KEY) {
-      return EnvHelper.env.REACT_APP_PROD_SEGMENT_KEY;
-    } else if (EnvHelper.env.REACT_APP_TESTNET_SEGMENT_KEY) {
-      return EnvHelper.env.REACT_APP_TESTNET_SEGMENT_KEY;
-    }
+    return EnvHelper.env.REACT_APP_SEGMENT_KEY;
   }
   static isNotEmpty(envVariable: string) {
     if (envVariable.length > 10) {
