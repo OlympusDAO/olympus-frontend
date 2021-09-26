@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useWeb3Context } from "../../hooks";
-import { awardProcess, getRNGStatus } from "../../slices/PoolThunk";
+import { awardProcess, getRNGStatus, getPoolValues } from "../../slices/PoolThunk";
 
 import { Paper, Box, Typography, Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
@@ -53,8 +53,9 @@ export const PoolPrize = () => {
   };
 
   const rngQueryFunc = () => {
-    console.log("time", poolAwardTimeRemaining);
+    console.log("time", poolAwardTimeRemaining, poolIsLocked);
     dispatch(getRNGStatus({ networkID: chainID, provider: provider }));
+    if (poolIsLocked) dispatch(getPoolValues({ networkID: chainID, provider: provider }));
   };
 
   const decreaseNum = () => {
@@ -91,6 +92,7 @@ export const PoolPrize = () => {
       setShowAwardStart(false);
       // wait 30 seconds... we're just waiting for award
       setTimeout(() => {
+        // retry until Pool Is Not Locked, then go get new time
         rngQueryFunc();
       }, 30000);
     } else if (parseInt(poolAwardTimeRemaining, 10) <= 0) {
@@ -98,6 +100,7 @@ export const PoolPrize = () => {
       // There is no time left, attach RNG (Award) Start listener
       // the rngQueryFunc will run repeatedly once the above conditions are true;
       setTimeout(() => {
+        // retry until pool is locked, then hits above block
         rngQueryFunc();
       }, 7000);
     }
