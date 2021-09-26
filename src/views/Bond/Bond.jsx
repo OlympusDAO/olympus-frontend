@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { trim } from "../../helpers";
-import { Grid, Backdrop, Paper, Box, Tab, Tabs, Typography, Fade, Grow } from "@material-ui/core";
+import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
 import BondRedeem from "./BondRedeem";
@@ -91,7 +91,7 @@ function Bond({ bond }) {
               </Tabs>
 
               <TabPanel value={view} index={0}>
-                <BondPurchase bond={bond} slippage={slippage} />
+                <BondPurchase bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
               </TabPanel>
 
               <TabPanel value={view} index={1}>
