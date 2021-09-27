@@ -50,7 +50,6 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
     const originalPromiseResult = await dispatch(
       loadMarketPrice({ networkID: networkID, provider: provider }),
     ).unwrap();
-    console.log("marketPrice", originalPromiseResult);
     marketPrice = originalPromiseResult.marketPrice;
   } catch (rejectedValueOrSerializedError) {
     // handle error here
@@ -119,6 +118,11 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   };
 });
 
+/**
+ * checks if app.slice has marketPrice already
+ * if yes then simply load that state
+ * if no then fetches via `loadMarketPrice`
+ */
 export const findOrLoadMarketPrice = createAsyncThunk(
   "app/findOrLoadMarketPrice",
   async ({ networkID, provider }, { dispatch, getState }) => {
@@ -134,7 +138,6 @@ export const findOrLoadMarketPrice = createAsyncThunk(
         const originalPromiseResult = await dispatch(
           loadMarketPrice({ networkID: networkID, provider: provider }),
         ).unwrap();
-        console.log("marketPrice", originalPromiseResult);
         marketPrice = originalPromiseResult.marketPrice;
       } catch (rejectedValueOrSerializedError) {
         // handle error here
@@ -146,6 +149,11 @@ export const findOrLoadMarketPrice = createAsyncThunk(
   },
 );
 
+/**
+ * - fetches the OHM price from CoinGecko (via getTokenPrice)
+ * - falls back to fetch marketPrice from ohm-dai contract
+ * - updates the App.slice when it runs
+ */
 const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }) => {
   let marketPrice: number;
   try {
