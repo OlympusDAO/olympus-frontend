@@ -10,6 +10,7 @@ import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { RootState } from "src/store";
 import { IJsonRPCError } from "./interfaces";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 interface IChangeApproval {
   bond: Bond;
@@ -182,7 +183,6 @@ export const bondAsset = createAsyncThunk(
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
 
     let balance;
-
     // Calculate maxPremium based on premium and slippage.
     // const calculatePremium = await bonding.calculatePremium();
     const signer = provider.getSigner();
@@ -192,11 +192,20 @@ export const bondAsset = createAsyncThunk(
 
     // Deposit the bond
     let bondTx;
+    let uaData = {
+      address: address,
+      value: value,
+      type: "Bond",
+      bondName: bond.displayName,
+      approved: true,
+      txHash: null,
+    };
     try {
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
       dispatch(
         fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bond.displayName, type: "bond_" + bond.name }),
       );
+      uaData.txHash = bondTx.hash;
       await bondTx.wait();
       // TODO: it may make more sense to only have it in the finally.
       // UX preference (show pending after txn complete or after balance updated)
@@ -209,6 +218,7 @@ export const bondAsset = createAsyncThunk(
       } else alert(rpcError.message);
     } finally {
       if (bondTx) {
+        segmentUA(uaData);
         dispatch(clearPendingTxn(bondTx.hash));
       }
     }
@@ -235,20 +245,32 @@ export const redeemBond = createAsyncThunk(
     const bondContract = bond.getContractForBond(networkID, signer);
 
     let redeemTx;
+    let uaData = {
+      address: address,
+      type: "Redeem",
+      bondName: bond.displayName,
+      autoStake: autostake,
+      approved: true,
+      txHash: null,
+    };
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);
       const pendingTxnType = "redeem_bond_" + bond + (autostake === true ? "_autostake" : "");
+      uaData.txHash = redeemTx.hash;
       dispatch(
         fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming " + bond.displayName, type: pendingTxnType }),
       );
+
       await redeemTx.wait();
       await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
 
       dispatch(getBalances({ address, networkID, provider }));
     } catch (error: unknown) {
+      uaData.approved = false;
       alert((error as IJsonRPCError).message);
     } finally {
       if (redeemTx) {
+        segmentUA(uaData);
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }

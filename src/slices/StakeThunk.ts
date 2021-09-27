@@ -9,12 +9,21 @@ import { fetchAccountSuccess } from "./AccountSlice";
 import { getBalances } from "./AccountSlice";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IJsonRPCError } from "./interfaces";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 interface IChangeApproval {
   token: string;
   provider: StaticJsonRpcProvider | JsonRpcProvider;
   address: string;
   networkID: number;
+}
+
+interface IUAData {
+  address: string;
+  value: string;
+  approved: boolean;
+  txHash: string | null;
+  type: string | null;
 }
 
 export const changeApproval = createAsyncThunk(
@@ -93,17 +102,27 @@ export const changeStake = createAsyncThunk(
     );
 
     let stakeTx;
-
+    let uaData: IUAData = {
+      address: address,
+      value: value,
+      approved: true,
+      txHash: null,
+      type: null,
+    };
     try {
       if (action === "stake") {
+        uaData.type = "stake";
         stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"));
       } else {
+        uaData.type = "unstake";
         stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
       }
       const pendingTxnType = action === "stake" ? "staking" : "unstaking";
+      uaData.txHash = stakeTx.hash;
       dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
       await stakeTx.wait();
     } catch (error: unknown) {
+      uaData.approved = false;
       const rpcError = error as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
@@ -113,6 +132,7 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
+        segmentUA(uaData);
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
