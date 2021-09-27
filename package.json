@@ -119,7 +119,7 @@
     "ship": "yarn surge",
     "theme": "npx gulp less",
     "watch": "node ./scripts/watch.js",
-    "synpress:run": "synpress run",
+    "synpress:run": "node tests/e2e/launcher.js",
     "synpress:open": "synpress open"
   }
 }
