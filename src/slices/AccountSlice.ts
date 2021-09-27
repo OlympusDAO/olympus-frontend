@@ -24,8 +24,15 @@ export const getBalances = createAsyncThunk(
     const ohmBalance = await ohmContract.balanceOf(address);
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
     const sohmBalance = await sohmContract.balanceOf(address);
-    const poolTokenContract = new ethers.Contract(addresses[networkID].PT_TOKEN_ADDRESS as string, ierc20Abi, provider);
-    const poolBalance = await poolTokenContract.balanceOf(address);
+    let poolBalance = 0;
+    if (networkID === 4) {
+      const poolTokenContract = new ethers.Contract(
+        addresses[networkID].PT_TOKEN_ADDRESS as string,
+        ierc20Abi,
+        provider,
+      );
+      poolBalance = await poolTokenContract.balanceOf(address);
+    }
 
     return {
       balances: {
@@ -74,13 +81,16 @@ export const loadAccountDetails = createAsyncThunk(
       const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider);
       sohmBalance = await sohmContract.balanceOf(address);
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-      poolAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+      if (networkID === 4) {
+        poolAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+      }
     }
 
     if (addresses[networkID].PT_TOKEN_ADDRESS) {
       const poolTokenContract = await new ethers.Contract(addresses[networkID].PT_TOKEN_ADDRESS, ierc20Abi, provider);
-      poolBalance = await poolTokenContract.balanceOf(address);
-      // poolAllowance = await poolTokenContract.allowance(address, addresses[networkID].PT_TOKEN_ADDRESS);
+      if (networkID === 4) {
+        poolBalance = await poolTokenContract.balanceOf(address);
+      }
     }
 
     for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM"]) {
