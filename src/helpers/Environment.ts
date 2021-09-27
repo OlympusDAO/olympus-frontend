@@ -17,7 +17,7 @@ export class EnvHelper {
    * @returns segment
    */
   static getSegmentKey() {
-    return EnvHelper.env.REACT_APP_SEGMENT_KEY;
+    return EnvHelper.env.REACT_APP_SEGMENT_API_KEY;
   }
 
   static isNotEmpty(envVariable: string) {
