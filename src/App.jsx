@@ -107,21 +107,12 @@ function App() {
     // don't run unless provider is a Wallet...
     if (whichDetails === "account" && address && connected) {
       loadAccount(loadProvider);
-      if (isAppLoaded) return; // Don't need to do anything else if the app is already loaded.
-
-      loadApp(loadProvider);
-    }
-
-    // Ideally this shouldn't be in its own little block under load details, and should be called when "loadAccount" is called
-    if (whichDetails === "userBonds" && address && connected) {
-      bonds.map(bond => {
-        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
-      });
     }
   }
 
   const loadApp = useCallback(
     loadProvider => {
+      console.log("loadAppDetails");
       dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
       bonds.map(bond => {
         dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
@@ -132,6 +123,7 @@ function App() {
 
   const loadAccount = useCallback(
     loadProvider => {
+      console.log("loadAccountDetails");
       dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
     },
     [connected],
@@ -160,8 +152,6 @@ function App() {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
       loadDetails("app");
-      loadDetails("account");
-      loadDetails("userBonds");
     }
   }, [walletChecked]);
 
@@ -169,9 +159,7 @@ function App() {
   useEffect(() => {
     // don't load ANY details until wallet is Connected
     if (connected) {
-      loadDetails("app");
       loadDetails("account");
-      loadDetails("userBonds");
     }
   }, [connected]);
 

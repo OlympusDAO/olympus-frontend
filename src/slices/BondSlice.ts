@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
-import apollo from "../lib/apolloClient.js";
-import { getMarketPrice, contractForRedeemHelper } from "../helpers";
+import { contractForRedeemHelper } from "../helpers";
 import { getBalances, calculateUserBondDetails } from "./AccountSlice";
+import { findOrLoadMarketPrice } from "./AppSlice";
 import { error } from "./MessagesSlice";
 import { Bond, NetworkID } from "../lib/Bond";
 import { addresses } from "../constants";
@@ -69,11 +69,11 @@ export interface IBondDetails {
 }
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
-  async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch }): Promise<IBondDetails> => {
+  async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch, getState }): Promise<IBondDetails> => {
     if (!value) {
       value = "0";
     }
-
+    console.log("running BondDetails for", bond);
     const amountInWei = ethers.utils.parseEther(value);
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
@@ -88,27 +88,16 @@ export const calcBondDetails = createAsyncThunk(
     const maxBondPrice = await bondContract.maxPayout();
     const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
 
-    const protocolMetricsQuery = `
-      query {
-        _meta {
-          block {
-            number
-          }
-        }
-        protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
-          ohmPrice
-        }
-      }
-    `;
-
-    const graphData = await apollo(protocolMetricsQuery);
-    let marketPrice;
-    if (!graphData || graphData == null) {
-      console.error("Returned a null response when querying TheGraph");
-      marketPrice = await getMarketPrice({ networkID, provider });
-      marketPrice = marketPrice / Math.pow(10, 9);
-    } else {
-      marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
+    let marketPrice: number;
+    try {
+      const originalPromiseResult = await dispatch(
+        findOrLoadMarketPrice({ networkID: networkID, provider: provider }),
+      ).unwrap();
+      marketPrice = originalPromiseResult.marketPrice;
+    } catch (rejectedValueOrSerializedError) {
+      // handle error here
+      console.error("Returned a null response from dispatch(loadMarketPrice)");
+      return;
     }
 
     try {

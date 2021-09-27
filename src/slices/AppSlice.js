@@ -4,7 +4,7 @@ import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { setAll } from "../helpers";
+import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 import allBonds from "src/helpers/AllBonds";
@@ -13,7 +13,7 @@ const initialState = {
   loading: false,
 };
 
-export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ networkID, provider }) => {
+export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ networkID, provider }, { dispatch }) => {
   const protocolMetricsQuery = `
   query {
     _meta {
@@ -43,7 +43,21 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   }
 
   const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
-  const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
+  // NOTE (appleseed): marketPrice from Graph was delayed, so get CoinGecko price
+  // const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
+  let marketPrice;
+  try {
+    const originalPromiseResult = await dispatch(
+      loadMarketPrice({ networkID: networkID, provider: provider }),
+    ).unwrap();
+    console.log("marketPrice", originalPromiseResult);
+    marketPrice = originalPromiseResult.marketPrice;
+  } catch (rejectedValueOrSerializedError) {
+    // handle error here
+    console.error("Returned a null response from dispatch(loadMarketPrice)");
+    return;
+  }
+
   const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
   const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
   const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
@@ -105,6 +119,45 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   };
 });
 
+export const findOrLoadMarketPrice = createAsyncThunk(
+  "app/findOrLoadMarketPrice",
+  async ({ networkID, provider }, { dispatch, getState }) => {
+    const state = getState();
+    let marketPrice;
+    // check if we already have loaded market price
+    if (state.app.loadingMarketPrice === false && state.app.marketPrice) {
+      // go get marketPrice from app.state
+      marketPrice = state.app.marketPrice;
+    } else {
+      // we don't have marketPrice in app.state, so go get it
+      try {
+        const originalPromiseResult = await dispatch(
+          loadMarketPrice({ networkID: networkID, provider: provider }),
+        ).unwrap();
+        console.log("marketPrice", originalPromiseResult);
+        marketPrice = originalPromiseResult.marketPrice;
+      } catch (rejectedValueOrSerializedError) {
+        // handle error here
+        console.error("Returned a null response from dispatch(loadMarketPrice)");
+        return;
+      }
+    }
+    return { marketPrice };
+  },
+);
+
+const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }) => {
+  let marketPrice: number;
+  try {
+    marketPrice = await getTokenPrice();
+  } catch (e) {
+    console.log("Returned a null response when querying CoinGecko");
+    marketPrice = await getMarketPrice({ networkID, provider });
+    marketPrice = marketPrice / Math.pow(10, 9);
+  }
+  return { marketPrice };
+});
+
 const appSlice = createSlice({
   name: "app",
   initialState,
@@ -124,6 +177,17 @@ const appSlice = createSlice({
       })
       .addCase(loadAppDetails.rejected, (state, { error }) => {
         state.status = false;
+        console.error(error.name, error.message, error.stack);
+      })
+      .addCase(loadMarketPrice.pending, (state, action) => {
+        state.loadingMarketPrice = true;
+      })
+      .addCase(loadMarketPrice.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.loadingMarketPrice = false;
+      })
+      .addCase(loadMarketPrice.rejected, (state, { error }) => {
+        state.statusMarketPrice = false;
         console.error(error.name, error.message, error.stack);
       });
   },

@@ -1,5 +1,6 @@
 import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses } from "../constants";
 import { ethers } from "ethers";
+import axios from "axios";
 import { abi as PairContract } from "../abi/PairContract.json";
 import { abi as RedeemHelperAbi } from "../abi/RedeemHelper.json";
 
@@ -19,6 +20,13 @@ export async function getMarketPrice({ networkID, provider }: { networkID: numbe
 
   // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });
   return marketPrice;
+}
+
+export async function getTokenPrice() {
+  let tokenId = "olympus";
+  const resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
+  let tokenPrice: number = resp.data[tokenId].usd;
+  return tokenPrice;
 }
 
 export function shorten(str: string) {
