@@ -10,6 +10,7 @@ import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 import { ohm_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 
+// NOTE (appleseed): this looks like an outdated method... we now have this data in the graph (used elsewhere in the app)
 export async function getMarketPrice({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
   const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
@@ -25,13 +26,23 @@ export function shorten(str: string) {
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
 }
 
+export function formatCurrency(c: number, precision: number | undefined) {
+  if (precision === undefined) precision = 0;
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: precision,
+    minimumFractionDigits: precision,
+  }).format(c);
+}
+
 export function trim(number: number | undefined, precision: number | undefined) {
   if (number == undefined) {
     number = 0;
   }
   const array = number.toString().split(".");
   if (array.length === 1) return number.toString();
-  if (precision === 0) return array[0].toString();
+  if (precision === 0 || precision === undefined) return array[0].toString();
 
   const poppedNumber = array.pop() || "0";
   array.push(poppedNumber.substring(0, precision));
