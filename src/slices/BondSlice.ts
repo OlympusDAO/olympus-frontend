@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import apollo from "../lib/apolloClient.js";
 import { getMarketPrice, contractForRedeemHelper } from "../helpers";
 import { getBalances, calculateUserBondDetails } from "./AccountSlice";
 import { error } from "./MessagesSlice";
@@ -87,11 +88,36 @@ export const calcBondDetails = createAsyncThunk(
     const maxBondPrice = await bondContract.maxPayout();
     const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
 
-    let marketPrice = await getMarketPrice({ networkID, provider });
+    const protocolMetricsQuery = `
+      query {
+        _meta {
+          block {
+            number
+          }
+        }
+        protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+          ohmPrice
+        }
+      }
+    `;
 
+    const graphData = await apollo(protocolMetricsQuery);
+    console.log(graphData);
+    // debugger;
+    let marketPrice;
+    if (!graphData || graphData == null) {
+      console.error("Returned a null response when querying TheGraph");
+      marketPrice = await getMarketPrice({ networkID, provider });
+      marketPrice = marketPrice / Math.pow(10, 9);
+    } else {
+      marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
+    }
+
+    console.log("marketPrice", marketPrice);
     try {
       bondPrice = await bondContract.bondPriceInUSD();
-      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      bondDiscount = (marketPrice * Math.pow(10, 18) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
     } catch (e) {
       console.log("error getting bondPriceInUSD", e);
     }
@@ -158,7 +184,7 @@ export const calcBondDetails = createAsyncThunk(
       vestingTerm: Number(terms.vestingTerm),
       maxBondPrice: maxBondPrice / Math.pow(10, 9),
       bondPrice: bondPrice / Math.pow(10, 18),
-      marketPrice: marketPrice / Math.pow(10, 9),
+      marketPrice: marketPrice,
     };
   },
 );

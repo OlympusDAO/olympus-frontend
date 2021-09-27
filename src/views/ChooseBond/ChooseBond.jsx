@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { trim } from "../../helpers";
+import { formatCurrency } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
@@ -85,7 +85,7 @@ function ChooseBond() {
                   OHM Price
                 </Typography>
                 <Typography variant="h4">
-                  {isAppLoading ? <Skeleton width="100px" /> : `$${trim(marketPrice, 2)}`}
+                  {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(marketPrice, 2)}
                 </Typography>
               </Box>
             </Grid>
