@@ -9,9 +9,7 @@ describe("Stake tests", () => {
     cy.visit("/#/");
   });
   it(`Stake ${STAKE_AMOUNT} OHM`, () => {
-    // check that wallet button says "connect"
-    // check that connect wallet button is present instead of staking input
-    cy.get("#wallet-button span").contains("Connect Wallet"); // test check for poopies to see if it fails
+    cy.get("#wallet-button span").contains("Connect Wallet");
     cy.get("#wallet-button").click();
     cy.get(".web3modal-provider-name").contains("MetaMask").click();
     cy.acceptMetamaskAccess();
@@ -42,9 +40,14 @@ describe("Stake tests", () => {
         });
     });
     // TODO
-    // it(`Unstakes ${STAKE_AMOUNT} sOHM`, () => {
-
-    // })
+    it(`Unstakes ${STAKE_AMOUNT} sOHM`, () => {
+      cy.get("#wallet-button span").contains("Connect Wallet");
+      cy.get("#wallet-button").click();
+      cy.get(".web3modal-provider-name").contains("MetaMask").click();
+      cy.acceptMetamaskAccess();
+      cy.get(".stake-button").contains("Approve");
+      cy.get("#amount-input").type(STAKE_AMOUNT);
+    });
     // TODO
     // it(`disconnects wallet from app`, () => {
 
