@@ -7,7 +7,7 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { getBalances } from "./AccountSlice";
-import { ua } from "../hooks/userAnalyticHelpers";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
@@ -102,7 +102,7 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
-        ua(uaData);
+        segmentUA(uaData);
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }

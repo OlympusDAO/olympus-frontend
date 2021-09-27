@@ -8,7 +8,7 @@ import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
-import { ua } from "../hooks/userAnalyticHelpers";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 interface IChangeApproval {
   bond: Bond;
@@ -216,7 +216,7 @@ export const bondAsset = createAsyncThunk(
       } else alert(error.message);
     } finally {
       if (bondTx) {
-        ua(uaData);
+        segmentUA(uaData);
         dispatch(clearPendingTxn(bondTx.hash));
       }
     }
@@ -268,7 +268,7 @@ export const redeemBond = createAsyncThunk(
       alert(error.message);
     } finally {
       if (redeemTx) {
-        ua(uaData);
+        segmentUA(uaData);
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
