@@ -7,6 +7,7 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { getBalances } from "./AccountSlice";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
@@ -72,17 +73,27 @@ export const changeStake = createAsyncThunk(
     const stakingHelper = await new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
 
     let stakeTx;
-
+    let uaData = {
+      address: address,
+      value: value,
+      approved: true,
+      txHash: null,
+      type: null,
+    };
     try {
       if (action === "stake") {
+        uaData.type = "stake";
         stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"));
       } else {
+        uaData.type = "unstake";
         stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
       }
       const pendingTxnType = action === "stake" ? "staking" : "unstaking";
+      uaData.txHash = stakeTx.hash;
       dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
       await stakeTx.wait();
     } catch (error) {
+      uaData.approved = false;
       if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else {
@@ -91,6 +102,7 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
+        segmentUA(uaData);
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
