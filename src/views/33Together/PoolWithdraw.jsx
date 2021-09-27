@@ -11,6 +11,7 @@ import {
   InputAdornment,
   Link,
   useMediaQuery,
+  SvgIcon,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import ConnectButton from "../../components/ConnectButton.jsx";
@@ -21,6 +22,7 @@ import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { poolWithdraw } from "../../slices/PoolThunk";
 import { getEarlyExitFee } from "../../slices/PoolThunk";
 import { calculateOdds } from "../../helpers/33Together";
+import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 
 const sohmImg = getTokenImage("sohm");
 
@@ -67,7 +69,7 @@ export const PoolWithdraw = props => {
     if (result.payload) {
       let userBalanceAfterWithdraw = poolBalance - quantity;
       let userOdds = calculateOdds(userBalanceAfterWithdraw, props.totalPoolDeposits, props.winners);
-      setNewOdds(trim(userOdds, 2));
+      setNewOdds(trim(userOdds, 0));
       setExitFee(result.payload.withdraw.stringExitFee);
     } else {
       alert(result.error.message);
@@ -144,30 +146,32 @@ export const PoolWithdraw = props => {
               {/* Withdraw sOHM */}
             </Button>
           </Box>
+          {newOdds > 0 && quantity > 0 && (
+            <Box padding={1}>
+              <Typography color="error" variant="body2">
+                Withdrawing {quantity} sOHM reduces your odds of winning to 1 in {newOdds}&nbsp;
+              </Typography>
+            </Box>
+          )}
           {exitFee > 0 && (
-            <Box margin={2}>
+            <Box margin={1}>
               <Typography color="error">
-                Oh no! You're attempting to withdraw early and therefore, are subject to a fairness fee of {exitFee}.
-                &nbsp;
+                Early withdraw will incur a fairness fee of {exitFee}. &nbsp;
                 <Link
                   href="https://docs.pooltogether.com/protocol/prize-pool/fairness"
                   target="_blank"
                   rel="noreferrer"
                   color="primary"
                 >
-                  Read more about Fairness
+                  <br />
+                  Read more about Fairness{" "}
+                  <SvgIcon component={ArrowUp} style={{ fontSize: "1rem", verticalAlign: "middle" }} />
                 </Link>
               </Typography>
             </Box>
           )}
-          {newOdds > 0 && quantity > 0 && (
-            <Box margin={2}>
-              <Typography color="error">
-                After withdrawing {quantity} sOHM your odds of winning would be 1 in {newOdds}.&nbsp;
-              </Typography>
-            </Box>
-          )}
-          <Box margin={2}>
+
+          <Box padding={1}>
             <Typography variant="body2">
               You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating /
               reducing the chance to win the prize in this pool in future prize periods

@@ -78,7 +78,7 @@ export const PoolDeposit = props => {
     let userBalanceAfterDeposit = poolBalance + value;
 
     let userOdds = calculateOdds(userBalanceAfterDeposit, props.totalPoolDeposits + value, props.winners);
-    setNewOdds(trim(userOdds, 2));
+    setNewOdds(trim(userOdds, 0));
   };
 
   if (poolIsLocked) {
@@ -152,13 +152,13 @@ export const PoolDeposit = props => {
             )}
           </Box>
           {newOdds > 0 && quantity > 0 && (
-            <Box margin={2}>
-              <Typography color="error">
-                After depositing {quantity} sOHM your odds of winning would increase to 1 in {newOdds}.&nbsp;
+            <Box padding={1}>
+              <Typography variant="body2" style={{ color: "#33BB33" }}>
+                Depositing {quantity} sOHM will increase odds of winning to 1 in {newOdds}&nbsp;
               </Typography>
             </Box>
           )}
-          <Box margin={2}>
+          <Box padding={1}>
             <Typography variant="body2">
               Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win
               until your sOHM is withdrawn.
