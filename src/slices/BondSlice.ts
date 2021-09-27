@@ -102,8 +102,6 @@ export const calcBondDetails = createAsyncThunk(
     `;
 
     const graphData = await apollo(protocolMetricsQuery);
-    console.log(graphData);
-    // debugger;
     let marketPrice;
     if (!graphData || graphData == null) {
       console.error("Returned a null response when querying TheGraph");
@@ -113,7 +111,6 @@ export const calcBondDetails = createAsyncThunk(
       marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
     }
 
-    console.log("marketPrice", marketPrice);
     try {
       bondPrice = await bondContract.bondPriceInUSD();
       // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
