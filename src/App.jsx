@@ -14,7 +14,7 @@ import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
@@ -197,7 +197,7 @@ function App() {
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
       {/* {isAppLoading && <LoadingSplash />} */}
-      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"}`}>
+      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
         <Messages />
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>
@@ -224,6 +224,10 @@ function App() {
               <Route exact path="/stake/migrate">
                 <Migrate />
               </Route>
+            </Route>
+
+            <Route path="/33-together">
+              <PoolTogether />
             </Route>
 
             <Route path="/bonds">
