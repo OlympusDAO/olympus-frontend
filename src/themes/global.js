@@ -21,10 +21,10 @@ const commonSettings = {
     fontSize: 16,
     fontFamily: "Square",
     h1: {
-      fontSize: "3rem",
+      fontSize: "3.3rem",
     },
     h2: {
-      fontSize: "2.25rem",
+      fontSize: "2.3rem",
       fontWeight: 600,
       letterSpacing: "1.3px",
     },

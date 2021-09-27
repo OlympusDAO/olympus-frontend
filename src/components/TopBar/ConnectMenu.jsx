@@ -104,7 +104,7 @@ function ConnectMenu({ theme }) {
                     </Link>
                   </Box>
                 ))}
-                <Box className="add-tokens" fullWidth>
+                <Box className="add-tokens">
                   <Divider color="secondary" />
                   <Button
                     size="large"
