@@ -10,7 +10,7 @@ export default function useSegmentAnalytics() {
   const location = useLocation();
 
   React.useEffect(() => {
-    if (SEGMENT_API_KEY.length > 1) {
+    if (SEGMENT_API_KEY && SEGMENT_API_KEY.length > 1) {
       initSegmentAnalytics();
       setLoadedSegment(true);
     }
