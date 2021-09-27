@@ -1,13 +1,13 @@
-import { useState, useCallback, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
-  Typography,
   FormControl,
+  InputAdornment,
   InputLabel,
   OutlinedInput,
-  InputAdornment,
+  Typography,
   useMediaQuery,
 } from "@material-ui/core";
 import ConnectButton from "../../components/ConnectButton.jsx";
@@ -16,8 +16,9 @@ import { getTokenImage } from "src/helpers/index";
 import { trim } from "src/helpers";
 import { calculateOdds } from "../../helpers/33Together";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-import { poolDeposit, changeApproval } from "../../slices/PoolThunk";
+import { changeApproval, poolDeposit } from "../../slices/PoolThunk";
 import { Skeleton } from "@material-ui/lab";
+import { error } from "../../slices/MessagesSlice";
 
 const sohmImg = getTokenImage("sohm");
 
@@ -58,7 +59,7 @@ export const PoolDeposit = props => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      alert("Please enter a value!");
+      dispatch(error("Please enter a value!"));
     } else {
       await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }

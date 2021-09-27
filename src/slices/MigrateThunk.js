@@ -8,6 +8,7 @@ import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
+import { error } from "../slices/MessagesSlice";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
@@ -25,7 +26,7 @@ export const getApproval = createAsyncThunk(
   "migrate/getApproval",
   async ({ type, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -55,8 +56,8 @@ export const getApproval = createAsyncThunk(
         type: pendingTxnType,
       }),
         await approveTx.wait();
-    } catch (error) {
-      alert(error.message);
+    } catch (e) {
+      dispatch(error(e.message));
       return;
     } finally {
       if (approveTx) {
@@ -82,7 +83,7 @@ export const changeStake = createAsyncThunk(
   "migrate/changeStake",
   async ({ action, value, provider, address, networkID }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -101,12 +102,14 @@ export const changeStake = createAsyncThunk(
       const pendingTxnType = action === ACTIONS.STAKE ? "migrate_staking" : "migrate_unstaking";
       fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType });
       await stakeTx.wait();
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
-        alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-        return;
+    } catch (e) {
+      if (e.code === -32603 && e.message.indexOf("ds-math-sub-underflow") >= 0) {
+        dispatch(
+          error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
+      } else {
+        dispatch(error(e.message));
       }
-      alert(error.message);
       return;
     } finally {
       if (stakeTx) {

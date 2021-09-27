@@ -1,12 +1,12 @@
 import { ethers } from "ethers";
-import { getMarketPrice, contractForRedeemHelper } from "../helpers";
-import { getBalances, calculateUserBondDetails } from "./AccountSlice";
+import { contractForRedeemHelper, getMarketPrice } from "../helpers";
+import { calculateUserBondDetails, getBalances } from "./AccountSlice";
 import { error } from "./MessagesSlice";
 import { Bond, NetworkID } from "../lib/Bond";
 import { addresses } from "../constants";
-import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
-import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 
 interface IChangeApproval {
@@ -19,7 +19,7 @@ export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
   async ({ bond, provider, networkID }: IChangeApproval, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -38,8 +38,8 @@ export const changeApproval = createAsyncThunk(
         }),
       );
       await approveTx.wait();
-    } catch (error) {
-      alert(error.message);
+    } catch (e) {
+      dispatch(error(e.message));
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
@@ -200,10 +200,12 @@ export const bondAsset = createAsyncThunk(
       // UX preference (show pending after txn complete or after balance updated)
 
       dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
-        alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-      } else alert(error.message);
+    } catch (e) {
+      if (e.code === -32603 && e.message.indexOf("ds-math-sub-underflow") >= 0) {
+        dispatch(
+          error("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
+      } else dispatch(error(e.message));
     } finally {
       if (bondTx) {
         dispatch(clearPendingTxn(bondTx.hash));
@@ -224,7 +226,7 @@ export const redeemBond = createAsyncThunk(
   "bonding/redeemBond",
   async ({ address, bond, networkID, provider, autostake }: IRedeemBond, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -242,8 +244,8 @@ export const redeemBond = createAsyncThunk(
       await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error) {
-      alert(error.message);
+    } catch (e) {
+      dispatch(error(e.message));
     } finally {
       if (redeemTx) {
         dispatch(clearPendingTxn(redeemTx.hash));
@@ -264,7 +266,7 @@ export const redeemAllBonds = createAsyncThunk(
   "bonding/redeemAllBonds",
   async ({ bonds, address, networkID, provider, autostake }: IRedeemAllBonds, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -289,8 +291,8 @@ export const redeemAllBonds = createAsyncThunk(
         });
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error) {
-      alert(error.message);
+    } catch (e) {
+      dispatch(error(e.message));
     } finally {
       if (redeemAllTx) {
         dispatch(clearPendingTxn(redeemAllTx.hash));
