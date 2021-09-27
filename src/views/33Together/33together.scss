@@ -47,6 +47,10 @@
   }
 }
 
+.light .vegas {
+  filter: invert(0.99);
+}
+
 // Mobile styles
 :not(.tablet, .mobile) .vegas {
   height: 240px;
@@ -59,13 +63,14 @@
   min-width: 200px;
 }
 
-.mobile .pool-deposit-button {
+.mobile .pool-deposit-button,
+.mobile .pool-withdraw-button {
   max-width: 100% !important;
   width: 100%;
 }
 
 .tablet .vegas {
-  height: 200px;
+  height: 190px;
   margin-bottom: -10px;
 }
 

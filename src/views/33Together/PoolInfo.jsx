@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
+import { Box, Button, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -10,7 +10,6 @@ import { poolTogetherUILinks } from "../../helpers/33Together";
 
 export const PoolInfo = props => {
   const { address, chainID } = useWeb3Context();
-
   const isPoolLoading = useSelector(state => state.poolData.loading ?? true);
 
   const creditMaturationInDays = useSelector(state => {

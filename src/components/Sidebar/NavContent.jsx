@@ -6,6 +6,7 @@ import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
+import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
 import { trim, shorten } from "../../helpers";
 import { useAddress, useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
@@ -99,7 +100,7 @@ function NavContent() {
                   className={`button-dapp-menu ${isActive ? "active" : ""}`}
                 >
                   <Typography variant="h6">
-                    <SvgIcon color="primary" component={StakeIcon} />
+                    <SvgIcon color="primary" component={PoolTogetherIcon} />
                     3,3 Together
                   </Typography>
                 </Link>
