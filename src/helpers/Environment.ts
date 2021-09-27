@@ -19,6 +19,7 @@ export class EnvHelper {
   static getSegmentKey() {
     return EnvHelper.env.REACT_APP_SEGMENT_KEY;
   }
+
   static isNotEmpty(envVariable: string) {
     if (envVariable.length > 10) {
       return true;
