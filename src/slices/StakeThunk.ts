@@ -7,19 +7,36 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { getBalances } from "./AccountSlice";
+import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
+
+interface IChangeApproval {
+  token: string;
+  provider: StaticJsonRpcProvider | JsonRpcProvider;
+  address: string;
+  networkID: number;
+}
+
+interface IUAData {
+  address: string;
+  value: string;
+  approved: boolean;
+  txHash: string | null;
+  type: string | null;
+}
 
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
-  async ({ token, provider, address, networkID }, { dispatch }) => {
+  async ({ token, provider, address, networkID }: IChangeApproval, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
     }
 
     const signer = provider.getSigner();
-    const ohmContract = await new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, signer);
-    const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
     let approveTx;
     try {
       if (token === "ohm") {
@@ -38,8 +55,8 @@ export const changeApproval = createAsyncThunk(
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
       await approveTx.wait();
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      alert((error as IJsonRPCError).message);
       return;
     } finally {
       if (approveTx) {
@@ -60,20 +77,32 @@ export const changeApproval = createAsyncThunk(
   },
 );
 
+interface IChangeStake {
+  action: string;
+  value: string;
+  provider: StaticJsonRpcProvider | JsonRpcProvider;
+  address: string;
+  networkID: number;
+}
+
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID }, { dispatch }) => {
+  async ({ action, value, provider, address, networkID }: IChangeStake, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
     }
 
     const signer = provider.getSigner();
-    const staking = await new ethers.Contract(addresses[networkID].STAKING_ADDRESS, OlympusStaking, signer);
-    const stakingHelper = await new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS, StakingHelper, signer);
+    const staking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, OlympusStaking, signer);
+    const stakingHelper = new ethers.Contract(
+      addresses[networkID].STAKING_HELPER_ADDRESS as string,
+      StakingHelper,
+      signer,
+    );
 
     let stakeTx;
-    let uaData = {
+    let uaData: IUAData = {
       address: address,
       value: value,
       approved: true,
@@ -92,12 +121,13 @@ export const changeStake = createAsyncThunk(
       uaData.txHash = stakeTx.hash;
       dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
       await stakeTx.wait();
-    } catch (error) {
+    } catch (error: unknown) {
       uaData.approved = false;
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
+      const rpcError = error as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
       } else {
-        alert(error.message);
+        alert(rpcError.message);
       }
       return;
     } finally {
@@ -106,6 +136,6 @@ export const changeStake = createAsyncThunk(
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
-    return dispatch(getBalances({ address, networkID, provider }));
+    dispatch(getBalances({ address, networkID, provider }));
   },
 );

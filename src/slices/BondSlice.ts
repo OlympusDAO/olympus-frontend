@@ -8,6 +8,8 @@ import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
+import { RootState } from "src/store";
+import { IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 interface IChangeApproval {
@@ -39,8 +41,8 @@ export const changeApproval = createAsyncThunk(
         }),
       );
       await approveTx.wait();
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      alert((error as IJsonRPCError).message);
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
@@ -209,11 +211,11 @@ export const bondAsset = createAsyncThunk(
       // UX preference (show pending after txn complete or after balance updated)
 
       dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
-    } catch (error) {
-      uaData.approved = false;
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
+    } catch (error: unknown) {
+      const rpcError = error as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-      } else alert(error.message);
+      } else alert(rpcError.message);
     } finally {
       if (bondTx) {
         segmentUA(uaData);
@@ -263,9 +265,9 @@ export const redeemBond = createAsyncThunk(
       await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error) {
+    } catch (error: unknown) {
       uaData.approved = false;
-      alert(error.message);
+      alert((error as IJsonRPCError).message);
     } finally {
       if (redeemTx) {
         segmentUA(uaData);
@@ -312,8 +314,8 @@ export const redeemAllBonds = createAsyncThunk(
         });
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      alert((error as IJsonRPCError).message);
     } finally {
       if (redeemAllTx) {
         dispatch(clearPendingTxn(redeemAllTx.hash));
@@ -350,7 +352,7 @@ const bondingSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(calcBondDetails.pending, (state, action) => {
+      .addCase(calcBondDetails.pending, state => {
         state.loading = true;
       })
       .addCase(calcBondDetails.fulfilled, (state, action) => {
@@ -368,7 +370,6 @@ export default bondingSlice.reducer;
 
 export const { fetchBondSuccess } = bondingSlice.actions;
 
-// TODO: Update the type of `state` when we have state definitions
-const baseInfo = (state: any) => state.bonding;
+const baseInfo = (state: RootState) => state.bonding;
 
 export const getBondingState = createSelector(baseInfo, bonding => bonding);
