@@ -78,7 +78,7 @@ export const PoolDeposit = props => {
     let userBalanceAfterDeposit = poolBalance + value;
 
     let userOdds = calculateOdds(userBalanceAfterDeposit, props.totalPoolDeposits + value, props.winners);
-    setNewOdds(trim(userOdds, 0));
+    setNewOdds(trim(userOdds, 4));
   };
 
   if (poolIsLocked) {
@@ -168,8 +168,10 @@ export const PoolDeposit = props => {
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
-              <Typography variant="body1">Your Staked Balance (Depositable)</Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" align="left">
+                Your Staked Balance (Depositable)
+              </Typography>
+              <Typography variant="body1" align="right">
                 {isAppLoading ? (
                   <Skeleton width="80px" />
                 ) : (
