@@ -112,7 +112,6 @@ function App() {
 
   const loadApp = useCallback(
     loadProvider => {
-      console.log("loadAppDetails");
       dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
       bonds.map(bond => {
         dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
@@ -123,8 +122,10 @@ function App() {
 
   const loadAccount = useCallback(
     loadProvider => {
-      console.log("loadAccountDetails");
       dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+      bonds.map(bond => {
+        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+      });
     },
     [connected],
   );
