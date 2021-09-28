@@ -69,7 +69,7 @@ export const PoolWithdraw = props => {
     if (result.payload) {
       let userBalanceAfterWithdraw = poolBalance - quantity;
       let userOdds = calculateOdds(userBalanceAfterWithdraw, props.totalPoolDeposits, props.winners);
-      setNewOdds(trim(userOdds, 0));
+      setNewOdds(trim(userOdds, 4));
       setExitFee(result.payload.withdraw.stringExitFee);
     } else {
       alert(result.error.message);
@@ -181,8 +181,10 @@ export const PoolWithdraw = props => {
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
-              <Typography variant="body1">Your Pooled Balance (withdrawable)</Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" align="left">
+                Your Pooled Balance (withdrawable)
+              </Typography>
+              <Typography variant="body1" align="right">
                 {isPoolLoading ? (
                   <Skeleton width="80px" />
                 ) : (

@@ -9,6 +9,9 @@ import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
+import { RootState } from "src/store";
+import { IJsonRPCError } from "./interfaces";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 interface IChangeApproval {
   bond: Bond;
@@ -39,8 +42,8 @@ export const changeApproval = createAsyncThunk(
         }),
       );
       await approveTx.wait();
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      alert((error as IJsonRPCError).message);
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
@@ -88,16 +91,15 @@ export const calcBondDetails = createAsyncThunk(
     const maxBondPrice = await bondContract.maxPayout();
     const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
 
-    let marketPrice: number;
+    let marketPrice: number = 0;
     try {
       const originalPromiseResult = await dispatch(
         findOrLoadMarketPrice({ networkID: networkID, provider: provider }),
       ).unwrap();
-      marketPrice = originalPromiseResult.marketPrice;
+      marketPrice = originalPromiseResult?.marketPrice;
     } catch (rejectedValueOrSerializedError) {
       // handle error here
       console.error("Returned a null response from dispatch(loadMarketPrice)");
-      return;
     }
 
     try {
@@ -175,7 +177,6 @@ export const bondAsset = createAsyncThunk(
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
 
     let balance;
-
     // Calculate maxPremium based on premium and slippage.
     // const calculatePremium = await bonding.calculatePremium();
     const signer = provider.getSigner();
@@ -185,22 +186,33 @@ export const bondAsset = createAsyncThunk(
 
     // Deposit the bond
     let bondTx;
+    let uaData = {
+      address: address,
+      value: value,
+      type: "Bond",
+      bondName: bond.displayName,
+      approved: true,
+      txHash: null,
+    };
     try {
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
       dispatch(
         fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bond.displayName, type: "bond_" + bond.name }),
       );
+      uaData.txHash = bondTx.hash;
       await bondTx.wait();
       // TODO: it may make more sense to only have it in the finally.
       // UX preference (show pending after txn complete or after balance updated)
 
       dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
+    } catch (error: unknown) {
+      const rpcError = error as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-      } else alert(error.message);
+      } else alert(rpcError.message);
     } finally {
       if (bondTx) {
+        segmentUA(uaData);
         dispatch(clearPendingTxn(bondTx.hash));
       }
     }
@@ -227,20 +239,32 @@ export const redeemBond = createAsyncThunk(
     const bondContract = bond.getContractForBond(networkID, signer);
 
     let redeemTx;
+    let uaData = {
+      address: address,
+      type: "Redeem",
+      bondName: bond.displayName,
+      autoStake: autostake,
+      approved: true,
+      txHash: null,
+    };
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);
       const pendingTxnType = "redeem_bond_" + bond + (autostake === true ? "_autostake" : "");
+      uaData.txHash = redeemTx.hash;
       dispatch(
         fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming " + bond.displayName, type: pendingTxnType }),
       );
+
       await redeemTx.wait();
       await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      uaData.approved = false;
+      alert((error as IJsonRPCError).message);
     } finally {
       if (redeemTx) {
+        segmentUA(uaData);
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
@@ -284,8 +308,8 @@ export const redeemAllBonds = createAsyncThunk(
         });
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error) {
-      alert(error.message);
+    } catch (error: unknown) {
+      alert((error as IJsonRPCError).message);
     } finally {
       if (redeemAllTx) {
         dispatch(clearPendingTxn(redeemAllTx.hash));
@@ -322,7 +346,7 @@ const bondingSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(calcBondDetails.pending, (state, action) => {
+      .addCase(calcBondDetails.pending, state => {
         state.loading = true;
       })
       .addCase(calcBondDetails.fulfilled, (state, action) => {
@@ -340,7 +364,6 @@ export default bondingSlice.reducer;
 
 export const { fetchBondSuccess } = bondingSlice.actions;
 
-// TODO: Update the type of `state` when we have state definitions
-const baseInfo = (state: any) => state.bonding;
+const baseInfo = (state: RootState) => state.bonding;
 
 export const getBondingState = createSelector(baseInfo, bonding => bonding);
