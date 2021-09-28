@@ -79,11 +79,6 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
   const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, sOHMv2, provider);
   const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS, sOHM, provider);
 
-  // Calculate Treasury Balance
-  const tokenBalPromises = allBonds.map(async bond => await bond.getTreasuryBalance(networkID, provider));
-  const tokenBalances = await Promise.all(tokenBalPromises);
-  const treasuryBalance = tokenBalances.reduce((treasuryBal, tokenBalance) => treasuryBal + tokenBalance, 0);
-
   // Calculating staking
   const epoch = await stakingContract.epoch();
   const stakingReward = epoch.distribute;
@@ -106,7 +101,6 @@ export const loadAppDetails = createAsyncThunk("app/loadAppDetails", async ({ ne
     currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
     currentBlock,
     fiveDayRate,
-    treasuryBalance,
     stakingAPY,
     stakingTVL,
     oldStakingAPY,
