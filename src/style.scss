@@ -1,5 +1,10 @@
 * {
   outline: none;
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
 }
 
 html,
@@ -27,16 +32,6 @@ body {
   font-family: "Square";
   overflow: hidden;
   transition: all ease 0.33ms;
-  // transform: translate3d(0, 0, 0);
-  // -webkit-transform: translate3d(0, 0, 0);
-}
-
-.app * {
-  -ms-overflow-style: none !important; /* IE and Edge */
-  scrollbar-width: none !important; /* Firefox */
-  &::-webkit-scrollbar {
-    display: none !important;
-  }
 }
 
 .MuiDrawer-paperAnchorDockedLeft {
@@ -71,7 +66,7 @@ body {
     flex-flow: row wrap;
     margin: 12px 0px;
     .marginedBtn {
-      margin: 0.4rem;
+      margin: 0.3rem;
     }
   }
 }

@@ -132,7 +132,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     [provider],
   );
 
-  // Eventually we will not need this method.
+  /**
+   * throws an error if networkID is not 1 (mainnet) or 4 (rinkeby)
+   */
   const _checkNetwork = (otherChainID: number): Boolean => {
     if (chainID !== otherChainID) {
       console.warn("You are switching networks");

@@ -3,7 +3,7 @@ import { Paper, Grid, Typography, Box, Zoom, Container, useMediaQuery } from "@m
 import { Skeleton } from "@material-ui/lab";
 import { useSelector } from "react-redux";
 import Chart from "../../components/Chart/Chart.jsx";
-import { trim } from "../../helpers";
+import { trim, formatCurrency } from "../../helpers";
 import {
   treasuryDataQuery,
   rebasesDataQuery,
@@ -41,15 +41,6 @@ function TreasuryDashboard() {
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
-
-  const formatCurrency = c => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 0,
-      minimumFractionDigits: 0,
-    }).format(c);
-  };
 
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
@@ -93,7 +84,7 @@ function TreasuryDashboard() {
                   Market Cap
                 </Typography>
                 <Typography variant="h4">
-                  {marketCap && formatCurrency(marketCap)}
+                  {marketCap && formatCurrency(marketCap, 0)}
                   {!marketCap && <Skeleton type="text" />}
                 </Typography>
               </Box>
@@ -102,7 +93,8 @@ function TreasuryDashboard() {
                   OHM Price
                 </Typography>
                 <Typography variant="h4">
-                  {marketPrice ? formatCurrency(marketPrice) : <Skeleton type="text" />}
+                  {/* appleseed-fix */}
+                  {marketPrice ? formatCurrency(marketPrice, 2) : <Skeleton type="text" />}
                 </Typography>
               </Box>
 
@@ -133,7 +125,7 @@ function TreasuryDashboard() {
 
         <Zoom in={true}>
           <Grid container spacing={2} className="data-grid">
-            <Grid item lg={6} md={12} sm={12} xs={12}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card ohm-chart-card">
                 <Chart
                   type="area"
@@ -151,7 +143,7 @@ function TreasuryDashboard() {
               </Paper>
             </Grid>
 
-            <Grid item lg={6} md={12} sm={12} xs={12}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card ohm-chart-card">
                 <Chart
                   type="stack"
@@ -179,7 +171,7 @@ function TreasuryDashboard() {
               </Paper>
             </Grid>
 
-            <Grid item lg={6} md={12} sm={12} xs={12}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card ohm-chart-card">
                 <Chart
                   type="stack"
@@ -203,7 +195,7 @@ function TreasuryDashboard() {
               </Paper>
             </Grid>
 
-            <Grid item lg={6} md={12} sm={12} xs={12}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <Chart
                   type="area"
@@ -222,6 +214,7 @@ function TreasuryDashboard() {
                 />
               </Paper>
             </Grid>
+            {/*  Temporarily removed until correct data is in the graph */}
             {/* <Grid item lg={6} md={12} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <Chart
@@ -240,7 +233,7 @@ function TreasuryDashboard() {
               </Paper>
             </Grid> */}
 
-            <Grid item lg={6} md={12} sm={12} xs={12}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <Chart
                   type="area"
@@ -258,7 +251,7 @@ function TreasuryDashboard() {
               </Paper>
             </Grid>
 
-            <Grid item lg={6} md={12} sm={12} xs={12}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <Chart
                   type="line"
@@ -278,7 +271,7 @@ function TreasuryDashboard() {
               </Paper>
             </Grid>
 
-            <Grid item lg={6} md={12} sm={12} xs={12}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <Chart
                   type="multi"

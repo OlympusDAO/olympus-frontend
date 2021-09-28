@@ -9,6 +9,7 @@ import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
+import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
@@ -74,6 +75,7 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   useGoogleAnalytics();
+  useSegmentAnalytics();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();
@@ -107,16 +109,6 @@ function App() {
     // don't run unless provider is a Wallet...
     if (whichDetails === "account" && address && connected) {
       loadAccount(loadProvider);
-      if (isAppLoaded) return; // Don't need to do anything else if the app is already loaded.
-
-      loadApp(loadProvider);
-    }
-
-    // Ideally this shouldn't be in its own little block under load details, and should be called when "loadAccount" is called
-    if (whichDetails === "userBonds" && address && connected) {
-      bonds.map(bond => {
-        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
-      });
     }
   }
 
@@ -133,6 +125,9 @@ function App() {
   const loadAccount = useCallback(
     loadProvider => {
       dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+      bonds.map(bond => {
+        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+      });
     },
     [connected],
   );
@@ -160,8 +155,6 @@ function App() {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
       loadDetails("app");
-      loadDetails("account");
-      loadDetails("userBonds");
     }
   }, [walletChecked]);
 
@@ -169,9 +162,7 @@ function App() {
   useEffect(() => {
     // don't load ANY details until wallet is Connected
     if (connected) {
-      loadDetails("app");
       loadDetails("account");
-      loadDetails("userBonds");
     }
   }, [connected]);
 
