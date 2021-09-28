@@ -15,12 +15,13 @@ import {
 } from "@material-ui/core";
 import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { trim } from "../../helpers";
+import { formatCurrency } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import ClaimBonds from "./ClaimBonds";
 import _ from "lodash";
+import { allBondsMap } from "src/helpers/AllBonds";
 
 function ChooseBond() {
   const { bonds } = useBonds();
@@ -45,7 +46,15 @@ function ChooseBond() {
   });
 
   const treasuryBalance = useSelector(state => {
-    return state.app.treasuryBalance;
+    if (state.bonding.loading == false) {
+      let tokenBalances = 0;
+      for (const bond in allBondsMap) {
+        if (state.bonding[bond]) {
+          tokenBalances += state.bonding[bond].purchased;
+        }
+      }
+      return tokenBalances;
+    }
   });
 
   return (
@@ -85,7 +94,7 @@ function ChooseBond() {
                   OHM Price
                 </Typography>
                 <Typography variant="h4">
-                  {isAppLoading ? <Skeleton width="100px" /> : `$${trim(marketPrice, 2)}`}
+                  {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(marketPrice, 2)}
                 </Typography>
               </Box>
             </Grid>

@@ -4,7 +4,7 @@ import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { setAll } from "../helpers";
+import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import allBonds from "src/helpers/AllBonds";
@@ -13,11 +13,12 @@ import { StaticJsonRpcProvider } from "@ethersproject/providers";
 
 const initialState = {
   loading: false,
+  loadingMarketPrice: false,
 };
 
 export const loadAppDetails = createAsyncThunk(
   "app/loadAppDetails",
-  async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) => {
+  async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }, { dispatch }) => {
     const protocolMetricsQuery = `
   query {
     _meta {
@@ -47,7 +48,20 @@ export const loadAppDetails = createAsyncThunk(
     }
 
     const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
-    const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
+    // NOTE (appleseed): marketPrice from Graph was delayed, so get CoinGecko price
+    // const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
+    let marketPrice;
+    try {
+      const originalPromiseResult = await dispatch(
+        loadMarketPrice({ networkID: networkID, provider: provider }),
+      ).unwrap();
+      marketPrice = originalPromiseResult?.marketPrice;
+    } catch (rejectedValueOrSerializedError) {
+      // handle error here
+      console.error("Returned a null response from dispatch(loadMarketPrice)");
+      return;
+    }
+
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
     const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
@@ -78,11 +92,6 @@ export const loadAppDetails = createAsyncThunk(
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider);
     const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS as string, sOHM, provider);
 
-    // Calculate Treasury Balance
-    const tokenBalPromises = allBonds.map(async bond => await bond.getTreasuryBalance(networkID, provider));
-    const tokenBalances = await Promise.all(tokenBalPromises);
-    const treasuryBalance = tokenBalances.reduce((treasuryBal, tokenBalance) => treasuryBal + tokenBalance, 0);
-
     // Calculating staking
     const epoch = await stakingContract.epoch();
     const stakingReward = epoch.distribute;
@@ -105,7 +114,6 @@ export const loadAppDetails = createAsyncThunk(
       currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
       currentBlock,
       fiveDayRate,
-      treasuryBalance,
       stakingAPY,
       stakingTVL,
       oldStakingAPY,
@@ -115,6 +123,57 @@ export const loadAppDetails = createAsyncThunk(
       circSupply,
       totalSupply,
     } as IAppData;
+  },
+);
+
+/**
+ * checks if app.slice has marketPrice already
+ * if yes then simply load that state
+ * if no then fetches via `loadMarketPrice`
+ */
+export const findOrLoadMarketPrice = createAsyncThunk(
+  "app/findOrLoadMarketPrice",
+  async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }, { dispatch, getState }) => {
+    const state: any = getState();
+    let marketPrice;
+    // check if we already have loaded market price
+    if (state.app.loadingMarketPrice === false && state.app.marketPrice) {
+      // go get marketPrice from app.state
+      marketPrice = state.app.marketPrice;
+    } else {
+      // we don't have marketPrice in app.state, so go get it
+      try {
+        const originalPromiseResult = await dispatch(
+          loadMarketPrice({ networkID: networkID, provider: provider }),
+        ).unwrap();
+        marketPrice = originalPromiseResult?.marketPrice;
+      } catch (rejectedValueOrSerializedError) {
+        // handle error here
+        console.error("Returned a null response from dispatch(loadMarketPrice)");
+        return;
+      }
+    }
+    return { marketPrice };
+  },
+);
+
+/**
+ * - fetches the OHM price from CoinGecko (via getTokenPrice)
+ * - falls back to fetch marketPrice from ohm-dai contract
+ * - updates the App.slice when it runs
+ */
+const loadMarketPrice = createAsyncThunk(
+  "app/loadMarketPrice",
+  async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) => {
+    let marketPrice: number;
+    try {
+      marketPrice = await getTokenPrice();
+    } catch (e) {
+      console.log("Returned a null response when querying CoinGecko");
+      marketPrice = await getMarketPrice({ networkID, provider });
+      marketPrice = marketPrice / Math.pow(10, 9);
+    }
+    return { marketPrice };
   },
 );
 
@@ -152,6 +211,17 @@ const appSlice = createSlice({
       })
       .addCase(loadAppDetails.rejected, (state, { error }) => {
         state.loading = false;
+        console.error(error.name, error.message, error.stack);
+      })
+      .addCase(loadMarketPrice.pending, (state, action) => {
+        state.loadingMarketPrice = true;
+      })
+      .addCase(loadMarketPrice.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.loadingMarketPrice = false;
+      })
+      .addCase(loadMarketPrice.rejected, (state, { error }) => {
+        state.loadingMarketPrice = false;
         console.error(error.name, error.message, error.stack);
       });
   },

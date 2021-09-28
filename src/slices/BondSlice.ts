@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
-import { getMarketPrice, contractForRedeemHelper } from "../helpers";
+import { contractForRedeemHelper } from "../helpers";
 import { getBalances, calculateUserBondDetails } from "./AccountSlice";
+import { findOrLoadMarketPrice } from "./AppSlice";
 import { error } from "./MessagesSlice";
 import { Bond, NetworkID } from "../lib/Bond";
 import { addresses } from "../constants";
@@ -71,11 +72,11 @@ export interface IBondDetails {
 }
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
-  async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch }): Promise<IBondDetails> => {
+  async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch, getState }): Promise<IBondDetails> => {
     if (!value) {
       value = "0";
     }
-
+    console.log("running BondDetails for", bond);
     const amountInWei = ethers.utils.parseEther(value);
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
@@ -90,11 +91,21 @@ export const calcBondDetails = createAsyncThunk(
     const maxBondPrice = await bondContract.maxPayout();
     const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
 
-    let marketPrice = await getMarketPrice({ networkID, provider });
+    let marketPrice: number = 0;
+    try {
+      const originalPromiseResult = await dispatch(
+        findOrLoadMarketPrice({ networkID: networkID, provider: provider }),
+      ).unwrap();
+      marketPrice = originalPromiseResult?.marketPrice;
+    } catch (rejectedValueOrSerializedError) {
+      // handle error here
+      console.error("Returned a null response from dispatch(loadMarketPrice)");
+    }
 
     try {
       bondPrice = await bondContract.bondPriceInUSD();
-      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      bondDiscount = (marketPrice * Math.pow(10, 18) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
     } catch (e) {
       console.log("error getting bondPriceInUSD", e);
     }
@@ -133,24 +144,7 @@ export const calcBondDetails = createAsyncThunk(
     }
 
     // Calculate bonds purchased
-    const token = bond.getContractForReserve(networkID, provider);
-    let purchased = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-
-    // SPECIAL CASE FOR ETH maybe this shouldn't be here long term
-    if (bond.name === "eth") {
-      purchased = purchased / Math.pow(10, 18);
-      let ethPrice = await bondContract.assetPrice();
-      ethPrice = ethPrice / Math.pow(10, 8);
-      purchased = purchased * ethPrice;
-    } else if (bond.isLP) {
-      const assetAddress = bond.getAddressForReserve(networkID);
-      const markdown = await bondCalcContract.markdown(assetAddress);
-
-      purchased = await bondCalcContract.valuation(assetAddress, purchased);
-      purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
-    } else {
-      purchased = purchased / Math.pow(10, 18);
-    }
+    let purchased = await bond.getTreasuryBalance(networkID, provider);
 
     return {
       bond: bond.name,
@@ -161,7 +155,7 @@ export const calcBondDetails = createAsyncThunk(
       vestingTerm: Number(terms.vestingTerm),
       maxBondPrice: maxBondPrice / Math.pow(10, 9),
       bondPrice: bondPrice / Math.pow(10, 18),
-      marketPrice: marketPrice / Math.pow(10, 9),
+      marketPrice: marketPrice,
     };
   },
 );
