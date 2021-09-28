@@ -142,24 +142,7 @@ export const calcBondDetails = createAsyncThunk(
     }
 
     // Calculate bonds purchased
-    const token = bond.getContractForReserve(networkID, provider);
-    let purchased = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-
-    // SPECIAL CASE FOR ETH maybe this shouldn't be here long term
-    if (bond.name === "eth") {
-      purchased = purchased / Math.pow(10, 18);
-      let ethPrice = await bondContract.assetPrice();
-      ethPrice = ethPrice / Math.pow(10, 8);
-      purchased = purchased * ethPrice;
-    } else if (bond.isLP) {
-      const assetAddress = bond.getAddressForReserve(networkID);
-      const markdown = await bondCalcContract.markdown(assetAddress);
-
-      purchased = await bondCalcContract.valuation(assetAddress, purchased);
-      purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
-    } else {
-      purchased = purchased / Math.pow(10, 18);
-    }
+    let purchased = await bond.getTreasuryBalance(networkID, provider);
 
     return {
       bond: bond.name,
