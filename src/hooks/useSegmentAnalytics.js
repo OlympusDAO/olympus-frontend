@@ -26,7 +26,7 @@ export default function useSegmentAnalytics() {
         setPrevPath(currentPath);
         // NOTE (appleseed): if analytics aren't showing the full pathname + location.hash then we need to manually pass it
         // ... into analytics.page() below
-        analytics.page();
+        analytics.page(currentPath);
       }
     }
   }, [location]);
