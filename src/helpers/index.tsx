@@ -1,5 +1,6 @@
 import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses } from "../constants";
 import { ethers } from "ethers";
+import axios from "axios";
 import { abi as PairContract } from "../abi/PairContract.json";
 import { abi as RedeemHelperAbi } from "../abi/RedeemHelper.json";
 
@@ -10,6 +11,7 @@ import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 import { ohm_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 
+// NOTE (appleseed): this looks like an outdated method... we now have this data in the graph (used elsewhere in the app)
 export async function getMarketPrice({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
   const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
@@ -20,15 +22,29 @@ export async function getMarketPrice({ networkID, provider }: { networkID: numbe
   return marketPrice;
 }
 
+export async function getTokenPrice() {
+  let tokenId = "olympus";
+  const resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
+  let tokenPrice: number = resp.data[tokenId].usd;
+  return tokenPrice;
+}
+
 export function shorten(str: string) {
   if (str.length < 10) return str;
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
 }
 
-export function trim(number: number | undefined, precision: number | undefined) {
-  if (number == undefined) {
-    number = 0;
-  }
+export function formatCurrency(c: number, precision = 0) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: precision,
+    minimumFractionDigits: precision,
+  }).format(c);
+}
+
+export function trim(number = 0, precision = 0) {
+  // why would number ever be undefined??? what are we trimming?
   const array = number.toString().split(".");
   if (array.length === 1) return number.toString();
   if (precision === 0) return array[0].toString();

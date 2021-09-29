@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { trim } from "../../helpers";
+import { formatCurrency } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
@@ -65,7 +65,7 @@ function Bond({ bond }) {
                     Bond Price
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    {isBondLoading ? <Skeleton /> : `$${trim(bond.bondPrice, 2)}`}
+                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.bondPrice, 2)}
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -73,7 +73,7 @@ function Bond({ bond }) {
                     Market Price
                   </Typography>
                   <Typography variant="h3" color="primary" className="price">
-                    {isBondLoading ? <Skeleton /> : `$${trim(bond.marketPrice, 2)}`}
+                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2)}
                   </Typography>
                 </div>
               </Box>

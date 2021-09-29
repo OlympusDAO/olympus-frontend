@@ -1,17 +1,17 @@
-import { useState, useCallback, useEffect } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
-  Typography,
   FormControl,
-  InputLabel,
-  OutlinedInput,
   InputAdornment,
+  InputLabel,
   Link,
-  useMediaQuery,
+  OutlinedInput,
   SvgIcon,
+  Typography,
+  useMediaQuery,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import ConnectButton from "../../components/ConnectButton.jsx";
@@ -19,10 +19,10 @@ import { useWeb3Context } from "../../hooks";
 import { getTokenImage } from "src/helpers/index";
 import { trim } from "src/helpers";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-import { poolWithdraw } from "../../slices/PoolThunk";
-import { getEarlyExitFee } from "../../slices/PoolThunk";
+import { getEarlyExitFee, poolWithdraw } from "../../slices/PoolThunk";
 import { calculateOdds } from "../../helpers/33Together";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
+import { error } from "../../slices/MessagesSlice";
 
 const sohmImg = getTokenImage("sohm");
 
@@ -55,7 +55,7 @@ export const PoolWithdraw = props => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      alert("Please enter a value!");
+      dispatch(error("Please enter a value!"));
     } else {
       await dispatch(poolWithdraw({ action, value: quantity.toString(), provider, address, networkID: chainID }));
     }
@@ -72,7 +72,7 @@ export const PoolWithdraw = props => {
       setNewOdds(trim(userOdds, 4));
       setExitFee(result.payload.withdraw.stringExitFee);
     } else {
-      alert(result.error.message);
+      dispatch(error(result.error.message));
       setExitFee(0);
     }
   };
@@ -82,7 +82,7 @@ export const PoolWithdraw = props => {
     if (quantity > 0 && quantity <= poolBalance) {
       calcEarlyExitFee();
     } else if (quantity > poolBalance) {
-      alert("You cannot withdraw more than your pool balance");
+      dispatch(error("You cannot withdraw more than your pool balance"));
       setExitFee(0);
     }
   }, [quantity]);

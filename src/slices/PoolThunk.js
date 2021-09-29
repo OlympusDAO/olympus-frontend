@@ -3,11 +3,12 @@ import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
 import { abi as AwardPool } from "../abi/33-together/AwardAbi2.json";
-import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { getCreditMaturationDaysAndLimitPercentage } from "../helpers/33Together";
 import { setAll } from "../helpers";
+import { error } from "../slices/MessagesSlice";
 
 export const getPoolValues = createAsyncThunk("pool/getPoolValues", async ({ networkID, provider }) => {
   // TODO (appleseed-33t): seems like this only works for signers, not readers...
@@ -48,7 +49,7 @@ export const changeApproval = createAsyncThunk(
   "pool/changeApproval",
   async ({ token, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -70,8 +71,8 @@ export const changeApproval = createAsyncThunk(
       } else {
         console.log("token not sohm", token);
       }
-    } catch (error) {
-      alert(error.message);
+    } catch (e) {
+      dispatch(error(e.message));
       return;
     } finally {
       if (approveTx) {
@@ -97,7 +98,7 @@ export const poolDeposit = createAsyncThunk(
   "pool/deposit",
   async ({ action, value, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
     const signer = provider.getSigner();
@@ -119,11 +120,13 @@ export const poolDeposit = createAsyncThunk(
       } else {
         console.log("unrecognized action: ", action);
       }
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
-        alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
+    } catch (e) {
+      if (e.code === -32603 && e.message.indexOf("ds-math-sub-underflow") >= 0) {
+        dispatch(
+          error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
       } else {
-        alert(error.message);
+        dispatch(error(e.message));
       }
       return;
     } finally {
@@ -172,7 +175,7 @@ export const poolWithdraw = createAsyncThunk(
   "pool/withdraw",
   async ({ action, value, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -198,11 +201,13 @@ export const poolWithdraw = createAsyncThunk(
       } else {
         console.log("unrecognized action: ", action);
       }
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
-        alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
+    } catch (e) {
+      if (e.code === -32603 && e.message.indexOf("ds-math-sub-underflow") >= 0) {
+        dispatch(
+          error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
       } else {
-        alert(error.message);
+        dispatch(error(e.message));
       }
       return;
     } finally {
@@ -219,7 +224,7 @@ export const awardProcess = createAsyncThunk(
   "pool/awardProcess",
   async ({ action, provider, address, networkID }, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -242,12 +247,13 @@ export const awardProcess = createAsyncThunk(
       const pendingTxnType = "pool_" + action;
       dispatch(fetchPendingTxns({ txnHash: poolTx.hash, text: text, type: pendingTxnType }));
       await poolTx.wait();
-    } catch (error) {
-      if (error.code === -32603 && error.message.indexOf("ds-math-sub-underflow") >= 0) {
-        // TODO (appleseed-33t): update this
-        alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
+    } catch (e) {
+      if (e.code === -32603 && e.message.indexOf("ds-math-sub-underflow") >= 0) {
+        dispatch(
+          error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
       } else {
-        alert(error.message);
+        dispatch(error(e.message));
       }
       return;
     } finally {

@@ -1,12 +1,13 @@
 import { ethers } from "ethers";
-import { getMarketPrice, contractForRedeemHelper } from "../helpers";
+import { contractForRedeemHelper } from "../helpers";
 import { getBalances, calculateUserBondDetails } from "./AccountSlice";
+import { findOrLoadMarketPrice } from "./AppSlice";
 import { error } from "./MessagesSlice";
 import { Bond, NetworkID } from "../lib/Bond";
 import { addresses } from "../constants";
-import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
-import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { RootState } from "src/store";
 import { IJsonRPCError } from "./interfaces";
@@ -22,7 +23,7 @@ export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
   async ({ bond, provider, networkID }: IChangeApproval, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -41,8 +42,8 @@ export const changeApproval = createAsyncThunk(
         }),
       );
       await approveTx.wait();
-    } catch (error: unknown) {
-      alert((error as IJsonRPCError).message);
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
@@ -71,11 +72,11 @@ export interface IBondDetails {
 }
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
-  async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch }): Promise<IBondDetails> => {
+  async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch, getState }): Promise<IBondDetails> => {
     if (!value) {
       value = "0";
     }
-
+    console.log("running BondDetails for", bond);
     const amountInWei = ethers.utils.parseEther(value);
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
@@ -90,11 +91,21 @@ export const calcBondDetails = createAsyncThunk(
     const maxBondPrice = await bondContract.maxPayout();
     const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
 
-    let marketPrice = await getMarketPrice({ networkID, provider });
+    let marketPrice: number = 0;
+    try {
+      const originalPromiseResult = await dispatch(
+        findOrLoadMarketPrice({ networkID: networkID, provider: provider }),
+      ).unwrap();
+      marketPrice = originalPromiseResult?.marketPrice;
+    } catch (rejectedValueOrSerializedError) {
+      // handle error here
+      console.error("Returned a null response from dispatch(loadMarketPrice)");
+    }
 
     try {
       bondPrice = await bondContract.bondPriceInUSD();
-      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      bondDiscount = (marketPrice * Math.pow(10, 18) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
     } catch (e) {
       console.log("error getting bondPriceInUSD", e);
     }
@@ -133,24 +144,7 @@ export const calcBondDetails = createAsyncThunk(
     }
 
     // Calculate bonds purchased
-    const token = bond.getContractForReserve(networkID, provider);
-    let purchased = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-
-    // SPECIAL CASE FOR ETH maybe this shouldn't be here long term
-    if (bond.name === "eth") {
-      purchased = purchased / Math.pow(10, 18);
-      let ethPrice = await bondContract.assetPrice();
-      ethPrice = ethPrice / Math.pow(10, 8);
-      purchased = purchased * ethPrice;
-    } else if (bond.isLP) {
-      const assetAddress = bond.getAddressForReserve(networkID);
-      const markdown = await bondCalcContract.markdown(assetAddress);
-
-      purchased = await bondCalcContract.valuation(assetAddress, purchased);
-      purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
-    } else {
-      purchased = purchased / Math.pow(10, 18);
-    }
+    let purchased = await bond.getTreasuryBalance(networkID, provider);
 
     return {
       bond: bond.name,
@@ -161,7 +155,7 @@ export const calcBondDetails = createAsyncThunk(
       vestingTerm: Number(terms.vestingTerm),
       maxBondPrice: maxBondPrice / Math.pow(10, 9),
       bondPrice: bondPrice / Math.pow(10, 18),
-      marketPrice: marketPrice / Math.pow(10, 9),
+      marketPrice: marketPrice,
     };
   },
 );
@@ -211,11 +205,13 @@ export const bondAsset = createAsyncThunk(
       // UX preference (show pending after txn complete or after balance updated)
 
       dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
-    } catch (error: unknown) {
-      const rpcError = error as IJsonRPCError;
+    } catch (e: unknown) {
+      const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
-        alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-      } else alert(rpcError.message);
+        dispatch(
+          error("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
+      } else dispatch(error(rpcError.message));
     } finally {
       if (bondTx) {
         segmentUA(uaData);
@@ -237,7 +233,7 @@ export const redeemBond = createAsyncThunk(
   "bonding/redeemBond",
   async ({ address, bond, networkID, provider, autostake }: IRedeemBond, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -265,9 +261,9 @@ export const redeemBond = createAsyncThunk(
       await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error: unknown) {
+    } catch (e: unknown) {
       uaData.approved = false;
-      alert((error as IJsonRPCError).message);
+      dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (redeemTx) {
         segmentUA(uaData);
@@ -289,7 +285,7 @@ export const redeemAllBonds = createAsyncThunk(
   "bonding/redeemAllBonds",
   async ({ bonds, address, networkID, provider, autostake }: IRedeemAllBonds, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -314,8 +310,8 @@ export const redeemAllBonds = createAsyncThunk(
         });
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error: unknown) {
-      alert((error as IJsonRPCError).message);
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (redeemAllTx) {
         dispatch(clearPendingTxn(redeemAllTx.hash));
