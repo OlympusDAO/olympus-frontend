@@ -28,11 +28,7 @@ export class EnvHelper {
     let ALCHEMY_ID_LIST: string[];
 
     // split the provided API keys on whitespace
-    if (
-      EnvHelper.env.NODE_ENV !== "development" &&
-      EnvHelper.env.REACT_APP_ALCHEMY_IDS &&
-      EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ALCHEMY_IDS)
-    ) {
+    if (EnvHelper.env.NODE_ENV !== "development") {
       ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
     } else {
       // this is the ethers common API key, suitable for testing, not prod
