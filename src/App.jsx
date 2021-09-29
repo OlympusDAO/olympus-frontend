@@ -142,6 +142,9 @@ function App() {
     if (hasCachedProvider()) {
       // then user DOES have a wallet
       connect().then(() => {
+        analytics.identify(address, {
+          wallet: address,
+        });
         setWalletChecked(true);
       });
     } else {
