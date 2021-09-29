@@ -88,7 +88,7 @@ function App() {
   const { connect, hasCachedProvider, provider, chainID, connected } = useWeb3Context();
   const address = useAddress();
 
-  const [walletChecked, setWalletChecked] = useState(false);
+  const [walletChecked, setWalletChecked] = useState(true);
 
   const isAppLoading = useSelector(state => state.app.loading);
   const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.

@@ -27,6 +27,7 @@ export class EnvHelper {
       return false;
     }
   }
+
   /**
    * in development environment will return the `ethers` community api key so that devs don't need to add elements to their .env
    * @returns Array of Alchemy API URIs or empty set
@@ -35,11 +36,13 @@ export class EnvHelper {
     let ALCHEMY_ID_LIST: string[];
 
     // split the provided API keys on whitespace
-    if (EnvHelper.env.REACT_APP_ALCHEMY_IDS && EnvHelper.env.NODE_ENV !== "development") {
+    if (EnvHelper.env.REACT_APP_ALCHEMY_IDS && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ALCHEMY_IDS)) {
       ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
-    } else {
+    } else if (EnvHelper.env.NODE_ENV === "development") {
       // this is the ethers common API key, suitable for testing, not prod
       ALCHEMY_ID_LIST = ["_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC"];
+    } else {
+      ALCHEMY_ID_LIST = [];
     }
 
     // now add the uri path

@@ -130,6 +130,14 @@ export const loadAppDetails = createAsyncThunk(
  * checks if app.slice has marketPrice already
  * if yes then simply load that state
  * if no then fetches via `loadMarketPrice`
+ *
+ * `usage`:
+ * ```
+ * const originalPromiseResult = await dispatch(
+ *    findOrLoadMarketPrice({ networkID: networkID, provider: provider }),
+ *  ).unwrap();
+ * originalPromiseResult?.whateverValue;
+ * ```
  */
 export const findOrLoadMarketPrice = createAsyncThunk(
   "app/findOrLoadMarketPrice",
