@@ -16,6 +16,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import useDebounce from "../../hooks/Debounce";
+import { error } from "../../slices/MessagesSlice";
 
 function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
@@ -43,9 +44,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
 
   async function onBond() {
     if (quantity === "") {
-      alert("Please enter a value!");
+      dispatch(error("Please enter a value!"));
     } else if (isNaN(quantity)) {
-      alert("Please enter a valid value!");
+      dispatch(error("Please enter a valid value!"));
     } else if (bond.interestDue > 0 || bond.pendingPayout > 0) {
       const shouldProceed = window.confirm(
         "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?",

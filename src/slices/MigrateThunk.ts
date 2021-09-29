@@ -8,6 +8,7 @@ import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
+import { error } from "../slices/MessagesSlice";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IJsonRPCError } from "./interfaces";
 
@@ -42,7 +43,7 @@ export const getApproval = createAsyncThunk(
   "migrate/getApproval",
   async ({ type, provider, address, networkID }: IGetApproval, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -72,8 +73,8 @@ export const getApproval = createAsyncThunk(
         type: pendingTxnType,
       }),
         await approveTx.wait();
-    } catch (error: unknown) {
-      alert((error as IJsonRPCError).message);
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
       if (approveTx) {
@@ -105,9 +106,9 @@ interface IChangeState {
 
 export const changeStake = createAsyncThunk(
   "migrate/changeStake",
-  async ({ action, value, provider, address, networkID }: IChangeState) => {
+  async ({ action, value, provider, address, networkID }: IChangeState, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -126,13 +127,15 @@ export const changeStake = createAsyncThunk(
       const pendingTxnType = action === ACTIONS.STAKE ? "migrate_staking" : "migrate_unstaking";
       fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType });
       await stakeTx.wait();
-    } catch (error: unknown) {
-      const rpcError = error as IJsonRPCError;
+    } catch (e: unknown) {
+      const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
-        alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-        return;
+        dispatch(
+          error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
+      } else {
+        dispatch(error(rpcError.message));
       }
-      alert(rpcError.message);
       return;
     } finally {
       if (stakeTx) {

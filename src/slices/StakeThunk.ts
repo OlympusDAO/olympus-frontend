@@ -5,8 +5,8 @@ import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchAccountSuccess } from "./AccountSlice";
-import { getBalances } from "./AccountSlice";
+import { fetchAccountSuccess, getBalances } from "./AccountSlice";
+import { error } from "../slices/MessagesSlice";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
@@ -30,7 +30,7 @@ export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
   async ({ token, provider, address, networkID }: IChangeApproval, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -55,8 +55,8 @@ export const changeApproval = createAsyncThunk(
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
       await approveTx.wait();
-    } catch (error: unknown) {
-      alert((error as IJsonRPCError).message);
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
       if (approveTx) {
@@ -89,7 +89,7 @@ export const changeStake = createAsyncThunk(
   "stake/changeStake",
   async ({ action, value, provider, address, networkID }: IChangeStake, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -121,13 +121,15 @@ export const changeStake = createAsyncThunk(
       uaData.txHash = stakeTx.hash;
       dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));
       await stakeTx.wait();
-    } catch (error: unknown) {
+    } catch (e: unknown) {
       uaData.approved = false;
-      const rpcError = error as IJsonRPCError;
+      const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
-        alert("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
+        dispatch(
+          error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
       } else {
-        alert(rpcError.message);
+        dispatch(error(rpcError.message));
       }
       return;
     } finally {

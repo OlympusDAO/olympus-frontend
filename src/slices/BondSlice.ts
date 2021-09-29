@@ -5,9 +5,9 @@ import { findOrLoadMarketPrice } from "./AppSlice";
 import { error } from "./MessagesSlice";
 import { Bond, NetworkID } from "../lib/Bond";
 import { addresses } from "../constants";
-import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
-import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-import { StaticJsonRpcProvider, JsonRpcProvider } from "@ethersproject/providers";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { RootState } from "src/store";
 import { IJsonRPCError } from "./interfaces";
@@ -23,7 +23,7 @@ export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
   async ({ bond, provider, networkID }: IChangeApproval, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -42,8 +42,8 @@ export const changeApproval = createAsyncThunk(
         }),
       );
       await approveTx.wait();
-    } catch (error: unknown) {
-      alert((error as IJsonRPCError).message);
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
@@ -205,11 +205,13 @@ export const bondAsset = createAsyncThunk(
       // UX preference (show pending after txn complete or after balance updated)
 
       dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
-    } catch (error: unknown) {
-      const rpcError = error as IJsonRPCError;
+    } catch (e: unknown) {
+      const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
-        alert("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow");
-      } else alert(rpcError.message);
+        dispatch(
+          error("You may be trying to bond more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
+      } else dispatch(error(rpcError.message));
     } finally {
       if (bondTx) {
         segmentUA(uaData);
@@ -231,7 +233,7 @@ export const redeemBond = createAsyncThunk(
   "bonding/redeemBond",
   async ({ address, bond, networkID, provider, autostake }: IRedeemBond, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -259,9 +261,9 @@ export const redeemBond = createAsyncThunk(
       await dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error: unknown) {
+    } catch (e: unknown) {
       uaData.approved = false;
-      alert((error as IJsonRPCError).message);
+      dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (redeemTx) {
         segmentUA(uaData);
@@ -283,7 +285,7 @@ export const redeemAllBonds = createAsyncThunk(
   "bonding/redeemAllBonds",
   async ({ bonds, address, networkID, provider, autostake }: IRedeemAllBonds, { dispatch }) => {
     if (!provider) {
-      alert("Please connect your wallet!");
+      dispatch(error("Please connect your wallet!"));
       return;
     }
 
@@ -308,8 +310,8 @@ export const redeemAllBonds = createAsyncThunk(
         });
 
       dispatch(getBalances({ address, networkID, provider }));
-    } catch (error: unknown) {
-      alert((error as IJsonRPCError).message);
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (redeemAllTx) {
         dispatch(clearPendingTxn(redeemAllTx.hash));
