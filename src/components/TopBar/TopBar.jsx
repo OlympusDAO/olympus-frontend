@@ -1,65 +1,61 @@
-import React from 'react';
-// import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import { useSelector, useDispatch } from 'react-redux';
-// import Web3Modal from "web3modal";
-import { shorten } from '../../helpers';
-import ThemeSwitcher from "../ThemeSwitch/ThemeSwitch";
-import { Flex } from "rimble-ui";
+import { AppBar, Toolbar, Box, Button, SvgIcon } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
+import OhmMenu from "./OhmMenu.jsx";
+import ThemeSwitcher from "./ThemeSwitch.jsx";
+import ConnectMenu from "./ConnectMenu.jsx";
 import "./topbar.scss";
 
-function TopBar({ web3Modal, loadWeb3Modal, logoutOfWeb3Modal, address, mainnetProvider, theme, toggleTheme}) {
-	const isVerySmallScreen = useMediaQuery("(max-width: 649px)");
-	const isUltraSmallScreen = useMediaQuery("(max-width: 495px)");
+const useStyles = makeStyles(theme => ({
+  appBar: {
+    [theme.breakpoints.up("sm")]: {
+      width: "100%",
+      padding: "10px",
+    },
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    background: "transparent",
+    backdropFilter: "none",
+    zIndex: 10,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
+}));
 
-  const modalButtons = [];
-  if (web3Modal) {
-    if (web3Modal.cachedProvider) {
-      modalButtons.push(
-        	<button type="button" className={`btn top-bar-button btn-overwrite-primer m-2`} onClick={logoutOfWeb3Modal} key={1}>
-						Disconnect
-				</button>,
-      );
-    } else {
-      modalButtons.push(
-        <button type="button" className={`btn top-bar-button btn-overwrite-primer m-2`} onClick={loadWeb3Modal} key={2}>Connect Wallet</button>,
-      );
-    }
-  }
+function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
+  const classes = useStyles();
+  const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
 
   return (
-    <div className={`dapp-topbar`}>
-			<Flex className="dapp-topbar-items">		
-				{!(address && isUltraSmallScreen) && 
-					<ThemeSwitcher 
-						theme={theme}
-						toggleTheme={toggleTheme} 
-					/>
-				}
-				
-				{!isVerySmallScreen && 
-					<button
-						id="get-ohm"
-						className="get-ohm-button btn btn-overwrite-primer m-2 top-bar-button"
-						title="Get OHM"
-					>		
-						<a href="https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x383518188c0c6d7730d91b2c03a03c837814a899" target="_blank">
-							Get OHM
-						</a>
-					</button>
-				}
-				
-				<div className="wallet-menu" id="wallet-menu">
-					{modalButtons}
-					{address && <button type="button" className={`btn top-bar-button btn-overwrite-primer m-2`}>
-						<a href={`https://etherscan.io/address/${address}`} target="_blank" className="ml-2">
-							{shorten(address)}
-						</a>
-					</button>
-					}
-				</div>
-			</Flex>
-    </div>
+    <AppBar position="sticky" className={classes.appBar} elevation={0}>
+      <Toolbar disableGutters className="dapp-topbar">
+        <Button
+          id="hamburger"
+          aria-label="open drawer"
+          edge="start"
+          size="large"
+          variant="contained"
+          color="secondary"
+          onClick={handleDrawerToggle}
+          className={classes.menuButton}
+        >
+          <SvgIcon component={MenuIcon} />
+        </Button>
+
+        <Box display="flex">
+          {!isVerySmallScreen && <OhmMenu />}
+
+          <ConnectMenu theme={theme} />
+
+          <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }
 

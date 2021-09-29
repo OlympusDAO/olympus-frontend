@@ -1,336 +1,243 @@
-import { StaticJsonRpcProvider, Web3Provider, getDefaultProvider } from "@ethersproject/providers";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import { ThemeProvider } from "styled-components";
-import { useUserAddress } from "eth-hooks";
-import React, { useCallback, useEffect, useState } from "react";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import Web3Modal from "web3modal";
-import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "@fortawesome/fontawesome-free/js/all.js";
-import ClearIcon from '@material-ui/icons/Clear';
-import { useSelector, useDispatch } from "react-redux";
-import { Flex } from "rimble-ui";
-import { Container, Modal, Backdrop, useMediaQuery } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { Hidden, useMediaQuery } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
+import useBonds from "./hooks/Bonds";
+import { useAddress, useWeb3Context } from "./hooks/web3Context";
+import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
+import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 
-import { calcBondDetails } from "./actions/Bond.actions.js";
-import { loadAppDetails, getMarketPrice, getTokenSupply } from "./actions/App.actions.js";
-import { loadAccountDetails } from "./actions/Account.actions.js";
+import { calcBondDetails } from "./slices/BondSlice";
+import { loadAppDetails } from "./slices/AppSlice";
+import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
+import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
+import LoadingSplash from "./components/Loading/LoadingSplash";
+import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 
+import { dark as darkTheme } from "./themes/dark.js";
+import { light as lightTheme } from "./themes/light.js";
+import { girth as gTheme } from "./themes/girth.js";
 
-import "./App.css";
-// import "./style.scss";
-// import { Header } from "./components";
-
-import { lightTheme, darkTheme, gTheme } from "./theme";
-import { GlobalStyles } from "./global";
-
-import { INFURA_ID, NETWORKS, BONDS } from "./constants";
-import { useUserProvider } from "./hooks";
-// import Hints from "./Hints";
-// import { ExampleUI, Hints, Subgraph } from "./views";
-/*
-    Welcome to 🏗 scaffold-eth !
-
-    Code:
-    https://github.com/austintgriffith/scaffold-eth
-
-    Support:
-    https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA
-    or DM @austingriffith on twitter or telegram
-
-    You should get your own Infura.io ID and put it in `constants.js`
-    (this is your connection to the main Ethereum network for ENS etc.)
-
-
-    🌏 EXTERNAL CONTRACTS:
-    You can also bring in contract artifacts in `constants.js`
-    (and then use the `useExternalContractLoader()` hook!)
-*/
-
-/// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS.mainnet; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+import "./style.scss";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
-// const mainnetProvider = getDefaultProvider("mainnet", { infura: INFURA_ID, etherscan: ETHERSCAN_KEY, quorum: 1 });
-// const mainnetProvider = new InfuraProvider("mainnet",INFURA_ID);
-//
-// attempt to connect to our own scaffold eth rpc and if that fails fall back to infura...
-// Using StaticJsonRpcProvider as the chainId won't change see https://github.com/ethers-io/ethers.js/issues/901
-// const scaffoldEthProvider = new StaticJsonRpcProvider("https://rpc.scaffoldeth.io:48544");
-const mainnetInfura = new StaticJsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID);
-// ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_ID
-
 // 🔭 block explorer URL
-const blockExplorer = targetNetwork.blockExplorer;
+// const blockExplorer = targetNetwork.blockExplorer;
 
-/*
-  Web3 modal helps us "connect" external wallets:
-*/
-const web3Modal = new Web3Modal({
-  // network: "mainnet", // optional
-  cacheProvider: true, // optional
-  providerOptions: {
-    walletconnect: {
-      package: WalletConnectProvider, // required
-      options: {
-        infuraId: INFURA_ID,
-      },
+const drawerWidth = 280;
+const transitionDuration = 969;
+
+const useStyles = makeStyles(theme => ({
+  drawer: {
+    [theme.breakpoints.up("md")]: {
+      width: drawerWidth,
+      flexShrink: 0,
     },
   },
-});
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(1),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: transitionDuration,
+    }),
+    height: "100%",
+    overflow: "auto",
+    marginLeft: drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: transitionDuration,
+    }),
+    marginLeft: 0,
+  },
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+  },
+}));
 
-const logoutOfWeb3Modal = async () => {
-  await web3Modal.clearCachedProvider();
-  setTimeout(() => {
-    window.location.reload();
-  }, 1);
-};
-
-
-
-function App(props) {
+function App() {
+  useGoogleAnalytics();
+  useSegmentAnalytics();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
-  const location = useLocation()
-
-  const isSmallerScreen = useMediaQuery("(max-width: 1125px)");
-	const isUltraSmallScreen = useMediaQuery("(max-width:495px)");
-
+  const location = useLocation();
+  const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isSmallerScreen = useMediaQuery("(max-width: 958px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const handleSidebarOpen = () => {
-    setIsSidebarExpanded(true)
+  const { connect, hasCachedProvider, provider, chainID, connected } = useWeb3Context();
+  const address = useAddress();
+
+  const [walletChecked, setWalletChecked] = useState(false);
+
+  const isAppLoading = useSelector(state => state.app.loading);
+  const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
+  const { bonds } = useBonds();
+  async function loadDetails(whichDetails) {
+    // NOTE (unbanksy): If you encounter the following error:
+    // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
+    // it's because the initial provider loaded always starts with chainID=1. This causes
+    // address lookup on the wrong chain which then throws the error. To properly resolve this,
+    // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
+    // network. To actually test rinkeby, change setChainID equal to 4 before testing.
+    let loadProvider = provider;
+
+    if (whichDetails === "app") {
+      loadApp(loadProvider);
+    }
+
+    // don't run unless provider is a Wallet...
+    if (whichDetails === "account" && address && connected) {
+      loadAccount(loadProvider);
+    }
   }
+
+  const loadApp = useCallback(
+    loadProvider => {
+      dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+      bonds.map(bond => {
+        dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+      });
+    },
+    [connected],
+  );
+
+  const loadAccount = useCallback(
+    loadProvider => {
+      dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+      bonds.map(bond => {
+        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+      });
+    },
+    [connected],
+  );
+
+  // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
+  //
+  // this useEffect checks Wallet Connection & then sets State for reload...
+  // ... we don't try to fire Api Calls on initial load because web3Context is not set yet
+  // ... if we don't wait we'll ALWAYS fire API calls via JsonRpc because provider has not
+  // ... been reloaded within App.
+  useEffect(() => {
+    if (hasCachedProvider()) {
+      // then user DOES have a wallet
+      connect().then(() => {
+        setWalletChecked(true);
+      });
+    } else {
+      // then user DOES NOT have a wallet
+      setWalletChecked(true);
+    }
+  }, []);
+
+  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
+  useEffect(() => {
+    // don't load ANY details until wallet is Checked
+    if (walletChecked) {
+      loadDetails("app");
+    }
+  }, [walletChecked]);
+
+  // this useEffect picks up any time a user Connects via the button
+  useEffect(() => {
+    // don't load ANY details until wallet is Connected
+    if (connected) {
+      loadDetails("account");
+    }
+  }, [connected]);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   const handleSidebarClose = () => {
-    setIsSidebarExpanded(false)
-  }
-
-  useEffect(() => {
-    if (isSidebarExpanded) handleSidebarClose();
-  }, [location])
-
-
-  const currentBlock  = useSelector((state) => { return state.app.currentBlock });
-  const currentIndex = useSelector((state) => { return state.app.currentIndex });
-
-  const fraxBondDiscount = useSelector(state => {
-    return state.bonding['frax'] && state.bonding['frax'].bondDiscount;
-  });
-
-  const daiBondDiscount = useSelector(state => {
-    return state.bonding['dai'] && state.bonding['dai'].bondDiscount;
-  });
-
-  const ohmDaiBondDiscount = useSelector(state => {
-    return state.bonding['ohm_dai_lp'] && state.bonding['ohm_dai_lp'].bondDiscount;
-  });
-
-  const ohmFraxLpBondDiscount = useSelector(state => {
-    return state.bonding['ohm_frax_lp'] && state.bonding['ohm_frax_lp'].bondDiscount;
-  })
-
-  // const mainnetProvider = scaffoldEthProvider && scaffoldEthProvider._network ? scaffoldEthProvider : mainnetInfura;
-  const mainnetProvider = mainnetInfura;
-
-  const [injectedProvider, setInjectedProvider] = useState();
-
-  // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
-  const userProvider = useUserProvider(injectedProvider, null);
-  const address = useUserAddress(userProvider);
-
-  // You can warn the user if you would like them to be on a specific network
-  // const selectedChainId = userProvider && userProvider._network && userProvider._network.chainId;
-
-  // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
-
-  // Just plug in different 🛰 providers to get your balance on different chains:
-  // const yourMainnetBalance = useBalance(mainnetProvider, address);
-
-  // If you want to make 🔐 write transactions to your contracts, use the userProvider:
-  // const writeContracts = useContractLoader(userProvider);
-
-  // EXTERNAL CONTRACT EXAMPLE:
-  // If you want to bring in the mainnet DAI contract it would look like:
-  // const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);
-
-  // If you want to call a function on a new block
-  /* useOnBlock(mainnetProvider, () => {
-    console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
-  }); */
-
-  async function loadDetails() {
-    let loadProvider = mainnetProvider;
-    if (injectedProvider) loadProvider = injectedProvider;
-
-    await dispatch(loadAppDetails({ networkID: 1, provider: loadProvider }));
-    await dispatch(getMarketPrice({ networkID: 1, provider: loadProvider }));
-    await dispatch(getTokenSupply({ networkID: 1, provider: loadProvider }));
-
-    if (address) await dispatch(loadAccountDetails({ networkID: 1, address, provider: loadProvider }));
-
-    [BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(async bond => {
-      await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: 1 }));
-    });
-  }
-
-
-
-
-  useEffect(() => {
-    loadDetails();
-  }, [injectedProvider, address]);
-
-  const loadWeb3Modal = useCallback(async () => {
-    const provider = await web3Modal.connect();
-    setInjectedProvider(new Web3Provider(provider));
-  }, [setInjectedProvider]);
-
-  useEffect(() => {
-    if (web3Modal.cachedProvider) {
-      loadWeb3Modal();
-    }
-  }, [loadWeb3Modal]);
-
+    setIsSidebarExpanded(false);
+  };
 
   let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
     themeMode = theme === "light" ? lightTheme : darkTheme;
-  });
+  }, [theme]);
 
-  if (!mounted) {
-    return <div />;
-  }
+  useEffect(() => {
+    if (isSidebarExpanded) handleSidebarClose();
+  }, [location]);
 
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
-      <GlobalStyles />
-      <div className="app">
-        <Flex id="dapp" className={`dapp ${isSmallerScreen && "mobile"}`}>
-          {!isSidebarExpanded &&
-          <nav className="navbar navbar-expand-lg navbar-light justify-content-end d-lg-none">
-            <button
-              className="navbar-toggler"
-              type="button"
-              onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              data-toggle="collapse"
-              data-target="#navbarNav"
-              aria-controls="navbarNav"
-            >
-              <span className="navbar-toggler-icon" />
-            </button>
-          </nav>}
+      {/* {isAppLoading && <LoadingSplash />} */}
+      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+        <Messages />
+        <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+        <nav className={classes.drawer}>
+          <Hidden mdUp>
+            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+          </Hidden>
+          <Hidden smDown>
+            <Sidebar />
+          </Hidden>
+        </nav>
 
-          {isSidebarExpanded && (
-            <a
-              role="button"
-              className="close-nav"
-              onClick={() => setIsSidebarExpanded(false)}
-            >
-              <ClearIcon />
-            </a>
-          )}
+        <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+          <Switch>
+            <Route exact path="/dashboard">
+              <TreasuryDashboard />
+            </Route>
 
-          <Sidebar
-            currentIndex={currentIndex}
-            isExpanded={isSidebarExpanded}
-            theme={theme}
-            onClick={() => {isSidebarExpanded ? handleSidebarClose() : console.log('sidebar colapsed')}}
-          />
+            <Route exact path="/">
+              <Redirect to="/stake" />
+            </Route>
 
-          <Container maxWidth="xl">
-            <TopBar
-              web3Modal={web3Modal}
-              loadWeb3Modal={loadWeb3Modal}
-              logoutOfWeb3Modal={logoutOfWeb3Modal}
-              mainnetProvider={mainnetProvider}
-              blockExplorer={blockExplorer}
-              address={address}
-              theme={theme}
-              toggleTheme={toggleTheme}
-            />
-
-            <Switch>
-              <Route exact path="/dashboard">
-                <Dashboard address={address} provider={injectedProvider} />
+            <Route path="/stake">
+              <Stake />
+              <Route exact path="/stake/migrate">
+                <Migrate />
               </Route>
+            </Route>
 
-              <Route exact path="/">
-                <Redirect to="/stake" />
-              </Route>
+            <Route path="/33-together">
+              <PoolTogether />
+            </Route>
 
-              <Route path="/stake">
-                <Stake
-                    address={address}
-                    provider={injectedProvider}
-                    web3Modal={web3Modal}
-                    loadWeb3Modal={loadWeb3Modal}
-                  />
-                <Route exact path="/stake/migrate">
-                  <Migrate
-                    address={address}
-                    provider={injectedProvider}
-                    web3Modal={web3Modal}
-                    loadWeb3Modal={loadWeb3Modal}
-                  />
-                </Route>
+            <Route path="/bonds">
+              {bonds.map(bond => {
+                return (
+                  <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
+                    <Bond bond={bond} />
+                  </Route>
+                );
+              })}
+              <ChooseBond />
+            </Route>
 
-              </Route>
-
-              <Route path="/bonds">
-                {/* {Object.values(BONDS).map(bond => { */}
-                  {[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => {
-                    return (
-                      <Route exact key={bond} path={`/bonds/${bond}`}>
-                        <Bond bond={bond} address={address} provider={injectedProvider} />
-                      </Route>
-                    );
-                })}
-                <ChooseBond address={address} provider={injectedProvider} />
-              </Route>
-
-              <Route component={NotFound} />
-            </Switch>
-          </Container>
-        </Flex>
+            <Route component={NotFound} />
+          </Switch>
+        </div>
       </div>
     </ThemeProvider>
   );
 }
-
-/* eslint-disable */
-window.ethereum &&
-  window.ethereum.on("chainChanged", (chainId ) => {
-    web3Modal.cachedProvider &&
-      setTimeout(() => {
-        window.location.reload();
-      }, 1);
-  });
-
-window.ethereum &&
-  window.ethereum.on("accountsChanged", (accounts ) => {
-    web3Modal.cachedProvider &&
-      setTimeout(() => {
-        window.location.reload();
-      }, 1);
-  });
-/* eslint-enable */
 
 export default App;

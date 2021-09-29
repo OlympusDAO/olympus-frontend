@@ -1,94 +1,143 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core"
-import { Card } from "rimble-ui";
-import "../Stake/stake.scss";
-import { BondTableData, BondCardData } from './BondRow';
-import { BONDS } from "../../constants";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import {
+  Box,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  Zoom,
+} from "@material-ui/core";
+import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { trim } from "../../helpers";
+import { formatCurrency } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
+import "./choosebond.scss";
+import { Skeleton } from "@material-ui/lab";
+import ClaimBonds from "./ClaimBonds";
+import _ from "lodash";
+import { allBondsMap } from "src/helpers/AllBonds";
 
-function ChooseBond({ address, provider }) {
+function ChooseBond() {
+  const { bonds } = useBonds();
+  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
+  const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
-	const marketPrice = useSelector((state ) => { return state.bonding['dai'] && state.bonding['dai'].marketPrice });
+  const isAppLoading = useSelector(state => state.app.loading);
+  const isAccountLoading = useSelector(state => state.account.loading);
 
-	const isSmallScreen = useMediaQuery("(max-width: 1125px)");
-	const isMediumScreen = useMediaQuery("(min-width: 1279px, max-width: 1500px)");
-	const isVerySmallScreen = useMediaQuery("(max-width: 589px)");
+  const accountBonds = useSelector(state => {
+    const withInterestDue = [];
+    for (const bond in state.account.bonds) {
+      if (state.account.bonds[bond].interestDue > 0) {
+        withInterestDue.push(state.account.bonds[bond]);
+      }
+    }
+    return withInterestDue;
+  });
 
-	const treasuryBalance = useSelector(state => {
-    	return state.app.treasuryBalance;
-  	});
+  const marketPrice = useSelector(state => {
+    return state.app.marketPrice;
+  });
 
-	const bonds = useBonds();
+  const treasuryBalance = useSelector(state => {
+    if (state.bonding.loading == false) {
+      let tokenBalances = 0;
+      for (const bond in allBondsMap) {
+        if (state.bonding[bond]) {
+          tokenBalances += state.bonding[bond].purchased;
+        }
+      }
+      return tokenBalances;
+    }
+  });
 
-	return (
-		<Grid container id="choose-bond-view" justify="center" spacing={2}>
+  return (
+    <div id="choose-bond-view">
+      {!isAccountLoading && !_.isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
 
-        <Card className={`ohm-card secondary ${isSmallScreen  && "mobile"} ${isMediumScreen && "med"}`}>
+      <Zoom in={true}>
+        <Paper className="ohm-card">
+          <Box className="card-header">
+            <Typography variant="h5">Bond (1,1)</Typography>
+          </Box>
 
-          <div className="card-content">
-						<Grid container item xs={12} spacing={2}>
-							<Grid item sm={7} lg={9}>
-								<h3>Treasury Balance</h3>
-								<h2 className="content">
-									{new Intl.NumberFormat("en-US", {
-										style: "currency",
-										currency: "USD",
-										maximumFractionDigits: 0,
-										minimumFractionDigits: 0
-									}).format(treasuryBalance)}
-								</h2>
-							</Grid>
+          <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
+            <Grid item xs={6}>
+              <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
+                <Typography variant="h5" color="textSecondary">
+                  Treasury Balance
+                </Typography>
+                <Typography variant="h4">
+                  {isAppLoading ? (
+                    <Skeleton width="180px" />
+                  ) : (
+                    new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0,
+                    }).format(treasuryBalance)
+                  )}
+                </Typography>
+              </Box>
+            </Grid>
 
-							<Grid item xs={5} sm={5} lg={3} className={`ohm-price ${isVerySmallScreen && "very-small"}`}>
-								<h3>OHM Price</h3>
-								<h2 className="content">{trim(marketPrice, 2)}</h2>
-							</Grid>
-						</Grid>
-          </div>
-        </Card>
+            <Grid item xs={6} className={`ohm-price`}>
+              <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
+                <Typography variant="h5" color="textSecondary">
+                  OHM Price
+                </Typography>
+                <Typography variant="h4">
+                  {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(marketPrice, 2)}
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
 
-        <Card className={`ohm-card primary ${isSmallScreen && "mobile"} ${isMediumScreen && "med"}`}>
-				<div className="card-header" style={{ background: 'transparent' }}>
-            <h5>Bonds (1, 1)</h5>
-          </div>
-					{ !isSmallScreen ?
-          		<div className="card-content">
-								<TableContainer>
-									<Table aria-label="Available bonds">
-										<TableHead>
-											<TableRow>
-												<TableCell align="left">Bond</TableCell>
-												<TableCell align="center">Price</TableCell>
-												<TableCell>ROI</TableCell>
-												<TableCell>Purchased</TableCell>
-												<TableCell align="right"></TableCell>
-											</TableRow>
-										</TableHead>
-										<TableBody>
-												{bonds.map(bond => (
-												<BondTableData key={bond.value} bond={bond.value} />
-											))}
-										</TableBody>
-									</Table>
-								</TableContainer>
-							</div>
-							:
-							<>
-								{/* { Object.keys(BONDS).map(bond => ( */}
-									{[BONDS.ohm_dai, BONDS.dai, BONDS.ohm_frax, BONDS.frax].map(bond => (
-										<div className="card-content" key={bond}>
-											<BondCardData key={bond} bond={bond} />
-										</div>
-								)) }
-							</>
-						}
+          {!isSmallScreen && (
+            <Grid container item>
+              <TableContainer>
+                <Table aria-label="Available bonds">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">Bond</TableCell>
+                      <TableCell align="left">Price</TableCell>
+                      <TableCell align="left">ROI</TableCell>
+                      <TableCell align="right">Purchased</TableCell>
+                      <TableCell align="right"></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {bonds.map(bond => (
+                      <BondTableData key={bond.name} bond={bond} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+          )}
+        </Paper>
+      </Zoom>
 
-        </Card>
-    </Grid>
-	);
-  }
+      {isSmallScreen && (
+        <Box className="ohm-card-container">
+          <Grid container item spacing={2}>
+            {bonds.map(bond => (
+              <Grid item xs={12} key={bond.name}>
+                <BondDataCard key={bond.name} bond={bond} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )}
+    </div>
+  );
+}
 
-  export default ChooseBond;
+export default ChooseBond;

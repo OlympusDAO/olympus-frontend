@@ -1,0 +1,58 @@
+#ohm-menu-button {
+  padding: 12px;
+  svg {
+    margin-right: 3px;
+    color: inherit !important;
+  }
+}
+.ohm-menu-button-hover {
+  z-index: 9;
+}
+#ohm-popper,
+#ohm-popper-pending {
+  z-index: 5;
+  background-color: #00000003;
+  backdrop-filter: blur(33px);
+  -webkit-backdrop-filter: blur(33px);
+  margin-top: 10px;
+  border-radius: 10px;
+  .MuiPaper-root.ohm-menu {
+    padding: 16px 6px;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    max-width: 200px;
+    button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 4px;
+      padding-left: 16px;
+      &:not(:hover) {
+        background-color: #00000003 !important;
+      }
+    }
+    a {
+      svg {
+        vertical-align: middle;
+        font-size: 20px;
+        margin-left: 3px;
+      }
+    }
+    hr {
+      margin-bottom: 18px;
+    }
+  }
+
+  .add-tokens {
+    > p {
+      margin: 15px 0px 5px 0px;
+      text-align: left;
+      padding-left: 16px;
+    }
+  }
+
+  .buy-tokens {
+    padding-bottom: 8px;
+  }
+}

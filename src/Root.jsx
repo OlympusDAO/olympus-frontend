@@ -1,29 +1,26 @@
 /* eslint-disable global-require */
-/* eslint-disable @typescript-eslint/no-var-requires */
+import { Component } from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { Web3ContextProvider } from "./hooks/web3Context";
 
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-
-import App from './App';
-import configureStore from './store';
-
+import App from "./App";
+import store from "./store";
 
 export default class Root extends Component {
-  store ;
-
-  constructor(props ) {
+  constructor(props) {
     super(props);
-    this.store = configureStore({});
   }
 
   render() {
     return (
-      <Provider store={this.store}>
-        <BrowserRouter basename={'/#'}>
-          <App />
-        </BrowserRouter>
-      </Provider>
+      <Web3ContextProvider>
+        <Provider store={store}>
+          <BrowserRouter basename={"/#"}>
+            <App />
+          </BrowserRouter>
+        </Provider>
+      </Web3ContextProvider>
     );
   }
 }
