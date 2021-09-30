@@ -140,7 +140,7 @@ export const tooltipItems = {
   coin: ["DAI", "FRAX", "ETH", "SUSHI"],
   holder: ["OHMies"],
   apy: ["APY"],
-  runway: ["10K APY", "20K APY", "50K APY"],
+  runway: ["Days"],
   pol: ["SLP Treasury", "Market SLP"],
 };
 
