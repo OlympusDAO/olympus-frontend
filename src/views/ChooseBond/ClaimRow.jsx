@@ -108,12 +108,12 @@ export function ClaimBondCardData({ userBond }) {
 
       <div className="data-row">
         <Typography>Claimable</Typography>
-        <Typography>{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</Typography>
+        <Typography>{bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />}</Typography>
       </div>
 
       <div className="data-row">
         <Typography>Pending</Typography>
-        <Typography>{bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />}</Typography>
+        <Typography>{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</Typography>
       </div>
 
       <div className="data-row" style={{ marginBottom: "20px" }}>
