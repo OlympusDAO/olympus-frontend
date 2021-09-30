@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { EnvHelper } from "../helpers/Environment";
 import { useLocation } from "react-router-dom";
+import { useWeb3Context } from "src/hooks/web3Context";
 
 const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
 
