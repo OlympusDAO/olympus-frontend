@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { EnvHelper } from "../helpers/Environment";
 import { useLocation } from "react-router-dom";
-import { useAddress } from "./hooks/web3Context";
 
 const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
 
 export default function useSegmentAnalytics() {
   const [prevPath, setPrevPath] = useState(null);
   const [loadedSegment, setLoadedSegment] = useState(false);
-  const [, setWalletChecked] = useState(false);
 
   const location = useLocation();
-  const address = useAddress();
+  const { address } = useWeb3Context();
 
   React.useEffect(() => {
     if (SEGMENT_API_KEY && SEGMENT_API_KEY.length > 1) {
