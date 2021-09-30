@@ -8,7 +8,7 @@ const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
 export default function useSegmentAnalytics() {
   const [prevPath, setPrevPath] = useState(null);
   const [loadedSegment, setLoadedSegment] = useState(false);
-
+  const analytics = (window.analytics = window.analytics || []);
   const location = useLocation();
   const { address } = useWeb3Context();
 
@@ -21,7 +21,6 @@ export default function useSegmentAnalytics() {
 
   React.useEffect(() => {
     if (loadedSegment) {
-      var analytics = (window.analytics = window.analytics || []);
       // NOTE (appleseed): location.pathname NEVER changes because we prepend /# to all paths for IPFS... so you need to
       // ... to add  + location.search + location.hash;
       const currentPath = location.pathname + location.search + location.hash;
@@ -35,7 +34,7 @@ export default function useSegmentAnalytics() {
   }, [location]);
 
   React.useEffect(() => {
-    if (address) {
+    if (loadedSegment && address) {
       analytics.identify(address, {
         wallet: address,
       });
