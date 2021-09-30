@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { EnvHelper } from "../helpers/Environment";
 import { useLocation } from "react-router-dom";
+import { useAddress } from "./hooks/web3Context";
 
 const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
 
 export default function useSegmentAnalytics() {
   const [prevPath, setPrevPath] = useState(null);
   const [loadedSegment, setLoadedSegment] = useState(false);
-  const [walletChecked, setWalletChecked] = useState(false);
+  const [, setWalletChecked] = useState(false);
 
   const location = useLocation();
+  const address = useAddress();
 
   React.useEffect(() => {
     if (SEGMENT_API_KEY && SEGMENT_API_KEY.length > 1) {
@@ -34,12 +36,12 @@ export default function useSegmentAnalytics() {
   }, [location]);
 
   React.useEffect(() => {
-    if (walletChecked) {
+    if (address) {
       analytics.identify(address, {
         wallet: address,
       });
     }
-  }, [walletChecked]);
+  }, [address]);
 }
 
 function initSegmentAnalytics() {
