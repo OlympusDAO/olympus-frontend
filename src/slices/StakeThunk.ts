@@ -88,7 +88,6 @@ interface IChangeStake {
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
   async ({ action, value, provider, address, networkID }: IChangeStake, { dispatch }) => {
-    console.log("provider", provider);
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;

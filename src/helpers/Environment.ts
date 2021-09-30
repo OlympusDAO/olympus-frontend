@@ -78,19 +78,19 @@ export class EnvHelper {
   }
 
   /**
-   * @returns {Array} Array of websocket addresses or empty set
+   * @returns {Array} Array of node url addresses or empty set
+   * node url addresses can be whitespace-separated string of "https" addresses
+   * - functionality for Websocket addresses has been deprecated due to issues with WalletConnect
+   *     - WalletConnect Issue: https://github.com/WalletConnect/walletconnect-monorepo/issues/193
    */
-  static getSelfHostedSockets() {
-    let WS_LIST: string[];
-    if (
-      EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS &&
-      EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS)
-    ) {
-      WS_LIST = EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS.split(new RegExp(EnvHelper.whitespaceRegex));
+  static getSelfHostedNode() {
+    let URI_LIST: string[];
+    if (EnvHelper.env.REACT_APP_SELF_HOSTED_NODE && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_SELF_HOSTED_NODE)) {
+      URI_LIST = EnvHelper.env.REACT_APP_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
     } else {
-      WS_LIST = [];
+      URI_LIST = [];
     }
-    return WS_LIST;
+    return URI_LIST;
   }
 
   /**
@@ -101,7 +101,7 @@ export class EnvHelper {
   static getAPIUris() {
     // Debug log
     // console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());
-    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getSelfHostedSockets()];
+    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getSelfHostedNode()];
     if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
     return ALL_URIs;
   }

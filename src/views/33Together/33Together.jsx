@@ -41,7 +41,7 @@ const PoolTogether = () => {
   const [poolData, setPoolData] = useState(null);
   const [poolDataError, setPoolDataError] = useState(null);
   const [graphLoading, setGraphLoading] = useState(true);
-  const [walletChecked, setWalletChecked] = useState(true);
+  const [walletChecked, setWalletChecked] = useState(false);
   const [winners, setWinners] = useState(0);
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
