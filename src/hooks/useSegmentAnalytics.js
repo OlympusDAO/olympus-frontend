@@ -7,6 +7,8 @@ const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
 export default function useSegmentAnalytics() {
   const [prevPath, setPrevPath] = useState(null);
   const [loadedSegment, setLoadedSegment] = useState(false);
+  const [walletChecked, setWalletChecked] = useState(false);
+
   const location = useLocation();
 
   React.useEffect(() => {
@@ -30,6 +32,14 @@ export default function useSegmentAnalytics() {
       }
     }
   }, [location]);
+
+  React.useEffect(() => {
+    if (walletChecked) {
+      analytics.identify(address, {
+        wallet: address,
+      });
+    }
+  }, [walletChecked]);
 }
 
 function initSegmentAnalytics() {
