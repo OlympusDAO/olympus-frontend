@@ -71,8 +71,8 @@ export const poolTogetherUILinks = chainID => {
   } else {
     // TODO (appleseed-33t): these are the rinkeby urls again
     return [
-      `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/home`,
-      `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/manage#stats`,
+      `https://community.pooltogether.com/pools/${contractAddress}/home`,
+      `https://community.pooltogether.com/pools/${contractAddress}/manage#stats`,
     ];
   }
 };
