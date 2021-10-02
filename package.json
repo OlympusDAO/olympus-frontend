@@ -23,6 +23,7 @@
     "@ethersproject/providers": "^5.0.12",
     "@ethersproject/solidity": "^5.0.9",
     "@ethersproject/units": "^5.4.0",
+    "@lingui/react": "^3.12.1",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
@@ -74,12 +75,16 @@
     "web3modal": "^1.9.1"
   },
   "devDependencies": {
+    "@lingui/cli": "^3.12.1",
+    "@lingui/macro": "^3.12.1",
     "@testing-library/dom": "^8.0.0",
     "@types/react": "^17.0.15",
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "autoprefixer": "^10.2.4",
+    "babel-plugin-lodash": "^3.3.4",
+    "babel-plugin-transform-imports": "^2.0.0",
     "chalk": "^4.1.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.0",
@@ -115,6 +120,8 @@
     "s3": "node ./scripts/s3.js",
     "ship": "yarn surge",
     "theme": "npx gulp less",
-    "watch": "node ./scripts/watch.js"
+    "watch": "node ./scripts/watch.js",
+    "lingui:extract": "lingui extract",
+    "lingui:compile": "lingui compile"
   }
 }
