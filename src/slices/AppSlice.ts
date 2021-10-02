@@ -7,9 +7,8 @@ import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-import allBonds from "src/helpers/AllBonds";
 import { RootState } from "src/store";
-import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import { IBaseAsyncThunk } from "./interfaces";
 
 const initialState = {
   loading: false,
@@ -18,7 +17,7 @@ const initialState = {
 
 export const loadAppDetails = createAsyncThunk(
   "app/loadAppDetails",
-  async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }, { dispatch }) => {
+  async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
     const protocolMetricsQuery = `
   query {
     _meta {
@@ -133,7 +132,7 @@ export const loadAppDetails = createAsyncThunk(
  */
 export const findOrLoadMarketPrice = createAsyncThunk(
   "app/findOrLoadMarketPrice",
-  async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }, { dispatch, getState }) => {
+  async ({ networkID, provider }: IBaseAsyncThunk, { dispatch, getState }) => {
     const state: any = getState();
     let marketPrice;
     // check if we already have loaded market price
@@ -162,20 +161,17 @@ export const findOrLoadMarketPrice = createAsyncThunk(
  * - falls back to fetch marketPrice from ohm-dai contract
  * - updates the App.slice when it runs
  */
-const loadMarketPrice = createAsyncThunk(
-  "app/loadMarketPrice",
-  async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) => {
-    let marketPrice: number;
-    try {
-      marketPrice = await getTokenPrice();
-    } catch (e) {
-      console.log("Returned a null response when querying CoinGecko");
-      marketPrice = await getMarketPrice({ networkID, provider });
-      marketPrice = marketPrice / Math.pow(10, 9);
-    }
-    return { marketPrice };
-  },
-);
+const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
+  let marketPrice: number;
+  try {
+    marketPrice = await getTokenPrice();
+  } catch (e) {
+    console.log("Returned a null response when querying CoinGecko");
+    marketPrice = await getMarketPrice({ networkID, provider });
+    marketPrice = marketPrice / Math.pow(10, 9);
+  }
+  return { marketPrice };
+});
 
 interface IAppData {
   readonly circSupply: number;

@@ -8,32 +8,43 @@ import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { getCreditMaturationDaysAndLimitPercentage } from "../helpers/33Together";
 import { setAll } from "../helpers";
-import { error } from "../slices/MessagesSlice";
+import { error } from "./MessagesSlice";
+import { RootState } from "src/store";
+import {
+  IValueAsyncThunk,
+  IBaseAsyncThunk,
+  IChangeApprovalAsyncThunk,
+  IActionValueAsyncThunk,
+  IActionAsyncThunk,
+} from "./interfaces";
 
-export const getPoolValues = createAsyncThunk("pool/getPoolValues", async ({ networkID, provider }) => {
-  // TODO (appleseed-33t): seems like this only works for signers, not readers...
-  // calculate 33-together
-  const poolReader = await new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
-  const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
-  const creditPlanOf = await poolReader.creditPlanOf(addresses[networkID].PT_TOKEN_ADDRESS);
-  const poolCredit = getCreditMaturationDaysAndLimitPercentage(
-    creditPlanOf.creditRateMantissa,
-    creditPlanOf.creditLimitMantissa,
-  );
+export const getPoolValues = createAsyncThunk(
+  "pool/getPoolValues",
+  async ({ networkID, provider }: IBaseAsyncThunk) => {
+    // TODO (appleseed-33t): seems like this only works for signers, not readers...
+    // calculate 33-together
+    const poolReader = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
+    const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
+    const creditPlanOf = await poolReader.creditPlanOf(addresses[networkID].PT_TOKEN_ADDRESS);
+    const poolCredit = getCreditMaturationDaysAndLimitPercentage(
+      creditPlanOf.creditRateMantissa,
+      creditPlanOf.creditLimitMantissa,
+    );
 
-  const awardReader = await new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, provider);
-  const poolAwardPeriodRemainingSeconds = await awardReader.prizePeriodRemainingSeconds();
+    const awardReader = new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, provider);
+    const poolAwardPeriodRemainingSeconds = await awardReader.prizePeriodRemainingSeconds();
 
-  return {
-    awardBalance: ethers.utils.formatUnits(poolAwardBalance, "gwei"),
-    awardPeriodRemainingSeconds: poolAwardPeriodRemainingSeconds.toString(),
-    creditMaturationInDays: poolCredit[0],
-    creditLimitPercentage: poolCredit[1],
-  };
-});
+    return {
+      awardBalance: ethers.utils.formatUnits(poolAwardBalance, "gwei"),
+      awardPeriodRemainingSeconds: poolAwardPeriodRemainingSeconds.toString(),
+      creditMaturationInDays: poolCredit[0],
+      creditLimitPercentage: poolCredit[1],
+    };
+  },
+);
 
-export const getRNGStatus = createAsyncThunk("pool/getRNGStatus", async ({ networkID, provider }) => {
-  const awardReader = await new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, provider);
+export const getRNGStatus = createAsyncThunk("pool/getRNGStatus", async ({ networkID, provider }: IBaseAsyncThunk) => {
+  const awardReader = new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, provider);
   const isRngRequested = await awardReader.isRngRequested();
   let isRngTimedOut = false;
   if (isRngRequested) isRngTimedOut = await awardReader.isRngTimedOut();
@@ -47,14 +58,14 @@ export const getRNGStatus = createAsyncThunk("pool/getRNGStatus", async ({ netwo
 
 export const changeApproval = createAsyncThunk(
   "pool/changeApproval",
-  async ({ token, provider, address, networkID }, { dispatch }) => {
+  async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
 
     const signer = provider.getSigner();
-    const sohmContract = await new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
 
     let approveTx;
     try {
@@ -96,13 +107,13 @@ export const changeApproval = createAsyncThunk(
 // TODO (appleseed): what are referral rewards? ^^^, left as zero-address
 export const poolDeposit = createAsyncThunk(
   "pool/deposit",
-  async ({ action, value, provider, address, networkID }, { dispatch }) => {
+  async ({ action, value, provider, address, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
     const signer = provider.getSigner();
-    const poolContract = await new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, signer);
+    const poolContract = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, signer);
     let poolTx;
 
     try {
@@ -135,13 +146,13 @@ export const poolDeposit = createAsyncThunk(
       }
     }
 
-    return dispatch(getBalances({ address, networkID, provider }));
+    dispatch(getBalances({ address, networkID, provider }));
   },
 );
 
 export const getEarlyExitFee = createAsyncThunk(
   "pool/getEarlyExitFee",
-  async ({ value, provider, address, networkID }) => {
+  async ({ value, provider, address, networkID }: IValueAsyncThunk) => {
     const poolReader = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
     // NOTE (appleseed): we chain callStatic in the below function to force the transaction through w/o a gas fee
     // ... this may be a result of `calculateEarlyExitFee` not being explicity declared as `view` or `pure` in the contract.
@@ -173,14 +184,14 @@ export const getEarlyExitFee = createAsyncThunk(
 // NOTE (appleseed): https://docs.pooltogether.com/protocol/prize-pool#withdraw-instantly
 export const poolWithdraw = createAsyncThunk(
   "pool/withdraw",
-  async ({ action, value, provider, address, networkID }, { dispatch }) => {
+  async ({ action, value, provider, address, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
 
     const signer = provider.getSigner();
-    const poolContract = await new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, signer);
+    const poolContract = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, signer);
 
     let poolTx;
 
@@ -192,7 +203,8 @@ export const poolWithdraw = createAsyncThunk(
           address,
           ethers.utils.parseUnits(value, "gwei"),
           addresses[networkID].PT_TOKEN_ADDRESS,
-          earlyExitFee.payload.withdraw.earlyExitFee.exitFee, // maximum exit fee
+          (earlyExitFee.payload as any).withdraw.earlyExitFee.exitFee, // maximum exit fee
+          // TS-REFACTOR-TODO: set the payload type above once we've added typechain in.
         );
         const text = "Pool " + action;
         const pendingTxnType = "pool_withdraw";
@@ -216,20 +228,20 @@ export const poolWithdraw = createAsyncThunk(
       }
     }
 
-    return dispatch(getBalances({ address, networkID, provider }));
+    dispatch(getBalances({ address, networkID, provider }));
   },
 );
 
 export const awardProcess = createAsyncThunk(
   "pool/awardProcess",
-  async ({ action, provider, address, networkID }, { dispatch }) => {
+  async ({ action, provider, address, networkID }: IActionAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
 
     const signer = provider.getSigner();
-    const poolContract = await new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, signer);
+    const poolContract = new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, signer);
 
     let poolTx;
 
@@ -262,7 +274,7 @@ export const awardProcess = createAsyncThunk(
       }
     }
 
-    return dispatch(getBalances({ address, networkID, provider }));
+    dispatch(getBalances({ address, networkID, provider }));
   },
 );
 
@@ -303,6 +315,6 @@ const poolTogetherSlice = createSlice({
 
 export default poolTogetherSlice.reducer;
 
-const baseInfo = state => state.poolData;
+const baseInfo = (state: RootState) => state.poolData;
 
 export const getPoolState = createSelector(baseInfo, app => app);

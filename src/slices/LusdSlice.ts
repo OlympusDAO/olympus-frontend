@@ -1,11 +1,10 @@
 import { ethers } from "ethers";
-import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { setAll } from "../helpers";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-import { NetworkID } from "src/lib/Bond";
+import { IBaseAddressAsyncThunk } from "./interfaces";
 
 const pickleApi = "https://api.pickle.finance/prod";
 
@@ -14,12 +13,6 @@ const getPoolData = async () => {
   const resp = await fetch(`${pickleApi}/protocol/pools`).then(response => response.json());
   return resp;
 };
-
-interface IGetBalances {
-  address: string;
-  networkID: NetworkID;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-}
 
 /**
  * Interface for pickle API objects
@@ -32,7 +25,7 @@ interface IPoolInfo {
 
 export const getLusdData = createAsyncThunk(
   "stake/getLusdData",
-  async ({ provider, address, networkID }: IGetBalances) => {
+  async ({ provider, address, networkID }: IBaseAddressAsyncThunk) => {
     // TODO (appleseed-lusd): use correct address, change out abi
     const contractAddress = addresses[networkID].PICKLE_OHM_LUSD_ADDRESS as string;
     const pickleOhmLusdContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);

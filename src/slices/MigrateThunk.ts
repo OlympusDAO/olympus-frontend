@@ -10,7 +10,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { error } from "../slices/MessagesSlice";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { IJsonRPCError } from "./interfaces";
+import { IJsonRPCError, IActionValueAsyncThunk } from "./interfaces";
 
 export const ACTIONS = { STAKE: "STAKE", UNSTAKE: "UNSTAKE" };
 export const TYPES = { OLD: "OLD_SOHM", NEW: "NEW_OHM" };
@@ -96,17 +96,9 @@ export const getApproval = createAsyncThunk(
   },
 );
 
-interface IChangeState {
-  action: string;
-  value: string;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  address: string;
-  networkID: number;
-}
-
 export const changeStake = createAsyncThunk(
   "migrate/changeStake",
-  async ({ action, value, provider, address, networkID }: IChangeState, { dispatch }) => {
+  async ({ action, value, provider, address, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;

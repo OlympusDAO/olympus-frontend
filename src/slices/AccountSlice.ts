@@ -8,19 +8,13 @@ import { abi as fuseProxy } from "../abi/FuseProxy.json";
 import { setAll } from "../helpers";
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
-import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { Bond, NetworkID } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
 import { RootState } from "src/store";
-
-interface IGetBalances {
-  address: string;
-  networkID: NetworkID;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-}
+import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 
 export const getBalances = createAsyncThunk(
   "account/getBalances",
-  async ({ address, networkID, provider }: IGetBalances) => {
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider);
     const ohmBalance = await ohmContract.balanceOf(address);
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
@@ -45,12 +39,6 @@ export const getBalances = createAsyncThunk(
   },
 );
 
-interface ILoadAccountDetails {
-  address: string;
-  networkID: NetworkID;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-}
-
 interface IUserAccountDetails {
   balances: {
     dai: string;
@@ -72,7 +60,7 @@ interface IUserAccountDetails {
 
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
-  async ({ networkID, provider, address }: ILoadAccountDetails) => {
+  async ({ networkID, provider, address }: IBaseAddressAsyncThunk) => {
     let ohmBalance = 0;
     let sohmBalance = 0;
     let fsohmBalance = 0;
@@ -159,12 +147,6 @@ export const loadAccountDetails = createAsyncThunk(
   },
 );
 
-interface ICalcUserBondDetails {
-  address: string;
-  bond: Bond;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  networkID: NetworkID;
-}
 export interface IUserBondDetails {
   allowance: number;
   interestDue: number;
@@ -173,7 +155,7 @@ export interface IUserBondDetails {
 }
 export const calculateUserBondDetails = createAsyncThunk(
   "account/calculateUserBondDetails",
-  async ({ address, bond, networkID, provider }: ICalcUserBondDetails, { dispatch }) => {
+  async ({ address, bond, networkID, provider }: ICalcUserBondDetailsAsyncThunk) => {
     if (!address) {
       return {
         bond: "",
