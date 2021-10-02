@@ -208,7 +208,7 @@ const renderLineChart = (
   <LineChart data={data}>
     <XAxis
       dataKey="timestamp"
-      interval={30}
+      interval={100}
       axisLine={false}
       tickCount={3}
       tickLine={false}
