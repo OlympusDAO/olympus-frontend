@@ -104,6 +104,7 @@ const PoolTogether = () => {
     let userOdds = calculateOdds(poolBalance, totalDeposits, winners);
     setYourOdds(userOdds);
   }, [poolData, poolBalance]);
+  // TSX-REFACTOR-NOTE: Shouldn't winners be in this array?
 
   useEffect(() => {
     if (hasCachedProvider()) {
