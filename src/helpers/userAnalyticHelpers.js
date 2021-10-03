@@ -1,5 +1,5 @@
 // Obtain country from IP address
-export function countryLookup() {
+function countryLookup() {
   // Determine the country the user is from, based on IP
   // Geoapify offers 3000 lookups/day, so we should be fine
   var apiKey = process.env.REACT_APP_GEOAPIFY_API_KEY;
