@@ -4,8 +4,12 @@ export function segmentUA(data) {
   var analytics = (window.analytics = window.analytics);
   // NOTE (appleseed): the analytics object may not exist (if there is no SEGMENT_API_KEY)
   if (analytics) {
-    analytics.track(data.type, {
-      data,
-    });
+    analytics.track(
+      data.type,
+      {
+        data,
+      },
+      { context: { ip: "0.0.0.0" } },
+    );
   }
 }
