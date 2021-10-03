@@ -129,7 +129,7 @@ export const ohm_dai = new LPBond({
 //   networkAddrs: {
 //     [NetworkID.Mainnet]: {
 //       bondAddress: undefined,
-//       reserveAddress: undefined,
+//       reserveAddress: 0xfDf12D1F85b5082877A6E070524f50F6c84FAa6b,
 //     },
 //     [NetworkID.Testnet]: {
 //       bondAddress: undefined,
@@ -137,7 +137,7 @@ export const ohm_dai = new LPBond({
 //     },
 //   },
 //   lpUrl:
-//     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
+//     "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
 // });
 
 // HOW TO ADD A NEW BOND:
