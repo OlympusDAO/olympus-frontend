@@ -30,6 +30,10 @@ msgstr "Changer le thème"
 #~ msgid "Change language"
 #~ msgstr "Changer de langue"
 
+#: src/components/ConnectButton.jsx:9
+msgid "Connect Wallet"
+msgstr "Connecter le portefeuille"
+
 #: src/components/Sidebar/NavContent.jsx:74
 msgid "Dashboard"
 msgstr "Tableau de bord"
@@ -57,7 +61,7 @@ msgstr "Moins d'une minute"
 
 #: src/components/Sidebar/NavContent.jsx:89
 msgid "Stake"
-msgstr "Participation"
+msgstr "Quote part (Staking)"
 
 #: src/components/RebaseTimer/RebaseTimer.jsx:73
 msgid "to next rebase"

@@ -30,6 +30,10 @@ msgstr "Change Theme"
 #~ msgid "Change language"
 #~ msgstr "Change language"
 
+#: src/components/ConnectButton.jsx:9
+msgid "Connect Wallet"
+msgstr "Connect Wallet"
+
 #: src/components/Sidebar/NavContent.jsx:74
 msgid "Dashboard"
 msgstr "Dashboard"
