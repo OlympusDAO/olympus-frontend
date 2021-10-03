@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/TopBar/OhmMenu.jsx:108
+msgid "ADD TOKEN TO WALLET"
+msgstr "ADD TOKEN TO WALLET"
+
 #: src/components/Sidebar/NavContent.jsx:121
 msgid "Bond"
 msgstr "Bond"
@@ -20,6 +24,11 @@ msgstr "Bond"
 #: src/components/Sidebar/NavContent.jsx:128
 msgid "Bond discounts"
 msgstr "Bond discounts"
+
+#: src/components/TopBar/OhmMenu.jsx:84
+#: src/components/TopBar/OhmMenu.jsx:97
+msgid "Buy on"
+msgstr "Buy on"
 
 #: src/components/TopBar/LocaleSwitch.tsx:31
 #: src/components/TopBar/ThemeSwitch.jsx:12
@@ -31,12 +40,18 @@ msgstr "Change Theme"
 #~ msgstr "Change language"
 
 #: src/components/ConnectButton.jsx:9
+#: src/components/TopBar/ConnectMenu.jsx:19
 msgid "Connect Wallet"
 msgstr "Connect Wallet"
 
 #: src/components/Sidebar/NavContent.jsx:74
 msgid "Dashboard"
 msgstr "Dashboard"
+
+#: src/components/TopBar/ConnectMenu.jsx:27
+#: src/components/TopBar/ConnectMenu.jsx:110
+msgid "Disconnect"
+msgstr "Disconnect"
 
 #: src/components/Sidebar/externalUrls.jsx:20
 msgid "Docs"
@@ -54,6 +69,10 @@ msgstr "Forum"
 msgid "Governance"
 msgstr "Governance"
 
+#: src/components/TopBar/ConnectMenu.jsx:32
+msgid "In progress"
+msgstr "In progress"
+
 #: src/components/RebaseTimer/RebaseTimer.jsx:29
 #: src/components/RebaseTimer/RebaseTimer.jsx:60
 msgid "Less than a minute"
@@ -62,6 +81,10 @@ msgstr "Less than a minute"
 #: src/components/Sidebar/NavContent.jsx:89
 msgid "Stake"
 msgstr "Stake"
+
+#: src/components/TopBar/OhmMenu.jsx:137
+msgid "Unstake LP Token"
+msgstr "Unstake LP Token"
 
 #: src/components/RebaseTimer/RebaseTimer.jsx:73
 msgid "to next rebase"

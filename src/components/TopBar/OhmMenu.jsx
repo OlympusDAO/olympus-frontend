@@ -7,6 +7,7 @@ import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
+import { Trans } from "@lingui/macro";
 
 import OhmImg from "src/assets/tokens/token_OHM.svg";
 import SOhmImg from "src/assets/tokens/token_sOHM.svg";
@@ -80,7 +81,8 @@ function OhmMenu() {
                   >
                     <Button size="large" variant="contained" color="secondary" fullWidth>
                       <Typography align="left">
-                        Buy on Sushiswap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
+                        <Trans>Buy on </Trans>&nbsp;Sushiswap
+                        <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
                     </Button>
                   </Link>
@@ -92,7 +94,8 @@ function OhmMenu() {
                   >
                     <Button size="large" variant="contained" color="secondary" fullWidth>
                       <Typography align="left">
-                        Buy on Uniswap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
+                        <Trans>Buy on </Trans>&nbsp;Uniswap
+                        <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
                     </Button>
                   </Link>
@@ -101,7 +104,9 @@ function OhmMenu() {
                 {isEthereumAPIAvailable ? (
                   <Box className="add-tokens">
                     <Divider color="secondary" />
-                    <p>ADD TOKEN TO WALLET</p>
+                    <p>
+                      <Trans>ADD TOKEN TO WALLET</Trans>
+                    </p>
                     <Button
                       size="large"
                       variant="contained"
@@ -128,7 +133,9 @@ function OhmMenu() {
                   rel="noreferrer"
                 >
                   <Button size="large" variant="contained" color="secondary" fullWidth>
-                    <Typography align="left">Unstake LP Token</Typography>
+                    <Typography align="left">
+                      <Trans>Unstake LP Token</Trans>
+                    </Typography>
                   </Button>
                 </Link>
               </Paper>
