@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { EnvHelper } from "../helpers/Environment";
 import { useLocation } from "react-router-dom";
+import { useWeb3Context } from "src/hooks/web3Context";
 
 const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
 
 export default function useSegmentAnalytics() {
   const [prevPath, setPrevPath] = useState(null);
   const [loadedSegment, setLoadedSegment] = useState(false);
+  const analytics = (window.analytics = window.analytics || []);
   const location = useLocation();
+  const { address } = useWeb3Context();
 
   React.useEffect(() => {
     if (SEGMENT_API_KEY && SEGMENT_API_KEY.length > 1) {
@@ -18,7 +21,6 @@ export default function useSegmentAnalytics() {
 
   React.useEffect(() => {
     if (loadedSegment) {
-      var analytics = (window.analytics = window.analytics || []);
       // NOTE (appleseed): location.pathname NEVER changes because we prepend /# to all paths for IPFS... so you need to
       // ... to add  + location.search + location.hash;
       const currentPath = location.pathname + location.search + location.hash;
@@ -26,10 +28,18 @@ export default function useSegmentAnalytics() {
         setPrevPath(currentPath);
         // NOTE (appleseed): if analytics aren't showing the full pathname + location.hash then we need to manually pass it
         // ... into analytics.page() below
-        analytics.page();
+        analytics.page(currentPath);
       }
     }
   }, [location]);
+
+  React.useEffect(() => {
+    if (loadedSegment && address) {
+      analytics.identify(address, {
+        wallet: address,
+      });
+    }
+  }, [address]);
 }
 
 function initSegmentAnalytics() {
