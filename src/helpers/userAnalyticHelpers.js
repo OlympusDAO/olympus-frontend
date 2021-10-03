@@ -1,11 +1,10 @@
+import { EnvHelper } from "./Environment";
+
 // Obtain country from IP address
 function countryLookup() {
   // Determine the country the user is from, based on IP
   // Geoapify offers 3000 lookups/day, so we should be fine
-  var apiKey = process.env.REACT_APP_GEOAPIFY_API_KEY;
-  if (!apiKey) {
-    throw "Missing REACT_APP_GEOAPIFY_API_KEY environment variable";
-  }
+  var apiKey = EnvHelper.getGeoapifyAPIKey();
 
   fetch("https://api.geoapify.com/v1/ipinfo?apiKey=" + apiKey, {
     method: "GET",

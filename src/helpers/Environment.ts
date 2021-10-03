@@ -102,4 +102,11 @@ export class EnvHelper {
     if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
     return ALL_URIs;
   }
+
+  static getGeoapifyAPIKey() {
+    var apiKey = EnvHelper.env.REACT_APP_GEOAPIFY_API_KEY;
+    if (!apiKey) {
+      throw "Missing REACT_APP_GEOAPIFY_API_KEY environment variable";
+    }
+  }
 }
