@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -44,12 +45,12 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
 
   async function onBond() {
     if (quantity === "") {
-      dispatch(error("Please enter a value!"));
+      dispatch(error(t`Please enter a value!`));
     } else if (isNaN(quantity)) {
-      dispatch(error("Please enter a valid value!"));
+      dispatch(error(t`Please enter a valid value!`));
     } else if (bond.interestDue > 0 || bond.pendingPayout > 0) {
       const shouldProceed = window.confirm(
-        "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?",
+        t`You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?`,
       );
       if (shouldProceed) {
         await dispatch(
@@ -120,7 +121,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
     <Box display="flex" flexDirection="column">
       <Box display="flex" justifyContent="space-around" flexWrap="wrap">
         <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
-          <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-amount">
+            <Trans>Amount</Trans>
+          </InputLabel>
           <OutlinedInput
             id="outlined-adornment-amount"
             type="number"
@@ -131,7 +134,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
             endAdornment={
               <InputAdornment position="end">
                 <Button variant="text" onClick={setMax}>
-                  Max
+                  <Trans>Max</Trans>
                 </Button>
               </InputAdornment>
             }
@@ -146,7 +149,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
             disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
             onClick={onBond}
           >
-            {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
+            {txnButtonText(pendingTransactions, "bond_" + bond.name, t`do_bond`)}
           </Button>
         ) : (
           <Button
@@ -157,7 +160,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
             disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
             onClick={onSeekApproval}
           >
-            {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
+            {txnButtonText(pendingTransactions, "approve_" + bond.name, t`Approve`)}
           </Button>
         )}
 
@@ -165,8 +168,10 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
           <div className="help-text">
             <em>
               <Typography variant="body2">
-                Note: The "Approve" transaction is only needed when bonding for the first time; subsequent bonding only
-                requires you to perform the "Bond" transaction.
+                <Trans>
+                  Note: The "Approve" transaction is only needed when bonding for the first time; subsequent bonding
+                  only requires you to perform the "Bond" transaction.
+                </Trans>
               </Typography>
             </em>
           </div>
@@ -176,7 +181,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
       <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
           <div className="data-row">
-            <Typography>Your Balance</Typography>
+            <Typography>
+              <Trans>Your Balance</Trans>
+            </Typography>
             <Typography>
               {isBondLoading ? (
                 <Skeleton width="100px" />
@@ -189,41 +196,53 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
           </div>
 
           <div className={`data-row`}>
-            <Typography>You Will Get</Typography>
+            <Typography>
+              <Trans>You Will Get</Trans>
+            </Typography>
             <Typography id="bond-value-id" className="price-data">
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4) || "0"} OHM`}
             </Typography>
           </div>
 
           <div className={`data-row`}>
-            <Typography>Max You Can Buy</Typography>
+            <Typography>
+              <Trans>Max You Can Buy</Trans>
+            </Typography>
             <Typography id="bond-value-id" className="price-data">
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice, 4) || "0"} OHM`}
             </Typography>
           </div>
 
           <div className="data-row">
-            <Typography>ROI</Typography>
+            <Typography>
+              <Trans>ROI</Trans>
+            </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}
             </Typography>
           </div>
 
           <div className="data-row">
-            <Typography>Debt Ratio</Typography>
+            <Typography>
+              <Trans>Debt Ratio</Trans>
+            </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.debtRatio / 10000000, 2)}%`}
             </Typography>
           </div>
 
           <div className="data-row">
-            <Typography>Vesting Term</Typography>
+            <Typography>
+              <Trans>Vesting Term</Trans>
+            </Typography>
             <Typography>{isBondLoading ? <Skeleton width="100px" /> : vestingPeriod()}</Typography>
           </div>
 
           {recipientAddress !== address && (
             <div className="data-row">
-              <Typography>Recipient</Typography>
+              <Typography>
+                <Trans>Recipient</Trans>{" "}
+              </Typography>
               <Typography>{isBondLoading ? <Skeleton width="100px" /> : shorten(recipientAddress)}</Typography>
             </div>
           )}

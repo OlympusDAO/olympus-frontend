@@ -4,6 +4,7 @@ import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Sli
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
+import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 import useBonds from "src/hooks/Bonds";
 
@@ -22,7 +23,7 @@ export function BondDataCard({ bond }) {
               <div>
                 <Link href={bond.lpUrl} target="_blank">
                   <Typography variant="body1">
-                    View Contract
+                    <Trans>View Contract</Trans>
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
                   </Typography>
                 </Link>
@@ -32,19 +33,25 @@ export function BondDataCard({ bond }) {
         </div>
 
         <div className="data-row">
-          <Typography>Price</Typography>
+          <Typography>
+            <Trans>Price</Trans>
+          </Typography>
           <Typography className="bond-price">
             <>{isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}</>
           </Typography>
         </div>
 
         <div className="data-row">
-          <Typography>ROI</Typography>
+          <Typography>
+            <Trans>ROI</Trans>
+          </Typography>
           <Typography>{isBondLoading ? <Skeleton width="50px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}</Typography>
         </div>
 
         <div className="data-row">
-          <Typography>Purchased</Typography>
+          <Typography>
+            <Trans>Purchased</Trans>
+          </Typography>
           <Typography>
             {isBondLoading ? (
               <Skeleton width="80px" />
@@ -82,7 +89,7 @@ export function BondTableData({ bond }) {
           {bond.isLP && (
             <Link color="primary" href={bond.lpUrl} target="_blank">
               <Typography variant="body1">
-                View Contract
+                <Trans>View Contract</Trans>
                 <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
               </Typography>
             </Link>
@@ -113,7 +120,9 @@ export function BondTableData({ bond }) {
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary">
-            <Typography variant="h6">Bond</Typography>
+            <Typography variant="h6">
+              <Trans>do_bond</Trans>
+            </Typography>
           </Button>
         </Link>
       </TableCell>

@@ -17,9 +17,24 @@ msgstr ""
 msgid "ADD TOKEN TO WALLET"
 msgstr "AJOUTER UN TOKEN AU PORTEFEUILLE"
 
+#: src/views/Bond/BondPurchase.jsx:125
+msgid "Amount"
+msgstr "Quantité"
+
+#: src/views/Bond/BondPurchase.jsx:163
+msgid "Approve"
+msgstr "Approuver"
+
 #: src/components/Sidebar/NavContent.jsx:121
+#: src/views/ChooseBond/ChooseBond.jsx:69
+#: src/views/ChooseBond/ChooseBond.jsx:113
+#: src/views/ChooseBond/ClaimBonds.jsx:75
 msgid "Bond"
 msgstr "Obligations"
+
+#: src/views/Bond/Bond.jsx:66
+msgid "Bond Price"
+msgstr "Prix de l'obligation"
 
 #: src/components/Sidebar/NavContent.jsx:128
 msgid "Bond discounts"
@@ -39,6 +54,39 @@ msgstr "Changer le thème"
 #~ msgid "Change language"
 #~ msgstr "Changer de langue"
 
+#: src/views/Bond/AdvancedSettings.jsx:63
+msgid "Choose recipient address. By default, this is your currently connected address"
+msgstr "Choisissez l'addresse de reception. Par défaut il s'agit de l'addresse du portefeuille avec lequel vous êtes actuellement connecté"
+
+#: src/views/Bond/BondRedeem.jsx:65
+#: src/views/ChooseBond/ClaimRow.jsx:132
+msgid "Claim"
+msgstr "Retirer"
+
+#: src/views/ChooseBond/ClaimBonds.jsx:118
+msgid "Claim all"
+msgstr "Tout retirer"
+
+#: src/views/ChooseBond/ClaimBonds.jsx:135
+msgid "Claim all and Stake"
+msgstr "Tout retirer et dépôser"
+
+#: src/views/Bond/BondRedeem.jsx:78
+msgid "Claim and Autostake"
+msgstr "Retirer et mettre en dépôt"
+
+#: src/views/ChooseBond/ClaimRow.jsx:140
+msgid "Claim and Stake"
+msgstr "Retirer et mettre en dépôt"
+
+#: src/views/ChooseBond/ClaimBonds.jsx:78
+msgid "Claimable"
+msgstr "Disponible"
+
+#: src/views/Bond/BondRedeem.jsx:94
+msgid "Claimable Rewards"
+msgstr "Récompenses disponibles"
+
 #: src/components/ConnectButton.jsx:9
 #: src/components/TopBar/ConnectMenu.jsx:19
 msgid "Connect Wallet"
@@ -47,6 +95,11 @@ msgstr "Connecter le portefeuille"
 #: src/components/Sidebar/NavContent.jsx:74
 msgid "Dashboard"
 msgstr "Tableau de bord"
+
+#: src/views/Bond/BondPurchase.jsx:227
+#: src/views/Bond/BondRedeem.jsx:118
+msgid "Debt Ratio"
+msgstr "Taux d'endettement"
 
 #: src/components/TopBar/ConnectMenu.jsx:27
 #: src/components/TopBar/ConnectMenu.jsx:110
@@ -65,6 +118,10 @@ msgstr "Faire un retour"
 msgid "Forum"
 msgstr "Forum"
 
+#: src/views/ChooseBond/ClaimBonds.jsx:84
+msgid "Fully Vested"
+msgstr "Durée restante"
+
 #: src/components/Sidebar/externalUrls.jsx:15
 msgid "Governance"
 msgstr "Gouvernance"
@@ -78,13 +135,135 @@ msgstr "En cours"
 msgid "Less than a minute"
 msgstr "Moins d'une minute"
 
+#: src/views/Bond/Bond.jsx:74
+msgid "Market Price"
+msgstr "Prix du marché"
+
+#: src/views/Bond/BondPurchase.jsx:137
+msgid "Max"
+msgstr "Max"
+
+#: src/views/Bond/BondPurchase.jsx:209
+msgid "Max You Can Buy"
+msgstr "Maximum que vous pouvez acheter"
+
+#: src/views/Bond/BondPurchase.jsx:171
+msgid "Note: The \"Approve\" transaction is only needed when bonding for the first time; subsequent bonding only requires you to perform the \"Bond\" transaction."
+msgstr "Note: La transaction \"Approuver\" n'est nécessaire que pour le premier achat; Les achats suivants ne nécessitent que la transsaction \"Acheter\"."
+
+#: src/views/ChooseBond/ChooseBond.jsx:97
+msgid "OHM Price"
+msgstr "Valeur de OHM"
+
+#: src/views/ChooseBond/ClaimBonds.jsx:81
+msgid "Pending"
+msgstr "En attente"
+
+#: src/views/Bond/BondRedeem.jsx:86
+msgid "Pending Rewards"
+msgstr "Récompenses en attente"
+
+#: src/slices/PendingTxnsSlice.ts:37
+#: src/slices/PendingTxnsSlice.ts:41
+msgid "Pending..."
+msgstr "En attente..."
+
+#: src/views/Bond/BondPurchase.jsx:50
+msgid "Please enter a valid value!"
+msgstr "Merci d'entrer une valeur valide!"
+
+#: src/views/Bond/BondPurchase.jsx:48
+msgid "Please enter a value!"
+msgstr "Merci d'entrer une valeur!"
+
+#: src/views/ChooseBond/BondRow.jsx:37
+#: src/views/ChooseBond/ChooseBond.jsx:116
+msgid "Price"
+msgstr "Prix"
+
+#: src/views/ChooseBond/BondRow.jsx:53
+#: src/views/ChooseBond/ChooseBond.jsx:122
+msgid "Purchased"
+msgstr "Acheté"
+
+#: src/views/Bond/BondPurchase.jsx:218
+#: src/views/Bond/BondRedeem.jsx:109
+#: src/views/ChooseBond/BondRow.jsx:46
+#: src/views/ChooseBond/ChooseBond.jsx:119
+msgid "ROI"
+msgstr "ROI"
+
+#: src/views/Bond/BondPurchase.jsx:244
+msgid "Recipient"
+msgstr "Récipiendaire"
+
+#: src/views/Bond/AdvancedSettings.jsx:57
+msgid "Recipient Address"
+msgstr "Adresse de retrait"
+
+#: src/views/Bond/Bond.jsx:91
+msgid "Redeem"
+msgstr "Retirer"
+
+#: src/views/Bond/AdvancedSettings.jsx:37
+msgid "Slippage"
+msgstr "Glissement"
+
 #: src/components/Sidebar/NavContent.jsx:89
 msgid "Stake"
-msgstr "Quote part (Staking)"
+msgstr "Dépôts (Staking)"
+
+#: src/slices/PendingTxnsSlice.ts:29
+msgid "Staking OHM"
+msgstr "Déposer OHM"
+
+#: src/views/Bond/BondRedeem.jsx:102
+msgid "Time until fully vested"
+msgstr "Durée avant disponibilité totale"
+
+#: src/views/Bond/AdvancedSettings.jsx:51
+msgid "Transaction may revert if price changes by more than slippage %"
+msgstr "La transaction peut-être annulée si un changement de prix supérieure au pourcentage de glissement survient"
+
+#: src/views/ChooseBond/ChooseBond.jsx:77
+msgid "Treasury Balance"
+msgstr "Solde de Trésorerie"
 
 #: src/components/TopBar/OhmMenu.jsx:137
 msgid "Unstake LP Token"
-msgstr "Retirer sa quote part en Token LP"
+msgstr "Retirer ses Token LP"
+
+#: src/slices/PendingTxnsSlice.ts:29
+msgid "Unstaking sOHM"
+msgstr "Retirer sOHM"
+
+#: src/views/Bond/BondPurchase.jsx:236
+#: src/views/Bond/BondRedeem.jsx:127
+msgid "Vesting Term"
+msgstr "Date de livraison"
+
+#: src/views/ChooseBond/BondRow.jsx:26
+#: src/views/ChooseBond/BondRow.jsx:92
+msgid "View Contract"
+msgstr "Voir le contrat"
+
+#: src/views/Bond/BondPurchase.jsx:200
+msgid "You Will Get"
+msgstr "Vous obtiendrez"
+
+#: src/views/Bond/BondPurchase.jsx:53
+msgid "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?"
+msgstr "Vous avez déjà une obligation. En acquérir une autre réinitialisera la durée de livraison. Nous vous recommendons de prendre livraison de vos récompenses ou d'utiliser un autre portefeuille. Souhaitez-vous vraiment continuer?"
+
+#: src/views/Bond/BondPurchase.jsx:185
+msgid "Your Balance"
+msgstr "Votre solde"
+
+#: src/views/Bond/Bond.jsx:90
+#: src/views/Bond/BondPurchase.jsx:152
+#: src/views/ChooseBond/BondRow.jsx:124
+msgid "do_bond"
+msgstr "Acheter"
 
 #: src/components/RebaseTimer/RebaseTimer.jsx:73
 msgid "to next rebase"

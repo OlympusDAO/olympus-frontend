@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Typography, Box, Slide } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
 import { redeemBond } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
@@ -61,7 +62,7 @@ function BondRedeem({ bond }) {
             onRedeem({ autostake: false });
           }}
         >
-          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name, "Claim")}
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name, t`Claim`)}
         </Button>
         <Button
           variant="contained"
@@ -74,45 +75,57 @@ function BondRedeem({ bond }) {
             onRedeem({ autostake: true });
           }}
         >
-          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name + "_autostake", "Claim and Autostake")}
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name + "_autostake", t`Claim and Autostake`)}
         </Button>
       </Box>
 
       <Slide direction="right" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
           <div className="data-row">
-            <Typography>Pending Rewards</Typography>
+            <Typography>
+              <Trans>Pending Rewards</Trans>
+            </Typography>
             <Typography className="price-data">
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.interestDue, 4)} OHM`}
             </Typography>
           </div>
           <div className="data-row">
-            <Typography>Claimable Rewards</Typography>
+            <Typography>
+              <Trans>Claimable Rewards</Trans>
+            </Typography>
             <Typography className="price-data">
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.pendingPayout, 4)} OHM`}
             </Typography>
           </div>
           <div className="data-row">
-            <Typography>Time until fully vested</Typography>
+            <Typography>
+              <Trans>Time until fully vested</Trans>
+            </Typography>
             <Typography className="price-data">{isBondLoading ? <Skeleton width="100px" /> : vestingTime()}</Typography>
           </div>
 
           <div className="data-row">
-            <Typography>ROI</Typography>
+            <Typography>
+              <Trans>ROI</Trans>
+            </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}
             </Typography>
           </div>
 
           <div className="data-row">
-            <Typography>Debt Ratio</Typography>
+            <Typography>
+              <Trans>Debt Ratio</Trans>
+            </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.debtRatio / 10000000, 2)}%`}
             </Typography>
           </div>
 
           <div className="data-row">
-            <Typography>Vesting Term</Typography>
+            <Typography>
+              <Trans>Vesting Term</Trans>
+            </Typography>
             <Typography>{isBondLoading ? <Skeleton width="100px" /> : vestingPeriod()}</Typography>
           </div>
         </Box>

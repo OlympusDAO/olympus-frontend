@@ -17,9 +17,24 @@ msgstr ""
 msgid "ADD TOKEN TO WALLET"
 msgstr "ADD TOKEN TO WALLET"
 
+#: src/views/Bond/BondPurchase.jsx:125
+msgid "Amount"
+msgstr "Amount"
+
+#: src/views/Bond/BondPurchase.jsx:163
+msgid "Approve"
+msgstr "Approve"
+
 #: src/components/Sidebar/NavContent.jsx:121
+#: src/views/ChooseBond/ChooseBond.jsx:69
+#: src/views/ChooseBond/ChooseBond.jsx:113
+#: src/views/ChooseBond/ClaimBonds.jsx:75
 msgid "Bond"
 msgstr "Bond"
+
+#: src/views/Bond/Bond.jsx:66
+msgid "Bond Price"
+msgstr "Bond Price"
 
 #: src/components/Sidebar/NavContent.jsx:128
 msgid "Bond discounts"
@@ -39,6 +54,39 @@ msgstr "Change Theme"
 #~ msgid "Change language"
 #~ msgstr "Change language"
 
+#: src/views/Bond/AdvancedSettings.jsx:63
+msgid "Choose recipient address. By default, this is your currently connected address"
+msgstr "Choose recipient address. By default, this is your currently connected address"
+
+#: src/views/Bond/BondRedeem.jsx:65
+#: src/views/ChooseBond/ClaimRow.jsx:132
+msgid "Claim"
+msgstr "Claim"
+
+#: src/views/ChooseBond/ClaimBonds.jsx:118
+msgid "Claim all"
+msgstr "Claim all"
+
+#: src/views/ChooseBond/ClaimBonds.jsx:135
+msgid "Claim all and Stake"
+msgstr "Claim all and Stake"
+
+#: src/views/Bond/BondRedeem.jsx:78
+msgid "Claim and Autostake"
+msgstr "Claim and Autostake"
+
+#: src/views/ChooseBond/ClaimRow.jsx:140
+msgid "Claim and Stake"
+msgstr "Claim and Stake"
+
+#: src/views/ChooseBond/ClaimBonds.jsx:78
+msgid "Claimable"
+msgstr "Claimable"
+
+#: src/views/Bond/BondRedeem.jsx:94
+msgid "Claimable Rewards"
+msgstr "Claimable Rewards"
+
 #: src/components/ConnectButton.jsx:9
 #: src/components/TopBar/ConnectMenu.jsx:19
 msgid "Connect Wallet"
@@ -47,6 +95,11 @@ msgstr "Connect Wallet"
 #: src/components/Sidebar/NavContent.jsx:74
 msgid "Dashboard"
 msgstr "Dashboard"
+
+#: src/views/Bond/BondPurchase.jsx:227
+#: src/views/Bond/BondRedeem.jsx:118
+msgid "Debt Ratio"
+msgstr "Debt Ratio"
 
 #: src/components/TopBar/ConnectMenu.jsx:27
 #: src/components/TopBar/ConnectMenu.jsx:110
@@ -65,6 +118,10 @@ msgstr "Feedback"
 msgid "Forum"
 msgstr "Forum"
 
+#: src/views/ChooseBond/ClaimBonds.jsx:84
+msgid "Fully Vested"
+msgstr "Fully Vested"
+
 #: src/components/Sidebar/externalUrls.jsx:15
 msgid "Governance"
 msgstr "Governance"
@@ -78,13 +135,135 @@ msgstr "In progress"
 msgid "Less than a minute"
 msgstr "Less than a minute"
 
+#: src/views/Bond/Bond.jsx:74
+msgid "Market Price"
+msgstr "Market Price"
+
+#: src/views/Bond/BondPurchase.jsx:137
+msgid "Max"
+msgstr "Max"
+
+#: src/views/Bond/BondPurchase.jsx:209
+msgid "Max You Can Buy"
+msgstr "Max You Can Buy"
+
+#: src/views/Bond/BondPurchase.jsx:171
+msgid "Note: The \"Approve\" transaction is only needed when bonding for the first time; subsequent bonding only requires you to perform the \"Bond\" transaction."
+msgstr "Note: The \"Approve\" transaction is only needed when bonding for the first time; subsequent bonding only requires you to perform the \"Bond\" transaction."
+
+#: src/views/ChooseBond/ChooseBond.jsx:97
+msgid "OHM Price"
+msgstr "OHM Price"
+
+#: src/views/ChooseBond/ClaimBonds.jsx:81
+msgid "Pending"
+msgstr "Pending"
+
+#: src/views/Bond/BondRedeem.jsx:86
+msgid "Pending Rewards"
+msgstr "Pending Rewards"
+
+#: src/slices/PendingTxnsSlice.ts:37
+#: src/slices/PendingTxnsSlice.ts:41
+msgid "Pending..."
+msgstr "Pending..."
+
+#: src/views/Bond/BondPurchase.jsx:50
+msgid "Please enter a valid value!"
+msgstr "Please enter a valid value!"
+
+#: src/views/Bond/BondPurchase.jsx:48
+msgid "Please enter a value!"
+msgstr "Please enter a value!"
+
+#: src/views/ChooseBond/BondRow.jsx:37
+#: src/views/ChooseBond/ChooseBond.jsx:116
+msgid "Price"
+msgstr "Price"
+
+#: src/views/ChooseBond/BondRow.jsx:53
+#: src/views/ChooseBond/ChooseBond.jsx:122
+msgid "Purchased"
+msgstr "Purchased"
+
+#: src/views/Bond/BondPurchase.jsx:218
+#: src/views/Bond/BondRedeem.jsx:109
+#: src/views/ChooseBond/BondRow.jsx:46
+#: src/views/ChooseBond/ChooseBond.jsx:119
+msgid "ROI"
+msgstr "ROI"
+
+#: src/views/Bond/BondPurchase.jsx:244
+msgid "Recipient"
+msgstr "Recipient"
+
+#: src/views/Bond/AdvancedSettings.jsx:57
+msgid "Recipient Address"
+msgstr "Recipient Address"
+
+#: src/views/Bond/Bond.jsx:91
+msgid "Redeem"
+msgstr "Redeem"
+
+#: src/views/Bond/AdvancedSettings.jsx:37
+msgid "Slippage"
+msgstr "Slippage"
+
 #: src/components/Sidebar/NavContent.jsx:89
 msgid "Stake"
 msgstr "Stake"
 
+#: src/slices/PendingTxnsSlice.ts:29
+msgid "Staking OHM"
+msgstr "Staking OHM"
+
+#: src/views/Bond/BondRedeem.jsx:102
+msgid "Time until fully vested"
+msgstr "Time until fully vested"
+
+#: src/views/Bond/AdvancedSettings.jsx:51
+msgid "Transaction may revert if price changes by more than slippage %"
+msgstr "Transaction may revert if price changes by more than slippage %"
+
+#: src/views/ChooseBond/ChooseBond.jsx:77
+msgid "Treasury Balance"
+msgstr "Treasury Balance"
+
 #: src/components/TopBar/OhmMenu.jsx:137
 msgid "Unstake LP Token"
 msgstr "Unstake LP Token"
+
+#: src/slices/PendingTxnsSlice.ts:29
+msgid "Unstaking sOHM"
+msgstr "Unstaking sOHM"
+
+#: src/views/Bond/BondPurchase.jsx:236
+#: src/views/Bond/BondRedeem.jsx:127
+msgid "Vesting Term"
+msgstr "Vesting Term"
+
+#: src/views/ChooseBond/BondRow.jsx:26
+#: src/views/ChooseBond/BondRow.jsx:92
+msgid "View Contract"
+msgstr "View Contract"
+
+#: src/views/Bond/BondPurchase.jsx:200
+msgid "You Will Get"
+msgstr "You Will Get"
+
+#: src/views/Bond/BondPurchase.jsx:53
+msgid "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?"
+msgstr "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?"
+
+#: src/views/Bond/BondPurchase.jsx:185
+msgid "Your Balance"
+msgstr "Your Balance"
+
+#: src/views/Bond/Bond.jsx:90
+#: src/views/Bond/BondPurchase.jsx:152
+#: src/views/ChooseBond/BondRow.jsx:124
+msgid "do_bond"
+msgstr "Bond"
 
 #: src/components/RebaseTimer/RebaseTimer.jsx:73
 msgid "to next rebase"

@@ -13,6 +13,7 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
 import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { formatCurrency } from "../../helpers";
@@ -64,14 +65,16 @@ function ChooseBond() {
       <Zoom in={true}>
         <Paper className="ohm-card">
           <Box className="card-header">
-            <Typography variant="h5">Bond (1,1)</Typography>
+            <Typography variant="h5">
+              <Trans>Bond</Trans> (1,1)
+            </Typography>
           </Box>
 
           <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
             <Grid item xs={6}>
               <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
                 <Typography variant="h5" color="textSecondary">
-                  Treasury Balance
+                  <Trans>Treasury Balance</Trans>
                 </Typography>
                 <Typography variant="h4">
                   {isAppLoading ? (
@@ -91,7 +94,7 @@ function ChooseBond() {
             <Grid item xs={6} className={`ohm-price`}>
               <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
                 <Typography variant="h5" color="textSecondary">
-                  OHM Price
+                  <Trans>OHM Price</Trans>
                 </Typography>
                 <Typography variant="h4">
                   {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(marketPrice, 2)}
@@ -106,10 +109,18 @@ function ChooseBond() {
                 <Table aria-label="Available bonds">
                   <TableHead>
                     <TableRow>
-                      <TableCell align="center">Bond</TableCell>
-                      <TableCell align="left">Price</TableCell>
-                      <TableCell align="left">ROI</TableCell>
-                      <TableCell align="right">Purchased</TableCell>
+                      <TableCell align="center">
+                        <Trans>Bond</Trans>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Trans>Price</Trans>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Trans>ROI</Trans>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Trans>Purchased</Trans>
+                      </TableCell>
                       <TableCell align="right"></TableCell>
                     </TableRow>
                   </TableHead>
