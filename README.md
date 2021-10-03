@@ -21,6 +21,7 @@ $ cp .env.example .env
 
 # fill in your own values in .env, then =>
 $ yarn
+$ yarn lingui compile
 $ yarn start
 ```
 
@@ -59,6 +60,15 @@ The files/folder structure are a  **WIP** and may contain some unused files. The
 ├── themes/       // Style sheets for dark vs light theme
 └── views/        // Individual Views
 ```
+
+### Working with language files
+
+Olympus uses linguijs to manage translation. https://github.com/lingui/js-lingui
+
+The language files are located in `src/locales`
+
+- Use `yarn lingui:extract` to scan the code for new translatable entries add them to the po files
+- Use `yarn lingui:compile` to compile the po files into the javascript files actually used by the application
 
 
 ## 🚀 Deployment

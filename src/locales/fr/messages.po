@@ -13,6 +13,52 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/Sidebar/NavContent.jsx:121
+msgid "Bond"
+msgstr "Obligations"
+
+#: src/components/Sidebar/NavContent.jsx:128
+msgid "Bond discounts"
+msgstr "Rabais sur les obligations"
+
+#: src/components/TopBar/LocaleSwitch.tsx:31
+#: src/components/TopBar/ThemeSwitch.jsx:12
+msgid "Change Theme"
+msgstr "Changer le thème"
+
+#: src/components/TopBar/LocaleSwitch.tsx:31
+#~ msgid "Change language"
+#~ msgstr "Changer de langue"
+
 #: src/components/Sidebar/NavContent.jsx:74
 msgid "Dashboard"
 msgstr "Tableau de bord"
+
+#: src/components/Sidebar/externalUrls.jsx:20
+msgid "Docs"
+msgstr "Documentation"
+
+#: src/components/Sidebar/externalUrls.jsx:25
+msgid "Feedback"
+msgstr "Faire un retour"
+
+#: src/components/Sidebar/externalUrls.jsx:10
+msgid "Forum"
+msgstr "Forum"
+
+#: src/components/Sidebar/externalUrls.jsx:15
+msgid "Governance"
+msgstr "Gouvernance"
+
+#: src/components/RebaseTimer/RebaseTimer.jsx:29
+#: src/components/RebaseTimer/RebaseTimer.jsx:60
+msgid "Less than a minute"
+msgstr "Moins d'une minute"
+
+#: src/components/Sidebar/NavContent.jsx:89
+msgid "Stake"
+msgstr "Participation"
+
+#: src/components/RebaseTimer/RebaseTimer.jsx:73
+msgid "to next rebase"
+msgstr "jusqu'au prochain changement de base"

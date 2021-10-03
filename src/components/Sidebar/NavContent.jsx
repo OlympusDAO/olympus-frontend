@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Social from "./Social";
-import externalUrls from "./externalUrls";
+import externalUrls from "./externalUrls.jsx";
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
@@ -86,7 +86,7 @@ function NavContent() {
               >
                 <Typography variant="h6">
                   <SvgIcon color="primary" component={StakeIcon} />
-                  Stake
+                  <Trans>Stake</Trans>
                 </Typography>
               </Link>
 
@@ -118,13 +118,15 @@ function NavContent() {
               >
                 <Typography variant="h6">
                   <SvgIcon color="primary" component={BondIcon} />
-                  Bond
+                  <Trans>Bond</Trans>
                 </Typography>
               </Link>
 
               <div className="dapp-menu-data discounts">
                 <div className="bond-discounts">
-                  <Typography variant="body2">Bond discounts</Typography>
+                  <Typography variant="body2">
+                    <Trans>Bond discounts</Trans>
+                  </Typography>
                   {bonds.map((bond, i) => (
                     <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
                       {!bond.bondDiscount ? (

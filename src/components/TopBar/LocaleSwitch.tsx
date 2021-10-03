@@ -2,7 +2,8 @@ import { useState, useEffect, MouseEvent } from "react";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, Slide } from "@material-ui/core";
 import { ReferenceObject } from "popper.js";
 import FlagIcon from "../../helpers/flagicon.js";
-import { i18n, localeDefinitions } from "../../locales";
+import { t } from "@lingui/macro";
+import { i18n as my_i18n, localeDefinitions } from "../../locales";
 import "./localesmenu.scss";
 
 function LocaleSwitcher() {
@@ -13,7 +14,7 @@ function LocaleSwitcher() {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   const selectLocale = (locale: string) => {
-    i18n.activate(locale);
+    my_i18n.activate(locale);
   };
   return (
     <Box
@@ -27,10 +28,10 @@ function LocaleSwitcher() {
         size="large"
         variant="contained"
         color="secondary"
-        title="Locale"
+        title={t`Change Theme`}
         aria-describedby={id}
       >
-        <FlagIcon code={localeDefinitions[i18n.locale].flag} />
+        <FlagIcon code={localeDefinitions[my_i18n.locale].flag} />
         <span>&nbsp;</span>
       </Button>
 
