@@ -13,6 +13,7 @@ import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
 import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
 import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
 import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
+import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
@@ -119,6 +120,27 @@ export const ohm_dai = new LPBond({
   },
   lpUrl:
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
+});
+
+export const ohm_frax = new LPBond({
+  name: "ohm_frax_lp",
+  displayName: "OHM-FRAX LP",
+  bondToken: "FRAX",
+  bondIconSvg: OhmFraxImg,
+  bondContractABI: FraxOhmBondContract,
+  reserveContract: ReserveOhmFraxContract,
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
+      reserveAddress: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
+    },
+    [NetworkID.Testnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
+    },
+  },
+  lpUrl:
+    "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
 });
 
 // TODO (appleseed-lusd): below for when we add ohm_lusd bond...
