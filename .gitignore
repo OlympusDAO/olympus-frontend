@@ -41,5 +41,5 @@ yarn-error.log*
 .idea
 *.sublime-*
 
-# Compiled locales                                                                                                                                                                                   
-src/locales/*/*.js
+# Compiled locales
+#src/locales/*/*.js
