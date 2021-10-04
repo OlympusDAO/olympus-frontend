@@ -27,29 +27,31 @@ interface IPoolInfo {
 
 export const getLusdData = createAsyncThunk(
   "stake/getLusdData",
-  async ({ provider, address, networkID }: IGetBalances) => {
-    const ohm_lusd_reserve_address = ohm_lusd.getAddressForReserve(networkID);
-    // const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
-    const crucibleStakingContract = new ethers.Contract(
-      addresses[networkID].CRUCIBLE_OHM_LUSD as string,
-      ierc20Abi,
-      provider,
-    );
-    const balance = await crucibleStakingContract.balanceOf(ohm_lusd_reserve_address);
-    console.log("go", balance);
-    const tvlUSD = parseFloat(formatEther(balance));
-    console.log(tvlUSD);
-    // NOTE (appleseed-lusd): for reference:
-    // Pickle also calcs APY another way:
-    // // from pickle https://github.com/pickle-finance/pickle-ui/blob/3074c751cbaf83bae88ada1c63bf8a4a3eeb9860/containers/Farms/useJarFarmApy.ts
-    // // https://github.com/pickle-finance/pickle-ui/blob/4aa4955ec65d75cb8ab13d6237c533bf0de2d441/containers/Jars/useJarsWithTVL.ts#L31
+  async ({ address, networkID, provider }: IGetBalances) => {
+    // only works on mainnet
+    if (networkID !== 1) {
+      // we don't have rinkeby contracts
+      return { apy: 0, tvl: 0 };
+    } else {
+      const crucibleAddress = addresses[networkID].CRUCIBLE_OHM_LUSD;
+      const ohm_lusd_reserve_address = ohm_lusd.getAddressForReserve(networkID);
+      const ohmLusdReserve = new ethers.Contract(ohm_lusd_reserve_address as string, ierc20Abi, provider);
+      const balance = await ohmLusdReserve.balanceOf(crucibleAddress);
+      const tvlUSD = parseFloat(formatEther(balance));
 
-    return {
-      apy: "TBD",
-      tvl: tvlUSD,
-      // NOTE (appleseed): balance is in accountSlice for the bond
-      // balance: ethers.utils.formatUnits(sushiOhmLusdBalance, "gwei"),
-    };
+      const apy = 0;
+      // NOTE (appleseed-lusd): for reference:
+      // Pickle also calcs APY another way:
+      // // from pickle https://github.com/pickle-finance/pickle-ui/blob/3074c751cbaf83bae88ada1c63bf8a4a3eeb9860/containers/Farms/useJarFarmApy.ts
+      // // https://github.com/pickle-finance/pickle-ui/blob/4aa4955ec65d75cb8ab13d6237c533bf0de2d441/containers/Jars/useJarsWithTVL.ts#L31
+
+      return {
+        apy: apy,
+        tvl: tvlUSD,
+        // NOTE (appleseed): balance is in accountSlice for the bond
+        // balance: ethers.utils.formatUnits(sushiOhmLusdBalance, "gwei"),
+      };
+    }
   },
 );
 
@@ -59,7 +61,6 @@ export const getLusdData = createAsyncThunk(
 export interface IUserLusdDetails {
   apy: number;
   tvl: number;
-  balance: string; //Payout formatted in gwei.
   loading: boolean;
 }
 
@@ -67,7 +68,6 @@ const initialState: IUserLusdDetails = {
   loading: false,
   apy: 0,
   tvl: 0,
-  balance: "",
 };
 
 const lusdSlice = createSlice({
