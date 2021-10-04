@@ -110,7 +110,7 @@ export default function ExternalStakePool() {
                         target="_blank"
                         className="stake-lp-button"
                       >
-                        <Typography variant="body1">Stake on Alchemist</Typography>
+                        <Typography variant="body1">Stake on Crucible</Typography>
                         <SvgIcon component={ArrowUp} color="primary" />
                       </Button>
                     </TableCell>
