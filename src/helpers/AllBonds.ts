@@ -4,10 +4,12 @@ import { addresses } from "src/constants";
 import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
 import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
 import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
+import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
 import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
 import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 
+import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
 import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
 import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
 import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
@@ -90,10 +92,11 @@ export const eth = new CustomBond({
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
     const ethBondContract = this.getContractForBond(networkID, provider);
     let ethPrice = await ethBondContract.assetPrice();
-    ethPrice = ethPrice / Math.pow(10, 18);
+    ethPrice = ethPrice / Math.pow(10, 8);
     const token = this.getContractForReserve(networkID, provider);
     let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    return (ethAmount / Math.pow(10, 18)) * ethPrice;
+    ethAmount = ethAmount / Math.pow(10, 18);
+    return ethAmount * ethPrice;
   },
 });
 
@@ -140,11 +143,33 @@ export const ohm_dai = new LPBond({
 //     "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
 // });
 
+// TODO (appleseed-lusd): below for when we add ohm_lusd bond...
+// export const ohm_lusd = new LPBond({
+//   name: "ohm_lusd_lp",
+//   displayName: "OHM-LUSD LP",
+//   bondToken: "LUSD",
+//   bondIconSvg: OhmLusdImg,
+//   bondContractABI: undefined,
+//   reserveContract: undefined,
+//   networkAddrs: {
+//     [NetworkID.Mainnet]: {
+//       bondAddress: undefined,
+//       reserveAddress: undefined,
+//     },
+//     [NetworkID.Testnet]: {
+//       bondAddress: undefined,
+//       reserveAddress: undefined,
+//     },
+//   },
+//   lpUrl:
+//     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
+// });
+
 // HOW TO ADD A NEW BOND:
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, ohm_dai, lusd];
+export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, lusd];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});

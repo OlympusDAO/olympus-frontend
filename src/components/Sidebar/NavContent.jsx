@@ -6,8 +6,9 @@ import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
+import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
 import { trim, shorten } from "../../helpers";
-import { useAddress } from "src/hooks/web3Context";
+import { useAddress, useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
 import { Paper, Link, Box, Typography, SvgIcon } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
@@ -17,6 +18,7 @@ function NavContent() {
   const [isActive] = useState();
   const address = useAddress();
   const { bonds } = useBonds();
+  const { chainID } = useWeb3Context();
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -34,7 +36,7 @@ function NavContent() {
 
   return (
     <Paper className="dapp-sidebar">
-      <Box className="dapp-sidebar" display="flex" justifyContent="space-between" flexDirection="column">
+      <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
         <div className="dapp-menu-top">
           <Box className="branding-header">
             <Link href="https://olympusdao.finance" target="_blank">
@@ -86,6 +88,23 @@ function NavContent() {
                   Stake
                 </Typography>
               </Link>
+
+              {chainID === 4 && (
+                <Link
+                  component={NavLink}
+                  id="33-together-nav"
+                  to="/33-together"
+                  isActive={(match, location) => {
+                    return checkPage(match, location, "33-together");
+                  }}
+                  className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                >
+                  <Typography variant="h6">
+                    <SvgIcon color="primary" component={PoolTogetherIcon} />
+                    3,3 Together
+                  </Typography>
+                </Link>
+              )}
 
               <Link
                 component={NavLink}

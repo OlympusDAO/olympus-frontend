@@ -9,10 +9,16 @@
 }
 
 .dapp-sidebar {
-  height: 100vh;
+  height: 100%;
+  overflow: hidden;
   border-radius: 0 !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+}
+
+.dapp-sidebar-inner {
+  height: 100%;
+  overflow: auto;
 }
 
 .branding-header {

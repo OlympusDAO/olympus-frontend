@@ -1,33 +1,32 @@
-import { useState, useCallback, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  Grid,
   Box,
-  Paper,
-  Typography,
+  Button,
   FormControl,
+  Grid,
   InputAdornment,
   InputLabel,
+  Link,
   OutlinedInput,
-  Button,
+  Paper,
   Tab,
   Tabs,
-  Link,
+  Typography,
   Zoom,
 } from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim, getTokenImage, getOhmTokenImage } from "../../helpers";
-import { changeStake, changeApproval } from "../../slices/StakeThunk";
+import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./stake.scss";
-import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "./ExternalStakePool";
+import { error } from "../../slices/MessagesSlice";
 
 function a11yProps(index) {
   return {
@@ -43,6 +42,7 @@ function Stake() {
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
+  const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
 
@@ -64,6 +64,9 @@ function Stake() {
   });
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohm;
+  });
+  const fsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.fsohm;
   });
   const stakeAllowance = useSelector(state => {
     return state.account.staking && state.account.staking.ohmStake;
@@ -101,7 +104,7 @@ function Stake() {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      alert("Please enter a value!");
+      dispatch(error("Please enter a value!"));
     } else {
       await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
@@ -128,14 +131,14 @@ function Stake() {
     setView(newView);
   };
 
-  const trimmedSOHMBalance = trim(sohmBalance, 4);
+  const trimmedBalance = Number(trim(sohmBalance, 4)) + ((fsohmBalance && Number(fsohmBalance.toFixed(4))) || 0);
   const trimmedStakingAPY = trim(stakingAPY * 100, 1);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
+  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
   return (
     <div id="stake-view">
-      <Zoom in={true}>
+      <Zoom in={true} onEntered={() => setZoomed(true)}>
         <Paper className={`ohm-card`}>
           <Grid container direction="column" spacing={2}>
             <Grid item>
@@ -146,23 +149,13 @@ function Stake() {
                 {address && oldSohmBalance > 0.01 && (
                   <Link
                     className="migrate-sohm-button"
-                    component={NavLink}
-                    to="/stake/migrate"
+                    style={{ textDecoration: "none" }}
+                    href="https://docs.olympusdao.finance/using-the-website/migrate"
                     aria-label="migrate-sohm"
+                    target="_blank"
                   >
                     <NewReleases viewBox="0 0 24 24" />
-                    <Typography>Migrate sOHM</Typography>
-                  </Link>
-                )}
-                {address && oldSohmBalance < 0.01 && (
-                  <Link
-                    component={NavLink}
-                    to="/stake/migrate"
-                    className="migrate-sohm-button complete"
-                    aria-label="migrate-sohm-complete"
-                  >
-                    <CheckCircleIcon viewBox="0 0 24 24" />
-                    <Typography>sOHM Migrated</Typography>
+                    <Typography>Migrate sOHM!</Typography>
                   </Link>
                 )}
               </div>
@@ -189,7 +182,7 @@ function Stake() {
                   <Grid item xs={6} sm={4} md={4} lg={4}>
                     <div className="stake-tvl">
                       <Typography variant="h5" color="textSecondary">
-                        TVL
+                        Total Value Deposited
                       </Typography>
                       <Typography variant="h4">
                         {stakingTVL ? (
@@ -232,6 +225,7 @@ function Stake() {
                 <>
                   <Box className="stake-action-area">
                     <Tabs
+                      key={String(zoomed)}
                       centered
                       value={view}
                       textColor="primary"
@@ -241,7 +235,7 @@ function Stake() {
                       aria-label="stake tabs"
                     >
                       <Tab label="Stake" {...a11yProps(0)} />
-                      <Tab label="Unstake" {...a11yProps(0)} />
+                      <Tab label="Unstake" {...a11yProps(1)} />
                     </Tabs>
                     <Box className="help-text">
                       {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
@@ -345,7 +339,7 @@ function Stake() {
                         {isAppLoading ? (
                           <Skeleton width="80px" />
                         ) : (
-                          <>{new Intl.NumberFormat("en-US").format(trimmedSOHMBalance)} sOHM</>
+                          <>{new Intl.NumberFormat("en-US").format(trimmedBalance)} sOHM</>
                         )}
                       </Typography>
                     </div>
