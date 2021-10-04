@@ -10,6 +10,7 @@ import useBonds from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
+import { storeQueryParameters } from "./helpers/QueryParameterHelper";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
@@ -148,6 +149,9 @@ function App() {
       // then user DOES NOT have a wallet
       setWalletChecked(true);
     }
+
+    // We want to ensure that we are storing the UTM parameters for later, even if the user follows links
+    storeQueryParameters();
   }, []);
 
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
