@@ -76,8 +76,8 @@ export function ClaimBondCardData({ userBond }) {
   const { bonds } = useBonds();
   const { address, chainID, provider } = useWeb3Context();
 
-  const bondName = userBond[0];
   const bond = userBond[1];
+  const bondName = bond.bond;
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
@@ -93,7 +93,6 @@ export function ClaimBondCardData({ userBond }) {
 
   async function onRedeem({ autostake }) {
     let currentBond = bonds.find(bnd => bnd.name === bondName);
-    console.log(currentBond);
     await dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
   }
 
