@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -27,8 +27,8 @@ import { trim } from "../../helpers";
 
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
-
+  const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
+  const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
@@ -46,8 +46,24 @@ export default function ExternalStakePool() {
   };
 
   useEffect(() => {
-    loadLusdData();
-  }, [provider]);
+    if (hasCachedProvider()) {
+      // then user DOES have a wallet
+      connect().then(() => {
+        setWalletChecked(true);
+      });
+    } else {
+      // then user DOES NOT have a wallet
+      setWalletChecked(true);
+    }
+  }, []);
+
+  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
+  useEffect(() => {
+    // don't load ANY details until wallet is Checked
+    if (walletChecked) {
+      loadLusdData();
+    }
+  }, [walletChecked]);
 
   return (
     <Zoom in={true}>
