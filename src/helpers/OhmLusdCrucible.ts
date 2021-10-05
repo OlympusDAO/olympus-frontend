@@ -11,11 +11,6 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   const crucibleAddress = addresses[networkID].CRUCIBLE_OHM_LUSD;
   const aludelContract = new ethers.Contract(crucibleAddress as string, OhmLusdCrucible, provider);
   const aludelData = await aludelContract.getAludelData();
-  console.log("aludelData", aludelData);
-  // TODO (appleseed): need USD Values
-  // usdValues[bonusTokenAddress]  * 2' // lqty price, mist price
-  // usdValues[aludelData.rewardToken]
-  // usdValues[aludelData.stakingToken];
   let ohmPrice = await getTokenPrice("olympus");
   let ohmContractAddress = addresses[networkID].OHM_ADDRESS;
   let lusdPrice = await getTokenPrice("liquity-usd");
@@ -31,7 +26,6 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   usdValues[ohmLusdContractAddress] = ohmLusdPrice;
   usdValues[lqtyContractAddress] = lqtyPrice;
   usdValues[mistContractAddress] = mistPrice;
-  console.log("usdValues", usdValues);
 
   let totalRemainingRewards = 0;
   let remainingDurations: number[] = [];
