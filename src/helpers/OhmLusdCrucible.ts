@@ -38,19 +38,31 @@ export const calcAludelAPY = async (networkID: NetworkID, provider: StaticJsonRp
   let pastDurations: number[] = [];
   let dt_now = Date.now() / 1000;
 
+  // map through all fund() calls
   aludelData.rewardSchedules.map((rs: { start: string | number; duration: string | number; shares: number }) => {
     let rewardStart: number = parseFloat(rs.start.toString());
     let rewardDuration: number = parseFloat(rs.duration.toString());
+
+    // if the reward has already ended, skip it
     if (rewardStart + rewardDuration > parseFloat(dt_now.toString())) {
+      // shares remaining for reward schedule
       totalRemainingRewards += rs.shares * (1 - (dt_now - rewardStart) / rewardDuration);
+
+      // seconds remaining of reward schedule
       remainingDurations.push(parseFloat(dt_now.toString()) - rewardStart + rewardDuration);
+
+      // seconds past since start of reward schedule
       pastDurations.push(parseFloat(dt_now.toString()) - rewardStart);
     } else {
+      // seconds since reward schedule started
       pastDurations.push(parseFloat(dt_now.toString()) - rewardStart + rewardDuration);
     }
   });
+
+  // average duration in seconds for future releases
   let avgRemainingDuration = remainingDurations.reduce((a, b) => a + b, 0) / remainingDurations.length;
 
+  // furthest start date for past funds
   let oldestDepositDate = Math.max.apply(null, pastDurations);
 
   // rewardToken is OHM for this Crucible
@@ -60,13 +72,16 @@ export const calcAludelAPY = async (networkID: NetworkID, provider: StaticJsonRp
   let rewardTokenDecimals = await rewardTokenContract.decimals();
   // let rewardTokenDecimals = 9;
 
+  // balance of rewardToken in pool
   let rewardTokenQuantity = (await rewardTokenContract.balanceOf(aludelData.rewardPool)) / 10 ** rewardTokenDecimals;
 
+  // amount of bonus tokens in program
   const bonusTokensLength = (await aludelContract.getBonusTokenSetLength()) as BigNumber;
   const bonusTokensLengthNumber = bonusTokensLength.toNumber();
 
   let bonusTokenUsdValues: number[] = [];
 
+  // get bonus tokens and their USD value
   await Promise.all(
     Array.from(Array(bonusTokensLengthNumber)).map(async (_, idx) => {
       const bonusTokenAddress = await aludelContract.getBonusTokenAtIndex(idx);
@@ -75,42 +90,65 @@ export const calcAludelAPY = async (networkID: NetworkID, provider: StaticJsonRp
       const bonusTokenDecimals = await bonusTokenContract.decimals();
       const balanceOfBonusToken = await bonusTokenContract.balanceOf(aludelData.rewardPool);
       const valueOfBonusToken = usdValues[bonusTokenAddress];
+
       const usdValueOfBonusToken = (balanceOfBonusToken / 10 ** bonusTokenDecimals) * valueOfBonusToken;
+
       bonusTokenUsdValues.push(usdValueOfBonusToken);
     }),
   );
 
+  // calculate total USD value of bonus tokens
   let totalUsdValueOfBonusTokens = bonusTokenUsdValues.reduce((a, b) => a + b, 0);
 
-  let rewardsRemainingValue = totalRemainingRewards / 10 ** 24;
+  // scale shares to token decimals + base share (10 ** 6)
+  let rewardsRemainingValue = totalRemainingRewards / 10 ** (rewardTokenDecimals + 6);
 
-  let rewardsRemainingValueUsd = rewardsRemainingValue * usdValues[aludelData.rewardToken];
-
-  let rewardsPreviouslyReleased = rewardTokenQuantity - rewardsRemainingValue;
-
-  let rewardsReleasedPercentage = rewardsPreviouslyReleased / rewardTokenQuantity;
-
+  // usd value of rewardToken
   let rewardTokenUsdValue = usdValues[aludelData.rewardToken];
 
+  // usd value of rewardToken to be released
+  let rewardsRemainingValueUsd = rewardsRemainingValue * rewardTokenUsdValue;
+
+  // amount of rewardToken that are released
+  let rewardsPreviouslyReleased = rewardTokenQuantity - rewardsRemainingValue;
+
+  // percentage of rewardToken that are released
+  let rewardsReleasedPercentage = rewardsPreviouslyReleased / rewardTokenQuantity;
+
+  // usd value of rewardToken that are released
   let rewardsPreviouslyReleasedUsdValue = rewardsPreviouslyReleased * rewardTokenUsdValue;
 
   let stakingTokenContract = new ethers.Contract(aludelData.stakingToken, UniswapIERC20, provider);
   let stakingTokenDecimals = await stakingTokenContract.decimals();
 
+  // total stake of stakingToken
   let totalStakedTokens = aludelData.totalStake / 10 ** stakingTokenDecimals;
+
+  // total usd value of staked stakingToken
   let totalStakedTokensUsd = totalStakedTokens * usdValues[aludelData.stakingToken];
 
   let secs_in_year = 365 * 24 * 60 * 60;
+
+  // future rewards multiplier based on avg future rewards duration
   let remainingTime = secs_in_year / avgRemainingDuration || 0;
 
+  // past rewards multiplier based on ealiest rewardShedule start date
   let pastTime = secs_in_year / oldestDepositDate || 1;
 
   let averageApy =
+    // calculate apy from released rewardToken
     (rewardsPreviouslyReleasedUsdValue * pastTime +
+      // calculate apy from released bonus tokens based on rewardToken released percentage
       totalUsdValueOfBonusTokens * rewardsReleasedPercentage * pastTime +
+      // calculate apy from future released rewardToken
       rewardsRemainingValueUsd * remainingTime +
+      // calculate apy from future released bonus tokens based on rewardToken released percentage
       totalUsdValueOfBonusTokens * (1 - rewardsReleasedPercentage) * remainingTime) /
+    // divide apy based on value of staked stakingToken
     totalStakedTokensUsd;
 
-  return averageApy;
+  return {
+    averageApy: averageApy,
+    tvlUsd: totalStakedTokensUsd,
+  };
 };

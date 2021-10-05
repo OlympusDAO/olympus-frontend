@@ -46,8 +46,8 @@ export const getLusdData = createAsyncThunk(
       // const crucibleAPY = 0;
 
       return {
-        apy: crucibleAPY,
-        tvl: tvlUSD,
+        apy: crucibleAPY.averageApy,
+        tvl: crucibleAPY.tvlUsd,
         // NOTE (appleseed): balance is in accountSlice for the bond
         // balance: ethers.utils.formatUnits(sushiOhmLusdBalance, "gwei"),
       };
