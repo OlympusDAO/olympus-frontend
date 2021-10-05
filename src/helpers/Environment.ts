@@ -109,5 +109,7 @@ export class EnvHelper {
       console.warn("Missing REACT_APP_GEOAPIFY_API_KEY environment variable");
       return null;
     }
+
+    return apiKey;
   }
 }
