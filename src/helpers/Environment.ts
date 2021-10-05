@@ -106,7 +106,8 @@ export class EnvHelper {
   static getGeoapifyAPIKey() {
     var apiKey = EnvHelper.env.REACT_APP_GEOAPIFY_API_KEY;
     if (!apiKey) {
-      throw "Missing REACT_APP_GEOAPIFY_API_KEY environment variable";
+      console.warn("Missing REACT_APP_GEOAPIFY_API_KEY environment variable");
+      return null;
     }
   }
 }
