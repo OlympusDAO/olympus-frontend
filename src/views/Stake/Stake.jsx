@@ -1,33 +1,31 @@
-import { useState, useCallback, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  Grid,
   Box,
-  Paper,
-  Typography,
+  Button,
   FormControl,
+  Grid,
   InputAdornment,
   InputLabel,
+  Link,
   OutlinedInput,
-  Button,
+  Paper,
   Tab,
   Tabs,
-  Link,
+  Typography,
   Zoom,
 } from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim, getTokenImage, getOhmTokenImage } from "../../helpers";
-import { changeStake, changeApproval } from "../../slices/StakeThunk";
+import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./stake.scss";
-import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import ExternalStakePool from "./ExternalStakePool";
+import { error } from "../../slices/MessagesSlice";
 
 function a11yProps(index) {
   return {
@@ -105,7 +103,7 @@ function Stake() {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      alert("Please enter a value!");
+      dispatch(error("Please enter a value!"));
     } else {
       await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
@@ -183,7 +181,7 @@ function Stake() {
                   <Grid item xs={6} sm={4} md={4} lg={4}>
                     <div className="stake-tvl">
                       <Typography variant="h5" color="textSecondary">
-                        TVL
+                        Total Value Deposited
                       </Typography>
                       <Typography variant="h4">
                         {stakingTVL ? (

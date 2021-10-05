@@ -10,8 +10,15 @@ export class EnvHelper {
    */
   static env = process.env;
   static alchemyTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_TESTNET_ALCHEMY}`;
-
   static whitespaceRegex = /\s+/;
+
+  /**
+   * Returns env contingent segment api key
+   * @returns segment
+   */
+  static getSegmentKey() {
+    return EnvHelper.env.REACT_APP_SEGMENT_API_KEY;
+  }
 
   static isNotEmpty(envVariable: string) {
     if (envVariable.length > 10) {
