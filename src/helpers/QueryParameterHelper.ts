@@ -52,6 +52,7 @@ export function retrieveQueryParameters() {
     return {};
   }
 
+  // TODO (appleseed & Jem): I think the issue is here
   var parsedParameters: queryString.ParsedQuery = queryString.parse(
     window.sessionStorage.getItem(sessionStorageKey) || "",
   );

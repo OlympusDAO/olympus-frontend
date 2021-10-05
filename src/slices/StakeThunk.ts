@@ -134,7 +134,11 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
+        // TODO (appleseed & Jem): remove these console logs when done debugging.
+        console.log("before Segment");
         segmentUA(uaData);
+        console.log("after Segment");
+
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
