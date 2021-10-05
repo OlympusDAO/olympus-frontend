@@ -145,7 +145,6 @@ export const ohm_frax = new LPBond({
     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
 });
 
-// TODO (appleseed-lusd): below for when we add ohm_lusd bond...
 export const ohm_lusd = new LPBond({
   name: "ohm_lusd_lp",
   displayName: "OHM-LUSD LP",
