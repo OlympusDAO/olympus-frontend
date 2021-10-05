@@ -1,11 +1,16 @@
 import { EnvHelper } from "./Environment";
 import { retrieveUTMQueryParameters } from "./QueryParameterHelper";
 
-// Obtain country from IP address
+/**
+ * Obtain country from IP address
+ * @returns the country name or an empty string
+ */
 function countryLookup() {
   // Determine the country the user is from, based on IP
   // Geoapify offers 3000 lookups/day, so we should be fine
   var apiKey = EnvHelper.getGeoapifyAPIKey();
+
+  if (!apiKey) return "";
 
   fetch("https://api.geoapify.com/v1/ipinfo?apiKey=" + apiKey, {
     method: "GET",
@@ -21,9 +26,9 @@ function countryLookup() {
       return json.country.name;
     })
     .catch(function (error) {
-      console.log(error);
+      console.error(error);
       // Set the country to a default value
-      return "Unknown";
+      return "";
     });
 }
 
