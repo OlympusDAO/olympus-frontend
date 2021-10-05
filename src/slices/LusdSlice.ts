@@ -10,7 +10,7 @@ import { setAll } from "../helpers";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { NetworkID } from "src/lib/Bond";
 import { ohm_lusd } from "../helpers/AllBonds";
-import { calcAludelAPY } from "../helpers/OhmLusdCrucible";
+import { calcAludelDetes } from "../helpers/OhmLusdCrucible";
 
 interface IGetBalances {
   address: string;
@@ -35,19 +35,14 @@ export const getLusdData = createAsyncThunk(
       // we don't have rinkeby contracts
       return { apy: 0, tvl: 0 };
     } else {
-      const crucibleAddress = addresses[networkID].CRUCIBLE_OHM_LUSD;
-      const ohmLusdReserve = ohm_lusd.getContractForReserve(networkID, provider);
-      const balance = await ohmLusdReserve.balanceOf(crucibleAddress);
-      const tvlUSD = parseFloat(formatEther(balance));
-
-      // calcing APY
-      const crucibleAPY = await calcAludelAPY(networkID, provider);
-      console.log("adata", crucibleAPY);
-      // const crucibleAPY = 0;
+      // calcing APY & tvl
+      const crucibleDetes = await calcAludelDetes(networkID, provider);
+      let avgApy = crucibleDetes.averageApy;
+      if (isNaN(avgApy)) avgApy = 0;
 
       return {
-        apy: crucibleAPY.averageApy,
-        tvl: crucibleAPY.tvlUsd,
+        apy: avgApy,
+        tvl: crucibleDetes.tvlUsd,
         // NOTE (appleseed): balance is in accountSlice for the bond
         // balance: ethers.utils.formatUnits(sushiOhmLusdBalance, "gwei"),
       };

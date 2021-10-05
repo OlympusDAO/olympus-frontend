@@ -79,7 +79,7 @@ export default function ExternalStakePool() {
                   <TableRow>
                     <TableCell>Asset</TableCell>
                     <TableCell align="left">APR</TableCell>
-                    <TableCell align="left">TVL</TableCell>
+                    <TableCell align="left">TVD</TableCell>
                     <TableCell align="left">Balance</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
@@ -97,7 +97,7 @@ export default function ExternalStakePool() {
                       {isLusdLoading ? (
                         <Skeleton width="80px" />
                       ) : lusdData.apy === 0 ? (
-                        "TBD"
+                        "Need a Calculatooooor"
                       ) : (
                         trim(lusdData.apy, 1) + "%"
                       )}
@@ -145,7 +145,15 @@ export default function ExternalStakePool() {
               <div className="pool-data">
                 <div className="data-row">
                   <Typography>APR</Typography>
-                  <Typography>{isLusdLoading ? <Skeleton width="80px" /> : trim(lusdData.apy, 1) + "%"}</Typography>
+                  <Typography>
+                    {isLusdLoading ? (
+                      <Skeleton width="80px" />
+                    ) : lusdData.apy === 0 ? (
+                      "Need a Calculatooooor"
+                    ) : (
+                      trim(lusdData.apy, 1) + "%"
+                    )}
+                  </Typography>
                 </div>
                 <div className="data-row">
                   <Typography>TVD</Typography>
