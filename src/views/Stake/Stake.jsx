@@ -372,7 +372,6 @@ function Stake() {
         </Paper>
       </Zoom>
 
-      {/* TODO (appleseed-lusd): hiding Stake Pool temporarily, when ready update button links */}
       <ExternalStakePool />
     </div>
   );

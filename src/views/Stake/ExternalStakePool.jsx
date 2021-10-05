@@ -102,7 +102,6 @@ export default function ExternalStakePool() {
                       {isLusdLoading ? <Skeleton width="80px" /> : (trim(ohmLusdReserveBalance, 2) || 0) + " SLP"}
                     </TableCell>
                     <TableCell align="center">
-                      {/* TODO (appleseed-lusd): update link to permanent farm */}
                       <Button
                         variant="outlined"
                         color="secondary"
@@ -153,16 +152,15 @@ export default function ExternalStakePool() {
                   </Typography>
                 </div>
 
-                {/* TODO (appleseed-lusd): update link to permanent farm */}
                 <Button
                   variant="outlined"
                   color="secondary"
-                  href="https://app.pickle.finance/farms"
+                  href="https://crucible.alchemist.wtf/reward-programs"
                   target="_blank"
                   className="stake-lp-button"
                   fullWidth
                 >
-                  <Typography variant="body1">Stake on Pickle</Typography>
+                  <Typography variant="body1">Stake on Crucible</Typography>
                   <SvgIcon component={ArrowUp} color="primary" />
                 </Button>
               </div>
