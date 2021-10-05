@@ -79,6 +79,14 @@ export abstract class Bond {
     const bondAddress = this.getAddressForReserve(networkID);
     return new ethers.Contract(bondAddress, this.reserveContract, provider);
   }
+
+  async getBondReservePrice(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
+    const pairContract = this.getContractForReserve(networkID, provider);
+    const reserves = await pairContract.getReserves();
+    const marketPrice = reserves[1] / reserves[0] / Math.pow(10, 9);
+
+    return marketPrice;
+  }
 }
 
 // Keep all LP specific fields/logic within the LPBond class

@@ -4,11 +4,13 @@ import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers
 
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
+import { abi as OhmLusdCrucible } from "../abi/OhmLusdCrucible.json";
 
 import { setAll } from "../helpers";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { NetworkID } from "src/lib/Bond";
 import { ohm_lusd } from "../helpers/AllBonds";
+import { calcAludelDetes } from "../helpers/OhmLusdCrucible";
 
 interface IGetBalances {
   address: string;
@@ -33,21 +35,14 @@ export const getLusdData = createAsyncThunk(
       // we don't have rinkeby contracts
       return { apy: 0, tvl: 0 };
     } else {
-      const crucibleAddress = addresses[networkID].CRUCIBLE_OHM_LUSD;
-      const ohm_lusd_reserve_address = ohm_lusd.getAddressForReserve(networkID);
-      const ohmLusdReserve = new ethers.Contract(ohm_lusd_reserve_address as string, ierc20Abi, provider);
-      const balance = await ohmLusdReserve.balanceOf(crucibleAddress);
-      const tvlUSD = parseFloat(formatEther(balance));
-
-      const apy = 0;
-      // NOTE (appleseed-lusd): for reference:
-      // Pickle also calcs APY another way:
-      // // from pickle https://github.com/pickle-finance/pickle-ui/blob/3074c751cbaf83bae88ada1c63bf8a4a3eeb9860/containers/Farms/useJarFarmApy.ts
-      // // https://github.com/pickle-finance/pickle-ui/blob/4aa4955ec65d75cb8ab13d6237c533bf0de2d441/containers/Jars/useJarsWithTVL.ts#L31
+      // calcing APY & tvl
+      const crucibleDetes = await calcAludelDetes(networkID, provider);
+      let avgApy = crucibleDetes.averageApy;
+      if (isNaN(avgApy)) avgApy = 0;
 
       return {
-        apy: apy,
-        tvl: tvlUSD,
+        apy: avgApy,
+        tvl: crucibleDetes.tvlUsd,
         // NOTE (appleseed): balance is in accountSlice for the bond
         // balance: ethers.utils.formatUnits(sushiOhmLusdBalance, "gwei"),
       };
