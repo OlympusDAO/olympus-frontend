@@ -11,7 +11,9 @@ import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 
 import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
 import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
+import { abi as BondOhmLusdContract } from "src/abi/bonds/OhmLusdContract.json";
 import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
+import { abi as ReserveOhmLusdContract } from "src/abi/reserves/OhmLusd.json";
 import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
 import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
@@ -143,27 +145,27 @@ export const ohm_frax = new LPBond({
     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
 });
 
-// TODO (appleseed-lusd): below for when we add ohm_lusd bond...
-// export const ohm_lusd = new LPBond({
-//   name: "ohm_lusd_lp",
-//   displayName: "OHM-LUSD LP",
-//   bondToken: "LUSD",
-//   bondIconSvg: OhmLusdImg,
-//   bondContractABI: undefined,
-//   reserveContract: undefined,
-//   networkAddrs: {
-//     [NetworkID.Mainnet]: {
-//       bondAddress: undefined,
-//       reserveAddress: undefined,
-//     },
-//     [NetworkID.Testnet]: {
-//       bondAddress: undefined,
-//       reserveAddress: undefined,
-//     },
-//   },
-//   lpUrl:
-//     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
-// });
+export const ohm_lusd = new LPBond({
+  name: "ohm_lusd_lp",
+  displayName: "OHM-LUSD LP",
+  bondToken: "LUSD",
+  bondIconSvg: OhmLusdImg,
+  bondContractABI: BondOhmLusdContract,
+  reserveContract: ReserveOhmLusdContract,
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      bondAddress: "0xFB1776299E7804DD8016303Df9c07a65c80F67b6",
+      reserveAddress: "0xfDf12D1F85b5082877A6E070524f50F6c84FAa6b",
+    },
+    [NetworkID.Testnet]: {
+      // NOTE (appleseed-lusd): using ohm-dai rinkeby contracts
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
+  },
+  lpUrl:
+    "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
+});
 
 // HOW TO ADD A NEW BOND:
 // Is it a stableCoin bond? use `new StableBond`

@@ -25,6 +25,7 @@ import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
+import ExternalStakePool from "./ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
 
 function a11yProps(index) {
@@ -376,8 +377,7 @@ function Stake() {
         </Paper>
       </Zoom>
 
-      {/* TODO (appleseed-lusd): hiding Stake Pool temporarily, when ready update button links */}
-      {/* <ExternalStakePool /> */}
+      <ExternalStakePool />
     </div>
   );
 }
