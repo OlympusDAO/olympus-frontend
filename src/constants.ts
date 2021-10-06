@@ -59,6 +59,7 @@ export const addresses: IAddresses = {
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
     FUSE_6_SOHM: "0x59bd6774c22486d9f4fab2d448dce4f892a9ae25", // Tetranode's Locker
     FUSE_18_SOHM: "0x6eDa4b59BaC787933A4A21b65672539ceF6ec97b", // Olympus Pool Party
+    WSOHM_ADDRESS: "0xCa76543Cf381ebBB277bE79574059e32108e3E65", // Abracadabra wrapped sOHM
     // TODO (appleseed-33t): These are currently all rinkeby addresses (change before prod launch)
     PT_UNUSED_POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
     PT_TOKEN_ADDRESS: "0x0a2d026bacc573a8b5a2b049f956bdf8e5256cfd", // 33T token address, taken from `ticket` function on PRIZE_STRATEGY_ADDRESS
