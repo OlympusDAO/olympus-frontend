@@ -14,7 +14,9 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   let ohmPrice = await getTokenPrice("olympus");
   let ohmContractAddress = addresses[networkID].OHM_ADDRESS;
   let lusdPrice = await getTokenPrice("liquity-usd");
+  // let lusdContractAddress = "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0";
   let ohmLusdPrice = await ohm_lusd.getBondReservePrice(networkID, provider);
+  // console.log("ohmLusdPrice", ohmLusdPrice);
   let ohmLusdContractAddress = ohm_lusd.getAddressForReserve(networkID);
   let lqtyPrice = await getTokenPrice("liquity");
   let lqtyContractAddress = addresses[networkID].LQTY;
@@ -27,11 +29,13 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   usdValues[lqtyContractAddress] = lqtyPrice;
   usdValues[mistContractAddress] = mistPrice;
 
+  // console.log("usdValues", usdValues);
   let totalRemainingRewards = 0;
   let remainingDurations: number[] = [];
   let pastDurations: number[] = [];
   let dt_now = Date.now() / 1000;
 
+  // console.log("aludelData", aludelData);
   // map through all fund() calls
   aludelData.rewardSchedules.map((rs: { start: string | number; duration: string | number; shares: number }) => {
     let rewardStart: number = parseFloat(rs.start.toString());
@@ -64,10 +68,13 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   // const rewardTokenContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, UniswapIERC20, provider);
 
   let rewardTokenDecimals = await rewardTokenContract.decimals();
+  // console.log("rewardTokenDecimals", rewardTokenDecimals);
   // let rewardTokenDecimals = 9;
 
+  let rewardPoolBalance = await rewardTokenContract.balanceOf(aludelData.rewardPool);
+  // console.log("rewardPoolBalance", rewardPoolBalance.toNumber(), rewardPoolBalance);
   // balance of rewardToken in pool
-  let rewardTokenQuantity = (await rewardTokenContract.balanceOf(aludelData.rewardPool)) / 10 ** rewardTokenDecimals;
+  let rewardTokenQuantity = rewardPoolBalance / 10 ** rewardTokenDecimals;
 
   // amount of bonus tokens in program
   const bonusTokensLength = (await aludelContract.getBonusTokenSetLength()) as BigNumber;
@@ -113,13 +120,24 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   let rewardsPreviouslyReleasedUsdValue = rewardsPreviouslyReleased * rewardTokenUsdValue;
 
   let stakingTokenContract = new ethers.Contract(aludelData.stakingToken, UniswapIERC20, provider);
+  let ohmContract = new ethers.Contract("0x383518188c0c6d7730d91b2c03a03c837814a899", UniswapIERC20, provider);
+  let lusdContract = new ethers.Contract("0x5f98805A4E8be255a32880FDeC7F6728C6568bA0", UniswapIERC20, provider);
+
   let stakingTokenDecimals = await stakingTokenContract.decimals();
-
+  // console.log("stakingTokenDecimals", stakingTokenDecimals);
   // total stake of stakingToken
-  let totalStakedTokens = aludelData.totalStake / 10 ** stakingTokenDecimals;
+  // let totalStakedTokens = aludelData.totalStake / 10 ** stakingTokenDecimals;
 
+  // console.log("totalStakedTokens", totalStakedTokens);
   // total usd value of staked stakingToken
-  let totalStakedTokensUsd = totalStakedTokens * usdValues[aludelData.stakingToken];
+  // let totalStakedTokensUsd = totalStakedTokens * usdValues[aludelData.stakingToken];
+
+  // note appleseed fix
+  let stakedOhm = (await ohmContract.balanceOf(aludelData.stakingToken)) / 10 ** 9;
+  let stakedLusd = (await lusdContract.balanceOf(aludelData.stakingToken)) / 10 ** 18;
+
+  let totalStakedTokensUsd = stakedOhm * ohmPrice + stakedLusd * lusdPrice;
+  // console.log("staked", stakedOhm, stakedLusd, totalStakedTokensUsd);
 
   let secs_in_year = 365 * 24 * 60 * 60;
 

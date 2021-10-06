@@ -97,7 +97,7 @@ export default function ExternalStakePool() {
                       {isLusdLoading ? (
                         <Skeleton width="80px" />
                       ) : lusdData.apy === 0 ? (
-                        "Need a Calculatooooor"
+                        "Coming Soon"
                       ) : (
                         trim(lusdData.apy, 1) + "%"
                       )}
@@ -148,7 +148,7 @@ export default function ExternalStakePool() {
                     {isLusdLoading ? (
                       <Skeleton width="80px" />
                     ) : lusdData.apy === 0 ? (
-                      "Need a Calculatooooor"
+                      "Coming Soon"
                     ) : (
                       trim(lusdData.apy, 1) + "%"
                     )}
