@@ -158,12 +158,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
+    // handling Ledger Live;
     let rawProvider;
     if (isIframe()) {
-      const iframeProvider = new IFrameEthereumProvider();
-      rawProvider = await iframeProvider.enable();
+      rawProvider = new IFrameEthereumProvider();
     } else {
-      // TODO (appleseed-ledger): verify this
       rawProvider = await web3Modal.connect();
     }
 
@@ -171,6 +170,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     // ... see here: https://github.com/Web3Modal/web3modal/blob/2ff929d0e99df5edf6bb9e88cff338ba6d8a3991/example/src/App.tsx#L185
     _initListeners(rawProvider);
     const connectedProvider = new Web3Provider(rawProvider, "any");
+    // const connectedProvider = new Web3Provider(rawProvider, "any");
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
     const connectedAddress = await connectedProvider.getSigner().getAddress();
 
