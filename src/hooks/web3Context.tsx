@@ -2,6 +2,7 @@ import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallb
 import Web3Modal from "web3modal";
 import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { EnvHelper } from "../helpers/Environment";
 
 /**
@@ -10,6 +11,13 @@ import { EnvHelper } from "../helpers/Environment";
  */
 function getTestnetURI() {
   return EnvHelper.alchemyTestnetURI;
+}
+
+/**
+ * determine if in IFrame for Ledger Live
+ */
+function isIframe() {
+  return window.location !== window.parent.location;
 }
 
 const ALL_URIs = EnvHelper.getAPIUris();
@@ -150,14 +158,19 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
-    const rawProvider = await web3Modal.connect();
+    let rawProvider;
+    if (isIframe()) {
+      const iframeProvider = new IFrameEthereumProvider();
+      rawProvider = await iframeProvider.enable();
+    } else {
+      // TODO (appleseed-ledger): verify this
+      rawProvider = await web3Modal.connect();
+    }
 
     // new _initListeners implementation matches Web3Modal Docs
     // ... see here: https://github.com/Web3Modal/web3modal/blob/2ff929d0e99df5edf6bb9e88cff338ba6d8a3991/example/src/App.tsx#L185
     _initListeners(rawProvider);
-
     const connectedProvider = new Web3Provider(rawProvider, "any");
-
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
     const connectedAddress = await connectedProvider.getSigner().getAddress();
 
@@ -191,14 +204,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal }),
     [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal],
   );
-
-  useEffect(() => {
-    // Don't try to connect here. Do it in App.jsx
-    // console.log(hasCachedProvider());
-    // if (hasCachedProvider()) {
-    //   connect();
-    // }
-  }, []);
 
   // initListeners needs to be run on rawProvider... see connect()
   // useEffect(() => {
