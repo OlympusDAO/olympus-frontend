@@ -2,7 +2,6 @@ import { retrieveUTMQueryParameters } from "./QueryParameterHelper";
 
 // Pushing data to segment analytics
 export function segmentUA(data) {
-  const stringifiedData = JSON.stringify(data);
   var analytics = (window.analytics = window.analytics);
 
   // Ensure that any UTM query parameters are sent along to Segment

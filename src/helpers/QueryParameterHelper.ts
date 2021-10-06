@@ -55,7 +55,7 @@ export function retrieveQueryParameters() {
   var parsedParameters: queryString.ParsedQuery = queryString.parse(
     window.sessionStorage.getItem(sessionStorageKey) || "",
   );
-  console.debug("Retrieved query parameters from session storage: " + parsedParameters);
+  console.debug("Retrieved query parameters from session storage: " + JSON.stringify(parsedParameters));
 
   return parsedParameters;
 }
@@ -71,6 +71,6 @@ export function retrieveUTMQueryParameters() {
     filteredQueryParameters[key] = queryParameters[key];
   }
 
-  console.debug("Filtered query parameters for UTM prefix: " + filteredQueryParameters);
+  console.debug("Filtered query parameters for UTM prefix: " + JSON.stringify(filteredQueryParameters));
   return filteredQueryParameters;
 }
