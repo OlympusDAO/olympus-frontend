@@ -37,8 +37,6 @@ export const getLusdData = createAsyncThunk(
     } else {
       // calcing APY & tvl
       const crucibleDetes = await calcAludelDetes(networkID, provider);
-      // console.log(crucibleDetes);
-
       let avgApy = crucibleDetes.averageApy;
       if (isNaN(avgApy)) avgApy = 0;
 
