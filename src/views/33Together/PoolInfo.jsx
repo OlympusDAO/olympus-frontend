@@ -141,7 +141,7 @@ PoolInfo.propTypes = {
   poolBalance: PropTypes.string,
   sohmBalance: PropTypes.string,
   yourOdds: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  winners: PropTypes.number,
+  winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   totalDeposits: PropTypes.number,
   totalSponsorship: PropTypes.number,
 };

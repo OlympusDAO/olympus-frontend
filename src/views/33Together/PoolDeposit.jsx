@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -178,4 +179,9 @@ export const PoolDeposit = props => {
       )}
     </Box>
   );
+};
+
+PoolDeposit.propTypes = {
+  totalPoolDeposits: PropTypes.number,
+  winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

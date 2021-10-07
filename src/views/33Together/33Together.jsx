@@ -43,7 +43,7 @@ const PoolTogether = () => {
   const [poolDataError, setPoolDataError] = useState(null);
   const [graphLoading, setGraphLoading] = useState(true);
   const [walletChecked, setWalletChecked] = useState(false);
-  const [winners, setWinners] = useState(0);
+  const [winners, setWinners] = useState("--");
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
   const [yourOdds, setYourOdds] = useState(0);
@@ -65,36 +65,18 @@ const PoolTogether = () => {
     setGraphUrl(POOL_GRAPH_URLS[chainID]);
   }, [chainID]);
 
-  // handle new data or query errors
-  useEffect(() => {
-    if (poolDataError) {
-      console.log("pool data error: ", poolDataError);
-    }
-    console.log("pool data updated", poolData);
-  }, [poolData, poolDataError]);
-
-  // query user pool data on wallet connect
-  useEffect(() => {
-    if (address) {
-      console.log("user connected, querying pool data...");
-      // run api query for user data
-    } else {
-      console.log("user not connected");
-    }
-  }, [address]);
-
   useEffect(() => {
     apolloExt(poolDataQuery, graphUrl)
       .then(poolData => {
         const poolWinners = poolData.data.prizePool?.prizeStrategy.multipleWinners.numberOfWinners;
-        setWinners(parseFloat(poolWinners));
+        if (poolWinners) setWinners(parseFloat(poolWinners));
 
         const poolTotalDeposits = poolData.data.prizePool?.controlledTokens[0].totalSupply / 1_000_000_000;
-        setTotalDeposits(poolTotalDeposits);
+        if (poolTotalDeposits) setTotalDeposits(poolTotalDeposits);
 
         // sponsorship is deposited funds contributing to the prize without being eligible to win
         const poolTotalSponsorship = poolData.data.prizePool?.controlledTokens[1].totalSupply / 1_000_000_000;
-        setTotalSponsorship(poolTotalSponsorship);
+        if (poolTotalSponsorship) setTotalSponsorship(poolTotalSponsorship);
 
         setPoolData(poolData.data);
         setGraphLoading(false);

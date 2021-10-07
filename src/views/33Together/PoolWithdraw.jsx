@@ -201,5 +201,5 @@ export const PoolWithdraw = props => {
 
 PoolWithdraw.propTypes = {
   totalPoolDeposits: PropTypes.number,
-  winners: PropTypes.number,
+  winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

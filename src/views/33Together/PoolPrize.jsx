@@ -49,7 +49,6 @@ export const PoolPrize = () => {
   };
 
   const rngQueryFunc = () => {
-    console.log("time", poolAwardTimeRemaining, poolIsLocked);
     dispatch(getRNGStatus({ networkID: chainID, provider: provider }));
     if (poolIsLocked) dispatch(getPoolValues({ networkID: chainID, provider: provider }));
   };

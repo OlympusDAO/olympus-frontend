@@ -7,21 +7,16 @@ function InfoTooltipMulti({ messagesArray }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleHover = event => {
-    console.log("anchor", event.currentTarget);
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
   const open = Boolean(anchorEl);
   const id = open ? "info-tooltip" : undefined;
 
-  console.log("messages", messagesArray);
   var messagesRender = messagesArray.map((innerArray, i) => {
-    console.log("inner", innerArray);
     return (
       <div key={i} style={i > 0 ? { marginTop: "1rem" } : {}}>
-        <Typography variant="body2">
-          <Box sx={{ lineHeight: 1.33 }}>{innerArray}</Box>
-        </Typography>
+        <Typography variant="body2">{innerArray}</Typography>
       </div>
     );
   });
