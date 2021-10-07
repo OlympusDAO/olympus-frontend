@@ -14,7 +14,7 @@ const localeDefinitions: Record<Locale, LocaleDefinition> = {
   en: { locale: "en", messages: enMessages, flag: "us" },
   fr: { locale: "fr", messages: frMessages, flag: "fr" },
 };
-const defaultLanguage: Locale = "fr";
+const defaultLanguage: Locale = "en";
 
 for (const [locale, localeDefinition] of Object.entries(localeDefinitions)) {
   i18n.load(locale, localeDefinition.messages);
