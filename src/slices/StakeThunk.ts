@@ -134,9 +134,8 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
-        segmentUA(uaData);
-
         dispatch(clearPendingTxn(stakeTx.hash));
+        segmentUA(uaData);
       }
     }
     dispatch(getBalances({ address, networkID, provider }));
