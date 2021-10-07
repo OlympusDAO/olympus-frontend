@@ -128,6 +128,13 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
 
   let totalStakedTokensUsd = stakedOhm * ohmPrice + stakedLusd * lusdPrice;
 
+  let stakingTokenContract = new ethers.Contract(aludelData.stakingToken, UniswapIERC20, provider);
+  let sushiTokenSupply = (await stakingTokenContract.totalSupply()) / 10 ** 18;
+  // total stake of stakingToken with 18 decimals
+  let aludelTotalStakedTokens = aludelData.totalStake / 10 ** 18;
+  // total usd value of staked stakingToken is the percent of aludel-staked over sushi-staked times sushi staked USD
+  let aludelTotalStakedTokensUsd = (aludelTotalStakedTokens / sushiTokenSupply) * totalStakedTokensUsd;
+
   let secs_in_year = 365 * 24 * 60 * 60;
 
   // future rewards multiplier based on avg future rewards duration
@@ -147,10 +154,10 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
     totalUsdValueOfBonusTokens * (1 - rewardsReleasedPercentage) * remainingTime;
 
   // divide apy based on value of staked stakingToken
-  let averageApy = (numerator / totalStakedTokensUsd) * 100;
+  let averageApy = (numerator / aludelTotalStakedTokensUsd) * 100;
 
   return {
     averageApy: averageApy,
-    tvlUsd: totalStakedTokensUsd,
+    tvlUsd: aludelTotalStakedTokensUsd,
   };
 };
