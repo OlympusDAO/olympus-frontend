@@ -213,8 +213,8 @@ export const bondAsset = createAsyncThunk(
       } else dispatch(error(rpcError.message));
     } finally {
       if (bondTx) {
-        dispatch(clearPendingTxn(bondTx.hash));
         segmentUA(uaData);
+        dispatch(clearPendingTxn(bondTx.hash));
       }
     }
   },
@@ -265,8 +265,8 @@ export const redeemBond = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (redeemTx) {
-        dispatch(clearPendingTxn(redeemTx.hash));
         segmentUA(uaData);
+        dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
   },
