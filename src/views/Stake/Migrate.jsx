@@ -14,6 +14,7 @@ import {
   SvgIcon,
   Typography,
 } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
 import { ACTIONS, changeStake, getApproval, TYPES } from "../../slices/MigrateThunk";
 import { useDispatch, useSelector } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";

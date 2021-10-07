@@ -15,6 +15,7 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
@@ -107,7 +108,7 @@ function Stake() {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      dispatch(error("Please enter a value!"));
+      dispatch(error(t`Please enter a value!`));
     } else {
       await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
@@ -164,7 +165,9 @@ function Stake() {
                     target="_blank"
                   >
                     <NewReleases viewBox="0 0 24 24" />
-                    <Typography>Migrate sOHM!</Typography>
+                    <Typography>
+                      <Trans>Migrate sOHM!</Trans>
+                    </Typography>
                   </Link>
                 )}
               </div>
@@ -176,7 +179,7 @@ function Stake() {
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-apy">
                       <Typography variant="h5" color="textSecondary">
-                        APY
+                        <Trans>APY</Trans>
                       </Typography>
                       <Typography variant="h4">
                         {stakingAPY ? (
@@ -191,7 +194,7 @@ function Stake() {
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-tvl">
                       <Typography variant="h5" color="textSecondary">
-                        Total Value Deposited
+                        <Trans>Total Value Deposited</Trans>
                       </Typography>
                       <Typography variant="h4">
                         {stakingTVL ? (
@@ -211,7 +214,7 @@ function Stake() {
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-index">
                       <Typography variant="h5" color="textSecondary">
-                        Current Index
+                        <Trans>Current Index</Trans>
                       </Typography>
                       <Typography variant="h4">
                         {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
@@ -228,7 +231,9 @@ function Stake() {
                   <div className="wallet-menu" id="wallet-menu">
                     {modalButton}
                   </div>
-                  <Typography variant="h6">Connect your wallet to stake OHM</Typography>
+                  <Typography variant="h6">
+                    <Trans>Connect your wallet to stake OHM</Trans>
+                  </Typography>
                 </div>
               ) : (
                 <>
@@ -243,15 +248,17 @@ function Stake() {
                       onChange={changeView}
                       aria-label="stake tabs"
                     >
-                      <Tab label="Stake" {...a11yProps(0)} />
-                      <Tab label="Unstake" {...a11yProps(1)} />
+                      <Tab label={t`do_stake`} {...a11yProps(0)} />
+                      <Tab label={t`Unstake`} {...a11yProps(1)} />
                     </Tabs>
                     <Box className="help-text">
                       {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
                         <Typography variant="body2" className="stake-note" color="textSecondary">
-                          Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
-                          subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
-                          transaction.
+                          <Trans>
+                            Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
+                            subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
+                            transaction.
+                          </Trans>
                         </Typography>
                       )}
                     </Box>
@@ -287,7 +294,7 @@ function Stake() {
                               onChangeStake("stake");
                             }}
                           >
-                            {txnButtonText(pendingTransactions, "staking", "Stake OHM")}
+                            {txnButtonText(pendingTransactions, "staking", t`Stake OHM`)}
                           </Button>
                         ) : (
                           <Button
@@ -299,7 +306,7 @@ function Stake() {
                               onSeekApproval("ohm");
                             }}
                           >
-                            {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
+                            {txnButtonText(pendingTransactions, "approve_staking", t`Approve`)}
                           </Button>
                         )}
                       </TabPanel>
@@ -315,7 +322,7 @@ function Stake() {
                               onChangeStake("unstake");
                             }}
                           >
-                            {txnButtonText(pendingTransactions, "unstaking", "Unstake OHM")}
+                            {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
                           </Button>
                         ) : (
                           <Button
@@ -327,7 +334,7 @@ function Stake() {
                               onSeekApproval("sohm");
                             }}
                           >
-                            {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
+                            {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
                           </Button>
                         )}
                       </TabPanel>
@@ -336,35 +343,45 @@ function Stake() {
 
                   <div className={`stake-user-data`}>
                     <div className="data-row">
-                      <Typography variant="body1">Your Balance</Typography>
+                      <Typography variant="body1">
+                        <Trans>Your Balance</Trans>
+                      </Typography>
                       <Typography variant="body1">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
                       </Typography>
                     </div>
 
                     <div className="data-row">
-                      <Typography variant="body1">Your Staked Balance</Typography>
+                      <Typography variant="body1">
+                        <Trans>Your Staked Balance</Trans>
+                      </Typography>
                       <Typography variant="body1">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
                       </Typography>
                     </div>
 
                     <div className="data-row">
-                      <Typography variant="body1">Next Reward Amount</Typography>
+                      <Typography variant="body1">
+                        <Trans>Next Reward Amount</Trans>
+                      </Typography>
                       <Typography variant="body1">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
                       </Typography>
                     </div>
 
                     <div className="data-row">
-                      <Typography variant="body1">Next Reward Yield</Typography>
+                      <Typography variant="body1">
+                        <Trans>Next Reward Yield</Trans>
+                      </Typography>
                       <Typography variant="body1">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}
                       </Typography>
                     </div>
 
                     <div className="data-row">
-                      <Typography variant="body1">ROI (5-Day Rate)</Typography>
+                      <Typography variant="body1">
+                        <Trans>ROI (5-Day Rate)</Trans>
+                      </Typography>
                       <Typography variant="body1">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>}
                       </Typography>

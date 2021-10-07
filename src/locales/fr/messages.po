@@ -21,14 +21,28 @@ msgstr "3, 3 Together"
 msgid "ADD TOKEN TO WALLET"
 msgstr "AJOUTER UN TOKEN AU PORTEFEUILLE"
 
+#: src/views/Stake/ExternalStakePool.jsx:87
+msgid "APR"
+msgstr "APR"
+
+#: src/views/Stake/Stake.jsx:182
+msgid "APY"
+msgstr "APY"
+
 #: src/views/Bond/BondPurchase.jsx:125
 msgid "Amount"
 msgstr "Quantité"
 
 #: src/views/33Together/PoolDeposit.jsx:154
 #: src/views/Bond/BondPurchase.jsx:163
+#: src/views/Stake/Stake.jsx:309
+#: src/views/Stake/Stake.jsx:337
 msgid "Approve"
 msgstr "Approuver"
+
+#: src/views/Stake/ExternalStakePool.jsx:84
+msgid "Asset"
+msgstr "Actif"
 
 #: src/views/33Together/PoolPrize.jsx:123
 msgid "Award Balance will grow at 1st rebase."
@@ -37,6 +51,11 @@ msgstr "La taille de la récompense augmentera au 1er rebasement"
 #: src/views/33Together/PoolPrize.jsx:231
 msgid "Award period has finished, click 'Start Award' to begin distribution"
 msgstr "La période de récompense est écoulée, cliquez sur 'Récompenser' pour démarrer la distribution"
+
+#: src/views/Stake/ExternalStakePool.jsx:93
+#: src/views/Stake/ExternalStakePool.jsx:189
+msgid "Balance"
+msgstr "Solde"
 
 #: src/components/Sidebar/NavContent.jsx:121
 #: src/views/ChooseBond/ChooseBond.jsx:69
@@ -109,10 +128,22 @@ msgstr "Récompenses disponibles"
 msgid "Click 'Complete Award' to distribute and start a new prize period"
 msgstr "Cliquez sur 'Récompenser' pour démarrer la distribution"
 
+#: src/views/Stake/ExternalStakePool.jsx:164
+msgid "Coming Soon"
+msgstr "Disponible prochainement"
+
 #: src/components/ConnectButton.jsx:9
 #: src/components/TopBar/ConnectMenu.jsx:19
 msgid "Connect Wallet"
 msgstr "Connecter le portefeuille"
+
+#: src/views/Stake/Stake.jsx:235
+msgid "Connect your wallet to stake OHM"
+msgstr "Connectez votre portefeuille pour déposer des OHM"
+
+#: src/views/Stake/Stake.jsx:217
+msgid "Current Index"
+msgstr "Indice actuel"
 
 #: src/views/33Together/PoolPrize.jsx:130
 msgid "Current Prize"
@@ -172,6 +203,10 @@ msgstr "Entrez un montant"
 msgid "Exit Fee Decay Time"
 msgstr "Temps d'érosion des frais de sortie"
 
+#: src/views/Stake/ExternalStakePool.jsx:74
+msgid "Farm Pool"
+msgstr "Fermes"
+
 #: src/components/Sidebar/externalUrls.jsx:25
 msgid "Feedback"
 msgstr "Faire un retour"
@@ -211,13 +246,29 @@ msgstr "Max"
 msgid "Max You Can Buy"
 msgstr "Maximum que vous pouvez acheter"
 
+#: src/views/Stake/Stake.jsx:169
+msgid "Migrate sOHM!"
+msgstr "Migrez vos sOHM"
+
+#: src/views/Stake/Stake.jsx:365
+msgid "Next Reward Amount"
+msgstr "Montant de la prochaine récompense"
+
+#: src/views/Stake/Stake.jsx:374
+msgid "Next Reward Yield"
+msgstr "Pourcentage de gain de la prochaine récompense"
+
 #: src/views/33Together/PoolPrize.jsx:140
 msgid "Next award"
 msgstr "Prochaine récompense"
 
 #: src/views/Bond/BondPurchase.jsx:171
 msgid "Note: The \"Approve\" transaction is only needed when bonding for the first time; subsequent bonding only requires you to perform the \"Bond\" transaction."
-msgstr "Note: La transaction \"Approuver\" n'est nécessaire que pour le premier achat; Les achats suivants ne nécessitent que la transsaction \"Acheter\"."
+msgstr "Note: La transaction \"Approuver\" n'est nécessaire que pour le premier achat; Les achats suivants ne nécessitent que la transaction \"Acheter\"."
+
+#: src/views/Stake/Stake.jsx:257
+msgid "Note: The \"Approve\" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only requires you to perform the \"Stake\" or \"Unstake\" transaction."
+msgstr "Note: La transaction \"Approuver\" n'est nécessaire que pour le premier dépôt/retrait; Les achats suivants ne nécessitent que la transaction \"Acheter\"."
 
 #: src/views/ChooseBond/ChooseBond.jsx:97
 msgid "OHM Price"
@@ -247,6 +298,7 @@ msgstr "Merci d'entrer une valeur valide!"
 #: src/views/33Together/PoolDeposit.jsx:63
 #: src/views/33Together/PoolWithdraw.jsx:59
 #: src/views/Bond/BondPurchase.jsx:48
+#: src/views/Stake/Stake.jsx:111
 msgid "Please enter a value!"
 msgstr "Merci d'entrer une valeur!"
 
@@ -283,6 +335,10 @@ msgstr "Acheté"
 msgid "ROI"
 msgstr "ROI"
 
+#: src/views/Stake/Stake.jsx:383
+msgid "ROI (5-Day Rate)"
+msgstr "ROI (Sur 5 jours)"
+
 #: src/views/33Together/PoolWithdraw.jsx:173
 msgid "Read more about Fairness"
 msgstr "A propos de l'équité"
@@ -311,6 +367,15 @@ msgstr "Quelque chose ne va pas ami? Vérifie sur le site Pool Together."
 msgid "Stake"
 msgstr "Dépôts (Staking)"
 
+#: src/views/Stake/Stake.jsx:297
+msgid "Stake OHM"
+msgstr "Déposez des OHM"
+
+#: src/views/Stake/ExternalStakePool.jsx:140
+#: src/views/Stake/ExternalStakePool.jsx:205
+msgid "Stake on Crucible"
+msgstr "Déposer sur Crucible"
+
 #: src/slices/PendingTxnsSlice.ts:29
 msgid "Staking OHM"
 msgstr "Déposer OHM"
@@ -318,6 +383,11 @@ msgstr "Déposer OHM"
 #: src/views/33Together/PoolPrize.jsx:228
 msgid "Start Award"
 msgstr "Démarrer la distribution des récompenses"
+
+#: src/views/Stake/ExternalStakePool.jsx:90
+#: src/views/Stake/ExternalStakePool.jsx:172
+msgid "TVD"
+msgstr "TVD"
 
 #: src/views/33Together/PoolPrize.jsx:209
 msgid "The random number generator has timed out. You must cancel the awarding process to unlock users funds users funds and start the awarding process again."
@@ -343,6 +413,10 @@ msgstr "Montant total des dépôts"
 msgid "Total Sponsorship"
 msgstr "Montant total des parrainages"
 
+#: src/views/Stake/Stake.jsx:197
+msgid "Total Value Deposited"
+msgstr "Montant total déposé"
+
 #: src/views/Bond/AdvancedSettings.jsx:51
 msgid "Transaction may revert if price changes by more than slippage %"
 msgstr "La transaction peut-être annulée si un changement de prix supérieure au pourcentage de glissement survient"
@@ -351,9 +425,17 @@ msgstr "La transaction peut-être annulée si un changement de prix supérieure 
 msgid "Treasury Balance"
 msgstr "Solde de Trésorerie"
 
+#: src/views/Stake/Stake.jsx:252
+msgid "Unstake"
+msgstr "Retirer"
+
 #: src/components/TopBar/OhmMenu.jsx:137
 msgid "Unstake LP Token"
 msgstr "Retirer ses Token LP"
+
+#: src/views/Stake/Stake.jsx:325
+msgid "Unstake OHM"
+msgstr "Retirer vos OHM"
 
 #: src/slices/PendingTxnsSlice.ts:29
 msgid "Unstaking sOHM"
@@ -414,12 +496,17 @@ msgid "You have an existing bond. Bonding will reset your vesting period and for
 msgstr "Vous avez déjà une obligation. En acquérir une autre réinitialisera la durée de livraison. Nous vous recommendons de prendre livraison de vos récompenses ou d'utiliser un autre portefeuille. Souhaitez-vous vraiment continuer?"
 
 #: src/views/Bond/BondPurchase.jsx:185
+#: src/views/Stake/Stake.jsx:347
 msgid "Your Balance"
 msgstr "Votre solde"
 
 #: src/views/33Together/PoolWithdraw.jsx:193
 msgid "Your Pooled Balance (withdrawable)"
 msgstr "Vos avoirs dans la cagnote (Récupérable)"
+
+#: src/views/Stake/Stake.jsx:356
+msgid "Your Staked Balance"
+msgstr "Votre solde en dépôt"
 
 #: src/views/33Together/PoolDeposit.jsx:181
 msgid "Your Staked Balance (Depositable)"
@@ -446,6 +533,10 @@ msgstr "jours"
 #: src/views/ChooseBond/BondRow.jsx:124
 msgid "do_bond"
 msgstr "Acheter"
+
+#: src/views/Stake/Stake.jsx:251
+msgid "do_stake"
+msgstr "Déposer"
 
 #: src/views/33Together/PoolPrize.jsx:156
 msgid "hrs"
