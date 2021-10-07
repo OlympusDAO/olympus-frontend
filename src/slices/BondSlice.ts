@@ -67,7 +67,6 @@ export const calcBondDetails = createAsyncThunk(
     if (!value) {
       value = "0";
     }
-    console.log("running BondDetails for", bond);
     const amountInWei = ethers.utils.parseEther(value);
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now

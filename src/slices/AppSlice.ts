@@ -164,7 +164,7 @@ export const findOrLoadMarketPrice = createAsyncThunk(
 const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
   let marketPrice: number;
   try {
-    marketPrice = await getTokenPrice();
+    marketPrice = await getTokenPrice("olympus");
   } catch (e) {
     console.log("Returned a null response when querying CoinGecko");
     marketPrice = await getMarketPrice({ networkID, provider });

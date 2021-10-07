@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -19,7 +19,7 @@ import { Skeleton } from "@material-ui/lab";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import BondLogo from "../../components/BondLogo";
-import OhmLusdImg from "src/assets/tokens/OHM-LUSD.svg";
+import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { getLusdData } from "../../slices/LusdSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -27,8 +27,8 @@ import { trim } from "../../helpers";
 
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
-
+  const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
+  const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
@@ -37,13 +37,33 @@ export default function ExternalStakePool() {
     return state.lusdData;
   });
 
+  const ohmLusdReserveBalance = useSelector(state => {
+    return state.account && state.account.bonds?.ohm_lusd_lp?.balance;
+  });
+
   const loadLusdData = async () => {
     await dispatch(getLusdData({ address: address, provider: provider, networkID: chainID }));
   };
 
   useEffect(() => {
-    loadLusdData();
-  }, [provider]);
+    if (hasCachedProvider()) {
+      // then user DOES have a wallet
+      connect().then(() => {
+        setWalletChecked(true);
+      });
+    } else {
+      // then user DOES NOT have a wallet
+      setWalletChecked(true);
+    }
+  }, []);
+
+  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
+  useEffect(() => {
+    // don't load ANY details until wallet is Checked
+    if (walletChecked) {
+      loadLusdData();
+    }
+  }, [walletChecked]);
 
   return (
     <Zoom in={true}>
@@ -59,7 +79,7 @@ export default function ExternalStakePool() {
                   <TableRow>
                     <TableCell>Asset</TableCell>
                     <TableCell align="left">APR</TableCell>
-                    <TableCell align="left">TVL</TableCell>
+                    <TableCell align="left">TVD</TableCell>
                     <TableCell align="left">Balance</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
@@ -74,7 +94,13 @@ export default function ExternalStakePool() {
                       </Box>
                     </TableCell>
                     <TableCell align="left">
-                      {isLusdLoading ? <Skeleton width="80px" /> : trim(lusdData.apy, 1) + "%"}
+                      {isLusdLoading ? (
+                        <Skeleton width="80px" />
+                      ) : lusdData.apy === 0 ? (
+                        "Coming Soon"
+                      ) : (
+                        trim(lusdData.apy, 1) + "%"
+                      )}
                     </TableCell>
                     <TableCell align="left">
                       {isLusdLoading ? (
@@ -89,18 +115,17 @@ export default function ExternalStakePool() {
                       )}
                     </TableCell>
                     <TableCell align="left">
-                      {isLusdLoading ? <Skeleton width="80px" /> : (trim(lusdData.balance, 2) || 0) + "LP"}
+                      {isLusdLoading ? <Skeleton width="80px" /> : (trim(ohmLusdReserveBalance, 2) || 0) + " SLP"}
                     </TableCell>
                     <TableCell align="center">
-                      {/* TODO (appleseed-lusd): update link to permanent farm */}
                       <Button
                         variant="outlined"
                         color="secondary"
-                        href="https://app.pickle.finance/farms"
+                        href="https://crucible.alchemist.wtf/reward-programs"
                         target="_blank"
                         className="stake-lp-button"
                       >
-                        <Typography variant="body1">Stake on Pickle</Typography>
+                        <Typography variant="body1">Stake on Crucible</Typography>
                         <SvgIcon component={ArrowUp} color="primary" />
                       </Button>
                     </TableCell>
@@ -119,10 +144,18 @@ export default function ExternalStakePool() {
               <div className="pool-data">
                 <div className="data-row">
                   <Typography>APR</Typography>
-                  <Typography>{isLusdLoading ? <Skeleton width="80px" /> : trim(lusdData.apy, 1) + "%"}</Typography>
+                  <Typography>
+                    {isLusdLoading ? (
+                      <Skeleton width="80px" />
+                    ) : lusdData.apy === 0 ? (
+                      "Coming Soon"
+                    ) : (
+                      trim(lusdData.apy, 1) + "%"
+                    )}
+                  </Typography>
                 </div>
                 <div className="data-row">
-                  <Typography>TVL</Typography>
+                  <Typography>TVD</Typography>
                   <Typography>
                     {isLusdLoading ? (
                       <Skeleton width="80px" />
@@ -143,16 +176,15 @@ export default function ExternalStakePool() {
                   </Typography>
                 </div>
 
-                {/* TODO (appleseed-lusd): update link to permanent farm */}
                 <Button
                   variant="outlined"
                   color="secondary"
-                  href="https://app.pickle.finance/farms"
+                  href="https://crucible.alchemist.wtf/reward-programs"
                   target="_blank"
                   className="stake-lp-button"
                   fullWidth
                 >
-                  <Typography variant="body1">Stake on Pickle</Typography>
+                  <Typography variant="body1">Stake on Crucible</Typography>
                   <SvgIcon component={ArrowUp} color="primary" />
                 </Button>
               </div>
