@@ -62,6 +62,7 @@ const PoolTogether = () => {
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
+    if (chainID !== 4) history.push("/stake");
     setGraphUrl(POOL_GRAPH_URLS[chainID]);
   }, [chainID]);
 
