@@ -11,7 +11,6 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   const crucibleAddress = addresses[networkID].CRUCIBLE_OHM_LUSD;
   const aludelContract = new ethers.Contract(crucibleAddress as string, OhmLusdCrucible, provider);
   const aludelData = await aludelContract.getAludelData();
-
   // getting contractAddresses & Pricing for calculations below
   let ohmPrice = await getTokenPrice("olympus");
   let ohmContractAddress = addresses[networkID].OHM_ADDRESS.toLowerCase();
@@ -73,11 +72,9 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   const rewardTokenContract = new ethers.Contract(aludelData.rewardToken as string, UniswapIERC20, provider);
 
   let rewardTokenDecimals = await rewardTokenContract.decimals();
-  // console.log("rewardTokenDecimals", rewardTokenDecimals);
   // let rewardTokenDecimals = 9;
 
   let rewardPoolBalance = await rewardTokenContract.balanceOf(aludelData.rewardPool);
-  // console.log("rewardPoolBalance", rewardPoolBalance.toNumber(), rewardPoolBalance);
   // balance of rewardToken in pool
   let rewardTokenQuantity = rewardPoolBalance / 10 ** rewardTokenDecimals;
 
@@ -98,7 +95,6 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
       const valueOfBonusToken = usdValues[bonusTokenAddress.toLowerCase()];
 
       const usdValueOfBonusToken = (balanceOfBonusToken / 10 ** bonusTokenDecimals) * valueOfBonusToken;
-
       bonusTokenUsdValues.push(usdValueOfBonusToken);
     }),
   );
@@ -132,6 +128,13 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
 
   let totalStakedTokensUsd = stakedOhm * ohmPrice + stakedLusd * lusdPrice;
 
+  let stakingTokenContract = new ethers.Contract(aludelData.stakingToken, UniswapIERC20, provider);
+  let sushiTokenSupply = (await stakingTokenContract.totalSupply()) / 10 ** 18;
+  // total stake of stakingToken with 18 decimals
+  let aludelTotalStakedTokens = aludelData.totalStake / 10 ** 18;
+  // total usd value of staked stakingToken is the percent of aludel-staked over sushi-staked times sushi staked USD
+  let aludelTotalStakedTokensUsd = (aludelTotalStakedTokens / sushiTokenSupply) * totalStakedTokensUsd;
+
   let secs_in_year = 365 * 24 * 60 * 60;
 
   // future rewards multiplier based on avg future rewards duration
@@ -140,20 +143,21 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   // past rewards multiplier based on ealiest rewardShedule start date
   let pastTime = secs_in_year / oldestDepositDate || 1;
 
-  let averageApy =
+  let numerator =
     // calculate apy from released rewardToken
-    (rewardsPreviouslyReleasedUsdValue * pastTime +
-      // calculate apy from released bonus tokens based on rewardToken released percentage
-      totalUsdValueOfBonusTokens * rewardsReleasedPercentage * pastTime +
-      // calculate apy from future released rewardToken
-      rewardsRemainingValueUsd * remainingTime +
-      // calculate apy from future released bonus tokens based on rewardToken released percentage
-      totalUsdValueOfBonusTokens * (1 - rewardsReleasedPercentage) * remainingTime) /
-    // divide apy based on value of staked stakingToken
-    totalStakedTokensUsd;
+    rewardsPreviouslyReleasedUsdValue * pastTime +
+    // calculate apy from released bonus tokens based on rewardToken released percentage
+    totalUsdValueOfBonusTokens * rewardsReleasedPercentage * pastTime +
+    // calculate apy from future released rewardToken
+    rewardsRemainingValueUsd * remainingTime +
+    // calculate apy from future released bonus tokens based on rewardToken released percentage
+    totalUsdValueOfBonusTokens * (1 - rewardsReleasedPercentage) * remainingTime;
+
+  // divide apy based on value of staked stakingToken
+  let averageApy = (numerator / aludelTotalStakedTokensUsd) * 100;
 
   return {
     averageApy: averageApy,
-    tvlUsd: totalStakedTokensUsd,
+    tvlUsd: aludelTotalStakedTokensUsd,
   };
 };
