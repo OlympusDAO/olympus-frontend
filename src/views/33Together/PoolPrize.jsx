@@ -1,4 +1,3 @@
-import { ethers } from "ethers";
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useWeb3Context } from "../../hooks";
@@ -7,16 +6,13 @@ import { awardProcess, getRNGStatus, getPoolValues } from "../../slices/PoolThun
 import { Paper, Box, Typography, Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
-import { POOL_GRAPH_URLS } from "../../constants";
 import { trim, subtractDates } from "src/helpers";
 
 export const PoolPrize = () => {
   const { provider, chainID } = useWeb3Context();
   const dispatch = useDispatch();
-  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState(null);
-  const [rngStarted, setRngStarted] = useState(false);
   const [showAwardStart, setShowAwardStart] = useState(false);
 
   const isPoolLoading = useSelector(state => state.poolData.loading ?? true);
@@ -46,7 +42,6 @@ export const PoolPrize = () => {
 
   let timerInterval = useRef();
 
-  // TODO (appleseed): finish these buttons
   const handleAward = async action => {
     console.log(`run ${action} on pool`);
     await dispatch(awardProcess({ action, provider, networkID: chainID }));
@@ -66,10 +61,6 @@ export const PoolPrize = () => {
     }
     setSecondsLeft(prev => prev - 1);
   };
-
-  useEffect(() => {
-    setGraphUrl(POOL_GRAPH_URLS[chainID]);
-  }, [chainID]);
 
   // the seconds countdown timer...
   useEffect(() => {
@@ -102,7 +93,7 @@ export const PoolPrize = () => {
       setTimeout(() => {
         // retry until pool is locked, then hits above block
         rngQueryFunc();
-      }, 7000);
+      }, 10000);
     }
   }, [poolAwardTimeRemaining, poolIsLocked, rngRequestCompleted]);
 

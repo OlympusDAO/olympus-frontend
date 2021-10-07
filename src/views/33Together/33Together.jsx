@@ -83,14 +83,14 @@ const PoolTogether = () => {
   useEffect(() => {
     apolloExt(poolDataQuery, graphUrl)
       .then(poolData => {
-        const poolWinners = poolData.data.prizePool.prizeStrategy.multipleWinners.numberOfWinners;
+        const poolWinners = poolData.data.prizePool?.prizeStrategy.multipleWinners.numberOfWinners;
         setWinners(parseFloat(poolWinners));
 
-        const poolTotalDeposits = poolData.data.prizePool.controlledTokens[0].totalSupply / 1_000_000_000;
+        const poolTotalDeposits = poolData.data.prizePool?.controlledTokens[0].totalSupply / 1_000_000_000;
         setTotalDeposits(poolTotalDeposits);
 
         // sponsorship is deposited funds contributing to the prize without being eligible to win
-        const poolTotalSponsorship = poolData.data.prizePool.controlledTokens[1].totalSupply / 1_000_000_000;
+        const poolTotalSponsorship = poolData.data.prizePool?.controlledTokens[1].totalSupply / 1_000_000_000;
         setTotalSponsorship(poolTotalSponsorship);
 
         setPoolData(poolData.data);
@@ -102,7 +102,7 @@ const PoolTogether = () => {
   useEffect(() => {
     let userOdds = calculateOdds(poolBalance, totalDeposits, winners);
     setYourOdds(userOdds);
-  }, [poolData, poolBalance]);
+  }, [winners, totalDeposits, poolBalance]);
 
   useEffect(() => {
     if (hasCachedProvider()) {
