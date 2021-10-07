@@ -18,6 +18,7 @@ import { calculateOdds } from "../../helpers/33Together";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { changeApproval, poolDeposit } from "../../slices/PoolThunk";
 import { Skeleton } from "@material-ui/lab";
+import { error } from "../../slices/MessagesSlice";
 
 const sohmImg = getTokenImage("sohm");
 
@@ -58,7 +59,7 @@ export const PoolDeposit = props => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      alert("Please enter a value!");
+      dispatch(error("Please enter a value!"));
     } else {
       await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
@@ -78,7 +79,7 @@ export const PoolDeposit = props => {
     let userBalanceAfterDeposit = poolBalance + value;
 
     let userOdds = calculateOdds(userBalanceAfterDeposit, props.totalPoolDeposits + value, props.winners);
-    setNewOdds(trim(userOdds, 0));
+    setNewOdds(trim(userOdds, 4));
   };
 
   if (poolIsLocked) {
@@ -168,8 +169,10 @@ export const PoolDeposit = props => {
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
-              <Typography variant="body1">Your Staked Balance (Depositable)</Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" align="left">
+                Your Staked Balance (Depositable)
+              </Typography>
+              <Typography variant="body1" align="right">
                 {isAppLoading ? (
                   <Skeleton width="80px" />
                 ) : (

@@ -22,6 +22,7 @@ import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getEarlyExitFee, poolWithdraw } from "../../slices/PoolThunk";
 import { calculateOdds } from "../../helpers/33Together";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
+import { error } from "../../slices/MessagesSlice";
 
 const sohmImg = getTokenImage("sohm");
 
@@ -54,7 +55,7 @@ export const PoolWithdraw = props => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      alert("Please enter a value!");
+      dispatch(error("Please enter a value!"));
     } else {
       await dispatch(poolWithdraw({ action, value: quantity.toString(), provider, address, networkID: chainID }));
     }
@@ -68,10 +69,10 @@ export const PoolWithdraw = props => {
     if (result.payload) {
       let userBalanceAfterWithdraw = poolBalance - quantity;
       let userOdds = calculateOdds(userBalanceAfterWithdraw, props.totalPoolDeposits, props.winners);
-      setNewOdds(trim(userOdds, 0));
+      setNewOdds(trim(userOdds, 4));
       setExitFee(result.payload.withdraw.stringExitFee);
     } else {
-      alert(result.error.message);
+      dispatch(error(result.error.message));
       setExitFee(0);
     }
   };
@@ -81,7 +82,7 @@ export const PoolWithdraw = props => {
     if (quantity > 0 && quantity <= poolBalance) {
       calcEarlyExitFee();
     } else if (quantity > poolBalance) {
-      alert("You cannot withdraw more than your pool balance");
+      dispatch(error("You cannot withdraw more than your pool balance"));
       setExitFee(0);
     }
   }, [quantity]);
@@ -180,8 +181,10 @@ export const PoolWithdraw = props => {
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
-              <Typography variant="body1">Your Pooled Balance (withdrawable)</Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" align="left">
+                Your Pooled Balance (withdrawable)
+              </Typography>
+              <Typography variant="body1" align="right">
                 {isPoolLoading ? (
                   <Skeleton width="80px" />
                 ) : (

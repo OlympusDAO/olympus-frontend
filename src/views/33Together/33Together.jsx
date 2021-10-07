@@ -138,16 +138,17 @@ const PoolTogether = () => {
           textColor="primary"
           indicatorColor="primary"
           onChange={changeView}
+          className="pt-tabs"
           aria-label="pool tabs"
         >
           <Tab label="Deposit" {...a11yProps(0)} />
           <Tab label="Withdraw" {...a11yProps(1)} />
         </Tabs>
 
-        <TabPanel value={view} index={0}>
+        <TabPanel value={view} index={0} className="pool-tab">
           <PoolDeposit totalPoolDeposits={totalDeposits} winners={winners} />
         </TabPanel>
-        <TabPanel value={view} index={1}>
+        <TabPanel value={view} index={1} className="pool-tab">
           <PoolWithdraw totalPoolDeposits={totalDeposits} winners={winners} />
         </TabPanel>
       </Paper>

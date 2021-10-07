@@ -1,21 +1,21 @@
-import { useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
-  Box,
-  Grid,
   Backdrop,
-  Paper,
+  Box,
+  Breadcrumbs,
+  Button,
   FormControl,
+  Grid,
   InputAdornment,
   InputLabel,
-  OutlinedInput,
-  Typography,
-  Button,
-  SvgIcon,
-  Breadcrumbs,
   Link,
+  OutlinedInput,
+  Paper,
+  SvgIcon,
+  Typography,
 } from "@material-ui/core";
-import { changeStake, getApproval, TYPES, ACTIONS } from "../../slices/MigrateThunk";
-import { useSelector, useDispatch } from "react-redux";
+import { ACTIONS, changeStake, getApproval, TYPES } from "../../slices/MigrateThunk";
+import { useDispatch, useSelector } from "react-redux";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { trim } from "../../helpers";
@@ -25,6 +25,7 @@ import "./stake.scss";
 import "./migrate.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { error } from "../../slices/MessagesSlice";
 
 // this will need to know the users ohmBalance, stakedSOHM, and stakedWSOHM
 
@@ -93,7 +94,7 @@ export default function Migrate() {
 
   const unStakeLegacy = async () => {
     if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
-      alert("Please enter a value!");
+      dispatch(error("Please enter a value!"));
       return;
     }
 
@@ -104,7 +105,7 @@ export default function Migrate() {
 
   const stakeOhm = async () => {
     if (Number.isNaN(quantity) || quantity === 0 || quantity === "") {
-      alert("Please enter a value!");
+      dispatch(error("Please enter a value!"));
       return;
     }
 
