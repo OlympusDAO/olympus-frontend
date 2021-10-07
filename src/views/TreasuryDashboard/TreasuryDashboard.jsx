@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Paper, Grid, Typography, Box, Zoom, Container, useMediaQuery } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { useSelector } from "react-redux";
+import { t, Trans } from "@lingui/macro";
 import Chart from "../../components/Chart/Chart.jsx";
 import { trim, formatCurrency } from "../../helpers";
 import {
@@ -81,7 +82,7 @@ function TreasuryDashboard() {
             <Box display="flex" justifyContent="space-evenly">
               <Box className="metric market">
                 <Typography variant="h6" color="textSecondary">
-                  Market Cap
+                  <Trans>Market Cap</Trans>
                 </Typography>
                 <Typography variant="h4">
                   {marketCap && formatCurrency(marketCap, 0)}
@@ -90,7 +91,7 @@ function TreasuryDashboard() {
               </Box>
               <Box className="metric price">
                 <Typography variant="h6" color="textSecondary">
-                  OHM Price
+                  <Trans>OHM Price</Trans>
                 </Typography>
                 <Typography variant="h4">
                   {/* appleseed-fix */}
@@ -100,7 +101,7 @@ function TreasuryDashboard() {
 
               <Box className="metric circ">
                 <Typography variant="h6" color="textSecondary">
-                  Circulating Supply (total)
+                  <Trans>Circulating Supply (total)</Trans>
                 </Typography>
                 <Typography variant="h4">
                   {circSupply && totalSupply ? (
@@ -113,7 +114,7 @@ function TreasuryDashboard() {
 
               <Box className="metric index">
                 <Typography variant="h6" color="textSecondary">
-                  Current Index
+                  <Trans>Current Index</Trans>
                 </Typography>
                 <Typography variant="h4">
                   {currentIndex ? trim(currentIndex, 2) + " sOHM" : <Skeleton type="text" />}
@@ -132,7 +133,7 @@ function TreasuryDashboard() {
                   data={data}
                   dataKey={["totalValueLocked"]}
                   stopColor={[["#768299", "#98B3E9"]]}
-                  headerText="Total Value Locked"
+                  headerText={t`Total Value Locked`}
                   headerSubText={`${data && formatCurrency(data[0].totalValueLocked)}`}
                   bulletpointColors={bulletpoints.tvl}
                   itemNames={tooltipItems.tvl}
@@ -160,7 +161,7 @@ function TreasuryDashboard() {
                     ["#DC30EB", "#EA98F1"],
                     ["#8BFF4D", "#4C8C2A"],
                   ]}
-                  headerText="Market Value of Treasury Assets"
+                  headerText={t`Market Value of Treasury Assets`}
                   headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
                   bulletpointColors={bulletpoints.coin}
                   itemNames={tooltipItems.coin}
@@ -184,7 +185,7 @@ function TreasuryDashboard() {
                     ["#000", "#fff"],
                     ["#000", "#fff"],
                   ]}
-                  headerText="Risk Free Value of Treasury Assets"
+                  headerText={t`Risk Free Value of Treasury Assets`}
                   headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
                   bulletpointColors={bulletpoints.coin}
                   itemNames={tooltipItems.coin}
@@ -202,7 +203,7 @@ function TreasuryDashboard() {
                   data={data}
                   dataKey={["treasuryOhmDaiPOL"]}
                   stopColor={[["rgba(128, 204, 131, 1)", "rgba(128, 204, 131, 0)"]]}
-                  headerText="Protocol Owned Liquidity OHM-DAI"
+                  headerText={t`Protocol Owned Liquidity OHM-DAI`}
                   headerSubText={`${data && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
                   dataFormat="percent"
                   bulletpointColors={bulletpoints.pol}
@@ -240,7 +241,7 @@ function TreasuryDashboard() {
                   data={staked}
                   dataKey={["staked"]}
                   stopColor={[["#55EBC7", "#47ACEB"]]}
-                  headerText="OHM Staked"
+                  headerText={t`OHM Staked`}
                   dataFormat="percent"
                   headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
                   isStaked={true}
@@ -260,7 +261,7 @@ function TreasuryDashboard() {
                   dataKey={["apy"]}
                   color={theme.palette.text.primary}
                   stroke={[theme.palette.text.primary]}
-                  headerText="APY over time"
+                  headerText={t`APY over time`}
                   dataFormat="percent"
                   headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
                   bulletpointColors={bulletpoints.apy}
@@ -280,7 +281,7 @@ function TreasuryDashboard() {
                   dataKey={["runwayCurrent"]}
                   color={theme.palette.text.primary}
                   stroke={[theme.palette.text.primary]}
-                  headerText="Runway Available"
+                  headerText={t`Runway Available`}
                   headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
                   dataFormat="days"
                   bulletpointColors={bulletpoints.runway}

@@ -29,6 +29,10 @@ msgstr "APR"
 msgid "APY"
 msgstr "APY"
 
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:264
+msgid "APY over time"
+msgstr "Evolution de l'APY"
+
 #: src/views/Bond/BondPurchase.jsx:125
 msgid "Amount"
 msgstr "Quantité"
@@ -95,6 +99,10 @@ msgstr "Rendez nous une autre visite plus tard!"
 msgid "Choose recipient address. By default, this is your currently connected address"
 msgstr "Choisissez l'addresse de reception. Par défaut il s'agit de l'addresse du portefeuille avec lequel vous êtes actuellement connecté"
 
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:104
+msgid "Circulating Supply (total)"
+msgstr "Jetons en circulation (total)"
+
 #: src/views/Bond/BondRedeem.jsx:65
 #: src/views/ChooseBond/ClaimRow.jsx:131
 msgid "Claim"
@@ -142,6 +150,7 @@ msgid "Connect your wallet to stake OHM"
 msgstr "Connectez votre portefeuille pour déposer des OHM"
 
 #: src/views/Stake/Stake.jsx:217
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:117
 msgid "Current Index"
 msgstr "Indice actuel"
 
@@ -232,9 +241,18 @@ msgstr "En cours"
 msgid "Less than a minute"
 msgstr "Moins d'une minute"
 
+#: src/views/Dashboard/Dashboard.jsx:44
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:85
+msgid "Market Cap"
+msgstr "Capitalisation"
+
 #: src/views/Bond/Bond.jsx:74
 msgid "Market Price"
 msgstr "Prix du marché"
+
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:164
+msgid "Market Value of Treasury Assets"
+msgstr "Valeur de marché des actifs en trésorerie"
 
 #: src/views/33Together/PoolDeposit.jsx:128
 #: src/views/33Together/PoolWithdraw.jsx:133
@@ -271,8 +289,13 @@ msgid "Note: The \"Approve\" transaction is only needed when staking/unstaking f
 msgstr "Note: La transaction \"Approuver\" n'est nécessaire que pour le premier dépôt/retrait; Les achats suivants ne nécessitent que la transaction \"Acheter\"."
 
 #: src/views/ChooseBond/ChooseBond.jsx:97
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:94
 msgid "OHM Price"
 msgstr "Valeur de OHM"
+
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:244
+msgid "OHM Staked"
+msgstr "OHM en dépôt"
 
 #: src/views/404/NotFound.jsx:14
 msgid "Page not found"
@@ -312,6 +335,7 @@ msgstr "Propriétaire de la cagnote"
 
 #: src/views/ChooseBond/BondRow.jsx:37
 #: src/views/ChooseBond/ChooseBond.jsx:116
+#: src/views/Dashboard/Dashboard.jsx:31
 msgid "Price"
 msgstr "Prix"
 
@@ -322,6 +346,10 @@ msgstr "Information concernant la cagnote"
 #: src/views/33Together/PoolPrize.jsx:136
 msgid "Prize is being awarded"
 msgstr "La récompense est en cours de distribution"
+
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:206
+msgid "Protocol Owned Liquidity OHM-DAI"
+msgstr "Liquidité OHM-DAI dont le protocol est propriétaire"
 
 #: src/views/ChooseBond/BondRow.jsx:53
 #: src/views/ChooseBond/ChooseBond.jsx:122
@@ -355,6 +383,14 @@ msgstr "Adresse de retrait"
 msgid "Redeem"
 msgstr "Retirer"
 
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:188
+msgid "Risk Free Value of Treasury Assets"
+msgstr "Valeur assurée des actifs en trésorerie"
+
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:284
+msgid "Runway Available"
+msgstr "Durée d'inflation soutenable" 
+
 #: src/views/Bond/AdvancedSettings.jsx:37
 msgid "Slippage"
 msgstr "Glissement"
@@ -383,6 +419,10 @@ msgstr "Déposer OHM"
 #: src/views/33Together/PoolPrize.jsx:228
 msgid "Start Award"
 msgstr "Démarrer la distribution des récompenses"
+
+#: src/views/Dashboard/Dashboard.jsx:66
+msgid "Supply (circulating/total)"
+msgstr "Nombre de jetons (en circulation/total)"
 
 #: src/views/Stake/ExternalStakePool.jsx:90
 #: src/views/Stake/ExternalStakePool.jsx:172
@@ -416,6 +456,10 @@ msgstr "Montant total des parrainages"
 #: src/views/Stake/Stake.jsx:197
 msgid "Total Value Deposited"
 msgstr "Montant total déposé"
+
+#: src/views/TreasuryDashboard/TreasuryDashboard.jsx:136
+msgid "Total Value Locked"
+msgstr "Valeur totale en dépôt"
 
 #: src/views/Bond/AdvancedSettings.jsx:51
 msgid "Transaction may revert if price changes by more than slippage %"
