@@ -102,7 +102,7 @@ export const PoolDeposit = props => {
       {!address ? (
         <ConnectButton />
       ) : (
-        <Box>
+        <Box className="deposit-container">
           <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
             <FormControl className="ohm-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
@@ -159,13 +159,6 @@ export const PoolDeposit = props => {
               </Typography>
             </Box>
           )}
-          <Box padding={1}>
-            <Typography variant="body2">
-              Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win
-              until your sOHM is withdrawn.
-            </Typography>
-          </Box>
-
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">

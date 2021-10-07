@@ -42,6 +42,7 @@ export const PoolPrize = () => {
 
   let timerInterval = useRef();
 
+  // handleAward not used yet
   const handleAward = async action => {
     console.log(`run ${action} on pool`);
     await dispatch(awardProcess({ action, provider, networkID: chainID }));
@@ -148,7 +149,7 @@ export const PoolPrize = () => {
           {/* Timer won't show when poolIsLocked */}
           {poolIsLocked && (
             <Box margin={2} display="flex" style={{ flexDirection: "column", gap: 4, justifyContent: "center" }}>
-              <Button
+              {/* <Button
                 id="pool-complete-award-button"
                 className="pool-complete-award-button"
                 variant="contained"
@@ -157,29 +158,9 @@ export const PoolPrize = () => {
                 style={{ alignSelf: "center", margin: "5px" }}
               >
                 Complete Award
-              </Button>
+              </Button> */}
               <Typography variant="body1" color="textSecondary" padding={2}>
-                Click 'Complete Award' to distribute and start a new prize period
-              </Typography>
-            </Box>
-          )}
-
-          {isRngTimedOut && (
-            <Box margin={2} display="flex" style={{ flexDirection: "column", gap: 4, justifyContent: "center" }}>
-              {/* TODO (appleseed-33t): handle cancel award */}
-              <Button
-                id="pool-complete-award-button"
-                className="pool-complete-award-button"
-                variant="contained"
-                color="primary"
-                onClick={() => handleAward("cancelAward")}
-                style={{ alignSelf: "center", margin: "5px" }}
-              >
-                Cancel Award
-              </Button>
-              <Typography variant="body1" color="textSecondary" padding={2}>
-                The random number generator has timed out. You must cancel the awarding process to unlock users funds
-                users funds and start the awarding process again.
+                Award period has finished, you can navigate to Pool Together's UI to complete distribution
               </Typography>
             </Box>
           )}
@@ -187,7 +168,7 @@ export const PoolPrize = () => {
           {/* Timer still shows (0s) for poolIsLocked === false */}
           {!poolIsLocked && showAwardStart && (
             <Box margin={2} display="flex" style={{ flexDirection: "column", gap: 4, justifyContent: "center" }}>
-              <Button
+              {/* <Button
                 id="pool-start-award-button"
                 className="pool-start-award-button"
                 variant="contained"
@@ -196,9 +177,9 @@ export const PoolPrize = () => {
                 style={{ alignSelf: "center", margin: "5px" }}
               >
                 Start Award
-              </Button>
+              </Button> */}
               <Typography variant="body1" color="textSecondary">
-                Award period has finished, click 'Start Award' to begin distribution
+                Award period has finished, you can navigate to Pool Together's UI to begin distribution
               </Typography>
             </Box>
           )}

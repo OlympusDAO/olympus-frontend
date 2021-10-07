@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Paper, Tab, Tabs, Fade } from "@material-ui/core";
+import { Paper, Tab, Tabs, Box } from "@material-ui/core";
+import InfoTooltipMulti from "../../components/InfoTooltip/InfoTooltipMulti";
 
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
@@ -46,7 +47,9 @@ const PoolTogether = () => {
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
   const [yourOdds, setYourOdds] = useState(0);
-
+  const infoTooltipMessage = [
+    "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn.",
+  ];
   const isAccountLoading = useSelector(state => state.account.loading ?? true);
 
   const sohmBalance = useSelector(state => {
@@ -130,7 +133,10 @@ const PoolTogether = () => {
       <PoolPrize />
 
       <Paper className="ohm-card">
-        <CardHeader title="3, 3 Together" />
+        <Box display="flex">
+          <CardHeader title="3, 3 Together" />
+          <InfoTooltipMulti messagesArray={infoTooltipMessage} />
+        </Box>
         <Tabs
           centered
           value={view}

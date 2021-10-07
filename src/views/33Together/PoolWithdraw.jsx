@@ -107,7 +107,7 @@ export const PoolWithdraw = props => {
       {!address ? (
         <ConnectButton />
       ) : (
-        <Box>
+        <Box className="withdrawal-container">
           <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
             <FormControl className="ohm-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
@@ -171,12 +171,12 @@ export const PoolWithdraw = props => {
             </Box>
           )}
 
-          <Box padding={1}>
+          {/* <Box padding={1}>
             <Typography variant="body2">
               You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating /
               reducing the chance to win the prize in this pool in future prize periods
             </Typography>
-          </Box>
+          </Box> */}
 
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
@@ -188,7 +188,7 @@ export const PoolWithdraw = props => {
                 {isPoolLoading ? (
                   <Skeleton width="80px" />
                 ) : (
-                  <>{new Intl.NumberFormat("en-US").format(poolBalance)} sOHM</>
+                  <>{new Intl.NumberFormat("en-US").format(poolBalance)} 33T</>
                 )}
               </Typography>
             </div>
