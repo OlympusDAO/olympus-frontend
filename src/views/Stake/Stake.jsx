@@ -188,7 +188,7 @@ function Stake() {
                     </div>
                   </Grid>
 
-                  <Grid item xs={6} sm={4} md={4} lg={4}>
+                  <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-tvl">
                       <Typography variant="h5" color="textSecondary">
                         Total Value Deposited
@@ -208,7 +208,7 @@ function Stake() {
                     </div>
                   </Grid>
 
-                  <Grid item xs={6} sm={4} md={4} lg={4}>
+                  <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-index">
                       <Typography variant="h5" color="textSecondary">
                         Current Index
