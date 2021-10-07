@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/views/33Together/33Together.jsx:135
+msgid "3, 3 Together"
+msgstr "3, 3 Together"
+
 #: src/components/TopBar/OhmMenu.jsx:108
 msgid "ADD TOKEN TO WALLET"
 msgstr "ADD TOKEN TO WALLET"
@@ -21,9 +25,18 @@ msgstr "ADD TOKEN TO WALLET"
 msgid "Amount"
 msgstr "Amount"
 
+#: src/views/33Together/PoolDeposit.jsx:154
 #: src/views/Bond/BondPurchase.jsx:163
 msgid "Approve"
 msgstr "Approve"
+
+#: src/views/33Together/PoolPrize.jsx:123
+msgid "Award Balance will grow at 1st rebase."
+msgstr "Award Balance will grow at 1st rebase."
+
+#: src/views/33Together/PoolPrize.jsx:231
+msgid "Award period has finished, click 'Start Award' to begin distribution"
+msgstr "Award period has finished, click 'Start Award' to begin distribution"
 
 #: src/components/Sidebar/NavContent.jsx:121
 #: src/views/ChooseBond/ChooseBond.jsx:69
@@ -54,12 +67,17 @@ msgstr "Change Theme"
 #~ msgid "Change language"
 #~ msgstr "Change language"
 
+#: src/views/33Together/PoolDeposit.jsx:97
+#: src/views/33Together/PoolWithdraw.jsx:102
+msgid "Check back soon!"
+msgstr "Check back soon!"
+
 #: src/views/Bond/AdvancedSettings.jsx:63
 msgid "Choose recipient address. By default, this is your currently connected address"
 msgstr "Choose recipient address. By default, this is your currently connected address"
 
 #: src/views/Bond/BondRedeem.jsx:65
-#: src/views/ChooseBond/ClaimRow.jsx:132
+#: src/views/ChooseBond/ClaimRow.jsx:131
 msgid "Claim"
 msgstr "Claim"
 
@@ -75,7 +93,7 @@ msgstr "Claim all and Stake"
 msgid "Claim and Autostake"
 msgstr "Claim and Autostake"
 
-#: src/views/ChooseBond/ClaimRow.jsx:140
+#: src/views/ChooseBond/ClaimRow.jsx:139
 msgid "Claim and Stake"
 msgstr "Claim and Stake"
 
@@ -87,10 +105,18 @@ msgstr "Claimable"
 msgid "Claimable Rewards"
 msgstr "Claimable Rewards"
 
+#: src/views/33Together/PoolPrize.jsx:190
+msgid "Click 'Complete Award' to distribute and start a new prize period"
+msgstr "Click 'Complete Award' to distribute and start a new prize period"
+
 #: src/components/ConnectButton.jsx:9
 #: src/components/TopBar/ConnectMenu.jsx:19
 msgid "Connect Wallet"
 msgstr "Connect Wallet"
+
+#: src/views/33Together/PoolPrize.jsx:130
+msgid "Current Prize"
+msgstr "Current Prize"
 
 #: src/components/Sidebar/NavContent.jsx:74
 msgid "Dashboard"
@@ -101,6 +127,26 @@ msgstr "Dashboard"
 msgid "Debt Ratio"
 msgstr "Debt Ratio"
 
+#: src/views/33Together/33Together.jsx:145
+msgid "Deposit"
+msgstr "Deposit"
+
+#: src/views/33Together/PoolDeposit.jsx:144
+msgid "Deposit sOHM"
+msgstr "Deposit sOHM"
+
+#: src/views/33Together/PoolDeposit.jsx:170
+msgid "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn."
+msgstr "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn."
+
+#: src/views/33Together/PoolDeposit.jsx:161
+msgid "Depositing {quantity} sOHM will increase odds of winning to 1 in {newOdds}"
+msgstr "Depositing {quantity} sOHM will increase odds of winning to 1 in {newOdds}"
+
+#: src/views/33Together/PoolDeposit.jsx:94
+msgid "Deposits can be made once the prize has been awarded."
+msgstr "Deposits can be made once the prize has been awarded."
+
 #: src/components/TopBar/ConnectMenu.jsx:27
 #: src/components/TopBar/ConnectMenu.jsx:110
 msgid "Disconnect"
@@ -109,6 +155,22 @@ msgstr "Disconnect"
 #: src/components/Sidebar/externalUrls.jsx:20
 msgid "Docs"
 msgstr "Docs"
+
+#: src/views/33Together/PoolInfo.jsx:109
+msgid "Early Exit Fee"
+msgstr "Early Exit Fee"
+
+#: src/views/33Together/PoolWithdraw.jsx:165
+msgid "Early withdraw will incur a fairness fee of {exitFee}."
+msgstr "Early withdraw will incur a fairness fee of {exitFee}."
+
+#: src/views/33Together/PoolDeposit.jsx:115
+msgid "Enter an amount"
+msgstr "Enter an amount"
+
+#: src/views/33Together/PoolInfo.jsx:115
+msgid "Exit Fee Decay Time"
+msgstr "Exit Fee Decay Time"
 
 #: src/components/Sidebar/externalUrls.jsx:25
 msgid "Feedback"
@@ -139,6 +201,8 @@ msgstr "Less than a minute"
 msgid "Market Price"
 msgstr "Market Price"
 
+#: src/views/33Together/PoolDeposit.jsx:128
+#: src/views/33Together/PoolWithdraw.jsx:133
 #: src/views/Bond/BondPurchase.jsx:137
 msgid "Max"
 msgstr "Max"
@@ -147,6 +211,10 @@ msgstr "Max"
 msgid "Max You Can Buy"
 msgstr "Max You Can Buy"
 
+#: src/views/33Together/PoolPrize.jsx:140
+msgid "Next award"
+msgstr "Next award"
+
 #: src/views/Bond/BondPurchase.jsx:171
 msgid "Note: The \"Approve\" transaction is only needed when bonding for the first time; subsequent bonding only requires you to perform the \"Bond\" transaction."
 msgstr "Note: The \"Approve\" transaction is only needed when bonding for the first time; subsequent bonding only requires you to perform the \"Bond\" transaction."
@@ -154,6 +222,10 @@ msgstr "Note: The \"Approve\" transaction is only needed when bonding for the fi
 #: src/views/ChooseBond/ChooseBond.jsx:97
 msgid "OHM Price"
 msgstr "OHM Price"
+
+#: src/views/404/NotFound.jsx:14
+msgid "Page not found"
+msgstr "Page not found"
 
 #: src/views/ChooseBond/ClaimBonds.jsx:81
 msgid "Pending"
@@ -172,14 +244,32 @@ msgstr "Pending..."
 msgid "Please enter a valid value!"
 msgstr "Please enter a valid value!"
 
+#: src/views/33Together/PoolDeposit.jsx:63
+#: src/views/33Together/PoolWithdraw.jsx:59
 #: src/views/Bond/BondPurchase.jsx:48
 msgid "Please enter a value!"
 msgstr "Please enter a value!"
+
+#: src/views/33Together/PoolPrize.jsx:120
+msgid "Pool Award Balance is currently 0."
+msgstr "Pool Award Balance is currently 0."
+
+#: src/views/33Together/PoolInfo.jsx:97
+msgid "Pool owner"
+msgstr "Pool owner"
 
 #: src/views/ChooseBond/BondRow.jsx:37
 #: src/views/ChooseBond/ChooseBond.jsx:116
 msgid "Price"
 msgstr "Price"
+
+#: src/views/33Together/PoolInfo.jsx:29
+msgid "Prize Pool Info"
+msgstr "Prize Pool Info"
+
+#: src/views/33Together/PoolPrize.jsx:136
+msgid "Prize is being awarded"
+msgstr "Prize is being awarded"
 
 #: src/views/ChooseBond/BondRow.jsx:53
 #: src/views/ChooseBond/ChooseBond.jsx:122
@@ -192,6 +282,10 @@ msgstr "Purchased"
 #: src/views/ChooseBond/ChooseBond.jsx:119
 msgid "ROI"
 msgstr "ROI"
+
+#: src/views/33Together/PoolWithdraw.jsx:173
+msgid "Read more about Fairness"
+msgstr "Read more about Fairness"
 
 #: src/views/Bond/BondPurchase.jsx:244
 msgid "Recipient"
@@ -209,6 +303,10 @@ msgstr "Redeem"
 msgid "Slippage"
 msgstr "Slippage"
 
+#: src/views/33Together/PoolInfo.jsx:130
+msgid "Something not right, fren? Check Pool Together's UI below."
+msgstr "Something not right, fren? Check Pool Together's UI below."
+
 #: src/components/Sidebar/NavContent.jsx:89
 msgid "Stake"
 msgstr "Stake"
@@ -217,9 +315,33 @@ msgstr "Stake"
 msgid "Staking OHM"
 msgstr "Staking OHM"
 
+#: src/views/33Together/PoolPrize.jsx:228
+msgid "Start Award"
+msgstr "Start Award"
+
+#: src/views/33Together/PoolPrize.jsx:209
+msgid "The random number generator has timed out. You must cancel the awarding process to unlock users funds users funds and start the awarding process again."
+msgstr "The random number generator has timed out. You must cancel the awarding process to unlock users funds users funds and start the awarding process again."
+
+#: src/views/33Together/PoolDeposit.jsx:91
+msgid "This Prize Pool is unable to accept deposits at this time."
+msgstr "This Prize Pool is unable to accept deposits at this time."
+
+#: src/views/33Together/PoolWithdraw.jsx:96
+msgid "This Prize Pool is unable to accept withdrawals at this time."
+msgstr "This Prize Pool is unable to accept withdrawals at this time."
+
 #: src/views/Bond/BondRedeem.jsx:102
 msgid "Time until fully vested"
 msgstr "Time until fully vested"
+
+#: src/views/33Together/PoolInfo.jsx:75
+msgid "Total Deposits"
+msgstr "Total Deposits"
+
+#: src/views/33Together/PoolInfo.jsx:83
+msgid "Total Sponsorship"
+msgstr "Total Sponsorship"
 
 #: src/views/Bond/AdvancedSettings.jsx:51
 msgid "Transaction may revert if price changes by more than slippage %"
@@ -247,9 +369,53 @@ msgstr "Vesting Term"
 msgid "View Contract"
 msgstr "View Contract"
 
+#: src/views/33Together/PoolInfo.jsx:69
+msgid "Winners / prize period"
+msgstr "Winners / prize period"
+
+#: src/views/33Together/33Together.jsx:146
+msgid "Withdraw"
+msgstr "Withdraw"
+
+#: src/views/33Together/PoolWithdraw.jsx:147
+msgid "Withdraw Early & pay"
+msgstr "Withdraw Early & pay"
+
+#: src/views/33Together/PoolWithdraw.jsx:147
+#~ msgid "Withdraw Early & pay t"
+#~ msgstr "Withdraw Early & pay t"
+
+#: src/views/33Together/PoolWithdraw.jsx:148
+msgid "Withdraw sOHM"
+msgstr "Withdraw sOHM"
+
+#: src/views/33Together/PoolWithdraw.jsx:148
+#~ msgid "Withdraw sOHMt"
+#~ msgstr "Withdraw sOHMt"
+
+#: src/views/33Together/PoolWithdraw.jsx:99
+msgid "Withdrawals can be made once the prize has been awarded."
+msgstr "Withdrawals can be made once the prize has been awarded."
+
+#: src/views/33Together/PoolWithdraw.jsx:155
+msgid "Withdrawing {quantity} sOHM reduces your odds of winning to 1 in {newOdds}"
+msgstr "Withdrawing {quantity} sOHM reduces your odds of winning to 1 in {newOdds}"
+
+#: src/views/33Together/PoolInfo.jsx:91
+msgid "Yield Source"
+msgstr "Yield Source"
+
 #: src/views/Bond/BondPurchase.jsx:200
 msgid "You Will Get"
 msgstr "You Will Get"
+
+#: src/views/33Together/PoolWithdraw.jsx:182
+msgid "You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating / reducing the chance to win the prize in this pool in future prize periods"
+msgstr "You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating / reducing the chance to win the prize in this pool in future prize periods"
+
+#: src/views/33Together/PoolWithdraw.jsx:86
+msgid "You cannot withdraw more than your pool balance"
+msgstr "You cannot withdraw more than your pool balance"
 
 #: src/views/Bond/BondPurchase.jsx:53
 msgid "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?"
@@ -259,11 +425,55 @@ msgstr "You have an existing bond. Bonding will reset your vesting period and fo
 msgid "Your Balance"
 msgstr "Your Balance"
 
+#: src/views/33Together/PoolWithdraw.jsx:193
+msgid "Your Pooled Balance (withdrawable)"
+msgstr "Your Pooled Balance (withdrawable)"
+
+#: src/views/33Together/PoolDeposit.jsx:181
+msgid "Your Staked Balance (Depositable)"
+msgstr "Your Staked Balance (Depositable)"
+
+#: src/views/33Together/PoolInfo.jsx:50
+msgid "Your odds"
+msgstr "Your odds"
+
+#: src/views/33Together/PoolInfo.jsx:38
+msgid "Your pool deposits"
+msgstr "Your pool deposits"
+
+#: src/views/33Together/PoolInfo.jsx:44
+msgid "Your wallet balance"
+msgstr "Your wallet balance"
+
+#: src/views/33Together/PoolPrize.jsx:149
+msgid "day"
+msgstr "day"
+
 #: src/views/Bond/Bond.jsx:90
 #: src/views/Bond/BondPurchase.jsx:152
 #: src/views/ChooseBond/BondRow.jsx:124
 msgid "do_bond"
 msgstr "Bond"
+
+#: src/views/33Together/PoolPrize.jsx:156
+msgid "hrs"
+msgstr "hrs"
+
+#: src/views/33Together/PoolPrize.jsx:163
+msgid "min"
+msgstr "min"
+
+#: src/views/33Together/PoolInfo.jsx:145
+msgid "sOHM Pool Details"
+msgstr "sOHM Pool Details"
+
+#: src/views/33Together/PoolInfo.jsx:137
+msgid "sOHM Prize Pool"
+msgstr "sOHM Prize Pool"
+
+#: src/views/33Together/PoolPrize.jsx:169
+msgid "sec"
+msgstr "sec"
 
 #: src/components/RebaseTimer/RebaseTimer.jsx:73
 msgid "to next rebase"

@@ -10,6 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
 import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
 import { getTokenImage } from "src/helpers/index";
@@ -59,7 +60,7 @@ export const PoolDeposit = props => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      dispatch(error("Please enter a value!"));
+      dispatch(error(t`Please enter a value!`));
     } else {
       await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
@@ -86,12 +87,14 @@ export const PoolDeposit = props => {
     return (
       <Box display="flex" alignItems="center" className="pool-deposit-ui" flexDirection="column">
         {/*<img src={Warning} className="w-10 sm:w-14 mx-auto mb-4" />*/}
-        <Typography variant="h6">This Prize Pool is unable to accept deposits at this time.</Typography>
-        <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
-          Deposits can be made once the prize has been awarded.
+        <Typography variant="h6">
+          <Trans>This Prize Pool is unable to accept deposits at this time.</Trans>
         </Typography>
         <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
-          Check back soon!
+          <Trans>Deposits can be made once the prize has been awarded.</Trans>
+        </Typography>
+        <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
+          <Trans>Check back soon!</Trans>
         </Typography>
       </Box>
     );
@@ -109,7 +112,7 @@ export const PoolDeposit = props => {
               <OutlinedInput
                 id="amount-input"
                 type="number"
-                placeholder="Enter an amount"
+                placeholder={t`Enter an amount`}
                 className="pool-input"
                 value={quantity}
                 onChange={e => updateDepositQuantity(e)}
@@ -122,7 +125,7 @@ export const PoolDeposit = props => {
                 endAdornment={
                   <InputAdornment position="end">
                     <Button variant="text" onClick={setMax}>
-                      Max
+                      <Trans>Max</Trans>
                     </Button>
                   </InputAdornment>
                 }
@@ -138,7 +141,7 @@ export const PoolDeposit = props => {
                 onClick={() => onDeposit("deposit")}
                 fullWidth
               >
-                {txnButtonText(pendingTransactions, "deposit", "Deposit sOHM")}
+                {txnButtonText(pendingTransactions, "deposit", t`Deposit sOHM`)}
               </Button>
             ) : (
               <Button
@@ -148,21 +151,26 @@ export const PoolDeposit = props => {
                 disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
                 onClick={() => onSeekApproval("sohm")}
               >
-                {txnButtonText(pendingTransactions, "approve_pool", "Approve")}
+                {txnButtonText(pendingTransactions, "approve_pool", t`Approve`)}
               </Button>
             )}
           </Box>
           {newOdds > 0 && quantity > 0 && (
             <Box padding={1}>
               <Typography variant="body2" style={{ color: "#33BB33" }}>
-                Depositing {quantity} sOHM will increase odds of winning to 1 in {newOdds}&nbsp;
+                <Trans>
+                  Depositing {quantity} sOHM will increase odds of winning to 1 in {newOdds}
+                </Trans>
+                &nbsp;
               </Typography>
             </Box>
           )}
           <Box padding={1}>
             <Typography variant="body2">
-              Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win
-              until your sOHM is withdrawn.
+              <Trans>
+                Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to
+                win until your sOHM is withdrawn.
+              </Trans>
             </Typography>
           </Box>
 
@@ -170,7 +178,7 @@ export const PoolDeposit = props => {
           <div className={`stake-user-data`}>
             <div className="data-row">
               <Typography variant="body1" align="left">
-                Your Staked Balance (Depositable)
+                <Trans>Your Staked Balance (Depositable)</Trans>
               </Typography>
               <Typography variant="body1" align="right">
                 {isAppLoading ? (

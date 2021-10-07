@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Paper, Tab, Tabs, Fade } from "@material-ui/core";
+import { t } from "@lingui/macro";
 
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
@@ -131,7 +132,7 @@ const PoolTogether = () => {
       <PoolPrize />
 
       <Paper className="ohm-card">
-        <CardHeader title="3, 3 Together" />
+        <CardHeader title={t`3, 3 Together`} />
         <Tabs
           centered
           value={view}
@@ -141,8 +142,8 @@ const PoolTogether = () => {
           className="pt-tabs"
           aria-label="pool tabs"
         >
-          <Tab label="Deposit" {...a11yProps(0)} />
-          <Tab label="Withdraw" {...a11yProps(1)} />
+          <Tab label={t`Deposit`} {...a11yProps(0)} />
+          <Tab label={t`Withdraw`} {...a11yProps(1)} />
         </Tabs>
 
         <TabPanel value={view} index={0} className="pool-tab">
