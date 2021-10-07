@@ -7,7 +7,6 @@ import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-import allBonds from "src/helpers/AllBonds";
 import { RootState } from "src/store";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 
@@ -167,7 +166,7 @@ const loadMarketPrice = createAsyncThunk(
   async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) => {
     let marketPrice: number;
     try {
-      marketPrice = await getTokenPrice();
+      marketPrice = await getTokenPrice("olympus");
     } catch (e) {
       console.log("Returned a null response when querying CoinGecko");
       marketPrice = await getMarketPrice({ networkID, provider });
