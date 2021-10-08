@@ -11,7 +11,7 @@ import { PoolWithdraw } from "./PoolWithdraw";
 import { PoolInfo } from "./PoolInfo";
 import { PoolPrize } from "./PoolPrize";
 import "./33together.scss";
-import { POOL_GRAPH_URLS } from "../../constants";
+import { addresses, POOL_GRAPH_URLS } from "../../constants";
 import { useWeb3Context } from "../../hooks";
 import { apolloExt } from "../../lib/apolloClient";
 import { poolDataQuery } from "./poolData.js";
@@ -66,7 +66,7 @@ const PoolTogether = () => {
   }, [chainID]);
 
   useEffect(() => {
-    apolloExt(poolDataQuery, graphUrl)
+    apolloExt(poolDataQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS), graphUrl)
       .then(poolData => {
         const poolWinners = poolData.data.prizePool?.prizeStrategy.multipleWinners.numberOfWinners;
         if (poolWinners) setWinners(parseFloat(poolWinners));
