@@ -1,60 +1,64 @@
 // import apollo from "../../lib/apolloClient";
 
+import { isAddress } from "@ethersproject/address";
+
 // TODO: add paramaterization for testnet/mainnet pool ids
-export const poolDataQuery = `
-query {
-  prizePool(id: "0xeab695a8f5a44f583003a8bc97d677880d528248") {
-    id
-    owner
-    deactivated
-    currentPrizeId
-    currentState
-    cumulativePrizeGross
-    cumulativePrizeNet
-    cumulativePrizeReserveFee
-    liquidityCap
-    prizeStrategy {
-      multipleWinners {
-        numberOfWinners
-        prizePeriodSeconds
-        prizePeriodStartedAt
-        prizePeriodEndAt
-        externalErc20Awards {
-          name
-          symbol
-          decimals
-          balanceAwarded
+export const poolDataQuery = address => {
+  return `
+  query {
+    prizePool(id: "${address.toLowerCase()}") {
+      id
+      owner
+      deactivated
+      currentPrizeId
+      currentState
+      cumulativePrizeGross
+      cumulativePrizeNet
+      cumulativePrizeReserveFee
+      liquidityCap
+      prizeStrategy {
+        multipleWinners {
+          numberOfWinners
+          prizePeriodSeconds
+          prizePeriodStartedAt
+          prizePeriodEndAt
+          externalErc20Awards {
+            name
+            symbol
+            decimals
+            balanceAwarded
+          }
         }
       }
+      prizes {
+        id
+        prizePeriodStartedTimestamp
+        lockBlock
+        awardedBlock
+        awardedTimestamp
+      }
+      tokenCreditBalances {
+        id
+        balance
+        timestamp
+        initialized
+      }
+      controlledTokens {
+        id
+        name
+        totalSupply
+        numberOfHolders
+      }
     }
-    prizes {
+    sablierStreams(first: 5) {
       id
-      prizePeriodStartedTimestamp
-      lockBlock
-      awardedBlock
-      awardedTimestamp
-    }
-    tokenCreditBalances {
-      id
-      balance
-      timestamp
-      initialized
-    }
-    controlledTokens {
-      id
-      name
-      totalSupply
-      numberOfHolders
+      prizePool {
+        id
+      }
     }
   }
-  sablierStreams(first: 5) {
-    id
-    prizePool {
-      id
-    }
-  }
-}
-`;
+  `;
+};
 
 export const poolTimeQuery = `
 query {
