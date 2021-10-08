@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Box, Button, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -9,6 +10,7 @@ import { useWeb3Context } from "../../hooks";
 import { poolTogetherUILinks } from "../../helpers/33Together";
 
 export const PoolInfo = props => {
+  const [poolLoadedCount, setPoolLoadedCount] = useState(0);
   const { address, chainID } = useWeb3Context();
   const isPoolLoading = useSelector(state => state.poolData.loading ?? true);
 
@@ -19,6 +21,15 @@ export const PoolInfo = props => {
   const creditLimitPercentage = useSelector(state => {
     return state.poolData && parseFloat(state.poolData.creditLimitPercentage);
   });
+
+  // this useEffect is to prevent flashing `Early Exit Fee` & `Exit Fee Decay Time`...
+  // ... on every poolData load, which occurs during Award Period polling.
+  useEffect(() => {
+    // will be 1 on intial load
+    if (poolLoadedCount < 2 && isPoolLoading === false) {
+      setPoolLoadedCount(prev => prev + 1);
+    }
+  }, [isPoolLoading]);
 
   return (
     <Zoom in={true}>
@@ -87,12 +98,12 @@ export const PoolInfo = props => {
           <Divider color="secondary" />
           <div className="data-row">
             <Typography>Early Exit Fee</Typography>
-            <Typography>{isPoolLoading ? <Skeleton width={100} /> : `${creditLimitPercentage}%`}</Typography>
+            <Typography>{poolLoadedCount === 1 ? <Skeleton width={100} /> : `${creditLimitPercentage}%`}</Typography>
           </div>
           <div className="data-row">
             <Typography>Exit Fee Decay Time</Typography>
             <Typography>
-              {isPoolLoading ? (
+              {poolLoadedCount === 1 ? (
                 <Skeleton width={100} />
               ) : (
                 `${creditMaturationInDays} day${creditMaturationInDays === 1 ? "" : "s"}`
@@ -130,7 +141,7 @@ PoolInfo.propTypes = {
   poolBalance: PropTypes.string,
   sohmBalance: PropTypes.string,
   yourOdds: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  winners: PropTypes.number,
+  winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   totalDeposits: PropTypes.number,
   totalSponsorship: PropTypes.number,
 };

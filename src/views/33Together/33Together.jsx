@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Paper, Tab, Tabs, Fade } from "@material-ui/core";
+import { Paper, Tab, Tabs, Box } from "@material-ui/core";
+import InfoTooltipMulti from "../../components/InfoTooltip/InfoTooltipMulti";
 
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
@@ -42,11 +43,13 @@ const PoolTogether = () => {
   const [poolDataError, setPoolDataError] = useState(null);
   const [graphLoading, setGraphLoading] = useState(true);
   const [walletChecked, setWalletChecked] = useState(false);
-  const [winners, setWinners] = useState(0);
+  const [winners, setWinners] = useState("--");
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
   const [yourOdds, setYourOdds] = useState(0);
-
+  const [infoTooltipMessage, setInfoTooltipMessage] = useState([
+    "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn.",
+  ]);
   const isAccountLoading = useSelector(state => state.account.loading ?? true);
 
   const sohmBalance = useSelector(state => {
@@ -59,40 +62,21 @@ const PoolTogether = () => {
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
-    if (chainID !== 4) history.push("/stake");
     setGraphUrl(POOL_GRAPH_URLS[chainID]);
   }, [chainID]);
-
-  // handle new data or query errors
-  useEffect(() => {
-    if (poolDataError) {
-      console.log("pool data error: ", poolDataError);
-    }
-    console.log("pool data updated", poolData);
-  }, [poolData, poolDataError]);
-
-  // query user pool data on wallet connect
-  useEffect(() => {
-    if (address) {
-      console.log("user connected, querying pool data...");
-      // run api query for user data
-    } else {
-      console.log("user not connected");
-    }
-  }, [address]);
 
   useEffect(() => {
     apolloExt(poolDataQuery, graphUrl)
       .then(poolData => {
-        const poolWinners = poolData.data.prizePool.prizeStrategy.multipleWinners.numberOfWinners;
-        setWinners(parseFloat(poolWinners));
+        const poolWinners = poolData.data.prizePool?.prizeStrategy.multipleWinners.numberOfWinners;
+        if (poolWinners) setWinners(parseFloat(poolWinners));
 
-        const poolTotalDeposits = poolData.data.prizePool.controlledTokens[0].totalSupply / 1_000_000_000;
-        setTotalDeposits(poolTotalDeposits);
+        const poolTotalDeposits = poolData.data.prizePool?.controlledTokens[0].totalSupply / 1_000_000_000;
+        if (poolTotalDeposits) setTotalDeposits(poolTotalDeposits);
 
         // sponsorship is deposited funds contributing to the prize without being eligible to win
-        const poolTotalSponsorship = poolData.data.prizePool.controlledTokens[1].totalSupply / 1_000_000_000;
-        setTotalSponsorship(poolTotalSponsorship);
+        const poolTotalSponsorship = poolData.data.prizePool?.controlledTokens[1].totalSupply / 1_000_000_000;
+        if (poolTotalSponsorship) setTotalSponsorship(poolTotalSponsorship);
 
         setPoolData(poolData.data);
         setGraphLoading(false);
@@ -103,7 +87,7 @@ const PoolTogether = () => {
   useEffect(() => {
     let userOdds = calculateOdds(poolBalance, totalDeposits, winners);
     setYourOdds(userOdds);
-  }, [poolData, poolBalance]);
+  }, [winners, totalDeposits, poolBalance]);
 
   useEffect(() => {
     if (hasCachedProvider()) {
@@ -131,7 +115,10 @@ const PoolTogether = () => {
       <PoolPrize />
 
       <Paper className="ohm-card">
-        <CardHeader title="3, 3 Together" />
+        <Box display="flex">
+          <CardHeader title="3, 3 Together" />
+          <InfoTooltipMulti messagesArray={infoTooltipMessage} />
+        </Box>
         <Tabs
           centered
           value={view}
@@ -146,10 +133,18 @@ const PoolTogether = () => {
         </Tabs>
 
         <TabPanel value={view} index={0} className="pool-tab">
-          <PoolDeposit totalPoolDeposits={totalDeposits} winners={winners} />
+          <PoolDeposit
+            totalPoolDeposits={totalDeposits}
+            winners={winners}
+            setInfoTooltipMessage={setInfoTooltipMessage}
+          />
         </TabPanel>
         <TabPanel value={view} index={1} className="pool-tab">
-          <PoolWithdraw totalPoolDeposits={totalDeposits} winners={winners} />
+          <PoolWithdraw
+            totalPoolDeposits={totalDeposits}
+            winners={winners}
+            setInfoTooltipMessage={setInfoTooltipMessage}
+          />
         </TabPanel>
       </Paper>
 
