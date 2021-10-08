@@ -90,9 +90,9 @@ export const PoolInfo = props => {
             <Typography>Pool owner</Typography>
             <Box display="flex" alignItems="center">
               <Typography>OlympusDAO</Typography>
-              <Link to={"/33-together"} target="_blank" style={{ marginLeft: "3px" }}>
+              {/* <Link to={"/33-together"} target="_blank" style={{ marginLeft: "3px" }}>
                 <SvgIcon component={ArrowUp} fontSize="small" />
-              </Link>
+              </Link> */}
             </Box>
           </div>
           <Divider color="secondary" />
