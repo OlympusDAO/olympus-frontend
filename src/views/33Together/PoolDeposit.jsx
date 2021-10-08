@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -83,6 +84,12 @@ export const PoolDeposit = props => {
     setNewOdds(trim(userOdds, 4));
   };
 
+  useEffect(() => {
+    props.setInfoTooltipMessage([
+      "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn.",
+    ]);
+  }, []);
+
   if (poolIsLocked) {
     return (
       <Box display="flex" alignItems="center" className="pool-deposit-ui" flexDirection="column">
@@ -105,7 +112,7 @@ export const PoolDeposit = props => {
       {!address ? (
         <ConnectButton />
       ) : (
-        <Box>
+        <Box className="deposit-container">
           <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
             <FormControl className="ohm-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
@@ -165,15 +172,6 @@ export const PoolDeposit = props => {
               </Typography>
             </Box>
           )}
-          <Box padding={1}>
-            <Typography variant="body2">
-              <Trans>
-                Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to
-                win until your sOHM is withdrawn.
-              </Trans>
-            </Typography>
-          </Box>
-
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
@@ -193,4 +191,10 @@ export const PoolDeposit = props => {
       )}
     </Box>
   );
+};
+
+PoolDeposit.propTypes = {
+  totalPoolDeposits: PropTypes.number,
+  winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setInfoTooltipMessage: PropTypes.func,
 };

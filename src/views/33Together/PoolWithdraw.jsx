@@ -88,6 +88,12 @@ export const PoolWithdraw = props => {
     }
   }, [quantity]);
 
+  useEffect(() => {
+    props.setInfoTooltipMessage([
+      "You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating reducing the chance to win the prize in this pool in future prize periods",
+    ]);
+  }, []);
+
   if (poolIsLocked) {
     return (
       <Box display="flex" alignItems="center" className="pool-deposit-ui" flexDirection="column">
@@ -110,7 +116,7 @@ export const PoolWithdraw = props => {
       {!address ? (
         <ConnectButton />
       ) : (
-        <Box>
+        <Box className="withdrawal-container">
           <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
             <FormControl className="ohm-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
@@ -176,16 +182,6 @@ export const PoolWithdraw = props => {
               </Typography>
             </Box>
           )}
-
-          <Box padding={1}>
-            <Typography variant="body2">
-              <Trans>
-                You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating
-                / reducing the chance to win the prize in this pool in future prize periods
-              </Trans>
-            </Typography>
-          </Box>
-
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
@@ -196,7 +192,7 @@ export const PoolWithdraw = props => {
                 {isPoolLoading ? (
                   <Skeleton width="80px" />
                 ) : (
-                  <>{new Intl.NumberFormat("en-US").format(poolBalance)} sOHM</>
+                  <>{new Intl.NumberFormat("en-US").format(poolBalance)} 33T</>
                 )}
               </Typography>
             </div>
@@ -209,5 +205,6 @@ export const PoolWithdraw = props => {
 
 PoolWithdraw.propTypes = {
   totalPoolDeposits: PropTypes.number,
-  winners: PropTypes.number,
+  winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setInfoTooltipMessage: PropTypes.func,
 };
