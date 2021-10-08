@@ -3,7 +3,7 @@
 // TODO: add paramaterization for testnet/mainnet pool ids
 export const poolDataQuery = `
 query {
-  prizePool(id: "0x60bc094cb0c966e60ed3be0549e92f3bc572e9f8") {
+  prizePool(id: "0xeab695a8f5a44f583003a8bc97d677880d528248") {
     id
     owner
     deactivated
