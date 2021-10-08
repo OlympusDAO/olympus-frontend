@@ -55,6 +55,15 @@
   }
 }
 
+.pool-deposit-ui {
+  width: 100%;
+
+  .deposit-container,
+  .withdrawal-container {
+    width: 100%;
+  }
+}
+
 .light .vegas {
   filter: invert(0.99);
 }

@@ -11,7 +11,6 @@ import { setAll } from "../helpers";
 import { error } from "../slices/MessagesSlice";
 
 export const getPoolValues = createAsyncThunk("pool/getPoolValues", async ({ networkID, provider }) => {
-  // TODO (appleseed-33t): seems like this only works for signers, not readers...
   // calculate 33-together
   const poolReader = await new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
   const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
@@ -93,7 +92,6 @@ export const changeApproval = createAsyncThunk(
 );
 
 // NOTE (appleseed): https://docs.pooltogether.com/protocol/prize-pool#depositing
-// TODO (appleseed): what are referral rewards? ^^^, left as zero-address
 export const poolDeposit = createAsyncThunk(
   "pool/deposit",
   async ({ action, value, provider, address, networkID }, { dispatch }) => {
