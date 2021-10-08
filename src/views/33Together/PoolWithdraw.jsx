@@ -87,6 +87,12 @@ export const PoolWithdraw = props => {
     }
   }, [quantity]);
 
+  useEffect(() => {
+    props.setInfoTooltipMessage([
+      "You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating reducing the chance to win the prize in this pool in future prize periods",
+    ]);
+  }, []);
+
   if (poolIsLocked) {
     return (
       <Box display="flex" alignItems="center" className="pool-deposit-ui" flexDirection="column">
@@ -171,13 +177,6 @@ export const PoolWithdraw = props => {
             </Box>
           )}
 
-          {/* <Box padding={1}>
-            <Typography variant="body2">
-              You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating /
-              reducing the chance to win the prize in this pool in future prize periods
-            </Typography>
-          </Box> */}
-
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
@@ -202,4 +201,5 @@ export const PoolWithdraw = props => {
 PoolWithdraw.propTypes = {
   totalPoolDeposits: PropTypes.number,
   winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setInfoTooltipMessage: PropTypes.func,
 };

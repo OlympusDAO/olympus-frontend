@@ -3,6 +3,11 @@ import { ReactComponent as Info } from "../../assets/icons/info.svg";
 import { SvgIcon, Paper, Typography, Box, Popper } from "@material-ui/core";
 import "./infotooltip.scss";
 
+/**
+ * InfoTooltipMulti allows passing an ARRAY of message strings w each Array Element on a new line
+ * @param {*} messagesArray = Array of Message Strings
+ * @returns MUI Popover on document.body
+ */
 function InfoTooltipMulti({ messagesArray }) {
   const [anchorEl, setAnchorEl] = useState(null);
 

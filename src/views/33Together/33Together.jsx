@@ -47,9 +47,9 @@ const PoolTogether = () => {
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
   const [yourOdds, setYourOdds] = useState(0);
-  const infoTooltipMessage = [
+  const [infoTooltipMessage, setInfoTooltipMessage] = useState([
     "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn.",
-  ];
+  ]);
   const isAccountLoading = useSelector(state => state.account.loading ?? true);
 
   const sohmBalance = useSelector(state => {
@@ -62,7 +62,6 @@ const PoolTogether = () => {
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
-    if (chainID !== 4) history.push("/stake");
     setGraphUrl(POOL_GRAPH_URLS[chainID]);
   }, [chainID]);
 
@@ -134,10 +133,18 @@ const PoolTogether = () => {
         </Tabs>
 
         <TabPanel value={view} index={0} className="pool-tab">
-          <PoolDeposit totalPoolDeposits={totalDeposits} winners={winners} />
+          <PoolDeposit
+            totalPoolDeposits={totalDeposits}
+            winners={winners}
+            setInfoTooltipMessage={setInfoTooltipMessage}
+          />
         </TabPanel>
         <TabPanel value={view} index={1} className="pool-tab">
-          <PoolWithdraw totalPoolDeposits={totalDeposits} winners={winners} />
+          <PoolWithdraw
+            totalPoolDeposits={totalDeposits}
+            winners={winners}
+            setInfoTooltipMessage={setInfoTooltipMessage}
+          />
         </TabPanel>
       </Paper>
 
