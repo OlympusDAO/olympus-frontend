@@ -137,7 +137,7 @@ const PoolTogether = () => {
       dispatch(getPoolValues({ networkID: chainID, provider: provider }));
       dispatch(getRNGStatus({ networkID: chainID, provider: provider }));
     }
-  }, [walletChecked, connected]);
+  }, [walletChecked]);
 
   return (
     <div id="pool-together-view">
