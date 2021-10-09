@@ -16,12 +16,12 @@ import {
   IChangeApprovalAsyncThunk,
   IActionValueAsyncThunk,
   IActionAsyncThunk,
+  IJsonRPCError,
 } from "./interfaces";
 
 export const getPoolValues = createAsyncThunk(
   "pool/getPoolValues",
   async ({ networkID, provider }: IBaseAsyncThunk) => {
-    // TODO (appleseed-33t): seems like this only works for signers, not readers...
     // calculate 33-together
     const poolReader = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
     const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
@@ -82,8 +82,8 @@ export const changeApproval = createAsyncThunk(
       } else {
         console.log("token not sohm", token);
       }
-    } catch (e) {
-      dispatch(error(e.message));
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
       if (approveTx) {
@@ -104,7 +104,6 @@ export const changeApproval = createAsyncThunk(
 );
 
 // NOTE (appleseed): https://docs.pooltogether.com/protocol/prize-pool#depositing
-// TODO (appleseed): what are referral rewards? ^^^, left as zero-address
 export const poolDeposit = createAsyncThunk(
   "pool/deposit",
   async ({ action, value, provider, address, networkID }: IActionValueAsyncThunk, { dispatch }) => {
@@ -131,13 +130,14 @@ export const poolDeposit = createAsyncThunk(
       } else {
         console.log("unrecognized action: ", action);
       }
-    } catch (e) {
-      if (e.code === -32603 && e.message.indexOf("ds-math-sub-underflow") >= 0) {
+    } catch (e: unknown) {
+      const rpcError = e as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         dispatch(
           error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
         );
       } else {
-        dispatch(error(e.message));
+        dispatch(error(rpcError.message));
       }
       return;
     } finally {
@@ -213,13 +213,14 @@ export const poolWithdraw = createAsyncThunk(
       } else {
         console.log("unrecognized action: ", action);
       }
-    } catch (e) {
-      if (e.code === -32603 && e.message.indexOf("ds-math-sub-underflow") >= 0) {
+    } catch (e: unknown) {
+      const rpcError = e as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         dispatch(
           error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
         );
       } else {
-        dispatch(error(e.message));
+        dispatch(error(rpcError.message));
       }
       return;
     } finally {
@@ -259,13 +260,14 @@ export const awardProcess = createAsyncThunk(
       const pendingTxnType = "pool_" + action;
       dispatch(fetchPendingTxns({ txnHash: poolTx.hash, text: text, type: pendingTxnType }));
       await poolTx.wait();
-    } catch (e) {
-      if (e.code === -32603 && e.message.indexOf("ds-math-sub-underflow") >= 0) {
+    } catch (e: unknown) {
+      const rpcError = e as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         dispatch(
           error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
         );
       } else {
-        dispatch(error(e.message));
+        dispatch(error(rpcError.message));
       }
       return;
     } finally {
