@@ -3,6 +3,7 @@ import Web3Modal from "web3modal";
 import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { EnvHelper } from "../helpers/Environment";
+import { NodeHelper } from "src/helpers/NodeHelper";
 
 /**
  * kept as function to mimic `getMainnetURI()`
@@ -12,7 +13,7 @@ function getTestnetURI() {
   return EnvHelper.alchemyTestnetURI;
 }
 
-const ALL_URIs = EnvHelper.getAPIUris();
+const ALL_URIs = NodeHelper.getNodesUris();
 
 /**
  * "intelligently" loadbalances production API Keys
@@ -25,6 +26,7 @@ function getMainnetURI(): string {
   // There is no lightweight way to test each URL. so just return a random one.
   // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
   const randomIndex = Math.floor(Math.random() * allURIs.length);
+  console.log("mainnet", allURIs);
   return allURIs[randomIndex];
 }
 
@@ -150,9 +152,16 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
     const connectedProvider = new Web3Provider(rawProvider, "any");
 
-    const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
-    const connectedAddress = await connectedProvider.getSigner().getAddress();
-
+    let chainId;
+    let connectedAddress;
+    try {
+      chainId = await connectedProvider.getNetwork().then(network => network.chainId);
+      connectedAddress = await connectedProvider.getSigner().getAddress();
+    } catch (e) {
+      console.log("bad Wallet connection");
+      NodeHelper.logBadConnectionWithTimer(connectedProvider);
+      return;
+    }
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
       console.error("Wrong network, please switch to mainnet");
