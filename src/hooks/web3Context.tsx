@@ -26,7 +26,6 @@ function getMainnetURI(): string {
   // There is no lightweight way to test each URL. so just return a random one.
   // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
   const randomIndex = Math.floor(Math.random() * allURIs.length);
-  console.log("mainnet", allURIs);
   return allURIs[randomIndex];
 }
 
@@ -158,7 +157,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       chainId = await connectedProvider.getNetwork().then(network => network.chainId);
       connectedAddress = await connectedProvider.getSigner().getAddress();
     } catch (e) {
-      console.log("bad Wallet connection");
       NodeHelper.logBadConnectionWithTimer(connectedProvider);
       return;
     }
