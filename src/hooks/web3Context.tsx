@@ -26,7 +26,7 @@ function getTestnetURI(chainId: number) {
  */
 function getMainnetURI(chainId: number): string {
   // Shuffles the URIs for "intelligent" loadbalancing
-  const allURIs = EnvHelper.getAPIUris(chainId).sort(() => Math.random() - 0.5);
+  const allURIs = NodeHelper.getNodesUris(chainId);
 
   // There is no lightweight way to test each URL. so just return a random one.
   // if (workingURI !== undefined || workingURI !== "") return workingURI as string;

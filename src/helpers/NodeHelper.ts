@@ -53,7 +53,7 @@ export class NodeHelper {
     return currentStats;
   }
 
-  static _removeNodeFromProviders(providerKey: string, providerUrl: string) {
+  static _removeNodeFromProviders(providerKey: string, providerUrl: string, chainId: number) {
     // get Object of current removed Nodes
     // key = providerUrl, value = removedAt Timestamp
     let currentRemovedNodesObj = NodeHelper.currentRemovedNodes;
@@ -67,7 +67,7 @@ export class NodeHelper {
       NodeHelper._storage.removeItem(providerKey);
     }
     // if all nodes are removed, then empty the list
-    if (Object.keys(currentRemovedNodesObj).length === EnvHelper.getAPIUris().length) {
+    if (Object.keys(currentRemovedNodesObj).length === EnvHelper.getAPIUris(chainId).length) {
       NodeHelper._emptyInvalidNodesList();
     }
   }
@@ -80,13 +80,14 @@ export class NodeHelper {
   static logBadConnectionWithTimer(provider: StaticJsonRpcProvider) {
     const providerUrl: string = provider.connection.url;
     const providerKey: string = "-nodeHelper:" + providerUrl;
+    const chainId: number = provider.network.chainId;
 
     let currentConnectionStats = JSON.parse(NodeHelper._storage.getItem(providerKey) || "{}");
     currentConnectionStats = NodeHelper._updateConnectionStatsForProvider(currentConnectionStats);
 
-    if (currentConnectionStats.failedConnectionCount > 3) {
+    if (chainId && currentConnectionStats.failedConnectionCount > 3) {
       // then remove this node from our provider list for 24 hours
-      NodeHelper._removeNodeFromProviders(providerKey, providerUrl);
+      NodeHelper._removeNodeFromProviders(providerKey, providerUrl, chainId);
     } else {
       NodeHelper._storage.setItem(providerKey, JSON.stringify(currentConnectionStats));
     }
@@ -96,8 +97,8 @@ export class NodeHelper {
    * returns Array of APIURIs where NOT on invalidNodes list
    * also removes nodes that have been invalid for > 24 hours
    */
-  static getNodesUris = () => {
-    let allURIs = EnvHelper.getAPIUris();
+  static getNodesUris = (chainId: number) => {
+    let allURIs = EnvHelper.getAPIUris(chainId);
     let invalidNodes = NodeHelper.currentRemovedNodesURIs;
 
     // iterate through invalid & remove each from allURIs.
@@ -106,7 +107,7 @@ export class NodeHelper {
     // return the remaining elements
     if (allURIs.length === 0) {
       NodeHelper._emptyInvalidNodesList();
-      allURIs = EnvHelper.getAPIUris();
+      allURIs = EnvHelper.getAPIUris(chainId);
     }
     return allURIs;
   };
