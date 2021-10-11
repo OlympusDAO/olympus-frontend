@@ -69,10 +69,9 @@ export const poolTogetherUILinks = chainID => {
       `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/manage#stats`,
     ];
   } else {
-    // TODO (appleseed-33t): these are the rinkeby urls again
     return [
-      `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/home`,
-      `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/manage#stats`,
+      `https://community.pooltogether.com/pools/mainnet/${contractAddress}/home`,
+      `https://community.pooltogether.com/pools/mainnet/${contractAddress}/manage#stats`,
     ];
   }
 };
