@@ -5,6 +5,7 @@ import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
 import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
 import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
 import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
+import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
 import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 
@@ -209,6 +210,14 @@ export const ohm_lusd = new LPBond({
       // NOTE (appleseed-lusd): using ohm-dai rinkeby contracts
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
+    [NetworkID.Arbitrum]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
+    },
+    [NetworkID.ArbitrumTestnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2", //replace
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E", //replace
     },
   },
   lpUrl:
