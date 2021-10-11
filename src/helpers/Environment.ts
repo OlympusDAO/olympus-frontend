@@ -10,8 +10,15 @@ export class EnvHelper {
    */
   static env = process.env;
   static alchemyTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_TESTNET_ALCHEMY}`;
-
   static whitespaceRegex = /\s+/;
+
+  /**
+   * Returns env contingent segment api key
+   * @returns segment
+   */
+  static getSegmentKey() {
+    return EnvHelper.env.REACT_APP_SEGMENT_API_KEY;
+  }
 
   static isNotEmpty(envVariable: string) {
     if (envVariable.length > 10) {
@@ -28,11 +35,7 @@ export class EnvHelper {
     let ALCHEMY_ID_LIST: string[];
 
     // split the provided API keys on whitespace
-    if (
-      EnvHelper.env.NODE_ENV !== "development" &&
-      EnvHelper.env.REACT_APP_ALCHEMY_IDS &&
-      EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ALCHEMY_IDS)
-    ) {
+    if (EnvHelper.env.REACT_APP_ALCHEMY_IDS && EnvHelper.env.NODE_ENV !== "development") {
       ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
     } else {
       // this is the ethers common API key, suitable for testing, not prod

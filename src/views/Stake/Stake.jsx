@@ -1,33 +1,32 @@
-import { useState, useCallback, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  Grid,
   Box,
-  Paper,
-  Typography,
+  Button,
   FormControl,
+  Grid,
   InputAdornment,
   InputLabel,
+  Link,
   OutlinedInput,
-  Button,
+  Paper,
   Tab,
   Tabs,
-  Link,
+  Typography,
   Zoom,
 } from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim, getTokenImage, getOhmTokenImage } from "../../helpers";
-import { changeStake, changeApproval } from "../../slices/StakeThunk";
+import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./stake.scss";
-import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "./ExternalStakePool";
+import { error } from "../../slices/MessagesSlice";
 
 function a11yProps(index) {
   return {
@@ -66,6 +65,12 @@ function Stake() {
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
+  const fsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.fsohm;
+  });
+  const wsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.wsohm;
+  });
   const stakeAllowance = useSelector(state => {
     return state.account.staking && state.account.staking.ohmStake;
   });
@@ -102,7 +107,7 @@ function Stake() {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      alert("Please enter a value!");
+      dispatch(error("Please enter a value!"));
     } else {
       await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
@@ -129,10 +134,16 @@ function Stake() {
     setView(newView);
   };
 
-  const trimmedSOHMBalance = trim(sohmBalance, 4);
+  const trimmedBalance = Number(
+    [sohmBalance, fsohmBalance, wsohmBalance]
+      .filter(Boolean)
+      .map(balance => Number(balance))
+      .reduce((a, b) => a + b, 0)
+      .toFixed(4),
+  );
   const trimmedStakingAPY = trim(stakingAPY * 100, 1);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedSOHMBalance, 4);
+  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
   return (
     <div id="stake-view">
@@ -177,10 +188,10 @@ function Stake() {
                     </div>
                   </Grid>
 
-                  <Grid item xs={6} sm={4} md={4} lg={4}>
+                  <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-tvl">
                       <Typography variant="h5" color="textSecondary">
-                        TVL
+                        Total Value Deposited
                       </Typography>
                       <Typography variant="h4">
                         {stakingTVL ? (
@@ -197,7 +208,7 @@ function Stake() {
                     </div>
                   </Grid>
 
-                  <Grid item xs={6} sm={4} md={4} lg={4}>
+                  <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-index">
                       <Typography variant="h5" color="textSecondary">
                         Current Index
@@ -334,11 +345,7 @@ function Stake() {
                     <div className="data-row">
                       <Typography variant="body1">Your Staked Balance</Typography>
                       <Typography variant="body1" id="user-staked-balance">
-                        {isAppLoading ? (
-                          <Skeleton width="80px" />
-                        ) : (
-                          <>{new Intl.NumberFormat("en-US").format(trimmedSOHMBalance)} sOHM</>
-                        )}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
                       </Typography>
                     </div>
 
@@ -370,8 +377,7 @@ function Stake() {
         </Paper>
       </Zoom>
 
-      {/* TODO (appleseed-lusd): hiding Stake Pool temporarily, when ready update button links */}
-      {/* <ExternalStakePool /> */}
+      <ExternalStakePool />
     </div>
   );
 }
