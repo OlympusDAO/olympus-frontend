@@ -132,7 +132,7 @@ function TreasuryDashboard() {
                   data={data}
                   dataKey={["totalValueLocked"]}
                   stopColor={[["#768299", "#98B3E9"]]}
-                  headerText="Total Value Locked"
+                  headerText="Total Value Deposited"
                   headerSubText={`${data && formatCurrency(data[0].totalValueLocked)}`}
                   bulletpointColors={bulletpoints.tvl}
                   itemNames={tooltipItems.tvl}

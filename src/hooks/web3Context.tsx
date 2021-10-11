@@ -4,6 +4,7 @@ import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider, WebSocketProvider
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { EnvHelper } from "../helpers/Environment";
 import { NETWORKS } from "../constants";
+import { NodeHelper } from "src/helpers/NodeHelper";
 
 /**
  * kept as function to mimic `getMainnetURI()`
@@ -77,16 +78,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [chainName, setChainName] = useState("Ethereum");
   const [address, setAddress] = useState("");
   const [uri, setUri] = useState(getMainnetURI(1));
-
-  // if websocket we need to change providerType
-  const providerType = () => {
-    if (uri.indexOf("ws://") === 0 || uri.indexOf("wss://") === 0) {
-      return new WebSocketProvider(uri);
-    } else {
-      return new StaticJsonRpcProvider(uri);
-    }
-  };
-  const [provider, setProvider] = useState<JsonRpcProvider>(providerType);
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -209,9 +201,15 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
     const connectedProvider = new Web3Provider(rawProvider, "any");
 
-    const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
-    const connectedAddress = await connectedProvider.getSigner().getAddress();
-
+    let chainId;
+    let connectedAddress;
+    try {
+      chainId = await connectedProvider.getNetwork().then(network => network.chainId);
+      connectedAddress = await connectedProvider.getSigner().getAddress();
+    } catch (e) {
+      NodeHelper.logBadConnectionWithTimer(connectedProvider);
+      return;
+    }
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
       console.error("Wrong network, please switch to mainnet");
@@ -254,19 +252,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     }),
     [connect, disconnect, switchChain, hasCachedProvider, provider, connected, address, chainID, chainName, web3Modal],
   );
-
-  useEffect(() => {
-    // Don't try to connect here. Do it in App.jsx
-    // console.log(hasCachedProvider());
-    // if (hasCachedProvider()) {
-    //   connect();
-    // }
-  }, []);
-
-  // initListeners needs to be run on rawProvider... see connect()
-  // useEffect(() => {
-  //   _initListeners();
-  // }, [connected]);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };

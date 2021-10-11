@@ -78,7 +78,7 @@ export default function ExternalStakePool() {
                 <TableHead>
                   <TableRow>
                     <TableCell>Asset</TableCell>
-                    <TableCell align="left">APR</TableCell>
+                    <TableCell align="left">APY</TableCell>
                     <TableCell align="left">TVD</TableCell>
                     <TableCell align="left">Balance</TableCell>
                     <TableCell></TableCell>
@@ -125,7 +125,7 @@ export default function ExternalStakePool() {
                         target="_blank"
                         className="stake-lp-button"
                       >
-                        <Typography variant="body1">Stake on Crucible</Typography>
+                        <Typography variant="body1">Stake in Crucible</Typography>
                         <SvgIcon component={ArrowUp} color="primary" />
                       </Button>
                     </TableCell>
@@ -143,7 +143,7 @@ export default function ExternalStakePool() {
               </div>
               <div className="pool-data">
                 <div className="data-row">
-                  <Typography>APR</Typography>
+                  <Typography>APY</Typography>
                   <Typography>
                     {isLusdLoading ? (
                       <Skeleton width="80px" />
@@ -184,7 +184,7 @@ export default function ExternalStakePool() {
                   className="stake-lp-button"
                   fullWidth
                 >
-                  <Typography variant="body1">Stake on Crucible</Typography>
+                  <Typography variant="body1">Stake in Crucible</Typography>
                   <SvgIcon component={ArrowUp} color="primary" />
                 </Button>
               </div>

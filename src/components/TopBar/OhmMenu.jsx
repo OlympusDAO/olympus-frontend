@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { addresses, TOKEN_DECIMALS } from "../../constants";
-import { useSelector } from "react-redux";
 import { Box, Button, Divider, Fade, Link, Paper, Popper, SvgIcon, Typography } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
 import Grid from "@material-ui/core/Grid";
+import { useWeb3Context } from "../../hooks/web3Context";
 
 import OhmImg from "src/assets/tokens/token_OHM.svg";
 import SOhmImg from "src/assets/tokens/token_sOHM.svg";
@@ -14,6 +14,7 @@ import SOhmImg from "src/assets/tokens/token_sOHM.svg";
 const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
     const host = window.location.origin;
+    // NOTE (appleseed): 33T token defaults to sOHM logo since we don't have a 33T logo yet
     const tokenPath = tokenSymbol === "OHM" ? OhmImg : SOhmImg;
     const imageURL = `${host}/${tokenPath}`;
 
@@ -39,13 +40,13 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
 function OhmMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const isEthereumAPIAvailable = window.ethereum;
+  const { chainID } = useWeb3Context();
 
-  const networkID = useSelector(state => {
-    return (state.app && state.app.networkID) || 1;
-  });
+  const networkID = chainID;
 
   const SOHM_ADDRESS = addresses[networkID].SOHM_ADDRESS;
   const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
+  const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
 
   const handleClick = event => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -118,6 +119,14 @@ function OhmMenu() {
                       onClick={addTokenToWallet("sOHM", SOHM_ADDRESS)}
                     >
                       <Typography>sOHM</Typography>
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      color="secondary"
+                      onClick={addTokenToWallet("33T", PT_TOKEN_ADDRESS)}
+                    >
+                      <Typography>33T</Typography>
                     </Button>
                   </Box>
                 ) : null}
