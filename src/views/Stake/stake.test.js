@@ -16,21 +16,21 @@ export const handlers = [
             __typename: "_Meta_",
             block: {
               __typename: "_Block_",
-              number: 13244419,
+              number: 13404804,
             },
           },
           protocolMetrics: [
             {
               __typename: "ProtocolMetric",
-              marketCap: "888187675.8967761545440907819386178",
-              nextDistributedOhm: "6419.305525833",
-              nextEpochRebase: "0.3947563555820341142905131077418562",
-              ohmCirculatingSupply: "1771844.544846037",
-              ohmPrice: "501.278556564314452850829714320615",
-              sOhmCirculatingSupply: "1626143.679528171",
-              timestamp: "1631836836",
-              totalSupply: "2169273.279359991",
-              totalValueLocked: "815150956.4400647009708507987245194",
+              marketCap: "2850404741.408880328568714963827889",
+              nextDistributedOhm: "9536.348673867",
+              nextEpochRebase: "0.3984399885022833379898967937151319",
+              ohmCirculatingSupply: "2606164.580244948",
+              ohmPrice: "1093.716322835212771836103791185812",
+              sOhmCirculatingSupply: "2393421.581431541",
+              timestamp: "1633996882",
+              totalSupply: "3217915.76256185",
+              totalValueLocked: "2617724251.037744790511990363550964",
             },
           ],
         },
@@ -51,21 +51,20 @@ afterEach(() => server.resetHandlers());
 // Disable API mocking after the tests are done.
 afterAll(() => server.close());
 
-jest.setTimeout(10000);
+jest.setTimeout(60000);
 test("the stake page APY, TVL, and Index", async () => {
-  // we should probably just be rendering the <Stake /> component but we need to mock the store and api calls first (i think in the custom render function)
-  // example of mocking store in render can be found here https://redux.js.org/usage/writing-tests
+  // we should probably just be rendering the <Stake /> component
   render(<App />);
-  expect(screen.getByTestId("staking-apy-loading")).toBeInTheDocument();
-  expect(screen.getByTestId("staking-tvl-loading")).toBeInTheDocument();
-  expect(screen.getByTestId("staking-index-loading")).toBeInTheDocument();
+  expect(screen.getByTestId("apy-loading")).toBeInTheDocument();
+  expect(screen.getByTestId("tvl-loading")).toBeInTheDocument();
+  expect(screen.getByTestId("index-loading")).toBeInTheDocument();
   await waitFor(
     () => {
       // we should check for the correct numbers being rendered here too
-      expect(screen.getByTestId("staking-apy-value")).toBeInTheDocument();
-      expect(screen.getByTestId("staking-tvl-value")).toBeInTheDocument();
-      expect(screen.getByTestId("staking-index-value")).toBeInTheDocument();
+      expect(screen.getByTestId("apy-value")).toBeInTheDocument();
+      expect(screen.getByTestId("tvl-value")).toBeInTheDocument();
+      expect(screen.getByTestId("index-value")).toBeInTheDocument();
     },
-    { timeout: 10000 },
+    { timeout: 30000 },
   );
 });
