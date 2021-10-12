@@ -30,9 +30,17 @@ export interface NetworkAddresses {
   [NetworkID.ArbitrumTestnet]: BondAddresses;
 }
 
+export interface Available {
+  [NetworkID.Mainnet]: boolean;
+  [NetworkID.Testnet]: boolean;
+  [NetworkID.Arbitrum]: boolean;
+  [NetworkID.ArbitrumTestnet]: boolean;
+}
+
 interface BondOpts {
   name: string; // Internal name used for references
   displayName: string; // Displayname on UI
+  isAvailable: Available; // set false to hide
   bondIconSvg: React.ReactNode; //  SVG path for icons
   bondContractABI: ethers.ContractInterface; // ABI for contract
   networkAddrs: NetworkAddresses; // Mapping of network --> Addresses
@@ -44,6 +52,7 @@ export abstract class Bond {
   // Standard Bond fields regardless of LP bonds or stable bonds.
   readonly name: string;
   readonly displayName: string;
+  readonly isAvailable: Available;
   readonly type: BondType;
   readonly bondIconSvg: React.ReactNode;
   readonly bondContractABI: ethers.ContractInterface; // Bond ABI
@@ -61,11 +70,16 @@ export abstract class Bond {
   constructor(type: BondType, bondOpts: BondOpts) {
     this.name = bondOpts.name;
     this.displayName = bondOpts.displayName;
+    this.isAvailable = bondOpts.isAvailable;
     this.type = type;
     this.bondIconSvg = bondOpts.bondIconSvg;
     this.bondContractABI = bondOpts.bondContractABI;
     this.networkAddrs = bondOpts.networkAddrs;
     this.bondToken = bondOpts.bondToken;
+  }
+
+  getAvailability(networkID: NetworkID) {
+    return this.isAvailable[networkID];
   }
 
   getAddressForBond(networkID: NetworkID) {

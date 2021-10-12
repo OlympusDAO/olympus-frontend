@@ -103,9 +103,11 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
         setSecondsToRefresh(secondsToRefresh => secondsToRefresh - 1);
       }, 1000);
     } else {
-      clearInterval(interval);
-      dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
-      setSecondsToRefresh(SECONDS_TO_REFRESH);
+      if (bond.getAvailability(chainID)) {
+        clearInterval(interval);
+        dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
+        setSecondsToRefresh(SECONDS_TO_REFRESH);
+      }
     }
     return () => clearInterval(interval);
   }, [secondsToRefresh, quantity]);

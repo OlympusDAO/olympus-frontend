@@ -116,7 +116,9 @@ function App() {
     loadProvider => {
       dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
       bonds.map(bond => {
-        dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+        if (bond.getAvailability(chainID)) {
+          dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+        }
       });
     },
     [connected],
@@ -126,7 +128,9 @@ function App() {
     loadProvider => {
       dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
       bonds.map(bond => {
-        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        if (bond.getAvailability(chainID)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        }
       });
     },
     [connected],

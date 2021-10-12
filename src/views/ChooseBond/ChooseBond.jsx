@@ -21,8 +21,10 @@ import { Skeleton } from "@material-ui/lab";
 import ClaimBonds from "./ClaimBonds";
 import _ from "lodash";
 import { allBondsMap } from "src/helpers/AllBonds";
+import { useWeb3Context } from "../../hooks";
 
 function ChooseBond() {
+  const { chainID } = useWeb3Context();
   const { bonds } = useBonds();
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
@@ -45,15 +47,15 @@ function ChooseBond() {
   });
 
   const treasuryBalance = useSelector(state => {
+    let tokenBalances = 0;
     if (state.bonding.loading == false) {
-      let tokenBalances = 0;
       for (const bond in allBondsMap) {
         if (state.bonding[bond]) {
           tokenBalances += state.bonding[bond].purchased;
         }
       }
-      return tokenBalances;
     }
+    return tokenBalances;
   });
 
   return (
@@ -113,9 +115,11 @@ function ChooseBond() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {bonds.map(bond => (
-                      <BondTableData key={bond.name} bond={bond} />
-                    ))}
+                    {bonds.map(bond => {
+                      if (bond.getAvailability(chainID)) {
+                        return <BondTableData key={bond.name} bond={bond} />;
+                      }
+                    })}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -127,11 +131,15 @@ function ChooseBond() {
       {isSmallScreen && (
         <Box className="ohm-card-container">
           <Grid container item spacing={2}>
-            {bonds.map(bond => (
-              <Grid item xs={12} key={bond.name}>
-                <BondDataCard key={bond.name} bond={bond} />
-              </Grid>
-            ))}
+            {bonds.map(bond => {
+              if (bond.getAvailability(chainID)) {
+                return (
+                  <Grid item xs={12} key={bond.name}>
+                    <BondDataCard key={bond.name} bond={bond} />
+                  </Grid>
+                );
+              }
+            })}
           </Grid>
         </Box>
       )}
