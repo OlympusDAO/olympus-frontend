@@ -200,6 +200,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     _initListeners(rawProvider);
 
     const connectedProvider = new Web3Provider(rawProvider, "any");
+    setProvider(connectedProvider);
 
     let chainId;
     let connectedAddress;
@@ -216,10 +217,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       setChainName("Unsupported Chain!");
       return;
     }
+
     // Save everything after we've validated the right network.
     // Eventually we'll be fine without doing network validations.
     setAddress(connectedAddress);
-    setProvider(connectedProvider);
 
     // Keep this at the bottom of the method, to ensure any repaints have the data we need
     setConnected(true);
