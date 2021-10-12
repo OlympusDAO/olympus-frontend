@@ -51,14 +51,10 @@ interface IUserAccountDetails {
     dai: string;
     ohm: string;
     sohm: string;
-    oldsohm: string;
   };
   staking: {
     ohmStake: number;
     ohmUnstake: number;
-  };
-  migrate: {
-    unstakeAllowance: number;
   };
   bonding: {
     daiAllowance: number;
@@ -72,7 +68,6 @@ export const loadAccountDetails = createAsyncThunk(
     let sohmBalance = 0;
     let fsohmBalance = 0;
     let wsohmBalance = 0;
-    let oldsohmBalance = 0;
     let stakeAllowance = 0;
     let unstakeAllowance = 0;
     let lpStaked = 0;
@@ -80,7 +75,6 @@ export const loadAccountDetails = createAsyncThunk(
     let lpBondAllowance = 0;
     let daiBondAllowance = 0;
     let aOHMAbleToClaim = 0;
-    let unstakeAllowanceSohm;
     let poolBalance = 0;
     let poolAllowance = 0;
 
@@ -125,12 +119,6 @@ export const loadAccountDetails = createAsyncThunk(
       wsohmBalance = await wsohmContract.wOHMTosOHM(balance);
     }
 
-    if (addresses[networkID].OLD_SOHM_ADDRESS) {
-      const oldsohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS as string, sOHM, provider);
-      oldsohmBalance = await oldsohmContract.balanceOf(address);
-      unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
-    }
-
     return {
       balances: {
         dai: ethers.utils.formatEther(daiBalance),
@@ -138,15 +126,11 @@ export const loadAccountDetails = createAsyncThunk(
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: fsohmBalance,
         wsohm: ethers.utils.formatUnits(wsohmBalance, "gwei"),
-        oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
       },
       staking: {
         ohmStake: +stakeAllowance,
         ohmUnstake: +unstakeAllowance,
-      },
-      migrate: {
-        unstakeAllowance: +unstakeAllowanceSohm,
       },
       bonding: {
         daiAllowance: daiBondAllowance,
