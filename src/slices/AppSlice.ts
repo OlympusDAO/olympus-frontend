@@ -77,13 +77,7 @@ export const loadAppDetails = createAsyncThunk(
         totalSupply,
       };
     }
-    let currentBlock: number;
-    try {
-      currentBlock = await provider.getBlockNumber();
-    } catch (e) {
-      NodeHelper.logBadConnectionWithTimer(provider);
-      currentBlock = 0;
-    }
+    const currentBlock = await provider.getBlockNumber();
 
     const stakingContract = new ethers.Contract(
       addresses[networkID].STAKING_ADDRESS as string,
@@ -181,11 +175,10 @@ const loadMarketPrice = createAsyncThunk(
   async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) => {
     let marketPrice: number;
     try {
-      marketPrice = await getTokenPrice("olympus");
-    } catch (e) {
-      console.log("Returned a null response when querying CoinGecko");
       marketPrice = await getMarketPrice({ networkID, provider });
       marketPrice = marketPrice / Math.pow(10, 9);
+    } catch (e) {
+      marketPrice = await getTokenPrice("olympus");
     }
     return { marketPrice };
   },
