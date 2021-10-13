@@ -125,51 +125,47 @@ export class NodeHelper {
    * returns an Array of working mainnet nodes
    */
   static checkAllNodesStatus = async () => {
-    let workingURI: string = "none";
-    var promises: any[] = [];
-    NodeHelper.getNodesUris().forEach(URI => {
-      promises.push(
-        NodeHelper.checkNodeStatus(URI).then(live => {
-          if (live) return (workingURI = URI);
-        }),
-      );
-    });
-    return Promise.all(promises);
+    return await Promise.all(
+      NodeHelper.getNodesUris().map(async URI => {
+        let workingUrl = await NodeHelper.checkNodeStatus(URI);
+        return workingUrl;
+      }),
+    );
   };
 
   /**
    * 403 errors are not caught by fetch so we check response.status, too
+   * this func returns a workingURL string or false;
    */
   static checkNodeStatus = async (url: string) => {
-    let liveStatus = true;
-    await fetch(url, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // NOTE (appleseed): are there other basic requests for other chain types (Arbitrum)???
-      // https://documenter.getpostman.com/view/4117254/ethereum-json-rpc/RVu7CT5J
-      // chainId works... but is net_version lighter-weight?
-      // body: JSON.stringify({ method: "eth_chainId", params: [], id: 42, jsonrpc: "2.0" }),
-      body: JSON.stringify({ method: "net_version", params: [], id: 67, jsonrpc: "2.0" }),
-    })
-      .then(resp => {
-        if (resp.status >= 400) {
-          // probably 403 or 429 -> no more alchemy capacity
-          NodeHelper.logBadConnectionWithTimer(resp.url);
-          liveStatus = false;
-        } else {
-          // this is a working node, prioritize it
-          console.log("working node", url);
-          liveStatus = true;
-        }
-      })
-      .catch(e => {
-        // some other type of issue
-        NodeHelper.logBadConnectionWithTimer(url);
-        liveStatus = false;
+    let liveURL;
+    try {
+      let resp = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // NOTE (appleseed): are there other basic requests for other chain types (Arbitrum)???
+        // https://documenter.getpostman.com/view/4117254/ethereum-json-rpc/RVu7CT5J
+        // chainId works... but is net_version lighter-weight?
+        // body: JSON.stringify({ method: "eth_chainId", params: [], id: 42, jsonrpc: "2.0" }),
+        body: JSON.stringify({ method: "net_version", params: [], id: 67, jsonrpc: "2.0" }),
       });
-    return liveStatus;
+      if (resp.status >= 400) {
+        // probably 403 or 429 -> no more alchemy capacity
+        NodeHelper.logBadConnectionWithTimer(resp.url);
+        liveURL = false;
+      } else {
+        // this is a working node
+        // TODO (appleseed) use response object to prioritize it
+        liveURL = url;
+      }
+    } catch {
+      // some other type of issue
+      NodeHelper.logBadConnectionWithTimer(url);
+      liveURL = false;
+    }
+    return liveURL;
   };
 }

@@ -185,7 +185,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   );
 
   useEffect(() => {
-    // returns an array of working mainnet nodes, could be used to optimize connection
+    // logs non-functioning nodes && returns an array of working mainnet nodes, could be used to optimize connection
     NodeHelper.checkAllNodesStatus();
   }, []);
 
