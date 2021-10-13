@@ -24,10 +24,10 @@ export interface BondAddresses {
 }
 
 export interface NetworkAddresses {
-  [NetworkID.Mainnet]: BondAddresses;
-  [NetworkID.Testnet]: BondAddresses;
-  [NetworkID.Arbitrum]: BondAddresses;
-  [NetworkID.ArbitrumTestnet]: BondAddresses;
+  [NetworkID.Mainnet]?: BondAddresses;
+  [NetworkID.Testnet]?: BondAddresses;
+  [NetworkID.Arbitrum]?: BondAddresses;
+  [NetworkID.ArbitrumTestnet]?: BondAddresses;
 }
 
 export interface Available {
@@ -83,18 +83,18 @@ export abstract class Bond {
   }
 
   getAddressForBond(networkID: NetworkID) {
-    return this.networkAddrs[networkID].bondAddress;
+    return this.networkAddrs[networkID]?.bondAddress;
   }
   getContractForBond(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
-    const bondAddress = this.getAddressForBond(networkID);
+    const bondAddress = this.getAddressForBond(networkID) || "";
     return new ethers.Contract(bondAddress, this.bondContractABI, provider);
   }
 
   getAddressForReserve(networkID: NetworkID) {
-    return this.networkAddrs[networkID].reserveAddress;
+    return this.networkAddrs[networkID]?.reserveAddress;
   }
   getContractForReserve(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
-    const bondAddress = this.getAddressForReserve(networkID);
+    const bondAddress = this.getAddressForReserve(networkID) || "";
     return new ethers.Contract(bondAddress, this.reserveContract, provider);
   }
 

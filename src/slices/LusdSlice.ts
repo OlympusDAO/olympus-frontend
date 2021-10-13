@@ -30,23 +30,17 @@ interface IPoolInfo {
 export const getLusdData = createAsyncThunk(
   "stake/getLusdData",
   async ({ address, networkID, provider }: IGetBalances) => {
-    // only works on mainnet
-    if (networkID !== 1) {
-      // we don't have rinkeby contracts
-      return { apy: 0, tvl: 0 };
-    } else {
-      // calcing APY & tvl
-      const crucibleDetes = await calcAludelDetes(networkID, provider);
-      let avgApy = crucibleDetes.averageApy;
-      if (isNaN(avgApy)) avgApy = 0;
+    // calcing APY & tvl
+    const crucibleDetes = await calcAludelDetes(networkID, provider);
+    let avgApy = crucibleDetes?.averageApy;
+    if (!avgApy || isNaN(avgApy)) avgApy = 0;
 
-      return {
-        apy: avgApy,
-        tvl: crucibleDetes.tvlUsd,
-        // NOTE (appleseed): balance is in accountSlice for the bond
-        // balance: ethers.utils.formatUnits(sushiOhmLusdBalance, "gwei"),
-      };
-    }
+    return {
+      apy: avgApy,
+      tvl: crucibleDetes?.tvlUsd,
+      // NOTE (appleseed): balance is in accountSlice for the bond
+      // balance: ethers.utils.formatUnits(sushiOhmLusdBalance, "gwei"),
+    };
   },
 );
 

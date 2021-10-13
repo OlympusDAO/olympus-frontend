@@ -27,6 +27,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "./ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
+import { ohm_lusd } from "../../helpers/AllBonds";
 
 function a11yProps(index) {
   return {
@@ -89,6 +90,10 @@ function Stake() {
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
+  });
+
+  const ohmLusdAvailable = useSelector(state => {
+    return ohm_lusd.getAvailability(chainID);
   });
 
   const setMax = () => {
@@ -377,7 +382,7 @@ function Stake() {
         </Paper>
       </Zoom>
 
-      <ExternalStakePool />
+      {ohmLusdAvailable ? <ExternalStakePool /> : <div />}
     </div>
   );
 }

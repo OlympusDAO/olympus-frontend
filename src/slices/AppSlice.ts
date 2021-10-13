@@ -179,12 +179,14 @@ export const findOrLoadMarketPrice = createAsyncThunk(
 const loadMarketPrice = createAsyncThunk(
   "app/loadMarketPrice",
   async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) => {
-    let marketPrice: number;
+    let marketPrice: number | undefined;
     try {
       marketPrice = await getTokenPrice("olympus");
     } catch (e) {
       console.log("Returned a null response when querying CoinGecko");
       marketPrice = await getMarketPrice({ networkID, provider });
+      // If this is unavailable on the current network
+      if (!marketPrice) return;
       marketPrice = marketPrice / Math.pow(10, 9);
     }
     return { marketPrice };

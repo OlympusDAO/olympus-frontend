@@ -43,14 +43,6 @@ export const dai = new StableBond({
       bondAddress: "0xDea5668E815dAF058e3ecB30F645b04ad26374Cf",
       reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C",
     },
-    [NetworkID.Arbitrum]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
-    [NetworkID.ArbitrumTestnet]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
   },
 });
 
@@ -74,14 +66,6 @@ export const frax = new StableBond({
     [NetworkID.Testnet]: {
       bondAddress: "0xF651283543fB9D61A91f318b78385d187D300738",
       reserveAddress: "0x2F7249cb599139e560f0c81c269Ab9b04799E453",
-    },
-    [NetworkID.Arbitrum]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
-    [NetworkID.ArbitrumTestnet]: {
-      bondAddress: "",
-      reserveAddress: "",
     },
   },
 });
@@ -107,14 +91,6 @@ export const lusd = new StableBond({
       bondAddress: "0x3aD02C4E4D1234590E87A1f9a73B8E0fd8CF8CCa",
       reserveAddress: "0x45754dF05AA6305114004358eCf8D04FF3B84e26",
     },
-    [NetworkID.Arbitrum]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
-    [NetworkID.ArbitrumTestnet]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
   },
 });
 
@@ -138,14 +114,6 @@ export const eth = new CustomBond({
     [NetworkID.Testnet]: {
       bondAddress: "0xca7b90f8158A4FAA606952c023596EE6d322bcf0",
       reserveAddress: "0xc778417e063141139fce010982780140aa0cd5ab",
-    },
-    [NetworkID.Arbitrum]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
-    [NetworkID.ArbitrumTestnet]: {
-      bondAddress: "",
-      reserveAddress: "",
     },
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
@@ -181,14 +149,6 @@ export const ohm_dai = new LPBond({
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
-    [NetworkID.Arbitrum]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
-    [NetworkID.ArbitrumTestnet]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
   },
 
   lpUrl:
@@ -217,14 +177,6 @@ export const ohm_frax = new LPBond({
       bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
       reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
     },
-    [NetworkID.Arbitrum]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
-    [NetworkID.ArbitrumTestnet]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
   },
   lpUrl:
     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
@@ -252,14 +204,6 @@ export const ohm_lusd = new LPBond({
       // NOTE (appleseed-lusd): using ohm-dai rinkeby contracts
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
-    },
-    [NetworkID.Arbitrum]: {
-      bondAddress: "",
-      reserveAddress: "",
-    },
-    [NetworkID.ArbitrumTestnet]: {
-      bondAddress: "",
-      reserveAddress: "",
     },
   },
   lpUrl:
