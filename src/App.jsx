@@ -225,7 +225,7 @@ function App() {
             </Route>
 
             <Route path="/33-together">
-              <PoolTogether />
+              {chainID === 1 || chainID === 4 ? <PoolTogether /> : <Redirect to="/stake" />}
             </Route>
 
             <Route path="/bonds">
