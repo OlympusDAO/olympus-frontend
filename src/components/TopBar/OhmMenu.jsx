@@ -44,9 +44,9 @@ function OhmMenu() {
 
   const networkID = chainID;
 
-  const SOHM_ADDRESS = addresses[networkID].SOHM_ADDRESS;
-  const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
-  const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
+  const SOHM_ADDRESS = addresses[networkID] && addresses[networkID].SOHM_ADDRESS;
+  const OHM_ADDRESS = addresses[networkID] && addresses[networkID].OHM_ADDRESS;
+  const PT_TOKEN_ADDRESS = addresses[networkID] && addresses[networkID].PT_TOKEN_ADDRESS;
 
   const handleClick = event => {
     setAnchorEl(anchorEl ? null : event.currentTarget);

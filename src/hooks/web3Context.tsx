@@ -214,6 +214,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
       console.error("Wrong network, please switch to mainnet");
+      setChainID(chainId);
       setChainName("Unsupported Chain!");
       return;
     }
