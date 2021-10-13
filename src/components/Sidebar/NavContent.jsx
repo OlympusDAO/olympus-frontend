@@ -89,20 +89,24 @@ function NavContent() {
                 </Typography>
               </Link>
 
-              <Link
-                component={NavLink}
-                id="33-together-nav"
-                to="/33-together"
-                isActive={(match, location) => {
-                  return checkPage(match, location, "33-together");
-                }}
-                className={`button-dapp-menu ${isActive ? "active" : ""}`}
-              >
-                <Typography variant="h6">
-                  <SvgIcon color="primary" component={PoolTogetherIcon} />
-                  3,3 Together
-                </Typography>
-              </Link>
+              {chainID === 1 || chainID === 4 ? (
+                <Link
+                  component={NavLink}
+                  id="33-together-nav"
+                  to="/33-together"
+                  isActive={(match, location) => {
+                    return checkPage(match, location, "33-together");
+                  }}
+                  className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                >
+                  <Typography variant="h6">
+                    <SvgIcon color="primary" component={PoolTogetherIcon} />
+                    3,3 Together
+                  </Typography>
+                </Link>
+              ) : (
+                <div />
+              )}
 
               <Link
                 component={NavLink}
