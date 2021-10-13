@@ -27,6 +27,7 @@ export class EnvHelper {
       return false;
     }
   }
+
   /**
    * in development environment will return the `ethers` community api key so that devs don't need to add elements to their .env
    * @returns Array of Alchemy API URIs or empty set
@@ -35,11 +36,13 @@ export class EnvHelper {
     let ALCHEMY_ID_LIST: string[];
 
     // split the provided API keys on whitespace
-    if (EnvHelper.env.REACT_APP_ALCHEMY_IDS && EnvHelper.env.NODE_ENV !== "development") {
+    if (EnvHelper.env.REACT_APP_ALCHEMY_IDS && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ALCHEMY_IDS)) {
       ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
-    } else {
+    } else if (EnvHelper.env.NODE_ENV === "development") {
       // this is the ethers common API key, suitable for testing, not prod
       ALCHEMY_ID_LIST = ["_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC"];
+    } else {
+      ALCHEMY_ID_LIST = [];
     }
 
     // now add the uri path
@@ -75,19 +78,19 @@ export class EnvHelper {
   }
 
   /**
-   * @returns {Array} Array of websocket addresses or empty set
+   * @returns {Array} Array of node url addresses or empty set
+   * node url addresses can be whitespace-separated string of "https" addresses
+   * - functionality for Websocket addresses has been deprecated due to issues with WalletConnect
+   *     - WalletConnect Issue: https://github.com/WalletConnect/walletconnect-monorepo/issues/193
    */
-  static getSelfHostedSockets() {
-    let WS_LIST: string[];
-    if (
-      EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS &&
-      EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS)
-    ) {
-      WS_LIST = EnvHelper.env.REACT_APP_SELF_HOSTED_WEBSOCKETS.split(new RegExp(EnvHelper.whitespaceRegex));
+  static getSelfHostedNode() {
+    let URI_LIST: string[];
+    if (EnvHelper.env.REACT_APP_SELF_HOSTED_NODE && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_SELF_HOSTED_NODE)) {
+      URI_LIST = EnvHelper.env.REACT_APP_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
     } else {
-      WS_LIST = [];
+      URI_LIST = [];
     }
-    return WS_LIST;
+    return URI_LIST;
   }
 
   /**
@@ -98,7 +101,7 @@ export class EnvHelper {
   static getAPIUris() {
     // Debug log
     // console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());
-    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getSelfHostedSockets()];
+    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getSelfHostedNode()];
     if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
     return ALL_URIs;
   }

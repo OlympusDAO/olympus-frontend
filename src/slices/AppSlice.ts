@@ -5,6 +5,7 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
+import { NodeHelper } from "../helpers/NodeHelper";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
@@ -76,7 +77,13 @@ export const loadAppDetails = createAsyncThunk(
         totalSupply,
       };
     }
-    const currentBlock = await provider.getBlockNumber();
+    let currentBlock: number;
+    try {
+      currentBlock = await provider.getBlockNumber();
+    } catch (e) {
+      NodeHelper.logBadConnectionWithTimer(provider);
+      currentBlock = 0;
+    }
 
     const stakingContract = new ethers.Contract(
       addresses[networkID].STAKING_ADDRESS as string,
@@ -129,6 +136,14 @@ export const loadAppDetails = createAsyncThunk(
  * checks if app.slice has marketPrice already
  * if yes then simply load that state
  * if no then fetches via `loadMarketPrice`
+ *
+ * `usage`:
+ * ```
+ * const originalPromiseResult = await dispatch(
+ *    findOrLoadMarketPrice({ networkID: networkID, provider: provider }),
+ *  ).unwrap();
+ * originalPromiseResult?.whateverValue;
+ * ```
  */
 export const findOrLoadMarketPrice = createAsyncThunk(
   "app/findOrLoadMarketPrice",
@@ -166,11 +181,10 @@ const loadMarketPrice = createAsyncThunk(
   async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) => {
     let marketPrice: number;
     try {
-      marketPrice = await getTokenPrice("olympus");
-    } catch (e) {
-      console.log("Returned a null response when querying CoinGecko");
       marketPrice = await getMarketPrice({ networkID, provider });
       marketPrice = marketPrice / Math.pow(10, 9);
+    } catch (e) {
+      marketPrice = await getTokenPrice("olympus");
     }
     return { marketPrice };
   },
