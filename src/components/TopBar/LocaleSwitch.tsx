@@ -1,21 +1,27 @@
-import { useState, useEffect, MouseEvent } from "react";
-import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, Slide } from "@material-ui/core";
-import { ReferenceObject } from "popper.js";
-import FlagIcon from "../../helpers/flagicon.js";
 import { t } from "@lingui/macro";
-import { i18n as my_i18n, localeDefinitions } from "../../locales";
+import { i18n } from "@lingui/core";
+import { ReferenceObject } from "popper.js";
+import { useState, MouseEvent } from "react";
+import { Popper, Button, Paper, Typography, Box, Fade } from "@material-ui/core";
+
+import FlagIcon from "../../helpers/flagicon.js";
+import { locales, fetchLocale } from "../../locales";
+
 import "./localesmenu.scss";
 
+function getLocaleFlag(flag: string) {
+  return flag === "en" ? "us" : flag;
+}
+
 function LocaleSwitcher() {
-  const [anchorEl, setAnchorEl] = useState<ReferenceObject | null>(null);
   const id = "locales-popper";
+  const [anchorEl, setAnchorEl] = useState<ReferenceObject | null>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: MouseEvent) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
-  const selectLocale = (locale: string) => {
-    my_i18n.activate(locale);
-  };
+
   return (
     <Box
       component="div"
@@ -31,7 +37,7 @@ function LocaleSwitcher() {
         title={t`Change Theme`}
         aria-describedby={id}
       >
-        <FlagIcon code={localeDefinitions[my_i18n.locale].flag} />
+        <FlagIcon code={getLocaleFlag(i18n.locale)} />
         <span>&nbsp;</span>
       </Button>
 
@@ -41,16 +47,14 @@ function LocaleSwitcher() {
             <Fade {...TransitionProps} timeout={100}>
               <Paper className="locales-menu" elevation={1}>
                 <Box component="div">
-                  {Object.values(localeDefinitions).map(definition => {
-                    return (
-                      <Button size="large" variant="contained" fullWidth onClick={e => selectLocale(definition.locale)}>
-                        <Typography align="left">
-                          &nbsp;
-                          <FlagIcon code={definition.flag} />
-                        </Typography>
-                      </Button>
-                    );
-                  })}
+                  {Object.keys(locales).map((locale, key) => (
+                    <Button key={key} size="large" variant="contained" fullWidth onClick={() => fetchLocale(locale)}>
+                      <Typography align="left">
+                        &nbsp;
+                        <FlagIcon code={getLocaleFlag(locale)} />
+                      </Typography>
+                    </Button>
+                  ))}
                 </Box>
               </Paper>
             </Fade>
