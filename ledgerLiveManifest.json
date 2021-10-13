@@ -1,0 +1,26 @@
+{
+  "id": "olympus",
+  "name": "Olympus",
+  "url": "http://localhost:3000/app/dapp-browser?dappName=Olympus&nanoApp=Olympus&url=http%3A%2F%2Flocalhost%3A3001",
+  "homepageUrl": "https://app.olympusdao.finance/",
+  "icon": "https://res.cloudinary.com/appleseed/image/upload/v1634164239/ohm-gray_xsbilr.png",
+  "platform": "all",
+  "apiVersion": "0.0.1",
+  "manifestVersion": "1",
+  "branch": "stable",
+  "categories": [
+    "defi"
+  ],
+  "currencies": [
+    "ethereum"
+  ],
+  "content": {
+    "shortDescription": "The decentralized reserve currency protected by liquidity",
+    "description": "Olympus is building a community-owned decentralized financial infrastructure to bring more stability and transparency for the world"
+  },
+  "permissions": [],
+  "domains": [
+    "https://*",
+    "http://*"
+  ]
+}
