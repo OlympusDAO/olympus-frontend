@@ -151,15 +151,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
     const connectedProvider = new Web3Provider(rawProvider, "any");
 
-    let chainId;
-    let connectedAddress;
-    try {
-      chainId = await connectedProvider.getNetwork().then(network => network.chainId);
-      connectedAddress = await connectedProvider.getSigner().getAddress();
-    } catch (e) {
-      NodeHelper.logBadConnectionWithTimer(connectedProvider);
-      return;
-    }
+    const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
+    const connectedAddress = await connectedProvider.getSigner().getAddress();
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
       console.error("Wrong network, please switch to mainnet");
@@ -190,6 +183,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal }),
     [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal],
   );
+
+  useEffect(() => {
+    // logs non-functioning nodes && returns an array of working mainnet nodes, could be used to optimize connection
+    NodeHelper.checkAllNodesStatus();
+  }, []);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };

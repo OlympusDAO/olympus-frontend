@@ -109,10 +109,12 @@ export const calcBondDetails = createAsyncThunk(
       console.log("error getting bondPriceInUSD", e);
     }
 
-    if (bond.isLP) {
+    if (Number(value) === 0) {
+      // if inputValue is 0 avoid the bondQuote calls
+      bondQuote = 0;
+    } else if (bond.isLP) {
       valuation = await bondCalcContract.valuation(bond.getAddressForReserve(networkID), amountInWei);
       bondQuote = await bondContract.payoutFor(valuation);
-
       if (!amountInWei.isZero() && bondQuote < 100000) {
         bondQuote = 0;
         const errorString = "Amount is too small!";
