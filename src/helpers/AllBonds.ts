@@ -26,6 +26,7 @@ export const dai = new StableBond({
   name: "dai",
   displayName: "DAI",
   bondToken: "DAI",
+  payoutToken: "OHM",
   bondIconSvg: DaiImg,
   bondContractABI: DaiBondContract,
   isAvailable: {
@@ -50,6 +51,7 @@ export const frax = new StableBond({
   name: "frax",
   displayName: "FRAX",
   bondToken: "FRAX",
+  payoutToken: "OHM",
   bondIconSvg: FraxImg,
   bondContractABI: FraxBondContract,
   isAvailable: {
@@ -74,6 +76,7 @@ export const lusd = new StableBond({
   name: "lusd",
   displayName: "LUSD",
   bondToken: "LUSD",
+  payoutToken: "OHM",
   bondIconSvg: LusdImg,
   bondContractABI: LusdBondContract,
   isAvailable: {
@@ -98,6 +101,7 @@ export const eth = new CustomBond({
   name: "eth",
   displayName: "wETH",
   bondToken: "wETH",
+  payoutToken: "OHM",
   bondIconSvg: wETHImg,
   bondContractABI: EthBondContract,
   isAvailable: {
@@ -131,6 +135,7 @@ export const ohm_dai = new LPBond({
   name: "ohm_dai_lp",
   displayName: "OHM-DAI LP",
   bondToken: "DAI",
+  payoutToken: "OHM",
   bondIconSvg: OhmDaiImg,
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
@@ -159,6 +164,7 @@ export const ohm_frax = new LPBond({
   name: "ohm_frax_lp",
   displayName: "OHM-FRAX LP",
   bondToken: "FRAX",
+  payoutToken: "OHM",
   bondIconSvg: OhmFraxImg,
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
@@ -186,6 +192,7 @@ export const ohm_lusd = new LPBond({
   name: "ohm_lusd_lp",
   displayName: "OHM-LUSD LP",
   bondToken: "LUSD",
+  payoutToken: "OHM",
   bondIconSvg: OhmLusdImg,
   bondContractABI: BondOhmLusdContract,
   reserveContract: ReserveOhmLusdContract,

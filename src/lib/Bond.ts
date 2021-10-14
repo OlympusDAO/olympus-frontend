@@ -45,6 +45,7 @@ interface BondOpts {
   bondContractABI: ethers.ContractInterface; // ABI for contract
   networkAddrs: NetworkAddresses; // Mapping of network --> Addresses
   bondToken: string; // Unused, but native token to buy the bond.
+  payoutToken: string; // Token the user will receive - currently OHM on ethereum, wsOHM on arbitrum
 }
 
 // Technically only exporting for the interface
@@ -58,6 +59,7 @@ export abstract class Bond {
   readonly bondContractABI: ethers.ContractInterface; // Bond ABI
   readonly networkAddrs: NetworkAddresses;
   readonly bondToken: string;
+  readonly payoutToken: string;
 
   // The following two fields will differ on how they are set depending on bond type
   abstract isLP: Boolean;
@@ -76,6 +78,7 @@ export abstract class Bond {
     this.bondContractABI = bondOpts.bondContractABI;
     this.networkAddrs = bondOpts.networkAddrs;
     this.bondToken = bondOpts.bondToken;
+    this.payoutToken = bondOpts.payoutToken;
   }
 
   getAvailability(networkID: NetworkID) {
