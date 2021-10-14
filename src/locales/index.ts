@@ -12,7 +12,7 @@ i18n.loadLocaleData({
 });
 
 export async function fetchLocale(locale = "en") {
-  const { messages } = await import(/* webpackChunkName: "[request]" */ `../locales/${locale}/messages`);
+  const { messages } = await import(/* webpackChunkName: "[request]" */ `../locales/translations/${locale}/messages`);
   i18n.load(locale, messages);
   i18n.activate(locale);
 }
