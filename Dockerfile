@@ -8,8 +8,11 @@ COPY .eslintignore .
 COPY .eslintrc.js .
 COPY .prettierrc .
 COPY scripts .
+COPY gulpfile.js .
 COPY package.json .
 COPY yarn.lock .
+COPY .env .
+COPY index.d.ts .
 
 RUN yarn
 
