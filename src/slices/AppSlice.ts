@@ -77,13 +77,7 @@ export const loadAppDetails = createAsyncThunk(
         totalSupply,
       };
     }
-    let currentBlock: number;
-    try {
-      currentBlock = await provider.getBlockNumber();
-    } catch (e) {
-      NodeHelper.logBadConnectionWithTimer(provider);
-      currentBlock = 0;
-    }
+    const currentBlock = await provider.getBlockNumber();
 
     const stakingContract = new ethers.Contract(
       addresses[networkID].STAKING_ADDRESS as string,

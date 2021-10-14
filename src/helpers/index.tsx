@@ -16,12 +16,7 @@ import { NodeHelper } from "./NodeHelper";
 export async function getMarketPrice({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
   const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
-  let reserves;
-  try {
-    reserves = await pairContract.getReserves();
-  } catch (e) {
-    NodeHelper.logBadConnectionWithTimer(provider);
-  }
+  const reserves = await pairContract.getReserves();
   const marketPrice = reserves[1] / reserves[0];
 
   // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });
