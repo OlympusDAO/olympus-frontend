@@ -100,13 +100,6 @@ export const loadAppDetails = createAsyncThunk(
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
 
-    // TODO: remove this legacy shit
-    const oldStakingReward = await oldStakingContract.ohmToDistributeNextEpoch();
-    const oldCircSupply = await sohmOldContract.circulatingSupply();
-
-    const oldStakingRebase = oldStakingReward / oldCircSupply;
-    const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3) - 1;
-
     // Current index
     const currentIndex = await stakingContract.index();
 
@@ -116,7 +109,6 @@ export const loadAppDetails = createAsyncThunk(
       fiveDayRate,
       stakingAPY,
       stakingTVL,
-      oldStakingAPY,
       stakingRebase,
       marketCap,
       marketPrice,
@@ -191,7 +183,6 @@ interface IAppData {
   readonly fiveDayRate?: number;
   readonly marketCap: number;
   readonly marketPrice: number;
-  readonly oldStakingAPY?: number;
   readonly stakingAPY?: number;
   readonly stakingRebase?: number;
   readonly stakingTVL: number;
