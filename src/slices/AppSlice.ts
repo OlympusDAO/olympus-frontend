@@ -5,9 +5,9 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
+import { NodeHelper } from "../helpers/NodeHelper";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-import allBonds from "src/helpers/AllBonds";
 import { RootState } from "src/store";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 
@@ -100,13 +100,6 @@ export const loadAppDetails = createAsyncThunk(
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
 
-    // TODO: remove this legacy shit
-    const oldStakingReward = await oldStakingContract.ohmToDistributeNextEpoch();
-    const oldCircSupply = await sohmOldContract.circulatingSupply();
-
-    const oldStakingRebase = oldStakingReward / oldCircSupply;
-    const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3) - 1;
-
     // Current index
     const currentIndex = await stakingContract.index();
 
@@ -116,7 +109,6 @@ export const loadAppDetails = createAsyncThunk(
       fiveDayRate,
       stakingAPY,
       stakingTVL,
-      oldStakingAPY,
       stakingRebase,
       marketCap,
       marketPrice,
@@ -130,6 +122,14 @@ export const loadAppDetails = createAsyncThunk(
  * checks if app.slice has marketPrice already
  * if yes then simply load that state
  * if no then fetches via `loadMarketPrice`
+ *
+ * `usage`:
+ * ```
+ * const originalPromiseResult = await dispatch(
+ *    findOrLoadMarketPrice({ networkID: networkID, provider: provider }),
+ *  ).unwrap();
+ * originalPromiseResult?.whateverValue;
+ * ```
  */
 export const findOrLoadMarketPrice = createAsyncThunk(
   "app/findOrLoadMarketPrice",
@@ -167,11 +167,10 @@ const loadMarketPrice = createAsyncThunk(
   async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) => {
     let marketPrice: number;
     try {
-      marketPrice = await getTokenPrice();
-    } catch (e) {
-      console.log("Returned a null response when querying CoinGecko");
       marketPrice = await getMarketPrice({ networkID, provider });
       marketPrice = marketPrice / Math.pow(10, 9);
+    } catch (e) {
+      marketPrice = await getTokenPrice("olympus");
     }
     return { marketPrice };
   },
@@ -184,7 +183,6 @@ interface IAppData {
   readonly fiveDayRate?: number;
   readonly marketCap: number;
   readonly marketPrice: number;
-  readonly oldStakingAPY?: number;
   readonly stakingAPY?: number;
   readonly stakingRebase?: number;
   readonly stakingTVL: number;

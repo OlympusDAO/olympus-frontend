@@ -4,6 +4,7 @@ import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, WebSocketProvider
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { EnvHelper } from "../helpers/Environment";
+import { NodeHelper } from "src/helpers/NodeHelper";
 
 /**
  * kept as function to mimic `getMainnetURI()`
@@ -20,7 +21,7 @@ function isIframe() {
   return window.location !== window.parent.location;
 }
 
-const ALL_URIs = EnvHelper.getAPIUris();
+const ALL_URIs = NodeHelper.getNodesUris();
 
 /**
  * "intelligently" loadbalances production API Keys
@@ -81,15 +82,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   const [uri, setUri] = useState(getMainnetURI());
 
-  // if websocket we need to change providerType
-  const providerType = () => {
-    if (uri.indexOf("ws://") === 0 || uri.indexOf("wss://") === 0) {
-      return new WebSocketProvider(uri);
-    } else {
-      return new StaticJsonRpcProvider(uri);
-    }
-  };
-  const [provider, setProvider] = useState<JsonRpcProvider>(providerType);
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -172,7 +165,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     const connectedProvider = new Web3Provider(rawProvider, "any");
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
     const connectedAddress = await connectedProvider.getSigner().getAddress();
-
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
       console.error("Wrong network, please switch to mainnet");
@@ -204,10 +196,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal],
   );
 
-  // initListeners needs to be run on rawProvider... see connect()
-  // useEffect(() => {
-  //   _initListeners();
-  // }, [connected]);
+  useEffect(() => {
+    // logs non-functioning nodes && returns an array of working mainnet nodes, could be used to optimize connection
+    NodeHelper.checkAllNodesStatus();
+  }, []);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };
