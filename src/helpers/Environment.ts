@@ -54,8 +54,30 @@ export class EnvHelper {
     return ALCHEMY_ID_LIST;
   }
 
+  static getAlchemyFallbackURIs() {
+    let ALCHEMY_ID_LIST: string[];
+
+    // split the provided API keys on whitespace
+    if (
+      EnvHelper.env.REACT_APP_ALCHEMY_FALLBACK_IDS &&
+      EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ALCHEMY_FALLBACK_IDS)
+    ) {
+      ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_FALLBACK_IDS.split(EnvHelper.whitespaceRegex);
+    } else {
+      ALCHEMY_ID_LIST = [];
+    }
+
+    // now add the uri path
+    if (ALCHEMY_ID_LIST.length > 0) {
+      ALCHEMY_ID_LIST = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
+    } else {
+      ALCHEMY_ID_LIST = [];
+    }
+    return ALCHEMY_ID_LIST;
+  }
+
   /**
-   * NOTE(zx): Want to move away from infura. Will probably remove these.
+   * NOTE(appleseed): Infura IDs are only used as Fallbacks & are not Mandatory
    * @returns {Array} Array of Infura API Ids
    */
   static getInfuraIdList() {
@@ -99,10 +121,13 @@ export class EnvHelper {
    * @returns array of API urls
    */
   static getAPIUris() {
-    // Debug log
-    // console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());
     const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getSelfHostedNode()];
     if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
+    return ALL_URIs;
+  }
+
+  static getFallbackURIs() {
+    const ALL_URIs = [...EnvHelper.getAlchemyFallbackURIs(), ...EnvHelper.getInfuraIdList()];
     return ALL_URIs;
   }
 
