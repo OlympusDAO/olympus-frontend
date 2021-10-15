@@ -38,9 +38,6 @@ export class EnvHelper {
     // split the provided API keys on whitespace
     if (EnvHelper.env.REACT_APP_ALCHEMY_IDS && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ALCHEMY_IDS)) {
       ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
-    } else if (EnvHelper.env.NODE_ENV === "development") {
-      // this is the ethers common API key, suitable for testing, not prod
-      ALCHEMY_ID_LIST = ["_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC"];
     } else {
       ALCHEMY_ID_LIST = [];
     }
@@ -55,7 +52,7 @@ export class EnvHelper {
   }
 
   /**
-   * NOTE(zx): Want to move away from infura. Will probably remove these.
+   * NOTE(appleseed): Infura IDs are only used as Fallbacks & are not Mandatory
    * @returns {Array} Array of Infura API Ids
    */
   static getInfuraIdList() {
@@ -99,10 +96,17 @@ export class EnvHelper {
    * @returns array of API urls
    */
   static getAPIUris() {
-    // Debug log
-    // console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());
-    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getSelfHostedNode()];
+    let ALL_URIs = EnvHelper.getSelfHostedNode();
+    if (EnvHelper.env.NODE_ENV === "development" && ALL_URIs.length === 0) {
+      // push in the common ethers key in development
+      ALL_URIs.push("https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC");
+    }
     if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
+    return ALL_URIs;
+  }
+
+  static getFallbackURIs() {
+    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getInfuraIdList()];
     return ALL_URIs;
   }
 
