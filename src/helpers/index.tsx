@@ -10,8 +10,9 @@ import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 
 import { ohm_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { NodeHelper } from "./NodeHelper";
 
-// NOTE (appleseed): this looks like an outdated method... we now have this data in the graph (used elsewhere in the app)
+// NOTE (appleseed): using ohm-dai as it's the most liquid pool
 export async function getMarketPrice({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
   const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
@@ -135,6 +136,15 @@ export function contractForRedeemHelper({
 }) {
   return new ethers.Contract(addresses[networkID].REDEEM_HELPER_ADDRESS as string, RedeemHelperAbi, provider);
 }
+
+/**
+ * returns unix timestamp for x minutes ago
+ * @param x minutes as a number
+ */
+export const minutesAgo = (x: number) => {
+  const now = new Date().getTime();
+  return new Date(now - x * 60000).getTime();
+};
 
 /**
  * subtracts two dates for use in 33-together timer
