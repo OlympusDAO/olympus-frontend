@@ -226,182 +226,206 @@ function Stake() {
     return isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>;
   };
 
-  return (
-    <div id="stake-view">
-      <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper className={`ohm-card`}>
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <div className="card-header">
-                <Typography variant="h5">Single Stake (3, 3)</Typography>
-                <RebaseTimer />
+  const renderStackingView = () => {
+    return (
+      <>
+        <Zoom in={true} onEntered={() => setZoomed(true)}>
+          <Paper className={`ohm-card`}>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <div className="card-header">
+                  <Typography variant="h5">Single Stake (3, 3)</Typography>
+                  <RebaseTimer />
 
-                {address && oldSohmBalance > 0.01 && (
-                  <Link
-                    className="migrate-sohm-button"
-                    style={{ textDecoration: "none" }}
-                    href="https://docs.olympusdao.finance/using-the-website/migrate"
-                    aria-label="migrate-sohm"
-                    target="_blank"
-                  >
-                    <NewReleases viewBox="0 0 24 24" />
-                    <Typography>Migrate sOHM!</Typography>
-                  </Link>
+                  {address && oldSohmBalance > 0.01 && (
+                    <Link
+                      className="migrate-sohm-button"
+                      style={{ textDecoration: "none" }}
+                      href="https://docs.olympusdao.finance/using-the-website/migrate"
+                      aria-label="migrate-sohm"
+                      target="_blank"
+                    >
+                      <NewReleases viewBox="0 0 24 24" />
+                      <Typography>Migrate sOHM!</Typography>
+                    </Link>
+                  )}
+                </div>
+              </Grid>
+
+              <Grid item>
+                <div className="stake-top-metrics">
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={4} md={4} lg={4}>
+                      <div className="stake-apy">
+                        <Typography variant="h5" color="textSecondary">
+                          APY
+                        </Typography>
+                        <Typography variant="h4">
+                          {stakingAPY ? (
+                            <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
+                          ) : (
+                            <Skeleton width="150px" />
+                          )}
+                        </Typography>
+                      </div>
+                    </Grid>
+
+                    <Grid item xs={12} sm={4} md={4} lg={4}>
+                      <div className="stake-tvl">
+                        <Typography variant="h5" color="textSecondary">
+                          Total Value Deposited
+                        </Typography>
+                        <Typography variant="h4">
+                          {stakingTVL ? (
+                            new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "USD",
+                              maximumFractionDigits: 0,
+                              minimumFractionDigits: 0,
+                            }).format(stakingTVL)
+                          ) : (
+                            <Skeleton width="150px" />
+                          )}
+                        </Typography>
+                      </div>
+                    </Grid>
+
+                    <Grid item xs={12} sm={4} md={4} lg={4}>
+                      <div className="stake-index">
+                        <Typography variant="h5" color="textSecondary">
+                          Current Index
+                        </Typography>
+                        <Typography variant="h4">
+                          {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                        </Typography>
+                      </div>
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+
+              <div className="staking-area">
+                {!address ? (
+                  <div className="stake-wallet-notification">
+                    <div className="wallet-menu" id="wallet-menu">
+                      {modalButton}
+                    </div>
+                    <Typography variant="h6">Connect your wallet to stake OHM</Typography>
+                  </div>
+                ) : (
+                  <>
+                    <Box className="stake-action-area">
+                      <Tabs
+                        key={String(zoomed)}
+                        centered
+                        value={view}
+                        textColor="primary"
+                        indicatorColor="primary"
+                        className="stake-tab-buttons"
+                        onChange={changeView}
+                        aria-label="stake tabs"
+                      >
+                        <Tab label="Stake" {...a11yProps(0)} />
+                        <Tab label="Unstake" {...a11yProps(1)} />
+                      </Tabs>
+                      <Box className="help-text">
+                        {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
+                          <Typography variant="body2" className="stake-note" color="textSecondary">
+                            Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
+                            subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
+                            transaction.
+                          </Typography>
+                        )}
+                      </Box>
+                      <Box className="stake-action-row " display="flex" alignItems="center">
+                        <FormControl className="ohm-input" variant="outlined" color="primary">
+                          <InputLabel htmlFor="amount-input"></InputLabel>
+                          <OutlinedInput
+                            id="amount-input"
+                            type="number"
+                            placeholder="Enter an amount"
+                            className="stake-input"
+                            value={quantity}
+                            onChange={e => setQuantity(e.target.value)}
+                            labelWidth={0}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <Button variant="text" onClick={setMax} color="inherit">
+                                  Max
+                                </Button>
+                              </InputAdornment>
+                            }
+                          />
+                        </FormControl>
+
+                        <TabPanel value={view} index={0} className="stake-tab-panel">
+                          {renderStackingPanel()}
+                        </TabPanel>
+
+                        <TabPanel value={view} index={1} className="stake-tab-panel">
+                          {renderUnstackingPanel()}
+                        </TabPanel>
+                      </Box>
+                    </Box>
+
+                    <div className={`stake-user-data`}>
+                      <div className="data-row">
+                        <Typography variant="body1">Your Balance</Typography>
+                        <Typography variant="body1">{renderOhmBalance()}</Typography>
+                      </div>
+
+                      <div className="data-row">
+                        <Typography variant="body1">Your Staked Balance</Typography>
+                        <Typography variant="body1">{renderSohmBalance()}</Typography>
+                      </div>
+
+                      <div className="data-row">
+                        <Typography variant="body1">Next Reward Amount</Typography>
+                        <Typography variant="body1">{renderNextRewardValue()}</Typography>
+                      </div>
+
+                      <div className="data-row">
+                        <Typography variant="body1">Next Reward Yield</Typography>
+                        <Typography variant="body1">{renderStackingRebasePercentage()}</Typography>
+                      </div>
+
+                      <div className="data-row">
+                        <Typography variant="body1">ROI (5-Day Rate)</Typography>
+                        <Typography variant="body1">{renderFiveDayRate()}</Typography>
+                      </div>
+                    </div>
+                  </>
                 )}
               </div>
             </Grid>
+          </Paper>
+        </Zoom>
 
-            <Grid item>
-              <div className="stake-top-metrics">
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-apy">
-                      <Typography variant="h5" color="textSecondary">
-                        APY
-                      </Typography>
-                      <Typography variant="h4">
-                        {stakingAPY ? (
-                          <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
-                        ) : (
-                          <Skeleton width="150px" />
-                        )}
-                      </Typography>
-                    </div>
-                  </Grid>
+        {ohmLusdAvailable ? <ExternalStakePool /> : <div />}
+      </>
+    );
+  };
 
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-tvl">
-                      <Typography variant="h5" color="textSecondary">
-                        Total Value Deposited
-                      </Typography>
-                      <Typography variant="h4">
-                        {stakingTVL ? (
-                          new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            maximumFractionDigits: 0,
-                            minimumFractionDigits: 0,
-                          }).format(stakingTVL)
-                        ) : (
-                          <Skeleton width="150px" />
-                        )}
-                      </Typography>
-                    </div>
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-index">
-                      <Typography variant="h5" color="textSecondary">
-                        Current Index
-                      </Typography>
-                      <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
-                      </Typography>
-                    </div>
-                  </Grid>
-                </Grid>
-              </div>
-            </Grid>
-
-            <div className="staking-area">
-              {!address ? (
-                <div className="stake-wallet-notification">
-                  <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
-                  </div>
-                  <Typography variant="h6">Connect your wallet to stake OHM</Typography>
+  const renderArbitrumNoStakingView = () => {
+    return (
+      <>
+        <Zoom in={true} onEntered={() => setZoomed(true)}>
+          <Paper className={`ohm-card`}>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <div className="card-header">
+                  <Typography variant="h5">You Cannot Stake In Arbitrum Chain.</Typography>
                 </div>
-              ) : (
-                <>
-                  <Box className="stake-action-area">
-                    <Tabs
-                      key={String(zoomed)}
-                      centered
-                      value={view}
-                      textColor="primary"
-                      indicatorColor="primary"
-                      className="stake-tab-buttons"
-                      onChange={changeView}
-                      aria-label="stake tabs"
-                    >
-                      <Tab label="Stake" {...a11yProps(0)} />
-                      <Tab label="Unstake" {...a11yProps(1)} />
-                    </Tabs>
-                    <Box className="help-text">
-                      {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
-                        <Typography variant="body2" className="stake-note" color="textSecondary">
-                          Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
-                          subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
-                          transaction.
-                        </Typography>
-                      )}
-                    </Box>
-                    <Box className="stake-action-row " display="flex" alignItems="center">
-                      <FormControl className="ohm-input" variant="outlined" color="primary">
-                        <InputLabel htmlFor="amount-input"></InputLabel>
-                        <OutlinedInput
-                          id="amount-input"
-                          type="number"
-                          placeholder="Enter an amount"
-                          className="stake-input"
-                          value={quantity}
-                          onChange={e => setQuantity(e.target.value)}
-                          labelWidth={0}
-                          endAdornment={
-                            <InputAdornment position="end">
-                              <Button variant="text" onClick={setMax} color="inherit">
-                                Max
-                              </Button>
-                            </InputAdornment>
-                          }
-                        />
-                      </FormControl>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Zoom>
+      </>
+    );
+  };
 
-                      <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {renderStackingPanel()}
-                      </TabPanel>
-
-                      <TabPanel value={view} index={1} className="stake-tab-panel">
-                        {renderUnstackingPanel()}
-                      </TabPanel>
-                    </Box>
-                  </Box>
-
-                  <div className={`stake-user-data`}>
-                    <div className="data-row">
-                      <Typography variant="body1">Your Balance</Typography>
-                      <Typography variant="body1">{renderOhmBalance()}</Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">Your Staked Balance</Typography>
-                      <Typography variant="body1">{renderSohmBalance()}</Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">Next Reward Amount</Typography>
-                      <Typography variant="body1">{renderNextRewardValue()}</Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">Next Reward Yield</Typography>
-                      <Typography variant="body1">{renderStackingRebasePercentage()}</Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">ROI (5-Day Rate)</Typography>
-                      <Typography variant="body1">{renderFiveDayRate()}</Typography>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </Grid>
-        </Paper>
-      </Zoom>
-
-      {ohmLusdAvailable ? <ExternalStakePool /> : <div />}
-    </div>
+  return (
+    <div id="stake-view">{chainID !== 1 && chainID !== 4 ? renderArbitrumNoStakingView() : renderStackingView()}</div>
   );
 }
 
