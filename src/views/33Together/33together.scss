@@ -1,0 +1,106 @@
+#pool-together-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: visible;
+
+  .award-buttons button {
+    margin: 5px !important;
+  }
+
+  .pool-prize-card {
+    .vegas-container {
+      max-height: 240px;
+      height: 100%;
+      max-width: 833px;
+      width: 97%;
+      margin-bottom: -15px;
+      margin-top: -10px;
+      z-index: 2;
+      position: sticky;
+    }
+
+    .vegas {
+      width: 100%;
+      max-height: 250px;
+      // height: 230px;
+      min-height: 150px;
+      background-image: url("../../assets/images/33-together-spritesheet.png");
+      animation: sprite 3.33s steps(7) infinite;
+      background-size: 700%;
+      background-repeat: repeat-x;
+    }
+
+    .pool-timer {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin: 5px;
+      .pool-timer-unit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 3.3rem;
+      }
+    }
+  }
+
+  .pt-tabs {
+    margin-bottom: 15px;
+  }
+
+  .pool-tab > div {
+    padding: 0;
+  }
+}
+
+.pool-deposit-ui {
+  width: 100%;
+
+  .deposit-container,
+  .withdrawal-container {
+    width: 100%;
+  }
+}
+
+.light .vegas {
+  filter: invert(0.99);
+}
+
+// Mobile styles
+:not(.tablet, .mobile) .vegas {
+  height: 240px;
+}
+
+:not(.mobile) .pool-deposit-button,
+.pool-start-award-button,
+.pool-complete-award-button {
+  width: 200px;
+  min-width: 200px;
+}
+
+.mobile .pool-deposit-button,
+.mobile .pool-withdraw-button {
+  max-width: 100% !important;
+  width: 100%;
+}
+
+.tablet .vegas {
+  height: 190px;
+  margin-bottom: -10px;
+}
+
+.mobile .vegas {
+  height: 160px !important;
+  margin-bottom: -18px;
+}
+
+@keyframes sprite {
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: -700%;
+  }
+}

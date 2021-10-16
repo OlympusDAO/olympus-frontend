@@ -1,22 +1,20 @@
-import { isBondLP, getTokenImage, getPairImage } from "../helpers";
-import { Box } from "@material-ui/core";
+import { Box, SvgIcon } from "@material-ui/core";
 
-function BondHeader({ bond }) {
-  const reserveAssetImg = () => {
-    if (bond.indexOf("frax") >= 0) {
-      return getTokenImage("frax");
-    } else if (bond.indexOf("dai") >= 0) {
-      return getTokenImage("dai");
-    } else if (bond.indexOf("eth") >= 0) {
-      return getTokenImage("eth");
-    }
-  };
+function BondLogo({ bond }) {
+  let viewBox = "0 0 32 32";
+  let style = { height: "32px", width: "32px" };
+
+  // Need more space if its an LP token
+  if (bond.isLP) {
+    viewBox = "0 0 64 32";
+    style = { height: "32px", width: "62px" };
+  }
 
   return (
     <Box display="flex" alignItems="center" justifyContent="center" width={"64px"}>
-      {isBondLP(bond) ? getPairImage(bond) : reserveAssetImg()}
+      <SvgIcon component={bond.bondIconSvg} viewBox={viewBox} style={style} />
     </Box>
   );
 }
 
-export default BondHeader;
+export default BondLogo;

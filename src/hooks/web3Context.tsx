@@ -1,57 +1,24 @@
 import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
 import Web3Modal from "web3modal";
-import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { EnvHelper } from "../helpers/Environment";
+import { NodeHelper } from "src/helpers/NodeHelper";
 
-// NOTE(zx): Want to move away from infura. Will probably remove these.
-const INFURA_ID_LIST = [
-  "5e3c4a19b5f64c99bf8cd8089c92b44d", // this is main dev node
-  "d9836dbf00c2440d862ab571b462e4a3", // this is current prod node
-  "31e6d348d16b4a4dacde5f8a47da1971", // this is primary fallback
-  "76cc9de4a72c4f5a8432074935d670a3", // Adding Zayen's to the mix
-];
-
-function getInfuraURI() {
-  const randomIndex = Math.floor(Math.random() * INFURA_ID_LIST.length);
-  const randomInfuraID = INFURA_ID_LIST[randomIndex];
-  return `https://mainnet.infura.io/v3/${randomInfuraID}`;
-}
-
+/**
+ * kept as function to mimic `getMainnetURI()`
+ * @returns string
+ */
 function getTestnetURI() {
-  // return "https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3";
-  return "https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO";
+  return EnvHelper.alchemyTestnetURI;
 }
 
-const ALCHEMY_ID_LIST = [
-  "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
-  "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
-];
+const ALL_URIs = NodeHelper.getNodesUris();
 
-// this is the ethers common api key, it is rate limited somewhat
-const defaultApiKey = "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC";
-
-const TEMP_ALCHEMY_IDS = [
-  // "rZD4Q_qiIlewksdYFDfM3Y0mzZy-8Naf", // appleseed-temp1
-  // "9GOp6SIgE0en92i3r0JSvxccZ0N2idmO", // appleseed-temp2
-  "j0QUyceqxu31tQrAQSotL2YMqmuzoGPh", // appleseed-temp3
-];
-function getAlchemyAPI(chainID: Number) {
-  const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
-  const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
-  if (chainID === 1) return `https://eth-mainnet.alchemyapi.io/v2/${randomAlchemyID}`;
-  else if (chainID === 4) return `https://eth-rinkeby.alchemyapi.io/v2/aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO`; // unbanksy's
-}
-
-const _infuraURIs = INFURA_ID_LIST.map(infuraID => `https://mainnet.infura.io/v3/${infuraID}`);
-const _alchemyURIs = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-
-// TODO(zx): Remove this out post 8/25/2021 when we use our prod alchemyAPI key
-// temp force into TEMP_ALCHEMY_IDS
-const _tempAlchemyURIs = TEMP_ALCHEMY_IDS.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-const ALL_URIs = [..._tempAlchemyURIs];
-// temp change ALL_URIs into TEMP_ALCHEMY_IDS
-// const ALL_URIs = [..._infuraURIs, ..._alchemyURIs];
-
+/**
+ * "intelligently" loadbalances production API Keys
+ * @returns string
+ */
 function getMainnetURI(): string {
   // Shuffles the URIs for "intelligent" loadbalancing
   const allURIs = ALL_URIs.sort(() => Math.random() - 0.5);
@@ -100,10 +67,13 @@ export const useAddress = () => {
 
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
+  // NOTE (appleseed): if you are testing on rinkeby you need to set chainId === 4 as the default for non-connected wallet testing...
+  // ... you also need to set getTestnetURI() as the default uri state below
   const [chainID, setChainID] = useState(1);
   const [address, setAddress] = useState("");
 
   const [uri, setUri] = useState(getMainnetURI());
+
   const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
@@ -155,7 +125,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     [provider],
   );
 
-  // Eventually we will not need this method.
+  /**
+   * throws an error if networkID is not 1 (mainnet) or 4 (rinkeby)
+   */
   const _checkNetwork = (otherChainID: number): Boolean => {
     if (chainID !== otherChainID) {
       console.warn("You are switching networks");
@@ -181,7 +153,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
     const connectedAddress = await connectedProvider.getSigner().getAddress();
-
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
       console.error("Wrong network, please switch to mainnet");
@@ -214,17 +185,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   );
 
   useEffect(() => {
-    // Don't try to connect here. Do it in App.jsx
-    // console.log(hasCachedProvider());
-    // if (hasCachedProvider()) {
-    //   connect();
-    // }
+    // logs non-functioning nodes && returns an array of working mainnet nodes, could be used to optimize connection
+    NodeHelper.checkAllNodesStatus();
   }, []);
-
-  // initListeners needs to be run on rawProvider... see connect()
-  // useEffect(() => {
-  //   _initListeners();
-  // }, [connected]);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };

@@ -1,5 +1,10 @@
 * {
   outline: none;
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
 }
 
 html,
@@ -26,8 +31,7 @@ body {
   background-size: cover;
   font-family: "Square";
   overflow: hidden;
-  // transform: translate3d(0, 0, 0);
-  // -webkit-transform: translate3d(0, 0, 0);
+  transition: all ease 0.33ms;
 }
 
 .MuiDrawer-paperAnchorDockedLeft {
@@ -35,21 +39,14 @@ body {
 }
 
 .ohm-card {
+  max-width: 833px;
   .card-header {
     width: 100%;
-    min-height: 2rem;
+    min-height: 33px;
+    margin-bottom: 10px;
     h5 {
       font-weight: 600 !important;
     }
-  }
-  .card-content {
-    width: 100%;
-    position: relative;
-    align-items: left;
-    justify-content: center;
-    flex-flow: column;
-    padding: 0.8rem 0.8rem 0.8rem 0.8rem;
-    height: 100%;
   }
 
   .help-text {
@@ -61,6 +58,16 @@ body {
     justify-content: space-between;
     flex-direction: row;
     margin: 12px 0px;
+  }
+
+  .data-row-centered {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    margin: 12px 0px;
+    .marginedBtn {
+      margin: 0.3rem;
+    }
   }
 }
 

@@ -1,0 +1,95 @@
+#treasury-dashboard-view {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .ohm-card {
+    max-width: unset !important;
+    width: 100%;
+    margin: auto;
+    max-height: 355px;
+    .card-header {
+      margin-bottom: 1rem;
+    }
+    &.ohm-chart-card {
+      .chart-card-header {
+        padding: 0px 20px !important;
+        min-width: 300px;
+      }
+      height: 355px;
+    }
+  }
+  .hero-metrics {
+    width: 100%;
+    margin-bottom: 23px;
+    text-align: center;
+    .ohm-card {
+      max-width: unset !important;
+      flex-direction: row;
+      justify-content: space-evenly;
+      min-width: none;
+      h4 {
+        font-weight: bold;
+      }
+      div.metric {
+        margin: 3px;
+      }
+    }
+  }
+  .data-grid {
+    overflow: hidden;
+    justify-content: center;
+  }
+}
+
+.smaller {
+  .ohm-card {
+    width: 97%;
+  }
+  .hero-metrics .ohm-card {
+    > .MuiBox-root {
+      flex-wrap: wrap;
+    }
+    div.metric {
+      text-align: left !important;
+    }
+  }
+}
+
+.mobile {
+  div.metric {
+    white-space: nowrap;
+    min-width: 30% !important;
+    max-width: 60%;
+    text-align: left !important;
+    &.circ,
+    &.market {
+      width: 67% !important;
+    }
+    &.price,
+    &.index {
+      width: 33% !important;
+    }
+  }
+}
+
+.very-small {
+  .hero-metrics .ohm-card {
+    > .MuiBox-root {
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}

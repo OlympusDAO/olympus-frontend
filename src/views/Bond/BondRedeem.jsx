@@ -8,36 +8,23 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 
 function BondRedeem({ bond }) {
+  // const { bond: bondName } = bond;
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
+
+  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
 
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
   });
-
-  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
-  const bondMaturationBlock = useSelector(state => {
-    return state.account[bond] && state.account[bond].bondMaturationBlock;
-  });
-
-  const vestingTerm = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].vestingBlock;
-  });
-
-  const interestDue = useSelector(state => {
-    return state.account[bond] && state.account[bond].interestDue;
-  });
-
-  const pendingPayout = useSelector(state => {
-    return state.account[bond] && state.account[bond].pendingPayout;
-  });
-
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
-
-  const userState = useSelector(state => {
-    return state.account && state.account;
+  const bondingState = useSelector(state => {
+    return state.bonding && state.bonding[bond.name];
+  });
+  const bondDetails = useSelector(state => {
+    return state.account.bonds && state.account.bonds[bond.name];
   });
 
   async function onRedeem({ autostake }) {
@@ -45,26 +32,20 @@ function BondRedeem({ bond }) {
   }
 
   const vestingTime = () => {
-    return prettyVestingPeriod(currentBlock, bondMaturationBlock);
+    return prettyVestingPeriod(currentBlock, bond.bondMaturationBlock);
   };
 
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(vestingTerm);
+    const vestingBlock = parseInt(currentBlock) + parseInt(bondingState.vestingTerm);
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
 
-  const bondDiscount = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].bondDiscount;
-  });
-
-  const debtRatio = useSelector(state => {
-    return state.bonding[bond] && state.bonding[bond].debtRatio;
-  });
-
   useEffect(() => {
-    console.log(userState);
-  }, [userState]);
+    console.log(bond);
+    console.log(bondingState);
+    console.log(bondDetails);
+  }, []);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -75,12 +56,12 @@ function BondRedeem({ bond }) {
           id="bond-claim-btn"
           className="transaction-button"
           fullWidth
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond)}
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name)}
           onClick={() => {
             onRedeem({ autostake: false });
           }}
         >
-          {txnButtonText(pendingTransactions, "redeem_bond_" + bond, "Claim")}
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name, "Claim")}
         </Button>
         <Button
           variant="contained"
@@ -88,12 +69,12 @@ function BondRedeem({ bond }) {
           id="bond-claim-autostake-btn"
           className="transaction-button"
           fullWidth
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond + "_autostake")}
+          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name + "_autostake")}
           onClick={() => {
             onRedeem({ autostake: true });
           }}
         >
-          {txnButtonText(pendingTransactions, "redeem_bond_" + bond + "_autostake", "Claim and Autostake")}
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name + "_autostake", "Claim and Autostake")}
         </Button>
       </Box>
 
@@ -102,13 +83,13 @@ function BondRedeem({ bond }) {
           <div className="data-row">
             <Typography>Pending Rewards</Typography>
             <Typography className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(interestDue, 4)} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.interestDue, 4)} OHM`}
             </Typography>
           </div>
           <div className="data-row">
             <Typography>Claimable Rewards</Typography>
             <Typography className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(pendingPayout, 4)} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.pendingPayout, 4)} OHM`}
             </Typography>
           </div>
           <div className="data-row">
@@ -118,12 +99,16 @@ function BondRedeem({ bond }) {
 
           <div className="data-row">
             <Typography>ROI</Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : `${trim(bondDiscount * 100, 2)}%`}</Typography>
+            <Typography>
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}
+            </Typography>
           </div>
 
           <div className="data-row">
             <Typography>Debt Ratio</Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : `${trim(debtRatio / 10000000, 2)}%`}</Typography>
+            <Typography>
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.debtRatio / 10000000, 2)}%`}
+            </Typography>
           </div>
 
           <div className="data-row">

@@ -6,12 +6,19 @@ import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, S
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import "./ohmmenu.scss";
+import { dai, frax } from "src/helpers/AllBonds";
+import { useWeb3Context } from "../../hooks/web3Context";
 
-const sohmImg = getTokenImage("sohm");
-const ohmImg = getTokenImage("ohm");
+import OhmImg from "src/assets/tokens/token_OHM.svg";
+import SOhmImg from "src/assets/tokens/token_sOHM.svg";
 
 const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
+    const host = window.location.origin;
+    // NOTE (appleseed): 33T token defaults to sOHM logo since we don't have a 33T logo yet
+    const tokenPath = tokenSymbol === "OHM" ? OhmImg : SOhmImg;
+    const imageURL = `${host}/${tokenPath}`;
+
     try {
       await window.ethereum.request({
         method: "wallet_watchAsset",
@@ -21,7 +28,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
             address: tokenAddress,
             symbol: tokenSymbol,
             decimals: TOKEN_DECIMALS,
-            image: tokenSymbol === "OHM" ? ohmImg : sohmImg,
+            image: imageURL,
           },
         },
       });
@@ -34,13 +41,13 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
 function OhmMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const isEthereumAPIAvailable = window.ethereum;
+  const { chainID } = useWeb3Context();
 
-  const networkID = useSelector(state => {
-    return (state.app && state.app.networkID) || 1;
-  });
+  const networkID = chainID;
 
   const SOHM_ADDRESS = addresses[networkID].SOHM_ADDRESS;
   const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
+  const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
 
   const handleClick = event => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -48,6 +55,8 @@ function OhmMenu() {
 
   const open = Boolean(anchorEl);
   const id = "ohm-popper";
+  const daiAddress = dai.getAddressForReserve(networkID);
+  const fraxAddress = frax.getAddressForReserve(networkID);
   return (
     <Box
       component="div"
@@ -63,11 +72,11 @@ function OhmMenu() {
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start" transition>
         {({ TransitionProps }) => {
           return (
-            <Fade {...TransitionProps} timeout={200}>
+            <Fade {...TransitionProps} timeout={100}>
               <Paper className="ohm-menu" elevation={1}>
                 <Box component="div" className="buy-tokens">
                   <Link
-                    href={`https://app.sushi.com/swap?inputCurrency=${addresses[networkID].RESERVES.DAI}&outputCurrency=${OHM_ADDRESS}`}
+                    href={`https://app.sushi.com/swap?inputCurrency=${daiAddress}&outputCurrency=${OHM_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -79,7 +88,7 @@ function OhmMenu() {
                   </Link>
 
                   <Link
-                    href={`https://app.uniswap.org/#/swap?inputCurrency=${addresses[networkID].RESERVES.FRAX}&outputCurrency=${OHM_ADDRESS}`}
+                    href={`https://app.uniswap.org/#/swap?inputCurrency=${fraxAddress}&outputCurrency=${OHM_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -110,6 +119,14 @@ function OhmMenu() {
                       onClick={addTokenToWallet("sOHM", SOHM_ADDRESS)}
                     >
                       <Typography>sOHM</Typography>
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      color="secondary"
+                      onClick={addTokenToWallet("33T", PT_TOKEN_ADDRESS)}
+                    >
+                      <Typography>33T</Typography>
                     </Button>
                   </Box>
                 ) : null}

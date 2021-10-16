@@ -4,13 +4,14 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+
   .rebase-timer {
     margin: 0 !important;
     line-height: 110% !important;
   }
 
   .stake-tab-buttons {
-    margin-bottom: 16px;
+    margin-bottom: 0.25rem;
   }
 
   .stake-table-panel,
@@ -32,6 +33,10 @@
   .ohm-card.secondary .card-header {
     min-height: 33px !important;
     height: 20px;
+  }
+  .stake-note {
+    text-align: center;
+    font-style: italic;
   }
 }
 
@@ -87,13 +92,6 @@
   }
 }
 
-.mobile .stake-apy {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .ohm-logo-tiny {
   height: 14px;
   width: 14px;
@@ -127,6 +125,7 @@
   justify-content: space-around;
   align-items: center;
   height: auto;
+  padding-bottom: 1rem;
 }
 
 .mobile .stake-action-row {

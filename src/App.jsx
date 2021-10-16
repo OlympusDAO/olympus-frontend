@@ -6,17 +6,19 @@ import { Hidden, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
+import useBonds from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
+import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
+import { storeQueryParameters } from "./helpers/QueryParameterHelper";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
-import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import LoadingSplash from "./components/Loading/LoadingSplash";
 import Messages from "./components/Messages/Messages";
@@ -26,7 +28,6 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
-import { BONDS } from "./constants";
 import "./style.scss";
 
 // 😬 Sorry for all the console logging
@@ -74,13 +75,14 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   useGoogleAnalytics();
+  useSegmentAnalytics();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 960px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 958px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const { connect, hasCachedProvider, provider, chainID, connected } = useWeb3Context();
@@ -90,7 +92,7 @@ function App() {
 
   const isAppLoading = useSelector(state => state.app.loading);
   const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
-
+  const { bonds } = useBonds();
   async function loadDetails(whichDetails) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
@@ -107,23 +109,14 @@ function App() {
     // don't run unless provider is a Wallet...
     if (whichDetails === "account" && address && connected) {
       loadAccount(loadProvider);
-      if (isAppLoaded) return; // Don't need to do anything else if the app is already loaded.
-
-      loadApp(loadProvider);
-    }
-
-    if (whichDetails === "userBonds" && address && connected) {
-      Object.values(BONDS).map(async bond => {
-        await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
-      });
     }
   }
 
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-      Object.values(BONDS).map(async bond => {
-        await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+      bonds.map(bond => {
+        dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
       });
     },
     [connected],
@@ -132,6 +125,9 @@ function App() {
   const loadAccount = useCallback(
     loadProvider => {
       dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+      bonds.map(bond => {
+        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+      });
     },
     [connected],
   );
@@ -152,6 +148,9 @@ function App() {
       // then user DOES NOT have a wallet
       setWalletChecked(true);
     }
+
+    // We want to ensure that we are storing the UTM parameters for later, even if the user follows links
+    storeQueryParameters();
   }, []);
 
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
@@ -159,8 +158,6 @@ function App() {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
       loadDetails("app");
-      loadDetails("account");
-      loadDetails("userBonds");
     }
   }, [walletChecked]);
 
@@ -168,9 +165,7 @@ function App() {
   useEffect(() => {
     // don't load ANY details until wallet is Connected
     if (connected) {
-      loadDetails("app");
       loadDetails("account");
-      loadDetails("userBonds");
     }
   }, [connected]);
 
@@ -196,7 +191,7 @@ function App() {
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
       {/* {isAppLoading && <LoadingSplash />} */}
-      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"}`}>
+      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
         <Messages />
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>
@@ -211,7 +206,7 @@ function App() {
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
             <Route exact path="/dashboard">
-              <Dashboard />
+              <TreasuryDashboard />
             </Route>
 
             <Route exact path="/">
@@ -220,15 +215,16 @@ function App() {
 
             <Route path="/stake">
               <Stake />
-              <Route exact path="/stake/migrate">
-                <Migrate />
-              </Route>
+            </Route>
+
+            <Route path="/33-together">
+              <PoolTogether />
             </Route>
 
             <Route path="/bonds">
-              {Object.values(BONDS).map(bond => {
+              {bonds.map(bond => {
                 return (
-                  <Route exact key={bond} path={`/bonds/${bond}`}>
+                  <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
                     <Bond bond={bond} />
                   </Route>
                 );

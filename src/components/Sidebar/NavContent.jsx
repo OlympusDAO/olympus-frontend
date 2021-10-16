@@ -6,8 +6,9 @@ import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
+import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
 import { trim, shorten } from "../../helpers";
-import { useAddress } from "src/hooks/web3Context";
+import { useAddress, useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
 import { Paper, Link, Box, Typography, SvgIcon } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
@@ -16,7 +17,8 @@ import "./sidebar.scss";
 function NavContent() {
   const [isActive] = useState();
   const address = useAddress();
-  const bonds = useBonds();
+  const { bonds } = useBonds();
+  const { chainID } = useWeb3Context();
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -34,7 +36,7 @@ function NavContent() {
 
   return (
     <Paper className="dapp-sidebar">
-      <Box className="dapp-sidebar" display="flex" justifyContent="space-between" flexDirection="column">
+      <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
         <div className="dapp-menu-top">
           <Box className="branding-header">
             <Link href="https://olympusdao.finance" target="_blank">
@@ -89,6 +91,21 @@ function NavContent() {
 
               <Link
                 component={NavLink}
+                id="33-together-nav"
+                to="/33-together"
+                isActive={(match, location) => {
+                  return checkPage(match, location, "33-together");
+                }}
+                className={`button-dapp-menu ${isActive ? "active" : ""}`}
+              >
+                <Typography variant="h6">
+                  <SvgIcon color="primary" component={PoolTogetherIcon} />
+                  3,3 Together
+                </Typography>
+              </Link>
+
+              <Link
+                component={NavLink}
                 id="bond-nav"
                 to="/bonds"
                 isActive={(match, location) => {
@@ -106,13 +123,15 @@ function NavContent() {
                 <div className="bond-discounts">
                   <Typography variant="body2">Bond discounts</Typography>
                   {bonds.map((bond, i) => (
-                    <Link component={NavLink} to={`/bonds/${bond.value}`} key={i} className={"bond"}>
-                      {!bond.discount ? (
+                    <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
+                      {!bond.bondDiscount ? (
                         <Skeleton variant="text" width={"150px"} />
                       ) : (
                         <Typography variant="body2">
-                          {bond.name}
-                          <span className="bond-pair-roi">{bond.discount && trim(bond.discount * 100, 2)}%</span>
+                          {bond.displayName}
+                          <span className="bond-pair-roi">
+                            {bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%
+                          </span>
                         </Typography>
                       )}
                     </Link>
