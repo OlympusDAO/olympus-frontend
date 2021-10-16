@@ -64,7 +64,7 @@ function Bond({ bond }) {
                   <Typography variant="h5" color="textSecondary">
                     Bond Price
                   </Typography>
-                  <Typography variant="h3" className="price" color="primary">
+                  <Typography variant="h3" className="price" color="primary" >
                     {isBondLoading ? <Skeleton /> : formatCurrency(bond.bondPrice, 2)}
                   </Typography>
                 </div>
