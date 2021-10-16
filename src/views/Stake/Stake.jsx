@@ -150,6 +150,82 @@ function Stake() {
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
+  const renderStackingPanel = () => {
+    return address && hasAllowance("ohm") ? (
+      <Button
+        className="stake-button"
+        variant="contained"
+        color="primary"
+        disabled={isPendingTxn(pendingTransactions, "staking")}
+        onClick={() => {
+          onChangeStake("stake");
+        }}
+      >
+        {txnButtonText(pendingTransactions, "staking", "Stake OHM")}
+      </Button>
+    ) : (
+      <Button
+        className="stake-button"
+        variant="contained"
+        color="primary"
+        disabled={isPendingTxn(pendingTransactions, "approve_staking")}
+        onClick={() => {
+          onSeekApproval("ohm");
+        }}
+      >
+        {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
+      </Button>
+    );
+  };
+
+  const renderUnstackingPanel = () => {
+    return address && hasAllowance("sohm") ? (
+      <Button
+        className="stake-button"
+        variant="contained"
+        color="primary"
+        disabled={isPendingTxn(pendingTransactions, "unstaking")}
+        onClick={() => {
+          onChangeStake("unstake");
+        }}
+      >
+        {txnButtonText(pendingTransactions, "unstaking", "Unstake OHM")}
+      </Button>
+    ) : (
+      <Button
+        className="stake-button"
+        variant="contained"
+        color="primary"
+        disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
+        onClick={() => {
+          onSeekApproval("sohm");
+        }}
+      >
+        {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
+      </Button>
+    );
+  };
+
+  const renderOhmBalance = () => {
+    return isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>;
+  };
+
+  const renderSohmBalance = () => {
+    return isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>;
+  };
+
+  const renderNextRewardValue = () => {
+    return isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>;
+  };
+
+  const renderStackingRebasePercentage = () => {
+    return isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>;
+  };
+
+  const renderFiveDayRate = () => {
+    return isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>;
+  };
+
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -282,59 +358,11 @@ function Stake() {
                       </FormControl>
 
                       <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {address && hasAllowance("ohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "staking")}
-                            onClick={() => {
-                              onChangeStake("stake");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "staking", "Stake OHM")}
-                          </Button>
-                        ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_staking")}
-                            onClick={() => {
-                              onSeekApproval("ohm");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
-                          </Button>
-                        )}
+                        {renderStackingPanel()}
                       </TabPanel>
 
                       <TabPanel value={view} index={1} className="stake-tab-panel">
-                        {address && hasAllowance("sohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "unstaking")}
-                            onClick={() => {
-                              onChangeStake("unstake");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "unstaking", "Unstake OHM")}
-                          </Button>
-                        ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
-                            onClick={() => {
-                              onSeekApproval("sohm");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
-                          </Button>
-                        )}
+                        {renderUnstackingPanel()}
                       </TabPanel>
                     </Box>
                   </Box>
@@ -342,37 +370,27 @@ function Stake() {
                   <div className={`stake-user-data`}>
                     <div className="data-row">
                       <Typography variant="body1">Your Balance</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
-                      </Typography>
+                      <Typography variant="body1">{renderOhmBalance()}</Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Your Staked Balance</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
-                      </Typography>
+                      <Typography variant="body1">{renderSohmBalance()}</Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Next Reward Amount</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
-                      </Typography>
+                      <Typography variant="body1">{renderNextRewardValue()}</Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Next Reward Yield</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}
-                      </Typography>
+                      <Typography variant="body1">{renderStackingRebasePercentage()}</Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">ROI (5-Day Rate)</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>}
-                      </Typography>
+                      <Typography variant="body1">{renderFiveDayRate()}</Typography>
                     </div>
                   </div>
                 </>
