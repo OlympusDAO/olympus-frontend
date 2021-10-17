@@ -162,19 +162,16 @@ export const findOrLoadMarketPrice = createAsyncThunk(
  * - falls back to fetch marketPrice from ohm-dai contract
  * - updates the App.slice when it runs
  */
-const loadMarketPrice = createAsyncThunk(
-  "app/loadMarketPrice",
-  async ({ networkID, provider }: IBaseAsyncThunk) => {
-    let marketPrice: number;
-    try {
-      marketPrice = await getMarketPrice({ networkID, provider });
-      marketPrice = marketPrice / Math.pow(10, 9);
-    } catch (e) {
-      marketPrice = await getTokenPrice("olympus");
-    }
-    return { marketPrice };
-  },
-);
+const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
+  let marketPrice: number;
+  try {
+    marketPrice = await getMarketPrice({ networkID, provider });
+    marketPrice = marketPrice / Math.pow(10, 9);
+  } catch (e) {
+    marketPrice = await getTokenPrice("olympus");
+  }
+  return { marketPrice };
+});
 
 interface IAppData {
   readonly circSupply: number;
