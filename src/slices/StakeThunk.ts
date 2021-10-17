@@ -7,16 +7,8 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error } from "../slices/MessagesSlice";
-import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { IJsonRPCError } from "./interfaces";
+import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-
-interface IChangeApproval {
-  token: string;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  address: string;
-  networkID: number;
-}
 
 interface IUAData {
   address: string;
@@ -28,7 +20,7 @@ interface IUAData {
 
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
-  async ({ token, provider, address, networkID }: IChangeApproval, { dispatch }) => {
+  async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -77,17 +69,9 @@ export const changeApproval = createAsyncThunk(
   },
 );
 
-interface IChangeStake {
-  action: string;
-  value: string;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  address: string;
-  networkID: number;
-}
-
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID }: IChangeStake, { dispatch }) => {
+  async ({ action, value, provider, address, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
