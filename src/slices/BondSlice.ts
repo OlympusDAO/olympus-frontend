@@ -109,10 +109,12 @@ export const calcBondDetails = createAsyncThunk(
       console.log("error getting bondPriceInUSD", e);
     }
 
-    if (bond.isLP) {
+    if (Number(value) === 0) {
+      // if inputValue is 0 avoid the bondQuote calls
+      bondQuote = 0;
+    } else if (bond.isLP) {
       valuation = await bondCalcContract.valuation(bond.getAddressForReserve(networkID), amountInWei);
       bondQuote = await bondContract.payoutFor(valuation);
-
       if (!amountInWei.isZero() && bondQuote < 100000) {
         bondQuote = 0;
         const errorString = "Amount is too small!";
@@ -173,8 +175,8 @@ export const bondAsset = createAsyncThunk(
   async ({ value, address, bond, networkID, provider, slippage }: IBondAsset, { dispatch }) => {
     const depositorAddress = address;
     const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
+    // parseUnits takes String => BigNumber
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
-
     let balance;
     // Calculate maxPremium based on premium and slippage.
     // const calculatePremium = await bonding.calculatePremium();

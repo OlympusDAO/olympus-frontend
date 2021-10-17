@@ -12,19 +12,14 @@ import { ohm_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { NodeHelper } from "./NodeHelper";
 
-// NOTE (appleseed): this looks like an outdated method... we now have this data in the graph (used elsewhere in the app)
+// NOTE (appleseed): using ohm-dai as it's the most liquid pool
 export async function getMarketPrice({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
   // If this is unavailable on the current network
   if (!ohm_dai_address) return;
 
   const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
-  let reserves;
-  try {
-    reserves = await pairContract.getReserves();
-  } catch (e) {
-    NodeHelper.logBadConnectionWithTimer(provider);
-  }
+  const reserves = await pairContract.getReserves();
   const marketPrice = reserves[1] / reserves[0];
 
   // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });

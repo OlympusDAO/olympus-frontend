@@ -18,7 +18,6 @@ import { calculateUserBondDetails, loadAccountDetails } from "./slices/AccountSl
 import { Bond, ChooseBond, PoolTogether, Stake, TreasuryDashboard } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
-import Migrate from "./views/Stake/Migrate";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
@@ -219,9 +218,6 @@ function App() {
 
             <Route path="/stake">
               <Stake />
-              <Route exact path="/stake/migrate">
-                <Migrate />
-              </Route>
             </Route>
 
             <Route path="/33-together">
