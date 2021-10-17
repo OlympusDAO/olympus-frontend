@@ -138,6 +138,15 @@ export function contractForRedeemHelper({
 }
 
 /**
+ * returns unix timestamp for x minutes ago
+ * @param x minutes as a number
+ */
+export const minutesAgo = (x: number) => {
+  const now = new Date().getTime();
+  return new Date(now - x * 60000).getTime();
+};
+
+/**
  * subtracts two dates for use in 33-together timer
  * param (Date) dateA is the ending date object
  * param (Date) dateB is the current date object
