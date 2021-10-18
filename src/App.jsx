@@ -143,12 +143,14 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        segmentUA({
-          type: "connect",
-          provider: provider.connection.url,
-          context: currentPath,
-          sessionId: uuidv4(),
-        });
+        if (provider.connection) {
+          segmentUA({
+            type: "connect",
+            provider: provider.connection.url,
+            context: currentPath,
+            sessionId: uuidv4(),
+          });
+        }
       });
     } else {
       // then user DOES NOT have a wallet
