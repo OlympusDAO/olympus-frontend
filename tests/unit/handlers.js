@@ -2,6 +2,12 @@ import { rest } from "msw";
 
 // We use msw to intercept the network request during the test
 const handlers = [
+  rest.get("https://api.coingecko.com/api/v3/simple/price", (req, res, ctx) => {
+    return res(ctx.json({ olympus: { usd: 945.14 } }));
+  }),
+  rest.post("https://ipaddress/:port", (req, res, ctx) => {
+    return res(ctx.json({}));
+  }),
   rest.post("https://api.thegraph.com/subgraphs/name/drondin/olympus-graph", (req, res, ctx) => {
     return res(
       ctx.json({

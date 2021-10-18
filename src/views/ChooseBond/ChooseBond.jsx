@@ -64,25 +64,30 @@ function ChooseBond() {
       <Zoom in={true}>
         <Paper className="ohm-card">
           <Box className="card-header">
-            <Typography variant="h5">Bond (1,1)</Typography>
+            <Typography variant="h5" data-testid="t">
+              Bond (1,1)
+            </Typography>
           </Box>
 
           <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
             <Grid item xs={6}>
               <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
-                <Typography variant="h5" color="textSecondary" data-testid="treasury-balance">
+                <Typography variant="h5" color="textSecondary">
                   Treasury Balance
                 </Typography>
                 <Typography variant="h4">
                   {isAppLoading ? (
-                    <Skeleton width="180px" />
+                    <Skeleton width="180px" data-testid="treasury-balance-loading" />
                   ) : (
-                    new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0,
-                    }).format(treasuryBalance)
+                    <Typography data-testid="treasury-balance">
+                      $
+                      {new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                        maximumFractionDigits: 0,
+                        minimumFractionDigits: 0,
+                      }).format(treasuryBalance)}
+                    </Typography>
                   )}
                 </Typography>
               </Box>
