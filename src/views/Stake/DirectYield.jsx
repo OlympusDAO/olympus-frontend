@@ -24,11 +24,13 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim } from "../../helpers";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { DirectAddRecipientModal } from "./DirectAddRecipientModal";
 
 export default function YieldDirector() {
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
+  const [addRecipientModalVisible, setAddRecipientModalVisible] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
@@ -60,13 +62,16 @@ export default function YieldDirector() {
           <Button
             variant="outlined"
             color="secondary"
-            href="https://google.com"
-            target="_blank"
             className="stake-lp-button"
+            onClick={() => setAddRecipientModalVisible(true)}
           >
             <Typography variant="body1">Add Recipient</Typography>
           </Button>
         </div>
+        <DirectAddRecipientModal
+          show={addRecipientModalVisible}
+          handleClose={() => setAddRecipientModalVisible(false)}
+        />
         <div className="card-content">
           <TableContainer className="stake-table">
             <Table>
