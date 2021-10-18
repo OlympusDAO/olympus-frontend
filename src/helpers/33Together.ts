@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
 import { abi as AwardPool } from "../abi/33-together/AwardAbi2.json";
@@ -11,12 +11,12 @@ import { abi as SOhmAbi } from "../abi/sOHM.json";
  * @param {*} winners the pool's winners quantity per award period
  * PoolTogether's implementation: https://github.com/pooltogether/pooltogether-community-ui/blob/2d4749e2e64c4f2ae259ac073edc0a49ca5857e2/lib/utils/calculateOdds.js#L3
  */
-export const calculateOdds = (usersPoolBalance, totalPoolDeposits, winners) => {
+export const calculateOdds = (usersPoolBalance: string, totalPoolDeposits: number, winners: number) => {
   let userOdds;
-  if (usersPoolBalance === undefined || usersPoolBalance === 0 || parseFloat(usersPoolBalance) === 0) {
+  if (usersPoolBalance === undefined || Number(usersPoolBalance) === 0 || parseFloat(usersPoolBalance) === 0) {
     userOdds = "ngmi";
   } else {
-    userOdds = 1 / (1 - Math.pow((totalPoolDeposits - usersPoolBalance) / totalPoolDeposits, winners));
+    userOdds = 1 / (1 - Math.pow((totalPoolDeposits - Number(usersPoolBalance)) / totalPoolDeposits, winners));
   }
   return userOdds;
 };
@@ -28,11 +28,14 @@ export const calculateOdds = (usersPoolBalance, totalPoolDeposits, winners) => {
  * @returns {Array} [creditMaturationInDays === ExitFeeDecayTime (in days), creditLimitPercentage === ExitFee as %]
  * PoolTogether's implementation: https://github.com/pooltogether/pooltogether-community-ui/blob/93884caf76eb91ec700c4a74c3fc40ecf65c1d47/lib/utils/format.js#L50
  */
-export const getCreditMaturationDaysAndLimitPercentage = (ticketCreditRateMantissa, ticketCreditLimitMantissa) => {
+export const getCreditMaturationDaysAndLimitPercentage = (
+  ticketCreditRateMantissa: BigNumber,
+  ticketCreditLimitMantissa: BigNumber,
+): Array<number> => {
   const creditLimitMantissa = ethers.utils.formatEther(ticketCreditLimitMantissa);
-  const creditLimitPercentage = fractionToPercentage(creditLimitMantissa);
+  const creditLimitPercentage = fractionToPercentage(Number(creditLimitMantissa));
   const creditMaturationInSeconds = ticketCreditRateMantissa.gt(0)
-    ? ticketCreditLimitMantissa.div(ticketCreditRateMantissa)
+    ? Number(ticketCreditLimitMantissa.div(ticketCreditRateMantissa).toString())
     : 0;
   const creditMaturationInDays = secondsToDaysForInput(creditMaturationInSeconds);
   return [creditMaturationInDays, creditLimitPercentage];
@@ -41,7 +44,7 @@ export const getCreditMaturationDaysAndLimitPercentage = (ticketCreditRateMantis
 /**
  * Convert a fraction to a whole number
  */
-export const fractionToPercentage = fraction => {
+export const fractionToPercentage = (fraction: number) => {
   return Math.round(fraction * 100);
 };
 
@@ -50,17 +53,17 @@ export const fractionToPercentage = fraction => {
  * Rounding to 4 significant digits (minimum value is ~8 seconds).
  * @param {*} seconds
  */
-export const secondsToDaysForInput = seconds => {
+export const secondsToDaysForInput = (seconds: number) => {
   return Math.round((seconds / 60 / 60 / 24) * 10000) / 10000;
 };
 
 /**
  * TODO: add the mainnet urls
  * return helper urls for the Pool Together UI.
- * @param {*} chainID
- * @returns {Array} [PrizePoolURI, PoolDetailsURI]
+ * @param chainID
+ * @returns [PrizePoolURI, PoolDetailsURI]
  */
-export const poolTogetherUILinks = chainID => {
+export const poolTogetherUILinks = (chainID: number): Array<string> => {
   const contractAddress = addresses[chainID].PT_PRIZE_POOL_ADDRESS;
 
   if (chainID === 4) {

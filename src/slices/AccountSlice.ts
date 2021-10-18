@@ -9,19 +9,13 @@ import { abi as wsOHM } from "../abi/wsOHM.json";
 import { setAll } from "../helpers";
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
-import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { Bond, NetworkID } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
 import { RootState } from "src/store";
-
-interface IGetBalances {
-  address: string;
-  networkID: NetworkID;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-}
+import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 
 export const getBalances = createAsyncThunk(
   "account/getBalances",
-  async ({ address, networkID, provider }: IGetBalances) => {
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider);
     const ohmBalance = await ohmContract.balanceOf(address);
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
@@ -40,25 +34,15 @@ export const getBalances = createAsyncThunk(
   },
 );
 
-interface ILoadAccountDetails {
-  address: string;
-  networkID: NetworkID;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-}
-
 interface IUserAccountDetails {
   balances: {
     dai: string;
     ohm: string;
     sohm: string;
-    oldsohm: string;
   };
   staking: {
     ohmStake: number;
     ohmUnstake: number;
-  };
-  migrate: {
-    unstakeAllowance: number;
   };
   bonding: {
     daiAllowance: number;
@@ -67,12 +51,11 @@ interface IUserAccountDetails {
 
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
-  async ({ networkID, provider, address }: ILoadAccountDetails) => {
+  async ({ networkID, provider, address }: IBaseAddressAsyncThunk) => {
     let ohmBalance = 0;
     let sohmBalance = 0;
     let fsohmBalance = 0;
     let wsohmBalance = 0;
-    let oldsohmBalance = 0;
     let stakeAllowance = 0;
     let unstakeAllowance = 0;
     let lpStaked = 0;
@@ -80,7 +63,6 @@ export const loadAccountDetails = createAsyncThunk(
     let lpBondAllowance = 0;
     let daiBondAllowance = 0;
     let aOHMAbleToClaim = 0;
-    let unstakeAllowanceSohm;
     let poolBalance = 0;
     let poolAllowance = 0;
 
@@ -125,12 +107,6 @@ export const loadAccountDetails = createAsyncThunk(
       wsohmBalance = await wsohmContract.wOHMTosOHM(balance);
     }
 
-    if (addresses[networkID].OLD_SOHM_ADDRESS) {
-      const oldsohmContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS as string, sOHM, provider);
-      oldsohmBalance = await oldsohmContract.balanceOf(address);
-      unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
-    }
-
     return {
       balances: {
         dai: ethers.utils.formatEther(daiBalance),
@@ -138,15 +114,11 @@ export const loadAccountDetails = createAsyncThunk(
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: fsohmBalance,
         wsohm: ethers.utils.formatUnits(wsohmBalance, "gwei"),
-        oldsohm: ethers.utils.formatUnits(oldsohmBalance, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
       },
       staking: {
         ohmStake: +stakeAllowance,
         ohmUnstake: +unstakeAllowance,
-      },
-      migrate: {
-        unstakeAllowance: +unstakeAllowanceSohm,
       },
       bonding: {
         daiAllowance: daiBondAllowance,
@@ -158,12 +130,6 @@ export const loadAccountDetails = createAsyncThunk(
   },
 );
 
-interface ICalcUserBondDetails {
-  address: string;
-  bond: Bond;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  networkID: NetworkID;
-}
 export interface IUserBondDetails {
   allowance: number;
   interestDue: number;
@@ -172,7 +138,7 @@ export interface IUserBondDetails {
 }
 export const calculateUserBondDetails = createAsyncThunk(
   "account/calculateUserBondDetails",
-  async ({ address, bond, networkID, provider }: ICalcUserBondDetails, { dispatch }) => {
+  async ({ address, bond, networkID, provider }: ICalcUserBondDetailsAsyncThunk) => {
     if (!address) {
       return {
         bond: "",
@@ -180,7 +146,7 @@ export const calculateUserBondDetails = createAsyncThunk(
         bondIconSvg: "",
         isLP: false,
         allowance: 0,
-        balance: 0,
+        balance: "0",
         interestDue: 0,
         bondMaturationBlock: 0,
         pendingPayout: "",
@@ -203,15 +169,16 @@ export const calculateUserBondDetails = createAsyncThunk(
       balance = 0;
     allowance = await reserveContract.allowance(address, bond.getAddressForBond(networkID));
     balance = await reserveContract.balanceOf(address);
+    // formatEthers takes BigNumber => String
     const balanceVal = ethers.utils.formatEther(balance);
-
+    // balanceVal should NOT be converted to a number. it loses decimal precision
     return {
       bond: bond.name,
       displayName: bond.displayName,
       bondIconSvg: bond.bondIconSvg,
       isLP: bond.isLP,
       allowance: Number(allowance),
-      balance: Number(balanceVal),
+      balance: balanceVal,
       interestDue,
       bondMaturationBlock,
       pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),

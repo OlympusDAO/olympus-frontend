@@ -1,15 +1,9 @@
-import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { minutesAgo } from "./index";
 import { EnvHelper } from "./Environment";
 
 interface ICurrentStats {
   failedConnectionCount: number;
   lastFailedConnectionAt: number;
-}
-
-interface IInvalidNode {
-  key: string;
-  value: number;
 }
 
 /**
@@ -20,6 +14,12 @@ interface IInvalidNode {
  */
 export class NodeHelper {
   static _invalidNodesKey = "invalidNodes";
+  static _maxFailedConnections = 2;
+  /**
+   * failedConnectionsMinuteLimit is the number of minutes that _maxFailedConnections must occur within
+   * for the node to be blocked.
+   */
+  static _failedConnectionsMinutesLimit = 15;
 
   // use sessionStorage so that we don't have to worry about resetting the invalidNodes list
   static _storage = window.sessionStorage;
@@ -29,16 +29,25 @@ export class NodeHelper {
 
   /**
    * remove the invalidNodes list entirely
-   * should be used as a failsafe IF we have invalidated ALL nodes
+   * should be used as a failsafe IF we have invalidated ALL nodes AND we have no fallbacks
    */
   static _emptyInvalidNodesList() {
-    NodeHelper._storage.removeItem(NodeHelper._invalidNodesKey);
+    // if all nodes are removed && there are no fallbacks, then empty the list
+    if (
+      EnvHelper.getFallbackURIs().length === 0 &&
+      Object.keys(NodeHelper.currentRemovedNodes).length === EnvHelper.getAPIUris().length
+    ) {
+      NodeHelper._storage.removeItem(NodeHelper._invalidNodesKey);
+    }
   }
 
   static _updateConnectionStatsForProvider(currentStats: ICurrentStats) {
     const failedAt = new Date().getTime();
     const failedConnectionCount = currentStats.failedConnectionCount || 0;
-    if (failedConnectionCount > 0 && currentStats.lastFailedConnectionAt > minutesAgo(15)) {
+    if (
+      failedConnectionCount > 0 &&
+      currentStats.lastFailedConnectionAt > minutesAgo(NodeHelper._failedConnectionsMinutesLimit)
+    ) {
       // more than 0 failed connections in the last (15) minutes
       currentStats = {
         lastFailedConnectionAt: failedAt,
@@ -66,25 +75,23 @@ export class NodeHelper {
       // remove connection stats for this Node
       NodeHelper._storage.removeItem(providerKey);
     }
-    // if all nodes are removed, then empty the list
-    if (Object.keys(currentRemovedNodesObj).length === EnvHelper.getAPIUris().length) {
-      NodeHelper._emptyInvalidNodesList();
-    }
+
+    // will only empty if no Fallbacks are provided
+    NodeHelper._emptyInvalidNodesList();
   }
 
   /**
    * adds a bad connection stat to NodeHelper._storage for a given node
-   * if greater than 3 previous failures in last 15 minutes will remove node from list
+   * if greater than `_maxFailedConnections` previous failures in last `_failedConnectionsMinuteLimit` minutes will remove node from list
    * @param provider an Ethers provider
    */
-  static logBadConnectionWithTimer(provider: StaticJsonRpcProvider) {
-    const providerUrl: string = provider.connection.url;
+  static logBadConnectionWithTimer(providerUrl: string) {
     const providerKey: string = "-nodeHelper:" + providerUrl;
 
     let currentConnectionStats = JSON.parse(NodeHelper._storage.getItem(providerKey) || "{}");
     currentConnectionStats = NodeHelper._updateConnectionStatsForProvider(currentConnectionStats);
 
-    if (currentConnectionStats.failedConnectionCount > 3) {
+    if (currentConnectionStats.failedConnectionCount > NodeHelper._maxFailedConnections) {
       // then remove this node from our provider list for 24 hours
       NodeHelper._removeNodeFromProviders(providerKey, providerUrl);
     } else {
@@ -94,20 +101,71 @@ export class NodeHelper {
 
   /**
    * returns Array of APIURIs where NOT on invalidNodes list
-   * also removes nodes that have been invalid for > 24 hours
    */
   static getNodesUris = () => {
     let allURIs = EnvHelper.getAPIUris();
     let invalidNodes = NodeHelper.currentRemovedNodesURIs;
-
-    // iterate through invalid & remove each from allURIs.
-    invalidNodes.forEach(URI => allURIs.splice(allURIs.indexOf(URI), 1));
+    // filter invalidNodes out of allURIs
+    // this allows duplicates in allURIs, removes both if invalid, & allows both if valid
+    allURIs = allURIs.filter(item => !invalidNodes.includes(item));
 
     // return the remaining elements
     if (allURIs.length === 0) {
-      NodeHelper._emptyInvalidNodesList();
-      allURIs = EnvHelper.getAPIUris();
+      // the invalidNodes list will be emptied when the user starts a new session
+      // In the meantime use the fallbacks
+      allURIs = EnvHelper.getFallbackURIs();
     }
     return allURIs;
+  };
+
+  /**
+   * iterate through all the nodes we have with a chainId check.
+   * - log the failing nodes
+   * - _maxFailedConnections fails in < _failedConnectionsMinutesLimit sends the node to the invalidNodes list
+   * returns an Array of working mainnet nodes
+   */
+  static checkAllNodesStatus = async () => {
+    return await Promise.all(
+      NodeHelper.getNodesUris().map(async URI => {
+        let workingUrl = await NodeHelper.checkNodeStatus(URI);
+        return workingUrl;
+      }),
+    );
+  };
+
+  /**
+   * 403 errors are not caught by fetch so we check response.status, too
+   * this func returns a workingURL string or false;
+   */
+  static checkNodeStatus = async (url: string) => {
+    let liveURL;
+    try {
+      let resp = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // NOTE (appleseed): are there other basic requests for other chain types (Arbitrum)???
+        // https://documenter.getpostman.com/view/4117254/ethereum-json-rpc/RVu7CT5J
+        // chainId works... but is net_version lighter-weight?
+        // body: JSON.stringify({ method: "eth_chainId", params: [], id: 42, jsonrpc: "2.0" }),
+        body: JSON.stringify({ method: "net_version", params: [], id: 67, jsonrpc: "2.0" }),
+      });
+      if (resp.status >= 400) {
+        // probably 403 or 429 -> no more alchemy capacity
+        NodeHelper.logBadConnectionWithTimer(resp.url);
+        liveURL = false;
+      } else {
+        // this is a working node
+        // TODO (appleseed) use response object to prioritize it
+        liveURL = url;
+      }
+    } catch {
+      // some other type of issue
+      NodeHelper.logBadConnectionWithTimer(url);
+      liveURL = false;
+    }
+    return liveURL;
   };
 }

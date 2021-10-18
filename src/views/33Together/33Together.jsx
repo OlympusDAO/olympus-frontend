@@ -53,11 +53,11 @@ const PoolTogether = () => {
   const isAccountLoading = useSelector(state => state.account.loading ?? true);
 
   const sohmBalance = useSelector(state => {
-    return state.account.balances && parseFloat(state.account.balances.sohm);
+    return state.account.balances && state.account.balances.sohm;
   });
 
   const poolBalance = useSelector(state => {
-    return state.account.balances && parseFloat(state.account.balances.pool);
+    return state.account.balances && state.account.balances.pool;
   });
 
   // query correct pool subgraph depending on current chain

@@ -87,7 +87,14 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   }, [bond.allowance]);
 
   const setMax = () => {
-    setQuantity((Math.min(bond.maxBondPrice * bond.bondPrice, bond.balance) || "").toString());
+    let maxQ;
+    if (bond.maxBondPrice * bond.bondPrice < Number(bond.balance)) {
+      // there is precision loss here on Number(bond.balance)
+      maxQ = bond.maxBondPrice * bond.bondPrice.toString();
+    } else {
+      maxQ = bond.balance;
+    }
+    setQuantity(maxQ);
   };
 
   const bondDetailsDebounce = useDebounce(quantity, 1000);
