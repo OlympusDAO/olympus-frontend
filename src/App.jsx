@@ -195,13 +195,11 @@ function App() {
         <Messages />
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>
-          {(() => {
-            if (isSmallerScreen) {
-              return <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />;
-            } else {
-              return <Sidebar />;
-            }
-          })()}
+          {isSmallerScreen ? (
+            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+          ) : (
+            <Sidebar />
+          )}
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
