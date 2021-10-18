@@ -1,15 +1,9 @@
-import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { minutesAgo } from "./index";
 import { EnvHelper } from "./Environment";
 
 interface ICurrentStats {
   failedConnectionCount: number;
   lastFailedConnectionAt: number;
-}
-
-interface IInvalidNode {
-  key: string;
-  value: number;
 }
 
 /**
@@ -35,10 +29,16 @@ export class NodeHelper {
 
   /**
    * remove the invalidNodes list entirely
-   * should be used as a failsafe IF we have invalidated ALL nodes
+   * should be used as a failsafe IF we have invalidated ALL nodes AND we have no fallbacks
    */
   static _emptyInvalidNodesList() {
-    NodeHelper._storage.removeItem(NodeHelper._invalidNodesKey);
+    // if all nodes are removed && there are no fallbacks, then empty the list
+    if (
+      EnvHelper.getFallbackURIs().length === 0 &&
+      Object.keys(NodeHelper.currentRemovedNodes).length === EnvHelper.getAPIUris().length
+    ) {
+      NodeHelper._storage.removeItem(NodeHelper._invalidNodesKey);
+    }
   }
 
   static _updateConnectionStatsForProvider(currentStats: ICurrentStats) {
@@ -75,10 +75,9 @@ export class NodeHelper {
       // remove connection stats for this Node
       NodeHelper._storage.removeItem(providerKey);
     }
-    // if all nodes are removed, then empty the list
-    if (Object.keys(currentRemovedNodesObj).length === EnvHelper.getAPIUris().length) {
-      NodeHelper._emptyInvalidNodesList();
-    }
+
+    // will only empty if no Fallbacks are provided
+    NodeHelper._emptyInvalidNodesList();
   }
 
   /**
@@ -112,8 +111,9 @@ export class NodeHelper {
 
     // return the remaining elements
     if (allURIs.length === 0) {
-      NodeHelper._emptyInvalidNodesList();
-      allURIs = EnvHelper.getAPIUris();
+      // the invalidNodes list will be emptied when the user starts a new session
+      // In the meantime use the fallbacks
+      allURIs = EnvHelper.getFallbackURIs();
     }
     return allURIs;
   };
@@ -121,7 +121,7 @@ export class NodeHelper {
   /**
    * iterate through all the nodes we have with a chainId check.
    * - log the failing nodes
-   * - 3 fails in < 15 minutes sends the node to the invalidNodes list
+   * - _maxFailedConnections fails in < _failedConnectionsMinutesLimit sends the node to the invalidNodes list
    * returns an Array of working mainnet nodes
    */
   static checkAllNodesStatus = async () => {
