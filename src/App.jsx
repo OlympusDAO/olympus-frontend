@@ -153,7 +153,7 @@ function App() {
       });
     } else {
       // then user DOES NOT have a wallet
-      setWalletChecked(false);
+      setWalletChecked(true);
     }
 
     // We want to ensure that we are storing the UTM parameters for later, even if the user follows links
