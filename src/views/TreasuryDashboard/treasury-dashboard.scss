@@ -60,6 +60,8 @@
   }
   .hero-metrics .ohm-card {
     > .MuiBox-root {
+      flex-direction: column;
+      align-items: flex-start;
       flex-wrap: wrap;
     }
     div.metric {
@@ -74,13 +76,13 @@
     min-width: 30% !important;
     max-width: 60%;
     text-align: left !important;
-    &.circ,
-    &.market {
-      width: 67% !important;
-    }
+    &.market,
     &.price,
+    &.circ,
+    &.bpo,
     &.index {
-      width: 33% !important;
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 }
