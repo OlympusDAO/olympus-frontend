@@ -38,13 +38,7 @@ export function segmentUA(data) {
 
   // NOTE (appleseed): the analytics object may not exist (if there is no SEGMENT_API_KEY)
   try {
-    analytics.track(
-      data.type,
-      {
-        combinedData,
-      },
-      { context: { ip: "0.0.0.0" } },
-    );
+    analytics.track(data.type, combinedData, { context: { ip: "0.0.0.0" } });
   } catch (e) {
     console.log("segmentAnalytics", e);
   }
