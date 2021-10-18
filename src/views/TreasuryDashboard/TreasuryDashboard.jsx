@@ -42,6 +42,10 @@ function TreasuryDashboard() {
     return state.app.currentIndex;
   });
 
+  const backingPerOhm = useSelector(state => {
+    return state.app.treasuryMarketValue / state.app.circSupply;
+  });
+
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
       let metrics = r.data.protocolMetrics.map(entry =>
@@ -108,6 +112,15 @@ function TreasuryDashboard() {
                   ) : (
                     <Skeleton type="text" />
                   )}
+                </Typography>
+              </Box>
+
+              <Box className="metric bpo">
+                <Typography variant="h6" color="textSecondary">
+                  Backing per OHM
+                </Typography>
+                <Typography variant="h4">
+                  {backingPerOhm ? formatCurrency(backingPerOhm, 2) : <Skeleton type="text" />}
                 </Typography>
               </Box>
 

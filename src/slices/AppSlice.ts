@@ -34,6 +34,7 @@ export const loadAppDetails = createAsyncThunk(
       ohmPrice
       marketCap
       totalValueLocked
+      treasuryMarketValue
       nextEpochRebase
       nextDistributedOhm
     }
@@ -65,6 +66,7 @@ export const loadAppDetails = createAsyncThunk(
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
     const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
+    const treasuryMarketValue = parseFloat(graphData.data.protocolMetrics[0].treasuryMarketValue);
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
     if (!provider) {
@@ -75,6 +77,7 @@ export const loadAppDetails = createAsyncThunk(
         marketCap,
         circSupply,
         totalSupply,
+        treasuryMarketValue,
       };
     }
     const currentBlock = await provider.getBlockNumber();
@@ -114,6 +117,7 @@ export const loadAppDetails = createAsyncThunk(
       marketPrice,
       circSupply,
       totalSupply,
+      treasuryMarketValue,
     } as IAppData;
   },
 );
@@ -185,6 +189,7 @@ interface IAppData {
   readonly stakingTVL: number;
   readonly totalSupply: number;
   readonly treasuryBalance?: number;
+  readonly treasuryMarketValue?: number;
 }
 
 const appSlice = createSlice({
