@@ -1,9 +1,10 @@
-import { Modal, Paper } from "@material-ui/core";
+import { Modal, Paper, Typography, SvgIcon, Link } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { InputAdornment } from "@material-ui/core";
 import { useState } from "react";
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
 export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
   const showHideClassName = "ohm-card ohm-modal";
@@ -18,7 +19,6 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
   };
 
   // TODO styling
-  // TODO fade/blur background
   // TODO add amount
   // TODO add wallet
   // TODO add validation
@@ -26,10 +26,13 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
   return (
     <Modal open={!isModalHidden}>
       <Paper className={showHideClassName}>
-        <button type="button" onClick={() => setIsModalHidden(true)}>
-          X
-        </button>
-        Add Yield Recipient % of Staked Position
+        <div className="yield-header">
+          <Link onClick={() => setIsModalHidden(true)}>
+            <SvgIcon color="primary" component={XIcon} />
+          </Link>
+          <Typography variant="h5">Add Yield Recipient</Typography>
+        </div>
+        % of Staked Position
         <FormControl className="ohm-input" variant="outlined" color="primary">
           <InputLabel htmlFor="percentage-input"></InputLabel>
           <OutlinedInput

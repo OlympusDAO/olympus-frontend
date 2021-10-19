@@ -45,6 +45,18 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+
+  .yield-header {
+    align-items: center;
+    display: flex;
+    height: 44px;
+    justify-content: center;
+
+    a {
+      position: absolute;
+      left: 2rem;
+    }
+  }
 }
 
 .migrate-sohm-button {
