@@ -27,6 +27,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "./ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
+import { ethers } from "ethers";
 
 function a11yProps(index) {
   return {
@@ -109,6 +110,15 @@ function Stake() {
       // eslint-disable-next-line no-alert
       dispatch(error("Please enter a value!"));
     } else {
+      // 1st catch if quantity > balance
+      let gweiValue = ethers.utils.parseUnits(quantity, "gwei");
+      if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
+        console.log("in stake ok");
+        return dispatch(error("You cannot stake more than your OHM balance."));
+      } else if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+        return dispatch(error("You cannot unstake more than your sOHM balance."));
+      }
+
       await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
     }
   };
