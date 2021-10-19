@@ -9,7 +9,7 @@ import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
-import { segmentUA } from "./helpers/userAnalyticHelpers";
+import { segmentUA, providerChecker } from "./helpers/userAnalyticHelpers";
 import { storeQueryParameters } from "./helpers/QueryParameterHelper";
 
 import { calcBondDetails } from "./slices/BondSlice";
@@ -143,14 +143,13 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        if (provider.connection) {
-          segmentUA({
-            type: "connect",
-            provider: provider.connection.url,
-            context: currentPath,
-            sessionId: uuidv4(),
-          });
-        }
+        const providerURL = providerChecker(provider);
+        segmentUA({
+          type: "connect",
+          provider: providerURL,
+          context: currentPath,
+          sessionId: uuidv4(),
+        });
       });
     } else {
       // then user DOES NOT have a wallet

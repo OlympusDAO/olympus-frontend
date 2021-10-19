@@ -43,3 +43,15 @@ export function segmentUA(data) {
     console.log("segmentAnalytics", e);
   }
 }
+
+export function providerChecker(provider) {
+  let url;
+  if (provider.connection) {
+    url = provider.connection.url;
+  } else if (provider.provider) {
+    url = provider.provider.rpcURL;
+  } else {
+    url = "";
+  }
+  return url;
+}
