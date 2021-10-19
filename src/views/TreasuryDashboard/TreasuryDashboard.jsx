@@ -15,6 +15,7 @@ import {
 import { useTheme } from "@material-ui/core/styles";
 import "./treasury-dashboard.scss";
 import apollo from "../../lib/apolloClient";
+import InfoTooltip from "src/components/InfoTooltip/InfoTooltip.jsx";
 
 function TreasuryDashboard() {
   const [data, setData] = useState(null);
@@ -86,12 +87,12 @@ function TreasuryDashboard() {
       <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
         <Box className={`hero-metrics`}>
           <Paper className="ohm-card">
-            <Box display="flex" justifyContent="space-evenly">
+            <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
               <Box className="metric market">
                 <Typography variant="h6" color="textSecondary">
                   Market Cap
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {marketCap && formatCurrency(marketCap, 0)}
                   {!marketCap && <Skeleton type="text" />}
                 </Typography>
@@ -101,7 +102,7 @@ function TreasuryDashboard() {
                 <Typography variant="h6" color="textSecondary">
                   OHM Price
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {/* appleseed-fix */}
                   {marketPrice ? formatCurrency(marketPrice, 2) : <Skeleton type="text" />}
                 </Typography>
@@ -110,8 +111,14 @@ function TreasuryDashboard() {
               <Box className="metric wsoprice">
                 <Typography variant="h6" color="textSecondary">
                   wsOHM Price
+                  <InfoTooltip
+                    message={
+                      "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
+                    }
+                  />
                 </Typography>
-                <Typography variant="h4">
+
+                <Typography variant="h5">
                   {wsOhmPrice ? formatCurrency(wsOhmPrice, 2) : <Skeleton type="text" />}
                 </Typography>
               </Box>
@@ -120,7 +127,7 @@ function TreasuryDashboard() {
                 <Typography variant="h6" color="textSecondary">
                   Circulating Supply (total)
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {circSupply && totalSupply ? (
                     parseInt(circSupply) + " / " + parseInt(totalSupply)
                   ) : (
@@ -133,7 +140,7 @@ function TreasuryDashboard() {
                 <Typography variant="h6" color="textSecondary">
                   Backing per OHM
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {backingPerOhm ? formatCurrency(backingPerOhm, 2) : <Skeleton type="text" />}
                 </Typography>
               </Box>
@@ -141,8 +148,13 @@ function TreasuryDashboard() {
               <Box className="metric index">
                 <Typography variant="h6" color="textSecondary">
                   Current Index
+                  <InfoTooltip
+                    message={
+                      "The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held a single OHM from day 1."
+                    }
+                  />
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {currentIndex ? trim(currentIndex, 2) + " sOHM" : <Skeleton type="text" />}
                 </Typography>
               </Box>
