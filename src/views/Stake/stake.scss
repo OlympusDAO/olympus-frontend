@@ -54,8 +54,23 @@
 
     a {
       position: absolute;
-      left: 2rem;
+      left: 1.7rem;
     }
+  }
+
+  .modal-input {
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 1rem;
+  }
+
+  .ohm-modal-submit {
+    display: flex;
+    width: 10rem;
+    height: 43px !important;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
