@@ -46,6 +46,10 @@ function TreasuryDashboard() {
     return state.app.treasuryMarketValue / state.app.circSupply;
   });
 
+  const wsOhmPrice = useSelector(state => {
+    return state.app.marketPrice * state.app.currentIndex;
+  });
+
   useEffect(() => {
     apollo(treasuryDataQuery).then(r => {
       let metrics = r.data.protocolMetrics.map(entry =>
@@ -92,6 +96,7 @@ function TreasuryDashboard() {
                   {!marketCap && <Skeleton type="text" />}
                 </Typography>
               </Box>
+
               <Box className="metric price">
                 <Typography variant="h6" color="textSecondary">
                   OHM Price
@@ -99,6 +104,15 @@ function TreasuryDashboard() {
                 <Typography variant="h4">
                   {/* appleseed-fix */}
                   {marketPrice ? formatCurrency(marketPrice, 2) : <Skeleton type="text" />}
+                </Typography>
+              </Box>
+
+              <Box className="metric wsoprice">
+                <Typography variant="h6" color="textSecondary">
+                  wsOHM Price
+                </Typography>
+                <Typography variant="h4">
+                  {wsOhmPrice ? formatCurrency(wsOhmPrice, 2) : <Skeleton type="text" />}
                 </Typography>
               </Box>
 
