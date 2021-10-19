@@ -84,7 +84,7 @@ function TreasuryDashboard() {
 
   return (
     <div id="treasury-dashboard-view" className={`${smallerScreen && "smaller"} ${verySmallScreen && "very-small"}`}>
-      <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
+      <Container style={{ paddingLeft: "3.3rem", paddingRight: "3.3rem" }}>
         <Box className={`hero-metrics`}>
           <Paper className="ohm-card">
             <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">

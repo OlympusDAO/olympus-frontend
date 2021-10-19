@@ -2,7 +2,7 @@
   overflow-y: hidden;
   overflow-x: hidden;
   height: 100%;
-  width: 100%;
+  // width: 100%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
@@ -52,7 +52,6 @@
   }
   .data-grid {
     overflow: hidden;
-    justify-content: center;
   }
 }
 
