@@ -9,8 +9,8 @@ import { locales, fetchLocale } from "../../locales";
 
 import "./localesmenu.scss";
 
-function getLocaleFlag(flag: string) {
-  return flag === "en" ? "us" : flag;
+function getLocaleFlag(locale: string) {
+  return locales[locale].flag;
 }
 
 function LocaleSwitcher() {

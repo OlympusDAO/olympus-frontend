@@ -1,5 +1,5 @@
 {
-   "locales": ["en", "fr", "kr"],
+   "locales": ["en", "fr", "ko"],
    "sourceLocale": "en",
    "catalogs": [{
       "path": "src/locales/translations/{locale}/messages",
