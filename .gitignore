@@ -40,6 +40,4 @@ yarn-error.log*
 # Integrated development environnements
 .idea
 *.sublime-*
-
-# Compiled locales
-#src/locales/*/*.js
+.vscode

@@ -28,6 +28,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "./ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
+import { ethers } from "ethers";
 
 function a11yProps(index) {
   return {
@@ -46,9 +47,6 @@ function Stake() {
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
-
-  const isSmallScreen = useMediaQuery("(max-width: 705px)");
-  const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const isAppLoading = useSelector(state => state.app.loading);
   const currentIndex = useSelector(state => {
@@ -108,10 +106,20 @@ function Stake() {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      dispatch(error(t`Please enter a value!`));
-    } else {
-      await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+      return dispatch(error(t`Please enter a value!`));
     }
+
+    // 1st catch if quantity > balance
+    let gweiValue = ethers.utils.parseUnits(quantity, "gwei");
+    if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
+      return dispatch(error(t`You cannot stake more than your OHM balance.`));
+    }
+
+    if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+      return dispatch(error(t`You cannot unstake more than your sOHM balance.`));
+    }
+
+    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
   };
 
   const hasAllowance = useCallback(
@@ -175,7 +183,7 @@ function Stake() {
 
             <Grid item>
               <div className="stake-top-metrics">
-                <Grid container spacing={2}>
+                <Grid container spacing={2} alignItems="flex-end">
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-apy">
                       <Typography variant="h5" color="textSecondary">

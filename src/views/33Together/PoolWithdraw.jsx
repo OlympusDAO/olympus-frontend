@@ -170,7 +170,7 @@ export const PoolWithdraw = props => {
               <Typography color="error">
                 <Trans>Early withdraw will incur a fairness fee of {exitFee}.</Trans> &nbsp;
                 <Link
-                  href="https://docs.pooltogether.com/protocol/prize-pool/fairness"
+                  href="https://v3.docs.pooltogether.com/protocol/prize-pool/fairness"
                   target="_blank"
                   rel="noreferrer"
                   color="primary"

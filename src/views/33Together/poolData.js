@@ -1,8 +1,6 @@
 // import apollo from "../../lib/apolloClient";
 
-import { isAddress } from "@ethersproject/address";
-
-// TODO: add paramaterization for testnet/mainnet pool ids
+// Graph Explorer: https://thegraph.com/hosted-service/subgraph/pooltogether/rinkeby-v3_4_3
 export const poolDataQuery = address => {
   return `
   query {
@@ -30,30 +28,11 @@ export const poolDataQuery = address => {
           }
         }
       }
-      prizes {
-        id
-        prizePeriodStartedTimestamp
-        lockBlock
-        awardedBlock
-        awardedTimestamp
-      }
-      tokenCreditBalances {
-        id
-        balance
-        timestamp
-        initialized
-      }
       controlledTokens {
         id
         name
         totalSupply
         numberOfHolders
-      }
-    }
-    sablierStreams(first: 5) {
-      id
-      prizePool {
-        id
       }
     }
   }
@@ -78,9 +57,33 @@ query {
   }
 }`;
 
-// for if we want to have multiple discrete queries
-export const otherPoolDataQuery = `
-query {
-  
-}
-`;
+/**
+ * returns a Graph Query string for prizePool Award History for a given user.
+ * @param {*} poolAddress
+ * @param {*} userAddress
+ * @param {*} tokenAddress
+ * @returns string
+ */
+export const yourAwardsQuery = (poolAddress, userAddress, tokenAddress) => {
+  let query = `
+  query {
+      prizePool(id: "${poolAddress.toLowerCase()}") {
+        prizes (where:{
+          awardedOperator: "${userAddress.toLowerCase()}"
+        }){
+          id
+          awardedOperator
+          awardedControlledTokens (where:{
+            token: "${tokenAddress.toLowerCase()}"
+          }) {
+            amount
+          }
+          prizePeriodStartedTimestamp
+          awardedBlock
+          awardedTimestamp
+        }
+    }
+  }
+  `;
+  return query;
+};

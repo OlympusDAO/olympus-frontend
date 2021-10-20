@@ -10,10 +10,10 @@ import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 
 import { ohm_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { NodeHelper } from "./NodeHelper";
+import { IBaseAsyncThunk } from "src/slices/interfaces";
 
-// NOTE (appleseed): using ohm-dai as it's the most liquid pool
-export async function getMarketPrice({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) {
+// NOTE (appleseed): this looks like an outdated method... we now have this data in the graph (used elsewhere in the app)
+export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
   const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
   const reserves = await pairContract.getReserves();

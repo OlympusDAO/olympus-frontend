@@ -46,15 +46,15 @@ export const PoolInfo = props => {
             <Box display="flex" flexDirection="column" className="user-pool-data">
               <div className="data-row">
                 <Typography>
-                  <Trans>Your pool deposits</Trans>
+                  <Trans>Your total awards</Trans>
                 </Typography>
-                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.poolBalance} 33T</Typography>
+                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.yourTotalAwards} 33T</Typography>
               </div>
               <div className="data-row">
                 <Typography>
-                  <Trans>Your wallet balance</Trans>
+                  <Trans>Your pool deposits</Trans>
                 </Typography>
-                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.sohmBalance} sOHM</Typography>
+                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.poolBalance} 33T</Typography>
               </div>
               <div className="data-row">
                 <Typography>
@@ -68,6 +68,10 @@ export const PoolInfo = props => {
                     props.yourOdds
                   )}
                 </Typography>
+              </div>
+              <div className="data-row">
+                <Typography>Your wallet balance</Typography>
+                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.sohmBalance} sOHM</Typography>
               </div>
             </Box>
             <Divider color="secondary" />
@@ -109,9 +113,6 @@ export const PoolInfo = props => {
             </Typography>
             <Box display="flex" alignItems="center">
               <Typography>OlympusDAO</Typography>
-              {/* <Link to={"/33-together"} target="_blank" style={{ marginLeft: "3px" }}>
-                <SvgIcon component={ArrowUp} fontSize="small" />
-              </Link> */}
             </Box>
           </div>
           <Divider color="secondary" />
@@ -169,6 +170,7 @@ PoolInfo.propTypes = {
   isAccountLoading: PropTypes.bool.isRequired,
   poolBalance: PropTypes.string,
   sohmBalance: PropTypes.string,
+  yourTotalAwards: PropTypes.string,
   yourOdds: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   totalDeposits: PropTypes.number,
