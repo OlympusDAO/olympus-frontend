@@ -47,9 +47,6 @@ function Stake() {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
 
-  const isSmallScreen = useMediaQuery("(max-width: 705px)");
-  const isMobileScreen = useMediaQuery("(max-width: 513px)");
-
   const isAppLoading = useSelector(state => state.app.loading);
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
@@ -183,7 +180,7 @@ function Stake() {
 
             <Grid item>
               <div className="stake-top-metrics">
-                <Grid container spacing={2}>
+                <Grid container spacing={2} alignItems="flex-end">
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-apy">
                       <Typography variant="h5" color="textSecondary">
