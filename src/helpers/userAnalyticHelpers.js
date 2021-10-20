@@ -40,13 +40,3 @@ export function segmentUA(data) {
     console.log("segmentAnalytics", e);
   }
 }
-
-export function providerChecker(provider) {
-  let url = "";
-  if (provider.connection) {
-    url = provider.connection.url;
-  } else {
-    url = provider;
-  }
-  return url;
-}

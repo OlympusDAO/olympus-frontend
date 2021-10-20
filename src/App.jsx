@@ -85,7 +85,7 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { connect, hasCachedProvider, provider, chainID, connected } = useWeb3Context();
+  const { connect, hasCachedProvider, provider, chainID, connected, uri } = useWeb3Context();
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
@@ -143,9 +143,9 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        // const providerURL = providerChecker(provider);
-        // Provider being checked here
-        console.log(provider);
+        const providerURL = uri;
+        // Note (appleseed): remove this before merge to develop
+        console.log("segment debug", providerURL, currentPath);
         segmentUA({
           type: "connect",
           provider: provider,
@@ -156,7 +156,6 @@ function App() {
       // then user DOES NOT have a wallet
       setWalletChecked(true);
     }
-
     // We want to ensure that we are storing the UTM parameters for later, even if the user follows links
     storeQueryParameters();
   }, []);
