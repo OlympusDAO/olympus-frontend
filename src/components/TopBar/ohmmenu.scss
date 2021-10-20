@@ -20,8 +20,8 @@
     padding: 16px 6px;
     display: flex;
     flex-direction: column;
-    width: 200px;
-    max-width: 200px;
+    width: 250px;
+    max-width: 250px;
     button {
       display: block;
       width: 100%;
@@ -49,6 +49,12 @@
       margin: 15px 0px 5px 0px;
       text-align: left;
       padding-left: 16px;
+    }
+    height: max-content !important;
+    width: 100%;
+    button {
+      min-height: 56px !important;
+      text-align: center !important;
     }
   }
 

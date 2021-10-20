@@ -14,7 +14,7 @@ import "./33together.scss";
 import { addresses, POOL_GRAPH_URLS } from "../../constants";
 import { useWeb3Context } from "../../hooks";
 import { apolloExt } from "../../lib/apolloClient";
-import { poolDataQuery } from "./poolData.js";
+import { poolDataQuery, yourAwardsQuery } from "./poolData.js";
 import { calculateOdds } from "../../helpers/33Together";
 import { getPoolValues, getRNGStatus } from "../../slices/PoolThunk";
 import { trim } from "../../helpers/index";
@@ -47,6 +47,9 @@ const PoolTogether = () => {
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
   const [yourOdds, setYourOdds] = useState(0);
+  const [yourTotalAwards, setYourTotalAwards] = useState(0);
+  // TODO (appleseed-33T): create a table for AwardHistory
+  const [yourAwardHistory, setYourAwardHistory] = useState([]);
   const [infoTooltipMessage, setInfoTooltipMessage] = useState([
     "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn.",
   ]);
@@ -66,6 +69,7 @@ const PoolTogether = () => {
   }, [chainID]);
 
   useEffect(() => {
+    // get poolData
     apolloExt(poolDataQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS), graphUrl)
       .then(poolData => {
         const poolWinners = poolData.data.prizePool?.prizeStrategy.multipleWinners.numberOfWinners;
@@ -82,6 +86,31 @@ const PoolTogether = () => {
         setGraphLoading(false);
       })
       .catch(err => setPoolDataError(err));
+
+    // get your Award History
+    if (address) {
+      let yourPrizes = [];
+      let totalAwards = 0;
+      apolloExt(
+        yourAwardsQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS, address, addresses[chainID].PT_TOKEN_ADDRESS),
+        graphUrl,
+      )
+        .then(poolData => {
+          poolData.data.prizePool?.prizes.map(prize => {
+            let awardedAmount = parseFloat(prize.awardedControlledTokens[0]?.amount) / 10 ** 9 || 0;
+            // pushing in an AwardItem {awardedTimestamp, awardedBlock, awardedAmount}
+            yourPrizes.push({
+              awardedTimestamp: prize.awardedTimestamp,
+              awardedBlock: prize.awardedBlock,
+              awardedAmount: awardedAmount,
+            });
+            totalAwards += awardedAmount;
+          });
+          setYourTotalAwards(totalAwards);
+          setYourAwardHistory(yourPrizes);
+        })
+        .catch(err => setPoolDataError(err));
+    }
   }, [graphUrl]);
 
   useEffect(() => {
@@ -153,6 +182,7 @@ const PoolTogether = () => {
         isAccountLoading={isAccountLoading}
         poolBalance={trim(poolBalance, 4)}
         sohmBalance={trim(sohmBalance, 4)}
+        yourTotalAwards={trim(yourTotalAwards, 4)}
         yourOdds={trim(yourOdds, 0)}
         winners={winners}
         totalDeposits={totalDeposits}

@@ -2,7 +2,7 @@
   overflow-y: hidden;
   overflow-x: hidden;
   height: 100%;
-  width: 100%;
+  // width: 100%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
@@ -38,19 +38,20 @@
     .ohm-card {
       max-width: unset !important;
       flex-direction: row;
+      flex-wrap: wrap;
       justify-content: space-evenly;
-      min-width: none;
-      h4 {
+      h5 {
         font-weight: bold;
       }
       div.metric {
         margin: 3px;
+        min-width: 140px;
+        width: 30%;
       }
     }
   }
   .data-grid {
     overflow: hidden;
-    justify-content: center;
   }
 }
 
@@ -60,6 +61,8 @@
   }
   .hero-metrics .ohm-card {
     > .MuiBox-root {
+      flex-direction: column;
+      align-items: flex-start;
       flex-wrap: wrap;
     }
     div.metric {
@@ -74,13 +77,14 @@
     min-width: 30% !important;
     max-width: 60%;
     text-align: left !important;
-    &.circ,
-    &.market {
-      width: 67% !important;
-    }
+    &.market,
     &.price,
+    &.wsoprice,
+    &.circ,
+    &.bpo,
     &.index {
-      width: 33% !important;
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 }

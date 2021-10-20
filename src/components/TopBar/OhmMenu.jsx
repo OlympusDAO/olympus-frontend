@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, Slide } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
+import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
+import { ReactComponent as ohmTokenImg } from "../../assets/tokens/token_OHM.svg";
+
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
 import { useWeb3Context } from "../../hooks/web3Context";
@@ -98,36 +101,41 @@ function OhmMenu() {
                       </Typography>
                     </Button>
                   </Link>
+
+                  <Link href={`https://abracadabra.money/pool/10`} target="_blank" rel="noreferrer">
+                    <Button size="large" variant="contained" color="secondary" fullWidth>
+                      <Typography align="left">
+                        Wrap sOHM on Abracadabra <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
+                      </Typography>
+                    </Button>
+                  </Link>
                 </Box>
 
                 {isEthereumAPIAvailable ? (
                   <Box className="add-tokens">
                     <Divider color="secondary" />
                     <p>ADD TOKEN TO WALLET</p>
-                    <Button
-                      size="large"
-                      variant="contained"
-                      color="secondary"
-                      onClick={addTokenToWallet("OHM", OHM_ADDRESS)}
-                    >
-                      <Typography>OHM</Typography>
-                    </Button>
-                    <Button
-                      variant="contained"
-                      size="large"
-                      color="secondary"
-                      onClick={addTokenToWallet("sOHM", SOHM_ADDRESS)}
-                    >
-                      <Typography>sOHM</Typography>
-                    </Button>
-                    <Button
-                      variant="contained"
-                      size="large"
-                      color="secondary"
-                      onClick={addTokenToWallet("33T", PT_TOKEN_ADDRESS)}
-                    >
-                      <Typography>33T</Typography>
-                    </Button>
+                    <Box display="flex" flexDirection="row" justifyContent="space-between">
+                      <Button variant="contained" color="secondary" onClick={addTokenToWallet("OHM", OHM_ADDRESS)}>
+                        <SvgIcon
+                          component={ohmTokenImg}
+                          viewBox="0 0 32 32"
+                          style={{ height: "25px", width: "25px" }}
+                        />
+                        <Typography variant="body1">OHM</Typography>
+                      </Button>
+                      <Button variant="contained" color="secondary" onClick={addTokenToWallet("sOHM", SOHM_ADDRESS)}>
+                        <SvgIcon
+                          component={sOhmTokenImg}
+                          viewBox="0 0 100 100"
+                          style={{ height: "25px", width: "25px" }}
+                        />
+                        <Typography variant="body1">sOHM</Typography>
+                      </Button>
+                      <Button variant="contained" color="secondary" onClick={addTokenToWallet("33T", PT_TOKEN_ADDRESS)}>
+                        <Typography variant="body1">33T</Typography>
+                      </Button>
+                    </Box>
                   </Box>
                 ) : null}
 
@@ -138,7 +146,7 @@ function OhmMenu() {
                   rel="noreferrer"
                 >
                   <Button size="large" variant="contained" color="secondary" fullWidth>
-                    <Typography align="left">Unstake LP Token</Typography>
+                    <Typography align="left">Unstake Legacy LP Token</Typography>
                   </Button>
                 </Link>
               </Paper>
