@@ -17,7 +17,7 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface SOlympusInterface extends ethers.utils.Interface {
   functions: {
@@ -246,6 +246,46 @@ interface SOlympusInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "OwnershipPushed"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
+
+export type ApprovalEvent = TypedEvent<
+  [string, string, BigNumber] & {
+    owner: string;
+    spender: string;
+    value: BigNumber;
+  }
+>;
+
+export type LogRebaseEvent = TypedEvent<
+  [BigNumber, BigNumber, BigNumber] & {
+    epoch: BigNumber;
+    rebase: BigNumber;
+    index: BigNumber;
+  }
+>;
+
+export type LogStakingContractUpdatedEvent = TypedEvent<
+  [string] & { stakingContract: string }
+>;
+
+export type LogSupplyEvent = TypedEvent<
+  [BigNumber, BigNumber, BigNumber] & {
+    epoch: BigNumber;
+    timestamp: BigNumber;
+    totalSupply: BigNumber;
+  }
+>;
+
+export type OwnershipPulledEvent = TypedEvent<
+  [string, string] & { previousOwner: string; newOwner: string }
+>;
+
+export type OwnershipPushedEvent = TypedEvent<
+  [string, string] & { previousOwner: string; newOwner: string }
+>;
+
+export type TransferEvent = TypedEvent<
+  [string, string, BigNumber] & { from: string; to: string; value: BigNumber }
+>;
 
 export class SOlympus extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -699,6 +739,15 @@ export class SOlympus extends BaseContract {
   };
 
   filters: {
+    "Approval(address,address,uint256)"(
+      owner?: string | null,
+      spender?: string | null,
+      value?: null
+    ): TypedEventFilter<
+      [string, string, BigNumber],
+      { owner: string; spender: string; value: BigNumber }
+    >;
+
     Approval(
       owner?: string | null,
       spender?: string | null,
@@ -706,6 +755,15 @@ export class SOlympus extends BaseContract {
     ): TypedEventFilter<
       [string, string, BigNumber],
       { owner: string; spender: string; value: BigNumber }
+    >;
+
+    "LogRebase(uint256,uint256,uint256)"(
+      epoch?: BigNumberish | null,
+      rebase?: null,
+      index?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, BigNumber],
+      { epoch: BigNumber; rebase: BigNumber; index: BigNumber }
     >;
 
     LogRebase(
@@ -717,9 +775,22 @@ export class SOlympus extends BaseContract {
       { epoch: BigNumber; rebase: BigNumber; index: BigNumber }
     >;
 
+    "LogStakingContractUpdated(address)"(
+      stakingContract?: null
+    ): TypedEventFilter<[string], { stakingContract: string }>;
+
     LogStakingContractUpdated(
       stakingContract?: null
     ): TypedEventFilter<[string], { stakingContract: string }>;
+
+    "LogSupply(uint256,uint256,uint256)"(
+      epoch?: BigNumberish | null,
+      timestamp?: null,
+      totalSupply?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, BigNumber],
+      { epoch: BigNumber; timestamp: BigNumber; totalSupply: BigNumber }
+    >;
 
     LogSupply(
       epoch?: BigNumberish | null,
@@ -730,7 +801,23 @@ export class SOlympus extends BaseContract {
       { epoch: BigNumber; timestamp: BigNumber; totalSupply: BigNumber }
     >;
 
+    "OwnershipPulled(address,address)"(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
+    >;
+
     OwnershipPulled(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
+    >;
+
+    "OwnershipPushed(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
     ): TypedEventFilter<
@@ -744,6 +831,15 @@ export class SOlympus extends BaseContract {
     ): TypedEventFilter<
       [string, string],
       { previousOwner: string; newOwner: string }
+    >;
+
+    "Transfer(address,address,uint256)"(
+      from?: string | null,
+      to?: string | null,
+      value?: null
+    ): TypedEventFilter<
+      [string, string, BigNumber],
+      { from: string; to: string; value: BigNumber }
     >;
 
     Transfer(

@@ -19,12 +19,12 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface OlympusBondDepositoryInterface extends ethers.utils.Interface {
+interface MockOlympusBondDepositoryInterface extends ethers.utils.Interface {
   functions: {
     "DAO()": FunctionFragment;
     "OHM()": FunctionFragment;
     "adjustment()": FunctionFragment;
-    "assetPrice()": FunctionFragment;
+    "bondCalculator()": FunctionFragment;
     "bondInfo(address)": FunctionFragment;
     "bondPrice()": FunctionFragment;
     "bondPriceInUSD()": FunctionFragment;
@@ -32,7 +32,8 @@ interface OlympusBondDepositoryInterface extends ethers.utils.Interface {
     "debtDecay()": FunctionFragment;
     "debtRatio()": FunctionFragment;
     "deposit(uint256,uint256,address)": FunctionFragment;
-    "initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256)": FunctionFragment;
+    "initializeBondTerms(uint256,uint256,uint256,uint256,uint256,uint256,uint256)": FunctionFragment;
+    "isLiquidityBond()": FunctionFragment;
     "lastDecay()": FunctionFragment;
     "maxPayout()": FunctionFragment;
     "payoutFor(uint256)": FunctionFragment;
@@ -64,7 +65,7 @@ interface OlympusBondDepositoryInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "assetPrice",
+    functionFragment: "bondCalculator",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "bondInfo", values: [string]): string;
@@ -91,8 +92,13 @@ interface OlympusBondDepositoryInterface extends ethers.utils.Interface {
       BigNumberish,
       BigNumberish,
       BigNumberish,
+      BigNumberish,
       BigNumberish
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isLiquidityBond",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "lastDecay", values?: undefined): string;
   encodeFunctionData(functionFragment: "maxPayout", values?: undefined): string;
@@ -159,7 +165,10 @@ interface OlympusBondDepositoryInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "DAO", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "OHM", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "adjustment", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "assetPrice", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "bondCalculator",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "bondInfo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bondPrice", data: BytesLike): Result;
   decodeFunctionResult(
@@ -175,6 +184,10 @@ interface OlympusBondDepositoryInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "initializeBondTerms",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isLiquidityBond",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "lastDecay", data: BytesLike): Result;
@@ -289,7 +302,7 @@ export type OwnershipPushedEvent = TypedEvent<
   [string, string] & { previousOwner: string; newOwner: string }
 >;
 
-export class OlympusBondDepository extends BaseContract {
+export class MockOlympusBondDepository extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -330,7 +343,7 @@ export class OlympusBondDepository extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: OlympusBondDepositoryInterface;
+  interface: MockOlympusBondDepositoryInterface;
 
   functions: {
     DAO(overrides?: CallOverrides): Promise<[string]>;
@@ -349,7 +362,7 @@ export class OlympusBondDepository extends BaseContract {
       }
     >;
 
-    assetPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
+    bondCalculator(overrides?: CallOverrides): Promise<[string]>;
 
     bondInfo(
       arg0: string,
@@ -393,10 +406,13 @@ export class OlympusBondDepository extends BaseContract {
       _vestingTerm: BigNumberish,
       _minimumPrice: BigNumberish,
       _maxPayout: BigNumberish,
+      _fee: BigNumberish,
       _maxDebt: BigNumberish,
       _initialDebt: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    isLiquidityBond(overrides?: CallOverrides): Promise<[boolean]>;
 
     lastDecay(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -474,11 +490,12 @@ export class OlympusBondDepository extends BaseContract {
     terms(
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         controlVariable: BigNumber;
         vestingTerm: BigNumber;
         minimumPrice: BigNumber;
         maxPayout: BigNumber;
+        fee: BigNumber;
         maxDebt: BigNumber;
       }
     >;
@@ -506,7 +523,7 @@ export class OlympusBondDepository extends BaseContract {
     }
   >;
 
-  assetPrice(overrides?: CallOverrides): Promise<BigNumber>;
+  bondCalculator(overrides?: CallOverrides): Promise<string>;
 
   bondInfo(
     arg0: string,
@@ -542,10 +559,13 @@ export class OlympusBondDepository extends BaseContract {
     _vestingTerm: BigNumberish,
     _minimumPrice: BigNumberish,
     _maxPayout: BigNumberish,
+    _fee: BigNumberish,
     _maxDebt: BigNumberish,
     _initialDebt: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  isLiquidityBond(overrides?: CallOverrides): Promise<boolean>;
 
   lastDecay(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -623,11 +643,12 @@ export class OlympusBondDepository extends BaseContract {
   terms(
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+    [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
       controlVariable: BigNumber;
       vestingTerm: BigNumber;
       minimumPrice: BigNumber;
       maxPayout: BigNumber;
+      fee: BigNumber;
       maxDebt: BigNumber;
     }
   >;
@@ -655,7 +676,7 @@ export class OlympusBondDepository extends BaseContract {
       }
     >;
 
-    assetPrice(overrides?: CallOverrides): Promise<BigNumber>;
+    bondCalculator(overrides?: CallOverrides): Promise<string>;
 
     bondInfo(
       arg0: string,
@@ -691,10 +712,13 @@ export class OlympusBondDepository extends BaseContract {
       _vestingTerm: BigNumberish,
       _minimumPrice: BigNumberish,
       _maxPayout: BigNumberish,
+      _fee: BigNumberish,
       _maxDebt: BigNumberish,
       _initialDebt: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    isLiquidityBond(overrides?: CallOverrides): Promise<boolean>;
 
     lastDecay(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -765,11 +789,12 @@ export class OlympusBondDepository extends BaseContract {
     terms(
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         controlVariable: BigNumber;
         vestingTerm: BigNumber;
         minimumPrice: BigNumber;
         maxPayout: BigNumber;
+        fee: BigNumber;
         maxDebt: BigNumber;
       }
     >;
@@ -918,7 +943,7 @@ export class OlympusBondDepository extends BaseContract {
 
     adjustment(overrides?: CallOverrides): Promise<BigNumber>;
 
-    assetPrice(overrides?: CallOverrides): Promise<BigNumber>;
+    bondCalculator(overrides?: CallOverrides): Promise<BigNumber>;
 
     bondInfo(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -944,10 +969,13 @@ export class OlympusBondDepository extends BaseContract {
       _vestingTerm: BigNumberish,
       _minimumPrice: BigNumberish,
       _maxPayout: BigNumberish,
+      _fee: BigNumberish,
       _maxDebt: BigNumberish,
       _initialDebt: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    isLiquidityBond(overrides?: CallOverrides): Promise<BigNumber>;
 
     lastDecay(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1038,7 +1066,7 @@ export class OlympusBondDepository extends BaseContract {
 
     adjustment(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    assetPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    bondCalculator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     bondInfo(
       arg0: string,
@@ -1067,10 +1095,13 @@ export class OlympusBondDepository extends BaseContract {
       _vestingTerm: BigNumberish,
       _minimumPrice: BigNumberish,
       _maxPayout: BigNumberish,
+      _fee: BigNumberish,
       _maxDebt: BigNumberish,
       _initialDebt: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    isLiquidityBond(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     lastDecay(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

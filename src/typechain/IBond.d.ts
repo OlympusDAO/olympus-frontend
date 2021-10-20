@@ -11,6 +11,7 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
+  Overrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -18,22 +19,31 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface IBondCalculatorInterface extends ethers.utils.Interface {
+interface IBondInterface extends ethers.utils.Interface {
   functions: {
-    "valuation(address,uint256)": FunctionFragment;
+    "pendingPayoutFor(address)": FunctionFragment;
+    "redeem(address,bool)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "valuation",
-    values: [string, BigNumberish]
+    functionFragment: "pendingPayoutFor",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "redeem",
+    values: [string, boolean]
   ): string;
 
-  decodeFunctionResult(functionFragment: "valuation", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "pendingPayoutFor",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "redeem", data: BytesLike): Result;
 
   events: {};
 }
 
-export class IBondCalculator extends BaseContract {
+export class IBond extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -74,26 +84,41 @@ export class IBondCalculator extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: IBondCalculatorInterface;
+  interface: IBondInterface;
 
   functions: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
+    pendingPayoutFor(
+      _depositor: string,
       overrides?: CallOverrides
-    ): Promise<[BigNumber] & { _value: BigNumber }>;
+    ): Promise<[BigNumber] & { pendingPayout_: BigNumber }>;
+
+    redeem(
+      _recipient: string,
+      _stake: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
-  valuation(
-    pair_: string,
-    amount_: BigNumberish,
+  pendingPayoutFor(
+    _depositor: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  redeem(
+    _recipient: string,
+    _stake: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
+    pendingPayoutFor(
+      _depositor: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    redeem(
+      _recipient: string,
+      _stake: boolean,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
@@ -101,18 +126,28 @@ export class IBondCalculator extends BaseContract {
   filters: {};
 
   estimateGas: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
+    pendingPayoutFor(
+      _depositor: string,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    redeem(
+      _recipient: string,
+      _stake: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
+    pendingPayoutFor(
+      _depositor: string,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    redeem(
+      _recipient: string,
+      _stake: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

@@ -17,17 +17,17 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface IOwnableInterface extends ethers.utils.Interface {
   functions: {
-    "manager()": FunctionFragment;
+    "policy()": FunctionFragment;
     "pullManagement()": FunctionFragment;
     "pushManagement(address)": FunctionFragment;
     "renounceManagement()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "manager", values?: undefined): string;
+  encodeFunctionData(functionFragment: "policy", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "pullManagement",
     values?: undefined
@@ -41,7 +41,7 @@ interface IOwnableInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
 
-  decodeFunctionResult(functionFragment: "manager", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "policy", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "pullManagement",
     data: BytesLike
@@ -102,7 +102,7 @@ export class IOwnable extends BaseContract {
   interface: IOwnableInterface;
 
   functions: {
-    manager(overrides?: CallOverrides): Promise<[string]>;
+    policy(overrides?: CallOverrides): Promise<[string]>;
 
     pullManagement(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -118,7 +118,7 @@ export class IOwnable extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  manager(overrides?: CallOverrides): Promise<string>;
+  policy(overrides?: CallOverrides): Promise<string>;
 
   pullManagement(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -134,7 +134,7 @@ export class IOwnable extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    manager(overrides?: CallOverrides): Promise<string>;
+    policy(overrides?: CallOverrides): Promise<string>;
 
     pullManagement(overrides?: CallOverrides): Promise<void>;
 
@@ -146,7 +146,7 @@ export class IOwnable extends BaseContract {
   filters: {};
 
   estimateGas: {
-    manager(overrides?: CallOverrides): Promise<BigNumber>;
+    policy(overrides?: CallOverrides): Promise<BigNumber>;
 
     pullManagement(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -163,7 +163,7 @@ export class IOwnable extends BaseContract {
   };
 
   populateTransaction: {
-    manager(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    policy(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     pullManagement(
       overrides?: Overrides & { from?: string | Promise<string> }

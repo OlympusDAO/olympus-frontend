@@ -19,32 +19,35 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface OlympusERC20TokenInterface extends ethers.utils.Interface {
+interface DAIInterface extends ethers.utils.Interface {
   functions: {
     "DOMAIN_SEPARATOR()": FunctionFragment;
     "PERMIT_TYPEHASH()": FunctionFragment;
-    "_burnFrom(address,uint256)": FunctionFragment;
+    "addAuth(address)": FunctionFragment;
+    "adjustDailyDAILimit(uint256)": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "burn(uint256)": FunctionFragment;
-    "burnFrom(address,uint256)": FunctionFragment;
+    "burn(address,uint256)": FunctionFragment;
+    "daiMintedToday(address)": FunctionFragment;
+    "dailyDAILimit()": FunctionFragment;
     "decimals()": FunctionFragment;
-    "decreaseAllowance(address,uint256)": FunctionFragment;
-    "increaseAllowance(address,uint256)": FunctionFragment;
+    "deny(address)": FunctionFragment;
+    "lastMintRestart(address)": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
+    "move(address,address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "nonces(address)": FunctionFragment;
-    "owner()": FunctionFragment;
-    "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "setVault(address)": FunctionFragment;
+    "permit(address,address,uint256,uint256,bool,uint8,bytes32,bytes32)": FunctionFragment;
+    "pull(address,uint256)": FunctionFragment;
+    "push(address,uint256)": FunctionFragment;
+    "rely(address)": FunctionFragment;
     "symbol()": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
-    "vault()": FunctionFragment;
+    "version()": FunctionFragment;
+    "wards(address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -55,9 +58,10 @@ interface OlympusERC20TokenInterface extends ethers.utils.Interface {
     functionFragment: "PERMIT_TYPEHASH",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "addAuth", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "_burnFrom",
-    values: [string, BigNumberish]
+    functionFragment: "adjustDailyDAILimit",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "allowance",
@@ -68,27 +72,34 @@ interface OlympusERC20TokenInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
   encodeFunctionData(
-    functionFragment: "burnFrom",
+    functionFragment: "burn",
     values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "daiMintedToday",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "dailyDAILimit",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
+  encodeFunctionData(functionFragment: "deny", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "decreaseAllowance",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "increaseAllowance",
-    values: [string, BigNumberish]
+    functionFragment: "lastMintRestart",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "move",
+    values: [string, string, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "nonces", values: [string]): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "permit",
     values: [
@@ -96,16 +107,21 @@ interface OlympusERC20TokenInterface extends ethers.utils.Interface {
       string,
       BigNumberish,
       BigNumberish,
+      boolean,
       BigNumberish,
       BytesLike,
       BytesLike
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
+    functionFragment: "pull",
+    values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "setVault", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "push",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "rely", values: [string]): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "totalSupply",
@@ -119,11 +135,8 @@ interface OlympusERC20TokenInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
-  ): string;
-  encodeFunctionData(functionFragment: "vault", values?: undefined): string;
+  encodeFunctionData(functionFragment: "version", values?: undefined): string;
+  encodeFunctionData(functionFragment: "wards", values: [string]): string;
 
   decodeFunctionResult(
     functionFragment: "DOMAIN_SEPARATOR",
@@ -133,31 +146,37 @@ interface OlympusERC20TokenInterface extends ethers.utils.Interface {
     functionFragment: "PERMIT_TYPEHASH",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "_burnFrom", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addAuth", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "adjustDailyDAILimit",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "burnFrom", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "decreaseAllowance",
+    functionFragment: "daiMintedToday",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "increaseAllowance",
+    functionFragment: "dailyDAILimit",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "deny", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "lastMintRestart",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "move", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "permit", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setVault", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pull", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "push", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "rely", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "totalSupply",
@@ -168,40 +187,39 @@ interface OlympusERC20TokenInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "vault", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "wards", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
+    "LogNote(bytes4,address,bytes32,bytes32,bytes)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "LogNote"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
 export type ApprovalEvent = TypedEvent<
-  [string, string, BigNumber] & {
-    owner: string;
-    spender: string;
-    value: BigNumber;
+  [string, string, BigNumber] & { src: string; guy: string; wad: BigNumber }
+>;
+
+export type LogNoteEvent = TypedEvent<
+  [string, string, string, string, string] & {
+    sig: string;
+    usr: string;
+    arg1: string;
+    arg2: string;
+    data: string;
   }
 >;
 
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string] & { previousOwner: string; newOwner: string }
->;
-
 export type TransferEvent = TypedEvent<
-  [string, string, BigNumber] & { from: string; to: string; value: BigNumber }
+  [string, string, BigNumber] & { src: string; dst: string; wad: BigNumber }
 >;
 
-export class OlympusERC20Token extends BaseContract {
+export class DAI extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -242,87 +260,105 @@ export class OlympusERC20Token extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: OlympusERC20TokenInterface;
+  interface: DAIInterface;
 
   functions: {
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<[string]>;
 
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<[string]>;
 
-    _burnFrom(
-      account_: string,
-      amount_: BigNumberish,
+    addAuth(
+      usr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    adjustDailyDAILimit(
+      _limit: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     allowance(
-      owner: string,
-      spender: string,
+      account_: string,
+      sender_: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     approve(
-      spender: string,
-      amount: BigNumberish,
+      usr_: string,
+      wad_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+    balanceOf(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     burn(
-      amount: BigNumberish,
+      usr: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    burnFrom(
-      account_: string,
-      amount_: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    daiMintedToday(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    dailyDAILimit(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
+    deny(
+      guy: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    lastMintRestart(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     mint(
-      account_: string,
-      amount_: BigNumberish,
+      usr: string,
+      wad: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    move(
+      src: string,
+      dst: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    nonces(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    owner(overrides?: CallOverrides): Promise<[string]>;
+    nonces(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     permit(
-      owner: string,
+      holder: string,
       spender: string,
-      amount: BigNumberish,
-      deadline: BigNumberish,
+      nonce: BigNumberish,
+      expiry: BigNumberish,
+      allowed: boolean,
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    renounceOwnership(
+    pull(
+      usr: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setVault(
-      vault_: string,
+    push(
+      usr: string,
+      wad: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    rely(
+      guy: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -331,104 +367,113 @@ export class OlympusERC20Token extends BaseContract {
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transfer(
-      recipient: string,
-      amount: BigNumberish,
+      dst: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
+      src: string,
+      dst: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    transferOwnership(
-      newOwner_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    version(overrides?: CallOverrides): Promise<[string]>;
 
-    vault(overrides?: CallOverrides): Promise<[string]>;
+    wards(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
   DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<string>;
 
   PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<string>;
 
-  _burnFrom(
-    account_: string,
-    amount_: BigNumberish,
+  addAuth(
+    usr: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  adjustDailyDAILimit(
+    _limit: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   allowance(
-    owner: string,
-    spender: string,
+    account_: string,
+    sender_: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   approve(
-    spender: string,
-    amount: BigNumberish,
+    usr_: string,
+    wad_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+  balanceOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   burn(
-    amount: BigNumberish,
+    usr: string,
+    wad: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  burnFrom(
-    account_: string,
-    amount_: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  daiMintedToday(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+  dailyDAILimit(overrides?: CallOverrides): Promise<BigNumber>;
 
   decimals(overrides?: CallOverrides): Promise<number>;
 
-  decreaseAllowance(
-    spender: string,
-    subtractedValue: BigNumberish,
+  deny(
+    guy: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  increaseAllowance(
-    spender: string,
-    addedValue: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  lastMintRestart(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   mint(
-    account_: string,
-    amount_: BigNumberish,
+    usr: string,
+    wad: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  move(
+    src: string,
+    dst: string,
+    wad: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  owner(overrides?: CallOverrides): Promise<string>;
+  nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   permit(
-    owner: string,
+    holder: string,
     spender: string,
-    amount: BigNumberish,
-    deadline: BigNumberish,
+    nonce: BigNumberish,
+    expiry: BigNumberish,
+    allowed: boolean,
     v: BigNumberish,
     r: BytesLike,
     s: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  renounceOwnership(
+  pull(
+    usr: string,
+    wad: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setVault(
-    vault_: string,
+  push(
+    usr: string,
+    wad: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  rely(
+    guy: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -437,175 +482,189 @@ export class OlympusERC20Token extends BaseContract {
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   transfer(
-    recipient: string,
-    amount: BigNumberish,
+    dst: string,
+    wad: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   transferFrom(
-    sender: string,
-    recipient: string,
-    amount: BigNumberish,
+    src: string,
+    dst: string,
+    wad: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  transferOwnership(
-    newOwner_: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  version(overrides?: CallOverrides): Promise<string>;
 
-  vault(overrides?: CallOverrides): Promise<string>;
+  wards(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<string>;
 
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<string>;
 
-    _burnFrom(
-      account_: string,
-      amount_: BigNumberish,
+    addAuth(usr: string, overrides?: CallOverrides): Promise<void>;
+
+    adjustDailyDAILimit(
+      _limit: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     allowance(
-      owner: string,
-      spender: string,
+      account_: string,
+      sender_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     approve(
-      spender: string,
-      amount: BigNumberish,
+      usr_: string,
+      wad_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+    balanceOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    burn(amount: BigNumberish, overrides?: CallOverrides): Promise<void>;
-
-    burnFrom(
-      account_: string,
-      amount_: BigNumberish,
+    burn(
+      usr: string,
+      wad: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
+    daiMintedToday(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    dailyDAILimit(overrides?: CallOverrides): Promise<BigNumber>;
+
     decimals(overrides?: CallOverrides): Promise<number>;
 
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    deny(guy: string, overrides?: CallOverrides): Promise<void>;
 
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
+    lastMintRestart(
+      arg0: string,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<BigNumber>;
 
     mint(
-      account_: string,
-      amount_: BigNumberish,
+      usr: string,
+      wad: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    move(
+      src: string,
+      dst: string,
+      wad: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
-    nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    owner(overrides?: CallOverrides): Promise<string>;
+    nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     permit(
-      owner: string,
+      holder: string,
       spender: string,
-      amount: BigNumberish,
-      deadline: BigNumberish,
+      nonce: BigNumberish,
+      expiry: BigNumberish,
+      allowed: boolean,
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    pull(
+      usr: string,
+      wad: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
-    setVault(vault_: string, overrides?: CallOverrides): Promise<boolean>;
+    push(
+      usr: string,
+      wad: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    rely(guy: string, overrides?: CallOverrides): Promise<void>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transfer(
-      recipient: string,
-      amount: BigNumberish,
+      dst: string,
+      wad: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
     transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
+      src: string,
+      dst: string,
+      wad: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    transferOwnership(
-      newOwner_: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    version(overrides?: CallOverrides): Promise<string>;
 
-    vault(overrides?: CallOverrides): Promise<string>;
+    wards(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {
     "Approval(address,address,uint256)"(
-      owner?: string | null,
-      spender?: string | null,
-      value?: null
+      src?: string | null,
+      guy?: string | null,
+      wad?: null
     ): TypedEventFilter<
       [string, string, BigNumber],
-      { owner: string; spender: string; value: BigNumber }
+      { src: string; guy: string; wad: BigNumber }
     >;
 
     Approval(
-      owner?: string | null,
-      spender?: string | null,
-      value?: null
+      src?: string | null,
+      guy?: string | null,
+      wad?: null
     ): TypedEventFilter<
       [string, string, BigNumber],
-      { owner: string; spender: string; value: BigNumber }
+      { src: string; guy: string; wad: BigNumber }
     >;
 
-    "OwnershipTransferred(address,address)"(
-      previousOwner?: string | null,
-      newOwner?: string | null
+    "LogNote(bytes4,address,bytes32,bytes32,bytes)"(
+      sig?: BytesLike | null,
+      usr?: string | null,
+      arg1?: BytesLike | null,
+      arg2?: BytesLike | null,
+      data?: null
     ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
+      [string, string, string, string, string],
+      { sig: string; usr: string; arg1: string; arg2: string; data: string }
     >;
 
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
+    LogNote(
+      sig?: BytesLike | null,
+      usr?: string | null,
+      arg1?: BytesLike | null,
+      arg2?: BytesLike | null,
+      data?: null
     ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
+      [string, string, string, string, string],
+      { sig: string; usr: string; arg1: string; arg2: string; data: string }
     >;
 
     "Transfer(address,address,uint256)"(
-      from?: string | null,
-      to?: string | null,
-      value?: null
+      src?: string | null,
+      dst?: string | null,
+      wad?: null
     ): TypedEventFilter<
       [string, string, BigNumber],
-      { from: string; to: string; value: BigNumber }
+      { src: string; dst: string; wad: BigNumber }
     >;
 
     Transfer(
-      from?: string | null,
-      to?: string | null,
-      value?: null
+      src?: string | null,
+      dst?: string | null,
+      wad?: null
     ): TypedEventFilter<
       [string, string, BigNumber],
-      { from: string; to: string; value: BigNumber }
+      { src: string; dst: string; wad: BigNumber }
     >;
   };
 
@@ -614,80 +673,95 @@ export class OlympusERC20Token extends BaseContract {
 
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<BigNumber>;
 
-    _burnFrom(
-      account_: string,
-      amount_: BigNumberish,
+    addAuth(
+      usr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    adjustDailyDAILimit(
+      _limit: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     allowance(
-      owner: string,
-      spender: string,
+      account_: string,
+      sender_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     approve(
-      spender: string,
-      amount: BigNumberish,
+      usr_: string,
+      wad_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+    balanceOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     burn(
-      amount: BigNumberish,
+      usr: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    burnFrom(
-      account_: string,
-      amount_: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    daiMintedToday(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    dailyDAILimit(overrides?: CallOverrides): Promise<BigNumber>;
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
+    deny(
+      guy: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    lastMintRestart(
+      arg0: string,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     mint(
-      account_: string,
-      amount_: BigNumberish,
+      usr: string,
+      wad: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    move(
+      src: string,
+      dst: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
+    nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     permit(
-      owner: string,
+      holder: string,
       spender: string,
-      amount: BigNumberish,
-      deadline: BigNumberish,
+      nonce: BigNumberish,
+      expiry: BigNumberish,
+      allowed: boolean,
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    renounceOwnership(
+    pull(
+      usr: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setVault(
-      vault_: string,
+    push(
+      usr: string,
+      wad: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    rely(
+      guy: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -696,24 +770,21 @@ export class OlympusERC20Token extends BaseContract {
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transfer(
-      recipient: string,
-      amount: BigNumberish,
+      dst: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
+      src: string,
+      dst: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    version(overrides?: CallOverrides): Promise<BigNumber>;
 
-    vault(overrides?: CallOverrides): Promise<BigNumber>;
+    wards(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -721,86 +792,104 @@ export class OlympusERC20Token extends BaseContract {
 
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    _burnFrom(
-      account_: string,
-      amount_: BigNumberish,
+    addAuth(
+      usr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    adjustDailyDAILimit(
+      _limit: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     allowance(
-      owner: string,
-      spender: string,
+      account_: string,
+      sender_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     approve(
-      spender: string,
-      amount: BigNumberish,
+      usr_: string,
+      wad_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     balanceOf(
-      account: string,
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     burn(
-      amount: BigNumberish,
+      usr: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    burnFrom(
-      account_: string,
-      amount_: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    daiMintedToday(
+      arg0: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    dailyDAILimit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
+    deny(
+      guy: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    lastMintRestart(
+      arg0: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     mint(
-      account_: string,
-      amount_: BigNumberish,
+      usr: string,
+      wad: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    move(
+      src: string,
+      dst: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     nonces(
-      owner: string,
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     permit(
-      owner: string,
+      holder: string,
       spender: string,
-      amount: BigNumberish,
-      deadline: BigNumberish,
+      nonce: BigNumberish,
+      expiry: BigNumberish,
+      allowed: boolean,
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    renounceOwnership(
+    pull(
+      usr: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setVault(
-      vault_: string,
+    push(
+      usr: string,
+      wad: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    rely(
+      guy: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -809,23 +898,23 @@ export class OlympusERC20Token extends BaseContract {
     totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transfer(
-      recipient: string,
-      amount: BigNumberish,
+      dst: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
+      src: string,
+      dst: string,
+      wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    transferOwnership(
-      newOwner_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
+    version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    vault(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    wards(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
   };
 }

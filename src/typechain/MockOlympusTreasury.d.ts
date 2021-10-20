@@ -19,7 +19,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface OlympusTreasuryInterface extends ethers.utils.Interface {
+interface MockOlympusTreasuryInterface extends ethers.utils.Interface {
   functions: {
     "LiquidityDepositorQueue(address)": FunctionFragment;
     "LiquidityManagerQueue(address)": FunctionFragment;
@@ -70,7 +70,7 @@ interface OlympusTreasuryInterface extends ethers.utils.Interface {
     "toggle(uint8,address,address)": FunctionFragment;
     "totalDebt()": FunctionFragment;
     "totalReserves()": FunctionFragment;
-    "valueOf(address,uint256)": FunctionFragment;
+    "valueOfToken(address,uint256)": FunctionFragment;
     "withdraw(uint256,address)": FunctionFragment;
   };
 
@@ -250,7 +250,7 @@ interface OlympusTreasuryInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "valueOf",
+    functionFragment: "valueOfToken",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
@@ -418,7 +418,10 @@ interface OlympusTreasuryInterface extends ethers.utils.Interface {
     functionFragment: "totalReserves",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "valueOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "valueOfToken",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
@@ -524,7 +527,7 @@ export type WithdrawalEvent = TypedEvent<
   }
 >;
 
-export class OlympusTreasury extends BaseContract {
+export class MockOlympusTreasury extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -565,7 +568,7 @@ export class OlympusTreasury extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: OlympusTreasuryInterface;
+  interface: MockOlympusTreasuryInterface;
 
   functions: {
     LiquidityDepositorQueue(
@@ -780,7 +783,7 @@ export class OlympusTreasury extends BaseContract {
 
     totalReserves(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    valueOf(
+    valueOfToken(
       _token: string,
       _amount: BigNumberish,
       overrides?: CallOverrides
@@ -981,7 +984,7 @@ export class OlympusTreasury extends BaseContract {
 
   totalReserves(overrides?: CallOverrides): Promise<BigNumber>;
 
-  valueOf(
+  valueOfToken(
     _token: string,
     _amount: BigNumberish,
     overrides?: CallOverrides
@@ -1182,7 +1185,7 @@ export class OlympusTreasury extends BaseContract {
 
     totalReserves(overrides?: CallOverrides): Promise<BigNumber>;
 
-    valueOf(
+    valueOfToken(
       _token: string,
       _amount: BigNumberish,
       overrides?: CallOverrides
@@ -1593,7 +1596,7 @@ export class OlympusTreasury extends BaseContract {
 
     totalReserves(overrides?: CallOverrides): Promise<BigNumber>;
 
-    valueOf(
+    valueOfToken(
       _token: string,
       _amount: BigNumberish,
       overrides?: CallOverrides
@@ -1836,7 +1839,7 @@ export class OlympusTreasury extends BaseContract {
 
     totalReserves(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    valueOf(
+    valueOfToken(
       _token: string,
       _amount: BigNumberish,
       overrides?: CallOverrides

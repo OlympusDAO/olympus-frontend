@@ -17,7 +17,7 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface OlympusStakingInterface extends ethers.utils.Interface {
   functions: {
@@ -186,6 +186,14 @@ interface OlympusStakingInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "OwnershipPulled"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipPushed"): EventFragment;
 }
+
+export type OwnershipPulledEvent = TypedEvent<
+  [string, string] & { previousOwner: string; newOwner: string }
+>;
+
+export type OwnershipPushedEvent = TypedEvent<
+  [string, string] & { previousOwner: string; newOwner: string }
+>;
 
 export class OlympusStaking extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -537,7 +545,23 @@ export class OlympusStaking extends BaseContract {
   };
 
   filters: {
+    "OwnershipPulled(address,address)"(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
+    >;
+
     OwnershipPulled(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
+    >;
+
+    "OwnershipPushed(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
     ): TypedEventFilter<

@@ -11,29 +11,33 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
-  CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface IBondCalculatorInterface extends ethers.utils.Interface {
-  functions: {
-    "valuation(address,uint256)": FunctionFragment;
+interface LibNoteInterface extends ethers.utils.Interface {
+  functions: {};
+
+  events: {
+    "LogNote(bytes4,address,bytes32,bytes32,bytes)": EventFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "valuation",
-    values: [string, BigNumberish]
-  ): string;
-
-  decodeFunctionResult(functionFragment: "valuation", data: BytesLike): Result;
-
-  events: {};
+  getEvent(nameOrSignatureOrTopic: "LogNote"): EventFragment;
 }
 
-export class IBondCalculator extends BaseContract {
+export type LogNoteEvent = TypedEvent<
+  [string, string, string, string, string] & {
+    sig: string;
+    usr: string;
+    arg1: string;
+    arg2: string;
+    data: string;
+  }
+>;
+
+export class LibNote extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -74,45 +78,37 @@ export class IBondCalculator extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: IBondCalculatorInterface;
+  interface: LibNoteInterface;
 
-  functions: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { _value: BigNumber }>;
+  functions: {};
+
+  callStatic: {};
+
+  filters: {
+    "LogNote(bytes4,address,bytes32,bytes32,bytes)"(
+      sig?: BytesLike | null,
+      usr?: string | null,
+      arg1?: BytesLike | null,
+      arg2?: BytesLike | null,
+      data?: null
+    ): TypedEventFilter<
+      [string, string, string, string, string],
+      { sig: string; usr: string; arg1: string; arg2: string; data: string }
+    >;
+
+    LogNote(
+      sig?: BytesLike | null,
+      usr?: string | null,
+      arg1?: BytesLike | null,
+      arg2?: BytesLike | null,
+      data?: null
+    ): TypedEventFilter<
+      [string, string, string, string, string],
+      { sig: string; usr: string; arg1: string; arg2: string; data: string }
+    >;
   };
 
-  valuation(
-    pair_: string,
-    amount_: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  estimateGas: {};
 
-  callStatic: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-  };
-
-  filters: {};
-
-  estimateGas: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-  };
+  populateTransaction: {};
 }

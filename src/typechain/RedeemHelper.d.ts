@@ -19,14 +19,23 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface OwnableInterface extends ethers.utils.Interface {
+interface RedeemHelperInterface extends ethers.utils.Interface {
   functions: {
+    "addBondContract(address)": FunctionFragment;
+    "bonds(uint256)": FunctionFragment;
     "policy()": FunctionFragment;
     "pullManagement()": FunctionFragment;
     "pushManagement(address)": FunctionFragment;
+    "redeemAll(address,bool)": FunctionFragment;
+    "removeBondContract(uint256)": FunctionFragment;
     "renounceManagement()": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "addBondContract",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "bonds", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "policy", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "pullManagement",
@@ -37,10 +46,23 @@ interface OwnableInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "redeemAll",
+    values: [string, boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "removeBondContract",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "renounceManagement",
     values?: undefined
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "addBondContract",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "bonds", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "policy", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "pullManagement",
@@ -48,6 +70,11 @@ interface OwnableInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "pushManagement",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "redeemAll", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeBondContract",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -72,7 +99,7 @@ export type OwnershipPushedEvent = TypedEvent<
   [string, string] & { previousOwner: string; newOwner: string }
 >;
 
-export class Ownable extends BaseContract {
+export class RedeemHelper extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -113,9 +140,16 @@ export class Ownable extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: OwnableInterface;
+  interface: RedeemHelperInterface;
 
   functions: {
+    addBondContract(
+      _bond: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    bonds(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
+
     policy(overrides?: CallOverrides): Promise<[string]>;
 
     pullManagement(
@@ -127,10 +161,28 @@ export class Ownable extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    redeemAll(
+      _recipient: string,
+      _stake: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    removeBondContract(
+      _index: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     renounceManagement(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
+
+  addBondContract(
+    _bond: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  bonds(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   policy(overrides?: CallOverrides): Promise<string>;
 
@@ -143,16 +195,42 @@ export class Ownable extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  redeemAll(
+    _recipient: string,
+    _stake: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  removeBondContract(
+    _index: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   renounceManagement(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    addBondContract(_bond: string, overrides?: CallOverrides): Promise<void>;
+
+    bonds(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
     policy(overrides?: CallOverrides): Promise<string>;
 
     pullManagement(overrides?: CallOverrides): Promise<void>;
 
     pushManagement(newOwner_: string, overrides?: CallOverrides): Promise<void>;
+
+    redeemAll(
+      _recipient: string,
+      _stake: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    removeBondContract(
+      _index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     renounceManagement(overrides?: CallOverrides): Promise<void>;
   };
@@ -192,6 +270,13 @@ export class Ownable extends BaseContract {
   };
 
   estimateGas: {
+    addBondContract(
+      _bond: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    bonds(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
     policy(overrides?: CallOverrides): Promise<BigNumber>;
 
     pullManagement(
@@ -203,12 +288,33 @@ export class Ownable extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    redeemAll(
+      _recipient: string,
+      _stake: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    removeBondContract(
+      _index: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     renounceManagement(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    addBondContract(
+      _bond: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    bonds(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     policy(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     pullManagement(
@@ -217,6 +323,17 @@ export class Ownable extends BaseContract {
 
     pushManagement(
       newOwner_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    redeemAll(
+      _recipient: string,
+      _stake: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    removeBondContract(
+      _index: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
