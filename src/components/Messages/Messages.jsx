@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { close, handle_obsolete } from "../../slices/MessagesSlice";
 import store from "../../store";
-import Snackbar from "@material-ui/core/Snackbar";
+import { Typography, Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import "./ConsoleInterceptor.js";
@@ -22,7 +22,14 @@ function Messages() {
         {messages.items.map((message, index) => {
           return (
             <Snackbar open={message.open} key={index} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-              <Alert variant="filled" icon={false} severity={message.severity} onClose={handleClose(message)}>
+              <Alert
+                variant="filled"
+                icon={false}
+                severity={message.severity}
+                onClose={handleClose(message)}
+                // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
+                style={{ wordBreak: "break-word" }}
+              >
                 <AlertTitle>{message.title}</AlertTitle>
                 {message.text}
               </Alert>
