@@ -108,19 +108,20 @@ function Stake() {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      dispatch(error("Please enter a value!"));
-    } else {
-      // 1st catch if quantity > balance
-      let gweiValue = ethers.utils.parseUnits(quantity, "gwei");
-      if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
-        console.log("in stake ok");
-        return dispatch(error("You cannot stake more than your OHM balance."));
-      } else if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
-        return dispatch(error("You cannot unstake more than your sOHM balance."));
-      }
-
-      await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+      return dispatch(error("Please enter a value!"));
     }
+
+    // 1st catch if quantity > balance
+    let gweiValue = ethers.utils.parseUnits(quantity, "gwei");
+    if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
+      return dispatch(error("You cannot stake more than your OHM balance."));
+    }
+
+    if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+      return dispatch(error("You cannot unstake more than your sOHM balance."));
+    }
+
+    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
   };
 
   const hasAllowance = useCallback(
