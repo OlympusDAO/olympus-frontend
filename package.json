@@ -116,6 +116,7 @@
     "s3": "node ./scripts/s3.js",
     "ship": "yarn surge",
     "theme": "npx gulp less",
+    "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
     "watch": "node ./scripts/watch.js"
   }
 }

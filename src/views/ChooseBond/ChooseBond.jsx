@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import {
   Box,
   Grid,
@@ -20,7 +19,7 @@ import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import ClaimBonds from "./ClaimBonds";
-import _ from "lodash";
+import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
 
 function ChooseBond() {
@@ -59,7 +58,7 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
-      {!isAccountLoading && !_.isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
+      {!isAccountLoading && !isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">
