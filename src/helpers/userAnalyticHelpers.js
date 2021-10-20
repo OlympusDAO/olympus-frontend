@@ -45,13 +45,11 @@ export function segmentUA(data) {
 }
 
 export function providerChecker(provider) {
-  let url;
+  let url = "";
   if (provider.connection) {
     url = provider.connection.url;
-  } else if (provider.provider) {
-    url = provider.provider.rpcURL;
   } else {
-    url = "";
+    url = provider;
   }
   return url;
 }

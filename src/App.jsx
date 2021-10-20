@@ -143,12 +143,13 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        const providerURL = providerChecker(provider);
+        // const providerURL = providerChecker(provider);
+        // Provider being checked here
+        console.log(provider);
         segmentUA({
           type: "connect",
-          provider: providerURL,
+          provider: provider,
           context: currentPath,
-          sessionId: uuidv4(),
         });
       });
     } else {
