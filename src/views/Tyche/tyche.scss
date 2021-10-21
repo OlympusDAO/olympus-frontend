@@ -35,13 +35,17 @@
     }
   }
 
+  .MuiTypography-body2 {
+    margin-bottom: 0.5rem;
+  }
+
   .modal-input {
     width: 100%;
     max-width: 100%;
     padding-bottom: 1rem;
 
-    .MuiTypography-body2 {
-      padding-top: 0.5rem;
+    .MuiFormHelperText-root {
+      color: red;
     }
   }
 
