@@ -7,6 +7,7 @@ import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
 import { ReactComponent as ohmTokenImg } from "../../assets/tokens/token_OHM.svg";
+import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
 
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
@@ -14,12 +15,26 @@ import { useWeb3Context } from "../../hooks/web3Context";
 
 import OhmImg from "src/assets/tokens/token_OHM.svg";
 import SOhmImg from "src/assets/tokens/token_sOHM.svg";
+import token33tImg from "src/assets/tokens/token_33T.svg";
 
 const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
     const host = window.location.origin;
     // NOTE (appleseed): 33T token defaults to sOHM logo since we don't have a 33T logo yet
-    const tokenPath = tokenSymbol === "OHM" ? OhmImg : SOhmImg;
+    let tokenPath;
+    // if (tokenSymbol === "OHM") {
+
+    // } ? OhmImg : SOhmImg;
+    switch (tokenSymbol) {
+      case "OHM":
+        tokenPath = OhmImg;
+        break;
+      case "33T":
+        tokenPath = token33tImg;
+        break;
+      default:
+        tokenPath = SOhmImg;
+    }
     const imageURL = `${host}/${tokenPath}`;
 
     try {
@@ -133,6 +148,11 @@ function OhmMenu() {
                         <Typography variant="body1">sOHM</Typography>
                       </Button>
                       <Button variant="contained" color="secondary" onClick={addTokenToWallet("33T", PT_TOKEN_ADDRESS)}>
+                        <SvgIcon
+                          component={t33TokenImg}
+                          viewBox="0 0 1000 1000"
+                          style={{ height: "25px", width: "25px" }}
+                        />
                         <Typography variant="body1">33T</Typography>
                       </Button>
                     </Box>
