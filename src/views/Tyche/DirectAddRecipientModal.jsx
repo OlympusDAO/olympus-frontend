@@ -6,8 +6,10 @@ import { InputAdornment } from "@material-ui/core";
 import { useState } from "react";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
+import { useWeb3Context } from "src/hooks/web3Context";
 
 export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
+  const { provider, address, connected, connect, chainID } = useWeb3Context();
   const showHideClassName = "ohm-card ohm-modal";
 
   // Percentage as an integer
@@ -44,6 +46,8 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
       return;
     }
 
+    // TODO user has a non-zero balance
+
     setIsPercentageValid(true);
     setIsPercentageValidError("");
   };
@@ -60,14 +64,19 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
       return;
     }
 
-    // Address is wallet, not token/contract
+    if (value == address) {
+      setIsWalletAddressValid(false);
+      setIsWalletAddressValidError("Please enter a different address: cannot direct to the same wallet");
+      return;
+    }
 
     setIsWalletAddressValid(true);
     setIsWalletAddressValidError("");
   };
 
-  // TODO add validation
   // TODO stop modal from moving when validation messages are shown
+  // TODO handle button press
+  // TODO add segment user event
 
   return (
     <Modal open={!isModalHidden}>
@@ -111,10 +120,24 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
           <FormHelperText>{isWalletAddressValidError}</FormHelperText>
         </FormControl>
         <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!isPercentageValid || !isWalletAddressValid}>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!isPercentageValid || !isWalletAddressValid || !address}
+          >
             Add Recipient
           </Button>
         </FormControl>
+        {!address ? (
+          <>
+            <FormHelperText>
+              You must be logged into your wallet to use this feature. Click on the "Connect Wallet" button and try
+              again.
+            </FormHelperText>
+          </>
+        ) : (
+          <></>
+        )}
       </Paper>
     </Modal>
   );

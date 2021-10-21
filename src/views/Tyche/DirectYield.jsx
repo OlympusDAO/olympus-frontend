@@ -46,8 +46,6 @@ export default function YieldDirector() {
     }
   }, [walletChecked]);
 
-  // TODO prevent action unless there is a wallet connected
-
   return (
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
@@ -58,6 +56,7 @@ export default function YieldDirector() {
             color="secondary"
             className="stake-lp-button"
             onClick={() => setIsModalHidden(false)}
+            disabled={!address}
           >
             <Typography variant="body1">Add Recipient</Typography>
           </Button>
