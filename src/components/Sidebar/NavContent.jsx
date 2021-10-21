@@ -91,6 +91,18 @@ function NavContent() {
 
               <Link
                 component={NavLink}
+                id="tyche-nav"
+                to="/yield-director"
+                isActive={(match, location) => {
+                  return checkPage(match, location, "yield-director");
+                }}
+                className={`button-dapp-menu ${isActive ? "active" : ""}`}
+              >
+                <Typography variant="h6">Yield Director</Typography>
+              </Link>
+
+              <Link
+                component={NavLink}
                 id="33-together-nav"
                 to="/33-together"
                 isActive={(match, location) => {
