@@ -217,7 +217,7 @@ function App() {
               <Stake />
             </Route>
 
-            <Route path="/yield-director">
+            <Route path="/stream">
               <Tyche />
             </Route>
 

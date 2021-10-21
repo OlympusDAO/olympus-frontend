@@ -26,7 +26,7 @@ function Tyche() {
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <div className="card-header">
-                <Typography variant="h5">Yield Director</Typography>
+                <Typography variant="h5">Stream</Typography>
               </div>
             </Grid>
           </Grid>

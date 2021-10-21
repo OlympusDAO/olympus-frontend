@@ -28,6 +28,9 @@ function NavContent() {
     if (currentPath.indexOf("stake") >= 0 && page === "stake") {
       return true;
     }
+    if (currentPath.indexOf("stream") >= 0 && page == "stream") {
+      return true;
+    }
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
       return true;
     }
@@ -92,13 +95,13 @@ function NavContent() {
               <Link
                 component={NavLink}
                 id="tyche-nav"
-                to="/yield-director"
+                to="/stream"
                 isActive={(match, location) => {
-                  return checkPage(match, location, "yield-director");
+                  return checkPage(match, location, "stream");
                 }}
                 className={`button-dapp-menu ${isActive ? "active" : ""}`}
               >
-                <Typography variant="h6">Yield Director</Typography>
+                <Typography variant="h6">Stream</Typography>
               </Link>
 
               <Link
