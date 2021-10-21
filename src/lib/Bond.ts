@@ -115,7 +115,7 @@ export class LPBond extends Bond {
     const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
     const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
     const markdown = await bondCalculator.markdown(tokenAddress);
-    let tokenUSD = (parseInt(valuation._hex, 16) / Math.pow(10, 9)) * (parseInt(markdown._hex, 16) / Math.pow(10, 18));
+    let tokenUSD = (valuation.toNumber() / Math.pow(10, 9)) * (markdown.toNumber() / Math.pow(10, 18));
     return tokenUSD;
   }
 }
