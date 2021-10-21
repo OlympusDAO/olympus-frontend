@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { contractForRedeemHelper } from "../helpers";
 import { getBalances, calculateUserBondDetails } from "./AccountSlice";
 import { findOrLoadMarketPrice } from "./AppSlice";
@@ -72,7 +72,7 @@ export const calcBondDetails = createAsyncThunk(
     // const vestingTerm = VESTING_TERM; // hardcoded for now
     let bondPrice = 0,
       bondDiscount = 0,
-      valuation = 0,
+      valuation: BigNumber,
       bondQuote = 0;
     const bondContract = bond.getContractForBond(networkID, provider);
     const bondCalcContract = getBondCalculator(networkID, provider);

@@ -23,10 +23,7 @@ interface IBondCalculatorInterface extends ethers.utils.Interface {
     "valuation(address,uint256)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "valuation",
-    values: [string, BigNumberish]
-  ): string;
+  encodeFunctionData(functionFragment: "valuation", values: [string, BigNumberish]): string;
 
   decodeFunctionResult(functionFragment: "valuation", data: BytesLike): Result;
 
@@ -39,26 +36,26 @@ export class IBondCalculator extends BaseContract {
   deployed(): Promise<this>;
 
   listeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter?: TypedEventFilter<EventArgsArray, EventArgsObject>
+    eventFilter?: TypedEventFilter<EventArgsArray, EventArgsObject>,
   ): Array<TypedListener<EventArgsArray, EventArgsObject>>;
   off<EventArgsArray extends Array<any>, EventArgsObject>(
     eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
+    listener: TypedListener<EventArgsArray, EventArgsObject>,
   ): this;
   on<EventArgsArray extends Array<any>, EventArgsObject>(
     eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
+    listener: TypedListener<EventArgsArray, EventArgsObject>,
   ): this;
   once<EventArgsArray extends Array<any>, EventArgsObject>(
     eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
+    listener: TypedListener<EventArgsArray, EventArgsObject>,
   ): this;
   removeListener<EventArgsArray extends Array<any>, EventArgsObject>(
     eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
+    listener: TypedListener<EventArgsArray, EventArgsObject>,
   ): this;
   removeAllListeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>
+    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
   ): this;
 
   listeners(eventName?: string): Array<Listener>;
@@ -71,7 +68,7 @@ export class IBondCalculator extends BaseContract {
   queryFilter<EventArgsArray extends Array<any>, EventArgsObject>(
     event: TypedEventFilter<EventArgsArray, EventArgsObject>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
   interface: IBondCalculatorInterface;
@@ -80,39 +77,24 @@ export class IBondCalculator extends BaseContract {
     valuation(
       pair_: string,
       amount_: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<[BigNumber] & { _value: BigNumber }>;
   };
+  markdown(pair_: string): Promise<BigNumber>;
 
-  valuation(
-    pair_: string,
-    amount_: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  valuation(pair_: string, amount_: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    valuation(pair_: string, amount_: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {};
 
   estimateGas: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    valuation(pair_: string, amount_: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    valuation(
-      pair_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    valuation(pair_: string, amount_: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

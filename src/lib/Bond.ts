@@ -1,5 +1,5 @@
 import { StaticJsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getBondCalculator } from "src/helpers/BondCalculator";
@@ -115,7 +115,7 @@ export class LPBond extends Bond {
     const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
     const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
     const markdown = await bondCalculator.markdown(tokenAddress);
-    let tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
+    let tokenUSD = (parseInt(valuation._hex, 16) / Math.pow(10, 9)) * (parseInt(markdown._hex, 16) / Math.pow(10, 18));
     return tokenUSD;
   }
 }
