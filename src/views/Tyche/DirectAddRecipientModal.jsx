@@ -94,6 +94,8 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
   // TODO stop modal from moving when validation messages are shown
   // TODO handle button press
   // TODO add segment user event
+  // TODO shift to absolute amount of sOHM
+  // TODO add warning that add recipient will ask for approval in the client
 
   return (
     <Modal open={!isModalHidden}>
