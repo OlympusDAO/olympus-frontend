@@ -42,6 +42,8 @@ export type { OlympusBondingCalculator } from "./OlympusBondingCalculator";
 export type { OlympusTreasury } from "./OlympusTreasury";
 export type { AggregatorV3Interface } from "./AggregatorV3Interface";
 export type { WOHM } from "./WOHM";
+export type { StakePrizePool } from "./StakePrizePool";
+export type { MultipleWinners } from "./MultipleWinners";
 
 export { ERC20__factory } from "./factories/ERC20__factory";
 export { ERC20Permit__factory } from "./factories/ERC20Permit__factory";
@@ -84,3 +86,5 @@ export { OlympusBondingCalculator__factory } from "./factories/OlympusBondingCal
 export { OlympusTreasury__factory } from "./factories/OlympusTreasury__factory";
 export { AggregatorV3Interface__factory } from "./factories/AggregatorV3Interface__factory";
 export { WOHM__factory } from "./factories/WOHM__factory";
+export { StakePrizePool__factory } from "./factories/StakePrizePool__factory";
+export { MultipleWinners__factory } from "./factories/MultipleWinners__factory";

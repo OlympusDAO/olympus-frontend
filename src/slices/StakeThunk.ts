@@ -9,6 +9,8 @@ import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { IERC20 } from "../typechain/IERC20";
+import { OlympusStaking as OlympusStakingType, StakingHelper as StakingHelperType } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -27,9 +29,9 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer);
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
-    let approveTx;
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer) as IERC20;
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer) as IERC20;
+    let approveTx: ethers.ContractTransaction | null = null;
     try {
       if (token === "ohm") {
         approveTx = await ohmContract.approve(
@@ -41,6 +43,9 @@ export const changeApproval = createAsyncThunk(
           addresses[networkID].STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
+      }
+      if (approveTx == null) {
+        throw new Error("There was an error with your transaction.");
       }
       const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
       const pendingTxnType = token === "ohm" ? "approve_staking" : "approve_unstaking";
@@ -78,12 +83,16 @@ export const changeStake = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const staking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, OlympusStaking, signer);
+    const staking = new ethers.Contract(
+      addresses[networkID].STAKING_ADDRESS as string,
+      OlympusStaking,
+      signer,
+    ) as OlympusStakingType;
     const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
       StakingHelper,
       signer,
-    );
+    ) as StakingHelperType;
 
     let stakeTx;
     let uaData: IUAData = {

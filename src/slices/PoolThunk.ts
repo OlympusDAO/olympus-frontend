@@ -18,12 +18,17 @@ import {
   IActionAsyncThunk,
   IJsonRPCError,
 } from "./interfaces";
+import { SOlympus, MultipleWinners, StakePrizePool } from "../typechain";
 
 export const getPoolValues = createAsyncThunk(
   "pool/getPoolValues",
   async ({ networkID, provider }: IBaseAsyncThunk) => {
     // calculate 33-together
-    const poolReader = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
+    const poolReader = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      PrizePool,
+      provider,
+    ) as StakePrizePool;
     const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
     const creditPlanOf = await poolReader.creditPlanOf(addresses[networkID].PT_TOKEN_ADDRESS);
     const poolCredit = getCreditMaturationDaysAndLimitPercentage(
@@ -31,7 +36,11 @@ export const getPoolValues = createAsyncThunk(
       creditPlanOf.creditLimitMantissa,
     );
 
-    const awardReader = new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, provider);
+    const awardReader = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS,
+      AwardPool,
+      provider,
+    ) as MultipleWinners;
     const poolAwardPeriodRemainingSeconds = await awardReader.prizePeriodRemainingSeconds();
 
     return {
@@ -44,7 +53,11 @@ export const getPoolValues = createAsyncThunk(
 );
 
 export const getRNGStatus = createAsyncThunk("pool/getRNGStatus", async ({ networkID, provider }: IBaseAsyncThunk) => {
-  const awardReader = new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, provider);
+  const awardReader = new ethers.Contract(
+    addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS,
+    AwardPool,
+    provider,
+  ) as MultipleWinners;
   const isRngRequested = await awardReader.isRngRequested();
   let isRngTimedOut = false;
   if (isRngRequested) isRngTimedOut = await awardReader.isRngTimedOut();
@@ -65,7 +78,7 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer) as SOlympus;
 
     let approveTx;
     try {
@@ -112,7 +125,11 @@ export const poolDeposit = createAsyncThunk(
       return;
     }
     const signer = provider.getSigner();
-    const poolContract = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, signer);
+    const poolContract = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      PrizePool,
+      signer,
+    ) as StakePrizePool;
     let poolTx;
 
     try {
@@ -153,7 +170,11 @@ export const poolDeposit = createAsyncThunk(
 export const getEarlyExitFee = createAsyncThunk(
   "pool/getEarlyExitFee",
   async ({ value, provider, address, networkID }: IValueAsyncThunk) => {
-    const poolReader = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
+    const poolReader = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      PrizePool,
+      provider,
+    ) as StakePrizePool;
     // NOTE (appleseed): we chain callStatic in the below function to force the transaction through w/o a gas fee
     // ... this may be a result of `calculateEarlyExitFee` not being explicity declared as `view` or `pure` in the contract.
     // Explanation from ethers docs: https://docs.ethers.io/v5/api/contract/contract/#contract-callStatic
@@ -191,7 +212,11 @@ export const poolWithdraw = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const poolContract = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, signer);
+    const poolContract = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      PrizePool,
+      signer,
+    ) as StakePrizePool;
 
     let poolTx;
 
@@ -242,7 +267,11 @@ export const awardProcess = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const poolContract = new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, signer);
+    const poolContract = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS,
+      AwardPool,
+      signer,
+    ) as MultipleWinners;
 
     let poolTx;
 
@@ -258,8 +287,10 @@ export const awardProcess = createAsyncThunk(
       }
       const text = "Pool " + action;
       const pendingTxnType = "pool_" + action;
-      dispatch(fetchPendingTxns({ txnHash: poolTx.hash, text: text, type: pendingTxnType }));
-      await poolTx.wait();
+      if (poolTx) {
+        dispatch(fetchPendingTxns({ txnHash: poolTx.hash, text: text, type: pendingTxnType }));
+        await poolTx.wait();
+      }
     } catch (e: unknown) {
       const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
