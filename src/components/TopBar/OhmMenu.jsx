@@ -87,7 +87,7 @@ function OhmMenu() {
         <Typography>OHM</Typography>
       </Button>
 
-      <Popper id={id} open={true} anchorEl={anchorEl} placement="bottom-start" transition>
+      <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start" transition>
         {({ TransitionProps }) => {
           return (
             <Fade {...TransitionProps} timeout={100}>
