@@ -4,6 +4,7 @@ import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { InputAdornment } from "@material-ui/core";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -17,14 +18,27 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
   const [percentage, setPercentage] = useState(0);
   const [isPercentageValid, setIsPercentageValid] = useState(false);
   const [isPercentageValidError, setIsPercentageValidError] = useState("");
+  const [amount, setAmount] = useState(0);
 
   const [walletAddress, setWalletAddress] = useState("");
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(false);
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
 
+  /**
+   * Returns the user's sOHM balance
+   *
+   * Copied from Stake.jsx
+   *
+   * TODO consider extracting this into a helper file
+   */
+  const sohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.sohm;
+  });
+
   const handleSetPercentage = value => {
     checkIsPercentageValid(value);
     setPercentage(value);
+    setAmount((value * sohmBalance) / 100);
   };
 
   const checkIsPercentageValid = value => {
@@ -46,7 +60,10 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
       return;
     }
 
-    // TODO user has a non-zero balance
+    if (sohmBalance == 0) {
+      setIsPercentageValid(false);
+      setIsPercentageValidError("You must have a balance of sOHM (staked OHM) to continue");
+    }
 
     setIsPercentageValid(true);
     setIsPercentageValidError("");
@@ -104,6 +121,13 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
           />
           <FormHelperText>{isPercentageValidError}</FormHelperText>
         </FormControl>
+        {isPercentageValid ? (
+          <>
+            <Typography variant="body2">sOHM Amount: {amount}</Typography>{" "}
+          </>
+        ) : (
+          <></>
+        )}
         <Typography variant="h5">Recipient Address</Typography>
         <FormControl className="modal-input" variant="outlined" color="primary">
           <InputLabel htmlFor="wallet-input"></InputLabel>
