@@ -50,3 +50,9 @@
     margin-right: auto;
   }
 }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  vertical-align: middle;
+}

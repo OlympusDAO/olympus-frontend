@@ -27,8 +27,6 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
     setWalletAddress(value);
   };
 
-  // TODO add amount
-  // TODO add wallet
   // TODO add validation
 
   return (
