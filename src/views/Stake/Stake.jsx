@@ -127,8 +127,10 @@ function Stake() {
       if (token === "sohm") return unstakeAllowance > 0;
       return 0;
     },
-    [stakeAllowance],
+    [stakeAllowance, unstakeAllowance],
   );
+
+  const isAllowanceDataLoading = !((stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1));
 
   let modalButton = [];
 
@@ -254,38 +256,56 @@ function Stake() {
                       <Tab label="Stake" {...a11yProps(0)} />
                       <Tab label="Unstake" {...a11yProps(1)} />
                     </Tabs>
-                    <Box className="help-text">
-                      {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
-                        <Typography variant="body2" className="stake-note" color="textSecondary">
-                          Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
-                          subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
-                          transaction.
-                        </Typography>
-                      )}
-                    </Box>
+
                     <Box className="stake-action-row " display="flex" alignItems="center">
-                      <FormControl className="ohm-input" variant="outlined" color="primary">
-                        <InputLabel htmlFor="amount-input"></InputLabel>
-                        <OutlinedInput
-                          id="amount-input"
-                          type="number"
-                          placeholder="Enter an amount"
-                          className="stake-input"
-                          value={quantity}
-                          onChange={e => setQuantity(e.target.value)}
-                          labelWidth={0}
-                          endAdornment={
-                            <InputAdornment position="end">
-                              <Button variant="text" onClick={setMax} color="inherit">
-                                Max
-                              </Button>
-                            </InputAdornment>
-                          }
-                        />
-                      </FormControl>
+                      {address && !isAllowanceDataLoading ? (
+                        (!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1) ? (
+                          <Box className="help-text">
+                            <Typography variant="body1" className="stake-note" color="textSecondary">
+                              {view === 0 ? (
+                                <>
+                                  First time staking <b>OHM</b>?
+                                  <br />
+                                  Please approve Olympus Dao to use your <b>OHM</b> for staking.
+                                </>
+                              ) : (
+                                <>
+                                  First time unstaking <b>sOHM</b>?
+                                  <br />
+                                  Please approve Olympus Dao to use your <b>sOHM</b> for unstaking.
+                                </>
+                              )}
+                            </Typography>
+                          </Box>
+                        ) : (
+                          <FormControl className="ohm-input" variant="outlined" color="primary">
+                            <InputLabel htmlFor="amount-input"></InputLabel>
+                            <OutlinedInput
+                              id="amount-input"
+                              type="number"
+                              placeholder="Enter an amount"
+                              className="stake-input"
+                              value={quantity}
+                              onChange={e => setQuantity(e.target.value)}
+                              labelWidth={0}
+                              endAdornment={
+                                <InputAdornment position="end">
+                                  <Button variant="text" onClick={setMax} color="inherit">
+                                    Max
+                                  </Button>
+                                </InputAdornment>
+                              }
+                            />
+                          </FormControl>
+                        )
+                      ) : (
+                        <Skeleton width="150px" />
+                      )}
 
                       <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {address && hasAllowance("ohm") ? (
+                        {isAllowanceDataLoading ? (
+                          <Skeleton />
+                        ) : address && hasAllowance("ohm") ? (
                           <Button
                             className="stake-button"
                             variant="contained"
@@ -311,9 +331,10 @@ function Stake() {
                           </Button>
                         )}
                       </TabPanel>
-
                       <TabPanel value={view} index={1} className="stake-tab-panel">
-                        {address && hasAllowance("sohm") ? (
+                        {isAllowanceDataLoading ? (
+                          <Skeleton />
+                        ) : address && hasAllowance("sohm") ? (
                           <Button
                             className="stake-button"
                             variant="contained"
