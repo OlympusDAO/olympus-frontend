@@ -1,14 +1,14 @@
 import { ethers } from "ethers";
+import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
+
+import apollo from "../lib/apolloClient.js";
+import { RootState } from "../store";
 import { addresses } from "../constants";
-import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
-import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
-import { NodeHelper } from "../helpers/NodeHelper";
-import apollo from "../lib/apolloClient.js";
-import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "src/store";
+import { SOlympus } from "../typechain/SOlympus";
+import { OlympusStaking } from "../typechain/OlympusStaking";
 import { IBaseAsyncThunk } from "./interfaces";
 
 const initialState = {
@@ -83,20 +83,19 @@ export const loadAppDetails = createAsyncThunk(
       addresses[networkID].STAKING_ADDRESS as string,
       OlympusStakingv2,
       provider,
-    );
-    const oldStakingContract = new ethers.Contract(
-      addresses[networkID].OLD_STAKING_ADDRESS as string,
-      OlympusStaking,
+    ) as OlympusStaking;
+
+    const sohmMainContract = new ethers.Contract(
+      addresses[networkID].SOHM_ADDRESS as string,
+      sOHMv2,
       provider,
-    );
-    const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider);
-    const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS as string, sOHM, provider);
+    ) as SOlympus;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
     const stakingReward = epoch.distribute;
     const circ = await sohmMainContract.circulatingSupply();
-    const stakingRebase = stakingReward / circ;
+    const stakingRebase = stakingReward.toNumber() / circ.toNumber();
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
 
