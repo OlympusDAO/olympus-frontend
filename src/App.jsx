@@ -145,7 +145,6 @@ function App() {
         setWalletChecked(true);
         const providerURL = uri;
         // Note (appleseed): remove this before merge to develop
-        console.log("segment debug", providerURL, currentPath);
         segmentUA({
           type: "connect",
           provider: provider,
