@@ -26,7 +26,6 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "./ExternalStakePool";
-import DirectYield from "./DirectYield";
 import { error } from "../../slices/MessagesSlice";
 
 function a11yProps(index) {
@@ -378,7 +377,6 @@ function Stake() {
         </Paper>
       </Zoom>
 
-      <DirectYield />
       <ExternalStakePool />
     </div>
   );
