@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 
-import apollo from "../lib/apolloClient.js";
+import apollo from "../lib/apolloClient";
 import { RootState } from "../store";
 import { addresses } from "../constants";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
