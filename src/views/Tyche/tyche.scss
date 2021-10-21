@@ -1,0 +1,18 @@
+#yield-directing-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  .ohm-card .header {
+    min-height: 3em;
+  }
+}
+
+.yield-action-area {
+  justify-content: space-around;
+  align-items: center;
+  height: auto;
+  padding-bottom: 1rem;
+}
