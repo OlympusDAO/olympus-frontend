@@ -46,6 +46,8 @@ export default function YieldDirector() {
     }
   }, [walletChecked]);
 
+  // TODO prevent action unless there is a wallet connected
+
   return (
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>

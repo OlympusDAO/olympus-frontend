@@ -5,6 +5,7 @@ import { OutlinedInput } from "@material-ui/core";
 import { InputAdornment } from "@material-ui/core";
 import { useState } from "react";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+import { isAddress } from "@ethersproject/address";
 
 export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
   const showHideClassName = "ohm-card ohm-modal";
@@ -16,16 +17,12 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
   const [isPercentageValidError, setIsPercentageValidError] = useState("");
 
   const [walletAddress, setWalletAddress] = useState("");
+  const [isWalletAddressValid, setIsWalletAddressValid] = useState(false);
+  const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
 
   const handleSetPercentage = value => {
     checkIsPercentageValid(value);
     setPercentage(value);
-  };
-
-  const handleSetWallet = value => {
-    // TODO finalise this
-    console.log(value);
-    setWalletAddress(value);
   };
 
   const checkIsPercentageValid = value => {
@@ -49,6 +46,24 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
 
     setIsPercentageValid(true);
     setIsPercentageValidError("");
+  };
+
+  const handleSetWallet = value => {
+    checkIsWalletAddressValid(value);
+    setWalletAddress(value);
+  };
+
+  const checkIsWalletAddressValid = value => {
+    if (!isAddress(value)) {
+      setIsWalletAddressValid(false);
+      setIsWalletAddressValidError("Please enter a valid Ethereum address");
+      return;
+    }
+
+    // Address is wallet, not token/contract
+
+    setIsWalletAddressValid(true);
+    setIsWalletAddressValidError("");
   };
 
   // TODO add validation
@@ -89,12 +104,14 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
             placeholder="Enter a wallet address in the form of 0x ..."
             className="stake-input"
             value={walletAddress}
+            error={!isWalletAddressValid}
             onChange={e => handleSetWallet(e.target.value)}
             labelWidth={0}
           />
+          <FormHelperText>{isWalletAddressValidError}</FormHelperText>
         </FormControl>
         <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!isPercentageValid}>
+          <Button variant="contained" color="primary" disabled={!isPercentageValid || !isWalletAddressValid}>
             Add Recipient
           </Button>
         </FormControl>
