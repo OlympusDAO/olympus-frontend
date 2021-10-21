@@ -130,7 +130,7 @@ function Stake() {
     [stakeAllowance, unstakeAllowance],
   );
 
-  const isAllowanceDataLoading = !((stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1));
+  const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
   let modalButton = [];
 
