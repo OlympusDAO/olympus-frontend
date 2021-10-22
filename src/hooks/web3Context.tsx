@@ -1,7 +1,8 @@
 import React, { ReactElement, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Web3Modal from "web3modal";
-import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
+import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { EnvHelper } from "../helpers/Environment";
 import { NETWORKS } from "../constants";
 import { NodeHelper } from "src/helpers/NodeHelper";
@@ -18,6 +19,13 @@ function getTestnetURI(chainId: number) {
       return EnvHelper.alchemyArbitrumTestnetURI;
   }
   return "";
+}
+
+/**
+ * determine if in IFrame for Ledger Live
+ */
+function isIframe() {
+  return window.location !== window.parent.location;
 }
 
 /**
@@ -193,12 +201,17 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
-    const rawProvider = await web3Modal.connect();
+    // handling Ledger Live;
+    let rawProvider;
+    if (isIframe()) {
+      rawProvider = new IFrameEthereumProvider();
+    } else {
+      rawProvider = await web3Modal.connect();
+    }
 
     // new _initListeners implementation matches Web3Modal Docs
     // ... see here: https://github.com/Web3Modal/web3modal/blob/2ff929d0e99df5edf6bb9e88cff338ba6d8a3991/example/src/App.tsx#L185
     _initListeners(rawProvider);
-
     const connectedProvider = new Web3Provider(rawProvider, "any");
     setProvider(connectedProvider);
 
@@ -211,7 +224,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       setChainName("Unsupported Chain!");
       return;
     }
-
     // Save everything after we've validated the right network.
     // Eventually we'll be fine without doing network validations.
     setAddress(connectedAddress);

@@ -71,7 +71,12 @@ export const PoolDeposit = props => {
   }, [poolAllowance]);
 
   const setMax = () => {
-    setQuantity(sohmBalance);
+    const value = parseFloat(sohmBalance);
+    setQuantity(value);
+    let userBalanceAfterDeposit = poolBalance + value;
+
+    let userOdds = calculateOdds(userBalanceAfterDeposit, props.totalPoolDeposits + value, props.winners);
+    setNewOdds(trim(userOdds, 4));
   };
 
   const updateDepositQuantity = e => {

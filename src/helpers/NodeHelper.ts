@@ -14,7 +14,7 @@ interface ICurrentStats {
  */
 export class NodeHelper {
   static _invalidNodesKey = "invalidNodes";
-  static _maxFailedConnections = 2;
+  static _maxFailedConnections = 1;
   /**
    * failedConnectionsMinuteLimit is the number of minutes that _maxFailedConnections must occur within
    * for the node to be blocked.

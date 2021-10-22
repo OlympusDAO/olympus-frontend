@@ -1,43 +1,21 @@
-import { ethers } from "ethers";
-import { formatEther } from "ethers/lib/utils";
-import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-
-import { addresses } from "../constants";
-import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as OhmLusdCrucible } from "../abi/OhmLusdCrucible.json";
-
 import { setAll } from "../helpers";
-import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
-import { NetworkID } from "src/lib/Bond";
-import { ohm_lusd } from "../helpers/AllBonds";
+import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
+import { IBaseAddressAsyncThunk } from "./interfaces";
 import { calcAludelDetes } from "../helpers/OhmLusdCrucible";
-
-interface IGetBalances {
-  address: string;
-  networkID: NetworkID;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-}
-
-/**
- * Interface for pickle API objects
- */
-interface IPoolInfo {
-  tokenAddress: string;
-  liquidity_locked: string;
-  apy: string;
-}
 
 export const getLusdData = createAsyncThunk(
   "stake/getLusdData",
-  async ({ address, networkID, provider }: IGetBalances) => {
+  async ({ networkID, provider }: IBaseAddressAsyncThunk) => {
     // calcing APY & tvl
     const crucibleDetes = await calcAludelDetes(networkID, provider);
     let avgApy = crucibleDetes?.averageApy;
     if (!avgApy || isNaN(avgApy)) avgApy = 0;
+    let tvlUsd = crucibleDetes?.tvlUsd;
+    if (!tvlUsd) tvlUsd = 0;
 
     return {
       apy: avgApy,
-      tvl: crucibleDetes?.tvlUsd,
+      tvl: tvlUsd,
       // NOTE (appleseed): balance is in accountSlice for the bond
       // balance: ethers.utils.formatUnits(sushiOhmLusdBalance, "gwei"),
     };
