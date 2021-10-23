@@ -54,6 +54,7 @@
     "material-ui": "^0.20.2",
     "node-sass": "^6.0.1",
     "node-watch": "^0.7.1",
+    "npm-force-resolutions": "^0.0.10",
     "postcss": "^8.3.5",
     "qrcode.react": "^1.0.0",
     "query-string": "7.0.1",
@@ -107,6 +108,7 @@
     "extends": "react-app"
   },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
@@ -118,5 +120,11 @@
     "ship": "yarn surge",
     "theme": "npx gulp less",
     "watch": "node ./scripts/watch.js"
+  },
+  "resolutions": {
+    "immer": "9.0.6",
+    "axios": "0.23.0",
+    "set-value": "4.0.1",
+    "glob-parent": "5.1.2"
   }
 }
