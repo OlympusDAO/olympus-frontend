@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
@@ -68,8 +68,9 @@ export const changeApproval = createAsyncThunk(
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
 
     let approveTx;
+    let depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
     try {
-      if (token === "sohm") {
+      if (token === "sohm" && !depositAllowance.gt(BigNumber.from("0"))) {
         approveTx = await sohmContract.approve(
           addresses[networkID].PT_PRIZE_POOL_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
@@ -79,8 +80,6 @@ export const changeApproval = createAsyncThunk(
         const pendingTxnType = "approve_pool_together";
         dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
         await approveTx.wait();
-      } else {
-        console.log("token not sohm", token);
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
@@ -88,10 +87,9 @@ export const changeApproval = createAsyncThunk(
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
+        depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
       }
     }
-
-    const depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({

@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
@@ -30,34 +30,42 @@ export const changeApproval = createAsyncThunk(
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer);
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
     let approveTx;
+    let stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    let unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     try {
-      if (token === "ohm") {
+      if (token === "ohm" && !stakeAllowance.gt(BigNumber.from("0"))) {
+        // won't run if stakeAllowance > 0
         approveTx = await ohmContract.approve(
           addresses[networkID].STAKING_HELPER_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
-      } else if (token === "sohm") {
+      } else if (token === "sohm" && !unstakeAllowance.gt(BigNumber.from("0"))) {
         approveTx = await sohmContract.approve(
           addresses[networkID].STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
-      const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
-      const pendingTxnType = token === "ohm" ? "approve_staking" : "approve_unstaking";
-      dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
-      await approveTx.wait();
+      // approveTx undefined if approval previously existed
+      if (approveTx) {
+        const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
+        const pendingTxnType = token === "ohm" ? "approve_staking" : "approve_unstaking";
+        dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
+
+        await approveTx.wait();
+      }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
+        // go get fresh allowances
+        stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+        unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
       }
     }
 
-    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     return dispatch(
       fetchAccountSuccess({
         staking: {
