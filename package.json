@@ -108,7 +108,6 @@
     "extends": "react-app"
   },
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
@@ -122,9 +121,9 @@
     "watch": "node ./scripts/watch.js"
   },
   "resolutions": {
-    "immer": "9.0.6",
-    "axios": "0.23.0",
-    "set-value": "4.0.1",
-    "glob-parent": "5.1.2"
+    "**/immer": "9.0.6",
+    "**/axios": "0.23.0",
+    "**/set-value": "4.0.1",
+    "**/glob-parent": "5.1.2"
   }
 }
