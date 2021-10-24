@@ -6,8 +6,6 @@ export const useTreasuryRebases = () => {
   return useQuery("treasury_rebases", async () => {
     const response = await apollo(rebasesDataQuery);
 
-    console.log("rebases");
-
     // Transform string values to floats
     return response.data.rebases;
   });
