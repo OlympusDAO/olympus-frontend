@@ -9,7 +9,7 @@ export const Graph = ({ children }) => <>{children}</>;
 
 export const TotalValueDepositedGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics();
+  const { data } = useTreasuryMetrics({ refetchOnMount: false });
 
   return (
     <Chart
@@ -30,7 +30,7 @@ export const TotalValueDepositedGraph = () => {
 
 export const MarketValueGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics();
+  const { data } = useTreasuryMetrics({ refetchOnMount: false });
 
   return (
     <Chart
@@ -61,7 +61,7 @@ export const MarketValueGraph = () => {
 
 export const RiskFreeValueGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics();
+  const { data } = useTreasuryMetrics({ refetchOnMount: false });
 
   return (
     <Chart
@@ -88,7 +88,7 @@ export const RiskFreeValueGraph = () => {
 
 export const ProtocolOwnedLiquidityGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics();
+  const { data } = useTreasuryMetrics({ refetchOnMount: false });
 
   return (
     <Chart
@@ -111,7 +111,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
 
 export const OHMStakedGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics();
+  const { data } = useTreasuryMetrics({ refetchOnMount: false });
 
   const staked =
     data &&
@@ -141,7 +141,7 @@ export const OHMStakedGraph = () => {
 
 export const APYOverTimeGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryRebases();
+  const { data } = useTreasuryRebases({ refetchOnMount: false });
 
   let apy =
     data &&
@@ -174,7 +174,7 @@ export const APYOverTimeGraph = () => {
 
 export const RunwayAvailableGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics();
+  const { data } = useTreasuryMetrics({ refetchOnMount: false });
 
   const runway = data && data.filter(metric => metric.runway10k > 5);
 
