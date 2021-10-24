@@ -124,6 +124,7 @@
     "**/immer": "9.0.6",
     "**/axios": "0.23.0",
     "**/set-value": "4.0.1",
-    "**/glob-parent": "5.1.2"
+    "**/glob-parent": "5.1.2",
+    "**/browserslist": "4.16.5"
   }
 }
