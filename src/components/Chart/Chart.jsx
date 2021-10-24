@@ -439,7 +439,7 @@ function Chart({
     );
 
   useEffect(() => {
-    if (data !== null || undefined) {
+    if (data) {
       setLoading(false);
     }
   }, [data]);
