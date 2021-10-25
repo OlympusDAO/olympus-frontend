@@ -6,7 +6,7 @@ import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
-import { error } from "../slices/MessagesSlice";
+import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 
@@ -16,6 +16,24 @@ interface IUAData {
   approved: boolean;
   txHash: string | null;
   type: string | null;
+}
+
+function alreadyApprovedToken(token: string, stakeAllowance: BigNumber, unstakeAllowance: BigNumber) {
+  // set defaults
+  let bigZero = BigNumber.from("0");
+  let applicableAllowance = bigZero;
+
+  // determine which allowance to check
+  if (token === "ohm") {
+    applicableAllowance = stakeAllowance;
+  } else if (token === "sohm") {
+    applicableAllowance = unstakeAllowance;
+  }
+
+  // check if allowance exists
+  if (applicableAllowance.gt(bigZero)) return true;
+
+  return false;
 }
 
 export const changeApproval = createAsyncThunk(
@@ -32,39 +50,51 @@ export const changeApproval = createAsyncThunk(
     let approveTx;
     let stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     let unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+
+    // return early if approval has already happened
+    if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance)) {
+      dispatch(info("Approval completed."));
+      return dispatch(
+        fetchAccountSuccess({
+          staking: {
+            ohmStake: +stakeAllowance,
+            ohmUnstake: +unstakeAllowance,
+          },
+        }),
+      );
+    }
+
     try {
-      if (token === "ohm" && !stakeAllowance.gt(BigNumber.from("0"))) {
+      if (token === "ohm") {
         // won't run if stakeAllowance > 0
         approveTx = await ohmContract.approve(
           addresses[networkID].STAKING_HELPER_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
-      } else if (token === "sohm" && !unstakeAllowance.gt(BigNumber.from("0"))) {
+      } else if (token === "sohm") {
         approveTx = await sohmContract.approve(
           addresses[networkID].STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
 
-      // approveTx undefined if approval previously existed
-      if (approveTx) {
-        const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
-        const pendingTxnType = token === "ohm" ? "approve_staking" : "approve_unstaking";
-        dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
+      const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
+      const pendingTxnType = token === "ohm" ? "approve_staking" : "approve_unstaking";
+      dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
-        await approveTx.wait();
-      }
+      await approveTx.wait();
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
-        // go get fresh allowances
-        stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-        unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
       }
     }
+
+    // go get fresh allowances
+    stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({

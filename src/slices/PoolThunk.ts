@@ -8,7 +8,7 @@ import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { getCreditMaturationDaysAndLimitPercentage } from "../helpers/33Together";
 import { setAll } from "../helpers";
-import { error } from "./MessagesSlice";
+import { error, info } from "./MessagesSlice";
 import { RootState } from "src/store";
 import {
   IValueAsyncThunk,
@@ -69,8 +69,21 @@ export const changeApproval = createAsyncThunk(
 
     let approveTx;
     let depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+
+    // return early if approval already exists
+    if (depositAllowance.gt(BigNumber.from("0"))) {
+      dispatch(info("Approval completed."));
+      return dispatch(
+        fetchAccountSuccess({
+          pooling: {
+            sohmPool: +depositAllowance,
+          },
+        }),
+      );
+    }
+
     try {
-      if (token === "sohm" && !depositAllowance.gt(BigNumber.from("0"))) {
+      if (token === "sohm") {
         approveTx = await sohmContract.approve(
           addresses[networkID].PT_PRIZE_POOL_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
@@ -87,9 +100,11 @@ export const changeApproval = createAsyncThunk(
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
-        depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
       }
     }
+
+    // go get fresh allowance
+    depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
