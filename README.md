@@ -27,6 +27,8 @@ $ yarn start
 The site is now running at `http://localhost:3000`!
 Open the source code and start editing!
 
+If you would like to run the frontend in a Docker image (e.g. to isolate dependencies and the nodejs version), run `yarn docker-start`.
+
 ## Rinkeby Testing
 
 **Rinkeby faucet for sOHM:**
