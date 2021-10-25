@@ -14,12 +14,12 @@ function InfoTooltip({ message }) {
   const id = open ? "info-tooltip" : undefined;
 
   return (
-    <Box>
+    <Box style={{ display: "inline-flex", justifyContent: "center", alignSelf: "center" }}>
       <SvgIcon
         component={Info}
         onMouseOver={handleHover}
         onMouseOut={handleHover}
-        style={{ margin: "0 5px", fontSize: 16 }}
+        style={{ margin: "0 5px", fontSize: "1em" }}
         className="info-icon"
       ></SvgIcon>
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom" className="tooltip">
