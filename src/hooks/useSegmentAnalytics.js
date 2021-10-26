@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { EnvHelper } from "../helpers/Environment";
 import { useLocation } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { v4 as uuidv4 } from "uuid";
 
 const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
 
@@ -33,6 +34,7 @@ export default function useSegmentAnalytics() {
     if (loadedSegment && address) {
       analytics.identify(address, {
         wallet: address,
+        sessionId: uuidv4(),
       });
     }
   }, [address]);
