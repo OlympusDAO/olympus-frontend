@@ -25,6 +25,9 @@ import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
 
+import { abi as ierc20Abi } from "src/abi/IERC20.json";
+import { getBondCalculator } from "src/helpers/BondCalculator";
+
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
 export const dai = new StableBond({
@@ -84,9 +87,12 @@ export const lusd = new StableBond({
 export const eth = new CustomBond({
   name: "eth",
   displayName: "wETH",
+  isLP: false,
+  lpUrl: "",
   bondToken: "wETH",
   bondIconSvg: wETHImg,
   bondContractABI: EthBondContract,
+  reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xE6295201CD1ff13CeD5f063a5421c39A1D236F1c",
@@ -172,7 +178,7 @@ export const ohm_lusd = new LPBond({
     "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
 });
 
-export const ohm_weth = new LPBond({
+export const ohm_weth = new CustomBond({
   name: "ohm_weth_lp",
   displayName: "OHM-WETH LP",
   bondToken: "WETH",
@@ -190,8 +196,22 @@ export const ohm_weth = new LPBond({
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
   },
+  isLP: true,
   lpUrl:
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
+    const ethBondContract = this.getContractForBond(networkID, provider);
+    let ethPrice = await ethBondContract.assetPrice();
+    ethPrice = ethPrice / Math.pow(10, 8);
+    const token = this.getContractForReserve(networkID, provider);
+    const tokenAddress = this.getAddressForReserve(networkID);
+    const bondCalculator = getBondCalculator(networkID, provider);
+    const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
+    const markdown = await bondCalculator.markdown(tokenAddress);
+    let tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
+    return tokenUSD * ethPrice;
+  },
 });
 
 // HOW TO ADD A NEW BOND:

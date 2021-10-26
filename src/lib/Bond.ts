@@ -124,13 +124,13 @@ export class LPBond extends Bond {
 // Assumes the token being deposited follows the standard ERC20 spec
 export interface StableBondOpts extends BondOpts {}
 export class StableBond extends Bond {
-  readonly isLP = false;
+  isLP: boolean;
   readonly reserveContract: ethers.ContractInterface;
   readonly displayUnits: string;
 
   constructor(stableBondOpts: StableBondOpts) {
     super(BondType.StableAsset, stableBondOpts);
-
+    this.isLP = false;
     // For stable bonds the display units are the same as the actual token
     this.displayUnits = stableBondOpts.displayName;
     this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
@@ -145,6 +145,9 @@ export class StableBond extends Bond {
 
 // These are special bonds that have different valuation methods
 export interface CustomBondOpts extends BondOpts {
+  reserveContract: ethers.ContractInterface;
+  isLP: boolean;
+  lpUrl: string;
   customTreasuryBalanceFunc: (
     this: CustomBond,
     networkID: NetworkID,
@@ -152,16 +155,18 @@ export interface CustomBondOpts extends BondOpts {
   ) => Promise<number>;
 }
 export class CustomBond extends StableBond {
-  readonly isLP = false;
   readonly reserveContract: ethers.ContractInterface;
   readonly displayUnits: string;
+  readonly lpUrl: string;
 
   constructor(customBondOpts: CustomBondOpts) {
     super(customBondOpts);
 
+    this.isLP = customBondOpts.isLP;
+    this.lpUrl = customBondOpts.lpUrl;
     // For stable bonds the display units are the same as the actual token
     this.displayUnits = customBondOpts.displayName;
-    this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
+    this.reserveContract = customBondOpts.reserveContract;
     this.getTreasuryBalance = customBondOpts.customTreasuryBalanceFunc.bind(this);
   }
 }
