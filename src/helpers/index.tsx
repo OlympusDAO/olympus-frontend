@@ -138,6 +138,21 @@ export function contractForRedeemHelper({
 }
 
 /**
+ * returns false if SafetyCheck has fired in this Session. True otherwise
+ * @returns boolean
+ */
+export const shouldTriggerSafetyCheck = () => {
+  const _storage = window.sessionStorage;
+  const _safetyCheckKey = "-oly-safety";
+  // check if sessionStorage item exists for SafetyCheck
+  if (!_storage.getItem(_safetyCheckKey)) {
+    _storage.setItem(_safetyCheckKey, "true");
+    return true;
+  }
+  return false;
+};
+
+/**
  * returns unix timestamp for x minutes ago
  * @param x minutes as a number
  */

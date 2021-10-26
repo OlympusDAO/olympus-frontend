@@ -2,7 +2,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Hidden, useMediaQuery } from "@material-ui/core";
+import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
@@ -11,10 +11,12 @@ import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA, providerChecker } from "./helpers/userAnalyticHelpers";
 import { storeQueryParameters } from "./helpers/QueryParameterHelper";
+import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
+import { info } from "./slices/MessagesSlice";
 
 import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
@@ -157,6 +159,9 @@ function App() {
     }
     // We want to ensure that we are storing the UTM parameters for later, even if the user follows links
     storeQueryParameters();
+    if (shouldTriggerSafetyCheck()) {
+      dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
+    }
   }, []);
 
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER

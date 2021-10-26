@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
@@ -8,7 +8,7 @@ import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { getCreditMaturationDaysAndLimitPercentage } from "../helpers/33Together";
 import { setAll } from "../helpers";
-import { error } from "./MessagesSlice";
+import { error, info } from "./MessagesSlice";
 import { RootState } from "src/store";
 import {
   IValueAsyncThunk,
@@ -68,6 +68,20 @@ export const changeApproval = createAsyncThunk(
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
 
     let approveTx;
+    let depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+
+    // return early if approval already exists
+    if (depositAllowance.gt(BigNumber.from("0"))) {
+      dispatch(info("Approval completed."));
+      return dispatch(
+        fetchAccountSuccess({
+          pooling: {
+            sohmPool: +depositAllowance,
+          },
+        }),
+      );
+    }
+
     try {
       if (token === "sohm") {
         approveTx = await sohmContract.approve(
@@ -79,8 +93,6 @@ export const changeApproval = createAsyncThunk(
         const pendingTxnType = "approve_pool_together";
         dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
         await approveTx.wait();
-      } else {
-        console.log("token not sohm", token);
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
@@ -91,7 +103,8 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+    // go get fresh allowance
+    depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({

@@ -6,16 +6,21 @@ import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
 import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
 import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
 import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
+import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
 import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 
 import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
 import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
 import { abi as BondOhmLusdContract } from "src/abi/bonds/OhmLusdContract.json";
+import { abi as BondOhmEthContract } from "src/abi/bonds/OhmEthContract.json";
+
 import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
 import { abi as ReserveOhmLusdContract } from "src/abi/reserves/OhmLusd.json";
 import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
 import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
+import { abi as ReserveOhmEthContract } from "src/abi/reserves/OhmEth.json";
+
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
@@ -167,11 +172,33 @@ export const ohm_lusd = new LPBond({
     "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
 });
 
+export const ohm_weth = new LPBond({
+  name: "ohm_weth_lp",
+  displayName: "OHM-WETH LP",
+  bondToken: "WETH",
+  bondIconSvg: OhmEthImg,
+  bondContractABI: BondOhmEthContract,
+  reserveContract: ReserveOhmEthContract,
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      bondAddress: "0xB6C9dc843dEc44Aa305217c2BbC58B44438B6E16",
+      reserveAddress: "0xfffae4a0f4ac251f4705717cd24cadccc9f33e06",
+    },
+    [NetworkID.Testnet]: {
+      // NOTE (unbanksy): using ohm-dai rinkeby contracts
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
+  },
+  lpUrl:
+    "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+});
+
 // HOW TO ADD A NEW BOND:
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, lusd, ohm_lusd];
+export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});
