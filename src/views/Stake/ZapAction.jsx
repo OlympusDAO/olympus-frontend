@@ -9,8 +9,13 @@ import {
   OutlinedInput,
   Avatar,
   Typography,
-  Modal,
+  Dialog,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemAvatar,
   CardHeader,
+  ListItemText,
 } from "@material-ui/core";
 import { getTokenBalances } from "src/slices/ZapSlice";
 import { useDispatch } from "react-redux";
@@ -27,9 +32,19 @@ function ZapAction(props) {
     transform: "translate(-50%, -50%)",
     width: 400,
     bgcolor: "primary.secondary",
-    border: "2px solid #000",
+    // border: "2px solid #000",
     boxShadow: 24,
     p: 4,
+  };
+  //   const tokens = ["ETH", "OHM"];
+  const tokens = {
+    ETH: "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x0000000000000000000000000000000000000000.png",
+    OHM: "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png",
+  };
+  const [zapToken, setZapToken] = useState("ETH");
+  const handleSelectZapToken = token => {
+    setZapToken(token);
+    handleClose();
   };
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
@@ -60,12 +75,9 @@ function ZapAction(props) {
                     minWidth: "60px",
                   }}
                 >
-                  <Avatar
-                    src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x0000000000000000000000000000000000000000.png"
-                    style={{ height: "30px", width: "30px" }}
-                  />
+                  <Avatar src={tokens[zapToken]} style={{ height: "30px", width: "30px" }} />
                   <Box width="20px" />
-                  <Typography>ETH</Typography>
+                  <Typography>{zapToken}</Typography>
                 </div>
               </ButtonBase>
             </InputAdornment>
@@ -130,16 +142,28 @@ function ZapAction(props) {
         Zap-Stake
       </Button>
 
-      <Modal keepMounted open={modalOpen} onClose={handleClose}>
-        <Box sx={style}>
-          <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
+      <Dialog onClose={handleClose} open={modalOpen}>
+        <DialogTitle>Select Zap Token</DialogTitle>
+        <List sx={{ pt: 0 }}>
+          {Object.entries(tokens).map(token => (
+            <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[0]}>
+              <ListItemAvatar>
+                <Avatar src={token[1]} />
+              </ListItemAvatar>
+              <ListItemText primary={token[0]} />
+            </ListItem>
+          ))}
+
+          {/* <ListItem autoFocus button onClick={() => handleListItemClick("addAccount")}>
+            <ListItemAvatar>
+              <Avatar>
+                <AddIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Add account" />
+          </ListItem> */}
+        </List>
+      </Dialog>
     </div>
   );
 }
