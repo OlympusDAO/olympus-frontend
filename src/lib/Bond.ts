@@ -1,5 +1,5 @@
 import { StaticJsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getBondCalculator } from "src/helpers/BondCalculator";
@@ -115,8 +115,10 @@ export class LPBond extends Bond {
     const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
     const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
     const markdown = await bondCalculator.markdown(tokenAddress);
-    let tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
-    return tokenUSD;
+    // TODO: do we want it like this or with BigNumber?
+    // let tokenUSD = valuation.div(BigNumber.from(10).pow(9)).mul(markdown.div(BigNumber.from(10).pow(18)));
+    let tokenUSD = (Number(valuation.toString()) / 10 ** 9) * (Number(markdown.toString()) / 10 ** 18);
+    return Number(tokenUSD.toString());
   }
 }
 

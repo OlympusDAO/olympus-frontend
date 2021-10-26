@@ -114,7 +114,9 @@ export const calcBondDetails = createAsyncThunk(
       // if inputValue is 0 avoid the bondQuote calls
       bondQuote = 0;
     } else if (bond.isLP) {
-      valuation = await bondCalcContract.valuation(bond.getAddressForReserve(networkID), amountInWei);
+      valuation = Number(
+        (await bondCalcContract.valuation(bond.getAddressForReserve(networkID), amountInWei)).toString(),
+      );
       bondQuote = await bondContract.payoutFor(valuation);
       if (!amountInWei.isZero() && bondQuote < 100000) {
         bondQuote = 0;

@@ -1,15 +1,20 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { NetworkID } from "src/lib/Bond";
 import { ohm_lusd, lusd } from "../helpers/AllBonds";
-import { abi as OhmLusdCrucible } from "src/abi/OhmLusdCrucible.json";
-import { abi as UniswapIERC20 } from "src/abi/UniswapIERC20.json";
+import { abi as OhmLusdCrucibleABI } from "src/abi/OhmLusdCrucible.json";
+import { abi as UniswapIERC20ABI } from "src/abi/UniswapIERC20.json";
 import { BigNumber, ethers } from "ethers";
 import { addresses } from "src/constants";
 import { getTokenPrice } from "../helpers";
+import { OhmLusdCrucible, UniswapIERC20 } from "src/typechain";
 
 export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJsonRpcProvider) => {
   const crucibleAddress = addresses[networkID].CRUCIBLE_OHM_LUSD;
-  const aludelContract = new ethers.Contract(crucibleAddress as string, OhmLusdCrucible, provider);
+  const aludelContract = new ethers.Contract(
+    crucibleAddress as string,
+    OhmLusdCrucibleABI,
+    provider,
+  ) as OhmLusdCrucible;
   const aludelData = await aludelContract.getAludelData();
   // getting contractAddresses & Pricing for calculations below
   let ohmPrice = await getTokenPrice("olympus");
@@ -42,14 +47,14 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
 
   // console.log("aludelData", aludelData);
   // map through all fund() calls
-  aludelData.rewardSchedules.map((rs: { start: string | number; duration: string | number; shares: number }) => {
+  aludelData.rewardSchedules.map((rs: { start: BigNumber; duration: BigNumber; shares: BigNumber }) => {
     let rewardStart: number = parseFloat(rs.start.toString());
     let rewardDuration: number = parseFloat(rs.duration.toString());
 
     // if the reward has already ended, skip it
     if (rewardStart + rewardDuration > parseFloat(dt_now.toString())) {
       // shares remaining for reward schedule
-      totalRemainingRewards += rs.shares * (1 - (dt_now - rewardStart) / rewardDuration);
+      totalRemainingRewards += Number(rs.shares.toString()) * (1 - (dt_now - rewardStart) / rewardDuration);
 
       // seconds remaining of reward schedule
       remainingDurations.push(parseFloat(dt_now.toString()) - rewardStart + rewardDuration);
@@ -69,14 +74,18 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   let oldestDepositDate = Math.max.apply(null, pastDurations);
 
   // rewardToken is OHM for this Crucible
-  const rewardTokenContract = new ethers.Contract(aludelData.rewardToken as string, UniswapIERC20, provider);
+  const rewardTokenContract = new ethers.Contract(
+    aludelData.rewardToken as string,
+    UniswapIERC20ABI,
+    provider,
+  ) as UniswapIERC20;
 
   let rewardTokenDecimals = await rewardTokenContract.decimals();
   // let rewardTokenDecimals = 9;
 
   let rewardPoolBalance = await rewardTokenContract.balanceOf(aludelData.rewardPool);
   // balance of rewardToken in pool
-  let rewardTokenQuantity = rewardPoolBalance / 10 ** rewardTokenDecimals;
+  let rewardTokenQuantity = Number(rewardPoolBalance.toString()) / 10 ** rewardTokenDecimals;
 
   // amount of bonus tokens in program
   const bonusTokensLength = (await aludelContract.getBonusTokenSetLength()) as BigNumber;
@@ -88,13 +97,14 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   await Promise.all(
     Array.from(Array(bonusTokensLengthNumber)).map(async (_, idx) => {
       const bonusTokenAddress = await aludelContract.getBonusTokenAtIndex(idx);
-      const bonusTokenContract = new ethers.Contract(bonusTokenAddress, UniswapIERC20, provider);
+      const bonusTokenContract = new ethers.Contract(bonusTokenAddress, UniswapIERC20ABI, provider) as UniswapIERC20;
 
       const bonusTokenDecimals = await bonusTokenContract.decimals();
       const balanceOfBonusToken = await bonusTokenContract.balanceOf(aludelData.rewardPool);
       const valueOfBonusToken = usdValues[bonusTokenAddress.toLowerCase()];
 
-      const usdValueOfBonusToken = (balanceOfBonusToken / 10 ** bonusTokenDecimals) * valueOfBonusToken;
+      const usdValueOfBonusToken =
+        (Number(balanceOfBonusToken.toString()) / 10 ** bonusTokenDecimals) * valueOfBonusToken;
       bonusTokenUsdValues.push(usdValueOfBonusToken);
     }),
   );
@@ -120,18 +130,19 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   // usd value of rewardToken that are released
   let rewardsPreviouslyReleasedUsdValue = rewardsPreviouslyReleased * rewardTokenUsdValue;
 
-  let lusdContract = new ethers.Contract(lusdContractAddress, UniswapIERC20, provider);
+  let lusdContract = new ethers.Contract(lusdContractAddress, UniswapIERC20ABI, provider) as UniswapIERC20;
 
-  let stakedOhm = (await rewardTokenContract.balanceOf(aludelData.stakingToken)) / 10 ** rewardTokenDecimals;
+  let stakedOhm =
+    Number((await rewardTokenContract.balanceOf(aludelData.stakingToken)).toString()) / 10 ** rewardTokenDecimals;
   // 18 decimals for LUSD
-  let stakedLusd = (await lusdContract.balanceOf(aludelData.stakingToken)) / 10 ** 18;
+  let stakedLusd = Number((await lusdContract.balanceOf(aludelData.stakingToken)).toString()) / 10 ** 18;
 
   let totalStakedTokensUsd = stakedOhm * ohmPrice + stakedLusd * lusdPrice;
 
-  let stakingTokenContract = new ethers.Contract(aludelData.stakingToken, UniswapIERC20, provider);
-  let sushiTokenSupply = (await stakingTokenContract.totalSupply()) / 10 ** 18;
+  let stakingTokenContract = new ethers.Contract(aludelData.stakingToken, UniswapIERC20ABI, provider) as UniswapIERC20;
+  let sushiTokenSupply = Number((await stakingTokenContract.totalSupply()).toString()) / 10 ** 18;
   // total stake of stakingToken with 18 decimals
-  let aludelTotalStakedTokens = aludelData.totalStake / 10 ** 18;
+  let aludelTotalStakedTokens = Number(aludelData.totalStake.toString()) / 10 ** 18;
   // total usd value of staked stakingToken is the percent of aludel-staked over sushi-staked times sushi staked USD
   let aludelTotalStakedTokensUsd = (aludelTotalStakedTokens / sushiTokenSupply) * totalStakedTokensUsd;
 
