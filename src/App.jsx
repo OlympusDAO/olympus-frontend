@@ -8,8 +8,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
-import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
+import { segmentUA, providerChecker } from "./helpers/userAnalyticHelpers";
 import { storeQueryParameters } from "./helpers/QueryParameterHelper";
 import { shouldTriggerSafetyCheck } from "./helpers";
 
@@ -29,7 +29,7 @@ import NotFound from "./views/404/NotFound";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
-
+import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
 
 // 😬 Sorry for all the console logging
@@ -76,18 +76,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function App() {
-  useGoogleAnalytics();
   useSegmentAnalytics();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();
+  const currentPath = location.pathname + location.search + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { connect, hasCachedProvider, provider, chainID, connected } = useWeb3Context();
+  const { connect, hasCachedProvider, provider, chainID, connected, uri } = useWeb3Context();
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
@@ -145,12 +145,18 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
+        const providerURL = uri;
+        // Note (appleseed): remove this before merge to develop
+        segmentUA({
+          type: "connect",
+          provider: provider,
+          context: currentPath,
+        });
       });
     } else {
       // then user DOES NOT have a wallet
       setWalletChecked(true);
     }
-
     // We want to ensure that we are storing the UTM parameters for later, even if the user follows links
     storeQueryParameters();
     if (shouldTriggerSafetyCheck()) {
