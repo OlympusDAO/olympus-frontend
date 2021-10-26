@@ -18,6 +18,8 @@
   .stake-tab-panel > div.MuiBox-root {
     width: 100%;
     padding: 0;
+    justify-content: center;
+    justify-items: center;
   }
   .mobile .stake-tab-panel,
   .mobile .stake-tab-panel > div.MuiBox-root {
@@ -153,11 +155,27 @@
   margin: 5px !important;
 }
 
+.zap-input {
+  width: 98%;
+  margin: 5px !important;
+}
+
+.zap-output {
+  width: 98%;
+  margin: 5px !important;
+  min-height: 50px;
+}
+
 .stake-button {
   align-self: center;
   width: 100%;
-  min-width: 163px !important;
+  min-width: 140px !important;
   max-width: 542px !important;
+  height: 43px !important;
+}
+
+.zap-stake-button {
+  min-width: 140px !important;
   height: 43px !important;
 }
 
