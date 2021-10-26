@@ -51,6 +51,32 @@ function ZapAction(props) {
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
   //   dispatch(getTokenBalances({ address }));
+  const [inputQuantity, setInputQuantity] = useState("");
+  const [outputQuantity, setOutputQuantity] = useState("");
+  const exchangeRate = 2.0;
+
+  const setZapTokenQuantity = q => {
+    if (q == null || q === "") {
+      setInputQuantity("");
+      setOutputQuantity("");
+      return;
+    }
+    const amount = Number(q);
+    setInputQuantity(amount);
+    setOutputQuantity(exchangeRate * amount);
+  };
+
+  const setOutputTokenQuantity = q => {
+    if (q == null || q === "") {
+      setInputQuantity("");
+      setOutputQuantity("");
+      return;
+    }
+    const amount = Number(q);
+    setOutputQuantity(amount);
+    setInputQuantity(amount / exchangeRate);
+  };
+
   return (
     <div>
       <Typography>You Pay</Typography>
@@ -61,8 +87,8 @@ function ZapAction(props) {
           type="number"
           placeholder="Enter an amount"
           className="stake-input"
-          value={quantity}
-          onChange={e => setQuantity(e.target.value)}
+          value={inputQuantity}
+          onChange={e => setZapTokenQuantity(e.target.value)}
           labelWidth={0}
           endAdornment={
             <InputAdornment position="end">
@@ -78,6 +104,7 @@ function ZapAction(props) {
                   <Avatar src={tokens[zapToken]} style={{ height: "30px", width: "30px" }} />
                   <Box width="20px" />
                   <Typography>{zapToken}</Typography>
+                  <KeyboardArrowDownIcon />
                 </div>
               </ButtonBase>
             </InputAdornment>
@@ -96,8 +123,8 @@ function ZapAction(props) {
           type="number"
           placeholder="Enter an amount"
           className="stake-input"
-          value={20000}
-          //   onChange={e => setQuantity(e.target.value)}
+          value={outputQuantity}
+          onChange={e => setOutputTokenQuantity(e.target.value)}
           labelWidth={0}
           endAdornment={
             <InputAdornment position="end">
@@ -142,7 +169,7 @@ function ZapAction(props) {
         Zap-Stake
       </Button>
 
-      <Dialog onClose={handleClose} open={modalOpen}>
+      <Dialog onClose={handleClose} open={modalOpen} keepMounted>
         <DialogTitle>Select Zap Token</DialogTitle>
         <List sx={{ pt: 0 }}>
           {Object.entries(tokens).map(token => (
