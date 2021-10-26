@@ -1,4 +1,4 @@
-import { StableBond, LPBond, NetworkID, CustomBond } from "src/lib/Bond";
+import { StableBond, LPBond, NetworkID, CustomBond, BondType } from "src/lib/Bond";
 import { addresses } from "src/constants";
 
 import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
@@ -87,8 +87,8 @@ export const lusd = new StableBond({
 export const eth = new CustomBond({
   name: "eth",
   displayName: "wETH",
-  isLP: false,
   lpUrl: "",
+  bondType: BondType.StableAsset,
   bondToken: "wETH",
   bondIconSvg: wETHImg,
   bondContractABI: EthBondContract,
@@ -196,7 +196,7 @@ export const ohm_weth = new CustomBond({
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
   },
-  isLP: true,
+  bondType: BondType.LP,
   lpUrl:
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
