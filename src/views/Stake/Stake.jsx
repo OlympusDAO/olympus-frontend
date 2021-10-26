@@ -342,6 +342,10 @@ function Stake() {
                     </Box>
                   </Box>
 
+                  <Box>
+                    <StackProgress />
+                  </Box>
+
                   <div className={`stake-user-data`}>
                     <div className="data-row">
                       <Typography variant="body1">Your Balance</Typography>
