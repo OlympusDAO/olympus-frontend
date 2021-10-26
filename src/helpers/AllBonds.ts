@@ -200,17 +200,29 @@ export const ohm_weth = new CustomBond({
   lpUrl:
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
-    const ethBondContract = this.getContractForBond(networkID, provider);
-    let ethPrice = await ethBondContract.assetPrice();
-    ethPrice = ethPrice / Math.pow(10, 8);
-    const token = this.getContractForReserve(networkID, provider);
-    const tokenAddress = this.getAddressForReserve(networkID);
-    const bondCalculator = getBondCalculator(networkID, provider);
-    const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
-    const markdown = await bondCalculator.markdown(tokenAddress);
-    let tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
-    return tokenUSD * ethPrice;
+    if (networkID === NetworkID.Mainnet) {
+      const ethBondContract = this.getContractForBond(networkID, provider);
+      let ethPrice = await ethBondContract.assetPrice();
+      ethPrice = ethPrice / Math.pow(10, 8);
+      const token = this.getContractForReserve(networkID, provider);
+      const tokenAddress = this.getAddressForReserve(networkID);
+      const bondCalculator = getBondCalculator(networkID, provider);
+      const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+      const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
+      const markdown = await bondCalculator.markdown(tokenAddress);
+      let tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
+      return tokenUSD * ethPrice;
+    } else {
+      // NOTE (appleseed): using OHM-DAI on rinkeby
+      const token = this.getContractForReserve(networkID, provider);
+      const tokenAddress = this.getAddressForReserve(networkID);
+      const bondCalculator = getBondCalculator(networkID, provider);
+      const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+      const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
+      const markdown = await bondCalculator.markdown(tokenAddress);
+      let tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
+      return tokenUSD;
+    }
   },
 });
 
