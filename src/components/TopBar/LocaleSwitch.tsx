@@ -34,7 +34,7 @@ function LocaleSwitcher() {
         size="large"
         variant="contained"
         color="secondary"
-        title={t`Change Theme`}
+        title={t`Change locale`}
         aria-describedby={id}
       >
         <FlagIcon code={getLocaleFlag(i18n.locale)} />
