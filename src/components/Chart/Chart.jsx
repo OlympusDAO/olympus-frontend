@@ -83,6 +83,7 @@ const renderAreaChart = (
           : ""
       }
       domain={[0, "auto"]}
+      dx={2.5}
       connectNulls={true}
       allowDataOverflow={false}
     />
