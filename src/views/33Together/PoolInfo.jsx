@@ -61,16 +61,17 @@ export const PoolInfo = props => {
                   <Trans>Your odds</Trans>
                 </Typography>
                 <Typography>
-                  1 in{" "}
                   {props.isAccountLoading || props.graphLoading ? (
                     <Skeleton width={50} style={{ display: "inline-block" }} />
                   ) : (
-                    props.yourOdds
+                    <Trans> 1 in {props.yourOdds}</Trans>
                   )}
                 </Typography>
               </div>
               <div className="data-row">
-                <Typography>Your wallet balance</Typography>
+                <Typography>
+                  <Trans>Your wallet balance</Trans>
+                </Typography>
                 <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.sohmBalance} sOHM</Typography>
               </div>
             </Box>
