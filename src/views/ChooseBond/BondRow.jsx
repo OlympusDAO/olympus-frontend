@@ -10,6 +10,7 @@ import { useWeb3Context } from "../../hooks/web3Context";
 
 export function BondDataCard({ bond }) {
   const { loading } = useBonds();
+  const { chainID } = useWeb3Context();
   const isBondLoading = !bond.bondPrice ?? true;
 
   return (
@@ -60,8 +61,8 @@ export function BondDataCard({ bond }) {
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" fullWidth>
-            <Typography variant="h5">Bond {bond.displayName}</Typography>
+          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID]}>
+            <Typography variant="h5">{!bond.isAvailable[chainID] ? "Sold Out" : `Bond ${bond.displayName}`}</Typography>
           </Button>
         </Link>
       </Paper>
