@@ -65,7 +65,7 @@ function ChooseBond() {
       <Zoom in={true}>
         <Paper className="ohm-card">
           <Box className="card-header">
-            <Typography variant="h5">
+            <Typography variant="h5" data-testid="t">
               <Trans>Bond</Trans> (1,1)
             </Typography>
           </Box>
@@ -78,14 +78,17 @@ function ChooseBond() {
                 </Typography>
                 <Typography variant="h4">
                   {isAppLoading ? (
-                    <Skeleton width="180px" />
+                    <Skeleton width="180px" data-testid="treasury-balance-loading" />
                   ) : (
-                    new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0,
-                    }).format(treasuryBalance)
+                    <Typography data-testid="treasury-balance">
+                      $
+                      {new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                        maximumFractionDigits: 0,
+                        minimumFractionDigits: 0,
+                      }).format(treasuryBalance)}
+                    </Typography>
                   )}
                 </Typography>
               </Box>

@@ -62,6 +62,7 @@ function ConnectMenu({ theme }) {
       id="wallet-menu"
     >
       <Button
+        id="wallet-button"
         className={buttonStyles}
         variant="contained"
         color="secondary"

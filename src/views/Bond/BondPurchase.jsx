@@ -197,8 +197,8 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
           <div className="data-row">
             <Typography>
               <Trans>Your Balance</Trans>
-            </Typography>
-            <Typography>
+            </Typography>{" "}
+            <Typography id="bond-balance">
               {isBondLoading ? (
                 <Skeleton width="100px" />
               ) : (
