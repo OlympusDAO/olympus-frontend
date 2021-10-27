@@ -101,7 +101,7 @@ function OhmMenu() {
                   >
                     <Button size="large" variant="contained" color="secondary" fullWidth>
                       <Typography align="left">
-                        <Trans>Buy on </Trans>&nbsp;Sushiswap
+                        <Trans>Buy on {new String("Sushiswap")}</Trans>
                         <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
                     </Button>
@@ -114,7 +114,7 @@ function OhmMenu() {
                   >
                     <Button size="large" variant="contained" color="secondary" fullWidth>
                       <Typography align="left">
-                        <Trans>Buy on </Trans>&nbsp;Uniswap
+                        <Trans>Buy on {new String("Uniswap")}</Trans>
                         <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
                     </Button>

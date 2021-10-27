@@ -137,7 +137,7 @@ function Stake() {
 
   modalButton.push(
     <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      Connect Wallet
+      <Trans>Connect Wallet</Trans>
     </Button>,
   );
 
