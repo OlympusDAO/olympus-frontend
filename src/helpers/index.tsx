@@ -1,5 +1,5 @@
 import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses } from "../constants";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import axios from "axios";
 import { abi as PairContractABI } from "../abi/PairContract.json";
 import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
@@ -209,4 +209,12 @@ export const subtractDates = (dateA: Date, dateB: Date) => {
     minutes,
     seconds,
   };
+};
+
+export const toBN = (num: number) => {
+  return BigNumber.from(num);
+};
+
+export const bnToNum = (bigNum: BigNumber) => {
+  return Number(bigNum.toString());
 };

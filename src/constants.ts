@@ -1,8 +1,14 @@
+import { BigNumber } from "ethers";
+
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
 export const EPOCH_INTERVAL = 2200;
 
 // NOTE could get this from an outside source since it changes slightly over time
 export const BLOCK_RATE_SECONDS = 13.14;
+
+export const BN_10_8 = BigNumber.from(10).pow(BigNumber.from(8));
+export const BN_10_9 = BigNumber.from(10).pow(BigNumber.from(9));
+export const BN_10_18 = BigNumber.from(10).pow(BigNumber.from(18));
 
 export const TOKEN_DECIMALS = 9;
 

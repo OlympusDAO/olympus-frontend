@@ -3,9 +3,9 @@ import { BigNumber, ethers } from "ethers";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getBondCalculator } from "src/helpers/BondCalculator";
-import { addresses } from "src/constants";
-import React from "react";
 import { EthContract, PairContract } from "src/typechain";
+import { addresses, BN_10_18, BN_10_9 } from "src/constants";
+import React from "react";
 
 export enum NetworkID {
   Mainnet = 1,
@@ -117,7 +117,7 @@ export class LPBond extends Bond {
     const markdown = await bondCalculator.markdown(tokenAddress);
     // TODO: do we want it like this or with BigNumber?
     // let tokenUSD = valuation.div(BigNumber.from(10).pow(9)).mul(markdown.div(BigNumber.from(10).pow(18)));
-    let tokenUSD = (Number(valuation.toString()) / 10 ** 9) * (Number(markdown.toString()) / 10 ** 18);
+    let tokenUSD = valuation.div(BN_10_9).mul(markdown.div(BN_10_18));
     return Number(tokenUSD.toString());
   }
 }
