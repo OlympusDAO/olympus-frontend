@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import {
-  Paper,
   Typography,
   Button,
   TableHead,
@@ -11,10 +10,8 @@ import {
   Table,
   TableRow,
   TableContainer,
-  Zoom,
 } from "@material-ui/core";
 
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal } from "./RecipientModal";
@@ -65,12 +62,14 @@ export default function YieldRecipients() {
 
   const handleStopClick = walletAddress => {
     // TODO handle stop
+    // TODO add segment user event
   };
 
   const handleModalClose = (walletAddress, depositAmount, depositAmountDiff) => {
     // TODO handle smart contract
     // Grab the existing recipient entry
     // Deposit or withdraw accordingly
+    // TODO add segment user event
 
     setIsEditModalOpen(false);
   };

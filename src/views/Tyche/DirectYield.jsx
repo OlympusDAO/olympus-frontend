@@ -43,7 +43,7 @@ export default function YieldDirector() {
     setIsModalOpen(false);
   };
 
-  const handleSubmit = (walletAddress, depositAmount, depositAmountDiff) => {
+  const handleAddRecipient = (walletAddress, depositAmount, depositAmountDiff) => {
     // TODO handle smart contract
 
     setIsModalOpen(false);
@@ -64,7 +64,7 @@ export default function YieldDirector() {
             <Typography variant="body1">Add Recipient</Typography>
           </Button>
         </div>
-        <RecipientModal isModalOpen={isModalOpen} callbackFunc={handleSubmit} cancelFunc={handleModalCancel} />
+        <RecipientModal isModalOpen={isModalOpen} callbackFunc={handleAddRecipient} cancelFunc={handleModalCancel} />
         <YieldRecipients />
       </Paper>
     </Zoom>

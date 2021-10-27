@@ -178,8 +178,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    */
   const handleSubmit = () => {
     callbackFunc(walletAddress, depositAmount, depositAmount - currentDepositAmount);
-    // TODO handle button press
-    // TODO add segment user event
   };
 
   /**
