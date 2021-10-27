@@ -148,8 +148,6 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        const providerURL = uri;
-        // Note (appleseed): remove this before merge to develop
         segmentUA({
           type: "connect",
           provider: provider,
