@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import { addresses } from "../constants";
-import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
-import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
+import { abi as OlympusStakingv2ABI } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
@@ -10,6 +9,7 @@ import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAsyncThunk } from "./interfaces";
+import { OlympusStakingv2, SOhmv2 } from "../typechain";
 
 const initialState = {
   loading: false,
@@ -84,22 +84,21 @@ export const loadAppDetails = createAsyncThunk(
 
     const stakingContract = new ethers.Contract(
       addresses[networkID].STAKING_ADDRESS as string,
-      OlympusStakingv2,
+      OlympusStakingv2ABI,
       provider,
-    );
-    const oldStakingContract = new ethers.Contract(
-      addresses[networkID].OLD_STAKING_ADDRESS as string,
-      OlympusStaking,
+    ) as OlympusStakingv2;
+
+    const sohmMainContract = new ethers.Contract(
+      addresses[networkID].SOHM_ADDRESS as string,
+      sOHMv2,
       provider,
-    );
-    const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider);
-    const sohmOldContract = new ethers.Contract(addresses[networkID].OLD_SOHM_ADDRESS as string, sOHM, provider);
+    ) as SOhmv2;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
     const stakingReward = epoch.distribute;
     const circ = await sohmMainContract.circulatingSupply();
-    const stakingRebase = stakingReward / circ;
+    const stakingRebase = Number(stakingReward.toString()) / Number(circ.toString());
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
 
