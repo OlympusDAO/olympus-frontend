@@ -34,6 +34,7 @@ export const dai = new StableBond({
   name: "dai",
   displayName: "DAI",
   bondToken: "DAI",
+  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
   bondIconSvg: DaiImg,
   bondContractABI: DaiBondContract,
   networkAddrs: {
@@ -52,6 +53,7 @@ export const frax = new StableBond({
   name: "frax",
   displayName: "FRAX",
   bondToken: "FRAX",
+  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
   bondIconSvg: FraxImg,
   bondContractABI: FraxBondContract,
   networkAddrs: {
@@ -70,6 +72,7 @@ export const lusd = new StableBond({
   name: "lusd",
   displayName: "LUSD",
   bondToken: "LUSD",
+  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
   bondIconSvg: LusdImg,
   bondContractABI: LusdBondContract,
   networkAddrs: {
@@ -90,6 +93,7 @@ export const eth = new CustomBond({
   lpUrl: "",
   bondType: BondType.StableAsset,
   bondToken: "wETH",
+  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
   bondIconSvg: wETHImg,
   bondContractABI: EthBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
@@ -118,6 +122,7 @@ export const ohm_dai = new LPBond({
   name: "ohm_dai_lp",
   displayName: "OHM-DAI LP",
   bondToken: "DAI",
+  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
   bondIconSvg: OhmDaiImg,
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
@@ -139,6 +144,7 @@ export const ohm_frax = new LPBond({
   name: "ohm_frax_lp",
   displayName: "OHM-FRAX LP",
   bondToken: "FRAX",
+  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
   bondIconSvg: OhmFraxImg,
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
@@ -160,6 +166,7 @@ export const ohm_lusd = new LPBond({
   name: "ohm_lusd_lp",
   displayName: "OHM-LUSD LP",
   bondToken: "LUSD",
+  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
   bondIconSvg: OhmLusdImg,
   bondContractABI: BondOhmLusdContract,
   reserveContract: ReserveOhmLusdContract,
@@ -182,6 +189,7 @@ export const ohm_weth = new CustomBond({
   name: "ohm_weth_lp",
   displayName: "OHM-WETH LP",
   bondToken: "WETH",
+  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
   bondIconSvg: OhmEthImg,
   bondContractABI: BondOhmEthContract,
   reserveContract: ReserveOhmEthContract,
@@ -230,7 +238,7 @@ export const ohm_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, ohm_weth];
+export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});
