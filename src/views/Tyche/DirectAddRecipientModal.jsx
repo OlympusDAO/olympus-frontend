@@ -3,12 +3,14 @@ import { FormControl, FormHelperText } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { InputAdornment } from "@material-ui/core";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { Skeleton } from "@material-ui/lab";
 import { changeApproval, changeStream } from "../../slices/StreamThunk";
+import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 
 const sOhmImg = getTokenImage("sohm");
@@ -39,6 +41,10 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
 
   const streamAllowance = useSelector(state => {
     return state.account.streaming && state.account.streaming.sohmStream;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
   });
 
   const onSeekApproval = async () => {
@@ -178,15 +184,36 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
           />
           <FormHelperText>{isWalletAddressValidError}</FormHelperText>
         </FormControl>
-        <FormControl className="ohm-modal-submit">
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!isDepositAmountValid || !isWalletAddressValid || !address}
-          >
-            Add Recipient
-          </Button>
-        </FormControl>
+        {isAllowanceDataLoading ? (
+          <Skeleton />
+        ) : address && hasAllowance("sohm") ? (
+          <FormControl className="ohm-modal-submit">
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={
+                !isDepositAmountValid ||
+                !isWalletAddressValid ||
+                !address ||
+                isPendingTxn(pendingTransactions, "streaming")
+              }
+              onClick={onChangeStream}
+            >
+              {txnButtonText(pendingTransactions, "streaming", "Stream sOHM")}
+            </Button>
+          </FormControl>
+        ) : (
+          <FormControl className="ohm-modal-submit">
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={!isDepositAmountValid || !isWalletAddressValid}
+              onClick={onSeekApproval}
+            >
+              {txnButtonText(pendingTransactions, "approve_streaming", "Approve")}
+            </Button>
+          </FormControl>
+        )}
         {!address ? (
           <>
             <FormHelperText>
