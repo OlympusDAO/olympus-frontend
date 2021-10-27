@@ -2,14 +2,13 @@ import { Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/co
 import { FormControl, FormHelperText } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
-import { InputAdornment } from "@material-ui/core";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
 
-export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
+export function RecipientModal({ isModalHidden, setIsModalHidden }) {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const showHideClassName = "ohm-card ohm-modal";
 

@@ -1,23 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import {
-  Paper,
-  Typography,
-  Button,
-  TableHead,
-  TableCell,
-  TableBody,
-  Table,
-  TableRow,
-  TableContainer,
-  Zoom,
-} from "@material-ui/core";
+import { Paper, Typography, Button, Zoom } from "@material-ui/core";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
-import { DirectAddRecipientModal } from "./DirectAddRecipientModal";
+import { RecipientModal } from "./RecipientModal";
 import YieldRecipients from "./YieldRecipients";
 
 export default function YieldDirector() {
@@ -62,7 +50,7 @@ export default function YieldDirector() {
             <Typography variant="body1">Add Recipient</Typography>
           </Button>
         </div>
-        <DirectAddRecipientModal isModalHidden={isModalHidden} setIsModalHidden={() => setIsModalHidden(true)} />
+        <RecipientModal isModalHidden={isModalHidden} setIsModalHidden={() => setIsModalHidden(true)} />
         <YieldRecipients />
       </Paper>
     </Zoom>
