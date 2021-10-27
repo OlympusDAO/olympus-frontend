@@ -18,6 +18,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { DirectAddRecipientModal } from "./DirectAddRecipientModal";
+import YieldRecipients from "./YieldRecipients";
 
 export default function YieldDirector() {
   const dispatch = useDispatch();
@@ -62,36 +63,7 @@ export default function YieldDirector() {
           </Button>
         </div>
         <DirectAddRecipientModal isModalHidden={isModalHidden} setIsModalHidden={() => setIsModalHidden(true)} />
-        <div className="card-content">
-          <TableContainer className="stake-table">
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Recipient</TableCell>
-                  <TableCell align="left">
-                    % of Total <InfoTooltip message="etc" />
-                  </TableCell>
-                  <TableCell align="left">
-                    Total Yield <InfoTooltip message="etc" />
-                  </TableCell>
-                  <TableCell align="left">
-                    Balance <InfoTooltip message="etc" />
-                  </TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody>
-                <TableRow>
-                  <TableCell>Recipient 1</TableCell>
-                  <TableCell align="left"></TableCell>
-                  <TableCell align="left"></TableCell>
-                  <TableCell align="left"></TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+        <YieldRecipients />
       </Paper>
     </Zoom>
   );
