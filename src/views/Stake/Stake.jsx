@@ -193,9 +193,11 @@ function Stake() {
                       </Typography>
                       <Typography variant="h4">
                         {stakingAPY ? (
-                          <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
+                          <span data-testid="apy-value">
+                            {new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%
+                          </span>
                         ) : (
-                          <Skeleton width="150px" />
+                          <Skeleton width="150px" data-testid="apy-loading" />
                         )}
                       </Typography>
                     </div>
@@ -208,14 +210,16 @@ function Stake() {
                       </Typography>
                       <Typography variant="h4">
                         {stakingTVL ? (
-                          new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            maximumFractionDigits: 0,
-                            minimumFractionDigits: 0,
-                          }).format(stakingTVL)
+                          <span data-testid="tvl-value">
+                            {new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "USD",
+                              maximumFractionDigits: 0,
+                              minimumFractionDigits: 0,
+                            }).format(stakingTVL)}
+                          </span>
                         ) : (
-                          <Skeleton width="150px" />
+                          <Skeleton width="150px" data-testid="tvl-loading" />
                         )}
                       </Typography>
                     </div>
@@ -227,7 +231,11 @@ function Stake() {
                         <Trans>Current Index</Trans>
                       </Typography>
                       <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                        {currentIndex ? (
+                          <span data-testid="index-value">{trim(currentIndex, 1)} OHM</span>
+                        ) : (
+                          <Skeleton width="150px" data-testid="index-loading" />
+                        )}
                       </Typography>
                     </div>
                   </Grid>
@@ -372,7 +380,7 @@ function Stake() {
                       <Typography variant="body1">
                         <Trans>Your Balance</Trans>
                       </Typography>
-                      <Typography variant="body1">
+                      <Typography variant="body1" id="user-balance">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
                       </Typography>
                     </div>
@@ -381,7 +389,7 @@ function Stake() {
                       <Typography variant="body1">
                         <Trans>Your Staked Balance</Trans>
                       </Typography>
-                      <Typography variant="body1">
+                      <Typography variant="body1" id="user-staked-balance">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
                       </Typography>
                     </div>

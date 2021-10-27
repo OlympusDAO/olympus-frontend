@@ -97,7 +97,7 @@ export class EnvHelper {
    */
   static getAPIUris() {
     let ALL_URIs = EnvHelper.getSelfHostedNode();
-    if (EnvHelper.env.NODE_ENV === "development" && ALL_URIs.length === 0) {
+    if (["development", "test"].includes(EnvHelper.env.NODE_ENV) && ALL_URIs.length === 0) {
       // push in the common ethers key in development
       ALL_URIs.push("https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC");
     }

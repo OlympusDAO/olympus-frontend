@@ -100,7 +100,7 @@ export function BondTableData({ bond }) {
         <Typography>
           <>
             <span className="currency-icon">$</span>
-            {isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}
+            {isBondLoading ? <Skeleton width="50px" /> : <span class="bond-price">trim(bond.bondPrice, 2)</span>}
           </>
         </Typography>
       </TableCell>

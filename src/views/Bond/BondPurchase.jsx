@@ -198,7 +198,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
             <Typography>
               <Trans>Your Balance</Trans>
             </Typography>
-            <Typography>
+            <Typography id="bond-balance">
               {isBondLoading ? (
                 <Skeleton width="100px" />
               ) : (
