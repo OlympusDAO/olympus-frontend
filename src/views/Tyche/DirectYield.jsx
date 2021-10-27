@@ -12,7 +12,7 @@ export default function YieldDirector() {
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
-  const [isModalHidden, setIsModalHidden] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
 
   useEffect(() => {
@@ -35,6 +35,20 @@ export default function YieldDirector() {
     }
   }, [walletChecked]);
 
+  const handleAddButtonClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmit = (walletAddress, depositAmount, depositAmountDiff) => {
+    // TODO handle smart contract
+
+    setIsModalOpen(false);
+  };
+
   return (
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
@@ -44,13 +58,13 @@ export default function YieldDirector() {
             variant="outlined"
             color="secondary"
             className="stake-lp-button"
-            onClick={() => setIsModalHidden(false)}
+            onClick={() => handleAddButtonClick()}
             disabled={!address}
           >
             <Typography variant="body1">Add Recipient</Typography>
           </Button>
         </div>
-        <RecipientModal isModalHidden={isModalHidden} setIsModalHidden={() => setIsModalHidden(true)} />
+        <RecipientModal isModalOpen={isModalOpen} callbackFunc={handleSubmit} cancelFunc={handleModalCancel} />
         <YieldRecipients />
       </Paper>
     </Zoom>
