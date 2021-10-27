@@ -34,6 +34,10 @@ export interface IBaseAddressAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
 }
 
+export interface IActionValueRecipientAsyncThunk extends IValueAsyncThunk {
+  readonly recipient: string;
+}
+
 // Account Slice
 
 export interface ICalcUserBondDetailsAsyncThunk extends IBaseAddressAsyncThunk, IBaseBondAsyncThunk {}

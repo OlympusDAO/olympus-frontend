@@ -33,6 +33,7 @@ export const addresses: IAddresses = {
     PT_TOKEN_ADDRESS: "0x0a2d026bacc573a8b5a2b049f956bdf8e5256cfd", // 33T token address, taken from `ticket` function on PRIZE_STRATEGY_ADDRESS
     PT_PRIZE_POOL_ADDRESS: "0xf9081132864ed5e4980CFae83bDB122d86619281", // NEW
     PT_PRIZE_STRATEGY_ADDRESS: "0x2Df17EA8D6B68Ec444c9a698315AfB36425dac8b", // NEW
+    STREAMING_ADDRESS: "",
   },
   1: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate

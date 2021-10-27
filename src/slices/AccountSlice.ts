@@ -44,6 +44,9 @@ interface IUserAccountDetails {
     ohmStake: number;
     ohmUnstake: number;
   };
+  streaming: {
+    sohmStream: number;
+  };
   bonding: {
     daiAllowance: number;
   };
@@ -58,6 +61,7 @@ export const loadAccountDetails = createAsyncThunk(
     let wsohmBalance = 0;
     let stakeAllowance = 0;
     let unstakeAllowance = 0;
+    let streamAllowance = 0;
     let lpStaked = 0;
     let pendingRewards = 0;
     let lpBondAllowance = 0;
@@ -79,6 +83,7 @@ export const loadAccountDetails = createAsyncThunk(
       const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider);
       sohmBalance = await sohmContract.balanceOf(address);
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+      streamAllowance = await sohmContract.allowance(address, addresses[networkID].STREAMING_ADDRESS);
       poolAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
     }
 
@@ -119,6 +124,9 @@ export const loadAccountDetails = createAsyncThunk(
       staking: {
         ohmStake: +stakeAllowance,
         ohmUnstake: +unstakeAllowance,
+      },
+      streaming: {
+        sohmStream: +streamAllowance,
       },
       bonding: {
         daiAllowance: daiBondAllowance,

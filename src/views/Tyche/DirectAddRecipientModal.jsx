@@ -4,12 +4,17 @@ import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { InputAdornment } from "@material-ui/core";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { changeApproval, changeStream } from "../../slices/StreamThunk";
+import { getTokenImage } from "../../helpers";
+
+const sOhmImg = getTokenImage("sohm");
 
 export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
+  const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const showHideClassName = "ohm-card ohm-modal";
 
@@ -31,6 +36,39 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
+
+  const streamAllowance = useSelector(state => {
+    return state.account.streaming && state.account.streaming.sohmStream;
+  });
+
+  const onSeekApproval = async () => {
+    await dispatch(changeApproval({ address, token: "sohm", provider, networkID: chainID }));
+  };
+
+  const onChangeStream = async () => {
+    if (isNan(depositAmount) || depositAmount === 0 || depositAmount === "") {
+      return dispatch(error("Please enter a value!"));
+    }
+
+    // Already checked if quantity is valid when depositAmount is set
+    // Can check again here if desired
+    await dispatch(
+      changeStream({
+        address,
+        action: "stream",
+        value: depositAmount.toString(),
+        recipient: walletAddress,
+        provider,
+        networkID: chainID,
+      }),
+    );
+  };
+
+  const hasAllowance = useCallback(() => {
+    return streamAllowance > 0;
+  }, [streamAllowance]);
+
+  const isAllowanceDataLoading = streamAllowance == null;
 
   const handleSetDepositAmount = value => {
     checkIsDepositAmountValid(value);

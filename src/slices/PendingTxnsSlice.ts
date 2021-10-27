@@ -28,6 +28,10 @@ export const getStakingTypeText = (action: string) => {
   return action.toLowerCase() === "stake" ? "Staking OHM" : "Unstaking sOHM";
 };
 
+export const getStreamingTypeText = (action: string) => {
+  return action.toLowerCase() === "stream" ? "Streaming sOHM" : "Ending sOHM stream";
+};
+
 export const isPendingTxn = (pendingTransactions: IPendingTxn[], type: string) => {
   return pendingTransactions.map(x => x.type).includes(type);
 };
