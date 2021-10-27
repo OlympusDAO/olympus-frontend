@@ -89,7 +89,7 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
 
   // amount of bonus tokens in program
   const bonusTokensLength = (await aludelContract.getBonusTokenSetLength()) as BigNumber;
-  const bonusTokensLengthNumber = bonusTokensLength.toNumber();
+  const bonusTokensLengthNumber = Number(bonusTokensLength.toString());
 
   let bonusTokenUsdValues: number[] = [];
 
