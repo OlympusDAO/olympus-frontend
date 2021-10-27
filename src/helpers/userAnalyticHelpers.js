@@ -1,5 +1,4 @@
 import { EnvHelper } from "./Environment";
-import { retrieveUTMQueryParameters } from "./QueryParameterHelper";
 
 /**
  * Obtain country from IP address
@@ -29,13 +28,11 @@ async function countryLookup() {
 export function segmentUA(data) {
   const analytics = (window.analytics = window.analytics);
   countryLookup().then(country => (data.country = country));
-  const queryParameters = retrieveUTMQueryParameters();
-  const combinedData = Object.assign({}, data, queryParameters);
 
   // NOTE (appleseed): the analytics object may not exist (if there is no SEGMENT_API_KEY)
   // Passing in combined data directly so as not to have a nested object
   try {
-    analytics.track(data.type, combinedData, { context: { ip: "0.0.0.0" } });
+    analytics.track(data.type, data, { context: { ip: "0.0.0.0" } });
   } catch (e) {
     console.log("segmentAnalytics", e);
   }

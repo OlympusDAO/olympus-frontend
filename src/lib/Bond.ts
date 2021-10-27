@@ -26,9 +26,15 @@ export interface NetworkAddresses {
   [NetworkID.Testnet]: BondAddresses;
 }
 
+export interface Available {
+  [NetworkID.Mainnet]?: boolean;
+  [NetworkID.Testnet]?: boolean;
+}
+
 interface BondOpts {
   name: string; // Internal name used for references
   displayName: string; // Displayname on UI
+  isAvailable: Available; // set false to hide
   bondIconSvg: React.ReactNode; //  SVG path for icons
   bondContractABI: ethers.ContractInterface; // ABI for contract
   networkAddrs: NetworkAddresses; // Mapping of network --> Addresses
@@ -41,6 +47,7 @@ export abstract class Bond {
   readonly name: string;
   readonly displayName: string;
   readonly type: BondType;
+  readonly isAvailable: Available;
   readonly bondIconSvg: React.ReactNode;
   readonly bondContractABI: ethers.ContractInterface; // Bond ABI
   readonly networkAddrs: NetworkAddresses;
@@ -58,6 +65,7 @@ export abstract class Bond {
     this.name = bondOpts.name;
     this.displayName = bondOpts.displayName;
     this.type = type;
+    this.isAvailable = bondOpts.isAvailable;
     this.bondIconSvg = bondOpts.bondIconSvg;
     this.bondContractABI = bondOpts.bondContractABI;
     this.networkAddrs = bondOpts.networkAddrs;
