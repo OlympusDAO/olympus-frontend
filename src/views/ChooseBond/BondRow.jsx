@@ -6,9 +6,11 @@ import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import useBonds from "src/hooks/Bonds";
+import { useWeb3Context } from "../../hooks/web3Context";
 
 export function BondDataCard({ bond }) {
   const { loading } = useBonds();
+  const { chainID } = useWeb3Context();
   const isBondLoading = !bond.bondPrice ?? true;
 
   return (
@@ -59,8 +61,8 @@ export function BondDataCard({ bond }) {
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" fullWidth>
-            <Typography variant="h5">Bond {bond.displayName}</Typography>
+          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID]}>
+            <Typography variant="h5">{!bond.isAvailable[chainID] ? "Sold Out" : `Bond ${bond.displayName}`}</Typography>
           </Button>
         </Link>
       </Paper>
@@ -69,6 +71,7 @@ export function BondDataCard({ bond }) {
 }
 
 export function BondTableData({ bond }) {
+  const { chainID } = useWeb3Context();
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.bondPrice ?? true;
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
@@ -112,8 +115,8 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary">
-            <Typography variant="h6">Bond</Typography>
+          <Button variant="outlined" color="primary" disabled={!bond.isAvailable[chainID]}>
+            <Typography variant="h6">{!bond.isAvailable[chainID] ? "Sold Out" : "Bond"}</Typography>
           </Button>
         </Link>
       </TableCell>
