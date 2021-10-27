@@ -1,4 +1,4 @@
-import { Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
+import { Box, Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
 import { FormControl, FormHelperText } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
@@ -20,7 +20,7 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const showHideClassName = "ohm-card ohm-modal";
 
-  const [depositAmount, setDepositAmount] = useState(0.0);
+  const [depositAmount, setDepositAmount] = useState(null);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(false);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState("");
 
@@ -52,7 +52,7 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
   };
 
   const onChangeStream = async () => {
-    if (isNan(depositAmount) || depositAmount === 0 || depositAmount === "") {
+    if (isNaN(depositAmount) || depositAmount === 0 || depositAmount === "") {
       return dispatch(error("Please enter a value!"));
     }
 
@@ -60,11 +60,11 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
     // Can check again here if desired
     await dispatch(
       changeStream({
-        address,
         action: "stream",
         value: depositAmount.toString(),
         recipient: walletAddress,
         provider,
+        address,
         networkID: chainID,
       }),
     );
@@ -154,39 +154,51 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
           Please note that your sOHM will be transferred into the vault when you click "Add Recipient". You will need to
           approve the transaction and pay for gas fees.
         </Typography>
-        <Typography variant="h5">Amount of sOHM</Typography>
-        <FormControl className="modal-input" variant="outlined" color="primary">
-          <InputLabel htmlFor="amount-input"></InputLabel>
-          <OutlinedInput
-            id="amount-input"
-            type="number"
-            placeholder="Enter an amount"
-            className="stake-input"
-            value={depositAmount}
-            error={!isDepositAmountValid}
-            onChange={e => handleSetDepositAmount(e.target.value)}
-            labelWidth={0}
-          />
-          <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-        </FormControl>
-        <Typography variant="h5">Recipient Address</Typography>
-        <FormControl className="modal-input" variant="outlined" color="primary">
-          <InputLabel htmlFor="wallet-input"></InputLabel>
-          <OutlinedInput
-            id="wallet-input"
-            type="text"
-            placeholder="Enter a wallet address in the form of 0x ..."
-            className="stake-input"
-            value={walletAddress}
-            error={!isWalletAddressValid}
-            onChange={e => handleSetWallet(e.target.value)}
-            labelWidth={0}
-          />
-          <FormHelperText>{isWalletAddressValidError}</FormHelperText>
-        </FormControl>
+        {hasAllowance() ? (
+          <>
+            <Typography variant="h5">Amount of sOHM</Typography>
+            <FormControl className="modal-input" variant="outlined" color="primary">
+              <InputLabel htmlFor="amount-input"></InputLabel>
+              <OutlinedInput
+                id="amount-input"
+                type="number"
+                placeholder="Enter an amount"
+                className="stake-input"
+                value={depositAmount}
+                error={!isDepositAmountValid}
+                onChange={e => handleSetDepositAmount(e.target.value)}
+                labelWidth={0}
+              />
+              <FormHelperText>{isDepositAmountValidError}</FormHelperText>
+            </FormControl>
+            <Typography variant="h5">Recipient Address</Typography>
+            <FormControl className="modal-input" variant="outlined" color="primary">
+              <InputLabel htmlFor="wallet-input"></InputLabel>
+              <OutlinedInput
+                id="wallet-input"
+                type="text"
+                placeholder="Enter a wallet address in the form of 0x ..."
+                className="stake-input"
+                value={walletAddress}
+                error={!isWalletAddressValid}
+                onChange={e => handleSetWallet(e.target.value)}
+                labelWidth={0}
+              />
+              <FormHelperText>{isWalletAddressValidError}</FormHelperText>
+            </FormControl>
+          </>
+        ) : (
+          <Box className="help-text">
+            <Typography variant="body1" className="stream-note" color="textSecondary">
+              First time streaming <b>sOHM</b>?
+              <br />
+              Please approve Olympus DAO to use your <b>sOHM</b> for streaming.
+            </Typography>
+          </Box>
+        )}
         {isAllowanceDataLoading ? (
           <Skeleton />
-        ) : address && hasAllowance("sohm") ? (
+        ) : address && hasAllowance() ? (
           <FormControl className="ohm-modal-submit">
             <Button
               variant="contained"
