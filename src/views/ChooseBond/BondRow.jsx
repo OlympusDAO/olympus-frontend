@@ -36,7 +36,18 @@ export function BondDataCard({ bond }) {
         <div className="data-row">
           <Typography>Price</Typography>
           <Typography className="bond-price">
-            <>{isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}</>
+            <>
+              {isBondLoading ? (
+                <Skeleton width="50px" />
+              ) : (
+                new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 2,
+                }).format(bond.bondPrice)
+              )}
+            </>
           </Typography>
         </div>
 
@@ -95,8 +106,16 @@ export function BondTableData({ bond }) {
       <TableCell align="left">
         <Typography>
           <>
-            <span className="currency-icon">$</span>
-            {isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}
+            {isBondLoading ? (
+              <Skeleton width="50px" />
+            ) : (
+              new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 2,
+              }).format(bond.bondPrice)
+            )}
           </>
         </Typography>
       </TableCell>
