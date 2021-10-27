@@ -2,7 +2,7 @@ import { Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/co
 import { FormControl, FormHelperText } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
@@ -19,6 +19,11 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   const [walletAddress, setWalletAddress] = useState(currentWalletAddress ? currentWalletAddress : "");
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(false);
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
+
+  useEffect(() => {
+    checkIsDepositAmountValid(depositAmount);
+    checkIsWalletAddressValid(walletAddress);
+  }, []);
 
   /**
    * Returns the user's sOHM balance
@@ -188,7 +193,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   };
 
   // TODO stop modal from moving when validation messages are shown
-  // TODO Validation on first run
 
   return (
     <Modal open={isModalOpen}>
