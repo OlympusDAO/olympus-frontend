@@ -35,7 +35,7 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   // set addresses & pricing in dictionary
   let usdValues: { [key: string]: number } = {};
   usdValues[ohmContractAddress] = ohmPrice;
-  usdValues[ohmLusdContractAddress] = ohmLusdPrice;
+  usdValues[ohmLusdContractAddress] = Number(ohmLusdPrice.toString());
   usdValues[lqtyContractAddress] = lqtyPrice;
   usdValues[mistContractAddress] = mistPrice;
 

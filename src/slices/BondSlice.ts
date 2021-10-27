@@ -16,6 +16,7 @@ import {
   IRedeemBondAsyncThunk,
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { de } from "date-fns/locale";
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
@@ -80,16 +81,17 @@ export const calcBondDetails = createAsyncThunk(
     const amountInWei = ethers.utils.parseEther(value);
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
-    let bondPrice = 0,
+    let bondPrice = BigNumber.from(0),
       bondDiscount = 0,
       valuation = 0,
-      bondQuote = 0;
+      bondQuote = BigNumber.from(0);
     const bondContract = bond.getContractForBond(networkID, provider);
     const bondCalcContract = getBondCalculator(networkID, provider);
 
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
-    const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
+    let debtRatio = await bondContract.standardizedDebtRatio();
+    debtRatio = debtRatio.div(BigNumber.from(10).pow(9));
 
     let marketPrice: number = 0;
     try {
@@ -105,44 +107,44 @@ export const calcBondDetails = createAsyncThunk(
     try {
       bondPrice = await bondContract.bondPriceInUSD();
       // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
-      bondDiscount = (marketPrice * Math.pow(10, 18) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      bondDiscount = (marketPrice * Math.pow(10, 18) - Number(bondPrice.toString())) / Number(bondPrice.toString()); // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
     } catch (e) {
       console.log("error getting bondPriceInUSD", e);
     }
 
     if (Number(value) === 0) {
       // if inputValue is 0 avoid the bondQuote calls
-      bondQuote = 0;
+      bondQuote = BigNumber.from(0);
     } else if (bond.isLP) {
       valuation = Number(
         (await bondCalcContract.valuation(bond.getAddressForReserve(networkID), amountInWei)).toString(),
       );
       bondQuote = await bondContract.payoutFor(valuation);
-      if (!amountInWei.isZero() && bondQuote < 100000) {
-        bondQuote = 0;
+      if (!amountInWei.isZero() && Number(bondQuote.toString()) < 100000) {
+        bondQuote = BigNumber.from(0);
         const errorString = "Amount is too small!";
         dispatch(error(errorString));
       } else {
-        bondQuote = bondQuote / Math.pow(10, 9);
+        bondQuote = bondQuote.div(BigNumber.from(10).pow(9));
       }
     } else {
       // RFV = DAI
       bondQuote = await bondContract.payoutFor(amountInWei);
 
-      if (!amountInWei.isZero() && bondQuote < 100000000000000) {
-        bondQuote = 0;
+      if (!amountInWei.isZero() && Number(bondQuote.toString()) < 100000000000000) {
+        bondQuote = BigNumber.from(0);
         const errorString = "Amount is too small!";
         dispatch(error(errorString));
       } else {
-        bondQuote = bondQuote / Math.pow(10, 18);
+        bondQuote = bondQuote.div(BigNumber.from(10).pow(18));
       }
     }
 
     // Display error if user tries to exceed maximum.
-    if (!!value && parseFloat(bondQuote.toString()) > maxBondPrice / Math.pow(10, 9)) {
+    if (!!value && parseFloat(bondQuote.toString()) > Number(maxBondPrice.toString()) / Math.pow(10, 9)) {
       const errorString =
         "You're trying to bond more than the maximum payout available! The maximum bond payout is " +
-        (maxBondPrice / Math.pow(10, 9)).toFixed(2).toString() +
+        (Number(maxBondPrice.toString()) / Math.pow(10, 9)).toFixed(2).toString() +
         " OHM.";
       dispatch(error(errorString));
     }
@@ -153,12 +155,12 @@ export const calcBondDetails = createAsyncThunk(
     return {
       bond: bond.name,
       bondDiscount,
-      debtRatio,
-      bondQuote,
+      debtRatio: Number(debtRatio.toString()),
+      bondQuote: Number(bondQuote.toString()),
       purchased,
       vestingTerm: Number(terms.vestingTerm),
-      maxBondPrice: maxBondPrice / Math.pow(10, 9),
-      bondPrice: bondPrice / Math.pow(10, 18),
+      maxBondPrice: Number(maxBondPrice.div(BigNumber.from(10).pow(9)).toString()),
+      bondPrice: Number(bondPrice.div(BigNumber.from(10).pow(18)).toString()),
       marketPrice: marketPrice,
     };
   },
@@ -177,7 +179,7 @@ export const bondAsset = createAsyncThunk(
     const signer = provider.getSigner();
     const bondContract = bond.getContractForBond(networkID, signer);
     const calculatePremium = await bondContract.bondPrice();
-    const maxPremium = Math.round(calculatePremium * (1 + acceptedSlippage));
+    const maxPremium = Math.round(Number(calculatePremium.toString()) * (1 + acceptedSlippage));
 
     // Deposit the bond
     let bondTx;
@@ -187,7 +189,7 @@ export const bondAsset = createAsyncThunk(
       type: "Bond",
       bondName: bond.displayName,
       approved: true,
-      txHash: null,
+      txHash: "",
     };
     try {
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
@@ -234,7 +236,7 @@ export const redeemBond = createAsyncThunk(
       bondName: bond.displayName,
       autoStake: autostake,
       approved: true,
-      txHash: null,
+      txHash: "",
     };
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);

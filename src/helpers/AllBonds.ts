@@ -19,6 +19,7 @@ import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
+import { BigNumber } from "ethers";
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
@@ -95,11 +96,11 @@ export const eth = new CustomBond({
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
     const ethBondContract = this.getContractForBond(networkID, provider);
     let ethPrice = await ethBondContract.assetPrice();
-    ethPrice = ethPrice / Math.pow(10, 8);
+    ethPrice = ethPrice.div(BigNumber.from(10).pow(8));
     const token = this.getContractForReserve(networkID, provider);
     let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    ethAmount = ethAmount / Math.pow(10, 18);
-    return ethAmount * ethPrice;
+    ethAmount = ethPrice.div(BigNumber.from(10).pow(18));
+    return Number(ethAmount.mul(ethPrice).toString());
   },
 });
 

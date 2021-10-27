@@ -4,7 +4,8 @@ import { BigNumber, ethers } from "ethers";
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { addresses } from "src/constants";
-import React, { ReactNode } from "react";
+import React from "react";
+import { EthContract, PairContract } from "src/typechain";
 
 export enum NetworkID {
   Mainnet = 1,
@@ -69,7 +70,7 @@ export abstract class Bond {
   }
   getContractForBond(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     const bondAddress = this.getAddressForBond(networkID);
-    return new ethers.Contract(bondAddress, this.bondContractABI, provider);
+    return new ethers.Contract(bondAddress, this.bondContractABI, provider) as EthContract;
   }
 
   getAddressForReserve(networkID: NetworkID) {
@@ -77,14 +78,13 @@ export abstract class Bond {
   }
   getContractForReserve(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     const bondAddress = this.getAddressForReserve(networkID);
-    return new ethers.Contract(bondAddress, this.reserveContract, provider);
+    return new ethers.Contract(bondAddress, this.reserveContract, provider) as PairContract;
   }
 
   async getBondReservePrice(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     const pairContract = this.getContractForReserve(networkID, provider);
     const reserves = await pairContract.getReserves();
-    const marketPrice = reserves[1] / reserves[0] / Math.pow(10, 9);
-
+    const marketPrice = reserves[1].div(reserves[0]).div(BigNumber.from(10).pow(9));
     return marketPrice;
   }
 }
@@ -141,7 +141,7 @@ export class StableBond extends Bond {
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
     let token = this.getContractForReserve(networkID, provider);
     let tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    return tokenAmount / Math.pow(10, 18);
+    return Number(tokenAmount.div(BigNumber.from(10).pow(18)).toString());
   }
 }
 
