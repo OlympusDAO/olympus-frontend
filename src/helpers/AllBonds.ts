@@ -238,7 +238,8 @@ export const ohm_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
+// const deactivatedBonds = ['ohm_lusd'];
+export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, lusd, ohm_weth];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});
