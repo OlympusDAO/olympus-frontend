@@ -44,6 +44,10 @@ export interface IBaseBondAsyncThunk extends IBaseAsyncThunk {
   readonly bond: Bond;
 }
 
+export interface IApproveBondAsyncThunk extends IBaseBondAsyncThunk {
+  readonly address: string;
+}
+
 export interface ICalcBondDetailsAsyncThunk extends IBaseBondAsyncThunk {
   readonly value: string;
 }

@@ -256,8 +256,21 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       chainID,
       chainName,
       web3Modal,
+      uri,
     }),
-    [connect, disconnect, switchChain, hasCachedProvider, provider, connected, address, chainID, chainName, web3Modal],
+    [
+      connect,
+      disconnect,
+      switchChain,
+      hasCachedProvider,
+      provider,
+      connected,
+      address,
+      chainID,
+      chainName,
+      web3Modal,
+      uri,
+    ],
   );
 
   useEffect(() => {

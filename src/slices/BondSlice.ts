@@ -1,13 +1,14 @@
-import { ethers } from "ethers";
-import { contractForRedeemHelper, getMarketPrice } from "../helpers";
+import { ethers, BigNumber } from "ethers";
+import { contractForRedeemHelper } from "../helpers";
 import { calculateUserBondDetails, getBalances } from "./AccountSlice";
-import { error } from "./MessagesSlice";
+import { findOrLoadMarketPrice } from "./AppSlice";
+import { error, info } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { RootState } from "src/store";
 import {
-  IBaseBondAsyncThunk,
+  IApproveBondAsyncThunk,
   IBondAssetAsyncThunk,
   ICalcBondDetailsAsyncThunk,
   IJsonRPCError,
@@ -15,11 +16,10 @@ import {
   IRedeemBondAsyncThunk,
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { findOrLoadMarketPrice } from "./AppSlice";
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
-  async ({ bond, provider, networkID }: IBaseBondAsyncThunk, { dispatch }) => {
+  async ({ address, bond, provider, networkID }: IApproveBondAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -27,10 +27,19 @@ export const changeApproval = createAsyncThunk(
 
     const signer = provider.getSigner();
     const reserveContract = bond.getContractForReserve(networkID, signer);
+    const bondAddr = bond.getAddressForBond(networkID);
 
     let approveTx;
+    let bondAllowance = await reserveContract.allowance(address, bondAddr);
+
+    // return early if approval already exists
+    if (bondAllowance.gt(BigNumber.from("0"))) {
+      dispatch(info("Approval completed."));
+      dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
+      return;
+    }
+
     try {
-      const bondAddr = bond.getAddressForBond(networkID);
       approveTx = await reserveContract.approve(bondAddr, ethers.utils.parseUnits("1000000000", "ether").toString());
       dispatch(
         fetchPendingTxns({
@@ -45,6 +54,7 @@ export const changeApproval = createAsyncThunk(
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
+        dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
       }
     }
   },
