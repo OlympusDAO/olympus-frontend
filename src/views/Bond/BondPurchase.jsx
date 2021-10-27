@@ -164,7 +164,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
 
             {!bond.isAvailable[chainID] ? (
               <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" disabled={true}>
-                Sold Out!
+                Sold Out
               </Button>
             ) : hasAllowance() ? (
               <Button
