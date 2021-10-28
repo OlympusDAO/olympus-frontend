@@ -51,23 +51,33 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
     await dispatch(changeApproval({ address, token: "sohm", provider, networkID: chainID }));
   };
 
-  const onChangeStream = async () => {
+  const onChangeStream = async action => {
     if (isNaN(depositAmount) || depositAmount === 0 || depositAmount === "") {
       return dispatch(error("Please enter a value!"));
     }
 
     // Already checked if quantity is valid when depositAmount is set
     // Can check again here if desired
-    await dispatch(
-      changeStream({
-        action: "stream",
-        value: depositAmount.toString(),
-        recipient: walletAddress,
-        provider,
-        address,
-        networkID: chainID,
-      }),
-    );
+    // Need to have check for if amount is valid when ending stream
+    if (action === "stream") {
+      await dispatch(
+        changeStream({
+          action: action,
+          value: depositAmount.toString(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: chainID,
+        }),
+      );
+    }
+
+    // Need to implement "get sOHM directed to this recipient"
+    /*
+    if (action === "endStream") {
+
+    }
+    */
   };
 
   const hasAllowance = useCallback(() => {
@@ -209,7 +219,9 @@ export function DirectAddRecipientModal({ isModalHidden, setIsModalHidden }) {
                 !address ||
                 isPendingTxn(pendingTransactions, "streaming")
               }
-              onClick={onChangeStream}
+              onClick={() => {
+                onChangeStream("stream");
+              }}
             >
               {txnButtonText(pendingTransactions, "streaming", "Stream sOHM")}
             </Button>
