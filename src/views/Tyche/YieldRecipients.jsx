@@ -20,7 +20,7 @@ export default function YieldRecipients() {
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
-  const [selectedRecipient, setSelectedRecipient] = useState(null);
+  const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
@@ -55,17 +55,17 @@ export default function YieldRecipients() {
     },
   ];
 
-  const handleEditClick = walletAddress => {
-    setSelectedRecipient(walletAddress);
+  const handleEditButtonClick = walletAddress => {
+    setSelectedRecipientForEdit(walletAddress);
     setIsEditModalOpen(true);
   };
 
-  const handleStopClick = walletAddress => {
+  const handleStopButtonClick = walletAddress => {
     // TODO handle stop
     // TODO add segment user event
   };
 
-  const handleModalClose = (walletAddress, depositAmount, depositAmountDiff) => {
+  const handleEditModalClose = (walletAddress, depositAmount, depositAmountDiff) => {
     // TODO handle smart contract
     // Grab the existing recipient entry
     // Deposit or withdraw accordingly
@@ -74,7 +74,7 @@ export default function YieldRecipients() {
     setIsEditModalOpen(false);
   };
 
-  const handleModalCancel = () => {
+  const handleEditModalCancel = () => {
     setIsEditModalOpen(false);
   };
 
@@ -111,7 +111,7 @@ export default function YieldRecipients() {
                       variant="outlined"
                       color="secondary"
                       className="stake-lp-button"
-                      onClick={() => handleEditClick(item.walletAddress)}
+                      onClick={() => handleEditButtonClick(item.walletAddress)}
                       disabled={!address}
                     >
                       <Typography variant="body1">Edit</Typography>
@@ -123,7 +123,7 @@ export default function YieldRecipients() {
                       variant="outlined"
                       color="secondary"
                       className="stake-lp-button"
-                      onClick={() => handleStopClick(item.walletAddress)}
+                      onClick={() => handleStopButtonClick(item.walletAddress)}
                       disabled={!address}
                     >
                       <Typography variant="body1">Stop</Typography>
@@ -138,11 +138,11 @@ export default function YieldRecipients() {
 
       {recipients.map(item => {
         return (
-          item.walletAddress === selectedRecipient && (
+          item.walletAddress === selectedRecipientForEdit && (
             <RecipientModal
               isModalOpen={isEditModalOpen}
-              callbackFunc={handleModalClose}
-              cancelFunc={handleModalCancel}
+              callbackFunc={handleEditModalClose}
+              cancelFunc={handleEditModalCancel}
               currentWalletAddress={item.walletAddress}
               currentDepositAmount={item.depositAmount}
               key={item.walletAddress}
