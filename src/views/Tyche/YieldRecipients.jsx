@@ -64,11 +64,20 @@ export default function YieldRecipients() {
     setIsEditModalOpen(true);
   };
 
+  // TODO implement recipient edit
   const handleEditModalSubmit = (walletAddress, depositAmount, depositAmountDiff) => {
-    // TODO handle smart contract
-    // Grab the existing recipient entry
-    // Deposit or withdraw accordingly
-    // TODO add segment user event
+    if (depositAmountDiff == 0.0) return;
+
+    // Record segment user event
+
+    // If reducing the amount of deposit, withdraw
+    if (depositAmountDiff < 0) {
+    }
+    // If increasing the amount of deposit, deposit
+    else if (depositAmountDiff > 0) {
+    }
+
+    // Refresh recipients list
 
     setIsEditModalOpen(false);
   };
@@ -83,9 +92,13 @@ export default function YieldRecipients() {
     setIsWithdrawModalOpen(true);
   };
 
+  // TODO implement withdrawal
   const handleWithdrawModalSubmit = (walletAddress, depositAmount) => {
-    // TODO handle withdrawal
-    // TODO add segment user event
+    // Record Segment user event
+
+    // Issue withdrawal from smart contract
+
+    // Refresh recipients list
 
     setIsWithdrawModalOpen(false);
   };
