@@ -32,28 +32,36 @@ export function BondDataCard({ bond }) {
             )}
           </div>
         </div>
-
         <div className="data-row">
           <Typography>Price</Typography>
           <Typography className="bond-price">
             <>
               {isBondLoading ? (
                 <Skeleton width="50px" />
+              ) : !bond.isAvailable[chainID] ? (
+                "Sold Out"
               ) : (
-                new Intl.NumberFormat("en-US", {
+                `${new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 2,
                   minimumFractionDigits: 2,
-                }).format(bond.bondPrice)
+                }).format(bond.bondPrice)}}%`
               )}
             </>
           </Typography>
         </div>
-
         <div className="data-row">
           <Typography>ROI</Typography>
-          <Typography>{isBondLoading ? <Skeleton width="50px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}</Typography>
+          <Typography>
+            {isBondLoading ? (
+              <Skeleton width="50px" />
+            ) : !bond.isAvailable[chainID] ? (
+              "Sold Out"
+            ) : (
+              `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`
+            )}
+          </Typography>
         </div>
 
         <div className="data-row">
@@ -108,18 +116,29 @@ export function BondTableData({ bond }) {
           <>
             {isBondLoading ? (
               <Skeleton width="50px" />
+            ) : !bond.isAvailable[chainID] ? (
+              "Sold Out"
             ) : (
-              new Intl.NumberFormat("en-US", {
+              `${new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
                 maximumFractionDigits: 2,
                 minimumFractionDigits: 2,
-              }).format(bond.bondPrice)
+              }).format(bond.bondPrice)}}%`
             )}
           </>
         </Typography>
       </TableCell>
-      <TableCell align="left">{isBondLoading ? <Skeleton /> : `${trim(bond.bondDiscount * 100, 2)}%`}</TableCell>
+      <TableCell align="left">
+        {" "}
+        {isBondLoading ? (
+          <Skeleton width="50px" />
+        ) : !bond.isAvailable[chainID] ? (
+          "Sold Out"
+        ) : (
+          `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`
+        )}
+      </TableCell>
       <TableCell align="right">
         {isBondLoading ? (
           <Skeleton />
