@@ -15,13 +15,16 @@ import {
 import { useWeb3Context } from "src/hooks/web3Context";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal } from "./RecipientModal";
+import { WithdrawDepositModal } from "./WithdrawDepositModal";
 
 export default function YieldRecipients() {
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
   const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState(null);
+  const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
   useEffect(() => {
     if (hasCachedProvider()) {
@@ -55,17 +58,13 @@ export default function YieldRecipients() {
     },
   ];
 
+  // *** Edit modal
   const handleEditButtonClick = walletAddress => {
     setSelectedRecipientForEdit(walletAddress);
     setIsEditModalOpen(true);
   };
 
-  const handleStopButtonClick = walletAddress => {
-    // TODO handle stop
-    // TODO add segment user event
-  };
-
-  const handleEditModalClose = (walletAddress, depositAmount, depositAmountDiff) => {
+  const handleEditModalSubmit = (walletAddress, depositAmount, depositAmountDiff) => {
     // TODO handle smart contract
     // Grab the existing recipient entry
     // Deposit or withdraw accordingly
@@ -76,6 +75,23 @@ export default function YieldRecipients() {
 
   const handleEditModalCancel = () => {
     setIsEditModalOpen(false);
+  };
+
+  // *** Withdraw model
+  const handleWithdrawButtonClick = walletAddress => {
+    setSelectedRecipientForWithdraw(walletAddress);
+    setIsWithdrawModalOpen(true);
+  };
+
+  const handleWithdrawModalSubmit = (walletAddress, depositAmount) => {
+    // TODO handle withdrawal
+    // TODO add segment user event
+
+    setIsWithdrawModalOpen(false);
+  };
+
+  const handleWithdrawModalCancel = () => {
+    setIsWithdrawModalOpen(false);
   };
 
   return (
@@ -123,10 +139,10 @@ export default function YieldRecipients() {
                       variant="outlined"
                       color="secondary"
                       className="stake-lp-button"
-                      onClick={() => handleStopButtonClick(item.walletAddress)}
+                      onClick={() => handleWithdrawButtonClick(item.walletAddress)}
                       disabled={!address}
                     >
-                      <Typography variant="body1">Stop</Typography>
+                      <Typography variant="body1">Withdraw</Typography>
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -141,10 +157,25 @@ export default function YieldRecipients() {
           item.walletAddress === selectedRecipientForEdit && (
             <RecipientModal
               isModalOpen={isEditModalOpen}
-              callbackFunc={handleEditModalClose}
+              callbackFunc={handleEditModalSubmit}
               cancelFunc={handleEditModalCancel}
               currentWalletAddress={item.walletAddress}
               currentDepositAmount={item.depositAmount}
+              key={item.walletAddress}
+            />
+          )
+        );
+      })}
+
+      {recipients.map(item => {
+        return (
+          item.walletAddress === selectedRecipientForWithdraw && (
+            <WithdrawDepositModal
+              isModalOpen={isWithdrawModalOpen}
+              callbackFunc={handleWithdrawModalSubmit}
+              cancelFunc={handleWithdrawModalCancel}
+              walletAddress={item.walletAddress}
+              depositAmount={item.depositAmount}
               key={item.walletAddress}
             />
           )
