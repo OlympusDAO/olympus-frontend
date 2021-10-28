@@ -39,7 +39,7 @@ export function BondDataCard({ bond }) {
               {isBondLoading ? (
                 <Skeleton width="50px" />
               ) : !bond.isAvailable[chainID] ? (
-                "Sold Out"
+                "--"
               ) : (
                 `${new Intl.NumberFormat("en-US", {
                   style: "currency",
@@ -57,7 +57,7 @@ export function BondDataCard({ bond }) {
             {isBondLoading ? (
               <Skeleton width="50px" />
             ) : !bond.isAvailable[chainID] ? (
-              "Sold Out"
+              "--"
             ) : (
               `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`
             )}
@@ -81,7 +81,7 @@ export function BondDataCard({ bond }) {
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID]}>
-            <Typography variant="h5">{!bond.isAvailable[chainID] ? "Sold Out" : `Bond ${bond.displayName}`}</Typography>
+            <Typography variant="h5">{!bond.isAvailable[chainID] ? "--" : `Bond ${bond.displayName}`}</Typography>
           </Button>
         </Link>
       </Paper>
@@ -117,7 +117,7 @@ export function BondTableData({ bond }) {
             {isBondLoading ? (
               <Skeleton width="50px" />
             ) : !bond.isAvailable[chainID] ? (
-              "Sold Out"
+              "--"
             ) : (
               `${new Intl.NumberFormat("en-US", {
                 style: "currency",
@@ -134,7 +134,7 @@ export function BondTableData({ bond }) {
         {isBondLoading ? (
           <Skeleton width="50px" />
         ) : !bond.isAvailable[chainID] ? (
-          "Sold Out"
+          "--"
         ) : (
           `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`
         )}
