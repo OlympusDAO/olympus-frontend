@@ -238,13 +238,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     callbackFunc(walletAddress, depositAmount, depositAmount - currentDepositAmount);
   };
 
-  /**
-   * Handles the cancel event by closing the modal window.
-   */
-  const handleCancel = () => {
-    isModalOpen = false;
-  };
-
   // TODO stop modal from moving when validation messages are shown
 
   return (

@@ -53,7 +53,7 @@ export default function YieldDirector() {
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
         <div className="card-header">
-          <Typography variant="h5">Yield Director</Typography>
+          <Typography variant="h5">Stream Recipients</Typography>
           <Button
             variant="outlined"
             color="secondary"
