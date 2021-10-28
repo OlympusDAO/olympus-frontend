@@ -49,7 +49,7 @@ const setup = function () {
   const server = setupServer(...handlers);
 
   // Enable API mocking before tests.
-  beforeAll(() => server.listen());
+  beforeAll(() => server.listen({ onUnhandledRequest: "bypass" }));
 
   // Reset any runtime request handlers we may add during the tests.
   afterEach(() => server.resetHandlers());
@@ -57,7 +57,7 @@ const setup = function () {
   // Disable API mocking after the tests are done.
   afterAll(() => server.close());
 
-  jest.setTimeout(20000);
+  jest.setTimeout(60000);
 };
 // re-export everything
 export * from "@testing-library/react";

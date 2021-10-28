@@ -40,3 +40,7 @@ yarn-error.log*
 # Integrated development environnements
 .idea
 *.sublime-*
+
+# Hardhat
+cache
+
