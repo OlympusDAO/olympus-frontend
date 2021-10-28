@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { current } from "immer";
 
 export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentWalletAddress, currentDepositAmount }) {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
@@ -183,13 +182,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    */
   const handleSubmit = () => {
     callbackFunc(walletAddress, depositAmount, depositAmount - currentDepositAmount);
-  };
-
-  /**
-   * Handles the cancel event by closing the modal window.
-   */
-  const handleCancel = () => {
-    isModalOpen = false;
   };
 
   // TODO stop modal from moving when validation messages are shown
