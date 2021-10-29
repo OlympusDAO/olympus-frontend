@@ -61,7 +61,7 @@ export default function YieldDirector() {
             onClick={() => handleAddButtonClick()}
             disabled={!address}
           >
-            <Typography variant="body1">Add Recipient</Typography>
+            Add Recipient
           </Button>
         </div>
         <RecipientModal isModalOpen={isModalOpen} callbackFunc={handleAddRecipient} cancelFunc={handleModalCancel} />

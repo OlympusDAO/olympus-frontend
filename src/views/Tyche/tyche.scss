@@ -8,6 +8,10 @@
   .ohm-card .header {
     min-height: 3em;
   }
+
+  .MuiButton-label {
+    font-size: 13px;
+  }
 }
 
 .yield-action-area {
@@ -35,14 +39,6 @@
     }
   }
 
-  .MuiTypography-body2 {
-    margin-bottom: 0.5rem;
-  }
-
-  .MuiTypography-body1 {
-    margin-bottom: 0.5rem;
-  }
-
   .modal-input {
     width: 100%;
     max-width: 100%;
@@ -67,4 +63,20 @@
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
+}
+
+.ohm-card {
+  .redeem-button {
+    position: absolute;
+    right: 2.5em;
+    bottom: 2em;
+  }
+
+  .MuiTypography-body2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .MuiTypography-body1 {
+    margin-bottom: 0.5rem;
+  }
 }

@@ -143,7 +143,7 @@ export default function YieldRecipients() {
                       onClick={() => handleEditButtonClick(item.walletAddress)}
                       disabled={!address}
                     >
-                      <Typography variant="body1">Edit</Typography>
+                      Edit
                     </Button>
                   </TableCell>
                   <TableCell align="right" width="10%" padding="none">
@@ -155,7 +155,7 @@ export default function YieldRecipients() {
                       onClick={() => handleWithdrawButtonClick(item.walletAddress)}
                       disabled={!address}
                     >
-                      <Typography variant="body1">Withdraw</Typography>
+                      Withdraw
                     </Button>
                   </TableCell>
                 </TableRow>
