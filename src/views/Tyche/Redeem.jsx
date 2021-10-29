@@ -12,6 +12,7 @@ import {
   TableRow,
   TableContainer,
 } from "@material-ui/core";
+import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 
@@ -78,7 +79,11 @@ export default function Redeem() {
             <TableHead>
               <TableRow>
                 <TableCell>Sender</TableCell>
-                <TableCell>Deposit (sOHM)</TableCell>
+                <TableCell align="left">
+                  Deposit
+                  <InfoTooltip message="The amount of sOHM deposited" />
+                </TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -87,6 +92,7 @@ export default function Redeem() {
                   <TableRow>
                     <TableCell>{item.sender}</TableCell>
                     <TableCell>{item.depositAmount}</TableCell>
+                    <TableCell></TableCell>
                   </TableRow>
                 );
               })}

@@ -118,10 +118,6 @@ export default function YieldRecipients() {
                 Deposit
                 <InfoTooltip message="The amount of sOHM deposited" />
               </TableCell>
-              <TableCell align="left">
-                Yield
-                <InfoTooltip message="The amount of yield (in sOHM) directed to the recipient" />
-              </TableCell>
               <TableCell />
               <TableCell />
             </TableRow>
@@ -133,7 +129,6 @@ export default function YieldRecipients() {
                 <TableRow key={item.walletAddress}>
                   <TableCell>{item.walletAddress}</TableCell>
                   <TableCell align="left">{item.depositAmount}</TableCell>
-                  <TableCell align="left"></TableCell>
                   <TableCell align="right" width="10%" padding="none">
                     {" "}
                     <Button
