@@ -3,6 +3,7 @@ import { EnvHelper } from "../helpers/Environment";
 import { useLocation } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { v4 as uuidv4 } from "uuid";
+import { getParameterByName } from "../helpers/QueryParameterHelper";
 
 const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
 
@@ -15,7 +16,16 @@ export default function useSegmentAnalytics() {
 
   React.useEffect(() => {
     if (SEGMENT_API_KEY && SEGMENT_API_KEY.length > 1) {
-      initSegmentAnalytics();
+      const path = location.pathname + location.search + location.hash;
+      const utmSource = getParameterByName("utm_source", path);
+      const utmMedium = getParameterByName("utm_medium", path);
+      const utmCampaign = getParameterByName("utm_campaign", path);
+      const utm = {
+        utmSource: utmSource,
+        utmMedium: utmMedium,
+        utmCampaign: utmCampaign,
+      };
+      initSegmentAnalytics(utm);
       setLoadedSegment(true);
     }
   }, []);
@@ -40,7 +50,7 @@ export default function useSegmentAnalytics() {
   }, [address]);
 }
 
-function initSegmentAnalytics() {
+function initSegmentAnalytics(utm) {
   var analytics = (window.analytics = window.analytics || []);
   if (!analytics.initialize) {
     if (analytics.invoked) window.console && console.error && console.error("Segment snippet included twice.");
@@ -92,7 +102,8 @@ function initSegmentAnalytics() {
       analytics._writeKey = SEGMENT_API_KEY;
       analytics.SNIPPET_VERSION = "4.15.3";
       analytics.load(SEGMENT_API_KEY);
-      analytics.page();
+
+      analytics.page("UTM Check", utm);
     }
   }
 }

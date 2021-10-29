@@ -7,9 +7,11 @@ import "./choosebond.scss";
 import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 import useBonds from "src/hooks/Bonds";
+import { useWeb3Context } from "../../hooks/web3Context";
 
 export function BondDataCard({ bond }) {
   const { loading } = useBonds();
+  const { chainID } = useWeb3Context();
   const isBondLoading = !bond.bondPrice ?? true;
 
   return (
@@ -37,7 +39,18 @@ export function BondDataCard({ bond }) {
             <Trans>Price</Trans>
           </Typography>
           <Typography className="bond-price">
-            <>{isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}</>
+            <>
+              {isBondLoading ? (
+                <Skeleton width="50px" />
+              ) : (
+                new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  maximumFractionDigits: 2,
+                  minimumFractionDigits: 2,
+                }).format(bond.bondPrice)
+              )}
+            </>
           </Typography>
         </div>
 
@@ -66,8 +79,8 @@ export function BondDataCard({ bond }) {
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" fullWidth>
-            <Typography variant="h5">Bond {bond.displayName}</Typography>
+          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID]}>
+            <Typography variant="h5">{!bond.isAvailable[chainID] ? "Sold Out" : `Bond ${bond.displayName}`}</Typography>
           </Button>
         </Link>
       </Paper>
@@ -76,6 +89,7 @@ export function BondDataCard({ bond }) {
 }
 
 export function BondTableData({ bond }) {
+  const { chainID } = useWeb3Context();
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.bondPrice ?? true;
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
@@ -119,10 +133,8 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary">
-            <Typography variant="h6">
-              <Trans>do_bond</Trans>
-            </Typography>
+          <Button variant="outlined" color="primary" disabled={!bond.isAvailable[chainID]}>
+            <Typography variant="h6">{!bond.isAvailable[chainID] ? t`Sold Out` : t`do_bond`}</Typography>
           </Button>
         </Link>
       </TableCell>
