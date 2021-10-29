@@ -1,5 +1,5 @@
-import { trim } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
+import { DisplayBondPrice, DisplayBondDiscount } from "../Bond/Bond";
 import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
@@ -35,32 +35,13 @@ export function BondDataCard({ bond }) {
         <div className="data-row">
           <Typography>Price</Typography>
           <Typography className="bond-price">
-            <>
-              {isBondLoading ? (
-                <Skeleton width="50px" />
-              ) : !bond.isAvailable[chainID] ? (
-                "--"
-              ) : (
-                `${new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                }).format(bond.bondPrice)}}%`
-              )}
-            </>
+            <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
           </Typography>
         </div>
         <div className="data-row">
           <Typography>ROI</Typography>
           <Typography>
-            {isBondLoading ? (
-              <Skeleton width="50px" />
-            ) : !bond.isAvailable[chainID] ? (
-              "--"
-            ) : (
-              `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`
-            )}
+            {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
           </Typography>
         </div>
 
@@ -81,7 +62,7 @@ export function BondDataCard({ bond }) {
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID]}>
-            <Typography variant="h5">{!bond.isAvailable[chainID] ? "--" : `Bond ${bond.displayName}`}</Typography>
+            <Typography variant="h5">{!bond.isAvailable[chainID] ? "Sold Out" : `Bond ${bond.displayName}`}</Typography>
           </Button>
         </Link>
       </Paper>
@@ -113,31 +94,12 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell align="left">
         <Typography>
-          <>
-            {isBondLoading ? (
-              <Skeleton width="50px" />
-            ) : !bond.isAvailable[chainID] ? (
-              "--"
-            ) : (
-              `${new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 2,
-              }).format(bond.bondPrice)}}%`
-            )}
-          </>
+          <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
         </Typography>
       </TableCell>
       <TableCell align="left">
         {" "}
-        {isBondLoading ? (
-          <Skeleton width="50px" />
-        ) : !bond.isAvailable[chainID] ? (
-          "--"
-        ) : (
-          `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`
-        )}
+        {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
       </TableCell>
       <TableCell align="right">
         {isBondLoading ? (
