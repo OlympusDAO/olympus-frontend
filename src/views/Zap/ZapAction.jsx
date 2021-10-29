@@ -14,17 +14,21 @@ import {
   List,
   ListItem,
   ListItemAvatar,
+  IconButton,
   CardHeader,
   ListItemText,
+  CircularProgress,
 } from "@material-ui/core";
 import { getTokenBalances } from "src/slices/ZapSlice";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { ButtonBase } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import CloseIcon from "@mui/icons-material/Close";
 
 function ZapAction(props) {
   const { address, quantity, setQuantity, ...other } = props;
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -37,18 +41,21 @@ function ZapAction(props) {
     p: 4,
   };
   //   const tokens = ["ETH", "OHM"];
-  const tokens = {
-    ETH: "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x0000000000000000000000000000000000000000.png",
-    OHM: "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png",
-  };
-  const [zapToken, setZapToken] = useState("ETH");
+
+  const tokens = useSelector(state => state.zap.balances);
+  const isTokensLoading = useSelector(state => state.zap.loading);
+
+  const [zapToken, setZapToken] = useState(null);
   const handleSelectZapToken = token => {
     setZapToken(token);
     handleClose();
   };
+
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
-  const handleOpen = () => setModalOpen(true);
+  const handleOpen = () => {
+    setModalOpen(true);
+  };
   const handleClose = () => setModalOpen(false);
   //   dispatch(getTokenBalances({ address }));
   const [inputQuantity, setInputQuantity] = useState("");
@@ -83,13 +90,14 @@ function ZapAction(props) {
       <FormControl className="zap-input" variant="outlined" color="primary">
         <InputLabel htmlFor="amount-input"></InputLabel>
         <OutlinedInput
-          id="amount-input"
+          id="zap-amount-input"
           type="number"
           placeholder="Enter an amount"
           className="stake-input"
           value={inputQuantity}
           onChange={e => setZapTokenQuantity(e.target.value)}
-          labelWidth={0}
+          //   labelWidth={0}
+          //   label="Hello"
           endAdornment={
             <InputAdornment position="end">
               <ButtonBase onClick={handleOpen}>
@@ -101,9 +109,15 @@ function ZapAction(props) {
                     minWidth: "60px",
                   }}
                 >
-                  <Avatar src={tokens[zapToken]} style={{ height: "30px", width: "30px" }} />
-                  <Box width="20px" />
-                  <Typography>{zapToken}</Typography>
+                  {zapToken == null ? (
+                    <Typography>Select a Token</Typography>
+                  ) : (
+                    <>
+                      <Avatar src={tokens[zapToken].img} style={{ height: "30px", width: "30px" }} />
+                      <Box width="20px" />
+                      <Typography>{tokens[zapToken].symbol}</Typography>
+                    </>
+                  )}
                   <KeyboardArrowDownIcon />
                 </div>
               </ButtonBase>
@@ -119,7 +133,7 @@ function ZapAction(props) {
       <FormControl className="zap-output" variant="outlined" color="primary">
         <InputLabel htmlFor="amount-input"></InputLabel>
         <OutlinedInput
-          id="amount-input"
+          id="zap-amount-output"
           type="number"
           placeholder="Enter an amount"
           className="stake-input"
@@ -169,26 +183,22 @@ function ZapAction(props) {
         Zap-Stake
       </Button>
 
-      <Dialog onClose={handleClose} open={modalOpen} keepMounted>
+      <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs">
         <DialogTitle>Select Zap Token</DialogTitle>
         <List sx={{ pt: 0 }}>
-          {Object.entries(tokens).map(token => (
-            <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[0]}>
-              <ListItemAvatar>
-                <Avatar src={token[1]} />
-              </ListItemAvatar>
-              <ListItemText primary={token[0]} />
-            </ListItem>
-          ))}
-
-          {/* <ListItem autoFocus button onClick={() => handleListItemClick("addAccount")}>
-            <ListItemAvatar>
-              <Avatar>
-                <AddIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Add account" />
-          </ListItem> */}
+          {Object.entries(tokens)
+            .filter(token => !token[1].hide)
+            .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
+            .map(token => (
+              <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
+                <ListItemAvatar>
+                  <Avatar src={token[1].img} />
+                </ListItemAvatar>
+                <ListItemText primary={token[1].symbol} />
+                <Box flexGrow={10} />
+                <ListItemText primary={`$${token[1].balanceUSD.toFixed(2)}`} secondary={token[1].balance.toFixed(4)} />
+              </ListItem>
+            ))}
         </List>
       </Dialog>
     </div>

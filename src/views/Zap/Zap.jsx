@@ -6,14 +6,12 @@ import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "./stake.scss";
+import "./zap.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import ExternalStakePool from "./ExternalStakePool";
-import StakeAction from "./StakeAction";
+import ZapAction from "./ZapAction";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
+import { getZapTokenBalances } from "src/slices/ZapSlice";
 
 function a11yProps(index) {
   return {
@@ -25,8 +23,14 @@ function a11yProps(index) {
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
 
-function Stake() {
+function Zap() {
   const dispatch = useDispatch();
+
+  const zapTokens = useSelector(state => {
+    return state;
+  });
+  // console.log(zapTokens);
+
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
   const [zoomed, setZoomed] = useState(false);
@@ -122,7 +126,7 @@ function Stake() {
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
   return (
-    <div id="stake-view">
+    <div id="zap-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
         <Paper className={`ohm-card`}>
           <Grid container direction="column" spacing={2}>
@@ -223,62 +227,40 @@ function Stake() {
                       variant="fullWidth"
                       wrapped
                     >
-                      <Tab label="Stake" {...a11yProps(0)} />
-                      <Tab label="Unstake" {...a11yProps(1)} />
+                      <Tab
+                        label={
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            Zap-Stake
+                            <FlashOnIcon />
+                          </div>
+                        }
+                        {...a11yProps(0)}
+                      />
+                      <Tab
+                        label={
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            Zap-Bond
+                          </div>
+                        }
+                        {...a11yProps(1)}
+                      />
                     </Tabs>
                   </Box>
 
                   <TabPanel value={view} index={0} className="stake-tab-panel">
-                    <StakeAction
-                      address={address}
-                      hasAllowance={hasAllowance}
-                      isAllowanceDataLoading={isAllowanceDataLoading}
-                      tokenFormatted="OHM"
-                      isPendingTxn={isPendingTxn}
-                      pendingTransactions={pendingTransactions}
-                      txnButtonText={txnButtonText}
-                      setMax={setMax}
-                      setQuantity={setQuantity}
-                      quantity={quantity}
-                      onSeekApproval={onSeekApproval}
-                      approveTxnName="approve_staking"
-                      actionType="stake"
-                      txnName="staking"
-                      buttonLabel="Stake OHM"
-                      balance={ohmBalance}
-                    >
-                      <>
-                        First time staking <b>OHM</b>?
-                        <br />
-                        Please approve Olympus Dao to use your <b>OHM</b> for staking.
-                      </>
-                    </StakeAction>
-                  </TabPanel>
-                  <TabPanel value={view} index={1} className="stake-tab-panel">
-                    <StakeAction
-                      address={address}
-                      hasAllowance={hasAllowance}
-                      isAllowanceDataLoading={isAllowanceDataLoading}
-                      tokenFormatted="sOHM"
-                      isPendingTxn={isPendingTxn}
-                      pendingTransactions={pendingTransactions}
-                      txnButtonText={txnButtonText}
-                      setMax={setMax}
-                      setQuantity={setQuantity}
-                      quantity={quantity}
-                      onSeekApproval={onSeekApproval}
-                      approveTxnName="approve_unstaking"
-                      actionType="unstake"
-                      txnName="unstaking"
-                      buttonLabel="Unstake OHM"
-                      balance={sohmBalance}
-                    >
-                      <>
-                        First time unstaking <b>sOHM</b>?
-                        <br />
-                        Please approve Olympus Dao to use your <b>sOHM</b> for unstaking.
-                      </>
-                    </StakeAction>
+                    <ZapAction address={address} />
                   </TabPanel>
                 </Box>
 
@@ -323,10 +305,8 @@ function Stake() {
           </div>
         </Paper>
       </Zoom>
-
-      <ExternalStakePool />
     </div>
   );
 }
 
-export default Stake;
+export default Zap;
