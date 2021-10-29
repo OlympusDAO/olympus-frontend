@@ -6,7 +6,7 @@ import useEscape from "../../hooks/useEscape";
 import Button from "@material-ui/core/Button";
 import { useWeb3Context } from "../../hooks/web3Context";
 import arbitrum from "../../assets/arbitrum.png";
-import ethereum from "../../assets/ethereum.png";
+import ethereum from "../../assets/tokens/wETH.svg";
 import React from "react";
 
 function ChangeNetwork() {

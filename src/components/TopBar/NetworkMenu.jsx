@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useWeb3Context } from "../../hooks/web3Context";
 import React, { useEffect, useState } from "react";
 import "./networkmenu.scss";
-import ethereum from "../../assets/ethereum.png";
+import ethereum from "../../assets/tokens/wETH.svg";
 import arbitrum from "../../assets/arbitrum.png";
 import Grid from "@material-ui/core/Grid";
 
