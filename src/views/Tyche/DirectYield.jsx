@@ -64,6 +64,13 @@ export default function YieldDirector() {
             Add Recipient
           </Button>
         </div>
+        <Typography variant="body1">
+          Click on "Add Recipient" to define a new recipient of yield from your deposited staked OHM.
+        </Typography>
+        <Typography variant="body1">
+          The listed wallets are receiving yield from the staked OHM that you have deposited. For each, you can edit the
+          amount of deposited sOHM, or withdraw the sOHM entirely.
+        </Typography>
         <RecipientModal isModalOpen={isModalOpen} callbackFunc={handleAddRecipient} cancelFunc={handleModalCancel} />
         <YieldRecipients />
       </Paper>
