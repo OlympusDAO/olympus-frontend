@@ -46,6 +46,9 @@
     }
   }
   .grid-container {
+    height: 688px;
+    display: flex;
+    flex-direction: column;
     .grid-header {
       display: flex;
       flex-direction: row;
@@ -70,9 +73,9 @@
       flex-direction: row;
       justify-content: space-between;
       grid-gap: 15px;
-      padding: 20px 40px 30px;
+      padding: 40px;
       width: 688px;
-      height: 102px;
+      height: 70px;
 
       .grid-message-typography {
         display: flex;
@@ -80,9 +83,9 @@
         justify-content: center;
         align-items: center;
         font-weight: normal;
-        font-size: 20px;
+        font-size: 16px;
         .chain-highlight {
-          font-size: 20px;
+          font-size: 16px;
         }
       }
     }
@@ -91,11 +94,6 @@
       flex-direction: row;
       justify-content: center;
       grid-gap: 15px;
-      padding-top: 20px;
-      padding-bottom: 30px;
-      width: 688px;
-      height: 102px;
-      top: 138px;
 
       .grid-button {
         align-items: center;

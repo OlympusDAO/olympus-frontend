@@ -37,7 +37,7 @@ function ChangeNetwork() {
           <Fade in={true}>
             <Paper className="ohm-card ohm-modal">
               <Grid container className="grid-container">
-                <Grid className="grid-header" xs={12}>
+                <Grid className="grid-header">
                   <Grid>
                     <Link onClick={handleClose}>
                       <SvgIcon color="primary" component={XIcon} />
@@ -52,7 +52,7 @@ function ChangeNetwork() {
                 <Grid className="grid-message">
                   {chainName !== "Unsupported Chain!" ? (
                     <Typography className="grid-message-typography">
-                      You are currently on the&nbsp;
+                      You are currently connected to the&nbsp;
                       <Typography className="chain-highlight">{chainName}</Typography>
                       &nbsp;network.
                     </Typography>
