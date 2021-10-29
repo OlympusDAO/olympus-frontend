@@ -70,7 +70,7 @@ function ChangeNetwork() {
                         <img className="grid-button-icon" src={ethereum} alt="Ethereum Logo" />
                       </Grid>
                       <Grid className="grid-button-content right">
-                        <Typography>Ethereum</Typography>
+                        <Typography className={chainName === "Ethereum" ? "current" : ""}>Ethereum</Typography>
                       </Grid>
                     </Button>
                   </Grid>
@@ -81,7 +81,7 @@ function ChangeNetwork() {
                         <img className="grid-button-icon" src={arbitrum} alt="Arbitrum Logo" />
                       </Grid>
                       <Grid className="grid-button-content grid-button-text">
-                        <Typography>Arbitrum</Typography>
+                        <Typography className={chainName === "Arbitrum" ? "current" : ""}>Arbitrum</Typography>
                       </Grid>
                     </Button>
                   </Grid>
