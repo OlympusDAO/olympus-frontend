@@ -396,7 +396,7 @@ function Stake() {
             <Grid container direction="column" spacing={2}>
               <Grid item>
                 <div className="card-header">
-                  <Typography variant="h5">You Cannot Stake In Arbitrum Chain.</Typography>
+                  <Typography variant="h5">Staking is currently only available on Ethereum.</Typography>
                 </div>
               </Grid>
             </Grid>
