@@ -34,6 +34,9 @@ Open the source code and start editing!
 
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 
+**Rinkeby faucet for WETH:**
+[Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
+
 **Rinkeby faucets for LUSD, FRAX & DAI can be taken from rinkeby etherscan:**
 
 1. Go to `src/helpers/AllBonds.ts`
