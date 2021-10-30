@@ -92,7 +92,7 @@ export abstract class Bond {
   async getBondReservePrice(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     const pairContract = this.getContractForReserve(networkID, provider);
     const reserves = await pairContract.getReserves();
-    const marketPrice = reserves[1].div(reserves[0]).div(BigNumber.from(10).pow(9));
+    const marketPrice = reserves[1].div(reserves[0]).div(BN_10_9);
     return marketPrice;
   }
 }
@@ -148,7 +148,7 @@ export class StableBond extends Bond {
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
     let token = this.getContractForReserve(networkID, provider);
     let tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    return Number(tokenAmount.div(BigNumber.from(10).pow(18)).toString());
+    return Number(tokenAmount.div(BN_10_18).toString());
   }
 }
 
