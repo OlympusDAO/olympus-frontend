@@ -358,33 +358,23 @@ function Stake() {
                     <div className={`stake-user-data`}>
                       <div className="data-row">
                         <Typography variant="body1">Your Balance</Typography>
-                        <Typography variant="body1">
-                          {renderOhmBalance()}
-                        </Typography>
+                        <Typography variant="body1">{renderOhmBalance()}</Typography>
                       </div>
                       <div className="data-row">
                         <Typography variant="body1">Your Staked Balance</Typography>
-                        <Typography variant="body1">
-                          {renderSohmBalance()}
-                        </Typography>
+                        <Typography variant="body1">{renderSohmBalance()}</Typography>
                       </div>
                       <div className="data-row">
                         <Typography variant="body1">Next Reward Amount</Typography>
-                        <Typography variant="body1">
-                          {renderNextRewardValue()}
-                        </Typography>
+                        <Typography variant="body1">{renderNextRewardValue()}</Typography>
                       </div>
                       <div className="data-row">
                         <Typography variant="body1">Next Reward Yield</Typography>
-                        <Typography variant="body1">
-                          {renderStackingRebasePercentage()}
-                        </Typography>
+                        <Typography variant="body1">{renderStackingRebasePercentage()}</Typography>
                       </div>
                       <div className="data-row">
                         <Typography variant="body1">ROI (5-Day Rate)</Typography>
-                        <Typography variant="body1">
-                          {renderFiveDayRate()}
-                        </Typography>
+                        <Typography variant="body1">{renderFiveDayRate()}</Typography>
                       </div>
                     </div>
                   </>
