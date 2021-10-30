@@ -1,14 +1,15 @@
 import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
-import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
-import { abi as StakingHelper } from "../abi/StakingHelper.json";
+import { abi as ierc20ABI } from "../abi/IERC20.json";
+import { abi as OlympusStakingABI } from "../abi/OlympusStakingv2.json";
+import { abi as StakingHelperABI } from "../abi/StakingHelper.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { IERC20, OlympusStakingv2, StakingHelper } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -45,8 +46,8 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer);
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
     let approveTx;
     let stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     let unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
@@ -80,9 +81,11 @@ export const changeApproval = createAsyncThunk(
 
       const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
       const pendingTxnType = token === "ohm" ? "approve_staking" : "approve_unstaking";
-      dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
+      if (approveTx) {
+        dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
-      await approveTx.wait();
+        await approveTx.wait();
+      }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
       return;
@@ -116,12 +119,16 @@ export const changeStake = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const staking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, OlympusStaking, signer);
+    const staking = new ethers.Contract(
+      addresses[networkID].STAKING_ADDRESS as string,
+      OlympusStakingABI,
+      signer,
+    ) as OlympusStakingv2;
     const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
-      StakingHelper,
+      StakingHelperABI,
       signer,
-    );
+    ) as StakingHelper;
 
     let stakeTx;
     let uaData: IUAData = {
