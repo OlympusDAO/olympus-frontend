@@ -35,7 +35,7 @@ export const getCreditMaturationDaysAndLimitPercentage = (
   const creditLimitMantissa = ethers.utils.formatEther(ticketCreditLimitMantissa);
   const creditLimitPercentage = fractionToPercentage(Number(creditLimitMantissa));
   const creditMaturationInSeconds = ticketCreditRateMantissa.gt(0)
-    ? Number(ticketCreditLimitMantissa.toString()) / Number(ticketCreditRateMantissa.toString())
+    ? Number(ticketCreditLimitMantissa.div(ticketCreditRateMantissa).toString())
     : 0;
   const creditMaturationInDays = secondsToDaysForInput(creditMaturationInSeconds);
   return [creditMaturationInDays, creditLimitPercentage];
