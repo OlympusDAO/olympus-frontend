@@ -111,10 +111,10 @@ export const eth = new CustomBond({
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
     const ethBondContract = this.getContractForBond(networkID, provider);
     let ethPrice = await ethBondContract.assetPrice();
-    ethPrice = ethPrice.div(BigNumber.from(10).pow(8));
+    ethPrice = ethPrice.div(BN_10_8);
     const token = this.getContractForReserve(networkID, provider);
     let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    ethAmount = ethAmount.div(BigNumber.from(10).pow(18));
+    ethAmount = ethAmount.div(BN_10_18);
     return Number(ethAmount.mul(ethPrice).toString());
   },
 });

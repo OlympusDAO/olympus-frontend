@@ -17,6 +17,7 @@ import {
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { de } from "date-fns/locale";
+import { BN_10_18, BN_10_9 } from "src/constants";
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
@@ -91,7 +92,7 @@ export const calcBondDetails = createAsyncThunk(
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
     let debtRatio = await bondContract.standardizedDebtRatio();
-    debtRatio = debtRatio.div(BigNumber.from(10).pow(9));
+    debtRatio = debtRatio.div(BN_10_9);
 
     let marketPrice: number = 0;
     try {
@@ -125,7 +126,7 @@ export const calcBondDetails = createAsyncThunk(
         const errorString = "Amount is too small!";
         dispatch(error(errorString));
       } else {
-        bondQuote = bondQuote.div(BigNumber.from(10).pow(9));
+        bondQuote = bondQuote.div(BN_10_9);
       }
     } else {
       // RFV = DAI
@@ -136,7 +137,7 @@ export const calcBondDetails = createAsyncThunk(
         const errorString = "Amount is too small!";
         dispatch(error(errorString));
       } else {
-        bondQuote = bondQuote.div(BigNumber.from(10).pow(18));
+        bondQuote = bondQuote.div(BN_10_18);
       }
     }
 
@@ -159,8 +160,8 @@ export const calcBondDetails = createAsyncThunk(
       bondQuote: Number(bondQuote.toString()),
       purchased,
       vestingTerm: Number(terms.vestingTerm),
-      maxBondPrice: Number(maxBondPrice.div(BigNumber.from(10).pow(9)).toString()),
-      bondPrice: Number(bondPrice.div(BigNumber.from(10).pow(18)).toString()),
+      maxBondPrice: Number(maxBondPrice.div(BN_10_9).toString()),
+      bondPrice: Number(bondPrice.div(BN_10_18).toString()),
       marketPrice: marketPrice,
     };
   },
