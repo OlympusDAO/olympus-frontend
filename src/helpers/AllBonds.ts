@@ -1,5 +1,5 @@
 import { StableBond, LPBond, NetworkID, CustomBond, BondType } from "src/lib/Bond";
-import { addresses, BN_10_18, BN_10_8, BN_10_9 } from "src/constants";
+import { addresses } from "src/constants";
 
 import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
 import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
@@ -110,12 +110,12 @@ export const eth = new CustomBond({
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
     const ethBondContract = this.getContractForBond(networkID, provider);
-    let ethPrice = await ethBondContract.assetPrice();
-    ethPrice = ethPrice.div(BN_10_8);
+    let ethPrice: BigNumberish = await ethBondContract.assetPrice();
+    ethPrice = Number(ethPrice.toString()) / Math.pow(10, 8);
     const token = this.getContractForReserve(networkID, provider);
-    let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    ethAmount = ethAmount.div(BN_10_18);
-    return Number(ethAmount.mul(ethPrice).toString());
+    let ethAmount: BigNumberish = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    ethAmount = Number(ethAmount.toString()) / Math.pow(10, 18);
+    return ethAmount * ethPrice;
   },
 });
 

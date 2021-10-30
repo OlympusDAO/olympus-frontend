@@ -1,4 +1,4 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers, BigNumber, BigNumberish } from "ethers";
 import { contractForRedeemHelper } from "../helpers";
 import { getBalances, calculateUserBondDetails } from "./AccountSlice";
 import { findOrLoadMarketPrice } from "./AppSlice";
@@ -16,8 +16,6 @@ import {
   IRedeemBondAsyncThunk,
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { de } from "date-fns/locale";
-import { BN_10_18, BN_10_9 } from "src/constants";
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
@@ -85,14 +83,14 @@ export const calcBondDetails = createAsyncThunk(
     let bondPrice = BigNumber.from(0),
       bondDiscount = 0,
       valuation = 0,
-      bondQuote = BigNumber.from(0);
+      bondQuote: BigNumberish = BigNumber.from(0);
     const bondContract = bond.getContractForBond(networkID, provider);
     const bondCalcContract = getBondCalculator(networkID, provider);
 
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
-    let debtRatio = await bondContract.standardizedDebtRatio();
-    debtRatio = debtRatio.div(BN_10_9);
+    let debtRatio: BigNumberish = await bondContract.standardizedDebtRatio();
+    debtRatio = Number(debtRatio.toString()) / Math.pow(10, 9);
 
     let marketPrice: number = 0;
     try {
@@ -126,7 +124,7 @@ export const calcBondDetails = createAsyncThunk(
         const errorString = "Amount is too small!";
         dispatch(error(errorString));
       } else {
-        bondQuote = bondQuote.div(BN_10_9);
+        bondQuote = Number(bondQuote.toString()) / Math.pow(10, 9);
       }
     } else {
       // RFV = DAI
@@ -137,7 +135,7 @@ export const calcBondDetails = createAsyncThunk(
         const errorString = "Amount is too small!";
         dispatch(error(errorString));
       } else {
-        bondQuote = bondQuote.div(BN_10_18);
+        bondQuote = Number(bondQuote.toString()) / Math.pow(10, 18);
       }
     }
 
@@ -159,9 +157,9 @@ export const calcBondDetails = createAsyncThunk(
       debtRatio: Number(debtRatio.toString()),
       bondQuote: Number(bondQuote.toString()),
       purchased,
-      vestingTerm: Number(terms.vestingTerm),
-      maxBondPrice: Number(maxBondPrice.div(BN_10_9).toString()),
-      bondPrice: Number(bondPrice.div(BN_10_18).toString()),
+      vestingTerm: Number(terms.vestingTerm.toString()),
+      maxBondPrice: Number(maxBondPrice.toString()) / Math.pow(10, 9),
+      bondPrice: Number(bondPrice.toString()) / Math.pow(10, 18),
       marketPrice: marketPrice,
     };
   },

@@ -1,5 +1,5 @@
-import { BigNumber, ethers } from "ethers";
-import { addresses, BN_10_9 } from "../constants";
+import { BigNumber, BigNumberish, ethers } from "ethers";
+import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
@@ -176,7 +176,7 @@ export const calculateUserBondDetails = createAsyncThunk(
     let pendingPayout, bondMaturationBlock;
 
     const bondDetails = await bondContract.bondInfo(address);
-    let interestDue: BigNumber = bondDetails.payout.div(BN_10_9);
+    let interestDue: BigNumberish = Number(bondDetails.payout.toString()) / Math.pow(10, 9);
     bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
     pendingPayout = await bondContract.pendingPayoutFor(address);
 
@@ -194,7 +194,7 @@ export const calculateUserBondDetails = createAsyncThunk(
       isLP: bond.isLP,
       allowance: Number(allowance.toString()),
       balance: balanceVal,
-      interestDue: Number(interestDue.toString()),
+      interestDue,
       bondMaturationBlock,
       pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
     };
