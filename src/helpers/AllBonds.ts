@@ -27,6 +27,7 @@ import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getBondCalculator } from "src/helpers/BondCalculator";
+import { BigNumberish } from "ethers";
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
@@ -210,16 +211,17 @@ export const ohm_weth = new CustomBond({
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
     if (networkID === NetworkID.Mainnet) {
       const ethBondContract = this.getContractForBond(networkID, provider);
-      let ethPrice = await ethBondContract.assetPrice();
-      ethPrice = ethPrice.div(BN_10_8);
+      let ethPrice: BigNumberish = await ethBondContract.assetPrice();
+      ethPrice = Number(ethPrice.toString()) / Math.pow(10, 8);
       const token = this.getContractForReserve(networkID, provider);
       const tokenAddress = this.getAddressForReserve(networkID);
       const bondCalculator = getBondCalculator(networkID, provider);
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress);
-      let tokenUSD = valuation.div(BN_10_9).mul(markdown.div(BN_10_18));
-      return Number(tokenUSD.mul(ethPrice).toString());
+      let tokenUSD =
+        (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
+      return tokenUSD * Number(ethPrice.toString());
     } else {
       // NOTE (appleseed): using OHM-DAI on rinkeby
       const token = this.getContractForReserve(networkID, provider);
@@ -228,8 +230,9 @@ export const ohm_weth = new CustomBond({
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress);
-      let tokenUSD = valuation.div(BN_10_9).mul(markdown.div(BN_10_18));
-      return Number(tokenUSD.toString());
+      let tokenUSD =
+        (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
+      return tokenUSD;
     }
   },
 });

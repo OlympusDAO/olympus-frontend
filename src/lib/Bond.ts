@@ -123,9 +123,7 @@ export class LPBond extends Bond {
     const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
     const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
     const markdown = await bondCalculator.markdown(tokenAddress);
-    // TODO: do we want it like this or with BigNumber?
-    // let tokenUSD = valuation.div(BigNumber.from(10).pow(9)).mul(markdown.div(BigNumber.from(10).pow(18)));
-    let tokenUSD = valuation.div(BN_10_9).mul(markdown.div(BN_10_18));
+    let tokenUSD = (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
     return Number(tokenUSD.toString());
   }
 }
