@@ -1,5 +1,5 @@
-import { trim } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
+import { DisplayBondPrice, DisplayBondDiscount } from "../Bond/Bond";
 import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
@@ -32,28 +32,17 @@ export function BondDataCard({ bond }) {
             )}
           </div>
         </div>
-
         <div className="data-row">
           <Typography>Price</Typography>
           <Typography className="bond-price">
-            <>
-              {isBondLoading ? (
-                <Skeleton width="50px" />
-              ) : (
-                new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                }).format(bond.bondPrice)
-              )}
-            </>
+            <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
           </Typography>
         </div>
-
         <div className="data-row">
           <Typography>ROI</Typography>
-          <Typography>{isBondLoading ? <Skeleton width="50px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}</Typography>
+          <Typography>
+            {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
+          </Typography>
         </div>
 
         <div className="data-row">
@@ -105,21 +94,13 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell align="left">
         <Typography>
-          <>
-            {isBondLoading ? (
-              <Skeleton width="50px" />
-            ) : (
-              new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 2,
-              }).format(bond.bondPrice)
-            )}
-          </>
+          <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
         </Typography>
       </TableCell>
-      <TableCell align="left">{isBondLoading ? <Skeleton /> : `${trim(bond.bondDiscount * 100, 2)}%`}</TableCell>
+      <TableCell align="left">
+        {" "}
+        {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
+      </TableCell>
       <TableCell align="right">
         {isBondLoading ? (
           <Skeleton />
