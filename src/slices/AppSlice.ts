@@ -1,10 +1,8 @@
 import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as OlympusStakingv2ABI } from "../abi/OlympusStakingv2.json";
-import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
-import { NodeHelper } from "../helpers/NodeHelper";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";

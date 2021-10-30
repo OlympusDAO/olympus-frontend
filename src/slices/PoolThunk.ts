@@ -18,7 +18,7 @@ import {
   IActionAsyncThunk,
   IJsonRPCError,
 } from "./interfaces";
-import { AwardAbi, AwardAbi2, PrizePoolAbi, PrizePoolAbi2, SOHM } from "src/typechain";
+import { AwardAbi2, PrizePoolAbi, PrizePoolAbi2, SOHM } from "src/typechain";
 
 export const getPoolValues = createAsyncThunk(
   "pool/getPoolValues",
