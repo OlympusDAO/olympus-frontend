@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Paper, Grid, Typography, Box, Zoom, Container, useMediaQuery } from "@material-ui/core";
+import { Paper, Grid, Typography, Box, Zoom, Container, useMediaQuery, Theme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { useSelector } from "react-redux";
 import Chart from "../../components/Chart/Chart.jsx";
 import { trim, formatCurrency } from "../../helpers";
 import {
@@ -11,75 +10,158 @@ import {
   tooltipItems,
   tooltipInfoMessages,
   itemType,
-} from "./treasuryData.js";
+} from "./treasuryData";
 import { useTheme } from "@material-ui/core/styles";
 import "./treasury-dashboard.scss";
 import apollo from "../../lib/apolloClient";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip.jsx";
+import { useAppSelector } from "src/hooks/index";
+
+interface ITreasuryData {
+  readonly id: string;
+  readonly timestamp: string;
+  readonly ohmCirculatingSupply: string;
+  readonly sOhmCirculatingSupply: string;
+  readonly totalSupply: string;
+  readonly ohmPrice: string;
+  readonly marketCap: string;
+  readonly totalValueLocked: string;
+  readonly treasuryRiskFreeValue: string;
+  readonly treasuryMarketValue: string;
+  readonly nextEpochRebase: string;
+  readonly nextDistributedOhm: string;
+  readonly treasuryDaiRiskFreeValue: string;
+  readonly treasuryFraxMarketValue: string;
+  readonly treasuryDaiMarketValue: string;
+  readonly treasuryFraxRiskFreeValue: string;
+  readonly treasuryXsushiMarketValue: string;
+  readonly treasuryWETHMarketValue: string;
+  readonly currentAPY: string;
+  readonly runway10k: string;
+  readonly runway20k: string;
+  readonly runway50k: string;
+  readonly runwayCurrent: string;
+  readonly holders: string;
+  readonly treasuryOhmDaiPOL: string;
+  readonly treasuryOhmFraxPOL: string;
+}
+
+interface ITheme {
+  readonly palette: {
+    readonly color: string;
+    readonly gold: string;
+    readonly gray: string;
+    readonly textHighlightColor: string;
+    readonly backgroundColor: string;
+    readonly paperBg: string;
+    readonly modalBg: string;
+    readonly popoverBg: string;
+    readonly menuBg: string;
+    readonly backdropBg: string;
+    readonly largeTextColor: string;
+    readonly activeLinkColor: string;
+    readonly primaryButtonColor: string;
+    readonly primaryButtonBG: string;
+    readonly primaryButtonHoverBG: string;
+    readonly secondaryButtonHoverBG: string;
+    readonly outlinedPrimaryButtonHoverBG: string;
+    readonly outlinedPrimaryButtonHoverColor: string;
+    readonly outlinedSecondaryButtonHoverBG: string;
+    readonly outlinedSecondaryButtonHoverColor: string;
+    readonly containedSecondaryButtonHoverBG: string;
+    readonly graphStrokeColor: string;
+  };
+}
+
+interface IAPYData {
+  readonly apy: number;
+  readonly timestamp: string;
+}
+
+interface IStakedData {
+  readonly staked: number;
+  readonly timestamp: string;
+}
+
+interface IRebasesData {
+  readonly percentage: string;
+  readonly timestamp: string;
+}
 
 function TreasuryDashboard() {
-  const [data, setData] = useState(null);
-  const [apy, setApy] = useState(null);
-  const [runway, setRunway] = useState(null);
-  const [staked, setStaked] = useState(null);
-  const theme = useTheme();
+  const [data, setData] = useState<{ [key: string]: number }[]>([]);
+  const [apy, setApy] = useState<IAPYData[]>([]);
+  const [runway, setRunway] = useState<{ [key: string]: number }[]>([]);
+  const [staked, setStaked] = useState<IStakedData[]>([]);
+  const theme = useTheme<ITheme & Theme>();
   const smallerScreen = useMediaQuery("(max-width: 650px)");
   const verySmallScreen = useMediaQuery("(max-width: 379px)");
 
-  const marketPrice = useSelector(state => {
-    return state.app.marketPrice;
+  const marketPrice = useAppSelector(state => {
+    return state.app.marketPrice || 0;
   });
-  const circSupply = useSelector(state => {
-    return state.app.circSupply;
+  const circSupply = useAppSelector(state => {
+    return state.app.circSupply || 0;
   });
-  const totalSupply = useSelector(state => {
-    return state.app.totalSupply;
+  const totalSupply = useAppSelector(state => {
+    return state.app.totalSupply || 0;
   });
-  const marketCap = useSelector(state => {
-    return state.app.marketCap;
-  });
-
-  const currentIndex = useSelector(state => {
-    return state.app.currentIndex;
+  const marketCap = useAppSelector(state => {
+    return state.app.marketCap || 0;
   });
 
-  const backingPerOhm = useSelector(state => {
-    return state.app.treasuryMarketValue / state.app.circSupply;
+  const currentIndex = useAppSelector(state => {
+    return state.app.currentIndex || "";
   });
 
-  const wsOhmPrice = useSelector(state => {
-    return state.app.marketPrice * state.app.currentIndex;
+  const backingPerOhm = useAppSelector(state => {
+    return !state.app.treasuryMarketValue || !state.app.circSupply
+      ? 0
+      : state.app.treasuryMarketValue / state.app.circSupply;
+  });
+
+  const wsOhmPrice = useAppSelector(state => {
+    return !state.app.marketPrice || !state.app.currentIndex
+      ? 0
+      : state.app.marketPrice * Number(state.app.currentIndex);
   });
 
   useEffect(() => {
-    apollo(treasuryDataQuery).then(r => {
-      let metrics = r.data.protocolMetrics.map(entry =>
-        Object.entries(entry).reduce((obj, [key, value]) => ((obj[key] = parseFloat(value)), obj), {}),
-      );
-      metrics = metrics.filter(pm => pm.treasuryMarketValue > 0);
-      setData(metrics);
+    (async () => {
+      const treasuryData = await apollo<{ protocolMetrics: ITreasuryData[] }>(treasuryDataQuery);
+      if (treasuryData) {
+        let metrics = treasuryData.data.protocolMetrics.map(entry =>
+          Object.entries(entry).reduce(
+            (obj, [key, value]) => ((obj[key] = parseFloat(value)), obj),
+            {} as { [key: string]: number },
+          ),
+        );
+        metrics = metrics.filter(pm => pm.treasuryMarketValue > 0);
+        setData(metrics);
 
-      let staked = r.data.protocolMetrics.map(entry => ({
-        staked: (parseFloat(entry.sOhmCirculatingSupply) / parseFloat(entry.ohmCirculatingSupply)) * 100,
-        timestamp: entry.timestamp,
-      }));
-      staked = staked.filter(pm => pm.staked < 100);
-      setStaked(staked);
+        let staked = treasuryData.data.protocolMetrics.map(entry => ({
+          staked: (parseFloat(entry.sOhmCirculatingSupply) / parseFloat(entry.ohmCirculatingSupply)) * 100,
+          timestamp: entry.timestamp,
+        }));
+        staked = staked.filter(pm => pm.staked < 100);
+        setStaked(staked);
 
-      let runway = metrics.filter(pm => pm.runway10k > 5);
-      setRunway(runway);
-    });
+        let runway = metrics.filter(pm => pm.runway10k > 5);
+        setRunway(runway);
+      }
 
-    apollo(rebasesDataQuery).then(r => {
-      let apy = r.data.rebases.map(entry => ({
-        apy: Math.pow(parseFloat(entry.percentage) + 1, 365 * 3) * 100,
-        timestamp: entry.timestamp,
-      }));
+      const rebasesData = await apollo<{ rebases: IRebasesData[] }>(rebasesDataQuery);
+      if (rebasesData) {
+        let apy = rebasesData.data.rebases.map(entry => ({
+          apy: Math.pow(parseFloat(entry.percentage) + 1, 365 * 3) * 100,
+          timestamp: entry.timestamp,
+        }));
 
-      apy = apy.filter(pm => pm.apy < 300000);
+        apy = apy.filter(pm => pm.apy < 300000);
 
-      setApy(apy);
-    });
+        setApy(apy);
+      }
+    })();
   }, []);
 
   return (
@@ -98,8 +180,8 @@ function TreasuryDashboard() {
                   Market Cap
                 </Typography>
                 <Typography variant="h5">
-                  {marketCap && formatCurrency(marketCap, 0)}
-                  {!marketCap && <Skeleton type="text" />}
+                  {marketCap > 0 && formatCurrency(marketCap, 0)}
+                  {marketCap === 0 && <Skeleton variant="text" />}
                 </Typography>
               </Box>
 
@@ -109,7 +191,7 @@ function TreasuryDashboard() {
                 </Typography>
                 <Typography variant="h5">
                   {/* appleseed-fix */}
-                  {marketPrice ? formatCurrency(marketPrice, 2) : <Skeleton type="text" />}
+                  {marketPrice ? formatCurrency(marketPrice, 2) : <Skeleton variant="text" />}
                 </Typography>
               </Box>
 
@@ -124,7 +206,7 @@ function TreasuryDashboard() {
                 </Typography>
 
                 <Typography variant="h5">
-                  {wsOhmPrice ? formatCurrency(wsOhmPrice, 2) : <Skeleton type="text" />}
+                  {wsOhmPrice ? formatCurrency(wsOhmPrice, 2) : <Skeleton variant="text" />}
                 </Typography>
               </Box>
 
@@ -134,9 +216,9 @@ function TreasuryDashboard() {
                 </Typography>
                 <Typography variant="h5">
                   {circSupply && totalSupply ? (
-                    parseInt(circSupply) + " / " + parseInt(totalSupply)
+                    parseInt(circSupply.toString()) + " / " + parseInt(totalSupply.toString())
                   ) : (
-                    <Skeleton type="text" />
+                    <Skeleton variant="text" />
                   )}
                 </Typography>
               </Box>
@@ -146,7 +228,7 @@ function TreasuryDashboard() {
                   Backing per OHM
                 </Typography>
                 <Typography variant="h5">
-                  {backingPerOhm ? formatCurrency(backingPerOhm, 2) : <Skeleton type="text" />}
+                  {backingPerOhm ? formatCurrency(backingPerOhm, 2) : <Skeleton variant="text" />}
                 </Typography>
               </Box>
 
@@ -160,7 +242,7 @@ function TreasuryDashboard() {
                   />
                 </Typography>
                 <Typography variant="h5">
-                  {currentIndex ? trim(currentIndex, 2) + " sOHM" : <Skeleton type="text" />}
+                  {currentIndex ? trim(Number(currentIndex), 2) + " sOHM" : <Skeleton variant="text" />}
                 </Typography>
               </Box>
             </Box>
@@ -177,12 +259,21 @@ function TreasuryDashboard() {
                   dataKey={["totalValueLocked"]}
                   stopColor={[["#768299", "#98B3E9"]]}
                   headerText="Total Value Deposited"
-                  headerSubText={`${data && formatCurrency(data[0].totalValueLocked)}`}
+                  headerSubText={`${data.length > 0 && formatCurrency(data[0].totalValueLocked)}`}
                   bulletpointColors={bulletpoints.tvl}
                   itemNames={tooltipItems.tvl}
                   itemType={itemType.dollar}
                   infoTooltipMessage={tooltipInfoMessages.tvl}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                  // TS-REFACTOR-TODO (0xdavinchee): I can somewhat guess what these are supposed to be, but in the spirit of
+                  // how we are approaching the refactor, I will simply set these as undefined (as they were)
+                  // previously
+                  scale={undefined}
+                  color={undefined}
+                  stroke={undefined}
+                  dataFormat={undefined}
+                  isPOL={undefined}
+                  isStaked={undefined}
                 />
               </Paper>
             </Grid>
@@ -205,12 +296,21 @@ function TreasuryDashboard() {
                     ["#8BFF4D", "#4C8C2A"],
                   ]}
                   headerText="Market Value of Treasury Assets"
-                  headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
+                  headerSubText={`${data.length > 0 && formatCurrency(data[0].treasuryMarketValue)}`}
                   bulletpointColors={bulletpoints.coin}
                   itemNames={tooltipItems.coin}
                   itemType={itemType.dollar}
                   infoTooltipMessage={tooltipInfoMessages.mvt}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                  // TS-REFACTOR-TODO (0xdavinchee): I can somewhat guess what these are supposed to be, but in the spirit of
+                  // how we are approaching the refactor, I will simply set these as undefined (as they were)
+                  // previously
+                  scale={undefined}
+                  color={undefined}
+                  stroke={undefined}
+                  dataFormat={undefined}
+                  isPOL={undefined}
+                  isStaked={undefined}
                 />
               </Paper>
             </Grid>
@@ -220,7 +320,7 @@ function TreasuryDashboard() {
                 <Chart
                   type="stack"
                   data={data}
-                  format="currency"
+                  dataFormat="currency"
                   dataKey={["treasuryDaiRiskFreeValue", "treasuryFraxRiskFreeValue"]}
                   stopColor={[
                     ["#F5AC37", "#EA9276"],
@@ -229,12 +329,20 @@ function TreasuryDashboard() {
                     ["#000", "#fff"],
                   ]}
                   headerText="Risk Free Value of Treasury Assets"
-                  headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
+                  headerSubText={`${data.length > 0 && formatCurrency(data[0].treasuryRiskFreeValue)}`}
                   bulletpointColors={bulletpoints.coin}
                   itemNames={tooltipItems.coin}
                   itemType={itemType.dollar}
                   infoTooltipMessage={tooltipInfoMessages.rfv}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                  // TS-REFACTOR-TODO (0xdavinchee): I can somewhat guess what these are supposed to be, but in the spirit of
+                  // how we are approaching the refactor, I will simply set these as undefined (as they were)
+                  // previously
+                  scale={undefined}
+                  color={undefined}
+                  stroke={undefined}
+                  isPOL={undefined}
+                  isStaked={undefined}
                 />
               </Paper>
             </Grid>
@@ -247,13 +355,20 @@ function TreasuryDashboard() {
                   dataKey={["treasuryOhmDaiPOL"]}
                   stopColor={[["rgba(128, 204, 131, 1)", "rgba(128, 204, 131, 0)"]]}
                   headerText="Protocol Owned Liquidity OHM-DAI"
-                  headerSubText={`${data && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
+                  headerSubText={`${data.length > 0 && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
                   dataFormat="percent"
                   bulletpointColors={bulletpoints.pol}
                   itemNames={tooltipItems.pol}
                   itemType={itemType.percentage}
                   infoTooltipMessage={tooltipInfoMessages.pol}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                  // TS-REFACTOR-TODO (0xdavinchee): I can somewhat guess what these are supposed to be, but in the spirit of
+                  // how we are approaching the refactor, I will simply set these as undefined (as they were)
+                  // previously
+                  scale={undefined}
+                  color={undefined}
+                  stroke={undefined}
+                  isStaked={undefined}
                   isPOL={true}
                 />
               </Paper>
@@ -267,12 +382,18 @@ function TreasuryDashboard() {
                   dataKey={["holders"]}
                   headerText="Holders"
                   stroke={[theme.palette.text.secondary]}
-                  headerSubText={`${data && data[0].holders}`}
+                  headerSubText={`${data.length > 0 && data[0].holders}`}
                   bulletpointColors={bulletpoints.holder}
                   itemNames={tooltipItems.holder}
-                  itemType={""}
+                  itemType={undefined}
                   infoTooltipMessage={tooltipInfoMessages.holder}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                  scale={undefined}
+                  color={undefined}
+                  stroke={undefined}
+                  dataFormat={undefined}
+                  isPOL={undefined}
+                  isStaked={undefined}
                 />
               </Paper>
             </Grid> */}
@@ -286,11 +407,20 @@ function TreasuryDashboard() {
                   stopColor={[["#55EBC7", "#47ACEB"]]}
                   headerText="OHM Staked"
                   dataFormat="percent"
-                  headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
+                  headerSubText={`${staked.length > 0 && trim(staked[0].staked, 2)}% `}
                   isStaked={true}
                   bulletpointColors={bulletpoints.staked}
                   infoTooltipMessage={tooltipInfoMessages.staked}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                  itemType={itemType.percentage}
+                  // TS-REFACTOR-TODO (0xdavinchee): I can somewhat guess what these are supposed to be, but in the spirit of
+                  // how we are approaching the refactor, I will simply set these as undefined (as they were)
+                  // previously
+                  itemNames={undefined}
+                  scale={undefined}
+                  color={undefined}
+                  stroke={undefined}
+                  isPOL={false}
                 />
               </Paper>
             </Grid>
@@ -306,12 +436,18 @@ function TreasuryDashboard() {
                   stroke={[theme.palette.text.primary]}
                   headerText="APY over time"
                   dataFormat="percent"
-                  headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
+                  headerSubText={`${apy.length > 0 && trim(apy[0].apy, 2)}%`}
                   bulletpointColors={bulletpoints.apy}
                   itemNames={tooltipItems.apy}
                   itemType={itemType.percentage}
                   infoTooltipMessage={tooltipInfoMessages.apy}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                  // TS-REFACTOR-TODO (0xdavinchee): I can somewhat guess what these are supposed to be, but in the spirit of
+                  // how we are approaching the refactor, I will simply set these as undefined (as they were)
+                  // previously
+                  isPOL={false}
+                  isStaked={false}
+                  stopColor={undefined}
                 />
               </Paper>
             </Grid>
@@ -325,13 +461,20 @@ function TreasuryDashboard() {
                   color={theme.palette.text.primary}
                   stroke={[theme.palette.text.primary]}
                   headerText="Runway Available"
-                  headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
+                  headerSubText={`${data.length > 0 && trim(data[0].runwayCurrent, 1)} Days`}
                   dataFormat="days"
                   bulletpointColors={bulletpoints.runway}
                   itemNames={tooltipItems.runway}
-                  itemType={""}
+                  itemType={undefined}
                   infoTooltipMessage={tooltipInfoMessages.runway}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                  // TS-REFACTOR-TODO (0xdavinchee): I can somewhat guess what these are supposed to be, but in the spirit of
+                  // how we are approaching the refactor, I will simply set these as undefined (as they were)
+                  // previously
+                  scale={undefined}
+                  isPOL={undefined}
+                  isStaked={undefined}
+                  stopColor={undefined}
                 />
               </Paper>
             </Grid>

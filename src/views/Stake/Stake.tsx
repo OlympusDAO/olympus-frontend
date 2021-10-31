@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
@@ -20,7 +20,6 @@ import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -28,8 +27,9 @@ import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "./ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
+import { useAppSelector } from "src/hooks";
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
@@ -45,71 +45,71 @@ function Stake() {
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(0);
 
-  const isAppLoading = useSelector(state => state.app.loading);
-  const currentIndex = useSelector(state => {
+  const isAppLoading = useAppSelector(state => state.app.loading);
+  const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
   });
-  const fiveDayRate = useSelector(state => {
+  const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;
   });
-  const ohmBalance = useSelector(state => {
+  const ohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.ohm;
   });
-  const oldSohmBalance = useSelector(state => {
+  const oldSohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.oldsohm;
   });
-  const sohmBalance = useSelector(state => {
+  const sohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
-  const fsohmBalance = useSelector(state => {
+  const fsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
   });
-  const wsohmBalance = useSelector(state => {
+  const wsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
-  const stakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmStake;
+  const stakeAllowance = useAppSelector(state => {
+    return (state.account.staking && state.account.staking.ohmStake) || 0;
   });
-  const unstakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmUnstake;
+  const unstakeAllowance = useAppSelector(state => {
+    return (state.account.staking && state.account.staking.ohmUnstake) || 0;
   });
-  const stakingRebase = useSelector(state => {
-    return state.app.stakingRebase;
+  const stakingRebase = useAppSelector(state => {
+    return state.app.stakingRebase || 0;
   });
-  const stakingAPY = useSelector(state => {
-    return state.app.stakingAPY;
+  const stakingAPY = useAppSelector(state => {
+    return state.app.stakingAPY || 0;
   });
-  const stakingTVL = useSelector(state => {
+  const stakingTVL = useAppSelector(state => {
     return state.app.stakingTVL;
   });
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
   const setMax = () => {
     if (view === 0) {
-      setQuantity(ohmBalance);
+      setQuantity(Number(ohmBalance));
     } else {
-      setQuantity(sohmBalance);
+      setQuantity(Number(sohmBalance));
     }
   };
 
-  const onSeekApproval = async token => {
+  const onSeekApproval = async (token: string) => {
     await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
   };
 
-  const onChangeStake = async action => {
+  const onChangeStake = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(quantity) || quantity === 0 || quantity === "") {
+    if (isNaN(quantity) || quantity === 0) {
       // eslint-disable-next-line no-alert
       return dispatch(error("Please enter a value!"));
     }
 
     // 1st catch if quantity > balance
-    let gweiValue = ethers.utils.parseUnits(quantity, "gwei");
+    let gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
     if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
       return dispatch(error("You cannot stake more than your OHM balance."));
     }
@@ -140,7 +140,7 @@ function Stake() {
     </Button>,
   );
 
-  const changeView = (event, newView) => {
+  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
     setView(newView);
   };
 
@@ -153,7 +153,7 @@ function Stake() {
   );
   const trimmedStakingAPY = trim(stakingAPY * 100, 1);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
+  const nextRewardValue = trim((Number(stakingRebasePercentage) / 100) * trimmedBalance, 4);
 
   return (
     <div id="stake-view">
@@ -165,7 +165,7 @@ function Stake() {
                 <Typography variant="h5">Single Stake (3, 3)</Typography>
                 <RebaseTimer />
 
-                {address && oldSohmBalance > 0.01 && (
+                {address && Number(oldSohmBalance) > 0.01 && (
                   <Link
                     className="migrate-sohm-button"
                     style={{ textDecoration: "none" }}
@@ -190,7 +190,7 @@ function Stake() {
                       </Typography>
                       <Typography variant="h4">
                         {stakingAPY ? (
-                          <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
+                          <>{new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY))}%</>
                         ) : (
                           <Skeleton width="150px" />
                         )}
@@ -224,7 +224,7 @@ function Stake() {
                         Current Index
                       </Typography>
                       <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                        {currentIndex ? <>{trim(Number(currentIndex), 1)} OHM</> : <Skeleton width="150px" />}
                       </Typography>
                     </div>
                   </Grid>
@@ -286,7 +286,7 @@ function Stake() {
                               placeholder="Enter an amount"
                               className="stake-input"
                               value={quantity}
-                              onChange={e => setQuantity(e.target.value)}
+                              onChange={e => setQuantity(Number(e.target.value))}
                               labelWidth={0}
                               endAdornment={
                                 <InputAdornment position="end">
@@ -367,7 +367,7 @@ function Stake() {
                     <div className="data-row">
                       <Typography variant="body1">Your Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(ohmBalance), 4)} OHM</>}
                       </Typography>
                     </div>
 
@@ -395,7 +395,7 @@ function Stake() {
                     <div className="data-row">
                       <Typography variant="body1">ROI (5-Day Rate)</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiveDayRate) * 100, 4)}%</>}
                       </Typography>
                     </div>
                   </div>
