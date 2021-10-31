@@ -26,8 +26,8 @@ import { IUserBondDetails } from "src/slices/AccountSlice";
 
 function ChooseBond() {
   const { bonds } = useBonds();
-  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
-  const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
+  const isSmallScreen: boolean = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
+  const isVerySmallScreen: boolean = useMediaQuery("(max-width: 420px)");
 
   const isAppLoading: boolean = useAppSelector(state => state.app.loading);
   const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
