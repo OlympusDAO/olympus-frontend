@@ -41,21 +41,6 @@ export const getBalances = createAsyncThunk(
   },
 );
 
-interface IUserAccountDetails {
-  balances: {
-    dai: string;
-    ohm: string;
-    sohm: string;
-  };
-  staking: {
-    ohmStake: number;
-    ohmUnstake: number;
-  };
-  bonding: {
-    daiAllowance: number;
-  };
-}
-
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
   async ({ networkID, provider, address }: IBaseAddressAsyncThunk) => {
@@ -208,13 +193,19 @@ interface IAccountSlice {
     sohm: string;
     dai: string;
     oldsohm: string;
+    fsohm: number;
+    wsohm: string;
   };
   loading: boolean;
+  staking?: {
+    ohmStake: number;
+    ohmUnstake: number;
+  };
 }
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
-  balances: { ohm: "", sohm: "", dai: "", oldsohm: "" },
+  balances: { ohm: "", sohm: "", dai: "", oldsohm: "", fsohm: 0, wsohm: "" },
 };
 
 const accountSlice = createSlice({

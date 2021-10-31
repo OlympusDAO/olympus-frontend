@@ -73,6 +73,16 @@ interface ITheme {
   };
 }
 
+interface IAPYData {
+  readonly apy: number;
+  readonly timestamp: string;
+}
+
+interface IStakedData {
+  readonly staked: number;
+  readonly timestamp: string;
+}
+
 interface IRebasesData {
   readonly percentage: string;
   readonly timestamp: string;
@@ -80,19 +90,9 @@ interface IRebasesData {
 
 function TreasuryDashboard() {
   const [data, setData] = useState<{ [key: string]: number }[]>([]);
-  const [apy, setApy] = useState<
-    {
-      apy: number;
-      timestamp: string;
-    }[]
-  >([]);
+  const [apy, setApy] = useState<IAPYData[]>([]);
   const [runway, setRunway] = useState<{ [key: string]: number }[]>([]);
-  const [staked, setStaked] = useState<
-    {
-      staked: number;
-      timestamp: string;
-    }[]
-  >([]);
+  const [staked, setStaked] = useState<IStakedData[]>([]);
   const theme = useTheme<ITheme & Theme>();
   const smallerScreen = useMediaQuery("(max-width: 650px)");
   const verySmallScreen = useMediaQuery("(max-width: 379px)");
@@ -180,8 +180,8 @@ function TreasuryDashboard() {
                   Market Cap
                 </Typography>
                 <Typography variant="h5">
-                  {marketCap && formatCurrency(marketCap, 0)}
-                  {!marketCap && <Skeleton variant="text" />}
+                  {marketCap > 0 && formatCurrency(marketCap, 0)}
+                  {marketCap === 0 && <Skeleton variant="text" />}
                 </Typography>
               </Box>
 
