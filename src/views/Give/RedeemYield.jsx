@@ -16,7 +16,7 @@ import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 
-export default function Redeem() {
+export default function RedeemYield() {
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);

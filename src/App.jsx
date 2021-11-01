@@ -16,7 +16,7 @@ import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether, Tyche } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether, Give } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
@@ -216,8 +216,8 @@ function App() {
               <Stake />
             </Route>
 
-            <Route path="/stream">
-              <Tyche />
+            <Route path="/give">
+              <Give />
             </Route>
 
             <Route path="/33-together">

@@ -8,7 +8,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { RecipientModal } from "./RecipientModal";
 import YieldRecipients from "./YieldRecipients";
 
-export default function YieldDirector() {
+export default function DepositYield() {
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
@@ -53,7 +53,7 @@ export default function YieldDirector() {
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
         <div className="card-header">
-          <Typography variant="h5">Stream Recipients</Typography>
+          <Typography variant="h5">Recipients</Typography>
           <Button
             variant="outlined"
             color="secondary"
