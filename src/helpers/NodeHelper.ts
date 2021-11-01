@@ -203,6 +203,10 @@ export class NodeHelper {
 
   /**
    * handles different validityCheck for different node health endpoints
+   * * `net_peerCount` should be > 0 (0x0 as a Hex Value). If it is === 0 then queries will timeout within ethers.js
+   * * `net_peerCount` === 0 whenever the node has recently restarted.
+   * * `eth_syncing` should be false. If not false then queries will fail within ethers.js
+   * * `eth_syncing` is not false whenever the node is connected to a peer that is still syncing.
    * @param nodeMethod "net_peerCount" || "eth_syncing"
    * @param resultVal the result object from the nodeMethod json query
    * @returns true if valid node, false if invalid
