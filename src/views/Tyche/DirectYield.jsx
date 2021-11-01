@@ -67,7 +67,7 @@ export default function YieldDirector() {
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
         <div className="card-header">
-          <Typography variant="h5">Yield Director</Typography>
+          <Typography variant="h5">Stream Recipients</Typography>
           <Button
             variant="outlined"
             color="secondary"
@@ -75,9 +75,16 @@ export default function YieldDirector() {
             onClick={() => handleAddButtonClick()}
             disabled={!address}
           >
-            <Typography variant="body1">Add Recipient</Typography>
+            Add Recipient
           </Button>
         </div>
+        <Typography variant="body1">
+          Click on "Add Recipient" to define a new recipient of yield from your deposited staked OHM.
+        </Typography>
+        <Typography variant="body1">
+          The listed wallets are receiving yield from the staked OHM that you have deposited. For each, you can edit the
+          amount of deposited sOHM, or withdraw the sOHM entirely.
+        </Typography>
         <RecipientModal isModalOpen={isModalOpen} callbackFunc={handleAddRecipient} cancelFunc={handleModalCancel} />
         <YieldRecipients />
       </Paper>
