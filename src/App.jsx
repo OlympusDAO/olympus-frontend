@@ -144,8 +144,6 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        const providerURL = uri;
-        // Note (appleseed): remove this before merge to develop
         segmentUA({
           type: "connect",
           provider: provider,
@@ -156,7 +154,6 @@ function App() {
       // then user DOES NOT have a wallet
       setWalletChecked(true);
     }
-    // We want to ensure that we are storing the UTM parameters for later, even if the user follows links
     if (shouldTriggerSafetyCheck()) {
       dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
     }

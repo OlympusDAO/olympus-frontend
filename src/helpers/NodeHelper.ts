@@ -90,8 +90,7 @@ export class NodeHelper {
 
     let currentConnectionStats = JSON.parse(NodeHelper._storage.getItem(providerKey) || "{}");
     currentConnectionStats = NodeHelper._updateConnectionStatsForProvider(currentConnectionStats);
-
-    if (currentConnectionStats.failedConnectionCount > NodeHelper._maxFailedConnections) {
+    if (currentConnectionStats.failedConnectionCount >= NodeHelper._maxFailedConnections) {
       // then remove this node from our provider list for 24 hours
       NodeHelper._removeNodeFromProviders(providerKey, providerUrl);
     } else {
@@ -116,6 +115,21 @@ export class NodeHelper {
       allURIs = EnvHelper.getFallbackURIs();
     }
     return allURIs;
+  };
+
+  /**
+   * stores a retry check to be used to prevent constant Node Health retries
+   * returns true if we haven't previously retried, else false
+   * @returns boolean
+   */
+  static retryOnInvalid = () => {
+    const storageKey = "-nodeHelper:retry";
+    if (!NodeHelper._storage.getItem(storageKey)) {
+      NodeHelper._storage.setItem(storageKey, "true");
+      // if we haven't previously retried then return true
+      return true;
+    }
+    return false;
   };
 
   /**
@@ -148,18 +162,19 @@ export class NodeHelper {
         },
         // NOTE (appleseed): are there other basic requests for other chain types (Arbitrum)???
         // https://documenter.getpostman.com/view/4117254/ethereum-json-rpc/RVu7CT5J
-        // chainId works... but is net_version lighter-weight?
-        // body: JSON.stringify({ method: "eth_chainId", params: [], id: 42, jsonrpc: "2.0" }),
-        body: JSON.stringify({ method: "net_version", params: [], id: 67, jsonrpc: "2.0" }),
+        // body: JSON.stringify({ method: "eth_chainId", params: [], id: 42, jsonrpc: "2.0" }), this didn't work
+        body: JSON.stringify({ method: "net_listening", params: [], id: 67, jsonrpc: "2.0" }), // would want true
       });
-      if (resp.status >= 400) {
-        // probably 403 or 429 -> no more alchemy capacity
-        NodeHelper.logBadConnectionWithTimer(resp.url);
-        liveURL = false;
+      if (!resp.ok) {
+        throw Error("failed node connection");
       } else {
-        // this is a working node
-        // TODO (appleseed) use response object to prioritize it
-        liveURL = url;
+        // response came back but is it healthy?
+        let jsonResponse = await resp.json();
+        if (jsonResponse.result === true) {
+          liveURL = url;
+        } else {
+          throw Error("unhealthy node connection");
+        }
       }
     } catch {
       // some other type of issue
