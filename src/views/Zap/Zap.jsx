@@ -126,7 +126,52 @@ function Zap() {
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
   return (
+    // <div display="flex">
     <div id="zap-view">
+      <Box flexDirection="row" minWidth="350px">
+        <Tabs
+          key={String(zoomed)}
+          centered
+          value={view}
+          textColor="primary"
+          indicatorColor="primary"
+          className="stake-tab-buttons"
+          onChange={changeView}
+          aria-label="stake tabs"
+          variant="fullWidth"
+          wrapped
+        >
+          <Tab
+            label={
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                Zap-Stake
+                <FlashOnIcon />
+              </div>
+            }
+            {...a11yProps(0)}
+          />
+          <Tab
+            label={
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                Zap-Bond
+              </div>
+            }
+            {...a11yProps(1)}
+          />
+        </Tabs>
+      </Box>
       <Zoom in={true} onEntered={() => setZoomed(true)}>
         <Paper className={`ohm-card`}>
           <Grid container direction="column" spacing={2}>
@@ -134,19 +179,6 @@ function Zap() {
               <div className="card-header">
                 <Typography variant="h5">Single Stake (3, 3)</Typography>
                 <RebaseTimer />
-
-                {address && oldSohmBalance > 0.01 && (
-                  <Link
-                    className="migrate-sohm-button"
-                    style={{ textDecoration: "none" }}
-                    href="https://docs.olympusdao.finance/using-the-website/migrate"
-                    aria-label="migrate-sohm"
-                    target="_blank"
-                  >
-                    <NewReleases viewBox="0 0 24 24" />
-                    <Typography>Migrate sOHM!</Typography>
-                  </Link>
-                )}
               </div>
             </Grid>
 
@@ -202,7 +234,6 @@ function Zap() {
               </div>
             </Grid>
           </Grid>
-
           <div className="staking-area">
             {!address ? (
               <div className="stake-wallet-notification">
@@ -214,50 +245,7 @@ function Zap() {
             ) : (
               <>
                 <Box className="stake-action-area">
-                  <Box alignSelf="center" minWidth="420px" width="80%">
-                    <Tabs
-                      key={String(zoomed)}
-                      centered
-                      value={view}
-                      textColor="primary"
-                      indicatorColor="primary"
-                      className="stake-tab-buttons"
-                      onChange={changeView}
-                      aria-label="stake tabs"
-                      variant="fullWidth"
-                      wrapped
-                    >
-                      <Tab
-                        label={
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              flexWrap: "wrap",
-                            }}
-                          >
-                            Zap-Stake
-                            <FlashOnIcon />
-                          </div>
-                        }
-                        {...a11yProps(0)}
-                      />
-                      <Tab
-                        label={
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              flexWrap: "wrap",
-                            }}
-                          >
-                            Zap-Bond
-                          </div>
-                        }
-                        {...a11yProps(1)}
-                      />
-                    </Tabs>
-                  </Box>
+                  <Box alignSelf="center" minWidth="420px" width="80%"></Box>
 
                   <TabPanel value={view} index={0} className="stake-tab-panel">
                     <ZapAction address={address} />
@@ -306,6 +294,7 @@ function Zap() {
         </Paper>
       </Zoom>
     </div>
+    // </div>
   );
 }
 

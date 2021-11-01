@@ -12,7 +12,6 @@ export const getZapTokenBalances = createAsyncThunk(
   async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
     if (address) {
       const result = await ZapHelper.getZapTokens(address);
-      console.log(result);
       return result;
     }
   },
@@ -33,8 +32,6 @@ const zapTokenBalancesSlice = createSlice({
   initialState,
   reducers: {
     fetchZapTokensSuccess(state, action) {
-      console.log(state);
-      console.log(action.payload);
       setAll(state, action.payload);
     },
   },

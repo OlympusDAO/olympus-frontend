@@ -52,10 +52,8 @@ export class ZapHelper {
     const parsed = response[address].products
       .find(product => product.label === "Tokens")
       ?.assets.flatMap(asset => asset.tokens);
-    const arr = parsed?.map(token => [token.symbol.toLowerCase(), token]) ?? [[]];
-    const result = { balances: Object.fromEntries(arr) };
-    // parsed?.forEach(token => (result[token.symbol.toLowerCase()] = token));
-    // console.log(result);
+    const arr = parsed?.map(token => [token.symbol.toLowerCase(), token]) ?? null;
+    const result = { balances: arr == null ? {} : Object.fromEntries(arr) };
     return result;
   };
 }

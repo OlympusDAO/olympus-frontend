@@ -20,7 +20,7 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { getTokenBalances } from "src/slices/ZapSlice";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { ButtonBase } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,16 +51,20 @@ function ZapAction(props) {
     handleClose();
   };
 
-  const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => {
     setModalOpen(true);
   };
   const handleClose = () => setModalOpen(false);
-  //   dispatch(getTokenBalances({ address }));
+
   const [inputQuantity, setInputQuantity] = useState("");
   const [outputQuantity, setOutputQuantity] = useState("");
-  const exchangeRate = 2.0;
+
+  const ohmMarketPrice = useSelector(state => {
+    return state.app.marketPrice;
+  });
+
+  const exchangeRate = ohmMarketPrice / tokens[zapToken]?.price;
 
   const setZapTokenQuantity = q => {
     if (q == null || q === "") {
@@ -70,7 +74,7 @@ function ZapAction(props) {
     }
     const amount = Number(q);
     setInputQuantity(amount);
-    setOutputQuantity(exchangeRate * amount);
+    setOutputQuantity(amount / exchangeRate);
   };
 
   const setOutputTokenQuantity = q => {
@@ -81,7 +85,7 @@ function ZapAction(props) {
     }
     const amount = Number(q);
     setOutputQuantity(amount);
-    setInputQuantity(amount / exchangeRate);
+    setInputQuantity(amount * exchangeRate);
   };
 
   return (
@@ -93,34 +97,55 @@ function ZapAction(props) {
           id="zap-amount-input"
           type="number"
           placeholder="Enter an amount"
-          className="stake-input"
+          className="zap-input"
+          disabled={zapToken == null}
           value={inputQuantity}
           onChange={e => setZapTokenQuantity(e.target.value)}
           //   labelWidth={0}
           //   label="Hello"
           endAdornment={
             <InputAdornment position="end">
-              <ButtonBase onClick={handleOpen}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    minWidth: "60px",
-                  }}
-                >
-                  {zapToken == null ? (
-                    <Typography>Select a Token</Typography>
-                  ) : (
-                    <>
-                      <Avatar src={tokens[zapToken].img} style={{ height: "30px", width: "30px" }} />
-                      <Box width="20px" />
-                      <Typography>{tokens[zapToken].symbol}</Typography>
-                    </>
-                  )}
-                  <KeyboardArrowDownIcon />
-                </div>
-              </ButtonBase>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  minWidth: "60px",
+                }}
+              >
+                {zapToken == null ? (
+                  <ButtonBase onClick={handleOpen}>
+                    <Box flexDirection="row" display="flex" alignItems="center">
+                      <Typography>Select a Token</Typography>
+                      <KeyboardArrowDownIcon />
+                    </Box>
+                  </ButtonBase>
+                ) : (
+                  <Box flexDirection="column" display="flex">
+                    <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
+                      <ButtonBase onClick={handleOpen}>
+                        <Avatar src={tokens[zapToken].img} style={{ height: "30px", width: "30px" }} />
+                        <Box width="10px" />
+                        <Typography>{tokens[zapToken].symbol}</Typography>
+                        <KeyboardArrowDownIcon />
+                      </ButtonBase>
+                    </Box>
+
+                    <Box height="5px" />
+                    <Box flexDirection="row" display="flex" alignItems="center">
+                      <Typography color="textSecondary">{`Your Balance ${tokens[zapToken].balance.toFixed(
+                        2,
+                      )}`}</Typography>
+                      <Box width="10px" />
+                      <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken].balance)}>
+                        <Typography>
+                          <b>Max</b>
+                        </Typography>
+                      </ButtonBase>
+                    </Box>
+                  </Box>
+                )}
+              </div>
             </InputAdornment>
           }
         />
@@ -136,8 +161,9 @@ function ZapAction(props) {
           id="zap-amount-output"
           type="number"
           placeholder="Enter an amount"
-          className="stake-input"
+          className="zap-input"
           value={outputQuantity}
+          disabled={zapToken == null}
           onChange={e => setOutputTokenQuantity(e.target.value)}
           labelWidth={0}
           endAdornment={
@@ -154,7 +180,7 @@ function ZapAction(props) {
                   src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png"
                   style={{ height: "30px", width: "30px" }}
                 />
-                <Box width="20px" />
+                <Box width="10px" />
                 <Typography>sOHM</Typography>
               </div>
             </InputAdornment>
@@ -167,7 +193,9 @@ function ZapAction(props) {
       </Box>
       <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
         <Typography>Exchange Rate</Typography>
-        <Typography>$X $TOKEN = $Y sOHM</Typography>
+        <Typography>
+          {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
+        </Typography>
       </Box>
       <Button
         fullWidth
@@ -184,22 +212,29 @@ function ZapAction(props) {
       </Button>
 
       <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs">
-        <DialogTitle>Select Zap Token</DialogTitle>
-        <List sx={{ pt: 0 }}>
-          {Object.entries(tokens)
-            .filter(token => !token[1].hide)
-            .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-            .map(token => (
-              <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
-                <ListItemAvatar>
-                  <Avatar src={token[1].img} />
-                </ListItemAvatar>
-                <ListItemText primary={token[1].symbol} />
-                <Box flexGrow={10} />
-                <ListItemText primary={`$${token[1].balanceUSD.toFixed(2)}`} secondary={token[1].balance.toFixed(4)} />
-              </ListItem>
-            ))}
-        </List>
+        <DialogTitle>
+          <Typography align="center">Select Zap Token</Typography>
+        </DialogTitle>
+        {isTokensLoading || Object.entries(tokens).length == 0 ? null : (
+          <List sx={{ pt: 0 }}>
+            {Object.entries(tokens)
+              .filter(token => !token[1].hide)
+              .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
+              .map(token => (
+                <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
+                  <ListItemAvatar>
+                    <Avatar src={token[1].img} />
+                  </ListItemAvatar>
+                  <ListItemText primary={token[1].symbol} />
+                  <Box flexGrow={10} />
+                  <ListItemText
+                    primary={`$${token[1].balanceUSD.toFixed(2)}`}
+                    secondary={token[1].balance.toFixed(4)}
+                  />
+                </ListItem>
+              ))}
+          </List>
+        )}
       </Dialog>
     </div>
   );
