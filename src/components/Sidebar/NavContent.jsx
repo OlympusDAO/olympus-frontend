@@ -95,13 +95,13 @@ function NavContent() {
               <Link
                 component={NavLink}
                 id="tyche-nav"
-                to="/stream"
+                to="/give"
                 isActive={(match, location) => {
-                  return checkPage(match, location, "stream");
+                  return checkPage(match, location, "give");
                 }}
                 className={`button-dapp-menu ${isActive ? "active" : ""}`}
               >
-                <Typography variant="h6">Stream</Typography>
+                <Typography variant="h6">Give</Typography>
               </Link>
 
               <Link

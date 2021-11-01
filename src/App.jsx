@@ -216,7 +216,7 @@ function App() {
               <Stake />
             </Route>
 
-            <Route path="/stream">
+            <Route path="/give">
               <Tyche />
             </Route>
 

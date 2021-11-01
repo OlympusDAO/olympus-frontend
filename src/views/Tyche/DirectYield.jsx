@@ -5,6 +5,7 @@ import { Paper, Typography, Button, Zoom } from "@material-ui/core";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { changeGive } from "../../slices/StreamThunk";
 import { RecipientModal } from "./RecipientModal";
 import YieldRecipients from "./YieldRecipients";
 
@@ -43,8 +44,21 @@ export default function YieldDirector() {
     setIsModalOpen(false);
   };
 
-  const handleAddRecipient = (walletAddress, depositAmount, depositAmountDiff) => {
-    // TODO handle smart contract
+  const handleAddRecipient = async (walletAddress, depositAmount, depositAmountDiff) => {
+    if (isNaN(depositAmount) || depositAmount === 0 || depositAmount === "" || depositAmountDiff === 0) {
+      return dispatch(error("Please enter a value!"));
+    }
+
+    await dispatch(
+      changeGive({
+        action: "give",
+        value: depositAmount.toString(),
+        recipient: walletAddress,
+        provider,
+        address,
+        networkID: chainID,
+      }),
+    );
 
     setIsModalOpen(false);
   };

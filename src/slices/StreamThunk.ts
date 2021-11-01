@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as OlympusStreaming } from "../abi/OlympusStreaming.json";
-import { clearPendingTxn, fetchPendingTxns, getStreamingTypeText } from "./PendingTxnsSlice";
+import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
+import { clearPendingTxn, fetchPendingTxns, getGivingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error } from "../slices/MessagesSlice";
@@ -20,7 +20,7 @@ interface IUAData {
 
 // This is approving the recipient to spend, not the contract
 export const changeApproval = createAsyncThunk(
-  "stream/changeApproval",
+  "give/changeApproval",
   async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet"));
@@ -32,11 +32,11 @@ export const changeApproval = createAsyncThunk(
     let approveTx;
     try {
       approveTx = await sohmContract.approve(
-        addresses[networkID].STREAMING_ADDRESS,
+        addresses[networkID].GIVING_ADDRESS,
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );
-      const text = "Approve streaming";
-      const pendingTxnType = "approve_streaming";
+      const text = "Approve giving";
+      const pendingTxnType = "approve_giving";
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
       await approveTx.wait();
     } catch (e: unknown) {
@@ -48,19 +48,19 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const streamAllowance = await sohmContract.allowance(address, addresses[networkID].STREAMING_ADDRESS);
+    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
     return dispatch(
       fetchAccountSuccess({
-        streaming: {
-          sohmStream: +streamAllowance,
+        giving: {
+          sohmGive: +giveAllowance,
         },
       }),
     );
   },
 );
 
-export const changeStream = createAsyncThunk(
-  "stream/changeStream",
+export const changeGive = createAsyncThunk(
+  "give/changeGive",
   async ({ action, value, recipient, provider, address, networkID }: IActionValueRecipientAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
@@ -68,8 +68,8 @@ export const changeStream = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const streaming = new ethers.Contract(addresses[networkID].STREAMING_ADDRESS as string, OlympusStreaming, signer);
-    let streamTx;
+    const giving = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, signer);
+    let giveTx;
 
     let uaData: IUAData = {
       address: address,
@@ -81,35 +81,41 @@ export const changeStream = createAsyncThunk(
     };
 
     try {
-      if (action === "stream") {
-        uaData.type = "stream";
-        streamTx = await streaming.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
+      if (action === "give") {
+        uaData.type = "give";
+        giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
+      } else if (action === "editGive") {
+        uaData.type = "editGive";
+        if (parseFloat(value) > 0) {
+          giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
+        } else if (parseFloat(value) < 0) {
+          let reductionAmount = (-1 * parseFloat(value)).toString();
+          giveTx = await giving.withdraw(ethers.utils.parseUnits(reductionAmount, "gwei"), recipient);
+        }
       } else {
-        uaData.type = "endStream";
-        streamTx = await streaming.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
+        uaData.type = "endGive";
+        giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
       }
-      const pendingTxnType = action === "stream" ? "streaming" : "endingStream";
-      uaData.txHash = streamTx.hash;
-      dispatch(fetchPendingTxns({ txnHash: streamTx.hash, text: getStreamingTypeText(action), type: pendingTxnType }));
-      await streamTx.wait();
+      const pendingTxnType = action === "give" ? "giving" : "editGive" ? "editingGive" : "endingGive";
+      uaData.txHash = giveTx.hash;
+      dispatch(fetchPendingTxns({ txnHash: giveTx.hash, text: getGivingTypeText(action), type: pendingTxnType }));
+      await giveTx.wait();
     } catch (e: unknown) {
       uaData.approved = false;
       const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         dispatch(
-          error(
-            "You may be trying to stream more than your balance! Error code: 32603. Message: ds-math-sub-underflow",
-          ),
+          error("You may be trying to give more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
         );
       } else {
         dispatch(error(rpcError.message));
       }
       return;
     } finally {
-      if (streamTx) {
+      if (giveTx) {
         segmentUA(uaData);
 
-        dispatch(clearPendingTxn(streamTx.hash));
+        dispatch(clearPendingTxn(giveTx.hash));
       }
     }
     dispatch(getBalances({ address, networkID, provider }));

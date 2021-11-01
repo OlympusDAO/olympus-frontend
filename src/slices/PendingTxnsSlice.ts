@@ -28,8 +28,12 @@ export const getStakingTypeText = (action: string) => {
   return action.toLowerCase() === "stake" ? "Staking OHM" : "Unstaking sOHM";
 };
 
-export const getStreamingTypeText = (action: string) => {
-  return action.toLowerCase() === "stream" ? "Streaming sOHM" : "Ending sOHM stream";
+export const getGivingTypeText = (action: string) => {
+  return action.toLowerCase() === "give"
+    ? "Giving sOHM"
+    : "editGive"
+    ? "Editing sOHM donation amount"
+    : "Withdrawing sOHM donation";
 };
 
 export const isPendingTxn = (pendingTransactions: IPendingTxn[], type: string) => {

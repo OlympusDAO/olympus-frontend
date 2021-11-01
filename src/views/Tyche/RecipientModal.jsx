@@ -8,7 +8,7 @@ import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
-import { changeApproval, changeStream } from "../../slices/StreamThunk";
+import { changeApproval, changeGive } from "../../slices/StreamThunk";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 
@@ -42,8 +42,8 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     return state.account.balances && state.account.balances.sohm;
   });
 
-  const streamAllowance = useSelector(state => {
-    return state.account.streaming && state.account.streaming.sohmStream;
+  const giveAllowance = useSelector(state => {
+    return state.account.giving && state.account.giving.sohmGive;
   });
 
   const pendingTransactions = useSelector(state => {
@@ -54,17 +54,16 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     await dispatch(changeApproval({ address, token: "sohm", provider, networkID: chainID }));
   };
 
-  const onChangeStream = async action => {
+  const onChangeGive = async action => {
     if (isNaN(depositAmount) || depositAmount === 0 || depositAmount === "") {
       return dispatch(error("Please enter a value!"));
     }
 
     // Already checked if quantity is valid when depositAmount is set
     // Can check again here if desired
-    // Need to have check for if amount is valid when ending stream
-    if (action === "stream") {
+    if (action === "give") {
       await dispatch(
-        changeStream({
+        changeGive({
           action: action,
           value: depositAmount.toString(),
           recipient: walletAddress,
@@ -74,20 +73,13 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
         }),
       );
     }
-
-    // Need to implement "get sOHM directed to this recipient"
-    /*
-    if (action === "endStream") {
-
-    }
-    */
   };
 
   const hasAllowance = useCallback(() => {
-    return streamAllowance > 0;
-  }, [streamAllowance]);
+    return giveAllowance > 0;
+  }, [giveAllowance]);
 
-  const isAllowanceDataLoading = streamAllowance == null;
+  const isAllowanceDataLoading = giveAllowance == null;
 
   /**
    * Returns the maximum deposit that can be directed to the recipient.
@@ -258,54 +250,101 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
         </div>
         <Typography variant="body1">{getIntroduction()}</Typography>
         {hasAllowance() ? (
-          <>
-            <Typography variant="h5">Amount of sOHM</Typography>
-            <FormControl className="modal-input" variant="outlined" color="primary">
-              <InputLabel htmlFor="amount-input"></InputLabel>
-              <OutlinedInput
-                id="amount-input"
-                type="number"
-                placeholder="Enter an amount"
-                className="stake-input"
-                value={depositAmount}
-                error={!isDepositAmountValid}
-                onChange={e => handleSetDepositAmount(e.target.value)}
-                labelWidth={0}
-              />
-              <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-              {!isCreateMode() && (
-                <Typography variant="body2">Difference: {depositAmount - currentDepositAmount}</Typography>
-              )}
-            </FormControl>
-            <Typography variant="h5">Recipient Address</Typography>
-            <FormControl className="modal-input" variant="outlined" color="primary">
-              <InputLabel htmlFor="wallet-input"></InputLabel>
-              <OutlinedInput
-                id="wallet-input"
-                type="text"
-                placeholder="Enter a wallet address in the form of 0x ..."
-                className="stake-input"
-                value={walletAddress}
-                error={!isWalletAddressValid}
-                onChange={e => handleSetWallet(e.target.value)}
-                labelWidth={0}
-                disabled={!isCreateMode()}
-              />
-              <FormHelperText>{isWalletAddressValidError}</FormHelperText>
-            </FormControl>
-          </>
+          !isCreateMode() ? (
+            <>
+              <Typography variant="h5">Amount of sOHM</Typography>
+              <FormControl className="modal-input" variant="outlined" color="primary">
+                <InputLabel htmlFor="amount-input"></InputLabel>
+                <OutlinedInput
+                  id="amount-input"
+                  type="number"
+                  placeholder="Enter an amount"
+                  className="stake-input"
+                  value={depositAmount}
+                  error={!isDepositAmountValid}
+                  onChange={e => handleSetDepositAmount(e.target.value)}
+                  labelWidth={0}
+                />
+                <FormHelperText>{isDepositAmountValidError}</FormHelperText>
+                {!isCreateMode() && (
+                  <Typography variant="body2">Difference: {depositAmount - currentDepositAmount}</Typography>
+                )}
+              </FormControl>
+            </>
+          ) : (
+            <>
+              <Typography variant="h5">Amount of sOHM</Typography>
+              <FormControl className="modal-input" variant="outlined" color="primary">
+                <InputLabel htmlFor="amount-input"></InputLabel>
+                <OutlinedInput
+                  id="amount-input"
+                  type="number"
+                  placeholder="Enter an amount"
+                  className="stake-input"
+                  value={depositAmount}
+                  error={!isDepositAmountValid}
+                  onChange={e => handleSetDepositAmount(e.target.value)}
+                  labelWidth={0}
+                />
+                <FormHelperText>{isDepositAmountValidError}</FormHelperText>
+                {!isCreateMode() && (
+                  <Typography variant="body2">Difference: {depositAmount - currentDepositAmount}</Typography>
+                )}
+              </FormControl>
+              <Typography variant="h5">Recipient Address</Typography>
+              <FormControl className="modal-input" variant="outlined" color="primary">
+                <InputLabel htmlFor="wallet-input"></InputLabel>
+                <OutlinedInput
+                  id="wallet-input"
+                  type="text"
+                  placeholder="Enter a wallet address in the form of 0x ..."
+                  className="stake-input"
+                  value={walletAddress}
+                  error={!isWalletAddressValid}
+                  onChange={e => handleSetWallet(e.target.value)}
+                  labelWidth={0}
+                  disabled={!isCreateMode()}
+                />
+                <FormHelperText>{isWalletAddressValidError}</FormHelperText>
+              </FormControl>
+            </>
+          )
         ) : (
           <Box className="help-text">
             <Typography variant="body1" className="stream-note" color="textSecondary">
-              First time streaming <b>sOHM</b>?
+              First time giving <b>sOHM</b>?
               <br />
-              Please approve Olympus DAO to use your <b>sOHM</b> for streaming.
+              Please approve Olympus DAO to use your <b>sOHM</b> for giving.
             </Typography>
           </Box>
         )}
         {isAllowanceDataLoading ? (
           <Skeleton />
-        ) : address && hasAllowance() ? (
+        ) : isCreateMode() ? (
+          address && hasAllowance() ? (
+            <FormControl className="ohm-modal-submit">
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={
+                  !isDepositAmountValid ||
+                  !isWalletAddressValid ||
+                  !address ||
+                  isPendingTxn(pendingTransactions, "giving")
+                }
+                onClick={handleSubmit}
+              >
+                {txnButtonText(pendingTransactions, "giving", "Give sOHM")}
+              </Button>
+            </FormControl>
+          ) : (
+            <FormControl className="ohm-modal-submit">
+              <Button variant="contained" color="primary" onClick={onSeekApproval}>
+                {txnButtonText(pendingTransactions, "approve_giving", "Approve")}
+              </Button>
+            </FormControl>
+          )
+        ) : (
           <FormControl className="ohm-modal-submit">
             <Button
               variant="contained"
@@ -314,24 +353,11 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                 !isDepositAmountValid ||
                 !isWalletAddressValid ||
                 !address ||
-                isPendingTxn(pendingTransactions, "streaming")
+                isPendingTxn(pendingTransactions, "editingGive")
               }
-              onClick={() => {
-                onChangeStream("stream");
-              }}
+              onClick={handleSubmit}
             >
-              {txnButtonText(pendingTransactions, "streaming", "Stream sOHM")}
-            </Button>
-          </FormControl>
-        ) : (
-          <FormControl className="ohm-modal-submit">
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={!isDepositAmountValid || !isWalletAddressValid}
-              onClick={onSeekApproval}
-            >
-              {txnButtonText(pendingTransactions, "approve_streaming", "Approve")}
+              {txnButtonText(pendingTransactions, "editingGive", "Edit Give Amount")}
             </Button>
           </FormControl>
         )}

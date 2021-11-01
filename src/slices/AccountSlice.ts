@@ -5,6 +5,7 @@ import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
+import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 
 import { setAll } from "../helpers";
 
@@ -34,6 +35,19 @@ export const getBalances = createAsyncThunk(
   },
 );
 
+interface DonationInfo {
+  [key: string]: number;
+}
+
+interface RecipientInfo {
+  [key: string]: {
+    totalDebt: number;
+    carry: number;
+    agnosticAmount: number;
+    indexAtLastChange: number;
+  };
+}
+
 interface IUserAccountDetails {
   balances: {
     dai: string;
@@ -44,8 +58,13 @@ interface IUserAccountDetails {
     ohmStake: number;
     ohmUnstake: number;
   };
-  streaming: {
-    sohmStream: number;
+  giving: {
+    sohmGive: number;
+    donationInfo: DonationInfo;
+  };
+  redeeming: {
+    sohmRedeemable: number;
+    recipientInfo: RecipientInfo;
   };
   bonding: {
     daiAllowance: number;
@@ -61,7 +80,8 @@ export const loadAccountDetails = createAsyncThunk(
     let wsohmBalance = 0;
     let stakeAllowance = 0;
     let unstakeAllowance = 0;
-    let streamAllowance = 0;
+    let giveAllowance = 0;
+    let donationInfo: DonationInfo = {};
     let lpStaked = 0;
     let pendingRewards = 0;
     let lpBondAllowance = 0;
@@ -83,13 +103,35 @@ export const loadAccountDetails = createAsyncThunk(
       const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider);
       sohmBalance = await sohmContract.balanceOf(address);
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-      streamAllowance = await sohmContract.allowance(address, addresses[networkID].STREAMING_ADDRESS);
+      giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
       poolAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
     }
 
     if (addresses[networkID].PT_TOKEN_ADDRESS) {
       const poolTokenContract = await new ethers.Contract(addresses[networkID].PT_TOKEN_ADDRESS, ierc20Abi, provider);
       poolBalance = await poolTokenContract.balanceOf(address);
+    }
+
+    if (addresses[networkID].GIVING_ADDRESS) {
+      const givingContract = await new ethers.Contract(addresses[networkID].GIVING_ADDRESS, OlympusGiving, provider);
+      let i = 0;
+      let endOfDonations = false;
+      while (!endOfDonations) {
+        try {
+          let currDonation = await givingContract.donationInfo(address, i);
+          if (currDonation.recipient === "0x0000000000000000000000000000000000000000") {
+            i += 1;
+            continue;
+          } else {
+            donationInfo[currDonation.recipient] = parseFloat(
+              ethers.utils.formatUnits(currDonation.amount.toNumber(), "gwei"),
+            );
+            i += 1;
+          }
+        } catch (e: unknown) {
+          endOfDonations = true;
+        }
+      }
     }
 
     for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM"]) {
@@ -125,8 +167,9 @@ export const loadAccountDetails = createAsyncThunk(
         ohmStake: +stakeAllowance,
         ohmUnstake: +unstakeAllowance,
       },
-      streaming: {
-        sohmStream: +streamAllowance,
+      giving: {
+        sohmGive: +giveAllowance,
+        donationInfo: donationInfo,
       },
       bonding: {
         daiAllowance: daiBondAllowance,
