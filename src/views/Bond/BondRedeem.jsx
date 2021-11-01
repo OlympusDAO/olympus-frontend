@@ -6,6 +6,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
+import { DisplayBondDiscount } from "./Bond";
 
 function BondRedeem({ bond }) {
   // const { bond: bondName } = bond;
@@ -102,7 +103,7 @@ function BondRedeem({ bond }) {
           <div className="data-row">
             <Typography>ROI</Typography>
             <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}
+              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
             </Typography>
           </div>
 

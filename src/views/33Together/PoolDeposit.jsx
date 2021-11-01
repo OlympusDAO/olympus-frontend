@@ -150,17 +150,17 @@ export const PoolDeposit = props => {
                 onClick={() => onDeposit("deposit")}
                 fullWidth
               >
-                {txnButtonText(pendingTransactions, "deposit", "Deposit sOHM")}
+                {txnButtonText(pendingTransactions, "pool_deposit", "Deposit sOHM")}
               </Button>
             ) : (
               <Button
                 className="pool-deposit-button"
                 variant="contained"
                 color="primary"
-                disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
+                disabled={isPendingTxn(pendingTransactions, "approve_pool_together")}
                 onClick={() => onSeekApproval("sohm")}
               >
-                {txnButtonText(pendingTransactions, "approve_pool", "Approve")}
+                {txnButtonText(pendingTransactions, "approve_pool_together", "Approve")}
               </Button>
             )}
           </Box>
