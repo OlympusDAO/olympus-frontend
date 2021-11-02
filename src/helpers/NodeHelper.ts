@@ -155,23 +155,23 @@ export class NodeHelper {
   static checkNodeStatus = async (url: string) => {
     // 1. confirm peerCount > 0 (as a HexValue)
     let liveURL;
-    liveURL = await NodeHelper.queryNodeStatus(
-      url,
-      JSON.stringify({ method: "net_peerCount", params: [], id: 74, jsonrpc: "2.0" }),
-      "net_peerCount",
-    );
+    liveURL = await NodeHelper.queryNodeStatus({
+      url: url,
+      body: JSON.stringify({ method: "net_peerCount", params: [], id: 74, jsonrpc: "2.0" }),
+      nodeMethod: "net_peerCount",
+    });
     // 2. confirm eth_syncing === false
     if (liveURL) {
-      liveURL = await NodeHelper.queryNodeStatus(
-        url,
-        JSON.stringify({ method: "eth_syncing", params: [], id: 67, jsonrpc: "2.0" }),
-        "eth_syncing",
-      );
+      liveURL = await NodeHelper.queryNodeStatus({
+        url: url,
+        body: JSON.stringify({ method: "eth_syncing", params: [], id: 67, jsonrpc: "2.0" }),
+        nodeMethod: "eth_syncing",
+      });
     }
     return liveURL;
   };
 
-  static queryNodeStatus = async (url: string, body: string, nodeMethod: string) => {
+  static queryNodeStatus = async ({ url, body, nodeMethod }: { url: string; body: string; nodeMethod: string }) => {
     let liveURL: boolean | string;
     try {
       let resp = await fetch(url, {
@@ -187,7 +187,7 @@ export class NodeHelper {
       } else {
         // response came back but is it healthy?
         let jsonResponse = await resp.json();
-        if (NodeHelper.validityCheck(nodeMethod, jsonResponse.result)) {
+        if (NodeHelper.validityCheck({ nodeMethod, resultVal: jsonResponse.result })) {
           liveURL = url;
         } else {
           throw Error("no suitable peers");
@@ -211,7 +211,7 @@ export class NodeHelper {
    * @param resultVal the result object from the nodeMethod json query
    * @returns true if valid node, false if invalid
    */
-  static validityCheck = (nodeMethod: string, resultVal: string | boolean) => {
+  static validityCheck = ({ nodeMethod, resultVal }: { nodeMethod: string; resultVal: string | boolean }) => {
     switch (nodeMethod) {
       case "net_peerCount":
         if (resultVal === ethers.utils.hexValue(0)) {
