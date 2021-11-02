@@ -28,7 +28,7 @@ function NavContent() {
     if (currentPath.indexOf("stake") >= 0 && page === "stake") {
       return true;
     }
-    if (currentPath.indexOf("stream") >= 0 && page == "stream") {
+    if (currentPath.indexOf("give") >= 0 && page == "give") {
       return true;
     }
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
@@ -94,7 +94,7 @@ function NavContent() {
 
               <Link
                 component={NavLink}
-                id="tyche-nav"
+                id="give-nav"
                 to="/give"
                 isActive={(match, location) => {
                   return checkPage(match, location, "give");
