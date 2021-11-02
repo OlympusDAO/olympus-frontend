@@ -5,14 +5,12 @@ import {
   Typography,
   Button,
   Zoom,
-  TableHead,
   TableCell,
   TableBody,
   Table,
   TableRow,
   TableContainer,
 } from "@material-ui/core";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { redeemBalance } from "../../slices/RedeemThunk";
@@ -77,8 +75,6 @@ export default function RedeemYield() {
       //   loadLusdData();
     }
   }, [walletChecked]);
-
-  // TODO fetch available amount and set redeemable amount variable
 
   const canRedeem = () => {
     if (!address) return false;
