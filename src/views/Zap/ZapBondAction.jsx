@@ -22,12 +22,22 @@ import {
 import { getTokenBalances } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { ButtonBase } from "@mui/material";
+import { ButtonBase, ListItemButton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
+import { useBonds } from "src/hooks";
+import BondHeader from "../Bond/BondHeader";
+import { DisplayBondDiscount } from "../Bond/Bond";
+import BondLogo from "src/components/BondLogo";
 
-function ZapAction(props) {
+function ZapBondAction(props) {
   const { address, quantity, setQuantity, ...other } = props;
+
+  const { bonds } = useBonds();
+  const bondDictionary = Object.fromEntries(bonds.map(bond => [bond.name, bond]));
+  const isBondsLoading = useSelector(state => state.bonding?.loading ?? true);
+
+  console.log(bondDictionary);
 
   const tokens = useSelector(state => state.zap.balances);
   const isTokensLoading = useSelector(state => state.zap.loading);
@@ -37,12 +47,22 @@ function ZapAction(props) {
     setZapToken(token);
     handleClose();
   };
-
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => {
     setModalOpen(true);
   };
   const handleClose = () => setModalOpen(false);
+
+  const [outputToken, setOutputToken] = useState(null);
+  const [outputModalOpen, setOutputModalOpen] = useState(false);
+  const handleOutputOpen = () => {
+    setOutputModalOpen(true);
+  };
+  const handleOutputClose = () => setOutputModalOpen(false);
+  const handleSelectOutputToken = token => {
+    setOutputToken(token);
+    handleOutputClose();
+  };
 
   const [inputQuantity, setInputQuantity] = useState("");
   const [outputQuantity, setOutputQuantity] = useState("");
@@ -51,7 +71,10 @@ function ZapAction(props) {
     return state.app.marketPrice;
   });
 
-  const exchangeRate = ohmMarketPrice / tokens[zapToken]?.price;
+  const exchangeRate =
+    outputToken == null
+      ? null
+      : ohmMarketPrice / tokens[zapToken]?.price / (1 + bondDictionary[outputToken].bondDiscount);
 
   const setZapTokenQuantity = q => {
     if (q == null || q === "") {
@@ -85,7 +108,7 @@ function ZapAction(props) {
           type="number"
           placeholder="Enter an amount"
           className="zap-input"
-          disabled={zapToken == null}
+          disabled={zapToken == null || outputToken == null}
           value={inputQuantity}
           onChange={e => setZapTokenQuantity(e.target.value)}
           //   labelWidth={0}
@@ -124,7 +147,10 @@ function ZapAction(props) {
                         2,
                       )}`}</Typography>
                       <Box width="10px" />
-                      <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken].balance)}>
+                      <ButtonBase
+                        disabled={outputToken == null}
+                        onClick={() => setZapTokenQuantity(tokens[zapToken].balance)}
+                      >
                         <Typography>
                           <b>Max</b>
                         </Typography>
@@ -138,7 +164,22 @@ function ZapAction(props) {
         />
       </FormControl>
       <Box marginTop="10px" minHeight="25px" display="flex" justifyContent="center" alignItems="center">
-        <KeyboardArrowDownIcon />
+        <ButtonBase onClick={handleOutputOpen}>
+          <Box flexDirection="row" display="flex" alignItems="center">
+            {outputToken == null ? (
+              <Typography>Select a Bond</Typography>
+            ) : (
+              <>
+                {/* <Typography>Chosen Bond:</Typography>
+                <Box width="10px" /> */}
+                <Typography>{bondDictionary[outputToken].displayName}</Typography>
+                <Box width="2px" />
+                <BondLogo bond={bondDictionary[outputToken]}></BondLogo>
+              </>
+            )}
+            <KeyboardArrowDownIcon />
+          </Box>
+        </ButtonBase>
       </Box>
 
       <Typography>You Get</Typography>
@@ -150,7 +191,7 @@ function ZapAction(props) {
           placeholder="Enter an amount"
           className="zap-input"
           value={outputQuantity}
-          disabled={zapToken == null}
+          disabled={zapToken == null || outputToken == null}
           onChange={e => setOutputTokenQuantity(e.target.value)}
           labelWidth={0}
           endAdornment={
@@ -163,12 +204,25 @@ function ZapAction(props) {
                   minWidth: "60px",
                 }}
               >
-                <Avatar
-                  src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png"
-                  style={{ height: "30px", width: "30px" }}
-                />
-                <Box width="10px" />
-                <Typography>sOHM</Typography>
+                <Box flexDirection="column" display="flex">
+                  <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
+                    <Avatar
+                      src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png"
+                      style={{ height: "30px", width: "30px" }}
+                    />
+                    <Box width="10px" />
+                    <Typography>sOHM</Typography>
+                  </Box>
+                  <Box height="5px" />
+                  <Typography color="textSecondary">
+                    Discount{" "}
+                    {isBondsLoading || outputToken == null ? (
+                      "--"
+                    ) : (
+                      <DisplayBondDiscount key={outputToken} bond={bondDictionary[outputToken]} />
+                    )}
+                  </Typography>
+                </Box>
               </div>
             </InputAdornment>
           }
@@ -181,7 +235,8 @@ function ZapAction(props) {
       <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
         <Typography>Exchange Rate</Typography>
         <Typography>
-          {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
+          {zapToken == null || outputToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} =
+          1 sOHM
         </Typography>
       </Box>
       <Button
@@ -223,8 +278,59 @@ function ZapAction(props) {
           </List>
         )}
       </Dialog>
+
+      <Dialog onClose={handleOutputClose} open={outputModalOpen} keepMounted fullWidth maxWidth="xs">
+        <DialogTitle>
+          <Typography align="center">Select Bond</Typography>
+          <Box justifyContent="space-between" flexDirection="row" display="flex" marginTop="20px">
+            <Typography align="center">Bond Name</Typography>
+            <Typography align="center">ROI</Typography>
+          </Box>
+        </DialogTitle>
+        {/* {isTokensLoading || Object.entries(tokens).length == 0 ? null : (
+          <List sx={{ pt: 0 }}>
+            {Object.entries(tokens)
+              .filter(token => !token[1].hide)
+              .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
+              .map(token => (
+                <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
+                  <ListItemAvatar>
+                    <Avatar src={token[1].img} />
+                  </ListItemAvatar>
+                  <ListItemText primary={token[1].symbol} />
+                  <Box flexGrow={10} />
+                  <ListItemText
+                    primary={`$${token[1].balanceUSD.toFixed(2)}`}
+                    secondary={token[1].balance.toFixed(4)}
+                  />
+                </ListItem>
+              ))}
+          </List>
+        )} */}
+        <List sx={{ pt: 0 }}>
+          {isBondsLoading
+            ? null
+            : bonds.map(bond => (
+                <ListItemButton
+                  disabled={!bond.isAvailable[1]}
+                  onClick={bond.isAvailable[1] ? () => handleSelectOutputToken(bond.name) : null}
+                >
+                  {
+                    <>
+                      <ListItemAvatar>
+                        <BondLogo bond={bond}></BondLogo>
+                      </ListItemAvatar>
+                      <ListItemText primary={bond.displayName} />
+                      <Box flexGrow={10} />
+                      <ListItemText primary={<DisplayBondDiscount key={bond.name} bond={bond} />} />
+                    </>
+                  }
+                </ListItemButton>
+              ))}
+        </List>
+      </Dialog>
     </div>
   );
 }
 
-export default ZapAction;
+export default ZapBondAction;

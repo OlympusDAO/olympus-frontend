@@ -12,6 +12,7 @@ import { Skeleton } from "@material-ui/lab";
 import ZapAction from "./ZapAction";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
 import { getZapTokenBalances } from "src/slices/ZapSlice";
+import ZapBondAction from "./ZapBondAction";
 
 function a11yProps(index) {
   return {
@@ -249,6 +250,9 @@ function Zap() {
 
                   <TabPanel value={view} index={0} className="stake-tab-panel">
                     <ZapAction address={address} />
+                  </TabPanel>
+                  <TabPanel value={view} index={1} className="stake-tab-panel">
+                    <ZapBondAction address={address} />
                   </TabPanel>
                 </Box>
 
