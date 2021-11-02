@@ -18,6 +18,7 @@ import { changeGive } from "../../slices/GiveThunk";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal } from "./RecipientModal";
 import { WithdrawDepositModal } from "./WithdrawDepositModal";
+import { shorten } from "src/helpers";
 
 export default function YieldRecipients() {
   const dispatch = useDispatch();
@@ -81,8 +82,7 @@ export default function YieldRecipients() {
       }),
     );
 
-    // Refresh recipients list
-    // donationInfo[walletAddress] = depositAmountDiff + depositAmountDiff;
+    // TODO Refresh recipients list
 
     setIsEditModalOpen(false);
   };
@@ -145,7 +145,7 @@ export default function YieldRecipients() {
             Object.keys(donationInfo).map(recipient => {
               return (
                 <TableRow key={recipient}>
-                  <TableCell>{recipient}</TableCell>
+                  <TableCell>{shorten(recipient)}</TableCell>
                   <TableCell>{donationInfo[recipient]}</TableCell>
                   <TableCell align="left"></TableCell>
                   <TableCell align="left"></TableCell>

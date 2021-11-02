@@ -19,7 +19,7 @@ export function WithdrawDepositModal({ isModalOpen, callbackFunc, cancelFunc, wa
           </Link>
           <Typography variant="h4">Withdraw Deposit?</Typography>
         </div>
-        <Typography variant="body2">
+        <Typography variant="body1">
           At any time, you have the option to withdraw your deposit ({depositAmount}) from the vault. The yield will
           still be redeemable by the recipient ({walletAddress}), but your deposit will not generate any further yield.
         </Typography>
