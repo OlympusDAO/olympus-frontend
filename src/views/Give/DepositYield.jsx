@@ -67,7 +67,7 @@ export default function DepositYield() {
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
         <div className="card-header">
-          <Typography variant="h5">Recipients</Typography>
+          <Typography variant="h5">Give Yield</Typography>
           <Button
             variant="outlined"
             color="secondary"
