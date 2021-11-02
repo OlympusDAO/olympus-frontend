@@ -26,9 +26,15 @@ export interface NetworkAddresses {
   [NetworkID.Testnet]: BondAddresses;
 }
 
+export interface Available {
+  [NetworkID.Mainnet]?: boolean;
+  [NetworkID.Testnet]?: boolean;
+}
+
 interface BondOpts {
   name: string; // Internal name used for references
   displayName: string; // Displayname on UI
+  isAvailable: Available; // set false to hide
   bondIconSvg: React.ReactNode; //  SVG path for icons
   bondContractABI: ethers.ContractInterface; // ABI for contract
   networkAddrs: NetworkAddresses; // Mapping of network --> Addresses
@@ -41,6 +47,7 @@ export abstract class Bond {
   readonly name: string;
   readonly displayName: string;
   readonly type: BondType;
+  readonly isAvailable: Available;
   readonly bondIconSvg: React.ReactNode;
   readonly bondContractABI: ethers.ContractInterface; // Bond ABI
   readonly networkAddrs: NetworkAddresses;
@@ -58,6 +65,7 @@ export abstract class Bond {
     this.name = bondOpts.name;
     this.displayName = bondOpts.displayName;
     this.type = type;
+    this.isAvailable = bondOpts.isAvailable;
     this.bondIconSvg = bondOpts.bondIconSvg;
     this.bondContractABI = bondOpts.bondContractABI;
     this.networkAddrs = bondOpts.networkAddrs;
@@ -130,7 +138,6 @@ export class StableBond extends Bond {
 
   constructor(stableBondOpts: StableBondOpts) {
     super(BondType.StableAsset, stableBondOpts);
-
     // For stable bonds the display units are the same as the actual token
     this.displayUnits = stableBondOpts.displayName;
     this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
@@ -145,23 +152,36 @@ export class StableBond extends Bond {
 
 // These are special bonds that have different valuation methods
 export interface CustomBondOpts extends BondOpts {
+  reserveContract: ethers.ContractInterface;
+  bondType: number;
+  lpUrl: string;
   customTreasuryBalanceFunc: (
     this: CustomBond,
     networkID: NetworkID,
     provider: StaticJsonRpcProvider,
   ) => Promise<number>;
 }
-export class CustomBond extends StableBond {
-  readonly isLP = false;
+export class CustomBond extends Bond {
+  readonly isLP: Boolean;
+  getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider): Promise<number> {
+    throw new Error("Method not implemented.");
+  }
   readonly reserveContract: ethers.ContractInterface;
   readonly displayUnits: string;
+  readonly lpUrl: string;
 
   constructor(customBondOpts: CustomBondOpts) {
-    super(customBondOpts);
+    super(customBondOpts.bondType, customBondOpts);
 
+    if (customBondOpts.bondType === BondType.LP) {
+      this.isLP = true;
+    } else {
+      this.isLP = false;
+    }
+    this.lpUrl = customBondOpts.lpUrl;
     // For stable bonds the display units are the same as the actual token
     this.displayUnits = customBondOpts.displayName;
-    this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
+    this.reserveContract = customBondOpts.reserveContract;
     this.getTreasuryBalance = customBondOpts.customTreasuryBalanceFunc.bind(this);
   }
 }

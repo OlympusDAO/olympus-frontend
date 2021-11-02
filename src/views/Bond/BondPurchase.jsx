@@ -17,6 +17,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import useDebounce from "../../hooks/Debounce";
 import { error } from "../../slices/MessagesSlice";
+import { DisplayBondDiscount } from "./Bond";
 
 function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
@@ -162,7 +163,11 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
               </FormControl>
             )}
 
-            {hasAllowance() ? (
+            {!bond.isAvailable[chainID] ? (
+              <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" disabled={true}>
+                Sold Out
+              </Button>
+            ) : hasAllowance() ? (
               <Button
                 variant="contained"
                 color="primary"
@@ -221,7 +226,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
           <div className="data-row">
             <Typography>ROI</Typography>
             <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}
+              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
             </Typography>
           </div>
 

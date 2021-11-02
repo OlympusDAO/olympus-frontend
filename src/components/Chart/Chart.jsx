@@ -19,7 +19,6 @@ import {
 import { Typography, Box, SvgIcon, CircularProgress } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { trim } from "../../helpers";
-import _ from "lodash";
 import { format } from "date-fns";
 import "./chart.scss";
 
@@ -83,6 +82,7 @@ const renderAreaChart = (
           : ""
       }
       domain={[0, "auto"]}
+      dx={3}
       connectNulls={true}
       allowDataOverflow={false}
     />
