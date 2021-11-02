@@ -14,7 +14,7 @@ import {
 
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { changeGive } from "../../slices/StreamThunk";
+import { changeGive } from "../../slices/GiveThunk";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal } from "./RecipientModal";
 import { WithdrawDepositModal } from "./WithdrawDepositModal";

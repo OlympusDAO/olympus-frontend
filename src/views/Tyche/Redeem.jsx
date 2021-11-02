@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Paper,
   Typography,
@@ -15,13 +15,23 @@ import {
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { redeemBalance } from "../../slices/RedeemThunk";
 
 export default function Redeem() {
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
-  const [redeemableAmount, setRedeemableAmount] = useState(20);
+
+  const redeemableBalance = useSelector(state => {
+    return state.account.redeeming && state.account.redeeming.sohmRedeemable;
+  });
+
+  const recipientInfo = useSelector(state => {
+    return state.account.redeeming && state.account.redeeming.recipientInfo;
+  });
+
+  const isRecipientInfoLoading = recipientInfo === undefined;
 
   useEffect(() => {
     if (hasCachedProvider()) {
@@ -55,7 +65,7 @@ export default function Redeem() {
     if (!address) return false;
 
     // If the available amount is 0
-    if (!redeemableAmount) return false;
+    if (!redeemableBalance) return false;
 
     return true;
   };
@@ -99,9 +109,15 @@ export default function Redeem() {
             </TableBody>
           </Table>
         </TableContainer>
-        <Typography variant="h5">
-          Available to Redeem: {redeemableAmount ? redeemableAmount + " sOHM" : "N/A"}
-        </Typography>
+        {isRecipientInfoLoading ? (
+          <p></p>
+        ) : (
+          <Typography variant="h5">
+            Total sOHM directed to you:{" "}
+            {(recipientInfo.totalDebt == undefined ? "0" : recipientInfo.totalDebt) + " sOHM"}
+          </Typography>
+        )}
+        <Typography variant="h5">Available to Redeem: {redeemableBalance + " sOHM"}</Typography>
         <Button
           variant="outlined"
           color="secondary"

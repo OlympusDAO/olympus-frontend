@@ -5,7 +5,7 @@ import { Paper, Typography, Button, Zoom } from "@material-ui/core";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { changeGive } from "../../slices/StreamThunk";
+import { changeGive } from "../../slices/GiveThunk";
 import { RecipientModal } from "./RecipientModal";
 import YieldRecipients from "./YieldRecipients";
 
@@ -67,7 +67,7 @@ export default function YieldDirector() {
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
         <div className="card-header">
-          <Typography variant="h5">Stream Recipients</Typography>
+          <Typography variant="h5">Give sOHM</Typography>
           <Button
             variant="outlined"
             color="secondary"

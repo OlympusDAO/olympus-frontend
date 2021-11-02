@@ -4,11 +4,6 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_OHM",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
           "name": "_sOHM",
           "type": "address"
         }
@@ -150,19 +145,6 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "OHM",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -251,6 +233,25 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "_recipient",
+          "type": "address"
+        }
+      ],
+      "name": "donationsTo",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "bool",
           "name": "_active",
           "type": "bool"
@@ -302,11 +303,6 @@
         {
           "internalType": "uint256",
           "name": "indexAtLastChange",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "firstEpoch",
           "type": "uint256"
         }
       ],
@@ -447,25 +443,6 @@
       "name": "withdrawAll",
       "outputs": [],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_recipient",
-          "type": "address"
-        }
-      ],
-      "name": "withdrawableBalance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     }
   ]

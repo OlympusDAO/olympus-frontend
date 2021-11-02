@@ -35,17 +35,17 @@ export const getBalances = createAsyncThunk(
   },
 );
 
+// Need getDonationBalances and getRedemptionBalances
+
 interface DonationInfo {
   [key: string]: number;
 }
 
 interface RecipientInfo {
-  [key: string]: {
-    totalDebt: number;
-    carry: number;
-    agnosticAmount: number;
-    indexAtLastChange: number;
-  };
+  totalDebt: string;
+  carry: string;
+  agnosticAmount: string;
+  indexAtLastChange: string;
 }
 
 interface IUserAccountDetails {
@@ -82,6 +82,13 @@ export const loadAccountDetails = createAsyncThunk(
     let unstakeAllowance = 0;
     let giveAllowance = 0;
     let donationInfo: DonationInfo = {};
+    let redeemableBalance = 0;
+    let recipientInfo: RecipientInfo = {
+      totalDebt: "",
+      carry: "",
+      agnosticAmount: "",
+      indexAtLastChange: "",
+    };
     let lpStaked = 0;
     let pendingRewards = 0;
     let lpBondAllowance = 0;
@@ -132,6 +139,20 @@ export const loadAccountDetails = createAsyncThunk(
           endOfDonations = true;
         }
       }
+
+      redeemableBalance = await givingContract.redeemableBalance(address);
+      try {
+        let recipientInfoData = await givingContract.recipientInfo(address);
+        recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
+        recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
+        recipientInfo.agnosticAmount = ethers.utils.formatUnits(recipientInfoData.agnosticAmount.toNumber(), "gwei");
+        recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
+          recipientInfoData.indexAtLastChange.toNumber(),
+          "gwei",
+        );
+      } catch (e: unknown) {
+        console.log(e);
+      }
     }
 
     for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM"]) {
@@ -170,6 +191,10 @@ export const loadAccountDetails = createAsyncThunk(
       giving: {
         sohmGive: +giveAllowance,
         donationInfo: donationInfo,
+      },
+      redeeming: {
+        sohmRedeemable: ethers.utils.formatUnits(redeemableBalance, "gwei"),
+        recipientInfo: recipientInfo,
       },
       bonding: {
         daiAllowance: daiBondAllowance,

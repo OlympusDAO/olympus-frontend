@@ -8,7 +8,7 @@ import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
-import { changeApproval, changeGive } from "../../slices/StreamThunk";
+import { changeApproval, changeGive } from "../../slices/GiveThunk";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 
