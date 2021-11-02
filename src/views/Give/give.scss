@@ -21,7 +21,8 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  // Use decimal values to fix anti-aliasing in Chrome. Ridiculous.
+  transform: translate(-50.048%, -50.048%);
 
   .yield-header {
     align-items: center;
