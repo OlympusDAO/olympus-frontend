@@ -19,25 +19,25 @@ function Give() {
 
   return (
     <>
-      {!address ? (
-        <Zoom in={true}>
-          <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-            <div className="stake-wallet-notification">
-              <div className="wallet-menu" id="wallet-menu">
-                {connectButton}
+      <div className="give-view">
+        {!address ? (
+          <Zoom in={true}>
+            <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
+              <div className="stake-wallet-notification">
+                <div className="wallet-menu" id="wallet-menu">
+                  {connectButton}
+                </div>
+                <Typography variant="h6">Connect your wallet to give or redeem OHM</Typography>
               </div>
-              <Typography variant="h6">Connect your wallet to give or redeem OHM</Typography>
-            </div>
-          </Paper>
-        </Zoom>
-      ) : (
-        <>
-          <div id="yield-directing-view">
+            </Paper>
+          </Zoom>
+        ) : (
+          <>
             <DepositYield />
             <RedeemYield />
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </>
   );
 }
