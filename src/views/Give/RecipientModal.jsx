@@ -219,6 +219,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     if (!isDepositAmountValid) return false;
     if (!isWalletAddressValid) return false;
     if (!address) return false;
+    if (isPendingTxn(pendingTransactions, "editingGive")) return false;
 
     return true;
   };
@@ -319,12 +320,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
               <Button
                 variant="contained"
                 color="primary"
-                disabled={
-                  !isDepositAmountValid ||
-                  !isWalletAddressValid ||
-                  !address ||
-                  isPendingTxn(pendingTransactions, "giving")
-                }
+                disabled={!canSubmit() || isPendingTxn(pendingTransactions, "giving")}
                 onClick={handleSubmit}
               >
                 {txnButtonText(pendingTransactions, "giving", "Give sOHM")}
@@ -342,12 +338,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
             <Button
               variant="contained"
               color="primary"
-              disabled={
-                !isDepositAmountValid ||
-                !isWalletAddressValid ||
-                !address ||
-                isPendingTxn(pendingTransactions, "editingGive")
-              }
+              disabled={!canSubmit() || isPendingTxn(pendingTransactions, "editingGive")}
               onClick={handleSubmit}
             >
               {txnButtonText(pendingTransactions, "editingGive", "Edit Give Amount")}

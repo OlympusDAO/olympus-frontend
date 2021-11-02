@@ -60,6 +60,8 @@ export default function DepositYield() {
       }),
     );
 
+    // TODO refresh table
+
     setIsModalOpen(false);
   };
 
