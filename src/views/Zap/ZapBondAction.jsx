@@ -229,6 +229,14 @@ function ZapBondAction(props) {
         />
       </FormControl>
       <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
+        <Typography>Vesting Term</Typography>
+        <Typography>7 days</Typography>
+      </Box>
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
+        <Typography>ROI</Typography>
+        <Typography>4.6%</Typography>
+      </Box>
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
         <Typography>Max Slippage</Typography>
         <Typography>2.0%</Typography>
       </Box>
@@ -250,7 +258,7 @@ function ZapBondAction(props) {
         }}
       >
         {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
-        Zap-Stake
+        Zap-Bond
       </Button>
 
       <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs">
