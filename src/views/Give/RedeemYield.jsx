@@ -49,7 +49,7 @@ export default function RedeemYield() {
     return trim(input, 4);
   };
 
-  const totalDeposit = recipientInfo.totalDebt ? recipientInfo.totalDebt : 0;
+  const totalDeposit = recipientInfo && recipientInfo.totalDebt ? recipientInfo.totalDebt : 0;
 
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * totalDeposit, 4);
