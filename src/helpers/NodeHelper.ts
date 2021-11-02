@@ -1,5 +1,6 @@
 import { minutesAgo } from "./index";
 import { EnvHelper } from "./Environment";
+import { ethers } from "ethers";
 
 interface ICurrentStats {
   failedConnectionCount: number;
@@ -152,7 +153,26 @@ export class NodeHelper {
    * this func returns a workingURL string or false;
    */
   static checkNodeStatus = async (url: string) => {
+    // 1. confirm peerCount > 0 (as a HexValue)
     let liveURL;
+    liveURL = await NodeHelper.queryNodeStatus({
+      url: url,
+      body: JSON.stringify({ method: "net_peerCount", params: [], id: 74, jsonrpc: "2.0" }),
+      nodeMethod: "net_peerCount",
+    });
+    // 2. confirm eth_syncing === false
+    if (liveURL) {
+      liveURL = await NodeHelper.queryNodeStatus({
+        url: url,
+        body: JSON.stringify({ method: "eth_syncing", params: [], id: 67, jsonrpc: "2.0" }),
+        nodeMethod: "eth_syncing",
+      });
+    }
+    return liveURL;
+  };
+
+  static queryNodeStatus = async ({ url, body, nodeMethod }: { url: string; body: string; nodeMethod: string }) => {
+    let liveURL: boolean | string;
     try {
       let resp = await fetch(url, {
         method: "POST",
@@ -160,20 +180,17 @@ export class NodeHelper {
         headers: {
           "Content-Type": "application/json",
         },
-        // NOTE (appleseed): are there other basic requests for other chain types (Arbitrum)???
-        // https://documenter.getpostman.com/view/4117254/ethereum-json-rpc/RVu7CT5J
-        // body: JSON.stringify({ method: "eth_chainId", params: [], id: 42, jsonrpc: "2.0" }), this didn't work
-        body: JSON.stringify({ method: "net_listening", params: [], id: 67, jsonrpc: "2.0" }), // would want true
+        body: body,
       });
       if (!resp.ok) {
         throw Error("failed node connection");
       } else {
         // response came back but is it healthy?
         let jsonResponse = await resp.json();
-        if (jsonResponse.result === true) {
+        if (NodeHelper.validityCheck({ nodeMethod, resultVal: jsonResponse.result })) {
           liveURL = url;
         } else {
-          throw Error("unhealthy node connection");
+          throw Error("no suitable peers");
         }
       }
     } catch {
@@ -182,5 +199,32 @@ export class NodeHelper {
       liveURL = false;
     }
     return liveURL;
+  };
+
+  /**
+   * handles different validityCheck for different node health endpoints
+   * * `net_peerCount` should be > 0 (0x0 as a Hex Value). If it is === 0 then queries will timeout within ethers.js
+   * * `net_peerCount` === 0 whenever the node has recently restarted.
+   * * `eth_syncing` should be false. If not false then queries will fail within ethers.js
+   * * `eth_syncing` is not false whenever the node is connected to a peer that is still syncing.
+   * @param nodeMethod "net_peerCount" || "eth_syncing"
+   * @param resultVal the result object from the nodeMethod json query
+   * @returns true if valid node, false if invalid
+   */
+  static validityCheck = ({ nodeMethod, resultVal }: { nodeMethod: string; resultVal: string | boolean }) => {
+    switch (nodeMethod) {
+      case "net_peerCount":
+        if (resultVal === ethers.utils.hexValue(0)) {
+          return false;
+        } else {
+          return true;
+        }
+        break;
+      case "eth_syncing":
+        return resultVal === false;
+        break;
+      default:
+        return false;
+    }
   };
 }
