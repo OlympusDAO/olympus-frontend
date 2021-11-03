@@ -54,27 +54,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     await dispatch(changeApproval({ address, token: "sohm", provider, networkID: chainID }));
   };
 
-  const onChangeGive = async action => {
-    if (isNaN(depositAmount) || depositAmount === 0 || depositAmount === "") {
-      return dispatch(error("Please enter a value!"));
-    }
-
-    // Already checked if quantity is valid when depositAmount is set
-    // Can check again here if desired
-    if (action === "give") {
-      await dispatch(
-        changeGive({
-          action: action,
-          value: depositAmount.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: chainID,
-        }),
-      );
-    }
-  };
-
   const hasAllowance = useCallback(() => {
     return giveAllowance > 0;
   }, [giveAllowance]);
