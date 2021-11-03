@@ -10,6 +10,14 @@ export function WithdrawDepositModal({ isModalOpen, callbackFunc, cancelFunc, wa
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
+
+  const canSubmit = () => {
+    if (!address) return false;
+    if (isPendingTxn(pendingTransactions, "endingGive")) return false;
+
+    return true;
+  };
+
   /**
    * Calls the submission callback function that is provided to the component.
    */
@@ -32,13 +40,8 @@ export function WithdrawDepositModal({ isModalOpen, callbackFunc, cancelFunc, wa
           yield.
         </Typography>
         <FormControl className="ohm-modal-submit">
-          <Button
-            variant="contained"
-            color="primary"
-            disable={isPendingTxn(pendingTransactions, "editingGive")}
-            onClick={() => handleSubmit()}
-          >
-            {txnButtonText(pendingTransactions, "editingGive", "Withdraw Give Amount")}
+          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => handleSubmit()}>
+            {txnButtonText(pendingTransactions, "endingGive", "Withdraw Give Amount")}
           </Button>
         </FormControl>
       </Paper>

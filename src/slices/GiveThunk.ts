@@ -81,11 +81,14 @@ export const changeGive = createAsyncThunk(
     };
 
     try {
+      let pendingTxnType = "";
       if (action === "give") {
         uaData.type = "give";
+        pendingTxnType = "giving";
         giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
       } else if (action === "editGive") {
         uaData.type = "editGive";
+        pendingTxnType = "editingGive";
         if (parseFloat(value) > 0) {
           giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
         } else if (parseFloat(value) < 0) {
@@ -94,9 +97,9 @@ export const changeGive = createAsyncThunk(
         }
       } else if (action === "endGive") {
         uaData.type = "endGive";
+        pendingTxnType = "endingGive";
         giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
       }
-      const pendingTxnType = action === "give" ? "giving" : "editGive" ? "editingGive" : "endingGive";
       uaData.txHash = giveTx.hash;
       dispatch(fetchPendingTxns({ txnHash: giveTx.hash, text: getGivingTypeText(action), type: pendingTxnType }));
       await giveTx.wait();

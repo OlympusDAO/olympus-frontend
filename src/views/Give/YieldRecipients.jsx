@@ -19,6 +19,7 @@ import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal } from "./RecipientModal";
 import { WithdrawDepositModal } from "./WithdrawDepositModal";
 import { shorten } from "src/helpers";
+import { BigNumber } from "bignumber.js";
 
 export default function YieldRecipients() {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ export default function YieldRecipients() {
   };
 
   const handleEditModalSubmit = async (walletAddress, depositAmount, depositAmountDiff) => {
-    if (depositAmountDiff == 0.0) return;
+    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
     if (isNaN(depositAmount) || depositAmount === "") {
       return dispatch(error("Please enter a value!"));
@@ -83,8 +84,6 @@ export default function YieldRecipients() {
       }),
     );
 
-    // TODO Refresh recipients list
-
     setIsEditModalOpen(false);
   };
 
@@ -92,13 +91,12 @@ export default function YieldRecipients() {
     setIsEditModalOpen(false);
   };
 
-  // *** Withdraw model
+  // *** Withdraw modal
   const handleWithdrawButtonClick = walletAddress => {
     setSelectedRecipientForWithdraw(walletAddress);
     setIsWithdrawModalOpen(true);
   };
 
-  // TODO implement withdrawal
   const handleWithdrawModalSubmit = async (walletAddress, depositAmount) => {
     // Record Segment user event
 
@@ -113,9 +111,6 @@ export default function YieldRecipients() {
         networkID: chainID,
       }),
     );
-
-    // Refresh recipients list
-    // delete donationInfo[walletAddress];
 
     setIsWithdrawModalOpen(false);
   };

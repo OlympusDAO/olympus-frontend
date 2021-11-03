@@ -87,7 +87,6 @@ export default function RedeemYield() {
   };
 
   const handleRedeemButtonClick = async () => {
-    // TODO smart contract integration
     await dispatch(redeemBalance({ address, provider, networkID: chainID }));
   };
 
