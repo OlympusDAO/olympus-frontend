@@ -19,6 +19,7 @@ import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal } from "./RecipientModal";
 import { WithdrawDepositModal } from "./WithdrawDepositModal";
 import { shorten } from "src/helpers";
+import { BigNumber } from "bignumber.js";
 
 export default function YieldRecipients() {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ export default function YieldRecipients() {
   };
 
   const handleEditModalSubmit = async (walletAddress, depositAmount, depositAmountDiff) => {
-    if (depositAmountDiff == 0.0) return;
+    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
     if (isNaN(depositAmount) || depositAmount === "") {
       return dispatch(error("Please enter a value!"));
@@ -72,6 +73,7 @@ export default function YieldRecipients() {
     // Record segment user event
 
     // If reducing the amount of deposit, withdraw
+    // TODO figure out whether to use BigNumber or string
     await dispatch(
       changeGive({
         action: "editGive",
@@ -82,8 +84,6 @@ export default function YieldRecipients() {
         networkID: chainID,
       }),
     );
-
-    // TODO Refresh recipients list
 
     setIsEditModalOpen(false);
   };

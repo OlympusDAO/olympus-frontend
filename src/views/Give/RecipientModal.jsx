@@ -11,6 +11,7 @@ import { Skeleton } from "@material-ui/lab";
 import { changeApproval, changeGive } from "../../slices/GiveThunk";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
+import { BigNumber } from "bignumber.js";
 
 const sOhmImg = getTokenImage("sohm");
 
@@ -206,15 +207,17 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     return true;
   };
 
+  const getDepositAmountDiff = () => {
+    // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
+    const depositAmountBig = new BigNumber(depositAmount);
+    return depositAmountBig.minus(new BigNumber(currentDepositAmount));
+  };
+
   /**
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
-    callbackFunc(
-      walletAddress,
-      depositAmount,
-      (depositAmount * 1000000000 - currentDepositAmount * 1000000000) / 1000000000,
-    );
+    callbackFunc(walletAddress, depositAmountBig, getDepositAmountDiff());
   };
 
   // TODO stop modal from moving when validation messages are shown
@@ -247,9 +250,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                 />
                 <FormHelperText>{isDepositAmountValidError}</FormHelperText>
                 {!isCreateMode() && (
-                  <Typography variant="body2">
-                    Difference: {(depositAmount * 1000000000 - currentDepositAmount * 1000000000) / 1000000000}
-                  </Typography>
+                  <Typography variant="body2">Difference: {getDepositAmountDiff().toString()}</Typography>
                 )}
               </FormControl>
             </>
@@ -270,7 +271,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                 />
                 <FormHelperText>{isDepositAmountValidError}</FormHelperText>
                 {!isCreateMode() && (
-                  <Typography variant="body2">Difference: {depositAmount - currentDepositAmount}</Typography>
+                  <Typography variant="body2">Difference: {getDepositAmountDiff().toString()}</Typography>
                 )}
               </FormControl>
               <Typography variant="h5">Recipient Address</Typography>
