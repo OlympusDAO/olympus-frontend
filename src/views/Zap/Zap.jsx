@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Box, Button, Fade, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import "./zap.scss";
@@ -24,6 +24,16 @@ function Zap({ initialTab }) {
     setView(newView);
   };
 
+  const transitionEffect = children =>
+    initialTab == null ? (
+      <Zoom in={true} onEntered={() => setZoomed(true)}>
+        {children}
+      </Zoom>
+    ) : (
+      <Slide in={true} direction="right">
+        {children}
+      </Slide>
+    );
   // const hasAllowance = useCallback(
   //   token => {
   //     if (token === "ohm") return stakeAllowance > 0;
@@ -81,7 +91,7 @@ function Zap({ initialTab }) {
           />
         </Tabs>
       </Box>
-      <Zoom in={true} onEntered={() => setZoomed(true)}>
+      {transitionEffect(
         <Paper className="ohm-card">
           <div className="staking-area">
             {!address ? (
@@ -108,9 +118,10 @@ function Zap({ initialTab }) {
               </>
             )}
           </div>
-        </Paper>
-      </Zoom>
+        </Paper>,
+      )}
     </div>
+
     // </div>
   );
 }
