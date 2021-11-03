@@ -27,7 +27,7 @@ export const addresses: IAddresses = {
      * and treasury stuff. If you need to test old staking stuff
      * the old contract is 0x1Fecda1dE7b6951B248C0B62CaeBD5BAbedc2084
      * and if you need new sOHM reach out to Lienid or Indigo
-    ***/
+     ***/
     SOHM_ADDRESS: "0x73cfe79a66d7ca687081a489a269e22974b7e3e2",
     OLD_SOHM_ADDRESS: "0x8Fc4167B0bdA22cb9890af2dB6cB1B818D6068AE",
     MIGRATE_ADDRESS: "0x3BA7C6346b93DA485e97ba55aec28E8eDd3e33E2",
