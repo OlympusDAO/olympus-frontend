@@ -217,6 +217,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
+    const depositAmountBig = new BigNumber(depositAmount);
     callbackFunc(walletAddress, depositAmountBig, getDepositAmountDiff());
   };
 
