@@ -18,7 +18,7 @@ interface IBondingStateView {
 }
 
 // Smash all the interfaces together to get the BondData Type
-interface IAllBondData extends Bond, IBondDetails, IUserBondDetails {}
+export interface IAllBondData extends Bond, IBondDetails, IUserBondDetails {}
 
 const initialBondArray = allBonds;
 // Slaps together bond data within the account & bonding states

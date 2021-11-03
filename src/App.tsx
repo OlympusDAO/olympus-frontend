@@ -6,7 +6,7 @@ import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
-import useBonds from "./hooks/Bonds";
+import useBonds, { IAllBondData } from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
@@ -17,7 +17,7 @@ import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether } from "./views";
+import { Stake, ChooseBond, TreasuryDashboard, PoolTogether, Bond } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
@@ -28,6 +28,7 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import "./style.scss";
+import { Bond as IBond } from "./lib/Bond";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -88,8 +89,8 @@ function App() {
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
-
   const { bonds } = useBonds();
+
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
@@ -226,7 +227,7 @@ function App() {
             </Route>
 
             <Route path="/bonds">
-              {bonds.map(bond => {
+              {(bonds as IAllBondData[]).map(bond => {
                 return (
                   <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
                     <Bond bond={bond} />
