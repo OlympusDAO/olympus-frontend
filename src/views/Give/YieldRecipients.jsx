@@ -73,7 +73,6 @@ export default function YieldRecipients() {
     // Record segment user event
 
     // If reducing the amount of deposit, withdraw
-    // TODO figure out whether to use BigNumber or string
     await dispatch(
       changeGive({
         action: "editGive",
@@ -92,13 +91,12 @@ export default function YieldRecipients() {
     setIsEditModalOpen(false);
   };
 
-  // *** Withdraw model
+  // *** Withdraw modal
   const handleWithdrawButtonClick = walletAddress => {
     setSelectedRecipientForWithdraw(walletAddress);
     setIsWithdrawModalOpen(true);
   };
 
-  // TODO implement withdrawal
   const handleWithdrawModalSubmit = async (walletAddress, depositAmount) => {
     // Record Segment user event
 
@@ -113,9 +111,6 @@ export default function YieldRecipients() {
         networkID: chainID,
       }),
     );
-
-    // Refresh recipients list
-    // delete donationInfo[walletAddress];
 
     setIsWithdrawModalOpen(false);
   };

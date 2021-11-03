@@ -75,9 +75,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   const handleSetDepositAmount = value => {
     checkIsDepositAmountValid(value);
     setDepositAmount(value);
-    console.log(value);
-    console.log(depositAmount);
-    console.log(currentDepositAmount);
   };
 
   const checkIsDepositAmountValid = value => {
