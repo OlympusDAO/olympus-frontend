@@ -4,7 +4,7 @@ import { formatCurrency, trim } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
-import BondRedeem from "./BondRedeem";
+import LimitBuy from "./LimitBuy";
 import BondPurchase from "./BondPurchase";
 import "./bond.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -95,7 +95,7 @@ function Bond({ bond }) {
               </TabPanel>
 
               <TabPanel value={view} index={1}>
-                <BondRedeem bond={bond} />
+                <LimitBuy bond={bond} />
               </TabPanel>
             </Paper>
           </Fade>
