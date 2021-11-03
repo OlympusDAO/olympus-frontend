@@ -32,7 +32,7 @@ export interface Available {
   [NetworkID.Testnet]?: boolean;
 }
 
-interface BondOpts {
+export interface BondOpts {
   name: string; // Internal name used for references
   displayName: string; // Displayname on UI
   isAvailable: Available; // set false to hide

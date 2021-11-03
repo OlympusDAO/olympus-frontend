@@ -71,6 +71,7 @@ export interface IBondDetails {
   bondPrice: number;
   marketPrice: number;
 }
+
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
   async ({ bond, value, provider, networkID }: ICalcBondDetailsAsyncThunk, { dispatch }): Promise<IBondDetails> => {
