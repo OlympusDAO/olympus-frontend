@@ -233,67 +233,14 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
           <Typography variant="h4">{getTitle()}</Typography>
         </div>
         <Typography variant="body1">{getIntroduction()}</Typography>
-        {hasAllowance() ? (
-          !isCreateMode() ? (
-            <>
-              <Typography variant="h5">Amount of sOHM</Typography>
-              <FormControl className="modal-input" variant="outlined" color="primary">
-                <InputLabel htmlFor="amount-input"></InputLabel>
-                <OutlinedInput
-                  id="amount-input"
-                  type="number"
-                  placeholder="Enter an amount"
-                  className="stake-input"
-                  value={depositAmount}
-                  error={!isDepositAmountValid}
-                  onChange={e => handleSetDepositAmount(e.target.value)}
-                  labelWidth={0}
-                />
-                <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-                {!isCreateMode() && (
-                  <Typography variant="body2">Difference: {getDepositAmountDiff().toString()}</Typography>
-                )}
-              </FormControl>
-            </>
-          ) : (
-            <>
-              <Typography variant="h5">Amount of sOHM</Typography>
-              <FormControl className="modal-input" variant="outlined" color="primary">
-                <InputLabel htmlFor="amount-input"></InputLabel>
-                <OutlinedInput
-                  id="amount-input"
-                  type="number"
-                  placeholder="Enter an amount"
-                  className="stake-input"
-                  value={depositAmount}
-                  error={!isDepositAmountValid}
-                  onChange={e => handleSetDepositAmount(e.target.value)}
-                  labelWidth={0}
-                />
-                <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-                {!isCreateMode() && (
-                  <Typography variant="body2">Difference: {getDepositAmountDiff().toString()}</Typography>
-                )}
-              </FormControl>
-              <Typography variant="h5">Recipient Address</Typography>
-              <FormControl className="modal-input" variant="outlined" color="primary">
-                <InputLabel htmlFor="wallet-input"></InputLabel>
-                <OutlinedInput
-                  id="wallet-input"
-                  type="text"
-                  placeholder="Enter a wallet address in the form of 0x ..."
-                  className="stake-input"
-                  value={walletAddress}
-                  error={!isWalletAddressValid}
-                  onChange={e => handleSetWallet(e.target.value)}
-                  labelWidth={0}
-                  disabled={!isCreateMode()}
-                />
-                <FormHelperText>{isWalletAddressValidError}</FormHelperText>
-              </FormControl>
-            </>
-          )
-        ) : (
+        {!address ? (
+          <>
+            <FormHelperText>
+              You must be logged into your wallet to use this feature. Click on the "Connect Wallet" button and try
+              again.
+            </FormHelperText>
+          </>
+        ) : !hasAllowance() ? (
           <Box className="help-text">
             <Typography variant="body1" className="stream-note" color="textSecondary">
               First time giving <b>sOHM</b>?
@@ -301,10 +248,53 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
               Please approve Olympus DAO to use your <b>sOHM</b> for giving.
             </Typography>
           </Box>
-        )}
-        {isAllowanceDataLoading ? (
+        ) : isAllowanceDataLoading ? (
           <Skeleton />
-        ) : isCreateMode() ? (
+        ) : (
+          <>
+            <Typography variant="h5">Amount of sOHM</Typography>
+            <FormControl className="modal-input" variant="outlined" color="primary">
+              <InputLabel htmlFor="amount-input"></InputLabel>
+              <OutlinedInput
+                id="amount-input"
+                type="number"
+                placeholder="Enter an amount"
+                className="stake-input"
+                value={depositAmount}
+                error={!isDepositAmountValid}
+                onChange={e => handleSetDepositAmount(e.target.value)}
+                labelWidth={0}
+              />
+              <FormHelperText>{isDepositAmountValidError}</FormHelperText>
+              {!isCreateMode() && (
+                <Typography variant="body2">Difference: {getDepositAmountDiff().toString()}</Typography>
+              )}
+            </FormControl>
+            {isCreateMode() ? (
+              <>
+                <Typography variant="h5">Recipient Address</Typography>
+                <FormControl className="modal-input" variant="outlined" color="primary">
+                  <InputLabel htmlFor="wallet-input"></InputLabel>
+                  <OutlinedInput
+                    id="wallet-input"
+                    type="text"
+                    placeholder="Enter a wallet address in the form of 0x ..."
+                    className="stake-input"
+                    value={walletAddress}
+                    error={!isWalletAddressValid}
+                    onChange={e => handleSetWallet(e.target.value)}
+                    labelWidth={0}
+                    disabled={!isCreateMode()}
+                  />
+                  <FormHelperText>{isWalletAddressValidError}</FormHelperText>
+                </FormControl>{" "}
+              </>
+            ) : (
+              <></>
+            )}
+          </>
+        )}
+        {isCreateMode() ? (
           address && hasAllowance() ? (
             <FormControl className="ohm-modal-submit">
               <Button
@@ -334,16 +324,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
               {txnButtonText(pendingTransactions, "editingGive", "Edit Give Amount")}
             </Button>
           </FormControl>
-        )}
-        {!address ? (
-          <>
-            <FormHelperText>
-              You must be logged into your wallet to use this feature. Click on the "Connect Wallet" button and try
-              again.
-            </FormHelperText>
-          </>
-        ) : (
-          <></>
         )}
       </Paper>
     </Modal>
