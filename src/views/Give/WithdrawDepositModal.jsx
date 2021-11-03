@@ -10,7 +10,6 @@ export function WithdrawDepositModal({ isModalOpen, callbackFunc, cancelFunc, wa
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
-  console.log(pendingTransactions);
   /**
    * Calls the submission callback function that is provided to the component.
    */
