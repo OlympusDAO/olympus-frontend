@@ -196,12 +196,14 @@ function TreasuryDashboard() {
                     "treasuryFraxMarketValue",
                     "treasuryWETHMarketValue",
                     "treasuryXsushiMarketValue",
+                    "treasuryLusdRiskFreeValue",
                   ]}
                   stopColor={[
                     ["#F5AC37", "#EA9276"],
                     ["#768299", "#98B3E9"],
                     ["#DC30EB", "#EA98F1"],
                     ["#8BFF4D", "#4C8C2A"],
+                    ["#ff758f", "#c9184a"],
                   ]}
                   headerText={t`Market Value of Treasury Assets`}
                   headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
@@ -220,17 +222,18 @@ function TreasuryDashboard() {
                   type="stack"
                   data={data}
                   format="currency"
-                  dataKey={["treasuryDaiRiskFreeValue", "treasuryFraxRiskFreeValue"]}
+                  dataKey={["treasuryDaiRiskFreeValue", "treasuryFraxRiskFreeValue", "treasuryLusdRiskFreeValue"]}
                   stopColor={[
                     ["#F5AC37", "#EA9276"],
                     ["#768299", "#98B3E9"],
+                    ["#DC30EB", "#EA98F1"],
                     ["#000", "#fff"],
                     ["#000", "#fff"],
                   ]}
                   headerText={t`Risk Free Value of Treasury Assets`}
                   headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
-                  bulletpointColors={bulletpoints.coin}
-                  itemNames={tooltipItems.coin}
+                  bulletpointColors={bulletpoints.rfv}
+                  itemNames={tooltipItems.rfv}
                   itemType={itemType.dollar}
                   infoTooltipMessage={tooltipInfoMessages.rfv}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
@@ -318,11 +321,11 @@ function TreasuryDashboard() {
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <Chart
-                  type="line"
+                  type="multi"
                   data={runway}
-                  dataKey={["runwayCurrent"]}
+                  dataKey={["runwayCurrent", "runway7dot5k", "runway5k", "runway2dot5k"]}
                   color={theme.palette.text.primary}
-                  stroke={[theme.palette.text.primary]}
+                  stroke={[theme.palette.text.primary, "#2EC608", "#49A1F2", "#ff758f"]}
                   headerText={t`Runway Available`}
                   headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
                   dataFormat="days"
