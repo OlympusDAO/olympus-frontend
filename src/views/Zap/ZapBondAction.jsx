@@ -1,342 +1,136 @@
+import { useSelector } from "react-redux";
 import {
   Box,
-  Button,
-  FormControl,
   Grid,
-  Icon,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Avatar,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
-  Dialog,
-  DialogTitle,
-  List,
-  ListItem,
-  ListItemAvatar,
-  IconButton,
-  CardHeader,
-  ListItemText,
-  CircularProgress,
+  Zoom,
 } from "@material-ui/core";
-import { getTokenBalances } from "src/slices/ZapSlice";
-import { useEffect, useMemo, useState } from "react";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { ButtonBase, ListItemButton } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import CloseIcon from "@mui/icons-material/Close";
-import { useBonds } from "src/hooks";
-import BondHeader from "../Bond/BondHeader";
-import { DisplayBondDiscount } from "../Bond/Bond";
-import BondLogo from "src/components/BondLogo";
+import { BondDataCard, BondTableData } from "../ChooseBond/BondRow";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { formatCurrency } from "../../helpers";
+import useBonds from "../../hooks/Bonds";
 
-function ZapBondAction(props) {
-  const { address, quantity, setQuantity, ...other } = props;
+import "../ChooseBond/choosebond.scss";
+import { Skeleton } from "@material-ui/lab";
+import ClaimBonds from "../ChooseBond/ClaimBonds";
+import isEmpty from "lodash/isEmpty";
+import { allBondsMap } from "src/helpers/AllBonds";
 
+function ZapBondAction() {
   const { bonds } = useBonds();
-  const bondDictionary = Object.fromEntries(bonds.map(bond => [bond.name, bond]));
-  const isBondsLoading = useSelector(state => state.bonding?.loading ?? true);
+  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
+  const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
-  console.log(bondDictionary);
+  const isAppLoading = useSelector(state => state.app.loading);
+  const isAccountLoading = useSelector(state => state.account.loading);
 
-  const tokens = useSelector(state => state.zap.balances);
-  const isTokensLoading = useSelector(state => state.zap.loading);
+  const accountBonds = useSelector(state => {
+    const withInterestDue = [];
+    for (const bond in state.account.bonds) {
+      if (state.account.bonds[bond].interestDue > 0) {
+        withInterestDue.push(state.account.bonds[bond]);
+      }
+    }
+    return withInterestDue;
+  });
 
-  const [zapToken, setZapToken] = useState(null);
-  const handleSelectZapToken = token => {
-    setZapToken(token);
-    handleClose();
-  };
-  const [modalOpen, setModalOpen] = useState(false);
-  const handleOpen = () => {
-    setModalOpen(true);
-  };
-  const handleClose = () => setModalOpen(false);
-
-  const [outputToken, setOutputToken] = useState(null);
-  const [outputModalOpen, setOutputModalOpen] = useState(false);
-  const handleOutputOpen = () => {
-    setOutputModalOpen(true);
-  };
-  const handleOutputClose = () => setOutputModalOpen(false);
-  const handleSelectOutputToken = token => {
-    setOutputToken(token);
-    handleOutputClose();
-  };
-
-  const [inputQuantity, setInputQuantity] = useState("");
-  const [outputQuantity, setOutputQuantity] = useState("");
-
-  const ohmMarketPrice = useSelector(state => {
+  const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
 
-  const exchangeRate =
-    outputToken == null
-      ? null
-      : ohmMarketPrice / tokens[zapToken]?.price / (1 + bondDictionary[outputToken].bondDiscount);
-
-  const setZapTokenQuantity = q => {
-    if (q == null || q === "") {
-      setInputQuantity("");
-      setOutputQuantity("");
-      return;
+  const treasuryBalance = useSelector(state => {
+    if (state.bonding.loading == false) {
+      let tokenBalances = 0;
+      for (const bond in allBondsMap) {
+        if (state.bonding[bond]) {
+          tokenBalances += state.bonding[bond].purchased;
+        }
+      }
+      return tokenBalances;
     }
-    const amount = Number(q);
-    setInputQuantity(amount);
-    setOutputQuantity(amount / exchangeRate);
-  };
-
-  const setOutputTokenQuantity = q => {
-    if (q == null || q === "") {
-      setInputQuantity("");
-      setOutputQuantity("");
-      return;
-    }
-    const amount = Number(q);
-    setOutputQuantity(amount);
-    setInputQuantity(amount * exchangeRate);
-  };
+  });
 
   return (
-    <div>
-      <Typography>You Pay</Typography>
-      <FormControl className="zap-input" variant="outlined" color="primary">
-        <InputLabel htmlFor="amount-input"></InputLabel>
-        <OutlinedInput
-          id="zap-amount-input"
-          type="number"
-          placeholder="Enter an amount"
-          className="zap-input"
-          disabled={zapToken == null || outputToken == null}
-          value={inputQuantity}
-          onChange={e => setZapTokenQuantity(e.target.value)}
-          //   labelWidth={0}
-          //   label="Hello"
-          endAdornment={
-            <InputAdornment position="end">
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  minWidth: "60px",
-                }}
-              >
-                {zapToken == null ? (
-                  <ButtonBase onClick={handleOpen}>
-                    <Box flexDirection="row" display="flex" alignItems="center">
-                      <Typography>Select a Token</Typography>
-                      <KeyboardArrowDownIcon />
-                    </Box>
-                  </ButtonBase>
-                ) : (
-                  <Box flexDirection="column" display="flex">
-                    <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
-                      <ButtonBase onClick={handleOpen}>
-                        <Avatar src={tokens[zapToken].img} style={{ height: "30px", width: "30px" }} />
-                        <Box width="10px" />
-                        <Typography>{tokens[zapToken].symbol}</Typography>
-                        <KeyboardArrowDownIcon />
-                      </ButtonBase>
-                    </Box>
+    <div id="choose-bond-view">
+      {!isAccountLoading && !isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
+      <Box className="card-header">
+        <Typography variant="h5">Zap Bond (1,1)</Typography>
+      </Box>
 
-                    <Box height="5px" />
-                    <Box flexDirection="row" display="flex" alignItems="center">
-                      <Typography color="textSecondary">{`Your Balance ${tokens[zapToken].balance.toFixed(
-                        2,
-                      )}`}</Typography>
-                      <Box width="10px" />
-                      <ButtonBase
-                        disabled={outputToken == null}
-                        onClick={() => setZapTokenQuantity(tokens[zapToken].balance)}
-                      >
-                        <Typography>
-                          <b>Max</b>
-                        </Typography>
-                      </ButtonBase>
-                    </Box>
-                  </Box>
-                )}
-              </div>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-      <Box marginTop="10px" minHeight="25px" display="flex" justifyContent="center" alignItems="center">
-        <ButtonBase onClick={handleOutputOpen}>
-          <Box flexDirection="row" display="flex" alignItems="center">
-            {outputToken == null ? (
-              <Typography>Select a Bond</Typography>
-            ) : (
-              <>
-                {/* <Typography>Chosen Bond:</Typography>
-                <Box width="10px" /> */}
-                <Typography>{bondDictionary[outputToken].displayName}</Typography>
-                <Box width="2px" />
-                <BondLogo bond={bondDictionary[outputToken]}></BondLogo>
-              </>
-            )}
-            <KeyboardArrowDownIcon />
+      <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
+        <Grid item xs={6}>
+          <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
+            <Typography variant="h5" color="textSecondary">
+              Treasury Balance
+            </Typography>
+            <Typography variant="h4">
+              {isAppLoading ? (
+                <Skeleton width="180px" />
+              ) : (
+                new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0,
+                }).format(treasuryBalance)
+              )}
+            </Typography>
           </Box>
-        </ButtonBase>
-      </Box>
+        </Grid>
 
-      <Typography>You Get</Typography>
-      <FormControl className="zap-output" variant="outlined" color="primary">
-        <InputLabel htmlFor="amount-input"></InputLabel>
-        <OutlinedInput
-          id="zap-amount-output"
-          type="number"
-          placeholder="Enter an amount"
-          className="zap-input"
-          value={outputQuantity}
-          disabled={zapToken == null || outputToken == null}
-          onChange={e => setOutputTokenQuantity(e.target.value)}
-          labelWidth={0}
-          endAdornment={
-            <InputAdornment position="end">
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  minWidth: "60px",
-                }}
-              >
-                <Box flexDirection="column" display="flex">
-                  <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
-                    <Avatar
-                      src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png"
-                      style={{ height: "30px", width: "30px" }}
-                    />
-                    <Box width="10px" />
-                    <Typography>sOHM</Typography>
-                  </Box>
-                  <Box height="5px" />
-                  <Typography color="textSecondary">
-                    Discount{" "}
-                    {isBondsLoading || outputToken == null ? (
-                      "--"
-                    ) : (
-                      <DisplayBondDiscount key={outputToken} bond={bondDictionary[outputToken]} />
-                    )}
-                  </Typography>
-                </Box>
-              </div>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
-        <Typography>Vesting Term</Typography>
-        <Typography>7 days</Typography>
-      </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
-        <Typography>ROI</Typography>
-        <Typography>4.6%</Typography>
-      </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
-        <Typography>Max Slippage</Typography>
-        <Typography>2.0%</Typography>
-      </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
-        <Typography>Exchange Rate</Typography>
-        <Typography>
-          {zapToken == null || outputToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} =
-          1 sOHM
-        </Typography>
-      </Box>
-      <Button
-        fullWidth
-        className="zap-stake-button"
-        variant="contained"
-        color="primary"
-        // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
-        onClick={() => {
-          onSeekApproval(token);
-        }}
-      >
-        {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
-        Zap-Bond
-      </Button>
-
-      <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs">
-        <DialogTitle>
-          <Typography align="center">Select Zap Token</Typography>
-        </DialogTitle>
-        {isTokensLoading || Object.entries(tokens).length == 0 ? null : (
-          <List sx={{ pt: 0 }}>
-            {Object.entries(tokens)
-              .filter(token => !token[1].hide)
-              .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-              .map(token => (
-                <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
-                  <ListItemAvatar>
-                    <Avatar src={token[1].img} />
-                  </ListItemAvatar>
-                  <ListItemText primary={token[1].symbol} />
-                  <Box flexGrow={10} />
-                  <ListItemText
-                    primary={`$${token[1].balanceUSD.toFixed(2)}`}
-                    secondary={token[1].balance.toFixed(4)}
-                  />
-                </ListItem>
-              ))}
-          </List>
-        )}
-      </Dialog>
-
-      <Dialog onClose={handleOutputClose} open={outputModalOpen} keepMounted fullWidth maxWidth="xs">
-        <DialogTitle>
-          <Typography align="center">Select Bond</Typography>
-          <Box justifyContent="space-between" flexDirection="row" display="flex" marginTop="20px">
-            <Typography align="center">Bond Name</Typography>
-            <Typography align="center">ROI</Typography>
+        <Grid item xs={6} className={`ohm-price`}>
+          <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
+            <Typography variant="h5" color="textSecondary">
+              OHM Price
+            </Typography>
+            <Typography variant="h4">
+              {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(marketPrice, 2)}
+            </Typography>
           </Box>
-        </DialogTitle>
-        {/* {isTokensLoading || Object.entries(tokens).length == 0 ? null : (
-          <List sx={{ pt: 0 }}>
-            {Object.entries(tokens)
-              .filter(token => !token[1].hide)
-              .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-              .map(token => (
-                <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
-                  <ListItemAvatar>
-                    <Avatar src={token[1].img} />
-                  </ListItemAvatar>
-                  <ListItemText primary={token[1].symbol} />
-                  <Box flexGrow={10} />
-                  <ListItemText
-                    primary={`$${token[1].balanceUSD.toFixed(2)}`}
-                    secondary={token[1].balance.toFixed(4)}
-                  />
-                </ListItem>
-              ))}
-          </List>
-        )} */}
-        <List sx={{ pt: 0 }}>
-          {isBondsLoading
-            ? null
-            : bonds.map(bond => (
-                <ListItemButton
-                  disabled={!bond.isAvailable[1]}
-                  onClick={bond.isAvailable[1] ? () => handleSelectOutputToken(bond.name) : null}
-                >
-                  {
-                    <>
-                      <ListItemAvatar>
-                        <BondLogo bond={bond}></BondLogo>
-                      </ListItemAvatar>
-                      <ListItemText primary={bond.displayName} />
-                      <Box flexGrow={10} />
-                      <ListItemText primary={<DisplayBondDiscount key={bond.name} bond={bond} />} />
-                    </>
-                  }
-                </ListItemButton>
-              ))}
-        </List>
-      </Dialog>
+        </Grid>
+      </Grid>
+
+      {!isSmallScreen && (
+        <Grid container item>
+          <TableContainer>
+            <Table aria-label="Available bonds">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">Bond</TableCell>
+                  <TableCell align="left">Price</TableCell>
+                  <TableCell align="left">ROI</TableCell>
+                  <TableCell align="right">Purchased</TableCell>
+                  <TableCell align="right"></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {bonds.map(bond => (
+                  <BondTableData key={bond.name} bond={bond} basePath="zap" />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
+      )}
+
+      {isSmallScreen && (
+        <Box className="ohm-card-container">
+          <Grid container item spacing={2}>
+            {bonds.map(bond => (
+              <Grid item xs={12} key={bond.name}>
+                <BondDataCard key={bond.name} bond={bond} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )}
     </div>
   );
 }

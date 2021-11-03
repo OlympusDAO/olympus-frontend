@@ -40,25 +40,43 @@
     text-align: center;
     font-style: italic;
   }
-}
-
-.migrate-sohm-button {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  font-size: 1em;
-  display: flex;
-  align-items: center;
-  color: #f08080;
-  line-height: 30px;
-  svg {
-    margin-right: 8px;
-    color: inherit;
+  .bond-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .ohm-pair-img,
+    .reserve-pair-img {
+      height: 38px;
+      width: 38px;
+    }
+    .bond-header-logo {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      display: flex;
+      flex-direction: row;
+      .bond-header-name {
+        text-align: center;
+        margin-left: 0.33em;
+      }
+    }
   }
-}
+  .bond-data {
+    margin: 10px 0 0 0;
+  }
 
-.migrate-sohm-button.complete {
-  color: #35ee66 !important;
+  .bond-price-data-row {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin: 23px;
+    h4 {
+      margin-bottom: 0;
+    }
+    h3.price {
+      font-weight: 600 !important;
+    }
+  }
 }
 
 .stake-top-metrics {

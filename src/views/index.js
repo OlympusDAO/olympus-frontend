@@ -5,3 +5,4 @@ export { default as Dashboard } from "./Dashboard/Dashboard";
 export { default as PoolTogether } from "./33Together/33Together.jsx";
 export { default as TreasuryDashboard } from "./TreasuryDashboard/TreasuryDashboard";
 export { default as Zap } from "./Zap/Zap";
+export { default as ZapBond } from "./Zap/ZapBond";

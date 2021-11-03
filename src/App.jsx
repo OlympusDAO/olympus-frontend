@@ -18,7 +18,7 @@ import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSl
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether, Zap } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether, Zap, ZapBond } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
@@ -225,7 +225,19 @@ function App() {
             </Route>
 
             <Route path="/zap">
-              <Zap />
+              <Route exact path={`/zap`}>
+                <Zap />
+              </Route>
+              <Route exact path={`/zap/bond`}>
+                <Zap initialTab={1} />
+              </Route>
+              {bonds.map(bond => {
+                return (
+                  <Route exact key={bond.name} path={`/zap/${bond.name}`}>
+                    <ZapBond bond={bond} />
+                  </Route>
+                );
+              })}
             </Route>
 
             <Route path="/33-together">

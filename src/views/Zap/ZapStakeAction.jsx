@@ -25,12 +25,16 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { ButtonBase } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
+import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { Skeleton } from "@material-ui/lab";
+import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 
-function ZapAction(props) {
+function ZapStakeAction(props) {
   const { address, quantity, setQuantity, ...other } = props;
 
   const tokens = useSelector(state => state.zap.balances);
   const isTokensLoading = useSelector(state => state.zap.loading);
+  const isAppLoading = useSelector(state => state.app.loading);
 
   const [zapToken, setZapToken] = useState(null);
   const handleSelectZapToken = token => {
@@ -50,6 +54,43 @@ function ZapAction(props) {
   const ohmMarketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
+  const ohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.ohm;
+  });
+  const sohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.sohm;
+  });
+  const fsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.fsohm;
+  });
+  const wsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.wsohm;
+  });
+  const stakingRebase = useSelector(state => {
+    return state.app.stakingRebase;
+  });
+  const stakingAPY = useSelector(state => {
+    return state.app.stakingAPY;
+  });
+  const stakingTVL = useSelector(state => {
+    return state.app.stakingTVL;
+  });
+  const fiveDayRate = useSelector(state => {
+    return state.app.fiveDayRate;
+  });
+  const currentIndex = useSelector(state => {
+    return state.app.currentIndex;
+  });
+  const stakingRebasePercentage = trim(stakingRebase * 100, 4);
+  const trimmedBalance = Number(
+    [sohmBalance, fsohmBalance, wsohmBalance]
+      .filter(Boolean)
+      .map(balance => Number(balance))
+      .reduce((a, b) => a + b, 0)
+      .toFixed(4),
+  );
+  const trimmedStakingAPY = trim(stakingAPY * 100, 1);
+  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
   const exchangeRate = ohmMarketPrice / tokens[zapToken]?.price;
 
@@ -77,6 +118,66 @@ function ZapAction(props) {
 
   return (
     <div>
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <div className="card-header">
+            <Typography variant="h5">Zap Stake (3, 3)</Typography>
+            <RebaseTimer />
+          </div>
+        </Grid>
+
+        <Grid item>
+          <div className="stake-top-metrics">
+            <Grid container spacing={2} alignItems="flex-end">
+              <Grid item xs={12} sm={4} md={4} lg={4}>
+                <div className="stake-apy">
+                  <Typography variant="h5" color="textSecondary">
+                    APY
+                  </Typography>
+                  <Typography variant="h4">
+                    {stakingAPY ? (
+                      <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
+                    ) : (
+                      <Skeleton width="150px" />
+                    )}
+                  </Typography>
+                </div>
+              </Grid>
+
+              <Grid item xs={12} sm={4} md={4} lg={4}>
+                <div className="stake-tvl">
+                  <Typography variant="h5" color="textSecondary">
+                    Total Value Deposited
+                  </Typography>
+                  <Typography variant="h4">
+                    {stakingTVL ? (
+                      new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                        maximumFractionDigits: 0,
+                        minimumFractionDigits: 0,
+                      }).format(stakingTVL)
+                    ) : (
+                      <Skeleton width="150px" />
+                    )}
+                  </Typography>
+                </div>
+              </Grid>
+
+              <Grid item xs={12} sm={4} md={4} lg={4}>
+                <div className="stake-index">
+                  <Typography variant="h5" color="textSecondary">
+                    Current Index
+                  </Typography>
+                  <Typography variant="h4">
+                    {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                  </Typography>
+                </div>
+              </Grid>
+            </Grid>
+          </div>
+        </Grid>
+      </Grid>
       <Typography>You Pay</Typography>
       <FormControl className="zap-input" variant="outlined" color="primary">
         <InputLabel htmlFor="amount-input"></InputLabel>
@@ -197,6 +298,42 @@ function ZapAction(props) {
         {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
         Zap-Stake
       </Button>
+      <div className={`stake-user-data`}>
+        <div className="data-row">
+          <Typography variant="body1">Your Balance</Typography>
+          <Typography variant="body1">
+            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
+          </Typography>
+        </div>
+
+        <div className="data-row">
+          <Typography variant="body1">Your Staked Balance</Typography>
+          <Typography variant="body1">
+            {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
+          </Typography>
+        </div>
+
+        <div className="data-row">
+          <Typography variant="body1">Next Reward Amount</Typography>
+          <Typography variant="body1">
+            {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
+          </Typography>
+        </div>
+
+        <div className="data-row">
+          <Typography variant="body1">Next Reward Yield</Typography>
+          <Typography variant="body1">
+            {isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}
+          </Typography>
+        </div>
+
+        <div className="data-row">
+          <Typography variant="body1">ROI (5-Day Rate)</Typography>
+          <Typography variant="body1">
+            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>}
+          </Typography>
+        </div>
+      </div>
 
       <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs">
         <DialogTitle>
@@ -227,4 +364,4 @@ function ZapAction(props) {
   );
 }
 
-export default ZapAction;
+export default ZapStakeAction;

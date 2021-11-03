@@ -7,7 +7,7 @@ import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg"
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import useEscape from "../../hooks/useEscape";
 
-function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
+function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange, returnPath }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -22,12 +22,12 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
 
   useEscape(() => {
     if (open) handleClose;
-    else history.push("/bonds");
+    else history.push(`/${returnPath}`);
   });
 
   return (
     <div className="bond-header">
-      <Link component={NavLink} to="/bonds" className="cancel-bond">
+      <Link component={NavLink} to={`/${returnPath}`} className="cancel-bond">
         <SvgIcon color="primary" component={XIcon} />
       </Link>
 

@@ -115,7 +115,7 @@ function ChooseBond() {
                   </TableHead>
                   <TableBody>
                     {bonds.map(bond => (
-                      <BondTableData key={bond.name} bond={bond} />
+                      <BondTableData key={bond.name} bond={bond} basePath="bonds" />
                     ))}
                   </TableBody>
                 </Table>
