@@ -5,6 +5,7 @@ import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
+import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 
 import { setAll } from "../helpers";
 
@@ -12,6 +13,17 @@ import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit"
 import { Bond, NetworkID } from "src/lib/Bond"; // TODO: this type definition needs to move out of BOND.
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
+
+interface DonationInfo {
+  [key: string]: number;
+}
+
+interface RecipientInfo {
+  totalDebt: string;
+  carry: string;
+  agnosticAmount: string;
+  indexAtLastChange: string;
+}
 
 export const getBalances = createAsyncThunk(
   "account/getBalances",
@@ -34,6 +46,73 @@ export const getBalances = createAsyncThunk(
   },
 );
 
+// Need getDonationBalances and getRedemptionBalances
+export const getDonationBalances = createAsyncThunk(
+  "account/getDonationBalances",
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
+    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
+    let donationInfo: DonationInfo = {};
+    let i = 0;
+    let endOfDonations = false;
+    while (!endOfDonations) {
+      try {
+        let currDonation = await givingContract.donationInfo(address, i);
+        if (currDonation.recipient === "0x0000000000000000000000000000000000000000") {
+          i += 1;
+          continue;
+        } else {
+          donationInfo[currDonation.recipient] = parseFloat(
+            ethers.utils.formatUnits(currDonation.amount.toNumber(), "gwei"),
+          );
+          i += 1;
+        }
+      } catch (e: unknown) {
+        endOfDonations = true;
+      }
+    }
+
+    return {
+      giving: {
+        sohmGive: +giveAllowance,
+        donationInfo: donationInfo,
+      },
+    };
+  },
+);
+
+export const getRedemptionBalances = createAsyncThunk(
+  "account/getRedemptionBalances",
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
+    const redeemableBalance = await givingContract.redeemableBalance(address);
+    let recipientInfo: RecipientInfo = {
+      totalDebt: "",
+      carry: "",
+      agnosticAmount: "",
+      indexAtLastChange: "",
+    };
+    try {
+      let recipientInfoData = await givingContract.recipientInfo(address);
+      recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
+      recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
+      recipientInfo.agnosticAmount = ethers.utils.formatUnits(recipientInfoData.agnosticAmount.toNumber(), "gwei");
+      recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
+        recipientInfoData.indexAtLastChange.toNumber(),
+        "gwei",
+      );
+    } catch (e: unknown) {}
+
+    return {
+      redeeming: {
+        sohmRedeemable: ethers.utils.formatUnits(redeemableBalance, "gwei"),
+        recipientInfo: recipientInfo,
+      },
+    };
+  },
+);
+
 interface IUserAccountDetails {
   balances: {
     dai: string;
@@ -43,6 +122,14 @@ interface IUserAccountDetails {
   staking: {
     ohmStake: number;
     ohmUnstake: number;
+  };
+  giving: {
+    sohmGive: number;
+    donationInfo: DonationInfo;
+  };
+  redeeming: {
+    sohmRedeemable: number;
+    recipientInfo: RecipientInfo;
   };
   bonding: {
     daiAllowance: number;
@@ -58,6 +145,15 @@ export const loadAccountDetails = createAsyncThunk(
     let wsohmBalance = 0;
     let stakeAllowance = 0;
     let unstakeAllowance = 0;
+    let giveAllowance = 0;
+    let donationInfo: DonationInfo = {};
+    let redeemableBalance = 0;
+    let recipientInfo: RecipientInfo = {
+      totalDebt: "",
+      carry: "",
+      agnosticAmount: "",
+      indexAtLastChange: "",
+    };
     let lpStaked = 0;
     let pendingRewards = 0;
     let lpBondAllowance = 0;
@@ -79,12 +175,47 @@ export const loadAccountDetails = createAsyncThunk(
       const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider);
       sohmBalance = await sohmContract.balanceOf(address);
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+      giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
       poolAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
     }
 
     if (addresses[networkID].PT_TOKEN_ADDRESS) {
       const poolTokenContract = await new ethers.Contract(addresses[networkID].PT_TOKEN_ADDRESS, ierc20Abi, provider);
       poolBalance = await poolTokenContract.balanceOf(address);
+    }
+
+    if (addresses[networkID].GIVING_ADDRESS) {
+      const givingContract = await new ethers.Contract(addresses[networkID].GIVING_ADDRESS, OlympusGiving, provider);
+      let i = 0;
+      let endOfDonations = false;
+      while (!endOfDonations) {
+        try {
+          let currDonation = await givingContract.donationInfo(address, i);
+          if (currDonation.recipient === "0x0000000000000000000000000000000000000000") {
+            i += 1;
+            continue;
+          } else {
+            donationInfo[currDonation.recipient] = parseFloat(
+              ethers.utils.formatUnits(currDonation.amount.toNumber(), "gwei"),
+            );
+            i += 1;
+          }
+        } catch (e: unknown) {
+          endOfDonations = true;
+        }
+      }
+
+      redeemableBalance = await givingContract.redeemableBalance(address);
+      try {
+        let recipientInfoData = await givingContract.recipientInfo(address);
+        recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
+        recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
+        recipientInfo.agnosticAmount = ethers.utils.formatUnits(recipientInfoData.agnosticAmount.toNumber(), "gwei");
+        recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
+          recipientInfoData.indexAtLastChange.toNumber(),
+          "gwei",
+        );
+      } catch (e: unknown) {}
     }
 
     for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM"]) {
@@ -119,6 +250,14 @@ export const loadAccountDetails = createAsyncThunk(
       staking: {
         ohmStake: +stakeAllowance,
         ohmUnstake: +unstakeAllowance,
+      },
+      giving: {
+        sohmGive: +giveAllowance,
+        donationInfo: donationInfo,
+      },
+      redeeming: {
+        sohmRedeemable: ethers.utils.formatUnits(redeemableBalance, "gwei"),
+        recipientInfo: recipientInfo,
       },
       bonding: {
         daiAllowance: daiBondAllowance,
@@ -231,6 +370,28 @@ const accountSlice = createSlice({
         state.loading = false;
       })
       .addCase(getBalances.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(getDonationBalances.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getDonationBalances.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.loading = false;
+      })
+      .addCase(getDonationBalances.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(getRedemptionBalances.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getRedemptionBalances.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.loading = false;
+      })
+      .addCase(getRedemptionBalances.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       })

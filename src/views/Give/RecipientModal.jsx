@@ -1,17 +1,25 @@
-import { Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
+import { Box, Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
 import { FormControl, FormHelperText } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { Skeleton } from "@material-ui/lab";
+import { changeApproval, changeGive } from "../../slices/GiveThunk";
+import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
+import { getTokenImage } from "../../helpers";
+import { BigNumber } from "bignumber.js";
+
+const sOhmImg = getTokenImage("sohm");
 
 export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentWalletAddress, currentDepositAmount }) {
+  const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
-  const [depositAmount, setDepositAmount] = useState(currentDepositAmount ? currentDepositAmount : 0.0);
+  const [depositAmount, setDepositAmount] = useState(currentDepositAmount ? currentDepositAmount : null);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(false);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState("");
 
@@ -34,6 +42,24 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
+
+  const giveAllowance = useSelector(state => {
+    return state.account.giving && state.account.giving.sohmGive;
+  });
+
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
+  });
+
+  const onSeekApproval = async () => {
+    await dispatch(changeApproval({ address, token: "sohm", provider, networkID: chainID }));
+  };
+
+  const hasAllowance = useCallback(() => {
+    return giveAllowance > 0;
+  }, [giveAllowance]);
+
+  const isAllowanceDataLoading = giveAllowance == null;
 
   /**
    * Returns the maximum deposit that can be directed to the recipient.
@@ -173,15 +199,23 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     if (!isDepositAmountValid) return false;
     if (!isWalletAddressValid) return false;
     if (!address) return false;
+    if (isPendingTxn(pendingTransactions, "editingGive")) return false;
 
     return true;
+  };
+
+  const getDepositAmountDiff = () => {
+    // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
+    const depositAmountBig = new BigNumber(depositAmount);
+    return depositAmountBig.minus(new BigNumber(currentDepositAmount));
   };
 
   /**
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
-    callbackFunc(walletAddress, depositAmount, depositAmount - currentDepositAmount);
+    const depositAmountBig = new BigNumber(depositAmount);
+    callbackFunc(walletAddress, depositAmountBig, getDepositAmountDiff());
   };
 
   // TODO stop modal from moving when validation messages are shown
@@ -196,45 +230,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
           <Typography variant="h4">{getTitle()}</Typography>
         </div>
         <Typography variant="body1">{getIntroduction()}</Typography>
-        <Typography variant="h5">Amount of sOHM</Typography>
-        <FormControl className="modal-input" variant="outlined" color="primary">
-          <InputLabel htmlFor="amount-input"></InputLabel>
-          <OutlinedInput
-            id="amount-input"
-            type="number"
-            placeholder="Enter an amount"
-            className="stake-input"
-            value={depositAmount}
-            error={!isDepositAmountValid}
-            onChange={e => handleSetDepositAmount(e.target.value)}
-            labelWidth={0}
-          />
-          <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-          {!isCreateMode() && (
-            <Typography variant="body2">Difference: {depositAmount - currentDepositAmount}</Typography>
-          )}
-        </FormControl>
-        <Typography variant="h5">Recipient Address</Typography>
-        <FormControl className="modal-input" variant="outlined" color="primary">
-          <InputLabel htmlFor="wallet-input"></InputLabel>
-          <OutlinedInput
-            id="wallet-input"
-            type="text"
-            placeholder="Enter a wallet address in the form of 0x ..."
-            className="stake-input"
-            value={walletAddress}
-            error={!isWalletAddressValid}
-            onChange={e => handleSetWallet(e.target.value)}
-            labelWidth={0}
-            disabled={!isCreateMode()}
-          />
-          <FormHelperText>{isWalletAddressValidError}</FormHelperText>
-        </FormControl>
-        <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => handleSubmit()}>
-            {getTitle()}
-          </Button>
-        </FormControl>
         {!address ? (
           <>
             <FormHelperText>
@@ -242,8 +237,90 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
               again.
             </FormHelperText>
           </>
+        ) : !hasAllowance() ? (
+          <Box className="help-text">
+            <Typography variant="body1" className="stream-note" color="textSecondary">
+              First time giving <b>sOHM</b>?
+              <br />
+              Please approve Olympus DAO to use your <b>sOHM</b> for giving.
+            </Typography>
+          </Box>
+        ) : isAllowanceDataLoading ? (
+          <Skeleton />
         ) : (
-          <></>
+          <>
+            <Typography variant="h5">Amount of sOHM</Typography>
+            <FormControl className="modal-input" variant="outlined" color="primary">
+              <InputLabel htmlFor="amount-input"></InputLabel>
+              <OutlinedInput
+                id="amount-input"
+                type="number"
+                placeholder="Enter an amount"
+                className="stake-input"
+                value={depositAmount}
+                error={!isDepositAmountValid}
+                onChange={e => handleSetDepositAmount(e.target.value)}
+                labelWidth={0}
+              />
+              <FormHelperText>{isDepositAmountValidError}</FormHelperText>
+              {!isCreateMode() && (
+                <Typography variant="body2">Difference: {getDepositAmountDiff().toString()}</Typography>
+              )}
+            </FormControl>
+            {isCreateMode() ? (
+              <>
+                <Typography variant="h5">Recipient Address</Typography>
+                <FormControl className="modal-input" variant="outlined" color="primary">
+                  <InputLabel htmlFor="wallet-input"></InputLabel>
+                  <OutlinedInput
+                    id="wallet-input"
+                    type="text"
+                    placeholder="Enter a wallet address in the form of 0x ..."
+                    className="stake-input"
+                    value={walletAddress}
+                    error={!isWalletAddressValid}
+                    onChange={e => handleSetWallet(e.target.value)}
+                    labelWidth={0}
+                    disabled={!isCreateMode()}
+                  />
+                  <FormHelperText>{isWalletAddressValidError}</FormHelperText>
+                </FormControl>{" "}
+              </>
+            ) : (
+              <></>
+            )}
+          </>
+        )}
+        {isCreateMode() ? (
+          address && hasAllowance() ? (
+            <FormControl className="ohm-modal-submit">
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={!canSubmit() || isPendingTxn(pendingTransactions, "giving")}
+                onClick={handleSubmit}
+              >
+                {txnButtonText(pendingTransactions, "giving", "Give sOHM")}
+              </Button>
+            </FormControl>
+          ) : (
+            <FormControl className="ohm-modal-submit">
+              <Button variant="contained" color="primary" onClick={onSeekApproval}>
+                {txnButtonText(pendingTransactions, "approve_giving", "Approve")}
+              </Button>
+            </FormControl>
+          )
+        ) : (
+          <FormControl className="ohm-modal-submit">
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={!canSubmit() || isPendingTxn(pendingTransactions, "editingGive")}
+              onClick={handleSubmit}
+            >
+              {txnButtonText(pendingTransactions, "editingGive", "Edit Give Amount")}
+            </Button>
+          </FormControl>
         )}
       </Paper>
     </Modal>

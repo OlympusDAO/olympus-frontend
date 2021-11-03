@@ -1,4 +1,4 @@
-#yield-directing-view {
+.give-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,10 +7,6 @@
 
   .ohm-card .header {
     min-height: 3em;
-  }
-
-  .MuiButton-label {
-    font-size: 13px;
   }
 }
 
@@ -25,7 +21,8 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  // Use decimal values to fix anti-aliasing in Chrome. Ridiculous.
+  transform: translate(-50.048%, -50.048%);
 
   .yield-header {
     align-items: center;
@@ -51,6 +48,7 @@
 
   .ohm-modal-submit {
     display: flex;
+    align-items: center;
     width: 10rem;
     height: 43px !important;
     margin-top: 1rem;
@@ -78,5 +76,16 @@
 
   .MuiTypography-body1 {
     margin-bottom: 0.5rem;
+  }
+}
+
+.redeem-table {
+  .MuiTableCell-body {
+    font-size: 0.875rem;
+    font-family: Square;
+    font-weight: 500;
+    line-height: 1;
+    padding-left: 0rem;
+    padding-bottom: 1rem;
   }
 }

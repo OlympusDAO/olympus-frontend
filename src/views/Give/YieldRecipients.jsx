@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   Typography,
@@ -12,10 +12,14 @@ import {
   TableContainer,
 } from "@material-ui/core";
 
+import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { changeGive } from "../../slices/GiveThunk";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal } from "./RecipientModal";
 import { WithdrawDepositModal } from "./WithdrawDepositModal";
+import { shorten } from "src/helpers";
+import { BigNumber } from "bignumber.js";
 
 export default function YieldRecipients() {
   const dispatch = useDispatch();
@@ -25,6 +29,13 @@ export default function YieldRecipients() {
   const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+
+  const isAppLoading = useSelector(state => state.app.loading);
+  const donationInfo = useSelector(state => {
+    return state.account.giving && state.account.giving.donationInfo;
+  });
+
+  const isDonationInfoLoading = donationInfo == undefined;
 
   useEffect(() => {
     if (hasCachedProvider()) {
@@ -46,38 +57,32 @@ export default function YieldRecipients() {
     }
   }, [walletChecked]);
 
-  // TODO add fetching of yield directions
-  const recipients = [
-    {
-      walletAddress: "0x1",
-      depositAmount: 1.0,
-    },
-    {
-      walletAddress: "0x2",
-      depositAmount: 2.0,
-    },
-  ];
-
   // *** Edit modal
   const handleEditButtonClick = walletAddress => {
     setSelectedRecipientForEdit(walletAddress);
     setIsEditModalOpen(true);
   };
 
-  // TODO implement recipient edit
-  const handleEditModalSubmit = (walletAddress, depositAmount, depositAmountDiff) => {
-    if (depositAmountDiff == 0.0) return;
+  const handleEditModalSubmit = async (walletAddress, depositAmount, depositAmountDiff) => {
+    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
+
+    if (isNaN(depositAmount) || depositAmount === "") {
+      return dispatch(error("Please enter a value!"));
+    }
 
     // Record segment user event
 
     // If reducing the amount of deposit, withdraw
-    if (depositAmountDiff < 0) {
-    }
-    // If increasing the amount of deposit, deposit
-    else if (depositAmountDiff > 0) {
-    }
-
-    // Refresh recipients list
+    await dispatch(
+      changeGive({
+        action: "editGive",
+        value: depositAmountDiff.toString(),
+        recipient: walletAddress,
+        provider,
+        address,
+        networkID: chainID,
+      }),
+    );
 
     setIsEditModalOpen(false);
   };
@@ -86,19 +91,26 @@ export default function YieldRecipients() {
     setIsEditModalOpen(false);
   };
 
-  // *** Withdraw model
+  // *** Withdraw modal
   const handleWithdrawButtonClick = walletAddress => {
     setSelectedRecipientForWithdraw(walletAddress);
     setIsWithdrawModalOpen(true);
   };
 
-  // TODO implement withdrawal
-  const handleWithdrawModalSubmit = (walletAddress, depositAmount) => {
+  const handleWithdrawModalSubmit = async (walletAddress, depositAmount) => {
     // Record Segment user event
 
     // Issue withdrawal from smart contract
-
-    // Refresh recipients list
+    await dispatch(
+      changeGive({
+        action: "endGive",
+        value: depositAmount.toString(),
+        recipient: walletAddress,
+        provider,
+        address,
+        networkID: chainID,
+      }),
+    );
 
     setIsWithdrawModalOpen(false);
   };
@@ -123,19 +135,25 @@ export default function YieldRecipients() {
             </TableRow>
           </TableHead>
 
-          <TableBody>
-            {recipients.map(item => {
-              return (
-                <TableRow key={item.walletAddress}>
-                  <TableCell>{item.walletAddress}</TableCell>
-                  <TableCell align="left">{item.depositAmount}</TableCell>
+          {isDonationInfoLoading ? (
+            <Skeleton />
+          ) : (
+            Object.keys(donationInfo).map(recipient => {
+              return isAppLoading ? (
+                <Skeleton />
+              ) : (
+                <TableRow key={recipient}>
+                  <TableCell>{shorten(recipient)}</TableCell>
+                  <TableCell>{donationInfo[recipient]}</TableCell>
+                  <TableCell align="left"></TableCell>
+                  <TableCell align="left"></TableCell>
                   <TableCell align="right" width="10%" padding="none">
                     {" "}
                     <Button
                       variant="outlined"
                       color="secondary"
                       className="stake-lp-button"
-                      onClick={() => handleEditButtonClick(item.walletAddress)}
+                      onClick={() => handleEditButtonClick(recipient)}
                       disabled={!address}
                     >
                       Edit
@@ -147,7 +165,7 @@ export default function YieldRecipients() {
                       variant="outlined"
                       color="secondary"
                       className="stake-lp-button"
-                      onClick={() => handleWithdrawButtonClick(item.walletAddress)}
+                      onClick={() => handleWithdrawButtonClick(recipient)}
                       disabled={!address}
                     >
                       Withdraw
@@ -155,40 +173,48 @@ export default function YieldRecipients() {
                   </TableCell>
                 </TableRow>
               );
-            })}
-          </TableBody>
+            })
+          )}
         </Table>
       </TableContainer>
 
-      {recipients.map(item => {
-        return (
-          item.walletAddress === selectedRecipientForEdit && (
-            <RecipientModal
-              isModalOpen={isEditModalOpen}
-              callbackFunc={handleEditModalSubmit}
-              cancelFunc={handleEditModalCancel}
-              currentWalletAddress={item.walletAddress}
-              currentDepositAmount={item.depositAmount}
-              key={item.walletAddress}
-            />
-          )
-        );
-      })}
+      {isDonationInfoLoading ? (
+        <Skeleton />
+      ) : (
+        Object.keys(donationInfo).map(recipient => {
+          return (
+            recipient === selectedRecipientForEdit && (
+              <RecipientModal
+                isModalOpen={isEditModalOpen}
+                callbackFunc={handleEditModalSubmit}
+                cancelFunc={handleEditModalCancel}
+                currentWalletAddress={recipient}
+                currentDepositAmount={donationInfo[recipient]}
+                key={recipient}
+              />
+            )
+          );
+        })
+      )}
 
-      {recipients.map(item => {
-        return (
-          item.walletAddress === selectedRecipientForWithdraw && (
-            <WithdrawDepositModal
-              isModalOpen={isWithdrawModalOpen}
-              callbackFunc={handleWithdrawModalSubmit}
-              cancelFunc={handleWithdrawModalCancel}
-              walletAddress={item.walletAddress}
-              depositAmount={item.depositAmount}
-              key={item.walletAddress}
-            />
-          )
-        );
-      })}
+      {isDonationInfoLoading ? (
+        <Skeleton />
+      ) : (
+        Object.keys(donationInfo).map(recipient => {
+          return (
+            recipient === selectedRecipientForWithdraw && (
+              <WithdrawDepositModal
+                isModalOpen={isWithdrawModalOpen}
+                callbackFunc={handleWithdrawModalSubmit}
+                cancelFunc={handleWithdrawModalCancel}
+                walletAddress={recipient}
+                depositAmount={donationInfo[recipient]}
+                key={recipient}
+              />
+            )
+          );
+        })
+      )}
     </div>
   );
 }
