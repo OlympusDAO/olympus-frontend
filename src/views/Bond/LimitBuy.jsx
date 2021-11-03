@@ -9,6 +9,7 @@ import {
   Typography,
   Box,
   Slide,
+  Slider,
 } from "@material-ui/core";
 import { redeemBond } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -104,7 +105,24 @@ function BondRedeem({ bond }) {
   const hasAllowance = useCallback(() => {
     return bond.allowance > 0;
   }, [bond.allowance]);
-
+  const marks = [
+    {
+      value: 0,
+      label: "",
+    },
+    {
+      value: 25,
+      label: "",
+    },
+    {
+      value: 50,
+      label: "",
+    },
+    {
+      value: 75,
+      label: "",
+    },
+  ];
   useEffect(() => {
     console.log(bond);
     console.log(bondingState);
@@ -136,7 +154,7 @@ function BondRedeem({ bond }) {
             ) : (
               <FormControl
                 className="ohm-input"
-                variant="filled"
+                variant="outlined"
                 style={{ color: "white", backgroundColor: "#34363D" }}
                 fullWidth
               >
@@ -158,6 +176,8 @@ function BondRedeem({ bond }) {
                 />
               </FormControl>
             )}
+
+            <Slider valueLabelDisplay="auto" step={1} marks={marks} min={0} max={100} />
 
             {!bond.isAvailable[chainID] ? (
               <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" disabled={true}>

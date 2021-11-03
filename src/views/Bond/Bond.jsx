@@ -79,6 +79,7 @@ function Bond({ bond }) {
               </Box>
 
               <Tabs
+                width="100px"
                 centered
                 value={view}
                 textColor="primary"
@@ -87,7 +88,7 @@ function Bond({ bond }) {
                 aria-label="bond tabs"
               >
                 <Tab label="Bond" {...a11yProps(0)} />
-                <Tab label="Redeem" {...a11yProps(1)} />
+                <Tab label="Limit" {...a11yProps(1)} />
               </Tabs>
 
               <TabPanel value={view} index={0}>
