@@ -1,8 +1,10 @@
 import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
 import Web3Modal from "web3modal";
-import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { EnvHelper } from "../helpers/Environment";
+import { NodeHelper } from "src/helpers/NodeHelper";
 
 /**
  * kept as function to mimic `getMainnetURI()`
@@ -12,7 +14,14 @@ function getTestnetURI() {
   return EnvHelper.alchemyTestnetURI;
 }
 
-const ALL_URIs = EnvHelper.getAPIUris();
+/**
+ * determine if in IFrame for Ledger Live
+ */
+function isIframe() {
+  return window.location !== window.parent.location;
+}
+
+const ALL_URIs = NodeHelper.getNodesUris();
 
 /**
  * "intelligently" loadbalances production API Keys
@@ -73,15 +82,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   const [uri, setUri] = useState(getMainnetURI());
 
-  // if websocket we need to change providerType
-  const providerType = () => {
-    if (uri.indexOf("ws://") === 0 || uri.indexOf("wss://") === 0) {
-      return new WebSocketProvider(uri);
-    } else {
-      return new StaticJsonRpcProvider(uri);
-    }
-  };
-  const [provider, setProvider] = useState<JsonRpcProvider>(providerType);
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -150,17 +151,20 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
-    const rawProvider = await web3Modal.connect();
+    // handling Ledger Live;
+    let rawProvider;
+    if (isIframe()) {
+      rawProvider = new IFrameEthereumProvider();
+    } else {
+      rawProvider = await web3Modal.connect();
+    }
 
     // new _initListeners implementation matches Web3Modal Docs
     // ... see here: https://github.com/Web3Modal/web3modal/blob/2ff929d0e99df5edf6bb9e88cff338ba6d8a3991/example/src/App.tsx#L185
     _initListeners(rawProvider);
-
     const connectedProvider = new Web3Provider(rawProvider, "any");
-
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
     const connectedAddress = await connectedProvider.getSigner().getAddress();
-
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
       console.error("Wrong network, please switch to mainnet");
@@ -188,22 +192,22 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal }),
-    [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal],
+    () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal, uri }),
+    [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal, uri],
   );
 
   useEffect(() => {
-    // Don't try to connect here. Do it in App.jsx
-    // console.log(hasCachedProvider());
-    // if (hasCachedProvider()) {
-    //   connect();
-    // }
+    // logs non-functioning nodes && returns an array of working mainnet nodes
+    NodeHelper.checkAllNodesStatus().then((validNodes: any) => {
+      validNodes = validNodes.filter((url: boolean | string) => url !== false);
+      if (!validNodes.includes(uri) && NodeHelper.retryOnInvalid()) {
+        // force new provider...
+        setTimeout(() => {
+          window.location.reload();
+        }, 1);
+      }
+    });
   }, []);
-
-  // initListeners needs to be run on rawProvider... see connect()
-  // useEffect(() => {
-  //   _initListeners();
-  // }, [connected]);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };

@@ -1,27 +1,25 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import { contractForRedeemHelper } from "../helpers";
 import { getBalances, calculateUserBondDetails } from "./AccountSlice";
 import { findOrLoadMarketPrice } from "./AppSlice";
-import { error } from "./MessagesSlice";
-import { Bond, NetworkID } from "../lib/Bond";
-import { addresses } from "../constants";
+import { error, info } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
-import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { RootState } from "src/store";
-import { IJsonRPCError } from "./interfaces";
+import {
+  IApproveBondAsyncThunk,
+  IBondAssetAsyncThunk,
+  ICalcBondDetailsAsyncThunk,
+  IJsonRPCError,
+  IRedeemAllBondsAsyncThunk,
+  IRedeemBondAsyncThunk,
+} from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-
-interface IChangeApproval {
-  bond: Bond;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  networkID: NetworkID;
-}
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
-  async ({ bond, provider, networkID }: IChangeApproval, { dispatch }) => {
+  async ({ address, bond, provider, networkID }: IApproveBondAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -29,10 +27,19 @@ export const changeApproval = createAsyncThunk(
 
     const signer = provider.getSigner();
     const reserveContract = bond.getContractForReserve(networkID, signer);
+    const bondAddr = bond.getAddressForBond(networkID);
 
     let approveTx;
+    let bondAllowance = await reserveContract.allowance(address, bondAddr);
+
+    // return early if approval already exists
+    if (bondAllowance.gt(BigNumber.from("0"))) {
+      dispatch(info("Approval completed."));
+      dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
+      return;
+    }
+
     try {
-      const bondAddr = bond.getAddressForBond(networkID);
       approveTx = await reserveContract.approve(bondAddr, ethers.utils.parseUnits("1000000000", "ether").toString());
       dispatch(
         fetchPendingTxns({
@@ -47,17 +54,11 @@ export const changeApproval = createAsyncThunk(
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
+        dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
       }
     }
   },
 );
-
-interface ICalcBondDetails {
-  bond: Bond;
-  value: string;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  networkID: NetworkID;
-}
 
 export interface IBondDetails {
   bond: string;
@@ -72,7 +73,7 @@ export interface IBondDetails {
 }
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
-  async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch, getState }): Promise<IBondDetails> => {
+  async ({ bond, value, provider, networkID }: ICalcBondDetailsAsyncThunk, { dispatch }): Promise<IBondDetails> => {
     if (!value) {
       value = "0";
     }
@@ -109,10 +110,12 @@ export const calcBondDetails = createAsyncThunk(
       console.log("error getting bondPriceInUSD", e);
     }
 
-    if (bond.isLP) {
+    if (Number(value) === 0) {
+      // if inputValue is 0 avoid the bondQuote calls
+      bondQuote = 0;
+    } else if (bond.isLP) {
       valuation = await bondCalcContract.valuation(bond.getAddressForReserve(networkID), amountInWei);
       bondQuote = await bondContract.payoutFor(valuation);
-
       if (!amountInWei.isZero() && bondQuote < 100000) {
         bondQuote = 0;
         const errorString = "Amount is too small!";
@@ -159,22 +162,13 @@ export const calcBondDetails = createAsyncThunk(
   },
 );
 
-interface IBondAsset {
-  value: number;
-  address: string;
-  bond: Bond;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  networkID: NetworkID;
-  slippage: number;
-}
-
 export const bondAsset = createAsyncThunk(
   "bonding/bondAsset",
-  async ({ value, address, bond, networkID, provider, slippage }: IBondAsset, { dispatch }) => {
+  async ({ value, address, bond, networkID, provider, slippage }: IBondAssetAsyncThunk, { dispatch }) => {
     const depositorAddress = address;
     const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
+    // parseUnits takes String => BigNumber
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
-
     let balance;
     // Calculate maxPremium based on premium and slippage.
     // const calculatePremium = await bonding.calculatePremium();
@@ -220,17 +214,9 @@ export const bondAsset = createAsyncThunk(
   },
 );
 
-interface IRedeemBond {
-  address: string;
-  bond: Bond;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  networkID: NetworkID;
-  autostake: Boolean;
-}
-
 export const redeemBond = createAsyncThunk(
   "bonding/redeemBond",
-  async ({ address, bond, networkID, provider, autostake }: IRedeemBond, { dispatch }) => {
+  async ({ address, bond, networkID, provider, autostake }: IRedeemBondAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -272,17 +258,9 @@ export const redeemBond = createAsyncThunk(
   },
 );
 
-interface IRedeemAllBonds {
-  bonds: Bond[];
-  address: string;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  networkID: NetworkID;
-  autostake: Boolean;
-}
-
 export const redeemAllBonds = createAsyncThunk(
   "bonding/redeemAllBonds",
-  async ({ bonds, address, networkID, provider, autostake }: IRedeemAllBonds, { dispatch }) => {
+  async ({ bonds, address, networkID, provider, autostake }: IRedeemAllBondsAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;

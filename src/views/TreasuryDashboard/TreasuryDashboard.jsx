@@ -15,6 +15,7 @@ import {
 import { useTheme } from "@material-ui/core/styles";
 import "./treasury-dashboard.scss";
 import apollo from "../../lib/apolloClient";
+import InfoTooltip from "src/components/InfoTooltip/InfoTooltip.jsx";
 
 function TreasuryDashboard() {
   const [data, setData] = useState(null);
@@ -40,6 +41,14 @@ function TreasuryDashboard() {
 
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
+  });
+
+  const backingPerOhm = useSelector(state => {
+    return state.app.treasuryMarketValue / state.app.circSupply;
+  });
+
+  const wsOhmPrice = useSelector(state => {
+    return state.app.marketPrice * state.app.currentIndex;
   });
 
   useEffect(() => {
@@ -75,26 +84,47 @@ function TreasuryDashboard() {
 
   return (
     <div id="treasury-dashboard-view" className={`${smallerScreen && "smaller"} ${verySmallScreen && "very-small"}`}>
-      <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
+      <Container
+        style={{
+          paddingLeft: smallerScreen || verySmallScreen ? "0" : "3.3rem",
+          paddingRight: smallerScreen || verySmallScreen ? "0" : "3.3rem",
+        }}
+      >
         <Box className={`hero-metrics`}>
           <Paper className="ohm-card">
-            <Box display="flex" justifyContent="space-evenly">
+            <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
               <Box className="metric market">
                 <Typography variant="h6" color="textSecondary">
                   Market Cap
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {marketCap && formatCurrency(marketCap, 0)}
                   {!marketCap && <Skeleton type="text" />}
                 </Typography>
               </Box>
+
               <Box className="metric price">
                 <Typography variant="h6" color="textSecondary">
                   OHM Price
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {/* appleseed-fix */}
                   {marketPrice ? formatCurrency(marketPrice, 2) : <Skeleton type="text" />}
+                </Typography>
+              </Box>
+
+              <Box className="metric wsoprice">
+                <Typography variant="h6" color="textSecondary">
+                  wsOHM Price
+                  <InfoTooltip
+                    message={
+                      "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
+                    }
+                  />
+                </Typography>
+
+                <Typography variant="h5">
+                  {wsOhmPrice ? formatCurrency(wsOhmPrice, 2) : <Skeleton type="text" />}
                 </Typography>
               </Box>
 
@@ -102,7 +132,7 @@ function TreasuryDashboard() {
                 <Typography variant="h6" color="textSecondary">
                   Circulating Supply (total)
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {circSupply && totalSupply ? (
                     parseInt(circSupply) + " / " + parseInt(totalSupply)
                   ) : (
@@ -111,11 +141,25 @@ function TreasuryDashboard() {
                 </Typography>
               </Box>
 
+              <Box className="metric bpo">
+                <Typography variant="h6" color="textSecondary">
+                  Backing per OHM
+                </Typography>
+                <Typography variant="h5">
+                  {backingPerOhm ? formatCurrency(backingPerOhm, 2) : <Skeleton type="text" />}
+                </Typography>
+              </Box>
+
               <Box className="metric index">
                 <Typography variant="h6" color="textSecondary">
                   Current Index
+                  <InfoTooltip
+                    message={
+                      "The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held a single OHM from day 1."
+                    }
+                  />
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {currentIndex ? trim(currentIndex, 2) + " sOHM" : <Skeleton type="text" />}
                 </Typography>
               </Box>
@@ -153,12 +197,14 @@ function TreasuryDashboard() {
                     "treasuryFraxMarketValue",
                     "treasuryWETHMarketValue",
                     "treasuryXsushiMarketValue",
+                    "treasuryLusdRiskFreeValue",
                   ]}
                   stopColor={[
                     ["#F5AC37", "#EA9276"],
                     ["#768299", "#98B3E9"],
                     ["#DC30EB", "#EA98F1"],
                     ["#8BFF4D", "#4C8C2A"],
+                    ["#ff758f", "#c9184a"],
                   ]}
                   headerText="Market Value of Treasury Assets"
                   headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
@@ -177,17 +223,18 @@ function TreasuryDashboard() {
                   type="stack"
                   data={data}
                   format="currency"
-                  dataKey={["treasuryDaiRiskFreeValue", "treasuryFraxRiskFreeValue"]}
+                  dataKey={["treasuryDaiRiskFreeValue", "treasuryFraxRiskFreeValue", "treasuryLusdRiskFreeValue"]}
                   stopColor={[
                     ["#F5AC37", "#EA9276"],
                     ["#768299", "#98B3E9"],
+                    ["#DC30EB", "#EA98F1"],
                     ["#000", "#fff"],
                     ["#000", "#fff"],
                   ]}
                   headerText="Risk Free Value of Treasury Assets"
                   headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
-                  bulletpointColors={bulletpoints.coin}
-                  itemNames={tooltipItems.coin}
+                  bulletpointColors={bulletpoints.rfv}
+                  itemNames={tooltipItems.rfv}
                   itemType={itemType.dollar}
                   infoTooltipMessage={tooltipInfoMessages.rfv}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
@@ -275,11 +322,11 @@ function TreasuryDashboard() {
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <Chart
-                  type="line"
+                  type="multi"
                   data={runway}
-                  dataKey={["runwayCurrent"]}
+                  dataKey={["runwayCurrent", "runway7dot5k", "runway5k", "runway2dot5k"]}
                   color={theme.palette.text.primary}
-                  stroke={[theme.palette.text.primary]}
+                  stroke={[theme.palette.text.primary, "#2EC608", "#49A1F2", "#ff758f"]}
                   headerText="Runway Available"
                   headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
                   dataFormat="days"

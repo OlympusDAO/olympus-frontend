@@ -19,7 +19,6 @@ import {
 import { Typography, Box, SvgIcon, CircularProgress } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { trim } from "../../helpers";
-import _ from "lodash";
 import { format } from "date-fns";
 import "./chart.scss";
 
@@ -83,6 +82,7 @@ const renderAreaChart = (
           : ""
       }
       domain={[0, "auto"]}
+      dx={3}
       connectNulls={true}
       allowDataOverflow={false}
     />
@@ -132,6 +132,10 @@ const renderStackedAreaChart = (
         <stop offset="0%" stopColor={stopColor[3][0]} stopOpacity={1} />
         <stop offset="90%" stopColor={stopColor[3][1]} stopOpacity={0.9} />
       </linearGradient>
+      <linearGradient id={`color-${dataKey[4]}`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor={stopColor[4][0]} stopOpacity={1} />
+        <stop offset="90%" stopColor={stopColor[4][1]} stopOpacity={0.9} />
+      </linearGradient>
     </defs>
     <XAxis
       dataKey="timestamp"
@@ -170,24 +174,35 @@ const renderStackedAreaChart = (
       stroke={stroke ? stroke[0] : "none"}
       fill={`url(#color-${dataKey[0]})`}
       fillOpacity={1}
+      stackId="1"
     />
     <Area
       dataKey={dataKey[1]}
       stroke={stroke ? stroke[1] : "none"}
       fill={`url(#color-${dataKey[1]})`}
       fillOpacity={1}
+      stackId="1"
     />
     <Area
       dataKey={dataKey[2]}
       stroke={stroke ? stroke[2] : "none"}
       fill={`url(#color-${dataKey[2]})`}
       fillOpacity={1}
+      stackId="1"
     />
     <Area
       dataKey={dataKey[3]}
       stroke={stroke ? stroke[3] : "none"}
       fill={`url(#color-${dataKey[3]})`}
       fillOpacity={1}
+      stackId="1"
+    />
+    <Area
+      dataKey={dataKey[4]}
+      stroke={stroke ? stroke[4] : "none"}
+      fill={`url(#color-${dataKey[4]})`}
+      fillOpacity={1}
+      stackId="1"
     />
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </AreaChart>
@@ -279,6 +294,7 @@ const renderMultiLineChart = (
     <Line dataKey={dataKey[0]} stroke={stroke[0]} dot={false} />;
     <Line dataKey={dataKey[1]} stroke={stroke[1]} dot={false} />;
     <Line dataKey={dataKey[2]} stroke={stroke[2]} dot={false} />;
+    <Line dataKey={dataKey[3]} stroke={stroke[3]} dot={false} />;
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </LineChart>
 );
@@ -424,20 +440,6 @@ function Chart({
       );
   };
 
-  const runwayExtraInfo = type =>
-    type === "multi" ? (
-      <Box display="flex">
-        <Typography variant="h4" style={{ fontWeight: 400, color: bulletpointColors[1].background }}>
-          {itemNames[1].substring(0, 3)} {data && Math.floor(data[0].runway20k)}&nbsp;
-        </Typography>
-        <Typography variant="h4" style={{ fontWeight: 400, color: bulletpointColors[2].background }}>
-          {itemNames[2].substring(0, 3)} {data && Math.floor(data[0].runway50k)}&nbsp;
-        </Typography>
-      </Box>
-    ) : (
-      ""
-    );
-
   useEffect(() => {
     if (data !== null || undefined) {
       setLoading(false);
@@ -485,7 +487,6 @@ function Chart({
             infoTooltipMessage={infoTooltipMessage}
             headerText={headerText}
             headerSubText={headerSubText}
-            runwayExtraInfo={runwayExtraInfo(type)}
           />
         </Box>
         {loading ? (
@@ -495,7 +496,6 @@ function Chart({
             <Typography variant="h4" style={{ fontWeight: 600, marginRight: 5 }}>
               {headerSubText}
             </Typography>
-            {runwayExtraInfo(type)}
             <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
               {type !== "multi" && "Today"}
             </Typography>

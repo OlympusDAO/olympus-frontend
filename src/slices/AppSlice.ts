@@ -5,10 +5,11 @@ import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
+import { NodeHelper } from "../helpers/NodeHelper";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
-import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import { IBaseAsyncThunk } from "./interfaces";
 
 const initialState = {
   loading: false,
@@ -17,7 +18,7 @@ const initialState = {
 
 export const loadAppDetails = createAsyncThunk(
   "app/loadAppDetails",
-  async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }, { dispatch }) => {
+  async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
     const protocolMetricsQuery = `
   query {
     _meta {
@@ -33,6 +34,7 @@ export const loadAppDetails = createAsyncThunk(
       ohmPrice
       marketCap
       totalValueLocked
+      treasuryMarketValue
       nextEpochRebase
       nextDistributedOhm
     }
@@ -64,6 +66,7 @@ export const loadAppDetails = createAsyncThunk(
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
     const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
+    const treasuryMarketValue = parseFloat(graphData.data.protocolMetrics[0].treasuryMarketValue);
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
     if (!provider) {
@@ -74,6 +77,7 @@ export const loadAppDetails = createAsyncThunk(
         marketCap,
         circSupply,
         totalSupply,
+        treasuryMarketValue,
       };
     }
     const currentBlock = await provider.getBlockNumber();
@@ -99,13 +103,6 @@ export const loadAppDetails = createAsyncThunk(
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
 
-    // TODO: remove this legacy shit
-    const oldStakingReward = await oldStakingContract.ohmToDistributeNextEpoch();
-    const oldCircSupply = await sohmOldContract.circulatingSupply();
-
-    const oldStakingRebase = oldStakingReward / oldCircSupply;
-    const oldStakingAPY = Math.pow(1 + oldStakingRebase, 365 * 3) - 1;
-
     // Current index
     const currentIndex = await stakingContract.index();
 
@@ -115,12 +112,12 @@ export const loadAppDetails = createAsyncThunk(
       fiveDayRate,
       stakingAPY,
       stakingTVL,
-      oldStakingAPY,
       stakingRebase,
       marketCap,
       marketPrice,
       circSupply,
       totalSupply,
+      treasuryMarketValue,
     } as IAppData;
   },
 );
@@ -129,10 +126,18 @@ export const loadAppDetails = createAsyncThunk(
  * checks if app.slice has marketPrice already
  * if yes then simply load that state
  * if no then fetches via `loadMarketPrice`
+ *
+ * `usage`:
+ * ```
+ * const originalPromiseResult = await dispatch(
+ *    findOrLoadMarketPrice({ networkID: networkID, provider: provider }),
+ *  ).unwrap();
+ * originalPromiseResult?.whateverValue;
+ * ```
  */
 export const findOrLoadMarketPrice = createAsyncThunk(
   "app/findOrLoadMarketPrice",
-  async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }, { dispatch, getState }) => {
+  async ({ networkID, provider }: IBaseAsyncThunk, { dispatch, getState }) => {
     const state: any = getState();
     let marketPrice;
     // check if we already have loaded market price
@@ -161,20 +166,16 @@ export const findOrLoadMarketPrice = createAsyncThunk(
  * - falls back to fetch marketPrice from ohm-dai contract
  * - updates the App.slice when it runs
  */
-const loadMarketPrice = createAsyncThunk(
-  "app/loadMarketPrice",
-  async ({ networkID, provider }: { networkID: number; provider: StaticJsonRpcProvider }) => {
-    let marketPrice: number;
-    try {
-      marketPrice = await getTokenPrice("olympus");
-    } catch (e) {
-      console.log("Returned a null response when querying CoinGecko");
-      marketPrice = await getMarketPrice({ networkID, provider });
-      marketPrice = marketPrice / Math.pow(10, 9);
-    }
-    return { marketPrice };
-  },
-);
+const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
+  let marketPrice: number;
+  try {
+    marketPrice = await getMarketPrice({ networkID, provider });
+    marketPrice = marketPrice / Math.pow(10, 9);
+  } catch (e) {
+    marketPrice = await getTokenPrice("olympus");
+  }
+  return { marketPrice };
+});
 
 interface IAppData {
   readonly circSupply: number;
@@ -183,12 +184,12 @@ interface IAppData {
   readonly fiveDayRate?: number;
   readonly marketCap: number;
   readonly marketPrice: number;
-  readonly oldStakingAPY?: number;
   readonly stakingAPY?: number;
   readonly stakingRebase?: number;
   readonly stakingTVL: number;
   readonly totalSupply: number;
   readonly treasuryBalance?: number;
+  readonly treasuryMarketValue?: number;
 }
 
 const appSlice = createSlice({
