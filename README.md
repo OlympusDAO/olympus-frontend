@@ -22,7 +22,7 @@ $ cp .env.example .env
 
 # fill in your own values in .env, then =>
 $ yarn
-$ yarn lingui compile
+$ yarn lingui:compile
 $ yarn start
 ```
 
@@ -86,14 +86,17 @@ The files/folder structure are a **WIP** and may contain some unused files. The 
 └── views/        // Individual Views
 ```
 
-### Working with language files
+### Application translation
 
 Olympus uses linguijs to manage translation. https://github.com/lingui/js-lingui
 
-The language files are located in `src/locales`
+The language files are located in a submodule deployed in `src/locales/translations`. This submodule points to the olympus translation repository: https://github.com/OlympusDAO/olympus-translations
 
-- Use `yarn lingui:extract` to scan the code for new translatable entries add them to the po files
-- Use `yarn lingui:compile` to compile the po files into the javascript files actually used by the application
+In order to mark text for translation you can use:
+- The <Trans> component in jsx templates eg. `<Trans>Translate me!</Trans>`
+- The t function in javascript code and jsx templates. ``` t`Translate me` ```
+
+When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.
 
 ## 🚀 Deployment
 
