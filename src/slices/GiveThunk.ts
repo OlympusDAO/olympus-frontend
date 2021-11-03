@@ -4,7 +4,7 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchAccountSuccess, getBalances } from "./AccountSlice";
+import { fetchAccountSuccess, getBalances, getDonationBalances } from "./AccountSlice";
 import { error } from "../slices/MessagesSlice";
 import { IActionValueRecipientAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
@@ -92,7 +92,7 @@ export const changeGive = createAsyncThunk(
           let reductionAmount = (-1 * parseFloat(value)).toString();
           giveTx = await giving.withdraw(ethers.utils.parseUnits(reductionAmount, "gwei"), recipient);
         }
-      } else {
+      } else if (action === "endGive") {
         uaData.type = "endGive";
         giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
       }
@@ -119,5 +119,6 @@ export const changeGive = createAsyncThunk(
       }
     }
     dispatch(getBalances({ address, networkID, provider }));
+    dispatch(getDonationBalances({ address, networkID, provider }));
   },
 );

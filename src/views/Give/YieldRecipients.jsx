@@ -29,6 +29,7 @@ export default function YieldRecipients() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
+  const isAppLoading = useSelector(state => state.app.loading);
   const donationInfo = useSelector(state => {
     return state.account.giving && state.account.giving.donationInfo;
   });
@@ -143,7 +144,9 @@ export default function YieldRecipients() {
             <Skeleton />
           ) : (
             Object.keys(donationInfo).map(recipient => {
-              return (
+              return isAppLoading ? (
+                <Skeleton />
+              ) : (
                 <TableRow key={recipient}>
                   <TableCell>{shorten(recipient)}</TableCell>
                   <TableCell>{donationInfo[recipient]}</TableCell>

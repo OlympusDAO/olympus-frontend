@@ -23,6 +23,7 @@ export default function RedeemYield() {
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
 
+  const isAppLoading = useSelector(state => state.app.loading);
   const redeemableBalance = useSelector(state => {
     return state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
@@ -85,8 +86,9 @@ export default function RedeemYield() {
     return true;
   };
 
-  const handleRedeemButtonClick = () => {
+  const handleRedeemButtonClick = async () => {
     // TODO smart contract integration
+    await dispatch(redeemBalance({ address, provider, networkID: chainID }));
   };
 
   return (
@@ -100,23 +102,23 @@ export default function RedeemYield() {
             <TableBody>
               <TableRow>
                 <TableCell>Donated sOHM Generating Yield</TableCell>
-                <TableCell>{isRecipientInfoLoading ? <Skeleton /> : trim4(totalDeposit) + " sOHM"}</TableCell>
+                <TableCell>{isAppLoading ? <Skeleton /> : trim4(totalDeposit) + " sOHM"}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Redeemable Amount</TableCell>
-                <TableCell> {isRecipientInfoLoading ? <Skeleton /> : trim4(redeemableBalance) + " sOHM"}</TableCell>
+                <TableCell> {isAppLoading ? <Skeleton /> : trim4(redeemableBalance) + " sOHM"}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Next Reward Amount</TableCell>
-                <TableCell> {isRecipientInfoLoading ? <Skeleton /> : trim4(nextRewardValue) + " sOHM"}</TableCell>
+                <TableCell> {isAppLoading ? <Skeleton /> : trim4(nextRewardValue) + " sOHM"}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Next Reward Yield</TableCell>
-                <TableCell> {isRecipientInfoLoading ? <Skeleton /> : stakingRebasePercentage + "%"}</TableCell>
+                <TableCell> {isAppLoading ? <Skeleton /> : stakingRebasePercentage + "%"}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>ROI (5-Day Rate)</TableCell>
-                <TableCell> {isRecipientInfoLoading ? <Skeleton /> : trimmedFiveDayRate + "%"}</TableCell>
+                <TableCell> {isAppLoading ? <Skeleton /> : trimmedFiveDayRate + "%"}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell></TableCell>

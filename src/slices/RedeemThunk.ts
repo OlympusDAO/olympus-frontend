@@ -4,9 +4,9 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchAccountSuccess, getBalances } from "./AccountSlice";
+import { fetchAccountSuccess, getBalances, getRedemptionBalances } from "./AccountSlice";
 import { error } from "../slices/MessagesSlice";
-import { IValueAsyncThunk, IJsonRPCError } from "./interfaces";
+import { IBaseAddressAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 interface IUAData {
@@ -19,7 +19,7 @@ interface IUAData {
 
 export const redeemBalance = createAsyncThunk(
   "redeem/redeemBalance",
-  async ({ value, provider, address, networkID }: IValueAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please conenect your wallet!"));
       return;
@@ -27,11 +27,12 @@ export const redeemBalance = createAsyncThunk(
 
     const signer = provider.getSigner();
     const giving = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, signer);
+    const redeemableBalance = await giving.redeemableBalance(address);
     let redeemTx;
 
     let uaData: IUAData = {
       address: address,
-      value: value,
+      value: redeemableBalance,
       approved: true,
       txHash: null,
       type: null,
@@ -63,5 +64,6 @@ export const redeemBalance = createAsyncThunk(
       }
     }
     dispatch(getBalances({ address, networkID, provider }));
+    dispatch(getRedemptionBalances({ address, networkID, provider }));
   },
 );

@@ -14,6 +14,17 @@ import { Bond, NetworkID } from "src/lib/Bond"; // TODO: this type definition ne
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 
+interface DonationInfo {
+  [key: string]: number;
+}
+
+interface RecipientInfo {
+  totalDebt: string;
+  carry: string;
+  agnosticAmount: string;
+  indexAtLastChange: string;
+}
+
 export const getBalances = createAsyncThunk(
   "account/getBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
@@ -36,17 +47,71 @@ export const getBalances = createAsyncThunk(
 );
 
 // Need getDonationBalances and getRedemptionBalances
+export const getDonationBalances = createAsyncThunk(
+  "account/getDonationBalances",
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
+    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
+    let donationInfo: DonationInfo = {};
+    let i = 0;
+    let endOfDonations = false;
+    while (!endOfDonations) {
+      try {
+        let currDonation = await givingContract.donationInfo(address, i);
+        if (currDonation.recipient === "0x0000000000000000000000000000000000000000") {
+          i += 1;
+          continue;
+        } else {
+          donationInfo[currDonation.recipient] = parseFloat(
+            ethers.utils.formatUnits(currDonation.amount.toNumber(), "gwei"),
+          );
+          i += 1;
+        }
+      } catch (e: unknown) {
+        endOfDonations = true;
+      }
+    }
 
-interface DonationInfo {
-  [key: string]: number;
-}
+    return {
+      giving: {
+        sohmGive: +giveAllowance,
+        donationInfo: donationInfo,
+      },
+    };
+  },
+);
 
-interface RecipientInfo {
-  totalDebt: string;
-  carry: string;
-  agnosticAmount: string;
-  indexAtLastChange: string;
-}
+export const getRedemptionBalances = createAsyncThunk(
+  "account/getRedemptionBalances",
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
+    const redeemableBalance = await givingContract.redeemableBalance(address);
+    let recipientInfo: RecipientInfo = {
+      totalDebt: "",
+      carry: "",
+      agnosticAmount: "",
+      indexAtLastChange: "",
+    };
+    try {
+      let recipientInfoData = await givingContract.recipientInfo(address);
+      recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
+      recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
+      recipientInfo.agnosticAmount = ethers.utils.formatUnits(recipientInfoData.agnosticAmount.toNumber(), "gwei");
+      recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
+        recipientInfoData.indexAtLastChange.toNumber(),
+        "gwei",
+      );
+    } catch (e: unknown) {}
+
+    return {
+      redeeming: {
+        sohmRedeemable: ethers.utils.formatUnits(redeemableBalance, "gwei"),
+        recipientInfo: recipientInfo,
+      },
+    };
+  },
+);
 
 interface IUserAccountDetails {
   balances: {
@@ -150,9 +215,7 @@ export const loadAccountDetails = createAsyncThunk(
           recipientInfoData.indexAtLastChange.toNumber(),
           "gwei",
         );
-      } catch (e: unknown) {
-        console.log(e);
-      }
+      } catch (e: unknown) {}
     }
 
     for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM"]) {
@@ -307,6 +370,28 @@ const accountSlice = createSlice({
         state.loading = false;
       })
       .addCase(getBalances.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(getDonationBalances.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getDonationBalances.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.loading = false;
+      })
+      .addCase(getDonationBalances.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(getRedemptionBalances.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getRedemptionBalances.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.loading = false;
+      })
+      .addCase(getRedemptionBalances.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       })

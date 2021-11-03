@@ -95,6 +95,9 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   const handleSetDepositAmount = value => {
     checkIsDepositAmountValid(value);
     setDepositAmount(value);
+    console.log(value);
+    console.log(depositAmount);
+    console.log(currentDepositAmount);
   };
 
   const checkIsDepositAmountValid = value => {
@@ -228,7 +231,11 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
-    callbackFunc(walletAddress, depositAmount, depositAmount - currentDepositAmount);
+    callbackFunc(
+      walletAddress,
+      depositAmount,
+      (depositAmount * 1000000000 - currentDepositAmount * 1000000000) / 1000000000,
+    );
   };
 
   // TODO stop modal from moving when validation messages are shown
@@ -261,7 +268,9 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                 />
                 <FormHelperText>{isDepositAmountValidError}</FormHelperText>
                 {!isCreateMode() && (
-                  <Typography variant="body2">Difference: {depositAmount - currentDepositAmount}</Typography>
+                  <Typography variant="body2">
+                    Difference: {(depositAmount * 1000000000 - currentDepositAmount * 1000000000) / 1000000000}
+                  </Typography>
                 )}
               </FormControl>
             </>
