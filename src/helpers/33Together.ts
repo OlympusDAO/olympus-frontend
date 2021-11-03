@@ -73,7 +73,7 @@ export const poolTogetherUILinks = (chainID: number): Array<string> => {
     ];
   } else {
     return [
-      `https://community.pooltogether.com/pools/mainnet/${contractAddress}/home`,
+      `https://app.pooltogether.com/pools/mainnet/sOHM`,
       `https://community.pooltogether.com/pools/mainnet/${contractAddress}/manage#stats`,
     ];
   }
