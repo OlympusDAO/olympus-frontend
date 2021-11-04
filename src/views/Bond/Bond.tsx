@@ -11,7 +11,6 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
-import { Bond as IBond } from "src/lib/Bond";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
