@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Paper, Tab, Tabs, Box } from "@material-ui/core";
+import { Paper, Tab, Tabs, Box, Zoom } from "@material-ui/core";
 import InfoTooltipMulti from "../../components/InfoTooltip/InfoTooltipMulti";
 
 import TabPanel from "../../components/TabPanel";
@@ -142,40 +142,41 @@ const PoolTogether = () => {
   return (
     <div id="pool-together-view">
       <PoolPrize />
+      <Zoom in={true}>
+        <Paper className="ohm-card">
+          <Box display="flex">
+            <CardHeader title="3, 3 Together" />
+            <InfoTooltipMulti messagesArray={infoTooltipMessage} />
+          </Box>
+          <Tabs
+            centered
+            value={view}
+            textColor="primary"
+            indicatorColor="primary"
+            onChange={changeView}
+            className="pt-tabs"
+            aria-label="pool tabs"
+          >
+            <Tab label="Deposit" {...a11yProps(0)} />
+            <Tab label="Withdraw" {...a11yProps(1)} />
+          </Tabs>
 
-      <Paper className="ohm-card">
-        <Box display="flex">
-          <CardHeader title="3, 3 Together" />
-          <InfoTooltipMulti messagesArray={infoTooltipMessage} />
-        </Box>
-        <Tabs
-          centered
-          value={view}
-          textColor="primary"
-          indicatorColor="primary"
-          onChange={changeView}
-          className="pt-tabs"
-          aria-label="pool tabs"
-        >
-          <Tab label="Deposit" {...a11yProps(0)} />
-          <Tab label="Withdraw" {...a11yProps(1)} />
-        </Tabs>
-
-        <TabPanel value={view} index={0} className="pool-tab">
-          <PoolDeposit
-            totalPoolDeposits={totalDeposits}
-            winners={winners}
-            setInfoTooltipMessage={setInfoTooltipMessage}
-          />
-        </TabPanel>
-        <TabPanel value={view} index={1} className="pool-tab">
-          <PoolWithdraw
-            totalPoolDeposits={totalDeposits}
-            winners={winners}
-            setInfoTooltipMessage={setInfoTooltipMessage}
-          />
-        </TabPanel>
-      </Paper>
+          <TabPanel value={view} index={0} className="pool-tab">
+            <PoolDeposit
+              totalPoolDeposits={totalDeposits}
+              winners={winners}
+              setInfoTooltipMessage={setInfoTooltipMessage}
+            />
+          </TabPanel>
+          <TabPanel value={view} index={1} className="pool-tab">
+            <PoolWithdraw
+              totalPoolDeposits={totalDeposits}
+              winners={winners}
+              setInfoTooltipMessage={setInfoTooltipMessage}
+            />
+          </TabPanel>
+        </Paper>
+      </Zoom>
 
       <PoolInfo
         graphLoading={graphLoading}
