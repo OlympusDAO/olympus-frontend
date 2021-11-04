@@ -2281,12 +2281,18 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@interactors/html@^0.33.0":
-  version "0.33.0"
-  resolved "https://registry.yarnpkg.com/@interactors/html/-/html-0.33.0.tgz#8be5ccb46dcbfa59dbc52eab3a0b0fe15bbe20ab"
-  integrity sha512-VY0ysmLNB/DNp2wHPIy/3phkvAZ2XfHWysl1e6I4YFWP5Uv7tbDa05htKmdzsKfDaZdntV5XY4mSSViJtysSlg==
+"@interactors/globals@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@interactors/globals/-/globals-0.0.0.tgz#70a68413197d30bc10f103b10a7265b1dd5123e0"
+  integrity sha512-SFRbDuovYwyuAOr8uaiY4YY5IGS84R4Q2yHpBNjHP3qKLULFHLzbte2GjjpYnmAFhG+39bfpQxF1jjSlochs3g==
+
+"@interactors/html@0.33.0-2f5aa35", "@interactors/html@^0.33.0":
+  version "0.33.0-2f5aa35"
+  resolved "https://registry.yarnpkg.com/@interactors/html/-/html-0.33.0-2f5aa35.tgz#2a1e4000923232c41c3f772463e54d10291daa9b"
+  integrity sha512-NlT4Ybd9fSyhykEPgYMQ/YPSx3IT4vJSIiAlefc2jrCm0E8SMqz0NSVDH82sdxIcAmea75hay/dPB+b028PeRg==
   dependencies:
     "@bigtest/globals" "^0.7.6"
+    "@interactors/globals" "^0.0.0"
     "@testing-library/dom" "^8.5.0"
     "@testing-library/user-event" "^13.2.1"
     change-case "^4.1.1"

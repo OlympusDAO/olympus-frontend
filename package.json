@@ -129,5 +129,8 @@
     "watch": "node ./scripts/watch.js",
     "synpress:run": "node tests/e2e/launcher.js",
     "synpress:open": "synpress open"
+  },
+  "resolutions": {
+    "@interactors/html": "0.33.0-2f5aa35"
   }
 }
