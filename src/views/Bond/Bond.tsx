@@ -11,6 +11,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
+import { Available, NetworkID } from "../../lib/Bond";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -69,7 +70,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                     Bond Price
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2)}
+                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.bondPrice, 2)}
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -109,8 +110,11 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   );
 };
 
+type NetworkIDKeys = keyof typeof NetworkID;
+type NetworkIDValues = typeof NetworkID[NetworkIDKeys];
+
 export function DisplayBondPrice(bond: IAllBondData) {
-  //const { provider, chainID } = useWeb3Context();
+  const { provider, chainID } = useWeb3Context();
   return (
     <>
       {!bond.isAvailable ? (
@@ -121,7 +125,7 @@ export function DisplayBondPrice(bond: IAllBondData) {
           currency: "USD",
           maximumFractionDigits: 2,
           minimumFractionDigits: 2,
-        }).format(bond.marketPrice)}`
+        }).format(bond.bondPrice)}`
       )}
     </>
   );
