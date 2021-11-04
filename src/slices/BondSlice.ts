@@ -31,7 +31,8 @@ export const changeApproval = createAsyncThunk(
 
     let approveTx;
     let bondAllowance = await reserveContract.allowance(address, bondAddr);
-
+    console.log(signer), console.log(reserveContract);
+    console.log(bondAddr);
     // return early if approval already exists
     if (bondAllowance.gt(BigNumber.from("0"))) {
       dispatch(info("Approval completed."));

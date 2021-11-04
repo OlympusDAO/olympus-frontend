@@ -10,8 +10,9 @@ import {
   Box,
   Slide,
   Slider,
+  TextField,
 } from "@material-ui/core";
-import { redeemBond } from "../../slices/BondSlice";
+import { redeemBond, changeApproval } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -63,6 +64,7 @@ function BondRedeem({ bond }) {
         "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?",
       );
       if (shouldProceed) {
+        // Limit bond asset *** inserted here
         await dispatch(
           bondAsset({
             value: quantity,
@@ -105,6 +107,11 @@ function BondRedeem({ bond }) {
   const hasAllowance = useCallback(() => {
     return bond.allowance > 0;
   }, [bond.allowance]);
+
+  const onSeekApproval = async token => {
+    await dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
+  };
+
   const marks = [
     {
       value: 0,
@@ -112,15 +119,15 @@ function BondRedeem({ bond }) {
     },
     {
       value: 25,
-      label: "",
+      label: "25%",
     },
     {
       value: 50,
-      label: "",
+      label: "50%",
     },
     {
       value: 75,
-      label: "",
+      label: "75%",
     },
   ];
   useEffect(() => {
@@ -146,38 +153,41 @@ function BondRedeem({ bond }) {
               <div className="help-text">
                 <em>
                   <Typography variant="body1" align="center" backGroundColor="textSecondary">
-                    First time bonding <b>{bond.displayName}</b>? <br /> Please approve Olympus Dao to use your{" "}
-                    <b>{bond.displayName}</b> for bonding.
+                    First time limit buying <b>{bond.displayName}</b>? <br /> Please approve Olympus Dao to use your{" "}
+                    <b>{bond.displayName}</b> for limit buying.
                   </Typography>
                 </em>
               </div>
             ) : (
-              <FormControl
-                className="ohm-input"
-                variant="outlined"
-                style={{ color: "white", backgroundColor: "#34363D" }}
-                fullWidth
-              >
-                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-amount"
-                  type="number"
-                  value={quantity}
-                  onChange={e => setQuantity(e.target.value)}
-                  // startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                  labelWidth={55}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <Button variant="text" onClick={setMax}>
-                        Max
-                      </Button>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            )}
+              <div>
+                <FormControl
+                  className="ohm-input"
+                  variant="outlined"
+                  style={{ color: "white", backgroundColor: "#34363D" }}
+                  fullWidth
+                >
+                  <InputLabel htmlFor="outlined-adornment-amount">Balance</InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-amount"
+                    type="number"
+                    value={quantity}
+                    onChange={e => setQuantity(e.target.value)}
+                    // startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                    labelWidth={55}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <Button variant="text" onClick={setMax}>
+                          Max
+                        </Button>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+                <Slider valueLabelDisplay="auto" step={1} marks={marks} min={0} max={100} />
 
-            <Slider valueLabelDisplay="auto" step={1} marks={marks} min={0} max={100} />
+                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+              </div>
+            )}
 
             {!bond.isAvailable[chainID] ? (
               <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" disabled={true}>

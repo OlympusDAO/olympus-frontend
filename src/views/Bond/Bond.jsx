@@ -96,7 +96,7 @@ function Bond({ bond }) {
               </TabPanel>
 
               <TabPanel value={view} index={1}>
-                <LimitBuy bond={bond} />
+                <LimitBuy bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
               </TabPanel>
             </Paper>
           </Fade>
