@@ -79,7 +79,6 @@ function Bond({ bond }) {
               </Box>
 
               <Tabs
-                width="100px"
                 centered
                 value={view}
                 textColor="primary"

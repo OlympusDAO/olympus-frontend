@@ -139,8 +139,6 @@ function BondRedeem({ bond }) {
   return (
     <Box display="flex" flexDirection="column">
       <Box
-        display="flex"
-        justifyContent="space-around"
         flexWrap="wrap"
         // same issue here
         style={{ color: "white", backgroundColor: "#34363D" }}
@@ -164,7 +162,6 @@ function BondRedeem({ bond }) {
                   className="ohm-input"
                   variant="outlined"
                   style={{ color: "white", backgroundColor: "#34363D" }}
-                  fullWidth
                 >
                   <InputLabel htmlFor="outlined-adornment-amount">Balance</InputLabel>
                   <OutlinedInput
@@ -173,7 +170,6 @@ function BondRedeem({ bond }) {
                     value={quantity}
                     onChange={e => setQuantity(e.target.value)}
                     // startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                    labelWidth={55}
                     endAdornment={
                       <InputAdornment position="end">
                         <Button variant="text" onClick={setMax}>
@@ -183,38 +179,51 @@ function BondRedeem({ bond }) {
                     }
                   />
                 </FormControl>
-                <Slider valueLabelDisplay="auto" step={1} marks={marks} min={0} max={100} />
+                <Slider
+                  className="ohm-input"
+                  valueLabelDisplay="auto"
+                  step={0.1}
+                  marks={marks}
+                  min={0}
+                  max={100}
+                  fullWidth
+                />
 
                 <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                {!bond.isAvailable[chainID] ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-btn"
+                    className="transaction-button"
+                    disabled={true}
+                  >
+                    Sold Out
+                  </Button>
+                ) : hasAllowance() ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-btn"
+                    className="transaction-button"
+                    disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
+                    onClick={onBond}
+                  >
+                    {txnButtonText(pendingTransactions, "bond_" + bond.name, "Limit Buy")}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-approve-btn"
+                    className="transaction-button"
+                    disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
+                    onClick={onSeekApproval}
+                  >
+                    {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
+                  </Button>
+                )}
               </div>
-            )}
-
-            {!bond.isAvailable[chainID] ? (
-              <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" disabled={true}>
-                Sold Out
-              </Button>
-            ) : hasAllowance() ? (
-              <Button
-                variant="contained"
-                color="primary"
-                id="bond-btn"
-                className="transaction-button"
-                disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
-                onClick={onBond}
-              >
-                {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                color="primary"
-                id="bond-approve-btn"
-                className="transaction-button"
-                disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
-                onClick={onSeekApproval}
-              >
-                {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
-              </Button>
             )}
           </>
         )}
