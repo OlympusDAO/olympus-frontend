@@ -73,7 +73,7 @@ export const lusd = new StableBond({
   name: "lusd",
   displayName: "LUSD",
   bondToken: "LUSD",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
   bondIconSvg: LusdImg,
   bondContractABI: LusdBondContract,
   networkAddrs: {
