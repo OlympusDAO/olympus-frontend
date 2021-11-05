@@ -24,7 +24,6 @@
     "@ethersproject/solidity": "^5.0.9",
     "@ethersproject/units": "^5.4.0",
     "@interactors/material-ui": "^4.1.0",
-    "@interactors/with-cypress": "^0.1.4",
     "@json-rpc-tools/types": "^1.7.6",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
@@ -32,8 +31,6 @@
     "@popperjs/core": "^2.9.2",
     "@ramp-network/ramp-instant-sdk": "^2.2.0",
     "@reduxjs/toolkit": "^1.6.1",
-    "@synthetixio/synpress": "^0.9.14",
-    "@testing-library/cypress": "^8.0.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.1.9",
@@ -83,6 +80,7 @@
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@sriharikapu/dappetter": "^2.0.2",
     "@testing-library/dom": "^8.0.0",
     "@types/react": "^17.0.15",
     "@types/react-router-dom": "^5.1.7",
@@ -108,6 +106,7 @@
     "ipfs-http-client": "^50.1.2",
     "less-plugin-npm-import": "^2.1.0",
     "prettier": "^2.0.5",
+    "puppeteer": "^11.0.0",
     "s3-folder-upload": "^2.3.1",
     "surge": "^0.21.5"
   },
@@ -126,8 +125,6 @@
     "s3": "node ./scripts/s3.js",
     "ship": "yarn surge",
     "theme": "npx gulp less",
-    "watch": "node ./scripts/watch.js",
-    "synpress:run": "node tests/e2e/launcher.js",
-    "synpress:open": "synpress open"
+    "watch": "node ./scripts/watch.js"
   }
 }
