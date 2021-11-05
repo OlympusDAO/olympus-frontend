@@ -22,6 +22,7 @@ import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "../Stake/stake.scss";
+import "./v1stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
@@ -157,10 +158,10 @@ function V1Stake() {
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
   return (
-    <div id="stake-view">
+    <div id="v1-stake-view">
+      <CallToAction title="You have assets ready to migrate to V2" />
       <Zoom in={true} onEntered={() => setZoomed(true)}>
         <Paper className={`ohm-card`}>
-          <CallToAction title="You have assets ready to migrate to V2" />
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <div className="card-header">
@@ -367,14 +368,14 @@ function V1Stake() {
 
                   <div className={`stake-user-data`}>
                     <div className="data-row">
-                      <Typography variant="body1">Your Balance</Typography>
+                      <Typography variant="body1">Your Balance (v1)</Typography>
                       <Typography variant="body1">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
                       </Typography>
                     </div>
 
                     <div className="data-row">
-                      <Typography variant="body1">Your Staked Balance</Typography>
+                      <Typography variant="body1">Your Staked Balance (v1)</Typography>
                       <Typography variant="body1">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
                       </Typography>
