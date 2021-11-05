@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   FormControl,
@@ -11,6 +11,7 @@ import {
   Slide,
   Slider,
   TextField,
+  Grid,
 } from "@material-ui/core";
 import { redeemBond, changeApproval } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -39,6 +40,7 @@ function BondRedeem({ bond }) {
     return state.account.bonds && state.account.bonds[bond.name];
   });
   const [quantity, setQuantity] = useState("");
+  const [ref, setRef] = useState(0);
 
   async function onRedeem({ autostake }) {
     await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
@@ -111,23 +113,10 @@ function BondRedeem({ bond }) {
   const onSeekApproval = async token => {
     await dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
   };
-
   const marks = [
-    {
-      value: 0,
-      label: "",
-    },
-    {
-      value: 25,
-      label: "25%",
-    },
     {
       value: 50,
       label: "50%",
-    },
-    {
-      value: 75,
-      label: "75%",
     },
   ];
   useEffect(() => {
@@ -138,11 +127,7 @@ function BondRedeem({ bond }) {
 
   return (
     <Box display="flex" flexDirection="column">
-      <Box
-        flexWrap="wrap"
-        // same issue here
-        style={{ color: "white", backgroundColor: "#34363D" }}
-      >
+      <Box flexWrap="wrap" justifyContent="space-around" style={{ color: "white", backgroundColor: "#34363D" }}>
         {isAllowanceDataLoading ? (
           <Skeleton width="200px" />
         ) : (
@@ -168,7 +153,6 @@ function BondRedeem({ bond }) {
                     id="outlined-adornment-amount"
                     type="number"
                     value={quantity}
-                    onChange={e => setQuantity(e.target.value)}
                     // startAdornment={<InputAdornment position="start">$</InputAdornment>}
                     endAdornment={
                       <InputAdornment position="end">
@@ -188,41 +172,56 @@ function BondRedeem({ bond }) {
                   max={100}
                   fullWidth
                 />
+                <Grid container spacing={2}>
+                  <Grid item xs={5}>
+                    <TextField
+                      onChange={e => setRef(e.target.value)}
+                      InputProps={{
+                        endAdornment: <InputAdornment position="start">{ref}</InputAdornment>,
+                      }}
+                      id="outlined-basic"
+                      label="%"
+                      variant="outlined"
+                      size="small"
+                    />{" "}
+                  </Grid>
 
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                {!bond.isAvailable[chainID] ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-btn"
-                    className="transaction-button"
-                    disabled={true}
-                  >
-                    Sold Out
-                  </Button>
-                ) : hasAllowance() ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-btn"
-                    className="transaction-button"
-                    disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
-                    onClick={onBond}
-                  >
-                    {txnButtonText(pendingTransactions, "bond_" + bond.name, "Limit Buy")}
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-approve-btn"
-                    className="transaction-button"
-                    disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
-                    onClick={onSeekApproval}
-                  >
-                    {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
-                  </Button>
-                )}
+                  <Grid item xs={7}>
+                    {!bond.isAvailable[chainID] ? (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        id="bond-btn"
+                        className="transaction-button"
+                        disabled={true}
+                      >
+                        Sold Out
+                      </Button>
+                    ) : hasAllowance() ? (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        id="bond-btn"
+                        className="transaction-button"
+                        disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
+                        onClick={onBond}
+                      >
+                        {txnButtonText(pendingTransactions, "bond_" + bond.name, "Limit Buy")}
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        id="bond-approve-btn"
+                        className="transaction-button"
+                        disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
+                        onClick={onSeekApproval}
+                      >
+                        {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
+                      </Button>
+                    )}
+                  </Grid>
+                </Grid>
               </div>
             )}
           </>
