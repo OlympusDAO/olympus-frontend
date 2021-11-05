@@ -143,17 +143,15 @@ function BondRedeem({ bond }) {
               </div>
             ) : (
               <div>
-                <FormControl
-                  className="ohm-input"
-                  variant="outlined"
-                  style={{ color: "white", backgroundColor: "#34363D" }}
-                >
-                  <InputLabel htmlFor="outlined-adornment-amount">Balance</InputLabel>
+                <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
+                  <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-amount"
                     type="number"
                     value={quantity}
+                    onChange={e => setQuantity(e.target.value)}
                     // startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                    labelWidth={55}
                     endAdornment={
                       <InputAdornment position="end">
                         <Button variant="text" onClick={setMax}>
@@ -163,6 +161,7 @@ function BondRedeem({ bond }) {
                     }
                   />
                 </FormControl>
+
                 <Slider
                   className="ohm-input"
                   valueLabelDisplay="auto"
