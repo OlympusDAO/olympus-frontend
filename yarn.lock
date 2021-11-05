@@ -1251,6 +1251,13 @@
   resolved "https://registry.yarnpkg.com/@bigtest/suite/-/suite-0.11.3.tgz#f6c915ad91c69567d8585f8f4efe479b1e1b1ba0"
   integrity sha512-50M5zC0xjEE9maNayWNNUKatR6NSEPrwNOVjEZKVRL3n3DdNwBV5OIE2xuwVIaWz1Wgbdg/lsojLefRNzOIapA==
 
+"@chainsafe/dappeteer@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@chainsafe/dappeteer/-/dappeteer-2.2.0.tgz#420a83e3e8b8caa70604357e192caa6cbe73cf19"
+  integrity sha512-YY3uVpQMPVNJdCGfZ0W2PzJtjSKi2ZRS8G2ozSo5QpOPkSGxvyW5RiI4hIOgw9C/y2LepPFr4+VN2KgAIGdWxQ==
+  dependencies:
+    node-stream-zip "^1.13.0"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -2583,11 +2590,6 @@
   resolved "https://registry.yarnpkg.com/@sovpro/delimited-stream/-/delimited-stream-1.1.0.tgz#4334bba7ee241036e580fdd99c019377630d26b4"
   integrity sha512-kQpk267uxB19X3X2T1mvNMjyvIEonpNSHrMlK5ZaBU6aZxw7wPbpgKJOjHN3+/GPVpXgAV9soVT2oyHpLkLtyw==
 
-"@sriharikapu/dappetter@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@sriharikapu/dappetter/-/dappetter-2.0.2.tgz#0382278c1d9165cde2d84a7c2cb63caa33914e2a"
-  integrity sha512-NKQVLu46AHh0+sHTRukX16sWO93CFk+1jJR//kBQXWNQ9RhXwlgUh46mHVz/sz/HjIfx+SysFicUSLmK6lUc8w==
-
 "@surma/rollup-plugin-off-main-thread@^1.1.1":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-1.4.2.tgz#e6786b6af5799f82f7ab3a82e53f6182d2b91a58"
@@ -3043,6 +3045,13 @@
   version "15.7.4"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
   integrity sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==
+
+"@types/puppeteer@^5.4.4":
+  version "5.4.4"
+  resolved "https://registry.yarnpkg.com/@types/puppeteer/-/puppeteer-5.4.4.tgz#e92abeccc4f46207c3e1b38934a1246be080ccd0"
+  integrity sha512-3Nau+qi69CN55VwZb0ATtdUAlYlqOOQ3OfQfq0Hqgc4JMFXiQT/XInlwQ9g6LbicDslE6loIFsXFklGh5XmI6Q==
+  dependencies:
+    "@types/node" "*"
 
 "@types/q@^1.5.1":
   version "1.5.5"
@@ -13052,6 +13061,11 @@ node-sass@^6.0.1:
     sass-graph "2.2.5"
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
+
+node-stream-zip@^1.13.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/node-stream-zip/-/node-stream-zip-1.15.0.tgz#158adb88ed8004c6c49a396b50a6a5de3bca33ea"
+  integrity sha512-LN4fydt9TqhZhThkZIVQnF9cwjU3qmUH9h78Mx/K7d3VvfRqqwthLwJEUOEL0QPZ0XQmNN7be5Ggit5+4dq3Bw==
 
 node-watch@^0.7.1:
   version "0.7.2"
