@@ -10,6 +10,13 @@ function ohmRound(val) {
   return Math.round(parseFloat(val) * m) / m;
 }
 
+async function clickElement(page, selector) {
+  await page.bringToFront();
+  await page.waitForSelector(selector);
+  const element = await page.$(selector);
+  await element.click();
+}
+
 async function stake() {
   const browser = await dappeteer.launch(puppeteer, { metamaskVersion: "v10.1.1" });
 
@@ -19,14 +26,13 @@ async function stake() {
   const page = await browser.newPage();
   await page.goto("http://localhost:3000/#/stake");
 
-  await page.click(".connect-button");
-
-  // show metamask window
-  await metamask.page.click(".popover-header__button");
+  await clickElement(page, ".connect-button");
 
   await metamask.approve();
 
-  // Approve?
+  await metamask.reload();
+  const metamaskPopup = await metamask.page.waitForSelector("button.popover-header__button");
+  await metamaskPopup.click();
 
   await page.waitForSelector("#amount-input");
   await page.type("#amount-input", "1");
