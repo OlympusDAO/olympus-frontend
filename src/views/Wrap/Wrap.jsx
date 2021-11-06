@@ -15,13 +15,10 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
-import NewReleases from "@material-ui/icons/NewReleases";
-import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
-import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { changeApproval, changeWrap } from "../../slices/WrapThunk";
 import "../Stake/stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -60,9 +57,6 @@ function Wrap() {
     return state.app.marketPrice * state.app.currentIndex;
   });
 
-  const fiveDayRate = useSelector(state => {
-    return state.app.fiveDayRate;
-  });
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
@@ -70,19 +64,10 @@ function Wrap() {
     return state.account.balances && state.account.balances.wsohm;
   });
   const wrapAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmStake;
+    return state.account.wrapping && state.account.wrapping.ohmWrap;
   });
   const unwrapAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmUnstake;
-  });
-  const stakingRebase = useSelector(state => {
-    return state.app.stakingRebase;
-  });
-  const stakingAPY = useSelector(state => {
-    return state.app.stakingAPY;
-  });
-  const stakingTVL = useSelector(state => {
-    return state.app.stakingTVL;
+    return state.account.wrapping && state.account.wrapping.ohmUnwrap;
   });
 
   const pendingTransactions = useSelector(state => {
@@ -127,8 +112,10 @@ function Wrap() {
       if (token === "wsohm") return unwrapAllowance > 0;
       return 0;
     },
-    [wrapAllowance],
+    [wrapAllowance, unwrapAllowance],
   );
+
+  const isAllowanceDataLoading = (wrapAllowance == null && view === 0) || (unwrapAllowance == null && view === 1);
 
   let modalButton = [];
 
@@ -237,88 +224,103 @@ function Wrap() {
                       <Tab label="Wrap" {...a11yProps(0)} />
                       <Tab label="Unwrap" {...a11yProps(1)} />
                     </Tabs>
-                    <Box className="help-text">
-                      {address && ((!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1)) && (
-                        <Typography variant="body2" className="stake-note" color="textSecondary">
-                          Note: The "Approve" transaction is only needed when staking/unstaking for the first time;
-                          subsequent staking/unstaking only requires you to perform the "Stake" or "Unstake"
-                          transaction.
-                        </Typography>
-                      )}
-                    </Box>
                     <Box className="stake-action-row " display="flex" alignItems="center">
-                      <FormControl className="ohm-input" variant="outlined" color="primary">
-                        <InputLabel htmlFor="amount-input"></InputLabel>
-                        <OutlinedInput
-                          id="amount-input"
-                          type="number"
-                          placeholder="Enter an amount"
-                          className="stake-input"
-                          value={quantity}
-                          onChange={e => setQuantity(e.target.value)}
-                          labelWidth={0}
-                          endAdornment={
-                            <InputAdornment position="end">
-                              <Button variant="text" onClick={setMax} color="inherit">
-                                Max
-                              </Button>
-                            </InputAdornment>
-                          }
-                        />
-                      </FormControl>
+                      {address && !isAllowanceDataLoading ? (
+                        (!hasAllowance("sohm") && view === 0) || (!hasAllowance("wsohm") && view === 1) ? (
+                          <Box className="help-text">
+                            <Typography variant="body1" className="stake-note" color="textSecondary">
+                              {view === 0 ? (
+                                <>
+                                  First time wrapping <b>sOHM</b>?
+                                  <br />
+                                  Please approve Olympus Dao to use your <b>sOHM</b> for wrapping.
+                                </>
+                              ) : (
+                                <>
+                                  First time unwrapping <b>wsOHM</b>?
+                                  <br />
+                                  Please approve Olympus Dao to use your <b>wsOHM</b> for unwrapping.
+                                </>
+                              )}
+                            </Typography>
+                          </Box>
+                        ) : (
+                          <FormControl className="ohm-input" variant="outlined" color="primary">
+                            <InputLabel htmlFor="amount-input"></InputLabel>
+                            <OutlinedInput
+                              id="amount-input"
+                              type="number"
+                              placeholder="Enter an amount"
+                              className="stake-input"
+                              value={quantity}
+                              onChange={e => setQuantity(e.target.value)}
+                              labelWidth={0}
+                              endAdornment={
+                                <InputAdornment position="end">
+                                  <Button variant="text" onClick={setMax} color="inherit">
+                                    Max
+                                  </Button>
+                                </InputAdornment>
+                              }
+                            />
+                          </FormControl>
+                        )
+                      ) : (
+                        <Skeleton width="150px" />
+                      )}
 
                       <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {address && hasAllowance("ohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "staking")}
-                            onClick={() => {
-                              onChangeStake("stake");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "staking", "Wrap sOHM")}
-                          </Button>
-                        ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_staking")}
-                            onClick={() => {
-                              onSeekApproval("ohm");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
-                          </Button>
-                        )}
-                      </TabPanel>
-
-                      <TabPanel value={view} index={1} className="stake-tab-panel">
                         {address && hasAllowance("sohm") ? (
                           <Button
                             className="stake-button"
                             variant="contained"
                             color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "unstaking")}
+                            disabled={isPendingTxn(pendingTransactions, "wrapping")}
                             onClick={() => {
-                              onChangeStake("unstake");
+                              onChangeWrap("wrap");
                             }}
                           >
-                            {txnButtonText(pendingTransactions, "unstaking", "Unwrap sOHM")}
+                            {txnButtonText(pendingTransactions, "wrapping", "Wrap sOHM")}
                           </Button>
                         ) : (
                           <Button
                             className="stake-button"
                             variant="contained"
                             color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
+                            disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
                             onClick={() => {
                               onSeekApproval("sohm");
                             }}
                           >
-                            {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
+                            {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
+                          </Button>
+                        )}
+                      </TabPanel>
+
+                      <TabPanel value={view} index={1} className="stake-tab-panel">
+                        {address && hasAllowance("wsohm") ? (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "unwrapping")}
+                            onClick={() => {
+                              onChangeWrap("unwrap");
+                            }}
+                          >
+                            {txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")}
+                          </Button>
+                        ) : (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "approve_unwrapping")}
+                            onClick={() => {
+                              onSeekApproval("wsohm");
+                            }}
+                          >
+                            {txnButtonText(pendingTransactions, "approve_unwrapping", "Approve")}
                           </Button>
                         )}
                       </TabPanel>

@@ -144,6 +144,7 @@ function Stake() {
     setView(newView);
   };
 
+  // NOTE (appleseed-wsOHM): pull wsOHM out of sOHM balance, onto separate line so that wrapping makes more sense?
   const trimmedBalance = Number(
     [sohmBalance, fsohmBalance, wsohmBalance]
       .filter(Boolean)
