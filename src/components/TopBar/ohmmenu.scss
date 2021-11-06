@@ -38,11 +38,15 @@
       }
     }
     hr {
+      &.less-margin {
+        margin-bottom: 5px;
+      }
       margin-bottom: 18px;
     }
   }
 
   .add-tokens {
+    margin-bottom: 15px;
     > p {
       margin: 15px 0px 5px 0px;
       text-align: left;
@@ -53,6 +57,8 @@
     button {
       min-height: 56px !important;
       text-align: center !important;
+      padding-bottom: 60px;
+      padding-top: 12px;
     }
   }
 

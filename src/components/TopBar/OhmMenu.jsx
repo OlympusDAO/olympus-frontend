@@ -129,6 +129,17 @@ function OhmMenu() {
                   </Link>
                 </Box>
 
+                <Box component="div" className="data-links">
+                  <Divider color="secondary" className="less-margin" />
+                  <Link href={`https://dune.xyz/shadow/Olympus-(OHM)`} target="_blank" rel="noreferrer">
+                    <Button size="large" variant="contained" color="secondary" fullWidth>
+                      <Typography align="left">
+                        Shadow's Dune Dashboard <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
+                      </Typography>
+                    </Button>
+                  </Link>
+                </Box>
+
                 {isEthereumAPIAvailable ? (
                   <Box className="add-tokens">
                     <Divider color="secondary" />

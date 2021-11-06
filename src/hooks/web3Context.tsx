@@ -1,7 +1,8 @@
 import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
 import Web3Modal from "web3modal";
-import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { EnvHelper } from "../helpers/Environment";
 import { NodeHelper } from "src/helpers/NodeHelper";
 
@@ -11,6 +12,13 @@ import { NodeHelper } from "src/helpers/NodeHelper";
  */
 function getTestnetURI() {
   return EnvHelper.alchemyTestnetURI;
+}
+
+/**
+ * determine if in IFrame for Ledger Live
+ */
+function isIframe() {
+  return window.location !== window.parent.location;
 }
 
 const ALL_URIs = NodeHelper.getNodesUris();
@@ -143,14 +151,18 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   // connect - only runs for WalletProviders
   const connect = useCallback(async () => {
-    const rawProvider = await web3Modal.connect();
+    // handling Ledger Live;
+    let rawProvider;
+    if (isIframe()) {
+      rawProvider = new IFrameEthereumProvider();
+    } else {
+      rawProvider = await web3Modal.connect();
+    }
 
     // new _initListeners implementation matches Web3Modal Docs
     // ... see here: https://github.com/Web3Modal/web3modal/blob/2ff929d0e99df5edf6bb9e88cff338ba6d8a3991/example/src/App.tsx#L185
     _initListeners(rawProvider);
-
     const connectedProvider = new Web3Provider(rawProvider, "any");
-
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
     const connectedAddress = await connectedProvider.getSigner().getAddress();
     const validNetwork = _checkNetwork(chainId);
@@ -180,13 +192,21 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal }),
-    [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal],
+    () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal, uri }),
+    [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal, uri],
   );
 
   useEffect(() => {
-    // logs non-functioning nodes && returns an array of working mainnet nodes, could be used to optimize connection
-    NodeHelper.checkAllNodesStatus();
+    // logs non-functioning nodes && returns an array of working mainnet nodes
+    NodeHelper.checkAllNodesStatus().then((validNodes: any) => {
+      validNodes = validNodes.filter((url: boolean | string) => url !== false);
+      if (!validNodes.includes(uri) && NodeHelper.retryOnInvalid()) {
+        // force new provider...
+        setTimeout(() => {
+          window.location.reload();
+        }, 1);
+      }
+    });
   }, []);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;

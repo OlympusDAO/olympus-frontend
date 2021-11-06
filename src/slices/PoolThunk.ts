@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
@@ -8,7 +8,7 @@ import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { getCreditMaturationDaysAndLimitPercentage } from "../helpers/33Together";
 import { setAll } from "../helpers";
-import { error } from "./MessagesSlice";
+import { error, info } from "./MessagesSlice";
 import { RootState } from "src/store";
 import {
   IValueAsyncThunk,
@@ -18,12 +18,17 @@ import {
   IActionAsyncThunk,
   IJsonRPCError,
 } from "./interfaces";
+import { AwardAbi2, PrizePoolAbi, PrizePoolAbi2, SOHM } from "src/typechain";
 
 export const getPoolValues = createAsyncThunk(
   "pool/getPoolValues",
   async ({ networkID, provider }: IBaseAsyncThunk) => {
     // calculate 33-together
-    const poolReader = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
+    const poolReader = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      PrizePool,
+      provider,
+    ) as PrizePoolAbi;
     const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
     const creditPlanOf = await poolReader.creditPlanOf(addresses[networkID].PT_TOKEN_ADDRESS);
     const poolCredit = getCreditMaturationDaysAndLimitPercentage(
@@ -31,7 +36,11 @@ export const getPoolValues = createAsyncThunk(
       creditPlanOf.creditLimitMantissa,
     );
 
-    const awardReader = new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, provider);
+    const awardReader = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS,
+      AwardPool,
+      provider,
+    ) as AwardAbi2;
     const poolAwardPeriodRemainingSeconds = await awardReader.prizePeriodRemainingSeconds();
 
     return {
@@ -44,7 +53,11 @@ export const getPoolValues = createAsyncThunk(
 );
 
 export const getRNGStatus = createAsyncThunk("pool/getRNGStatus", async ({ networkID, provider }: IBaseAsyncThunk) => {
-  const awardReader = new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, provider);
+  const awardReader = new ethers.Contract(
+    addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS,
+    AwardPool,
+    provider,
+  ) as AwardAbi2;
   const isRngRequested = await awardReader.isRngRequested();
   let isRngTimedOut = false;
   if (isRngRequested) isRngTimedOut = await awardReader.isRngTimedOut();
@@ -65,9 +78,23 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer) as SOHM;
 
     let approveTx;
+    let depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+
+    // return early if approval already exists
+    if (depositAllowance.gt(BigNumber.from("0"))) {
+      dispatch(info("Approval completed."));
+      return dispatch(
+        fetchAccountSuccess({
+          pooling: {
+            sohmPool: +depositAllowance,
+          },
+        }),
+      );
+    }
+
     try {
       if (token === "sohm") {
         approveTx = await sohmContract.approve(
@@ -79,8 +106,6 @@ export const changeApproval = createAsyncThunk(
         const pendingTxnType = "approve_pool_together";
         dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
         await approveTx.wait();
-      } else {
-        console.log("token not sohm", token);
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
@@ -91,7 +116,8 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+    // go get fresh allowance
+    depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
@@ -112,7 +138,11 @@ export const poolDeposit = createAsyncThunk(
       return;
     }
     const signer = provider.getSigner();
-    const poolContract = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, signer);
+    const poolContract = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      PrizePool,
+      signer,
+    ) as PrizePoolAbi;
     let poolTx;
 
     try {
@@ -153,7 +183,11 @@ export const poolDeposit = createAsyncThunk(
 export const getEarlyExitFee = createAsyncThunk(
   "pool/getEarlyExitFee",
   async ({ value, provider, address, networkID }: IValueAsyncThunk) => {
-    const poolReader = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, provider);
+    const poolReader = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      PrizePool,
+      provider,
+    ) as PrizePoolAbi;
     // NOTE (appleseed): we chain callStatic in the below function to force the transaction through w/o a gas fee
     // ... this may be a result of `calculateEarlyExitFee` not being explicity declared as `view` or `pure` in the contract.
     // Explanation from ethers docs: https://docs.ethers.io/v5/api/contract/contract/#contract-callStatic
@@ -191,7 +225,11 @@ export const poolWithdraw = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const poolContract = new ethers.Contract(addresses[networkID].PT_PRIZE_POOL_ADDRESS, PrizePool, signer);
+    const poolContract = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      PrizePool,
+      signer,
+    ) as PrizePoolAbi2;
 
     let poolTx;
 
@@ -242,7 +280,11 @@ export const awardProcess = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const poolContract = new ethers.Contract(addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS, AwardPool, signer);
+    const poolContract = new ethers.Contract(
+      addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS,
+      AwardPool,
+      signer,
+    ) as AwardAbi2;
 
     let poolTx;
 
@@ -258,8 +300,9 @@ export const awardProcess = createAsyncThunk(
       }
       const text = "Pool " + action;
       const pendingTxnType = "pool_" + action;
-      dispatch(fetchPendingTxns({ txnHash: poolTx.hash, text: text, type: pendingTxnType }));
-      await poolTx.wait();
+      const txnHash: string = poolTx ? poolTx.hash : "";
+      dispatch(fetchPendingTxns({ txnHash, text: text, type: pendingTxnType }));
+      await poolTx?.wait();
     } catch (e: unknown) {
       const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {

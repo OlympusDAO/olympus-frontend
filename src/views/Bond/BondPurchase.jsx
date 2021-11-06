@@ -17,6 +17,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import useDebounce from "../../hooks/Debounce";
 import { error } from "../../slices/MessagesSlice";
+import { DisplayBondDiscount } from "./Bond";
 
 function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
@@ -123,60 +124,73 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
 
   const displayUnits = bond.displayUnits;
 
+  const isAllowanceDataLoading = bond.allowance == null;
+
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-        <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
-          <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-amount"
-            type="number"
-            value={quantity}
-            onChange={e => setQuantity(e.target.value)}
-            // startAdornment={<InputAdornment position="start">$</InputAdornment>}
-            labelWidth={55}
-            endAdornment={
-              <InputAdornment position="end">
-                <Button variant="text" onClick={setMax}>
-                  Max
-                </Button>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        {hasAllowance() ? (
-          <Button
-            variant="contained"
-            color="primary"
-            id="bond-btn"
-            className="transaction-button"
-            disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
-            onClick={onBond}
-          >
-            {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
-          </Button>
+        {isAllowanceDataLoading ? (
+          <Skeleton width="200px" />
         ) : (
-          <Button
-            variant="contained"
-            color="primary"
-            id="bond-approve-btn"
-            className="transaction-button"
-            disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
-            onClick={onSeekApproval}
-          >
-            {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
-          </Button>
-        )}
+          <>
+            {!hasAllowance() ? (
+              <div className="help-text">
+                <em>
+                  <Typography variant="body1" align="center" color="textSecondary">
+                    First time bonding <b>{bond.displayName}</b>? <br /> Please approve Olympus Dao to use your{" "}
+                    <b>{bond.displayName}</b> for bonding.
+                  </Typography>
+                </em>
+              </div>
+            ) : (
+              <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
+                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-amount"
+                  type="number"
+                  value={quantity}
+                  onChange={e => setQuantity(e.target.value)}
+                  // startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                  labelWidth={55}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <Button variant="text" onClick={setMax}>
+                        Max
+                      </Button>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            )}
 
-        {!hasAllowance() && (
-          <div className="help-text">
-            <em>
-              <Typography variant="body2">
-                Note: The "Approve" transaction is only needed when bonding for the first time; subsequent bonding only
-                requires you to perform the "Bond" transaction.
-              </Typography>
-            </em>
-          </div>
+            {!bond.isAvailable[chainID] ? (
+              <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" disabled={true}>
+                Sold Out
+              </Button>
+            ) : hasAllowance() ? (
+              <Button
+                variant="contained"
+                color="primary"
+                id="bond-btn"
+                className="transaction-button"
+                disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
+                onClick={onBond}
+              >
+                {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                color="primary"
+                id="bond-approve-btn"
+                className="transaction-button"
+                disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
+                onClick={onSeekApproval}
+              >
+                {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
+              </Button>
+            )}
+          </>
         )}
       </Box>
 
@@ -212,7 +226,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
           <div className="data-row">
             <Typography>ROI</Typography>
             <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}
+              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
             </Typography>
           </div>
 
