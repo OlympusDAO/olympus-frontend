@@ -24,9 +24,9 @@ export const getBalances = createAsyncThunk(
     ) as IERC20;
     const sohmBalance = await sohmContract.balanceOf(address);
     const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
-    const rawBalance = await wsohmContract.balanceOf(address);
+    const wsohmBalance = await wsohmContract.balanceOf(address);
     // NOTE (appleseed-wsOHM): pull wsOHM out of sOHM balance, onto separate line so that wrapping makes more sense?
-    const wsohmBalance = await wsohmContract.wOHMTosOHM(rawBalance);
+    const wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
     let poolBalance = BigNumber.from(0);
     const poolTokenContract = new ethers.Contract(
       addresses[networkID].PT_TOKEN_ADDRESS as string,
@@ -39,7 +39,8 @@ export const getBalances = createAsyncThunk(
       balances: {
         ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-        wsohm: ethers.utils.formatUnits(wsohmBalance, "gwei"),
+        wsohm: ethers.utils.formatEther(wsohmBalance),
+        wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
       },
     };
@@ -51,6 +52,8 @@ interface IUserAccountDetails {
     dai: string;
     ohm: string;
     sohm: string;
+    wsohm: string;
+    wsohmAsSohm: string;
   };
   staking: {
     ohmStake: number;
@@ -72,6 +75,7 @@ export const loadAccountDetails = createAsyncThunk(
     let sohmBalance = BigNumber.from(0);
     let fsohmBalance = 0;
     let wsohmBalance = BigNumber.from(0);
+    let wsohmAsSohm = BigNumber.from(0);
     let wrapAllowance = BigNumber.from(0);
     let unwrapAllowance = BigNumber.from(0);
     let stakeAllowance = BigNumber.from(0);
@@ -130,9 +134,16 @@ export const loadAccountDetails = createAsyncThunk(
 
     if (addresses[networkID].WSOHM_ADDRESS) {
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
-      const balance = await wsohmContract.balanceOf(address);
-      // NOTE (appleseed-wsOHM): pull wsOHM out of sOHM balance, onto separate line so that wrapping makes more sense?
-      wsohmBalance = await wsohmContract.wOHMTosOHM(balance);
+      wsohmBalance = await wsohmContract.balanceOf(address);
+      console.log(
+        "wsOHM",
+        wsohmBalance.toString(),
+        daiBalance.toString(),
+        daiBalance.toString().length,
+        ethers.utils.formatEther(daiBalance),
+      );
+      // NOTE (appleseed): wsohmAsSohm is used to calc your next reward amount
+      wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
       unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
     }
 
@@ -142,7 +153,8 @@ export const loadAccountDetails = createAsyncThunk(
         ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: fsohmBalance,
-        wsohm: ethers.utils.formatUnits(wsohmBalance, "gwei"),
+        wsohm: ethers.utils.formatEther(wsohmBalance),
+        wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
       },
       staking: {

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { addresses, TOKEN_DECIMALS } from "../../constants";
-import { getTokenImage } from "../../helpers";
-import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, Slide } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
@@ -90,7 +89,7 @@ function OhmMenu() {
         <Typography>OHM</Typography>
       </Button>
 
-      <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start" transition>
+      <Popper id={id} open={true} anchorEl={anchorEl} placement="bottom-start" transition>
         {({ TransitionProps }) => {
           return (
             <Fade {...TransitionProps} timeout={100}>
@@ -120,11 +119,9 @@ function OhmMenu() {
                     </Button>
                   </Link>
 
-                  <Link href={`https://abracadabra.money/pool/10`} target="_blank" rel="noreferrer">
+                  <Link component={NavLink} to="/wrap" style={{ textDecoration: "none" }}>
                     <Button size="large" variant="contained" color="secondary" fullWidth>
-                      <Typography align="left">
-                        Wrap sOHM on Abracadabra <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
-                      </Typography>
+                      <Typography align="left">Wrap sOHM</Typography>
                     </Button>
                   </Link>
                 </Box>

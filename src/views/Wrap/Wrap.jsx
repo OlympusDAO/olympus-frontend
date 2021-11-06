@@ -94,13 +94,18 @@ function Wrap() {
     }
 
     // 1st catch if quantity > balance
-    let gweiValue = ethers.utils.parseUnits(quantity, "gwei");
-    if (action === "wrap" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
-      return dispatch(error("You cannot wrap more than your OHM balance."));
+    if (
+      action === "wrap" &&
+      ethers.utils.parseUnits(quantity, "gwei").gt(ethers.utils.parseUnits(sohmBalance, "gwei"))
+    ) {
+      return dispatch(error("You cannot wrap more than your sOHM balance."));
     }
 
-    if (action === "unwrap" && gweiValue.gt(ethers.utils.parseUnits(wsohmBalance, "gwei"))) {
-      return dispatch(error("You cannot unwrap more than your sOHM balance."));
+    if (
+      action === "unwrap" &&
+      ethers.utils.parseUnits(quantity, "ether").gt(ethers.utils.parseUnits(wsohmBalance, "ether"))
+    ) {
+      return dispatch(error("You cannot unwrap more than your wsOHM balance."));
     }
 
     await dispatch(changeWrap({ address, action, value: quantity.toString(), provider, networkID: chainID }));
@@ -109,7 +114,7 @@ function Wrap() {
   const hasAllowance = useCallback(
     token => {
       if (token === "sohm") return wrapAllowance > 0;
-      if (token === "wsohm") return unwrapAllowance > 0;
+      if (token === "wsohm") return wrapAllowance > 0;
       return 0;
     },
     [wrapAllowance, unwrapAllowance],
@@ -298,7 +303,7 @@ function Wrap() {
                       </TabPanel>
 
                       <TabPanel value={view} index={1} className="stake-tab-panel">
-                        {address && hasAllowance("wsohm") ? (
+                        {address && hasAllowance("sohm") ? (
                           <Button
                             className="stake-button"
                             variant="contained"
@@ -329,16 +334,16 @@ function Wrap() {
 
                   <div className={`stake-user-data`}>
                     <div className="data-row">
-                      <Typography variant="body1">Your Balance (wrappable)</Typography>
+                      <Typography variant="body1">Wrappable Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{sohmBalance} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
                       </Typography>
                     </div>
                     {/* TODO (appleseed-wsohm): is there anything that can be done to make it clear when you have fsOHM */}
                     <div className="data-row">
-                      <Typography variant="body1">Your Balance (unwrappable)</Typography>
+                      <Typography variant="body1">Unwrappable Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{wsohmBalance} wsOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
                       </Typography>
                     </div>
                   </div>

@@ -143,7 +143,7 @@ export const changeWrap = createAsyncThunk(
         wrapTx = await wsohmContract.wrap(ethers.utils.parseUnits(value, "gwei"));
       } else {
         uaData.type = "unwrap";
-        wrapTx = await wsohmContract.unwrap(ethers.utils.parseUnits(value, "gwei"));
+        wrapTx = await wsohmContract.unwrap(ethers.utils.parseUnits(value));
       }
       const pendingTxnType = action === "wrap" ? "wrapping" : "unwrapping";
       uaData.txHash = wrapTx.hash;
