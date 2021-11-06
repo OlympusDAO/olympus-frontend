@@ -27,6 +27,7 @@ import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getBondCalculator } from "src/helpers/BondCalculator";
+import { BigNumberish } from "ethers";
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
@@ -72,7 +73,7 @@ export const lusd = new StableBond({
   name: "lusd",
   displayName: "LUSD",
   bondToken: "LUSD",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
   bondIconSvg: LusdImg,
   bondContractABI: LusdBondContract,
   networkAddrs: {
@@ -109,11 +110,11 @@ export const eth = new CustomBond({
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
     const ethBondContract = this.getContractForBond(networkID, provider);
-    let ethPrice = await ethBondContract.assetPrice();
-    ethPrice = ethPrice / Math.pow(10, 8);
+    let ethPrice: BigNumberish = await ethBondContract.assetPrice();
+    ethPrice = Number(ethPrice.toString()) / Math.pow(10, 8);
     const token = this.getContractForReserve(networkID, provider);
-    let ethAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    ethAmount = ethAmount / Math.pow(10, 18);
+    let ethAmount: BigNumberish = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    ethAmount = Number(ethAmount.toString()) / Math.pow(10, 18);
     return ethAmount * ethPrice;
   },
 });
@@ -210,16 +211,17 @@ export const ohm_weth = new CustomBond({
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
     if (networkID === NetworkID.Mainnet) {
       const ethBondContract = this.getContractForBond(networkID, provider);
-      let ethPrice = await ethBondContract.assetPrice();
-      ethPrice = ethPrice / Math.pow(10, 8);
+      let ethPrice: BigNumberish = await ethBondContract.assetPrice();
+      ethPrice = Number(ethPrice.toString()) / Math.pow(10, 8);
       const token = this.getContractForReserve(networkID, provider);
       const tokenAddress = this.getAddressForReserve(networkID);
       const bondCalculator = getBondCalculator(networkID, provider);
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress);
-      let tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
-      return tokenUSD * ethPrice;
+      let tokenUSD =
+        (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
+      return tokenUSD * Number(ethPrice.toString());
     } else {
       // NOTE (appleseed): using OHM-DAI on rinkeby
       const token = this.getContractForReserve(networkID, provider);
@@ -228,7 +230,8 @@ export const ohm_weth = new CustomBond({
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress);
-      let tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
+      let tokenUSD =
+        (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD;
     }
   },
