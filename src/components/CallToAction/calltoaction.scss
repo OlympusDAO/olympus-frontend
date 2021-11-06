@@ -3,13 +3,23 @@
   height: 72px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 97%;
   border-radius: 5px;
   margin-bottom: 25px;
+  padding: 30px;
 
+  .learn-more-button {
+    margin: 10px;
 
-  .learn-more-button{
-      margin: 10px;
+    p{
+        margin-right: 5px;
+    }
+  }
+
+  .migrate-button {
+    font-size: 0.875rem;
+    height: 33px;
+    padding: 9px 20px;
   }
 }

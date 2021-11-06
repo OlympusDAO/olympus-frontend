@@ -39,7 +39,9 @@ const CallToAction = ({ title }) => {
 
   return (
     <Box className="call-to-action ohm-card">
-      <Typography variant="h5">{title}</Typography>
+      <Typography style={{ fontSize: "20px", fontWeight: "600" }} variant="h5">
+        {title}
+      </Typography>
       <div className="actionable">
         {learMoreButton}
         {migrateButton}
