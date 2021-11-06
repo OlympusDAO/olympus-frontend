@@ -23,6 +23,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
   if (window.ethereum) {
     const host = window.location.origin;
     let tokenPath;
+    let tokenDecimals = TOKEN_DECIMALS;
     switch (tokenSymbol) {
       case "OHM":
         tokenPath = OhmImg;
@@ -32,6 +33,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
         break;
       case "wsOHM":
         tokenPath = WsOhmImg;
+        tokenDecimals = 18;
         break;
       default:
         tokenPath = SOhmImg;
@@ -46,7 +48,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
           options: {
             address: tokenAddress,
             symbol: tokenSymbol,
-            decimals: TOKEN_DECIMALS,
+            decimals: tokenDecimals,
             image: imageURL,
           },
         },

@@ -44,6 +44,10 @@ interface IUserAccountDetails {
     ohmStake: number;
     ohmUnstake: number;
   };
+  wrapping: {
+    sohmWrap: number;
+    wsohmUnwrap: number;
+  };
   bonding: {
     daiAllowance: number;
   };
