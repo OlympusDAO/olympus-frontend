@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { formatCurrency, trim } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
@@ -9,39 +9,43 @@ import BondPurchase from "./BondPurchase";
 import "./bond.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
+import { useAppSelector } from "src/hooks";
+import { IAllBondData } from "src/hooks/Bonds";
 
-function a11yProps(index) {
+type InputEvent = ChangeEvent<HTMLInputElement>;
+
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-function Bond({ bond }) {
+const Bond = ({ bond }: { bond: IAllBondData }) => {
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
 
-  const [slippage, setSlippage] = useState(0.5);
-  const [recipientAddress, setRecipientAddress] = useState(address);
+  const [slippage, setSlippage] = useState<number>(0.5);
+  const [recipientAddress, setRecipientAddress] = useState<string>(address);
 
-  const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState();
+  const [view, setView] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number | undefined>();
 
-  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
+  const isBondLoading = useAppSelector<boolean>(state => state.bonding.loading ?? true);
 
-  const onRecipientAddressChange = e => {
+  const onRecipientAddressChange = (e: InputEvent): void => {
     return setRecipientAddress(e.target.value);
   };
 
-  const onSlippageChange = e => {
-    return setSlippage(e.target.value);
+  const onSlippageChange = (e: InputEvent): void => {
+    return setSlippage(Number(e.target.value));
   };
 
   useEffect(() => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
-  const changeView = (event, newView) => {
+  const changeView = (newView: number): void => {
     setView(newView);
   };
 
@@ -59,13 +63,13 @@ function Bond({ bond }) {
                 onRecipientAddressChange={onRecipientAddressChange}
               />
 
-              <Box direction="row" className="bond-price-data-row">
+              <Box display="flex" flexDirection="row" className="bond-price-data-row">
                 <div className="bond-price-data">
                   <Typography variant="h5" color="textSecondary">
                     Bond Price
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.bondPrice, 2)}
+                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2)}
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -83,7 +87,7 @@ function Bond({ bond }) {
                 value={view}
                 textColor="primary"
                 indicatorColor="primary"
-                onChange={changeView}
+                onChange={() => changeView(view)}
                 aria-label="bond tabs"
               >
                 <Tab label="Bond" {...a11yProps(0)} />
@@ -103,13 +107,13 @@ function Bond({ bond }) {
       </Grid>
     </Fade>
   );
-}
+};
 
-export function DisplayBondPrice({ bond }) {
-  const { chainID } = useWeb3Context();
+export function DisplayBondPrice(bond: IAllBondData) {
+  //const { provider, chainID } = useWeb3Context();
   return (
     <>
-      {!bond.isAvailable[chainID] ? (
+      {!bond.isAvailable ? (
         <>--</>
       ) : (
         `${new Intl.NumberFormat("en-US", {
@@ -117,15 +121,15 @@ export function DisplayBondPrice({ bond }) {
           currency: "USD",
           maximumFractionDigits: 2,
           minimumFractionDigits: 2,
-        }).format(bond.bondPrice)}`
+        }).format(bond.marketPrice)}`
       )}
     </>
   );
 }
 
-export function DisplayBondDiscount({ bond }) {
-  const { chainID } = useWeb3Context();
-  return <>{!bond.isAvailable[chainID] ? <>--</> : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}</>;
+export function DisplayBondDiscount(bond: IAllBondData) {
+  //const { chainID } = useWeb3Context();
+  return <>{!bond.isAvailable ? <>--</> : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}</>;
 }
 
 export default Bond;
