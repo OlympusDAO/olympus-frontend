@@ -15,6 +15,21 @@ const breakpointValues = {
 //   browser: 1333,
 // };
 
+/**
+ * will remove opacity from rgbaString when backdrop-filter is not supported
+ * @param {String} rgbaString should be the rgba string
+ * @returns modified rgbaString
+ */
+export const handleBackdropFilter = rgbaString => {
+  const supported = CSS.supports("(-webkit-backdrop-filter: none)") || CSS.supports("(backdrop-filter: none)");
+  console.log("supported", supported);
+  if (!supported) {
+    // make the opacity == 1;
+    rgbaString = rgbaString.replace(/[\d\.]+\)$/g, "1)");
+  }
+  return rgbaString;
+};
+
 const commonSettings = {
   direction: "ltr",
   typography: {
