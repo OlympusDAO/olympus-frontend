@@ -21,10 +21,15 @@ for (var [key, locale] of Object.entries(locales)) {
   i18n.loadLocaleData(key, { plurals: locale.plurals });
 }
 
-export async function fetchLocale(locale: string = "en") {
+async function fetchLocale(locale: string) {
   const { messages } = await import(/* webpackChunkName: "[request]" */ `../locales/translations/${locale}/messages`);
   i18n.load(locale, messages);
   i18n.activate(locale);
 }
-
-fetchLocale();
+export function selectLocale(locale: string) {
+  window.localStorage.setItem("locale", locale);
+  return fetchLocale(locale);
+}
+export function initLocale() {
+  fetchLocale(window.localStorage.getItem("locale") || "en");
+}

@@ -5,7 +5,7 @@ import { useState, MouseEvent } from "react";
 import { Popper, Button, Paper, Typography, Box, Fade } from "@material-ui/core";
 
 import FlagIcon from "../../helpers/flagicon.js";
-import { locales, fetchLocale } from "../../locales";
+import { locales, selectLocale } from "../../locales";
 
 import "./localesmenu.scss";
 
@@ -48,7 +48,7 @@ function LocaleSwitcher() {
               <Paper className="locales-menu" elevation={1}>
                 <Box component="div">
                   {Object.keys(locales).map((locale, key) => (
-                    <Button key={key} size="large" variant="contained" fullWidth onClick={() => fetchLocale(locale)}>
+                    <Button key={key} size="large" variant="contained" fullWidth onClick={() => selectLocale(locale)}>
                       <Typography align="left">
                         &nbsp;
                         <FlagIcon code={getLocaleFlag(locale)} />

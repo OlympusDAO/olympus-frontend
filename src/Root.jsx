@@ -6,12 +6,12 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import store from "./store";
-import { fetchLocale } from "./locales";
+import { initLocale } from "./locales";
 import { Web3ContextProvider } from "./hooks/web3Context";
 
 function Root() {
   useEffect(() => {
-    fetchLocale();
+    initLocale();
   }, []);
 
   return (
