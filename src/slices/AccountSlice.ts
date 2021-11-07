@@ -195,17 +195,22 @@ interface IAccountSlice {
     oldsohm: string;
     fsohm: number;
     wsohm: string;
+    pool: string;
   };
   loading: boolean;
   staking?: {
     ohmStake: number;
     ohmUnstake: number;
   };
+  pooling: {
+    sohmPool: number;
+  };
 }
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
-  balances: { ohm: "", sohm: "", dai: "", oldsohm: "", fsohm: 0, wsohm: "" },
+  balances: { ohm: "", sohm: "", dai: "", oldsohm: "", fsohm: 0, wsohm: "", pool: "" },
+  pooling: { sohmPool: 0 },
 };
 
 const accountSlice = createSlice({
