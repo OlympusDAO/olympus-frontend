@@ -90,7 +90,7 @@ function Wrap() {
 
   const onChangeWrap = async action => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(quantity) || quantity === 0 || quantity === "") {
+    if (isNaN(quantity) || Number(quantity) === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
       return dispatch(error("Please enter a value!"));
     }
@@ -224,20 +224,14 @@ function Wrap() {
                     </Tabs>
                     <Box className="stake-action-row " display="flex" alignItems="center">
                       {address && !isAllowanceDataLoading ? (
-                        (!hasAllowance("sohm") && view === 0) || (!hasAllowance("wsohm") && view === 1) ? (
+                        !hasAllowance("sohm") && view === 0 ? (
                           <Box className="help-text">
                             <Typography variant="body1" className="stake-note" color="textSecondary">
-                              {view === 0 ? (
+                              {view === 0 && (
                                 <>
                                   First time wrapping <b>sOHM</b>?
                                   <br />
                                   Please approve Olympus Dao to use your <b>sOHM</b> for wrapping.
-                                </>
-                              ) : (
-                                <>
-                                  First time unwrapping <b>wsOHM</b>?
-                                  <br />
-                                  Please approve Olympus Dao to use your <b>wsOHM</b> for unwrapping.
                                 </>
                               )}
                             </Typography>
@@ -296,31 +290,17 @@ function Wrap() {
                       </TabPanel>
 
                       <TabPanel value={view} index={1} className="stake-tab-panel">
-                        {address && hasAllowance("sohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "unwrapping")}
-                            onClick={() => {
-                              onChangeWrap("unwrap");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")}
-                          </Button>
-                        ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_unwrapping")}
-                            onClick={() => {
-                              onSeekApproval("wsohm");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "approve_unwrapping", "Approve")}
-                          </Button>
-                        )}
+                        <Button
+                          className="stake-button"
+                          variant="contained"
+                          color="primary"
+                          disabled={isPendingTxn(pendingTransactions, "unwrapping")}
+                          onClick={() => {
+                            onChangeWrap("unwrap");
+                          }}
+                        >
+                          {txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")}
+                        </Button>
                       </TabPanel>
                     </Box>
                   </Box>
