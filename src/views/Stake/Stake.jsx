@@ -383,22 +383,28 @@ function Stake() {
                     </div>
 
                     <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2">Single Staking</Typography>
-                      <Typography variant="body2">
+                      <Typography variant="body2" color="textSecondary">
+                        Single Staking
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
                       </Typography>
                     </div>
 
                     <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2">Staked Balance in Fuse</Typography>
-                      <Typography variant="body2">
+                      <Typography variant="body2" color="textSecondary">
+                        Staked Balance in Fuse
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fsohmBalance, 4)} fsOHM</>}
                       </Typography>
                     </div>
 
                     <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2">Wrapped Balance</Typography>
-                      <Typography variant="body2">
+                      <Typography variant="body2" color="textSecondary">
+                        Wrapped Balance
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
                       </Typography>
                     </div>
