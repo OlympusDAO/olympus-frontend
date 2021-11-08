@@ -1,5 +1,3 @@
-// import puppeteer from "puppeteer";
-// import dappetter from "@chainsafe/dappeteer";
 const puppeteer = require("puppeteer");
 const dappeteer = require("@chainsafe/dappeteer");
 
