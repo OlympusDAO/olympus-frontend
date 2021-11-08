@@ -24,8 +24,8 @@ export const handleBackdropFilter = rgbaString => {
   const supported = CSS.supports("(-webkit-backdrop-filter: none)") || CSS.supports("(backdrop-filter: none)");
   console.log("supported", supported);
   if (!supported) {
-    // make the opacity == 1;
-    rgbaString = rgbaString.replace(/[\d\.]+\)$/g, "1)");
+    // make the opacity == 0.9;
+    rgbaString = rgbaString.replace(/[\d\.]+\)$/g, "0.9)");
   }
   return rgbaString;
 };
@@ -153,6 +153,7 @@ const commonSettings = {
         // backdropFilter: "blur(33px)",
         backgroundColor: "inherit",
         padding: 0,
+        zIndex: 7,
       },
     },
     MuiBackdrop: {
