@@ -135,13 +135,6 @@ export const loadAccountDetails = createAsyncThunk(
     if (addresses[networkID].WSOHM_ADDRESS) {
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
       wsohmBalance = await wsohmContract.balanceOf(address);
-      console.log(
-        "wsOHM",
-        wsohmBalance.toString(),
-        daiBalance.toString(),
-        daiBalance.toString().length,
-        ethers.utils.formatEther(daiBalance),
-      );
       // NOTE (appleseed): wsohmAsSohm is used to calc your next reward amount
       wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
       unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);

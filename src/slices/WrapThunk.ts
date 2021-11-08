@@ -123,11 +123,6 @@ export const changeWrap = createAsyncThunk(
 
     const signer = provider.getSigner();
     const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, signer) as WsOHM;
-    // const stakingHelper = new ethers.Contract(
-    //   addresses[networkID].STAKING_HELPER_ADDRESS as string,
-    //   StakingHelperABI,
-    //   signer,
-    // ) as StakingHelper;
 
     let wrapTx;
     let uaData: IUAData = {

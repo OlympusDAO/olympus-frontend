@@ -425,15 +425,6 @@ function Stake() {
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>}
                       </Typography>
                     </div>
-
-                    {/* <Divider color="secondary" />
-
-                    <div className="data-row">
-                      <Typography variant="body1">Your Wrapped Balance</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
-                      </Typography>
-                    </div> */}
                   </div>
                 </>
               )}
