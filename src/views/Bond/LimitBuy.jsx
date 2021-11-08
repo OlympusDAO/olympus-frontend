@@ -12,6 +12,7 @@ import {
   Slider,
   TextField,
   Grid,
+  Paper,
 } from "@material-ui/core";
 import { redeemBond, changeApproval } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -66,7 +67,7 @@ function BondRedeem({ bond }) {
         "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?",
       );
       if (shouldProceed) {
-        // Limit bond asset *** inserted here
+        // Limit buy arguments *** inserted here
         await dispatch(
           bondAsset({
             value: quantity,
@@ -127,7 +128,7 @@ function BondRedeem({ bond }) {
 
   return (
     <Box display="flex" flexDirection="column">
-      <Box flexWrap="wrap" justifyContent="space-around" style={{ color: "white", backgroundColor: "#34363D" }}>
+      <Paper flexWrap="wrap" justifyContent="space-around" style={{ color: "white", backgroundColor: "#34363D" }}>
         {isAllowanceDataLoading ? (
           <Skeleton width="200px" />
         ) : (
@@ -143,7 +144,7 @@ function BondRedeem({ bond }) {
               </div>
             ) : (
               <div>
-                <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
+                <FormControl className="ohm-input" variant="outlined" color="primary">
                   <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-amount"
@@ -162,15 +163,18 @@ function BondRedeem({ bond }) {
                   />
                 </FormControl>
 
-                <Slider
-                  className="ohm-input"
-                  valueLabelDisplay="auto"
-                  step={0.1}
-                  marks={marks}
-                  min={0}
-                  max={100}
-                  fullWidth
-                />
+                <Grid
+                  container
+                  spacing={4}
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Grid item xs={10} justifyContent="center" alignItems="center">
+                    <Slider className="ohm-input" valueLabelDisplay="auto" step={0.1} marks={marks} min={0} max={100} />
+                  </Grid>
+                </Grid>
                 <Grid container spacing={2}>
                   <Grid item xs={5}>
                     <TextField
@@ -225,7 +229,7 @@ function BondRedeem({ bond }) {
             )}
           </>
         )}
-      </Box>
+      </Paper>
 
       <Slide direction="right" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
