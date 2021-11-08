@@ -13,14 +13,12 @@ import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { PairContract, RedeemHelper } from "../typechain";
 
-// NOTE (appleseed): this looks like an outdated method... we now have this data in the graph (used elsewhere in the app)
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
   const pairContract = new ethers.Contract(ohm_dai_address, PairContractABI, provider) as PairContract;
   const reserves = await pairContract.getReserves();
   const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString());
 
-  // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });
   return marketPrice;
 }
 
