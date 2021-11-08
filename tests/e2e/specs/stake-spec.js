@@ -26,12 +26,23 @@ async function stake() {
   const page = await browser.newPage();
   await page.goto("http://localhost:3000/#/stake");
 
+  // Log console
+  page
+    .on('console', message =>
+      console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
+    .on('pageerror', ({ message }) => console.log(message));
+  metamask.page
+    .on('console', message =>
+      console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
+    .on('pageerror', ({ message }) => console.log(message));
+
   await clickElement(page, ".connect-button");
 
-  await metamask.approve();
-
-  await metamask.reload();
-  const metamaskPopup = await metamask.page.waitForSelector("button.popover-header__button");
+  // Approve connecting the wallet
+  // We don't `await` the approve() function, as it will never return.
+  metamask.approve();
+  // Close the "What's New" modal that appears in MetaMask
+  const metamaskPopup = await metamask.page.waitForSelector(".fas.fa-times.popover-header__button");
   await metamaskPopup.click();
 
   await page.waitForSelector("#amount-input");
