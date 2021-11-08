@@ -148,7 +148,6 @@ function Stake() {
     setView(newView);
   };
 
-  // NOTE (appleseed-wsOHM): having fsOHM in here screws up Max on withdraw...
   const trimmedBalance = Number(
     [sohmBalance, fsohmBalance, wsohmAsSohm]
       .filter(Boolean)

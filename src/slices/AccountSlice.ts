@@ -25,7 +25,7 @@ export const getBalances = createAsyncThunk(
     const sohmBalance = await sohmContract.balanceOf(address);
     const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
     const wsohmBalance = await wsohmContract.balanceOf(address);
-    // NOTE (appleseed-wsOHM): pull wsOHM out of sOHM balance, onto separate line so that wrapping makes more sense?
+    // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
     const wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
     let poolBalance = BigNumber.from(0);
     const poolTokenContract = new ethers.Contract(

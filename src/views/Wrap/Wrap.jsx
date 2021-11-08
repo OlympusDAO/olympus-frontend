@@ -14,9 +14,11 @@ import {
   Tabs,
   Typography,
   Zoom,
+  SvgIcon,
 } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
+import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrap } from "../../slices/WrapThunk";
 import "../Stake/stake.scss";
@@ -142,22 +144,15 @@ function Wrap() {
             <Grid item>
               <div className="card-header">
                 <Typography variant="h5">Wrap / Unwrap</Typography>
-                {/* TODO (appleseed-wsohm): something instead of rebase? */}
-                {/* <RebaseTimer /> */}
-
-                {/* TODO (appleseed-wsohm): something instead of migrate? */}
-                {/* {address && oldSohmBalance > 0.01 && (
-                  <Link
-                    className="migrate-sohm-button"
-                    style={{ textDecoration: "none" }}
-                    href="https://docs.olympusdao.finance/using-the-website/migrate"
-                    aria-label="migrate-sohm"
-                    target="_blank"
-                  >
-                    <NewReleases viewBox="0 0 24 24" />
-                    <Typography>Migrate sOHM!</Typography>
-                  </Link>
-                )} */}
+                <Link
+                  className="migrate-sohm-button"
+                  style={{ textDecoration: "none" }}
+                  href="https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
+                  aria-label="wsohm-wut"
+                  target="_blank"
+                >
+                  <Typography>wsOHM</Typography> <SvgIcon component={InfoIcon} color="primary" />
+                </Link>
               </div>
             </Grid>
 
@@ -170,7 +165,6 @@ function Wrap() {
                         sOHM Price
                       </Typography>
                       <Typography variant="h4">
-                        {/* TODO (appleseed-wsohm): change out */}
                         {sOhmPrice ? formatCurrency(sOhmPrice, 2) : <Skeleton width="150px" />}
                       </Typography>
                     </div>
@@ -196,7 +190,6 @@ function Wrap() {
                         />
                       </Typography>
                       <Typography variant="h4">
-                        {/* TODO (appleseed-wsohm): change out */}
                         {wsOhmPrice ? formatCurrency(wsOhmPrice, 2) : <Skeleton width="150px" />}
                       </Typography>
                     </div>
@@ -339,7 +332,6 @@ function Wrap() {
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
                       </Typography>
                     </div>
-                    {/* TODO (appleseed-wsohm): is there anything that can be done to make it clear when you have fsOHM */}
                     <div className="data-row">
                       <Typography variant="body1">Unwrappable Balance</Typography>
                       <Typography variant="body1">
