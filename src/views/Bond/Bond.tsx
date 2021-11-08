@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, Fragment, ReactNode, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { formatCurrency, trim } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
@@ -11,7 +11,6 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
-import { Available, NetworkID } from "../../lib/Bond";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -110,14 +109,11 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   );
 };
 
-type NetworkIDKeys = keyof typeof NetworkID;
-type NetworkIDValues = typeof NetworkID[NetworkIDKeys];
-
-export function DisplayBondPrice(bond: IAllBondData) {
-  const { provider, chainID } = useWeb3Context();
+export const DisplayBondPrice = (bond: IAllBondData): ReactNode => {
+  const { chainID } = useWeb3Context();
   return (
     <>
-      {!bond.isAvailable ? (
+      {!bond.isAvailable[chainID] ? (
         <>--</>
       ) : (
         `${new Intl.NumberFormat("en-US", {
@@ -129,11 +125,10 @@ export function DisplayBondPrice(bond: IAllBondData) {
       )}
     </>
   );
-}
+};
 
-export function DisplayBondDiscount(bond: IAllBondData) {
-  //const { chainID } = useWeb3Context();
-  return <>{!bond.isAvailable ? <>--</> : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}</>;
-}
-
+export const DisplayBondDiscount = (bond: IAllBondData): ReactNode => {
+  const { chainID } = useWeb3Context();
+  return <>{!bond.isAvailable[chainID] ? <>--</> : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}</>;
+};
 export default Bond;
