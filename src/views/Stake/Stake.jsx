@@ -391,14 +391,14 @@ function Stake() {
                       </Typography>
                     </div>
 
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                    {/* <div className="data-row" style={{ paddingLeft: "10px" }}>
                       <Typography variant="body2" color="textSecondary">
                         Staked Balance in Fuse
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fsohmBalance, 4)} fsOHM</>}
                       </Typography>
-                    </div>
+                    </div> */}
 
                     <div className="data-row" style={{ paddingLeft: "10px" }}>
                       <Typography variant="body2" color="textSecondary">
