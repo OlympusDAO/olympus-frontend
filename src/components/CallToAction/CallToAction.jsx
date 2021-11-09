@@ -27,7 +27,7 @@ const CallToAction = ({ title }) => {
     <Button
       variant="outlined"
       color="secondary"
-      href="https://crucible.alchemist.wtf/reward-programs"
+      href="https://github.com/OlympusDAO-Education/Documentation/blob/migration/basics/migration.md"
       target="_blank"
       className="learn-more-button"
     >
