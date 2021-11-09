@@ -11,6 +11,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
+import { NetworkID } from "src/lib/Bond";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -110,7 +111,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
 };
 
 export const DisplayBondPrice = (bond: IAllBondData): ReactNode => {
-  const { chainID } = useWeb3Context();
+  const { chainID }: { chainID: NetworkID } = useWeb3Context();
   return (
     <>
       {!bond.isAvailable[chainID] ? (
@@ -128,7 +129,7 @@ export const DisplayBondPrice = (bond: IAllBondData): ReactNode => {
 };
 
 export const DisplayBondDiscount = (bond: IAllBondData): ReactNode => {
-  const { chainID } = useWeb3Context();
+  const { chainID }: { chainID: NetworkID } = useWeb3Context();
   return <>{!bond.isAvailable[chainID] ? <>--</> : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}</>;
 };
 export default Bond;
