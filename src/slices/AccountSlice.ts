@@ -130,7 +130,12 @@ export const loadAccountDetails = createAsyncThunk(
         const exchangeRate = ethers.utils.formatEther(await fsohmContract.exchangeRateStored());
         const balance = ethers.utils.formatUnits(await fsohmContract.balanceOf(address), "gwei");
         fsohmBalance += Number(balance) * Number(exchangeRate);
-        console.log("fuseAddy", fuseAddressKey, addresses[networkID][fuseAddressKey], fsohmBalance);
+        console.log(
+          "fuseAddy",
+          fuseAddressKey,
+          addresses[networkID][fuseAddressKey],
+          Number(balance) * Number(exchangeRate),
+        );
       }
     }
     // return fsohm as a String since all other returned vals are strings
