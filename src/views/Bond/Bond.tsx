@@ -113,7 +113,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
 export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactNode => {
   const { chainID }: { chainID: NetworkID } = useWeb3Context();
 
-  if (typeof bond.isAvailable[chainID] == undefined || !bond.isAvailable[chainID]) {
+  if (typeof bond.bondPrice === undefined || !bond.isAvailable[chainID]) {
     return <Fragment>--</Fragment>;
   }
 
@@ -132,7 +132,7 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactNode =>
 export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
   const { chainID }: { chainID: NetworkID } = useWeb3Context();
 
-  if (typeof bond.isAvailable === undefined || !bond.isAvailable[chainID]) {
+  if (typeof bond.bondDiscount === undefined || !bond.isAvailable[chainID]) {
     return <Fragment>--</Fragment>;
   }
 
