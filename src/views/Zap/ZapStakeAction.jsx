@@ -24,8 +24,6 @@ import { useEffect, useMemo, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { ButtonBase } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import CloseIcon from "@mui/icons-material/Close";
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import ZapStakeHeader from "./ZapStakeHeader";
 
 function ZapStakeAction(props) {
@@ -53,43 +51,6 @@ function ZapStakeAction(props) {
   const ohmMarketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
-  const ohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.ohm;
-  });
-  const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
-  });
-  const fsohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.fsohm;
-  });
-  const wsohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.wsohm;
-  });
-  const stakingRebase = useSelector(state => {
-    return state.app.stakingRebase;
-  });
-  const stakingAPY = useSelector(state => {
-    return state.app.stakingAPY;
-  });
-  const stakingTVL = useSelector(state => {
-    return state.app.stakingTVL;
-  });
-  const fiveDayRate = useSelector(state => {
-    return state.app.fiveDayRate;
-  });
-  const currentIndex = useSelector(state => {
-    return state.app.currentIndex;
-  });
-  const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmBalance]
-      .filter(Boolean)
-      .map(balance => Number(balance))
-      .reduce((a, b) => a + b, 0)
-      .toFixed(4),
-  );
-  const trimmedStakingAPY = trim(stakingAPY * 100, 1);
-  const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
   const exchangeRate = ohmMarketPrice / tokens[zapToken]?.price;
 
@@ -123,64 +84,23 @@ function ZapStakeAction(props) {
     [tokens],
   );
 
+  const checkTokenAllowance = tokenAddress => {
+    // USES address
+    // SHOULD use a helper
+    if (tokenAddress == null) {
+      return Infinity;
+    }
+    return 0.0;
+  };
+
+  const initialTokenAllowance = useMemo(() => checkTokenAllowance(tokens[zapToken]?.address), [zapToken]);
+
   return (
     <div>
       <div className="card-header">
         <Typography variant="h5">OlyZaps</Typography>
-        {/* <RebaseTimer /> */}
       </div>
 
-      {/* <Grid item>
-          <div className="stake-top-metrics">
-            <Grid container spacing={2} alignItems="flex-end">
-              <Grid item xs={12} sm={4} md={4} lg={4}>
-                <div className="stake-apy">
-                  <Typography variant="h5" color="textSecondary">
-                    APY
-                  </Typography>
-                  <Typography variant="h4">
-                    {stakingAPY ? (
-                      <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
-                    ) : (
-                      <Skeleton width="150px" />
-                    )}
-                  </Typography>
-                </div>
-              </Grid>
-
-              <Grid item xs={12} sm={4} md={4} lg={4}>
-                <div className="stake-tvl">
-                  <Typography variant="h5" color="textSecondary">
-                    Total Value Deposited
-                  </Typography>
-                  <Typography variant="h4">
-                    {stakingTVL ? (
-                      new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0,
-                      }).format(stakingTVL)
-                    ) : (
-                      <Skeleton width="150px" />
-                    )}
-                  </Typography>
-                </div>
-              </Grid>
-
-              <Grid item xs={12} sm={4} md={4} lg={4}>
-                <div className="stake-index">
-                  <Typography variant="h5" color="textSecondary">
-                    Current Index
-                  </Typography>
-                  <Typography variant="h4">
-                    {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
-                  </Typography>
-                </div>
-              </Grid>
-            </Grid>
-          </div>
-        </Grid> */}
       <ZapStakeHeader images={inputTokenImages} />
 
       <Typography>You Pay</Typography>
@@ -280,19 +200,61 @@ function ZapStakeAction(props) {
           }
         />
       </FormControl>
-      <Button
-        fullWidth
-        className="zap-stake-button"
-        variant="contained"
-        color="primary"
-        // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
-        onClick={() => {
-          onSeekApproval(token);
-        }}
-      >
-        {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
-        Zap-Stake
-      </Button>
+      {initialTokenAllowance > inputQuantity ? (
+        <Button
+          fullWidth
+          className="zap-stake-button"
+          variant="contained"
+          color="primary"
+          disabled={zapToken == null}
+          // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
+          onClick={() => {
+            onSeekApproval(token);
+          }}
+        >
+          {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
+          Zap-Stake
+        </Button>
+      ) : (
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <Button
+              fullWidth
+              className="zap-stake-button"
+              variant="contained"
+              color="primary"
+              disabled={zapToken == null}
+              // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
+              onClick={() => {
+                onSeekApproval(token);
+              }}
+            >
+              {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
+              <Box display="flex" flexDirection="row">
+                <Typography>Approve</Typography>
+              </Box>
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Button
+              fullWidth
+              className="zap-stake-button"
+              variant="contained"
+              color="primary"
+              disabled={zapToken == null}
+              // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
+              onClick={() => {
+                onSeekApproval(token);
+              }}
+            >
+              {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
+              <Box display="flex" flexDirection="row">
+                <Typography>Zap-Stake</Typography>
+              </Box>
+            </Button>
+          </Grid>
+        </Grid>
+      )}
       <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
         <Typography>Max Slippage</Typography>
         <Typography>2.0%</Typography>
@@ -303,43 +265,6 @@ function ZapStakeAction(props) {
           {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
         </Typography>
       </Box>
-
-      {/* <div className={`stake-user-data`}>
-        <div className="data-row">
-          <Typography variant="body1">Your Balance</Typography>
-          <Typography variant="body1">
-            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
-          </Typography>
-        </div>
-
-        <div className="data-row">
-          <Typography variant="body1">Your Staked Balance</Typography>
-          <Typography variant="body1">
-            {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
-          </Typography>
-        </div>
-
-        <div className="data-row">
-          <Typography variant="body1">Next Reward Amount</Typography>
-          <Typography variant="body1">
-            {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
-          </Typography>
-        </div>
-
-        <div className="data-row">
-          <Typography variant="body1">Next Reward Yield</Typography>
-          <Typography variant="body1">
-            {isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}
-          </Typography>
-        </div>
-
-        <div className="data-row">
-          <Typography variant="body1">ROI (5-Day Rate)</Typography>
-          <Typography variant="body1">
-            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>}
-          </Typography>
-        </div>
-      </div> */}
 
       <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs">
         <DialogTitle>

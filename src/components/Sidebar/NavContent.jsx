@@ -7,7 +7,7 @@ import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
-import FlashOnIcon from "@mui/icons-material/FlashOn";
+import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
 import { trim, shorten } from "../../helpers";
 import { useAddress, useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
@@ -103,8 +103,8 @@ function NavContent() {
                 className={`button-dapp-menu ${isActive ? "active" : ""}`}
               >
                 <Typography variant="h6">
-                  <FlashOnIcon />
-                  Hermes
+                  <SvgIcon component={ZapIcon} color="primary" />
+                  OlyZaps
                 </Typography>
               </Link>
 
