@@ -82,3 +82,7 @@ export const waitSelectorExists = async (page: Page, selector: string): Promise<
     return false;
   }
 };
+
+export const getSelectorTextContent = async (page: Page, selector: string): Promise<string> => {
+  return await page.evaluate(el => el.textContent.trim(), await page.$(selector));
+};
