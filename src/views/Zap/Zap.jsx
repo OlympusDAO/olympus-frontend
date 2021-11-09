@@ -47,7 +47,7 @@ function Zap({ initialTab }) {
 
   return (
     <div id="zap-view">
-      <Box flexDirection="row" minWidth="350px">
+      {/* <Box flexDirection="row" minWidth="350px">
         <Tabs
           key={String(zoomed)}
           centered
@@ -90,7 +90,7 @@ function Zap({ initialTab }) {
             {...a11yProps(1)}
           />
         </Tabs>
-      </Box>
+      </Box> */}
       {transitionEffect(
         <Paper className="ohm-card">
           <div className="staking-area">

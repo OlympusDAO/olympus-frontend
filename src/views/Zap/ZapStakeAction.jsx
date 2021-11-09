@@ -26,8 +26,7 @@ import { ButtonBase } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
-import { Skeleton } from "@material-ui/lab";
-import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
+import ZapStakeHeader from "./ZapStakeHeader";
 
 function ZapStakeAction(props) {
   const { address, quantity, setQuantity, ...other } = props;
@@ -116,17 +115,22 @@ function ZapStakeAction(props) {
     setInputQuantity(amount * exchangeRate);
   };
 
+  const inputTokenImages = useMemo(
+    () =>
+      Object.entries(tokens)
+        .filter(token => token[0] !== "sohm")
+        .map(token => token[1].img),
+    [tokens],
+  );
+
   return (
     <div>
-      <Grid container direction="column" spacing={2}>
-        <Grid item>
-          <div className="card-header">
-            <Typography variant="h5">Zap Stake (3, 3)</Typography>
-            <RebaseTimer />
-          </div>
-        </Grid>
+      <div className="card-header">
+        <Typography variant="h5">OlyZaps</Typography>
+        {/* <RebaseTimer /> */}
+      </div>
 
-        <Grid item>
+      {/* <Grid item>
           <div className="stake-top-metrics">
             <Grid container spacing={2} alignItems="flex-end">
               <Grid item xs={12} sm={4} md={4} lg={4}>
@@ -176,8 +180,9 @@ function ZapStakeAction(props) {
               </Grid>
             </Grid>
           </div>
-        </Grid>
-      </Grid>
+        </Grid> */}
+      <ZapStakeHeader images={inputTokenImages} />
+
       <Typography>You Pay</Typography>
       <FormControl className="zap-input" variant="outlined" color="primary">
         <InputLabel htmlFor="amount-input"></InputLabel>
@@ -275,16 +280,6 @@ function ZapStakeAction(props) {
           }
         />
       </FormControl>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
-        <Typography>Max Slippage</Typography>
-        <Typography>2.0%</Typography>
-      </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
-        <Typography>Exchange Rate</Typography>
-        <Typography>
-          {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
-        </Typography>
-      </Box>
       <Button
         fullWidth
         className="zap-stake-button"
@@ -298,7 +293,18 @@ function ZapStakeAction(props) {
         {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
         Zap-Stake
       </Button>
-      <div className={`stake-user-data`}>
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
+        <Typography>Max Slippage</Typography>
+        <Typography>2.0%</Typography>
+      </Box>
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
+        <Typography>Exchange Rate</Typography>
+        <Typography>
+          {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
+        </Typography>
+      </Box>
+
+      {/* <div className={`stake-user-data`}>
         <div className="data-row">
           <Typography variant="body1">Your Balance</Typography>
           <Typography variant="body1">
@@ -333,7 +339,7 @@ function ZapStakeAction(props) {
             {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>}
           </Typography>
         </div>
-      </div>
+      </div> */}
 
       <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs">
         <DialogTitle>
