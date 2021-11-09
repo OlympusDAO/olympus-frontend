@@ -134,6 +134,15 @@ function App() {
     [connected],
   );
 
+  const oldAssetsDetected = useSelector(state => {
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.sohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
+        ? true
+        : false)
+    );
+  });
+
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
   // this useEffect checks Wallet Connection & then sets State for reload...
@@ -210,7 +219,7 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          <CallToAction title="You have assets ready to migrate to V2" />
+          {oldAssetsDetected && <CallToAction title="You have assets ready to migrate to V2" />}
 
           <Switch>
             <Route exact path="/dashboard">
