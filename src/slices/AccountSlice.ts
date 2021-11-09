@@ -73,7 +73,7 @@ export const loadAccountDetails = createAsyncThunk(
   async ({ networkID, provider, address }: IBaseAddressAsyncThunk) => {
     let ohmBalance = BigNumber.from(0);
     let sohmBalance = BigNumber.from(0);
-    let fsohmBalance = 0;
+    let fsohmBalance = BigNumber.from(0);
     let fsohmString = "0.0";
     let wsohmBalance = BigNumber.from(0);
     let wsohmAsSohm = BigNumber.from(0);
@@ -127,23 +127,10 @@ export const loadAccountDetails = createAsyncThunk(
           provider.getSigner(),
         ) as FuseProxy;
         // fsohmContract.signer;
-        const balanceOfUnderlying = ethers.utils.formatUnits(
-          await fsohmContract.callStatic.balanceOfUnderlying(address),
-          "gwei",
-        );
-        fsohmBalance += Number(balanceOfUnderlying);
-        console.log(
-          "fuseAddy",
-          fuseAddressKey,
-          addresses[networkID][fuseAddressKey],
-          // Number(balance) * Number(exchangeRate),
-          balanceOfUnderlying,
-        );
+        const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
+        fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
       }
     }
-    // return fsohm as a String since all other returned vals are strings
-    // && if fsohmBalance === 0 then return "0.0" for formatting purposes
-    if (fsohmBalance !== 0) fsohmString = fsohmBalance.toFixed(4).toString();
 
     if (addresses[networkID].WSOHM_ADDRESS) {
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
@@ -158,7 +145,7 @@ export const loadAccountDetails = createAsyncThunk(
         dai: ethers.utils.formatEther(daiBalance),
         ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-        fsohm: fsohmString,
+        fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
         wsohm: ethers.utils.formatEther(wsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
