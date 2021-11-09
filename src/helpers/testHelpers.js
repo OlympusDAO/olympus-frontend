@@ -44,3 +44,8 @@ export const connectWallet = async (page, metamask) => {
   // Approve connecting the wallet
   await metamask.approve();
 };
+
+export const getByTestId = async (page, testId) => {
+  const document = await page.getDocument();
+  return await document.getByTestId(testId);
+};

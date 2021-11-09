@@ -1,6 +1,8 @@
 const puppeteer = require("puppeteer");
 const dappeteer = require("@chainsafe/dappeteer");
-import { setupLogging, clickElement, setupMetamask, connectWallet } from "../../helpers/testHelpers";
+import { setupLogging, clickElement, setupMetamask, connectWallet, getByTestId } from "../../helpers/testHelpers";
+import "@testing-library/jest-dom";
+require("pptr-testing-library/extend");
 
 // TODO integrate with jest
 // TODO add test cases
@@ -21,25 +23,39 @@ describe("staking", () => {
 
     page = await browser.newPage();
     await page.goto("http://localhost:3000/#/stake");
+    await page.bringToFront();
 
-    setupLogging(page);
-    setupLogging(metamask.page);
+    // console.log("before page");
+    // setupLogging(page);
+    // console.log("after page");
+    // setupLogging(metamask.page);
+    // console.log("after metamask page");
+  });
+
+  afterEach(async () => {
+    await browser.close();
   });
 
   test("connects wallet", async () => {
     // Button should be available
-    expect(queryByTitle("Connect Wallet")).toBeDefined();
+    const connectButton = await getByTestId(page, "stake-connect-wallet");
+    expect(connectButton).toBeEnabled();
+    expect(connectButton).toBeVisible();
 
     connectWallet(page, metamask);
 
     // Button should be replaced by "Approve"
     await page.bringToFront();
-    expect(queryByTitle("Connect Wallet")).toBeUndefined();
-    expect(queryByTitle("Approve")).toBeDefined();
-    expect(queryByTitle("Approve")).toBeEnabled();
+    const connectButtonUpdated = await getByTestId(page, "stake-connect-wallet");
+    expect(connectButtonUpdated).toBeEnabled();
+    expect(connectButtonUpdated).not.toBeVisible();
+
+    const approveButton = await getByTestId(page, "approve-stake-button");
+    expect(approveButton).toBeEnabled();
+    expect(approveButton).toBeVisible();
   });
 
-  test("approves staking", async () => {
+  xtest("approves staking", async () => {
     connectWallet(page, metamask);
 
     // *** Approve the staking function
@@ -57,7 +73,7 @@ describe("staking", () => {
     expect(queryByTitle("Stake")).toBeDefined();
   });
 
-  test("perform staking", async () => {
+  xtest("perform staking", async () => {
     connectWallet(page, metamask);
 
     // *** Approve the staking function

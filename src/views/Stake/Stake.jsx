@@ -125,7 +125,15 @@ function Stake() {
   let modalButton = [];
 
   modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+    <Button
+      variant="contained"
+      color="primary"
+      className="connect-button"
+      id="connect-wallet"
+      data-testid="stake-connect-wallet"
+      onClick={connect}
+      key={1}
+    >
       Connect Wallet
     </Button>,
   );
@@ -288,6 +296,7 @@ function Stake() {
                         {address && hasAllowance("ohm") ? (
                           <Button
                             className="stake-button"
+                            data-testid="stake-button"
                             variant="contained"
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "staking")}
@@ -300,6 +309,7 @@ function Stake() {
                         ) : (
                           <Button
                             className="stake-button"
+                            data-testid="approve-stake-button"
                             variant="contained"
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_staking")}
@@ -316,6 +326,7 @@ function Stake() {
                         {address && hasAllowance("sohm") ? (
                           <Button
                             className="stake-button"
+                            data-testid="unstake-button"
                             variant="contained"
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "unstaking")}
@@ -328,6 +339,7 @@ function Stake() {
                         ) : (
                           <Button
                             className="stake-button"
+                            data-testid="approve-unstake-button"
                             variant="contained"
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}

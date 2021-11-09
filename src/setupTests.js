@@ -6,4 +6,4 @@ import "@testing-library/jest-dom/extend-expect";
 
 // TODO add jest-puppeteer preset
 
-jest.setTimeout(20000);
+// jest.setTimeout(20000);
