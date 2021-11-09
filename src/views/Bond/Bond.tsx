@@ -110,26 +110,32 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   );
 };
 
-export const DisplayBondPrice = (bond: IAllBondData): ReactNode => {
+export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactNode => {
   const { chainID }: { chainID: NetworkID } = useWeb3Context();
+
+  if (typeof bond.isAvailable[chainID] == undefined || !bond.isAvailable[chainID]) {
+    return <Fragment>--</Fragment>;
+  }
+
   return (
-    <>
-      {!bond.isAvailable[chainID] ? (
-        <>--</>
-      ) : (
-        `${new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2,
-        }).format(bond.bondPrice)}`
-      )}
-    </>
+    <Fragment>
+      {new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2,
+      }).format(bond.bondPrice)}
+    </Fragment>
   );
 };
 
-export const DisplayBondDiscount = (bond: IAllBondData): ReactNode => {
+export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
   const { chainID }: { chainID: NetworkID } = useWeb3Context();
-  return <>{!bond.isAvailable[chainID] ? <>--</> : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}</>;
+
+  if (typeof bond.isAvailable === undefined || !bond.isAvailable[chainID]) {
+    return <Fragment>--</Fragment>;
+  }
+
+  return <Fragment>{bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%</Fragment>;
 };
 export default Bond;
