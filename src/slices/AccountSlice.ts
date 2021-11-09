@@ -126,26 +126,24 @@ export const loadAccountDetails = createAsyncThunk(
           fuseProxy,
           provider.getSigner(),
         ) as FuseProxy;
-        fsohmContract.signer;
-        const exchangeRate = ethers.utils.formatEther(await fsohmContract.exchangeRateStored());
-        const balance = ethers.utils.formatUnits(await fsohmContract.balanceOf(address), "gwei");
+        // fsohmContract.signer;
         const balanceOfUnderlying = ethers.utils.formatUnits(
           await fsohmContract.callStatic.balanceOfUnderlying(address),
           "gwei",
         );
-        fsohmBalance += Number(balance) * Number(exchangeRate);
+        fsohmBalance += Number(balanceOfUnderlying);
         console.log(
           "fuseAddy",
           fuseAddressKey,
           addresses[networkID][fuseAddressKey],
-          Number(balance) * Number(exchangeRate),
+          // Number(balance) * Number(exchangeRate),
           balanceOfUnderlying,
         );
       }
     }
     // return fsohm as a String since all other returned vals are strings
     // && if fsohmBalance === 0 then return "0.0" for formatting purposes
-    if (fsohmBalance !== 0) fsohmString = fsohmBalance.toString();
+    if (fsohmBalance !== 0) fsohmString = fsohmBalance.toFixed(4).toString();
 
     if (addresses[networkID].WSOHM_ADDRESS) {
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
