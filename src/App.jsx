@@ -25,7 +25,7 @@ import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import LoadingSplash from "./components/Loading/LoadingSplash";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
-
+import MigrationModal from "src/components/Migration/MigrationModal";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
@@ -84,6 +84,13 @@ function App() {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [migrationModalOpen, setMigrationModalOpen] = useState(false);
+  const migModalOpen = () => {
+    setMigrationModalOpen(true);
+  };
+  const migModalClose = () => {
+    setMigrationModalOpen(false);
+  };
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
@@ -219,7 +226,7 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected && <CallToAction title="You have assets ready to migrate to V2" />}
+          {oldAssetsDetected && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
           <Switch>
             <Route exact path="/dashboard">
@@ -250,6 +257,9 @@ function App() {
             <Route component={NotFound} />
           </Switch>
         </div>
+        {migrationModalOpen && (
+          <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
+        )}
       </div>
     </ThemeProvider>
   );

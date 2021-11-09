@@ -28,7 +28,6 @@ import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "./ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
-import MigrationModal from "src/components/Migration/MigrationModal";
 
 function a11yProps(index) {
   return {
@@ -408,7 +407,6 @@ function Stake() {
       </Zoom>
 
       <ExternalStakePool />
-      <MigrationModal />
     </div>
   );
 }

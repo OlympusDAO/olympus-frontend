@@ -1,25 +1,19 @@
 import { useSelector } from "react-redux";
 import { Box, Typography, Button, SvgIcon } from "@material-ui/core";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import "./calltoaction.scss";
 
-const CallToAction = ({ title }) => {
-  const pendingTransactions = useSelector(state => {
-    return state.pendingTransactions;
-  });
-
+const CallToAction = ({ setMigrationModalOpen }) => {
   const migrateButton = (
     <Button
       className="migrate-button"
       variant="contained"
       color="primary"
-      disabled={isPendingTxn(pendingTransactions, "migrating")}
       onClick={() => {
-        onChangeStake("stake");
+        setMigrationModalOpen(true);
       }}
     >
-      {txnButtonText(pendingTransactions, "staking", "Migrate")}
+      Migrate
     </Button>
   );
 
@@ -40,7 +34,7 @@ const CallToAction = ({ title }) => {
   return (
     <Box className="call-to-action ohm-card">
       <Typography style={{ fontSize: "20px", fontWeight: "600" }} variant="h5">
-        {title}
+        You have assets ready to migrate to V2
       </Typography>
       <div className="actionable">
         {learMoreButton}

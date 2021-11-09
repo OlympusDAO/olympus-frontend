@@ -29,7 +29,6 @@ import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "../Stake/ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
-import CallToAction from "src/components/CallToAction/CallToAction";
 
 function a11yProps(index) {
   return {

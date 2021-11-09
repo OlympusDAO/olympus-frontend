@@ -14,7 +14,6 @@ import {
   Typography,
 } from "@material-ui/core";
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
-import { useState } from "react";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -35,11 +34,7 @@ const useStyles = makeStyles({
   },
 });
 
-function MigrationModal() {
-  const [open, setOpen] = useState(true);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+function MigrationModal({ open, handleOpen, handleClose }) {
   const classes = useStyles();
 
   const ohmBalance = 0.5; // FETCH FROM STATE
