@@ -14,6 +14,7 @@ import { Dappeteer } from "@chainsafe/dappeteer";
 
 // TODO deploy contracts on temporary network
 // TODO add eth to wallet
+// TODO close Chromium after test case
 
 var STAKE_AMOUNT = 0.1;
 
