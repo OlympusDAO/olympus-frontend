@@ -9,36 +9,75 @@ import { setupLogging, clickElement, setupMetamask, connectWallet } from "../../
 
 var STAKE_AMOUNT = 0.1;
 
-test("connects wallet", () => {
-  const browser = await dappeteer.launch(puppeteer, { metamaskVersion: "v10.1.1" });
+describe("staking", () => {
+  let browser;
+  let metamask;
+  let page;
 
-  const metamask = setupMetamask(browser);
+  beforeEach(async () => {
+    browser = await dappeteer.launch(puppeteer, { metamaskVersion: "v10.1.1" });
 
-  const page = await browser.newPage();
-  await page.goto("http://localhost:3000/#/stake");
+    metamask = setupMetamask(browser);
 
-  setupLogging(page);
-  setupLogging(metamask.page);
+    page = await browser.newPage();
+    await page.goto("http://localhost:3000/#/stake");
 
-  connectWallet(page, metamask);
+    setupLogging(page);
+    setupLogging(metamask.page);
+  });
 
-  // *** Approve the staking function
-  await page.bringToFront();
-  // Stake button (named "Approve")
-  await clickElement(page, ".stake-button");
-  // Bring Metamask front with the transaction modal
-  await metamask.confirmTransaction();
-  // Approve the transaction
-  await metamask.approve();
-})
+  test("connects wallet", async () => {
+    // Button should be available
+    expect(queryByTitle("Connect Wallet")).toBeDefined();
 
-async function stake() {
-  // *** Stake OHM
-  // await page.bringToFront();
-  // await page.waitForSelector("#amount-input");
-  // await page.type("#amount-input", "1");
-  // await page.click(".stake-button");
-  // await metamask.confirmTransaction();
-}
+    connectWallet(page, metamask);
 
-stake();
+    // Button should be replaced by "Approve"
+    await page.bringToFront();
+    expect(queryByTitle("Connect Wallet")).toBeUndefined();
+    expect(queryByTitle("Approve")).toBeDefined();
+    expect(queryByTitle("Approve")).toBeEnabled();
+  });
+
+  test("approves staking", async () => {
+    connectWallet(page, metamask);
+
+    // *** Approve the staking function
+    await page.bringToFront();
+    // Stake button (named "Approve")
+    await clickElement(page, ".stake-button");
+    // Bring Metamask front with the transaction modal
+    await metamask.confirmTransaction();
+    // Approve the transaction
+    await metamask.approve();
+
+    // Button should be replaced by "Stake"
+    await page.bringToFront();
+    expect(queryByTitle("Approve")).toBeUndefined();
+    expect(queryByTitle("Stake")).toBeDefined();
+  });
+
+  test("perform staking", async () => {
+    connectWallet(page, metamask);
+
+    // *** Approve the staking function
+    await page.bringToFront();
+    // Stake button (named "Approve")
+    await clickElement(page, ".stake-button");
+    // Bring Metamask front with the transaction modal
+    await metamask.confirmTransaction();
+    // Approve the transaction
+    await metamask.approve();
+
+    // Perform staking
+    await page.bringToFront();
+    await page.waitForSelector("#amount-input");
+    await page.type("#amount-input", STAKE_AMOUNT);
+    await page.click(".stake-button");
+    await metamask.confirmTransaction();
+
+    // Staked balance should be written as 0.1 sOHM
+    const stakedBalance = await page.$("#user-staked-balance", el => el.textContent.trim());
+    expect(stakedBalance).toEqual("0.1 sOHM");
+  });
+});

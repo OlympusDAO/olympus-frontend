@@ -1,4 +1,4 @@
-const ENV_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
+const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
 const dappeteer = require("@chainsafe/dappeteer");
 
 // Sometimes we need to round float values because bigint type does not exist (yet) in javascript
@@ -13,7 +13,7 @@ export const setupLogging = page => {
     .on("pageerror", ({ message }) => console.log(message));
 };
 
-export async const clickElement = (page, selector) => {
+export const clickElement = async (page, selector) => {
   await page.bringToFront();
   await page.waitForSelector(selector);
   const element = await page.$(selector);
@@ -21,25 +21,26 @@ export async const clickElement = (page, selector) => {
 };
 
 const getMetamaskSeedPhrase = () => {
-  if (!process.env.get(ENV_SEED_PHRASE)) throw new Error("Unable to find seed phrase for Metamask. Please set the " + ENV_SEED_PHRASE + " variable");
+  if (!process.env.REACT_APP_SEED_PHRASE)
+    throw new Error("Unable to find seed phrase for Metamask. Please set the " + REACT_APP_SEED_PHRASE + " variable");
 
-  return process.env.get(ENV_SEED_PHRASE);
-}
+  return process.env.REACT_APP_SEED_PHRASE;
+};
 
-export async const setupMetamask = (browser) => {
+export const setupMetamask = async browser => {
   const seedPhrase = getMetamaskSeedPhrase();
 
   const metamask = await dappeteer.setupMetamask(browser, { seed: seedPhrase });
   await metamask.switchNetwork("rinkeby");
 
   return metamask;
-}
+};
 
-export async const connectWallet = (page, metamask) => {
+export const connectWallet = async (page, metamask) => {
   // Connect button
   await clickElement(page, ".connect-button");
   // Metamask/Wallet Connect modal window
   await clickElement(page, ".web3modal-provider-wrapper");
   // Approve connecting the wallet
   await metamask.approve();
-}
+};

@@ -106,6 +106,7 @@
     "hardhat": "^2.6.7",
     "ipfs-http-client": "^50.1.2",
     "jest": "26.6.0",
+    "jest-puppeteer": "^6.0.0",
     "less-plugin-npm-import": "^2.1.0",
     "prettier": "^2.0.5",
     "puppeteer": "^11.0.0",
