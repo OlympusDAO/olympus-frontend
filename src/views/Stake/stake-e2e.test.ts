@@ -37,12 +37,12 @@ describe("staking", () => {
   });
 
   test("connects wallet", async () => {
-    // Button should be available
+    // Connect button should be available
     expect(await selectorExists(page, "#stake-connect-wallet")).toBeTruthy();
 
     connectWallet(page, metamask);
 
-    // Button should be replaced by "Approve"
+    // Connect button should be replaced by "Approve"
     await page.bringToFront();
     expect(await waitSelectorExists(page, "#approve-stake-button")).toBeTruthy();
     expect(await selectorExists(page, "#stake-connect-wallet")).toBeFalsy();
