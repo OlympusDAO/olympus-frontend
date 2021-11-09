@@ -20,6 +20,7 @@ import { info } from "./slices/MessagesSlice";
 import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether, V1Stake } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
+import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import LoadingSplash from "./components/Loading/LoadingSplash";
 import Messages from "./components/Messages/Messages";
@@ -209,6 +210,8 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+          <CallToAction title="You have assets ready to migrate to V2" />
+
           <Switch>
             <Route exact path="/dashboard">
               <TreasuryDashboard />

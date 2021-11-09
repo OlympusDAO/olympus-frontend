@@ -159,7 +159,6 @@ function V1Stake() {
 
   return (
     <div id="v1-stake-view">
-      <CallToAction title="You have assets ready to migrate to V2" />
       <Zoom in={true} onEntered={() => setZoomed(true)}>
         <Paper className={`ohm-card`}>
           <Grid container direction="column" spacing={2}>
