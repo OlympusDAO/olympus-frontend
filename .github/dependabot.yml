@@ -4,7 +4,7 @@ updates:
     directory: '/'
     open-pull-requests-limit: 5
     reviewers:
-      - 'OlympusDAO/Frontend'
+      - 'TokenraceDAO/Frontend'
     schedule:
       interval: 'daily'
       time: '04:00'

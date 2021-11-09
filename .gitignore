@@ -37,7 +37,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Integrated development environnements
+# Integrated development environments
 .idea
 *.sublime-*
 .vscode

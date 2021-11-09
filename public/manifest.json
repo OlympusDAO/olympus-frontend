@@ -1,8 +1,8 @@
 {
-  "short_name": "OlympusDAO",
+  "short_name": "TokenraceDAO",
   "start_url": ".",
   "homepage": "./",
-  "name": "OlympusDAO",
+  "name": "TokenraceDAO",
   "launch_path": "/public/index.html",
   "icons": [
     {
