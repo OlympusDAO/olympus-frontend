@@ -46,8 +46,8 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
-  const changeView = (newView: number): void => {
-    setView(newView);
+  const changeView = (event: ChangeEvent<{}>, value: string | number): void => {
+    setView(Number(value));
   };
 
   return (
@@ -88,7 +88,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                 value={view}
                 textColor="primary"
                 indicatorColor="primary"
-                onChange={() => changeView(view)}
+                onChange={changeView}
                 aria-label="bond tabs"
               >
                 <Tab label="Bond" {...a11yProps(0)} />
