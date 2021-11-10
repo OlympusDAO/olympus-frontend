@@ -1,14 +1,9 @@
-const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
 import { Dappeteer } from "@chainsafe/dappeteer";
 import { Browser, ElementHandle, Page } from "puppeteer";
-const dappeteer = require("@chainsafe/dappeteer");
-const { getDocument, queries } = require("pptr-testing-library");
+import * as dappeteer from "@chainsafe/dappeteer";
+import { getDocument, queries } from "pptr-testing-library";
 
-// Sometimes we need to round float values because bigint type does not exist (yet) in javascript
-function ohmRound(val: string): number {
-  var m = Math.pow(10, 10);
-  return Math.round(parseFloat(val) * m) / m;
-}
+const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
 
 export const setupLogging = (page: Page) => {
   page
@@ -52,7 +47,7 @@ export const connectWallet = async (page: Page, metamask: Dappeteer) => {
 
 export const getByTestId = async (page: Page, testId: string): Promise<ElementHandle> => {
   const document = await getDocument(page);
-  return await queries.getByTestId(document, testId);
+  return queries.getByTestId(document, testId);
 };
 
 /**
@@ -84,5 +79,5 @@ export const waitSelectorExists = async (page: Page, selector: string): Promise<
 };
 
 export const getSelectorTextContent = async (page: Page, selector: string): Promise<string> => {
-  return await page.evaluate(el => el.textContent.trim(), await page.$(selector));
+  return page.evaluate(el => el.textContent.trim(), await page.$(selector));
 };

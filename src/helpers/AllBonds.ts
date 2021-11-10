@@ -37,6 +37,10 @@ export const dai = new StableBond({
       bondAddress: "0xDea5668E815dAF058e3ecB30F645b04ad26374Cf",
       reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C",
     },
+    [NetworkID.Localhost]: {
+      bondAddress: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
+      reserveAddress: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    },
   },
 });
 
@@ -54,6 +58,10 @@ export const frax = new StableBond({
     [NetworkID.Testnet]: {
       bondAddress: "0xF651283543fB9D61A91f318b78385d187D300738",
       reserveAddress: "0x2F7249cb599139e560f0c81c269Ab9b04799E453",
+    },
+    [NetworkID.Localhost]: {
+      bondAddress: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+      reserveAddress: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
     },
   },
 });
@@ -73,6 +81,11 @@ export const lusd = new StableBond({
       bondAddress: "0x3aD02C4E4D1234590E87A1f9a73B8E0fd8CF8CCa",
       reserveAddress: "0x45754dF05AA6305114004358eCf8D04FF3B84e26",
     },
+    // FIXME
+    [NetworkID.Localhost]: {
+      bondAddress: "0x3aD02C4E4D1234590E87A1f9a73B8E0fd8CF8CCa",
+      reserveAddress: "0x45754dF05AA6305114004358eCf8D04FF3B84e26",
+    },
   },
 });
 
@@ -88,6 +101,11 @@ export const eth = new CustomBond({
       reserveAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     },
     [NetworkID.Testnet]: {
+      bondAddress: "0xca7b90f8158A4FAA606952c023596EE6d322bcf0",
+      reserveAddress: "0xc778417e063141139fce010982780140aa0cd5ab",
+    },
+    // FIXME
+    [NetworkID.Localhost]: {
       bondAddress: "0xca7b90f8158A4FAA606952c023596EE6d322bcf0",
       reserveAddress: "0xc778417e063141139fce010982780140aa0cd5ab",
     },
@@ -119,6 +137,11 @@ export const ohm_dai = new LPBond({
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
+    // FIXME
+    [NetworkID.Localhost]: {
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
   },
   lpUrl:
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
@@ -137,6 +160,11 @@ export const ohm_frax = new LPBond({
       reserveAddress: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
     },
     [NetworkID.Testnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
+    },
+    // FIXME
+    [NetworkID.Localhost]: {
       bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
       reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
     },
@@ -159,6 +187,11 @@ export const ohm_lusd = new LPBond({
     },
     [NetworkID.Testnet]: {
       // NOTE (appleseed-lusd): using ohm-dai rinkeby contracts
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
+    // FIXME
+    [NetworkID.Localhost]: {
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
