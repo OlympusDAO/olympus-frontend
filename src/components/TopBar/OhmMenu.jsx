@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "@material-ui/core/styles";
-import Switch from "@material-ui/core/Switch";
 
 import { addresses, TOKEN_DECIMALS } from "../../constants";
 import { getTokenImage } from "../../helpers";
@@ -26,49 +25,12 @@ import apollo from "../../lib/apolloClient";
 
 import { rebasesDataQuery, bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "./treasuryData.js";
 
-const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
-  if (window.ethereum) {
-    const host = window.location.origin;
-    // NOTE (appleseed): 33T token defaults to sOHM logo since we don't have a 33T logo yet
-    let tokenPath;
-    // if (tokenSymbol === "OHM") {
-
-    // } ? OhmImg : SOhmImg;
-    switch (tokenSymbol) {
-      case "OHM":
-        tokenPath = OhmImg;
-        break;
-      case "33T":
-        tokenPath = token33tImg;
-        break;
-      default:
-        tokenPath = SOhmImg;
-    }
-    const imageURL = `${host}/${tokenPath}`;
-
-    try {
-      await window.ethereum.request({
-        method: "wallet_watchAsset",
-        params: {
-          type: "ERC20",
-          options: {
-            address: tokenAddress,
-            symbol: tokenSymbol,
-            decimals: TOKEN_DECIMALS,
-            image: imageURL,
-          },
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-};
-
 function OhmMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [apy, setApy] = useState(null);
-  const [checked, setChecked] = useState(false);
+  const [mainWindow, setMainWindow] = useState(true);
+  const [ohmView, setOhmView] = useState(false);
+  const [returnToMainView, setReturnToMainView] = useState(false);
 
   const theme = useTheme();
   apollo(rebasesDataQuery).then(r => {
@@ -90,17 +52,24 @@ function OhmMenu() {
   const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
   const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
 
+  const ohmViewFunc = info => async () => {
+    if (info === "Return") {
+      setReturnToMainView(!returnToMainView);
+      setOhmView(!ohmView);
+    } else {
+      setOhmView(!ohmView);
+      setMainWindow(!mainWindow);
+    }
+  };
   const handleClick = event => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
-  // Handle change boolean inversion,
-  // When that particular button is clicked,
-  //invert the state of that component to present something different
-  // going to need one for wsOHM
-  // sOHM  so only two
-  const handleChange = () => {
-    setChecked(!checked);
-    console.log(checked);
+
+  const returnToMainViewFunc = info => async () => {
+    if (info === "ohmView") {
+      setOhmView(!ohmView);
+    }
+    setMainWindow(!mainWindow);
   };
 
   const open = Boolean(anchorEl);
@@ -125,7 +94,7 @@ function OhmMenu() {
             <Fade {...TransitionProps} timeout={100}>
               <Paper className="ohm-menu" elevation={1}>
                 <Box component="div" className="buy-tokens">
-                  {!checked ? (
+                  {mainWindow ? (
                     <div>
                       <Paper className="ohm-card">
                         <Chart
@@ -146,7 +115,7 @@ function OhmMenu() {
                         />
                       </Paper>
                       <Box className="ohm-pairs">
-                        <Button variant="contained" color="secondary" onClick={addTokenToWallet("OHM", OHM_ADDRESS)}>
+                        <Button variant="contained" color="secondary" onClick={ohmViewFunc()}>
                           <Typography align="left">
                             {" "}
                             <SvgIcon
@@ -158,8 +127,6 @@ function OhmMenu() {
                           </Typography>
                         </Button>
                       </Box>
-
-                      <Switch checked={checked} onChange={handleChange} aria-label="Collapse" />
 
                       <Link
                         href={`https://app.sushi.com/swap?inputCurrency=${daiAddress}&outputCurrency=${OHM_ADDRESS}`}
@@ -206,11 +173,7 @@ function OhmMenu() {
                             <Divider color="secondary" />
                             <p>ADD TOKEN TO WALLET</p>
                             <Box display="flex" flexDirection="row" justifyContent="space-between">
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                onClick={addTokenToWallet("sOHM", SOHM_ADDRESS)}
-                              >
+                              <Button variant="contained" color="secondary">
                                 <SvgIcon
                                   component={sOhmTokenImg}
                                   viewBox="0 0 100 100"
@@ -218,11 +181,7 @@ function OhmMenu() {
                                 />
                                 <Typography variant="body1">sOHM</Typography>
                               </Button>
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                onClick={addTokenToWallet("33T", PT_TOKEN_ADDRESS)}
-                              >
+                              <Button variant="contained" color="secondary">
                                 <SvgIcon
                                   component={t33TokenImg}
                                   viewBox="0 0 1000 1000"
@@ -245,31 +204,35 @@ function OhmMenu() {
                       </Box>
                     </div>
                   ) : null}
-                  {checked ? (
-                    <Box className="ohm-pairs">
-                      {" "}
-                      <Slide direction="left" in={checked} mountOnEnter unmountOnExit>
-                        <Paper className="ohm-card">
-                          <Chart
-                            type="line"
-                            scale="log"
-                            data={apy}
-                            dataKey={["apy"]}
-                            color={theme.palette.text.primary}
-                            stroke={[theme.palette.text.primary]}
-                            headerText="APY over time"
-                            dataFormat="percent"
-                            headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
-                            bulletpointColors={bulletpoints.apy}
-                            itemNames={tooltipItems.apy}
-                            itemType={itemType.percentage}
-                            infoTooltipMessage={tooltipInfoMessages.apy}
-                            expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-                          />
-                        </Paper>
-                      </Slide>
-                      <Switch checked={checked} onChange={handleChange} aria-label="Collapse" />
-                    </Box>
+                  {ohmView ? (
+                    <div>
+                      <Button variant="contained" color="secondary" onClick={returnToMainViewFunc("ohmView")}>
+                        <Typography align="left">Back Arrow to be placed here</Typography>
+                      </Button>
+                      <Box className="ohm-pairs">
+                        {" "}
+                        <Slide direction="left" in={ohmView} mountOnEnter unmountOnExit>
+                          <Paper className="ohm-card">
+                            <Chart
+                              type="line"
+                              scale="log"
+                              data={apy}
+                              dataKey={["apy"]}
+                              color={theme.palette.text.primary}
+                              stroke={[theme.palette.text.primary]}
+                              headerText="APY over time"
+                              dataFormat="percent"
+                              headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
+                              bulletpointColors={bulletpoints.apy}
+                              itemNames={tooltipItems.apy}
+                              itemType={itemType.percentage}
+                              infoTooltipMessage={tooltipInfoMessages.apy}
+                              expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                            />
+                          </Paper>
+                        </Slide>
+                      </Box>
+                    </div>
                   ) : null}
                 </Box>
 
