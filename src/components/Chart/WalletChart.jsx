@@ -451,7 +451,7 @@ function WalletChart({
       <CircularProgress />
     </Box>
   ) : (
-    <Box style={{ width: "100%", height: "100%", paddingRight: "10px" }}>
+    <Box style={{ width: "100%", height: "40%", paddingRight: "10px" }}>
       <div className="chart-card-header">
         <Box
           display="flex"
