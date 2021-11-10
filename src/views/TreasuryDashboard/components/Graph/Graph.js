@@ -183,19 +183,19 @@ export const RunwayAvailableGraph = () => {
 
   return (
     <Chart
-      type="line"
+      type="multi"
       data={runway}
-      itemType={""}
-      dataFormat="days"
-      dataKey={["runwayCurrent"]}
-      headerText="Runway Available"
-      itemNames={tooltipItems.runway}
+      dataKey={["runwayCurrent", "runway7dot5k", "runway5k", "runway2dot5k"]}
       color={theme.palette.text.primary}
-      stroke={[theme.palette.text.primary]}
+      stroke={[theme.palette.text.primary, "#2EC608", "#49A1F2", "#ff758f"]}
+      headerText="Runway Available"
+      headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
+      dataFormat="days"
       bulletpointColors={bulletpoints.runway}
+      itemNames={tooltipItems.runway}
+      itemType={""}
       infoTooltipMessage={tooltipInfoMessages.runway}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-      headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
     />
   );
 };

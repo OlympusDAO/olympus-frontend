@@ -9,7 +9,7 @@ export const Metric = props => <Box className={`metric ${props.className}`}>{pro
 Metric.Value = props => <Typography variant="h5">{props.children || <Skeleton type="text" />}</Typography>;
 
 Metric.Title = props => (
-  <Typography variant="h6" text="colorSecondary">
+  <Typography variant="h6" color="textSecondary">
     {props.children}
   </Typography>
 );
