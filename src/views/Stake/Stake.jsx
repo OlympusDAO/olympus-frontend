@@ -1,6 +1,21 @@
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, Grid, Link, Avatar, CardHeader, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  InputAdornment,
+  InputLabel,
+  Link,
+  OutlinedInput,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
+  Zoom,
+  Divider,
+} from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
@@ -54,6 +69,9 @@ function Stake() {
   });
   const wsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
+  });
+  const wsohmAsSohm = useSelector(state => {
+    return state.account.balances && state.account.balances.wsohmAsSohm;
   });
   const stakeAllowance = useSelector(state => {
     return state.account.staking && state.account.staking.ohmStake;
@@ -111,7 +129,7 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmBalance]
+    [sohmBalance, fsohmBalance, wsohmAsSohm]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -228,81 +246,56 @@ function Stake() {
                     </Tabs>
                   </Box>
 
-                  <TabPanel value={view} index={0} className="stake-tab-panel">
-                    <StakeAction
-                      address={address}
-                      hasAllowance={hasAllowance}
-                      isAllowanceDataLoading={isAllowanceDataLoading}
-                      tokenFormatted="OHM"
-                      isPendingTxn={isPendingTxn}
-                      pendingTransactions={pendingTransactions}
-                      txnButtonText={txnButtonText}
-                      setMax={setMax}
-                      setQuantity={setQuantity}
-                      quantity={quantity}
-                      onSeekApproval={onSeekApproval}
-                      approveTxnName="approve_staking"
-                      actionType="stake"
-                      txnName="staking"
-                      buttonLabel="Stake OHM"
-                      balance={ohmBalance}
-                    >
-                      <>
-                        First time staking <b>OHM</b>?
-                        <br />
-                        Please approve Olympus Dao to use your <b>OHM</b> for staking.
-                      </>
-                    </StakeAction>
-                  </TabPanel>
-                  <TabPanel value={view} index={1} className="stake-tab-panel">
-                    <StakeAction
-                      address={address}
-                      hasAllowance={hasAllowance}
-                      isAllowanceDataLoading={isAllowanceDataLoading}
-                      tokenFormatted="sOHM"
-                      isPendingTxn={isPendingTxn}
-                      pendingTransactions={pendingTransactions}
-                      txnButtonText={txnButtonText}
-                      setMax={setMax}
-                      setQuantity={setQuantity}
-                      quantity={quantity}
-                      onSeekApproval={onSeekApproval}
-                      approveTxnName="approve_unstaking"
-                      actionType="unstake"
-                      txnName="unstaking"
-                      buttonLabel="Unstake OHM"
-                      balance={sohmBalance}
-                    >
-                      <>
-                        First time unstaking <b>sOHM</b>?
-                        <br />
-                        Please approve Olympus Dao to use your <b>sOHM</b> for unstaking.
-                      </>
-                    </StakeAction>
-                  </TabPanel>
-                </Box>
+                  <div className={`stake-user-data`}>
+                    <div className="data-row">
+                      <Typography variant="body1">Unstaked Balance</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
+                      </Typography>
+                    </div>
 
-                <div className={`stake-user-data`}>
-                  <div className="data-row">
-                    <Typography variant="body1">Your Balance</Typography>
-                    <Typography variant="body1">
-                      {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
-                    </Typography>
-                  </div>
+                    <div className="data-row">
+                      <Typography variant="body1">Staked Balance</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
+                      </Typography>
+                    </div>
 
-                  <div className="data-row">
-                    <Typography variant="body1">Your Staked Balance</Typography>
-                    <Typography variant="body1">
-                      {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
-                    </Typography>
-                  </div>
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        Single Staking
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
+                      </Typography>
+                    </div>
 
-                  <div className="data-row">
-                    <Typography variant="body1">Next Reward Amount</Typography>
-                    <Typography variant="body1">
-                      {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
-                    </Typography>
-                  </div>
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        Staked Balance in Fuse
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fsohmBalance, 4)} fsOHM</>}
+                      </Typography>
+                    </div>
+
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        Wrapped Balance
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                      </Typography>
+                    </div>
+
+                    <Divider color="secondary" />
+
+                    <div className="data-row">
+                      <Typography variant="body1">Next Reward Amount</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
+                      </Typography>
+                    </div>
 
                   <div className="data-row">
                     <Typography variant="body1">Next Reward Yield</Typography>

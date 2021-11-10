@@ -18,8 +18,8 @@ import "./sidebar.scss";
 function NavContent() {
   const [isActive] = useState();
   const address = useAddress();
-  const { bonds } = useBonds();
   const { chainID } = useWeb3Context();
+  const { bonds } = useBonds(chainID);
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
