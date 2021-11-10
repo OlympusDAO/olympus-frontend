@@ -23,6 +23,7 @@ query {
     treasuryXsushiMarketValue
     treasuryWETHMarketValue
     treasuryLusdRiskFreeValue
+    treasuryLusdMarketValue
     currentAPY
     runway10k
     runway20k

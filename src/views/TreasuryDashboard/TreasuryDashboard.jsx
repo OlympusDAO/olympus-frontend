@@ -197,7 +197,7 @@ function TreasuryDashboard() {
                     "treasuryFraxMarketValue",
                     "treasuryWETHMarketValue",
                     "treasuryXsushiMarketValue",
-                    "treasuryLusdRiskFreeValue",
+                    "treasuryLusdMarketValue",
                   ]}
                   stopColor={[
                     ["#F5AC37", "#EA9276"],
