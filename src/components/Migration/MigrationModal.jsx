@@ -16,6 +16,8 @@ import {
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
+import { BigNumber } from "ethers";
 
 const style = {
   position: "absolute",
@@ -37,35 +39,37 @@ const useStyles = makeStyles({
 function MigrationModal({ open, handleOpen, handleClose }) {
   const classes = useStyles();
 
-  const ohmBalance = 0.5; // FETCH FROM STATE
-  const gOhmBalance = 0.1; // CALCULATE BASED ON INDEX
-  const sOhmBalance = 22.4; // FETCH FROM STATE
-  const wsOhmBalance = 0.0; // FETCH FROM STATE
+  const currentIndex = useSelector(state => state.app.currentIndex);
+  const ohmBalance = useSelector(state => Number(state.account.balances.ohm));
+  const sOhmBalance = useSelector(state => Number(state.account.balances.sohm));
+  const wsOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
 
-  const approvedOhmBalance = 0.5; // ALL APPROVED
-  const approvedSOhmBalance = 22.3; // LESS THAN BALANCE APPROVED
+  const approvedOhmBalance = useSelector(state => Number(state.account.migration.ohm));
+  const approvedSOhmBalance = useSelector(state => Number(state.account.migration.sohm));
+  const approvedWSOhmBalance = useSelector(state => Number(state.account.migration.wsohm));
 
+  console.log(approvedOhmBalance);
   const rows = [
     {
       initialAsset: "OHM",
       initialBalance: ohmBalance,
       targetAsset: "OHM (v2)",
       targetBalance: ohmBalance,
-      fullApproval: approvedOhmBalance == ohmBalance,
+      fullApproval: approvedOhmBalance >= ohmBalance,
     },
     {
       initialAsset: "sOHM",
       initialBalance: sOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: gOhmBalance,
-      fullApproval: false,
+      targetBalance: sOhmBalance / currentIndex,
+      fullApproval: approvedSOhmBalance >= sOhmBalance,
     },
     {
       initialAsset: "wsOHM",
       initialBalance: wsOhmBalance,
       targetAsset: "gOHM",
       targetBalance: wsOhmBalance,
-      fullApproval: false,
+      fullApproval: approvedWSOhmBalance >= wsOhmBalance,
     },
   ];
 
@@ -136,12 +140,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     </TableCell>
                     <TableCell align="left">
                       <Typography>
-                        {row.initialBalance} {row.initialAsset}
+                        {row.initialBalance == 0 ? row.initialBalance : row.initialBalance.toFixed(4)}{" "}
+                        {row.initialAsset}
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
                       <Typography>
-                        {row.targetBalance} {row.targetAsset}
+                        {row.targetBalance == 0 ? row.targetBalance : row.targetBalance.toFixed(4)} {row.targetAsset}
                       </Typography>
                     </TableCell>
                     <TableCell align="left">

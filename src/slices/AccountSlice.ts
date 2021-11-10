@@ -49,7 +49,37 @@ export const getBalances = createAsyncThunk(
 
 export const getMigrationAllowances = createAsyncThunk(
   "account/getMigrationAllowances",
-  async ({ networkID, provider, address }: IBaseAddressAsyncThunk) => {},
+  async ({ networkID, provider, address }: IBaseAddressAsyncThunk) => {
+    let ohmAllowance = BigNumber.from(0);
+    let sOhmAllowance = BigNumber.from(0);
+    let wsOhmAllowance = BigNumber.from(0);
+
+    if (addresses[networkID].OHM_ADDRESS) {
+      const ohmContract = new ethers.Contract(
+        addresses[networkID].OHM_ADDRESS as string,
+        ierc20Abi,
+        provider,
+      ) as IERC20;
+      ohmAllowance = await ohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+    }
+
+    if (addresses[networkID].SOHM_ADDRESS) {
+      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider) as SOhmv2;
+      sOhmAllowance = await sohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+    }
+
+    if (addresses[networkID].WSOHM_ADDRESS) {
+      const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
+      wsOhmAllowance = await wsohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+    }
+    return {
+      migration: {
+        ohm: +ohmAllowance,
+        sohm: +sOhmAllowance,
+        wsohm: +wsOhmAllowance,
+      },
+    };
+  },
 );
 
 export const loadAccountDetails = createAsyncThunk(
@@ -272,6 +302,17 @@ const accountSlice = createSlice({
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(getMigrationAllowances.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getMigrationAllowances.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.loading = false;
+      })
+      .addCase(getMigrationAllowances.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       });
