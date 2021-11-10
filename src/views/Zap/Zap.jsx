@@ -4,9 +4,6 @@ import TabPanel from "../../components/TabPanel";
 import "./zap.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import ZapStakeAction from "./ZapStakeAction";
-import FlashOnIcon from "@mui/icons-material/FlashOn";
-import ZapBondAction from "./ZapBondAction";
-import { Slide } from "@mui/material";
 
 function a11yProps(index) {
   return {
@@ -23,17 +20,6 @@ function Zap({ initialTab }) {
   const changeView = (event, newView) => {
     setView(newView);
   };
-
-  const transitionEffect = children =>
-    initialTab == null ? (
-      <Zoom in={true} onEntered={() => setZoomed(true)}>
-        {children}
-      </Zoom>
-    ) : (
-      <Slide in={true} direction="right">
-        {children}
-      </Slide>
-    );
   // const hasAllowance = useCallback(
   //   token => {
   //     if (token === "ohm") return stakeAllowance > 0;
@@ -91,35 +77,30 @@ function Zap({ initialTab }) {
           />
         </Tabs>
       </Box> */}
-      {transitionEffect(
-        <Paper className="ohm-card">
-          <div className="staking-area">
-            {!address ? (
-              <div className="stake-wallet-notification">
-                <div className="wallet-menu" id="wallet-menu">
-                  <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-                    Connect Wallet
-                  </Button>
-                </div>
-                <Typography variant="h6">Connect your wallet to use Zap</Typography>
+      <Paper className="ohm-card">
+        <div className="staking-area">
+          {!address ? (
+            <div className="stake-wallet-notification">
+              <div className="wallet-menu" id="wallet-menu">
+                <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+                  Connect Wallet
+                </Button>
               </div>
-            ) : (
-              <>
-                <Box className="stake-action-area">
-                  <Box alignSelf="center" minWidth="420px" width="80%"></Box>
+              <Typography variant="h6">Connect your wallet to use Zap</Typography>
+            </div>
+          ) : (
+            <>
+              <Box className="stake-action-area">
+                <Box alignSelf="center" minWidth="420px" width="80%"></Box>
 
-                  <TabPanel value={view} index={0} className="stake-tab-panel">
-                    <ZapStakeAction address={address} />
-                  </TabPanel>
-                  <TabPanel value={view} index={1} className="stake-tab-panel">
-                    <ZapBondAction />
-                  </TabPanel>
-                </Box>
-              </>
-            )}
-          </div>
-        </Paper>,
-      )}
+                <TabPanel value={view} index={0} className="stake-tab-panel">
+                  <ZapStakeAction address={address} />
+                </TabPanel>
+              </Box>
+            </>
+          )}
+        </div>
+      </Paper>
     </div>
 
     // </div>
