@@ -238,6 +238,7 @@ function App() {
                   </Route>
                 );
               })}
+            </Route>
             <Route path="/wrap">
               <Wrap />
             </Route>
