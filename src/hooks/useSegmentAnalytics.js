@@ -27,6 +27,10 @@ export default function useSegmentAnalytics() {
       };
       initSegmentAnalytics(utm);
       setLoadedSegment(true);
+    } else {
+      console.error(
+        "The Segment API key (REACT_APP_SEGMENT_API_KEY) was empty, so Segment analytics will be disabled.",
+      );
     }
   }, []);
 

@@ -1,39 +1,16 @@
-import { EnvHelper } from "./Environment";
-
-/**
- * Obtain country from IP address
- * @returns the country name or an empty string
- */
-async function countryLookup() {
-  // Determine the country the user is from, based on IP
-  // Geoapify offers 3000 lookups/day, so we should be fine
-  var apiKey = EnvHelper.getGeoapifyAPIKey();
-
-  if (!apiKey) return "";
-
-  var response = await fetch("https://api.geoapify.com/v1/ipinfo?apiKey=" + apiKey, {
-    method: "GET",
-  });
-
-  if (!response.ok) {
-    console.error("Unable to determine country from IP lookup: " + response.body);
-    return "";
-  }
-
-  var json = await response.json();
-  return json.country.name;
-}
-
 // Pushing data to segment analytics
 export function segmentUA(data) {
   const analytics = (window.analytics = window.analytics);
-  countryLookup().then(country => (data.country = country));
+
+  // NOTE: we used to lookup the country via an API, but found it didn't make sense to pay for that.
+  // Instead, we now have a materialised view in the data warehouse that will periodically match the
+  // IP address to a country.
 
   // NOTE (appleseed): the analytics object may not exist (if there is no SEGMENT_API_KEY)
   // Passing in combined data directly so as not to have a nested object
   try {
-    analytics.track(data.type, data, { context: { ip: "0.0.0.0" } });
+    analytics.track(data.type, data);
   } catch (e) {
-    console.log("segmentAnalytics", e);
+    console.error("Encountered error when trying to record analytics event to Segment:", e);
   }
 }

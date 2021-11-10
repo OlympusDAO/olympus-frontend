@@ -109,14 +109,4 @@ export class EnvHelper {
     const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getInfuraIdList()];
     return ALL_URIs;
   }
-
-  static getGeoapifyAPIKey() {
-    var apiKey = EnvHelper.env.REACT_APP_GEOAPIFY_API_KEY;
-    if (!apiKey) {
-      console.warn("Missing REACT_APP_GEOAPIFY_API_KEY environment variable");
-      return null;
-    }
-
-    return apiKey;
-  }
 }
