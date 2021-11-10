@@ -1,14 +1,12 @@
 import "@testing-library/jest-dom";
 import {
+  dapp,
   clickElement,
-  setupMetamask,
   connectWallet,
   selectorExists,
   waitSelectorExists,
   getSelectorTextContent,
 } from "../../helpers/testHelpers";
-import puppeteer, { Browser, Page } from "puppeteer";
-import { launch, Dappeteer } from "@chainsafe/dappeteer";
 
 // TODO deploy contracts on temporary network
 // TODO add eth to wallet
@@ -16,25 +14,9 @@ import { launch, Dappeteer } from "@chainsafe/dappeteer";
 var STAKE_AMOUNT = 0.1;
 
 describe("staking", () => {
-  let browser: Browser;
-  let metamask: Dappeteer;
-  let page: Page;
-
-  beforeEach(async () => {
-    browser = await launch(puppeteer, { metamaskVersion: "v10.1.1" });
-
-    metamask = await setupMetamask(browser);
-
-    page = await browser.newPage();
-    await page.goto("http://localhost:3000/#/stake");
-    await page.bringToFront();
-  });
-
-  afterEach(async () => {
-    await browser.close();
-  });
-
   xtest("connects wallet", async () => {
+    const { page, metamask } = dapp;
+
     // Connect button should be available
     expect(await selectorExists(page, "#stake-connect-wallet")).toBeTruthy();
 
@@ -47,6 +29,8 @@ describe("staking", () => {
   });
 
   test("approves staking", async () => {
+    const { page, metamask } = dapp;
+
     await connectWallet(page, metamask);
 
     // NOTE: we may want to re-enable this when moving onto a single-use testnet, as the approval status won't persist
@@ -66,6 +50,8 @@ describe("staking", () => {
   });
 
   test("perform staking", async () => {
+    const { page, metamask } = dapp;
+
     await connectWallet(page, metamask);
 
     // Perform staking
