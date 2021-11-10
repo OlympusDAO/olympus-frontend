@@ -30,8 +30,11 @@ describe("bonding", () => {
     await browser.close();
   });
 
-  test("cannot bond without connected wallet", async () => {
-    fail("TODO");
+  test.only("cannot bond without connected wallet", async () => {
+    const selector = await page.waitForSelector("#ohm_lusd_lp--bond");
+    await selector?.$eval("button", i => console.log(i));
+
+    fail();
   });
 
   test("connects wallet", async () => {
@@ -48,6 +51,7 @@ describe("bonding", () => {
 
   test("select first bond row and approve", async () => {
     fail("TODO");
+    
   });
 
   test("select first bond row and bond", async () => {

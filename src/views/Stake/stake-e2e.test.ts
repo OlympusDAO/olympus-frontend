@@ -17,7 +17,7 @@ import { launch, Dappeteer } from "@chainsafe/dappeteer";
 
 var STAKE_AMOUNT = 0.1;
 
-describe("staking", () => {
+xdescribe("staking", () => {
   let browser: Browser;
   let metamask: Dappeteer;
   let page: Page;
