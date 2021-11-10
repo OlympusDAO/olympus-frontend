@@ -35,23 +35,14 @@ Open the source code and start editing!
 
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 
-## End to end test
+## End-to-end testing
 
-To run end to end tests you have to:
+Puppeteer (with the Dappeteer addition) is used to do browser-based end-to-end testing.
 
-- set up synpress to use the adequate network and wallet. For instance if you want to run tests on rinkeby network you could export
+To run the tests:
 
-```
-SECRET_WORDS=<your secret words>
-NETWORK_NAME=rinkeby
-```
-
-More options are available, please check: https://github.com/Synthetixio/synpress#-important
-
-- Make sure we have sufficent balance to run the tests
-
-- Actually run the tests
-  `yarn synpress:run`
+- Run the frontend, using `yarn start`
+- In another terminal, run the tests, using `yarn test:e2e`
 
 **Rinkeby faucets for LUSD, FRAX & DAI can be taken from rinkeby etherscan:**
 
