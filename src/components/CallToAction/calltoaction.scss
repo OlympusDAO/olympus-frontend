@@ -1,0 +1,44 @@
+.call-to-action {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 97%;
+  border-radius: 5px;
+  margin: 0 auto 25px auto;
+  padding: 30px;
+
+  .learn-more-button {
+    margin: 10px;
+
+    p {
+      margin-right: 5px;
+    }
+  }
+
+  .migrate-button {
+    font-size: 0.875rem;
+    height: 33px;
+    padding: 9px 20px;
+  }
+}
+
+.dark {
+  .call-to-action {
+    background-color: #2e2b40;
+  }
+}
+
+.light {
+  .call-to-action {
+    background-color: #eae7ff;
+  }
+
+  .migrate-button {
+    background-color: #8977f5;
+  }
+
+  .learn-more-button{
+    border: 1px solid #768299;
+  }
+}

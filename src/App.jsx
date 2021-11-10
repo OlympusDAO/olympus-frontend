@@ -17,14 +17,15 @@ import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, Wrap, TreasuryDashboard, PoolTogether } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether, V1Stake } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
+import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import LoadingSplash from "./components/Loading/LoadingSplash";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
-
+import MigrationModal from "src/components/Migration/MigrationModal";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
@@ -83,6 +84,13 @@ function App() {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [migrationModalOpen, setMigrationModalOpen] = useState(false);
+  const migModalOpen = () => {
+    setMigrationModalOpen(true);
+  };
+  const migModalClose = () => {
+    setMigrationModalOpen(false);
+  };
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
@@ -132,6 +140,15 @@ function App() {
     },
     [connected],
   );
+
+  const oldAssetsDetected = useSelector(state => {
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.sohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
+        ? true
+        : false)
+    );
+  });
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
@@ -209,6 +226,8 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+          {oldAssetsDetected && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+
           <Switch>
             <Route exact path="/dashboard">
               <TreasuryDashboard />
@@ -218,9 +237,7 @@ function App() {
               <Redirect to="/stake" />
             </Route>
 
-            <Route path="/stake">
-              <Stake />
-            </Route>
+            <Route path="/stake">{oldAssetsDetected ? <V1Stake /> : <Stake />}</Route>
 
             <Route path="/wrap">
               <Wrap />
@@ -244,6 +261,9 @@ function App() {
             <Route component={NotFound} />
           </Switch>
         </div>
+        {migrationModalOpen && (
+          <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
+        )}
       </div>
     </ThemeProvider>
   );
