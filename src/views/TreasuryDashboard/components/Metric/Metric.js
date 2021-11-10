@@ -82,7 +82,11 @@ export const WSOHMPrice = () => {
     <Metric className="wsoprice">
       <Metric.Title>
         wsOHM Price
-        <InfoTooltip message="wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index" />
+        <InfoTooltip
+          message={
+            "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
+          }
+        />
       </Metric.Title>
       <Metric.Value>{wsOhmPrice && formatCurrency(wsOhmPrice, 2)}</Metric.Value>
     </Metric>
