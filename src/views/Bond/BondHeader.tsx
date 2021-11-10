@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { Typography, IconButton, SvgIcon, Link } from "@material-ui/core";
 
@@ -10,13 +10,15 @@ import { IBondDetails } from "../../slices/BondSlice";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
 
-type Props = {
+type InputEvent = ChangeEvent<HTMLInputElement>;
+
+interface Props {
   bond: IBondDetails & BondOpts;
   slippage: number;
   recipientAddress: string;
-  onRecipientAddressChange(value: string | number): void;
-  onSlippageChange(value: string | number): void;
-};
+  onRecipientAddressChange(e: InputEvent): void;
+  onSlippageChange(e: InputEvent): void;
+}
 
 function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }: Props) {
   const history = useHistory();
