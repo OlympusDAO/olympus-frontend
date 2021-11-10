@@ -1,5 +1,4 @@
-const puppeteer = require("puppeteer");
-const dappeteer = require("@chainsafe/dappeteer");
+import "@testing-library/jest-dom";
 import {
   clickElement,
   setupMetamask,
@@ -8,9 +7,8 @@ import {
   waitSelectorExists,
   getSelectorTextContent,
 } from "../../helpers/testHelpers";
-import "@testing-library/jest-dom";
-import { Browser, Page } from "puppeteer";
-import { Dappeteer } from "@chainsafe/dappeteer";
+import puppeteer, { Browser, Page } from "puppeteer";
+import { launch, Dappeteer } from "@chainsafe/dappeteer";
 
 // TODO deploy contracts on temporary network
 // TODO add eth to wallet
@@ -24,7 +22,7 @@ describe("staking", () => {
   let page: Page;
 
   beforeEach(async () => {
-    browser = await dappeteer.launch(puppeteer, { metamaskVersion: "v10.1.1" });
+    browser = await launch(puppeteer, { metamaskVersion: "v10.1.1" });
 
     metamask = await setupMetamask(browser);
 
@@ -41,7 +39,7 @@ describe("staking", () => {
     // Connect button should be available
     expect(await selectorExists(page, "#stake-connect-wallet")).toBeTruthy();
 
-    connectWallet(page, metamask);
+    await connectWallet(page, metamask);
 
     // Connect button should be replaced by "Approve"
     await page.bringToFront();
@@ -50,7 +48,7 @@ describe("staking", () => {
   });
 
   test("approves staking", async () => {
-    connectWallet(page, metamask);
+    await connectWallet(page, metamask);
 
     // NOTE: we may want to re-enable this when moving onto a single-use testnet, as the approval status won't persist
     // *** Approve the staking function
@@ -69,7 +67,7 @@ describe("staking", () => {
   });
 
   test("perform staking", async () => {
-    connectWallet(page, metamask);
+    await connectWallet(page, metamask);
 
     // Perform staking
     await page.bringToFront();
@@ -80,6 +78,6 @@ describe("staking", () => {
 
     // Staked balance should be written as 0.1 sOHM
     await page.bringToFront();
-    expect(getSelectorTextContent(page, "#user-staked-balance")).toEqual("0.1 sOHM");
+    expect(await getSelectorTextContent(page, "#user-staked-balance")).toEqual("0.1 sOHM");
   });
 });
