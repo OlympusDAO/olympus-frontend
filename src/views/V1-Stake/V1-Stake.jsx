@@ -259,24 +259,24 @@ function V1Stake({ oldAssetsDetected }) {
                       <Tab label="Unstake" {...a11yProps(1)} />
                     </Tabs>
 
+                    <Box className="help-text">
+                      <Typography variant="body1" className="stake-note" color="textSecondary">
+                        <>
+                          You must complete the migration of your assest to stake additional <b>OHM</b>
+                        </>
+                      </Typography>
+                    </Box>
+
                     <Box className="stake-action-row v1-row " display="flex" alignItems="center">
                       {address && !isAllowanceDataLoading ? (
-                        (!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1) ? (
+                        !hasAllowance("sohm") && view === 1 ? (
                           <Box className="help-text">
                             <Typography variant="body1" className="stake-note" color="textSecondary">
-                              {view === 0 ? (
-                                <>
-                                  First time staking <b>OHM</b>?
-                                  <br />
-                                  Please approve Olympus Dao to use your <b>OHM</b> for staking.
-                                </>
-                              ) : (
-                                <>
-                                  First time unstaking <b>sOHM</b>?
-                                  <br />
-                                  Please approve Olympus Dao to use your <b>sOHM</b> for unstaking.
-                                </>
-                              )}
+                              <>
+                                First time unstaking <b>sOHM</b>?
+                                <br />
+                                Please approve Olympus Dao to use your <b>sOHM</b> for unstaking.
+                              </>
                             </Typography>
                           </Box>
                         ) : (
