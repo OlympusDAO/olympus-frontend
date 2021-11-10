@@ -309,7 +309,7 @@ function TreasuryDashboard() {
                   stroke={[theme.palette.text.primary]}
                   headerText="APY over time"
                   dataFormat="percent"
-                  headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
+                  headerSubText={`${data && trim(data[0].currentAPY, 2)}%`}
                   bulletpointColors={bulletpoints.apy}
                   itemNames={tooltipItems.apy}
                   itemType={itemType.percentage}
