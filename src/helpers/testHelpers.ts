@@ -5,7 +5,6 @@ import { getDocument, queries } from "pptr-testing-library";
 import { ChildProcess } from "child_process";
 import { exec } from "shelljs";
 
-
 const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
 
 export const setupLogging = (page: Page) => {
@@ -76,6 +75,8 @@ export const selectorExists = async (page: Page, selector: string): Promise<bool
  * @returns true if it exists
  */
 export const waitSelectorExists = async (page: Page, selector: string): Promise<boolean> => {
+  await page.bringToFront();
+
   try {
     await page.waitForSelector(selector);
     return true;
@@ -86,6 +87,7 @@ export const waitSelectorExists = async (page: Page, selector: string): Promise<
 };
 
 export const getSelectorTextContent = async (page: Page, selector: string): Promise<string> => {
+  await page.bringToFront();
   return page.evaluate(el => el.textContent.trim(), await page.$(selector));
 };
 
@@ -112,3 +114,8 @@ export function launchNode(): ChildProcess {
   exec("yarn --cwd ../olympus-contracts deploy");
   return node;
 }
+export const typeValue = async (page: Page, selector: string, value: string) => {
+  await page.bringToFront();
+  await page.waitForSelector(selector);
+  await page.type(selector, value);
+};
