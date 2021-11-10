@@ -18,6 +18,7 @@ import {
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
+import { MigrateButton, LearnMoreButton } from "src/components/CallToAction/CallToAction";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -40,7 +41,7 @@ function a11yProps(index) {
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
 
-function V1Stake() {
+function V1Stake({ oldAssetsDetected }) {
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
@@ -166,7 +167,7 @@ function V1Stake() {
                 <Typography variant="h5">Single Stake (3, 3)</Typography>
                 <RebaseTimer />
 
-                {address && oldSohmBalance > 0.01 && (
+                {address && oldAssetsDetected && (
                   <Link
                     className="migrate-sohm-button"
                     style={{ textDecoration: "none" }}
@@ -258,7 +259,7 @@ function V1Stake() {
                       <Tab label="Unstake" {...a11yProps(1)} />
                     </Tabs>
 
-                    <Box className="stake-action-row " display="flex" alignItems="center">
+                    <Box className="stake-action-row v1-row " display="flex" alignItems="center">
                       {address && !isAllowanceDataLoading ? (
                         (!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1) ? (
                           <Box className="help-text">
@@ -279,25 +280,26 @@ function V1Stake() {
                             </Typography>
                           </Box>
                         ) : (
-                          <FormControl className="ohm-input" variant="outlined" color="primary">
-                            <InputLabel htmlFor="amount-input"></InputLabel>
-                            <OutlinedInput
-                              id="amount-input"
-                              type="number"
-                              placeholder="Enter an amount"
-                              className="stake-input"
-                              value={quantity}
-                              onChange={e => setQuantity(e.target.value)}
-                              labelWidth={0}
-                              endAdornment={
-                                <InputAdornment position="end">
-                                  <Button variant="text" onClick={setMax} color="inherit">
-                                    Max
-                                  </Button>
-                                </InputAdornment>
-                              }
-                            />
-                          </FormControl>
+                          // <FormControl className="ohm-input" variant="outlined" color="primary">
+                          //   <InputLabel htmlFor="amount-input"></InputLabel>
+                          //   <OutlinedInput
+                          //     id="amount-input"
+                          //     type="number"
+                          //     placeholder="Enter an amount"
+                          //     className="stake-input"
+                          //     value={quantity}
+                          //     onChange={e => setQuantity(e.target.value)}
+                          //     labelWidth={0}
+                          //     endAdornment={
+                          //       <InputAdornment position="end">
+                          //         <Button variant="text" onClick={setMax} color="inherit">
+                          //           Max
+                          //         </Button>
+                          //       </InputAdornment>
+                          //     }
+                          //   />
+                          // </FormControl>
+                          <LearnMoreButton />
                         )
                       ) : (
                         <Skeleton width="150px" />
@@ -307,17 +309,7 @@ function V1Stake() {
                         {isAllowanceDataLoading ? (
                           <Skeleton />
                         ) : address && hasAllowance("ohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "staking")}
-                            onClick={() => {
-                              onChangeStake("stake");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "staking", "Stake OHM")}
-                          </Button>
+                          <MigrateButton />
                         ) : (
                           <Button
                             className="stake-button"

@@ -237,7 +237,9 @@ function App() {
               <Redirect to="/stake" />
             </Route>
 
-            <Route path="/stake">{oldAssetsDetected ? <V1Stake /> : <Stake />}</Route>
+            <Route path="/stake">
+              {oldAssetsDetected ? <V1Stake oldAssetsDetected={oldAssetsDetected} /> : <Stake />}
+            </Route>
 
             <Route path="/33-together">
               <PoolTogether />
