@@ -36,6 +36,14 @@ describe("staking", () => {
     await browser.close();
   });
 
+  test("cannot stake without connected wallet", async () => {
+    // Connect button should be available
+    expect(await selectorExists(page, "#stake-connect-wallet")).toBeTruthy();
+
+    // Stake button not visible
+    expect(await selectorExists(page, "#stake-button")).toBeFalsy();
+  });
+
   test("connects wallet", async () => {
     // Connect button should be available
     expect(await selectorExists(page, "#stake-connect-wallet")).toBeTruthy();
