@@ -69,6 +69,8 @@ export const selectorExists = async (page: Page, selector: string): Promise<bool
  * @returns true if it exists
  */
 export const waitSelectorExists = async (page: Page, selector: string): Promise<boolean> => {
+  await page.bringToFront();
+
   try {
     await page.waitForSelector(selector);
     return true;
@@ -79,5 +81,12 @@ export const waitSelectorExists = async (page: Page, selector: string): Promise<
 };
 
 export const getSelectorTextContent = async (page: Page, selector: string): Promise<string> => {
+  await page.bringToFront();
   return page.evaluate(el => el.textContent.trim(), await page.$(selector));
+};
+
+export const typeValue = async (page: Page, selector: string, value: string) => {
+  await page.bringToFront();
+  await page.waitForSelector(selector);
+  await page.type(selector, value);
 };

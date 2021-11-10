@@ -6,6 +6,7 @@ import {
   selectorExists,
   waitSelectorExists,
   getSelectorTextContent,
+  typeValue,
 } from "../../helpers/testHelpers";
 import puppeteer, { Browser, Page } from "puppeteer";
 import { launch, Dappeteer } from "@chainsafe/dappeteer";
@@ -35,7 +36,7 @@ describe("staking", () => {
     await browser.close();
   });
 
-  xtest("connects wallet", async () => {
+  test("connects wallet", async () => {
     // Connect button should be available
     expect(await selectorExists(page, "#stake-connect-wallet")).toBeTruthy();
 
@@ -61,23 +62,38 @@ describe("staking", () => {
     // await metamask.approve();
 
     // Button should be replaced by "Stake"
-    await page.bringToFront();
     expect(await waitSelectorExists(page, "#stake-button")).toBeTruthy();
     expect(await selectorExists(page, "#approve-stake-button")).toBeFalsy();
   });
 
-  test("perform staking", async () => {
+  test("staking", async () => {
     await connectWallet(page, metamask);
 
     // Perform staking
-    await page.bringToFront();
-    await page.waitForSelector("#amount-input");
-    await page.type("#amount-input", STAKE_AMOUNT.toString());
+    await typeValue(page, "#amount-input", STAKE_AMOUNT.toString());
     await clickElement(page, "#stake-button");
     await metamask.confirmTransaction();
 
     // Staked balance should be written as 0.1 sOHM
-    await page.bringToFront();
     expect(await getSelectorTextContent(page, "#user-staked-balance")).toEqual("0.1 sOHM");
+    expect(await waitSelectorExists(page, "#unstake-button")).toBeTruthy();
+    expect(await selectorExists(page, "#stake-button")).toBeFalsy();
+  });
+
+  test("unstaking", async () => {
+    await connectWallet(page, metamask);
+
+    // Perform staking
+    await typeValue(page, "#amount-input", STAKE_AMOUNT.toString());
+    await clickElement(page, "#stake-button");
+    await metamask.confirmTransaction();
+
+    // Perform unstaking
+    await typeValue(page, "#amount-input", STAKE_AMOUNT.toString());
+    await clickElement(page, "#unstake-button");
+    await metamask.confirmTransaction();
+
+    // Staked balance should be written as 0.0 sOHM
+    expect(await getSelectorTextContent(page, "#user-staked-balance")).toEqual("0 sOHM");
   });
 });
