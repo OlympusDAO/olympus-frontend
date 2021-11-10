@@ -52,6 +52,8 @@ function ZapStakeAction(props) {
     return state.app.marketPrice;
   });
 
+  const sOhmBalance = useSelector(state => Number(state.account?.balances?.sohm ?? 0.0));
+
   const exchangeRate = ohmMarketPrice / tokens[zapToken]?.price;
 
   const setZapTokenQuantity = q => {
@@ -80,7 +82,8 @@ function ZapStakeAction(props) {
     () =>
       Object.entries(tokens)
         .filter(token => token[0] !== "sohm")
-        .map(token => token[1].img),
+        .map(token => token[1].img)
+        .slice(0, 3),
     [tokens],
   );
 
@@ -189,12 +192,19 @@ function ZapStakeAction(props) {
                   minWidth: "60px",
                 }}
               >
-                <Avatar
-                  src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png"
-                  style={{ height: "30px", width: "30px" }}
-                />
-                <Box width="10px" />
-                <Typography>sOHM</Typography>
+                <Box flexDirection="column" display="flex">
+                  <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
+                    <Avatar
+                      src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png"
+                      style={{ height: "30px", width: "30px" }}
+                    />
+                    <Box width="10px" />
+                    <Typography>sOHM</Typography>
+                  </Box>
+                  <Box flexDirection="row" display="flex" alignItems="center">
+                    <Typography color="textSecondary">{`Your Balance ${sOhmBalance.toFixed(2)}`}</Typography>
+                  </Box>
+                </Box>
               </div>
             </InputAdornment>
           }
@@ -217,7 +227,7 @@ function ZapStakeAction(props) {
         </Button>
       ) : (
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={6} sm={6}>
             <Button
               fullWidth
               className="zap-stake-button"
@@ -235,7 +245,7 @@ function ZapStakeAction(props) {
               </Box>
             </Button>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={6} sm={6}>
             <Button
               fullWidth
               className="zap-stake-button"
