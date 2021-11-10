@@ -105,7 +105,10 @@ function MigrationModal({ open, handleOpen, handleClose }) {
             <Typography id="migration-modal-description">
               You will need to migrate your assets in order to continue staking. You will not lose any yield or rewards
               during the process.{" "}
-              <ButtonBase onClick={() => alert("Launch info tab")}>
+              <ButtonBase
+                href="https://github.com/OlympusDAO-Education/Documentation/blob/migration/basics/migration.md"
+                target="_blank"
+              >
                 <u>Learn More</u>
               </ButtonBase>
             </Typography>

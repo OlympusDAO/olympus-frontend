@@ -47,26 +47,10 @@ export const getBalances = createAsyncThunk(
   },
 );
 
-interface IUserAccountDetails {
-  balances: {
-    dai: string;
-    ohm: string;
-    sohm: string;
-    wsohm: string;
-    wsohmAsSohm: string;
-  };
-  staking: {
-    ohmStake: number;
-    ohmUnstake: number;
-  };
-  wrapping: {
-    sohmWrap: number;
-    wsohmUnwrap: number;
-  };
-  bonding: {
-    daiAllowance: number;
-  };
-}
+export const getMigrationAllowances = createAsyncThunk(
+  "account/getMigrationAllowances",
+  async ({ networkID, provider, address }: IBaseAddressAsyncThunk) => {},
+);
 
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
@@ -233,11 +217,17 @@ interface IAccountSlice {
     oldsohm: string;
   };
   loading: boolean;
+  migration: {
+    ohm: number;
+    sohm: number;
+    wsohm: number;
+  };
 }
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
   balances: { ohm: "", sohm: "", dai: "", oldsohm: "" },
+  migration: { ohm: 0.0, sohm: 0.0, wsohm: 0.0 },
 };
 
 const accountSlice = createSlice({
