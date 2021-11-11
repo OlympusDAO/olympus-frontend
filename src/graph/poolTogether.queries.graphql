@@ -1,0 +1,68 @@
+## (aphex) this is apparently required by graphql-codegen/cli even tho won't be used for anything else
+## could probably use further research
+
+query getPoolValues($id: ID!) {
+  prizePool(id: $id) {
+    id
+    owner
+    deactivated
+    currentPrizeId
+    currentState
+    cumulativePrizeGross
+    cumulativePrizeNet
+    cumulativePrizeReserveFee
+    liquidityCap
+    prizeStrategy {
+      multipleWinners {
+        numberOfWinners
+        prizePeriodSeconds
+        prizePeriodStartedAt
+        prizePeriodEndAt
+        externalErc20Awards {
+          name
+          symbol
+          decimals
+          balanceAwarded
+        }
+      }
+    }
+    controlledTokens {
+      id
+      name
+      totalSupply
+      numberOfHolders
+    }
+  }
+}
+
+query poolTimeQuery {
+  prizeStrategy(id: "0xeeb552c4d5e155e50ee3f7402ed379bf72e36f23") {
+    multipleWinners {
+      numberOfWinners
+      prizePeriodSeconds
+      prizePeriodStartedAt
+      prizePeriodEndAt
+      externalErc20Awards {
+        name
+        symbol
+        decimals
+        balanceAwarded
+      }
+    }
+  }
+}
+
+query yourAwardsQuery($id: ID!, $userAddress: Bytes, $tokenAddress: String) {
+  prizePool(id: $id) {
+    prizes(where: { awardedOperator: $userAddress }) {
+      id
+      awardedOperator
+      awardedControlledTokens(where: { token: $tokenAddress }) {
+        amount
+      }
+      prizePeriodStartedTimestamp
+      awardedBlock
+      awardedTimestamp
+    }
+  }
+}

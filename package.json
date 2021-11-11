@@ -77,7 +77,10 @@
     "web3modal": "^1.9.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.2.2",
+    "@graphql-codegen/typescript": "^2.3.0",
     "@testing-library/dom": "^8.0.0",
+    "@types/graphql": "^14.5.0",
     "@types/lodash": "^4.14.176",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.10",
@@ -104,7 +107,8 @@
     "less-plugin-npm-import": "^2.1.0",
     "prettier": "^2.0.5",
     "s3-folder-upload": "^2.3.1",
-    "surge": "^0.21.5"
+    "surge": "^0.21.5",
+    "type-graphql": "^1.1.1"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -121,7 +125,8 @@
     "ship": "yarn surge",
     "theme": "npx gulp less",
     "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
-    "watch": "node ./scripts/watch.js"
+    "watch": "node ./scripts/watch.js",
+    "graph-types": "graphql-codegen --config ./graph-types.codegen.yaml"
   },
   "resolutions": {
     "**/immer": "9.0.6",
