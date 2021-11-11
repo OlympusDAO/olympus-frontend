@@ -141,6 +141,6 @@
     "**/browserslist": "4.16.5",
     "**/node-fetch": "2.6.1",
     "**/nth-check": "2.0.1",
-    "**/ansi-regex": "5.0.1",
+    "**/ansi-regex": "5.0.1"
   }
 }
