@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "@material-ui/core/styles";
 
-import { addresses } from "../../constants";
-import { Drawer, Link, SvgIcon, Button, Paper, Typography, Divider, Box, Grid, Collapse } from "@material-ui/core";
+import { addresses, TOKEN_DECIMALS } from "../../constants";
+import { getTokenImage } from "../../helpers";
+import { useSelector } from "react-redux";
+import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, Slide } from "@material-ui/core";
+import { Drawer } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
@@ -14,6 +17,10 @@ import { dai, frax } from "src/helpers/AllBonds";
 import { useWeb3Context } from "../../hooks/web3Context";
 import { trim, formatCurrency } from "../../helpers";
 
+import OhmImg from "src/assets/tokens/token_OHM.svg";
+import SOhmImg from "src/assets/tokens/token_sOHM.svg";
+import token33tImg from "src/assets/tokens/token_33T.svg";
+
 import Chart from "../../components/Chart/WalletChart.jsx";
 import apollo from "../../lib/apolloClient";
 
@@ -24,8 +31,6 @@ function OhmMenu() {
   const [apy, setApy] = useState(null);
   const [walletView, setWalletView] = useState(false);
   const [ohmView, setOhmView] = useState(false);
-  const [collapseOhmView, setCollapseOhmView] = useState(false);
-
   const [returnToMainView, setReturnToMainView] = useState(false);
 
   const theme = useTheme();
@@ -46,9 +51,6 @@ function OhmMenu() {
   const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
   const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
 
-  const collapseOhmViewFunc = () => async () => {
-    setCollapseOhmView(!collapseOhmView);
-  };
   const ohmViewFunc = info => async () => {
     if (info === "Return") {
       setReturnToMainView(!returnToMainView);
@@ -65,7 +67,7 @@ function OhmMenu() {
   const daiAddress = dai.getAddressForReserve(networkID);
   const fraxAddress = frax.getAddressForReserve(networkID);
   return (
-    <Box>
+    <Paper>
       <Button
         onClick={toggleDrawer("right", true)}
         id="ohm-menu-button"
@@ -77,8 +79,8 @@ function OhmMenu() {
         <SvgIcon component={InfoIcon} color="primary" />
         <Typography>OHM</Typography>
       </Button>
-      <Drawer style={{ width: "50%" }} anchor={"right"} open={anchor} onClose={toggleDrawer()}>
-        <Paper>
+      <Drawer anchor={"right"} open={anchor} onClose={toggleDrawer()}>
+        <div>
           <Chart
             type="line"
             scale="log"
@@ -95,60 +97,17 @@ function OhmMenu() {
             infoTooltipMessage={tooltipInfoMessages.apy}
             expandedGraphStrokeColor={theme.palette.graphStrokeColor}
           />
-          <Grid>
-            <Grid item xs={12}>
-              <Collapse in={!collapseOhmView} collapsedWidth="10px">
-                <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={collapseOhmViewFunc()}>
-                  <Typography align="left">
-                    {" "}
-                    <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                    OHM
-                  </Typography>
-                </Button>
-              </Collapse>
-              <Collapse in={collapseOhmView}>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={collapseOhmViewFunc()}>
-                  <Typography align="left">
-                    {" "}
-                    <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                    Place Vertical Ellipses here
-                  </Typography>
-                </Button>
-                <Paper elevation={4}>
-                  <svg>
-                    <polygon points="0,100 50,00, 100,100" />
-                  </svg>
-                </Paper>
-              </Collapse>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper>
-                <div>
-                  <Typography align="left">
-                    {" "}
-                    <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                    wsOHM
-                  </Typography>
-                  <Typography align="right">
-                    {" "}
-                    <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                    wsOHM
-                  </Typography>
-                </div>
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper>
-                <Typography align="left">
-                  {" "}
-                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                  OHM
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
+          <Box>
+            <Button variant="contained" color="secondary" onClick={ohmViewFunc()}>
+              <Typography align="left">
+                {" "}
+                <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
+                sOHM
+              </Typography>
+            </Button>
+          </Box>
           <Box className="ohm-pairs">
-            <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
+            <Button variant="contained" color="secondary" onClick={ohmViewFunc()}>
               <Typography align="left">
                 {" "}
                 <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
@@ -157,7 +116,7 @@ function OhmMenu() {
             </Button>
           </Box>
           <Box className="ohm-pairs">
-            <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
+            <Button variant="contained" color="secondary" onClick={ohmViewFunc()}>
               <Typography align="left">
                 {" "}
                 <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
@@ -166,20 +125,13 @@ function OhmMenu() {
             </Button>
           </Box>
           <Box className="ohm-pairs">
-            <Button
-              variant="contained"
-              align="left"
-              style={{ width: "100%" }}
-              color="secondary"
-              onClick={ohmViewFunc()}
-              startIcon={
-                <Typography align="left">
-                  {" "}
-                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                  3TT
-                </Typography>
-              }
-            ></Button>
+            <Button variant="contained" color="secondary" onClick={ohmViewFunc()}>
+              <Typography align="left">
+                {" "}
+                <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
+                3TT
+              </Typography>
+            </Button>
           </Box>
 
           <Link href={`https://abracadabra.money/pool/10`} target="_blank" rel="noreferrer">
@@ -199,9 +151,9 @@ function OhmMenu() {
               </Button>
             </Link>
           </Box>
-        </Paper>
+        </div>
       </Drawer>
-    </Box>
+    </Paper>
   );
 }
 
