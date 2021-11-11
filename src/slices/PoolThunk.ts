@@ -325,6 +325,9 @@ export const awardProcess = createAsyncThunk(
 
 const initialState = {
   loading: false,
+  isRngRequested: false,
+  creditMaturationInDays: 0,
+  creditLimitPercentage: 0,
 };
 
 const poolTogetherSlice = createSlice({
