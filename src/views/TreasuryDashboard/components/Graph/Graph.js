@@ -74,7 +74,7 @@ export const RiskFreeValueGraph = () => {
       stopColor={[
         ["#F5AC37", "#EA9276"],
         ["#768299", "#98B3E9"],
-        ["#DC30EB", "#EA98F1"],
+        ["#ff758f", "#c9184a"],
         ["#000", "#fff"],
         ["#000", "#fff"],
       ]}
