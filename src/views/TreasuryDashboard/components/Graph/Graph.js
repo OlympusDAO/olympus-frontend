@@ -169,7 +169,7 @@ export const APYOverTimeGraph = () => {
       bulletpointColors={bulletpoints.apy}
       stroke={[theme.palette.text.primary]}
       infoTooltipMessage={tooltipInfoMessages.apy}
-      headerSubText={`${data && trim(data[0].currentAPY, 2)}%`}
+      headerSubText={`${data && trim(apy[0].apy, 2)}%`}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
     />
   );
