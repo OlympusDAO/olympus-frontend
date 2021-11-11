@@ -41,7 +41,7 @@ export const MarketValueGraph = () => {
         "treasuryFraxMarketValue",
         "treasuryWETHMarketValue",
         "treasuryXsushiMarketValue",
-        "treasuryLusdRiskFreeValue",
+        "treasuryLusdMarketValue",
       ]}
       stopColor={[
         ["#F5AC37", "#EA9276"],
@@ -169,7 +169,7 @@ export const APYOverTimeGraph = () => {
       bulletpointColors={bulletpoints.apy}
       stroke={[theme.palette.text.primary]}
       infoTooltipMessage={tooltipInfoMessages.apy}
-      headerSubText={`${apy && trim(apy[0].apy, 2)}%`}
+      headerSubText={`${data && trim(data[0].currentAPY, 2)}%`}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
     />
   );
