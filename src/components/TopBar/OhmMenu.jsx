@@ -14,11 +14,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  MoreVertIcon,
-  IconButton,
+  MenuItem,
 } from "@material-ui/core";
-
-import { MoreVertIcon } from "@material-ui/icons/MoreVert";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
@@ -121,9 +118,7 @@ function OhmMenu() {
           <Accordion expanded={expanded === "sOHM"} onChange={handleChange("sOHM")}>
             <AccordionSummary
               expandIcon={
-                <IconButton>
-                  <MoreVertIcon />
-                </IconButton>
+                <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
               }
             >
               <Button variant="contained" style={{ width: "100%", flexDirection: "row" }} color="secondary">
@@ -171,9 +166,7 @@ function OhmMenu() {
           <Accordion expanded={expanded === "wsOHM"} onChange={handleChange("wsOHM")}>
             <AccordionSummary
               expandIcon={
-                <Paper>
-                  <Typography align="left">Ellipses Sideways</Typography>
-                </Paper>
+                <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
               }
             >
               <Button variant="contained" style={{ width: "100%" }} color="secondary">
@@ -206,9 +199,7 @@ function OhmMenu() {
           <Accordion expanded={expanded === "OHM"} onChange={handleChange("OHM")}>
             <AccordionSummary
               expandIcon={
-                <Paper>
-                  <Typography align="left">Ellipses Sideways</Typography>
-                </Paper>
+                <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
               }
             >
               <Button variant="contained" style={{ width: "100%" }} color="secondary">
@@ -241,9 +232,7 @@ function OhmMenu() {
           <Accordion expanded={expanded === "3TT"} onChange={handleChange("3TT")}>
             <AccordionSummary
               expandIcon={
-                <Paper>
-                  <Typography align="left">Ellipses Sideways</Typography>
-                </Paper>
+                <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
               }
             >
               <Button variant="contained" style={{ width: "100%" }} color="secondary">
