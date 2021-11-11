@@ -14,17 +14,21 @@ import {
   List,
   ListItem,
   ListItemAvatar,
+  ButtonBase,
   IconButton,
   CardHeader,
   ListItemText,
+  SvgIcon,
   CircularProgress,
 } from "@material-ui/core";
 import { getTokenBalances } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { ButtonBase } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import ZapStakeHeader from "./ZapStakeHeader";
+import { ReactComponent as DownIcon } from "../../assets/icons/arrow-down.svg";
+
+const iconStyle = { height: "30px", width: "30px", zIndex: 1 };
+const viewBox = "0 0 64 64";
 
 function ZapStakeAction(props) {
   const { address, quantity, setQuantity, ...other } = props;
@@ -98,6 +102,8 @@ function ZapStakeAction(props) {
 
   const initialTokenAllowance = useMemo(() => checkTokenAllowance(tokens[zapToken]?.address), [zapToken]);
 
+  const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
+
   return (
     <div>
       <div className="card-header">
@@ -133,7 +139,7 @@ function ZapStakeAction(props) {
                   <ButtonBase onClick={handleOpen}>
                     <Box flexDirection="row" display="flex" alignItems="center">
                       <Typography>Select a Token</Typography>
-                      <KeyboardArrowDownIcon />
+                      {downIcon}
                     </Box>
                   </ButtonBase>
                 ) : (
@@ -143,7 +149,7 @@ function ZapStakeAction(props) {
                         <Avatar src={tokens[zapToken].img} style={{ height: "30px", width: "30px" }} />
                         <Box width="10px" />
                         <Typography>{tokens[zapToken].symbol}</Typography>
-                        <KeyboardArrowDownIcon />
+                        {downIcon}
                       </ButtonBase>
                     </Box>
 
@@ -167,11 +173,11 @@ function ZapStakeAction(props) {
         />
       </FormControl>
       <Box marginTop="10px" minHeight="25px" display="flex" justifyContent="center" alignItems="center">
-        <KeyboardArrowDownIcon />
+        {downIcon}
       </Box>
 
       <Typography>You Get</Typography>
-      <FormControl className="zap-output" variant="outlined" color="primary">
+      <FormControl className="zap-input" variant="outlined" color="primary">
         <InputLabel htmlFor="amount-input"></InputLabel>
         <OutlinedInput
           id="zap-amount-output"
