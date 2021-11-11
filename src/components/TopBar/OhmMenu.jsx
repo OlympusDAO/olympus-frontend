@@ -2,7 +2,19 @@ import { useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 
 import { addresses } from "../../constants";
-import { Drawer, Link, SvgIcon, Button, Paper, Typography, Divider, Box, Grid, Collapse } from "@material-ui/core";
+import {
+  Drawer,
+  Link,
+  SvgIcon,
+  Button,
+  Paper,
+  Typography,
+  Divider,
+  Box,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
@@ -77,7 +89,7 @@ function OhmMenu() {
         <SvgIcon component={InfoIcon} color="primary" />
         <Typography>OHM</Typography>
       </Button>
-      <Drawer style={{ width: "50%" }} anchor={"right"} open={anchor} onClose={toggleDrawer()}>
+      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor} onClose={toggleDrawer()}>
         <Paper>
           <Chart
             type="line"
@@ -95,25 +107,30 @@ function OhmMenu() {
             infoTooltipMessage={tooltipInfoMessages.apy}
             expandedGraphStrokeColor={theme.palette.graphStrokeColor}
           />
-
-          <Box className="ohm-pairs">
-            <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
-              <Typography align="left">
-                {" "}
-                <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                OHM
-              </Typography>
-            </Button>
-          </Box>
-          <Box className="ohm-pairs">
-            <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
-              <Typography align="left">
-                {" "}
-                <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                wsOHM
-              </Typography>
-            </Button>
-          </Box>
+          <Accordion style={{ disableGutters: "true" }}>
+            <AccordionSummary style={{ disableGutters: "true" }}>
+              <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
+                <Typography align="left">
+                  {" "}
+                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
+                  sOHM
+                </Typography>
+              </Button>
+            </AccordionSummary>
+            <AccordionDetails margin="auto" style={{ margin: "auto" }}>
+              <Box className="ohm-pairs" style={{ width: "100%" }}>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
+                  <Typography align="left"> Transaction History</Typography>
+                </Button>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
+                  <Typography align="left"> Learn how it works</Typography>
+                </Button>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
+                  <Typography align="left"> Zap</Typography>
+                </Button>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
           <Box className="ohm-pairs">
             <Button
               variant="contained"
