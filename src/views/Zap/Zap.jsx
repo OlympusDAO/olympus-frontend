@@ -1,13 +1,12 @@
 import { useState, useRef, useEffect, useMemo } from "react";
-import { Box, Button, Fade, Paper, Tab, Tabs, Typography, Zoom, Grid } from "@material-ui/core";
+import { Box, Button, Fade, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import "./zap.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import ZapStakeAction from "./ZapStakeAction";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
-import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.svg";
 import ZapBondAction from "./ZapBondAction";
-import HeaderLogo from "./HeaderLogo";
+import ZapInfo from "./ZapInfo";
 import { useSelector } from "react-redux";
 import { Slide } from "@mui/material";
 
@@ -134,63 +133,8 @@ function Zap({ initialTab }) {
           </div>
         </Paper>,
       )}
-      {transitionEffect(
-        <Paper className="ohm-card" id="olyzaps-info">
-          <Grid container direction="row" wrap spacing={4}>
-            <Grid item xs={12} sm={4}>
-              <Box alignItems="center" display="flex" flexDirection="column" className="oly-info-header-box">
-                <HeaderLogo images={inputTokenImages} />
-                <Typography color="textSecondary">You Give</Typography>
-              </Box>
-              <Box>
-                <Typography variant="body1" className="oly-info-body-header">
-                  Zap is a swap
-                </Typography>
-                <Typography align="left" variant="body2">
-                  A zap swap is a series of smart contracts that deploys one asset to another a protocol to handle a
-                  trusted transaction.
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Box alignItems="center" display="flex" flexDirection="column" className="oly-info-header-box">
-                <HeaderLogo icons={[CircleZapIcon]} />
-                <Typography color="textSecondary">All-in-one zap contracts</Typography>
-              </Box>
-              <Box>
-                <Typography variant="body1" className="oly-info-body-header">
-                  Save up to 75% on gas
-                </Typography>
-                <Typography align="left" variant="body2">
-                  Our All-In-One easy zap and stake reduces the complexity of smart contracts to save you on gas fees.
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Box alignItems="center" display="flex" flexDirection="column" className="oly-info-header-box">
-                <HeaderLogo
-                  images={[
-                    "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png",
-                  ]}
-                />
-                <Typography color="textSecondary">You Get sOHM </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body1" className="oly-info-body-header">
-                  Staking
-                </Typography>
-                <Typography align="left" variant="body2">
-                  Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an
-                  equal amount of sOHM.
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Paper>,
-      )}
+      {transitionEffect(<ZapInfo tokens={inputTokenImages} />)}
     </div>
-
-    // </div>
   );
 }
 
