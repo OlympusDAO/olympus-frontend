@@ -34,11 +34,11 @@ import { rebasesDataQuery, bulletpoints, tooltipItems, tooltipInfoMessages, item
 function OhmMenu() {
   const [anchor, setAnchor] = useState(false);
   const [apy, setApy] = useState(null);
-  const [walletView, setWalletView] = useState(false);
-  const [ohmView, setOhmView] = useState(false);
-  const [collapseOhmView, setCollapseOhmView] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
-  const [returnToMainView, setReturnToMainView] = useState(false);
+  const handleChange = panel => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   const theme = useTheme();
   apollo(rebasesDataQuery).then(r => {
@@ -58,18 +58,6 @@ function OhmMenu() {
   const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
   const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
 
-  const collapseOhmViewFunc = () => async () => {
-    setCollapseOhmView(!collapseOhmView);
-  };
-  const ohmViewFunc = info => async () => {
-    if (info === "Return") {
-      setReturnToMainView(!returnToMainView);
-      setOhmView(!ohmView);
-    } else {
-      setOhmView(!ohmView);
-      setWalletView(!walletView);
-    }
-  };
   const toggleDrawer = () => event => {
     setAnchor(!anchor);
   };
@@ -107,9 +95,9 @@ function OhmMenu() {
             infoTooltipMessage={tooltipInfoMessages.apy}
             expandedGraphStrokeColor={theme.palette.graphStrokeColor}
           />
-          <Accordion style={{ disableGutters: "true" }}>
-            <AccordionSummary style={{ disableGutters: "true" }}>
-              <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
+          <Accordion expanded={expanded === "sOHM"} onChange={handleChange("sOHM")}>
+            <AccordionSummary>
+              <Button variant="contained" style={{ width: "100%" }} color="secondary">
                 <Typography align="left">
                   {" "}
                   <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
@@ -119,13 +107,88 @@ function OhmMenu() {
             </AccordionSummary>
             <AccordionDetails margin="auto" style={{ margin: "auto" }}>
               <Box className="ohm-pairs" style={{ width: "100%" }}>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
                   <Typography align="left"> Transaction History</Typography>
                 </Button>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
                   <Typography align="left"> Learn how it works</Typography>
                 </Button>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                  <Typography align="left"> Zap</Typography>
+                </Button>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion expanded={expanded === "wsOHM"} onChange={handleChange("wsOHM")}>
+            <AccordionSummary>
+              <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                <Typography align="left">
+                  {" "}
+                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
+                  wsOHM ($0.00)
+                </Typography>
+              </Button>
+            </AccordionSummary>
+            <AccordionDetails margin="auto" style={{ margin: "auto" }}>
+              <Box className="ohm-pairs" style={{ width: "100%" }}>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                  <Typography align="left"> Transaction History</Typography>
+                </Button>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                  <Typography align="left"> Learn how it works</Typography>
+                </Button>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                  <Typography align="left"> Zap</Typography>
+                </Button>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion expanded={expanded === "OHM"} onChange={handleChange("OHM")}>
+            <AccordionSummary>
+              <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                <Typography align="left">
+                  {" "}
+                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
+                  OHM ($0.00)
+                </Typography>
+              </Button>
+            </AccordionSummary>
+            <AccordionDetails margin="auto" style={{ margin: "auto" }}>
+              <Box className="ohm-pairs" style={{ width: "100%" }}>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                  <Typography align="left"> Transaction History</Typography>
+                </Button>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                  <Typography align="left"> Learn how it works</Typography>
+                </Button>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                  <Typography align="left"> Zap</Typography>
+                </Button>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion expanded={expanded === "3TT"} onChange={handleChange("3TT")}>
+            <AccordionSummary>
+              <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                <Typography align="left">
+                  {" "}
+                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
+                  3TT ($0.00)
+                </Typography>
+              </Button>
+            </AccordionSummary>
+            <AccordionDetails margin="auto" style={{ margin: "auto" }}>
+              <Box className="ohm-pairs" style={{ width: "100%" }}>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                  <Typography align="left"> Transaction History</Typography>
+                </Button>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                  <Typography align="left"> Learn how it works</Typography>
+                </Button>
+                <Button variant="contained" style={{ width: "100%" }} color="secondary">
                   <Typography align="left"> Zap</Typography>
                 </Button>
               </Box>
