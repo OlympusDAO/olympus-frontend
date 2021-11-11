@@ -17,6 +17,7 @@ import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { formatCurrency } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
+import { useWeb3Context } from "src/hooks/web3Context";
 
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
@@ -25,7 +26,8 @@ import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
 
 function ChooseBond() {
-  const { bonds } = useBonds();
+  const { chainID } = useWeb3Context();
+  const { bonds } = useBonds(chainID);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 

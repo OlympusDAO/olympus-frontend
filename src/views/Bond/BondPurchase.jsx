@@ -19,6 +19,7 @@ import { Skeleton } from "@material-ui/lab";
 import useDebounce from "../../hooks/Debounce";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./Bond";
+import ConnectButton from "../../components/ConnectButton";
 
 function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
@@ -130,69 +131,80 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-        {isAllowanceDataLoading ? (
-          <Skeleton width="200px" />
+        {!address ? (
+          <ConnectButton />
         ) : (
           <>
-            {!hasAllowance() ? (
-              <div className="help-text">
-                <em>
-                  <Typography variant="body1" align="center" color="textSecondary">
-                    First time bonding <b>{bond.displayName}</b>? <br /> Please approve Olympus Dao to use your{" "}
-                    <b>{bond.displayName}</b> for bonding.
-                  </Typography>
-                </em>
-              </div>
+            {isAllowanceDataLoading ? (
+              <Skeleton width="200px" />
             ) : (
-              <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
-                <InputLabel htmlFor="outlined-adornment-amount">
-                  <Trans>Amount</Trans>
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-amount"
-                  type="number"
-                  value={quantity}
-                  onChange={e => setQuantity(e.target.value)}
-                  // startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                  labelWidth={55}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <Button variant="text" onClick={setMax}>
-                        <Trans>Max</Trans>
-                      </Button>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            )}
-
-            {!bond.isAvailable[chainID] ? (
-              <Button variant="contained" color="primary" id="bond-btn" className="transaction-button" disabled={true}>
-                Sold Out
-              </Button>
-            ) : hasAllowance() ? (
-              <Button
-                variant="contained"
-                color="primary"
-                id="bond-btn"
-                className="transaction-button"
-                disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
-                onClick={onBond}
-              >
-                {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                color="primary"
-                id="bond-approve-btn"
-                className="transaction-button"
-                disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
-                onClick={onSeekApproval}
-              >
-                {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
-              </Button>
-            )}
+              <>
+                {!hasAllowance() ? (
+                  <div className="help-text">
+                    <em>
+                      <Typography variant="body1" align="center" color="textSecondary">
+                        First time bonding <b>{bond.displayName}</b>? <br /> Please approve Olympus Dao to use your{" "}
+                        <b>{bond.displayName}</b> for bonding.
+                      </Typography>
+                    </em>
+                  </div>
+                ) : (
+                  <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
+                    <InputLabel htmlFor="outlined-adornment-amount">
+                      <Trans>Amount</Trans>
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-amount"
+                      type="number"
+                      value={quantity}
+                      onChange={e => setQuantity(e.target.value)}
+                      // startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                      labelWidth={55}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <Button variant="text" onClick={setMax}>
+                            <Trans>Max</Trans>
+                          </Button>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                )}
+                {!bond.isAvailable[chainID] ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-btn"
+                    className="transaction-button"
+                    disabled={true}
+                  >
+                    Sold Out
+                  </Button>
+                ) : hasAllowance() ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-btn"
+                    className="transaction-button"
+                    disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
+                    onClick={onBond}
+                  >
+                    {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-approve-btn"
+                    className="transaction-button"
+                    disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
+                    onClick={onSeekApproval}
+                  >
+                    {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
+                  </Button>
+                )}
+              </>
+            )}{" "}
           </>
         )}
       </Box>

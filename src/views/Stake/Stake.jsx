@@ -14,6 +14,7 @@ import {
   Tabs,
   Typography,
   Zoom,
+  Divider,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
@@ -69,6 +70,9 @@ function Stake() {
   });
   const wsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
+  });
+  const wsohmAsSohm = useSelector(state => {
+    return state.account.balances && state.account.balances.wsohmAsSohm;
   });
   const stakeAllowance = useSelector(state => {
     return state.account.staking && state.account.staking.ohmStake;
@@ -146,7 +150,7 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmBalance]
+    [sohmBalance, fsohmBalance, wsohmAsSohm]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -378,6 +382,9 @@ function Stake() {
                   <div className={`stake-user-data`}>
                     <div className="data-row">
                       <Typography variant="body1">
+                        <Trans>Unstaked Balance</Trans>
+                      </Typography>
+                      <Typography variant="body1">
                         <Trans>Your Balance</Trans>
                       </Typography>
                       <Typography variant="body1" id="user-balance">
@@ -387,12 +394,44 @@ function Stake() {
 
                     <div className="data-row">
                       <Typography variant="body1">
+                        <Trans>Staked Balance</Trans>
+                      </Typography>
+                      <Typography variant="body1">
                         <Trans>Your Staked Balance</Trans>
                       </Typography>
                       <Typography variant="body1" id="user-staked-balance">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
                       </Typography>
                     </div>
+
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        Single Staking
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
+                      </Typography>
+                    </div>
+
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        Staked Balance in Fuse
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fsohmBalance, 4)} fsOHM</>}
+                      </Typography>
+                    </div>
+
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        Wrapped Balance
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                      </Typography>
+                    </div>
+
+                    <Divider color="secondary" />
 
                     <div className="data-row">
                       <Typography variant="body1">

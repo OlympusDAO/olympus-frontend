@@ -10,8 +10,8 @@ import useBonds from "src/hooks/Bonds";
 import { useWeb3Context } from "../../hooks/web3Context";
 
 export function BondDataCard({ bond }) {
-  const { loading } = useBonds();
   const { chainID } = useWeb3Context();
+  const { loading } = useBonds(chainID);
   const isBondLoading = !bond.bondPrice ?? true;
 
   return (
