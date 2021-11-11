@@ -79,6 +79,45 @@
   }
 }
 
+#olyzaps-info {
+  .oly-info-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+  }
+  .oly-info-header-box {
+    padding-bottom: 1.5rem;
+  }
+  .oly-info-body-header {
+    padding-bottom: 0.5rem;
+  }
+  .oly-info-body {
+    line-height: 1.25rem;
+  }
+  .button-box {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .learn-more-button {
+    svg {
+      margin-left: 4px;
+      vertical-align: middle;
+      font-size: 1.1em;
+      height: 1.15rem;
+      width: 1.15rem;
+    }
+    &:hover {
+      svg {
+        color: inherit;
+      }
+    }
+  }
+}
+
 .stake-top-metrics {
   display: flex;
   width: 100%;

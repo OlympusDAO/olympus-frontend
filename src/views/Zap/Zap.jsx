@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Box, Button, Fade, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import "./zap.scss";
@@ -17,9 +17,12 @@ function Zap({ initialTab }) {
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(initialTab ?? 0);
+  const tokens = useSelector(state => state.zap.balances);
+
   const changeView = (event, newView) => {
     setView(newView);
   };
+  
   // const hasAllowance = useCallback(
   //   token => {
   //     if (token === "ohm") return stakeAllowance > 0;
@@ -102,8 +105,6 @@ function Zap({ initialTab }) {
         </div>
       </Paper>
     </div>
-
-    // </div>
   );
 }
 
