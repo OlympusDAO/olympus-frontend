@@ -128,10 +128,10 @@
     "s3": "node ./scripts/s3.js",
     "ship": "yarn surge",
     "theme": "npx gulp less",
+    "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
     "watch": "node ./scripts/watch.js",
     "lingui:extract": "lingui extract",
-    "lingui:compile": "lingui compile",
-    "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json"
+    "lingui:compile": "lingui compile"
   },
   "resolutions": {
     "**/immer": "9.0.6",
@@ -142,6 +142,5 @@
     "**/node-fetch": "2.6.1",
     "**/nth-check": "2.0.1",
     "**/ansi-regex": "5.0.1",
-    "synpress:run": "node tests/e2e/launcher.js"
   }
 }
