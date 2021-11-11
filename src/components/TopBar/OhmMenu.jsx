@@ -95,58 +95,7 @@ function OhmMenu() {
             infoTooltipMessage={tooltipInfoMessages.apy}
             expandedGraphStrokeColor={theme.palette.graphStrokeColor}
           />
-          <Grid>
-            <Grid item xs={12}>
-              <Collapse in={!collapseOhmView} collapsedWidth="10px">
-                <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={collapseOhmViewFunc()}>
-                  <Typography align="left">
-                    {" "}
-                    <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                    OHM
-                  </Typography>
-                </Button>
-              </Collapse>
-              <Collapse in={collapseOhmView}>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={collapseOhmViewFunc()}>
-                  <Typography align="left">
-                    {" "}
-                    <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                    Place Vertical Ellipses here
-                  </Typography>
-                </Button>
-                <Paper elevation={4}>
-                  <svg>
-                    <polygon points="0,100 50,00, 100,100" />
-                  </svg>
-                </Paper>
-              </Collapse>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper>
-                <div>
-                  <Typography align="left">
-                    {" "}
-                    <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                    wsOHM
-                  </Typography>
-                  <Typography align="right">
-                    {" "}
-                    <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                    wsOHM
-                  </Typography>
-                </div>
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper>
-                <Typography align="left">
-                  {" "}
-                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                  OHM
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
+
           <Box className="ohm-pairs">
             <Button variant="contained" style={{ width: "100%" }} color="secondary" onClick={ohmViewFunc()}>
               <Typography align="left">
