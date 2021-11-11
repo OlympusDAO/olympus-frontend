@@ -1,51 +1,57 @@
 import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useWeb3Context } from "../../hooks";
-import { awardProcess, getRNGStatus, getPoolValues } from "../../slices/PoolThunk";
-
-import { Paper, Box, Typography, Button } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { useAppSelector, useWeb3Context } from "src/hooks";
+import { awardProcess, getRNGStatus, getPoolValues } from "src/slices/PoolThunk";
+import { Paper, Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-
 import { trim, subtractDates } from "src/helpers";
 
+export interface Timer {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
 export const PoolPrize = () => {
-  const { provider, chainID } = useWeb3Context();
+  const { address, provider, chainID } = useWeb3Context();
   const dispatch = useDispatch();
   const [secondsLeft, setSecondsLeft] = useState(0);
-  const [timer, setTimer] = useState(null);
+  const [timer, setTimer] = useState<Timer | null>(null);
   const [showAwardStart, setShowAwardStart] = useState(false);
 
-  const isPoolLoading = useSelector(state => state.poolData.loading ?? true);
+  const isPoolLoading = useAppSelector(state => state.poolData.loading ?? true);
 
-  const poolAwardTimeRemaining = useSelector(state => {
+  const poolAwardTimeRemaining = useAppSelector(state => {
     return state.poolData && state.poolData.awardPeriodRemainingSeconds;
   });
 
-  const poolAwardBalance = useSelector(state => {
+  const poolAwardBalance = useAppSelector(state => {
     return state.poolData && state.poolData.awardBalance;
   });
 
   // when true someone has started the award
-  const poolIsLocked = useSelector(state => {
+  const poolIsLocked = useAppSelector(state => {
     return state.poolData && state.poolData.isRngRequested;
   });
 
   // when true we need to cancel award
-  const isRngTimedOut = useSelector(state => {
+  // currently unused
+  const isRngTimedOut = useAppSelector(state => {
     return state.poolData && state.poolData.isRngTimedOut;
   });
 
   // when true the award is complete & timer should reset.
-  const rngRequestCompleted = useSelector(state => {
+  const rngRequestCompleted = useAppSelector(state => {
     return state.poolData && state.poolData.rngRequestCompleted;
   });
 
-  let timerInterval = useRef();
+  let timerInterval = useRef<NodeJS.Timeout>();
 
   // handleAward not used yet
-  const handleAward = async action => {
+  const handleAward = (action: string) => {
     console.log(`run ${action} on pool`);
-    await dispatch(awardProcess({ action, provider, networkID: chainID }));
+    dispatch(awardProcess({ action, address, provider, networkID: chainID }));
   };
 
   const rngQueryFunc = () => {
@@ -71,14 +77,14 @@ export const PoolPrize = () => {
     setTimer(formatted);
     if (secondsLeft > 0) {
       timerInterval.current = setInterval(decreaseNum, 1000);
-      return () => clearInterval(timerInterval.current);
+      return () => clearInterval(timerInterval.current as NodeJS.Timeout);
     }
   }, [secondsLeft]);
 
   useEffect(() => {
-    if (parseInt(poolAwardTimeRemaining, 10) > 0) {
+    if (poolAwardTimeRemaining > 0) {
       setShowAwardStart(false);
-      setSecondsLeft(parseInt(poolAwardTimeRemaining, 10));
+      setSecondsLeft(poolAwardTimeRemaining);
     } else if (poolIsLocked) {
       setShowAwardStart(false);
       // wait 30 seconds... we're just waiting for award
@@ -86,7 +92,7 @@ export const PoolPrize = () => {
         // retry until Pool Is Not Locked, then go get new time
         rngQueryFunc();
       }, 30000);
-    } else if (parseInt(poolAwardTimeRemaining, 10) <= 0) {
+    } else if (poolAwardTimeRemaining) {
       setShowAwardStart(true);
       // There is no time left, attach RNG (Award) Start listener
       // the rngQueryFunc will run repeatedly once the above conditions are true;
@@ -104,7 +110,7 @@ export const PoolPrize = () => {
       </Box>
       <Paper className="ohm-card">
         <Box display="flex" flexDirection="column" alignItems="center">
-          {parseFloat(poolAwardBalance) === 0 ? (
+          {poolAwardBalance === 0 ? (
             <Box margin={2} textAlign="center">
               <Typography variant="h3">Pool Award Balance is currently 0.</Typography>
               <Typography variant="h4">Award Balance will grow at 1st rebase.</Typography>
@@ -158,7 +164,7 @@ export const PoolPrize = () => {
               >
                 Complete Award
               </Button> */}
-              <Typography variant="body1" color="textSecondary" padding={2}>
+              <Typography variant="body1" color="textSecondary">
                 Award period has finished, you can navigate to Pool Together's UI to complete distribution
               </Typography>
             </Box>
