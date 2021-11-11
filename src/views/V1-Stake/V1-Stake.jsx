@@ -280,26 +280,31 @@ function V1Stake({ oldAssetsDetected }) {
                             </Typography>
                           </Box>
                         ) : (
-                          // <FormControl className="ohm-input" variant="outlined" color="primary">
-                          //   <InputLabel htmlFor="amount-input"></InputLabel>
-                          //   <OutlinedInput
-                          //     id="amount-input"
-                          //     type="number"
-                          //     placeholder="Enter an amount"
-                          //     className="stake-input"
-                          //     value={quantity}
-                          //     onChange={e => setQuantity(e.target.value)}
-                          //     labelWidth={0}
-                          //     endAdornment={
-                          //       <InputAdornment position="end">
-                          //         <Button variant="text" onClick={setMax} color="inherit">
-                          //           Max
-                          //         </Button>
-                          //       </InputAdornment>
-                          //     }
-                          //   />
-                          // </FormControl>
-                          <LearnMoreButton />
+                          <>
+                            {view === 1 && (
+                              <FormControl className="ohm-input" variant="outlined" color="primary">
+                                <InputLabel htmlFor="amount-input"></InputLabel>
+                                <OutlinedInput
+                                  id="amount-input"
+                                  type="number"
+                                  placeholder="Enter an amount"
+                                  className="stake-input"
+                                  value={quantity}
+                                  onChange={e => setQuantity(e.target.value)}
+                                  labelWidth={0}
+                                  endAdornment={
+                                    <InputAdornment position="end">
+                                      <Button variant="text" onClick={setMax} color="inherit">
+                                        Max
+                                      </Button>
+                                    </InputAdornment>
+                                  }
+                                />
+                              </FormControl>
+                            )}
+
+                            {view === 0 && <LearnMoreButton />}
+                          </>
                         )
                       ) : (
                         <Skeleton width="150px" />
