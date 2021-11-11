@@ -113,7 +113,7 @@ function OhmMenu() {
                 <Typography align="left">
                   {" "}
                   <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                  sOHM
+                  sOHM ($0.00)
                 </Typography>
               </Button>
             </AccordionSummary>
@@ -131,22 +131,6 @@ function OhmMenu() {
               </Box>
             </AccordionDetails>
           </Accordion>
-          <Box className="ohm-pairs">
-            <Button
-              variant="contained"
-              align="left"
-              style={{ width: "100%" }}
-              color="secondary"
-              onClick={ohmViewFunc()}
-              startIcon={
-                <Typography align="left">
-                  {" "}
-                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                  3TT
-                </Typography>
-              }
-            ></Button>
-          </Box>
 
           <Link href={`https://abracadabra.money/pool/10`} target="_blank" rel="noreferrer">
             <Button size="large" variant="contained" color="secondary" fullWidth>
