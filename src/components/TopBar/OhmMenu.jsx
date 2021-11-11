@@ -58,8 +58,8 @@ function OhmMenu() {
   const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
   const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
 
-  const toggleDrawer = () => event => {
-    setAnchor(!anchor);
+  const toggleDrawer = data => event => {
+    setAnchor(data);
   };
 
   const daiAddress = dai.getAddressForReserve(networkID);
@@ -67,7 +67,7 @@ function OhmMenu() {
   return (
     <Box>
       <Button
-        onClick={toggleDrawer("right", true)}
+        onClick={toggleDrawer("OG")}
         id="ohm-menu-button"
         size="large"
         variant="contained"
@@ -77,8 +77,27 @@ function OhmMenu() {
         <SvgIcon component={InfoIcon} color="primary" />
         <Typography>OHM</Typography>
       </Button>
-      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor} onClose={toggleDrawer()}>
+      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMtx"} onClose={toggleDrawer("OG")}>
+        sOHM TX History
+      </Drawer>
+      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMLHIW"} onClose={toggleDrawer("OG")}>
+        sOHM Learn How it works stuff
+      </Drawer>
+      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMZaps"} onClose={toggleDrawer("OG")}>
+        sOHM Zap Stuff
+      </Drawer>
+      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "OG"} onClose={toggleDrawer("OG")}>
         <Paper>
+          <Button
+            onClick={toggleDrawer("CLOSED")}
+            id="ohm-menu-button"
+            size="large"
+            variant="contained"
+            color="secondary"
+            title="OHM"
+          >
+            BACKWARD POINTING ARROW
+          </Button>
           <Chart
             type="line"
             scale="log"
@@ -107,13 +126,28 @@ function OhmMenu() {
             </AccordionSummary>
             <AccordionDetails margin="auto" style={{ margin: "auto" }}>
               <Box className="ohm-pairs" style={{ width: "100%" }}>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                <Button
+                  variant="contained"
+                  style={{ width: "100%" }}
+                  color="secondary"
+                  onClick={toggleDrawer("sOHMtx")}
+                >
                   <Typography align="left"> Transaction History</Typography>
                 </Button>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                <Button
+                  variant="contained"
+                  style={{ width: "100%" }}
+                  color="secondary"
+                  onClick={toggleDrawer("sOHMLHIW")}
+                >
                   <Typography align="left"> Learn how it works</Typography>
                 </Button>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                <Button
+                  variant="contained"
+                  style={{ width: "100%" }}
+                  color="secondary"
+                  onClick={toggleDrawer("sOHMZaps")}
+                >
                   <Typography align="left"> Zap</Typography>
                 </Button>
               </Box>
