@@ -30,7 +30,7 @@ import { abi as CvxBondContract } from "src/abi/bonds/CvxContract.json";
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { BigNumberish } from "ethers";
-import { getTokenPrice } from ".";
+import { getTokenPrice } from "src/helpers";
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
