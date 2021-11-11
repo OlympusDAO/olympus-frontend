@@ -57,6 +57,7 @@ function Bond({ bond }) {
                 recipientAddress={recipientAddress}
                 onSlippageChange={onSlippageChange}
                 onRecipientAddressChange={onRecipientAddressChange}
+                returnPath="bonds"
               />
 
               <Box direction="row" className="bond-price-data-row">

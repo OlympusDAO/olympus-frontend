@@ -1,0 +1,306 @@
+#zap-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  .rebase-timer {
+    margin: 0 !important;
+    line-height: 110% !important;
+  }
+
+  .stake-tab-buttons {
+    margin-bottom: 0.25rem;
+  }
+
+  .stake-table-panel,
+  .stake-tab-panel > div.MuiBox-root {
+    width: 100%;
+    padding: 0;
+    justify-content: center;
+    justify-items: center;
+  }
+  .mobile .stake-tab-panel,
+  .mobile .stake-tab-panel > div.MuiBox-root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+  }
+
+  .ohm-card .header {
+    min-height: 3em;
+  }
+  .ohm-card.secondary .card-header {
+    min-height: 33px !important;
+    height: 20px;
+  }
+  .stake-note {
+    text-align: center;
+    font-style: italic;
+  }
+  .bond-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .ohm-pair-img,
+    .reserve-pair-img {
+      height: 38px;
+      width: 38px;
+    }
+    .bond-header-logo {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      display: flex;
+      flex-direction: row;
+      .bond-header-name {
+        text-align: center;
+        margin-left: 0.33em;
+      }
+    }
+  }
+  .bond-data {
+    margin: 10px 0 0 0;
+  }
+
+  .bond-price-data-row {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin: 23px;
+    h4 {
+      margin-bottom: 0;
+    }
+    h3.price {
+      font-weight: 600 !important;
+    }
+  }
+}
+
+#olyzaps-info {
+  .oly-info-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+  }
+  .oly-info-header-box {
+    padding-bottom: 1.5rem;
+  }
+  .oly-info-body-header {
+    padding-bottom: 0.5rem;
+  }
+  .oly-info-body {
+    line-height: 1.25rem;
+  }
+  .button-box {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .learn-more-button {
+    svg {
+      margin-left: 4px;
+      vertical-align: middle;
+      font-size: 1.1em;
+      height: 1.15rem;
+      width: 1.15rem;
+    }
+    &:hover {
+      svg {
+        color: inherit;
+      }
+    }
+  }
+}
+
+.stake-top-metrics {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  margin-top: 10px;
+  h5 {
+    font-weight: 400;
+  }
+  h4 {
+    font-weight: 500;
+  }
+  .stake-apy,
+  .stake-tvl,
+  .stake-index {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-overflow: ellipsis;
+    // white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.mobile .stake-top-metrics {
+  .stake-apy,
+  .stake-tvl,
+  .stake-index {
+    align-items: flex-start;
+  }
+}
+
+.ohm-logo-tiny {
+  height: 14px;
+  width: 14px;
+  vertical-align: middle;
+  background-color: transparent;
+  align-self: center;
+  justify-self: center;
+}
+
+.logo-holder {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  background: none;
+  border: 0 !important;
+  border-radius: inherit;
+  color: #555;
+}
+
+.stake-action-area {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.stake-action-row {
+  justify-content: space-around;
+  align-items: center;
+  height: auto;
+  padding-bottom: 1rem;
+}
+
+.mobile .stake-action-row {
+  justify-content: center;
+}
+
+.stake-action-row [role="tabpanel"] {
+  width: 100%;
+  min-width: 162px;
+  max-width: 220px;
+  margin: 5px;
+}
+
+.mobile .stake-action-row {
+  flex-direction: column;
+  [role="tabpanel"] {
+    max-width: 100%;
+    width: 100% !important;
+  }
+}
+
+.ohm-input {
+  max-width: 542px;
+  width: 100%;
+  margin: 5px !important;
+}
+
+.zap-input {
+  width: 98%;
+  margin: 5px !important;
+  min-height: 70px;
+}
+
+.stake-button {
+  align-self: center;
+  width: 100%;
+  min-width: 140px !important;
+  max-width: 542px !important;
+  height: 43px !important;
+}
+
+.zap-stake-button {
+  min-width: 140px !important;
+  height: 43px !important;
+}
+
+.mobile .stake-button {
+  width: 100% !important;
+  max-width: 542px;
+  align-self: center;
+  justify-self: center;
+}
+
+.staking-area {
+  margin: 13px 10px 13px 10px;
+}
+
+.stake-lp-button {
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  svg {
+    margin-left: 4px;
+    vertical-align: middle;
+    font-size: 1.1em;
+  }
+  &:hover {
+    svg {
+      color: inherit;
+    }
+  }
+}
+
+.stake-user-data {
+  justify-content: center;
+  margin: auto;
+  padding: 0 5px;
+}
+
+.tablet .stake-pool,
+.mobile .stake-pool {
+  .pool-card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    .ohm-pairs p {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  .pool-data {
+    margin-top: 15px;
+    width: 100%;
+    .pool-data-row {
+      display: flex;
+      justify-content: space-between;
+      line-height: 225%;
+    }
+  }
+  .stake-lp-button {
+    margin-top: 10px;
+    svg {
+      margin-left: 10px !important;
+    }
+  }
+}
+
+.stake-wallet-notification {
+  text-align: center;
+  .wallet-menu {
+    text-align: center;
+    .connect-button {
+      max-width: 300px !important;
+      min-width: 240px !important;
+      margin-bottom: 15px;
+    }
+  }
+}

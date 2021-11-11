@@ -70,7 +70,7 @@ export function BondDataCard({ bond }) {
   );
 }
 
-export function BondTableData({ bond }) {
+export function BondTableData({ bond, basePath }) {
   const { chainID } = useWeb3Context();
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.bondPrice ?? true;
@@ -114,7 +114,7 @@ export function BondTableData({ bond }) {
         )}
       </TableCell>
       <TableCell>
-        <Link component={NavLink} to={`/bonds/${bond.name}`}>
+        <Link component={NavLink} to={`/${basePath}/${bond.name}`}>
           <Button variant="outlined" color="primary" disabled={!bond.isAvailable[chainID]}>
             <Typography variant="h6">{!bond.isAvailable[chainID] ? "Sold Out" : "Bond"}</Typography>
           </Button>
