@@ -14,7 +14,11 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  MoreVertIcon,
+  IconButton,
 } from "@material-ui/core";
+
+import { MoreVertIcon } from "@material-ui/icons/MoreVert";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
@@ -115,12 +119,18 @@ function OhmMenu() {
             expandedGraphStrokeColor={theme.palette.graphStrokeColor}
           />
           <Accordion expanded={expanded === "sOHM"} onChange={handleChange("sOHM")}>
-            <AccordionSummary>
-              <Button variant="contained" style={{ width: "100%" }} color="secondary">
-                <Typography align="left">
+            <AccordionSummary
+              expandIcon={
+                <IconButton>
+                  <MoreVertIcon />
+                </IconButton>
+              }
+            >
+              <Button variant="contained" style={{ width: "100%", flexDirection: "row" }} color="secondary">
+                <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
                   {" "}
-                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                  sOHM ($0.00)
+                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
+                  sOHM
                 </Typography>
               </Button>
             </AccordionSummary>
@@ -150,17 +160,27 @@ function OhmMenu() {
                 >
                   <Typography align="left"> Zap</Typography>
                 </Button>
+                <Paper>
+                  <Typography align="left">($0.00)</Typography>
+                  <Typography align="left">($0.00)</Typography>
+                </Paper>
               </Box>
             </AccordionDetails>
           </Accordion>
 
           <Accordion expanded={expanded === "wsOHM"} onChange={handleChange("wsOHM")}>
-            <AccordionSummary>
+            <AccordionSummary
+              expandIcon={
+                <Paper>
+                  <Typography align="left">Ellipses Sideways</Typography>
+                </Paper>
+              }
+            >
               <Button variant="contained" style={{ width: "100%" }} color="secondary">
-                <Typography align="left">
+                <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
                   {" "}
-                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                  wsOHM ($0.00)
+                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
+                  wsOHM
                 </Typography>
               </Button>
             </AccordionSummary>
@@ -175,17 +195,27 @@ function OhmMenu() {
                 <Button variant="contained" style={{ width: "100%" }} color="secondary">
                   <Typography align="left"> Zap</Typography>
                 </Button>
+                <Paper>
+                  <Typography align="left">($0.00)</Typography>
+                  <Typography align="left">($0.00)</Typography>
+                </Paper>
               </Box>
             </AccordionDetails>
           </Accordion>
 
           <Accordion expanded={expanded === "OHM"} onChange={handleChange("OHM")}>
-            <AccordionSummary>
+            <AccordionSummary
+              expandIcon={
+                <Paper>
+                  <Typography align="left">Ellipses Sideways</Typography>
+                </Paper>
+              }
+            >
               <Button variant="contained" style={{ width: "100%" }} color="secondary">
-                <Typography align="left">
+                <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
                   {" "}
-                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                  OHM ($0.00)
+                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
+                  OHM
                 </Typography>
               </Button>
             </AccordionSummary>
@@ -200,17 +230,27 @@ function OhmMenu() {
                 <Button variant="contained" style={{ width: "100%" }} color="secondary">
                   <Typography align="left"> Zap</Typography>
                 </Button>
+                <Paper>
+                  <Typography align="left">($0.00)</Typography>
+                  <Typography align="left">($0.00)</Typography>
+                </Paper>
               </Box>
             </AccordionDetails>
           </Accordion>
 
           <Accordion expanded={expanded === "3TT"} onChange={handleChange("3TT")}>
-            <AccordionSummary>
+            <AccordionSummary
+              expandIcon={
+                <Paper>
+                  <Typography align="left">Ellipses Sideways</Typography>
+                </Paper>
+              }
+            >
               <Button variant="contained" style={{ width: "100%" }} color="secondary">
-                <Typography align="left">
+                <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
                   {" "}
-                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "15px", width: "15px" }} />
-                  3TT ($0.00)
+                  <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
+                  3TT
                 </Typography>
               </Button>
             </AccordionSummary>
@@ -225,6 +265,10 @@ function OhmMenu() {
                 <Button variant="contained" style={{ width: "100%" }} color="secondary">
                   <Typography align="left"> Zap</Typography>
                 </Button>
+                <Paper>
+                  <Typography align="left">($0.00)</Typography>
+                  <Typography align="left">($0.00)</Typography>
+                </Paper>
               </Box>
             </AccordionDetails>
           </Accordion>
