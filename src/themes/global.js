@@ -22,7 +22,6 @@ const breakpointValues = {
  */
 export const handleBackdropFilter = rgbaString => {
   const supported = CSS.supports("(-webkit-backdrop-filter: none)") || CSS.supports("(backdrop-filter: none)");
-  console.log("supported", supported);
   if (!supported) {
     // make the opacity == 0.9;
     rgbaString = rgbaString.replace(/[\d\.]+\)$/g, "0.9)");

@@ -73,6 +73,15 @@ export abstract class Bond {
     this.bondToken = bondOpts.bondToken;
   }
 
+  /**
+   * makes isAvailable accessible within Bonds.ts
+   * @param networkID
+   * @returns boolean
+   */
+  getAvailability(networkID: NetworkID) {
+    return this.isAvailable[networkID];
+  }
+
   getAddressForBond(networkID: NetworkID) {
     return this.networkAddrs[networkID].bondAddress;
   }
