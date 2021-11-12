@@ -14,7 +14,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  MenuItem,
+  Tab,
+  Tabs,
 } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
@@ -29,7 +30,7 @@ import { trim, formatCurrency } from "../../helpers";
 
 import Chart from "../../components/Chart/WalletChart.jsx";
 import apollo from "../../lib/apolloClient";
-
+import SOhmLHIW from "./OhmMenuViews/SOhmLHIW";
 import { rebasesDataQuery, bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "./treasuryData.js";
 
 function OhmMenu() {
@@ -38,7 +39,9 @@ function OhmMenu() {
   const [expanded, setExpanded] = useState(false);
 
   const handleChange = panel => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+    if (isExpanded) {
+      setExpanded(isExpanded ? panel : false);
+    }
   };
 
   const theme = useTheme();
@@ -59,8 +62,12 @@ function OhmMenu() {
   const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
   const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
 
-  const toggleDrawer = data => event => {
+  const toggleDrawer = data => () => {
     setAnchor(data);
+  };
+
+  const toggleTab = data => () => {
+    setValue(data);
   };
 
   const daiAddress = dai.getAddressForReserve(networkID);
@@ -78,11 +85,14 @@ function OhmMenu() {
         <SvgIcon component={InfoIcon} color="primary" />
         <Typography>OHM</Typography>
       </Button>
-      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMtx"} onClose={toggleDrawer("OG")}>
-        sOHM TX History
-      </Drawer>
+      <Drawer
+        style={{ width: "40%" }}
+        anchor={"right"}
+        open={anchor === "sOHMtx"}
+        onClose={toggleDrawer("OG")}
+      ></Drawer>
       <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMLHIW"} onClose={toggleDrawer("OG")}>
-        sOHM Learn How it works stuff
+        <SOhmLHIW toggleDrawer></SOhmLHIW>
       </Drawer>
       <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMZaps"} onClose={toggleDrawer("OG")}>
         sOHM Zap Stuff
@@ -127,38 +137,38 @@ function OhmMenu() {
                   <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
                   sOHM
                 </Typography>
+                <Paper>
+                  <Typography align="left">0</Typography>
+                  <Typography align="left">$0.00</Typography>
+                </Paper>
               </Button>
             </AccordionSummary>
-            <AccordionDetails margin="auto" style={{ margin: "auto" }}>
+            <AccordionDetails margin="auto" style={{ margin: "auto", padding: 0 }}>
               <Box className="ohm-pairs" style={{ width: "100%" }}>
                 <Button
                   variant="contained"
-                  style={{ width: "100%" }}
-                  color="secondary"
+                  style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
                   onClick={toggleDrawer("sOHMtx")}
+                  color="secondary"
                 >
                   <Typography align="left"> Transaction History</Typography>
                 </Button>
                 <Button
                   variant="contained"
-                  style={{ width: "100%" }}
-                  color="secondary"
+                  style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
                   onClick={toggleDrawer("sOHMLHIW")}
+                  color="secondary"
                 >
                   <Typography align="left"> Learn how it works</Typography>
                 </Button>
                 <Button
                   variant="contained"
-                  style={{ width: "100%" }}
+                  style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
                   color="secondary"
                   onClick={toggleDrawer("sOHMZaps")}
                 >
                   <Typography align="left"> Zap</Typography>
                 </Button>
-                <Paper>
-                  <Typography align="left">($0.00)</Typography>
-                  <Typography align="left">($0.00)</Typography>
-                </Paper>
               </Box>
             </AccordionDetails>
           </Accordion>
@@ -169,29 +179,44 @@ function OhmMenu() {
                 <SvgIcon component={ArrowUpIcon} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
               }
             >
-              <Button variant="contained" style={{ width: "100%" }} color="secondary">
+              <Button variant="contained" style={{ width: "100%", flexDirection: "row" }} color="secondary">
                 <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
                   {" "}
                   <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
                   wsOHM
                 </Typography>
+                <Paper>
+                  <Typography align="left">0</Typography>
+                  <Typography align="left">$0.00</Typography>
+                </Paper>
               </Button>
             </AccordionSummary>
-            <AccordionDetails margin="auto" style={{ margin: "auto" }}>
+            <AccordionDetails margin="auto" style={{ margin: "auto", padding: 0 }}>
               <Box className="ohm-pairs" style={{ width: "100%" }}>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                <Button
+                  variant="contained"
+                  style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
+                  onClick={toggleDrawer("sOHMtx")}
+                  color="secondary"
+                >
                   <Typography align="left"> Transaction History</Typography>
                 </Button>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                <Button
+                  variant="contained"
+                  style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
+                  onClick={toggleDrawer("sOHMLHIW")}
+                  color="secondary"
+                >
                   <Typography align="left"> Learn how it works</Typography>
                 </Button>
-                <Button variant="contained" style={{ width: "100%" }} color="secondary">
+                <Button
+                  variant="contained"
+                  style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
+                  color="secondary"
+                  onClick={toggleDrawer("sOHMZaps")}
+                >
                   <Typography align="left"> Zap</Typography>
                 </Button>
-                <Paper>
-                  <Typography align="left">($0.00)</Typography>
-                  <Typography align="left">($0.00)</Typography>
-                </Paper>
               </Box>
             </AccordionDetails>
           </Accordion>
@@ -232,7 +257,7 @@ function OhmMenu() {
           <Accordion expanded={expanded === "3TT"} onChange={handleChange("3TT")}>
             <AccordionSummary
               expandIcon={
-                <SvgIcon component={ArrowUpIcon} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
+                <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
               }
             >
               <Button variant="contained" style={{ width: "100%" }} color="secondary">

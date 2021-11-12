@@ -459,7 +459,7 @@ function WalletChart({
           alignItems="center"
           style={{ width: "100%", overflow: "hidden" }}
         >
-          <Box display="flex" width="90%" alignItems="center">
+          <Box display="flex" width="80%" alignItems="center">
             <Typography
               variant="h6"
               color="textSecondary"
@@ -502,13 +502,13 @@ function WalletChart({
           </Box>
         )}
       </div>
-      <Box width="100%" minHeight={65} minWidth={100} className="ohm-chart">
+      <Box width="100%" minHeight={50} minWidth={100} className="ohm-chart">
         {loading || (data && data.length > 0) ? (
-          <ResponsiveContainer minHeight={65} width="100%">
+          <ResponsiveContainer minHeight={50} width="100%">
             {renderChart(type, false)}
           </ResponsiveContainer>
         ) : (
-          <Skeleton variant="rect" width="100%" height={65} />
+          <Skeleton variant="rect" width="100%" height={50} />
         )}
       </Box>
     </Box>
