@@ -58,8 +58,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  const onSeekApproval = async token => {
-    await dispatch(changeMigrationApproval({ address, networkID: chainID, provider, token }));
+  const onSeekApproval = token => {
+    dispatch(changeMigrationApproval({ address, networkID: chainID, provider, token }));
   };
 
   const rows = [
