@@ -51,6 +51,8 @@ To run the tests:
 - Run the frontend, using `yarn start`
 - In another terminal, run the tests, using `yarn test:e2e`
 
+This currently runs against a local testnet, which should be deployed and run separately.
+
 **Rinkeby faucet for WETH:**
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
 

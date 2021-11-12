@@ -8,14 +8,3 @@ import { launchDApp, launchNode } from "./e2e/puppeteer/testHelpers";
 // TODO add jest-puppeteer preset
 
 jest.setTimeout(60000);
-
-let node;
-
-beforeAll(async () => {
-  node = launchNode();
-  await launchDApp();
-});
-
-afterAll(() => {
-  node?.kill();
-});

@@ -7,6 +7,7 @@ import {
   waitSelectorExists,
   getSelectorTextContent,
   typeValue,
+  launchDApp,
 } from "../../testHelpers";
 
 // TODO deploy contracts on temporary network
@@ -16,6 +17,10 @@ import {
 var STAKE_AMOUNT = 0.1;
 
 describe("staking", () => {
+  beforeAll(async () => {
+    await launchDApp();
+  });
+
   test("cannot stake without connected wallet", async () => {
     const { page } = dapp;
 
