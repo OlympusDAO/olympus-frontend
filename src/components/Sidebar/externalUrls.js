@@ -20,11 +20,11 @@ const externalUrls = [
     url: "https://docs.olympusdao.finance/",
     icon: <SvgIcon color="primary" component={DocsIcon} />,
   },
-  {
-    title: "Feedback",
-    url: "https://olympusdao.canny.io/",
-    icon: <SvgIcon color="primary" component={FeedbackIcon} />,
-  },
+  // {
+  //   title: "Feedback",
+  //   url: "https://olympusdao.canny.io/",
+  //   icon: <SvgIcon color="primary" component={FeedbackIcon} />,
+  // },
 ];
 
 export default externalUrls;

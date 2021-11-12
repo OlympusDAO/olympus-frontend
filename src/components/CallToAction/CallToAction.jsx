@@ -38,7 +38,7 @@ const CallToAction = ({ setMigrationModalOpen }) => {
   return (
     <Box className="call-to-action ohm-card">
       <Typography style={{ fontSize: "20px", fontWeight: "600" }} variant="h5">
-        You have assets ready to migrate to V2
+        You have assets ready to migrate to v2
       </Typography>
       <div className="actionable">
         <LearnMoreButton />

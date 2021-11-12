@@ -17,7 +17,7 @@ import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether, V1Stake, Wrap } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether, V1Stake } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import CallToAction from "./components/CallToAction/CallToAction";
@@ -239,6 +239,10 @@ function App() {
 
             <Route path="/stake">
               {oldAssetsDetected ? <V1Stake oldAssetsDetected={oldAssetsDetected} /> : <Stake />}
+            </Route>
+
+            <Route path="/stakey-stake">
+              <Stake />
             </Route>
 
             <Route path="/wrap">
