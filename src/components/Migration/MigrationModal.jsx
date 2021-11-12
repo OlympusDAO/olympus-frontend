@@ -48,28 +48,34 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const approvedSOhmBalance = useSelector(state => Number(state.account.migration.sohm));
   const approvedWSOhmBalance = useSelector(state => Number(state.account.migration.wsohm));
 
+  const ohmFullApproval = approvedOhmBalance >= ohmBalance;
+  const sOhmFullApproval = approvedSOhmBalance >= sOhmBalance;
+  const wsOhmFullApproval = approvedWSOhmBalance >= wsOhmBalance;
+
+  const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
+
   console.log(approvedOhmBalance);
   const rows = [
     {
       initialAsset: "OHM",
       initialBalance: ohmBalance,
-      targetAsset: "OHM (v2)",
-      targetBalance: ohmBalance,
-      fullApproval: approvedOhmBalance >= ohmBalance,
+      targetAsset: "gOHM",
+      targetBalance: ohmBalance / currentIndex,
+      fullApproval: ohmFullApproval,
     },
     {
       initialAsset: "sOHM",
       initialBalance: sOhmBalance,
       targetAsset: "gOHM",
       targetBalance: sOhmBalance / currentIndex,
-      fullApproval: approvedSOhmBalance >= sOhmBalance,
+      fullApproval: sOhmFullApproval,
     },
     {
       initialAsset: "wsOHM",
       initialBalance: wsOhmBalance,
       targetAsset: "gOHM",
       targetBalance: wsOhmBalance,
-      fullApproval: approvedWSOhmBalance >= wsOhmBalance,
+      fullApproval: wsOhmFullApproval,
     },
   ];
 
@@ -154,9 +160,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                         <Typography align="center" className={classes.custom}>
                           Complete
                         </Typography>
+                      ) : row.fullApproval ? (
+                        <Typography align="center" className={classes.custom}>
+                          Approved
+                        </Typography>
                       ) : (
                         <Button variant="outlined">
-                          <Typography>{row.fullApproval ? "Migrate" : "Approve"}</Typography>
+                          <Typography>{"Approve"}</Typography>
                         </Button>
                       )}
                     </TableCell>
@@ -164,6 +174,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                 ))}
               </TableBody>
             </Table>
+            <Box display="flex" flexDirection="row" justifyContent="center">
+              <Button color="primary" variant="contained" disabled={!isAllApproved}>
+                <Box marginX={4} marginY={0.5}>
+                  <Typography>{isAllApproved ? "Migrate" : "Approve all assets to migrate"}</Typography>
+                </Box>
+              </Button>
+            </Box>
           </Box>
         </Fade>
       </Modal>
