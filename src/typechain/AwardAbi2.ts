@@ -17,9 +17,26 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
+import type {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  OnEvent,
+} from "./common";
 
-interface AwardAbi2Interface extends ethers.utils.Interface {
+export type PrizeSplitConfigStruct = {
+  target: string;
+  percentage: BigNumberish;
+  token: BigNumberish;
+};
+
+export type PrizeSplitConfigStructOutput = [string, number, number] & {
+  target: string;
+  percentage: number;
+  token: number;
+};
+
+export interface AwardAbi2Interface extends ethers.utils.Interface {
   functions: {
     "VERSION()": FunctionFragment;
     "addExternalErc20Award(address)": FunctionFragment;
@@ -71,8 +88,8 @@ interface AwardAbi2Interface extends ethers.utils.Interface {
     "setNumberOfWinners(uint256)": FunctionFragment;
     "setPeriodicPrizeStrategyListener(address)": FunctionFragment;
     "setPrizePeriodSeconds(uint256)": FunctionFragment;
-    "setPrizeSplit(tuple,uint8)": FunctionFragment;
-    "setPrizeSplits(tuple[])": FunctionFragment;
+    "setPrizeSplit((address,uint16,uint8),uint8)": FunctionFragment;
+    "setPrizeSplits((address,uint16,uint8)[])": FunctionFragment;
     "setRngRequestTimeout(uint32)": FunctionFragment;
     "setRngService(address)": FunctionFragment;
     "setSplitExternalErc20Awards(bool)": FunctionFragment;
@@ -292,16 +309,11 @@ interface AwardAbi2Interface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setPrizeSplit",
-    values: [
-      { target: string; percentage: BigNumberish; token: BigNumberish },
-      BigNumberish
-    ]
+    values: [PrizeSplitConfigStruct, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setPrizeSplits",
-    values: [
-      { target: string; percentage: BigNumberish; token: BigNumberish }[]
-    ]
+    values: [PrizeSplitConfigStruct[]]
   ): string;
   encodeFunctionData(
     functionFragment: "setRngRequestTimeout",
@@ -636,37 +648,68 @@ interface AwardAbi2Interface extends ethers.utils.Interface {
 }
 
 export type BeforeAwardListenerSetEvent = TypedEvent<
-  [string] & { beforeAwardListener: string }
+  [string],
+  { beforeAwardListener: string }
 >;
 
-export type BlocklistCarrySetEvent = TypedEvent<[boolean] & { carry: boolean }>;
+export type BeforeAwardListenerSetEventFilter =
+  TypedEventFilter<BeforeAwardListenerSetEvent>;
+
+export type BlocklistCarrySetEvent = TypedEvent<[boolean], { carry: boolean }>;
+
+export type BlocklistCarrySetEventFilter =
+  TypedEventFilter<BlocklistCarrySetEvent>;
 
 export type BlocklistRetryCountSetEvent = TypedEvent<
-  [BigNumber] & { count: BigNumber }
+  [BigNumber],
+  { count: BigNumber }
 >;
+
+export type BlocklistRetryCountSetEventFilter =
+  TypedEventFilter<BlocklistRetryCountSetEvent>;
 
 export type BlocklistSetEvent = TypedEvent<
-  [string, boolean] & { user: string; isBlocked: boolean }
+  [string, boolean],
+  { user: string; isBlocked: boolean }
 >;
+
+export type BlocklistSetEventFilter = TypedEventFilter<BlocklistSetEvent>;
 
 export type ExternalErc20AwardAddedEvent = TypedEvent<
-  [string] & { externalErc20: string }
+  [string],
+  { externalErc20: string }
 >;
+
+export type ExternalErc20AwardAddedEventFilter =
+  TypedEventFilter<ExternalErc20AwardAddedEvent>;
 
 export type ExternalErc20AwardRemovedEvent = TypedEvent<
-  [string] & { externalErc20Award: string }
+  [string],
+  { externalErc20Award: string }
 >;
+
+export type ExternalErc20AwardRemovedEventFilter =
+  TypedEventFilter<ExternalErc20AwardRemovedEvent>;
 
 export type ExternalErc721AwardAddedEvent = TypedEvent<
-  [string, BigNumber[]] & { externalErc721: string; tokenIds: BigNumber[] }
+  [string, BigNumber[]],
+  { externalErc721: string; tokenIds: BigNumber[] }
 >;
+
+export type ExternalErc721AwardAddedEventFilter =
+  TypedEventFilter<ExternalErc721AwardAddedEvent>;
 
 export type ExternalErc721AwardRemovedEvent = TypedEvent<
-  [string] & { externalErc721Award: string }
+  [string],
+  { externalErc721Award: string }
 >;
 
+export type ExternalErc721AwardRemovedEventFilter =
+  TypedEventFilter<ExternalErc721AwardRemovedEvent>;
+
 export type InitializedEvent = TypedEvent<
-  [BigNumber, BigNumber, string, string, string, string, string[]] & {
+  [BigNumber, BigNumber, string, string, string, string, string[]],
+  {
     prizePeriodStart: BigNumber;
     prizePeriodSeconds: BigNumber;
     prizePool: string;
@@ -677,35 +720,60 @@ export type InitializedEvent = TypedEvent<
   }
 >;
 
-export type NoWinnersEvent = TypedEvent<[] & {}>;
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
+
+export type NoWinnersEvent = TypedEvent<[], {}>;
+
+export type NoWinnersEventFilter = TypedEventFilter<NoWinnersEvent>;
 
 export type NumberOfWinnersSetEvent = TypedEvent<
-  [BigNumber] & { numberOfWinners: BigNumber }
+  [BigNumber],
+  { numberOfWinners: BigNumber }
 >;
+
+export type NumberOfWinnersSetEventFilter =
+  TypedEventFilter<NumberOfWinnersSetEvent>;
 
 export type OwnershipTransferredEvent = TypedEvent<
-  [string, string] & { previousOwner: string; newOwner: string }
+  [string, string],
+  { previousOwner: string; newOwner: string }
 >;
+
+export type OwnershipTransferredEventFilter =
+  TypedEventFilter<OwnershipTransferredEvent>;
 
 export type PeriodicPrizeStrategyListenerSetEvent = TypedEvent<
-  [string] & { periodicPrizeStrategyListener: string }
+  [string],
+  { periodicPrizeStrategyListener: string }
 >;
+
+export type PeriodicPrizeStrategyListenerSetEventFilter =
+  TypedEventFilter<PeriodicPrizeStrategyListenerSetEvent>;
 
 export type PrizePeriodSecondsUpdatedEvent = TypedEvent<
-  [BigNumber] & { prizePeriodSeconds: BigNumber }
+  [BigNumber],
+  { prizePeriodSeconds: BigNumber }
 >;
+
+export type PrizePeriodSecondsUpdatedEventFilter =
+  TypedEventFilter<PrizePeriodSecondsUpdatedEvent>;
 
 export type PrizePoolAwardCancelledEvent = TypedEvent<
-  [string, string, number, number] & {
+  [string, string, number, number],
+  {
     operator: string;
     prizePool: string;
     rngRequestId: number;
     rngLockBlock: number;
   }
 >;
+
+export type PrizePoolAwardCancelledEventFilter =
+  TypedEventFilter<PrizePoolAwardCancelledEvent>;
 
 export type PrizePoolAwardStartedEvent = TypedEvent<
-  [string, string, number, number] & {
+  [string, string, number, number],
+  {
     operator: string;
     prizePool: string;
     rngRequestId: number;
@@ -713,91 +781,109 @@ export type PrizePoolAwardStartedEvent = TypedEvent<
   }
 >;
 
+export type PrizePoolAwardStartedEventFilter =
+  TypedEventFilter<PrizePoolAwardStartedEvent>;
+
 export type PrizePoolAwardedEvent = TypedEvent<
-  [string, BigNumber] & { operator: string; randomNumber: BigNumber }
+  [string, BigNumber],
+  { operator: string; randomNumber: BigNumber }
 >;
+
+export type PrizePoolAwardedEventFilter =
+  TypedEventFilter<PrizePoolAwardedEvent>;
 
 export type PrizePoolOpenedEvent = TypedEvent<
-  [string, BigNumber] & { operator: string; prizePeriodStartedAt: BigNumber }
+  [string, BigNumber],
+  { operator: string; prizePeriodStartedAt: BigNumber }
 >;
+
+export type PrizePoolOpenedEventFilter = TypedEventFilter<PrizePoolOpenedEvent>;
 
 export type PrizeSplitRemovedEvent = TypedEvent<
-  [BigNumber] & { target: BigNumber }
+  [BigNumber],
+  { target: BigNumber }
 >;
+
+export type PrizeSplitRemovedEventFilter =
+  TypedEventFilter<PrizeSplitRemovedEvent>;
 
 export type PrizeSplitSetEvent = TypedEvent<
-  [string, number, number, BigNumber] & {
-    target: string;
-    percentage: number;
-    token: number;
-    index: BigNumber;
-  }
+  [string, number, number, BigNumber],
+  { target: string; percentage: number; token: number; index: BigNumber }
 >;
+
+export type PrizeSplitSetEventFilter = TypedEventFilter<PrizeSplitSetEvent>;
 
 export type RetryMaxLimitReachedEvent = TypedEvent<
-  [BigNumber] & { numberOfWinners: BigNumber }
+  [BigNumber],
+  { numberOfWinners: BigNumber }
 >;
 
-export type RngRequestFailedEvent = TypedEvent<[] & {}>;
+export type RetryMaxLimitReachedEventFilter =
+  TypedEventFilter<RetryMaxLimitReachedEvent>;
+
+export type RngRequestFailedEvent = TypedEvent<[], {}>;
+
+export type RngRequestFailedEventFilter =
+  TypedEventFilter<RngRequestFailedEvent>;
 
 export type RngRequestTimeoutSetEvent = TypedEvent<
-  [number] & { rngRequestTimeout: number }
+  [number],
+  { rngRequestTimeout: number }
 >;
+
+export type RngRequestTimeoutSetEventFilter =
+  TypedEventFilter<RngRequestTimeoutSetEvent>;
 
 export type RngServiceUpdatedEvent = TypedEvent<
-  [string] & { rngService: string }
+  [string],
+  { rngService: string }
 >;
+
+export type RngServiceUpdatedEventFilter =
+  TypedEventFilter<RngServiceUpdatedEvent>;
 
 export type SplitExternalErc20AwardsSetEvent = TypedEvent<
-  [boolean] & { splitExternalErc20Awards: boolean }
+  [boolean],
+  { splitExternalErc20Awards: boolean }
 >;
+
+export type SplitExternalErc20AwardsSetEventFilter =
+  TypedEventFilter<SplitExternalErc20AwardsSetEvent>;
 
 export type TokenListenerUpdatedEvent = TypedEvent<
-  [string] & { tokenListener: string }
+  [string],
+  { tokenListener: string }
 >;
 
-export class AwardAbi2 extends BaseContract {
+export type TokenListenerUpdatedEventFilter =
+  TypedEventFilter<TokenListenerUpdatedEvent>;
+
+export interface AwardAbi2 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  listeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter?: TypedEventFilter<EventArgsArray, EventArgsObject>
-  ): Array<TypedListener<EventArgsArray, EventArgsObject>>;
-  off<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  on<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  once<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  removeListener<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  removeAllListeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>
-  ): this;
+  interface: AwardAbi2Interface;
 
-  listeners(eventName?: string): Array<Listener>;
-  off(eventName: string, listener: Listener): this;
-  on(eventName: string, listener: Listener): this;
-  once(eventName: string, listener: Listener): this;
-  removeListener(eventName: string, listener: Listener): this;
-  removeAllListeners(eventName?: string): this;
-
-  queryFilter<EventArgsArray extends Array<any>, EventArgsObject>(
-    event: TypedEventFilter<EventArgsArray, EventArgsObject>,
+  queryFilter<TEvent extends TypedEvent>(
+    event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
+  ): Promise<Array<TEvent>>;
 
-  interface: AwardAbi2Interface;
+  listeners<TEvent extends TypedEvent>(
+    eventFilter?: TypedEventFilter<TEvent>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
+  removeAllListeners<TEvent extends TypedEvent>(
+    eventFilter: TypedEventFilter<TEvent>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
     VERSION(overrides?: CallOverrides): Promise<[string]>;
@@ -930,27 +1016,11 @@ export class AwardAbi2 extends BaseContract {
     prizeSplit(
       prizeSplitIndex: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<
-      [
-        [string, number, number] & {
-          target: string;
-          percentage: number;
-          token: number;
-        }
-      ]
-    >;
+    ): Promise<[PrizeSplitConfigStructOutput]>;
 
     prizeSplits(
       overrides?: CallOverrides
-    ): Promise<
-      [
-        ([string, number, number] & {
-          target: string;
-          percentage: number;
-          token: number;
-        })[]
-      ]
-    >;
+    ): Promise<[PrizeSplitConfigStructOutput[]]>;
 
     removeExternalErc20Award(
       _externalErc20: string,
@@ -1009,21 +1079,13 @@ export class AwardAbi2 extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setPrizeSplit(
-      prizeStrategySplit: {
-        target: string;
-        percentage: BigNumberish;
-        token: BigNumberish;
-      },
+      prizeStrategySplit: PrizeSplitConfigStruct,
       prizeSplitIndex: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     setPrizeSplits(
-      newPrizeSplits: {
-        target: string;
-        percentage: BigNumberish;
-        token: BigNumberish;
-      }[],
+      newPrizeSplits: PrizeSplitConfigStruct[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1198,23 +1260,11 @@ export class AwardAbi2 extends BaseContract {
   prizeSplit(
     prizeSplitIndex: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<
-    [string, number, number] & {
-      target: string;
-      percentage: number;
-      token: number;
-    }
-  >;
+  ): Promise<PrizeSplitConfigStructOutput>;
 
   prizeSplits(
     overrides?: CallOverrides
-  ): Promise<
-    ([string, number, number] & {
-      target: string;
-      percentage: number;
-      token: number;
-    })[]
-  >;
+  ): Promise<PrizeSplitConfigStructOutput[]>;
 
   removeExternalErc20Award(
     _externalErc20: string,
@@ -1273,21 +1323,13 @@ export class AwardAbi2 extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setPrizeSplit(
-    prizeStrategySplit: {
-      target: string;
-      percentage: BigNumberish;
-      token: BigNumberish;
-    },
+    prizeStrategySplit: PrizeSplitConfigStruct,
     prizeSplitIndex: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   setPrizeSplits(
-    newPrizeSplits: {
-      target: string;
-      percentage: BigNumberish;
-      token: BigNumberish;
-    }[],
+    newPrizeSplits: PrizeSplitConfigStruct[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1458,23 +1500,11 @@ export class AwardAbi2 extends BaseContract {
     prizeSplit(
       prizeSplitIndex: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<
-      [string, number, number] & {
-        target: string;
-        percentage: number;
-        token: number;
-      }
-    >;
+    ): Promise<PrizeSplitConfigStructOutput>;
 
     prizeSplits(
       overrides?: CallOverrides
-    ): Promise<
-      ([string, number, number] & {
-        target: string;
-        percentage: number;
-        token: number;
-      })[]
-    >;
+    ): Promise<PrizeSplitConfigStructOutput[]>;
 
     removeExternalErc20Award(
       _externalErc20: string,
@@ -1531,21 +1561,13 @@ export class AwardAbi2 extends BaseContract {
     ): Promise<void>;
 
     setPrizeSplit(
-      prizeStrategySplit: {
-        target: string;
-        percentage: BigNumberish;
-        token: BigNumberish;
-      },
+      prizeStrategySplit: PrizeSplitConfigStruct,
       prizeSplitIndex: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setPrizeSplits(
-      newPrizeSplits: {
-        target: string;
-        percentage: BigNumberish;
-        token: BigNumberish;
-      }[],
+      newPrizeSplits: PrizeSplitConfigStruct[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1590,83 +1612,57 @@ export class AwardAbi2 extends BaseContract {
   filters: {
     "BeforeAwardListenerSet(address)"(
       beforeAwardListener?: string | null
-    ): TypedEventFilter<[string], { beforeAwardListener: string }>;
-
+    ): BeforeAwardListenerSetEventFilter;
     BeforeAwardListenerSet(
       beforeAwardListener?: string | null
-    ): TypedEventFilter<[string], { beforeAwardListener: string }>;
+    ): BeforeAwardListenerSetEventFilter;
 
-    "BlocklistCarrySet(bool)"(
-      carry?: null
-    ): TypedEventFilter<[boolean], { carry: boolean }>;
-
-    BlocklistCarrySet(
-      carry?: null
-    ): TypedEventFilter<[boolean], { carry: boolean }>;
+    "BlocklistCarrySet(bool)"(carry?: null): BlocklistCarrySetEventFilter;
+    BlocklistCarrySet(carry?: null): BlocklistCarrySetEventFilter;
 
     "BlocklistRetryCountSet(uint256)"(
       count?: null
-    ): TypedEventFilter<[BigNumber], { count: BigNumber }>;
-
-    BlocklistRetryCountSet(
-      count?: null
-    ): TypedEventFilter<[BigNumber], { count: BigNumber }>;
+    ): BlocklistRetryCountSetEventFilter;
+    BlocklistRetryCountSet(count?: null): BlocklistRetryCountSetEventFilter;
 
     "BlocklistSet(address,bool)"(
       user?: string | null,
       isBlocked?: null
-    ): TypedEventFilter<
-      [string, boolean],
-      { user: string; isBlocked: boolean }
-    >;
-
+    ): BlocklistSetEventFilter;
     BlocklistSet(
       user?: string | null,
       isBlocked?: null
-    ): TypedEventFilter<
-      [string, boolean],
-      { user: string; isBlocked: boolean }
-    >;
+    ): BlocklistSetEventFilter;
 
     "ExternalErc20AwardAdded(address)"(
       externalErc20?: string | null
-    ): TypedEventFilter<[string], { externalErc20: string }>;
-
+    ): ExternalErc20AwardAddedEventFilter;
     ExternalErc20AwardAdded(
       externalErc20?: string | null
-    ): TypedEventFilter<[string], { externalErc20: string }>;
+    ): ExternalErc20AwardAddedEventFilter;
 
     "ExternalErc20AwardRemoved(address)"(
       externalErc20Award?: string | null
-    ): TypedEventFilter<[string], { externalErc20Award: string }>;
-
+    ): ExternalErc20AwardRemovedEventFilter;
     ExternalErc20AwardRemoved(
       externalErc20Award?: string | null
-    ): TypedEventFilter<[string], { externalErc20Award: string }>;
+    ): ExternalErc20AwardRemovedEventFilter;
 
     "ExternalErc721AwardAdded(address,uint256[])"(
       externalErc721?: string | null,
       tokenIds?: null
-    ): TypedEventFilter<
-      [string, BigNumber[]],
-      { externalErc721: string; tokenIds: BigNumber[] }
-    >;
-
+    ): ExternalErc721AwardAddedEventFilter;
     ExternalErc721AwardAdded(
       externalErc721?: string | null,
       tokenIds?: null
-    ): TypedEventFilter<
-      [string, BigNumber[]],
-      { externalErc721: string; tokenIds: BigNumber[] }
-    >;
+    ): ExternalErc721AwardAddedEventFilter;
 
     "ExternalErc721AwardRemoved(address)"(
       externalErc721Award?: string | null
-    ): TypedEventFilter<[string], { externalErc721Award: string }>;
-
+    ): ExternalErc721AwardRemovedEventFilter;
     ExternalErc721AwardRemoved(
       externalErc721Award?: string | null
-    ): TypedEventFilter<[string], { externalErc721Award: string }>;
+    ): ExternalErc721AwardRemovedEventFilter;
 
     "Initialized(uint256,uint256,address,address,address,address,address[])"(
       prizePeriodStart?: null,
@@ -1676,19 +1672,7 @@ export class AwardAbi2 extends BaseContract {
       sponsorship?: null,
       rng?: null,
       externalErc20Awards?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, string, string, string, string, string[]],
-      {
-        prizePeriodStart: BigNumber;
-        prizePeriodSeconds: BigNumber;
-        prizePool: string;
-        ticket: string;
-        sponsorship: string;
-        rng: string;
-        externalErc20Awards: string[];
-      }
-    >;
-
+    ): InitializedEventFilter;
     Initialized(
       prizePeriodStart?: null,
       prizePeriodSeconds?: null,
@@ -1697,226 +1681,138 @@ export class AwardAbi2 extends BaseContract {
       sponsorship?: null,
       rng?: null,
       externalErc20Awards?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, string, string, string, string, string[]],
-      {
-        prizePeriodStart: BigNumber;
-        prizePeriodSeconds: BigNumber;
-        prizePool: string;
-        ticket: string;
-        sponsorship: string;
-        rng: string;
-        externalErc20Awards: string[];
-      }
-    >;
+    ): InitializedEventFilter;
 
-    "NoWinners()"(): TypedEventFilter<[], {}>;
-
-    NoWinners(): TypedEventFilter<[], {}>;
+    "NoWinners()"(): NoWinnersEventFilter;
+    NoWinners(): NoWinnersEventFilter;
 
     "NumberOfWinnersSet(uint256)"(
       numberOfWinners?: null
-    ): TypedEventFilter<[BigNumber], { numberOfWinners: BigNumber }>;
-
-    NumberOfWinnersSet(
-      numberOfWinners?: null
-    ): TypedEventFilter<[BigNumber], { numberOfWinners: BigNumber }>;
+    ): NumberOfWinnersSetEventFilter;
+    NumberOfWinnersSet(numberOfWinners?: null): NumberOfWinnersSetEventFilter;
 
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
-
+    ): OwnershipTransferredEventFilter;
     OwnershipTransferred(
       previousOwner?: string | null,
       newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
+    ): OwnershipTransferredEventFilter;
 
     "PeriodicPrizeStrategyListenerSet(address)"(
       periodicPrizeStrategyListener?: string | null
-    ): TypedEventFilter<[string], { periodicPrizeStrategyListener: string }>;
-
+    ): PeriodicPrizeStrategyListenerSetEventFilter;
     PeriodicPrizeStrategyListenerSet(
       periodicPrizeStrategyListener?: string | null
-    ): TypedEventFilter<[string], { periodicPrizeStrategyListener: string }>;
+    ): PeriodicPrizeStrategyListenerSetEventFilter;
 
     "PrizePeriodSecondsUpdated(uint256)"(
       prizePeriodSeconds?: null
-    ): TypedEventFilter<[BigNumber], { prizePeriodSeconds: BigNumber }>;
-
+    ): PrizePeriodSecondsUpdatedEventFilter;
     PrizePeriodSecondsUpdated(
       prizePeriodSeconds?: null
-    ): TypedEventFilter<[BigNumber], { prizePeriodSeconds: BigNumber }>;
+    ): PrizePeriodSecondsUpdatedEventFilter;
 
     "PrizePoolAwardCancelled(address,address,uint32,uint32)"(
       operator?: string | null,
       prizePool?: string | null,
       rngRequestId?: BigNumberish | null,
       rngLockBlock?: null
-    ): TypedEventFilter<
-      [string, string, number, number],
-      {
-        operator: string;
-        prizePool: string;
-        rngRequestId: number;
-        rngLockBlock: number;
-      }
-    >;
-
+    ): PrizePoolAwardCancelledEventFilter;
     PrizePoolAwardCancelled(
       operator?: string | null,
       prizePool?: string | null,
       rngRequestId?: BigNumberish | null,
       rngLockBlock?: null
-    ): TypedEventFilter<
-      [string, string, number, number],
-      {
-        operator: string;
-        prizePool: string;
-        rngRequestId: number;
-        rngLockBlock: number;
-      }
-    >;
+    ): PrizePoolAwardCancelledEventFilter;
 
     "PrizePoolAwardStarted(address,address,uint32,uint32)"(
       operator?: string | null,
       prizePool?: string | null,
       rngRequestId?: BigNumberish | null,
       rngLockBlock?: null
-    ): TypedEventFilter<
-      [string, string, number, number],
-      {
-        operator: string;
-        prizePool: string;
-        rngRequestId: number;
-        rngLockBlock: number;
-      }
-    >;
-
+    ): PrizePoolAwardStartedEventFilter;
     PrizePoolAwardStarted(
       operator?: string | null,
       prizePool?: string | null,
       rngRequestId?: BigNumberish | null,
       rngLockBlock?: null
-    ): TypedEventFilter<
-      [string, string, number, number],
-      {
-        operator: string;
-        prizePool: string;
-        rngRequestId: number;
-        rngLockBlock: number;
-      }
-    >;
+    ): PrizePoolAwardStartedEventFilter;
 
     "PrizePoolAwarded(address,uint256)"(
       operator?: string | null,
       randomNumber?: null
-    ): TypedEventFilter<
-      [string, BigNumber],
-      { operator: string; randomNumber: BigNumber }
-    >;
-
+    ): PrizePoolAwardedEventFilter;
     PrizePoolAwarded(
       operator?: string | null,
       randomNumber?: null
-    ): TypedEventFilter<
-      [string, BigNumber],
-      { operator: string; randomNumber: BigNumber }
-    >;
+    ): PrizePoolAwardedEventFilter;
 
     "PrizePoolOpened(address,uint256)"(
       operator?: string | null,
       prizePeriodStartedAt?: BigNumberish | null
-    ): TypedEventFilter<
-      [string, BigNumber],
-      { operator: string; prizePeriodStartedAt: BigNumber }
-    >;
-
+    ): PrizePoolOpenedEventFilter;
     PrizePoolOpened(
       operator?: string | null,
       prizePeriodStartedAt?: BigNumberish | null
-    ): TypedEventFilter<
-      [string, BigNumber],
-      { operator: string; prizePeriodStartedAt: BigNumber }
-    >;
+    ): PrizePoolOpenedEventFilter;
 
     "PrizeSplitRemoved(uint256)"(
       target?: BigNumberish | null
-    ): TypedEventFilter<[BigNumber], { target: BigNumber }>;
-
+    ): PrizeSplitRemovedEventFilter;
     PrizeSplitRemoved(
       target?: BigNumberish | null
-    ): TypedEventFilter<[BigNumber], { target: BigNumber }>;
+    ): PrizeSplitRemovedEventFilter;
 
     "PrizeSplitSet(address,uint16,uint8,uint256)"(
       target?: string | null,
       percentage?: null,
       token?: null,
       index?: null
-    ): TypedEventFilter<
-      [string, number, number, BigNumber],
-      { target: string; percentage: number; token: number; index: BigNumber }
-    >;
-
+    ): PrizeSplitSetEventFilter;
     PrizeSplitSet(
       target?: string | null,
       percentage?: null,
       token?: null,
       index?: null
-    ): TypedEventFilter<
-      [string, number, number, BigNumber],
-      { target: string; percentage: number; token: number; index: BigNumber }
-    >;
+    ): PrizeSplitSetEventFilter;
 
     "RetryMaxLimitReached(uint256)"(
       numberOfWinners?: null
-    ): TypedEventFilter<[BigNumber], { numberOfWinners: BigNumber }>;
-
+    ): RetryMaxLimitReachedEventFilter;
     RetryMaxLimitReached(
       numberOfWinners?: null
-    ): TypedEventFilter<[BigNumber], { numberOfWinners: BigNumber }>;
+    ): RetryMaxLimitReachedEventFilter;
 
-    "RngRequestFailed()"(): TypedEventFilter<[], {}>;
-
-    RngRequestFailed(): TypedEventFilter<[], {}>;
+    "RngRequestFailed()"(): RngRequestFailedEventFilter;
+    RngRequestFailed(): RngRequestFailedEventFilter;
 
     "RngRequestTimeoutSet(uint32)"(
       rngRequestTimeout?: null
-    ): TypedEventFilter<[number], { rngRequestTimeout: number }>;
-
+    ): RngRequestTimeoutSetEventFilter;
     RngRequestTimeoutSet(
       rngRequestTimeout?: null
-    ): TypedEventFilter<[number], { rngRequestTimeout: number }>;
+    ): RngRequestTimeoutSetEventFilter;
 
     "RngServiceUpdated(address)"(
       rngService?: string | null
-    ): TypedEventFilter<[string], { rngService: string }>;
-
-    RngServiceUpdated(
-      rngService?: string | null
-    ): TypedEventFilter<[string], { rngService: string }>;
+    ): RngServiceUpdatedEventFilter;
+    RngServiceUpdated(rngService?: string | null): RngServiceUpdatedEventFilter;
 
     "SplitExternalErc20AwardsSet(bool)"(
       splitExternalErc20Awards?: null
-    ): TypedEventFilter<[boolean], { splitExternalErc20Awards: boolean }>;
-
+    ): SplitExternalErc20AwardsSetEventFilter;
     SplitExternalErc20AwardsSet(
       splitExternalErc20Awards?: null
-    ): TypedEventFilter<[boolean], { splitExternalErc20Awards: boolean }>;
+    ): SplitExternalErc20AwardsSetEventFilter;
 
     "TokenListenerUpdated(address)"(
       tokenListener?: string | null
-    ): TypedEventFilter<[string], { tokenListener: string }>;
-
+    ): TokenListenerUpdatedEventFilter;
     TokenListenerUpdated(
       tokenListener?: string | null
-    ): TypedEventFilter<[string], { tokenListener: string }>;
+    ): TokenListenerUpdatedEventFilter;
   };
 
   estimateGas: {
@@ -2111,21 +2007,13 @@ export class AwardAbi2 extends BaseContract {
     ): Promise<BigNumber>;
 
     setPrizeSplit(
-      prizeStrategySplit: {
-        target: string;
-        percentage: BigNumberish;
-        token: BigNumberish;
-      },
+      prizeStrategySplit: PrizeSplitConfigStruct,
       prizeSplitIndex: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setPrizeSplits(
-      newPrizeSplits: {
-        target: string;
-        percentage: BigNumberish;
-        token: BigNumberish;
-      }[],
+      newPrizeSplits: PrizeSplitConfigStruct[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -2387,21 +2275,13 @@ export class AwardAbi2 extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setPrizeSplit(
-      prizeStrategySplit: {
-        target: string;
-        percentage: BigNumberish;
-        token: BigNumberish;
-      },
+      prizeStrategySplit: PrizeSplitConfigStruct,
       prizeSplitIndex: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setPrizeSplits(
-      newPrizeSplits: {
-        target: string;
-        percentage: BigNumberish;
-        token: BigNumberish;
-      }[],
+      newPrizeSplits: PrizeSplitConfigStruct[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

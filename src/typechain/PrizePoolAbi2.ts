@@ -17,9 +17,14 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
+import type {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  OnEvent,
+} from "./common";
 
-interface PrizePoolAbi2Interface extends ethers.utils.Interface {
+export interface PrizePoolAbi2Interface extends ethers.utils.Interface {
   functions: {
     "VERSION()": FunctionFragment;
     "accountedBalance()": FunctionFragment;
@@ -355,64 +360,66 @@ interface PrizePoolAbi2Interface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "TransferredExternalERC20"): EventFragment;
 }
 
-export type AwardCapturedEvent = TypedEvent<
-  [BigNumber] & { amount: BigNumber }
->;
+export type AwardCapturedEvent = TypedEvent<[BigNumber], { amount: BigNumber }>;
+
+export type AwardCapturedEventFilter = TypedEventFilter<AwardCapturedEvent>;
 
 export type AwardedEvent = TypedEvent<
-  [string, string, BigNumber] & {
-    winner: string;
-    token: string;
-    amount: BigNumber;
-  }
+  [string, string, BigNumber],
+  { winner: string; token: string; amount: BigNumber }
 >;
+
+export type AwardedEventFilter = TypedEventFilter<AwardedEvent>;
 
 export type AwardedExternalERC20Event = TypedEvent<
-  [string, string, BigNumber] & {
-    winner: string;
-    token: string;
-    amount: BigNumber;
-  }
+  [string, string, BigNumber],
+  { winner: string; token: string; amount: BigNumber }
 >;
+
+export type AwardedExternalERC20EventFilter =
+  TypedEventFilter<AwardedExternalERC20Event>;
 
 export type AwardedExternalERC721Event = TypedEvent<
-  [string, string, BigNumber[]] & {
-    winner: string;
-    token: string;
-    tokenIds: BigNumber[];
-  }
+  [string, string, BigNumber[]],
+  { winner: string; token: string; tokenIds: BigNumber[] }
 >;
 
-export type ControlledTokenAddedEvent = TypedEvent<
-  [string] & { token: string }
->;
+export type AwardedExternalERC721EventFilter =
+  TypedEventFilter<AwardedExternalERC721Event>;
+
+export type ControlledTokenAddedEvent = TypedEvent<[string], { token: string }>;
+
+export type ControlledTokenAddedEventFilter =
+  TypedEventFilter<ControlledTokenAddedEvent>;
 
 export type CreditBurnedEvent = TypedEvent<
-  [string, string, BigNumber] & {
-    user: string;
-    token: string;
-    amount: BigNumber;
-  }
+  [string, string, BigNumber],
+  { user: string; token: string; amount: BigNumber }
 >;
+
+export type CreditBurnedEventFilter = TypedEventFilter<CreditBurnedEvent>;
 
 export type CreditMintedEvent = TypedEvent<
-  [string, string, BigNumber] & {
-    user: string;
-    token: string;
-    amount: BigNumber;
-  }
+  [string, string, BigNumber],
+  { user: string; token: string; amount: BigNumber }
 >;
 
+export type CreditMintedEventFilter = TypedEventFilter<CreditMintedEvent>;
+
 export type CreditPlanSetEvent = TypedEvent<
-  [string, BigNumber, BigNumber] & {
+  [string, BigNumber, BigNumber],
+  {
     token: string;
     creditLimitMantissa: BigNumber;
     creditRateMantissa: BigNumber;
   }
 >;
 
+export type CreditPlanSetEventFilter = TypedEventFilter<CreditPlanSetEvent>;
+
 export type DepositedEvent = TypedEvent<
-  [string, string, string, BigNumber, string] & {
+  [string, string, string, BigNumber, string],
+  {
     operator: string;
     to: string;
     token: string;
@@ -421,19 +428,26 @@ export type DepositedEvent = TypedEvent<
   }
 >;
 
+export type DepositedEventFilter = TypedEventFilter<DepositedEvent>;
+
 export type ErrorAwardingExternalERC721Event = TypedEvent<
-  [string] & { error: string }
+  [string],
+  { error: string }
 >;
+
+export type ErrorAwardingExternalERC721EventFilter =
+  TypedEventFilter<ErrorAwardingExternalERC721Event>;
 
 export type InitializedEvent = TypedEvent<
-  [string, BigNumber] & {
-    reserveRegistry: string;
-    maxExitFeeMantissa: BigNumber;
-  }
+  [string, BigNumber],
+  { reserveRegistry: string; maxExitFeeMantissa: BigNumber }
 >;
 
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
+
 export type InstantWithdrawalEvent = TypedEvent<
-  [string, string, string, BigNumber, BigNumber, BigNumber] & {
+  [string, string, string, BigNumber, BigNumber, BigNumber],
+  {
     operator: string;
     from: string;
     token: string;
@@ -443,76 +457,89 @@ export type InstantWithdrawalEvent = TypedEvent<
   }
 >;
 
+export type InstantWithdrawalEventFilter =
+  TypedEventFilter<InstantWithdrawalEvent>;
+
 export type LiquidityCapSetEvent = TypedEvent<
-  [BigNumber] & { liquidityCap: BigNumber }
+  [BigNumber],
+  { liquidityCap: BigNumber }
 >;
+
+export type LiquidityCapSetEventFilter = TypedEventFilter<LiquidityCapSetEvent>;
 
 export type OwnershipTransferredEvent = TypedEvent<
-  [string, string] & { previousOwner: string; newOwner: string }
+  [string, string],
+  { previousOwner: string; newOwner: string }
 >;
+
+export type OwnershipTransferredEventFilter =
+  TypedEventFilter<OwnershipTransferredEvent>;
 
 export type PrizeStrategySetEvent = TypedEvent<
-  [string] & { prizeStrategy: string }
+  [string],
+  { prizeStrategy: string }
 >;
+
+export type PrizeStrategySetEventFilter =
+  TypedEventFilter<PrizeStrategySetEvent>;
 
 export type ReserveFeeCapturedEvent = TypedEvent<
-  [BigNumber] & { amount: BigNumber }
+  [BigNumber],
+  { amount: BigNumber }
 >;
+
+export type ReserveFeeCapturedEventFilter =
+  TypedEventFilter<ReserveFeeCapturedEvent>;
 
 export type ReserveWithdrawalEvent = TypedEvent<
-  [string, BigNumber] & { to: string; amount: BigNumber }
+  [string, BigNumber],
+  { to: string; amount: BigNumber }
 >;
+
+export type ReserveWithdrawalEventFilter =
+  TypedEventFilter<ReserveWithdrawalEvent>;
 
 export type StakePrizePoolInitializedEvent = TypedEvent<
-  [string] & { stakeToken: string }
+  [string],
+  { stakeToken: string }
 >;
+
+export type StakePrizePoolInitializedEventFilter =
+  TypedEventFilter<StakePrizePoolInitializedEvent>;
 
 export type TransferredExternalERC20Event = TypedEvent<
-  [string, string, BigNumber] & { to: string; token: string; amount: BigNumber }
+  [string, string, BigNumber],
+  { to: string; token: string; amount: BigNumber }
 >;
 
-export class PrizePoolAbi2 extends BaseContract {
+export type TransferredExternalERC20EventFilter =
+  TypedEventFilter<TransferredExternalERC20Event>;
+
+export interface PrizePoolAbi2 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  listeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter?: TypedEventFilter<EventArgsArray, EventArgsObject>
-  ): Array<TypedListener<EventArgsArray, EventArgsObject>>;
-  off<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  on<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  once<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  removeListener<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  removeAllListeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>
-  ): this;
+  interface: PrizePoolAbi2Interface;
 
-  listeners(eventName?: string): Array<Listener>;
-  off(eventName: string, listener: Listener): this;
-  on(eventName: string, listener: Listener): this;
-  once(eventName: string, listener: Listener): this;
-  removeListener(eventName: string, listener: Listener): this;
-  removeAllListeners(eventName?: string): this;
-
-  queryFilter<EventArgsArray extends Array<any>, EventArgsObject>(
-    event: TypedEventFilter<EventArgsArray, EventArgsObject>,
+  queryFilter<TEvent extends TypedEvent>(
+    event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
+  ): Promise<Array<TEvent>>;
 
-  interface: PrizePoolAbi2Interface;
+  listeners<TEvent extends TypedEvent>(
+    eventFilter?: TypedEventFilter<TEvent>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
+  removeAllListeners<TEvent extends TypedEvent>(
+    eventFilter: TypedEventFilter<TEvent>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
     VERSION(overrides?: CallOverrides): Promise<[string]>;
@@ -1070,137 +1097,81 @@ export class PrizePoolAbi2 extends BaseContract {
   };
 
   filters: {
-    "AwardCaptured(uint256)"(
-      amount?: null
-    ): TypedEventFilter<[BigNumber], { amount: BigNumber }>;
-
-    AwardCaptured(
-      amount?: null
-    ): TypedEventFilter<[BigNumber], { amount: BigNumber }>;
+    "AwardCaptured(uint256)"(amount?: null): AwardCapturedEventFilter;
+    AwardCaptured(amount?: null): AwardCapturedEventFilter;
 
     "Awarded(address,address,uint256)"(
       winner?: string | null,
       token?: string | null,
       amount?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { winner: string; token: string; amount: BigNumber }
-    >;
-
+    ): AwardedEventFilter;
     Awarded(
       winner?: string | null,
       token?: string | null,
       amount?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { winner: string; token: string; amount: BigNumber }
-    >;
+    ): AwardedEventFilter;
 
     "AwardedExternalERC20(address,address,uint256)"(
       winner?: string | null,
       token?: string | null,
       amount?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { winner: string; token: string; amount: BigNumber }
-    >;
-
+    ): AwardedExternalERC20EventFilter;
     AwardedExternalERC20(
       winner?: string | null,
       token?: string | null,
       amount?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { winner: string; token: string; amount: BigNumber }
-    >;
+    ): AwardedExternalERC20EventFilter;
 
     "AwardedExternalERC721(address,address,uint256[])"(
       winner?: string | null,
       token?: string | null,
       tokenIds?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber[]],
-      { winner: string; token: string; tokenIds: BigNumber[] }
-    >;
-
+    ): AwardedExternalERC721EventFilter;
     AwardedExternalERC721(
       winner?: string | null,
       token?: string | null,
       tokenIds?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber[]],
-      { winner: string; token: string; tokenIds: BigNumber[] }
-    >;
+    ): AwardedExternalERC721EventFilter;
 
     "ControlledTokenAdded(address)"(
       token?: string | null
-    ): TypedEventFilter<[string], { token: string }>;
-
+    ): ControlledTokenAddedEventFilter;
     ControlledTokenAdded(
       token?: string | null
-    ): TypedEventFilter<[string], { token: string }>;
+    ): ControlledTokenAddedEventFilter;
 
     "CreditBurned(address,address,uint256)"(
       user?: string | null,
       token?: string | null,
       amount?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { user: string; token: string; amount: BigNumber }
-    >;
-
+    ): CreditBurnedEventFilter;
     CreditBurned(
       user?: string | null,
       token?: string | null,
       amount?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { user: string; token: string; amount: BigNumber }
-    >;
+    ): CreditBurnedEventFilter;
 
     "CreditMinted(address,address,uint256)"(
       user?: string | null,
       token?: string | null,
       amount?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { user: string; token: string; amount: BigNumber }
-    >;
-
+    ): CreditMintedEventFilter;
     CreditMinted(
       user?: string | null,
       token?: string | null,
       amount?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { user: string; token: string; amount: BigNumber }
-    >;
+    ): CreditMintedEventFilter;
 
     "CreditPlanSet(address,uint128,uint128)"(
       token?: null,
       creditLimitMantissa?: null,
       creditRateMantissa?: null
-    ): TypedEventFilter<
-      [string, BigNumber, BigNumber],
-      {
-        token: string;
-        creditLimitMantissa: BigNumber;
-        creditRateMantissa: BigNumber;
-      }
-    >;
-
+    ): CreditPlanSetEventFilter;
     CreditPlanSet(
       token?: null,
       creditLimitMantissa?: null,
       creditRateMantissa?: null
-    ): TypedEventFilter<
-      [string, BigNumber, BigNumber],
-      {
-        token: string;
-        creditLimitMantissa: BigNumber;
-        creditRateMantissa: BigNumber;
-      }
-    >;
+    ): CreditPlanSetEventFilter;
 
     "Deposited(address,address,address,uint256,address)"(
       operator?: string | null,
@@ -1208,57 +1179,30 @@ export class PrizePoolAbi2 extends BaseContract {
       token?: string | null,
       amount?: null,
       referrer?: null
-    ): TypedEventFilter<
-      [string, string, string, BigNumber, string],
-      {
-        operator: string;
-        to: string;
-        token: string;
-        amount: BigNumber;
-        referrer: string;
-      }
-    >;
-
+    ): DepositedEventFilter;
     Deposited(
       operator?: string | null,
       to?: string | null,
       token?: string | null,
       amount?: null,
       referrer?: null
-    ): TypedEventFilter<
-      [string, string, string, BigNumber, string],
-      {
-        operator: string;
-        to: string;
-        token: string;
-        amount: BigNumber;
-        referrer: string;
-      }
-    >;
+    ): DepositedEventFilter;
 
     "ErrorAwardingExternalERC721(bytes)"(
       error?: null
-    ): TypedEventFilter<[string], { error: string }>;
-
+    ): ErrorAwardingExternalERC721EventFilter;
     ErrorAwardingExternalERC721(
       error?: null
-    ): TypedEventFilter<[string], { error: string }>;
+    ): ErrorAwardingExternalERC721EventFilter;
 
     "Initialized(address,uint256)"(
       reserveRegistry?: null,
       maxExitFeeMantissa?: null
-    ): TypedEventFilter<
-      [string, BigNumber],
-      { reserveRegistry: string; maxExitFeeMantissa: BigNumber }
-    >;
-
+    ): InitializedEventFilter;
     Initialized(
       reserveRegistry?: null,
       maxExitFeeMantissa?: null
-    ): TypedEventFilter<
-      [string, BigNumber],
-      { reserveRegistry: string; maxExitFeeMantissa: BigNumber }
-    >;
+    ): InitializedEventFilter;
 
     "InstantWithdrawal(address,address,address,uint256,uint256,uint256)"(
       operator?: string | null,
@@ -1267,18 +1211,7 @@ export class PrizePoolAbi2 extends BaseContract {
       amount?: null,
       redeemed?: null,
       exitFee?: null
-    ): TypedEventFilter<
-      [string, string, string, BigNumber, BigNumber, BigNumber],
-      {
-        operator: string;
-        from: string;
-        token: string;
-        amount: BigNumber;
-        redeemed: BigNumber;
-        exitFee: BigNumber;
-      }
-    >;
-
+    ): InstantWithdrawalEventFilter;
     InstantWithdrawal(
       operator?: string | null,
       from?: string | null,
@@ -1286,93 +1219,56 @@ export class PrizePoolAbi2 extends BaseContract {
       amount?: null,
       redeemed?: null,
       exitFee?: null
-    ): TypedEventFilter<
-      [string, string, string, BigNumber, BigNumber, BigNumber],
-      {
-        operator: string;
-        from: string;
-        token: string;
-        amount: BigNumber;
-        redeemed: BigNumber;
-        exitFee: BigNumber;
-      }
-    >;
+    ): InstantWithdrawalEventFilter;
 
-    "LiquidityCapSet(uint256)"(
-      liquidityCap?: null
-    ): TypedEventFilter<[BigNumber], { liquidityCap: BigNumber }>;
-
-    LiquidityCapSet(
-      liquidityCap?: null
-    ): TypedEventFilter<[BigNumber], { liquidityCap: BigNumber }>;
+    "LiquidityCapSet(uint256)"(liquidityCap?: null): LiquidityCapSetEventFilter;
+    LiquidityCapSet(liquidityCap?: null): LiquidityCapSetEventFilter;
 
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
-
+    ): OwnershipTransferredEventFilter;
     OwnershipTransferred(
       previousOwner?: string | null,
       newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
+    ): OwnershipTransferredEventFilter;
 
     "PrizeStrategySet(address)"(
       prizeStrategy?: string | null
-    ): TypedEventFilter<[string], { prizeStrategy: string }>;
-
+    ): PrizeStrategySetEventFilter;
     PrizeStrategySet(
       prizeStrategy?: string | null
-    ): TypedEventFilter<[string], { prizeStrategy: string }>;
+    ): PrizeStrategySetEventFilter;
 
-    "ReserveFeeCaptured(uint256)"(
-      amount?: null
-    ): TypedEventFilter<[BigNumber], { amount: BigNumber }>;
-
-    ReserveFeeCaptured(
-      amount?: null
-    ): TypedEventFilter<[BigNumber], { amount: BigNumber }>;
+    "ReserveFeeCaptured(uint256)"(amount?: null): ReserveFeeCapturedEventFilter;
+    ReserveFeeCaptured(amount?: null): ReserveFeeCapturedEventFilter;
 
     "ReserveWithdrawal(address,uint256)"(
       to?: string | null,
       amount?: null
-    ): TypedEventFilter<[string, BigNumber], { to: string; amount: BigNumber }>;
-
+    ): ReserveWithdrawalEventFilter;
     ReserveWithdrawal(
       to?: string | null,
       amount?: null
-    ): TypedEventFilter<[string, BigNumber], { to: string; amount: BigNumber }>;
+    ): ReserveWithdrawalEventFilter;
 
     "StakePrizePoolInitialized(address)"(
       stakeToken?: string | null
-    ): TypedEventFilter<[string], { stakeToken: string }>;
-
+    ): StakePrizePoolInitializedEventFilter;
     StakePrizePoolInitialized(
       stakeToken?: string | null
-    ): TypedEventFilter<[string], { stakeToken: string }>;
+    ): StakePrizePoolInitializedEventFilter;
 
     "TransferredExternalERC20(address,address,uint256)"(
       to?: string | null,
       token?: string | null,
       amount?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { to: string; token: string; amount: BigNumber }
-    >;
-
+    ): TransferredExternalERC20EventFilter;
     TransferredExternalERC20(
       to?: string | null,
       token?: string | null,
       amount?: null
-    ): TypedEventFilter<
-      [string, string, BigNumber],
-      { to: string; token: string; amount: BigNumber }
-    >;
+    ): TransferredExternalERC20EventFilter;
   };
 
   estimateGas: {

@@ -17,14 +17,19 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
+import type {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  OnEvent,
+} from "./common";
 
-interface EthContractInterface extends ethers.utils.Interface {
+export interface OhmEthContractInterface extends ethers.utils.Interface {
   functions: {
-    "DAO()": FunctionFragment;
     "OHM()": FunctionFragment;
     "adjustment()": FunctionFragment;
     "assetPrice()": FunctionFragment;
+    "bondCalculator()": FunctionFragment;
     "bondInfo(address)": FunctionFragment;
     "bondPrice()": FunctionFragment;
     "bondPriceInUSD()": FunctionFragment;
@@ -42,7 +47,6 @@ interface EthContractInterface extends ethers.utils.Interface {
     "principle()": FunctionFragment;
     "pullManagement()": FunctionFragment;
     "pushManagement(address)": FunctionFragment;
-    "recoverLostToken(address)": FunctionFragment;
     "redeem(address,bool)": FunctionFragment;
     "renounceManagement()": FunctionFragment;
     "setAdjustment(bool,uint256,uint256,uint256)": FunctionFragment;
@@ -57,7 +61,6 @@ interface EthContractInterface extends ethers.utils.Interface {
     "useHelper()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "DAO", values?: undefined): string;
   encodeFunctionData(functionFragment: "OHM", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "adjustment",
@@ -65,6 +68,10 @@ interface EthContractInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "assetPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "bondCalculator",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "bondInfo", values: [string]): string;
@@ -119,10 +126,6 @@ interface EthContractInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "recoverLostToken",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "redeem",
     values: [string, boolean]
   ): string;
@@ -156,10 +159,13 @@ interface EthContractInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
   encodeFunctionData(functionFragment: "useHelper", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: "DAO", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "OHM", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "adjustment", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "assetPrice", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "bondCalculator",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "bondInfo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bondPrice", data: BytesLike): Result;
   decodeFunctionResult(
@@ -196,10 +202,6 @@ interface EthContractInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "pushManagement",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "recoverLostToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "redeem", data: BytesLike): Result;
@@ -248,7 +250,8 @@ interface EthContractInterface extends ethers.utils.Interface {
 }
 
 export type BondCreatedEvent = TypedEvent<
-  [BigNumber, BigNumber, BigNumber, BigNumber] & {
+  [BigNumber, BigNumber, BigNumber, BigNumber],
+  {
     deposit: BigNumber;
     payout: BigNumber;
     expires: BigNumber;
@@ -256,24 +259,26 @@ export type BondCreatedEvent = TypedEvent<
   }
 >;
 
+export type BondCreatedEventFilter = TypedEventFilter<BondCreatedEvent>;
+
 export type BondPriceChangedEvent = TypedEvent<
-  [BigNumber, BigNumber, BigNumber] & {
-    priceInUSD: BigNumber;
-    internalPrice: BigNumber;
-    debtRatio: BigNumber;
-  }
+  [BigNumber, BigNumber, BigNumber],
+  { priceInUSD: BigNumber; internalPrice: BigNumber; debtRatio: BigNumber }
 >;
+
+export type BondPriceChangedEventFilter =
+  TypedEventFilter<BondPriceChangedEvent>;
 
 export type BondRedeemedEvent = TypedEvent<
-  [string, BigNumber, BigNumber] & {
-    recipient: string;
-    payout: BigNumber;
-    remaining: BigNumber;
-  }
+  [string, BigNumber, BigNumber],
+  { recipient: string; payout: BigNumber; remaining: BigNumber }
 >;
 
+export type BondRedeemedEventFilter = TypedEventFilter<BondRedeemedEvent>;
+
 export type ControlVariableAdjustmentEvent = TypedEvent<
-  [BigNumber, BigNumber, BigNumber, boolean] & {
+  [BigNumber, BigNumber, BigNumber, boolean],
+  {
     initialBCV: BigNumber;
     newBCV: BigNumber;
     adjustment: BigNumber;
@@ -281,60 +286,50 @@ export type ControlVariableAdjustmentEvent = TypedEvent<
   }
 >;
 
+export type ControlVariableAdjustmentEventFilter =
+  TypedEventFilter<ControlVariableAdjustmentEvent>;
+
 export type OwnershipPulledEvent = TypedEvent<
-  [string, string] & { previousOwner: string; newOwner: string }
+  [string, string],
+  { previousOwner: string; newOwner: string }
 >;
+
+export type OwnershipPulledEventFilter = TypedEventFilter<OwnershipPulledEvent>;
 
 export type OwnershipPushedEvent = TypedEvent<
-  [string, string] & { previousOwner: string; newOwner: string }
+  [string, string],
+  { previousOwner: string; newOwner: string }
 >;
 
-export class EthContract extends BaseContract {
+export type OwnershipPushedEventFilter = TypedEventFilter<OwnershipPushedEvent>;
+
+export interface OhmEthContract extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  listeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter?: TypedEventFilter<EventArgsArray, EventArgsObject>
-  ): Array<TypedListener<EventArgsArray, EventArgsObject>>;
-  off<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  on<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  once<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  removeListener<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  removeAllListeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>
-  ): this;
+  interface: OhmEthContractInterface;
 
-  listeners(eventName?: string): Array<Listener>;
-  off(eventName: string, listener: Listener): this;
-  on(eventName: string, listener: Listener): this;
-  once(eventName: string, listener: Listener): this;
-  removeListener(eventName: string, listener: Listener): this;
-  removeAllListeners(eventName?: string): this;
-
-  queryFilter<EventArgsArray extends Array<any>, EventArgsObject>(
-    event: TypedEventFilter<EventArgsArray, EventArgsObject>,
+  queryFilter<TEvent extends TypedEvent>(
+    event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
+  ): Promise<Array<TEvent>>;
 
-  interface: EthContractInterface;
+  listeners<TEvent extends TypedEvent>(
+    eventFilter?: TypedEventFilter<TEvent>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
+  removeAllListeners<TEvent extends TypedEvent>(
+    eventFilter: TypedEventFilter<TEvent>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
-    DAO(overrides?: CallOverrides): Promise<[string]>;
-
     OHM(overrides?: CallOverrides): Promise<[string]>;
 
     adjustment(
@@ -350,6 +345,8 @@ export class EthContract extends BaseContract {
     >;
 
     assetPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    bondCalculator(overrides?: CallOverrides): Promise<[string]>;
 
     bondInfo(
       arg0: string,
@@ -430,11 +427,6 @@ export class EthContract extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    recoverLostToken(
-      _token: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     redeem(
       _recipient: string,
       _stake: boolean,
@@ -490,8 +482,6 @@ export class EthContract extends BaseContract {
     useHelper(overrides?: CallOverrides): Promise<[boolean]>;
   };
 
-  DAO(overrides?: CallOverrides): Promise<string>;
-
   OHM(overrides?: CallOverrides): Promise<string>;
 
   adjustment(
@@ -507,6 +497,8 @@ export class EthContract extends BaseContract {
   >;
 
   assetPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+  bondCalculator(overrides?: CallOverrides): Promise<string>;
 
   bondInfo(
     arg0: string,
@@ -579,11 +571,6 @@ export class EthContract extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  recoverLostToken(
-    _token: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   redeem(
     _recipient: string,
     _stake: boolean,
@@ -639,8 +626,6 @@ export class EthContract extends BaseContract {
   useHelper(overrides?: CallOverrides): Promise<boolean>;
 
   callStatic: {
-    DAO(overrides?: CallOverrides): Promise<string>;
-
     OHM(overrides?: CallOverrides): Promise<string>;
 
     adjustment(
@@ -656,6 +641,8 @@ export class EthContract extends BaseContract {
     >;
 
     assetPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    bondCalculator(overrides?: CallOverrides): Promise<string>;
 
     bondInfo(
       arg0: string,
@@ -723,11 +710,6 @@ export class EthContract extends BaseContract {
 
     pushManagement(newOwner_: string, overrides?: CallOverrides): Promise<void>;
 
-    recoverLostToken(
-      _token: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     redeem(
       _recipient: string,
       _stake: boolean,
@@ -787,138 +769,76 @@ export class EthContract extends BaseContract {
       payout?: BigNumberish | null,
       expires?: BigNumberish | null,
       priceInUSD?: BigNumberish | null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber, BigNumber],
-      {
-        deposit: BigNumber;
-        payout: BigNumber;
-        expires: BigNumber;
-        priceInUSD: BigNumber;
-      }
-    >;
-
+    ): BondCreatedEventFilter;
     BondCreated(
       deposit?: null,
       payout?: BigNumberish | null,
       expires?: BigNumberish | null,
       priceInUSD?: BigNumberish | null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber, BigNumber],
-      {
-        deposit: BigNumber;
-        payout: BigNumber;
-        expires: BigNumber;
-        priceInUSD: BigNumber;
-      }
-    >;
+    ): BondCreatedEventFilter;
 
     "BondPriceChanged(uint256,uint256,uint256)"(
       priceInUSD?: BigNumberish | null,
       internalPrice?: BigNumberish | null,
       debtRatio?: BigNumberish | null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber],
-      { priceInUSD: BigNumber; internalPrice: BigNumber; debtRatio: BigNumber }
-    >;
-
+    ): BondPriceChangedEventFilter;
     BondPriceChanged(
       priceInUSD?: BigNumberish | null,
       internalPrice?: BigNumberish | null,
       debtRatio?: BigNumberish | null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber],
-      { priceInUSD: BigNumber; internalPrice: BigNumber; debtRatio: BigNumber }
-    >;
+    ): BondPriceChangedEventFilter;
 
     "BondRedeemed(address,uint256,uint256)"(
       recipient?: string | null,
       payout?: null,
       remaining?: null
-    ): TypedEventFilter<
-      [string, BigNumber, BigNumber],
-      { recipient: string; payout: BigNumber; remaining: BigNumber }
-    >;
-
+    ): BondRedeemedEventFilter;
     BondRedeemed(
       recipient?: string | null,
       payout?: null,
       remaining?: null
-    ): TypedEventFilter<
-      [string, BigNumber, BigNumber],
-      { recipient: string; payout: BigNumber; remaining: BigNumber }
-    >;
+    ): BondRedeemedEventFilter;
 
     "ControlVariableAdjustment(uint256,uint256,uint256,bool)"(
       initialBCV?: null,
       newBCV?: null,
       adjustment?: null,
       addition?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber, boolean],
-      {
-        initialBCV: BigNumber;
-        newBCV: BigNumber;
-        adjustment: BigNumber;
-        addition: boolean;
-      }
-    >;
-
+    ): ControlVariableAdjustmentEventFilter;
     ControlVariableAdjustment(
       initialBCV?: null,
       newBCV?: null,
       adjustment?: null,
       addition?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber, boolean],
-      {
-        initialBCV: BigNumber;
-        newBCV: BigNumber;
-        adjustment: BigNumber;
-        addition: boolean;
-      }
-    >;
+    ): ControlVariableAdjustmentEventFilter;
 
     "OwnershipPulled(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
-
+    ): OwnershipPulledEventFilter;
     OwnershipPulled(
       previousOwner?: string | null,
       newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
+    ): OwnershipPulledEventFilter;
 
     "OwnershipPushed(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
-
+    ): OwnershipPushedEventFilter;
     OwnershipPushed(
       previousOwner?: string | null,
       newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
+    ): OwnershipPushedEventFilter;
   };
 
   estimateGas: {
-    DAO(overrides?: CallOverrides): Promise<BigNumber>;
-
     OHM(overrides?: CallOverrides): Promise<BigNumber>;
 
     adjustment(overrides?: CallOverrides): Promise<BigNumber>;
 
     assetPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
+    bondCalculator(overrides?: CallOverrides): Promise<BigNumber>;
 
     bondInfo(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -981,11 +901,6 @@ export class EthContract extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    recoverLostToken(
-      _token: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     redeem(
       _recipient: string,
       _stake: boolean,
@@ -1032,13 +947,13 @@ export class EthContract extends BaseContract {
   };
 
   populateTransaction: {
-    DAO(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     OHM(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     adjustment(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     assetPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    bondCalculator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     bondInfo(
       arg0: string,
@@ -1101,11 +1016,6 @@ export class EthContract extends BaseContract {
 
     pushManagement(
       newOwner_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    recoverLostToken(
-      _token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
