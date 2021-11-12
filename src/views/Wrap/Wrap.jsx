@@ -319,7 +319,7 @@ function Wrap() {
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
                           {isUnwrap
-                            ? `Unwrapping ${quantity} wsOHM will result in ${convertedQuantity} sOHM`
+                            ? `Unwrapping ${quantity} wsOHM will result in ${trim(convertedQuantity, 4)} sOHM`
                             : `Wrapping ${quantity} sOHM will result in ${trim(convertedQuantity, 4)} wsOHM`}
                         </Typography>
                       </Box>
