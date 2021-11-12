@@ -22,7 +22,7 @@ function Zap({ initialTab }) {
   const changeView = (event, newView) => {
     setView(newView);
   };
-  
+
   // const hasAllowance = useCallback(
   //   token => {
   //     if (token === "ohm") return stakeAllowance > 0;
