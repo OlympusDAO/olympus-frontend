@@ -19,7 +19,7 @@ export const LearnMoreButton = () => {
   );
 };
 
-export const MigrateButton = () => {
+export const MigrateButton = ({ setMigrationModalOpen }) => {
   return (
     <Button
       className="migrate-button"
@@ -42,7 +42,7 @@ const CallToAction = ({ setMigrationModalOpen }) => {
       </Typography>
       <div className="actionable">
         <LearnMoreButton />
-        <MigrateButton />
+        <MigrateButton setMigrationModalOpen={setMigrationModalOpen} />
       </div>
     </Box>
   );
