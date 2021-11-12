@@ -33,10 +33,11 @@ export const setupMetamask = async (
   browser: Browser,
   options: { network?: string; privateKey?: string },
 ): Promise<Dappeteer | null> => {
-  if (!(process.env.REACT_APP_TEST_METAMASK_NETWORK == "none")) {
+  const network: string = process.env.REACT_APP_TEST_METAMASK_NETWORK || "localhost";
+  if (!(network == "none")) {
     const seedPhrase = getMetamaskSeedPhrase();
     const metamask = await dappeteer.setupMetamask(browser, { seed: seedPhrase });
-    await metamask.switchNetwork(process.env.REACT_APP_TEST_METAMASK_NETWORK);
+    await metamask.switchNetwork(network);
     if (options.privateKey) await metamask.importPK(options.privateKey);
 
     return metamask;

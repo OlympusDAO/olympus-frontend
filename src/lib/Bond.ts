@@ -32,6 +32,7 @@ export interface NetworkAddresses {
 export interface Available {
   [NetworkID.Mainnet]?: boolean;
   [NetworkID.Testnet]?: boolean;
+  [NetworkID.Localhost]?: boolean;
 }
 
 interface BondOpts {
