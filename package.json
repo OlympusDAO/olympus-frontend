@@ -121,7 +121,8 @@
     "ship": "yarn surge",
     "theme": "npx gulp less",
     "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
-    "watch": "node ./scripts/watch.js"
+    "watch": "node ./scripts/watch.js",
+    "postinstall": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json"
   },
   "resolutions": {
     "**/immer": "9.0.6",
