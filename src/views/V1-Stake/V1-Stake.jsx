@@ -42,7 +42,7 @@ function a11yProps(index) {
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
 
-function V1Stake({ oldAssetsDetected }) {
+function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
@@ -321,7 +321,7 @@ function V1Stake({ oldAssetsDetected }) {
                         {isAllowanceDataLoading ? (
                           <Skeleton />
                         ) : address && hasAllowance("ohm") ? (
-                          <MigrateButton />
+                          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} />
                         ) : (
                           <Button
                             className="stake-button"

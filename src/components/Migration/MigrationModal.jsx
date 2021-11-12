@@ -16,8 +16,10 @@ import {
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BigNumber } from "ethers";
+import { changeMigrationApproval } from "src/slices/MigrateThunk";
+import { useWeb3Context } from "src/hooks";
 
 const style = {
   position: "absolute",
@@ -37,7 +39,9 @@ const useStyles = makeStyles({
 });
 
 function MigrationModal({ open, handleOpen, handleClose }) {
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const { provider, address, connected, connect, chainID } = useWeb3Context();
 
   const currentIndex = useSelector(state => state.app.currentIndex);
   const ohmBalance = useSelector(state => Number(state.account.balances.ohm));
@@ -54,7 +58,10 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  console.log(approvedOhmBalance);
+  const onSeekApproval = token => {
+    dispatch(() => changeMigrationApproval({ address, networkID: chainID, provider, token }));
+  };
+
   const rows = [
     {
       initialAsset: "OHM",
@@ -112,7 +119,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
               </Box>
               <Box />
             </Box>
-            <Typography id="migration-modal-description">
+            <Typography id="migration-modal-description" variant="body1">
               You will need to migrate your assets in order to continue staking. You will not lose any yield or rewards
               during the process.{" "}
               <ButtonBase
@@ -165,7 +172,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                           Approved
                         </Typography>
                       ) : (
-                        <Button variant="outlined">
+                        <Button variant="outlined" onClick={() => onSeekApproval(row.initialAsset.toLowerCase())}>
                           <Typography>{"Approve"}</Typography>
                         </Button>
                       )}
@@ -177,7 +184,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
             <Box display="flex" flexDirection="row" justifyContent="center">
               <Button color="primary" variant="contained" disabled={!isAllApproved}>
                 <Box marginX={4} marginY={0.5}>
-                  <Typography>{isAllApproved ? "Migrate" : "Approve all assets to migrate"}</Typography>
+                  <Typography>{"Migrate"}</Typography>
                 </Box>
               </Button>
             </Box>

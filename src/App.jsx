@@ -238,7 +238,11 @@ function App() {
             </Route>
 
             <Route path="/stake">
-              {oldAssetsDetected ? <V1Stake oldAssetsDetected={oldAssetsDetected} /> : <Stake />}
+              {oldAssetsDetected ? (
+                <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
+              ) : (
+                <Stake />
+              )}
             </Route>
 
             <Route path="/stakey-stake">
