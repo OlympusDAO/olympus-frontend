@@ -15,6 +15,7 @@ import {
   Typography,
   Zoom,
   SvgIcon,
+  makeStyles,
 } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
@@ -38,6 +39,12 @@ function a11yProps(index) {
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
 
+const useStyles = makeStyles(theme => ({
+  textHighlight: {
+    color: theme.palette.highlight,
+  },
+}));
+
 function Wrap() {
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
@@ -45,6 +52,7 @@ function Wrap() {
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
+  const classes = useStyles();
 
   const isAppLoading = useSelector(state => state.app.loading);
   const currentIndex = useSelector(state => {
@@ -123,6 +131,9 @@ function Wrap() {
   );
 
   const isAllowanceDataLoading = (wrapAllowance == null && view === 0) || (unwrapAllowance == null && view === 1);
+
+  const isUnwrap = view === 1;
+  const convertedQuantity = isUnwrap ? (quantity * wsOhmPrice) / sOhmPrice : (quantity * sOhmPrice) / wsOhmPrice;
 
   let modalButton = [];
 
@@ -222,7 +233,7 @@ function Wrap() {
                       <Tab label="Wrap" {...a11yProps(0)} />
                       <Tab label="Unwrap" {...a11yProps(1)} />
                     </Tabs>
-                    <Box className="stake-action-row " display="flex" alignItems="center">
+                    <Box className="stake-action-row " display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
                       {address && !isAllowanceDataLoading ? (
                         !hasAllowance("sohm") && view === 0 ? (
                           <Box className="help-text">
@@ -303,6 +314,16 @@ function Wrap() {
                         </Button>
                       </TabPanel>
                     </Box>
+
+                    {quantity && (
+                      <Box padding={1}>
+                        <Typography variant="body2" className={classes.textHighlight}>
+                          {isUnwrap
+                            ? `Unwrapping ${quantity} wsOHM will result in ${convertedQuantity} sOHM`
+                            : `Wrapping ${quantity} sOHM will result in ${trim(convertedQuantity, 4)} wsOHM`}
+                        </Typography>
+                      </Box>
+                    )}
                   </Box>
 
                   <div className={`stake-user-data`}>
