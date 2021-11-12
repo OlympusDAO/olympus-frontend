@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -30,6 +30,7 @@ import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "../Stake/ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
+import { getMigrationAllowances } from "src/slices/AccountSlice";
 
 function a11yProps(index) {
   return {
@@ -133,6 +134,12 @@ function V1Stake({ oldAssetsDetected }) {
   );
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
+
+  useEffect(() => {
+    if (connected) {
+      dispatch(getMigrationAllowances({ address, provider, networkID: chainID }));
+    }
+  }, [address, connected]);
 
   let modalButton = [];
 

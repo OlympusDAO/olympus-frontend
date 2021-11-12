@@ -47,26 +47,40 @@ export const getBalances = createAsyncThunk(
   },
 );
 
-interface IUserAccountDetails {
-  balances: {
-    dai: string;
-    ohm: string;
-    sohm: string;
-    wsohm: string;
-    wsohmAsSohm: string;
-  };
-  staking: {
-    ohmStake: number;
-    ohmUnstake: number;
-  };
-  wrapping: {
-    sohmWrap: number;
-    wsohmUnwrap: number;
-  };
-  bonding: {
-    daiAllowance: number;
-  };
-}
+export const getMigrationAllowances = createAsyncThunk(
+  "account/getMigrationAllowances",
+  async ({ networkID, provider, address }: IBaseAddressAsyncThunk) => {
+    let ohmAllowance = BigNumber.from(0);
+    let sOhmAllowance = BigNumber.from(0);
+    let wsOhmAllowance = BigNumber.from(0);
+
+    if (addresses[networkID].OHM_ADDRESS) {
+      const ohmContract = new ethers.Contract(
+        addresses[networkID].OHM_ADDRESS as string,
+        ierc20Abi,
+        provider,
+      ) as IERC20;
+      ohmAllowance = await ohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+    }
+
+    if (addresses[networkID].SOHM_ADDRESS) {
+      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider) as SOhmv2;
+      sOhmAllowance = await sohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+    }
+
+    if (addresses[networkID].WSOHM_ADDRESS) {
+      const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
+      wsOhmAllowance = await wsohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+    }
+    return {
+      migration: {
+        ohm: +ohmAllowance,
+        sohm: +sOhmAllowance,
+        wsohm: +wsOhmAllowance,
+      },
+    };
+  },
+);
 
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
@@ -233,11 +247,17 @@ interface IAccountSlice {
     oldsohm: string;
   };
   loading: boolean;
+  migration: {
+    ohm: number;
+    sohm: number;
+    wsohm: number;
+  };
 }
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
   balances: { ohm: "", sohm: "", dai: "", oldsohm: "" },
+  migration: { ohm: 0.0, sohm: 0.0, wsohm: 0.0 },
 };
 
 const accountSlice = createSlice({
@@ -282,6 +302,17 @@ const accountSlice = createSlice({
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(getMigrationAllowances.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getMigrationAllowances.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.loading = false;
+      })
+      .addCase(getMigrationAllowances.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       });

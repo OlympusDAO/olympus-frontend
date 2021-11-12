@@ -16,6 +16,8 @@ import {
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
+import { BigNumber } from "ethers";
 
 const style = {
   position: "absolute",
@@ -37,35 +39,43 @@ const useStyles = makeStyles({
 function MigrationModal({ open, handleOpen, handleClose }) {
   const classes = useStyles();
 
-  const ohmBalance = 0.5; // FETCH FROM STATE
-  const gOhmBalance = 0.1; // CALCULATE BASED ON INDEX
-  const sOhmBalance = 22.4; // FETCH FROM STATE
-  const wsOhmBalance = 0.0; // FETCH FROM STATE
+  const currentIndex = useSelector(state => state.app.currentIndex);
+  const ohmBalance = useSelector(state => Number(state.account.balances.ohm));
+  const sOhmBalance = useSelector(state => Number(state.account.balances.sohm));
+  const wsOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
 
-  const approvedOhmBalance = 0.5; // ALL APPROVED
-  const approvedSOhmBalance = 22.3; // LESS THAN BALANCE APPROVED
+  const approvedOhmBalance = useSelector(state => Number(state.account.migration.ohm));
+  const approvedSOhmBalance = useSelector(state => Number(state.account.migration.sohm));
+  const approvedWSOhmBalance = useSelector(state => Number(state.account.migration.wsohm));
 
+  const ohmFullApproval = approvedOhmBalance >= ohmBalance;
+  const sOhmFullApproval = approvedSOhmBalance >= sOhmBalance;
+  const wsOhmFullApproval = approvedWSOhmBalance >= wsOhmBalance;
+
+  const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
+
+  console.log(approvedOhmBalance);
   const rows = [
     {
       initialAsset: "OHM",
       initialBalance: ohmBalance,
-      targetAsset: "OHM (v2)",
-      targetBalance: ohmBalance,
-      fullApproval: approvedOhmBalance == ohmBalance,
+      targetAsset: "gOHM",
+      targetBalance: ohmBalance / currentIndex,
+      fullApproval: ohmFullApproval,
     },
     {
       initialAsset: "sOHM",
       initialBalance: sOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: gOhmBalance,
-      fullApproval: false,
+      targetBalance: sOhmBalance / currentIndex,
+      fullApproval: sOhmFullApproval,
     },
     {
       initialAsset: "wsOHM",
       initialBalance: wsOhmBalance,
       targetAsset: "gOHM",
       targetBalance: wsOhmBalance,
-      fullApproval: false,
+      fullApproval: wsOhmFullApproval,
     },
   ];
 
@@ -105,7 +115,10 @@ function MigrationModal({ open, handleOpen, handleClose }) {
             <Typography id="migration-modal-description">
               You will need to migrate your assets in order to continue staking. You will not lose any yield or rewards
               during the process.{" "}
-              <ButtonBase onClick={() => alert("Launch info tab")}>
+              <ButtonBase
+                href="https://github.com/OlympusDAO-Education/Documentation/blob/migration/basics/migration.md"
+                target="_blank"
+              >
                 <u>Learn More</u>
               </ButtonBase>
             </Typography>
@@ -133,12 +146,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     </TableCell>
                     <TableCell align="left">
                       <Typography>
-                        {row.initialBalance} {row.initialAsset}
+                        {row.initialBalance == 0 ? row.initialBalance : row.initialBalance.toFixed(4)}{" "}
+                        {row.initialAsset}
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
                       <Typography>
-                        {row.targetBalance} {row.targetAsset}
+                        {row.targetBalance == 0 ? row.targetBalance : row.targetBalance.toFixed(4)} {row.targetAsset}
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
@@ -146,9 +160,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                         <Typography align="center" className={classes.custom}>
                           Complete
                         </Typography>
+                      ) : row.fullApproval ? (
+                        <Typography align="center" className={classes.custom}>
+                          Approved
+                        </Typography>
                       ) : (
                         <Button variant="outlined">
-                          <Typography>{row.fullApproval ? "Migrate" : "Approve"}</Typography>
+                          <Typography>{"Approve"}</Typography>
                         </Button>
                       )}
                     </TableCell>
@@ -156,6 +174,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                 ))}
               </TableBody>
             </Table>
+            <Box display="flex" flexDirection="row" justifyContent="center">
+              <Button color="primary" variant="contained" disabled={!isAllApproved}>
+                <Box marginX={4} marginY={0.5}>
+                  <Typography>{isAllApproved ? "Migrate" : "Approve all assets to migrate"}</Typography>
+                </Box>
+              </Button>
+            </Box>
           </Box>
         </Fade>
       </Modal>
