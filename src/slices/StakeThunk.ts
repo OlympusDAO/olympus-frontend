@@ -1,22 +1,15 @@
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
-import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as OlympusStaking } from "../abi/OlympusStakingv2.json";
-import { abi as StakingHelper } from "../abi/StakingHelper.json";
+import { abi as ierc20ABI } from "../abi/IERC20.json";
+import { abi as OlympusStakingABI } from "../abi/OlympusStakingv2.json";
+import { abi as StakingHelperABI } from "../abi/StakingHelper.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
-import { error } from "../slices/MessagesSlice";
-import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { IJsonRPCError } from "./interfaces";
+import { error, info } from "../slices/MessagesSlice";
+import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-
-interface IChangeApproval {
-  token: string;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  address: string;
-  networkID: number;
-}
+import { IERC20, OlympusStakingv2, StakingHelper } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -26,20 +19,55 @@ interface IUAData {
   type: string | null;
 }
 
+function alreadyApprovedToken(token: string, stakeAllowance: BigNumber, unstakeAllowance: BigNumber) {
+  // set defaults
+  let bigZero = BigNumber.from("0");
+  let applicableAllowance = bigZero;
+
+  // determine which allowance to check
+  if (token === "ohm") {
+    applicableAllowance = stakeAllowance;
+  } else if (token === "sohm") {
+    applicableAllowance = unstakeAllowance;
+  }
+
+  // check if allowance exists
+  if (applicableAllowance.gt(bigZero)) return true;
+
+  return false;
+}
+
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
-  async ({ token, provider, address, networkID }: IChangeApproval, { dispatch }) => {
+  async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
 
     const signer = provider.getSigner();
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, signer);
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
+    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
     let approveTx;
+    let stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    let unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+
+    // return early if approval has already happened
+    if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance)) {
+      dispatch(info("Approval completed."));
+      return dispatch(
+        fetchAccountSuccess({
+          staking: {
+            ohmStake: +stakeAllowance,
+            ohmUnstake: +unstakeAllowance,
+          },
+        }),
+      );
+    }
+
     try {
       if (token === "ohm") {
+        // won't run if stakeAllowance > 0
         approveTx = await ohmContract.approve(
           addresses[networkID].STAKING_HELPER_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
@@ -50,11 +78,14 @@ export const changeApproval = createAsyncThunk(
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
+
       const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
       const pendingTxnType = token === "ohm" ? "approve_staking" : "approve_unstaking";
-      dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
+      if (approveTx) {
+        dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
-      await approveTx.wait();
+        await approveTx.wait();
+      }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
       return;
@@ -64,8 +95,10 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    // go get fresh allowances
+    stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+
     return dispatch(
       fetchAccountSuccess({
         staking: {
@@ -77,29 +110,25 @@ export const changeApproval = createAsyncThunk(
   },
 );
 
-interface IChangeStake {
-  action: string;
-  value: string;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-  address: string;
-  networkID: number;
-}
-
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID }: IChangeStake, { dispatch }) => {
+  async ({ action, value, provider, address, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
 
     const signer = provider.getSigner();
-    const staking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, OlympusStaking, signer);
+    const staking = new ethers.Contract(
+      addresses[networkID].STAKING_ADDRESS as string,
+      OlympusStakingABI,
+      signer,
+    ) as OlympusStakingv2;
     const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
-      StakingHelper,
+      StakingHelperABI,
       signer,
-    );
+    ) as StakingHelper;
 
     let stakeTx;
     let uaData: IUAData = {

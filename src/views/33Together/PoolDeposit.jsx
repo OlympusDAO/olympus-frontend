@@ -71,7 +71,12 @@ export const PoolDeposit = props => {
   }, [poolAllowance]);
 
   const setMax = () => {
-    setQuantity(sohmBalance);
+    const value = parseFloat(sohmBalance);
+    setQuantity(value);
+    let userBalanceAfterDeposit = poolBalance + value;
+
+    let userOdds = calculateOdds(userBalanceAfterDeposit, props.totalPoolDeposits + value, props.winners);
+    setNewOdds(trim(userOdds, 4));
   };
 
   const updateDepositQuantity = e => {
@@ -145,17 +150,17 @@ export const PoolDeposit = props => {
                 onClick={() => onDeposit("deposit")}
                 fullWidth
               >
-                {txnButtonText(pendingTransactions, "deposit", "Deposit sOHM")}
+                {txnButtonText(pendingTransactions, "pool_deposit", "Deposit sOHM")}
               </Button>
             ) : (
               <Button
                 className="pool-deposit-button"
                 variant="contained"
                 color="primary"
-                disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
+                disabled={isPendingTxn(pendingTransactions, "approve_pool_together")}
                 onClick={() => onSeekApproval("sohm")}
               >
-                {txnButtonText(pendingTransactions, "approve_pool", "Approve")}
+                {txnButtonText(pendingTransactions, "approve_pool_together", "Approve")}
               </Button>
             )}
           </Box>
