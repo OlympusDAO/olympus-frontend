@@ -4,7 +4,7 @@ import { addresses } from "src/constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { IERC20 } from "src/typechain";
 import { IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
-import { fetchAccountSuccess, getMigrationAllowances } from "./AccountSlice";
+import { getMigrationAllowances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 

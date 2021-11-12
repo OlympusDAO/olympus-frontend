@@ -271,9 +271,7 @@ function App() {
             <Route component={NotFound} />
           </Switch>
         </div>
-        {migrationModalOpen && (
-          <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
-        )}
+        <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
       </div>
     </ThemeProvider>
   );
