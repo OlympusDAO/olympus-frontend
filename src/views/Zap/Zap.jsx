@@ -4,6 +4,7 @@ import TabPanel from "../../components/TabPanel";
 import "./zap.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import ZapStakeAction from "./ZapStakeAction";
+import { useSelector } from "react-redux";
 
 function a11yProps(index) {
   return {
