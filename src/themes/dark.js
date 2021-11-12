@@ -66,6 +66,7 @@ export const dark = responsiveFontSizes(
           secondary: darkTheme.gray,
         },
         graphStrokeColor: darkTheme.graphStrokeColor,
+        highlight: darkTheme.textHighlightColor,
       },
       typography: {
         fontFamily: "Square",
