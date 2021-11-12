@@ -84,7 +84,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
       targetBalance: wsOhmBalance,
       fullApproval: wsOhmFullApproval,
     },
-  ];
+  ].filter(row => row.initialBalance != 0.0);
 
   return (
     <div>
