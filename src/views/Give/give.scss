@@ -17,6 +17,20 @@
   padding-bottom: 1rem;
 }
 
+.give-yield-title {
+  display: flex;
+  flex-direction: row;
+}
+
+.give-yield-modals {
+  display: flex;
+  flex-direction: row;
+
+  .add-recipient-button {
+    margin-right: 0.33em;
+  }
+}
+
 .ohm-modal {
   position: absolute;
   left: 50%;

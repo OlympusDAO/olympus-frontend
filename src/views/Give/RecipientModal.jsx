@@ -12,6 +12,7 @@ import { changeApproval, changeGive } from "../../slices/GiveThunk";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 import { BigNumber } from "bignumber.js";
+import { YouRetainGraphic, LockedInVault, TheyReceive } from "../../components/EducationCard";
 
 const sOhmImg = getTokenImage("sohm");
 
@@ -19,7 +20,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
-  const [depositAmount, setDepositAmount] = useState(currentDepositAmount ? currentDepositAmount : null);
+  const [depositAmount, setDepositAmount] = useState(currentDepositAmount ? currentDepositAmount : 0);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(false);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState("");
 
@@ -291,6 +292,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
             )}
           </>
         )}
+        <YouRetainGraphic quantity={depositAmount} />
         {isCreateMode() ? (
           address && hasAllowance() ? (
             <FormControl className="ohm-modal-submit">
