@@ -25,6 +25,7 @@
     "@ethersproject/units": "^5.4.0",
     "@interactors/material-ui": "^4.1.0",
     "@json-rpc-tools/types": "^1.7.6",
+    "@ledgerhq/iframe-provider": "^0.4.2",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
@@ -65,6 +66,7 @@
     "react-dom": "^16.14.0",
     "react-ga4": "^1.0.5",
     "react-qr-reader": "^2.2.1",
+    "react-query": "^3.28.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
@@ -134,6 +136,17 @@
     "s3": "node ./scripts/s3.js",
     "ship": "yarn surge",
     "theme": "npx gulp less",
+    "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
     "watch": "node ./scripts/watch.js"
+  },
+  "resolutions": {
+    "**/immer": "9.0.6",
+    "**/axios": "0.23.0",
+    "**/set-value": "4.0.1",
+    "**/glob-parent": "5.1.2",
+    "**/browserslist": "4.16.5",
+    "**/node-fetch": "2.6.1",
+    "**/nth-check": "2.0.1",
+    "**/ansi-regex": "5.0.1"
   }
 }

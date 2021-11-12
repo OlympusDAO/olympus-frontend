@@ -45,6 +45,9 @@ configure the tests enviromnement variables in your `.env` file (see .env.exampl
 - Run the frontend, using `yarn start`
 - In another terminal, run the tests, using `yarn test:e2e`
 
+**Rinkeby faucet for WETH:**
+[Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
+
 **Rinkeby faucets for LUSD, FRAX & DAI can be taken from rinkeby etherscan:**
 
 1. Go to `src/helpers/AllBonds.ts`

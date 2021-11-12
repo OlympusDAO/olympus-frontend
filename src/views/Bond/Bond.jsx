@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { formatCurrency } from "../../helpers";
+import { formatCurrency, trim } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
@@ -103,6 +103,29 @@ function Bond({ bond }) {
       </Grid>
     </Fade>
   );
+}
+
+export function DisplayBondPrice({ bond }) {
+  const { chainID } = useWeb3Context();
+  return (
+    <>
+      {!bond.isAvailable[chainID] ? (
+        <>--</>
+      ) : (
+        `${new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 2,
+        }).format(bond.bondPrice)}`
+      )}
+    </>
+  );
+}
+
+export function DisplayBondDiscount({ bond }) {
+  const { chainID } = useWeb3Context();
+  return <>{!bond.isAvailable[chainID] ? <>--</> : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}</>;
 }
 
 export default Bond;
