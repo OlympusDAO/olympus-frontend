@@ -5,7 +5,7 @@ import { getDocument, queries } from "pptr-testing-library";
 import { ChildProcess } from "child_process";
 import { exec } from "shelljs";
 
-const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
+const REACT_APP_TEST_SEED_PHRASE = "REACT_APP_TEST_SEED_PHRASE";
 
 export const setupLogging = (page: Page) => {
   page
@@ -23,23 +23,25 @@ export const clickElement = async (page: Page, selector: string) => {
 };
 
 const getMetamaskSeedPhrase = (): string => {
-  if (!process.env.REACT_APP_SEED_PHRASE)
-    throw new Error("Unable to find seed phrase for Metamask. Please set the " + REACT_APP_SEED_PHRASE + " variable");
+  if (!process.env.REACT_APP_TEST_SEED_PHRASE)
+    throw new Error(`Unable to find seed phrase for Metamask. Please set the ${REACT_APP_TEST_SEED_PHRASE} variable`);
 
-  return process.env.REACT_APP_SEED_PHRASE;
+  return process.env.REACT_APP_TEST_SEED_PHRASE;
 };
 
 export const setupMetamask = async (
   browser: Browser,
   options: { network?: string; privateKey?: string },
-): Promise<Dappeteer> => {
-  const seedPhrase = getMetamaskSeedPhrase();
+): Promise<Dappeteer | null> => {
+  if (!(process.env.REACT_APP_TEST_METAMASK_NETWORK == "none")) {
+    const seedPhrase = getMetamaskSeedPhrase();
+    const metamask = await dappeteer.setupMetamask(browser, { seed: seedPhrase });
+    await metamask.switchNetwork(process.env.REACT_APP_TEST_METAMASK_NETWORK);
+    if (options.privateKey) await metamask.importPK(options.privateKey);
 
-  const metamask = await dappeteer.setupMetamask(browser, { seed: seedPhrase });
-  await metamask.switchNetwork(options.network ?? "rinkeby");
-  if (options.privateKey) await metamask.importPK(options.privateKey);
-
-  return metamask;
+    return metamask;
+  }
+  return null;
 };
 
 export const connectWallet = async (page: Page, metamask: Dappeteer) => {
@@ -93,14 +95,13 @@ export const getSelectorTextContent = async (page: Page, selector: string): Prom
 
 export const dapp = {} as {
   browser: Browser;
-  metamask: Dappeteer;
+  metamask: Dappeteer | null;
   page: Page;
 };
 
 export async function launchDApp() {
   const browser = await launch(puppeteer, { metamaskVersion: "v10.1.1" });
   const metamask = await setupMetamask(browser, { network: "localhost" });
-
   const page = await browser.newPage();
   await page.goto("http://localhost:3000/#/stake");
 
@@ -109,12 +110,13 @@ export async function launchDApp() {
   dapp.page = page;
 }
 
-export function launchNode(): ChildProcess {
-  if (process.env.REACT_APP_TEST_NO_CONTRACTS == "true") {
+export function launchNode(): ChildProcess | null {
+  if (!(process.env.REACT_APP_TEST_LAUNCH_LOCAL_NETWORK == "false")) {
     const node = exec("yarn --cwd ../olympus-contracts start", { async: true });
     exec("yarn --cwd ../olympus-contracts deploy");
+    return node;
   }
-  return node;
+  return null;
 }
 export const typeValue = async (page: Page, selector: string, value: string) => {
   await page.bringToFront();

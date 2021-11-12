@@ -4,6 +4,9 @@
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom/extend-expect";
 import { launchDApp, launchNode } from "./helpers/testHelpers";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // TODO add jest-puppeteer preset
 

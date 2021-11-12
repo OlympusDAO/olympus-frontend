@@ -40,6 +40,7 @@ Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day
 Puppeteer (with the Dappeteer addition) is used to do browser-based end-to-end testing.
 
 To run the tests:
+configure the tests enviromnement variables in your `.env` file (see .env.example for instructions)
 
 - Run the frontend, using `yarn start`
 - In another terminal, run the tests, using `yarn test:e2e`
