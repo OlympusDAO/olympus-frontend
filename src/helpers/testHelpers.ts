@@ -110,8 +110,10 @@ export async function launchDApp() {
 }
 
 export function launchNode(): ChildProcess {
-  const node = exec("yarn --cwd ../olympus-contracts start", { async: true });
-  exec("yarn --cwd ../olympus-contracts deploy");
+  if (process.env.REACT_APP_TEST_NO_CONTRACTS == "true") {
+    const node = exec("yarn --cwd ../olympus-contracts start", { async: true });
+    exec("yarn --cwd ../olympus-contracts deploy");
+  }
   return node;
 }
 export const typeValue = async (page: Page, selector: string, value: string) => {
