@@ -26,9 +26,14 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ZapStakeHeader from "./ZapStakeHeader";
 import { ReactComponent as DownIcon } from "../../assets/icons/arrow-down.svg";
+import { ReactComponent as FirstStepIcon } from "../../assets/icons/step-1.svg";
+import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg";
+import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
 
 const iconStyle = { height: "30px", width: "30px", zIndex: 1 };
 const viewBox = "0 0 64 64";
+
+const buttonIconStyle = { height: "16px", width: "16px", marginInline: "6px" };
 
 function ZapStakeAction(props) {
   const { address, quantity, setQuantity, ...other } = props;
@@ -101,6 +106,7 @@ function ZapStakeAction(props) {
   };
 
   const initialTokenAllowance = useMemo(() => checkTokenAllowance(tokens[zapToken]?.address), [zapToken]);
+  const allowanceTxSuccess = false;
 
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
 
@@ -247,7 +253,17 @@ function ZapStakeAction(props) {
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
               <Box display="flex" flexDirection="row">
-                <Typography>Approve</Typography>
+                {allowanceTxSuccess ? (
+                  <>
+                    <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
+                    <Typography>Approved</Typography>
+                  </>
+                ) : (
+                  <>
+                    <SvgIcon component={FirstStepIcon} style={buttonIconStyle} viewBox={"0 1 18 16"} />
+                    <Typography>Approve</Typography>
+                  </>
+                )}
               </Box>
             </Button>
           </Grid>
@@ -264,7 +280,9 @@ function ZapStakeAction(props) {
               }}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
-              <Box display="flex" flexDirection="row">
+              <Box display="flex" flexDirection="row" alignItems="center">
+                <SvgIcon component={SecondStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
+
                 <Typography>Zap-Stake</Typography>
               </Box>
             </Button>
