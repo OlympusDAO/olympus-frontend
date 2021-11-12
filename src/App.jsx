@@ -241,6 +241,10 @@ function App() {
               {oldAssetsDetected ? <V1Stake oldAssetsDetected={oldAssetsDetected} /> : <Stake />}
             </Route>
 
+            <Route path="/stakey-stake">
+              <Stake />
+            </Route>
+
             <Route path="/33-together">
               <PoolTogether />
             </Route>
