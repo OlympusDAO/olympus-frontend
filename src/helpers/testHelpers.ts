@@ -1,7 +1,9 @@
-import { Dappeteer } from "@chainsafe/dappeteer";
-import { Browser, ElementHandle, Page } from "puppeteer";
+import { Dappeteer, launch } from "@chainsafe/dappeteer";
+import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
 import * as dappeteer from "@chainsafe/dappeteer";
 import { getDocument, queries } from "pptr-testing-library";
+import { ChildProcess } from "child_process";
+import { exec } from "shelljs";
 
 const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
 
@@ -27,11 +29,15 @@ const getMetamaskSeedPhrase = (): string => {
   return process.env.REACT_APP_SEED_PHRASE;
 };
 
-export const setupMetamask = async (browser: Browser): Promise<Dappeteer> => {
+export const setupMetamask = async (
+  browser: Browser,
+  options: { network?: string; privateKey?: string },
+): Promise<Dappeteer> => {
   const seedPhrase = getMetamaskSeedPhrase();
 
   const metamask = await dappeteer.setupMetamask(browser, { seed: seedPhrase });
-  await metamask.switchNetwork("rinkeby");
+  await metamask.switchNetwork(options.network ?? "rinkeby");
+  if (options.privateKey) await metamask.importPK(options.privateKey);
 
   return metamask;
 };
@@ -85,6 +91,29 @@ export const getSelectorTextContent = async (page: Page, selector: string): Prom
   return page.evaluate(el => el.textContent.trim(), await page.$(selector));
 };
 
+export const dapp = {} as {
+  browser: Browser;
+  metamask: Dappeteer;
+  page: Page;
+};
+
+export async function launchDApp() {
+  const browser = await launch(puppeteer, { metamaskVersion: "v10.1.1" });
+  const metamask = await setupMetamask(browser, { network: "localhost" });
+
+  const page = await browser.newPage();
+  await page.goto("http://localhost:3000/#/stake");
+
+  dapp.browser = browser;
+  dapp.metamask = metamask;
+  dapp.page = page;
+}
+
+export function launchNode(): ChildProcess {
+  const node = exec("yarn --cwd ../olympus-contracts start", { async: true });
+  exec("yarn --cwd ../olympus-contracts deploy");
+  return node;
+}
 export const typeValue = async (page: Page, selector: string, value: string) => {
   await page.bringToFront();
   await page.waitForSelector(selector);

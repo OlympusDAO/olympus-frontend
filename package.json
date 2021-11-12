@@ -87,6 +87,7 @@
     "@types/puppeteer": "^5.4.4",
     "@types/react": "^17.0.15",
     "@types/react-router-dom": "^5.1.7",
+    "@types/shelljs": "^0.8.9",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "autoprefixer": "^10.2.4",
@@ -114,6 +115,7 @@
     "prettier": "^2.0.5",
     "puppeteer": "^11.0.0",
     "s3-folder-upload": "^2.3.1",
+    "shelljs": "^0.8.4",
     "surge": "^0.21.5"
   },
   "eslintConfig": {

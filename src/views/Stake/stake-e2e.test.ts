@@ -1,15 +1,13 @@
 import "@testing-library/jest-dom";
 import {
+  dapp,
   clickElement,
-  setupMetamask,
   connectWallet,
   selectorExists,
   waitSelectorExists,
   getSelectorTextContent,
   typeValue,
 } from "../../helpers/testHelpers";
-import puppeteer, { Browser, Page } from "puppeteer";
-import { launch, Dappeteer } from "@chainsafe/dappeteer";
 
 // TODO deploy contracts on temporary network
 // TODO add eth to wallet
@@ -17,26 +15,10 @@ import { launch, Dappeteer } from "@chainsafe/dappeteer";
 
 var STAKE_AMOUNT = 0.1;
 
-xdescribe("staking", () => {
-  let browser: Browser;
-  let metamask: Dappeteer;
-  let page: Page;
-
-  beforeEach(async () => {
-    browser = await launch(puppeteer, { metamaskVersion: "v10.1.1" });
-
-    metamask = await setupMetamask(browser);
-
-    page = await browser.newPage();
-    await page.goto("http://localhost:3000/#/stake");
-    await page.bringToFront();
-  });
-
-  afterEach(async () => {
-    await browser.close();
-  });
-
+describe("staking", () => {
   test("cannot stake without connected wallet", async () => {
+    const { page } = dapp;
+
     // Connect button should be available
     expect(await selectorExists(page, "#stake-connect-wallet")).toBeTruthy();
 
@@ -45,6 +27,8 @@ xdescribe("staking", () => {
   });
 
   test("connects wallet", async () => {
+    const { page, metamask } = dapp;
+
     // Connect button should be available
     expect(await selectorExists(page, "#stake-connect-wallet")).toBeTruthy();
 
@@ -57,6 +41,8 @@ xdescribe("staking", () => {
   });
 
   test("approves staking", async () => {
+    const { page, metamask } = dapp;
+
     await connectWallet(page, metamask);
 
     // NOTE: we may want to re-enable this when moving onto a single-use testnet, as the approval status won't persist
@@ -75,6 +61,8 @@ xdescribe("staking", () => {
   });
 
   test("staking", async () => {
+    const { page, metamask } = dapp;
+
     await connectWallet(page, metamask);
 
     // Perform staking
@@ -89,6 +77,8 @@ xdescribe("staking", () => {
   });
 
   test("unstaking", async () => {
+    const { page, metamask } = dapp;
+
     await connectWallet(page, metamask);
 
     // Perform staking
