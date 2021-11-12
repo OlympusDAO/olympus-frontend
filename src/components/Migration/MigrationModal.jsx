@@ -58,8 +58,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  const onSeekApproval = token => {
-    dispatch(() => changeMigrationApproval({ address, networkID: chainID, provider, token }));
+  const onSeekApproval = async token => {
+    await dispatch(changeMigrationApproval({ address, networkID: chainID, provider, token }));
   };
 
   const rows = [
@@ -88,7 +88,6 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         aria-labelledby="migration-modal-title"
         aria-describedby="migration-modal-description"
