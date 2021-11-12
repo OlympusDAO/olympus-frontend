@@ -98,7 +98,7 @@ function BondRedeem({ bond }) {
           </div>
           <div className="data-row">
             <Typography>Claimable Rewards</Typography>
-            <Typography className="price-data">
+            <Typography id="claimable" className="price-data">
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.pendingPayout, 4)} OHM`}
             </Typography>
           </div>

@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "target": "es5",
+    "target": "es2017",
     "jsx": "react-jsx",
     "baseUrl": ".",
     "skipLibCheck": true,
@@ -21,7 +21,7 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["./index.d.ts", "src", "babel.config.js"],
-  "exclude": ["**/*.test.ts", "**/*.test.tsx", "node_modules", "vendor", "public"],
+  "include": ["./index.d.ts", "src", "babel.config.js", "**/*.test.ts", "**/*.test.tsx"],
+  "exclude": ["node_modules", "vendor", "public"],
   "compileOnSave": false
 }

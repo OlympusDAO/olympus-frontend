@@ -3,3 +3,19 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom/extend-expect";
+import { launchDApp, launchNode } from "./helpers/testHelpers";
+
+// TODO add jest-puppeteer preset
+
+jest.setTimeout(60000);
+
+let node;
+
+beforeAll(async () => {
+  node = launchNode();
+  await launchDApp();
+});
+
+afterAll(() => {
+  node?.kill();
+});

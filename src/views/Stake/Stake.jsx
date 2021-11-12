@@ -139,7 +139,14 @@ function Stake() {
   let modalButton = [];
 
   modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+    <Button
+      variant="contained"
+      color="primary"
+      className="connect-button"
+      id="stake-connect-wallet"
+      onClick={connect}
+      key={1}
+    >
       Connect Wallet
     </Button>,
   );
@@ -194,9 +201,11 @@ function Stake() {
                       </Typography>
                       <Typography variant="h4">
                         {stakingAPY ? (
-                          <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
+                          <span data-testid="apy-value">
+                            {new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%
+                          </span>
                         ) : (
-                          <Skeleton width="150px" />
+                          <Skeleton width="150px" data-testid="apy-loading" />
                         )}
                       </Typography>
                     </div>
@@ -209,14 +218,16 @@ function Stake() {
                       </Typography>
                       <Typography variant="h4">
                         {stakingTVL ? (
-                          new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            maximumFractionDigits: 0,
-                            minimumFractionDigits: 0,
-                          }).format(stakingTVL)
+                          <span data-testid="tvl-value">
+                            {new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "USD",
+                              maximumFractionDigits: 0,
+                              minimumFractionDigits: 0,
+                            }).format(stakingTVL)}
+                          </span>
                         ) : (
-                          <Skeleton width="150px" />
+                          <Skeleton width="150px" data-testid="tvl-loading" />
                         )}
                       </Typography>
                     </div>
@@ -228,7 +239,11 @@ function Stake() {
                         Current Index
                       </Typography>
                       <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                        {currentIndex ? (
+                          <span data-testid="index-value">{trim(currentIndex, 1)} OHM</span>
+                        ) : (
+                          <Skeleton width="150px" data-testid="index-loading" />
+                        )}
                       </Typography>
                     </div>
                   </Grid>
@@ -312,6 +327,7 @@ function Stake() {
                         ) : address && hasAllowance("ohm") ? (
                           <Button
                             className="stake-button"
+                            id="stake-button"
                             variant="contained"
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "staking")}
@@ -324,6 +340,7 @@ function Stake() {
                         ) : (
                           <Button
                             className="stake-button"
+                            id="approve-stake-button"
                             variant="contained"
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_staking")}
@@ -341,6 +358,7 @@ function Stake() {
                         ) : address && hasAllowance("sohm") ? (
                           <Button
                             className="stake-button"
+                            id="unstake-button"
                             variant="contained"
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "unstaking")}
@@ -353,6 +371,7 @@ function Stake() {
                         ) : (
                           <Button
                             className="stake-button"
+                            id="approve-unstake-button"
                             variant="contained"
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
@@ -370,14 +389,14 @@ function Stake() {
                   <div className={`stake-user-data`}>
                     <div className="data-row">
                       <Typography variant="body1">Unstaked Balance</Typography>
-                      <Typography variant="body1">
+                      <Typography variant="body1" id="user-balance">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
                       </Typography>
                     </div>
 
                     <div className="data-row">
                       <Typography variant="body1">Staked Balance</Typography>
-                      <Typography variant="body1">
+                      <Typography variant="body1" id="user-staked-balance">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
                       </Typography>
                     </div>

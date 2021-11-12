@@ -37,6 +37,10 @@ function getMainnetURI(): string {
   return allURIs[randomIndex];
 }
 
+function getLocalhostURI(): string {
+  return "http://localhost:8545";
+}
+
 /*
   Types
 */
@@ -95,6 +99,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
             rpc: {
               1: getMainnetURI(),
               4: getTestnetURI(),
+              1337: getLocalhostURI(),
             },
           },
         },
@@ -139,9 +144,13 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const _checkNetwork = (otherChainID: number): Boolean => {
     if (chainID !== otherChainID) {
       console.warn("You are switching networks");
-      if (otherChainID === 1 || otherChainID === 4) {
+      if (otherChainID === 1 || otherChainID === 4 || otherChainID === 1337) {
         setChainID(otherChainID);
-        otherChainID === 1 ? setUri(getMainnetURI()) : setUri(getTestnetURI());
+        otherChainID === 1
+          ? setUri(getMainnetURI())
+          : otherChainID === 4
+          ? setUri(getTestnetURI())
+          : setUri(getLocalhostURI());
         return true;
       }
       return false;
