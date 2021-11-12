@@ -30,7 +30,9 @@ import { trim, formatCurrency } from "../../helpers";
 
 import Chart from "../../components/Chart/WalletChart.jsx";
 import apollo from "../../lib/apolloClient";
-import SOhmLHIW from "./OhmMenuViews/SOhmLHIW";
+import SOhmLearnView from "./OhmMenuViews/SOhm/SOhmLearnView";
+import SOhmTxView from "./OhmMenuViews/SOhm/SOhmTxView";
+
 import { rebasesDataQuery, bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "./treasuryData.js";
 
 function OhmMenu() {
@@ -85,14 +87,12 @@ function OhmMenu() {
         <SvgIcon component={InfoIcon} color="primary" />
         <Typography>OHM</Typography>
       </Button>
-      <Drawer
-        style={{ width: "40%" }}
-        anchor={"right"}
-        open={anchor === "sOHMtx"}
-        onClose={toggleDrawer("OG")}
-      ></Drawer>
+      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMtx"} onClose={toggleDrawer("OG")}>
+        {" "}
+        <SOhmTxView></SOhmTxView>
+      </Drawer>
       <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMLHIW"} onClose={toggleDrawer("OG")}>
-        <SOhmLHIW toggleDrawer></SOhmLHIW>
+        <SOhmLearnView></SOhmLearnView>
       </Drawer>
       <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMZaps"} onClose={toggleDrawer("OG")}>
         sOHM Zap Stuff
