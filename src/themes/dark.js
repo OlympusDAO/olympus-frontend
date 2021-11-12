@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import fonts from "./fonts";
-import commonSettings from "./global.js";
+import commonSettings, { handleBackdropFilter } from "./global.js";
 
 // TODO: Break repeated use color values out into list of consts declared here
 // then set the values in darkTheme using the global color variables
@@ -23,7 +23,7 @@ const darkTheme = {
   paperBg: "rgba(54, 56, 64, 0.4)",
   modalBg: "#24242699",
   popoverBg: "rgba(54, 56, 64, 0.99)",
-  menuBg: "#36384080",
+  menuBg: handleBackdropFilter("rgba(54, 56, 64, 0.5)"),
   backdropBg: "rgba(54, 56, 64, 0.5)",
   largeTextColor: "#F4D092",
   activeLinkColor: "#F5DDB4",
