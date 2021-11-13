@@ -78,6 +78,7 @@
   },
   "devDependencies": {
     "@testing-library/dom": "^8.0.0",
+    "@typechain/ethers-v5": "^8.0.2",
     "@types/react": "^17.0.15",
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
@@ -102,7 +103,8 @@
     "less-plugin-npm-import": "^2.1.0",
     "prettier": "^2.0.5",
     "s3-folder-upload": "^2.3.1",
-    "surge": "^0.21.5"
+    "surge": "^0.21.5",
+    "typechain": "^6.0.2"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -119,7 +121,8 @@
     "ship": "yarn surge",
     "theme": "npx gulp less",
     "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
-    "watch": "node ./scripts/watch.js"
+    "watch": "node ./scripts/watch.js",
+    "postinstall": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json"
   },
   "resolutions": {
     "**/immer": "9.0.6",
