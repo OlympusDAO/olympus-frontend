@@ -22,7 +22,9 @@ for (var [key, locale] of Object.entries(locales)) {
 }
 
 async function fetchLocale(locale: string) {
-  const { messages } = await import(/* webpackChunkName: "[request]" */ `../locales/translations/${locale}/messages`);
+  const { messages } = await import(
+    /* webpackChunkName: "[request]" */ `../locales/translations/olympus-frontend/${locale}/messages`
+  );
   i18n.load(locale, messages);
   i18n.activate(locale);
 }

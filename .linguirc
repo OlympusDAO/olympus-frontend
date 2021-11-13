@@ -2,7 +2,7 @@
    "locales": ["en", "fr", "ko", "tr"],
    "sourceLocale": "en",
    "catalogs": [{
-      "path": "src/locales/translations/{locale}/messages",
+      "path": "src/locales/translations/olympus-frontend/{locale}/messages",
       "include": ["src"]
    }],
    "format": "po"
