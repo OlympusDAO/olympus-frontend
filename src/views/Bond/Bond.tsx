@@ -11,7 +11,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
-import { NetworkID } from "src/lib/Bond";
+import { Bond as TypeBond, NetworkID } from "src/lib/Bond";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -110,10 +110,10 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   );
 };
 
-export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactNode => {
+export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }) => {
   const { chainID }: { chainID: NetworkID } = useWeb3Context();
 
-  if (typeof bond.bondPrice === undefined || !bond.isAvailable[chainID]) {
+  if (!("bondPrice" in bond) || !bond.isAvailable[chainID]) {
     return <Fragment>--</Fragment>;
   }
 
@@ -129,10 +129,10 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactNode =>
   );
 };
 
-export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
+export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }) => {
   const { chainID }: { chainID: NetworkID } = useWeb3Context();
 
-  if (typeof bond.bondDiscount === undefined || !bond.isAvailable[chainID]) {
+  if (!("bondDiscount" in bond) || !bond.isAvailable[chainID]) {
     return <Fragment>--</Fragment>;
   }
 

@@ -24,13 +24,15 @@ import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 
-function ChooseBond() {
-  const { bonds } = useBonds();
-  const isSmallScreen: boolean = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
-  const isVerySmallScreen: boolean = useMediaQuery("(max-width: 420px)");
+type BondsType = ReturnType<typeof useBonds>;
 
-  const isAppLoading: boolean = useAppSelector(state => state.app.loading);
-  const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
+function ChooseBond() {
+  const { bonds }: BondsType = useBonds();
+  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
+  const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
+
+  const isAppLoading = useAppSelector(state => state.app.loading);
+  const isAccountLoading = useAppSelector(state => state.account.loading);
 
   const accountBonds: IUserBondDetails[] = useAppSelector(state => {
     const withInterestDue = [];

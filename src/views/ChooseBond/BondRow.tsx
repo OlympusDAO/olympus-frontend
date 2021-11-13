@@ -1,17 +1,24 @@
 import BondLogo from "../../components/BondLogo";
 import { DisplayBondPrice, DisplayBondDiscount } from "../Bond/Bond";
-import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
+import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
-import useBonds from "src/hooks/Bonds";
+import { IAllBondData } from "src/hooks/Bonds";
 import { useWeb3Context } from "../../hooks/web3Context";
+import { Bond, CustomBond, LPBond, NetworkID } from "src/lib/Bond";
 
-export function BondDataCard({ bond }) {
-  const { loading } = useBonds();
-  const { chainID } = useWeb3Context();
-  const isBondLoading = !bond.bondPrice ?? true;
+type UBond = CustomBond | LPBond;
+type OnChainProvider = ReturnType<typeof useWeb3Context>;
+
+export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
+  const { chainID }: OnChainProvider = useWeb3Context();
+  // Type assertion for union undefined properties
+  const uBond = bond as UBond;
+  const allBondData = bond as IAllBondData;
+  // Use BondPrice as indicator of loading.
+  const isBondLoading = !allBondData.bondPrice ?? true;
 
   return (
     <Slide direction="up" in={true}>
@@ -22,7 +29,7 @@ export function BondDataCard({ bond }) {
             <Typography>{bond.displayName}</Typography>
             {bond.isLP && (
               <div>
-                <Link href={bond.lpUrl} target="_blank">
+                <Link href={uBond.lpUrl} target="_blank">
                   <Typography variant="body1">
                     View Contract
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
@@ -35,13 +42,13 @@ export function BondDataCard({ bond }) {
         <div className="data-row">
           <Typography>Price</Typography>
           <Typography className="bond-price">
-            <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
+            <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={allBondData} />}</>
           </Typography>
         </div>
         <div className="data-row">
           <Typography>ROI</Typography>
           <Typography>
-            {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
+            {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={allBondData} />}
           </Typography>
         </div>
 
@@ -56,13 +63,15 @@ export function BondDataCard({ bond }) {
                 currency: "USD",
                 maximumFractionDigits: 0,
                 minimumFractionDigits: 0,
-              }).format(bond.purchased)
+              }).format(allBondData.purchased)
             )}
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID]}>
-            <Typography variant="h5">{!bond.isAvailable[chainID] ? "Sold Out" : `Bond ${bond.displayName}`}</Typography>
+          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID as NetworkID]}>
+            <Typography variant="h5">
+              {!bond.isAvailable[chainID as NetworkID] ? "Sold Out" : `Bond ${bond.displayName}`}
+            </Typography>
           </Button>
         </Link>
       </Paper>
@@ -70,10 +79,13 @@ export function BondDataCard({ bond }) {
   );
 }
 
-export function BondTableData({ bond }) {
-  const { chainID } = useWeb3Context();
+export function BondTableData({ bond }: { bond: IAllBondData | Bond }) {
+  const { chainID }: OnChainProvider = useWeb3Context();
+  // Type assertion for union undefined properties
+  const uBond = bond as UBond;
+  const allBondData = bond as IAllBondData;
   // Use BondPrice as indicator of loading.
-  const isBondLoading = !bond.bondPrice ?? true;
+  const isBondLoading = !allBondData.bondPrice ?? true;
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
 
   return (
@@ -81,9 +93,9 @@ export function BondTableData({ bond }) {
       <TableCell align="left" className="bond-name-cell">
         <BondLogo bond={bond} />
         <div className="bond-name">
-          <Typography variant="body1">{bond.displayName}</Typography>
+          <Typography variant="body1">{allBondData.displayName}</Typography>
           {bond.isLP && (
-            <Link color="primary" href={bond.lpUrl} target="_blank">
+            <Link color="primary" href={uBond.lpUrl} target="_blank">
               <Typography variant="body1">
                 View Contract
                 <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
@@ -94,12 +106,12 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell align="left">
         <Typography>
-          <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
+          <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={allBondData} />}</>
         </Typography>
       </TableCell>
       <TableCell align="left">
         {" "}
-        {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
+        {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={allBondData} />}
       </TableCell>
       <TableCell align="right">
         {isBondLoading ? (
@@ -110,13 +122,13 @@ export function BondTableData({ bond }) {
             currency: "USD",
             maximumFractionDigits: 0,
             minimumFractionDigits: 0,
-          }).format(bond.purchased)
+          }).format(allBondData.purchased)
         )}
       </TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" disabled={!bond.isAvailable[chainID]}>
-            <Typography variant="h6">{!bond.isAvailable[chainID] ? "Sold Out" : "Bond"}</Typography>
+          <Button variant="outlined" color="primary" disabled={!bond.isAvailable[chainID as NetworkID]}>
+            <Typography variant="h6">{!bond.isAvailable[chainID as NetworkID] ? "Sold Out" : "Bond"}</Typography>
           </Button>
         </Link>
       </TableCell>

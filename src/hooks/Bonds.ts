@@ -44,8 +44,8 @@ function useBonds() {
         return bond;
       });
 
-    const mostProfitableBonds = bondDetails.concat().sort((a, b) => {
-      return a["bondDiscount"] > b["bondDiscount"] ? -1 : b["bondDiscount"] > a["bondDiscount"] ? 1 : 0;
+    const mostProfitableBonds = bondDetails.concat().sort((current: IAllBondData, next: IAllBondData) => {
+      return current.bondDiscount > next.bondDiscount ? -1 : next.bondDiscount > current.bondDiscount ? 1 : 0;
     });
 
     setBonds(mostProfitableBonds);
