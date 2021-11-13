@@ -47,7 +47,7 @@ function InitialWalletView() {
   });
   return (
     <Paper>
-      <Chart
+      {/* <Chart
         type="line"
         scale="log"
         data={apy}
@@ -62,7 +62,7 @@ function InitialWalletView() {
         itemType={itemType.percentage}
         infoTooltipMessage={tooltipInfoMessages.apy}
         expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-      />
+      /> */}
       <Accordion expanded={expanded === "sOHM"} onChange={handleChange("sOHM")}>
         <AccordionSummary
           expandIcon={<SvgIcon component={ArrowUpIcon} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />}
@@ -83,7 +83,7 @@ function InitialWalletView() {
           <Box className="ohm-pairs" style={{ width: "100%" }}>
             <Button
               variant="contained"
-              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
+              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%", minHeight: "50px" }}
               onClick={toggleDrawer("sOHMtx")}
               color="secondary"
             >
@@ -91,7 +91,8 @@ function InitialWalletView() {
             </Button>
             <Button
               variant="contained"
-              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
+              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%", minHeight: "50px" }}
+              min-height="60px"
               onClick={toggleDrawer("sOHMLHIW")}
               color="secondary"
             >
@@ -99,7 +100,7 @@ function InitialWalletView() {
             </Button>
             <Button
               variant="contained"
-              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
+              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%", minHeight: "50px" }}
               color="secondary"
               onClick={toggleDrawer("sOHMZaps")}
             >
@@ -129,7 +130,7 @@ function InitialWalletView() {
           <Box className="ohm-pairs" style={{ width: "100%" }}>
             <Button
               variant="contained"
-              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
+              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%", minHeight: "50px" }}
               onClick={toggleDrawer("sOHMtx")}
               color="secondary"
             >
@@ -137,7 +138,7 @@ function InitialWalletView() {
             </Button>
             <Button
               variant="contained"
-              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
+              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%", minHeight: "50px" }}
               onClick={toggleDrawer("sOHMLHIW")}
               color="secondary"
             >
@@ -145,7 +146,7 @@ function InitialWalletView() {
             </Button>
             <Button
               variant="contained"
-              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%" }}
+              style={{ backgroundColor: "#272D36", color: "#386794", width: "33%", minHeight: "50px" }}
               color="secondary"
               onClick={toggleDrawer("sOHMZaps")}
             >
@@ -217,14 +218,14 @@ function InitialWalletView() {
         </AccordionDetails>
       </Accordion>
 
-      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMtx"} onClose={toggleDrawer("OG")}>
+      <Drawer style={{ width: "55%" }} anchor={"right"} open={anchor === "sOHMtx"} onClose={toggleDrawer("OG")}>
         {" "}
         <SOhmTxView></SOhmTxView>
       </Drawer>
-      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMLHIW"} onClose={toggleDrawer("OG")}>
+      <Drawer style={{ width: "55%" }} anchor={"right"} open={anchor === "sOHMLHIW"} onClose={toggleDrawer("OG")}>
         <SOhmLearnView></SOhmLearnView>
       </Drawer>
-      <Drawer style={{ width: "40%" }} anchor={"right"} open={anchor === "sOHMZaps"} onClose={toggleDrawer("OG")}>
+      <Drawer style={{ width: "55%" }} anchor={"right"} open={anchor === "sOHMZaps"} onClose={toggleDrawer("OG")}>
         <SOhmZapView></SOhmZapView>
       </Drawer>
     </Paper>

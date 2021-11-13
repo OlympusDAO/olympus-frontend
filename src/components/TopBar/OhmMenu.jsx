@@ -31,12 +31,7 @@ function OhmMenu() {
         <SvgIcon component={InfoIcon} color="primary" />
         <Typography>OHM</Typography>
       </Button>
-      <Drawer
-        style={{ width: "35%", hideBackdrop: "true" }}
-        anchor={"right"}
-        open={anchor === "OG"}
-        onClose={toggleDrawer("OG")}
-      >
+      <Drawer style={{ width: "55%" }} anchor={"right"} open={anchor === "OG"} onClose={toggleDrawer("OG")}>
         <Button
           onClick={toggleDrawer("CLOSED")}
           id="ohm-menu-button"
