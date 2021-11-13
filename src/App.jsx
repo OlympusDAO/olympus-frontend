@@ -21,15 +21,14 @@ import { Stake, ChooseBond, Bond, Wrap, TreasuryDashboard, PoolTogether } from "
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
-import LoadingSplash from "./components/Loading/LoadingSplash";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
-import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
+import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -76,9 +75,10 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   useSegmentAnalytics();
+  useGoogleAnalytics();
+  const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
-  const location = useLocation();
   const currentPath = location.pathname + location.search + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
