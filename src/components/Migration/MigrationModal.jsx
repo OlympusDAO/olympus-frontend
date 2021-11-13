@@ -18,7 +18,7 @@ import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { BigNumber } from "ethers";
-import { changeMigrationApproval } from "src/slices/MigrateThunk";
+import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
 import { useWeb3Context } from "src/hooks";
 
 const style = {
@@ -61,6 +61,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const onSeekApproval = token => {
     dispatch(changeMigrationApproval({ address, networkID: chainID, provider, token }));
   };
+
+  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: chainID }));
 
   const rows = [
     {
@@ -181,7 +183,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
               </TableBody>
             </Table>
             <Box display="flex" flexDirection="row" justifyContent="center">
-              <Button color="primary" variant="contained" disabled={!isAllApproved}>
+              <Button color="primary" variant="contained" disabled={!isAllApproved} onClick={onMigrate}>
                 <Box marginX={4} marginY={0.5}>
                   <Typography>{"Migrate"}</Typography>
                 </Box>
