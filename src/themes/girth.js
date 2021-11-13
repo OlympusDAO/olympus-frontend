@@ -48,6 +48,7 @@ export const girth = responsiveFontSizes(
           primary: girthTheme.color,
           secondary: girthTheme.gray,
         },
+        highlight: girthTheme.textHighlightColor,
       },
       typography: {
         fontFamily: "Square",
