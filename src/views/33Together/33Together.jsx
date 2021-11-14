@@ -28,6 +28,7 @@ function a11yProps(index) {
 
 const PoolTogether = () => {
   const [view, setView] = useState(0);
+  const [zoomed, setZoomed] = useState(false);
 
   const changeView = (event, newView) => {
     setView(newView);
@@ -142,13 +143,14 @@ const PoolTogether = () => {
   return (
     <div id="pool-together-view">
       <PoolPrize />
-      <Zoom in={true}>
+      <Zoom in={true} onEntered={() => setZoomed(true)}>
         <Paper className="ohm-card">
           <Box display="flex">
             <CardHeader title="3, 3 Together" />
             <InfoTooltipMulti messagesArray={infoTooltipMessage} />
           </Box>
           <Tabs
+            key={String(zoomed)}
             centered
             value={view}
             textColor="primary"
@@ -156,6 +158,8 @@ const PoolTogether = () => {
             onChange={changeView}
             className="pt-tabs"
             aria-label="pool tabs"
+            //hides the tab underline sliding animation in while <Zoom> is loading
+            TabIndicatorProps={!zoomed && { style: { display: "none" } }}
           >
             <Tab label="Deposit" {...a11yProps(0)} />
             <Tab label="Withdraw" {...a11yProps(1)} />
