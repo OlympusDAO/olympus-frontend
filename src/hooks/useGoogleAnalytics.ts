@@ -11,6 +11,7 @@ const useGoogleAnalytics = () => {
   useEffect(() => {
     if (GA_API_KEY) {
       ReactGA.initialize(GA_API_KEY);
+      ReactGA.set({ anonymizeIp: true });
       ReactGA.pageview(location.pathname + location.search);
     }
   }, [location]);
