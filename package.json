@@ -120,7 +120,9 @@
     "extends": "react-app"
   },
   "scripts": {
+    "prebuild": "git submodule update --init --recursive",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "postbuild": "yarn lingui:compile",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "test": "react-scripts test",
