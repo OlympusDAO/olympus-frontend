@@ -12,7 +12,7 @@ import { changeApproval, changeGive } from "../../slices/GiveThunk";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 import { BigNumber } from "bignumber.js";
-import { YouRetainGraphic, LockedInVault, TheyReceive } from "../../components/EducationCard";
+import { YouRetainGraphic, LockedInVaultGraphic, TheyReceiveGraphic } from "../../components/EducationCard";
 
 const sOhmImg = getTokenImage("sohm");
 
@@ -147,7 +147,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    * @returns boolean
    */
   const isCreateMode = () => {
-    if (currentDepositAmount || currentWalletAddress) return false;
+    if (currentWalletAddress) return false;
 
     return true;
   };
@@ -292,7 +292,11 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
             )}
           </>
         )}
-        <YouRetainGraphic quantity={depositAmount} />
+        <div className="give-education-graphics">
+          <YouRetainGraphic quantity={depositAmount} />
+          <LockedInVaultGraphic quantity={depositAmount} />
+          <TheyReceiveGraphic recipient={walletAddress} quantity={depositAmount} />
+        </div>
         {isCreateMode() ? (
           address && hasAllowance() ? (
             <FormControl className="ohm-modal-submit">
