@@ -205,6 +205,12 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     return true;
   };
 
+  const getRetainedAmountDiff = () => {
+    // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
+    const depositAmountBig = new BigNumber(depositAmount);
+    return new BigNumber(sohmBalance).minus(depositAmountBig);
+  };
+
   const getDepositAmountDiff = () => {
     // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
     const depositAmountBig = new BigNumber(depositAmount);
@@ -291,9 +297,9 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
               <></>
             )}
             <div className="give-education-graphics">
-              <YouRetainGraphic quantity={depositAmount} />
+              <YouRetainGraphic quantity={getRetainedAmountDiff().toString()} />
               <LockedInVaultGraphic quantity={depositAmount} />
-              <TheyReceiveGraphic recipient={walletAddress} quantity={depositAmount} />
+              <TheyReceiveGraphic quantity={depositAmount} />
             </div>
           </>
         )}

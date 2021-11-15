@@ -10,7 +10,7 @@ export function YouRetainGraphic({ quantity }) {
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" color="#999999" align="center" className="cta-text">
-          You Retain
+          Wallet
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
@@ -18,7 +18,7 @@ export function YouRetainGraphic({ quantity }) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" color="#999999" align="center" className="cta-text">
-          {quantity} sOHM
+          {quantity} sOHM retained
         </Typography>
       </Box>
     </Box>
@@ -30,7 +30,7 @@ export function LockedInVaultGraphic({ quantity }) {
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" color="#999999" algin="center" className="cta-text">
-          {quantity} sOHM
+          Vault
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
@@ -38,19 +38,19 @@ export function LockedInVaultGraphic({ quantity }) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" color="#999999" align="center" className="cta-text">
-          is locked in the "Give" vault
+          {quantity} sOHM deposited
         </Typography>
       </Box>
     </Box>
   );
 }
 
-export function TheyReceiveGraphic({ recipient, quantity }) {
+export function TheyReceiveGraphic({ quantity }) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" color="#999999" align="center" className="cta-text">
-          {shorten(recipient)} receives
+          Recipient
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
@@ -58,7 +58,7 @@ export function TheyReceiveGraphic({ recipient, quantity }) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" color="#999999" align="center" className="cta-text">
-          yield from {quantity} sOHM
+          Receives yield from {quantity} sOHM
         </Typography>
       </Box>
     </Box>
