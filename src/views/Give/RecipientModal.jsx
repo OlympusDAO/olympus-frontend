@@ -19,6 +19,7 @@ import {
   CurrPositionGraphic,
   NewPositionGraphic,
 } from "../../components/EducationCard";
+import { trim } from "../../helpers";
 
 const sOhmImg = getTokenImage("sohm");
 
@@ -196,7 +197,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    * @returns BigNumber instance
    */
   const getRetainedAmountDiff = () => {
-    const tempDepositAmount = !isCreateMode() ? getDepositAmountDiff() : depositAmount;
+    const tempDepositAmount = !isCreateMode() ? getDepositAmountDiff() : getDepositAmount();
     return new BigNumber(sohmBalance).minus(tempDepositAmount);
   };
 
@@ -204,6 +205,19 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
     const depositAmountBig = new BigNumber(depositAmount);
     return depositAmountBig.minus(new BigNumber(currentDepositAmount));
+  };
+
+  /**
+   * Ensures that the depositAmount returned is a valid number.
+   *
+   * @returns
+   */
+  const getDepositAmount = () => {
+    if (!depositAmount) return 0;
+
+    if (typeof depositAmount == "string" && !trim(depositAmount)) return 0;
+
+    return depositAmount;
   };
 
   /**
@@ -252,7 +266,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                 type="number"
                 placeholder="Enter an amount"
                 className="stake-input"
-                value={depositAmount}
+                value={getDepositAmount()}
                 error={!isDepositAmountValid}
                 onChange={e => handleSetDepositAmount(e.target.value)}
                 labelWidth={0}
@@ -266,9 +280,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                   {new Intl.NumberFormat("en-US").format(sohmBalance)} sOHM
                 </Typography>
               </div>
-              {!isCreateMode() && (
-                <Typography variant="body2">Difference: {getDepositAmountDiff().toString()}</Typography>
-              )}
             </FormControl>
             {isCreateMode() ? (
               <>
@@ -295,13 +306,13 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
             {isCreateMode() ? (
               <div className="give-education-graphics">
                 <YouRetainGraphic quantity={getRetainedAmountDiff().toString()} />
-                <LockedInVaultGraphic quantity={depositAmount} />
-                <TheyReceiveGraphic quantity={depositAmount} />
+                <LockedInVaultGraphic quantity={getDepositAmount()} />
+                <TheyReceiveGraphic quantity={getDepositAmount()} />
               </div>
             ) : (
               <div className="give-education-graphics">
                 <CurrPositionGraphic quantity={currentDepositAmount} />
-                <NewPositionGraphic quantity={depositAmount} />
+                <NewPositionGraphic quantity={getDepositAmount()} />
               </div>
             )}
           </>
