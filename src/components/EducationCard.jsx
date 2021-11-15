@@ -64,3 +64,43 @@ export function TheyReceiveGraphic({ quantity }) {
     </Box>
   );
 }
+
+export function CurrPositionGraphic({ quantity }) {
+  return (
+    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+          Current Position
+        </Typography>
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
+        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+          {quantity} sOHM
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+export function NewPositionGraphic({ quantity }) {
+  return (
+    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+          New Position
+        </Typography>
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
+        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+          {quantity} sOHM
+        </Typography>
+      </Box>
+    </Box>
+  );
+}

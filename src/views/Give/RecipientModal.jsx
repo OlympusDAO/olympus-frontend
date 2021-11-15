@@ -12,7 +12,13 @@ import { changeApproval, changeGive } from "../../slices/GiveThunk";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 import { BigNumber } from "bignumber.js";
-import { YouRetainGraphic, LockedInVaultGraphic, TheyReceiveGraphic } from "../../components/EducationCard";
+import {
+  YouRetainGraphic,
+  LockedInVaultGraphic,
+  TheyReceiveGraphic,
+  CurrPositionGraphic,
+  NewPositionGraphic,
+} from "../../components/EducationCard";
 
 const sOhmImg = getTokenImage("sohm");
 
@@ -252,6 +258,14 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                 labelWidth={0}
               />
               <FormHelperText>{isDepositAmountValidError}</FormHelperText>
+              <div className="give-staked-balance">
+                <Typography variant="body2" align="left">
+                  Your Staked Balance (depositable)
+                </Typography>
+                <Typography variant="body2" align="right">
+                  {new Intl.NumberFormat("en-US").format(sohmBalance)} sOHM
+                </Typography>
+              </div>
               {!isCreateMode() && (
                 <Typography variant="body2">Difference: {getDepositAmountDiff().toString()}</Typography>
               )}
@@ -278,11 +292,18 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
             ) : (
               <></>
             )}
-            <div className="give-education-graphics">
-              <YouRetainGraphic quantity={getRetainedAmountDiff().toString()} />
-              <LockedInVaultGraphic quantity={depositAmount} />
-              <TheyReceiveGraphic quantity={depositAmount} />
-            </div>
+            {isCreateMode() ? (
+              <div className="give-education-graphics">
+                <YouRetainGraphic quantity={getRetainedAmountDiff().toString()} />
+                <LockedInVaultGraphic quantity={depositAmount} />
+                <TheyReceiveGraphic quantity={depositAmount} />
+              </div>
+            ) : (
+              <div className="give-education-graphics">
+                <CurrPositionGraphic quantity={currentDepositAmount} />
+                <NewPositionGraphic quantity={depositAmount} />
+              </div>
+            )}
           </>
         )}
         {isCreateMode() ? (
