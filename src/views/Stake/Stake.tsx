@@ -14,6 +14,7 @@ import {
   Tabs,
   Typography,
   Zoom,
+  Divider,
 } from "@material-ui/core";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
@@ -68,6 +69,9 @@ function Stake() {
   });
   const wsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
+  });
+  const wsohmAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.wsohmAsSohm;
   });
   const stakeAllowance = useAppSelector(state => {
     return (state.account.staking && state.account.staking.ohmStake) || 0;
@@ -145,7 +149,7 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmBalance]
+    [sohmBalance, fsohmBalance, wsohmAsSohm]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -365,18 +369,47 @@ function Stake() {
 
                   <div className={`stake-user-data`}>
                     <div className="data-row">
-                      <Typography variant="body1">Your Balance</Typography>
+                      <Typography variant="body1">Unstaked Balance</Typography>
                       <Typography variant="body1">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(ohmBalance), 4)} OHM</>}
                       </Typography>
                     </div>
 
                     <div className="data-row">
-                      <Typography variant="body1">Your Staked Balance</Typography>
+                      <Typography variant="body1">Staked Balance</Typography>
                       <Typography variant="body1">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
                       </Typography>
                     </div>
+
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        Single Staking
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(sohmBalance), 4)} sOHM</>}
+                      </Typography>
+                    </div>
+
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        Staked Balance in Fuse
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fsohmBalance, 4)} fsOHM</>}
+                      </Typography>
+                    </div>
+
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        Wrapped Balance
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsohmBalance), 4)} wsOHM</>}
+                      </Typography>
+                    </div>
+
+                    <Divider color="secondary" />
 
                     <div className="data-row">
                       <Typography variant="body1">Next Reward Amount</Typography>

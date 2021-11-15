@@ -17,7 +17,7 @@ import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, TreasuryDashboard, PoolTogether, Bond } from "./views";
+import { Stake, ChooseBond, Bond, Wrap, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
@@ -89,7 +89,7 @@ function App() {
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
-  const { bonds } = useBonds();
+  const { bonds } = useBonds(chainID);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -141,8 +141,6 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        const providerURL = uri;
-        // Note (appleseed): remove this before merge to develop
         segmentUA({
           type: "connect",
           provider: provider,
@@ -153,7 +151,6 @@ function App() {
       // then user DOES NOT have a wallet
       setWalletChecked(true);
     }
-    // We want to ensure that we are storing the UTM parameters for later, even if the user follows links
     if (shouldTriggerSafetyCheck()) {
       dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
     }
@@ -220,6 +217,10 @@ function App() {
 
             <Route path="/stake">
               <Stake />
+            </Route>
+
+            <Route path="/wrap">
+              <Wrap />
             </Route>
 
             <Route path="/33-together">
