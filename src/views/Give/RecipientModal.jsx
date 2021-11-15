@@ -165,6 +165,8 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    * - the deposit amount is invalid
    * - the wallet address is invalid
    * - there is no sender address
+   * - an add/edit transaction is pending
+   * - it is not in create mode and there is no difference in the amount
    *
    * @returns boolean
    */
@@ -173,6 +175,8 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     if (!isWalletAddressValid) return false;
     if (!address) return false;
     if (isPendingTxn(pendingTransactions, "editingGive")) return false;
+    if (isPendingTxn(pendingTransactions, "giving")) return false;
+    if (!isCreateMode() && getDepositAmountDiff().isEqualTo(0)) return false;
 
     return true;
   };
@@ -277,12 +281,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
         {isCreateMode() ? (
           address && hasAllowance() ? (
             <FormControl className="ohm-modal-submit">
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={!canSubmit() || isPendingTxn(pendingTransactions, "giving")}
-                onClick={handleSubmit}
-              >
+              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
                 {txnButtonText(pendingTransactions, "giving", "Give sOHM")}
               </Button>
             </FormControl>
@@ -295,12 +294,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
           )
         ) : (
           <FormControl className="ohm-modal-submit">
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={!canSubmit() || isPendingTxn(pendingTransactions, "editingGive")}
-              onClick={handleSubmit}
-            >
+            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
               {txnButtonText(pendingTransactions, "editingGive", "Edit Give Amount")}
             </Button>
           </FormControl>
