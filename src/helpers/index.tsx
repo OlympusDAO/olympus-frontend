@@ -1,8 +1,8 @@
 import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses } from "../constants";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import axios from "axios";
-import { abi as PairContract } from "../abi/PairContract.json";
-import { abi as RedeemHelperAbi } from "../abi/RedeemHelper.json";
+import { abi as PairContractABI } from "../abi/PairContract.json";
+import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
 
 import { SvgIcon } from "@material-ui/core";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
@@ -11,22 +11,30 @@ import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 import { ohm_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
+import { PairContract, RedeemHelper } from "../typechain";
 
-// NOTE (appleseed): this looks like an outdated method... we now have this data in the graph (used elsewhere in the app)
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
-  const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
+  const pairContract = new ethers.Contract(ohm_dai_address, PairContractABI, provider) as PairContract;
   const reserves = await pairContract.getReserves();
-  const marketPrice = reserves[1] / reserves[0];
+  const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString());
 
-  // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });
   return marketPrice;
 }
 
+/**
+ * gets price of token from coingecko
+ * @param tokenId STRING taken from https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list
+ * @returns INTEGER usd value
+ */
 export async function getTokenPrice(tokenId = "olympus") {
-  const resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
-  let tokenPrice: number = resp.data[tokenId].usd;
-  return tokenPrice;
+  let resp;
+  try {
+    resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
+    return resp.data[tokenId].usd;
+  } catch (e) {
+    // console.log("coingecko api error: ", e);
+  }
 }
 
 export function shorten(str: string) {
@@ -134,8 +142,27 @@ export function contractForRedeemHelper({
   networkID: number;
   provider: StaticJsonRpcProvider | JsonRpcSigner;
 }) {
-  return new ethers.Contract(addresses[networkID].REDEEM_HELPER_ADDRESS as string, RedeemHelperAbi, provider);
+  return new ethers.Contract(
+    addresses[networkID].REDEEM_HELPER_ADDRESS as string,
+    RedeemHelperABI,
+    provider,
+  ) as RedeemHelper;
 }
+
+/**
+ * returns false if SafetyCheck has fired in this Session. True otherwise
+ * @returns boolean
+ */
+export const shouldTriggerSafetyCheck = () => {
+  const _storage = window.sessionStorage;
+  const _safetyCheckKey = "-oly-safety";
+  // check if sessionStorage item exists for SafetyCheck
+  if (!_storage.getItem(_safetyCheckKey)) {
+    _storage.setItem(_safetyCheckKey, "true");
+    return true;
+  }
+  return false;
+};
 
 /**
  * returns unix timestamp for x minutes ago

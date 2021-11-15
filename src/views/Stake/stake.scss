@@ -27,6 +27,9 @@
     justify-items: center;
   }
 
+  .ohm-card .card-header {
+    position: relative;
+  }
   .ohm-card .header {
     min-height: 3em;
   }
@@ -42,8 +45,8 @@
 
 .migrate-sohm-button {
   position: absolute;
-  right: 20px;
-  top: 20px;
+  right: 0px;
+  top: 0px;
   font-size: 1em;
   display: flex;
   align-items: center;
@@ -118,7 +121,11 @@
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-around;
-  margin-top: 10px;
+  margin-top: -30px;
+}
+
+.mobile .stake-action-area {
+  margin-top: 20px;
 }
 
 .stake-action-row {

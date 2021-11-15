@@ -17,8 +17,8 @@ import "./sidebar.scss";
 function NavContent() {
   const [isActive] = useState();
   const address = useAddress();
-  const { bonds } = useBonds();
   const { chainID } = useWeb3Context();
+  const { bonds } = useBonds(chainID);
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -144,8 +144,11 @@ function NavContent() {
                       ) : (
                         <Typography variant="body2">
                           {bond.displayName}
+
                           <span className="bond-pair-roi">
-                            {bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%
+                            {!bond.isAvailable[chainID]
+                              ? "Sold Out"
+                              : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
                           </span>
                         </Typography>
                       )}
