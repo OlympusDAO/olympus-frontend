@@ -17,8 +17,8 @@ import "./sidebar.scss";
 function NavContent() {
   const [isActive] = useState();
   const address = useAddress();
-  const { bonds } = useBonds();
   const { chainID } = useWeb3Context();
+  const { bonds } = useBonds(chainID);
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -29,6 +29,9 @@ function NavContent() {
       return true;
     }
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
+      return true;
+    }
+    if (currentPath.indexOf("33-together") >= 0 && page === "33-together") {
       return true;
     }
     return false;

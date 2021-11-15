@@ -13,21 +13,28 @@ import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { PairContract, RedeemHelper } from "../typechain";
 
-// NOTE (appleseed): this looks like an outdated method... we now have this data in the graph (used elsewhere in the app)
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
   const pairContract = new ethers.Contract(ohm_dai_address, PairContractABI, provider) as PairContract;
   const reserves = await pairContract.getReserves();
   const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString());
 
-  // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });
   return marketPrice;
 }
 
+/**
+ * gets price of token from coingecko
+ * @param tokenId STRING taken from https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list
+ * @returns INTEGER usd value
+ */
 export async function getTokenPrice(tokenId = "olympus") {
-  const resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
-  let tokenPrice: number = resp.data[tokenId].usd;
-  return tokenPrice;
+  let resp;
+  try {
+    resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
+    return resp.data[tokenId].usd;
+  } catch (e) {
+    // console.log("coingecko api error: ", e);
+  }
 }
 
 export function shorten(str: string) {
