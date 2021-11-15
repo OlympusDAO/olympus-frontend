@@ -181,10 +181,17 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     return true;
   };
 
+  /**
+   * Indicates the amount retained in the user's wallet after a deposit to the vault.
+   *
+   * If a yield direction is being created, it returns the current sOHM balance minus the entered deposit.
+   * If a yield direction is being edited, it returns the current sOHM balance minus the difference in the entered deposit.
+   *
+   * @returns BigNumber instance
+   */
   const getRetainedAmountDiff = () => {
-    // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
-    const depositAmountBig = new BigNumber(depositAmount);
-    return new BigNumber(sohmBalance).minus(depositAmountBig);
+    const tempDepositAmount = !isCreateMode() ? getDepositAmountDiff() : depositAmount;
+    return new BigNumber(sohmBalance).minus(tempDepositAmount);
   };
 
   const getDepositAmountDiff = () => {
