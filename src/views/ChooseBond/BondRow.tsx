@@ -9,16 +9,16 @@ import { IAllBondData } from "src/hooks/Bonds";
 import { useWeb3Context } from "../../hooks/web3Context";
 import { Bond, CustomBond, LPBond, NetworkID } from "src/lib/Bond";
 
-type UBond = CustomBond | LPBond;
+type BondUnion = CustomBond | LPBond;
 type OnChainProvider = ReturnType<typeof useWeb3Context>;
 
 export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
   const { chainID }: OnChainProvider = useWeb3Context();
   // Type assertion for union undefined properties
-  const uBond = bond as UBond;
-  const allBondData = bond as IAllBondData;
+  const uBond: BondUnion | undefined = bond.isLP ? (bond as BondUnion) : undefined;
+  const allBondData: IAllBondData | undefined = !(bond instanceof Bond) ? (bond as IAllBondData) : undefined;
   // Use BondPrice as indicator of loading.
-  const isBondLoading = !allBondData.bondPrice ?? true;
+  const isBondLoading = !allBondData?.bondPrice ?? true;
 
   return (
     <Slide direction="up" in={true}>
@@ -29,7 +29,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
             <Typography>{bond.displayName}</Typography>
             {bond.isLP && (
               <div>
-                <Link href={uBond.lpUrl} target="_blank">
+                <Link href={uBond?.lpUrl} target="_blank">
                   <Typography variant="body1">
                     View Contract
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
@@ -42,20 +42,30 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
         <div className="data-row">
           <Typography>Price</Typography>
           <Typography className="bond-price">
-            <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={allBondData} />}</>
+            <>
+              {isBondLoading || typeof allBondData === undefined ? (
+                <Skeleton width="50px" />
+              ) : (
+                <DisplayBondPrice key={bond.name} bond={allBondData as IAllBondData} />
+              )}
+            </>
           </Typography>
         </div>
         <div className="data-row">
           <Typography>ROI</Typography>
           <Typography>
-            {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={allBondData} />}
+            {isBondLoading || typeof allBondData === undefined ? (
+              <Skeleton width="50px" />
+            ) : (
+              <DisplayBondDiscount key={bond.name} bond={allBondData as IAllBondData} />
+            )}
           </Typography>
         </div>
 
         <div className="data-row">
           <Typography>Purchased</Typography>
           <Typography>
-            {isBondLoading ? (
+            {isBondLoading || typeof allBondData === undefined ? (
               <Skeleton width="80px" />
             ) : (
               new Intl.NumberFormat("en-US", {
@@ -63,7 +73,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
                 currency: "USD",
                 maximumFractionDigits: 0,
                 minimumFractionDigits: 0,
-              }).format(allBondData.purchased)
+              }).format(allBondData?.purchased as number)
             )}
           </Typography>
         </div>
@@ -82,7 +92,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
 export function BondTableData({ bond }: { bond: IAllBondData | Bond }) {
   const { chainID }: OnChainProvider = useWeb3Context();
   // Type assertion for union undefined properties
-  const uBond = bond as UBond;
+  const uBond = bond as BondUnion;
   const allBondData = bond as IAllBondData;
   // Use BondPrice as indicator of loading.
   const isBondLoading = !allBondData.bondPrice ?? true;
