@@ -5,6 +5,7 @@ import "./zap.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import ZapStakeAction from "./ZapStakeAction";
 import { useSelector } from "react-redux";
+import ZapInfo from "./ZapInfo";
 
 function a11yProps(index) {
   return {
@@ -12,6 +13,11 @@ function a11yProps(index) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+
+const infoTokenIcons = [
+  "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x0000000000000000000000000000000000000000.png",
+  "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png",
+];
 
 function Zap({ initialTab }) {
   const { address, connect } = useWeb3Context();
@@ -63,6 +69,7 @@ function Zap({ initialTab }) {
           </div>
         </Paper>
       </Zoom>
+      <ZapInfo tokens={infoTokenIcons} />
     </div>
   );
 }
