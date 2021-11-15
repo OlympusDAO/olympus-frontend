@@ -269,6 +269,8 @@ function Stake() {
                       className="stake-tab-buttons"
                       onChange={changeView}
                       aria-label="stake tabs"
+                      //hides the tab underline sliding animation in while <Zoom> is loading
+                      TabIndicatorProps={!zoomed && { style: { display: "none" } }}
                     >
                       <Tab label={t`do_stake`} {...a11yProps(0)} />
                       <Tab label={t`Unstake`} {...a11yProps(1)} />
