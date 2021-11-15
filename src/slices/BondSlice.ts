@@ -74,7 +74,7 @@ export interface IBondDetails {
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
   async ({ bond, value, provider, networkID }: ICalcBondDetailsAsyncThunk, { dispatch }): Promise<IBondDetails> => {
-    if (!value) {
+    if (!value || value === "") {
       value = "0";
     }
     const amountInWei = ethers.utils.parseEther(value);
