@@ -25,7 +25,7 @@ import { useSelector, useDispatch } from "react-redux";
 function ClaimBonds({ activeBonds }) {
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
-  const { bonds } = useBonds();
+  const { bonds } = useBonds(chainID);
 
   const [numberOfBonds, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
