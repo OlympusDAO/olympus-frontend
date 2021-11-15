@@ -386,9 +386,6 @@ function Stake() {
                       <Typography variant="body1">
                         <Trans>Unstaked Balance</Trans>
                       </Typography>
-                      <Typography variant="body1">
-                        <Trans>Your Balance</Trans>
-                      </Typography>
                       <Typography variant="body1" id="user-balance">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
                       </Typography>
@@ -397,9 +394,6 @@ function Stake() {
                     <div className="data-row">
                       <Typography variant="body1">
                         <Trans>Staked Balance</Trans>
-                      </Typography>
-                      <Typography variant="body1">
-                        <Trans>Your Staked Balance</Trans>
                       </Typography>
                       <Typography variant="body1" id="user-staked-balance">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}

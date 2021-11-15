@@ -144,7 +144,6 @@ const PoolTogether = () => {
   return (
     <div id="pool-together-view">
       <PoolPrize />
-<<<<<<< HEAD
 
       <Paper className="ohm-card">
         <Box display="flex">
@@ -159,6 +158,8 @@ const PoolTogether = () => {
           onChange={changeView}
           className="pt-tabs"
           aria-label="pool tabs"
+          //hides the tab underline sliding animation in while <Zoom> is loading
+          TabIndicatorProps={!zoomed && { style: { display: "none" } }}
         >
           <Tab label={t`Deposit`} {...a11yProps(0)} />
           <Tab label={t`Withdraw`} {...a11yProps(1)} />
@@ -179,46 +180,6 @@ const PoolTogether = () => {
           />
         </TabPanel>
       </Paper>
-=======
-      <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper className="ohm-card">
-          <Box display="flex">
-            <CardHeader title="3, 3 Together" />
-            <InfoTooltipMulti messagesArray={infoTooltipMessage} />
-          </Box>
-          <Tabs
-            key={String(zoomed)}
-            centered
-            value={view}
-            textColor="primary"
-            indicatorColor="primary"
-            onChange={changeView}
-            className="pt-tabs"
-            aria-label="pool tabs"
-            //hides the tab underline sliding animation in while <Zoom> is loading
-            TabIndicatorProps={!zoomed && { style: { display: "none" } }}
-          >
-            <Tab label="Deposit" {...a11yProps(0)} />
-            <Tab label="Withdraw" {...a11yProps(1)} />
-          </Tabs>
-
-          <TabPanel value={view} index={0} className="pool-tab">
-            <PoolDeposit
-              totalPoolDeposits={totalDeposits}
-              winners={winners}
-              setInfoTooltipMessage={setInfoTooltipMessage}
-            />
-          </TabPanel>
-          <TabPanel value={view} index={1} className="pool-tab">
-            <PoolWithdraw
-              totalPoolDeposits={totalDeposits}
-              winners={winners}
-              setInfoTooltipMessage={setInfoTooltipMessage}
-            />
-          </TabPanel>
-        </Paper>
-      </Zoom>
->>>>>>> develop
 
       <PoolInfo
         graphLoading={graphLoading}

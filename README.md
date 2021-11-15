@@ -66,9 +66,9 @@ The files/folder structure are a  **WIP** and may contain some unused files. The
 
 ## Application translation
 
-Olympus uses linguijs to manage translation. https://github.com/lingui/js-lingui
+Olympus uses [linguijs](https://github.com/lingui/js-lingui) to manage translation.
 
-The language files are located in a submodule deployed in `src/locales/translations`. This submodule points to the olympus translation repository: https://github.com/OlympusDAO/olympus-translations
+The language files are located in a submodule deployed in `src/locales/translations`. This submodule points to the [olympus translation repository](https://github.com/OlympusDAO/olympus-translations)
 
 In order to mark text for translation you can use:
 - The <Trans> component in jsx templates eg. `<Trans>Translate me!</Trans>`
