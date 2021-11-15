@@ -290,13 +290,13 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
             ) : (
               <></>
             )}
+            <div className="give-education-graphics">
+              <YouRetainGraphic quantity={depositAmount} />
+              <LockedInVaultGraphic quantity={depositAmount} />
+              <TheyReceiveGraphic recipient={walletAddress} quantity={depositAmount} />
+            </div>
           </>
         )}
-        <div className="give-education-graphics">
-          <YouRetainGraphic quantity={depositAmount} />
-          <LockedInVaultGraphic quantity={depositAmount} />
-          <TheyReceiveGraphic recipient={walletAddress} quantity={depositAmount} />
-        </div>
         {isCreateMode() ? (
           address && hasAllowance() ? (
             <FormControl className="ohm-modal-submit">
