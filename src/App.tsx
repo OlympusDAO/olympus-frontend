@@ -89,8 +89,8 @@ function App() {
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
-  const { bonds } = useBonds(chainID);
 
+  const { bonds } = useBonds(chainID);
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)

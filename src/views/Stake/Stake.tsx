@@ -256,6 +256,8 @@ function Stake() {
                       className="stake-tab-buttons"
                       onChange={changeView}
                       aria-label="stake tabs"
+                      //hides the tab underline sliding animation in while <Zoom> is loading
+                      TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
                     >
                       <Tab label="Stake" {...a11yProps(0)} />
                       <Tab label="Unstake" {...a11yProps(1)} />
@@ -396,7 +398,7 @@ function Stake() {
                         Staked Balance in Fuse
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fsohmBalance, 4)} fsOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fsohmBalance), 4)} fsOHM</>}
                       </Typography>
                     </div>
 
