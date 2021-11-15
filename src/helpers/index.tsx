@@ -22,10 +22,19 @@ export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
   return marketPrice;
 }
 
+/**
+ * gets price of token from coingecko
+ * @param tokenId STRING taken from https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list
+ * @returns INTEGER usd value
+ */
 export async function getTokenPrice(tokenId = "olympus") {
-  const resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
-  let tokenPrice: number = resp.data[tokenId].usd;
-  return tokenPrice;
+  let resp;
+  try {
+    resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
+    return resp.data[tokenId].usd;
+  } catch (e) {
+    // console.log("coingecko api error: ", e);
+  }
 }
 
 export function shorten(str: string) {
@@ -207,4 +216,12 @@ export const subtractDates = (dateA: Date, dateB: Date) => {
     minutes,
     seconds,
   };
+};
+
+export const toBN = (num: number) => {
+  return BigNumber.from(num);
+};
+
+export const bnToNum = (bigNum: BigNumber) => {
+  return Number(bigNum.toString());
 };
