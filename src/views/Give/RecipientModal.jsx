@@ -158,34 +158,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     return "Add Recipient";
   };
 
-  const getIntroduction = () => {
-    if (!isCreateMode())
-      return (
-        <>
-          <Typography variant="body1">
-            You have currently deposited {currentDepositAmount} sOHM into the vault for this recipient. Enter in the
-            revised amount that you would like to direct yield for.
-          </Typography>
-          <Typography variant="body1">
-            Please note that your sOHM will be transferred into the vault when you submit. You will need to approve the
-            transaction and pay for gas fees.
-          </Typography>
-        </>
-      );
-
-    return (
-      <>
-        <Typography variant="body1">
-          The rebase rewards from the sOHM that you deposit will be redirected to the wallet address that you specify.
-        </Typography>
-        <Typography variant="body1">
-          Please note that your sOHM will be transferred into the vault when you submit. You will need to approve the
-          transaction and pay for gas fees.
-        </Typography>
-      </>
-    );
-  };
-
   /**
    * Indicates whether the form can be submitted.
    *
@@ -236,7 +208,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
           </Link>
           <Typography variant="h4">{getTitle()}</Typography>
         </div>
-        <Typography variant="body1">{getIntroduction()}</Typography>
         {!address ? (
           <>
             <FormHelperText>
