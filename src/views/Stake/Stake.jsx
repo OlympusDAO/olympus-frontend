@@ -20,7 +20,6 @@ import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -61,16 +60,14 @@ function Stake() {
   const gohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
-  // not sure if these 3 below continue to exist
+
   const fsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
   });
-  const wsohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.wsohm;
+  const sohmV2Balance = useSelector(state => {
+    return state.account.balances && state.account.balances.sohmv2;
   });
-  const wsohmAsSohm = useSelector(state => {
-    return state.account.balances && state.account.balances.wsohmAsSohm;
-  });
+
   // need to make these 2 below look at v2 instead
   const stakeAllowance = useSelector(state => {
     return state.account.staking && state.account.staking.ohmStake;
@@ -78,16 +75,18 @@ function Stake() {
   const unstakeAllowance = useSelector(state => {
     return state.account.staking && state.account.staking.ohmUnstake;
   });
-  // these 3 below are updated v2
+  // these 2 below are updated v2
   const stakingRebase = useSelector(state => {
     return state.app.stakingRebaseV2;
   });
   const stakingAPY = useSelector(state => {
     return state.app.stakingAPYV2;
   });
-  const stakingTVL = useSelector(state => {
-    return state.app.stakingTVL;
-  });
+  // const stakingTVL = useSelector(state => {
+  //   return state.app.stakingTVL;
+  // });
+  // need to update obviously
+  const stakingTVL = 1000000;
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
@@ -149,7 +148,7 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [gohmBalance, fsohmBalance, wsohmAsSohm]
+    [gohmBalance, fsohmBalance, sohmV2Balance]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -365,7 +364,7 @@ function Stake() {
                     <div className="data-row">
                       <Typography variant="body1">Staked Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} gOHM</>}
                       </Typography>
                     </div>
 
@@ -374,7 +373,7 @@ function Stake() {
                         Single Staking
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
                       </Typography>
                     </div>
 
@@ -389,10 +388,10 @@ function Stake() {
 
                     <div className="data-row" style={{ paddingLeft: "10px" }}>
                       <Typography variant="body2" color="textSecondary">
-                        Wrapped Balance
+                        Non Governance Staked Balance
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmV2Balance, 4)} sOHM</>}
                       </Typography>
                     </div>
 

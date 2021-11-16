@@ -25,20 +25,35 @@
 
 .dark {
   .call-to-action {
-    background-color: #2e2b40;
+    background-color: #F8CC82;
+    color: #253449;
+
+  .migrate-button{
+    background-color: #253449;
+    color: white;
+  }
+  
+  .learn-more-button{
+    color: #253449;
+    border: 1px solid #768299;
+    .MuiSvgIcon-root{
+      color: #768299;
+    }
   }
 }
 
-.light {
-  .call-to-action {
-    background-color: #eae7ff;
-  }
+}
 
+.light {
+  .call-to-action{
+    background-color: #FFE5B4;
+  }
   .migrate-button {
-    background-color: #8977f5;
+    background-color: #768299;
   }
 
   .learn-more-button {
     border: 1px solid #768299;
+    
   }
 }

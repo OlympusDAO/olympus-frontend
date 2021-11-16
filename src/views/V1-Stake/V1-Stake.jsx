@@ -321,7 +321,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                         {isAllowanceDataLoading ? (
                           <Skeleton />
                         ) : address && hasAllowance("ohm") ? (
-                          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} />
+                          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
                         ) : (
                           <Button
                             className="stake-button"
