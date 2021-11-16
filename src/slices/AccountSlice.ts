@@ -17,6 +17,13 @@ export const getBalances = createAsyncThunk(
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider) as IERC20;
     const ohmBalance = await ohmContract.balanceOf(address);
+    const gOhmContract = new ethers.Contract(
+      addresses[networkID].GOHM_ADDRESS as string,
+      ierc20Abi,
+      provider,
+    ) as IERC20;
+    const gOhmBalance = await gOhmContract.balanceOf(address);
+
     const sohmContract = new ethers.Contract(
       addresses[networkID].SOHM_ADDRESS as string,
       ierc20Abi,
@@ -42,6 +49,7 @@ export const getBalances = createAsyncThunk(
         wsohm: ethers.utils.formatEther(wsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
+        gohm: ethers.utils.formatUnits(gOhmBalance, "gwei"),
       },
     };
   },

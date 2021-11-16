@@ -205,7 +205,7 @@ function Stake() {
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-tvl">
                       <Typography variant="h5" color="textSecondary">
-                        Total Value Deposited
+                        TVL
                       </Typography>
                       <Typography variant="h4">
                         {stakingTVL ? (
