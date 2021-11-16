@@ -181,17 +181,21 @@ export const RunwayAvailableGraph = () => {
 
   const runway = data && data.filter(metric => metric.runway10k > 5);
 
+  const [current, ...others] = bulletpoints.runway;
+  const runwayBulletpoints = [{ ...current, background: theme.palette.text.primary }, ...others];
+  const colors = runwayBulletpoints.map(b => b.background);
+
   return (
     <Chart
       type="multi"
       data={runway}
       dataKey={["runwayCurrent", "runway7dot5k", "runway5k", "runway2dot5k"]}
       color={theme.palette.text.primary}
-      stroke={[theme.palette.text.primary, "#2EC608", "#49A1F2", "#ff758f"]}
+      stroke={colors}
       headerText="Runway Available"
       headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
       dataFormat="days"
-      bulletpointColors={bulletpoints.runway}
+      bulletpointColors={runwayBulletpoints}
       itemNames={tooltipItems.runway}
       itemType={""}
       infoTooltipMessage={tooltipInfoMessages.runway}

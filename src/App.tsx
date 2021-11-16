@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -91,10 +91,8 @@ function App() {
 
   const [walletChecked, setWalletChecked] = useState(false);
 
-  const isAppLoading = useSelector(state => state.app.loading);
-  const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
-  const { bonds } = useBonds();
-  async function loadDetails(whichDetails) {
+  const { bonds } = useBonds(chainID);
+  async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
     // it's because the initial provider loaded always starts with chainID=1. This causes
@@ -117,7 +115,7 @@ function App() {
     loadProvider => {
       dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
       bonds.map(bond => {
-        dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: chainID }));
       });
     },
     [connected],
