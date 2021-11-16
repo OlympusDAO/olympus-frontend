@@ -14,6 +14,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { t, Trans } from "@lingui/macro";
 import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
 import { getTokenImage } from "src/helpers/index";
@@ -55,7 +56,7 @@ export const PoolWithdraw = props => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      dispatch(error("Please enter a value!"));
+      dispatch(error(t`Please enter a value!`));
     } else {
       await dispatch(poolWithdraw({ action, value: quantity.toString(), provider, address, networkID: chainID }));
     }
@@ -82,14 +83,14 @@ export const PoolWithdraw = props => {
     if (quantity > 0 && quantity <= poolBalance) {
       calcEarlyExitFee();
     } else if (quantity > poolBalance) {
-      dispatch(error("You cannot withdraw more than your pool balance"));
+      dispatch(error(t`You cannot withdraw more than your pool balance`));
       setExitFee(0);
     }
   }, [quantity]);
 
   useEffect(() => {
     props.setInfoTooltipMessage([
-      "You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating reducing the chance to win the prize in this pool in future prize periods",
+      t`You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating reducing the chance to win the prize in this pool in future prize periods`,
     ]);
   }, []);
 
@@ -97,12 +98,14 @@ export const PoolWithdraw = props => {
     return (
       <Box display="flex" alignItems="center" className="pool-deposit-ui" flexDirection="column">
         {/*<img src={Warning} className="w-10 sm:w-14 mx-auto mb-4" />*/}
-        <Typography variant="h6">This Prize Pool is unable to accept withdrawals at this time.</Typography>
-        <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
-          Withdrawals can be made once the prize has been awarded.
+        <Typography variant="h6">
+          <Trans>This Prize Pool is unable to accept withdrawals at this time.</Trans>
         </Typography>
         <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
-          Check back soon!
+          <Trans>Withdrawals can be made once the prize has been awarded.</Trans>
+        </Typography>
+        <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
+          <Trans>Check back soon!</Trans>
         </Typography>
       </Box>
     );
@@ -133,7 +136,7 @@ export const PoolWithdraw = props => {
                 endAdornment={
                   <InputAdornment position="end">
                     <Button variant="text" onClick={setMax}>
-                      Max
+                      <Trans>Max</Trans>
                     </Button>
                   </InputAdornment>
                 }
@@ -147,22 +150,25 @@ export const PoolWithdraw = props => {
               onClick={() => onWithdraw("withdraw")}
             >
               {exitFee > 0
-                ? txnButtonText(pendingTransactions, "pool_withdraw", "Withdraw Early & pay " + exitFee + " sOHM")
-                : txnButtonText(pendingTransactions, "pool_withdraw", "Withdraw sOHM")}
+                ? txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw Early & pay` + exitFee + " sOHM")
+                : txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw sOHM`)}
               {/* Withdraw sOHM */}
             </Button>
           </Box>
           {newOdds > 0 && quantity > 0 && (
             <Box padding={1}>
               <Typography color="error" variant="body2">
-                Withdrawing {quantity} sOHM reduces your odds of winning to 1 in {newOdds}&nbsp;
+                <Trans>
+                  Withdrawing {quantity} sOHM reduces your odds of winning to 1 in {newOdds}
+                </Trans>
+                &nbsp;
               </Typography>
             </Box>
           )}
           {exitFee > 0 && (
             <Box margin={1}>
               <Typography color="error">
-                Early withdraw will incur a fairness fee of {exitFee}. &nbsp;
+                <Trans>Early withdraw will incur a fairness fee of {exitFee}.</Trans> &nbsp;
                 <Link
                   href="https://v3.docs.pooltogether.com/protocol/prize-pool/fairness"
                   target="_blank"
@@ -170,18 +176,17 @@ export const PoolWithdraw = props => {
                   color="primary"
                 >
                   <br />
-                  Read more about Fairness{" "}
+                  <Trans>Read more about Fairness</Trans>{" "}
                   <SvgIcon component={ArrowUp} style={{ fontSize: "1rem", verticalAlign: "middle" }} />
                 </Link>
               </Typography>
             </Box>
           )}
-
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
               <Typography variant="body1" align="left">
-                Your Pooled Balance (withdrawable)
+                <Trans>Your Pooled Balance (withdrawable)</Trans>
               </Typography>
               <Typography variant="body1" align="right">
                 {isPoolLoading ? (
