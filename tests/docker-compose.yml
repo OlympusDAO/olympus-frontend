@@ -12,3 +12,13 @@ services:
     entrypoint: npm run deploy
     depends_on:
       - contract_node
+  frontend:
+    build: 
+      context: ../
+      dockerfile: Dockerfile
+    depends_on:
+      - contract_node
+      - contract_deploy
+    volumes:
+      - ../src:/usr/src/app/src
+      - ../public:/usr/src/app/public

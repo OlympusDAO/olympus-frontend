@@ -1,4 +1,4 @@
-FROM node:14.18.2-bullseye-slim
+FROM --platform=amd64 node:14.18.2-bullseye-slim
 
 RUN apt-get update && \
     apt-get install -y git
@@ -16,6 +16,9 @@ COPY package.json .
 COPY yarn.lock .
 COPY .env* .
 COPY index.d.ts .
+
+# Yarn would timeout with the material-ui package(s), so we override the timeout
+RUN yarn --network-timeout 1000000
 
 # The yarn install script compiles contracts in the postinstall step, so we need this
 COPY src src
