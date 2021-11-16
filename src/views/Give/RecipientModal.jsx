@@ -160,7 +160,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   };
 
   const getTitle = () => {
-    if (!isCreateMode()) return "Edit Recipient";
+    if (!isCreateMode()) return "Edit Amount";
 
     return "Add Recipient";
   };
