@@ -3,12 +3,12 @@ services:
   # Runs the Hardhat node on an ongoing basis
   contract_node:
     image: 0xjem/olympus-contracts:Version-1.1-docker
-    network_mode: host
+    ports:
+      - 8545:8545
   # Deploys the contracts against the node and exits
   # We use network_mode: host so that contract_deploy can communicate with contract_node using the localhost hostname
   contract_deploy:
     image: 0xjem/olympus-contracts:Version-1.1-docker
-    network_mode: host
     entrypoint: npm run deploy
     depends_on:
       - contract_node
@@ -16,6 +16,8 @@ services:
     build: 
       context: ../
       dockerfile: Dockerfile
+    ports:
+      - 3000:3000
     depends_on:
       - contract_node
       - contract_deploy
