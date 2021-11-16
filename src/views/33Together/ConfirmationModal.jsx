@@ -1,7 +1,7 @@
 import { Modal, Backdrop, Paper, SvgIcon, Box, Typography, Button, Fade, useTheme } from "@material-ui/core";
 import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
-import { ReactComponent as arrowRightImg } from "../../assets/icons/arrow-right.svg";
+import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
 export const ConfirmationModal = props => {
@@ -20,7 +20,7 @@ export const ConfirmationModal = props => {
                 <Box className="pool-deposit-confirmation">
                   <SvgIcon component={sOhmTokenImg} viewBox="0 0 100 100" className="swap-icon-size" />
                 </Box>
-                <SvgIcon component={arrowRightImg} viewBox="-12 -22 48 48" className="swap-icon-size" />
+                <SvgIcon component={ArrowForwardOutlinedIcon} viewBox="-12 -22 48 48" className="swap-icon-size" />
                 <Box className="pool-deposit-confirmation">
                   <SvgIcon component={t33TokenImg} viewBox="0 0 1000 1000" className="swap-icon-size" />
                 </Box>
