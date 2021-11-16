@@ -3,10 +3,17 @@ import { BigNumber, ethers } from "ethers";
 import { addresses } from "src/constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { IERC20 } from "src/typechain";
-import { IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
+import { IBaseAddressAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { getMigrationAllowances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
+import { OlympusTokenMigrator__factory } from "src/typechain";
+
+enum TokenType {
+  UNSTAKED,
+  STAKED,
+  WRAPPED,
+}
 
 export const changeMigrationApproval = createAsyncThunk(
   "migrate/changeApproval",
@@ -76,6 +83,24 @@ export const changeMigrationApproval = createAsyncThunk(
         dispatch(clearPendingTxn(approveTx.hash));
       }
     }
+
+    // go get fresh allowances
+    dispatch(getMigrationAllowances({ address, provider, networkID }));
+  },
+);
+
+export const migrateAll = createAsyncThunk(
+  "migrate/migrateAll",
+  async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
+    const signer = provider.getSigner();
+    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+    // console.log(provider);
+
+    if (!provider) {
+      dispatch(error("Please connect your wallet!"));
+      return;
+    }
+    await migrator.migrateAll(TokenType.WRAPPED);
 
     // go get fresh allowances
     dispatch(getMigrationAllowances({ address, provider, networkID }));
