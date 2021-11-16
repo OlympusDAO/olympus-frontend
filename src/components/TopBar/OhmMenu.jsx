@@ -1,19 +1,14 @@
 import { useState } from "react";
-import { useTheme } from "@material-ui/core/styles";
-import { addresses } from "../../constants";
-import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 
+import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import "./ohmmenu.scss";
-import { dai, frax } from "src/helpers/AllBonds";
 import { useWeb3Context } from "../../hooks/web3Context";
 import InitialWalletView from "./OhmMenuViews/walletViews/InitialWalletView";
 import { Drawer, SvgIcon, Button, Typography, Box } from "@material-ui/core";
 
 function OhmMenu() {
   const [anchor, setAnchor] = useState(false);
-  const { chainID } = useWeb3Context();
-  const networkID = chainID;
   const toggleDrawer = data => () => {
     setAnchor(data);
   };

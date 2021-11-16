@@ -35,9 +35,11 @@ export const PoolDeposit = props => {
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
-
-  const poolBalance = useSelector(state => {
-    return state.account.balances && parseFloat(state.account.balances.pool);
+  const fsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.fsohm;
+  });
+  const wsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.wsohm;
   });
 
   const poolAllowance = useSelector(state => {

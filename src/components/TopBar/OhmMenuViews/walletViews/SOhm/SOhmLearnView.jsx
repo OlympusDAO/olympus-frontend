@@ -1,7 +1,7 @@
 import { SvgIcon, Button, Typography, Box, Drawer } from "@material-ui/core";
 import { useState } from "react";
 
-function SOhmLHIW() {
+function SOhmLearnView() {
   const toggleDrawer = data => () => {
     setAnchor(data);
   };
@@ -9,6 +9,7 @@ function SOhmLHIW() {
   const [anchor, setAnchor] = useState(false);
 
   return (
+    //jsx loop
     <Box className="ohm-pairs" style={{ width: "100%" }}>
       <Button onClick={toggleDrawer("sOHMtx")} variant="contained" style={{ width: "100%" }} color="secondary">
         <Typography align="left"> Transaction History</Typography>
@@ -29,4 +30,4 @@ function SOhmLHIW() {
   );
 }
 
-export default SOhmLHIW;
+export default SOhmLearnView;

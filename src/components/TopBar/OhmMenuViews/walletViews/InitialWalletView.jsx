@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useTheme } from "@material-ui/core/styles";
 import { trim } from "../../../../helpers";
 import { ReactComponent as ArrowUpIcon } from "../../../../assets/icons/arrow-up.svg";
@@ -28,6 +29,26 @@ function InitialWalletView() {
   const [apy, setApy] = useState(null);
   const [anchor, setAnchor] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const ohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.ohm;
+  });
+  const sohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.sohm;
+  });
+  const wsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.wsohm;
+  });
+  const fsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.fsohm;
+  });
+
+  const poolBalance = useSelector(state => {
+    return state.account.balances && parseFloat(state.account.balances.pool);
+  });
+
+  const marketPrice = useSelector(state => {
+    return state.app.marketPrice;
+  });
 
   const toggleDrawer = data => () => {
     setAnchor(data);
@@ -37,14 +58,21 @@ function InitialWalletView() {
       setExpanded(isExpanded ? panel : false);
     }
   };
-  apollo(rebasesDataQuery).then(r => {
-    let apy = r.data.rebases.map(entry => ({
-      apy: Math.pow(parseFloat(entry.percentage) + 1, 365 * 3) * 100,
-      timestamp: entry.timestamp,
-    }));
-    apy = apy.filter(pm => pm.apy < 300000);
-    setApy(apy);
-  });
+  // apollo(rebasesDataQuery).then(r => {
+  //   let apy = r.data.rebases.map(entry => ({
+  //     apy: Math.pow(parseFloat(entry.percentage) + 1, 365 * 3) * 100,
+  //     timestamp: entry.timestamp,
+  //   }));
+  //   [
+  //     {
+  //       "apy": 7857.424722561997,
+  //       "timestamp": "1636797374"
+  //     }
+  //   ]
+  //   apy = apy.filter(pm => pm.apy < 300000);
+  //   setApy(apy);
+  //   √
+  // });
   return (
     <Paper>
       {/* <Chart
@@ -63,21 +91,35 @@ function InitialWalletView() {
         infoTooltipMessage={tooltipInfoMessages.apy}
         expandedGraphStrokeColor={theme.palette.graphStrokeColor}
       /> */}
+
+      <Accordion expanded={expanded === "OHM"} onChange={handleChange("OHM")}>
+        <AccordionSummary
+          expandIcon={<SvgIcon component={ArrowUpIcon} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />}
+        >
+          <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
+            {" "}
+            <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
+            OHM
+          </Typography>
+          <Paper>
+            <Typography align="left">{ohmBalance}</Typography>
+            <Typography align="left">${trim(ohmBalance * marketPrice, 2)}</Typography>
+          </Paper>
+        </AccordionSummary>
+      </Accordion>
       <Accordion expanded={expanded === "sOHM"} onChange={handleChange("sOHM")}>
         <AccordionSummary
           expandIcon={<SvgIcon component={ArrowUpIcon} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />}
         >
-          <Button variant="contained" style={{ width: "100%", flexDirection: "row" }} color="secondary">
-            <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
-              {" "}
-              <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
-              sOHM
-            </Typography>
-            <Paper>
-              <Typography align="left">0</Typography>
-              <Typography align="left">$0.00</Typography>
-            </Paper>
-          </Button>
+          <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
+            {" "}
+            <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
+            sOHM
+          </Typography>
+          <Paper>
+            <Typography align="left">{sohmBalance}</Typography>
+            <Typography align="left">${trim(sohmBalance * marketPrice, 2)}</Typography>
+          </Paper>
         </AccordionSummary>
         <AccordionDetails margin="auto" style={{ margin: "auto", padding: 0 }}>
           <Box className="ohm-pairs" style={{ width: "100%" }}>
@@ -114,17 +156,15 @@ function InitialWalletView() {
         <AccordionSummary
           expandIcon={<SvgIcon component={ArrowUpIcon} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />}
         >
-          <Button variant="contained" style={{ width: "100%", flexDirection: "row" }} color="secondary">
-            <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
-              {" "}
-              <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
-              wsOHM
-            </Typography>
-            <Paper>
-              <Typography align="left">0</Typography>
-              <Typography align="left">$0.00</Typography>
-            </Paper>
-          </Button>
+          <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
+            {" "}
+            <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
+            wsOHM
+          </Typography>
+          <Paper>
+            <Typography align="left">{wsohmBalance}</Typography>
+            <Typography align="left">${(trim(wsohmBalance * marketPrice), 2)}</Typography>
+          </Paper>
         </AccordionSummary>
         <AccordionDetails margin="auto" style={{ margin: "auto", padding: 0 }}>
           <Box className="ohm-pairs" style={{ width: "100%" }}>
@@ -156,66 +196,20 @@ function InitialWalletView() {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion expanded={expanded === "OHM"} onChange={handleChange("OHM")}>
+      <Accordion expanded={expanded === "3TT"} onChange={handleChange("3TT")}>
         <AccordionSummary
           expandIcon={<SvgIcon component={ArrowUpIcon} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />}
         >
-          <Button variant="contained" style={{ width: "100%" }} color="secondary">
-            <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
-              {" "}
-              <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
-              OHM
-            </Typography>
-          </Button>
+          <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
+            {" "}
+            <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
+            3TT
+          </Typography>
+          <Paper>
+            <Typography align="left">{new Intl.NumberFormat("en-US").format(poolBalance)} 33T</Typography>
+            <Typography align="left">${trim(poolBalance * marketPrice, 2)}</Typography>
+          </Paper>
         </AccordionSummary>
-        <AccordionDetails margin="auto" style={{ margin: "auto" }}>
-          <Box className="ohm-pairs" style={{ width: "100%" }}>
-            <Button variant="contained" style={{ width: "100%" }} color="secondary">
-              <Typography align="left"> Transaction History</Typography>
-            </Button>
-            <Button variant="contained" style={{ width: "100%" }} color="secondary">
-              <Typography align="left"> Learn how it works</Typography>
-            </Button>
-            <Button variant="contained" style={{ width: "100%" }} color="secondary">
-              <Typography align="left"> Zap</Typography>
-            </Button>
-            <Paper>
-              <Typography align="left">($0.00)</Typography>
-              <Typography align="left">($0.00)</Typography>
-            </Paper>
-          </Box>
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion expanded={expanded === "3TT"} onChange={handleChange("3TT")}>
-        <AccordionSummary
-          expandIcon={<SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />}
-        >
-          <Button variant="contained" style={{ width: "100%" }} color="secondary">
-            <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
-              {" "}
-              <SvgIcon component={ohmTokenImg} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />
-              3TT
-            </Typography>
-          </Button>
-        </AccordionSummary>
-        <AccordionDetails margin="auto" style={{ margin: "auto" }}>
-          <Box className="ohm-pairs" style={{ width: "100%" }}>
-            <Button variant="contained" style={{ width: "100%" }} color="secondary">
-              <Typography align="left"> Transaction History</Typography>
-            </Button>
-            <Button variant="contained" style={{ width: "100%" }} color="secondary">
-              <Typography align="left"> Learn how it works</Typography>
-            </Button>
-            <Button variant="contained" style={{ width: "100%" }} color="secondary">
-              <Typography align="left"> Zap</Typography>
-            </Button>
-            <Paper>
-              <Typography align="left">($0.00)</Typography>
-              <Typography align="left">($0.00)</Typography>
-            </Paper>
-          </Box>
-        </AccordionDetails>
       </Accordion>
 
       <Drawer style={{ width: "55%" }} anchor={"right"} open={anchor === "sOHMtx"} onClose={toggleDrawer("OG")}>
