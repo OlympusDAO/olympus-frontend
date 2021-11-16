@@ -30,6 +30,14 @@ function Zap({ initialTab }) {
     setView(newView);
   };
 
+  const inputTokenImages = useMemo(
+    () =>
+      Object.entries(tokens)
+        .filter(token => token[0] !== "sohm")
+        .map(token => token[1].img)
+        .slice(0, 3),
+    [tokens],
+  );
   // const hasAllowance = useCallback(
   //   token => {
   //     if (token === "ohm") return stakeAllowance > 0;
@@ -69,7 +77,9 @@ function Zap({ initialTab }) {
           </div>
         </Paper>
       </Zoom>
-      <ZapInfo tokens={infoTokenIcons} />
+      <Zoom in={true}>
+        <ZapInfo tokens={inputTokenImages} />
+      </Zoom>
     </div>
   );
 }

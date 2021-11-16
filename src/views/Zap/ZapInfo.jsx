@@ -3,18 +3,67 @@ import "./zap.scss";
 import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.svg";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import HeaderLogo from "./HeaderLogo";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+  infoBox: {
+    [theme.breakpoints.down("md")]: {
+      display: "flex",
+      flexDirection: "row",
+    },
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+      flexDirection: "column",
+    },
+  },
+  infoBoxItem: {
+    [theme.breakpoints.down("md")]: {
+      padding: "0px !important",
+    },
+    [theme.breakpoints.up("md")]: {
+      padding: "16px !important",
+    },
+  },
+  infoHeader: {
+    [theme.breakpoints.down("md")]: {
+      width: "50%",
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "100%",
+    },
+  },
+  infoBody: {
+    [theme.breakpoints.down("md")]: {
+      width: "50%",
+      paddingTop: "24px",
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "100%",
+      paddingTop: 0,
+    },
+  },
+}));
 
 function ZapInfo({ tokens }) {
+  const classes = useStyles();
   return (
     <>
       <Paper className="ohm-card" id="olyzaps-info">
         <Grid container direction="row" wrap spacing={4}>
-          <Grid item xs={12} sm={4}>
-            <Box alignItems="center" display="flex" flexDirection="column" className="oly-info-header-box">
+          <Grid item sm={12} md={4} classes={{ root: classes.infoBox, item: classes.infoBoxItem }}>
+            <Box
+              alignItems="center"
+              display="flex"
+              flexDirection="column"
+              classes={{ root: classes.infoHeader }}
+              className="oly-info-header-box"
+            >
               <HeaderLogo images={tokens} />
-              <Typography color="textSecondary">You Give</Typography>
+              <Typography color="textSecondary" align="center">
+                You Give
+              </Typography>
             </Box>
-            <Box>
+            <Box classes={{ root: classes.infoBody }}>
               <Typography variant="body1" className="oly-info-body-header">
                 Zap is a swap
               </Typography>
@@ -24,12 +73,20 @@ function ZapInfo({ tokens }) {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} sm={4}>
-            <Box alignItems="center" display="flex" flexDirection="column" className="oly-info-header-box">
+          <Grid item sm={12} md={4} classes={{ root: classes.infoBox, item: classes.infoBoxItem }}>
+            <Box
+              alignItems="center"
+              display="flex"
+              flexDirection="column"
+              classes={{ root: classes.infoHeader }}
+              className="oly-info-header-box"
+            >
               <HeaderLogo icons={[CircleZapIcon]} />
-              <Typography color="textSecondary">All-in-one zap contracts</Typography>
+              <Typography color="textSecondary" align="center">
+                All-in-one zap contracts
+              </Typography>
             </Box>
-            <Box>
+            <Box classes={{ root: classes.infoBody }}>
               <Typography variant="body1" className="oly-info-body-header">
                 Save up to 75% on gas
               </Typography>
@@ -38,16 +95,24 @@ function ZapInfo({ tokens }) {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} sm={4}>
-            <Box alignItems="center" display="flex" flexDirection="column" className="oly-info-header-box">
+          <Grid item sm={12} md={4} classes={{ root: classes.infoBox, item: classes.infoBoxItem }}>
+            <Box
+              alignItems="center"
+              display="flex"
+              flexDirection="column"
+              classes={{ root: classes.infoHeader }}
+              className="oly-info-header-box"
+            >
               <HeaderLogo
                 images={[
                   "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png",
                 ]}
               />
-              <Typography color="textSecondary">You Get sOHM </Typography>
+              <Typography color="textSecondary" align="center">
+                You Get sOHM{" "}
+              </Typography>
             </Box>
-            <Box>
+            <Box classes={{ root: classes.infoBody }}>
               <Typography variant="body1" className="oly-info-body-header">
                 Staking
               </Typography>
