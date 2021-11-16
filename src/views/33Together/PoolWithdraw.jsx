@@ -90,7 +90,7 @@ export const PoolWithdraw = props => {
 
   useEffect(() => {
     props.setInfoTooltipMessage([
-      "You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating reducing the chance to win the prize in this pool in future prize periods",
+      t`You can choose to withdraw the deposited fund at any time. By withdrawing the fund, you are eliminating reducing the chance to win the prize in this pool in future prize periods`,
     ]);
   }, []);
 

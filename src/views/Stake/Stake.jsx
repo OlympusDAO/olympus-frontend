@@ -282,15 +282,17 @@ function Stake() {
                             <Typography variant="body1" className="stake-note" color="textSecondary">
                               {view === 0 ? (
                                 <>
-                                  First time staking <b>OHM</b>?
+                                  <Trans>First time staking</Trans> <b>OHM</b>?
                                   <br />
-                                  Please approve Olympus Dao to use your <b>OHM</b> for staking.
+                                  <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b>{" "}
+                                  <Trans>for staking</Trans>.
                                 </>
                               ) : (
                                 <>
-                                  First time unstaking <b>sOHM</b>?
+                                  <Trans>First time unstaking</Trans> <b>sOHM</b>?
                                   <br />
-                                  Please approve Olympus Dao to use your <b>sOHM</b> for unstaking.
+                                  <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM</b>{" "}
+                                  <Trans>for unstaking</Trans>.
                                 </>
                               )}
                             </Typography>

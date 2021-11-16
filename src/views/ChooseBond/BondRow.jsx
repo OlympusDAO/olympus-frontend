@@ -69,7 +69,9 @@ export function BondDataCard({ bond }) {
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID]}>
-            <Typography variant="h5">{!bond.isAvailable[chainID] ? "Sold Out" : `Bond ${bond.displayName}`}</Typography>
+            <Typography variant="h5">
+              {!bond.isAvailable[chainID] ? t`Sold Out` : t`Bond ${bond.displayName}`}
+            </Typography>
           </Button>
         </Link>
       </Paper>

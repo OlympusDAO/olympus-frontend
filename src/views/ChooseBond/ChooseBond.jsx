@@ -78,12 +78,11 @@ function ChooseBond() {
                 <Typography variant="h5" color="textSecondary">
                   <Trans>Treasury Balance</Trans>
                 </Typography>
-                <Typography variant="h4">
+                <Box>
                   {isAppLoading ? (
                     <Skeleton width="180px" data-testid="treasury-balance-loading" />
                   ) : (
-                    <Typography data-testid="treasury-balance">
-                      $
+                    <Typography variant="h4" data-testid="treasury-balance">
                       {new Intl.NumberFormat("en-US", {
                         style: "currency",
                         currency: "USD",
@@ -92,7 +91,7 @@ function ChooseBond() {
                       }).format(treasuryBalance)}
                     </Typography>
                   )}
-                </Typography>
+                </Box>
               </Box>
             </Grid>
 

@@ -143,8 +143,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                   <div className="help-text">
                     <em>
                       <Typography variant="body1" align="center" color="textSecondary">
-                        First time bonding <b>{bond.displayName}</b>? <br /> Please approve Olympus Dao to use your{" "}
-                        <b>{bond.displayName}</b> for bonding.
+                        <Trans>First time bonding</Trans> <b>{bond.displayName}</b>? <br />{" "}
+                        <Trans>Please approve Olympus Dao to use your</Trans> <b>{bond.displayName}</b>{" "}
+                        <b>{bond.displayName}</b> <Trans>for bonding</Trans>.
                       </Typography>
                     </em>
                   </div>
@@ -178,7 +179,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     className="transaction-button"
                     disabled={true}
                   >
-                    Sold Out
+                    <Trans>Sold Out</Trans>
                   </Button>
                 ) : hasAllowance() ? (
                   <Button
