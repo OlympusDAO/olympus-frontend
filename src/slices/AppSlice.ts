@@ -119,8 +119,12 @@ export const loadAppDetails = createAsyncThunk(
     // Current index
     const currentIndex = await stakingContract.index();
 
+    // Current index V2
+    const currentIndexV2 = await stakingV2Contract.index();
+
     return {
       currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
+      currentIndexV2: ethers.utils.formatUnits(currentIndexV2, "gwei"),
       currentBlock,
       fiveDayRate,
       stakingAPY,
@@ -196,6 +200,7 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
 interface IAppData {
   readonly circSupply: number;
   readonly currentIndex?: string;
+  readonly currentIndexV2?: string;
   readonly currentBlock?: number;
   readonly fiveDayRate?: number;
   readonly marketCap: number;

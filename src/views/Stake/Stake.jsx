@@ -49,7 +49,7 @@ function Stake() {
 
   const isAppLoading = useSelector(state => state.app.loading);
   const currentIndex = useSelector(state => {
-    return state.app.currentIndex;
+    return state.app.currentIndexV2;
   });
   const fiveDayRate = useSelector(state => {
     return state.app.fiveDayRateV2;
@@ -61,6 +61,7 @@ function Stake() {
   const gohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
+  // not sure if these 3 below continue to exist
   const fsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
   });
@@ -70,12 +71,14 @@ function Stake() {
   const wsohmAsSohm = useSelector(state => {
     return state.account.balances && state.account.balances.wsohmAsSohm;
   });
+  // need to make these 2 below look at v2 instead
   const stakeAllowance = useSelector(state => {
     return state.account.staking && state.account.staking.ohmStake;
   });
   const unstakeAllowance = useSelector(state => {
     return state.account.staking && state.account.staking.ohmUnstake;
   });
+  // these 3 below are updated v2
   const stakingRebase = useSelector(state => {
     return state.app.stakingRebaseV2;
   });
