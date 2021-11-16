@@ -35,6 +35,9 @@ function NavContent() {
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
       return true;
     }
+    if (currentPath.indexOf("33-together") >= 0 && page === "33-together") {
+      return true;
+    }
     return false;
   }, []);
 

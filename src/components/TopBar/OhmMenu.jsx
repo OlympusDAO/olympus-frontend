@@ -18,7 +18,9 @@ import SOhmImg from "src/assets/tokens/token_sOHM.svg";
 import WsOhmImg from "src/assets/tokens/token_wsOHM.svg";
 import token33tImg from "src/assets/tokens/token_33T.svg";
 
-const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
+import { segmentUA } from "../../helpers/userAnalyticHelpers";
+
+const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
   if (window.ethereum) {
     const host = window.location.origin;
     let tokenPath;
@@ -52,6 +54,12 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
           },
         },
       });
+      let uaData = {
+        address: address,
+        type: "Add Token",
+        tokenName: tokenSymbol,
+      };
+      segmentUA(uaData);
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +69,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
 function OhmMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const isEthereumAPIAvailable = window.ethereum;
-  const { chainID } = useWeb3Context();
+  const { chainID, address } = useWeb3Context();
 
   const networkID = chainID;
 
@@ -143,7 +151,11 @@ function OhmMenu() {
                     <p>ADD TOKEN TO WALLET</p>
                     <Box display="flex" flexDirection="row" justifyContent="space-between">
                       {OHM_ADDRESS && (
-                        <Button variant="contained" color="secondary" onClick={addTokenToWallet("OHM", OHM_ADDRESS)}>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={addTokenToWallet("OHM", OHM_ADDRESS, address)}
+                        >
                           <SvgIcon
                             component={ohmTokenImg}
                             viewBox="0 0 32 32"
@@ -153,7 +165,11 @@ function OhmMenu() {
                         </Button>
                       )}
                       {SOHM_ADDRESS && (
-                        <Button variant="contained" color="secondary" onClick={addTokenToWallet("sOHM", SOHM_ADDRESS)}>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={addTokenToWallet("sOHM", SOHM_ADDRESS, address)}
+                        >
                           <SvgIcon
                             component={sOhmTokenImg}
                             viewBox="0 0 100 100"
@@ -166,7 +182,7 @@ function OhmMenu() {
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={addTokenToWallet("wsOHM", WSOHM_ADDRESS)}
+                          onClick={addTokenToWallet("wsOHM", WSOHM_ADDRESS, address)}
                         >
                           <SvgIcon
                             component={wsOhmTokenImg}
@@ -180,7 +196,7 @@ function OhmMenu() {
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={addTokenToWallet("33T", PT_TOKEN_ADDRESS)}
+                          onClick={addTokenToWallet("33T", PT_TOKEN_ADDRESS, address)}
                         >
                           <SvgIcon
                             component={t33TokenImg}

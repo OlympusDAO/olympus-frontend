@@ -80,6 +80,7 @@
     "@testing-library/dom": "^8.0.0",
     "@typechain/ethers-v5": "^8.0.2",
     "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.11",
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.33.0",
