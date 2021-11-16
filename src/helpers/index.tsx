@@ -217,3 +217,11 @@ export const subtractDates = (dateA: Date, dateB: Date) => {
     seconds,
   };
 };
+
+export const toBN = (num: number) => {
+  return BigNumber.from(num);
+};
+
+export const bnToNum = (bigNum: BigNumber) => {
+  return Number(bigNum.toString());
+};

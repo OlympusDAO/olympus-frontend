@@ -46,6 +46,7 @@ function useBonds(chainID: number) {
 
     const mostProfitableBonds = bondDetails.concat().sort((a, b) => {
       if (a.getAvailability(chainID) === false) return 1;
+      if (b.getAvailability(chainID) === false) return -1;
       return a["bondDiscount"] > b["bondDiscount"] ? -1 : b["bondDiscount"] > a["bondDiscount"] ? 1 : 0;
     });
 
