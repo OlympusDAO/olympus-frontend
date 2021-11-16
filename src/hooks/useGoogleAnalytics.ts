@@ -9,7 +9,7 @@ const useGoogleAnalytics = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (GA_API_KEY && GA_API_KEY.length > 1) {
+    if (GA_API_KEY) {
       ReactGA.initialize(GA_API_KEY);
       ReactGA.set({ anonymizeIp: true });
       ReactGA.pageview(location.pathname + location.search);
