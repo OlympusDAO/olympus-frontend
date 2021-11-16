@@ -52,7 +52,7 @@ function Stake() {
     return state.app.currentIndex;
   });
   const fiveDayRate = useSelector(state => {
-    return state.app.fiveDayRate;
+    return state.app.fiveDayRateV2;
   });
   const ohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.ohmv2;
@@ -77,10 +77,10 @@ function Stake() {
     return state.account.staking && state.account.staking.ohmUnstake;
   });
   const stakingRebase = useSelector(state => {
-    return state.app.stakingRebase;
+    return state.app.stakingRebaseV2;
   });
   const stakingAPY = useSelector(state => {
-    return state.app.stakingAPY;
+    return state.app.stakingAPYV2;
   });
   const stakingTVL = useSelector(state => {
     return state.app.stakingTVL;
