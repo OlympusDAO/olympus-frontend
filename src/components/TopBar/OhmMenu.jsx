@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
+import { ReactComponent as ArrowUpIcon } from "../../assets/icons/x.svg";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import "./ohmmenu.scss";
 import { useWeb3Context } from "../../hooks/web3Context";

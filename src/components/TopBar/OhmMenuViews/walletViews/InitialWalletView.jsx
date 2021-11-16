@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useTheme } from "@material-ui/core/styles";
 import { trim } from "../../../../helpers";
-import { ReactComponent as ArrowUpIcon } from "../../../../assets/icons/arrow-up.svg";
+import { ReactComponent as ArrowUpIcon } from "../../../../assets/icons/fullscreen.svg";
 import { ReactComponent as sOhmTokenImg } from "../../../../assets/tokens/token_sOHM.svg";
 import { ReactComponent as ohmTokenImg } from "../../../../assets/tokens/token_OHM.svg";
 import { ReactComponent as t33TokenImg } from "../../../../assets/tokens/token_33T.svg";
@@ -187,6 +187,7 @@ function InitialWalletView() {
       </Accordion>
       <Accordion expanded={expanded === "sOHM"} onChange={handleChange("sOHM")}>
         <AccordionSummary
+          alignItems="center"
           expandIcon={<SvgIcon component={ArrowUpIcon} viewBox="0 0 32 32" style={{ height: "25px", width: "25px" }} />}
         >
           <Typography align="left" style={{ width: "100%", flexDirection: "row" }}>
