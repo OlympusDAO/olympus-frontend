@@ -237,6 +237,11 @@ export const ohm_weth = new CustomBond({
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
+    [NetworkID.Localhost]: {
+      // FIXME
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
   },
   bondType: BondType.LP,
   lpUrl:

@@ -1,4 +1,4 @@
-import { StaticJsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
+import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
@@ -32,6 +32,7 @@ export interface NetworkAddresses {
 export interface Available {
   [NetworkID.Mainnet]?: boolean;
   [NetworkID.Testnet]?: boolean;
+  [NetworkID.Localhost]?: boolean;
 }
 
 interface BondOpts {
@@ -103,8 +104,7 @@ export abstract class Bond {
   async getBondReservePrice(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     const pairContract = this.getContractForReserve(networkID, provider);
     const reserves = await pairContract.getReserves();
-    const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
-    return marketPrice;
+    return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
   }
 }
 
