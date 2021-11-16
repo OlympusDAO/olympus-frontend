@@ -108,10 +108,10 @@ function ZapStakeAction(props) {
   const initialTokenAllowance = useMemo(() => checkTokenAllowance(tokens[zapToken]?.address), [zapToken]);
   const allowanceTxSuccess = false;
 
-  const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
+  const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle} color="primary"></SvgIcon>;
 
   return (
-    <div>
+    <>
       <div className="card-header">
         <Typography variant="h5">OlyZaps</Typography>
       </div>
@@ -300,7 +300,7 @@ function ZapStakeAction(props) {
         </Typography>
       </Box>
 
-      <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs">
+      <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs" id="zap-select-token-modal">
         <DialogTitle>
           <Typography align="center">Select Zap Token</Typography>
         </DialogTitle>
@@ -317,6 +317,7 @@ function ZapStakeAction(props) {
                   <ListItemText primary={token[1].symbol} />
                   <Box flexGrow={10} />
                   <ListItemText
+                    style={{ primary: { justify: "center" } }}
                     primary={`$${token[1].balanceUSD.toFixed(2)}`}
                     secondary={token[1].balance.toFixed(4)}
                   />
@@ -325,7 +326,7 @@ function ZapStakeAction(props) {
           </List>
         )}
       </Dialog>
-    </div>
+    </>
   );
 }
 

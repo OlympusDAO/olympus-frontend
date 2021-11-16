@@ -19,11 +19,9 @@ const infoTokenIcons = [
   "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png",
 ];
 
-function Zap({ initialTab }) {
+function Zap() {
   const { address, connect } = useWeb3Context();
 
-  const [zoomed, setZoomed] = useState(false);
-  const [view, setView] = useState(initialTab ?? 0);
   const tokens = useSelector(state => state.zap.balances);
 
   const changeView = (event, newView) => {
@@ -67,10 +65,7 @@ function Zap({ initialTab }) {
               <>
                 <Box className="stake-action-area">
                   <Box alignSelf="center" minWidth="420px" width="80%"></Box>
-
-                  <TabPanel value={view} index={0} className="stake-tab-panel">
-                    <ZapStakeAction address={address} />
-                  </TabPanel>
+                  <ZapStakeAction address={address} />
                 </Box>
               </>
             )}

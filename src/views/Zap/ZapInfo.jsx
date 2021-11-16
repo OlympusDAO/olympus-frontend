@@ -136,7 +136,6 @@ function ZapInfo({ tokens }) {
           </Button>
         </Box>
       </Paper>
-      ,
     </>
   );
 }
