@@ -17,12 +17,6 @@ export const getBalances = createAsyncThunk(
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider) as IERC20;
     const ohmBalance = await ohmContract.balanceOf(address);
-    const gOhmContract = new ethers.Contract(
-      addresses[networkID].GOHM_ADDRESS as string,
-      ierc20Abi,
-      provider,
-    ) as IERC20;
-    const gOhmBalance = await gOhmContract.balanceOf(address);
 
     const sohmContract = new ethers.Contract(
       addresses[networkID].SOHM_ADDRESS as string,
@@ -32,6 +26,20 @@ export const getBalances = createAsyncThunk(
     const sohmBalance = await sohmContract.balanceOf(address);
     const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
     const wsohmBalance = await wsohmContract.balanceOf(address);
+
+    const gOhmContract = new ethers.Contract(
+      addresses[networkID].GOHM_ADDRESS as string,
+      ierc20Abi,
+      provider,
+    ) as IERC20;
+    const gOhmBalance = await gOhmContract.balanceOf(address);
+
+    const OhmContractV2 = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20Abi, provider) as IERC20;
+    const OhmV2Balance = await gOhmContract.balanceOf(address);
+
+    const sOhmContractV2 = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider) as IERC20;
+    const sOhmV2Balance = await gOhmContract.balanceOf(address);
+
     // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
     const wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
     let poolBalance = BigNumber.from(0);
@@ -50,6 +58,8 @@ export const getBalances = createAsyncThunk(
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
         gohm: ethers.utils.formatUnits(gOhmBalance, "gwei"),
+        ohmv2: ethers.utils.formatUnits(OhmV2Balance, "gwei"),
+        sohmv2: ethers.utils.formatUnits(sOhmV2Balance, "gwei"),
       },
     };
   },

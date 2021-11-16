@@ -16,7 +16,6 @@ import {
   Zoom,
   Divider,
 } from "@material-ui/core";
-import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
@@ -56,13 +55,11 @@ function Stake() {
     return state.app.fiveDayRate;
   });
   const ohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.ohm;
+    return state.account.balances && state.account.balances.ohmv2;
   });
-  const oldSohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.oldsohm;
-  });
-  const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+
+  const gohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.gohm;
   });
   const fsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
@@ -97,7 +94,7 @@ function Stake() {
     if (view === 0) {
       setQuantity(ohmBalance);
     } else {
-      setQuantity(sohmBalance);
+      setQuantity(gohmBalance);
     }
   };
 
@@ -118,7 +115,7 @@ function Stake() {
       return dispatch(error("You cannot stake more than your OHM balance."));
     }
 
-    if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+    if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(gohmBalance, "gwei"))) {
       return dispatch(error("You cannot unstake more than your sOHM balance."));
     }
 
@@ -149,7 +146,7 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmAsSohm]
+    [gohmBalance, fsohmBalance, wsohmAsSohm]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -168,19 +165,6 @@ function Stake() {
               <div className="card-header">
                 <Typography variant="h5">Single Stake (3, 3)</Typography>
                 <RebaseTimer />
-
-                {address && oldSohmBalance > 0.01 && (
-                  <Link
-                    className="migrate-sohm-button"
-                    style={{ textDecoration: "none" }}
-                    href="https://docs.olympusdao.finance/using-the-website/migrate"
-                    aria-label="migrate-sohm"
-                    target="_blank"
-                  >
-                    <NewReleases viewBox="0 0 24 24" />
-                    <Typography>Migrate sOHM!</Typography>
-                  </Link>
-                )}
               </div>
             </Grid>
 
@@ -387,7 +371,7 @@ function Stake() {
                         Single Staking
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} sOHM</>}
                       </Typography>
                     </div>
 
