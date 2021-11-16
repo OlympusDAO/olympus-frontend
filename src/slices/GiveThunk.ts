@@ -2,11 +2,18 @@ import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
+// Delete before mainnet
+import { abi as OlympusFaucet } from "../abi/OlympusFaucet.json";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances, getDonationBalances } from "./AccountSlice";
 import { error } from "../slices/MessagesSlice";
-import { IActionValueRecipientAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
+import {
+  IActionValueRecipientAsyncThunk,
+  IChangeApprovalAsyncThunk,
+  IJsonRPCError,
+  IBaseAddressAsyncThunk,
+} from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 interface IUAData {
@@ -123,5 +130,35 @@ export const changeGive = createAsyncThunk(
     }
     dispatch(getBalances({ address, networkID, provider }));
     dispatch(getDonationBalances({ address, networkID, provider }));
+  },
+);
+
+// Delete before mainnet
+export const getTestTokens = createAsyncThunk(
+  "give/getTokens",
+  async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
+    if (!provider) {
+      dispatch(error("Please connect your wallet!"));
+      return;
+    }
+
+    const signer = provider.getSigner();
+    const getTestTokens = new ethers.Contract(addresses[networkID].TEST_GIVE_FAUCET as string, OlympusFaucet, signer);
+    let pendingTxnType = "getTokens";
+    let getTx;
+    try {
+      getTx = await getTestTokens.withdraw(ethers.utils.parseEther("0.05"));
+      dispatch(fetchPendingTxns({ txnHash: getTx.hash, text: "Get Tokens", type: pendingTxnType }));
+      await getTx.wait();
+    } catch (e: unknown) {
+      const rpcError = e as IJsonRPCError;
+      dispatch(error(rpcError.message));
+      return;
+    } finally {
+      if (getTx) {
+        dispatch(clearPendingTxn(getTx.hash));
+      }
+    }
+    dispatch(getBalances({ address, networkID, provider }));
   },
 );

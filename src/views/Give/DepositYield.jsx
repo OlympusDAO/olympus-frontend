@@ -7,7 +7,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
-import { changeGive } from "../../slices/GiveThunk";
+import { changeGive, getTestTokens } from "../../slices/GiveThunk";
 import { RecipientModal } from "./RecipientModal";
 import YieldRecipients from "./YieldRecipients";
 
@@ -65,6 +65,16 @@ export default function DepositYield() {
     setIsModalOpen(false);
   };
 
+  const handleGetTestTokens = async () => {
+    await dispatch(
+      getTestTokens({
+        provider,
+        address,
+        networkID: chainID,
+      }),
+    );
+  };
+
   return (
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
@@ -78,19 +88,19 @@ export default function DepositYield() {
               variant="outlined"
               color="secondary"
               className="add-recipient-button"
-              onClick={() => handleAddButtonClick()}
+              onClick={() => handleGetTestTokens()}
               disabled={!address}
             >
-              Add Recipient
+              Get Test Tokens
             </Button>
             <Button
               variant="outlined"
               color="secondary"
-              className="browse-causes-button"
+              className="add-recipient-button"
               onClick={() => handleAddButtonClick()}
               disabled={!address}
             >
-              Browse Causes <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
+              Add Recipient
             </Button>
           </div>
         </div>

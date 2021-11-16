@@ -1,5 +1,5 @@
 import { Box, Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
-import { FormControl, FormHelperText } from "@material-ui/core";
+import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
@@ -270,6 +270,18 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                 error={!isDepositAmountValid}
                 onChange={e => handleSetDepositAmount(e.target.value)}
                 labelWidth={0}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <div className="logo-holder">{sOhmImg}</div>
+                  </InputAdornment>
+                }
+                endAdornment={
+                  <InputAdornment position="end">
+                    <Button variant="text" onClick={() => handleSetDepositAmount(getMaximumDepositAmount())}>
+                      Max
+                    </Button>
+                  </InputAdornment>
+                }
               />
               <FormHelperText>{isDepositAmountValidError}</FormHelperText>
               <div className="give-staked-balance">
