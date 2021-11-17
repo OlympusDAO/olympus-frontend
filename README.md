@@ -21,7 +21,6 @@ $ cp .env.example .env
 
 # fill in your own values in .env, then =>
 $ yarn
-$ yarn lingui:compile
 $ yarn start
 ```
 
