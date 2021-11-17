@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { t, Trans } from "@lingui/macro";
 import { shorten, trim, prettyVestingPeriod } from "../../helpers";
 import { redeemBond } from "../../slices/BondSlice";
 import BondLogo from "../../components/BondLogo";
@@ -127,7 +128,7 @@ export function ClaimBondCardData({ userBond }) {
           onClick={() => onRedeem({ autostake: false })}
         >
           <Typography variant="h5">
-            {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
+            {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, t`Claim`)}
           </Typography>
         </Button>
         <Button variant="outlined" color="primary" onClick={() => onRedeem({ autostake: true })}>
@@ -135,7 +136,7 @@ export function ClaimBondCardData({ userBond }) {
             {txnButtonTextGeneralPending(
               pendingTransactions,
               "redeem_bond_" + bondName + "_autostake",
-              "Claim and Stake",
+              t`Claim and Stake`,
             )}
           </Typography>
         </Button>
