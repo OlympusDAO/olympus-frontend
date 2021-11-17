@@ -70,10 +70,10 @@ function Stake() {
 
   // need to make these 2 below look at v2 instead
   const stakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmStake;
+    return state.account.staking && state.account.staking.ohmStakeV2;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmUnstake;
+    return state.account.staking && state.account.staking.ohmUnstakeV2;
   });
   // these 2 below are updated v2
   const stakingRebase = useSelector(state => {
@@ -314,7 +314,7 @@ function Stake() {
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_staking")}
                             onClick={() => {
-                              onSeekApproval("ohm");
+                              onSeekApproval("ohmv2");
                             }}
                           >
                             {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
@@ -343,7 +343,7 @@ function Stake() {
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                             onClick={() => {
-                              onSeekApproval("sohm");
+                              onSeekApproval("sohmv2");
                             }}
                           >
                             {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}

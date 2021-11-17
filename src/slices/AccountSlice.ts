@@ -123,6 +123,8 @@ export const loadAccountDetails = createAsyncThunk(
     let gOhmBalance = BigNumber.from(0);
     let ohmV2Balance = BigNumber.from(0);
     let sOhmV2Balance = BigNumber.from(0);
+    let unstakeAllowanceV2 = BigNumber.from(0);
+    let stakeAllowanceV2 = BigNumber.from(0);
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider) as IERC20;
     const daiBalance = await daiContract.balanceOf(address);
@@ -137,12 +139,26 @@ export const loadAccountDetails = createAsyncThunk(
       stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     }
 
+    if (addresses[networkID].OHM_V2) {
+      const ohmContractV2 = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20Abi, provider) as IERC20;
+      ohmV2Balance = await ohmContractV2.balanceOf(address);
+      stakeAllowanceV2 = await ohmContractV2.allowance(address, addresses[networkID].STAKING_V2);
+    }
+
     if (addresses[networkID].SOHM_ADDRESS) {
       const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider) as SOhmv2;
       sohmBalance = await sohmContract.balanceOf(address);
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
       poolAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
       wrapAllowance = await sohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
+    }
+
+    if (addresses[networkID].SOHM_V2) {
+      const sOhmContractV2 = new ethers.Contract(addresses[networkID].SOHM_V2 as string, sOHMv2, provider) as SOhmv2;
+      sOhmV2Balance = await sOhmContractV2.balanceOf(address);
+      unstakeAllowanceV2 = await sOhmContractV2.allowance(address, addresses[networkID].STAKING_V2);
+      // poolAllowance = await sOhmV2.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+      // wrapAllowance = await sOhmV2.allowance(address, addresses[networkID].WSOHM_ADDRESS);
     }
 
     if (addresses[networkID].PT_TOKEN_ADDRESS) {
@@ -184,16 +200,6 @@ export const loadAccountDetails = createAsyncThunk(
       gOhmBalance = await gOhmContract.balanceOf(address);
     }
 
-    if (addresses[networkID].OHM_V2) {
-      const OhmContractV2 = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20Abi, provider) as IERC20;
-      ohmV2Balance = await OhmContractV2.balanceOf(address);
-    }
-
-    if (addresses[networkID].SOHM_V2) {
-      const sOhmContractV2 = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider) as IERC20;
-      sOhmV2Balance = await sOhmContractV2.balanceOf(address);
-    }
-
     return {
       balances: {
         dai: ethers.utils.formatEther(daiBalance),
@@ -210,6 +216,8 @@ export const loadAccountDetails = createAsyncThunk(
       staking: {
         ohmStake: +stakeAllowance,
         ohmUnstake: +unstakeAllowance,
+        ohmStakeV2: +stakeAllowanceV2,
+        ohmUnstakeV2: +unstakeAllowanceV2,
       },
       wrapping: {
         ohmWrap: +wrapAllowance,
