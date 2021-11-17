@@ -1,5 +1,5 @@
 import { Box, Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
-import { FormControl, FormHelperText } from "@material-ui/core";
+import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
@@ -12,6 +12,15 @@ import { changeApproval, changeGive } from "../../slices/GiveThunk";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 import { BigNumber } from "bignumber.js";
+import {
+  YouRetainGraphic,
+  LockedInVaultGraphic,
+  TheyReceiveGraphic,
+  CurrPositionGraphic,
+  NewPositionGraphic,
+  ArrowGraphic,
+} from "../../components/EducationCard";
+import { trim } from "../../helpers";
 
 const sOhmImg = getTokenImage("sohm");
 
@@ -19,7 +28,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
-  const [depositAmount, setDepositAmount] = useState(currentDepositAmount ? currentDepositAmount : null);
+  const [depositAmount, setDepositAmount] = useState(currentDepositAmount ? currentDepositAmount : 0);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(false);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState("");
 
@@ -146,43 +155,15 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    * @returns boolean
    */
   const isCreateMode = () => {
-    if (currentDepositAmount || currentWalletAddress) return false;
+    if (currentWalletAddress) return false;
 
     return true;
   };
 
   const getTitle = () => {
-    if (!isCreateMode()) return "Edit Recipient";
+    if (!isCreateMode()) return "Edit Amount";
 
     return "Add Recipient";
-  };
-
-  const getIntroduction = () => {
-    if (!isCreateMode())
-      return (
-        <>
-          <Typography variant="body1">
-            You have currently deposited {currentDepositAmount} sOHM into the vault for this recipient. Enter in the
-            revised amount that you would like to direct yield for.
-          </Typography>
-          <Typography variant="body1">
-            Please note that your sOHM will be transferred into the vault when you submit. You will need to approve the
-            transaction and pay for gas fees.
-          </Typography>
-        </>
-      );
-
-    return (
-      <>
-        <Typography variant="body1">
-          The rebase rewards from the sOHM that you deposit will be redirected to the wallet address that you specify.
-        </Typography>
-        <Typography variant="body1">
-          Please note that your sOHM will be transferred into the vault when you submit. You will need to approve the
-          transaction and pay for gas fees.
-        </Typography>
-      </>
-    );
   };
 
   /**
@@ -192,6 +173,8 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    * - the deposit amount is invalid
    * - the wallet address is invalid
    * - there is no sender address
+   * - an add/edit transaction is pending
+   * - it is not in create mode and there is no difference in the amount
    *
    * @returns boolean
    */
@@ -200,14 +183,42 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     if (!isWalletAddressValid) return false;
     if (!address) return false;
     if (isPendingTxn(pendingTransactions, "editingGive")) return false;
+    if (isPendingTxn(pendingTransactions, "giving")) return false;
+    if (!isCreateMode() && getDepositAmountDiff().isEqualTo(0)) return false;
 
     return true;
+  };
+
+  /**
+   * Indicates the amount retained in the user's wallet after a deposit to the vault.
+   *
+   * If a yield direction is being created, it returns the current sOHM balance minus the entered deposit.
+   * If a yield direction is being edited, it returns the current sOHM balance minus the difference in the entered deposit.
+   *
+   * @returns BigNumber instance
+   */
+  const getRetainedAmountDiff = () => {
+    const tempDepositAmount = !isCreateMode() ? getDepositAmountDiff() : getDepositAmount();
+    return new BigNumber(sohmBalance).minus(tempDepositAmount);
   };
 
   const getDepositAmountDiff = () => {
     // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
     const depositAmountBig = new BigNumber(depositAmount);
     return depositAmountBig.minus(new BigNumber(currentDepositAmount));
+  };
+
+  /**
+   * Ensures that the depositAmount returned is a valid number.
+   *
+   * @returns
+   */
+  const getDepositAmount = () => {
+    if (!depositAmount) return 0;
+
+    if (typeof depositAmount == "string" && !trim(depositAmount)) return 0;
+
+    return depositAmount;
   };
 
   /**
@@ -229,7 +240,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
           </Link>
           <Typography variant="h4">{getTitle()}</Typography>
         </div>
-        <Typography variant="body1">{getIntroduction()}</Typography>
         {!address ? (
           <>
             <FormHelperText>
@@ -257,15 +267,32 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                 type="number"
                 placeholder="Enter an amount"
                 className="stake-input"
-                value={depositAmount}
+                value={getDepositAmount()}
                 error={!isDepositAmountValid}
                 onChange={e => handleSetDepositAmount(e.target.value)}
                 labelWidth={0}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <div className="logo-holder">{sOhmImg}</div>
+                  </InputAdornment>
+                }
+                endAdornment={
+                  <InputAdornment position="end">
+                    <Button variant="text" onClick={() => handleSetDepositAmount(getMaximumDepositAmount())}>
+                      Max
+                    </Button>
+                  </InputAdornment>
+                }
               />
               <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-              {!isCreateMode() && (
-                <Typography variant="body2">Difference: {getDepositAmountDiff().toString()}</Typography>
-              )}
+              <div className="give-staked-balance">
+                <Typography variant="body2" align="left">
+                  Your Staked Balance (depositable)
+                </Typography>
+                <Typography variant="body2" align="right">
+                  {new Intl.NumberFormat("en-US").format(sohmBalance)} sOHM
+                </Typography>
+              </div>
             </FormControl>
             {isCreateMode() ? (
               <>
@@ -289,17 +316,26 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
             ) : (
               <></>
             )}
+            {isCreateMode() ? (
+              <div className="give-education-graphics">
+                <YouRetainGraphic quantity={getRetainedAmountDiff().toString()} />
+                <ArrowGraphic />
+                <LockedInVaultGraphic quantity={getDepositAmount()} />
+                <ArrowGraphic />
+                <TheyReceiveGraphic quantity={getDepositAmount()} />
+              </div>
+            ) : (
+              <div className="give-education-graphics">
+                <CurrPositionGraphic quantity={currentDepositAmount} />
+                <NewPositionGraphic quantity={getDepositAmount()} />
+              </div>
+            )}
           </>
         )}
         {isCreateMode() ? (
           address && hasAllowance() ? (
             <FormControl className="ohm-modal-submit">
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={!canSubmit() || isPendingTxn(pendingTransactions, "giving")}
-                onClick={handleSubmit}
-              >
+              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
                 {txnButtonText(pendingTransactions, "giving", "Give sOHM")}
               </Button>
             </FormControl>
@@ -312,12 +348,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
           )
         ) : (
           <FormControl className="ohm-modal-submit">
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={!canSubmit() || isPendingTxn(pendingTransactions, "editingGive")}
-              onClick={handleSubmit}
-            >
+            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
               {txnButtonText(pendingTransactions, "editingGive", "Edit Give Amount")}
             </Button>
           </FormControl>
