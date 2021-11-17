@@ -13,9 +13,9 @@ import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 import { BigNumber } from "bignumber.js";
 import {
-  YouRetainGraphic,
-  LockedInVaultGraphic,
-  TheyReceiveGraphic,
+  WalletGraphic,
+  VaultGraphic,
+  YieldGraphic,
   CurrPositionGraphic,
   NewPositionGraphic,
   ArrowGraphic,
@@ -318,11 +318,11 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
             )}
             {isCreateMode() ? (
               <div className="give-education-graphics">
-                <YouRetainGraphic quantity={getRetainedAmountDiff().toString()} />
+                <WalletGraphic quantity={getRetainedAmountDiff().toString()} />
                 <ArrowGraphic />
-                <LockedInVaultGraphic quantity={getDepositAmount()} />
+                <VaultGraphic quantity={getDepositAmount()} />
                 <ArrowGraphic />
-                <TheyReceiveGraphic quantity={getDepositAmount()} />
+                <YieldGraphic quantity={getDepositAmount()} />
               </div>
             ) : (
               <div className="give-education-graphics">

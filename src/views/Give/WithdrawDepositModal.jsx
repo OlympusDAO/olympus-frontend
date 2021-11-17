@@ -4,6 +4,7 @@ import { FormControl } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { useSelector } from "react-redux";
+import { WalletGraphic, VaultGraphic, ArrowGraphic } from "../../components/EducationCard";
 
 export function WithdrawDepositModal({ isModalOpen, callbackFunc, cancelFunc, walletAddress, depositAmount }) {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
@@ -34,14 +35,18 @@ export function WithdrawDepositModal({ isModalOpen, callbackFunc, cancelFunc, wa
           </Link>
           <Typography variant="h4">Withdraw Deposit?</Typography>
         </div>
+        <div className="give-education-graphics">
+          <VaultGraphic quantity={depositAmount} verb="withdrawn" />
+          <ArrowGraphic />
+          <WalletGraphic quantity={depositAmount} verb="deposited" />
+        </div>
+
         <Typography variant="body1">
-          At any time, you have the option to withdraw your deposit ({depositAmount} sOHM) from the vault. The yield
-          will still be redeemable by the recipient ({walletAddress}), but your deposit will not generate any further
-          yield.
+          Any remaining yield will still be redeemable by the recipient ({walletAddress}).
         </Typography>
         <FormControl className="ohm-modal-submit">
           <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => handleSubmit()}>
-            {txnButtonText(pendingTransactions, "endingGive", "Withdraw Give Amount")}
+            {txnButtonText(pendingTransactions, "endingGive", "Withdraw")}
           </Button>
         </FormControl>
       </Paper>
