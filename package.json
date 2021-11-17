@@ -133,6 +133,7 @@
     "watch": "node ./scripts/watch.js",
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile",
+    "lingui:build": "git submodule deinit --all -f && yarn build",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "postinstall": "yarn typechain:build && yarn lingui:compile"
   },

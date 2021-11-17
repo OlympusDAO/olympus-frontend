@@ -23,6 +23,12 @@ $ cp .env.example .env
 $ yarn
 $ yarn lingui:compile
 $ yarn start
+
+# the above three commands will not include language translations in your local env
+# if you do want to load language translations in your local env:
+$ yarn
+$ yarn lingui:build
+$ yarn start
 ```
 
 The site is now running at `http://localhost:3000`!
