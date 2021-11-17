@@ -37,6 +37,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
 
   useEffect(() => {
+    console.log(giveAllowance);
     checkIsDepositAmountValid(depositAmount);
     checkIsWalletAddressValid(walletAddress);
   }, []);
@@ -49,7 +50,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    * TODO consider extracting this into a helper file
    */
   const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+    return state.account.balances && state.account.balances.mockSohm;
   });
 
   const giveAllowance = useSelector(state => {
