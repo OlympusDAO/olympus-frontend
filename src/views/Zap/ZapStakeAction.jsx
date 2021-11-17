@@ -246,6 +246,7 @@ function ZapStakeAction(props) {
               variant="contained"
               color="primary"
               disabled={zapToken == null}
+              // disabled={true}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
               onClick={() => {
                 onSeekApproval(token);

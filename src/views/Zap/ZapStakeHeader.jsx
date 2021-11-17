@@ -11,9 +11,7 @@ export default function ZapStakeHeader({ images }) {
       {/* <Grid item xs={12} sm={4}> */}
       <Box alignItems="center" display="flex" flexDirection="column">
         <HeaderLogo images={images} icons={[MoreIcon]} />
-        <Typography>
-          Select <b>ANY</b> asset
-        </Typography>
+        <Typography color="textSecondary">Select any asset</Typography>
       </Box>
       {/* </Grid> */}
       {/* <Grid item xs={12} sm={4}> */}
@@ -25,7 +23,7 @@ export default function ZapStakeHeader({ images }) {
             ]}
             icons={[CircleZapIcon]}
           />
-          <Typography>Swap for sOHM</Typography>
+          <Typography color="textSecondary">Swap for sOHM</Typography>
         </Box>
       ) : (
         <>
@@ -36,7 +34,7 @@ export default function ZapStakeHeader({ images }) {
               //   ]}
               icons={[CircleZapIcon]}
             />
-            <Typography>Swap for OHM</Typography>
+            <Typography color="textSecondary">Swap for OHM</Typography>
           </Box>
           {/* </Grid> */}
           {/* <Grid item xs={12} sm={4}> */}
@@ -46,7 +44,7 @@ export default function ZapStakeHeader({ images }) {
                 "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png",
               ]}
             />
-            <Typography>Auto staked for sOHM</Typography>
+            <Typography color="textSecondary">Auto staked for sOHM</Typography>
           </Box>
         </>
       )}
