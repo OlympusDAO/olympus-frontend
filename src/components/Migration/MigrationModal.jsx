@@ -32,11 +32,13 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 2,
   zIndex: 3,
+  maxWidth: 600,
+  minWidth: 500,
+  borderRadius: 10,
 };
 
 const useStyles = makeStyles({
@@ -165,7 +167,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>
+                  <TableCell align="left">
                     <Typography>Asset</Typography>
                   </TableCell>
                   <TableCell align="left">
