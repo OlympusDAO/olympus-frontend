@@ -21,6 +21,7 @@ import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { changeApproval, poolDeposit } from "../../slices/PoolThunk";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
+import { ConfirmationModal } from "./ConfirmationModal.jsx";
 
 const sohmImg = getTokenImage("sohm");
 
@@ -30,6 +31,7 @@ export const PoolDeposit = props => {
   const [quantity, setQuantity] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
   const [rngCompleted, setRngCompleted] = useState(false);
+  const [isDepositing, setDepositing] = useState(false);
   const isAppLoading = useSelector(state => state.app.loading);
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
@@ -63,8 +65,12 @@ export const PoolDeposit = props => {
       // eslint-disable-next-line no-alert
       dispatch(error(t`Please enter a value!`));
     } else {
-      await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+      setDepositing(true);
     }
+  };
+
+  const onSubmitDeposit = async action => {
+    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
   };
 
   const hasAllowance = useCallback(() => {
@@ -193,6 +199,17 @@ export const PoolDeposit = props => {
             </div>
           </div>
         </Box>
+      )}
+      {isDepositing && (
+        <ConfirmationModal
+          show={isDepositing}
+          quantity={quantity}
+          onClose={() => setDepositing(false)}
+          onSubmit={() => {
+            setDepositing(false);
+            onSubmitDeposit("deposit");
+          }}
+        />
       )}
     </Box>
   );
