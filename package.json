@@ -84,13 +84,13 @@
     "web3modal": "^1.9.1"
   },
   "devDependencies": {
+    "@chainsafe/dappeteer": "^2.2.0",
     "@lingui/cli": "^3.12.1",
     "@lingui/macro": "^3.12.1",
-    "@testing-library/dom": "^8.0.0",
-    "@typechain/ethers-v5": "^8.0.2",
-    "@chainsafe/dappeteer": "^2.2.0",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@testing-library/dom": "^8.0.0",
+    "@typechain/ethers-v5": "^8.0.2",
     "@types/expect-puppeteer": "^4.4.7",
     "@types/jest-environment-puppeteer": "^4.4.1",
     "@types/puppeteer": "^5.4.4",
@@ -116,8 +116,8 @@
     "gulp-debug": "^4.0.0",
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^9.0.0",
-    "ipfs-http-client": "^54.0.0",
     "hardhat": "^2.6.7",
+    "ipfs-http-client": "^54.0.0",
     "jest": "26.6.0",
     "jest-puppeteer": "^6.0.0",
     "less-plugin-npm-import": "^2.1.0",
@@ -125,9 +125,9 @@
     "prettier": "^2.0.5",
     "puppeteer": "^11.0.0",
     "s3-folder-upload": "^2.3.1",
+    "shelljs": "^0.8.4",
     "surge": "^0.21.5",
     "typechain": "^6.0.2"
-    "shelljs": "^0.8.4",
   },
   "eslintConfig": {
     "extends": "react-app"
