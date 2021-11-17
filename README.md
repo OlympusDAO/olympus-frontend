@@ -22,6 +22,7 @@ $ cp .env.example .env
 
 # fill in your own values in .env, then =>
 $ yarn
+$ yarn lingui:compile
 $ yarn start
 ```
 
@@ -53,7 +54,7 @@ To run the tests:
 2. then copy the rinkeby `reserveAddress` for the applicable bond & navigate to that contract on rinkeby etherscan.
 3. On Rinkeby etherscan use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
-### Architecture/Layout
+## Architecture/Layout
 
 The app is written in [React](https://reactjs.org/) using [Redux](https://redux.js.org/) as the state container.
 
@@ -73,6 +74,19 @@ The files/folder structure are a **WIP** and may contain some unused files. The 
 ├── themes/       // Style sheets for dark vs light theme
 └── views/        // Individual Views
 ```
+
+## Application translation
+
+Olympus uses [linguijs](https://github.com/lingui/js-lingui) to manage translation.
+
+The language files are located in a submodule deployed in `src/locales/translations`. This submodule points to the [olympus translation repository](https://github.com/OlympusDAO/olympus-translations)
+
+In order to mark text for translation you can use:
+
+- The <Trans> component in jsx templates eg. `<Trans>Translate me!</Trans>`
+- The t function in javascript code and jsx templates. `` t`Translate me` ``
+
+When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.
 
 ## 🚀 Deployment
 
