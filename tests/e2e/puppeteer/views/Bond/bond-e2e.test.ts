@@ -1,43 +1,35 @@
 import "@testing-library/jest-dom";
 import {
   clickElement,
-  setupMetamask,
   connectWallet,
   selectorExists,
   waitSelectorExists,
   getSelectorTextContent,
-  typeValue,
+  launchDApp,
+  dapp,
 } from "../../testHelpers";
-import puppeteer, { Browser, Page } from "puppeteer";
-import { launch, Dappeteer } from "@chainsafe/dappeteer";
 
 describe("bonding", () => {
-  let browser: Browser;
-  let metamask: Dappeteer;
-  let page: Page;
+  beforeAll(async () => {
+    await launchDApp();
+  });
 
   beforeEach(async () => {
-    browser = await launch(puppeteer, { metamaskVersion: "v10.1.1" });
-
-    metamask = await setupMetamask(browser);
-
-    page = await browser.newPage();
-    await page.goto("http://localhost:3000/#/bonds");
-    await page.bringToFront();
+    await dapp.page.goto("http://localhost:3000/#/bonds");
   });
 
-  afterEach(async () => {
-    await browser.close();
-  });
+  test("cannot bond without connected wallet", async () => {
+    const { page } = dapp;
 
-  test.only("cannot bond without connected wallet", async () => {
     const selector = await page.waitForSelector("#ohm_lusd_lp--bond");
     await selector?.$eval("button", i => console.log(i));
 
     fail();
   });
 
-  test("connects wallet", async () => {
+  test.only("connects wallet", async () => {
+    const { page, metamask } = dapp;
+
     // Connect button should be available
     expect(await selectorExists(page, "#wallet-button")).toBeTruthy();
     expect(await getSelectorTextContent(page, "#wallet-button")).toEqual("Connect Wallet");
@@ -50,11 +42,14 @@ describe("bonding", () => {
   });
 
   test("select first bond row and approve", async () => {
-    fail("TODO");
+    const { page } = dapp;
 
+    fail("TODO");
   });
 
   test("select first bond row and bond", async () => {
+    const { page } = dapp;
+
     fail("TODO");
   });
 });

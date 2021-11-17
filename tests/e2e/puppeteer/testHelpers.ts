@@ -97,12 +97,12 @@ export const dapp = {} as {
   page: Page;
 };
 
-export async function launchDApp() {
+export async function launchDApp(network: string = "localhost") {
+  console.log("Starting metamask with network " + network);
   const browser = await launch(puppeteer, { metamaskVersion: "v10.1.1" });
-  const metamask = await setupMetamask(browser, { network: "localhost" });
+  const metamask = await setupMetamask(browser, { network: network });
 
   const page = await browser.newPage();
-  await page.goto("http://localhost:3000/#/stake");
 
   dapp.browser = browser;
   dapp.metamask = metamask;

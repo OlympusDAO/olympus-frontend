@@ -18,7 +18,11 @@ var STAKE_AMOUNT = 0.1;
 
 describe("staking", () => {
   beforeAll(async () => {
-    await launchDApp();
+    await launchDApp("rinkeby");
+  });
+
+  beforeEach(async () => {
+    await dapp.page.goto("http://localhost:3000/#/stake");
   });
 
   test("cannot stake without connected wallet", async () => {
