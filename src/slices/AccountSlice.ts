@@ -34,11 +34,11 @@ export const getBalances = createAsyncThunk(
     ) as IERC20;
     const gOhmBalance = await gOhmContract.balanceOf(address);
 
-    const OhmContractV2 = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20Abi, provider) as IERC20;
-    const OhmV2Balance = await gOhmContract.balanceOf(address);
+    const ohmContractV2 = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20Abi, provider) as IERC20;
+    const ohmV2Balance = await ohmContractV2.balanceOf(address);
 
     const sOhmContractV2 = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider) as IERC20;
-    const sOhmV2Balance = await gOhmContract.balanceOf(address);
+    const sOhmV2Balance = await sOhmContractV2.balanceOf(address);
 
     // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
     const wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
@@ -58,7 +58,7 @@ export const getBalances = createAsyncThunk(
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
         gohm: ethers.utils.formatUnits(gOhmBalance, "gwei"),
-        ohmv2: ethers.utils.formatUnits(OhmV2Balance, "gwei"),
+        ohmv2: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
         sohmv2: ethers.utils.formatUnits(sOhmV2Balance, "gwei"),
       },
     };
@@ -120,6 +120,9 @@ export const loadAccountDetails = createAsyncThunk(
     let aOHMAbleToClaim = 0;
     let poolBalance = BigNumber.from(0);
     let poolAllowance = BigNumber.from(0);
+    let gOhmBalance = BigNumber.from(0);
+    let ohmV2Balance = BigNumber.from(0);
+    let sOhmV2Balance = BigNumber.from(0);
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider) as IERC20;
     const daiBalance = await daiContract.balanceOf(address);
@@ -172,6 +175,25 @@ export const loadAccountDetails = createAsyncThunk(
       unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
     }
 
+    if (addresses[networkID].GOHM_ADDRESS) {
+      const gOhmContract = new ethers.Contract(
+        addresses[networkID].GOHM_ADDRESS as string,
+        ierc20Abi,
+        provider,
+      ) as IERC20;
+      gOhmBalance = await gOhmContract.balanceOf(address);
+    }
+
+    if (addresses[networkID].OHM_V2) {
+      const OhmContractV2 = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20Abi, provider) as IERC20;
+      ohmV2Balance = await OhmContractV2.balanceOf(address);
+    }
+
+    if (addresses[networkID].SOHM_V2) {
+      const sOhmContractV2 = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider) as IERC20;
+      sOhmV2Balance = await sOhmContractV2.balanceOf(address);
+    }
+
     return {
       balances: {
         dai: ethers.utils.formatEther(daiBalance),
@@ -181,6 +203,9 @@ export const loadAccountDetails = createAsyncThunk(
         wsohm: ethers.utils.formatEther(wsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
+        gohm: ethers.utils.formatUnits(gOhmBalance, "gwei"),
+        ohmv2: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
+        sohmv2: ethers.utils.formatUnits(sOhmV2Balance, "gwei"),
       },
       staking: {
         ohmStake: +stakeAllowance,
@@ -263,6 +288,9 @@ interface IAccountSlice {
     sohm: string;
     dai: string;
     oldsohm: string;
+    gohm: string;
+    ohmv2: string;
+    sohmv2: string;
   };
   loading: boolean;
   migration: {
@@ -274,7 +302,7 @@ interface IAccountSlice {
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
-  balances: { ohm: "", sohm: "", dai: "", oldsohm: "" },
+  balances: { ohm: "", sohm: "", dai: "", oldsohm: "", gohm: "", ohmv2: "", sohmv2: "" },
   migration: { ohm: 0.0, sohm: 0.0, wsohm: 0.0 },
 };
 

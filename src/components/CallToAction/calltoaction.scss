@@ -25,28 +25,27 @@
 
 .dark {
   .call-to-action {
-    background-color: #F8CC82;
+    background-color: #f8cc82;
     color: #253449;
 
-  .migrate-button{
-    background-color: #253449;
-    color: white;
-  }
-  
-  .learn-more-button{
-    color: #253449;
-    border: 1px solid #768299;
-    .MuiSvgIcon-root{
-      color: #768299;
+    .migrate-button {
+      background-color: #253449;
+      color: white;
+    }
+
+    .learn-more-button {
+      color: #253449;
+      border: 1px solid #768299;
+      .MuiSvgIcon-root {
+        color: #768299;
+      }
     }
   }
 }
 
-}
-
 .light {
-  .call-to-action{
-    background-color: #FFE5B4;
+  .call-to-action {
+    background-color: #ffe5b4;
   }
   .migrate-button {
     background-color: #768299;
@@ -54,6 +53,5 @@
 
   .learn-more-button {
     border: 1px solid #768299;
-    
   }
 }
