@@ -12,6 +12,7 @@ import {
   TableRow,
   TableBody,
   Typography,
+  Paper,
 } from "@material-ui/core";
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
@@ -23,6 +24,8 @@ import { useWeb3Context } from "src/hooks";
 import { useEffect, useMemo } from "react";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { info } from "src/slices/MessagesSlice";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import "./migration-modal.scss";
 
 const style = {
   position: "absolute",
@@ -33,6 +36,7 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 2,
+  zIndex: 3,
 };
 
 const useStyles = makeStyles({
@@ -83,7 +87,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
   useEffect(() => {
-    if (isAllApproved) {
+    if (isAllApproved && (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)) {
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
@@ -165,11 +169,26 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     <Typography>Asset</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography>Pre-migration</Typography>
+                    <Box display="inline-flex">
+                      <Typography>Pre-migration</Typography>
+                      <InfoTooltip
+                        className="migartion-tooltip"
+                        message={"This is the current balance of v1 assets in your wallet."}
+                      ></InfoTooltip>
+                    </Box>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography>Post-migration</Typography>
+                    <Box display="inline-flex">
+                      <Typography>Post-migration</Typography>
+                      <InfoTooltip
+                        className="migartion-tooltip"
+                        message={
+                          "This is the equivalent amount of gOHM you will have in your wallet once migration is complete."
+                        }
+                      ></InfoTooltip>
+                    </Box>
                   </TableCell>
+
                   <TableCell align="left"></TableCell>
                 </TableRow>
               </TableHead>
