@@ -12,6 +12,7 @@ import {
   TableRow,
   TableBody,
   Typography,
+  Paper,
 } from "@material-ui/core";
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
@@ -23,16 +24,22 @@ import { useWeb3Context } from "src/hooks";
 import { useEffect, useMemo } from "react";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { info } from "src/slices/MessagesSlice";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import "./migration-modal.scss";
+import { Link } from "react-router-dom";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 2,
+  zIndex: 3,
+  maxWidth: 600,
+  minWidth: 500,
+  borderRadius: 10,
 };
 
 const useStyles = makeStyles({
@@ -83,7 +90,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
   useEffect(() => {
-    if (isAllApproved) {
+    if (isAllApproved && (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)) {
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
@@ -148,12 +155,15 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                   {isAllApproved
                     ? "Click on the Migrate button to complete the upgrade to v2. "
                     : "Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability. "}
-                  <ButtonBase
+                  <a
                     href="https://github.com/OlympusDAO-Education/Documentation/blob/migration/basics/migration.md"
                     target="_blank"
+                    color="inherit"
+                    rel="noreferrer"
+                    className="docs-link"
                   >
                     <u>Learn More</u>
-                  </ButtonBase>
+                  </a>
                 </Typography>
               </Box>
             )}
@@ -161,15 +171,30 @@ function MigrationModal({ open, handleOpen, handleClose }) {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>
+                  <TableCell align="left">
                     <Typography>Asset</Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography>Pre-migration</Typography>
+                    <Box display="inline-flex">
+                      <Typography>Pre-migration</Typography>
+                      <InfoTooltip
+                        className="migartion-tooltip"
+                        message={"This is the current balance of v1 assets in your wallet."}
+                      ></InfoTooltip>
+                    </Box>
                   </TableCell>
                   <TableCell align="left">
-                    <Typography>Post-migration</Typography>
+                    <Box display="inline-flex">
+                      <Typography>Post-migration</Typography>
+                      <InfoTooltip
+                        className="migartion-tooltip"
+                        message={
+                          "This is the equivalent amount of gOHM you will have in your wallet once migration is complete."
+                        }
+                      ></InfoTooltip>
+                    </Box>
                   </TableCell>
+
                   <TableCell align="left"></TableCell>
                 </TableRow>
               </TableHead>

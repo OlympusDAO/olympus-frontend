@@ -137,12 +137,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
-  useEffect(() => {
-    if (connected) {
-      dispatch(getMigrationAllowances({ address, provider, networkID: chainID }));
-    }
-  }, [address, connected]);
-
   let modalButton = [];
 
   modalButton.push(
