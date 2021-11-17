@@ -117,6 +117,7 @@
     "extends": "react-app"
   },
   "scripts": {
+    "prebuild": "git submodule update --init --recursive --remote && yarn lingui:compile",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "postbuild": "yarn lingui:compile",
     "eject": "react-scripts eject",
@@ -134,7 +135,7 @@
     "lingui:compile": "lingui compile",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "preinstall": "[ ! -f src/locales/translations/.git ] && git submodule deinit --all -f; git submodule update --init --recursive",
-    "postinstall": "yarn typechain:build && yarn lingui:compile"
+    "postinstall": "yarn typechain:build && git submodule update --init --recursive --remote && yarn lingui:compile"
   },
   "resolutions": {
     "**/immer": "9.0.6",
