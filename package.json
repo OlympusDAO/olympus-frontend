@@ -117,7 +117,7 @@
     "extends": "react-app"
   },
   "scripts": {
-    "prebuild": "git submodule update --init --recursive && yarn lingui:compile",
+    "prebuild": "git submodule update --init --recursive --remote && yarn lingui:compile",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
@@ -133,7 +133,7 @@
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
-    "postinstall": "yarn typechain:build && git submodule update --init --recursive && yarn lingui:compile"
+    "postinstall": "yarn typechain:build && git submodule update --init --recursive --remote && yarn lingui:compile"
   },
   "resolutions": {
     "**/immer": "9.0.6",
