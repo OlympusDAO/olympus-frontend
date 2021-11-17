@@ -213,13 +213,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
       <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
           <div className="data-row">
-<<<<<<< HEAD
-            <Typography>Your Balance</Typography>
-=======
             <Typography>
               <Trans>Your Balance</Trans>
             </Typography>{" "}
->>>>>>> e459e7ddeb36e677625fe3f88d1eec20ac0f5929
             <Typography id="bond-balance">
               {isBondLoading ? (
                 <Skeleton width="100px" />

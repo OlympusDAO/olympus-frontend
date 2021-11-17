@@ -68,11 +68,7 @@ function ChooseBond() {
         <Paper className="ohm-card">
           <Box className="card-header">
             <Typography variant="h5" data-testid="t">
-<<<<<<< HEAD
-              Bond (1,1)
-=======
               <Trans>Bond</Trans> (1,1)
->>>>>>> e459e7ddeb36e677625fe3f88d1eec20ac0f5929
             </Typography>
           </Box>
 
@@ -86,12 +82,7 @@ function ChooseBond() {
                   {isAppLoading ? (
                     <Skeleton width="180px" data-testid="treasury-balance-loading" />
                   ) : (
-<<<<<<< HEAD
-                    <Typography data-testid="treasury-balance">
-                      $
-=======
                     <Typography variant="h4" data-testid="treasury-balance">
->>>>>>> e459e7ddeb36e677625fe3f88d1eec20ac0f5929
                       {new Intl.NumberFormat("en-US", {
                         style: "currency",
                         currency: "USD",

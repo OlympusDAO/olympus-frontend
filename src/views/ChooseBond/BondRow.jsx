@@ -103,14 +103,7 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell align="left">
         <Typography>
-<<<<<<< HEAD
-          <>
-            <span className="currency-icon">$</span>
-            {isBondLoading ? <Skeleton width="50px" /> : <span class="bond-price">trim(bond.bondPrice, 2)</span>}
-          </>
-=======
           <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
->>>>>>> e459e7ddeb36e677625fe3f88d1eec20ac0f5929
         </Typography>
       </TableCell>
       <TableCell align="left">
