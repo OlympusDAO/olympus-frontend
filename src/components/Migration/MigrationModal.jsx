@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BigNumber } from "ethers";
 import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
 import { useWeb3Context } from "src/hooks";
+import { useMemo } from "react";
 
 const style = {
   position: "absolute",
@@ -43,18 +44,24 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const classes = useStyles();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
+  const isLoadingState = useSelector(state => state.account.loading);
   const currentIndex = useSelector(state => state.app.currentIndex);
-  const ohmBalance = useSelector(state => Number(state.account.balances.ohm));
-  const sOhmBalance = useSelector(state => Number(state.account.balances.sohm));
-  const wsOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
+  const initialOhmBalance = useMemo(() => 0, [connected]);
+  const initialSOhmBalance = useMemo(() => 0, [connected]);
+  const initialWSOhmBalance = useMemo(() => 0, [connected]);
+
+  const currentOhmBalance = useSelector(state => Number(state.account.balances.ohm));
+  const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohm));
+  const currentWSOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
+  const migrationComplete = currentOhmBalance + currentSOhmBalance + currentWSOhmBalance == 0;
 
   const approvedOhmBalance = useSelector(state => Number(state.account.migration.ohm));
   const approvedSOhmBalance = useSelector(state => Number(state.account.migration.sohm));
   const approvedWSOhmBalance = useSelector(state => Number(state.account.migration.wsohm));
 
-  const ohmFullApproval = approvedOhmBalance >= ohmBalance;
-  const sOhmFullApproval = approvedSOhmBalance >= sOhmBalance;
-  const wsOhmFullApproval = approvedWSOhmBalance >= wsOhmBalance;
+  const ohmFullApproval = approvedOhmBalance >= initialOhmBalance;
+  const sOhmFullApproval = approvedSOhmBalance >= initialSOhmBalance;
+  const wsOhmFullApproval = approvedWSOhmBalance >= initialWSOhmBalance;
 
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
@@ -67,23 +74,23 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const rows = [
     {
       initialAsset: "OHM",
-      initialBalance: ohmBalance,
+      initialBalance: initialOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: ohmBalance / currentIndex,
+      targetBalance: initialOhmBalance / currentIndex,
       fullApproval: ohmFullApproval,
     },
     {
       initialAsset: "sOHM",
-      initialBalance: sOhmBalance,
+      initialBalance: initialSOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: sOhmBalance / currentIndex,
+      targetBalance: initialSOhmBalance / currentIndex,
       fullApproval: sOhmFullApproval,
     },
     {
       initialAsset: "wsOHM",
-      initialBalance: wsOhmBalance,
+      initialBalance: initialWSOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: wsOhmBalance,
+      targetBalance: initialWSOhmBalance,
       fullApproval: wsOhmFullApproval,
     },
   ].filter(row => row.initialBalance != 0.0);
@@ -164,7 +171,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
-                      {row.initialBalance == 0 ? (
+                      {migrationComplete ? (
                         <Typography align="center" className={classes.custom}>
                           Complete
                         </Typography>

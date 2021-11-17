@@ -10,7 +10,7 @@ import { setAll } from "../helpers";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
-import { FuseProxy, IERC20, SOhmv2, WsOHM } from "src/typechain";
+import { FuseProxy, IERC20, IERC20__factory, SOhmv2, SOhmv2__factory, WsOHM } from "src/typechain";
 
 export const getBalances = createAsyncThunk(
   "account/getBalances",
@@ -73,22 +73,18 @@ export const getMigrationAllowances = createAsyncThunk(
     let wsOhmAllowance = BigNumber.from(0);
 
     if (addresses[networkID].OHM_ADDRESS) {
-      const ohmContract = new ethers.Contract(
-        addresses[networkID].OHM_ADDRESS as string,
-        ierc20Abi,
-        provider,
-      ) as IERC20;
+      const ohmContract = IERC20__factory.connect(addresses[networkID].OHM_ADDRESS, provider);
       ohmAllowance = await ohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
     }
 
     if (addresses[networkID].SOHM_ADDRESS) {
-      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider) as SOhmv2;
-      sOhmAllowance = await sohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      const sOhmContract = SOhmv2__factory.connect(addresses[networkID].SOHM_ADDRESS, provider);
+      sOhmAllowance = await sOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
     }
 
     if (addresses[networkID].WSOHM_ADDRESS) {
-      const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
-      wsOhmAllowance = await wsohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      const wsOhmContract = IERC20__factory.connect(addresses[networkID].WSOHM_ADDRESS, provider);
+      wsOhmAllowance = await wsOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
     }
     return {
       migration: {
@@ -209,7 +205,7 @@ export const loadAccountDetails = createAsyncThunk(
         wsohm: ethers.utils.formatEther(wsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
-        gohm: ethers.utils.formatUnits(gOhmBalance, "gwei"),
+        gohm: ethers.utils.formatUnits(gOhmBalance, "ether"),
         ohmv2: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
         sohmv2: ethers.utils.formatUnits(sOhmV2Balance, "gwei"),
       },

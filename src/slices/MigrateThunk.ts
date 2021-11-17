@@ -2,9 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import { addresses } from "src/constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
-import { IERC20 } from "src/typechain";
+import { IERC20, IERC20__factory } from "src/typechain";
 import { IBaseAddressAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
-import { getMigrationAllowances } from "./AccountSlice";
+import { getMigrationAllowances, loadAccountDetails } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { OlympusTokenMigrator__factory } from "src/typechain";
@@ -24,32 +24,31 @@ export const changeMigrationApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
-    const sOhmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
-    const wsOhmContract = new ethers.Contract(
-      addresses[networkID].WSOHM_ADDRESS as string,
-      ierc20ABI,
-      signer,
-    ) as IERC20;
+    const ohmContract = IERC20__factory.connect(addresses[networkID].OHM_ADDRESS, signer);
+    const sOhmContract = IERC20__factory.connect(addresses[networkID].SOHM_ADDRESS, signer);
+    const wsOhmContract = IERC20__factory.connect(addresses[networkID].WSOHM_ADDRESS, signer);
 
     let migrateAllowance = BigNumber.from("0");
-    const bigZero = BigNumber.from("0");
+    let currentBalance = BigNumber.from("0");
 
     if (token === "ohm") {
       migrateAllowance = await ohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      currentBalance = await ohmContract.balanceOf(address);
     } else if (token === "sohm") {
       migrateAllowance = await sOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      currentBalance = await sOhmContract.balanceOf(address);
     } else if (token === "wsohm") {
       migrateAllowance = await wsOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      currentBalance = await wsOhmContract.balanceOf(address);
     }
 
     // return early if approval has already happened
-    if (migrateAllowance.gt(bigZero)) {
+    if (migrateAllowance.gt(currentBalance)) {
       dispatch(info("Approval completed."));
       dispatch(getMigrationAllowances({ address, provider, networkID }));
     }
 
-    let approveTx;
+    let approveTx: ethers.ContractTransaction | undefined;
     try {
       if (token === "ohm") {
         // won't run if stakeAllowance > 0
@@ -67,14 +66,16 @@ export const changeMigrationApproval = createAsyncThunk(
           addresses[networkID].MIGRATOR_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
+      } else {
+        console.error(`Invalid token: ${token}`);
+        return;
       }
 
       const text = `Approve ${token} Migration`;
       const pendingTxnType = `approve_${token}_migration`;
-      if (approveTx) {
-        dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
-        await approveTx.wait();
-      }
+
+      dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
+      await approveTx.wait();
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
       return;
@@ -100,9 +101,25 @@ export const migrateAll = createAsyncThunk(
       dispatch(error("Please connect your wallet!"));
       return;
     }
-    await migrator.migrateAll(TokenType.WRAPPED);
 
-    // go get fresh allowances
-    dispatch(getMigrationAllowances({ address, provider, networkID }));
+    let migrateAllTx: ethers.ContractTransaction | undefined;
+
+    try {
+      migrateAllTx = await migrator.migrateAll(TokenType.WRAPPED);
+      const text = `Migrate All Tokens`;
+      const pendingTxnType = `migrate_all`;
+
+      dispatch(fetchPendingTxns({ txnHash: migrateAllTx.hash, text, type: pendingTxnType }));
+      await migrateAllTx.wait();
+      dispatch(info("Successfully migrated!"));
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
+    } finally {
+      if (migrateAllTx) {
+        dispatch(clearPendingTxn(migrateAllTx.hash));
+      }
+    }
+    // go get fresh balances
+    dispatch(loadAccountDetails({ address, provider, networkID }));
   },
 );
