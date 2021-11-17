@@ -160,6 +160,11 @@ export const cvx = new CustomBond({
       reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using DAI per `principal` address
       // reserveAddress: "0x6761Cb314E39082e08e1e697eEa23B6D1A77A34b", // guessed
     },
+    // FIXME
+    [NetworkID.Localhost]: {
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
     let cvxPrice: number = await getTokenPrice("convex-finance");
