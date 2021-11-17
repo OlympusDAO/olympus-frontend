@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Paper, Tab, Tabs, Box } from "@material-ui/core";
+import { t } from "@lingui/macro";
+import { Paper, Tab, Tabs, Box, Zoom } from "@material-ui/core";
 import InfoTooltipMulti from "../../components/InfoTooltip/InfoTooltipMulti";
 
 import TabPanel from "../../components/TabPanel";
@@ -14,7 +15,7 @@ import "./33together.scss";
 import { addresses, POOL_GRAPH_URLS } from "../../constants";
 import { useWeb3Context } from "../../hooks";
 import { apolloExt } from "../../lib/apolloClient";
-import { poolDataQuery } from "./poolData.js";
+import { poolDataQuery, yourAwardsQuery } from "./poolData.js";
 import { calculateOdds } from "../../helpers/33Together";
 import { getPoolValues, getRNGStatus } from "../../slices/PoolThunk";
 import { trim } from "../../helpers/index";
@@ -28,6 +29,7 @@ function a11yProps(index) {
 
 const PoolTogether = () => {
   const [view, setView] = useState(0);
+  const [zoomed, setZoomed] = useState(false);
 
   const changeView = (event, newView) => {
     setView(newView);
@@ -47,6 +49,9 @@ const PoolTogether = () => {
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
   const [yourOdds, setYourOdds] = useState(0);
+  const [yourTotalAwards, setYourTotalAwards] = useState(0);
+  // TODO (appleseed-33T): create a table for AwardHistory
+  const [yourAwardHistory, setYourAwardHistory] = useState([]);
   const [infoTooltipMessage, setInfoTooltipMessage] = useState([
     "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn.",
   ]);
@@ -66,6 +71,7 @@ const PoolTogether = () => {
   }, [chainID]);
 
   useEffect(() => {
+    // get poolData
     apolloExt(poolDataQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS), graphUrl)
       .then(poolData => {
         const poolWinners = poolData.data.prizePool?.prizeStrategy.multipleWinners.numberOfWinners;
@@ -82,6 +88,31 @@ const PoolTogether = () => {
         setGraphLoading(false);
       })
       .catch(err => setPoolDataError(err));
+
+    // get your Award History
+    if (address) {
+      let yourPrizes = [];
+      let totalAwards = 0;
+      apolloExt(
+        yourAwardsQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS, address, addresses[chainID].PT_TOKEN_ADDRESS),
+        graphUrl,
+      )
+        .then(poolData => {
+          poolData.data.prizePool?.prizes.map(prize => {
+            let awardedAmount = parseFloat(prize.awardedControlledTokens[0]?.amount) / 10 ** 9 || 0;
+            // pushing in an AwardItem {awardedTimestamp, awardedBlock, awardedAmount}
+            yourPrizes.push({
+              awardedTimestamp: prize.awardedTimestamp,
+              awardedBlock: prize.awardedBlock,
+              awardedAmount: awardedAmount,
+            });
+            totalAwards += awardedAmount;
+          });
+          setYourTotalAwards(totalAwards);
+          setYourAwardHistory(yourPrizes);
+        })
+        .catch(err => setPoolDataError(err));
+    }
   }, [graphUrl]);
 
   useEffect(() => {
@@ -116,7 +147,7 @@ const PoolTogether = () => {
 
       <Paper className="ohm-card">
         <Box display="flex">
-          <CardHeader title="3, 3 Together" />
+          <CardHeader title={t`3, 3 Together`} />
           <InfoTooltipMulti messagesArray={infoTooltipMessage} />
         </Box>
         <Tabs
@@ -127,9 +158,11 @@ const PoolTogether = () => {
           onChange={changeView}
           className="pt-tabs"
           aria-label="pool tabs"
+          //hides the tab underline sliding animation in while <Zoom> is loading
+          TabIndicatorProps={!zoomed && { style: { display: "none" } }}
         >
-          <Tab label="Deposit" {...a11yProps(0)} />
-          <Tab label="Withdraw" {...a11yProps(1)} />
+          <Tab label={t`Deposit`} {...a11yProps(0)} />
+          <Tab label={t`Withdraw`} {...a11yProps(1)} />
         </Tabs>
 
         <TabPanel value={view} index={0} className="pool-tab">
@@ -153,6 +186,7 @@ const PoolTogether = () => {
         isAccountLoading={isAccountLoading}
         poolBalance={trim(poolBalance, 4)}
         sohmBalance={trim(sohmBalance, 4)}
+        yourTotalAwards={trim(yourTotalAwards, 4)}
         yourOdds={trim(yourOdds, 0)}
         winners={winners}
         totalDeposits={totalDeposits}

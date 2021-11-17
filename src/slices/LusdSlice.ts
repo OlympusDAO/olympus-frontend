@@ -1,35 +1,12 @@
-import { ethers } from "ethers";
-import { formatEther } from "ethers/lib/utils";
-import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-
-import { addresses } from "../constants";
-import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as OhmLusdCrucible } from "../abi/OhmLusdCrucible.json";
-
 import { setAll } from "../helpers";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-import { NetworkID } from "src/lib/Bond";
-import { ohm_lusd } from "../helpers/AllBonds";
+import { IBaseAddressAsyncThunk } from "./interfaces";
+
 import { calcAludelDetes } from "../helpers/OhmLusdCrucible";
-
-interface IGetBalances {
-  address: string;
-  networkID: NetworkID;
-  provider: StaticJsonRpcProvider | JsonRpcProvider;
-}
-
-/**
- * Interface for pickle API objects
- */
-interface IPoolInfo {
-  tokenAddress: string;
-  liquidity_locked: string;
-  apy: string;
-}
 
 export const getLusdData = createAsyncThunk(
   "stake/getLusdData",
-  async ({ address, networkID, provider }: IGetBalances) => {
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     // only works on mainnet
     if (networkID !== 1) {
       // we don't have rinkeby contracts

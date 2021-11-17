@@ -24,6 +24,7 @@ tenderly.yaml
 
 # testing
 coverage
+tests/e2e/videos
 
 # production
 build
@@ -40,3 +41,6 @@ yarn-error.log*
 # Integrated development environnements
 .idea
 *.sublime-*
+.vscode
+
+src/typechain

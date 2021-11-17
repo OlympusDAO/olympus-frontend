@@ -1,33 +1,32 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Hidden, useMediaQuery } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
-import useGoogleAnalytics from "./hooks/useGoogleAnalytics";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
-import { storeQueryParameters } from "./helpers/QueryParameterHelper";
+import { segmentUA } from "./helpers/userAnalyticHelpers";
+import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
+import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether } from "./views";
+import { Stake, ChooseBond, Bond, Wrap, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
-import LoadingSplash from "./components/Loading/LoadingSplash";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
-
 import "./style.scss";
 
 // 😬 Sorry for all the console logging
@@ -74,26 +73,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function App() {
-  useGoogleAnalytics();
   useSegmentAnalytics();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const location = useLocation();
+  const currentPath = location.pathname + location.search + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 958px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { connect, hasCachedProvider, provider, chainID, connected } = useWeb3Context();
+  const { connect, hasCachedProvider, provider, chainID, connected, uri } = useWeb3Context();
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
 
-  const isAppLoading = useSelector(state => state.app.loading);
-  const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
-  const { bonds } = useBonds();
-  async function loadDetails(whichDetails) {
+  const { bonds } = useBonds(chainID);
+  async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
     // it's because the initial provider loaded always starts with chainID=1. This causes
@@ -116,7 +113,7 @@ function App() {
     loadProvider => {
       dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
       bonds.map(bond => {
-        dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: chainID }));
       });
     },
     [connected],
@@ -143,14 +140,19 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
+        segmentUA({
+          type: "connect",
+          provider: provider,
+          context: currentPath,
+        });
       });
     } else {
       // then user DOES NOT have a wallet
       setWalletChecked(true);
     }
-
-    // We want to ensure that we are storing the UTM parameters for later, even if the user follows links
-    storeQueryParameters();
+    if (shouldTriggerSafetyCheck()) {
+      dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
+    }
   }, []);
 
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
@@ -195,12 +197,11 @@ function App() {
         <Messages />
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>
-          <Hidden mdUp>
+          {isSmallerScreen ? (
             <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-          </Hidden>
-          <Hidden smDown>
+          ) : (
             <Sidebar />
-          </Hidden>
+          )}
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
@@ -215,6 +216,10 @@ function App() {
 
             <Route path="/stake">
               <Stake />
+            </Route>
+
+            <Route path="/wrap">
+              <Wrap />
             </Route>
 
             <Route path="/33-together">
