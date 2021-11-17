@@ -51,6 +51,8 @@ To run the tests:
 - In a terminal, run the testnet node and frontend, using `yarn test:e2e-stack`. This will build/pull Docker images as necessary and launch the entire stack, without the need for configuration.
 - In another terminal, run the tests, using `yarn test:e2e`
 
+NOTE: due to the complexity of deploying the smart contracts (as of v1.1), the e2e stack currently does not work. Waiting on v2 deployment.
+
 **Rinkeby faucet for WETH:**
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
 
