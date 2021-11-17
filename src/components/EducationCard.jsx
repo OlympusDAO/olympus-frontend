@@ -10,7 +10,7 @@ const viewBox = "0 0 100 100";
 const smallViewBox = "0 0 50 50";
 const iconStyle = { height: "64px", width: "64px", margin: "auto" };
 
-export function YouRetainGraphic({ quantity }) {
+export function WalletGraphic({ quantity, verb = "retained" }) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
@@ -23,14 +23,14 @@ export function YouRetainGraphic({ quantity }) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" color="#999999" align="center" className="cta-text">
-          {quantity} sOHM retained
+          {quantity} sOHM {verb}
         </Typography>
       </Box>
     </Box>
   );
 }
 
-export function LockedInVaultGraphic({ quantity }) {
+export function VaultGraphic({ quantity, verb = "deposited" }) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
@@ -43,14 +43,14 @@ export function LockedInVaultGraphic({ quantity }) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" color="#999999" align="center" className="cta-text">
-          {quantity} sOHM deposited
+          {quantity} sOHM {verb}
         </Typography>
       </Box>
     </Box>
   );
 }
 
-export function TheyReceiveGraphic({ quantity }) {
+export function YieldGraphic({ quantity }) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
