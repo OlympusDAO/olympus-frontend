@@ -121,7 +121,9 @@ function Stake() {
       return dispatch(error("You cannot unstake more than your sOHM balance."));
     }
 
-    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(
+      changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID, version2: true }),
+    );
   };
 
   const hasAllowance = useCallback(
@@ -314,7 +316,7 @@ function Stake() {
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_staking")}
                             onClick={() => {
-                              onSeekApproval("ohmv2");
+                              onSeekApproval("ohm");
                             }}
                           >
                             {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
@@ -343,7 +345,7 @@ function Stake() {
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                             onClick={() => {
-                              onSeekApproval("sohmv2");
+                              onSeekApproval("sohm");
                             }}
                           >
                             {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
