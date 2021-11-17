@@ -48,7 +48,7 @@ Puppeteer (with the Dappeteer addition) is used to do browser-based end-to-end t
 
 To run the tests:
 
-- In a terminal, run the testnet node and frontend, using `yarn test:e2e-stack`
+- In a terminal, run the testnet node and frontend, using `yarn test:e2e-stack`. This will build/pull Docker images as necessary and launch the entire stack, without the need for configuration.
 - In another terminal, run the tests, using `yarn test:e2e`
 
 **Rinkeby faucet for WETH:**
