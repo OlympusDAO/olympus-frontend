@@ -95,7 +95,6 @@ const commonSettings = {
           maxWidth: "833px",
           width: "97%",
           marginBottom: "1.8rem",
-          borderRadius: "10px",
           overflow: "hidden",
         },
         "&.ohm-menu": {
@@ -237,7 +236,6 @@ const commonSettings = {
     MuiTab: {
       root: {
         minWidth: "min-content !important",
-        width: "min-content",
         padding: "0px",
         margin: "0px 10px",
         fontWeight: 400,
