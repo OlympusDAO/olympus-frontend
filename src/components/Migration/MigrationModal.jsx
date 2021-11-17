@@ -26,6 +26,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { info } from "src/slices/MessagesSlice";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import "./migration-modal.scss";
+import { Link } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -154,12 +155,15 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                   {isAllApproved
                     ? "Click on the Migrate button to complete the upgrade to v2. "
                     : "Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability. "}
-                  <ButtonBase
+                  <a
                     href="https://github.com/OlympusDAO-Education/Documentation/blob/migration/basics/migration.md"
                     target="_blank"
+                    color="inherit"
+                    rel="noreferrer"
+                    className="docs-link"
                   >
                     <u>Learn More</u>
-                  </ButtonBase>
+                  </a>
                 </Typography>
               </Box>
             )}
