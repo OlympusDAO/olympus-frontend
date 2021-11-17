@@ -95,7 +95,6 @@ const commonSettings = {
           maxWidth: "833px",
           width: "97%",
           marginBottom: "1.8rem",
-          borderRadius: "10px",
           overflow: "hidden",
         },
         "&.ohm-menu": {
