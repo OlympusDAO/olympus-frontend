@@ -20,6 +20,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { BigNumber } from "ethers";
 import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
 import { useWeb3Context } from "src/hooks";
+import { useEffect, useMemo } from "react";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { info } from "src/slices/MessagesSlice";
 
 const style = {
   position: "absolute",
@@ -43,50 +46,71 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const classes = useStyles();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
+  const pendingTransactions = useSelector(state => {
+    return state.pendingTransactions;
+  });
+
+  let rows = [];
+  let isMigrationComplete = useSelector(state => state.account.isMigrationComplete);
+
+  const onSeekApproval = token => {
+    dispatch(
+      changeMigrationApproval({
+        address,
+        networkID: chainID,
+        provider,
+        token: token.toLowerCase(),
+        displayName: token,
+      }),
+    );
+  };
+
+  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: chainID }));
   const currentIndex = useSelector(state => state.app.currentIndex);
-  const ohmBalance = useSelector(state => Number(state.account.balances.ohm));
-  const sOhmBalance = useSelector(state => Number(state.account.balances.sohm));
-  const wsOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
+
+  const currentOhmBalance = useSelector(state => Number(state.account.balances.ohm));
+  const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohm));
+  const currentWSOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
 
   const approvedOhmBalance = useSelector(state => Number(state.account.migration.ohm));
   const approvedSOhmBalance = useSelector(state => Number(state.account.migration.sohm));
   const approvedWSOhmBalance = useSelector(state => Number(state.account.migration.wsohm));
 
-  const ohmFullApproval = approvedOhmBalance >= ohmBalance;
-  const sOhmFullApproval = approvedSOhmBalance >= sOhmBalance;
-  const wsOhmFullApproval = approvedWSOhmBalance >= wsOhmBalance;
+  const ohmFullApproval = approvedOhmBalance >= currentOhmBalance;
+  const sOhmFullApproval = approvedSOhmBalance >= currentSOhmBalance;
+  const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
 
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  const onSeekApproval = token => {
-    dispatch(changeMigrationApproval({ address, networkID: chainID, provider, token }));
-  };
+  useEffect(() => {
+    if (isAllApproved) {
+      dispatch(info("All approvals complete. You may now migrate."));
+    }
+  }, [isAllApproved]);
 
-  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: chainID }));
-
-  const rows = [
+  rows = [
     {
       initialAsset: "OHM",
-      initialBalance: ohmBalance,
+      initialBalance: currentOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: ohmBalance / currentIndex,
+      targetBalance: currentOhmBalance / currentIndex,
       fullApproval: ohmFullApproval,
     },
     {
       initialAsset: "sOHM",
-      initialBalance: sOhmBalance,
+      initialBalance: currentSOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: sOhmBalance / currentIndex,
+      targetBalance: currentSOhmBalance / currentIndex,
       fullApproval: sOhmFullApproval,
     },
     {
       initialAsset: "wsOHM",
-      initialBalance: wsOhmBalance,
+      initialBalance: currentWSOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: wsOhmBalance,
+      targetBalance: currentWSOhmBalance,
       fullApproval: wsOhmFullApproval,
     },
-  ].filter(row => row.initialBalance != 0.0);
+  ].filter(row => row.initialBalance != 0);
 
   return (
     <div>
@@ -103,33 +127,36 @@ function MigrationModal({ open, handleOpen, handleClose }) {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Box
-              display="flex"
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="space-between"
-              paddingBottom={4}
-            >
+            <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
               <Button onClick={handleClose}>
                 <SvgIcon component={XIcon} color="primary" />
               </Button>
               <Box paddingRight={6}>
                 <Typography id="migration-modal-title" variant="h6" component="h2">
-                  You have assets ready to migrate to v2
+                  {isMigrationComplete
+                    ? "Migration complete"
+                    : isAllApproved
+                    ? "You are now ready to migrate"
+                    : "You have assets ready to migrate to v2"}
                 </Typography>
               </Box>
               <Box />
             </Box>
-            <Typography id="migration-modal-description" variant="body1">
-              You will need to migrate your assets in order to continue staking. You will not lose any yield or rewards
-              during the process.{" "}
-              <ButtonBase
-                href="https://github.com/OlympusDAO-Education/Documentation/blob/migration/basics/migration.md"
-                target="_blank"
-              >
-                <u>Learn More</u>
-              </ButtonBase>
-            </Typography>
+            {isMigrationComplete ? null : (
+              <Box paddingTop={4}>
+                <Typography id="migration-modal-description" variant="body1">
+                  {isAllApproved
+                    ? "Click on the Migrate button to complete the upgrade to v2. "
+                    : "Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability. "}
+                  <ButtonBase
+                    href="https://github.com/OlympusDAO-Education/Documentation/blob/migration/basics/migration.md"
+                    target="_blank"
+                  >
+                    <u>Learn More</u>
+                  </ButtonBase>
+                </Typography>
+              </Box>
+            )}
 
             <Table>
               <TableHead>
@@ -164,17 +191,21 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
-                      {row.initialBalance == 0 ? (
+                      {isMigrationComplete ? (
                         <Typography align="center" className={classes.custom}>
-                          Complete
+                          Migrated
                         </Typography>
                       ) : row.fullApproval ? (
                         <Typography align="center" className={classes.custom}>
                           Approved
                         </Typography>
                       ) : (
-                        <Button variant="outlined" onClick={() => onSeekApproval(row.initialAsset.toLowerCase())}>
-                          <Typography>{"Approve"}</Typography>
+                        <Button
+                          variant="outlined"
+                          onClick={() => onSeekApproval(row.initialAsset)}
+                          disabled={isPendingTxn(pendingTransactions, "approve_migration")}
+                        >
+                          <Typography>{txnButtonText(pendingTransactions, "approve_migration", "Approve")}</Typography>
                         </Button>
                       )}
                     </TableCell>
@@ -182,10 +213,18 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                 ))}
               </TableBody>
             </Table>
+
             <Box display="flex" flexDirection="row" justifyContent="center">
-              <Button color="primary" variant="contained" disabled={!isAllApproved} onClick={onMigrate}>
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={!isAllApproved || isPendingTxn(pendingTransactions, "migrate_all")}
+                onClick={isMigrationComplete ? handleClose : onMigrate}
+              >
                 <Box marginX={4} marginY={0.5}>
-                  <Typography>{"Migrate"}</Typography>
+                  <Typography>
+                    {isMigrationComplete ? "Close" : txnButtonText(pendingTransactions, "migrate_all", "Migrate")}
+                  </Typography>
                 </Box>
               </Button>
             </Box>
