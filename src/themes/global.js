@@ -237,7 +237,6 @@ const commonSettings = {
     MuiTab: {
       root: {
         minWidth: "min-content !important",
-        width: "min-content",
         padding: "0px",
         margin: "0px 10px",
         fontWeight: 400,
