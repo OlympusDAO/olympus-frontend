@@ -191,7 +191,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
-                      {row.initialBalance == 0 ? (
+                      {isMigrationComplete ? (
                         <Typography align="center" className={classes.custom}>
                           Migrated
                         </Typography>
