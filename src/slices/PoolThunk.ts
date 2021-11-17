@@ -19,6 +19,7 @@ import {
   IJsonRPCError,
 } from "./interfaces";
 import { AwardAbi2, PrizePoolAbi, PrizePoolAbi2, SOHM } from "src/typechain";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 export const getPoolValues = createAsyncThunk(
   "pool/getPoolValues",
@@ -144,7 +145,13 @@ export const poolDeposit = createAsyncThunk(
       signer,
     ) as PrizePoolAbi;
     let poolTx;
-
+    let uaData = {
+      address: address,
+      value: value,
+      type: "33t Deposit",
+      approved: false,
+      txHash: "",
+    };
     try {
       if (action === "deposit") {
         poolTx = await poolContract.depositTo(
@@ -172,6 +179,9 @@ export const poolDeposit = createAsyncThunk(
       return;
     } finally {
       if (poolTx) {
+        uaData.txHash = poolTx.hash;
+        uaData.approved = true;
+        segmentUA(uaData);
         dispatch(clearPendingTxn(poolTx.hash));
       }
     }
@@ -232,11 +242,17 @@ export const poolWithdraw = createAsyncThunk(
     ) as PrizePoolAbi2;
 
     let poolTx;
-
+    let uaData = {
+      address: address,
+      value: value,
+      type: "Withdraw",
+      earlyExitFee: "",
+      approved: false,
+      txHash: "",
+    };
     try {
       if (action === "withdraw") {
         const earlyExitFee = await dispatch(getEarlyExitFee({ value, provider, address, networkID }));
-
         poolTx = await poolContract.withdrawInstantlyFrom(
           address,
           ethers.utils.parseUnits(value, "gwei"),
@@ -244,6 +260,8 @@ export const poolWithdraw = createAsyncThunk(
           (earlyExitFee.payload as any).withdraw.earlyExitFee.exitFee, // maximum exit fee
           // TS-REFACTOR-TODO: set the payload type above once we've added typechain in.
         );
+        uaData.earlyExitFee = (earlyExitFee.payload as any).withdraw.stringExitFee;
+        uaData.txHash = poolTx.hash;
         const text = "Pool " + action;
         const pendingTxnType = "pool_withdraw";
         dispatch(fetchPendingTxns({ txnHash: poolTx.hash, text: text, type: pendingTxnType }));
@@ -266,7 +284,8 @@ export const poolWithdraw = createAsyncThunk(
         dispatch(clearPendingTxn(poolTx.hash));
       }
     }
-
+    uaData.approved = true;
+    segmentUA(uaData);
     dispatch(getBalances({ address, networkID, provider }));
   },
 );

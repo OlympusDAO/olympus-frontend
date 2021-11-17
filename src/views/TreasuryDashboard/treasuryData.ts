@@ -20,10 +20,15 @@ query {
     treasuryFraxRiskFreeValue
     treasuryXsushiMarketValue
     treasuryWETHMarketValue
+    treasuryLusdRiskFreeValue
+    treasuryLusdMarketValue
     currentAPY
     runway10k
     runway20k
     runway50k
+    runway7dot5k
+    runway5k
+    runway2dot5k
     runwayCurrent
     holders
     treasuryOhmDaiPOL
@@ -71,6 +76,28 @@ export const bulletpoints = {
       top: -12,
       background: "linear-gradient(180deg, #4C8C2A -10%, #8BFF4D 100%)",
     },
+    {
+      right: 29,
+      top: -12,
+      background: "linear-gradient(180deg, #c9184a -10%, #ff758f 100%)",
+    },
+  ],
+  rfv: [
+    {
+      right: 15,
+      top: -12,
+      background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
+    },
+    {
+      right: 25,
+      top: -12,
+      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "linear-gradient(180deg, #c9184a -10%, #ff758f 100%)",
+    },
   ],
   holder: [
     {
@@ -90,7 +117,7 @@ export const bulletpoints = {
     {
       right: 45,
       top: -12,
-      background: "#FFFFFF",
+      background: "#000000",
     },
     {
       right: 48,
@@ -101,6 +128,11 @@ export const bulletpoints = {
       right: 48,
       top: -12,
       background: "#49A1F2",
+    },
+    {
+      right: 48,
+      top: -12,
+      background: "#c9184a",
     },
   ],
   staked: [
@@ -133,10 +165,11 @@ export const bulletpoints = {
 
 export const tooltipItems = {
   tvl: ["Total Value Deposited"],
-  coin: ["DAI", "FRAX", "ETH", "SUSHI"],
+  coin: ["DAI", "FRAX", "ETH", "SUSHI", "LUSD"],
+  rfv: ["DAI", "FRAX", "LUSD"],
   holder: ["OHMies"],
   apy: ["APY"],
-  runway: ["Days"],
+  runway: ["Current", "7.5K APY", "5K APY", "2.5K APY"],
   pol: ["SLP Treasury", "Market SLP"],
 };
 

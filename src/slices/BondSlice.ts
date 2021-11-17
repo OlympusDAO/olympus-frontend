@@ -75,12 +75,11 @@ export interface IBondDetails {
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
   async ({ bond, value, provider, networkID }: ICalcBondDetailsAsyncThunk, { dispatch }): Promise<IBondDetails> => {
-    if (!value) {
+    if (!value || value === "") {
       value = "0";
     }
     const amountInWei = ethers.utils.parseEther(value);
 
-    // const vestingTerm = VESTING_TERM; // hardcoded for now
     let bondPrice = BigNumber.from(0),
       bondDiscount = 0,
       valuation = 0,
@@ -90,7 +89,13 @@ export const calcBondDetails = createAsyncThunk(
 
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
-    let debtRatio: BigNumberish = await bondContract.standardizedDebtRatio();
+    let debtRatio: BigNumberish;
+    // TODO (appleseed): improve this logic
+    if (bond.name === "cvx") {
+      debtRatio = await bondContract.debtRatio();
+    } else {
+      debtRatio = await bondContract.standardizedDebtRatio();
+    }
     debtRatio = Number(debtRatio.toString()) / Math.pow(10, 9);
 
     let marketPrice: number = 0;
@@ -105,8 +110,14 @@ export const calcBondDetails = createAsyncThunk(
     }
 
     try {
-      bondPrice = await bondContract.bondPriceInUSD();
-      // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      // TODO (appleseed): improve this logic
+      if (bond.name === "cvx") {
+        let bondPriceRaw = await bondContract.bondPrice();
+        let assetPriceUSD = await bond.getBondReservePrice(networkID, provider);
+        bondPrice = bondPriceRaw.mul(BigNumber.from(String(assetPriceUSD * 10 ** 14)));
+      } else {
+        bondPrice = await bondContract.bondPriceInUSD();
+      }
       bondDiscount = (marketPrice * Math.pow(10, 18) - Number(bondPrice.toString())) / Number(bondPrice.toString()); // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
     } catch (e) {
       console.log("error getting bondPriceInUSD", e);

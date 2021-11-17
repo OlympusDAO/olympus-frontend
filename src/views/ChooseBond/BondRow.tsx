@@ -4,6 +4,7 @@ import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
+import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 import { IAllBondData } from "src/hooks/Bonds";
 import { useWeb3Context } from "../../hooks/web3Context";
@@ -31,7 +32,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
               <div>
                 <Link href={uBond?.lpUrl} target="_blank">
                   <Typography variant="body1">
-                    View Contract
+                    <Trans>View Contract</Trans>
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
                   </Typography>
                 </Link>
@@ -40,7 +41,9 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
           </div>
         </div>
         <div className="data-row">
-          <Typography>Price</Typography>
+          <Typography>
+            <Trans>Price</Trans>
+          </Typography>
           <Typography className="bond-price">
             <>
               {isBondLoading || typeof allBondData === undefined ? (
@@ -52,7 +55,9 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
           </Typography>
         </div>
         <div className="data-row">
-          <Typography>ROI</Typography>
+          <Typography>
+            <Trans>ROI</Trans>
+          </Typography>
           <Typography>
             {isBondLoading || typeof allBondData === undefined ? (
               <Skeleton width="50px" />
@@ -63,7 +68,9 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
         </div>
 
         <div className="data-row">
-          <Typography>Purchased</Typography>
+          <Typography>
+            <Trans>Purchased</Trans>
+          </Typography>
           <Typography>
             {isBondLoading || typeof allBondData === undefined ? (
               <Skeleton width="80px" />
@@ -80,7 +87,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID as NetworkID]}>
             <Typography variant="h5">
-              {!bond.isAvailable[chainID as NetworkID] ? "Sold Out" : `Bond ${bond.displayName}`}
+              {!bond.isAvailable[chainID as NetworkID] ? t`Sold Out` : t`Bond ${bond.displayName}`}
             </Typography>
           </Button>
         </Link>
@@ -107,7 +114,7 @@ export function BondTableData({ bond }: { bond: IAllBondData | Bond }) {
           {bond.isLP && (
             <Link color="primary" href={uBond.lpUrl} target="_blank">
               <Typography variant="body1">
-                View Contract
+                <Trans>View Contract</Trans>
                 <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
               </Typography>
             </Link>
@@ -138,7 +145,7 @@ export function BondTableData({ bond }: { bond: IAllBondData | Bond }) {
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" disabled={!bond.isAvailable[chainID as NetworkID]}>
-            <Typography variant="h6">{!bond.isAvailable[chainID as NetworkID] ? "Sold Out" : "Bond"}</Typography>
+            <Typography variant="h6">{!bond.isAvailable[chainID as NetworkID] ? t`Sold Out` : t`do_bond`}</Typography>
           </Button>
         </Link>
       </TableCell>

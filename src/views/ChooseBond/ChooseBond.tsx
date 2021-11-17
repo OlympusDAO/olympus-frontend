@@ -11,10 +11,12 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
 import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { formatCurrency } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
+import { useWeb3Context } from "src/hooks/web3Context";
 
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
@@ -27,7 +29,8 @@ import { IUserBondDetails } from "src/slices/AccountSlice";
 type BondsType = ReturnType<typeof useBonds>;
 
 function ChooseBond() {
-  const { bonds }: BondsType = useBonds();
+  const { chainID } = useWeb3Context();
+  const { bonds } = useBonds(chainID);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
@@ -67,34 +70,38 @@ function ChooseBond() {
       <Zoom in={true}>
         <Paper className="ohm-card">
           <Box className="card-header">
-            <Typography variant="h5">Bond (1,1)</Typography>
+            <Typography variant="h5" data-testid="t">
+              <Trans>Bond</Trans> (1,1)
+            </Typography>
           </Box>
 
           <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
             <Grid item xs={6}>
               <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
                 <Typography variant="h5" color="textSecondary">
-                  Treasury Balance
+                  <Trans>Treasury Balance</Trans>
                 </Typography>
-                <Typography variant="h4">
+                <Box>
                   {isAppLoading ? (
-                    <Skeleton width="180px" />
+                    <Skeleton width="180px" data-testid="treasury-balance-loading" />
                   ) : (
-                    new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0,
-                    }).format(Number(treasuryBalance))
+                    <Typography variant="h4" data-testid="treasury-balance">
+                      {new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                        maximumFractionDigits: 0,
+                        minimumFractionDigits: 0,
+                      }).format(Number(treasuryBalance))}
+                    </Typography>
                   )}
-                </Typography>
+                </Box>
               </Box>
             </Grid>
 
             <Grid item xs={6} className={`ohm-price`}>
               <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
                 <Typography variant="h5" color="textSecondary">
-                  OHM Price
+                  <Trans>OHM Price</Trans>
                 </Typography>
                 <Typography variant="h4">
                   {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(Number(marketPrice), 2)}
@@ -109,10 +116,18 @@ function ChooseBond() {
                 <Table aria-label="Available bonds">
                   <TableHead>
                     <TableRow>
-                      <TableCell align="center">Bond</TableCell>
-                      <TableCell align="left">Price</TableCell>
-                      <TableCell align="left">ROI</TableCell>
-                      <TableCell align="right">Purchased</TableCell>
+                      <TableCell align="center">
+                        <Trans>Bond</Trans>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Trans>Price</Trans>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Trans>ROI</Trans>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Trans>Purchased</Trans>
+                      </TableCell>
                       <TableCell align="right"></TableCell>
                     </TableRow>
                   </TableHead>

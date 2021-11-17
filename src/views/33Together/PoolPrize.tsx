@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { useAppSelector, useWeb3Context } from "src/hooks";
-import { awardProcess, getRNGStatus, getPoolValues } from "src/slices/PoolThunk";
-import { Paper, Box, Typography } from "@material-ui/core";
+import { useSelector, useDispatch } from "react-redux";
+import { t, Trans } from "@lingui/macro";
+import { useAppSelector, useWeb3Context } from "../../hooks";
+import { awardProcess, getRNGStatus, getPoolValues } from "../../slices/PoolThunk";
+
+import { Paper, Box, Typography, Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { trim, subtractDates } from "src/helpers";
 
@@ -112,40 +114,58 @@ export const PoolPrize = () => {
         <Box display="flex" flexDirection="column" alignItems="center">
           {poolAwardBalance === 0 ? (
             <Box margin={2} textAlign="center">
-              <Typography variant="h3">Pool Award Balance is currently 0.</Typography>
-              <Typography variant="h4">Award Balance will grow at 1st rebase.</Typography>
+              <Typography variant="h3">
+                <Trans>Pool Award Balance is currently 0.</Trans>
+              </Typography>
+              <Typography variant="h4">
+                <Trans>Award Balance will grow at 1st rebase.</Trans>
+              </Typography>
             </Box>
           ) : (
             <Box margin={2} textAlign="center">
               <Typography variant="h1">{trim(poolAwardBalance, 2)} sOHM</Typography>
-              <Typography variant="h4">Current Prize</Typography>
+              <Typography variant="h4">
+                <Trans>Current Prize</Trans>
+              </Typography>
             </Box>
           )}
           {poolIsLocked ? (
-            <Typography variant="h6">Prize is being awarded</Typography>
+            <Typography variant="h6">
+              <Trans>Prize is being awarded</Trans>
+            </Typography>
           ) : (
-            <Typography variant="h6">Next award</Typography>
+            <Typography variant="h6">
+              <Trans>Next award</Trans>
+            </Typography>
           )}
           <Box className="pool-timer">
             {timer && poolIsLocked !== true && (
               <>
                 <Box className="pool-timer-unit">
                   <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.days}</Typography>
-                  <Typography>day</Typography>
+                  <Typography>
+                    <Trans>day</Trans>
+                  </Typography>
                 </Box>
 
                 <Box className="pool-timer-unit">
                   <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.hours}</Typography>
-                  <Typography>hrs</Typography>
+                  <Typography>
+                    <Trans>hrs</Trans>
+                  </Typography>
                 </Box>
 
                 <Box className="pool-timer-unit">
                   <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.minutes}</Typography>
-                  <Typography>min</Typography>
+                  <Typography>
+                    <Trans>min</Trans>
+                  </Typography>
                 </Box>
                 <Box className="pool-timer-unit">
                   <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.seconds}</Typography>
-                  <Typography>sec</Typography>
+                  <Typography>
+                    <Trans>sec</Trans>
+                  </Typography>
                 </Box>
               </>
             )}
@@ -164,8 +184,11 @@ export const PoolPrize = () => {
               >
                 Complete Award
               </Button> */}
+              {/* 0xdavinchee: padding={2} removed due to error */}
               <Typography variant="body1" color="textSecondary">
-                Award period has finished, you can navigate to Pool Together's UI to complete distribution
+                <Trans>
+                  Award period has finished, you can navigate to Pool Together's UI to complete distribution
+                </Trans>
               </Typography>
             </Box>
           )}
@@ -184,7 +207,7 @@ export const PoolPrize = () => {
                 Start Award
               </Button> */}
               <Typography variant="body1" color="textSecondary">
-                Award period has finished, you can navigate to Pool Together's UI to begin distribution
+                <Trans>Award period has finished, you can navigate to Pool Together's UI to begin distribution</Trans>
               </Typography>
             </Box>
           )}

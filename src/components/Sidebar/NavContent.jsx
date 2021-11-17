@@ -7,6 +7,7 @@ import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
+import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress, useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
@@ -17,8 +18,8 @@ import "./sidebar.scss";
 function NavContent() {
   const [isActive] = useState();
   const address = useAddress();
-  const { bonds } = useBonds();
   const { chainID } = useWeb3Context();
+  const { bonds } = useBonds(chainID);
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -29,6 +30,9 @@ function NavContent() {
       return true;
     }
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
+      return true;
+    }
+    if (currentPath.indexOf("33-together") >= 0 && page === "33-together") {
       return true;
     }
     return false;
@@ -70,7 +74,7 @@ function NavContent() {
               >
                 <Typography variant="h6">
                   <SvgIcon color="primary" component={DashboardIcon} />
-                  Dashboard
+                  <Trans>Dashboard</Trans>
                 </Typography>
               </Link>
 
@@ -85,7 +89,7 @@ function NavContent() {
               >
                 <Typography variant="h6">
                   <SvgIcon color="primary" component={StakeIcon} />
-                  Stake
+                  <Trans>Stake</Trans>
                 </Typography>
               </Link>
 
@@ -115,13 +119,15 @@ function NavContent() {
               >
                 <Typography variant="h6">
                   <SvgIcon color="primary" component={BondIcon} />
-                  Bond
+                  <Trans>Bond</Trans>
                 </Typography>
               </Link>
 
               <div className="dapp-menu-data discounts">
                 <div className="bond-discounts">
-                  <Typography variant="body2">Bond discounts</Typography>
+                  <Typography variant="body2">
+                    <Trans>Bond discounts</Trans>
+                  </Typography>
                   {bonds.map((bond, i) => (
                     <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
                       {!bond.bondDiscount ? (
