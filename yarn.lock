@@ -2574,10 +2574,10 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.5.tgz#75a2a8e7d8ab4b230414505d92335d1dcb53a6df"
   integrity sha512-L28j2FcJfSZOnL1WBjDYp2vUHCeIFlyYI/53EwD/rKUBQ7MtUUfbQWiyKJGpcnv4/WgrhWsFKrcPstcAt/J0tQ==
 
-"@types/react-dom@^17.0.10":
-  version "17.0.10"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.10.tgz#d6972ec018d23cf22b99597f1289343d99ea9d9d"
-  integrity sha512-8oz3NAUId2z/zQdFI09IMhQPNgIbiP8Lslhv39DIDamr846/0spjZK0vnrMak0iB8EKb9QFTTIdg2Wj2zH5a3g==
+"@types/react-dom@^17.0.11":
+  version "17.0.11"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.11.tgz#e1eadc3c5e86bdb5f7684e00274ae228e7bcc466"
+  integrity sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
   dependencies:
     "@types/react" "*"
 
@@ -2676,6 +2676,11 @@
   integrity sha512-O3MmRAk6ZuAKa9CHgg0Pr0+lUOqoMLpc9AS4R8ano2auvsg7IE8syF3Xh/NPr26TWklxYcqoEEFdzLLs1fV9PQ==
   dependencies:
     source-map "^0.6.1"
+
+"@types/uuid@^8.3.1":
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.1.tgz#1a32969cf8f0364b3d8c8af9cc3555b7805df14f"
+  integrity sha512-Y2mHTRAbqfFkpjldbkHGY8JIzRN6XqYRliG8/24FcHm2D2PwW24fl5xMRTVGdrb7iMrwCaIEbLWerGIkXuFWVg==
 
 "@types/webpack-sources@*":
   version "3.2.0"
