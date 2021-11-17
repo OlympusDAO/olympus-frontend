@@ -155,7 +155,7 @@ export const cvx = new CustomBond({
 // the old convex bonds. Just need to be claimable for the users who previously purchased
 export const cvx_expired = new CustomBond({
   name: "cvx-v1",
-  displayName: "CVX-V1",
+  displayName: "CVX OLD",
   lpUrl: "",
   bondType: BondType.StableAsset,
   bondToken: "CVX",
