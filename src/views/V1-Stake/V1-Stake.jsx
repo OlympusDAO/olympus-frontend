@@ -320,20 +320,8 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                       <TabPanel value={view} index={0} className="stake-tab-panel">
                         {isAllowanceDataLoading ? (
                           <Skeleton />
-                        ) : address && hasAllowance("ohm") ? (
-                          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
                         ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_staking")}
-                            onClick={() => {
-                              onSeekApproval("ohm");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
-                          </Button>
+                          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
                         )}
                       </TabPanel>
                       <TabPanel value={view} index={1} className="stake-tab-panel">
