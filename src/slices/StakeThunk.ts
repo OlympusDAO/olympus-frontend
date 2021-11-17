@@ -77,6 +77,16 @@ export const changeApproval = createAsyncThunk(
           addresses[networkID].STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
+      } else if (token === "ohmv2") {
+        approveTx = await sohmContract.approve(
+          addresses[networkID].STAKING_V2,
+          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+        );
+      } else if (token === "sohm2") {
+        approveTx = await sohmContract.approve(
+          addresses[networkID].STAKING_V2,
+          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+        );
       }
 
       const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
