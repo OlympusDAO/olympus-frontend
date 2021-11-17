@@ -366,7 +366,7 @@ function Stake() {
                     <div className="data-row">
                       <Typography variant="body1">Staked Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} gOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmV2Balance, 4)} sOHM</>}
                       </Typography>
                     </div>
 
@@ -375,7 +375,7 @@ function Stake() {
                         Single Staking
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmV2Balance, 4)} sOHM</>}
                       </Typography>
                     </div>
 
@@ -390,10 +390,10 @@ function Stake() {
 
                     <div className="data-row" style={{ paddingLeft: "10px" }}>
                       <Typography variant="body2" color="textSecondary">
-                        Non Governance Staked Balance
+                        Governance Staked Balance
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmV2Balance, 4)} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
                       </Typography>
                     </div>
 

@@ -19,15 +19,25 @@ interface IUAData {
   type: string | null;
 }
 
-function alreadyApprovedToken(token: string, stakeAllowance: BigNumber, unstakeAllowance: BigNumber) {
+function alreadyApprovedToken(
+  token: string,
+  stakeAllowance: BigNumber,
+  unstakeAllowance: BigNumber,
+  stakeAllowanceV2: BigNumber,
+  unstakeAllowanceV2: BigNumber,
+) {
   // set defaults
   let bigZero = BigNumber.from("0");
   let applicableAllowance = bigZero;
 
   // determine which allowance to check
   if (token === "ohm") {
-    applicableAllowance = stakeAllowance;
+    applicableAllowance = stakeAllowanceV2;
   } else if (token === "sohm") {
+    applicableAllowance = unstakeAllowanceV2;
+  } else if (token === "old_ohm") {
+    applicableAllowance = stakeAllowance;
+  } else if (token === "old_sohm") {
     applicableAllowance = unstakeAllowance;
   }
 
@@ -57,7 +67,7 @@ export const changeApproval = createAsyncThunk(
     let unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
 
     // return early if approval has already happened
-    if (alreadyApprovedToken(token, stakeAllowanceV2, unstakeAllowanceV2)) {
+    if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance, stakeAllowanceV2, unstakeAllowanceV2)) {
       dispatch(info("Approval completed."));
       return dispatch(
         fetchAccountSuccess({
@@ -80,6 +90,11 @@ export const changeApproval = createAsyncThunk(
       } else if (token === "sohm") {
         approveTx = await sohmV2Contract.approve(
           addresses[networkID].STAKING_V2,
+          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+        );
+      } else if (token === "old_sohm") {
+        approveTx = await sohmV2Contract.approve(
+          addresses[networkID].STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
