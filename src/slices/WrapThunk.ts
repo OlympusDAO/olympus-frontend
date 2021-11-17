@@ -2,13 +2,14 @@ import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
+import { abi as v2sOHM } from "../abi/v2sOhmNew.json";
 import { clearPendingTxn, fetchPendingTxns, getWrappingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, WsOHM } from "src/typechain";
+import { IERC20, WsOHM, V2sOhmNew } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -160,6 +161,55 @@ export const changeWrap = createAsyncThunk(
         segmentUA(uaData);
 
         dispatch(clearPendingTxn(wrapTx.hash));
+      }
+    }
+    dispatch(getBalances({ address, networkID, provider }));
+  },
+);
+
+export const changeWrapV2 = createAsyncThunk(
+  "wrap/changeWrapV2",
+  async ({ action, value, provider, address, networkID }: IActionValueAsyncThunk, { dispatch }) => {
+    if (!provider) {
+      dispatch(error("Please connect your wallet!"));
+      return;
+    }
+
+    const signer = provider.getSigner();
+
+    const v2sOhmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, v2sOHM, signer) as V2sOhmNew;
+
+    let wrapTx;
+    let uaData: IUAData = {
+      address: address,
+      value: value,
+      approved: true,
+      txHash: null,
+      type: null,
+    };
+    try {
+      uaData.type = "unwrap";
+      wrapTx = await v2sOhmContract.fromG(4);
+      // const pendingTxnType = action === "wrap" ? "wrapping" : "unwrapping";
+      // uaData.txHash = wrapTx.hash;
+      // dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: pendingTxnType }));
+      // await wrapTx.wait();
+    } catch (e: unknown) {
+      uaData.approved = false;
+      const rpcError = e as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
+        dispatch(
+          error("You may be trying to wrap more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
+      } else {
+        dispatch(error(rpcError.message));
+      }
+      return;
+    } finally {
+      if (wrapTx) {
+        segmentUA(uaData);
+
+        // dispatch(clearPendingTxn(wrapTx.hash));
       }
     }
     dispatch(getBalances({ address, networkID, provider }));

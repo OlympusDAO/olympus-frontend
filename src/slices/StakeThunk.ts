@@ -143,22 +143,24 @@ export const changeStake = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
+
     const staking = new ethers.Contract(
       addresses[networkID].STAKING_ADDRESS as string,
       OlympusStakingABI,
       signer,
     ) as OlympusStakingv2;
+
     const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
       StakingHelperABI,
       signer,
     ) as StakingHelper;
 
-    const stakingV2 = new ethers.Contract(
-      addresses[networkID].STAKING_V2 as string,
-      OlympusStakingABI,
-      signer,
-    ) as OlympusStakingv2;
+    // const stakingV2 = new ethers.Contract(
+    //   addresses[networkID].STAKING_V2 as string,
+    //   OlympusStakingABI,
+    //   signer,
+    // ) as OlympusStakingv2;
 
     let stakeTx;
     let uaData: IUAData = {
@@ -169,23 +171,23 @@ export const changeStake = createAsyncThunk(
       type: null,
     };
     try {
-      if (version2) {
-        if (action === "stake") {
-          uaData.type = "stake";
-          stakeTx = await stakingV2.stake(ethers.utils.parseUnits(value, "gwei"), address);
-        } else {
-          uaData.type = "unstake";
-          stakeTx = await stakingV2.unstake(ethers.utils.parseUnits(value, "gwei"), true);
-        }
+      // if (version2) {
+      //   if (action === "stake") {
+      //     uaData.type = "stake";
+      //     stakeTx = await stakingV2.stake(ethers.utils.parseUnits(value, "gwei"), address);
+      //   } else {
+      //     uaData.type = "unstake";
+      //     stakeTx = await stakingV2.unstake(ethers.utils.parseUnits(value, "gwei"), true);
+      //   }
+      // } else {
+      if (action === "stake") {
+        uaData.type = "stake";
+        stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"));
       } else {
-        if (action === "stake") {
-          uaData.type = "stake";
-          stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"));
-        } else {
-          uaData.type = "unstake";
-          stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
-        }
+        uaData.type = "unstake";
+        stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
       }
+      // }
       const pendingTxnType = action === "stake" ? "staking" : "unstaking";
       uaData.txHash = stakeTx.hash;
       dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));

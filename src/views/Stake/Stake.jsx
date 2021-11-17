@@ -27,6 +27,7 @@ import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "./ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
+import { changeApproval as changeApprv, changeWrapV2 } from "../../slices/WrapThunk";
 
 function a11yProps(index) {
   return {
@@ -124,6 +125,20 @@ function Stake() {
     await dispatch(
       changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID, version2: true }),
     );
+  };
+
+  const unwrapV2 = async () => {
+    // eslint-disable-next-line no-restricted-globals
+    // if (isNaN(quantity) || Number(quantity) === 0 || quantity === "") {
+    //   // eslint-disable-next-line no-alert
+    //   return dispatch(error("Please enter a value!"));
+    // }
+
+    // if (ethers.utils.parseUnits(quantity, "ether").gt(ethers.utils.parseUnits(wsohmBalance, "ether"))) {
+    //   return dispatch(error("You cannot unwrap more than your wsOHM balance."));
+    // }
+
+    await dispatch(changeWrapV2({ address, action: "unwrap", value: "3", provider, networkID: chainID }));
   };
 
   const hasAllowance = useCallback(
@@ -235,6 +250,9 @@ function Stake() {
               ) : (
                 <>
                   <Box className="stake-action-area">
+                    <Button color="primary" variant="contained" onClick={unwrapV2}>
+                      unwrap
+                    </Button>
                     <Tabs
                       key={String(zoomed)}
                       centered
@@ -390,7 +408,7 @@ function Stake() {
 
                     <div className="data-row" style={{ paddingLeft: "10px" }}>
                       <Typography variant="body2" color="textSecondary">
-                        Governance Staked Balance
+                        Staked Governance Balance
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}

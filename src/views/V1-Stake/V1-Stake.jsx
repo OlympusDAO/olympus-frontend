@@ -121,7 +121,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
       return dispatch(error("You cannot unstake more than your sOHM balance."));
     }
 
-    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(
+      changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID, version2: false }),
+    );
   };
 
   const hasAllowance = useCallback(
