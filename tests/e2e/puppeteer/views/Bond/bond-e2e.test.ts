@@ -27,7 +27,7 @@ describe("bonding", () => {
     fail();
   });
 
-  test.only("connects wallet", async () => {
+  test("connects wallet", async () => {
     const { page, metamask } = dapp;
 
     // Connect button should be available
