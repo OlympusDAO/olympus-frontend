@@ -86,32 +86,16 @@ export const loadAppDetails = createAsyncThunk(
       provider,
     ) as OlympusStakingv2;
 
-    const stakingV2Contract = new ethers.Contract(
-      addresses[networkID].STAKING_V2 as string,
-      OlympusStakingv2ABI,
-      provider,
-    ) as OlympusStakingv2;
-
     const sohmMainContract = new ethers.Contract(
       addresses[networkID].SOHM_ADDRESS as string,
       sOHMv2,
       provider,
     ) as SOhmv2;
 
-    const sohmV2 = new ethers.Contract(addresses[networkID].SOHM_V2 as string, sOHMv2, provider) as SOhmv2;
-
     // Calculating staking
-    const epoch = await stakingV2Contract.epoch();
+    const epoch = await stakingContract.epoch();
     const stakingReward = epoch.distribute;
-    const circ = await sohmV2.circulatingSupply();
-    const stakingRebaseV2 = Number(stakingReward.toString()) / Number(circ.toString());
-    const fiveDayRateV2 = Math.pow(1 + stakingRebaseV2, 5 * 3) - 1;
-    const stakingAPYV2 = Math.pow(1 + stakingRebaseV2, 365 * 3) - 1;
-
-    // Calculating staking v2
-    const epochV2 = await stakingContract.epoch();
-    const stakingRewardV2 = epochV2.distribute;
-    const circV2 = await sohmMainContract.circulatingSupply();
+    const circ = await sohmMainContract.circulatingSupply();
     const stakingRebase = Number(stakingReward.toString()) / Number(circ.toString());
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
@@ -119,12 +103,8 @@ export const loadAppDetails = createAsyncThunk(
     // Current index
     const currentIndex = await stakingContract.index();
 
-    // Current index V2
-    const currentIndexV2 = await stakingV2Contract.index();
-
     return {
       currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
-      currentIndexV2: ethers.utils.formatUnits(currentIndexV2, "gwei"),
       currentBlock,
       fiveDayRate,
       stakingAPY,
@@ -135,9 +115,6 @@ export const loadAppDetails = createAsyncThunk(
       circSupply,
       totalSupply,
       treasuryMarketValue,
-      stakingRebaseV2,
-      fiveDayRateV2,
-      stakingAPYV2,
     } as IAppData;
   },
 );
@@ -200,7 +177,6 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
 interface IAppData {
   readonly circSupply: number;
   readonly currentIndex?: string;
-  readonly currentIndexV2?: string;
   readonly currentBlock?: number;
   readonly fiveDayRate?: number;
   readonly marketCap: number;
@@ -211,9 +187,6 @@ interface IAppData {
   readonly totalSupply: number;
   readonly treasuryBalance?: number;
   readonly treasuryMarketValue?: number;
-  readonly stakingRebaseV2?: number;
-  readonly fiveDayRateV2?: number;
-  readonly stakingAPYV2?: number;
 }
 
 const appSlice = createSlice({
