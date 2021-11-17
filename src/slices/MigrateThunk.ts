@@ -3,8 +3,13 @@ import { BigNumber, ethers } from "ethers";
 import { addresses } from "src/constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { IERC20, IERC20__factory } from "src/typechain";
-import { IBaseAddressAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
-import { getMigrationAllowances, loadAccountDetails } from "./AccountSlice";
+import {
+  IBaseAddressAsyncThunk,
+  IChangeApprovalAsyncThunk,
+  IChangeApprovalWithDisplayNameAsyncThunk,
+  IJsonRPCError,
+} from "./interfaces";
+import { fetchAccountSuccess, getMigrationAllowances, loadAccountDetails } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { OlympusTokenMigrator__factory } from "src/typechain";
@@ -17,7 +22,10 @@ enum TokenType {
 
 export const changeMigrationApproval = createAsyncThunk(
   "migrate/changeApproval",
-  async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
+  async (
+    { token, provider, address, networkID, displayName }: IChangeApprovalWithDisplayNameAsyncThunk,
+    { dispatch },
+  ) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -72,10 +80,11 @@ export const changeMigrationApproval = createAsyncThunk(
       }
 
       const text = `Approve ${token} Migration`;
-      const pendingTxnType = `approve_${token}_migration`;
+      const pendingTxnType = `approve_migration`;
 
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
       await approveTx.wait();
+      dispatch(info(`${displayName} Approval complete`));
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
       return;
@@ -111,7 +120,7 @@ export const migrateAll = createAsyncThunk(
 
       dispatch(fetchPendingTxns({ txnHash: migrateAllTx.hash, text, type: pendingTxnType }));
       await migrateAllTx.wait();
-      dispatch(info("Successfully migrated!"));
+      dispatch(info("All assets have been successfully migrated!"));
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
     } finally {
@@ -120,6 +129,7 @@ export const migrateAll = createAsyncThunk(
       }
     }
     // go get fresh balances
-    dispatch(loadAccountDetails({ address, provider, networkID }));
+    // dispatch(loadAccountDetails({ address, provider, networkID }));
+    dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );

@@ -92,6 +92,7 @@ export const getMigrationAllowances = createAsyncThunk(
         sohm: +sOhmAllowance,
         wsohm: +wsOhmAllowance,
       },
+      isMigrationComplete: false,
     };
   },
 );
@@ -302,12 +303,14 @@ interface IAccountSlice {
     sohm: number;
     wsohm: number;
   };
+  isMigrationComplete: boolean;
 }
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
   balances: { ohm: "", sohm: "", dai: "", oldsohm: "", gohm: "", ohmv2: "", sohmv2: "" },
   migration: { ohm: 0.0, sohm: 0.0, wsohm: 0.0 },
+  isMigrationComplete: false,
 };
 
 const accountSlice = createSlice({

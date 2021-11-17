@@ -84,18 +84,21 @@ function App() {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const { connect, hasCachedProvider, provider, chainID, connected, uri } = useWeb3Context();
+  const address = useAddress();
+
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalOpen = () => {
     setMigrationModalOpen(true);
   };
   const migModalClose = () => {
+    dispatch(loadAccountDetails({ networkID: chainID, address, provider }));
     setMigrationModalOpen(false);
   };
+
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
-
-  const { connect, hasCachedProvider, provider, chainID, connected, uri } = useWeb3Context();
-  const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
 
