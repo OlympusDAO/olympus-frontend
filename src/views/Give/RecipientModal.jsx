@@ -18,6 +18,7 @@ import {
   TheyReceiveGraphic,
   CurrPositionGraphic,
   NewPositionGraphic,
+  ArrowGraphic,
 } from "../../components/EducationCard";
 import { trim } from "../../helpers";
 
@@ -318,7 +319,9 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
             {isCreateMode() ? (
               <div className="give-education-graphics">
                 <YouRetainGraphic quantity={getRetainedAmountDiff().toString()} />
+                <ArrowGraphic />
                 <LockedInVaultGraphic quantity={getDepositAmount()} />
+                <ArrowGraphic />
                 <TheyReceiveGraphic quantity={getDepositAmount()} />
               </div>
             ) : (
