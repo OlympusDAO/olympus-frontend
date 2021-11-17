@@ -2,6 +2,7 @@ import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
+import { getTokenPrice } from "src/helpers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { EthContract, PairContract } from "src/typechain";
 import { addresses } from "src/constants";
@@ -101,10 +102,17 @@ export abstract class Bond {
     return new ethers.Contract(bondAddress, this.reserveContract, provider) as PairContract;
   }
 
+  // TODO (appleseed): improve this logic
   async getBondReservePrice(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
-    const pairContract = this.getContractForReserve(networkID, provider);
-    const reserves = await pairContract.getReserves();
-    return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
+    let marketPrice: number;
+    if (this.isLP) {
+      const pairContract = this.getContractForReserve(networkID, provider);
+      const reserves = await pairContract.getReserves();
+      marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
+    } else {
+      marketPrice = await getTokenPrice("convex-finance");
+    }
+    return marketPrice;
   }
 }
 

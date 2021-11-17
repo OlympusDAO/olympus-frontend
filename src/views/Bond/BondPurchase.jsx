@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -46,12 +47,12 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
 
   async function onBond() {
     if (quantity === "") {
-      dispatch(error("Please enter a value!"));
+      dispatch(error(t`Please enter a value!`));
     } else if (isNaN(quantity)) {
-      dispatch(error("Please enter a valid value!"));
+      dispatch(error(t`Please enter a valid value!`));
     } else if (bond.interestDue > 0 || bond.pendingPayout > 0) {
       const shouldProceed = window.confirm(
-        "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?",
+        t`You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?`,
       );
       if (shouldProceed) {
         await dispatch(
@@ -142,14 +143,17 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                   <div className="help-text">
                     <em>
                       <Typography variant="body1" align="center" color="textSecondary">
-                        First time bonding <b>{bond.displayName}</b>? <br /> Please approve Olympus Dao to use your{" "}
-                        <b>{bond.displayName}</b> for bonding.
+                        <Trans>First time bonding</Trans> <b>{bond.displayName}</b>? <br />{" "}
+                        <Trans>Please approve Olympus Dao to use your</Trans> <b>{bond.displayName}</b>{" "}
+                        <b>{bond.displayName}</b> <Trans>for bonding</Trans>.
                       </Typography>
                     </em>
                   </div>
                 ) : (
                   <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
-                    <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+                    <InputLabel htmlFor="outlined-adornment-amount">
+                      <Trans>Amount</Trans>
+                    </InputLabel>
                     <OutlinedInput
                       id="outlined-adornment-amount"
                       type="number"
@@ -160,14 +164,13 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                       endAdornment={
                         <InputAdornment position="end">
                           <Button variant="text" onClick={setMax}>
-                            Max
+                            <Trans>Max</Trans>
                           </Button>
                         </InputAdornment>
                       }
                     />
                   </FormControl>
                 )}
-
                 {!bond.isAvailable[chainID] ? (
                   <Button
                     variant="contained"
@@ -176,7 +179,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     className="transaction-button"
                     disabled={true}
                   >
-                    Sold Out
+                    <Trans>Sold Out</Trans>
                   </Button>
                 ) : hasAllowance() ? (
                   <Button
@@ -210,7 +213,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
       <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
           <div className="data-row">
-            <Typography>Your Balance</Typography>
+            <Typography>
+              <Trans>Your Balance</Trans>
+            </Typography>{" "}
             <Typography id="bond-balance">
               {isBondLoading ? (
                 <Skeleton width="100px" />
@@ -223,41 +228,53 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
           </div>
 
           <div className={`data-row`}>
-            <Typography>You Will Get</Typography>
+            <Typography>
+              <Trans>You Will Get</Trans>
+            </Typography>
             <Typography id="bond-value-id" className="price-data">
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4) || "0"} OHM`}
             </Typography>
           </div>
 
           <div className={`data-row`}>
-            <Typography>Max You Can Buy</Typography>
+            <Typography>
+              <Trans>Max You Can Buy</Trans>
+            </Typography>
             <Typography id="bond-value-id" className="price-data">
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice, 4) || "0"} OHM`}
             </Typography>
           </div>
 
           <div className="data-row">
-            <Typography>ROI</Typography>
+            <Typography>
+              <Trans>ROI</Trans>
+            </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
             </Typography>
           </div>
 
           <div className="data-row">
-            <Typography>Debt Ratio</Typography>
+            <Typography>
+              <Trans>Debt Ratio</Trans>
+            </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.debtRatio / 10000000, 2)}%`}
             </Typography>
           </div>
 
           <div className="data-row">
-            <Typography>Vesting Term</Typography>
+            <Typography>
+              <Trans>Vesting Term</Trans>
+            </Typography>
             <Typography>{isBondLoading ? <Skeleton width="100px" /> : vestingPeriod()}</Typography>
           </div>
 
           {recipientAddress !== address && (
             <div className="data-row">
-              <Typography>Recipient</Typography>
+              <Typography>
+                <Trans>Recipient</Trans>{" "}
+              </Typography>
               <Typography>{isBondLoading ? <Skeleton width="100px" /> : shorten(recipientAddress)}</Typography>
             </div>
           )}
