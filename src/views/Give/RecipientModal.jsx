@@ -37,7 +37,6 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
 
   useEffect(() => {
-    console.log(giveAllowance);
     checkIsDepositAmountValid(depositAmount);
     checkIsWalletAddressValid(walletAddress);
   }, []);
@@ -50,7 +49,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    * TODO consider extracting this into a helper file
    */
   const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.mockSohm;
+    return state.account.balances && state.account.balances.sohm;
   });
 
   const giveAllowance = useSelector(state => {
@@ -183,6 +182,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     if (!isDepositAmountValid) return false;
     if (!isWalletAddressValid) return false;
     if (!address) return false;
+    if (isPendingTxn(pendingTransactions, "approve_giving")) return false;
     if (isPendingTxn(pendingTransactions, "editingGive")) return false;
     if (isPendingTxn(pendingTransactions, "giving")) return false;
     if (!isCreateMode() && getDepositAmountDiff().isEqualTo(0)) return false;
@@ -342,7 +342,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
             </FormControl>
           ) : (
             <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" onClick={onSeekApproval}>
+              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={onSeekApproval}>
                 {txnButtonText(pendingTransactions, "approve_giving", "Approve")}
               </Button>
             </FormControl>

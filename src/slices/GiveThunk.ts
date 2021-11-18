@@ -2,7 +2,6 @@ import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-// Delete before mainnet
 import { abi as MockSohm } from "../abi/MockSohm.json";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -35,10 +34,10 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer);
     let approveTx;
     try {
-      approveTx = await mockSohmContract.approve(
+      approveTx = await sohmContract.approve(
         addresses[networkID].GIVING_ADDRESS,
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );
@@ -55,7 +54,7 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
     return dispatch(
       fetchAccountSuccess({
         giving: {
@@ -133,7 +132,6 @@ export const changeGive = createAsyncThunk(
   },
 );
 
-// Delete before mainnet
 export const getTestTokens = createAsyncThunk(
   "give/getTokens",
   async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
@@ -142,8 +140,13 @@ export const getTestTokens = createAsyncThunk(
       return;
     }
 
+    if (networkID !== 4) {
+      dispatch(error("Feature only available on Rinkeby"));
+      return;
+    }
+
     const signer = provider.getSigner();
-    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+    const mockSohmContract = new ethers.Contract(addresses[4].MOCK_SOHM as string, MockSohm, signer);
     let pendingTxnType = "drip";
     let getTx;
     try {
