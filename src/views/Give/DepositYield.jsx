@@ -84,15 +84,19 @@ export default function DepositYield() {
             <InfoTooltip message="Direct yield from your deposited sOHM to other recipients." />
           </div>
           <div className="give-yield-modals">
-            <Button
-              variant="outlined"
-              color="secondary"
-              className="add-recipient-button"
-              onClick={() => handleGetTestTokens()}
-              disabled={!address}
-            >
-              Get Test Tokens
-            </Button>
+            {chainID === 4 ? (
+              <Button
+                variant="outlined"
+                color="secondary"
+                className="add-recipient-button"
+                onClick={() => handleGetTestTokens()}
+                disabled={!address}
+              >
+                Get Test Tokens
+              </Button>
+            ) : (
+              <Skeleton />
+            )}
             <Button
               variant="outlined"
               color="secondary"
