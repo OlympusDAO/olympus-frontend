@@ -91,7 +91,7 @@ export const getBalances = createAsyncThunk(
         wsohm: ethers.utils.formatEther(wsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
-        mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei"),
+        mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei"), // delete before mainnet
       },
     };
   },
@@ -101,6 +101,7 @@ export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
+    // Change to .allowance before mainnet
     const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
     let donationInfo: IUserDonationInfo = {};
