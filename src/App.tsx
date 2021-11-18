@@ -208,7 +208,7 @@ function App() {
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
-            <Route exact path="/dashboard">
+            {/* <Route exact path="/dashboard">
               <TreasuryDashboard />
             </Route>
 
@@ -218,7 +218,7 @@ function App() {
 
             <Route path="/stake">
               <Stake />
-            </Route>
+            </Route> */}
 
             <Route path="/zap">
               <Route exact path={`/zap`}>
@@ -233,7 +233,7 @@ function App() {
               <PoolTogether />
             </Route>
 
-            <Route path="/bonds">
+            {/* <Route path="/bonds">
               {bonds.map(bond => {
                 return (
                   <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
@@ -242,7 +242,7 @@ function App() {
                 );
               })}
               <ChooseBond />
-            </Route>
+            </Route> */}
 
             <Route component={NotFound} />
           </Switch>
