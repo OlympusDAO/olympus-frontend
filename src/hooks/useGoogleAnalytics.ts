@@ -13,6 +13,7 @@ const useGoogleAnalytics = () => {
       ReactGA.initialize(GA_API_KEY);
       ReactGA.set({ anonymizeIp: true });
       ReactGA.pageview(location.pathname + location.search);
+      console.log(location.pathname);
     }
   }, [location]);
 };

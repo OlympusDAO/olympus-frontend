@@ -11,7 +11,6 @@ import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { IERC20, OlympusStakingv2, StakingHelper } from "src/typechain";
 
-
 interface IUAData {
   address: string;
   value: string;
