@@ -13,6 +13,30 @@
   }
 }
 
+#olyzaps-cta {
+  .cta-box {
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .icons-box {
+    display: flex;
+    align-items: center;
+  }
+  .button-box {
+    display: flex;
+  }
+  .cta-header {
+    font-size: 1rem;
+    line-height: 1.24rem;
+    padding-bottom: 0.5rem;
+    font-weight: 400;
+  }
+  .cta-subheader {
+    font-weight: 400;
+  }
+}
+
 #olyzaps-info {
   .oly-info-card {
     display: flex;
