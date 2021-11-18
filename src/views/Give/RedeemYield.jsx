@@ -109,15 +109,15 @@ export default function RedeemYield() {
               </TableRow>
               <TableRow>
                 <TableCell>Next Reward Amount</TableCell>
-                <TableCell> {isAppLoading ? <Skeleton /> : trim4(0.01 * totalDeposit) + " sOHM"}</TableCell>
+                <TableCell> {isAppLoading ? <Skeleton /> : trim4(nextRewardValue) + " sOHM"}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Next Reward Yield</TableCell>
-                <TableCell> {isAppLoading ? <Skeleton /> : "1%"}</TableCell>
+                <TableCell> {isAppLoading ? <Skeleton /> : stakingRebasePercentage + "%"}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>ROI (5-Day Rate)</TableCell>
-                <TableCell> {isAppLoading ? <Skeleton /> : "16.097%"}</TableCell>
+                <TableCell> {isAppLoading ? <Skeleton /> : trimmedFiveDayRate + "%"}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell></TableCell>

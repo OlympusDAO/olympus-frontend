@@ -5,7 +5,6 @@ import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-import { abi as MockSohm } from "../abi/MockSohm.json";
 
 import { setAll } from "../helpers";
 
@@ -22,7 +21,6 @@ interface IUserBalances {
     wsohm: string;
     wsohmAsSohm: string;
     pool: string;
-    mockSohm: string;
   };
 }
 
@@ -72,16 +70,6 @@ export const getBalances = createAsyncThunk(
         fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
       }
     }
-    // delete before mainnet
-    let mockSohmBalance = BigNumber.from(0);
-    if (addresses[networkID].MOCK_SOHM) {
-      const mockSohmContract = new ethers.Contract(
-        addresses[networkID].MOCK_SOHM as string,
-        MockSohm,
-        provider,
-      ) as IERC20;
-      mockSohmBalance = await mockSohmContract.balanceOf(address);
-    }
 
     return {
       balances: {
@@ -91,7 +79,6 @@ export const getBalances = createAsyncThunk(
         wsohm: ethers.utils.formatEther(wsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
-        mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei"), // delete before mainnet
       },
     };
   },
@@ -100,9 +87,8 @@ export const getBalances = createAsyncThunk(
 export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
-    // Change to .allowance before mainnet
-    const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, provider);
+    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
     let donationInfo: IUserDonationInfo = {};
     let i = 0;
@@ -276,7 +262,7 @@ interface IAccountSlice extends IUserAccountDetails, IUserBalances {
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
-  balances: { ohm: "", sohm: "", wsohmAsSohm: "", wsohm: "", fsohm: "", pool: "", mockSohm: "" },
+  balances: { ohm: "", sohm: "", wsohmAsSohm: "", wsohm: "", fsohm: "", pool: "", },
   giving: { sohmGive: 0, donationInfo: {} },
   redeeming: {
     sohmRedeemable: 0,
