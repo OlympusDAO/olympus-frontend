@@ -164,7 +164,6 @@ export const changeStake = createAsyncThunk(
     } finally {
       if (stakeTx) {
         segmentUA(uaData);
-
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }
