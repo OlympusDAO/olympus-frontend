@@ -6,3 +6,5 @@ export { default as Dashboard } from "./Dashboard/Dashboard";
 export { default as PoolTogether } from "./33Together/33Together.jsx";
 export { default as TreasuryDashboard } from "./TreasuryDashboard/TreasuryDashboard";
 export { default as Give } from "./Give/Give";
+export { default as DepositYield } from "./Give/DepositYield";
+export { default as RedeemYield } from "./Give/RedeemYield";

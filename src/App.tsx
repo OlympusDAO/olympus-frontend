@@ -17,7 +17,17 @@ import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, Wrap, TreasuryDashboard, PoolTogether, Give } from "./views";
+import {
+  Stake,
+  ChooseBond,
+  Bond,
+  Wrap,
+  TreasuryDashboard,
+  PoolTogether,
+  Give,
+  DepositYield,
+  RedeemYield,
+} from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
@@ -225,8 +235,16 @@ function App() {
               <Stake />
             </Route>
 
-            <Route path="/give">
+            <Route exact path="/give">
               <Give />
+            </Route>
+
+            <Route exact path="/give/donations">
+              <DepositYield />
+            </Route>
+
+            <Route exact path="/give/redeem">
+              <RedeemYield />
             </Route>
 
             <Route path="/wrap">

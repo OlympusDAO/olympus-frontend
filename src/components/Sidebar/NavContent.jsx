@@ -33,6 +33,12 @@ function NavContent() {
     if (currentPath.indexOf("give") >= 0 && page == "give") {
       return true;
     }
+    if (currentPath.indexOf("givedonations") >= 0 && page == "give/donations") {
+      return true;
+    }
+    if (currentPath.indexOf("giveredeem") >= 0 && page == "give/redeem") {
+      return true;
+    }
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
       return true;
     }
@@ -111,6 +117,32 @@ function NavContent() {
                   <Trans>Give</Trans>
                 </Typography>
               </Link>
+              <div className="dapp-menu-data give-actions">
+                <div className="give-sub-menus">
+                  <Link
+                    component={NavLink}
+                    id="give-sub-donations"
+                    to="/give/donations"
+                    isActive={(match, location) => {
+                      return checkPage(match, location, "give/donations");
+                    }}
+                    className={"give-option"}
+                  >
+                    <Typography variant="body2">My Donations</Typography>
+                  </Link>
+                  <Link
+                    component={NavLink}
+                    id="give-sub-redeem"
+                    to="/give/redeem"
+                    isActive={(match, location) => {
+                      return checkPage(match, location, "give/redeem");
+                    }}
+                    className={"give-option"}
+                  >
+                    <Typography variant="body2">Redeem</Typography>
+                  </Link>
+                </div>
+              </div>
 
               <Link
                 component={NavLink}
