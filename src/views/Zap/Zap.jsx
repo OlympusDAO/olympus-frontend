@@ -20,7 +20,7 @@ const infoTokenIcons = [
 ];
 
 function Zap() {
-  const { address, connect } = useWeb3Context();
+  const { address, connect, chainID, provider } = useWeb3Context();
 
   const tokens = useSelector(state => state.zap.balances);
 
@@ -65,7 +65,7 @@ function Zap() {
               <>
                 <Box className="stake-action-area">
                   <Box alignSelf="center" minWidth="420px" width="80%"></Box>
-                  <ZapStakeAction address={address} />
+                  <ZapStakeAction />
                 </Box>
               </>
             )}

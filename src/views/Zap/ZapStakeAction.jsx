@@ -21,7 +21,7 @@ import {
   SvgIcon,
   CircularProgress,
 } from "@material-ui/core";
-import { getTokenBalances } from "src/slices/ZapSlice";
+import { changeZapTokenAllowance, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ZapStakeHeader from "./ZapStakeHeader";
@@ -29,6 +29,7 @@ import { ReactComponent as DownIcon } from "../../assets/icons/arrow-down.svg";
 import { ReactComponent as FirstStepIcon } from "../../assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
+import { useWeb3Context } from "src/hooks";
 
 const iconStyle = { height: "30px", width: "30px", zIndex: 1 };
 const viewBox = "0 0 64 64";
@@ -36,7 +37,9 @@ const viewBox = "0 0 64 64";
 const buttonIconStyle = { height: "16px", width: "16px", marginInline: "6px" };
 
 function ZapStakeAction(props) {
-  const { address, quantity, setQuantity, ...other } = props;
+  const { address, connect, chainID, provider } = useWeb3Context();
+
+  const dispatch = useDispatch();
 
   const tokens = useSelector(state => state.zap.balances);
   const isTokensLoading = useSelector(state => state.zap.loading);
@@ -95,17 +98,34 @@ function ZapStakeAction(props) {
         .slice(0, 3),
     [tokens],
   );
-
-  const checkTokenAllowance = tokenAddress => {
-    // USES address
-    // SHOULD use a helper
-    if (tokenAddress == null) {
-      return Infinity;
+  const currentTokenAllowance = useSelector(state => state.zap.allowances[zapToken]);
+  const checkTokenAllowance = (tokenAddress, tokenSymbol) => {
+    if (tokenAddress && tokenSymbol) {
+      if (currentTokenAllowance == null) {
+        dispatch(getZapTokenAllowance({ value: tokenAddress, address, action: tokenSymbol }));
+      } else {
+        return currentTokenAllowance;
+      }
+    } else {
+      return false;
     }
-    return 0.0;
   };
 
-  const initialTokenAllowance = useMemo(() => checkTokenAllowance(tokens[zapToken]?.address), [zapToken]);
+  const isTokenAllowanceFetched = currentTokenAllowance != null;
+  const initialTokenAllowance = useMemo(
+    () => checkTokenAllowance(tokens[zapToken]?.address, zapToken),
+    [zapToken, isTokenAllowanceFetched],
+  );
+
+  const onSeekApproval = async () =>
+    dispatch(
+      changeZapTokenAllowance({
+        address,
+        value: tokens[zapToken]?.address,
+        gas: +(await provider.getGasPrice()),
+        provider,
+      }),
+    );
   const allowanceTxSuccess = false;
 
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle} color="primary"></SvgIcon>;
@@ -222,7 +242,7 @@ function ZapStakeAction(props) {
           }
         />
       </FormControl>
-      {initialTokenAllowance > inputQuantity ? (
+      {initialTokenAllowance ? (
         <Button
           fullWidth
           className="zap-stake-button"
@@ -245,12 +265,10 @@ function ZapStakeAction(props) {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={zapToken == null}
+              disabled={zapToken == null || isTokensLoading}
               // disabled={true}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
-              onClick={() => {
-                onSeekApproval(token);
-              }}
+              onClick={onSeekApproval}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
               <Box display="flex" flexDirection="row">
@@ -274,7 +292,7 @@ function ZapStakeAction(props) {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={zapToken == null}
+              disabled={!currentTokenAllowance}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
               onClick={() => {
                 onSeekApproval(token);
@@ -290,11 +308,11 @@ function ZapStakeAction(props) {
           </Grid>
         </Grid>
       )}
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
         <Typography>Max Slippage</Typography>
         <Typography>2.0%</Typography>
       </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="20px">
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
         <Typography>Exchange Rate</Typography>
         <Typography>
           {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM

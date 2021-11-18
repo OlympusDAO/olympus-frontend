@@ -30,6 +30,10 @@ export interface IActionValueAsyncThunk extends IValueAsyncThunk {
   readonly action: string;
 }
 
+export interface IActionValueGasAsyncThunk extends IActionValueAsyncThunk {
+  readonly gas: number;
+}
+
 export interface IBaseAddressAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
 }
