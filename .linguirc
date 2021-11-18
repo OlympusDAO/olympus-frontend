@@ -5,5 +5,8 @@
       "path": "src/locales/translations/olympus-frontend/{locale}/messages",
       "include": ["src"]
    }],
+   "fallbackLocales": {
+      "default": "en"
+   },
    "format": "po"
 }
