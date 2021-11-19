@@ -52,6 +52,7 @@ function ZapCta({ tokens }) {
             <Link component={NavLink} to="/zap">
               <Button component="div" variant="outlined" color="secondary" className="learn-more-button">
                 <Typography variant="body1">Swap into sOHM</Typography>
+                <Box width={4} />
                 <SvgIcon component={ArrowUp} color="primary" />
               </Button>
             </Link>
