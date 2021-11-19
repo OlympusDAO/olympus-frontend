@@ -63,6 +63,7 @@
     "react": "17.0.0",
     "react-blockies": "^1.4.1",
     "react-css-theme-switcher": "^0.2.2",
+    "react-ga": "^3.3.0",
     "react-dom": "17.0.0",
     "react-flag-icon-css": "^1.0.25",
     "react-ga4": "^1.0.5",
