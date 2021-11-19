@@ -272,7 +272,13 @@ function Stake() {
                       //hides the tab underline sliding animation in while <Zoom> is loading
                       TabIndicatorProps={!zoomed && { style: { display: "none" } }}
                     >
-                      <Tab label={t`do_stake`} {...a11yProps(0)} />
+                      <Tab
+                        label={t({
+                          id: "do_stake",
+                          comment: "The action of staking (verb)",
+                        })}
+                        {...a11yProps(0)}
+                      />
                       <Tab label={t`Unstake`} {...a11yProps(1)} />
                     </Tabs>
                     <Box className="stake-action-row " display="flex" alignItems="center">

@@ -21,7 +21,7 @@ for (var [key, locale] of Object.entries(locales)) {
   i18n.loadLocaleData(key, { plurals: locale.plurals });
 }
 
-async function fetchLocale(locale: string) {
+async function fetchLocale(locale: string = "en") {
   const { messages } = await import(
     /* webpackChunkName: "[request]" */ `../locales/translations/olympus-frontend/${locale}/messages`
   );
@@ -33,5 +33,7 @@ export function selectLocale(locale: string) {
   return fetchLocale(locale);
 }
 export function initLocale() {
-  fetchLocale(window.localStorage.getItem("locale") || "en");
+  var locale = window.localStorage.getItem("locale") as string;
+  if (!Object.keys(locales).includes(locale)) locale = "en";
+  fetchLocale(locale);
 }

@@ -225,7 +225,6 @@ function OhmMenu() {
                     <Typography align="left">
                       <Trans>Unstake Legacy LP Token</Trans>
                     </Typography>
-                    <Typography align="left">Unstake Legacy LP Token</Typography>
                   </Button>
                 </Link>
               </Paper>
