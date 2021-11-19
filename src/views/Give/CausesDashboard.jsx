@@ -9,8 +9,6 @@ export default function CausesDashboard() {
   const [zoomed, setZoomed] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
 
-  // Temp
-
   return (
     <>
       <div className="give-view">
