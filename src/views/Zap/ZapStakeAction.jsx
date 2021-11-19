@@ -31,8 +31,8 @@ import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg"
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
 import { useWeb3Context } from "src/hooks";
 
-const iconStyle = { height: "30px", width: "30px", zIndex: 1 };
-const viewBox = "0 0 64 64";
+const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
+const viewBox = "-8 -12 48 48";
 
 const buttonIconStyle = { height: "16px", width: "16px", marginInline: "6px" };
 
@@ -128,7 +128,7 @@ function ZapStakeAction(props) {
     );
   const allowanceTxSuccess = false;
 
-  const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle} color="primary"></SvgIcon>;
+  const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
 
   return (
     <>
@@ -141,64 +141,75 @@ function ZapStakeAction(props) {
       <Typography>You Pay</Typography>
       <FormControl className="zap-input" variant="outlined" color="primary">
         <InputLabel htmlFor="amount-input"></InputLabel>
-        <OutlinedInput
-          id="zap-amount-input"
-          type="number"
-          placeholder="Enter an amount"
-          className="zap-input"
-          disabled={zapToken == null}
-          value={inputQuantity}
-          onChange={e => setZapTokenQuantity(e.target.value)}
-          //   labelWidth={0}
-          //   label="Hello"
-          endAdornment={
-            <InputAdornment position="end">
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  minWidth: "60px",
-                }}
-              >
-                {zapToken == null ? (
-                  <ButtonBase onClick={handleOpen}>
-                    <Box flexDirection="row" display="flex" alignItems="center">
-                      <Typography>Select a Token</Typography>
-                      {downIcon}
-                    </Box>
-                  </ButtonBase>
-                ) : (
-                  <Box flexDirection="column" display="flex">
-                    <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
-                      <ButtonBase onClick={handleOpen}>
-                        <Avatar src={tokens[zapToken].img} style={{ height: "30px", width: "30px" }} />
-                        <Box width="10px" />
-                        <Typography>{tokens[zapToken].symbol}</Typography>
+        {zapToken != null ? (
+          <OutlinedInput
+            id="zap-amount-input"
+            type="number"
+            placeholder="Enter an amount"
+            className="zap-input"
+            disabled={zapToken == null}
+            value={inputQuantity}
+            onChange={e => setZapTokenQuantity(e.target.value)}
+            //   labelWidth={0}
+            //   label="Hello"
+            endAdornment={
+              <InputAdornment position="end">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    minWidth: "60px",
+                  }}
+                >
+                  {zapToken == null ? (
+                    <ButtonBase onClick={handleOpen}>
+                      <Box flexDirection="row" display="flex" alignItems="center">
+                        <Typography>Select a Token</Typography>
                         {downIcon}
-                      </ButtonBase>
-                    </Box>
+                      </Box>
+                    </ButtonBase>
+                  ) : (
+                    <Box flexDirection="column" display="flex">
+                      <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
+                        <ButtonBase onClick={handleOpen}>
+                          <Avatar src={tokens[zapToken].img} style={{ height: "30px", width: "30px" }} />
+                          <Box width="10px" />
+                          <Typography>{tokens[zapToken].symbol}</Typography>
+                          {downIcon}
+                        </ButtonBase>
+                      </Box>
 
-                    <Box height="5px" />
-                    <Box flexDirection="row" display="flex" alignItems="center">
-                      <Typography color="textSecondary">{`Your Balance ${tokens[zapToken].balance.toFixed(
-                        2,
-                      )}`}</Typography>
-                      <Box width="10px" />
-                      <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken].balance)}>
-                        <Typography>
-                          <b>Max</b>
-                        </Typography>
-                      </ButtonBase>
+                      <Box height="5px" />
+                      <Box flexDirection="row" display="flex" alignItems="center">
+                        <Typography color="textSecondary">{`Your Balance ${tokens[zapToken].balance.toFixed(
+                          2,
+                        )}`}</Typography>
+                        <Box width="10px" />
+                        <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken].balance)}>
+                          <Typography>
+                            <b>Max</b>
+                          </Typography>
+                        </ButtonBase>
+                      </Box>
                     </Box>
-                  </Box>
-                )}
-              </div>
-            </InputAdornment>
-          }
-        />
+                  )}
+                </div>
+              </InputAdornment>
+            }
+          />
+        ) : (
+          <Box className="zap-input">
+            <Button variant="contained" className="zap-input" onClick={handleOpen} color="primary">
+              <Box flexDirection="row" display="flex" alignItems="center" justifyContent="end" flexGrow={1}>
+                <Typography>Select a Token</Typography>
+                {downIcon}
+              </Box>
+            </Button>
+          </Box>
+        )}
       </FormControl>
-      <Box marginTop="10px" minHeight="25px" display="flex" justifyContent="center" alignItems="center">
+      <Box marginY="10px" minHeight="25px" display="flex" justifyContent="center" alignItems="center">
         {downIcon}
       </Box>
 
@@ -279,7 +290,7 @@ function ZapStakeAction(props) {
                   </>
                 ) : (
                   <>
-                    <SvgIcon component={FirstStepIcon} style={buttonIconStyle} viewBox={"0 1 18 16"} />
+                    <SvgIcon component={FirstStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
                     <Typography>Approve</Typography>
                   </>
                 )}
