@@ -146,7 +146,7 @@ export const getTestTokens = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+    const mockSohmContract = new ethers.Contract(addresses[4].MOCK_SOHM as string, MockSohm, signer);
     let pendingTxnType = "drip";
     let getTx;
     try {

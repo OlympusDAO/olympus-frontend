@@ -58,7 +58,7 @@ export const getBalances = createAsyncThunk(
     const poolBalance = await poolTokenContract.balanceOf(address);
 
     let fsohmBalance = BigNumber.from(0);
-    for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM"]) {
+    for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"]) {
       if (addresses[networkID][fuseAddressKey]) {
         const fsohmContract = new ethers.Contract(
           addresses[networkID][fuseAddressKey] as string,

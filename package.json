@@ -64,6 +64,7 @@
     "react": "17.0.0",
     "react-blockies": "^1.4.1",
     "react-css-theme-switcher": "^0.2.2",
+    "react-ga": "^3.3.0",
     "react-dom": "17.0.0",
     "react-flag-icon-css": "^1.0.25",
     "react-ga4": "^1.0.5",
@@ -119,9 +120,7 @@
     "extends": "react-app"
   },
   "scripts": {
-    "prebuild": "git submodule update --init --recursive",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "postbuild": "yarn lingui:compile",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "test": "react-scripts test",
@@ -138,6 +137,7 @@
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
+    "preinstall": "[ ! -f src/locales/translations/.git ] && git submodule deinit --all -f; git submodule update --init --recursive --remote",
     "postinstall": "yarn typechain:build && yarn lingui:compile"
   },
   "resolutions": {

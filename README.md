@@ -21,7 +21,6 @@ $ cp .env.example .env
 
 # fill in your own values in .env, then =>
 $ yarn
-$ yarn lingui:compile
 $ yarn start
 ```
 
@@ -75,6 +74,14 @@ The language files are located in a submodule deployed in `src/locales/translati
 In order to mark text for translation you can use:
 - The <Trans> component in jsx templates eg. `<Trans>Translate me!</Trans>`
 - The t function in javascript code and jsx templates. ``` t`Translate me` ```
+You can also add comments for the translators. eg.
+```
+t({
+	id: "do_bond",
+	comment: "The action of bonding (verb)",
+})
+```
+
 
 When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.
 
