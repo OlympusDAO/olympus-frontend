@@ -24,7 +24,7 @@ import {
   Wrap,
   TreasuryDashboard,
   PoolTogether,
-  Give,
+  CausesDashboard,
   DepositYield,
   RedeemYield,
 } from "./views";
@@ -236,7 +236,7 @@ function App() {
             </Route>
 
             <Route exact path="/give">
-              <Give />
+              <CausesDashboard />
             </Route>
 
             <Route exact path="/give/donations">

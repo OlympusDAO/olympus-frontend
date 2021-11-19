@@ -91,54 +91,56 @@ export default function RedeemYield() {
   };
 
   return (
-    <Zoom in={true}>
-      <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-        <div className="card-header">
-          <Typography variant="h5">Redeem Yield</Typography>
-        </div>
-        <TableContainer className="redeem-table">
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TableCell>Donated sOHM Generating Yield</TableCell>
-                <TableCell>{isAppLoading ? <Skeleton /> : trim4(totalDeposit) + " sOHM"}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Redeemable Amount</TableCell>
-                <TableCell> {isAppLoading ? <Skeleton /> : trim4(redeemableBalance) + " sOHM"}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Next Reward Amount</TableCell>
-                <TableCell> {isAppLoading ? <Skeleton /> : trim4(0.01 * totalDeposit) + " sOHM"}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Next Reward Yield</TableCell>
-                <TableCell> {isAppLoading ? <Skeleton /> : "1%"}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>ROI (5-Day Rate)</TableCell>
-                <TableCell> {isAppLoading ? <Skeleton /> : "16.097%"}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell></TableCell>
-                <TableCell align="left">
-                  {" "}
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    className="redeem-button"
-                    onClick={() => handleRedeemButtonClick()}
-                    disabled={!canRedeem()}
-                  >
-                    Redeem
-                  </Button>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-        {/* <Typography variant="body1">Press the redeem below to transfer the yield into your wallet.</Typography> */}
-      </Paper>
-    </Zoom>
+    <div className="give-view">
+      <Zoom in={true}>
+        <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
+          <div className="card-header">
+            <Typography variant="h5">Redeem Yield</Typography>
+          </div>
+          <TableContainer className="redeem-table">
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Donated sOHM Generating Yield</TableCell>
+                  <TableCell>{isAppLoading ? <Skeleton /> : trim4(totalDeposit) + " sOHM"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Redeemable Amount</TableCell>
+                  <TableCell> {isAppLoading ? <Skeleton /> : trim4(redeemableBalance) + " sOHM"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Next Reward Amount</TableCell>
+                  <TableCell> {isAppLoading ? <Skeleton /> : trim4(0.01 * totalDeposit) + " sOHM"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Next Reward Yield</TableCell>
+                  <TableCell> {isAppLoading ? <Skeleton /> : "1%"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>ROI (5-Day Rate)</TableCell>
+                  <TableCell> {isAppLoading ? <Skeleton /> : "16.097%"}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell align="left">
+                    {" "}
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      className="redeem-button"
+                      onClick={() => handleRedeemButtonClick()}
+                      disabled={!canRedeem()}
+                    >
+                      Redeem
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {/* <Typography variant="body1">Press the redeem below to transfer the yield into your wallet.</Typography> */}
+        </Paper>
+      </Zoom>
+    </div>
   );
 }

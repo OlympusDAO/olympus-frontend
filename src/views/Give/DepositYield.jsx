@@ -76,37 +76,18 @@ export default function DepositYield() {
   };
 
   return (
-    <Zoom in={true}>
-      <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-        <div className="card-header">
-          <div className="give-yield-title">
-            <Typography variant="h5">Give Yield</Typography>
-            <InfoTooltip message="Direct yield from your deposited sOHM to other recipients." />
+    <div className="give-view">
+      <Zoom in={true}>
+        <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
+          <div className="card-header">
+            <div className="give-yield-title">
+              <Typography variant="h5">Deposits Dashboard</Typography>
+              <InfoTooltip message="Direct yield from your deposited sOHM to other recipients." />
+            </div>
           </div>
-          <div className="give-yield-modals">
-            <Button
-              variant="outlined"
-              color="secondary"
-              className="add-recipient-button"
-              onClick={() => handleGetTestTokens()}
-              disabled={!address}
-            >
-              Get Test Tokens
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              className="add-recipient-button"
-              onClick={() => handleAddButtonClick()}
-              disabled={!address}
-            >
-              Add Recipient
-            </Button>
-          </div>
-        </div>
-        <RecipientModal isModalOpen={isModalOpen} callbackFunc={handleAddRecipient} cancelFunc={handleModalCancel} />
-        <YieldRecipients />
-      </Paper>
-    </Zoom>
+          <YieldRecipients />
+        </Paper>
+      </Zoom>
+    </div>
   );
 }
