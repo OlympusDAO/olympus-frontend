@@ -2,7 +2,6 @@ import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-import { abi as MockSohm } from "../abi/MockSohm.json";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances, getDonationBalances } from "./AccountSlice";
@@ -132,6 +131,7 @@ export const changeGive = createAsyncThunk(
   },
 );
 
+/*
 export const getTestTokens = createAsyncThunk(
   "give/getTokens",
   async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
@@ -146,7 +146,7 @@ export const getTestTokens = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const mockSohmContract = new ethers.Contract(addresses[4].MOCK_SOHM as string, MockSohm, signer);
+    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
     let pendingTxnType = "drip";
     let getTx;
     try {
@@ -165,3 +165,4 @@ export const getTestTokens = createAsyncThunk(
     dispatch(getBalances({ address, networkID, provider }));
   },
 );
+*/
