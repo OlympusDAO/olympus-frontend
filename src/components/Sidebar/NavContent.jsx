@@ -7,6 +7,7 @@ import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
+import { ReactComponent as GiveIcon } from "../../assets/icons/give.svg";
 import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress, useWeb3Context } from "src/hooks/web3Context";
@@ -105,7 +106,10 @@ function NavContent() {
                 }}
                 className={`button-dapp-menu ${isActive ? "active" : ""}`}
               >
-                <Typography variant="h6">Give</Typography>
+                <Typography variant="h6">
+                  <SvgIcon color="primary" component={GiveIcon} />
+                  <Trans>Give</Trans>
+                </Typography>
               </Link>
 
               <Link

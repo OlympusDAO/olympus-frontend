@@ -5,7 +5,8 @@
         {
           "internalType": "address",
           "name": "_sOHM",
-          "type": "address"
+          "type":
+          "address"
         }
       ],
       "stateMutability": "nonpayable",
@@ -84,7 +85,26 @@
           "type": "address"
         }
       ],
-      "name": "OwnershipTransferred",
+      "name": "OwnershipPulled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipPushed",
       "type": "event"
     },
     {
@@ -276,6 +296,26 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "pullManagement",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner_",
+          "type": "address"
+        }
+      ],
+      "name": "pushManagement",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -337,7 +377,7 @@
     },
     {
       "inputs": [],
-      "name": "renounceOwnership",
+      "name": "renounceManagement",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -405,19 +445,6 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "transferOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {

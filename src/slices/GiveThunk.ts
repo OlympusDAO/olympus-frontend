@@ -3,7 +3,7 @@ import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 // Delete before mainnet
-import { abi as OlympusFaucet } from "../abi/OlympusFaucet.json";
+import { abi as MockSohm } from "../abi/MockSohm.json";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances, getDonationBalances } from "./AccountSlice";
@@ -35,10 +35,10 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
+    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
     let approveTx;
     try {
-      approveTx = await sohmContract.approve(
+      approveTx = await mockSohmContract.approve(
         addresses[networkID].GIVING_ADDRESS,
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );
@@ -55,7 +55,7 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
     return dispatch(
       fetchAccountSuccess({
         giving: {
@@ -143,12 +143,12 @@ export const getTestTokens = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const getTestTokens = new ethers.Contract(addresses[networkID].TEST_GIVE_FAUCET as string, OlympusFaucet, signer);
-    let pendingTxnType = "getTokens";
+    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+    let pendingTxnType = "drip";
     let getTx;
     try {
-      getTx = await getTestTokens.withdraw(ethers.utils.parseEther("0.05"));
-      dispatch(fetchPendingTxns({ txnHash: getTx.hash, text: "Get Tokens", type: pendingTxnType }));
+      getTx = await mockSohmContract.drip();
+      dispatch(fetchPendingTxns({ txnHash: getTx.hash, text: "Drip", type: pendingTxnType }));
       await getTx.wait();
     } catch (e: unknown) {
       const rpcError = e as IJsonRPCError;
