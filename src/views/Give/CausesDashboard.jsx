@@ -77,6 +77,11 @@ export default function CausesDashboard() {
                 </Grid>
               </Grid>
             </div>
+            <div className="custom-recipient">
+              <Button variant="outlined" color="secondary">
+                Custom Recipient
+              </Button>
+            </div>
           </Paper>
         </Zoom>
       </div>

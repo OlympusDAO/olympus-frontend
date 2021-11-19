@@ -72,6 +72,12 @@
   }
 }
 
+.custom-recipient {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 .give-education-graphics {
   display: flex;
   flex-direction: row;
