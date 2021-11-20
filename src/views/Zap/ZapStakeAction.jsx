@@ -21,7 +21,7 @@ import {
   SvgIcon,
   CircularProgress,
 } from "@material-ui/core";
-import { changeZapTokenAllowance, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
+import { changeZapTokenAllowance, executeZap, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ZapStakeHeader from "./ZapStakeHeader";
@@ -30,6 +30,8 @@ import { ReactComponent as FirstStepIcon } from "../../assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
 import { useWeb3Context } from "src/hooks";
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+import { ethers } from "ethers";
 
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
 const viewBox = "-8 -12 48 48";
@@ -117,16 +119,30 @@ function ZapStakeAction(props) {
     [zapToken, isTokenAllowanceFetched],
   );
 
+  const isAllowanceTxSuccess =
+    initialTokenAllowance != currentTokenAllowance && initialTokenAllowance != null && currentTokenAllowance != null;
+
   const onSeekApproval = async () =>
     dispatch(
       changeZapTokenAllowance({
         address,
         value: tokens[zapToken]?.address,
-        gas: +(await provider.getGasPrice()),
         provider,
+        action: zapToken,
       }),
     );
-  const allowanceTxSuccess = false;
+
+  const onZap = async () =>
+    dispatch(
+      executeZap({
+        address,
+        provider,
+        slippage: 0.02,
+        sellAmount: ethers.utils.parseUnits(inputQuantity.toString(), tokens[zapToken]?.decimals),
+        tokenAddress: tokens[zapToken]?.address,
+        networkID: chainID,
+      }),
+    );
 
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
 
@@ -239,7 +255,7 @@ function ZapStakeAction(props) {
                   <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
                     <Avatar
                       src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png"
-                      style={{ height: "30px", width: "30px" }}
+                      style={{ height: "40px", width: "40px" }}
                     />
                     <Box width="10px" />
                     <Typography>sOHM</Typography>
@@ -261,9 +277,7 @@ function ZapStakeAction(props) {
           color="primary"
           disabled={zapToken == null}
           // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
-          onClick={() => {
-            onSeekApproval(token);
-          }}
+          onClick={onZap}
         >
           {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
           Zap-Stake
@@ -277,13 +291,13 @@ function ZapStakeAction(props) {
               variant="contained"
               color="primary"
               disabled={zapToken == null || isTokensLoading}
-              // disabled={true}
+              disabled={isAllowanceTxSuccess}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
               onClick={onSeekApproval}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
               <Box display="flex" flexDirection="row">
-                {allowanceTxSuccess ? (
+                {isAllowanceTxSuccess ? (
                   <>
                     <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
                     <Typography>Approved</Typography>
@@ -305,9 +319,7 @@ function ZapStakeAction(props) {
               color="primary"
               disabled={!currentTokenAllowance}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
-              onClick={() => {
-                onSeekApproval(token);
-              }}
+              onClick={onZap}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
               <Box display="flex" flexDirection="row" alignItems="center">
@@ -332,7 +344,17 @@ function ZapStakeAction(props) {
 
       <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs" id="zap-select-token-modal">
         <DialogTitle>
-          <Typography align="center">Select Zap Token</Typography>
+          <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
+            <Button onClick={handleClose}>
+              <SvgIcon component={XIcon} color="primary" />
+            </Button>
+            <Box paddingRight={6}>
+              <Typography id="migration-modal-title" variant="h6" component="h2">
+                Select Zap Token
+              </Typography>
+            </Box>
+            <Box />
+          </Box>
         </DialogTitle>
         {isTokensLoading || Object.entries(tokens).length == 0 ? null : (
           <List sx={{ pt: 0 }}>

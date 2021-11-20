@@ -66,7 +66,7 @@ export class ZapHelper {
     return result;
   };
 
-  static getZapTokenAllowance = async (tokenAddress: string, ownerAddress: string): Promise<boolean> => {
+  static getZapTokenAllowanceHelper = async (tokenAddress: string, ownerAddress: string): Promise<boolean> => {
     tokenAddress = tokenAddress.toLowerCase();
     if (tokenAddress === ETHEREUM_ADDRESS) {
       return true;
@@ -76,11 +76,15 @@ export class ZapHelper {
     const response = await fetch(
       `https://api.zapper.fi/v1/zap-in/olympus/approval-state?api_key=${apiKey}&ownerAddress=${ownerAddress}&sellTokenAddress=${tokenAddress}`,
     );
-    const isApproved = (await response.json()).isApproved;
-    return isApproved;
+    const responseJson = await response.json();
+    if (response.ok) {
+      return responseJson.isApproved;
+    } else {
+      throw Error(JSON.stringify(responseJson));
+    }
   };
 
-  static changeZapTokenAllowance = async (
+  static changeZapTokenAllowanceHelper = async (
     tokenAddress: string,
     ownerAddress: string,
     gasPrice: number,
@@ -91,8 +95,32 @@ export class ZapHelper {
     const response = await fetch(
       `https://api.zapper.fi/v1/zap-in/olympus/approval-transaction?api_key=${apiKey}&ownerAddress=${ownerAddress}&sellTokenAddress=${tokenAddress}&gasPrice=${gasPrice}`,
     );
-    return await response.json();
+    const responseJson = await response.json();
+    if (response.ok) {
+      return responseJson;
+    } else {
+      throw Error(JSON.stringify(responseJson));
+    }
   };
 
-  // static executeZap = async
+  static executeZapHelper = async (
+    sellAmount: number,
+    ownerAddress: string,
+    tokenAddress: string,
+    slippagePercentage: number,
+    gasPrice: number,
+  ) => {
+    tokenAddress = tokenAddress.toLowerCase();
+    ownerAddress = ownerAddress.toLowerCase();
+    const apiKey = EnvHelper.getZapperAPIKey();
+    const response = await fetch(
+      `https://api.zapper.fi/v1/zap-in/vault/olympus/transaction?ownerAddress=${ownerAddress}&network=ethereum&sellAmount=${sellAmount}&sellTokenAddress=${tokenAddress}&poolAddress=${EnvHelper.getZapperPoolAddress()}&slippagePercentage=${slippagePercentage}&gasPrice=${gasPrice}&api_key=${apiKey}`,
+    );
+    const responseJson = await response.json();
+    if (response.ok) {
+      return responseJson;
+    } else {
+      throw Error(JSON.stringify(responseJson));
+    }
+  };
 }
