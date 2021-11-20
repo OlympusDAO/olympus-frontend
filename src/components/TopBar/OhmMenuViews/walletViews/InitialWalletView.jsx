@@ -393,13 +393,6 @@ function InitialWalletView() {
       </Accordion>
       <Divider color="secondary" className="less-margin" />
 
-      <Box className={styles.menuSection}>
-        <MenuItemBond Icon1={wethTokenImg} Icon2={wethTokenImg} lpName={`BANK-ETH SLP`} />
-        <Typography align="right" variant="body2" className={styles.viewAllBonds}>
-          View all bond discounts
-        </Typography>
-      </Box>
-
       <Divider color="secondary" className="less-margin" />
 
       <Box className={styles.menuSection}>
@@ -435,10 +428,10 @@ function InitialWalletView() {
             </Button>
           </ExternalLink>
 
-          <ExternalLink href={`https://dune.xyz/shadow/Olympus-(OHM)`}>
+          <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
             <Button size="large" variant="contained" color="secondary">
               <Typography style={{ lineHeight: "20px", whiteSpace: "break-spaces" }}>
-                View on Dune Analytics <ExternalLinkIcon />
+                View Wallet on Dune Analytics <ExternalLinkIcon />
               </Typography>
             </Button>
           </ExternalLink>
