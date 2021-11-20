@@ -64,6 +64,7 @@
     "react": "17.0.0",
     "react-blockies": "^1.4.1",
     "react-css-theme-switcher": "^0.2.2",
+    "react-ga": "^3.3.0",
     "react-dom": "17.0.0",
     "react-flag-icon-css": "^1.0.25",
     "react-ga4": "^1.0.5",
@@ -111,10 +112,8 @@
     "gulp-debug": "^4.0.0",
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^9.0.0",
-    "ipfs-http-client": "^54.0.0",
     "less-plugin-npm-import": "^2.1.0",
     "prettier": "^2.0.5",
-    "s3-folder-upload": "^2.3.1",
     "surge": "^0.21.5",
     "type-graphql": "^1.1.1",
     "typechain": "^6.0.2"
@@ -123,16 +122,12 @@
     "extends": "react-app"
   },
   "scripts": {
-    "prebuild": "git submodule update --init --recursive",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "postbuild": "yarn lingui:compile",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "test": "react-scripts test",
     "lint": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore ./src/",
-    "ipfs": "node ./scripts/ipfs.js",
     "surge": "surge ./build",
-    "s3": "node ./scripts/s3.js",
     "ship": "yarn surge",
     "theme": "npx gulp less",
     "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
@@ -141,6 +136,7 @@
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
+    "preinstall": "[ ! -f src/locales/translations/.git ] && git submodule deinit --all -f; git submodule update --init --recursive --remote",
     "postinstall": "yarn typechain:build && yarn lingui:compile"
   },
   "resolutions": {

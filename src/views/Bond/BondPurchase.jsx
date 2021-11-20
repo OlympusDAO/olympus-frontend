@@ -145,7 +145,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                       <Typography variant="body1" align="center" color="textSecondary">
                         <Trans>First time bonding</Trans> <b>{bond.displayName}</b>? <br />{" "}
                         <Trans>Please approve Olympus Dao to use your</Trans> <b>{bond.displayName}</b>{" "}
-                        <b>{bond.displayName}</b> <Trans>for bonding</Trans>.
+                        <Trans>for bonding</Trans>.
                       </Typography>
                     </em>
                   </div>

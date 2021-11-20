@@ -26,16 +26,14 @@ import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 
-type BondsType = ReturnType<typeof useBonds>;
-
 function ChooseBond() {
   const { chainID } = useWeb3Context();
   const { bonds } = useBonds(chainID);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
-  const isAppLoading = useAppSelector(state => state.app.loading);
-  const isAccountLoading = useAppSelector(state => state.account.loading);
+  const isAppLoading: boolean = useAppSelector(state => state.app.loading);
+  const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
 
   const accountBonds: IUserBondDetails[] = useAppSelector(state => {
     const withInterestDue = [];

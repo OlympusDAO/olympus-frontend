@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment, ReactNode, useEffect, useState } from "react";
+import { ChangeEvent, Fragment, ReactNode, ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import { formatCurrency, trim } from "../../helpers";
@@ -12,7 +12,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
-import { Bond as TypeBond, NetworkID } from "src/lib/Bond";
+import { NetworkID } from "src/lib/Bond";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -71,7 +71,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                     <Trans>Bond Price</Trans>
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.bondPrice, 2)}
+                    <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -92,7 +92,14 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                 onChange={changeView}
                 aria-label="bond tabs"
               >
-                <Tab aria-label="bond-tab-button" label={t`do_bond`} {...a11yProps(0)} />
+                <Tab
+                  aria-label="bond-tab-button"
+                  label={t({
+                    id: "do_bond",
+                    comment: "The action of bonding (verb)",
+                  })}
+                  {...a11yProps(0)}
+                />
                 <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
               </Tabs>
 
@@ -111,10 +118,10 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   );
 };
 
-export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }) => {
+export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement => {
   const { chainID }: { chainID: NetworkID } = useWeb3Context();
 
-  if (!("bondPrice" in bond) || !bond.isAvailable[chainID]) {
+  if (typeof bond.bondPrice === undefined || !bond.isAvailable[chainID]) {
     return <Fragment>--</Fragment>;
   }
 
@@ -130,10 +137,10 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }) => {
   );
 };
 
-export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }) => {
+export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
   const { chainID }: { chainID: NetworkID } = useWeb3Context();
 
-  if (!("bondDiscount" in bond) || !bond.isAvailable[chainID]) {
+  if (typeof bond.bondDiscount === undefined || !bond.isAvailable[chainID]) {
     return <Fragment>--</Fragment>;
   }
 

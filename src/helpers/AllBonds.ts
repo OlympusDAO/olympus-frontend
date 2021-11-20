@@ -128,6 +128,37 @@ export const cvx = new CustomBond({
   lpUrl: "",
   bondType: BondType.StableAsset,
   bondToken: "CVX",
+  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  bondIconSvg: CvxImg,
+  bondContractABI: CvxBondContract,
+  reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      bondAddress: "0x767e3459A35419122e5F6274fB1223d75881E0a9",
+      reserveAddress: "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
+    },
+    [NetworkID.Testnet]: {
+      bondAddress: "0xd43940687f6e76056789d00c43A40939b7a559b5",
+      reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using DAI per `principal` address
+      // reserveAddress: "0x6761Cb314E39082e08e1e697eEa23B6D1A77A34b", // guessed
+    },
+  },
+  customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
+    let cvxPrice: number = await getTokenPrice("convex-finance");
+    const token = this.getContractForReserve(networkID, provider);
+    let cvxAmount: BigNumberish = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
+    return cvxAmount * cvxPrice;
+  },
+});
+
+// the old convex bonds. Just need to be claimable for the users who previously purchased
+export const cvx_expired = new CustomBond({
+  name: "cvx-v1",
+  displayName: "CVX OLD",
+  lpUrl: "",
+  bondType: BondType.StableAsset,
+  bondToken: "CVX",
   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
   bondIconSvg: CvxImg,
   bondContractABI: CvxBondContract,
@@ -275,6 +306,8 @@ export const ohm_weth = new CustomBond({
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
 export const allBonds = [dai, frax, eth, cvx, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
+// TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
+export const allExpiredBonds = [cvx_expired];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});
