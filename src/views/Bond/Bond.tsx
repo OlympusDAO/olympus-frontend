@@ -92,7 +92,14 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                 onChange={changeView}
                 aria-label="bond tabs"
               >
-                <Tab aria-label="bond-tab-button" label={t`do_bond`} {...a11yProps(0)} />
+                <Tab
+                  aria-label="bond-tab-button"
+                  label={t({
+                    id: "do_bond",
+                    comment: "The action of bonding (verb)",
+                  })}
+                  {...a11yProps(0)}
+                />
                 <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
               </Tabs>
 
