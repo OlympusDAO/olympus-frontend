@@ -48,13 +48,16 @@ export class ZapHelper {
       const response = await fetch(
         `https://api.zapper.fi/v1/protocols/tokens/balances?api_key=${apiKey}&addresses%5B%5D=${address}&newBalances=true`,
       );
+      const responseJson = await response.json();
       if (response.ok) {
-        return response.json().then(raw => ZapHelper.parseResponse(raw, address));
+        return ZapHelper.parseResponse(responseJson, address);
+      } else {
+        throw Error(JSON.stringify(responseJson));
       }
     } catch (e) {
       console.error(e);
+      throw e;
     }
-    return { balances: {} };
   };
 
   static parseResponse = (response: ZapperResponse, address: string): ZapHelperBalancesResponse => {

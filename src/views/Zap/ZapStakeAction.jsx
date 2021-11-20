@@ -44,7 +44,9 @@ function ZapStakeAction(props) {
   const dispatch = useDispatch();
 
   const tokens = useSelector(state => state.zap.balances);
-  const isTokensLoading = useSelector(state => state.zap.loading);
+  const isTokensLoading = useSelector(state => state.zap.balancesLoading);
+  const isChangeAllowanceLoading = useSelector(state => state.zap.changeAllowanceLoading);
+  const isExecuteZapLoading = useSelector(state => state.zap.stakeLoading);
   const isAppLoading = useSelector(state => state.app.loading);
 
   const [zapToken, setZapToken] = useState(null);
@@ -275,12 +277,12 @@ function ZapStakeAction(props) {
           className="zap-stake-button"
           variant="contained"
           color="primary"
-          disabled={zapToken == null}
+          disabled={zapToken == null || isExecuteZapLoading}
           // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
           onClick={onZap}
         >
           {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
-          Zap-Stake
+          {isExecuteZapLoading ? "Pending..." : "Zap-Stake"}
         </Button>
       ) : (
         <Grid container spacing={2}>
@@ -290,9 +292,7 @@ function ZapStakeAction(props) {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={zapToken == null || isTokensLoading}
-              disabled={isAllowanceTxSuccess}
-              // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
+              disabled={zapToken == null || isTokensLoading || isAllowanceTxSuccess || isChangeAllowanceLoading}
               onClick={onSeekApproval}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
@@ -305,7 +305,7 @@ function ZapStakeAction(props) {
                 ) : (
                   <>
                     <SvgIcon component={FirstStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
-                    <Typography>Approve</Typography>
+                    <Typography>{isChangeAllowanceLoading ? "Pending..." : "Approve"}</Typography>
                   </>
                 )}
               </Box>
@@ -317,7 +317,7 @@ function ZapStakeAction(props) {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={!currentTokenAllowance}
+              disabled={!currentTokenAllowance || isExecuteZapLoading}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
               onClick={onZap}
             >
