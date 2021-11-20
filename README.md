@@ -22,6 +22,9 @@ $ cp .env.example .env
 # fill in your own values in .env, then =>
 $ yarn
 $ yarn start
+
+# to populate the translations (optional)
+$ yarn lingui:build
 ```
 
 The site is now running at `http://localhost:3000`!
