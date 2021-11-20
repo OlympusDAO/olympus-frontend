@@ -289,7 +289,59 @@ function InitialWalletView() {
           </Box>
         </AccordionDetails>
       </Accordion>
+      <Divider color="secondary" className="less-margin" />
 
+      <Box className={styles.menuSection}>
+        <MenuItemBond Icon1={wethTokenImg} Icon2={wethTokenImg} lpName={`BANK-ETH SLP`} />
+        <Typography align="right" variant="body2" className={styles.viewAllBonds}>
+          View all bond discounts
+        </Typography>
+      </Box>
+
+      <Divider color="secondary" className="less-margin" />
+
+      <Box className={styles.menuSection}>
+        <MenuItemBorrow borrowOn="Abracadabra" Icon1={ohmTokenImg} Icon2={abracadabraTokenImg} />
+        <MenuItemBorrow borrowOn="Rari" Icon1={ohmTokenImg} Icon2={props => <img src={rariTokenImg} {...props} />} />
+      </Box>
+
+      <Divider color="secondary" className="less-margin" />
+
+      <Box className={styles.menuSection}>
+        <Box sx={{ flexWrap: "nowrap", flexDirection: "row" }}>
+          <ExternalLink
+            href={`https://app.sushi.com/swap?inputCurrency=${dai.getAddressForReserve(chainID)}&outputCurrency=${
+              addresses[chainID].OHM_ADDRESS
+            }`}
+          >
+            <Button size="large" variant="contained" color="secondary">
+              <Typography style={{ lineHeight: "20px", whiteSpace: "break-spaces" }}>
+                Buy on Sushiswap <ExternalLinkIcon />
+              </Typography>
+            </Button>
+          </ExternalLink>
+
+          <ExternalLink
+            href={`https://app.uniswap.org/#/swap?inputCurrency=${frax.getAddressForReserve(chainID)}&outputCurrency=${
+              addresses[chainID].OHM_ADDRESS
+            }`}
+          >
+            <Button size="large" variant="contained" color="secondary">
+              <Typography style={{ lineHeight: "20px", whiteSpace: "break-spaces" }}>
+                Buy on Uniswap <ExternalLinkIcon />
+              </Typography>
+            </Button>
+          </ExternalLink>
+
+          <ExternalLink href={`https://dune.xyz/shadow/Olympus-(OHM)`}>
+            <Button size="large" variant="contained" color="secondary">
+              <Typography style={{ lineHeight: "20px", whiteSpace: "break-spaces" }}>
+                View on Dune Analytics <ExternalLinkIcon />
+              </Typography>
+            </Button>
+          </ExternalLink>
+        </Box>
+      </Box>
       <Drawer style={{ width: "55%" }} anchor={"right"} open={anchor === "sOHMtx"} onClose={toggleDrawer("OG")}>
         {" "}
         <SOhmTxView></SOhmTxView>
