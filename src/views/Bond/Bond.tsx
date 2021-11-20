@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment, ReactNode, useEffect, useState } from "react";
+import { ChangeEvent, Fragment, ReactNode, ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import { formatCurrency, trim } from "../../helpers";
@@ -71,7 +71,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                     <Trans>Bond Price</Trans>
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.bondPrice, 2)}
+                    <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -118,7 +118,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   );
 };
 
-export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactNode => {
+export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement => {
   const { chainID }: { chainID: NetworkID } = useWeb3Context();
 
   if (typeof bond.bondPrice === undefined || !bond.isAvailable[chainID]) {
