@@ -15,6 +15,7 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -69,7 +70,9 @@ export default function ExternalStakePool() {
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
         <div className="card-header">
-          <Typography variant="h5">Farm Pool</Typography>
+          <Typography variant="h5">
+            <Trans>Farm Pool</Trans>
+          </Typography>
         </div>
         <div className="card-content">
           {!isSmallScreen ? (
@@ -77,10 +80,18 @@ export default function ExternalStakePool() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Asset</TableCell>
-                    <TableCell align="left">APY</TableCell>
-                    <TableCell align="left">TVD</TableCell>
-                    <TableCell align="left">Balance</TableCell>
+                    <TableCell>
+                      <Trans>Asset</Trans>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Trans>APY</Trans>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Trans>TVD</Trans>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Trans>Balance</Trans>
+                    </TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
@@ -125,7 +136,9 @@ export default function ExternalStakePool() {
                         target="_blank"
                         className="stake-lp-button"
                       >
-                        <Typography variant="body1">Stake in Crucible</Typography>
+                        <Typography variant="body1">
+                          <Trans>Stake in Crucible</Trans>
+                        </Typography>
                         <SvgIcon component={ArrowUp} color="primary" />
                       </Button>
                     </TableCell>
@@ -148,14 +161,16 @@ export default function ExternalStakePool() {
                     {isLusdLoading ? (
                       <Skeleton width="80px" />
                     ) : lusdData.apy === 0 ? (
-                      "Coming Soon"
+                      t`Coming Soon`
                     ) : (
                       trim(lusdData.apy, 1) + "%"
                     )}
                   </Typography>
                 </div>
                 <div className="data-row">
-                  <Typography>TVD</Typography>
+                  <Typography>
+                    <Trans>TVD</Trans>
+                  </Typography>
                   <Typography>
                     {isLusdLoading ? (
                       <Skeleton width="80px" />
@@ -170,7 +185,9 @@ export default function ExternalStakePool() {
                   </Typography>
                 </div>
                 <div className="data-row">
-                  <Typography>Balance</Typography>
+                  <Typography>
+                    <Trans>Balance</Trans>
+                  </Typography>
                   <Typography>
                     {isLusdLoading ? <Skeleton width="80px" /> : (trim(lusdData.balance, 2) || 0) + "LP"}
                   </Typography>
@@ -184,7 +201,9 @@ export default function ExternalStakePool() {
                   className="stake-lp-button"
                   fullWidth
                 >
-                  <Typography variant="body1">Stake in Crucible</Typography>
+                  <Typography variant="body1">
+                    <Trans>Stake in Crucible</Trans>
+                  </Typography>
                   <SvgIcon component={ArrowUp} color="primary" />
                 </Button>
               </div>

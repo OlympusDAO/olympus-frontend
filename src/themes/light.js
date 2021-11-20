@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import fonts from "./fonts";
-import commonSettings from "./global.js";
+import commonSettings, { handleBackdropFilter } from "./global.js";
 
 const lightTheme = {
   color: "#253449",
@@ -15,7 +15,7 @@ const lightTheme = {
   paperBg: "rgba(255, 255, 255, 0.6)",
   modalBg: "#FAFAFAEF",
   popoverBg: "rgba(255, 255, 255, 0.95)",
-  menuBg: "rgba(255, 255, 255, 0.5)",
+  menuBg: handleBackdropFilter("rgba(255, 255, 255, 0.5)"),
   backdropBg: "rgba(200, 200, 200, 0.4)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",

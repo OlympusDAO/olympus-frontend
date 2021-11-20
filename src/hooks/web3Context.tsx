@@ -46,11 +46,14 @@ function getMainnetURI(chainId: number): string {
   Types
 */
 type onChainProvider = {
-  connect: () => void;
+  connect: () => Promise<Web3Provider | undefined>;
   disconnect: () => void;
-  provider: JsonRpcProvider;
+  hasCachedProvider: () => boolean;
   address: string;
-  connected: Boolean;
+  chainID: number;
+  connected: boolean;
+  provider: JsonRpcProvider;
+  uri: string;
   web3Modal: Web3Modal;
 };
 
@@ -68,7 +71,7 @@ export const useWeb3Context = () => {
     );
   }
   const { onChainProvider } = web3Context;
-  return useMemo(() => {
+  return useMemo<onChainProvider>(() => {
     return { ...onChainProvider };
   }, [web3Context]);
 };
@@ -108,7 +111,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     }),
   );
 
-  const hasCachedProvider = (): Boolean => {
+  const hasCachedProvider = (): boolean => {
     if (!web3Modal) return false;
     if (!web3Modal.cachedProvider) return false;
     return true;
@@ -142,7 +145,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   /**
    * throws an error if networkID is not 1 (mainnet) or 4 (rinkeby)
    */
-  const _checkNetwork = (otherChainID: number): Boolean => {
+  const _checkNetwork = (otherChainID: number): boolean => {
     if (chainID !== otherChainID) {
       console.warn("You are switching networks");
       if (otherChainID === 1 || otherChainID === 4 || otherChainID === 42161 || otherChainID === 421611) {
@@ -274,8 +277,16 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   );
 
   useEffect(() => {
-    // logs non-functioning nodes && returns an array of working mainnet nodes, could be used to optimize connection
-    NodeHelper.checkAllNodesStatus(chainID);
+    // logs non-functioning nodes && returns an array of working mainnet nodes
+    NodeHelper.checkAllNodesStatus(chainID).then((validNodes: any) => {
+      validNodes = validNodes.filter((url: boolean | string) => url !== false);
+      if (!validNodes.includes(uri) && NodeHelper.retryOnInvalid()) {
+        // force new provider...
+        setTimeout(() => {
+          window.location.reload();
+        }, 1);
+      }
+    });
   }, []);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;

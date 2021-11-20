@@ -4,6 +4,7 @@ import { Box, Button, Divider, Fade, Link, Paper, Popper, Slide, SvgIcon, Typogr
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as CaretDownIcon } from "../../assets/icons/caret-down.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { Trans } from "@lingui/macro";
 
 function ConnectMenu({ theme }) {
   const { connect, disconnect, connected, web3, chainID } = useWeb3Context();
@@ -15,7 +16,7 @@ function ConnectMenu({ theme }) {
     return state.pendingTransactions;
   });
 
-  let buttonText = "Connect Wallet";
+  let buttonText = <Trans>Connect Wallet</Trans>;
   let clickFunc = connect;
 
   const handleClick = event => {
@@ -23,12 +24,12 @@ function ConnectMenu({ theme }) {
   };
 
   if (isConnected) {
-    buttonText = "Disconnect";
+    buttonText = <Trans>Disconnect</Trans>;
     clickFunc = disconnect;
   }
 
   if (pendingTransactions && pendingTransactions.length > 0) {
-    buttonText = "In progress";
+    buttonText = <Trans>In progress</Trans>;
     clickFunc = handleClick;
   }
 
@@ -70,6 +71,7 @@ function ConnectMenu({ theme }) {
       id="wallet-menu"
     >
       <Button
+        id="wallet-button"
         className={buttonStyles}
         variant="contained"
         color="secondary"
@@ -114,7 +116,9 @@ function ConnectMenu({ theme }) {
                     style={{ marginBottom: "0px" }}
                     fullWidth
                   >
-                    <Typography>Disconnect</Typography>
+                    <Typography>
+                      <Trans>Disconnect</Trans>
+                    </Typography>
                   </Button>
                 </Box>
               </Paper>

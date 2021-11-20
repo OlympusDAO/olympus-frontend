@@ -1,23 +1,23 @@
-import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
-import { useCallback, useEffect, useState } from "react";
-import { Redirect, Route, Switch, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { useEffect, useState, useCallback } from "react";
+import { Route, Redirect, Switch, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
-import { storeQueryParameters } from "./helpers/QueryParameterHelper";
 import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
-import { calculateUserBondDetails, loadAccountDetails } from "./slices/AccountSlice";
+import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Bond, ChooseBond, PoolTogether, Stake, TreasuryDashboard } from "./views";
+import { Stake, ChooseBond, Bond, Wrap, TreasuryDashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
@@ -27,8 +27,8 @@ import NotFound from "./views/404/NotFound";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
-import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
+import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 
 // 😬 Sorry for all the console logging
@@ -76,9 +76,10 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   useSegmentAnalytics();
+  useGoogleAnalytics();
+  const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
-  const location = useLocation();
   const currentPath = location.pathname + location.search + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -91,10 +92,9 @@ function App() {
 
   const [walletChecked, setWalletChecked] = useState(false);
 
-  const isAppLoading = useSelector(state => state.app.loading);
-  const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
-  const { bonds } = useBonds();
-  async function loadDetails(whichDetails) {
+  // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
+  const { bonds, expiredBonds } = useBonds(chainID);
+  async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
     // it's because the initial provider loaded always starts with chainID=1. This causes
@@ -118,7 +118,7 @@ function App() {
       dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
       bonds.map(bond => {
         if (bond.getAvailability(chainID)) {
-          dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: chainID }));
         }
       });
     },
@@ -129,6 +129,11 @@ function App() {
     loadProvider => {
       dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
       bonds.map(bond => {
+        if (bond.getAvailability(chainID)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        }
+      });
+      expiredBonds.map(bond => {
         if (bond.getAvailability(chainID)) {
           dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
         }
@@ -158,8 +163,6 @@ function App() {
       // then user DOES NOT have a wallet
       setWalletChecked(true);
     }
-    // We want to ensure that we are storing the UTM parameters for later, even if the user follows links
-    storeQueryParameters();
     if (shouldTriggerSafetyCheck()) {
       dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
     }
@@ -226,6 +229,10 @@ function App() {
 
             <Route path="/stake">
               <Stake />
+            </Route>
+
+            <Route path="/wrap">
+              <Wrap />
             </Route>
 
             <Route path="/33-together">

@@ -2,7 +2,9 @@ import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
+import { getTokenPrice } from "src/helpers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
+import { EthContract, PairContract } from "src/typechain";
 import { addresses } from "src/constants";
 import React from "react";
 
@@ -81,6 +83,11 @@ export abstract class Bond {
     this.payoutToken = bondOpts.payoutToken;
   }
 
+  /**
+   * makes isAvailable accessible within Bonds.ts
+   * @param networkID
+   * @returns boolean
+   */
   getAvailability(networkID: NetworkID) {
     return this.isAvailable[networkID];
   }
@@ -90,7 +97,7 @@ export abstract class Bond {
   }
   getContractForBond(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     const bondAddress = this.getAddressForBond(networkID) || "";
-    return new ethers.Contract(bondAddress, this.bondContractABI, provider);
+    return new ethers.Contract(bondAddress, this.bondContractABI, provider) as EthContract;
   }
 
   getAddressForReserve(networkID: NetworkID) {
@@ -98,14 +105,19 @@ export abstract class Bond {
   }
   getContractForReserve(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     const bondAddress = this.getAddressForReserve(networkID) || "";
-    return new ethers.Contract(bondAddress, this.reserveContract, provider);
+    return new ethers.Contract(bondAddress, this.reserveContract, provider) as PairContract;
   }
 
+  // TODO (appleseed): improve this logic
   async getBondReservePrice(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
-    const pairContract = this.getContractForReserve(networkID, provider);
-    const reserves = await pairContract.getReserves();
-    const marketPrice = reserves[1] / reserves[0] / Math.pow(10, 9);
-
+    let marketPrice: number;
+    if (this.isLP) {
+      const pairContract = this.getContractForReserve(networkID, provider);
+      const reserves = await pairContract.getReserves();
+      marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
+    } else {
+      marketPrice = await getTokenPrice("convex-finance");
+    }
     return marketPrice;
   }
 }
@@ -134,10 +146,10 @@ export class LPBond extends Bond {
     const tokenAddress = this.getAddressForReserve(networkID);
     const bondCalculator = getBondCalculator(networkID, provider);
     const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
-    const markdown = await bondCalculator.markdown(tokenAddress);
-    let tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
-    return tokenUSD;
+    const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
+    const markdown = await bondCalculator.markdown(tokenAddress || "");
+    let tokenUSD = (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
+    return Number(tokenUSD.toString());
   }
 }
 
@@ -159,7 +171,7 @@ export class StableBond extends Bond {
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
     let token = this.getContractForReserve(networkID, provider);
     let tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    return tokenAmount / Math.pow(10, 18);
+    return Number(tokenAmount.toString()) / Math.pow(10, 18);
   }
 }
 

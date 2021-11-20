@@ -22,6 +22,10 @@ export class EnvHelper {
     return EnvHelper.env.REACT_APP_SEGMENT_API_KEY;
   }
 
+  static getGaKey() {
+    return EnvHelper.env.REACT_APP_GA_API_KEY;
+  }
+
   static isNotEmpty(envVariable: string) {
     if (envVariable.length > 10) {
       return true;

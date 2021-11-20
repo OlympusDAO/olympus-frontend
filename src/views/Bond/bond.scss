@@ -34,6 +34,7 @@
       opacity: 0.9;
     }
   }
+  
   .ohm-card {
     max-width: 803px;
   }
@@ -120,3 +121,5 @@
     }
   }
 }
+
+.web3modal-modal-lightbox { z-index: 70 !important; }

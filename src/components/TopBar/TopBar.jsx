@@ -4,6 +4,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import OhmMenu from "./OhmMenu.jsx";
 import ThemeSwitcher from "./ThemeSwitch.jsx";
+import LocaleSwitcher from "./LocaleSwitch.tsx";
 import ConnectMenu from "./ConnectMenu.jsx";
 import "./topbar.scss";
 import NetworkMenu from "./NetworkMenu.jsx";
@@ -56,6 +57,8 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
           <ConnectMenu theme={theme} />
 
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
+
+          <LocaleSwitcher theme={theme} />
         </Box>
       </Toolbar>
     </AppBar>

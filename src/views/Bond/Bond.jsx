@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { formatCurrency } from "../../helpers";
+import { t, Trans } from "@lingui/macro";
+import { formatCurrency, trim } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
@@ -62,7 +63,7 @@ function Bond({ bond }) {
               <Box direction="row" className="bond-price-data-row">
                 <div className="bond-price-data">
                   <Typography variant="h5" color="textSecondary">
-                    Bond Price
+                    <Trans>Bond Price</Trans>
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
                     {isBondLoading ? <Skeleton /> : formatCurrency(bond.bondPrice, 2)}
@@ -70,7 +71,7 @@ function Bond({ bond }) {
                 </div>
                 <div className="bond-price-data">
                   <Typography variant="h5" color="textSecondary">
-                    Market Price
+                    <Trans>Market Price</Trans>
                   </Typography>
                   <Typography variant="h3" color="primary" className="price">
                     {isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2)}
@@ -86,8 +87,15 @@ function Bond({ bond }) {
                 onChange={changeView}
                 aria-label="bond tabs"
               >
-                <Tab label="Bond" {...a11yProps(0)} />
-                <Tab label="Redeem" {...a11yProps(1)} />
+                <Tab
+                  aria-label="bond-tab-button"
+                  label={t({
+                    id: "do_bond",
+                    comment: "The action of bonding (verb)",
+                  })}
+                  {...a11yProps(0)}
+                />
+                <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
               </Tabs>
 
               <TabPanel value={view} index={0}>
@@ -103,6 +111,29 @@ function Bond({ bond }) {
       </Grid>
     </Fade>
   );
+}
+
+export function DisplayBondPrice({ bond }) {
+  const { chainID } = useWeb3Context();
+  return (
+    <>
+      {!bond.isAvailable[chainID] ? (
+        <>--</>
+      ) : (
+        `${new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 2,
+        }).format(bond.bondPrice)}`
+      )}
+    </>
+  );
+}
+
+export function DisplayBondDiscount({ bond }) {
+  const { chainID } = useWeb3Context();
+  return <>{!bond.isAvailable[chainID] ? <>--</> : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}</>;
 }
 
 export default Bond;
