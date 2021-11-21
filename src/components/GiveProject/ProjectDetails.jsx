@@ -5,7 +5,6 @@ export default function ProjectDetails({ logo, title, details, remainingTime, co
   return (
     <>
       <Grid item xs={12} className="cause-card">
-        {console.log("rendergin")}
         <div className="cause-image">{logo}</div>
         <div className="cause-content">
           <div className="cause-title">

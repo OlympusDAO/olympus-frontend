@@ -10,7 +10,6 @@ export default function CausesDashboard() {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const [zoomed, setZoomed] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
-  const [test, setTest] = useState(0);
 
   const { projects } = data;
 
@@ -33,8 +32,6 @@ export default function CausesDashboard() {
   return (
     <>
       <div className="give-view">
-        <div>{test}</div>
-        <button onClick={() => setTest(test + 1)}>setTest</button>
         <Zoom in={true}>
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
             <div className="card-header">
