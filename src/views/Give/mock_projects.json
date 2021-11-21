@@ -1,0 +1,31 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "logo": "IM Logo",
+      "title": "ImpactMarket",
+      "provider": "ImpactMarket",
+      "details": "Lorem ipsum dolor sit amet",
+      "remainingTime": 433224,
+      "completion": 0.45
+    },
+    {
+      "id": 2,
+      "logo": "Gitcoin Logo",
+      "title": "Gitcoin",
+      "provider": "Gitcoin",
+      "details": "Lorem ipsum dolor sit amet",
+      "remainingTime": 839224,
+      "completion": 0.67
+    },
+    {
+      "id": 3,
+      "logo": "Angel Logo",
+      "title": "Angel Protocol",
+      "provider": "Angel Protocol",
+      "details": "Lorem ipsum dolor sit amet",
+      "remainingTime": 123424,
+      "completion": 0.12
+    }
+  ]
+}
