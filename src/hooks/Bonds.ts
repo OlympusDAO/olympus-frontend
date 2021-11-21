@@ -17,8 +17,14 @@ interface IBondingStateView {
   };
 }
 
+// (0xdavinchee): not sure where the balance property is coming from
+// so I am adding a new interface for it
+interface IBondBalance {
+  readonly balance: number;
+}
+
 // Smash all the interfaces together to get the BondData Type
-export interface IAllBondData extends Bond, IBondDetails, IUserBondDetails {}
+export interface IAllBondData extends Bond, IBondDetails, IUserBondDetails, IBondBalance {}
 
 const initialBondArray = allBonds;
 const initialExpiredArray = allExpiredBonds;

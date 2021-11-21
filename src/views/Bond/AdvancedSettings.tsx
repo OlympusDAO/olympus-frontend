@@ -13,25 +13,27 @@ import {
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { t, Trans } from "@lingui/macro";
 import "./bondSettings.scss";
+import { ChangeEvent } from "react";
 
-function AdvancedSettings({
-  open,
-  handleClose,
-  slippage,
-  recipientAddress,
-  onRecipientAddressChange,
-  onSlippageChange,
-}) {
+interface IAdvancedSettingsProps {
+  readonly open: boolean;
+  readonly recipientAddress: string;
+  readonly slippage: string;
+  readonly handleClose: () => void;
+  readonly onRecipientAddressChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  readonly onSlippageChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+function AdvancedSettings(props: IAdvancedSettingsProps) {
   return (
-    <Modal id="hades" open={open} onClose={handleClose} hideBackdrop>
+    <Modal id="hades" open={props.open} onClose={props.handleClose} hideBackdrop>
       <Paper className="ohm-card ohm-popover">
         <Box display="flex">
-          <IconButton onClick={handleClose}>
+          <IconButton onClick={props.handleClose}>
             <SvgIcon color="primary" component={XIcon} />
           </IconButton>
           <Typography variant="h3">Hades</Typography>
         </Box>
-
         <Box className="card-content">
           <InputLabel htmlFor="slippage">
             <Trans>Slippage</Trans>
@@ -39,11 +41,9 @@ function AdvancedSettings({
           <FormControl variant="outlined" color="primary" fullWidth>
             <OutlinedInput
               id="slippage"
-              value={slippage}
-              onChange={onSlippageChange}
+              value={props.slippage}
+              onChange={props.onSlippageChange}
               type="number"
-              max="100"
-              min="100"
               endAdornment={<InputAdornment position="end">%</InputAdornment>}
             />
             <div className="help-text">
@@ -57,7 +57,12 @@ function AdvancedSettings({
             <Trans>Recipient Address</Trans>
           </InputLabel>
           <FormControl variant="outlined" color="primary" fullWidth>
-            <OutlinedInput id="recipient" value={recipientAddress} onChange={onRecipientAddressChange} type="text" />
+            <OutlinedInput
+              id="recipient"
+              value={props.recipientAddress}
+              onChange={props.onRecipientAddressChange}
+              type="text"
+            />
             <div className="help-text">
               <Typography variant="body2" color="textSecondary">
                 <Trans>Choose recipient address. By default, this is your currently connected address</Trans>

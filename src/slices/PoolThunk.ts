@@ -190,6 +190,17 @@ export const poolDeposit = createAsyncThunk(
   },
 );
 
+export interface IEarlyExitFeePayload {
+  readonly withdraw: {
+    earlyExitFee: [ethers.BigNumber, ethers.BigNumber] & {
+      exitFee: ethers.BigNumber;
+      burnedCredit: ethers.BigNumber;
+    };
+    stringExitFee: string;
+    credit: ethers.BigNumber;
+  };
+}
+
 export const getEarlyExitFee = createAsyncThunk(
   "pool/getEarlyExitFee",
   async ({ value, provider, address, networkID }: IValueAsyncThunk) => {

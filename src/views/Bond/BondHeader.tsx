@@ -12,15 +12,21 @@ import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg"
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
-interface Props {
+interface IBondHeaderProps {
   bond: IBondDetails & BondOpts;
-  slippage: number;
+  slippage: string;
   recipientAddress: string;
   onRecipientAddressChange(e: InputEvent): void;
   onSlippageChange(e: InputEvent): void;
 }
 
-function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }: Props) {
+function BondHeader({
+  bond,
+  slippage,
+  recipientAddress,
+  onRecipientAddressChange,
+  onSlippageChange,
+}: IBondHeaderProps) {
   const history = useHistory();
   const [open, setOpen] = useState<boolean>(false);
 

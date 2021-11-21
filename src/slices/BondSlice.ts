@@ -66,7 +66,7 @@ export interface IBondDetails {
   debtRatio: number;
   bondQuote: number;
   purchased: number;
-  vestingTerm: number;
+  vestingTerm?: number;
   maxBondPrice: number;
   bondPrice: number;
   marketPrice: number;

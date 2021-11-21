@@ -4,12 +4,19 @@ import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
-export const ConfirmationModal = props => {
+interface IConfirmationModalProps {
+  readonly quantity: number;
+  readonly show: boolean;
+  readonly onClose: () => void;
+  readonly onSubmit: () => void;
+}
+
+export const ConfirmationModal = (props: IConfirmationModalProps) => {
   const theme = useTheme();
   return (
     <Modal open={props.show} onClose={props.onClose}>
       <Fade in={true}>
-        <Backdrop open style>
+        <Backdrop open>
           <Paper className="ohm-card ohm-modal" style={{ maxWidth: "450px" }}>
             <Button style={{ alignSelf: "flex-start" }}>
               <SvgIcon component={XIcon} color="primary" onClick={props.onClose} />
@@ -29,7 +36,7 @@ export const ConfirmationModal = props => {
                 You're depositing <strong>{props.quantity} sOhm </strong>in the
                 <strong> (3, 3) Together Pool </strong>
               </Typography>
-              <Typography variant="h6" className="header" style={{ color: theme.palette.highlight }}>
+              <Typography variant="h6" className="header" style={{ color: (theme.palette as any).highlight }}>
                 Please Note:
               </Typography>
               <Typography variant="body2" className="info-text">

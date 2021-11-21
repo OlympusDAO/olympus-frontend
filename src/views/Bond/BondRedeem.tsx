@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import { redeemBond } from "../../slices/BondSlice";
@@ -9,28 +9,29 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import { DisplayBondDiscount } from "./Bond";
 import ConnectButton from "../../components/ConnectButton";
+import { IAllBondData } from "src/hooks/Bonds";
+import { useAppSelector } from "src/hooks";
 
-function BondRedeem({ bond }) {
-  // const { bond: bondName } = bond;
+function BondRedeem({ bond }: { bond: IAllBondData }) {
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
 
-  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
+  const isBondLoading = useAppSelector(state => state.bonding.loading ?? true);
 
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
+  const currentBlock = useAppSelector(state => {
+    return state.app.currentBlock || 0;
   });
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
-  const bondingState = useSelector(state => {
+  const bondingState = useAppSelector(state => {
     return state.bonding && state.bonding[bond.name];
   });
-  const bondDetails = useSelector(state => {
+  const bondDetails = useAppSelector(state => {
     return state.account.bonds && state.account.bonds[bond.name];
   });
 
-  async function onRedeem({ autostake }) {
+  async function onRedeem({ autostake }: { autostake: boolean }) {
     await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
   }
 
@@ -39,7 +40,7 @@ function BondRedeem({ bond }) {
   };
 
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(bondingState.vestingTerm);
+    const vestingBlock = parseInt(currentBlock.toString()) + parseInt(bondingState.vestingTerm);
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
@@ -63,7 +64,9 @@ function BondRedeem({ bond }) {
               id="bond-claim-btn"
               className="transaction-button"
               fullWidth
-              disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name) || bond.pendingPayout == 0.0}
+              disabled={
+                isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name) || Number(bond.pendingPayout) == 0.0
+              }
               onClick={() => {
                 onRedeem({ autostake: false });
               }}
@@ -78,7 +81,7 @@ function BondRedeem({ bond }) {
               fullWidth
               disabled={
                 isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name + "_autostake") ||
-                bond.pendingPayout == 0.0
+                Number(bond.pendingPayout) == 0.0
               }
               onClick={() => {
                 onRedeem({ autostake: true });
@@ -104,7 +107,7 @@ function BondRedeem({ bond }) {
               <Trans>Claimable Rewards</Trans>
             </Typography>
             <Typography id="claimable" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.pendingPayout, 4)} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(Number(bond.pendingPayout), 4)} OHM`}
             </Typography>
           </div>
           <div className="data-row">

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
@@ -20,8 +20,17 @@ import useDebounce from "../../hooks/Debounce";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./Bond";
 import ConnectButton from "../../components/ConnectButton";
+import { IAllBondData } from "src/hooks/Bonds";
+import { useAppSelector } from "src/hooks";
+import { NetworkID } from "src/lib/Bond";
 
-function BondPurchase({ bond, slippage, recipientAddress }) {
+interface IBondPurchaseProps {
+  readonly bond: IAllBondData;
+  readonly slippage: string;
+  readonly recipientAddress: string;
+}
+
+function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
@@ -29,18 +38,19 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
+  const currentBlock = useAppSelector(state => {
+    return state.app.currentBlock || 0;
   });
 
-  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
+  const isBondLoading = useAppSelector(state => state.bonding.loading ?? true);
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(bond.vestingTerm);
+    const vestingTerm = bond.vestingTerm ? bond.vestingTerm.toString() : "0";
+    const vestingBlock = parseInt(currentBlock.toString()) + parseInt(vestingTerm);
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
@@ -48,9 +58,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   async function onBond() {
     if (quantity === "") {
       dispatch(error(t`Please enter a value!`));
-    } else if (isNaN(quantity)) {
+    } else if (isNaN(Number(quantity))) {
       dispatch(error(t`Please enter a valid value!`));
-    } else if (bond.interestDue > 0 || bond.pendingPayout > 0) {
+    } else if (bond.interestDue > 0 || Number(bond.pendingPayout) > 0) {
       const shouldProceed = window.confirm(
         t`You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?`,
       );
@@ -58,7 +68,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
         await dispatch(
           bondAsset({
             value: quantity,
-            slippage,
+            slippage: Number(slippage),
             bond,
             networkID: chainID,
             provider,
@@ -70,7 +80,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
       await dispatch(
         bondAsset({
           value: quantity,
-          slippage,
+          slippage: Number(slippage),
           bond,
           networkID: chainID,
           provider,
@@ -82,7 +92,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   }
 
   const clearInput = () => {
-    setQuantity(0);
+    setQuantity("0");
   };
 
   const hasAllowance = useCallback(() => {
@@ -93,11 +103,11 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
     let maxQ;
     if (bond.maxBondPrice * bond.bondPrice < Number(bond.balance)) {
       // there is precision loss here on Number(bond.balance)
-      maxQ = bond.maxBondPrice * bond.bondPrice.toString();
+      maxQ = bond.maxBondPrice * bond.bondPrice;
     } else {
       maxQ = bond.balance;
     }
-    setQuantity(maxQ);
+    setQuantity(maxQ.toString());
   };
 
   const bondDetailsDebounce = useDebounce(quantity, 1000);
@@ -107,7 +117,8 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   }, [bondDetailsDebounce]);
 
   useEffect(() => {
-    let interval = null;
+    // (0xdavinchee): use casted any, but figure out how to handle interval
+    let interval: any;
     if (secondsToRefresh > 0) {
       interval = setInterval(() => {
         setSecondsToRefresh(secondsToRefresh => secondsToRefresh - 1);
@@ -171,7 +182,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     />
                   </FormControl>
                 )}
-                {!bond.isAvailable[chainID] ? (
+                {!bond.isAvailable[chainID as NetworkID] ? (
                   <Button
                     variant="contained"
                     color="primary"

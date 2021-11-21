@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -15,36 +14,42 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { t, Trans } from "@lingui/macro";
-import ConnectButton from "../../components/ConnectButton.jsx";
-import { useWeb3Context } from "../../hooks";
+import ConnectButton from "../../components/ConnectButton";
+import { useAppDispatch, useAppSelector, useWeb3Context } from "../../hooks";
 import { getTokenImage } from "src/helpers/index";
 import { trim } from "src/helpers";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-import { getEarlyExitFee, poolWithdraw } from "../../slices/PoolThunk";
+import { getEarlyExitFee, IEarlyExitFeePayload, poolWithdraw } from "../../slices/PoolThunk";
 import { calculateOdds } from "../../helpers/33Together";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { error } from "../../slices/MessagesSlice";
 
 const sohmImg = getTokenImage("sohm");
 
-export const PoolWithdraw = props => {
-  const dispatch = useDispatch();
+interface IPoolWithdrawProps {
+  readonly totalPoolDeposits: number;
+  readonly winners: string;
+  readonly setInfoTooltipMessage: Dispatch<SetStateAction<string[]>>;
+}
+
+export const PoolWithdraw = (props: IPoolWithdrawProps) => {
+  const dispatch = useAppDispatch();
   const { provider, address, chainID } = useWeb3Context();
   const [quantity, setQuantity] = useState(0);
   const [exitFee, setExitFee] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
-  const isPoolLoading = useSelector(state => state.poolData.loading);
+  const isPoolLoading = useAppSelector(state => state.poolData.loading);
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
-  const poolBalance = useSelector(state => {
+  const poolBalance = useAppSelector(state => {
     return state.account.balances && parseFloat(state.account.balances.pool);
   });
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
-  const poolIsLocked = useSelector(state => {
+  const poolIsLocked = useAppSelector(state => {
     return state.poolData && state.poolData.isRngRequested;
   });
 
@@ -52,9 +57,9 @@ export const PoolWithdraw = props => {
     setQuantity(poolBalance);
   };
 
-  const onWithdraw = async action => {
+  const onWithdraw = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(quantity) || quantity === 0 || quantity === "") {
+    if (isNaN(quantity) || quantity === 0) {
       // eslint-disable-next-line no-alert
       dispatch(error(t`Please enter a value!`));
     } else {
@@ -69,11 +74,13 @@ export const PoolWithdraw = props => {
     );
     if (result.payload) {
       let userBalanceAfterWithdraw = poolBalance - quantity;
-      let userOdds = calculateOdds(userBalanceAfterWithdraw, props.totalPoolDeposits, props.winners);
-      setNewOdds(trim(userOdds, 4));
-      setExitFee(result.payload.withdraw.stringExitFee);
+      let userOdds = calculateOdds(userBalanceAfterWithdraw.toString(), props.totalPoolDeposits, Number(props.winners));
+      setNewOdds(Number(trim(Number(userOdds), 4)));
+      setExitFee(Number((result.payload as IEarlyExitFeePayload).withdraw.stringExitFee));
     } else {
-      dispatch(error(result.error.message));
+      // (0xdavinchee): use as any for now, but figure out how to handle types for
+      // dispatch properly
+      dispatch(error((result as any).error.message));
       setExitFee(0);
     }
   };
@@ -201,10 +208,4 @@ export const PoolWithdraw = props => {
       )}
     </Box>
   );
-};
-
-PoolWithdraw.propTypes = {
-  totalPoolDeposits: PropTypes.number,
-  winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  setInfoTooltipMessage: PropTypes.func,
 };

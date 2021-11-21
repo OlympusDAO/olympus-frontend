@@ -19,7 +19,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, poolDeposit } from "src/slices/PoolThunk";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
-import { ConfirmationModal } from "./ConfirmationModal.jsx";
+import { ConfirmationModal } from "./ConfirmationModal";
 
 const sohmImg = getTokenImage("sohm");
 

@@ -1,5 +1,5 @@
-import { ChangeEvent, Fragment, ReactNode, ReactElement, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import { formatCurrency, trim } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
@@ -27,7 +27,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
 
-  const [slippage, setSlippage] = useState<number>(0.5);
+  const [slippage, setSlippage] = useState<string>("0.5");
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
 
   const [view, setView] = useState<number>(0);
@@ -40,7 +40,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   };
 
   const onSlippageChange = (e: InputEvent): void => {
-    return setSlippage(Number(e.target.value));
+    return setSlippage(e.target.value);
   };
 
   useEffect(() => {
@@ -137,7 +137,7 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement
   );
 };
 
-export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
+export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }) => {
   const { chainID }: { chainID: NetworkID } = useWeb3Context();
 
   if (typeof bond.bondDiscount === undefined || !bond.isAvailable[chainID]) {
