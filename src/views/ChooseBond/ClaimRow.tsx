@@ -37,6 +37,7 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
     let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
     await dispatch(redeemBond({ address, bond: currentBond!, networkID: chainID, provider, autostake }));
   }
+  console.log("bond.displayName", bond.displayName);
 
   return (
     <TableRow id={`${bondName}--claim`}>
@@ -44,8 +45,8 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
         <BondLogo bond={bond} />
         <div className="bond-name">
           <Typography variant="body1">
-            {/* TODO (0xdavinchee): really not sure what is happening here, will cast as any before investigating */}
-            {bond.displayName ? trim(bond.displayName as any, 4) : <Skeleton width={100} />}
+            {/* 0xdavinchee: we were previously trimmming the bond display name-I don't think this was the intent */}
+            {bond.displayName ? bond.displayName : <Skeleton width={100} />}
           </Typography>
         </div>
       </TableCell>
