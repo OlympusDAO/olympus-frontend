@@ -45,6 +45,7 @@ function BondRedeem({ bond }: { bond: IAllBondData }) {
     return prettifySeconds(seconds, "day");
   };
 
+  // 0xdavinchee: is this intentional?
   useEffect(() => {
     console.log(bond);
     console.log(bondingState);

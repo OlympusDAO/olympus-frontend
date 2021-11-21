@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
   Box,
@@ -25,6 +25,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { getLusdData } from "../../slices/LusdSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim } from "../../helpers";
+import { useAppSelector } from "src/hooks";
 
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
@@ -33,12 +34,12 @@ export default function ExternalStakePool() {
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
-  const isLusdLoading = useSelector(state => state.lusdData.loading);
-  const lusdData = useSelector(state => {
+  const isLusdLoading = useAppSelector(state => state.lusdData.loading);
+  const lusdData = useAppSelector(state => {
     return state.lusdData;
   });
 
-  const ohmLusdReserveBalance = useSelector(state => {
+  const ohmLusdReserveBalance = useAppSelector(state => {
     return state.account && state.account.bonds?.ohm_lusd_lp?.balance;
   });
 
@@ -126,7 +127,11 @@ export default function ExternalStakePool() {
                       )}
                     </TableCell>
                     <TableCell align="left">
-                      {isLusdLoading ? <Skeleton width="80px" /> : (trim(ohmLusdReserveBalance, 2) || 0) + " SLP"}
+                      {isLusdLoading ? (
+                        <Skeleton width="80px" />
+                      ) : (
+                        (trim(Number(ohmLusdReserveBalance), 2) || 0) + " SLP"
+                      )}
                     </TableCell>
                     <TableCell align="center">
                       <Button
@@ -189,7 +194,7 @@ export default function ExternalStakePool() {
                     <Trans>Balance</Trans>
                   </Typography>
                   <Typography>
-                    {isLusdLoading ? <Skeleton width="80px" /> : (trim(lusdData.balance, 2) || 0) + "LP"}
+                    {isLusdLoading ? <Skeleton width="80px" /> : (trim(Number(ohmLusdReserveBalance), 2) || 0) + " SLP"}
                   </Typography>
                 </div>
 

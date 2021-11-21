@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { ChangeEvent, useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
@@ -20,7 +20,7 @@ import {
 import TabPanel from "../../components/TabPanel";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
-import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
+import { trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrap } from "../../slices/WrapThunk";
 import "../Stake/stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -28,20 +28,18 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
+import { useAppSelector } from "src/hooks";
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
-
 const useStyles = makeStyles(theme => ({
   textHighlight: {
-    color: theme.palette.highlight,
+    color: (theme.palette as any).highlight,
   },
 }));
 
@@ -54,33 +52,33 @@ function Wrap() {
   const [quantity, setQuantity] = useState("");
   const classes = useStyles();
 
-  const isAppLoading = useSelector(state => state.app.loading);
-  const currentIndex = useSelector(state => {
+  const isAppLoading = useAppSelector(state => state.app.loading);
+  const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
   });
 
-  const sOhmPrice = useSelector(state => {
+  const sOhmPrice = useAppSelector(state => {
     return state.app.marketPrice;
   });
 
-  const wsOhmPrice = useSelector(state => {
-    return state.app.marketPrice * state.app.currentIndex;
+  const wsOhmPrice = useAppSelector(state => {
+    return Number(state.app.marketPrice) * Number(state.app.currentIndex);
   });
 
-  const sohmBalance = useSelector(state => {
+  const sohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
-  const wsohmBalance = useSelector(state => {
+  const wsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
-  const wrapAllowance = useSelector(state => {
+  const wrapAllowance = useAppSelector(state => {
     return state.account.wrapping && state.account.wrapping.ohmWrap;
   });
-  const unwrapAllowance = useSelector(state => {
+  const unwrapAllowance = useAppSelector(state => {
     return state.account.wrapping && state.account.wrapping.ohmUnwrap;
   });
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
@@ -92,13 +90,13 @@ function Wrap() {
     }
   };
 
-  const onSeekApproval = async token => {
+  const onSeekApproval = async (token: string) => {
     await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
   };
 
-  const onChangeWrap = async action => {
+  const onChangeWrap = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(quantity) || Number(quantity) === 0 || quantity === "") {
+    if (Number(quantity) === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
       return dispatch(error("Please enter a value!"));
     }
@@ -133,7 +131,9 @@ function Wrap() {
   const isAllowanceDataLoading = (wrapAllowance == null && view === 0) || (unwrapAllowance == null && view === 1);
 
   const isUnwrap = view === 1;
-  const convertedQuantity = isUnwrap ? (quantity * wsOhmPrice) / sOhmPrice : (quantity * sOhmPrice) / wsOhmPrice;
+  const convertedQuantity = isUnwrap
+    ? (Number(quantity) * wsOhmPrice) / Number(sOhmPrice)
+    : (Number(quantity) * Number(sOhmPrice)) / wsOhmPrice;
 
   let modalButton = [];
 
@@ -143,7 +143,7 @@ function Wrap() {
     </Button>,
   );
 
-  const changeView = (event, newView) => {
+  const changeView = (_event: ChangeEvent<{}>, newView: number) => {
     setView(newView);
   };
 
@@ -186,7 +186,7 @@ function Wrap() {
                         Current Index
                       </Typography>
                       <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                        {currentIndex ? <>{trim(Number(currentIndex), 1)} OHM</> : <Skeleton width="150px" />}
                       </Typography>
                     </div>
                   </Grid>
@@ -330,13 +330,13 @@ function Wrap() {
                     <div className="data-row">
                       <Typography variant="body1">Wrappable Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(sohmBalance), 4)} sOHM</>}
                       </Typography>
                     </div>
                     <div className="data-row">
                       <Typography variant="body1">Unwrappable Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsohmBalance), 4)} wsOHM</>}
                       </Typography>
                     </div>
                   </div>

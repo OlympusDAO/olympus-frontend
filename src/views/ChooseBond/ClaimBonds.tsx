@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { t, Trans } from "@lingui/macro";
 import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
-import { txnButtonText, isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { redeemAllBonds, redeemBond } from "src/slices/BondSlice";
-import { calculateUserBondDetails } from "src/slices/AccountSlice";
+import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
+import { redeemAllBonds } from "src/slices/BondSlice";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "src/hooks/Bonds";
@@ -21,9 +20,11 @@ import {
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./choosebond.scss";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { IUserBondDetails } from "src/slices/AccountSlice";
+import { useAppSelector } from "src/hooks";
 
-function ClaimBonds({ activeBonds }) {
+function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
   const { bonds } = useBonds(chainID);
@@ -31,7 +32,7 @@ function ClaimBonds({ activeBonds }) {
   const [numberOfBonds, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
@@ -46,7 +47,7 @@ function ClaimBonds({ activeBonds }) {
     return false;
   };
 
-  const onRedeemAll = async ({ autostake }) => {
+  const onRedeemAll = async ({ autostake }: { autostake: boolean }) => {
     console.log("redeeming all bonds");
 
     await dispatch(redeemAllBonds({ address, bonds, networkID: chainID, provider, autostake }));

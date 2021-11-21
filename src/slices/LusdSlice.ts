@@ -6,7 +6,7 @@ import { calcAludelDetes } from "../helpers/OhmLusdCrucible";
 
 export const getLusdData = createAsyncThunk(
   "stake/getLusdData",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+  async ({ networkID, provider }: IBaseAddressAsyncThunk) => {
     // only works on mainnet
     if (networkID !== 1) {
       // we don't have rinkeby contracts

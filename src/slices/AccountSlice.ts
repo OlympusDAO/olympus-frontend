@@ -80,6 +80,8 @@ interface IUserAccountDetails {
   wrapping: {
     sohmWrap: number;
     wsohmUnwrap: number;
+    ohmWrap: number;
+    ohmUnwrap: number;
   };
 }
 
@@ -116,10 +118,13 @@ export const loadAccountDetails = createAsyncThunk(
 );
 
 export interface IUserBondDetails {
-  allowance: number;
-  interestDue: number;
-  bondMaturationBlock: number;
-  pendingPayout: string; //Payout formatted in gwei.
+  readonly bond: string;
+  readonly balance: string;
+  readonly displayName: string;
+  readonly allowance: number;
+  readonly interestDue: number;
+  readonly bondMaturationBlock: number;
+  readonly pendingPayout: string; //Payout formatted in gwei.
 }
 export const calculateUserBondDetails = createAsyncThunk(
   "account/calculateUserBondDetails",
@@ -198,7 +203,7 @@ const initialState: IAccountSlice = {
   bonds: {},
   balances: { ohm: "", sohm: "", dai: "", oldsohm: "", fsohm: "", wsohm: "", pool: "", wsohmAsSohm: "" },
   staking: { ohmStake: 0, ohmUnstake: 0 },
-  wrapping: { sohmWrap: 0, wsohmUnwrap: 0 },
+  wrapping: { sohmWrap: 0, wsohmUnwrap: 0, ohmUnwrap: 0, ohmWrap: 0 },
   pooling: { sohmPool: 0 },
 };
 

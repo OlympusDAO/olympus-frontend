@@ -232,7 +232,7 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
                 <Skeleton width="100px" />
               ) : (
                 <>
-                  {trim(bond.balance, 4)} {displayUnits}
+                  {trim(Number(bond.balance), 4)} {displayUnits}
                 </>
               )}
             </Typography>

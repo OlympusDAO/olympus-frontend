@@ -20,7 +20,7 @@ import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -38,16 +38,13 @@ function a11yProps(index: number) {
   };
 }
 
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
-
 function Stake() {
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState("");
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
@@ -96,9 +93,9 @@ function Stake() {
 
   const setMax = () => {
     if (view === 0) {
-      setQuantity(Number(ohmBalance));
+      setQuantity(ohmBalance);
     } else {
-      setQuantity(Number(sohmBalance));
+      setQuantity(sohmBalance);
     }
   };
 
@@ -108,7 +105,7 @@ function Stake() {
 
   const onChangeStake = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(quantity) || quantity === 0) {
+    if (isNaN(Number(quantity)) || Number(quantity) === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
       return dispatch(error(t`Please enter a value!`));
     }
@@ -312,7 +309,7 @@ function Stake() {
                               placeholder="Enter an amount"
                               className="stake-input"
                               value={quantity}
-                              onChange={e => setQuantity(Number(e.target.value))}
+                              onChange={e => setQuantity(e.target.value)}
                               labelWidth={0}
                               endAdornment={
                                 <InputAdornment position="end">

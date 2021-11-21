@@ -1,18 +1,16 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { t, Trans } from "@lingui/macro";
-import { shorten, trim, prettyVestingPeriod } from "../../helpers";
+import { useDispatch } from "react-redux";
+import { t } from "@lingui/macro";
+import { trim, prettyVestingPeriod } from "../../helpers";
 import { redeemBond } from "../../slices/BondSlice";
 import BondLogo from "../../components/BondLogo";
-import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { NavLink } from "react-router-dom";
+import { Box, Button, Typography, TableRow, TableCell } from "@material-ui/core";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
-import { useWeb3Context, useBonds } from "src/hooks";
+import { useWeb3Context, useBonds, useAppSelector } from "src/hooks";
 import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
+import { IUserBondDetails } from "src/slices/AccountSlice";
 
-export function ClaimBondTableData({ userBond }) {
+export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondDetails] }) {
   const dispatch = useDispatch();
   const { address, chainID, provider } = useWeb3Context();
   const { bonds, expiredBonds } = useBonds(chainID);
@@ -20,13 +18,13 @@ export function ClaimBondTableData({ userBond }) {
   const bond = userBond[1];
   const bondName = bond.bond;
 
-  const isAppLoading = useSelector(state => state.app.loading ?? true);
+  const isAppLoading = useAppSelector(state => state.app.loading ?? true);
 
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
+  const currentBlock = useAppSelector(state => {
+    return state.app.currentBlock || 0;
   });
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
@@ -34,10 +32,10 @@ export function ClaimBondTableData({ userBond }) {
     return prettyVestingPeriod(currentBlock, bond.bondMaturationBlock);
   };
 
-  async function onRedeem({ autostake }) {
+  async function onRedeem({ autostake }: { autostake: boolean }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
     let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    await dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
+    await dispatch(redeemBond({ address, bond: currentBond!, networkID: chainID, provider, autostake }));
   }
 
   return (
@@ -46,12 +44,13 @@ export function ClaimBondTableData({ userBond }) {
         <BondLogo bond={bond} />
         <div className="bond-name">
           <Typography variant="body1">
-            {bond.displayName ? trim(bond.displayName, 4) : <Skeleton width={100} />}
+            {/* TODO (0xdavinchee): really not sure what is happening here, will cast as any before investigating */}
+            {bond.displayName ? trim(bond.displayName as any, 4) : <Skeleton width={100} />}
           </Typography>
         </div>
       </TableCell>
       <TableCell align="center">
-        {bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />}
+        {bond.pendingPayout ? trim(Number(bond.pendingPayout), 4) : <Skeleton width={100} />}
       </TableCell>
       <TableCell align="center">{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</TableCell>
       <TableCell align="right" style={{ whiteSpace: "nowrap" }}>
@@ -73,7 +72,7 @@ export function ClaimBondTableData({ userBond }) {
   );
 }
 
-export function ClaimBondCardData({ userBond }) {
+export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDetails] }) {
   const dispatch = useDispatch();
   const { address, chainID, provider } = useWeb3Context();
   const { bonds, expiredBonds } = useBonds(chainID);
@@ -81,11 +80,11 @@ export function ClaimBondCardData({ userBond }) {
   const bond = userBond[1];
   const bondName = bond.bond;
 
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
+  const currentBlock = useAppSelector(state => {
+    return state.app.currentBlock || 0;
   });
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
@@ -93,10 +92,10 @@ export function ClaimBondCardData({ userBond }) {
     return prettyVestingPeriod(currentBlock, bond.bondMaturationBlock);
   };
 
-  async function onRedeem({ autostake }) {
+  async function onRedeem({ autostake }: { autostake: boolean }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
     let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    await dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
+    await dispatch(redeemBond({ address, bond: currentBond!, networkID: chainID, provider, autostake }));
   }
 
   return (
@@ -104,13 +103,13 @@ export function ClaimBondCardData({ userBond }) {
       <Box className="bond-pair">
         <BondLogo bond={bond} />
         <Box className="bond-name">
-          <Typography>{bond.displayName ? trim(bond.displayName, 4) : <Skeleton width={100} />}</Typography>
+          <Typography>{bond.displayName ? trim(bond.displayName as any, 4) : <Skeleton width={100} />}</Typography>
         </Box>
       </Box>
 
       <div className="data-row">
         <Typography>Claimable</Typography>
-        <Typography>{bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />}</Typography>
+        <Typography>{bond.pendingPayout ? trim(Number(bond.pendingPayout), 4) : <Skeleton width={100} />}</Typography>
       </div>
 
       <div className="data-row">
