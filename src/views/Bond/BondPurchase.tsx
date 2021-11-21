@@ -117,10 +117,9 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
   }, [bondDetailsDebounce]);
 
   useEffect(() => {
-    // (0xdavinchee): use casted any, but figure out how to handle interval
-    let interval: any;
+    let interval: number = 0;
     if (secondsToRefresh > 0) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setSecondsToRefresh(secondsToRefresh => secondsToRefresh - 1);
       }, 1000);
     } else {
