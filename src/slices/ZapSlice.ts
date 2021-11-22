@@ -16,6 +16,7 @@ export const getZapTokenAllowance = createAsyncThunk(
     } catch (e: unknown) {
       console.error(e);
       dispatch(error("An error has occurred when fetching token allowance."));
+      throw e;
     }
   },
 );
@@ -39,6 +40,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       const rpcError = e as any;
       console.error(e);
       dispatch(error(`${rpcError.message} ${rpcError.data?.message}`));
+      throw e;
     }
   },
 );
@@ -53,6 +55,7 @@ export const getZapTokenBalances = createAsyncThunk(
       } catch (e: unknown) {
         console.error(e);
         dispatch(error("An error has occurred when fetching token balances."));
+        throw e;
       }
     }
   },
@@ -77,6 +80,7 @@ export const executeZap = createAsyncThunk(
       console.error(e);
       const rpcError = e as any;
       dispatch(error(`${rpcError.message} ${rpcError.data?.message}`));
+      throw e;
     }
     dispatch(getBalances({ address, provider, networkID }));
   },
@@ -131,6 +135,7 @@ const zapTokenBalancesSlice = createSlice({
       })
       .addCase(changeZapTokenAllowance.rejected, (state, { error }) => {
         state.changeAllowanceLoading = false;
+        console.error("Handled error");
         console.error(error.message);
       })
       .addCase(getZapTokenAllowance.pending, state => {})

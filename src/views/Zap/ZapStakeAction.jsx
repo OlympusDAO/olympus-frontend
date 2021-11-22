@@ -46,6 +46,7 @@ function ZapStakeAction(props) {
   const tokens = useAppSelector(state => state.zap.balances);
   const isTokensLoading = useAppSelector(state => state.zap.balancesLoading);
   const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
+  console.log(isChangeAllowanceLoading);
   const isExecuteZapLoading = useAppSelector(state => state.zap.stakeLoading);
   const isAppLoading = useAppSelector(state => state.app.loading);
 
@@ -93,6 +94,8 @@ function ZapStakeAction(props) {
     setOutputQuantity(amount);
     setInputQuantity(amount * exchangeRate);
   };
+
+  useEffect(() => setZapTokenQuantity(null), [zapToken]);
 
   const inputTokenImages = useMemo(
     () =>
@@ -227,7 +230,7 @@ function ZapStakeAction(props) {
           </Box>
         )}
       </FormControl>
-      <Box marginY="10px" minHeight="25px" display="flex" justifyContent="center" alignItems="center">
+      <Box marginY="12px" minHeight="24px" display="flex" justifyContent="center" alignItems="center">
         {downIcon}
       </Box>
 
@@ -257,7 +260,7 @@ function ZapStakeAction(props) {
                   <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
                     <Avatar
                       src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png"
-                      style={{ height: "40px", width: "40px" }}
+                      style={{ height: "36px", width: "36px" }}
                     />
                     <Box width="10px" />
                     <Typography>sOHM</Typography>
@@ -271,17 +274,30 @@ function ZapStakeAction(props) {
           }
         />
       </FormControl>
+
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
+        <Typography>Max Slippage</Typography>
+        <Typography>2.0%</Typography>
+      </Box>
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
+        <Typography>Exchange Rate</Typography>
+        <Typography>
+          {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
+        </Typography>
+      </Box>
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginTop="12px" marginBottom="36px">
+        <Typography>Minimum You Get</Typography>
+        <Typography>{Number(outputQuantity) * 0.98} sOHM</Typography>
+      </Box>
       {initialTokenAllowance ? (
         <Button
           fullWidth
           className="zap-stake-button"
           variant="contained"
           color="primary"
-          disabled={zapToken == null || isExecuteZapLoading}
-          // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
+          disabled={zapToken == null || isExecuteZapLoading || outputQuantity === ""}
           onClick={onZap}
         >
-          {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
           {isExecuteZapLoading ? "Pending..." : "Zap-Stake"}
         </Button>
       ) : (
@@ -317,7 +333,7 @@ function ZapStakeAction(props) {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={!currentTokenAllowance || isExecuteZapLoading}
+              disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === ""}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
               onClick={onZap}
             >
@@ -331,17 +347,6 @@ function ZapStakeAction(props) {
           </Grid>
         </Grid>
       )}
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
-        <Typography>Max Slippage</Typography>
-        <Typography>2.0%</Typography>
-      </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
-        <Typography>Exchange Rate</Typography>
-        <Typography>
-          {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
-        </Typography>
-      </Box>
-
       <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs" id="zap-select-token-modal">
         <DialogTitle>
           <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
