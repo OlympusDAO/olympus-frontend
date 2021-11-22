@@ -16,6 +16,10 @@ export interface IChangeApprovalAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
 }
 
+export interface IChangeApprovalWithDisplayNameAsyncThunk extends IChangeApprovalAsyncThunk {
+  readonly displayName: string;
+}
+
 export interface IActionAsyncThunk extends IBaseAsyncThunk {
   readonly action: string;
   readonly address: string;
