@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
   infoBoxItem: {
     [theme.breakpoints.down("md")]: {
-      padding: "0px !important",
+      padding: "8px !important",
     },
     [theme.breakpoints.up("md")]: {
       padding: "16px !important",
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
   infoHeader: {
     [theme.breakpoints.down("md")]: {
-      width: "50%",
+      width: "30%",
     },
     [theme.breakpoints.up("md")]: {
       width: "100%",
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   },
   infoBody: {
     [theme.breakpoints.down("md")]: {
-      width: "50%",
+      width: "70%",
       paddingTop: "24px",
     },
     [theme.breakpoints.up("md")]: {
