@@ -34,7 +34,17 @@ export default function ProjectDetails({
   // The JSON file returns a string, so we convert it
   const finishDateObject = new Date(finishDate);
   const countdownRenderer = ({ days, hours, completed }: CountdownProps) => {
-    if (completed) return <div>Fundraise complete!</div>;
+    if (completed)
+      return (
+        <>
+          <div className="cause-info-icon">
+            <SvgIcon component={ClockIcon} color="primary" />
+          </div>
+          <div>
+            <strong>Fundraise Complete!</strong>
+          </div>
+        </>
+      );
 
     return (
       <>
