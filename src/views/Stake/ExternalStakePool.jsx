@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import {
   Box,
   Button,
@@ -28,7 +27,8 @@ import { trim } from "../../helpers";
 
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, hasCachedProvider, address, connect } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -43,7 +43,7 @@ export default function ExternalStakePool() {
   });
 
   const loadLusdData = async () => {
-    await dispatch(getLusdData({ address: address, provider: provider, networkID: chainID }));
+    await dispatch(getLusdData({ address: address, provider: provider, networkID: networkId }));
   };
 
   useEffect(() => {

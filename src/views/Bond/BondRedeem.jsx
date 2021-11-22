@@ -13,7 +13,8 @@ import ConnectButton from "../../components/ConnectButton";
 function BondRedeem({ bond }) {
   // const { bond: bondName } = bond;
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
 
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
 
@@ -31,7 +32,7 @@ function BondRedeem({ bond }) {
   });
 
   async function onRedeem({ autostake }) {
-    await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
+    await dispatch(redeemBond({ address, bond, networkID: networkId, provider, autostake }));
   }
 
   const vestingTime = () => {

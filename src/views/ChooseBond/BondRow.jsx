@@ -6,12 +6,10 @@ import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
 import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
-import useBonds from "src/hooks/Bonds";
-import { useWeb3Context } from "../../hooks/web3Context";
+import { useSelector } from "react-redux";
 
 export function BondDataCard({ bond }) {
-  const { chainID } = useWeb3Context();
-  const { loading } = useBonds(chainID);
+  const networkId = useSelector(state => state.network.networkId);
   const isBondLoading = !bond.bondPrice ?? true;
 
   return (
@@ -68,9 +66,9 @@ export function BondDataCard({ bond }) {
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID]}>
+          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[networkId]}>
             <Typography variant="h5">
-              {!bond.isAvailable[chainID] ? t`Sold Out` : t`Bond ${bond.displayName}`}
+              {!bond.isAvailable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`}
             </Typography>
           </Button>
         </Link>
@@ -80,7 +78,7 @@ export function BondDataCard({ bond }) {
 }
 
 export function BondTableData({ bond }) {
-  const { chainID } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.bondPrice ?? true;
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
@@ -124,8 +122,8 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" disabled={!bond.isAvailable[chainID]}>
-            <Typography variant="h6">{!bond.isAvailable[chainID] ? t`Sold Out` : t`do_bond`}</Typography>
+          <Button variant="outlined" color="primary" disabled={!bond.isAvailable[networkId]}>
+            <Typography variant="h6">{!bond.isAvailable[networkId] ? t`Sold Out` : t`do_bond`}</Typography>
           </Button>
         </Link>
       </TableCell>

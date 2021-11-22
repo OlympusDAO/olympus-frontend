@@ -47,7 +47,8 @@ const useStyles = makeStyles(theme => ({
 
 function Wrap() {
   const dispatch = useDispatch();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, address, connect } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
@@ -93,7 +94,7 @@ function Wrap() {
   };
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
   const onChangeWrap = async action => {
@@ -118,7 +119,7 @@ function Wrap() {
       return dispatch(error("You cannot unwrap more than your wsOHM balance."));
     }
 
-    await dispatch(changeWrap({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(changeWrap({ address, action, value: quantity.toString(), provider, networkID: networkId }));
   };
 
   const hasAllowance = useCallback(

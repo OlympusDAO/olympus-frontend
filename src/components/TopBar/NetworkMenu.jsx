@@ -1,32 +1,29 @@
 import { Button, Typography } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
-import { useWeb3Context } from "../../hooks/web3Context";
 import React, { useEffect, useState } from "react";
 import "./networkmenu.scss";
 import ethereum from "../../assets/tokens/wETH.svg";
 import arbitrum from "../../assets/arbitrum.png";
 import Grid from "@material-ui/core/Grid";
+import { useSelector } from "react-redux";
 
 function NetworkMenu() {
-  const { chainName } = useWeb3Context();
-  const [name, setName] = useState("");
+  const networkId = useSelector(state => state.network.networkId);
+  const networkName = useSelector(state => state.network.networkName);
   const [image, setImage] = useState();
 
-  const setChain = () => {
-    setName(chainName);
-    switch (chainName) {
-      case "Ethereum":
+  useEffect(() => {
+    switch (networkId) {
+      case 1:
+      case 4:
         setImage(ethereum);
         break;
-      case "Arbitrum":
+      case 42161:
+      case 421611:
         setImage(arbitrum);
         break;
     }
-  };
-
-  useEffect(() => {
-    setChain();
-  }, [chainName]);
+  }, [networkName]);
 
   return (
     <Grid container className="network-menu-container">
@@ -40,7 +37,7 @@ function NetworkMenu() {
         to="/network"
         className="network-menu-button"
       >
-        <img src={image} alt={chainName} />
+        <img src={image} alt={networkName} />
         <Typography className="network-menu-button-text">{name}</Typography>
       </Button>
     </Grid>

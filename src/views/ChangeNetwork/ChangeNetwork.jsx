@@ -8,12 +8,15 @@ import { useWeb3Context } from "../../hooks/web3Context";
 import arbitrum from "../../assets/arbitrum.png";
 import ethereum from "../../assets/tokens/wETH.svg";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { switchNetwork } from "../../slices/NetworkSlice";
+import { NetworkID } from "../../lib/Bond";
 
 function ChangeNetwork() {
-  const { switchChain, chainName } = useWeb3Context();
+  const dispatch = useDispatch();
+  const { provider } = useWeb3Context();
+  const networkName = useSelector(state => state.network.networkName);
   const history = useHistory();
-  const arbitrumId = 42161;
-  const ethereumId = 1;
 
   const handleClose = () => {
     history.goBack();
@@ -21,7 +24,7 @@ function ChangeNetwork() {
 
   const handleSwitchChain = id => {
     return () => {
-      switchChain(id);
+      dispatch(switchNetwork({ provider: provider, networkId: id }));
       handleClose();
     };
   };
@@ -50,10 +53,10 @@ function ChangeNetwork() {
                 </Grid>
 
                 <Grid className="grid-message">
-                  {chainName !== "Unsupported Chain!" ? (
+                  {networkName !== "Unsupported Chain!" ? (
                     <Typography className="grid-message-typography">
                       You are currently connected to the&nbsp;
-                      <Typography className="chain-highlight">{chainName}</Typography>
+                      <Typography className="chain-highlight">{networkName}</Typography>
                       &nbsp;network.
                     </Typography>
                   ) : (
@@ -64,24 +67,24 @@ function ChangeNetwork() {
                 </Grid>
 
                 <Grid className="grid-buttons">
-                  <Grid className={chainName === "Ethereum" ? "grid-button current" : "grid-button"}>
-                    <Button fullWidth fullHeight onClick={handleSwitchChain(ethereumId)}>
+                  <Grid className={networkName === "Ethereum" ? "grid-button current" : "grid-button"}>
+                    <Button fullWidth fullHeight onClick={handleSwitchChain(NetworkID.Mainnet)}>
                       <Grid className="grid-button-content">
                         <img className="grid-button-icon" src={ethereum} alt="Ethereum Logo" />
                       </Grid>
                       <Grid className="grid-button-content right">
-                        <Typography className={chainName === "Ethereum" ? "current" : ""}>Ethereum</Typography>
+                        <Typography className={networkName === "Ethereum" ? "current" : ""}>Ethereum</Typography>
                       </Grid>
                     </Button>
                   </Grid>
 
-                  <Grid className={chainName === "Arbitrum" ? "grid-button current" : "grid-button"}>
-                    <Button fullWidth fullHeight onClick={handleSwitchChain(arbitrumId)}>
+                  <Grid className={networkName === "Arbitrum" ? "grid-button current" : "grid-button"}>
+                    <Button fullWidth fullHeight onClick={handleSwitchChain(NetworkID.Arbitrum)}>
                       <Grid className="grid-button-content">
                         <img className="grid-button-icon" src={arbitrum} alt="Arbitrum Logo" />
                       </Grid>
                       <Grid className="grid-button-content grid-button-text">
-                        <Typography className={chainName === "Arbitrum" ? "current" : ""}>Arbitrum</Typography>
+                        <Typography className={networkName === "Arbitrum" ? "current" : ""}>Arbitrum</Typography>
                       </Grid>
                     </Button>
                   </Grid>

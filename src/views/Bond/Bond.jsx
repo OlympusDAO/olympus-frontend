@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import { formatCurrency, trim } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
@@ -19,8 +19,7 @@ function a11yProps(index) {
 }
 
 function Bond({ bond }) {
-  const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
 
   const [slippage, setSlippage] = useState(0.5);
   const [recipientAddress, setRecipientAddress] = useState(address);
@@ -114,10 +113,10 @@ function Bond({ bond }) {
 }
 
 export function DisplayBondPrice({ bond }) {
-  const { chainID } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
   return (
     <>
-      {!bond.isAvailable[chainID] ? (
+      {!bond.isAvailable[networkId] ? (
         <>--</>
       ) : (
         `${new Intl.NumberFormat("en-US", {
@@ -132,8 +131,8 @@ export function DisplayBondPrice({ bond }) {
 }
 
 export function DisplayBondDiscount({ bond }) {
-  const { chainID } = useWeb3Context();
-  return <>{!bond.isAvailable[chainID] ? <>--</> : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}</>;
+  const networkId = useSelector(state => state.network.networkId);
+  return <>{!bond.isAvailable[networkId] ? <>--</> : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}</>;
 }
 
 export default Bond;

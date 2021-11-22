@@ -30,6 +30,9 @@ import { girth as gTheme } from "./themes/girth.js";
 import "./style.scss";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
+import { initializeNetwork } from "./slices/NetworkSlice";
+import store from "./store";
+import { useAppSelector } from "./hooks";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -87,24 +90,30 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { connect, hasCachedProvider, provider, chainID, connected, uri } = useWeb3Context();
+  const { connect, hasCachedProvider, provider, connected, chainChanged, onChainChangeComplete } = useWeb3Context();
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
+  const networkId = useAppSelector(state => state.network.networkId);
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-  const { bonds, expiredBonds } = useBonds(chainID);
+  const { bonds, expiredBonds } = useBonds(networkId);
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
-    // it's because the initial provider loaded always starts with chainID=1. This causes
+    // it's because the initial provider loaded always starts with networkID=1. This causes
     // address lookup on the wrong chain which then throws the error. To properly resolve this,
-    // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
-    // network. To actually test rinkeby, change setChainID equal to 4 before testing.
+    // we shouldn't be initializing to networkID=1 in web3Context without first listening for the
+    // network. To actually test rinkeby, change setnetworkID equal to 4 before testing.
     let loadProvider = provider;
 
     if (whichDetails === "app") {
       loadApp(loadProvider);
+    }
+
+    // don't run unless provider is a connected Wallet...
+    if (whichDetails === "network" && address && connected) {
+      initNetwork(loadProvider);
     }
 
     // don't run unless provider is a Wallet...
@@ -113,33 +122,40 @@ function App() {
     }
   }
 
+  const initNetwork = useCallback(
+    loadProvider => {
+      dispatch(initializeNetwork({ provider: loadProvider }));
+    },
+    [networkId],
+  );
+
   const loadApp = useCallback(
     loadProvider => {
-      dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+      dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       bonds.map(bond => {
-        if (bond.getAvailability(chainID)) {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: chainID }));
+        if (bond.getAvailability(networkId)) {
+          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
         }
       });
     },
-    [connected],
+    [networkId],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+      dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       bonds.map(bond => {
-        if (bond.getAvailability(chainID)) {
-          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        if (bond.getAvailability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
         }
       });
       expiredBonds.map(bond => {
-        if (bond.getAvailability(chainID)) {
-          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        if (bond.getAvailability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
         }
       });
     },
-    [connected],
+    [networkId],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
@@ -172,17 +188,15 @@ function App() {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
-      loadDetails("app");
+      loadDetails("network").then(() => {
+        if (networkId !== -1) {
+          loadDetails("account");
+          loadDetails("app");
+        }
+      });
+      onChainChangeComplete();
     }
-  }, [walletChecked]);
-
-  // this useEffect picks up any time a user Connects via the button
-  useEffect(() => {
-    // don't load ANY details until wallet is Connected
-    if (connected) {
-      loadDetails("account");
-    }
-  }, [connected]);
+  }, [walletChecked, chainChanged, networkId]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -236,7 +250,7 @@ function App() {
             </Route>
 
             <Route path="/33-together">
-              {chainID === 1 || chainID === 4 ? <PoolTogether /> : <Redirect to="/stake" />}
+              {networkId === 1 || networkId === 4 ? <PoolTogether /> : <Redirect to="/stake" />}
             </Route>
 
             <Route path="/bonds">

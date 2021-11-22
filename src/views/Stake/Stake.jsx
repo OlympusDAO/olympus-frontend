@@ -43,7 +43,8 @@ const ohmImg = getOhmTokenImage(16, 16);
 
 function Stake() {
   const dispatch = useDispatch();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, address, connect } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
@@ -106,7 +107,7 @@ function Stake() {
   };
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
   const onChangeStake = async action => {
@@ -126,7 +127,7 @@ function Stake() {
       return dispatch(error(t`You cannot unstake more than your sOHM balance.`));
     }
 
-    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId }));
   };
 
   const hasAllowance = useCallback(
@@ -163,7 +164,7 @@ function Stake() {
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
-  const renderStackingPanel = () => {
+  const renderStakingPanel = () => {
     return address && hasAllowance("ohm") ? (
       <Button
         className="stake-button"
@@ -191,7 +192,7 @@ function Stake() {
     );
   };
 
-  const renderUnstackingPanel = () => {
+  const renderUnstakingPanel = () => {
     return address && hasAllowance("sohm") ? (
       <Button
         className="stake-button"
@@ -575,7 +576,9 @@ function Stake() {
   };
 
   return (
-    <div id="stake-view">{chainID !== 1 && chainID !== 4 ? renderArbitrumNoStakingView() : renderStakingView()}</div>
+    <div id="stake-view">
+      {networkId !== 1 && networkId !== 4 ? renderArbitrumNoStakingView() : renderStakingView()}
+    </div>
   );
 }
 

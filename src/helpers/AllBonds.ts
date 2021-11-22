@@ -92,7 +92,7 @@ export const lusd = new StableBond({
   bondIconSvg: LusdImg,
   bondContractABI: LusdBondContract,
   isAvailable: {
-    [NetworkID.Mainnet]: true,
+    [NetworkID.Mainnet]: false,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
@@ -194,7 +194,7 @@ export const cvx_expired = new CustomBond({
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   isAvailable: {
-    [NetworkID.Mainnet]: true,
+    [NetworkID.Mainnet]: false,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
@@ -228,7 +228,7 @@ export const ohm_dai = new LPBond({
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
   isAvailable: {
-    [NetworkID.Mainnet]: true,
+    [NetworkID.Mainnet]: false,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
@@ -284,7 +284,7 @@ export const ohm_lusd = new LPBond({
   bondContractABI: BondOhmLusdContract,
   reserveContract: ReserveOhmLusdContract,
   isAvailable: {
-    [NetworkID.Mainnet]: true,
+    [NetworkID.Mainnet]: false,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,

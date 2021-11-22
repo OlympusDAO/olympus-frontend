@@ -9,17 +9,18 @@ import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-he
 import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
 import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
-import { useAddress, useWeb3Context } from "src/hooks/web3Context";
+import { useAddress } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
 import { Paper, Link, Box, Typography, SvgIcon } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
+import { useSelector } from "react-redux";
 
 function NavContent() {
   const [isActive] = useState();
   const address = useAddress();
-  const { chainID } = useWeb3Context();
-  const { bonds } = useBonds(chainID);
+  const networkId = useSelector(state => state.network.networkId);
+  const { bonds } = useBonds(networkId);
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -93,7 +94,7 @@ function NavContent() {
                 </Typography>
               </Link>
 
-              {chainID === 1 || chainID === 4 ? (
+              {networkId === 1 || networkId === 4 ? (
                 <Link
                   component={NavLink}
                   id="33-together-nav"
@@ -133,7 +134,7 @@ function NavContent() {
                     <Trans>Bond discounts</Trans>
                   </Typography>
                   {bonds.map((bond, i) => {
-                    if (bond.getAvailability(chainID)) {
+                    if (bond.getAvailability(networkId)) {
                       return (
                         <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
                           {!bond.bondDiscount ? (
@@ -143,7 +144,7 @@ function NavContent() {
                               {bond.displayName}
 
                               <span className="bond-pair-roi">
-                                {!bond.isAvailable[chainID]
+                                {!bond.isAvailable[networkId]
                                   ? "Sold Out"
                                   : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
                               </span>

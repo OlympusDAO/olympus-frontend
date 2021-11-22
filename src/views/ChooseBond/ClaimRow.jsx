@@ -11,8 +11,9 @@ import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxn
 
 export function ClaimBondTableData({ userBond }) {
   const dispatch = useDispatch();
-  const { address, chainID, provider } = useWeb3Context();
-  const { bonds, expiredBonds } = useBonds(chainID);
+  const { address, provider } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
+  const { bonds, expiredBonds } = useBonds(networkId);
 
   const bond = userBond[1];
   const bondName = bond.bond;
@@ -34,7 +35,7 @@ export function ClaimBondTableData({ userBond }) {
   async function onRedeem({ autostake }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
     let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    await dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
+    await dispatch(redeemBond({ address, bond: currentBond, networkID: networkId, provider, autostake }));
   }
 
   return (
@@ -72,8 +73,9 @@ export function ClaimBondTableData({ userBond }) {
 
 export function ClaimBondCardData({ userBond }) {
   const dispatch = useDispatch();
-  const { address, chainID, provider } = useWeb3Context();
-  const { bonds, expiredBonds } = useBonds(chainID);
+  const { address, provider } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
+  const { bonds, expiredBonds } = useBonds(networkId);
 
   const bond = userBond[1];
   const bondName = bond.bond;
@@ -93,7 +95,7 @@ export function ClaimBondCardData({ userBond }) {
   async function onRedeem({ autostake }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
     let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    await dispatch(redeemBond({ address, bond: currentBond, networkID: chainID, provider, autostake }));
+    await dispatch(redeemBond({ address, bond: currentBond, networkID: networkId, provider, autostake }));
   }
 
   return (

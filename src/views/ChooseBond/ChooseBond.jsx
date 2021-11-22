@@ -22,11 +22,10 @@ import { Skeleton } from "@material-ui/lab";
 import ClaimBonds from "./ClaimBonds";
 import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
-import { useWeb3Context } from "../../hooks";
 
 function ChooseBond() {
-  const { chainID } = useWeb3Context();
-  const { bonds } = useBonds(chainID);
+  const networkId = useSelector(state => state.network.networkId);
+  const { bonds } = useBonds(networkId);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
@@ -129,7 +128,7 @@ function ChooseBond() {
                   </TableHead>
                   <TableBody>
                     {bonds.map(bond => {
-                      if (bond.getAvailability(chainID)) {
+                      if (bond.getAvailability(networkId)) {
                         return <BondTableData key={bond.name} bond={bond} />;
                       }
                     })}
@@ -145,7 +144,7 @@ function ChooseBond() {
         <Box className="ohm-card-container">
           <Grid container item spacing={2}>
             {bonds.map(bond => {
-              if (bond.getAvailability(chainID)) {
+              if (bond.getAvailability(networkId)) {
                 return (
                   <Grid item xs={12} key={bond.name}>
                     <BondDataCard key={bond.name} bond={bond} />

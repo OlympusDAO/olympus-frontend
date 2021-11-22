@@ -38,12 +38,12 @@ export class EnvHelper {
    * in development environment will return the `ethers` community api key so that devs don't need to add elements to their .env
    * @returns Array of Alchemy API URIs or empty set
    */
-  static getAlchemyAPIKeyList(chainId: number): string[] {
+  static getAlchemyAPIKeyList(networkId: number): string[] {
     let ALCHEMY_ID_LIST: string[] = [];
     let uriPath: string;
 
     // If in production, split the provided API keys on whitespace. Otherwise use default.
-    switch (chainId) {
+    switch (networkId) {
       case 1:
         if (
           EnvHelper.env.NODE_ENV !== "development" &&
@@ -102,9 +102,9 @@ export class EnvHelper {
    * - functionality for Websocket addresses has been deprecated due to issues with WalletConnect
    *     - WalletConnect Issue: https://github.com/WalletConnect/walletconnect-monorepo/issues/193
    */
-  static getSelfHostedNode(chainId: number) {
+  static getSelfHostedNode(networkId: number) {
     let URI_LIST: string[] = [];
-    switch (chainId) {
+    switch (networkId) {
       case 1:
         if (
           EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_WEBSOCKETS &&
@@ -134,16 +134,16 @@ export class EnvHelper {
    * in prod if .env is blank API connections will fail
    * @returns array of API urls
    */
-  static getAPIUris(chainId: number) {
+  static getAPIUris(networkId: number) {
     // Debug log
     // console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());
-    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(chainId), ...EnvHelper.getSelfHostedNode(chainId)];
+    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getSelfHostedNode(networkId)];
     if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
     return ALL_URIs;
   }
 
-  static getFallbackURIs(chainId: number) {
-    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(chainId), ...EnvHelper.getInfuraIdList()];
+  static getFallbackURIs(networkId: number) {
+    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getInfuraIdList()];
     return ALL_URIs;
   }
 

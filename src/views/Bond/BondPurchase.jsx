@@ -24,7 +24,8 @@ import ConnectButton from "../../components/ConnectButton";
 function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
 
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
@@ -60,7 +61,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
             value: quantity,
             slippage,
             bond,
-            networkID: chainID,
+            networkID: networkId,
             provider,
             address: recipientAddress || address,
           }),
@@ -72,7 +73,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
           value: quantity,
           slippage,
           bond,
-          networkID: chainID,
+          networkID: networkId,
           provider,
           address: recipientAddress || address,
         }),
@@ -103,7 +104,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   const bondDetailsDebounce = useDebounce(quantity, 1000);
 
   useEffect(() => {
-    dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
+    dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: networkId }));
   }, [bondDetailsDebounce]);
 
   useEffect(() => {
@@ -113,9 +114,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
         setSecondsToRefresh(secondsToRefresh => secondsToRefresh - 1);
       }, 1000);
     } else {
-      if (bond.getAvailability(chainID)) {
+      if (bond.getAvailability(networkId)) {
         clearInterval(interval);
-        dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
+        dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: networkId }));
         setSecondsToRefresh(SECONDS_TO_REFRESH);
       }
     }
@@ -123,7 +124,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   }, [secondsToRefresh, quantity]);
 
   const onSeekApproval = async () => {
-    dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
+    dispatch(changeApproval({ address, bond, provider, networkID: networkId }));
   };
 
   const displayUnits = bond.displayUnits;
@@ -173,7 +174,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     />
                   </FormControl>
                 )}
-                {!bond.isAvailable[chainID] ? (
+                {!bond.isAvailable[networkId] ? (
                   <Button
                     variant="contained"
                     color="primary"
