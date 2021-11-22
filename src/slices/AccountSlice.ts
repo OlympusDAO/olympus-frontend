@@ -46,7 +46,7 @@ export const getBalances = createAsyncThunk(
     const poolBalance = await poolTokenContract.balanceOf(address);
 
     let fsohmBalance = BigNumber.from(0);
-    for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM"]) {
+    for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"]) {
       if (addresses[networkID][fuseAddressKey]) {
         const fsohmContract = new ethers.Contract(
           addresses[networkID][fuseAddressKey] as string,
@@ -173,15 +173,33 @@ export const calculateUserBondDetails = createAsyncThunk(
 
 interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   bonds: { [key: string]: IUserBondDetails };
+  balances: {
+    ohm: string;
+    sohm: string;
+    dai: string;
+    oldsohm: string;
+    fsohm: string;
+    wsohm: string;
+    wsohmAsSohm: string;
+    pool: string;
+  };
   loading: boolean;
+  staking: {
+    ohmStake: number;
+    ohmUnstake: number;
+  };
+  pooling: {
+    sohmPool: number;
+  };
 }
 
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
-  balances: { ohm: "", sohm: "", wsohmAsSohm: "", wsohm: "", fsohm: "", pool: "" },
+  balances: { ohm: "", sohm: "", dai: "", oldsohm: "", fsohm: "", wsohm: "", pool: "", wsohmAsSohm: "" },
   staking: { ohmStake: 0, ohmUnstake: 0 },
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0 },
+  pooling: { sohmPool: 0 },
 };
 
 const accountSlice = createSlice({

@@ -43,6 +43,7 @@ export default function ZapStakeHeader({ images }) {
               images={[
                 "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png",
               ]}
+              avatarStyleOverride={{ height: "44px", width: "44px", marginInline: "-7px" }}
             />
             <Typography color="textSecondary">Auto staked for sOHM</Typography>
           </Box>

@@ -6,7 +6,7 @@ import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
-import useBonds from "./hooks/Bonds";
+import useBonds, { IAllBondData } from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
@@ -18,7 +18,7 @@ import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSl
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, Dashboard, TreasuryDashboard, PoolTogether, Zap, Wrap } from "./views";
+import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
@@ -29,6 +29,8 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import "./style.scss";
+import { Bond as IBond } from "./lib/Bond";
+import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -75,9 +77,10 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   useSegmentAnalytics();
+  useGoogleAnalytics();
+  const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
-  const location = useLocation();
   const currentPath = location.pathname + location.search + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -90,7 +93,8 @@ function App() {
 
   const [walletChecked, setWalletChecked] = useState(false);
 
-  const { bonds } = useBonds(chainID);
+  // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
+  const { bonds, expiredBonds } = useBonds(chainID);
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
@@ -127,6 +131,9 @@ function App() {
         dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
       });
       dispatch(getZapTokenBalances({ address, networkID: chainID, provider: loadProvider }));
+      expiredBonds.map(bond => {
+        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+      });
     },
     [connected],
   );
@@ -233,8 +240,8 @@ function App() {
               <PoolTogether />
             </Route>
 
-            {/* <Route path="/bonds">
-              {bonds.map(bond => {
+            <Route path="/bonds">
+              {(bonds as IAllBondData[]).map(bond => {
                 return (
                   <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
                     <Bond bond={bond} />
@@ -242,7 +249,7 @@ function App() {
                 );
               })}
               <ChooseBond />
-            </Route> */}
+            </Route>
 
             <Route component={NotFound} />
           </Switch>

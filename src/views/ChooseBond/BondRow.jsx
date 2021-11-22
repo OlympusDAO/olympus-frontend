@@ -4,6 +4,7 @@ import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Sli
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
+import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 import useBonds from "src/hooks/Bonds";
 import { useWeb3Context } from "../../hooks/web3Context";
@@ -24,7 +25,7 @@ export function BondDataCard({ bond }) {
               <div>
                 <Link href={bond.lpUrl} target="_blank">
                   <Typography variant="body1">
-                    View Contract
+                    <Trans>View Contract</Trans>
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
                   </Typography>
                 </Link>
@@ -33,20 +34,26 @@ export function BondDataCard({ bond }) {
           </div>
         </div>
         <div className="data-row">
-          <Typography>Price</Typography>
+          <Typography>
+            <Trans>Price</Trans>
+          </Typography>
           <Typography className="bond-price">
             <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
           </Typography>
         </div>
         <div className="data-row">
-          <Typography>ROI</Typography>
+          <Typography>
+            <Trans>ROI</Trans>
+          </Typography>
           <Typography>
             {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
           </Typography>
         </div>
 
         <div className="data-row">
-          <Typography>Purchased</Typography>
+          <Typography>
+            <Trans>Purchased</Trans>
+          </Typography>
           <Typography>
             {isBondLoading ? (
               <Skeleton width="80px" />
@@ -62,7 +69,9 @@ export function BondDataCard({ bond }) {
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID]}>
-            <Typography variant="h5">{!bond.isAvailable[chainID] ? "Sold Out" : `Bond ${bond.displayName}`}</Typography>
+            <Typography variant="h5">
+              {!bond.isAvailable[chainID] ? t`Sold Out` : t`Bond ${bond.displayName}`}
+            </Typography>
           </Button>
         </Link>
       </Paper>
@@ -70,7 +79,7 @@ export function BondDataCard({ bond }) {
   );
 }
 
-export function BondTableData({ bond, basePath }) {
+export function BondTableData({ bond }) {
   const { chainID } = useWeb3Context();
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.bondPrice ?? true;
@@ -85,7 +94,7 @@ export function BondTableData({ bond, basePath }) {
           {bond.isLP && (
             <Link color="primary" href={bond.lpUrl} target="_blank">
               <Typography variant="body1">
-                View Contract
+                <Trans>View Contract</Trans>
                 <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
               </Typography>
             </Link>
@@ -114,9 +123,9 @@ export function BondTableData({ bond, basePath }) {
         )}
       </TableCell>
       <TableCell>
-        <Link component={NavLink} to={`/${basePath}/${bond.name}`}>
+        <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" disabled={!bond.isAvailable[chainID]}>
-            <Typography variant="h6">{!bond.isAvailable[chainID] ? "Sold Out" : "Bond"}</Typography>
+            <Typography variant="h6">{!bond.isAvailable[chainID] ? t`Sold Out` : t`do_bond`}</Typography>
           </Button>
         </Link>
       </TableCell>
