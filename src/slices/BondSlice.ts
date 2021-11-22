@@ -16,6 +16,7 @@ import {
   IRedeemBondAsyncThunk,
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
+import ReactGA from "react-ga";
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
@@ -222,6 +223,12 @@ export const bondAsset = createAsyncThunk(
     } finally {
       if (bondTx) {
         segmentUA(uaData);
+        ReactGA.event({
+          category: "Bonds",
+          action: uaData.type ?? "unknown",
+          value: parseFloat(uaData.value),
+          label: uaData.address,
+        });
         dispatch(clearPendingTxn(bondTx.hash));
       }
     }
@@ -266,6 +273,11 @@ export const redeemBond = createAsyncThunk(
     } finally {
       if (redeemTx) {
         segmentUA(uaData);
+        ReactGA.event({
+          category: "Bonds",
+          action: uaData.type ?? "unknown",
+          label: uaData.address,
+        });
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
