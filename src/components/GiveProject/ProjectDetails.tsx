@@ -30,11 +30,15 @@ export default function ProjectDetails({
 }: ProjectDetailsProps) {
   // The JSON file returns a string, so we convert it
   const finishDateObject = new Date(finishDate);
-  const countdownRenderer = ({ days, hours }: CountdownProps) => (
-    <div>
-      {days} days, {hours} hours left
-    </div>
-  );
+  const countdownRenderer = ({ days, hours, completed }: CountdownProps) => {
+    if (completed) return <div>Fundraise complete!</div>;
+
+    return (
+      <div>
+        {days} days, {hours} hours left
+      </div>
+    );
+  };
 
   return (
     <>
