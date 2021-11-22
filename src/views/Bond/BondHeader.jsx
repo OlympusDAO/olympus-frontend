@@ -27,8 +27,8 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
 
   return (
     <div className="bond-header">
-      <Link component={NavLink} to={`/${returnPath}`} className="cancel-bond">
-        {alternateBackButton ?? <SvgIcon color="primary" component={XIcon} />}
+      <Link component={NavLink} to="/bonds" className="cancel-bond">
+        <SvgIcon color="primary" component={XIcon} />
       </Link>
 
       <div className="bond-header-logo">
