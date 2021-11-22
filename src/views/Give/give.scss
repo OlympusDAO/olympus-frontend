@@ -10,7 +10,7 @@
   }
 }
 
-.causes-body{
+.causes-body {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,6 +19,7 @@
   width: 100%;
   margin-top: 10px;
   height: 65vh;
+
   .MuiGrid-root.MuiGrid-item {
     display: flex;
     justify-self: center !important;
@@ -44,11 +45,13 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    margin-bottom: 2rem;
 
     .cause-image {
       width: 33%;
       height: 100%;
       justify-content: flex-start;
+      padding-right: 1rem;
     }
 
     .cause-content {

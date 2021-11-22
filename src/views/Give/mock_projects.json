@@ -1,31 +1,45 @@
 {
   "projects": [
     {
-      "id": 1,
-      "logo": "IM Logo",
-      "title": "ImpactMarket",
+      "title": "ImpactMarket - Project A",
       "provider": "ImpactMarket",
       "details": "Lorem ipsum dolor sit amet",
-      "remainingTime": 433224,
-      "completion": 0.45
+      "finishDate": "2021-12-4T18:00:00.000Z",
+      "photos": [
+        "/assets/images/give/impact-market-project-a/project-a-1.jpg",
+        "/assets/images/give/impact-market-project-a/project-a-2.jpg"
+      ],
+      "category": "AAA"
     },
     {
-      "id": 2,
-      "logo": "Gitcoin Logo",
-      "title": "Gitcoin",
+      "title": "Gitcoin - Project B",
       "provider": "Gitcoin",
       "details": "Lorem ipsum dolor sit amet",
-      "remainingTime": 839224,
-      "completion": 0.67
+      "finishDate": "2021-12-4T18:00:00.000Z",
+      "photos": [
+        "/assets/images/give/gitcoin-project-b/project-b-1.jpg",
+        "/assets/images/give/gitcoin-project-b/project-b-2.jpg"
+      ],
+      "category": "BBB"
     },
     {
-      "id": 3,
-      "logo": "Angel Logo",
-      "title": "Angel Protocol",
+      "title": "Angel Protocol - Project C",
       "provider": "Angel Protocol",
       "details": "Lorem ipsum dolor sit amet",
-      "remainingTime": 123424,
-      "completion": 0.12
+      "finishDate": "2021-12-4T18:00:00.000Z",
+      "photos": [
+        "/assets/images/give/angel-protocol-project-c/project-c-1.jpg",
+        "/assets/images/give/angel-protocol-project-c/project-c-2.jpg"
+      ],
+      "category": "CCC"
+    },
+    {
+      "title": "Angel Protocol - Project C",
+      "provider": "Angel Protocol",
+      "details": "Lorem ipsum dolor sit amet",
+      "finishDate": "2021-12-4T18:00:00.000Z",
+      "photos": [],
+      "category": "AAA"
     }
   ]
 }
