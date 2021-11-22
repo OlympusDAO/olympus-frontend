@@ -123,4 +123,8 @@ export class EnvHelper {
   static getZapperAPIKey() {
     return "96e0cc51-a62e-42ca-acee-910ea7d2a241";
   }
+
+  static getZapperPoolAddress() {
+    return "0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f";
+  }
 }
