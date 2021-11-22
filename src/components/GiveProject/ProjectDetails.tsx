@@ -40,17 +40,27 @@ export default function ProjectDetails({
     );
   };
 
+  const getProjectImage = (): JSX.Element => {
+    // We return an empty image with a set width, so that the spacing remains the same.
+    if (!photos || photos.length < 1)
+      return (
+        <div className="cause-image">
+          <img width="100%" src="" />
+        </div>
+      );
+
+    return (
+      <div className="cause-image">
+        <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
+      </div>
+    );
+  };
+
   return (
     <>
       <Paper>
         <Grid item className="cause-card">
-          {photos && photos.length >= 1 ? (
-            <div className="cause-image">
-              <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
-            </div>
-          ) : (
-            <></>
-          )}
+          {getProjectImage()}
           <div className="cause-content">
             <div className="cause-title">
               <Typography variant="h6">{title}</Typography>
