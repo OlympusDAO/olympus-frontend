@@ -92,9 +92,6 @@ export abstract class Bond {
   }
 
   getAddressForReserve(networkID: NetworkID) {
-    console.log(networkID);
-    console.log(this.networkAddrs);
-    console.trace();
     return this.networkAddrs[networkID].reserveAddress;
   }
   getContractForReserve(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
