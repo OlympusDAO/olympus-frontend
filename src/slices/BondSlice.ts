@@ -113,13 +113,14 @@ export const calcBondDetails = createAsyncThunk(
       if (bond.name === "cvx") {
         let bondPriceRaw = await bondContract.bondPrice();
         let assetPriceUSD = await bond.getBondReservePrice(networkID, provider);
-        bondPrice = bondPriceRaw.mul(BigNumber.from(String(assetPriceUSD * 10 ** 14)));
+        // add 18 decimals to CVX AssetPrice, but bondPriceRaw already has 4 extra decimals
+        bondPrice = bondPriceRaw.mul(BigNumber.from(String(assetPriceUSD * 10 ** 18))).div(10 ** 4);
       } else {
         bondPrice = await bondContract.bondPriceInUSD();
       }
       bondDiscount = (marketPrice * Math.pow(10, 18) - Number(bondPrice.toString())) / Number(bondPrice.toString()); // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
     } catch (e) {
-      console.log("error getting bondPriceInUSD", e);
+      console.log("error getting bondPriceInUSD", bond.name, e);
     }
 
     if (Number(value) === 0) {
