@@ -63,7 +63,6 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                 recipientAddress={recipientAddress}
                 onSlippageChange={onSlippageChange}
                 onRecipientAddressChange={onRecipientAddressChange}
-                returnPath="bonds"
               />
 
               <Box display="flex" flexDirection="row" className="bond-price-data-row">

@@ -7,15 +7,7 @@ import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg"
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import useEscape from "../../hooks/useEscape";
 
-function BondHeader({
-  bond,
-  slippage,
-  recipientAddress,
-  onRecipientAddressChange,
-  onSlippageChange,
-  returnPath,
-  alternateBackButton,
-}) {
+function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
