@@ -1,5 +1,8 @@
 import { Button, Typography, Grid, Paper } from "@material-ui/core";
 import Countdown from "react-countdown";
+import SvgIcon from "@material-ui/core/SvgIcon";
+import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
+import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
 
 type ProjectDetailsProps = {
   title: string;
@@ -34,20 +37,30 @@ export default function ProjectDetails({
     if (completed) return <div>Fundraise complete!</div>;
 
     return (
-      <div>
-        <strong>
-          {days} days, {hours} hours
-        </strong>{" "}
-        remaining
-      </div>
+      <>
+        <div className="cause-info-icon">
+          <SvgIcon component={ClockIcon} color="primary" />
+        </div>
+        <div>
+          <strong>
+            {days} days, {hours} hours
+          </strong>{" "}
+          remaining
+        </div>
+      </>
     );
   };
 
   const getGoalCompletion = (): JSX.Element => {
     return (
-      <div className="cause-completion">
-        <strong>{completion}%</strong> <span>of goal</span>
-      </div>
+      <>
+        <div className="cause-info-icon">
+          <SvgIcon component={CheckIcon} color="primary" />
+        </div>
+        <div>
+          <strong>{completion}%</strong> <span>of goal</span>
+        </div>
+      </>
     );
   };
 
@@ -79,7 +92,7 @@ export default function ProjectDetails({
             <div className="cause-body">
               <Typography variant="body2">{details}</Typography>
             </div>
-            <Grid className="cause-misc-info">
+            <Grid container direction="column" className="cause-misc-info">
               <Grid item xs={3}>
                 <Countdown date={finishDateObject} renderer={countdownRenderer} />
               </Grid>
