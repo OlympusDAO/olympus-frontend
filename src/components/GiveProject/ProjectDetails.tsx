@@ -35,7 +35,18 @@ export default function ProjectDetails({
 
     return (
       <div>
-        {days} days, {hours} hours left
+        <strong>
+          {days} days, {hours} hours
+        </strong>{" "}
+        remaining
+      </div>
+    );
+  };
+
+  const getGoalCompletion = (): JSX.Element => {
+    return (
+      <div className="cause-completion">
+        <strong>{completion}%</strong> <span>of goal</span>
       </div>
     );
   };
@@ -68,13 +79,19 @@ export default function ProjectDetails({
             <div className="cause-body">
               <Typography variant="body2">{details}</Typography>
             </div>
-            <div className="cause-misc-info">
-              <Countdown date={finishDateObject} renderer={countdownRenderer} />
-              <Typography variant="body2">{completion}% complete</Typography>
-              <Button variant="outlined" color="secondary">
-                Give
-              </Button>
-            </div>
+            <Grid className="cause-misc-info">
+              <Grid item xs={3}>
+                <Countdown date={finishDateObject} renderer={countdownRenderer} />
+              </Grid>
+              <Grid item xs={3}>
+                {getGoalCompletion()}
+              </Grid>
+              <Grid item xs={6}>
+                <Button variant="contained" color="primary" className="cause-give-button">
+                  Give Yield
+                </Button>
+              </Grid>
+            </Grid>
           </div>
         </Grid>
       </Paper>
