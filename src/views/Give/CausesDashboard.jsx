@@ -31,6 +31,8 @@ export default function CausesDashboard() {
     });
   }, [projects]);
 
+  // TODO fix scrolling
+
   return (
     <>
       <div className="give-view">

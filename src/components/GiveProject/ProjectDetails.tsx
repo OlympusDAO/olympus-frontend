@@ -1,12 +1,23 @@
 import { Button, Typography, Grid, Paper } from "@material-ui/core";
+import Countdown from "react-countdown";
 
 type ProjectDetailsProps = {
   title: string;
   details: string;
-  finishDate: Date;
+  finishDate: string;
   completion: number;
   photos: [string];
   category: string;
+};
+
+type CountdownProps = {
+  total: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  milliseconds: number;
+  completed: boolean;
 };
 
 export default function ProjectDetails({
@@ -17,7 +28,13 @@ export default function ProjectDetails({
   photos,
   category,
 }: ProjectDetailsProps) {
-  // TODO finish date counter
+  // The JSON file returns a string, so we convert it
+  const finishDateObject = new Date(finishDate);
+  const countdownRenderer = ({ days, hours }: CountdownProps) => (
+    <div>
+      {days} days, {hours} hours left
+    </div>
+  );
 
   return (
     <>
@@ -38,7 +55,7 @@ export default function ProjectDetails({
               <Typography variant="body2">{details}</Typography>
             </div>
             <div className="cause-misc-info">
-              <Typography variant="body2">Finish Date: {finishDate.toLocaleString()}</Typography>
+              <Countdown date={finishDateObject} renderer={countdownRenderer} />
               <Typography variant="body2">{completion}% complete</Typography>
               <Button variant="outlined" color="secondary">
                 Give
