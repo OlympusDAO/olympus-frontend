@@ -46,7 +46,6 @@ function ZapStakeAction(props) {
   const tokens = useAppSelector(state => state.zap.balances);
   const isTokensLoading = useAppSelector(state => state.zap.balancesLoading);
   const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
-  console.log(isChangeAllowanceLoading);
   const isExecuteZapLoading = useAppSelector(state => state.zap.stakeLoading);
   const isAppLoading = useAppSelector(state => state.app.loading);
 
