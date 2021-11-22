@@ -11,6 +11,7 @@ type ProjectDetailsProps = {
   completion: number;
   photos: string[];
   category: string;
+  wallet: string;
 };
 
 type CountdownProps = {
@@ -30,6 +31,7 @@ export default function ProjectDetails({
   completion,
   photos,
   category,
+  wallet,
 }: ProjectDetailsProps) {
   // The JSON file returns a string, so we convert it
   const finishDateObject = new Date(finishDate);

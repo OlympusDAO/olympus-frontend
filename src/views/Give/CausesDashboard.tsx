@@ -15,7 +15,7 @@ export default function CausesDashboard() {
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      const { title, details, finishDate, photos, category } = project;
+      const { title, details, finishDate, photos, category, wallet } = project;
       return (
         <ProjectDetails
           key={title}
@@ -25,6 +25,7 @@ export default function CausesDashboard() {
           completion={50}
           photos={photos}
           category={category}
+          wallet={wallet}
         />
       );
     });

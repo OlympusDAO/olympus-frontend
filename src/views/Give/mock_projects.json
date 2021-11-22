@@ -9,7 +9,8 @@
         "/assets/images/give/impact-market-project-a/project-a-1.jpg",
         "/assets/images/give/impact-market-project-a/project-a-2.jpg"
       ],
-      "category": "AAA"
+      "category": "AAA",
+      "wallet": "0x0"
     },
     {
       "title": "Gitcoin - Project B",
@@ -20,7 +21,8 @@
         "/assets/images/give/gitcoin-project-b/project-b-1.jpg",
         "/assets/images/give/gitcoin-project-b/project-b-2.jpg"
       ],
-      "category": "BBB"
+      "category": "BBB",
+      "wallet": "0x1"
     },
     {
       "title": "Angel Protocol - Project C",
@@ -31,7 +33,8 @@
         "/assets/images/give/angel-protocol-project-c/project-c-1.jpg",
         "/assets/images/give/angel-protocol-project-c/project-c-2.jpg"
       ],
-      "category": "CCC"
+      "category": "CCC",
+      "wallet": "0x2"
     },
     {
       "title": "Angel Protocol - Project C",
@@ -39,7 +42,8 @@
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu cursus lectus, nec aliquam lorem. Sed id accumsan libero. Cras nec aliquam mauris. Donec et pretium turpis. Quisque velit tortor, semper a sodales non, laoreet nec velit. Integer eu lacus efficitur, scelerisque lorem et, fringilla sapien. Suspendisse pretium sit amet eros quis sollicitudin. Phasellus id mi odio. Praesent malesuada metus interdum massa lobortis, id congue sapien rutrum.",
       "finishDate": "2021-12-08T18:00:00.000Z",
       "photos": [],
-      "category": "AAA"
+      "category": "AAA",
+      "wallet": "0x3"
     }
   ]
 }
