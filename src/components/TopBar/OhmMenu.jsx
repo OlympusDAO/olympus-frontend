@@ -84,10 +84,8 @@ function OhmMenu() {
 
   const open = Boolean(anchorEl);
   const id = "ohm-popper";
-  // const daiAddress = dai.getAddressForReserve(networkID);
-  // const fraxAddress = frax.getAddressForReserve(networkID);
-  const daiAddress = "";
-  const fraxAddress = "";
+  const daiAddress = dai.getAddressForReserve(networkID);
+  const fraxAddress = frax.getAddressForReserve(networkID);
   return (
     <Box
       component="div"

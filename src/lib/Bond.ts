@@ -9,7 +9,7 @@ import { addresses } from "src/constants";
 import React from "react";
 
 export enum NetworkID {
-  Mainnet = 31337,
+  Mainnet = 1,
   Testnet = 4,
 }
 
@@ -92,9 +92,6 @@ export abstract class Bond {
   }
 
   getAddressForReserve(networkID: NetworkID) {
-    console.log(networkID);
-    console.log(this.networkAddrs);
-    console.trace();
     return this.networkAddrs[networkID].reserveAddress;
   }
   getContractForReserve(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
