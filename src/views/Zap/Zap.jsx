@@ -11,7 +11,6 @@ function Zap() {
   const { address, connect } = useWeb3Context();
 
   const tokens = useAppSelector(state => state.zap.balances);
-
   const inputTokenImages = useMemo(
     () =>
       Object.entries(tokens)
@@ -47,7 +46,7 @@ function Zap() {
         </Paper>
       </Zoom>
       <Zoom in={true}>
-        <ZapInfo tokens={inputTokenImages} />
+        <ZapInfo tokens={inputTokenImages} address={address} />
       </Zoom>
     </div>
   );

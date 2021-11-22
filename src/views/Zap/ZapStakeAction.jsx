@@ -32,7 +32,7 @@ import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-comp
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ethers } from "ethers";
-
+import { segmentUA } from "../../helpers/userAnalyticHelpers";
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
 const viewBox = "-8 -12 48 48";
 
@@ -48,9 +48,14 @@ function ZapStakeAction(props) {
   const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
   const isExecuteZapLoading = useAppSelector(state => state.zap.stakeLoading);
   const isAppLoading = useAppSelector(state => state.app.loading);
-
   const [zapToken, setZapToken] = useState(null);
   const handleSelectZapToken = token => {
+    const uaData = {
+      type: "OlyZaps Token Select",
+      token: token,
+      address: address,
+    };
+    segmentUA(uaData);
     setZapToken(token);
     handleClose();
   };
@@ -63,6 +68,15 @@ function ZapStakeAction(props) {
 
   const [inputQuantity, setInputQuantity] = useState("");
   const [outputQuantity, setOutputQuantity] = useState("");
+
+  const olyZapsSwapOfferDisplay = (amount, outPutQuantity) => {
+    const uaData = {
+      type: "OlyZaps Offer Display",
+      token: zapToken,
+      minOutput: outputQuantity,
+    };
+    segmentUA(uaData);
+  };
 
   const ohmMarketPrice = useAppSelector(state => {
     return state.app.marketPrice;
@@ -81,6 +95,9 @@ function ZapStakeAction(props) {
     const amount = Number(q);
     setInputQuantity(amount);
     setOutputQuantity(amount / exchangeRate);
+    if (outputQuantity) {
+      olyZapsSwapOfferDisplay(amount, outputQuantity);
+    }
   };
 
   const setOutputTokenQuantity = q => {
@@ -126,7 +143,7 @@ function ZapStakeAction(props) {
   const isAllowanceTxSuccess =
     initialTokenAllowance != currentTokenAllowance && initialTokenAllowance != null && currentTokenAllowance != null;
 
-  const onSeekApproval = async () =>
+  const onSeekApproval = async () => {
     dispatch(
       changeZapTokenAllowance({
         address,
@@ -135,6 +152,7 @@ function ZapStakeAction(props) {
         action: zapToken,
       }),
     );
+  };
 
   const onZap = async () =>
     dispatch(
