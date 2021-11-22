@@ -10,7 +10,9 @@ import {
   Table,
   TableRow,
   TableContainer,
+  Grid,
 } from "@material-ui/core";
+import { NavLink } from "react-router-dom";
 
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -118,6 +120,23 @@ export default function YieldRecipients() {
   const handleWithdrawModalCancel = () => {
     setIsWithdrawModalOpen(false);
   };
+
+  if (Object.keys(donationInfo).length == 0) {
+    return (
+      <>
+        <Grid container>
+          <Grid item xs={10}>
+            <Typography variant="h5">It looks like you haven't donated any yield. Let's fix that!</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Button component={NavLink} to="/give" variant="contained" color="primary">
+              Give Yield
+            </Button>
+          </Grid>
+        </Grid>
+      </>
+    );
+  }
 
   return (
     <div className="card-content">
