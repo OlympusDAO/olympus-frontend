@@ -215,7 +215,7 @@ function App() {
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
-            <Route exact path="/dashboard">
+            {/* <Route exact path="/dashboard">
               <TreasuryDashboard />
             </Route>
 
@@ -225,7 +225,7 @@ function App() {
 
             <Route path="/stake">
               <Stake />
-            </Route>
+            </Route> */}
 
             <Route path="/zap">
               <Route exact path={`/zap`}>
