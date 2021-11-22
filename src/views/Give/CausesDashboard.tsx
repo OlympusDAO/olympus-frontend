@@ -15,11 +15,10 @@ export default function CausesDashboard() {
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      const { id, logo, title, details, finishDate, photos, category } = project;
+      const { title, details, finishDate, photos, category } = project;
       return (
         <ProjectDetails
-          key={id}
-          logo={logo}
+          key={title}
           title={title}
           details={details}
           finishDate={finishDate}
@@ -44,7 +43,7 @@ export default function CausesDashboard() {
               </div>
             </div>
             <div className="causes-body">
-              <Grid container rowSpacing={2} className="data-grid">
+              <Grid container className="data-grid">
                 {renderProjects}
               </Grid>
             </div>

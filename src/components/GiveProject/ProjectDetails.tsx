@@ -6,7 +6,7 @@ type ProjectDetailsProps = {
   details: string;
   finishDate: string;
   completion: number;
-  photos: [string];
+  photos: string[];
   category: string;
 };
 
