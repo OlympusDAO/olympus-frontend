@@ -8,7 +8,7 @@ export const getLusdData = createAsyncThunk(
   "stake/getLusdData",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     // only works on mainnet
-    if (networkID !== 31337) {
+    if (networkID !== 1) {
       // we don't have rinkeby contracts
       return { apy: 0, tvl: 0 };
     } else {
