@@ -39,7 +39,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
     } catch (e: unknown) {
       const rpcError = e as any;
       console.error(e);
-      dispatch(error(`${rpcError.message} ${rpcError.data?.message}`));
+      dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
       throw e;
     }
   },
@@ -79,7 +79,7 @@ export const executeZap = createAsyncThunk(
     } catch (e: unknown) {
       console.error(e);
       const rpcError = e as any;
-      dispatch(error(`${rpcError.message} ${rpcError.data?.message}`));
+      dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
       throw e;
     }
     dispatch(getBalances({ address, provider, networkID }));
