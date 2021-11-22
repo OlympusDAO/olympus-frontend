@@ -6,6 +6,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import ZapStakeAction from "./ZapStakeAction";
 import { useSelector } from "react-redux";
 import ZapInfo from "./ZapInfo";
+import { useAppSelector } from "src/hooks";
 
 function a11yProps(index) {
   return {
@@ -22,7 +23,7 @@ const infoTokenIcons = [
 function Zap() {
   const { address, connect, chainID, provider } = useWeb3Context();
 
-  const tokens = useSelector(state => state.zap.balances);
+  const tokens = useAppSelector(state => state.zap.balances);
 
   const changeView = (event, newView) => {
     setView(newView);

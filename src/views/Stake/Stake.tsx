@@ -50,9 +50,9 @@ function Stake() {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState(0);
 
-  const tokens = useSelector(state => state.zap.balances);
-  const isAppLoading = useSelector(state => state.app.loading);
-  const currentIndex = useSelector(state => {
+  const tokens = useAppSelector(state => state.zap.balances);
+  const isAppLoading = useAppSelector(state => state.app.loading);
+  const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
   });
   const fiveDayRate = useAppSelector(state => {

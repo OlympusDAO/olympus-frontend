@@ -23,13 +23,13 @@ import {
 } from "@material-ui/core";
 import { changeZapTokenAllowance, executeZap, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ZapStakeHeader from "./ZapStakeHeader";
 import { ReactComponent as DownIcon } from "../../assets/icons/arrow-down.svg";
 import { ReactComponent as FirstStepIcon } from "../../assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
-import { useWeb3Context } from "src/hooks";
+import { useAppSelector, useWeb3Context } from "src/hooks";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ethers } from "ethers";
 
@@ -43,11 +43,11 @@ function ZapStakeAction(props) {
 
   const dispatch = useDispatch();
 
-  const tokens = useSelector(state => state.zap.balances);
-  const isTokensLoading = useSelector(state => state.zap.balancesLoading);
-  const isChangeAllowanceLoading = useSelector(state => state.zap.changeAllowanceLoading);
-  const isExecuteZapLoading = useSelector(state => state.zap.stakeLoading);
-  const isAppLoading = useSelector(state => state.app.loading);
+  const tokens = useAppSelector(state => state.zap.balances);
+  const isTokensLoading = useAppSelector(state => state.zap.balancesLoading);
+  const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
+  const isExecuteZapLoading = useAppSelector(state => state.zap.stakeLoading);
+  const isAppLoading = useAppSelector(state => state.app.loading);
 
   const [zapToken, setZapToken] = useState(null);
   const handleSelectZapToken = token => {
@@ -64,11 +64,11 @@ function ZapStakeAction(props) {
   const [inputQuantity, setInputQuantity] = useState("");
   const [outputQuantity, setOutputQuantity] = useState("");
 
-  const ohmMarketPrice = useSelector(state => {
+  const ohmMarketPrice = useAppSelector(state => {
     return state.app.marketPrice;
   });
 
-  const sOhmBalance = useSelector(state => Number(state.account?.balances?.sohm ?? 0.0));
+  const sOhmBalance = useAppSelector(state => Number(state.account?.balances?.sohm ?? 0.0));
 
   const exchangeRate = ohmMarketPrice / tokens[zapToken]?.price;
 
@@ -102,7 +102,7 @@ function ZapStakeAction(props) {
         .slice(0, 3),
     [tokens],
   );
-  const currentTokenAllowance = useSelector(state => state.zap.allowances[zapToken]);
+  const currentTokenAllowance = useAppSelector(state => state.zap.allowances[zapToken]);
   const checkTokenAllowance = (tokenAddress, tokenSymbol) => {
     if (tokenAddress && tokenSymbol) {
       if (currentTokenAllowance == null) {
