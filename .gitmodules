@@ -2,3 +2,4 @@
 	path = src/locales/translations
 	url = https://github.com/OlympusDAO/olympus-translations.git
 	branch = develop
+	ignore = dirty
