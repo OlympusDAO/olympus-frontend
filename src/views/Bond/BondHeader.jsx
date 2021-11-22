@@ -22,7 +22,7 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
 
   useEscape(() => {
     if (open) handleClose;
-    else history.push(`/${returnPath}`);
+    else history.push(`/bonds`);
   });
 
   return (
