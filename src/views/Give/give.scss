@@ -51,6 +51,10 @@
       height: 100%;
       justify-content: flex-start;
       padding-right: 1rem;
+
+      img {
+        border-radius: 5%;
+      }
     }
 
     .cause-content {
