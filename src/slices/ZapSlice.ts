@@ -131,6 +131,7 @@ export const executeZap = createAsyncThunk(
       throw e;
     }
     dispatch(getBalances({ address, provider, networkID }));
+    dispatch(getZapTokenBalances({ address, provider, networkID }));
   },
 );
 
