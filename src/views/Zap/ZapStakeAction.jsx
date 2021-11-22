@@ -144,7 +144,6 @@ function ZapStakeAction(props) {
     initialTokenAllowance != currentTokenAllowance && initialTokenAllowance != null && currentTokenAllowance != null;
 
   const onSeekApproval = async () => {
-    segmentUA({ type: "Zap Approval Request", address: address });
     dispatch(
       changeZapTokenAllowance({
         address,
