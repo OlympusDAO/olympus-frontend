@@ -5,7 +5,7 @@ import { setAll } from "src/helpers";
 import { ZapHelper } from "src/helpers/ZapHelper";
 import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
-import { error } from "./MessagesSlice";
+import { error, info } from "./MessagesSlice";
 
 export const getZapTokenAllowance = createAsyncThunk(
   "zap/getZapTokenAllowance",
@@ -33,6 +33,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       const signer = provider.getSigner();
       const tx = await signer.sendTransaction(transactionData);
       await tx.wait();
+      dispatch(info("Successfully approved token!"));
       return Object.fromEntries([[action, true]]);
     } catch (e: unknown) {
       const rpcError = e as any;
@@ -71,6 +72,7 @@ export const executeZap = createAsyncThunk(
       const signer = provider.getSigner();
       const tx = await signer.sendTransaction(transactionData);
       await tx.wait();
+      dispatch(info("Successful Zap!"));
     } catch (e: unknown) {
       console.error(e);
       const rpcError = e as any;
