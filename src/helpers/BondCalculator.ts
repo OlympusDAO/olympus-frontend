@@ -5,10 +5,10 @@ import { ethers } from "ethers";
 import { addresses } from "src/constants";
 import { BondCalcContract } from "../typechain";
 
-export function getBondCalculator(networkID: NetworkID, provider: StaticJsonRpcProvider) {
+export const getBondCalculator = (networkID: NetworkID, provider: StaticJsonRpcProvider) => {
   return new ethers.Contract(
     addresses[networkID].BONDINGCALC_ADDRESS as string,
     BondCalcContractABI,
     provider,
   ) as BondCalcContract;
-}
+};

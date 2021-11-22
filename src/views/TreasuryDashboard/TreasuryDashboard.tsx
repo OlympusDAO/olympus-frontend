@@ -74,12 +74,18 @@ const TreasuryDashboard = memo(() => {
                   dataKey={["holders"]}
                   headerText="Holders"
                   stroke={[theme.palette.text.secondary]}
-                  headerSubText={`${data && data[0].holders}`}
+                  headerSubText={`${data.length > 0 && data[0].holders}`}
                   bulletpointColors={bulletpoints.holder}
                   itemNames={tooltipItems.holder}
-                  itemType={""}
+                  itemType={undefined}
                   infoTooltipMessage={tooltipInfoMessages.holder}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+                  scale={undefined}
+                  color={undefined}
+                  stroke={undefined}
+                  dataFormat={undefined}
+                  isPOL={undefined}
+                  isStaked={undefined}
                 />
               </Paper>
             </Grid> */}
