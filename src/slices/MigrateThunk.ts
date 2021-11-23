@@ -114,7 +114,7 @@ export const bridgeBack = createAsyncThunk(
     try {
       unMigrateTx = await migrator.bridgeBack(ethers.utils.parseUnits(value, "ether"), TokenType.STAKED);
       const text = `Bridge Back gOHM`;
-      const pendingTxnType = `migrate_gohm`;
+      const pendingTxnType = `unmigrate_gohm`;
 
       dispatch(fetchPendingTxns({ txnHash: unMigrateTx.hash, text, type: pendingTxnType }));
       await unMigrateTx.wait();
