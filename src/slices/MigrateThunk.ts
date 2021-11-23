@@ -143,9 +143,7 @@ export const migrateWithType = createAsyncThunk(
       dispatch(error("Please connect your wallet!"));
       return;
     }
-
     let migrateTx: ethers.ContractTransaction | undefined;
-
     try {
       migrateTx = await migrator.migrate(ethers.utils.parseEther(value), type, TokenType.WRAPPED);
       const text = `Migrate ${TokenType[type]} Tokens`;

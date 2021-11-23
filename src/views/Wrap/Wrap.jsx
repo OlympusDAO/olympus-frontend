@@ -75,12 +75,23 @@ function Wrap() {
   const wsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
+  const gohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.gohm;
+  });
   const wrapAllowance = useSelector(state => {
     return state.account.wrapping && state.account.wrapping.ohmWrap;
   });
   const unwrapAllowance = useSelector(state => {
     return state.account.wrapping && state.account.wrapping.ohmUnwrap;
   });
+
+  const migrateAllowance = useSelector(state => {
+    return state.account.migration && state.account.migration.sohm;
+  });
+
+  // const unwrapGohmAllowance = useSelector(state => {
+  //   return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
+  // });
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
@@ -125,11 +136,12 @@ function Wrap() {
 
   const hasAllowance = useCallback(
     token => {
-      if (token === "sohm") return wrapAllowance > 0;
-      if (token === "wsohm") return wrapAllowance > 0;
+      if (token === "sohm" && asset === 0) return wrapAllowance > 0;
+      if (token === "sohm" && asset === 1) return migrateAllowance > 0;
+      if (token === "wsohm") return unwrapAllowance > 0;
       return 0;
     },
-    [wrapAllowance, unwrapAllowance],
+    [wrapAllowance, unwrapAllowance, migrateAllowance, asset],
   );
 
   const isAllowanceDataLoading = (wrapAllowance == null && view === 0) || (unwrapAllowance == null && view === 1);
@@ -151,6 +163,19 @@ function Wrap() {
 
   const changeAsset = (event, newAsset) => {
     setAsset(newAsset);
+  };
+
+  const migrateToGohm = () => {
+    dispatch(
+      migrateWithType({
+        provider,
+        address,
+        networkID: chainID,
+        type: "sohm",
+        value: quantity,
+        action: "wrap to gOHM",
+      }),
+    );
   };
 
   return (
@@ -311,7 +336,7 @@ function Wrap() {
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "wrapping")}
                             onClick={() => {
-                              asset === 0 ? onChangeWrap("wrap") : console.log("wrap to gOHM");
+                              asset === 0 ? onChangeWrap("wrap") : migrateToGohm();
                             }}
                           >
                             {asset === 0
@@ -359,7 +384,11 @@ function Wrap() {
                     <div className="data-row">
                       <Typography variant="body1">Unwrappable Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                        {isAppLoading ? (
+                          <Skeleton width="80px" />
+                        ) : (
+                          <>{asset === 0 ? trim(wsohmBalance, 4) + " wsOHM" : trim(gohmBalance, 4) + " gOHM"}</>
+                        )}
                       </Typography>
                     </div>
                   </div>
