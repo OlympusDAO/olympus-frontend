@@ -91,6 +91,11 @@ export const dark = responsiveFontSizes(
             zIndex: 7,
           },
         },
+        MuiSelect: {
+          select: {
+            color: "#F8CC82",
+          },
+        },
         MuiPaper: {
           root: {
             backgroundColor: darkTheme.paperBg,

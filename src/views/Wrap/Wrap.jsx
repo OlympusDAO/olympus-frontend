@@ -319,7 +319,7 @@ function Wrap() {
             }}
           >
             {asset === 0
-              ? txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")
+              ? txnButtonText(pendingTransactions, "unwrapping", "Unwrap wsOHM")
               : txnButtonText(pendingTransactions, "unwrapping", "Unwrap gOHM")}
           </Button>
         );
@@ -417,7 +417,7 @@ function Wrap() {
                     <Box>
                       <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                         <span className="asset-select-label">{view === 0 ? "Wrap to" : "Unwrap"} </span>
-                        <Select id="asset-select" value={asset} label="Asset" onChange={changeAsset}>
+                        <Select id="asset-select" value={asset} label="Asset" onChange={changeAsset} disableUnderline>
                           <MenuItem value={0}>wsOHM</MenuItem>
                           <MenuItem value={1}>gOHM</MenuItem>
                         </Select>

@@ -205,6 +205,11 @@ export const light = responsiveFontSizes(
             },
           },
         },
+        MuiSelect: {
+          select: {
+            color: "#F8CC82",
+          },
+        },
         MuiButton: {
           containedPrimary: {
             color: "#FCFCFC",
