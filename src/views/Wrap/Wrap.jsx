@@ -103,7 +103,11 @@ function Wrap() {
     if (view === 0) {
       setQuantity(sohmBalance);
     } else {
-      setQuantity(wsohmBalance);
+      if (asset === 0) {
+        setQuantity(wsohmBalance);
+      } else {
+        setQuantity(gohmBalance);
+      }
     }
   };
 
@@ -429,7 +433,10 @@ function Wrap() {
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
                           {isUnwrap
-                            ? `Unwrapping ${quantity} wsOHM will result in ${trim(convertedQuantity, 4)} sOHM`
+                            ? `Unwrapping ${quantity} ${asset === 0 ? "wsOHM" : "gOHM"} will result in ${trim(
+                                convertedQuantity,
+                                4,
+                              )} sOHM`
                             : `Wrapping ${quantity} sOHM will result in ${trim(convertedQuantity, 4)} wsOHM`}
                         </Typography>
                       </Box>
