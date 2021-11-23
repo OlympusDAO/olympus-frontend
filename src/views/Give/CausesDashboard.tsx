@@ -18,7 +18,6 @@ export default function CausesDashboard() {
       const { title, details, finishDate, photos, category, wallet } = project;
       return (
         <ProjectDetails
-          key={title}
           title={title}
           details={details}
           finishDate={finishDate}
