@@ -22,6 +22,7 @@ import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrap } from "../../slices/WrapThunk";
+import { changeMigrationApproval, bridgeBack, migrateWithType } from "../../slices/MigrateThunk";
 import "../Stake/stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -51,6 +52,7 @@ function Wrap() {
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
+  const [asset, setAsset] = useState(0);
   const [quantity, setQuantity] = useState("");
   const classes = useStyles();
 
@@ -147,6 +149,10 @@ function Wrap() {
     setView(newView);
   };
 
+  const changeAsset = (event, newVersion) => {
+    setAsset(newVersion);
+  };
+
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -155,6 +161,19 @@ function Wrap() {
             <Grid item>
               <div className="card-header">
                 <Typography variant="h5">Wrap / Unwrap</Typography>
+                <Tabs
+                  key={String(zoomed)}
+                  centered
+                  value={asset}
+                  textColor="primary"
+                  indicatorColor="primary"
+                  className="stake-tab-buttons"
+                  onChange={changeAsset}
+                  aria-label="stake tabs"
+                >
+                  <Tab label="wsOhm" {...a11yProps(0)} />
+                  <Tab label="gOhm" {...a11yProps(1)} />
+                </Tabs>
                 <Link
                   className="migrate-sohm-button"
                   style={{ textDecoration: "none" }}
