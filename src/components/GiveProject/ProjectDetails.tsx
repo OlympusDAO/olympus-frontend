@@ -3,17 +3,24 @@ import Countdown from "react-countdown";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
+import { useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
+import { useAppDispatch } from "src/hooks";
+import { getRedemptionBalances } from "src/slices/AccountSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { Skeleton } from "@material-ui/lab";
+import { BigNumber } from "bignumber.js";
 
 type ProjectDetailsProps = {
   title: string;
   owner: string;
   details: string;
   finishDate?: string;
-  completion: number;
   photos: string[];
   category: string;
   wallet: string;
+  depositGoal: number;
 };
 
 type CountdownProps = {
@@ -31,12 +38,34 @@ export default function ProjectDetails({
   owner,
   details,
   finishDate,
-  completion,
   photos,
   category,
   wallet,
+  depositGoal,
 }: ProjectDetailsProps) {
+  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
+  const [totalDebt, setTotalDebt] = useState("");
   const theme = useTheme();
+  // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
+  // See: https://stackoverflow.com/a/66753532
+  const dispatch = useAppDispatch();
+
+  // TODO handle chainID = 1 during the first pass
+
+  // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
+  dispatch(
+    getRedemptionBalances({
+      networkID: 4,
+      provider: provider,
+      address: wallet,
+    }),
+  )
+    .then(unwrapResult)
+    .then(resultAction => {
+      setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
+      setRecipientInfoIsLoading(false);
+    });
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
@@ -68,14 +97,26 @@ export default function ProjectDetails({
     );
   };
 
-  const getGoalCompletion = (): JSX.Element => {
+  const getGoalCompletion = (): string => {
+    if (!depositGoal) return "NaN";
+    if (recipientInfoIsLoading) return ""; // This shouldn't be needed, but just to be sure...
+    if (!totalDebt) return "0";
+
+    const totalDebtNumber = new BigNumber(totalDebt);
+
+    return totalDebtNumber.div(depositGoal).multipliedBy(100).toString();
+  };
+
+  const renderGoalCompletion = (): JSX.Element => {
+    const goalCompletion = getGoalCompletion();
+
     return (
       <>
         <div className="cause-info-icon">
           <SvgIcon component={CheckIcon} color="primary" />
         </div>
         <div>
-          <strong>{completion}%</strong> <span>of goal</span>
+          <strong>{recipientInfoIsLoading ? <Skeleton /> : goalCompletion}%</strong> <span>of goal</span>
         </div>
       </>
     );
@@ -122,7 +163,7 @@ export default function ProjectDetails({
                 {finishDateObject ? <Countdown date={finishDateObject} renderer={countdownRenderer} /> : <></>}
               </Grid>
               <Grid item xs={3}>
-                {getGoalCompletion()}
+                {renderGoalCompletion()}
               </Grid>
               <Grid item xs={6}>
                 <Button variant="contained" color="primary" className="cause-give-button">

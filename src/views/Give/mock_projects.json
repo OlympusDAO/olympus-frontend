@@ -10,11 +10,12 @@
         "/assets/images/give/impact-market-project-a/project-a-2.jpg"
       ],
       "category": "AAAAAAA",
-      "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61"
+      "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61",
+      "depositGoal": 20
     },
     {
       "title": "Project B",
-      "provider": "Gitcoin",
+      "owner": "Gitcoin",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae quam non mi eleifend faucibus non vel augue. Suspendisse sagittis nisi quis odio tincidunt, a facilisis lectus efficitur. Sed pulvinar fringilla ex, vel efficitur lectus hendrerit nec. Fusce et lacus nec turpis bibendum lacinia sit amet id erat. Integer cursus interdum pellentesque. Integer ligula orci, elementum a dolor eu, rutrum volutpat sem. Suspendisse ultricies ligula faucibus scelerisque congue. Nunc lorem nibh, hendrerit a convallis dapibus, blandit nec orci. Donec rutrum sapien massa, lobortis lacinia nibh accumsan quis. Suspendisse laoreet et risus sit amet bibendum. Donec sed convallis nisi. Nullam iaculis justo odio, ac bibendum odio blandit vel. Sed sapien augue, faucibus vel nulla ac, faucibus fringilla ligula. Pellentesque finibus augue iaculis rhoncus consectetur.",
       "finishDate": "2021-12-06T18:00:00.000Z",
       "photos": [
@@ -22,11 +23,12 @@
         "/assets/images/give/gitcoin-project-b/project-b-2.jpg"
       ],
       "category": "BBB",
-      "wallet": "0x1"
+      "wallet": "0x1",
+      "depositGoal": 50
     },
     {
       "title": "Project C",
-      "provider": "Angel Protocol",
+      "owner": "Angel Protocol",
       "details": "Etiam tincidunt ullamcorper orci et hendrerit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam vel tellus eget nisi lobortis ultricies. Ut sodales sagittis nisi. Nulla ornare vestibulum ante, sagittis varius metus volutpat et. Mauris semper ultrices massa vitae malesuada. In ornare ex sit amet pretium accumsan. Nam porttitor nunc non purus sagittis dictum. Curabitur ac dolor rutrum, sollicitudin nunc eu, auctor metus. Praesent eleifend dolor in quam rhoncus aliquet. Nulla nisi augue, tincidunt eu imperdiet vitae, tempor in enim.",
       "finishDate": "",
       "photos": [
@@ -34,16 +36,18 @@
         "/assets/images/give/angel-protocol-project-c/project-c-2.jpg"
       ],
       "category": "CCC",
-      "wallet": "0x2"
+      "wallet": "0x2",
+      "depositGoal": 500
     },
     {
       "title": "Project D",
-      "provider": "Angel Protocol",
+      "owner": "Angel Protocol",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu cursus lectus, nec aliquam lorem. Sed id accumsan libero. Cras nec aliquam mauris. Donec et pretium turpis. Quisque velit tortor, semper a sodales non, laoreet nec velit. Integer eu lacus efficitur, scelerisque lorem et, fringilla sapien. Suspendisse pretium sit amet eros quis sollicitudin. Phasellus id mi odio. Praesent malesuada metus interdum massa lobortis, id congue sapien rutrum.",
       "finishDate": "2021-12-08T18:00:00.000Z",
       "photos": [],
       "category": "AAA",
-      "wallet": "0x3"
+      "wallet": "0x3",
+      "depositGoal": 10
     }
   ]
 }
