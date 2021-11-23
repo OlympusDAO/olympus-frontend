@@ -67,6 +67,32 @@ The files/folder structure are a **WIP** and may contain some unused files. The 
 └── views/        // Individual Views
 ```
 
+## Theme Support
+
+Themes are available, but it can be difficult to access the theme's colors.
+
+Material UI components, such as `Button`, can use the current theme's color scheme through the `color` property. For example:
+
+```JSX
+ <Button variant="contained" color="primary" className="cause-give-button">
+  Give Yield
+ </Button>
+```
+
+If you wish to use a theme's color scheme manually, follow these steps:
+
+1. Import `useTheme`: `import { useTheme } from "@material-ui/core/styles";`
+1. Instantiate the theme: `const theme = useTheme();`
+1. Add a style property to the component, for example:
+
+```JSX
+ <Grid item className="cause-category" style={{ backgroundColor: theme.palette.background.default }}>
+ {category}
+ </Grid>
+```
+
+For the available theme properties, take a look at the themes in `src/themes`.
+
 ## Application translation
 
 Olympus uses [linguijs](https://github.com/lingui/js-lingui) to manage translation.
