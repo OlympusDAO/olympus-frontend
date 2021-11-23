@@ -69,6 +69,16 @@
       }
     }
 
+    .cause-category {
+      padding-top: 0.2rem;
+      padding-bottom: 0.2rem;
+      margin-top: 1.1rem;
+      margin-bottom: 1.1rem;
+      font-size: small;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+
     .cause-misc-info {
       display: flex;
       flex-direction: row;

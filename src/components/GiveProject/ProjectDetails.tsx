@@ -3,6 +3,7 @@ import Countdown from "react-countdown";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
+import { useTheme } from "@material-ui/core/styles";
 
 type ProjectDetailsProps = {
   title: string;
@@ -33,6 +34,8 @@ export default function ProjectDetails({
   category,
   wallet,
 }: ProjectDetailsProps) {
+  const theme = useTheme();
+
   // The JSON file returns a string, so we convert it
   const finishDateObject = new Date(finishDate);
   const countdownRenderer = ({ days, hours, completed }: CountdownProps) => {
@@ -95,12 +98,17 @@ export default function ProjectDetails({
   return (
     <>
       <Paper>
-        <Grid item className="cause-card">
+        <Grid item className="cause-card" key={title}>
           {getProjectImage()}
           <div className="cause-content">
-            <div className="cause-title">
-              <Typography variant="h6">{title}</Typography>
-            </div>
+            <Grid container justifyContent="space-between">
+              <Grid item className="cause-title">
+                <Typography variant="h6">{title}</Typography>
+              </Grid>
+              <Grid item className="cause-category" style={{ backgroundColor: theme.palette.background.default }}>
+                {category}
+              </Grid>
+            </Grid>
             <div className="cause-body">
               <Typography variant="body2">{details}</Typography>
             </div>

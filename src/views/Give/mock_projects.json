@@ -9,7 +9,7 @@
         "/assets/images/give/impact-market-project-a/project-a-1.jpg",
         "/assets/images/give/impact-market-project-a/project-a-2.jpg"
       ],
-      "category": "AAA",
+      "category": "AAAAAAA",
       "wallet": "0x0"
     },
     {
@@ -37,7 +37,7 @@
       "wallet": "0x2"
     },
     {
-      "title": "Angel Protocol - Project C",
+      "title": "Angel Protocol - Project D",
       "provider": "Angel Protocol",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu cursus lectus, nec aliquam lorem. Sed id accumsan libero. Cras nec aliquam mauris. Donec et pretium turpis. Quisque velit tortor, semper a sodales non, laoreet nec velit. Integer eu lacus efficitur, scelerisque lorem et, fringilla sapien. Suspendisse pretium sit amet eros quis sollicitudin. Phasellus id mi odio. Praesent malesuada metus interdum massa lobortis, id congue sapien rutrum.",
       "finishDate": "2021-12-08T18:00:00.000Z",
