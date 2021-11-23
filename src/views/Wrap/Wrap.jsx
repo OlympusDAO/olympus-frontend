@@ -410,16 +410,10 @@ function Wrap() {
                       <Tab label="Wrap" {...a11yProps(0)} />
                       <Tab label="Unwrap" {...a11yProps(1)} />
                     </Tabs>
-                    <Box style={{ width: "100%" }}>
-                      <FormControl>
-                        <InputLabel id="demo-simple-select-label">Wrap to</InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={asset}
-                          label="Asset"
-                          onChange={changeAsset}
-                        >
+                    <Box>
+                      <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                        <span className="asset-select-label">Wrap to </span>
+                        <Select id="asset-select" value={asset} label="Asset" onChange={changeAsset}>
                           <MenuItem value={0}>wsOHM</MenuItem>
                           <MenuItem value={1}>gOHM</MenuItem>
                         </Select>
