@@ -309,7 +309,6 @@ const accountSlice = createSlice({
         setAll(state, action.payload);
       })
       .addCase(getMigrationAllowances.rejected, (state, { error }) => {
-        state.loading = false;
         console.log(error);
       });
   },
