@@ -9,7 +9,7 @@ type ProjectDetailsProps = {
   title: string;
   provider: string;
   details: string;
-  finishDate: string;
+  finishDate?: string;
   completion: number;
   photos: string[];
   category: string;
@@ -39,7 +39,7 @@ export default function ProjectDetails({
   const theme = useTheme();
 
   // The JSON file returns a string, so we convert it
-  const finishDateObject = new Date(finishDate);
+  const finishDateObject = finishDate ? new Date(finishDate) : null;
   const countdownRenderer = ({ days, hours, completed }: CountdownProps) => {
     if (completed)
       return (
@@ -119,7 +119,7 @@ export default function ProjectDetails({
             </div>
             <Grid container direction="column" className="cause-misc-info">
               <Grid item xs={3}>
-                <Countdown date={finishDateObject} renderer={countdownRenderer} />
+                {finishDateObject ? <Countdown date={finishDateObject} renderer={countdownRenderer} /> : <></>}
               </Grid>
               <Grid item xs={3}>
                 {getGoalCompletion()}
