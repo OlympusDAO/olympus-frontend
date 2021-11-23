@@ -20,6 +20,7 @@ import {
   ListItemText,
   SvgIcon,
   CircularProgress,
+  Paper,
 } from "@material-ui/core";
 import { changeZapTokenAllowance, executeZap, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
@@ -378,27 +379,41 @@ function ZapStakeAction(props) {
             <Box />
           </Box>
         </DialogTitle>
-        {isTokensLoading || Object.entries(tokens).length == 0 ? null : (
-          <List sx={{ pt: 0 }}>
-            {Object.entries(tokens)
-              .filter(token => !token[1].hide)
-              .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-              .map(token => (
-                <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
-                  <ListItemAvatar>
-                    <Avatar src={token[1].img} />
-                  </ListItemAvatar>
-                  <ListItemText primary={token[1].symbol} />
-                  <Box flexGrow={10} />
-                  <ListItemText
-                    style={{ primary: { justify: "center" } }}
-                    primary={`$${token[1].balanceUSD.toFixed(2)}`}
-                    secondary={token[1].balance.toFixed(4)}
-                  />
-                </ListItem>
-              ))}
-          </List>
-        )}
+        <Box paddingX="36px" paddingBottom="36px" paddingTop="12px">
+          {isTokensLoading ? (
+            <Box display="flex" justifyItems="center" flexDirection="column" alignItems="center">
+              <CircularProgress />
+              <Box height={24} />
+              <Typography>Dialing Zapper...</Typography>
+            </Box>
+          ) : Object.entries(tokens).length == 0 ? (
+            <Box display="flex" justifyContent="center">
+              <Typography>Ser, you have no assets...</Typography>
+            </Box>
+          ) : (
+            <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}>
+              <List style={{ pt: 0 }}>
+                {Object.entries(tokens)
+                  .filter(token => !token[1].hide)
+                  .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
+                  .map(token => (
+                    <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
+                      <ListItemAvatar>
+                        <Avatar src={token[1].img} />
+                      </ListItemAvatar>
+                      <ListItemText primary={token[1].symbol} />
+                      <Box flexGrow={10} />
+                      <ListItemText
+                        style={{ primary: { justify: "center" } }}
+                        primary={`$${token[1].balanceUSD.toFixed(2)}`}
+                        secondary={token[1].balance.toFixed(4)}
+                      />
+                    </ListItem>
+                  ))}
+              </List>
+            </Paper>
+          )}
+        </Box>
       </Dialog>
     </>
   );
