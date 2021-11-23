@@ -6,6 +6,7 @@ import { Skeleton } from "@material-ui/lab";
 import { useEffect, useMemo, useState } from "react";
 import { loadAppDetails } from "../../slices/AppSlice";
 import { useWeb3Context } from "../../hooks/web3Context";
+import { Trans } from "@lingui/macro";
 
 function RebaseTimer() {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ function RebaseTimer() {
     const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
     setSecondsToRebase(seconds);
     const prettified = prettifySeconds(seconds);
-    setRebaseString(prettified !== "" ? prettified : "Less than a minute");
+    setRebaseString(prettified !== "" ? prettified : <Trans>Less than a minute</Trans>);
   }
 
   // This initializes secondsToRebase as soon as currentBlock becomes available
@@ -56,7 +57,7 @@ function RebaseTimer() {
         setSecondsToRebase(secondsToRebase => secondsToRebase - SECONDS_TO_REFRESH);
         setSecondsToRefresh(SECONDS_TO_REFRESH);
         const prettified = prettifySeconds(secondsToRebase);
-        setRebaseString(prettified !== "" ? prettified : "Less than a minute");
+        setRebaseString(prettified !== "" ? prettified : <Trans>Less than a minute</Trans>);
       }
     }
     return () => clearInterval(interval);
@@ -68,7 +69,8 @@ function RebaseTimer() {
         {currentBlock ? (
           secondsToRebase > 0 ? (
             <>
-              <strong>{rebaseString}</strong> to next rebase
+              <strong>{rebaseString}&nbsp;</strong>
+              <Trans>to next rebase</Trans>
             </>
           ) : (
             <strong>rebasing</strong>

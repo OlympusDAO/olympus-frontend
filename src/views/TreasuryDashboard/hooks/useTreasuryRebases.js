@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import apollo from "src/lib/apolloClient";
-import { rebasesDataQuery } from "../treasuryData.js";
+import { rebasesDataQuery } from "../treasuryData";
 
 export const useTreasuryRebases = options => {
   return useQuery(
