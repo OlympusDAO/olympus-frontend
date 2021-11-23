@@ -440,7 +440,7 @@ function Stake() {
 
                     <div className="data-row" style={{ paddingLeft: "10px" }}>
                       <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance</Trans>
+                        <Trans>Wrapped Balance</Trans> (v2)
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(gOhmBalance), 4)} gOHM</>}
