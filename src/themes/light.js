@@ -21,7 +21,7 @@ const lightTheme = {
   activeLinkColor: "#222222",
   activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
   // primaryButtonBG: "#759AAE",
-  primaryButtonBG: "#93AEBC",
+  primaryButtonBG: "#9EC4AB",
   primaryButtonHoverBG: "#759AAE",
   // these need fixing
   primaryButtonHoverColor: "#333333",
