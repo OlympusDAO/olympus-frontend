@@ -113,8 +113,9 @@ export const calcBondDetails = createAsyncThunk(
       if (bond.name === "cvx") {
         let bondPriceRaw = await bondContract.bondPrice();
         let assetPriceUSD = await bond.getBondReservePrice(networkID, provider);
-        // add 18 decimals to CVX AssetPrice, but bondPriceRaw already has 4 extra decimals
-        bondPrice = bondPriceRaw.mul(BigNumber.from(String(assetPriceUSD * 10 ** 18))).div(10 ** 4);
+        let assetPriceBN = ethers.utils.parseUnits(assetPriceUSD.toString(), 14);
+        // bondPriceRaw has 4 extra decimals, so add 14 to assetPrice, for 18 total
+        bondPrice = bondPriceRaw.mul(assetPriceBN);
       } else {
         bondPrice = await bondContract.bondPriceInUSD();
       }
