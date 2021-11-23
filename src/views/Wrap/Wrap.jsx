@@ -165,10 +165,12 @@ function Wrap() {
   );
 
   const changeView = (event, newView) => {
+    setQuantity("");
     setView(newView);
   };
 
   const changeAsset = event => {
+    setQuantity("");
     setAsset(event.target.value);
   };
 
