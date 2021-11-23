@@ -2,7 +2,7 @@
   "projects": [
     {
       "title": "Project A",
-      "provider": "ImpactMarket",
+      "owner": "ImpactMarket",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae fermentum ante. Proin tincidunt nisl leo, eu scelerisque metus venenatis vel. Proin at maximus purus. Curabitur convallis convallis posuere. Quisque dolor nunc, varius ac bibendum eget, tempus in neque. Sed ultricies est at molestie vehicula. Ut ipsum tortor, vestibulum nec gravida sed, ultricies vitae mauris. Morbi at pulvinar magna, in hendrerit arcu. Sed non sem sapien. Donec dolor sapien, dignissim in sem eget, efficitur consectetur est. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae",
       "finishDate": "2021-12-04T18:00:00.000Z",
       "photos": [
