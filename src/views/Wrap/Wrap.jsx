@@ -149,8 +149,8 @@ function Wrap() {
     setView(newView);
   };
 
-  const changeAsset = (event, newVersion) => {
-    setAsset(newVersion);
+  const changeAsset = (event, newAsset) => {
+    setAsset(newAsset);
   };
 
   return (
@@ -292,19 +292,7 @@ function Wrap() {
                       )}
 
                       <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {address && hasAllowance("sohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "wrapping")}
-                            onClick={() => {
-                              onChangeWrap("wrap");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "wrapping", "Wrap sOHM")}
-                          </Button>
-                        ) : (
+                        {address && !hasAllowance("sohm") ? (
                           <Button
                             className="stake-button"
                             variant="contained"
@@ -316,6 +304,20 @@ function Wrap() {
                           >
                             {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
                           </Button>
+                        ) : (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "wrapping")}
+                            onClick={() => {
+                              asset === 0 ? onChangeWrap("wrap") : console.log("wrap to gOHM");
+                            }}
+                          >
+                            {asset === 0
+                              ? txnButtonText(pendingTransactions, "wrapping", "Wrap sOHM")
+                              : txnButtonText(pendingTransactions, "wrapping", "Wrap to gOHM")}
+                          </Button>
                         )}
                       </TabPanel>
 
@@ -326,10 +328,12 @@ function Wrap() {
                           color="primary"
                           disabled={isPendingTxn(pendingTransactions, "unwrapping")}
                           onClick={() => {
-                            onChangeWrap("unwrap");
+                            asset === 0 ? onChangeWrap("unwrap") : console.log("bout to unwrap gOhm");
                           }}
                         >
-                          {txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")}
+                          {asset === 0
+                            ? txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")
+                            : txnButtonText(pendingTransactions, "unwrapping", "Unwrap gOHM")}
                         </Button>
                       </TabPanel>
                     </Box>
