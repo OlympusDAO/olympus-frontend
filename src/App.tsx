@@ -14,7 +14,7 @@ import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
-import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
+import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
 import { info } from "./slices/MessagesSlice";
 
 import { Stake, ChooseBond, Bond, Wrap, TreasuryDashboard, PoolTogether } from "./views";
@@ -119,6 +119,7 @@ function App() {
       bonds.map(bond => {
         dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: chainID }));
       });
+      dispatch(getMigrationAllowances({ address, provider, networkID: chainID }));
     },
     [connected],
   );

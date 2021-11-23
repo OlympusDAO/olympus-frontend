@@ -92,6 +92,7 @@ interface IUserAccountDetails {
 export const getMigrationAllowances = createAsyncThunk(
   "account/getMigrationAllowances",
   async ({ networkID, provider, address }: IBaseAddressAsyncThunk) => {
+    console.log("fetching migration allowances");
     let ohmAllowance = BigNumber.from(0);
     let sOhmAllowance = BigNumber.from(0);
     let wsOhmAllowance = BigNumber.from(0);
@@ -302,6 +303,13 @@ const accountSlice = createSlice({
         state.loading = false;
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(getMigrationAllowances.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+      })
+      .addCase(getMigrationAllowances.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       });

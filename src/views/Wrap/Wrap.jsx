@@ -165,6 +165,10 @@ function Wrap() {
     setAsset(newAsset);
   };
 
+  const approveMigrate = token => {
+    dispatch(changeMigrationApproval({ token, provider, address, networkID: chainID, displayName: "sohm" }));
+  };
+
   const migrateToGohm = () => {
     dispatch(
       migrateWithType({
@@ -324,7 +328,7 @@ function Wrap() {
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
                             onClick={() => {
-                              onSeekApproval("sohm");
+                              asset === 0 ? onSeekApproval("sohm") : approveMigrate("sohm");
                             }}
                           >
                             {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}

@@ -85,11 +85,11 @@ export const changeMigrationApproval = createAsyncThunk(
     } finally {
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
+        dispatch(getMigrationAllowances({ address, provider, networkID }));
       }
     }
 
     // go get fresh allowances
-    dispatch(getMigrationAllowances({ address, provider, networkID }));
   },
 );
 
