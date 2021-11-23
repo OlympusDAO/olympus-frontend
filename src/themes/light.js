@@ -207,7 +207,7 @@ export const light = responsiveFontSizes(
         },
         MuiSelect: {
           select: {
-            color: "#F8CC82",
+            color: "#93AEBC",
           },
         },
         MuiButton: {

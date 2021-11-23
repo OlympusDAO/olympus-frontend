@@ -423,9 +423,10 @@ function Wrap() {
                         </Select>
                       </FormControl>
                     </Box>
-                    <Box className="stake-action-row " display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
+                    <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
                       <div className="stake-tab-panel wrap-page">
                         {chooseInputArea()}
+                        {/* <Box width="1px" /> */}
                         {chooseButtonArea()}
                       </div>
                     </Box>
