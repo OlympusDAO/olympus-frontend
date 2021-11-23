@@ -16,6 +16,8 @@ import {
   Zoom,
   SvgIcon,
   makeStyles,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
@@ -162,8 +164,8 @@ function Wrap() {
     setView(newView);
   };
 
-  const changeAsset = (event, newAsset) => {
-    setAsset(newAsset);
+  const changeAsset = event => {
+    setAsset(event.target.value);
   };
 
   const approveMigrate = token => {
@@ -248,8 +250,9 @@ function Wrap() {
   };
 
   const chooseButtonArea = () => {
+    if (!address) return "";
     // wrap view
-    if (address && view === 0) {
+    if (view === 0) {
       // if trying to wrap to wsOHM
       if (asset === 0) return "";
       // if trying to wrap to gOhm but not approved yet
@@ -283,7 +286,7 @@ function Wrap() {
         );
     }
     // unwrap view
-    if (address && view === 1) {
+    if (view === 1) {
       // if not approved to unwrap the current asset
       if (!hasAllowance(assetName.toLowerCase()))
         return (
@@ -327,19 +330,6 @@ function Wrap() {
             <Grid item>
               <div className="card-header">
                 <Typography variant="h5">Wrap / Unwrap</Typography>
-                <Tabs
-                  key={String(zoomed)}
-                  centered
-                  value={asset}
-                  textColor="primary"
-                  indicatorColor="primary"
-                  className="stake-tab-buttons"
-                  onChange={changeAsset}
-                  aria-label="stake tabs"
-                >
-                  <Tab label="wsOhm" {...a11yProps(0)} />
-                  <Tab label="gOhm" {...a11yProps(1)} />
-                </Tabs>
                 <Link
                   className="migrate-sohm-button"
                   style={{ textDecoration: "none" }}
@@ -420,13 +410,27 @@ function Wrap() {
                       <Tab label="Wrap" {...a11yProps(0)} />
                       <Tab label="Unwrap" {...a11yProps(1)} />
                     </Tabs>
+                    <Box style={{ width: "100%" }}>
+                      <FormControl>
+                        <InputLabel id="demo-simple-select-label">Wrap to</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={asset}
+                          label="Asset"
+                          onChange={changeAsset}
+                        >
+                          <MenuItem value={0}>wsOHM</MenuItem>
+                          <MenuItem value={1}>gOHM</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Box>
                     <Box className="stake-action-row " display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
                       <div className="stake-tab-panel wrap-page">
                         {chooseInputArea()}
                         {chooseButtonArea()}
                       </div>
                     </Box>
-
                     {quantity && (
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
