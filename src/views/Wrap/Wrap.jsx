@@ -189,6 +189,136 @@ function Wrap() {
 
   const assetName = asset === 0 ? "wsOHM" : "gOHM";
 
+  const chooseInputArea = () => {
+    if (!address || isAllowanceDataLoading) return <Skeleton width="150px" />;
+    if (view === 0 && asset === 0)
+      return (
+        <div className="no-input-visible">
+          Sorry, but wrapping to <b>wsOHM</b> has been disabled at this time
+          <br />
+          If you'd like to wrap your <b>sOHM</b>, please try wrapping to <b>gOHM</b> instead
+        </div>
+      );
+    if (!hasAllowance("sohm") && view === 0 && asset === 1)
+      return (
+        <div className="no-input-visible">
+          First time wrapping to <b>gOHM</b>?
+          <br />
+          Please approve Olympus Dao to use your <b>sOHM</b> for this transaction.
+        </div>
+      );
+    if (!hasAllowance("gohm") && view === 1 && asset === 1)
+      return (
+        <div className="no-input-visible">
+          First time unwrapping <b>gOHM</b>?
+          <br />
+          Please approve Olympus Dao to use your <b>gOHM</b> for unwrapping.
+        </div>
+      );
+    if (!hasAllowance("wsohm") && view === 1 && asset === 0)
+      return (
+        <div className="no-input-visible">
+          First time unwrapping <b>wsOHM</b>?
+          <br />
+          Please approve Olympus Dao to use your <b>wsOHM</b> for unwrapping.
+        </div>
+      );
+
+    return (
+      <FormControl className="ohm-input" variant="outlined" color="primary">
+        <InputLabel htmlFor="amount-input"></InputLabel>
+        <OutlinedInput
+          id="amount-input"
+          type="number"
+          placeholder="Enter an amount"
+          className="stake-input"
+          value={quantity}
+          onChange={e => setQuantity(e.target.value)}
+          labelWidth={0}
+          endAdornment={
+            <InputAdornment position="end">
+              <Button variant="text" onClick={setMax} color="inherit">
+                Max
+              </Button>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+    );
+  };
+
+  const chooseButtonArea = () => {
+    // wrap view
+    if (address && view === 0) {
+      // if trying to wrap to wsOHM
+      if (asset === 0) return "";
+      // if trying to wrap to gOhm but not approved yet
+      if (!hasAllowance("sohm") && asset === 1)
+        return (
+          <Button
+            className="stake-button wrap-page"
+            variant="contained"
+            color="primary"
+            disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
+            onClick={() => {
+              approveMigrate("sohm");
+            }}
+          >
+            {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
+          </Button>
+        );
+      if (hasAllowance("sohm") && asset === 1)
+        return (
+          <Button
+            className="stake-button wrap-page"
+            variant="contained"
+            color="primary"
+            disabled={isPendingTxn(pendingTransactions, "wrapping")}
+            onClick={() => {
+              migrateToGohm();
+            }}
+          >
+            {txnButtonText(pendingTransactions, "wrapping", "Wrap to gOHM")}
+          </Button>
+        );
+    }
+    // unwrap view
+    if (address && view === 1) {
+      // if not approved to unwrap the current asset
+      if (!hasAllowance(assetName.toLowerCase()))
+        return (
+          <Button
+            className="stake-button wrap-page"
+            variant="contained"
+            color="primary"
+            disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
+            onClick={() => {
+              asset === 0 ? onSeekApproval("wsohm") : approveMigrate("gohm");
+            }}
+          >
+            {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
+          </Button>
+        );
+
+      if (hasAllowance(assetName.toLowerCase()))
+        return (
+          <Button
+            className="stake-button wrap-page"
+            variant="contained"
+            color="primary"
+            disabled={isPendingTxn(pendingTransactions, "unwrapping")}
+            onClick={() => {
+              asset === 0 ? onChangeWrap("unwrap") : unwrapGohm();
+            }}
+          >
+            {asset === 0
+              ? txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")
+              : txnButtonText(pendingTransactions, "unwrapping", "Unwrap gOHM")}
+          </Button>
+        );
+    }
+  };
+
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -291,109 +421,10 @@ function Wrap() {
                       <Tab label="Unwrap" {...a11yProps(1)} />
                     </Tabs>
                     <Box className="stake-action-row " display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
-                      {address && !isAllowanceDataLoading ? (
-                        (!hasAllowance("sohm") && view === 0) || (!hasAllowance("gohm") && view === 1) ? (
-                          <Box className="help-text">
-                            <Typography variant="body1" className="stake-note" color="textSecondary">
-                              {view === 0 ? (
-                                <>
-                                  First time wrapping <b>sOHM</b>?
-                                  <br />
-                                  Please approve Olympus Dao to use your <b>sOHM</b> for wrapping.
-                                </>
-                              ) : (
-                                <>
-                                  First time unwrapping <b>gOHM</b>?
-                                  <br />
-                                  Please approve Olympus Dao to use your <b>gOHM</b> for unwrapping.
-                                </>
-                              )}
-                            </Typography>
-                          </Box>
-                        ) : (
-                          <FormControl className="ohm-input" variant="outlined" color="primary">
-                            <InputLabel htmlFor="amount-input"></InputLabel>
-                            <OutlinedInput
-                              id="amount-input"
-                              type="number"
-                              placeholder="Enter an amount"
-                              className="stake-input"
-                              value={quantity}
-                              onChange={e => setQuantity(e.target.value)}
-                              labelWidth={0}
-                              endAdornment={
-                                <InputAdornment position="end">
-                                  <Button variant="text" onClick={setMax} color="inherit">
-                                    Max
-                                  </Button>
-                                </InputAdornment>
-                              }
-                            />
-                          </FormControl>
-                        )
-                      ) : (
-                        <Skeleton width="150px" />
-                      )}
-
-                      <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {address && !hasAllowance("sohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
-                            onClick={() => {
-                              asset === 0 ? onSeekApproval("sohm") : approveMigrate("sohm");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
-                          </Button>
-                        ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "wrapping")}
-                            onClick={() => {
-                              asset === 0 ? onChangeWrap("wrap") : migrateToGohm();
-                            }}
-                          >
-                            {asset === 0
-                              ? txnButtonText(pendingTransactions, "wrapping", "Wrap sOHM")
-                              : txnButtonText(pendingTransactions, "wrapping", "Wrap to gOHM")}
-                          </Button>
-                        )}
-                      </TabPanel>
-
-                      <TabPanel value={view} index={1} className="stake-tab-panel">
-                        {address && !hasAllowance("gohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
-                            onClick={() => {
-                              asset === 0 ? onSeekApproval("sohm") : approveMigrate("gohm");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
-                          </Button>
-                        ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "unwrapping")}
-                            onClick={() => {
-                              asset === 0 ? onChangeWrap("unwrap") : unwrapGohm();
-                            }}
-                          >
-                            {asset === 0
-                              ? txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")
-                              : txnButtonText(pendingTransactions, "unwrapping", "Unwrap gOHM")}
-                          </Button>
-                        )}
-                      </TabPanel>
+                      <div className="stake-tab-panel wrap-page">
+                        {chooseInputArea()}
+                        {chooseButtonArea()}
+                      </div>
                     </Box>
 
                     {quantity && (

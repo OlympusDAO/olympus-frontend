@@ -19,6 +19,12 @@
     width: 100%;
     padding: 0;
   }
+
+  .stake-tab-panel.wrap-page {
+    display: flex;
+    padding: 30px 0;
+    width: 90%;
+  }
   .mobile .stake-tab-panel,
   .mobile .stake-tab-panel > div.MuiBox-root {
     display: flex;
@@ -166,6 +172,13 @@
   min-width: 163px !important;
   max-width: 542px !important;
   height: 43px !important;
+  &.wrap-page {
+    width: 50%;
+  }
+}
+
+.no-input-visible{
+  width: 100%;
 }
 
 .mobile .stake-button {
