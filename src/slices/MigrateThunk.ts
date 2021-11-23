@@ -145,7 +145,7 @@ export const migrateWithType = createAsyncThunk(
     }
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
-      migrateTx = await migrator.migrate(ethers.utils.parseEther(value), type, TokenType.WRAPPED);
+      migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "gwei"), TokenType.STAKED, TokenType.WRAPPED);
       const text = `Migrate ${TokenType[type]} Tokens`;
       const pendingTxnType = `migrate_${type}`;
 
