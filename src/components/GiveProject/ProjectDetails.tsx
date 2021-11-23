@@ -7,6 +7,7 @@ import { useTheme } from "@material-ui/core/styles";
 
 type ProjectDetailsProps = {
   title: string;
+  provider: string;
   details: string;
   finishDate: string;
   completion: number;
@@ -27,6 +28,7 @@ type CountdownProps = {
 
 export default function ProjectDetails({
   title,
+  provider,
   details,
   finishDate,
   completion,
@@ -109,6 +111,9 @@ export default function ProjectDetails({
                 {category}
               </Grid>
             </Grid>
+            <Typography variant="body1" style={{ fontSize: 12 }}>
+              {provider}
+            </Typography>
             <div className="cause-body">
               <Typography variant="body2">{details}</Typography>
             </div>

@@ -15,10 +15,11 @@ export default function CausesDashboard() {
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      const { title, details, finishDate, photos, category, wallet } = project;
+      const { title, provider, details, finishDate, photos, category, wallet } = project;
       return (
         <ProjectDetails
           title={title}
+          provider={provider}
           details={details}
           finishDate={finishDate}
           completion={50}
