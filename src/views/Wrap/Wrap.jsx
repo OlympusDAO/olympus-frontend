@@ -89,9 +89,9 @@ function Wrap() {
     return state.account.migration && state.account.migration.sohm;
   });
 
-  // const unwrapGohmAllowance = useSelector(state => {
-  //   return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
-  // });
+  const unwrapGohmAllowance = useSelector(state => {
+    return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
+  });
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
@@ -139,6 +139,7 @@ function Wrap() {
       if (token === "sohm" && asset === 0) return wrapAllowance > 0;
       if (token === "sohm" && asset === 1) return migrateAllowance > 0;
       if (token === "wsohm") return unwrapAllowance > 0;
+      if (token === "gohm") return unwrapGohmAllowance > 0;
       return 0;
     },
     [wrapAllowance, unwrapAllowance, migrateAllowance, asset],
@@ -180,6 +181,10 @@ function Wrap() {
         action: "wrap to gOHM",
       }),
     );
+  };
+
+  const unwrapGohm = () => {
+    dispatch(bridgeBack({ provider, address, networkID: chainID, value: quantity }));
   };
 
   return (
@@ -283,14 +288,20 @@ function Wrap() {
                     </Tabs>
                     <Box className="stake-action-row " display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
                       {address && !isAllowanceDataLoading ? (
-                        !hasAllowance("sohm") && view === 0 ? (
+                        (!hasAllowance("sohm") && view === 0) || (!hasAllowance("gohm") && view === 1) ? (
                           <Box className="help-text">
                             <Typography variant="body1" className="stake-note" color="textSecondary">
-                              {view === 0 && (
+                              {view === 0 ? (
                                 <>
                                   First time wrapping <b>sOHM</b>?
                                   <br />
                                   Please approve Olympus Dao to use your <b>sOHM</b> for wrapping.
+                                </>
+                              ) : (
+                                <>
+                                  First time unwrapping <b>gOHM</b>?
+                                  <br />
+                                  Please approve Olympus Dao to use your <b>gOHM</b> for unwrapping.
                                 </>
                               )}
                             </Typography>
@@ -351,19 +362,33 @@ function Wrap() {
                       </TabPanel>
 
                       <TabPanel value={view} index={1} className="stake-tab-panel">
-                        <Button
-                          className="stake-button"
-                          variant="contained"
-                          color="primary"
-                          disabled={isPendingTxn(pendingTransactions, "unwrapping")}
-                          onClick={() => {
-                            asset === 0 ? onChangeWrap("unwrap") : console.log("bout to unwrap gOhm");
-                          }}
-                        >
-                          {asset === 0
-                            ? txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")
-                            : txnButtonText(pendingTransactions, "unwrapping", "Unwrap gOHM")}
-                        </Button>
+                        {address && !hasAllowance("gohm") ? (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
+                            onClick={() => {
+                              asset === 0 ? onSeekApproval("sohm") : approveMigrate("gohm");
+                            }}
+                          >
+                            {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
+                          </Button>
+                        ) : (
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            disabled={isPendingTxn(pendingTransactions, "unwrapping")}
+                            onClick={() => {
+                              asset === 0 ? onChangeWrap("unwrap") : unwrapGohm();
+                            }}
+                          >
+                            {asset === 0
+                              ? txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")
+                              : txnButtonText(pendingTransactions, "unwrapping", "Unwrap gOHM")}
+                          </Button>
+                        )}
                       </TabPanel>
                     </Box>
 

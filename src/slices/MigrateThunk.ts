@@ -112,9 +112,9 @@ export const bridgeBack = createAsyncThunk(
     let unMigrateTx: ethers.ContractTransaction | undefined;
 
     try {
-      unMigrateTx = await migrator.bridgeBack(ethers.utils.parseEther(value), TokenType.STAKED);
+      unMigrateTx = await migrator.bridgeBack(ethers.utils.parseUnits(value, "ether"), TokenType.STAKED);
       const text = `Bridge Back gOHM`;
-      const pendingTxnType = `unmigrate_gohm`;
+      const pendingTxnType = `migrate_gohm`;
 
       dispatch(fetchPendingTxns({ txnHash: unMigrateTx.hash, text, type: pendingTxnType }));
       await unMigrateTx.wait();
@@ -124,10 +124,10 @@ export const bridgeBack = createAsyncThunk(
     } finally {
       if (unMigrateTx) {
         dispatch(clearPendingTxn(unMigrateTx.hash));
+        dispatch(getBalances({ address, provider, networkID }));
       }
     }
     // go get fresh balances
-    dispatch(getBalances({ address, provider, networkID }));
     // dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
@@ -138,7 +138,6 @@ export const migrateWithType = createAsyncThunk(
     const signer = provider.getSigner();
     const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
     // console.log(provider);
-
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
