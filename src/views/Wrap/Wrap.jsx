@@ -187,6 +187,8 @@ function Wrap() {
     dispatch(bridgeBack({ provider, address, networkID: chainID, value: quantity }));
   };
 
+  const assetName = asset === 0 ? "wsOHM" : "gOHM";
+
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -211,11 +213,15 @@ function Wrap() {
                 <Link
                   className="migrate-sohm-button"
                   style={{ textDecoration: "none" }}
-                  href="https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
+                  href={
+                    asset === 0
+                      ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
+                      : "https://docs.olympusdao.finance/main/using-the-website/migrate"
+                  }
                   aria-label="wsohm-wut"
                   target="_blank"
                 >
-                  <Typography>wsOHM</Typography> <SvgIcon component={InfoIcon} color="primary" />
+                  <Typography>{assetName}</Typography> <SvgIcon component={InfoIcon} color="primary" />
                 </Link>
               </div>
             </Grid>
@@ -246,11 +252,9 @@ function Wrap() {
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="wrap-wsOHM">
                       <Typography variant="h5" color="textSecondary">
-                        wsOHM Price
+                        {`${assetName} Price`}
                         <InfoTooltip
-                          message={
-                            "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
-                          }
+                          message={`${assetName} = sOHM * index\n\nThe price of ${assetName} is equal to the price of OHM multiplied by the current index`}
                         />
                       </Typography>
                       <Typography variant="h4">
