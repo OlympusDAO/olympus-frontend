@@ -54,7 +54,7 @@ function Wrap() {
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
-  const [asset, setAsset] = useState(0);
+  const [asset, setAsset] = useState(1);
   const [quantity, setQuantity] = useState("");
   const classes = useStyles();
 
@@ -340,7 +340,7 @@ function Wrap() {
                   href={
                     asset === 0
                       ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
-                      : "https://docs.olympusdao.finance/main/using-the-website/migrate"
+                      : "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
                   }
                   aria-label="wsohm-wut"
                   target="_blank"
@@ -416,7 +416,7 @@ function Wrap() {
                     </Tabs>
                     <Box>
                       <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <span className="asset-select-label">Wrap to </span>
+                        <span className="asset-select-label">{view === 0 ? "Wrap to" : "Unwrap"} </span>
                         <Select id="asset-select" value={asset} label="Asset" onChange={changeAsset}>
                           <MenuItem value={0}>wsOHM</MenuItem>
                           <MenuItem value={1}>gOHM</MenuItem>
