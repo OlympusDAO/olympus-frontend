@@ -206,7 +206,7 @@ function ZapStakeAction(props) {
           <OutlinedInput
             id="zap-amount-input"
             type="number"
-            placeholder="Enter an amount"
+            placeholder="Enter Amount"
             className="zap-input"
             disabled={zapToken == null}
             value={inputQuantity}
@@ -274,7 +274,7 @@ function ZapStakeAction(props) {
           </Box>
         )}
       </FormControl>
-      <Box marginY="12px" minHeight="24px" display="flex" justifyContent="center" alignItems="center">
+      <Box marginY="12px" minHeight="24px" display="flex" justifyContent="center" alignItems="center" width="100%">
         {downIcon}
       </Box>
 
@@ -286,7 +286,7 @@ function ZapStakeAction(props) {
         <OutlinedInput
           id="zap-amount-output"
           type="number"
-          placeholder="Enter an amount"
+          placeholder="Enter Amount"
           className="zap-input"
           value={outputQuantity}
           disabled={zapToken == null}
@@ -321,13 +321,13 @@ function ZapStakeAction(props) {
         />
       </FormControl>
 
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
+      <Box justifyContent="space-between" flexDirection="row" display="flex" m width="100%" marginY="12px">
         <Typography>
           <Trans>Max Slippage</Trans>
         </Typography>
         <Typography>2.0%</Typography>
       </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
+      <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="12px">
         <Typography>
           <Trans>Exchange Rate</Trans>
         </Typography>
@@ -335,7 +335,14 @@ function ZapStakeAction(props) {
           {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
         </Typography>
       </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginTop="12px" marginBottom="36px">
+      <Box
+        justifyContent="space-between"
+        flexDirection="row"
+        display="flex"
+        marginTop="12px"
+        marginBottom="36px"
+        width="100%"
+      >
         <Typography>
           <Trans>Minimum You Get</Trans>
         </Typography>
@@ -353,7 +360,7 @@ function ZapStakeAction(props) {
           {isExecuteZapLoading ? (
             <Trans>Pending...</Trans>
           ) : outputQuantity === "" ? (
-            <Trans>Enter an Amount</Trans>
+            <Trans>Enter Amount</Trans>
           ) : (
             <Trans>Zap-Stake</Trans>
           )}
@@ -405,7 +412,7 @@ function ZapStakeAction(props) {
                 <SvgIcon component={SecondStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
 
                 <Typography>
-                  {outputQuantity === "" ? <Trans>Enter an Amount</Trans> : <Trans>Zap-Stake</Trans>}
+                  {outputQuantity === "" ? <Trans>Enter Amount</Trans> : <Trans>Zap-Stake</Trans>}
                 </Typography>
               </Box>
             </Button>
