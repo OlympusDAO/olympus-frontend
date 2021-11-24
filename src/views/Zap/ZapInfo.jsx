@@ -6,6 +6,7 @@ import HeaderLogo from "./HeaderLogo";
 import { makeStyles } from "@material-ui/core/styles";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { useState } from "react";
+import { Trans } from "@lingui/macro";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {
@@ -69,16 +70,18 @@ function ZapInfo({ tokens, address }) {
             >
               <HeaderLogo images={[]} />
               <Typography color="textSecondary" align="center">
-                You Give
+                <Trans>You Give</Trans>
               </Typography>
             </Box>
             <Box classes={{ root: classes.infoBody }}>
               <Typography variant="body1" className="oly-info-body-header">
-                Zap is a swap
+                <Trans>Zap is a swap</Trans>
               </Typography>
               <Typography align="left" variant="body2" className="oly-info-body">
-                A zap swap is a series of smart contracts that deploys one asset to another a protocol to handle a
-                trusted transaction.
+                <Trans>
+                  A zap swap is a series of smart contracts that deploys one asset to another a protocol to handle a
+                  trusted transaction.
+                </Trans>
               </Typography>
             </Box>
           </Grid>
@@ -92,15 +95,15 @@ function ZapInfo({ tokens, address }) {
             >
               <HeaderLogo icons={[CircleZapIcon]} />
               <Typography color="textSecondary" align="center">
-                All-in-one zap contracts
+                <Trans>All-in-one zap contracts</Trans>
               </Typography>
             </Box>
             <Box classes={{ root: classes.infoBody }}>
               <Typography variant="body1" className="oly-info-body-header">
-                All-in-one easy staking
+                <Trans>All-in-one easy staking</Trans>
               </Typography>
               <Typography align="left" variant="body2" className="oly-info-body">
-                OlyZap reduces complexity, saves you time and keeps you here on Olympus.
+                <Trans>OlyZap reduces complexity, saves you time and keeps you here on Olympus.</Trans>
               </Typography>
             </Box>
           </Grid>
@@ -118,16 +121,18 @@ function ZapInfo({ tokens, address }) {
                 ]}
               />
               <Typography color="textSecondary" align="center">
-                You Get sOHM{" "}
+                <Trans>You Get sOHM</Trans>{" "}
               </Typography>
             </Box>
             <Box classes={{ root: classes.infoBody }}>
               <Typography variant="body1" className="oly-info-body-header">
-                Staking
+                <Trans>Staking</Trans>
               </Typography>
               <Typography align="left" variant="body2" className="oly-info-body">
-                Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an
-                equal amount of sOHM.
+                <Trans>
+                  Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an
+                  equal amount of sOHM.
+                </Trans>
               </Typography>
             </Box>
           </Grid>

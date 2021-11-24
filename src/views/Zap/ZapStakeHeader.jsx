@@ -2,6 +2,7 @@ import { Box, Grid, Typography, useMediaQuery } from "@material-ui/core";
 import HeaderLogo from "./HeaderLogo";
 import { ReactComponent as MoreIcon } from "../../assets/icons/circle-more.svg";
 import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.svg";
+import { Trans } from "@lingui/macro";
 
 export default function ZapStakeHeader({ images }) {
   const isSmallScreen = useMediaQuery("(max-width: 680px)");
@@ -11,7 +12,9 @@ export default function ZapStakeHeader({ images }) {
       {/* <Grid item xs={12} sm={4}> */}
       <Box alignItems="center" display="flex" flexDirection="column">
         <HeaderLogo images={images} icons={[MoreIcon]} />
-        <Typography color="textSecondary">Select any asset</Typography>
+        <Typography color="textSecondary">
+          <Trans>Select any asset</Trans>
+        </Typography>
       </Box>
       {/* </Grid> */}
       {/* <Grid item xs={12} sm={4}> */}
@@ -23,7 +26,9 @@ export default function ZapStakeHeader({ images }) {
             ]}
             icons={[CircleZapIcon]}
           />
-          <Typography color="textSecondary">Swap for sOHM</Typography>
+          <Typography color="textSecondary">
+            <Trans>Swap for sOHM</Trans>
+          </Typography>
         </Box>
       ) : (
         <>
@@ -34,7 +39,9 @@ export default function ZapStakeHeader({ images }) {
               //   ]}
               icons={[CircleZapIcon]}
             />
-            <Typography color="textSecondary">Swap for OHM</Typography>
+            <Typography color="textSecondary">
+              <Trans>Swap for OHM</Trans>
+            </Typography>
           </Box>
           {/* </Grid> */}
           {/* <Grid item xs={12} sm={4}> */}
@@ -45,7 +52,9 @@ export default function ZapStakeHeader({ images }) {
               ]}
               avatarStyleOverride={{ height: "40px", width: "40px", marginInline: "-7px" }}
             />
-            <Typography color="textSecondary">Auto staked for sOHM</Typography>
+            <Typography color="textSecondary">
+              <Trans>Auto staked for sOHM</Trans>
+            </Typography>
           </Box>
         </>
       )}

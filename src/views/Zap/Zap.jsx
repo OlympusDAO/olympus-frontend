@@ -6,6 +6,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import ZapStakeAction from "./ZapStakeAction";
 import ZapInfo from "./ZapInfo";
 import { useAppSelector } from "src/hooks";
+import { Trans } from "@lingui/macro";
 
 function Zap() {
   const { address, connect } = useWeb3Context();
@@ -29,10 +30,12 @@ function Zap() {
               <div className="stake-wallet-notification">
                 <div className="wallet-menu" id="wallet-menu">
                   <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-                    Connect Wallet
+                    <Trans>Connect Wallet</Trans>
                   </Button>
                 </div>
-                <Typography variant="h6">Connect your wallet to use Zap</Typography>
+                <Typography variant="h6">
+                  <Trans>Connect your wallet to use Zap</Trans>
+                </Typography>
               </div>
             ) : (
               <>

@@ -4,6 +4,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import HeaderLogo from "./HeaderLogo";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { Trans } from "@lingui/macro";
 
 const useStyles = makeStyles(theme => ({
   subHeader: {
@@ -36,7 +37,9 @@ function ZapCta() {
           <Grid item xs={7} sm={5}>
             <Box alignItems="center" display="flex" flexDirection="column">
               <Typography color="textPrimary" align="center" className="cta-header">
-                Zap with more assets and stake <strong>OHM</strong>
+                <Trans>
+                  Zap with more assets and stake <strong>OHM</strong>
+                </Trans>
               </Typography>
               <Typography
                 color="textPrimary"
@@ -44,14 +47,16 @@ function ZapCta() {
                 className="cta-subheader"
                 classes={{ root: classes.subHeader }}
               >
-                All-in-One contract to save time
+                <Trans>All-in-One contract to save time</Trans>
               </Typography>
             </Box>
           </Grid>
           <Grid item xs={12} sm={4} className="button-box" classes={{ root: classes.buttonBox }}>
             <Link component={NavLink} to="/zap">
               <Button component="div" variant="outlined" color="secondary" className="learn-more-button">
-                <Typography variant="body1">Swap into sOHM</Typography>
+                <Typography variant="body1">
+                  <Trans>Swap into sOHM</Trans>
+                </Typography>
                 <Box width={4} />
                 <SvgIcon component={ArrowUp} color="primary" />
               </Button>
