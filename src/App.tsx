@@ -6,7 +6,7 @@ import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
-import useBonds from "./hooks/Bonds";
+import useBonds, { IAllBondData } from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
@@ -15,15 +15,17 @@ import { shouldTriggerSafetyCheck } from "./helpers";
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
+import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
 import {
   Stake,
   ChooseBond,
   Bond,
-  Wrap,
   TreasuryDashboard,
   PoolTogether,
+  Zap,
+  Wrap,
   CausesDashboard,
   DepositYield,
   RedeemYield,
@@ -39,6 +41,7 @@ import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
+import { Bond as IBond } from "./lib/Bond";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 
 // 😬 Sorry for all the console logging
@@ -139,6 +142,7 @@ function App() {
       bonds.map(bond => {
         dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
       });
+      dispatch(getZapTokenBalances({ address, networkID: chainID, provider: loadProvider }));
       expiredBonds.map(bond => {
         dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
       });
@@ -247,6 +251,12 @@ function App() {
               <RedeemYield />
             </Route>
 
+            <Route path="/zap">
+              <Route exact path={`/zap`}>
+                <Zap />
+              </Route>
+            </Route>
+
             <Route path="/wrap">
               <Wrap />
             </Route>
@@ -256,7 +266,7 @@ function App() {
             </Route>
 
             <Route path="/bonds">
-              {bonds.map(bond => {
+              {(bonds as IAllBondData[]).map(bond => {
                 return (
                   <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
                     <Bond bond={bond} />
