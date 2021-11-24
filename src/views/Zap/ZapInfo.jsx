@@ -97,10 +97,10 @@ function ZapInfo({ tokens, address }) {
             </Box>
             <Box classes={{ root: classes.infoBody }}>
               <Typography variant="body1" className="oly-info-body-header">
-                Save up to 75% on gas
+                All-in-one easy staking
               </Typography>
               <Typography align="left" variant="body2" className="oly-info-body">
-                Our All-In-One easy zap and stake reduces the complexity of smart contracts to save you on gas fees.
+                OlyZap reduces complexity, saves you time and keeps you here on Olympus.
               </Typography>
             </Box>
           </Grid>

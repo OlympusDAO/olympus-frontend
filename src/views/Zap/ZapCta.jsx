@@ -44,7 +44,7 @@ function ZapCta({ tokens }) {
                 className="cta-subheader"
                 classes={{ root: classes.subHeader }}
               >
-                All-in-One contract to save gas fees
+                All-in-One contract to save time
               </Typography>
             </Box>
           </Grid>

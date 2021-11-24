@@ -30,7 +30,7 @@ const darkTheme = {
   activeLinkSvgColor:
     "brightness(0) saturate(100%) invert(84%) sepia(49%) saturate(307%) hue-rotate(326deg) brightness(106%) contrast(92%)",
   primaryButtonColor: "#333333",
-  primaryButtonBG: "#92A799",
+  primaryButtonBG: "#F4D092",
   primaryButtonHoverBG: "#EDD8B4",
   secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
   outlinedPrimaryButtonHoverBG: "#F8CC82",
