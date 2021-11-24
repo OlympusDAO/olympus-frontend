@@ -24,14 +24,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ZapCta({ tokens }) {
+function ZapCta() {
   const classes = useStyles();
   return (
     <>
       <Paper className="ohm-card" id="olyzaps-cta">
         <Grid container display="flex" className="cta-box" wrap>
           <Grid item xs={5} sm={3} className="icons-box">
-            <HeaderLogo images={tokens} />
+            <HeaderLogo images={[]} />
           </Grid>
           <Grid item xs={7} sm={5}>
             <Box alignItems="center" display="flex" flexDirection="column">
