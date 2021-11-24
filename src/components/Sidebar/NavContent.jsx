@@ -8,6 +8,7 @@ import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.sv
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
 import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
+import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
 import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress, useWeb3Context } from "src/hooks/web3Context";
@@ -106,10 +107,11 @@ function NavContent() {
                 }}
                 className={`button-dapp-menu ${isActive ? "active" : ""}`}
               >
-                <Typography variant="h6">
+                <Box display="flex" alignItems="center">
                   <SvgIcon component={ZapIcon} color="primary" />
-                  OlyZaps
-                </Typography>
+                  <Typography variant="h6">OlyZaps</Typography>
+                  <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
+                </Box>
               </Link>
 
               <Link
