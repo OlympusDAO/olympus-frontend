@@ -1,0 +1,110 @@
+#zap-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#zap-select-token-modal {
+  .MuiListItemText-primary,
+  .MuiListItemText-secondary {
+    text-align: right;
+  }
+}
+
+#olyzaps-cta {
+  .cta-box {
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .icons-box {
+    display: flex;
+    align-items: center;
+  }
+  .button-box {
+    display: flex;
+  }
+  .cta-header {
+    font-size: 1rem;
+    line-height: 1.24rem;
+    padding-bottom: 0.5rem;
+    font-weight: 400;
+  }
+  .cta-subheader {
+    font-weight: 400;
+  }
+}
+
+#olyzaps-info {
+  .oly-info-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+  }
+  .oly-info-header-box {
+    padding-bottom: 1.5rem;
+  }
+  .oly-info-body-header {
+    padding-bottom: 0.5rem;
+  }
+  .oly-info-body {
+    line-height: 1.25rem;
+  }
+  .button-box {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+  }
+  .learn-more-button {
+    svg {
+      margin-left: 4px;
+      vertical-align: middle;
+      font-size: 1.1em;
+      height: 1.15rem;
+      width: 1.15rem;
+    }
+    &:hover {
+      svg {
+        color: inherit;
+      }
+    }
+  }
+}
+
+.stake-action-area {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.zap-input {
+  width: 100%;
+  margin-block: 20px;
+  min-height: 70px;
+}
+
+.zap-stake-button {
+  min-width: 140px !important;
+  height: 43px !important;
+}
+
+.stake-wallet-notification {
+  text-align: center;
+  .wallet-menu {
+    text-align: center;
+    .connect-button {
+      max-width: 300px !important;
+      min-width: 240px !important;
+      margin-bottom: 15px;
+    }
+  }
+}
