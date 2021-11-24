@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import {
   Box,
@@ -29,6 +29,7 @@ import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "./ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
+import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
 
 function a11yProps(index: number) {
@@ -49,6 +50,7 @@ function Stake() {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState(0);
 
+  const tokens = useAppSelector(state => state.zap.balances);
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
@@ -93,6 +95,15 @@ function Stake() {
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
+
+  const inputTokenImages = useMemo(
+    () =>
+      Object.entries(tokens)
+        .filter(token => token[0] !== "sohm")
+        .map(token => token[1].img)
+        .slice(0, 3),
+    [tokens],
+  );
 
   const setMax = () => {
     if (view === 0) {
@@ -470,7 +481,7 @@ function Stake() {
           </Grid>
         </Paper>
       </Zoom>
-
+      <ZapCta />
       <ExternalStakePool />
     </div>
   );
