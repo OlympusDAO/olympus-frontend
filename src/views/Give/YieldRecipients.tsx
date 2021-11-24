@@ -159,7 +159,7 @@ export default function YieldRecipients() {
               <TableCell>Recipient</TableCell>
               <TableCell align="left">
                 Deposit
-                <InfoTooltip message="The amount of sOHM deposited" />
+                <InfoTooltip message="The amount of sOHM deposited" children={null} />
               </TableCell>
               <TableCell />
               <TableCell />

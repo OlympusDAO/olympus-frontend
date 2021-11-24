@@ -39,7 +39,7 @@ export default function DepositYield() {
           <div className="card-header">
             <div className="give-yield-title">
               <Typography variant="h5">Deposits Dashboard</Typography>
-              <InfoTooltip message="Direct yield from your deposited sOHM to other recipients." />
+              <InfoTooltip message="Direct yield from your deposited sOHM to other recipients." children={null} />
             </div>
           </div>
           <YieldRecipients />
