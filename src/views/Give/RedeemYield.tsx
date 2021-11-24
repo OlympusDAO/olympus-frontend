@@ -133,7 +133,6 @@ export default function RedeemYield() {
                 </TableRow>
                 <TableRow>
                   <TableCell>Next Reward Amount</TableCell>
-                  {/* TODO correct? */}
                   <TableCell> {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + " sOHM"}</TableCell>
                 </TableRow>
                 <TableRow>
