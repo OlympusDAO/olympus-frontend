@@ -22,6 +22,7 @@ import {
 } from "../../components/EducationCard";
 import { trim } from "../../helpers";
 import { IAccountSlice } from "../../slices/AccountSlice";
+import { Project } from "src/components/GiveProject/project.type";
 
 const sOhmImg = getTokenImage("sohm");
 
@@ -29,6 +30,7 @@ type RecipientModalProps = {
   isModalOpen: boolean;
   callbackFunc: SubmitCallback;
   cancelFunc: CancelCallback;
+  project?: Project;
   currentWalletAddress?: string;
   currentDepositAmount?: string; // stored in donationInfo as a string
 };
@@ -51,6 +53,7 @@ export function RecipientModal({
   isModalOpen,
   callbackFunc,
   cancelFunc,
+  project,
   currentWalletAddress,
   currentDepositAmount,
 }: RecipientModalProps) {
@@ -66,8 +69,8 @@ export function RecipientModal({
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
 
   useEffect(() => {
-    checkIsDepositAmountValid(depositAmount);
-    checkIsWalletAddressValid(walletAddress);
+    checkIsDepositAmountValid(getDepositAmount().toString());
+    checkIsWalletAddressValid(getWalletAddress());
   }, []);
 
   /**
@@ -193,10 +196,16 @@ export function RecipientModal({
     return true;
   };
 
-  const getTitle = (): string => {
-    if (!isCreateMode()) return "Edit Amount";
+  const isProjectMode = (): boolean => {
+    if (project) return true;
 
-    return "Add Recipient";
+    return false;
+  };
+
+  const getTitle = (): string => {
+    if (!isCreateMode()) return "Edit Yield";
+
+    return "Give Yield";
   };
 
   /**
@@ -259,11 +268,62 @@ export function RecipientModal({
   };
 
   /**
+   * Returns the wallet address. If a project is defined, it uses the
+   * project wallet, else what was passed in as a parameter.
+   */
+  const getWalletAddress = (): string => {
+    if (project) return project.wallet;
+
+    return walletAddress;
+  };
+
+  /**
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
     const depositAmountBig = new BigNumber(depositAmount);
-    callbackFunc(walletAddress, depositAmountBig, getDepositAmountDiff());
+
+    callbackFunc(getWalletAddress(), depositAmountBig, getDepositAmountDiff());
+  };
+
+  const getRecipientElements = () => {
+    // If project mode is enabled, the amount is editable, but the recipient is not
+    if (isProjectMode()) {
+      return (
+        <>
+          <Typography variant="h5">Recipient</Typography>
+          <Typography variant="h6">
+            {project?.title} by {project?.owner}
+          </Typography>
+        </>
+      );
+    }
+
+    // If not in create mode, don't display the recipient wallet address
+    if (!isCreateMode()) {
+      return <></>;
+    }
+
+    return (
+      <>
+        <Typography variant="h5">Recipient</Typography>
+        <FormControl className="modal-input" variant="outlined" color="primary">
+          <InputLabel htmlFor="wallet-input"></InputLabel>
+          <OutlinedInput
+            id="wallet-input"
+            type="text"
+            placeholder="Enter a wallet address in the form of 0x ..."
+            className="stake-input"
+            value={walletAddress}
+            error={!isWalletAddressValid}
+            onChange={e => handleSetWallet(e.target.value)}
+            labelWidth={0}
+            disabled={!isCreateMode()}
+          />
+          <FormHelperText>{isWalletAddressValidError}</FormHelperText>
+        </FormControl>{" "}
+      </>
+    );
   };
 
   // TODO stop modal from moving when validation messages are shown
@@ -331,28 +391,7 @@ export function RecipientModal({
                 </Typography>
               </div>
             </FormControl>
-            {isCreateMode() ? (
-              <>
-                <Typography variant="h5">Recipient Address</Typography>
-                <FormControl className="modal-input" variant="outlined" color="primary">
-                  <InputLabel htmlFor="wallet-input"></InputLabel>
-                  <OutlinedInput
-                    id="wallet-input"
-                    type="text"
-                    placeholder="Enter a wallet address in the form of 0x ..."
-                    className="stake-input"
-                    value={walletAddress}
-                    error={!isWalletAddressValid}
-                    onChange={e => handleSetWallet(e.target.value)}
-                    labelWidth={0}
-                    disabled={!isCreateMode()}
-                  />
-                  <FormHelperText>{isWalletAddressValidError}</FormHelperText>
-                </FormControl>{" "}
-              </>
-            ) : (
-              <></>
-            )}
+            {getRecipientElements()}
             {isCreateMode() ? (
               <div className="give-education-graphics">
                 <WalletGraphic quantity={getRetainedAmountDiff().toString()} />

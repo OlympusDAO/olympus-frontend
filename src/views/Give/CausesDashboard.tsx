@@ -5,31 +5,62 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ProjectDetails from "src/components/GiveProject/ProjectDetails";
 import data from "./mock_projects.json";
+import { CancelCallback, RecipientModal, SubmitCallback } from "./RecipientModal";
+import { BigNumber } from "bignumber.js";
+import { error } from "../../slices/MessagesSlice";
+import { useAppDispatch } from "src/hooks";
+import { changeGive } from "src/slices/GiveThunk";
 
 export default function CausesDashboard() {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const [zoomed, setZoomed] = useState(false);
+  const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const { projects } = data;
 
+  // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
+  // See: https://stackoverflow.com/a/66753532
+  const dispatch = useAppDispatch();
+
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      const { title, owner, details, finishDate, photos, category, wallet, depositGoal } = project;
-
-      return (
-        <ProjectDetails
-          title={title}
-          owner={owner}
-          details={details}
-          finishDate={finishDate}
-          photos={photos}
-          category={category}
-          wallet={wallet}
-          depositGoal={depositGoal}
-        />
-      );
+      return <ProjectDetails project={project} />;
     });
   }, [projects]);
+
+  const handleCustomGiveButtonClick = () => {
+    setIsCustomGiveModalOpen(true);
+  };
+
+  const handleCustomGiveModalSubmit: SubmitCallback = async (
+    walletAddress: string,
+    depositAmount: BigNumber,
+    depositAmountDiff?: BigNumber,
+  ) => {
+    if (depositAmount.isEqualTo(new BigNumber(0))) {
+      return dispatch(error("Please enter a value!"));
+    }
+
+    // Record segment user event
+
+    // If reducing the amount of deposit, withdraw
+    await dispatch(
+      changeGive({
+        action: "editGive",
+        value: depositAmount.toString(),
+        recipient: walletAddress,
+        provider,
+        address,
+        networkID: chainID,
+      }),
+    );
+
+    setIsCustomGiveModalOpen(false);
+  };
+
+  const handleCustomGiveModalCancel: CancelCallback = () => {
+    setIsCustomGiveModalOpen(false);
+  };
 
   return (
     <>
@@ -47,10 +78,20 @@ export default function CausesDashboard() {
               </Grid>
             </div>
             <div className="custom-recipient">
-              <Button variant="outlined" color="secondary">
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleCustomGiveButtonClick()}
+                disabled={!address}
+              >
                 Custom Recipient
               </Button>
             </div>
+            <RecipientModal
+              isModalOpen={isCustomGiveModalOpen}
+              callbackFunc={handleCustomGiveModalSubmit}
+              cancelFunc={handleCustomGiveModalCancel}
+            />
           </Paper>
         </Zoom>
       </div>

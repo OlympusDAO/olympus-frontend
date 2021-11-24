@@ -14,17 +14,7 @@ import { BigNumber } from "bignumber.js";
 import { RecipientModal, SubmitCallback, CancelCallback } from "src/views/Give/RecipientModal";
 import { changeGive } from "src/slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
-
-type ProjectDetailsProps = {
-  title: string;
-  owner: string;
-  details: string;
-  finishDate?: string;
-  photos: string[];
-  category: string;
-  wallet: string;
-  depositGoal: number;
-};
+import { Project } from "./project.type";
 
 type CountdownProps = {
   total: number;
@@ -36,18 +26,13 @@ type CountdownProps = {
   completed: boolean;
 };
 
-export default function ProjectDetails({
-  title,
-  owner,
-  details,
-  finishDate,
-  photos,
-  category,
-  wallet,
-  depositGoal,
-}: ProjectDetailsProps) {
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+type ProjectDetailsProps = {
+  project: Project;
+};
 
+export default function ProjectDetails({ project }: ProjectDetailsProps) {
+  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { title, owner, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
 
@@ -223,7 +208,7 @@ export default function ProjectDetails({
             isModalOpen={isGiveModalOpen}
             callbackFunc={handleGiveModalSubmit}
             cancelFunc={handleGiveModalCancel}
-            currentWalletAddress={wallet}
+            project={project}
           />
         </Grid>
       </Paper>
