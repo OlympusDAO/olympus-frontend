@@ -7,27 +7,10 @@ import ZapStakeAction from "./ZapStakeAction";
 import ZapInfo from "./ZapInfo";
 import { useAppSelector } from "src/hooks";
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const infoTokenIcons = [
-  "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x0000000000000000000000000000000000000000.png",
-  "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png",
-];
-
 function Zap() {
-  const { address, connect, chainID, provider } = useWeb3Context();
+  const { address, connect } = useWeb3Context();
 
   const tokens = useAppSelector(state => state.zap.balances);
-
-  const changeView = (event, newView) => {
-    setView(newView);
-  };
-
   const inputTokenImages = useMemo(
     () =>
       Object.entries(tokens)
@@ -36,16 +19,6 @@ function Zap() {
         .slice(0, 3),
     [tokens],
   );
-  // const hasAllowance = useCallback(
-  //   token => {
-  //     if (token === "ohm") return stakeAllowance > 0;
-  //     if (token === "sohm") return unstakeAllowance > 0;
-  //     return 0;
-  //   },
-  //   [stakeAllowance, unstakeAllowance],
-  // );
-
-  // const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
   return (
     <div id="zap-view">
@@ -73,7 +46,7 @@ function Zap() {
         </Paper>
       </Zoom>
       <Zoom in={true}>
-        <ZapInfo tokens={inputTokenImages} />
+        <ZapInfo tokens={inputTokenImages} address={address} />
       </Zoom>
     </div>
   );

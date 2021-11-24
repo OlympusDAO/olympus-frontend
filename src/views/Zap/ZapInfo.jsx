@@ -4,6 +4,8 @@ import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.s
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import HeaderLogo from "./HeaderLogo";
 import { makeStyles } from "@material-ui/core/styles";
+import { segmentUA } from "../../helpers/userAnalyticHelpers";
+import { useState } from "react";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
   infoBoxItem: {
     [theme.breakpoints.down("md")]: {
-      padding: "0px !important",
+      padding: "8px !important",
     },
     [theme.breakpoints.up("md")]: {
       padding: "16px !important",
@@ -26,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
   infoHeader: {
     [theme.breakpoints.down("md")]: {
-      width: "50%",
+      width: "30%",
     },
     [theme.breakpoints.up("md")]: {
       width: "100%",
@@ -34,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
   infoBody: {
     [theme.breakpoints.down("md")]: {
-      width: "50%",
+      width: "70%",
       paddingTop: "24px",
     },
     [theme.breakpoints.up("md")]: {
@@ -44,7 +46,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ZapInfo({ tokens }) {
+function ZapInfo({ tokens, address }) {
+  const trackClick = address => {
+    let uaData = {
+      address: address,
+      type: "Learn more OlyZaps",
+    };
+    segmentUA(uaData);
+  };
   const classes = useStyles();
   return (
     <>
@@ -58,7 +67,7 @@ function ZapInfo({ tokens }) {
               classes={{ root: classes.infoHeader }}
               className="oly-info-header-box"
             >
-              <HeaderLogo images={tokens} />
+              <HeaderLogo images={[]} />
               <Typography color="textSecondary" align="center">
                 You Give
               </Typography>
@@ -88,10 +97,10 @@ function ZapInfo({ tokens }) {
             </Box>
             <Box classes={{ root: classes.infoBody }}>
               <Typography variant="body1" className="oly-info-body-header">
-                Save up to 75% on gas
+                All-in-one easy staking
               </Typography>
               <Typography align="left" variant="body2" className="oly-info-body">
-                Our All-In-One easy zap and stake reduces the complexity of smart contracts to save you on gas fees.
+                OlyZap reduces complexity, saves you time and keeps you here on Olympus.
               </Typography>
             </Box>
           </Grid>
@@ -130,6 +139,9 @@ function ZapInfo({ tokens }) {
             href="https://docs.olympusdao.finance/main/"
             target="_blank"
             className="learn-more-button"
+            onClick={() => {
+              trackClick(address);
+            }}
           >
             <Typography variant="body1">Learn More</Typography>
             <SvgIcon component={ArrowUp} color="primary" />

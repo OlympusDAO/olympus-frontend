@@ -20,7 +20,9 @@ import {
   ListItemText,
   SvgIcon,
   CircularProgress,
+  Paper,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { changeZapTokenAllowance, executeZap, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -32,25 +34,39 @@ import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-comp
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ethers } from "ethers";
+import { segmentUA } from "../../helpers/userAnalyticHelpers";
 
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
 const viewBox = "-8 -12 48 48";
-
 const buttonIconStyle = { height: "16px", width: "16px", marginInline: "6px" };
+
+const useStyles = makeStyles(theme => ({
+  ApprovedButton: {
+    backgroundColor: theme.palette.type === "light" ? "#9EC4AB !important" : "#92A799 !important",
+  },
+  ApprovedText: {
+    color: theme.palette.type === "light" ? "#fff" : "#333333",
+  },
+}));
 
 function ZapStakeAction(props) {
   const { address, connect, chainID, provider } = useWeb3Context();
 
   const dispatch = useDispatch();
-
+  const classes = useStyles();
   const tokens = useAppSelector(state => state.zap.balances);
   const isTokensLoading = useAppSelector(state => state.zap.balancesLoading);
   const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
   const isExecuteZapLoading = useAppSelector(state => state.zap.stakeLoading);
   const isAppLoading = useAppSelector(state => state.app.loading);
-
   const [zapToken, setZapToken] = useState(null);
   const handleSelectZapToken = token => {
+    const uaData = {
+      type: "OlyZaps Token Select",
+      token: token,
+      address: address,
+    };
+    segmentUA(uaData);
     setZapToken(token);
     handleClose();
   };
@@ -63,6 +79,15 @@ function ZapStakeAction(props) {
 
   const [inputQuantity, setInputQuantity] = useState("");
   const [outputQuantity, setOutputQuantity] = useState("");
+
+  const olyZapsSwapOfferDisplay = (amount, outPutQuantity) => {
+    const uaData = {
+      type: "OlyZaps Offer Display",
+      token: zapToken,
+      minOutput: outputQuantity,
+    };
+    segmentUA(uaData);
+  };
 
   const ohmMarketPrice = useAppSelector(state => {
     return state.app.marketPrice;
@@ -81,6 +106,9 @@ function ZapStakeAction(props) {
     const amount = Number(q);
     setInputQuantity(amount);
     setOutputQuantity(amount / exchangeRate);
+    if (outputQuantity) {
+      olyZapsSwapOfferDisplay(amount, outputQuantity);
+    }
   };
 
   const setOutputTokenQuantity = q => {
@@ -93,6 +121,8 @@ function ZapStakeAction(props) {
     setOutputQuantity(amount);
     setInputQuantity(amount * exchangeRate);
   };
+
+  useEffect(() => setZapTokenQuantity(null), [zapToken]);
 
   const inputTokenImages = useMemo(
     () =>
@@ -124,7 +154,7 @@ function ZapStakeAction(props) {
   const isAllowanceTxSuccess =
     initialTokenAllowance != currentTokenAllowance && initialTokenAllowance != null && currentTokenAllowance != null;
 
-  const onSeekApproval = async () =>
+  const onSeekApproval = async () => {
     dispatch(
       changeZapTokenAllowance({
         address,
@@ -133,6 +163,7 @@ function ZapStakeAction(props) {
         action: zapToken,
       }),
     );
+  };
 
   const onZap = async () =>
     dispatch(
@@ -147,6 +178,12 @@ function ZapStakeAction(props) {
     );
 
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
+
+  const zapperCredit = (
+    <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px">
+      <Typography style={{ color: "#7B72AF" }}>Powered by Zapper</Typography>
+    </Box>
+  );
 
   return (
     <>
@@ -227,7 +264,7 @@ function ZapStakeAction(props) {
           </Box>
         )}
       </FormControl>
-      <Box marginY="10px" minHeight="25px" display="flex" justifyContent="center" alignItems="center">
+      <Box marginY="12px" minHeight="24px" display="flex" justifyContent="center" alignItems="center">
         {downIcon}
       </Box>
 
@@ -257,7 +294,7 @@ function ZapStakeAction(props) {
                   <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
                     <Avatar
                       src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png"
-                      style={{ height: "40px", width: "40px" }}
+                      style={{ height: "36px", width: "36px" }}
                     />
                     <Box width="10px" />
                     <Typography>sOHM</Typography>
@@ -271,17 +308,30 @@ function ZapStakeAction(props) {
           }
         />
       </FormControl>
+
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
+        <Typography>Max Slippage</Typography>
+        <Typography>2.0%</Typography>
+      </Box>
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
+        <Typography>Exchange Rate</Typography>
+        <Typography>
+          {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
+        </Typography>
+      </Box>
+      <Box justifyContent="space-between" flexDirection="row" display="flex" marginTop="12px" marginBottom="36px">
+        <Typography>Minimum You Get</Typography>
+        <Typography>{Number(outputQuantity) * 0.98} sOHM</Typography>
+      </Box>
       {initialTokenAllowance ? (
         <Button
           fullWidth
           className="zap-stake-button"
           variant="contained"
           color="primary"
-          disabled={zapToken == null || isExecuteZapLoading}
-          // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
+          disabled={zapToken == null || isExecuteZapLoading || outputQuantity === ""}
           onClick={onZap}
         >
-          {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
           {isExecuteZapLoading ? "Pending..." : "Zap-Stake"}
         </Button>
       ) : (
@@ -294,13 +344,14 @@ function ZapStakeAction(props) {
               color="primary"
               disabled={zapToken == null || isTokensLoading || isAllowanceTxSuccess || isChangeAllowanceLoading}
               onClick={onSeekApproval}
+              classes={isAllowanceTxSuccess ? { disabled: classes.ApprovedButton } : {}}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
               <Box display="flex" flexDirection="row">
                 {isAllowanceTxSuccess ? (
                   <>
-                    <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
-                    <Typography>Approved</Typography>
+                    <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 18 18"} />
+                    <Typography classes={{ root: classes.ApprovedText }}>Approved</Typography>
                   </>
                 ) : (
                   <>
@@ -317,7 +368,7 @@ function ZapStakeAction(props) {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={!currentTokenAllowance || isExecuteZapLoading}
+              disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === ""}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
               onClick={onZap}
             >
@@ -331,17 +382,7 @@ function ZapStakeAction(props) {
           </Grid>
         </Grid>
       )}
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
-        <Typography>Max Slippage</Typography>
-        <Typography>2.0%</Typography>
-      </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
-        <Typography>Exchange Rate</Typography>
-        <Typography>
-          {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
-        </Typography>
-      </Box>
-
+      {zapperCredit}
       <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs" id="zap-select-token-modal">
         <DialogTitle>
           <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
@@ -356,27 +397,42 @@ function ZapStakeAction(props) {
             <Box />
           </Box>
         </DialogTitle>
-        {isTokensLoading || Object.entries(tokens).length == 0 ? null : (
-          <List sx={{ pt: 0 }}>
-            {Object.entries(tokens)
-              .filter(token => !token[1].hide)
-              .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-              .map(token => (
-                <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
-                  <ListItemAvatar>
-                    <Avatar src={token[1].img} />
-                  </ListItemAvatar>
-                  <ListItemText primary={token[1].symbol} />
-                  <Box flexGrow={10} />
-                  <ListItemText
-                    style={{ primary: { justify: "center" } }}
-                    primary={`$${token[1].balanceUSD.toFixed(2)}`}
-                    secondary={token[1].balance.toFixed(4)}
-                  />
-                </ListItem>
-              ))}
-          </List>
-        )}
+        <Box paddingX="36px" paddingBottom="36px" paddingTop="12px">
+          {isTokensLoading ? (
+            <Box display="flex" justifyItems="center" flexDirection="column" alignItems="center">
+              <CircularProgress />
+              <Box height={24} />
+              <Typography>Dialing Zapper...</Typography>
+            </Box>
+          ) : Object.entries(tokens).length == 0 ? (
+            <Box display="flex" justifyContent="center">
+              <Typography>Ser, you have no assets...</Typography>
+            </Box>
+          ) : (
+            <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}>
+              <List style={{ pt: 0 }}>
+                {Object.entries(tokens)
+                  .filter(token => !token[1].hide)
+                  .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
+                  .map(token => (
+                    <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
+                      <ListItemAvatar>
+                        <Avatar src={token[1].img} />
+                      </ListItemAvatar>
+                      <ListItemText primary={token[1].symbol} />
+                      <Box flexGrow={10} />
+                      <ListItemText
+                        style={{ primary: { justify: "center" } }}
+                        primary={`$${token[1].balanceUSD.toFixed(2)}`}
+                        secondary={token[1].balance.toFixed(4)}
+                      />
+                    </ListItem>
+                  ))}
+              </List>
+            </Paper>
+          )}
+          {zapperCredit}
+        </Box>
       </Dialog>
     </>
   );
