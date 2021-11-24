@@ -10,11 +10,16 @@ const viewBox = "0 0 100 100";
 const smallViewBox = "0 0 50 50";
 const iconStyle = { height: "64px", width: "64px", margin: "auto" };
 
-export function WalletGraphic({ quantity, verb = "retained" }) {
+type EducationGraphicProps = {
+  quantity: string;
+  verb?: string;
+};
+
+export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
-        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="cta-text">
           Wallet
         </Typography>
       </Box>
@@ -22,7 +27,7 @@ export function WalletGraphic({ quantity, verb = "retained" }) {
         <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
-        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="cta-text">
           {quantity} sOHM {verb}
         </Typography>
       </Box>
@@ -30,11 +35,11 @@ export function WalletGraphic({ quantity, verb = "retained" }) {
   );
 }
 
-export function VaultGraphic({ quantity, verb = "deposited" }) {
+export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" color="#999999" algin="center" className="cta-text">
+        <Typography variant="h6" align="center" className="cta-text">
           Vault
         </Typography>
       </Box>
@@ -42,7 +47,7 @@ export function VaultGraphic({ quantity, verb = "deposited" }) {
         <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="cta-text">
           {quantity} sOHM {verb}
         </Typography>
       </Box>
@@ -50,11 +55,11 @@ export function VaultGraphic({ quantity, verb = "deposited" }) {
   );
 }
 
-export function YieldGraphic({ quantity }) {
+export function YieldGraphic({ quantity }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="cta-text">
           Recipient
         </Typography>
       </Box>
@@ -62,7 +67,7 @@ export function YieldGraphic({ quantity }) {
         <SvgIcon component={yieldImg} viewBox={smallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="cta-text">
           Receives yield from {quantity} sOHM
         </Typography>
       </Box>
@@ -70,11 +75,11 @@ export function YieldGraphic({ quantity }) {
   );
 }
 
-export function CurrPositionGraphic({ quantity }) {
+export function CurrPositionGraphic({ quantity }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="cta-text">
           Current Deposit
         </Typography>
       </Box>
@@ -82,7 +87,7 @@ export function CurrPositionGraphic({ quantity }) {
         <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="cta-text">
           {quantity} sOHM
         </Typography>
       </Box>
@@ -90,11 +95,11 @@ export function CurrPositionGraphic({ quantity }) {
   );
 }
 
-export function NewPositionGraphic({ quantity }) {
+export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="cta-text">
           Updated Deposit
         </Typography>
       </Box>
@@ -102,7 +107,7 @@ export function NewPositionGraphic({ quantity }) {
         <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" color="#999999" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="cta-text">
           {quantity} sOHM
         </Typography>
       </Box>

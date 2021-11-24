@@ -11,6 +11,9 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
+import { RecipientModal, SubmitCallback, CancelCallback } from "src/views/Give/RecipientModal";
+import { changeGive } from "src/slices/GiveThunk";
+import { error } from "../../slices/MessagesSlice";
 
 type ProjectDetailsProps = {
   title: string;
@@ -44,8 +47,12 @@ export default function ProjectDetails({
   depositGoal,
 }: ProjectDetailsProps) {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
+
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
+
+  const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
+
   const theme = useTheme();
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
@@ -138,6 +145,40 @@ export default function ProjectDetails({
     );
   };
 
+  const handleGiveButtonClick = () => {
+    setIsGiveModalOpen(true);
+  };
+
+  const handleGiveModalSubmit: SubmitCallback = async (
+    walletAddress: string,
+    depositAmount: BigNumber,
+    depositAmountDiff?: BigNumber,
+  ) => {
+    if (depositAmount.isEqualTo(new BigNumber(0))) {
+      return dispatch(error("Please enter a value!"));
+    }
+
+    // Record segment user event
+
+    // If reducing the amount of deposit, withdraw
+    await dispatch(
+      changeGive({
+        action: "editGive",
+        value: depositAmount.toString(),
+        recipient: walletAddress,
+        provider,
+        address,
+        networkID: chainID,
+      }),
+    );
+
+    setIsGiveModalOpen(false);
+  };
+
+  const handleGiveModalCancel: CancelCallback = () => {
+    setIsGiveModalOpen(false);
+  };
+
   return (
     <>
       <Paper>
@@ -166,12 +207,24 @@ export default function ProjectDetails({
                 {renderGoalCompletion()}
               </Grid>
               <Grid item xs={6}>
-                <Button variant="contained" color="primary" className="cause-give-button">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="cause-give-button"
+                  onClick={() => handleGiveButtonClick()}
+                  disabled={!address}
+                >
                   Give Yield
                 </Button>
               </Grid>
             </Grid>
           </div>
+          <RecipientModal
+            isModalOpen={isGiveModalOpen}
+            callbackFunc={handleGiveModalSubmit}
+            cancelFunc={handleGiveModalCancel}
+            currentWalletAddress={wallet}
+          />
         </Grid>
       </Paper>
     </>
