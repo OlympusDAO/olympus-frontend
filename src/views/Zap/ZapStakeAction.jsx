@@ -22,6 +22,7 @@ import {
   CircularProgress,
   Paper,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { changeZapTokenAllowance, executeZap, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -34,16 +35,25 @@ import { useAppSelector, useWeb3Context } from "src/hooks";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ethers } from "ethers";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
+
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
 const viewBox = "-8 -12 48 48";
-
 const buttonIconStyle = { height: "16px", width: "16px", marginInline: "6px" };
+
+const useStyles = makeStyles(theme => ({
+  ApprovedButton: {
+    backgroundColor: theme.palette.type === "light" ? "#9EC4AB !important" : "#92A799 !important",
+  },
+  ApprovedText: {
+    color: theme.palette.type === "light" ? "#fff" : "#333333",
+  },
+}));
 
 function ZapStakeAction(props) {
   const { address, connect, chainID, provider } = useWeb3Context();
 
   const dispatch = useDispatch();
-
+  const classes = useStyles();
   const tokens = useAppSelector(state => state.zap.balances);
   const isTokensLoading = useAppSelector(state => state.zap.balancesLoading);
   const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
@@ -328,13 +338,14 @@ function ZapStakeAction(props) {
               color="primary"
               disabled={zapToken == null || isTokensLoading || isAllowanceTxSuccess || isChangeAllowanceLoading}
               onClick={onSeekApproval}
+              classes={isAllowanceTxSuccess ? { disabled: classes.ApprovedButton } : {}}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
               <Box display="flex" flexDirection="row">
                 {isAllowanceTxSuccess ? (
                   <>
-                    <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
-                    <Typography>Approved</Typography>
+                    <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 18 18"} />
+                    <Typography classes={{ root: classes.ApprovedText }}>Approved</Typography>
                   </>
                 ) : (
                   <>
