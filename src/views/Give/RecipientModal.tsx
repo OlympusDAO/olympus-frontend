@@ -8,8 +8,8 @@ import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
-import { changeApproval, changeGive } from "../../slices/GiveThunk";
-import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
+import { changeApproval } from "../../slices/GiveThunk";
+import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 import { BigNumber } from "bignumber.js";
 import {
@@ -20,11 +20,42 @@ import {
   NewPositionGraphic,
   ArrowGraphic,
 } from "../../components/EducationCard";
-import { trim } from "../../helpers";
+import { IAccountSlice } from "../../slices/AccountSlice";
+import { Project } from "src/components/GiveProject/project.type";
 
 const sOhmImg = getTokenImage("sohm");
 
-export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentWalletAddress, currentDepositAmount }) {
+type RecipientModalProps = {
+  isModalOpen: boolean;
+  callbackFunc: SubmitCallback;
+  cancelFunc: CancelCallback;
+  project?: Project;
+  currentWalletAddress?: string;
+  currentDepositAmount?: number; // As per IUserDonationInfo
+};
+
+// TODO consider shifting this into interfaces.ts
+type State = {
+  account: IAccountSlice;
+  pendingTransactions: IPendingTxn[];
+};
+
+export interface SubmitCallback {
+  (walletAddress: string, depositAmount: BigNumber, depositAmountDiff?: BigNumber): void;
+}
+
+export interface CancelCallback {
+  (): void;
+}
+
+export function RecipientModal({
+  isModalOpen,
+  callbackFunc,
+  cancelFunc,
+  project,
+  currentWalletAddress,
+  currentDepositAmount,
+}: RecipientModalProps) {
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
@@ -37,9 +68,8 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
 
   useEffect(() => {
-    console.log(giveAllowance);
-    checkIsDepositAmountValid(depositAmount);
-    checkIsWalletAddressValid(walletAddress);
+    checkIsDepositAmountValid(getDepositAmount().toFixed());
+    checkIsWalletAddressValid(getWalletAddress());
   }, []);
 
   /**
@@ -49,15 +79,15 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    *
    * TODO consider extracting this into a helper file
    */
-  const sohmBalance = useSelector(state => {
+  const sohmBalance: string = useSelector((state: State) => {
     return state.account.balances && state.account.balances.mockSohm;
   });
 
-  const giveAllowance = useSelector(state => {
+  const giveAllowance: number = useSelector((state: State) => {
     return state.account.giving && state.account.giving.sohmGive;
   });
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions: IPendingTxn[] = useSelector((state: State) => {
     return state.pendingTransactions;
   });
 
@@ -71,44 +101,48 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
 
   const isAllowanceDataLoading = giveAllowance == null;
 
+  const getSOhmBalance = (): BigNumber => {
+    return new BigNumber(sohmBalance);
+  };
+
   /**
    * Returns the maximum deposit that can be directed to the recipient.
    *
    * This is equal to the current wallet balance and the current deposit amount (in the vault).
    *
-   * @returns boolean
+   * @returns BigNumber
    */
-  const getMaximumDepositAmount = () => {
-    return parseFloat(sohmBalance) + parseFloat(currentDepositAmount ? currentDepositAmount : 0.0);
+  const getMaximumDepositAmount = (): BigNumber => {
+    return new BigNumber(sohmBalance).plus(currentDepositAmount ? currentDepositAmount : 0);
   };
 
-  const handleSetDepositAmount = value => {
+  const handleSetDepositAmount = (value: string) => {
     checkIsDepositAmountValid(value);
-    setDepositAmount(value);
+    setDepositAmount(parseFloat(value));
   };
 
-  const checkIsDepositAmountValid = value => {
-    const valueFloat = parseFloat(value);
-    const sohmBalanceFloat = parseFloat(sohmBalance);
+  const checkIsDepositAmountValid = (value: string) => {
+    const valueNumber = new BigNumber(value);
+    const sOhmBalanceNumber = getSOhmBalance();
 
-    if (!value || value == "" || valueFloat == 0) {
+    if (!value || value == "" || valueNumber.isEqualTo(0)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError("Please enter a value");
       return;
     }
 
-    if (valueFloat < 0) {
+    if (valueNumber.isLessThan(0)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError("Value must be positive");
       return;
     }
 
-    if (sohmBalanceFloat == 0) {
+    if (sOhmBalanceNumber.isEqualTo(0)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError("You must have a balance of sOHM (staked OHM) to continue");
     }
 
-    if (valueFloat > getMaximumDepositAmount()) {
+    if (valueNumber.isGreaterThan(getMaximumDepositAmount())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError("Value cannot be more than your sOHM balance of " + getMaximumDepositAmount());
       return;
@@ -118,7 +152,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
     setIsDepositAmountValidError("");
   };
 
-  const handleSetWallet = value => {
+  const handleSetWallet = (value: string) => {
     checkIsWalletAddressValid(value);
     setWalletAddress(value);
   };
@@ -132,7 +166,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    *
    * @param {string} value the proposed value for the wallet address
    */
-  const checkIsWalletAddressValid = value => {
+  const checkIsWalletAddressValid = (value: string) => {
     if (!isAddress(value)) {
       setIsWalletAddressValid(false);
       setIsWalletAddressValidError("Please enter a valid Ethereum address");
@@ -155,16 +189,22 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    *
    * @returns boolean
    */
-  const isCreateMode = () => {
+  const isCreateMode = (): boolean => {
     if (currentWalletAddress) return false;
 
     return true;
   };
 
-  const getTitle = () => {
-    if (!isCreateMode()) return "Edit Amount";
+  const isProjectMode = (): boolean => {
+    if (project) return true;
 
-    return "Add Recipient";
+    return false;
+  };
+
+  const getTitle = (): string => {
+    if (!isCreateMode()) return "Edit Yield";
+
+    return "Give Yield";
   };
 
   /**
@@ -179,7 +219,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    *
    * @returns boolean
    */
-  const canSubmit = () => {
+  const canSubmit = (): boolean => {
     if (!isDepositAmountValid) return false;
     if (!isWalletAddressValid) return false;
     if (!address) return false;
@@ -198,15 +238,15 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    *
    * @returns BigNumber instance
    */
-  const getRetainedAmountDiff = () => {
-    const tempDepositAmount = !isCreateMode() ? getDepositAmountDiff() : getDepositAmount();
+  const getRetainedAmountDiff = (): BigNumber => {
+    const tempDepositAmount: BigNumber = !isCreateMode() ? getDepositAmountDiff() : getDepositAmount();
     return new BigNumber(sohmBalance).minus(tempDepositAmount);
   };
 
-  const getDepositAmountDiff = () => {
+  const getDepositAmountDiff = (): BigNumber => {
     // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
     const depositAmountBig = new BigNumber(depositAmount);
-    return depositAmountBig.minus(new BigNumber(currentDepositAmount));
+    return depositAmountBig.minus(getCurrentDepositAmount());
   };
 
   /**
@@ -214,12 +254,26 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    *
    * @returns
    */
-  const getDepositAmount = () => {
-    if (!depositAmount) return 0;
+  const getDepositAmount = (): BigNumber => {
+    if (!depositAmount) return new BigNumber(0);
 
-    if (typeof depositAmount == "string" && !trim(depositAmount)) return 0;
+    return new BigNumber(depositAmount);
+  };
 
-    return depositAmount;
+  const getCurrentDepositAmount = (): BigNumber => {
+    if (!currentDepositAmount) return new BigNumber(0);
+
+    return new BigNumber(currentDepositAmount);
+  };
+
+  /**
+   * Returns the wallet address. If a project is defined, it uses the
+   * project wallet, else what was passed in as a parameter.
+   */
+  const getWalletAddress = (): string => {
+    if (project) return project.wallet;
+
+    return walletAddress;
   };
 
   /**
@@ -227,7 +281,48 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
    */
   const handleSubmit = () => {
     const depositAmountBig = new BigNumber(depositAmount);
-    callbackFunc(walletAddress, depositAmountBig, getDepositAmountDiff());
+
+    callbackFunc(getWalletAddress(), depositAmountBig, getDepositAmountDiff());
+  };
+
+  const getRecipientElements = () => {
+    // If project mode is enabled, the amount is editable, but the recipient is not
+    if (isProjectMode()) {
+      return (
+        <>
+          <Typography variant="h5">Recipient</Typography>
+          <Typography variant="h6">
+            {project?.title} by {project?.owner}
+          </Typography>
+        </>
+      );
+    }
+
+    // If not in create mode, don't display the recipient wallet address
+    if (!isCreateMode()) {
+      return <></>;
+    }
+
+    return (
+      <>
+        <Typography variant="h5">Recipient</Typography>
+        <FormControl className="modal-input" variant="outlined" color="primary">
+          <InputLabel htmlFor="wallet-input"></InputLabel>
+          <OutlinedInput
+            id="wallet-input"
+            type="text"
+            placeholder="Enter a wallet address in the form of 0x ..."
+            className="stake-input"
+            value={walletAddress}
+            error={!isWalletAddressValid}
+            onChange={e => handleSetWallet(e.target.value)}
+            labelWidth={0}
+            disabled={!isCreateMode()}
+          />
+          <FormHelperText>{isWalletAddressValidError}</FormHelperText>
+        </FormControl>{" "}
+      </>
+    );
   };
 
   // TODO stop modal from moving when validation messages are shown
@@ -268,7 +363,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                 type="number"
                 placeholder="Enter an amount"
                 className="stake-input"
-                value={getDepositAmount() == 0 ? null : getDepositAmount()}
+                value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
                 error={!isDepositAmountValid}
                 onChange={e => handleSetDepositAmount(e.target.value)}
                 labelWidth={0}
@@ -279,7 +374,7 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                 }
                 endAdornment={
                   <InputAdornment position="end">
-                    <Button variant="text" onClick={() => handleSetDepositAmount(getMaximumDepositAmount())}>
+                    <Button variant="text" onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}>
                       Max
                     </Button>
                   </InputAdornment>
@@ -291,44 +386,23 @@ export function RecipientModal({ isModalOpen, callbackFunc, cancelFunc, currentW
                   Your Staked Balance (depositable)
                 </Typography>
                 <Typography variant="body2" align="right">
-                  {new Intl.NumberFormat("en-US").format(sohmBalance)} sOHM
+                  {new Intl.NumberFormat("en-US").format(getSOhmBalance().toNumber())} sOHM
                 </Typography>
               </div>
             </FormControl>
-            {isCreateMode() ? (
-              <>
-                <Typography variant="h5">Recipient Address</Typography>
-                <FormControl className="modal-input" variant="outlined" color="primary">
-                  <InputLabel htmlFor="wallet-input"></InputLabel>
-                  <OutlinedInput
-                    id="wallet-input"
-                    type="text"
-                    placeholder="Enter a wallet address in the form of 0x ..."
-                    className="stake-input"
-                    value={walletAddress}
-                    error={!isWalletAddressValid}
-                    onChange={e => handleSetWallet(e.target.value)}
-                    labelWidth={0}
-                    disabled={!isCreateMode()}
-                  />
-                  <FormHelperText>{isWalletAddressValidError}</FormHelperText>
-                </FormControl>{" "}
-              </>
-            ) : (
-              <></>
-            )}
+            {getRecipientElements()}
             {isCreateMode() ? (
               <div className="give-education-graphics">
-                <WalletGraphic quantity={getRetainedAmountDiff().toString()} />
+                <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
                 <ArrowGraphic />
-                <VaultGraphic quantity={getDepositAmount()} />
+                <VaultGraphic quantity={getDepositAmount().toFixed()} />
                 <ArrowGraphic />
-                <YieldGraphic quantity={getDepositAmount()} />
+                <YieldGraphic quantity={getDepositAmount().toFixed()} />
               </div>
             ) : (
               <div className="give-education-graphics">
-                <CurrPositionGraphic quantity={currentDepositAmount} />
-                <NewPositionGraphic quantity={getDepositAmount()} />
+                <CurrPositionGraphic quantity={getCurrentDepositAmount().toFixed()} />
+                <NewPositionGraphic quantity={getDepositAmount().toFixed()} />
               </div>
             )}
           </>

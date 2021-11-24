@@ -119,6 +119,20 @@
   }
 }
 
+.give-sub-menus {
+  text-align: left;
+  padding-left: 33px;
+  > p {
+    margin-left: 33px;
+  }
+  .give-option {
+    display: block;
+    padding: unset;
+    margin-bottom: 0 0 1px 0;
+    margin-left: 33px;
+  }
+}
+
 .social-row {
   display: flex;
   flex-flow: row;

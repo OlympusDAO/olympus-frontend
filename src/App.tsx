@@ -18,7 +18,18 @@ import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSl
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap, Give } from "./views";
+import {
+  Stake,
+  ChooseBond,
+  Bond,
+  TreasuryDashboard,
+  PoolTogether,
+  Zap,
+  Wrap,
+  CausesDashboard,
+  DepositYield,
+  RedeemYield,
+} from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
@@ -228,8 +239,16 @@ function App() {
               <Stake />
             </Route>
 
-            <Route path="/give">
-              <Give />
+            <Route exact path="/give">
+              <CausesDashboard />
+            </Route>
+
+            <Route exact path="/give/donations">
+              <DepositYield />
+            </Route>
+
+            <Route exact path="/give/redeem">
+              <RedeemYield />
             </Route>
 
             <Route path="/zap">
