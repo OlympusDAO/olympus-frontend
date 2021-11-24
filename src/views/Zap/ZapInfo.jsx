@@ -141,7 +141,7 @@ function ZapInfo({ tokens, address }) {
           <Button
             variant="outlined"
             color="secondary"
-            href="https://docs.olympusdao.finance/main/"
+            href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
             target="_blank"
             className="learn-more-button"
             onClick={() => {
