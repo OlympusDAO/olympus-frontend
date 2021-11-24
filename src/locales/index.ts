@@ -10,7 +10,7 @@ interface ILocales {
   [locale: string]: ILocale;
 }
 export const locales: ILocales = {
-  en: { flag: "us", plurals: en },
+  en: { flag: "gb", plurals: en },
   fr: { flag: "fr", plurals: fr },
   ko: { flag: "kr", plurals: ko },
   tr: { flag: "tr", plurals: tr },
