@@ -47,7 +47,7 @@ export default function CausesDashboard() {
     await dispatch(
       changeGive({
         action: "editGive",
-        value: depositAmount.toString(),
+        value: depositAmount.toFixed(),
         recipient: walletAddress,
         provider,
         address,

@@ -96,7 +96,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
 
     const totalDebtNumber = new BigNumber(totalDebt);
 
-    return totalDebtNumber.div(depositGoal).multipliedBy(100).toString();
+    return totalDebtNumber.div(depositGoal).multipliedBy(100).toFixed();
   };
 
   const renderGoalCompletion = (): JSX.Element => {
@@ -149,7 +149,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
     await dispatch(
       changeGive({
         action: "editGive",
-        value: depositAmount.toString(),
+        value: depositAmount.toFixed(),
         recipient: walletAddress,
         provider,
         address,

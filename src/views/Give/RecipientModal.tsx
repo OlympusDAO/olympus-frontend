@@ -69,7 +69,7 @@ export function RecipientModal({
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
 
   useEffect(() => {
-    checkIsDepositAmountValid(getDepositAmount().toString());
+    checkIsDepositAmountValid(getDepositAmount().toFixed());
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
 
@@ -375,7 +375,7 @@ export function RecipientModal({
                 }
                 endAdornment={
                   <InputAdornment position="end">
-                    <Button variant="text" onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}>
+                    <Button variant="text" onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}>
                       Max
                     </Button>
                   </InputAdornment>
@@ -394,16 +394,16 @@ export function RecipientModal({
             {getRecipientElements()}
             {isCreateMode() ? (
               <div className="give-education-graphics">
-                <WalletGraphic quantity={getRetainedAmountDiff().toString()} />
+                <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
                 <ArrowGraphic />
-                <VaultGraphic quantity={getDepositAmount().toString()} />
+                <VaultGraphic quantity={getDepositAmount().toFixed()} />
                 <ArrowGraphic />
-                <YieldGraphic quantity={getDepositAmount().toString()} />
+                <YieldGraphic quantity={getDepositAmount().toFixed()} />
               </div>
             ) : (
               <div className="give-education-graphics">
-                <CurrPositionGraphic quantity={getCurrentDepositAmount().toString()} />
-                <NewPositionGraphic quantity={getDepositAmount().toString()} />
+                <CurrPositionGraphic quantity={getCurrentDepositAmount().toFixed()} />
+                <NewPositionGraphic quantity={getDepositAmount().toFixed()} />
               </div>
             )}
           </>
