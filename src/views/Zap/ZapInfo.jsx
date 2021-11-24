@@ -67,7 +67,7 @@ function ZapInfo({ tokens, address }) {
               classes={{ root: classes.infoHeader }}
               className="oly-info-header-box"
             >
-              <HeaderLogo images={tokens} />
+              <HeaderLogo images={[]} />
               <Typography color="textSecondary" align="center">
                 You Give
               </Typography>
