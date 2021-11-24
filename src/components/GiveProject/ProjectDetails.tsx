@@ -209,6 +209,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
             callbackFunc={handleGiveModalSubmit}
             cancelFunc={handleGiveModalCancel}
             project={project}
+            key={title}
           />
         </Grid>
       </Paper>

@@ -8,7 +8,7 @@ import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
-import { changeApproval, changeGive } from "../../slices/GiveThunk";
+import { changeApproval } from "../../slices/GiveThunk";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 import { BigNumber } from "bignumber.js";
@@ -20,7 +20,6 @@ import {
   NewPositionGraphic,
   ArrowGraphic,
 } from "../../components/EducationCard";
-import { trim } from "../../helpers";
 import { IAccountSlice } from "../../slices/AccountSlice";
 import { Project } from "src/components/GiveProject/project.type";
 
@@ -32,7 +31,7 @@ type RecipientModalProps = {
   cancelFunc: CancelCallback;
   project?: Project;
   currentWalletAddress?: string;
-  currentDepositAmount?: string; // stored in donationInfo as a string
+  currentDepositAmount?: number; // As per IUserDonationInfo
 };
 
 // TODO consider shifting this into interfaces.ts
@@ -60,7 +59,7 @@ export function RecipientModal({
   const dispatch = useDispatch();
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
-  const [depositAmount, setDepositAmount] = useState(currentDepositAmount ? currentDepositAmount : "0");
+  const [depositAmount, setDepositAmount] = useState(currentDepositAmount ? currentDepositAmount : 0);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(false);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState("");
 
@@ -114,12 +113,12 @@ export function RecipientModal({
    * @returns BigNumber
    */
   const getMaximumDepositAmount = (): BigNumber => {
-    return new BigNumber(sohmBalance).plus(currentDepositAmount ? currentDepositAmount : "0");
+    return new BigNumber(sohmBalance).plus(currentDepositAmount ? currentDepositAmount : 0);
   };
 
   const handleSetDepositAmount = (value: string) => {
     checkIsDepositAmountValid(value);
-    setDepositAmount(value);
+    setDepositAmount(parseFloat(value));
   };
 
   const checkIsDepositAmountValid = (value: string) => {

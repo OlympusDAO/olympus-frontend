@@ -18,22 +18,34 @@ import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { changeGive } from "../../slices/GiveThunk";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
-import { RecipientModal } from "./RecipientModal";
+import { RecipientModal, SubmitCallback } from "./RecipientModal";
 import { WithdrawDepositModal } from "./WithdrawDepositModal";
 import { shorten } from "src/helpers";
 import { BigNumber } from "bignumber.js";
+import { IAccountSlice } from "src/slices/AccountSlice";
+import { IAppData } from "src/slices/AppSlice";
+import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { error } from "../../slices/MessagesSlice";
+
+// TODO consider shifting this into interfaces.ts
+type State = {
+  account: IAccountSlice;
+  pendingTransactions: IPendingTxn[];
+  app: IAppData;
+};
 
 export default function YieldRecipients() {
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
-  const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState(null);
-  const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState(null);
+  const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState("");
+  const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
-  const isAppLoading = useSelector(state => state.app.loading);
-  const donationInfo = useSelector(state => {
+  // TODO fix typing of state.app.loading
+  const isAppLoading = useSelector((state: any) => state.app.loading);
+  const donationInfo = useSelector((state: State) => {
     return state.account.giving && state.account.giving.donationInfo;
   });
 
@@ -60,17 +72,17 @@ export default function YieldRecipients() {
   }, [walletChecked]);
 
   // *** Edit modal
-  const handleEditButtonClick = walletAddress => {
+  const handleEditButtonClick = (walletAddress: string) => {
     setSelectedRecipientForEdit(walletAddress);
     setIsEditModalOpen(true);
   };
 
-  const handleEditModalSubmit = async (walletAddress, depositAmount, depositAmountDiff) => {
-    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
-
-    if (isNaN(depositAmount) || depositAmount === "") {
+  const handleEditModalSubmit: SubmitCallback = async (walletAddress, depositAmount, depositAmountDiff) => {
+    if (!depositAmountDiff) {
       return dispatch(error("Please enter a value!"));
     }
+
+    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
     // Record segment user event
 
@@ -94,12 +106,12 @@ export default function YieldRecipients() {
   };
 
   // *** Withdraw modal
-  const handleWithdrawButtonClick = walletAddress => {
+  const handleWithdrawButtonClick = (walletAddress: string) => {
     setSelectedRecipientForWithdraw(walletAddress);
     setIsWithdrawModalOpen(true);
   };
 
-  const handleWithdrawModalSubmit = async (walletAddress, depositAmount) => {
+  const handleWithdrawModalSubmit: SubmitCallback = async (walletAddress, depositAmount) => {
     // Record Segment user event
 
     // Issue withdrawal from smart contract

@@ -15,7 +15,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { redeemBalance } from "../../slices/RedeemThunk";
 import { Skeleton } from "@material-ui/lab";
-import { trim } from "src/helpers";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
