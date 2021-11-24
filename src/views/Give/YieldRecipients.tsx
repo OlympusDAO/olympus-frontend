@@ -19,7 +19,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { changeGive } from "../../slices/GiveThunk";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal, SubmitCallback } from "./RecipientModal";
-import { WithdrawDepositModal } from "./WithdrawDepositModal";
+import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
 import { shorten } from "src/helpers";
 import { BigNumber } from "bignumber.js";
 import { IAccountSlice } from "src/slices/AccountSlice";
@@ -111,7 +111,7 @@ export default function YieldRecipients() {
     setIsWithdrawModalOpen(true);
   };
 
-  const handleWithdrawModalSubmit: SubmitCallback = async (walletAddress, depositAmount) => {
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
     // Record Segment user event
 
     // Issue withdrawal from smart contract
@@ -129,7 +129,7 @@ export default function YieldRecipients() {
     setIsWithdrawModalOpen(false);
   };
 
-  const handleWithdrawModalCancel = () => {
+  const handleWithdrawModalCancel: WithdrawCancelCallback = () => {
     setIsWithdrawModalOpen(false);
   };
 
