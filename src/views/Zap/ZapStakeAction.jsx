@@ -245,7 +245,8 @@ function ZapStakeAction(props) {
 
                       <Box height="5px" />
                       <Box flexDirection="row" display="flex" alignItems="center">
-                        <Typography color="textSecondary">{`Your Balance ${tokens[zapToken].balance.toFixed(
+                        <Typography color="textSecondary">{`Your Balance ${trim(
+                          tokens[zapToken].balance,
                           2,
                         )}`}</Typography>
                         <Box width="10px" />
@@ -312,7 +313,7 @@ function ZapStakeAction(props) {
                     <Typography>sOHM</Typography>
                   </Box>
                   <Box flexDirection="row" display="flex" alignItems="center">
-                    <Typography color="textSecondary">{`Your Balance ${sOhmBalance.toFixed(2)}`}</Typography>
+                    <Typography color="textSecondary">{`Your Balance ${trim(sOhmBalance, 2)}`}</Typography>
                   </Box>
                 </Box>
               </div>
@@ -332,7 +333,7 @@ function ZapStakeAction(props) {
           <Trans>Exchange Rate</Trans>
         </Typography>
         <Typography>
-          {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
+          {zapToken == null ? "nil" : `${trim(exchangeRate, 4)} ${tokens[zapToken].symbol}`} = 1 sOHM
         </Typography>
       </Box>
       <Box
@@ -346,7 +347,7 @@ function ZapStakeAction(props) {
         <Typography>
           <Trans>Minimum You Get</Trans>
         </Typography>
-        <Typography>{Number(outputQuantity) * 0.98} sOHM</Typography>
+        <Typography>{trim(Number(outputQuantity) * 0.98, 2)} sOHM</Typography>
       </Box>
       {initialTokenAllowance ? (
         <Button
@@ -464,8 +465,8 @@ function ZapStakeAction(props) {
                       <Box flexGrow={10} />
                       <ListItemText
                         style={{ primary: { justify: "center" } }}
-                        primary={`$${token[1].balanceUSD.toFixed(2)}`}
-                        secondary={token[1].balance.toFixed(4)}
+                        primary={`$${trim(token[1].balanceUSD, 2)}`}
+                        secondary={trim(token[1].balance, 4)}
                       />
                     </ListItem>
                   ))}
