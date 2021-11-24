@@ -16,6 +16,17 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { redeemBalance } from "../../slices/RedeemThunk";
 import { Skeleton } from "@material-ui/lab";
 import { trim } from "src/helpers";
+import { IAccountSlice } from "src/slices/AccountSlice";
+import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { IAppData } from "src/slices/AppSlice";
+import { BigNumber } from "bignumber.js";
+
+// TODO consider shifting this into interfaces.ts
+type State = {
+  account: IAccountSlice;
+  pendingTransactions: IPendingTxn[];
+  app: IAppData;
+};
 
 export default function RedeemYield() {
   const dispatch = useDispatch();
@@ -23,37 +34,47 @@ export default function RedeemYield() {
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
 
-  const isAppLoading = useSelector(state => state.app.loading);
-  const redeemableBalance = useSelector(state => {
+  // TODO fix typing of state.app.loading
+  const isAppLoading = useSelector((state: any) => state.app.loading);
+  const redeemableBalance = useSelector((state: State) => {
     return state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
 
-  const stakingAPY = useSelector(state => {
+  const stakingAPY = useSelector((state: State) => {
     return state.app.stakingAPY;
   });
 
-  const recipientInfo = useSelector(state => {
+  const recipientInfo = useSelector((state: State) => {
     return state.account.redeeming && state.account.redeeming.recipientInfo;
   });
 
-  const stakingRebase = useSelector(state => {
+  const stakingRebase = useSelector((state: State) => {
     return state.app.stakingRebase;
   });
 
-  const fiveDayRate = useSelector(state => {
+  const fiveDayRate = useSelector((state: State) => {
     return state.app.fiveDayRate;
   });
 
-  const trim4 = input => {
-    return trim(input, 4);
+  const redeemableBalanceNumber: BigNumber = new BigNumber(redeemableBalance);
+
+  const totalDeposit = new BigNumber(recipientInfo && recipientInfo.totalDebt ? recipientInfo.totalDebt : 0);
+
+  const stakingRebasePercentage = new BigNumber(stakingRebase ? stakingRebase : 0).multipliedBy(100);
+  const nextRewardValue = new BigNumber(stakingRebase ? stakingRebase : 0).multipliedBy(totalDeposit);
+
+  const fiveDayRateValue = new BigNumber(fiveDayRate ? fiveDayRate : 0).multipliedBy(100);
+
+  /**
+   * This ensures that the formatted string has a maximum of 4
+   * decimal places, while trimming trailing zeroes.
+   *
+   * @param number
+   * @returns string
+   */
+  const getTrimmedBigNumber = (number: BigNumber) => {
+    return number.decimalPlaces(4).toString();
   };
-
-  const totalDeposit = recipientInfo && recipientInfo.totalDebt ? recipientInfo.totalDebt : 0;
-
-  const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((stakingRebasePercentage / 100) * totalDeposit, 4);
-
-  const trimmedFiveDayRate = trim(fiveDayRate * 100, 4);
 
   const isRecipientInfoLoading = recipientInfo === undefined;
 
@@ -102,23 +123,30 @@ export default function RedeemYield() {
               <TableBody>
                 <TableRow>
                   <TableCell>Donated sOHM Generating Yield</TableCell>
-                  <TableCell>{isAppLoading ? <Skeleton /> : trim4(totalDeposit) + " sOHM"}</TableCell>
+                  <TableCell>{isAppLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + " sOHM"}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Redeemable Amount</TableCell>
-                  <TableCell> {isAppLoading ? <Skeleton /> : trim4(redeemableBalance) + " sOHM"}</TableCell>
+                  <TableCell>
+                    {" "}
+                    {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(redeemableBalanceNumber) + " sOHM"}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Next Reward Amount</TableCell>
-                  <TableCell> {isAppLoading ? <Skeleton /> : trim4(0.01 * totalDeposit) + " sOHM"}</TableCell>
+                  {/* TODO correct? */}
+                  <TableCell> {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + " sOHM"}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Next Reward Yield</TableCell>
-                  <TableCell> {isAppLoading ? <Skeleton /> : "1%"}</TableCell>
+                  <TableCell>
+                    {" "}
+                    {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(stakingRebasePercentage) + "%"}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>ROI (5-Day Rate)</TableCell>
-                  <TableCell> {isAppLoading ? <Skeleton /> : "16.097%"}</TableCell>
+                  <TableCell> {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(fiveDayRateValue) + "%"}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell></TableCell>

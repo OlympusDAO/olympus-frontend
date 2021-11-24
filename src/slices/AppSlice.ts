@@ -174,7 +174,7 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
   return { marketPrice };
 });
 
-interface IAppData {
+export interface IAppData {
   readonly circSupply: number;
   readonly currentIndex?: string;
   readonly currentBlock?: number;
