@@ -344,7 +344,7 @@ function ZapStakeAction(props) {
               <Box display="flex" flexDirection="row">
                 {isAllowanceTxSuccess ? (
                   <>
-                    <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
+                    <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 18 18"} />
                     <Typography classes={{ root: classes.ApprovedText }}>Approved</Typography>
                   </>
                 ) : (
