@@ -332,7 +332,7 @@ function ZapStakeAction(props) {
           disabled={zapToken == null || isExecuteZapLoading || outputQuantity === ""}
           onClick={onZap}
         >
-          {isExecuteZapLoading ? "Pending..." : "Zap-Stake"}
+          {isExecuteZapLoading ? "Pending..." : outputQuantity === "" ? "Enter an Amount" : "Zap-Stake"}
         </Button>
       ) : (
         <Grid container spacing={2}>
@@ -376,7 +376,7 @@ function ZapStakeAction(props) {
               <Box display="flex" flexDirection="row" alignItems="center">
                 <SvgIcon component={SecondStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
 
-                <Typography>Zap-Stake</Typography>
+                <Typography>{outputQuantity === "" ? "Enter an Amount" : "Zap-Stake"}</Typography>
               </Box>
             </Button>
           </Grid>
