@@ -3,7 +3,7 @@ import { ReactComponent as Info } from "../../assets/icons/info.svg";
 import { SvgIcon, Paper, Typography, Box, Popper } from "@material-ui/core";
 import "./infotooltip.scss";
 
-function InfoTooltip({ message }) {
+function InfoTooltip({ message, children }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleHover = event => {
@@ -25,7 +25,7 @@ function InfoTooltip({ message }) {
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom" className="tooltip">
         <Paper className="info-tooltip ohm-card">
           <Typography variant="body2" className="info-tooltip-text">
-            {message}
+            {children || message}
           </Typography>
         </Paper>
       </Popper>
