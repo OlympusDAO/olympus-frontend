@@ -188,7 +188,7 @@ function ZapStakeAction(props) {
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
 
   const zapperCredit = (
-    <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px">
+    <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px" width="100%">
       <Typography style={{ color: "#7B72AF" }}>
         <Trans>Powered by Zapper</Trans>
       </Typography>
@@ -374,7 +374,7 @@ function ZapStakeAction(props) {
         </Button>
       ) : (
         <Grid container spacing={2}>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} sm={6}>
             <Button
               fullWidth
               className="zap-stake-button"
@@ -404,7 +404,7 @@ function ZapStakeAction(props) {
               </Box>
             </Button>
           </Grid>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} sm={6}>
             <Button
               fullWidth
               className="zap-stake-button"

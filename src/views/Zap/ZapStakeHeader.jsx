@@ -6,6 +6,10 @@ import { Trans } from "@lingui/macro";
 
 export default function ZapStakeHeader({ images }) {
   const isSmallScreen = useMediaQuery("(max-width: 680px)");
+  const isVerySmallScreen = useMediaQuery("(max-width: 325px)");
+  if (isVerySmallScreen) {
+    images = images.slice(0, 2);
+  }
   return (
     <Box
       paddingBottom={4}
@@ -20,7 +24,7 @@ export default function ZapStakeHeader({ images }) {
       <Box alignItems="center" display="flex" flexDirection="column">
         <HeaderLogo images={images} icons={[MoreIcon]} />
         <Typography color="textSecondary">
-          <Trans>Select any asset</Trans>
+          <Trans>{isVerySmallScreen ? "Any asset" : "Select any asset"}</Trans>
         </Typography>
       </Box>
       {/* </Grid> */}

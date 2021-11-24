@@ -12,7 +12,7 @@ export default function HeaderLogo({ images, icons, avatarStyleOverride }) {
     ];
   }
   return (
-    <Box display="flex" p={3} flexDirection="row">
+    <Box display="flex" marginBottom={2} flexDirection="row">
       {images?.map(image => (
         <Avatar src={image} style={avatarStyleOverride ?? avatarStyle} />
       ))}
