@@ -73,6 +73,12 @@ function ZapStakeAction(props) {
     handleClose();
   };
 
+  useEffect(() => {
+    if (!tokens[zapToken]) {
+      setZapToken(null);
+    }
+  }, [zapToken]);
+
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => {
     setModalOpen(true);
@@ -129,7 +135,7 @@ function ZapStakeAction(props) {
   const inputTokenImages = useMemo(
     () =>
       Object.entries(tokens)
-        .filter(token => token[0] !== "sohm")
+        .filter(token => token[0] !== "sohm" && !token[1].hide)
         .map(token => token[1].img)
         .slice(0, 3),
     [tokens],
