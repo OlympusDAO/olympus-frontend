@@ -25,6 +25,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { getLusdData } from "../../slices/LusdSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim } from "../../helpers";
+import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
@@ -88,6 +89,9 @@ export default function ExternalStakePool() {
                     </TableCell>
                     <TableCell align="left">
                       <Trans>TVD</Trans>
+                      <InfoTooltip>
+                        <Trans>Total Value Deposited</Trans>
+                      </InfoTooltip>
                     </TableCell>
                     <TableCell align="left">
                       <Trans>Balance</Trans>
@@ -170,6 +174,9 @@ export default function ExternalStakePool() {
                 <div className="data-row">
                   <Typography>
                     <Trans>TVD</Trans>
+                    <InfoTooltip>
+                      <Trans>Total Value Deposited</Trans>
+                    </InfoTooltip>
                   </Typography>
                   <Typography>
                     {isLusdLoading ? (

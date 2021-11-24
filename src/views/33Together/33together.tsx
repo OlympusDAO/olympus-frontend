@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { t } from "@lingui/macro";
 import { Paper, Tab, Tabs, Box, Zoom } from "@material-ui/core";
 import InfoTooltipMulti from "../../components/InfoTooltip/InfoTooltipMulti";
-
+import { Prize, PrizePool } from "src/typechain/pooltogether";
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { PoolDeposit } from "./PoolDeposit";
@@ -12,35 +12,39 @@ import { PoolWithdraw } from "./PoolWithdraw";
 import { PoolInfo } from "./PoolInfo";
 import { PoolPrize } from "./PoolPrize";
 import "./33together.scss";
-import { addresses, POOL_GRAPH_URLS } from "../../constants";
-import { useWeb3Context } from "../../hooks";
-import { apolloExt } from "../../lib/apolloClient";
-import { poolDataQuery, yourAwardsQuery } from "./poolData.js";
-import { calculateOdds } from "../../helpers/33Together";
-import { getPoolValues, getRNGStatus } from "../../slices/PoolThunk";
-import { trim } from "../../helpers/index";
+import { addresses, POOL_GRAPH_URLS } from "src/constants";
+import { useWeb3Context, useAppSelector } from "src/hooks";
+import { apolloExt } from "src/lib/apolloClient";
+import { poolDataQuery, yourAwardsQuery } from "./poolData";
+import { calculateOdds, trimOdds } from "src/helpers/33Together";
+import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `pool-tab-${index}`,
     "aria-controls": `pool-tabpanel-${index}`,
   };
 }
 
+interface AwardItem {
+  awardedTimestamp: number;
+  awardedBlock: string;
+  awardedAmount: number;
+}
+
 const PoolTogether = () => {
   const [view, setView] = useState(0);
   const [zoomed, setZoomed] = useState(false);
 
-  const changeView = (event, newView) => {
+  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
     setView(newView);
   };
 
   // NOTE (appleseed): these calcs were previously in PoolInfo, however would be need in PoolPrize, too, if...
   // ... we ever were to implement other types of awards
-  const { connect, address, provider, chainID, connected, hasCachedProvider } = useWeb3Context();
+  const { connect, address, provider, chainID, hasCachedProvider } = useWeb3Context();
   const dispatch = useDispatch();
-  let history = useHistory();
-  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID]);
+  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID.toString()]);
   const [poolData, setPoolData] = useState(null);
   const [poolDataError, setPoolDataError] = useState(null);
   const [graphLoading, setGraphLoading] = useState(true);
@@ -48,20 +52,20 @@ const PoolTogether = () => {
   const [winners, setWinners] = useState("--");
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalSponsorship, setTotalSponsorship] = useState(0);
-  const [yourOdds, setYourOdds] = useState(0);
+  const [yourOdds, setYourOdds] = useState<number | string>(0);
   const [yourTotalAwards, setYourTotalAwards] = useState(0);
   // TODO (appleseed-33T): create a table for AwardHistory
-  const [yourAwardHistory, setYourAwardHistory] = useState([]);
-  const [infoTooltipMessage, setInfoTooltipMessage] = useState([
+  const [yourAwardHistory, setYourAwardHistory] = useState<Array<AwardItem>>([]);
+  const [infoTooltipMessage, setInfoTooltipMessage] = useState<Array<string>>([
     "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn.",
   ]);
-  const isAccountLoading = useSelector(state => state.account.loading ?? true);
+  const isAccountLoading = useAppSelector(state => state.account.loading ?? true);
 
-  const sohmBalance = useSelector(state => {
+  const sohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
 
-  const poolBalance = useSelector(state => {
+  const poolBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.pool;
   });
 
@@ -74,38 +78,40 @@ const PoolTogether = () => {
     // get poolData
     apolloExt(poolDataQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS), graphUrl)
       .then(poolData => {
-        const poolWinners = poolData.data.prizePool?.prizeStrategy.multipleWinners.numberOfWinners;
-        if (poolWinners) setWinners(parseFloat(poolWinners));
+        const prizePool: PrizePool = poolData?.data.prizePool;
 
-        const poolTotalDeposits = poolData.data.prizePool?.controlledTokens[0].totalSupply / 1_000_000_000;
+        const poolWinners = prizePool.prizeStrategy?.multipleWinners?.numberOfWinners;
+        if (poolWinners) setWinners(poolWinners);
+
+        const poolTotalDeposits = prizePool.controlledTokens[0].totalSupply / 1_000_000_000;
         if (poolTotalDeposits) setTotalDeposits(poolTotalDeposits);
 
         // sponsorship is deposited funds contributing to the prize without being eligible to win
-        const poolTotalSponsorship = poolData.data.prizePool?.controlledTokens[1].totalSupply / 1_000_000_000;
+        const poolTotalSponsorship = prizePool.controlledTokens[1].totalSupply / 1_000_000_000;
         if (poolTotalSponsorship) setTotalSponsorship(poolTotalSponsorship);
 
-        setPoolData(poolData.data);
+        setPoolData(poolData?.data);
         setGraphLoading(false);
       })
       .catch(err => setPoolDataError(err));
 
     // get your Award History
     if (address) {
-      let yourPrizes = [];
+      const yourPrizes: Array<AwardItem> = [];
       let totalAwards = 0;
       apolloExt(
         yourAwardsQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS, address, addresses[chainID].PT_TOKEN_ADDRESS),
         graphUrl,
       )
         .then(poolData => {
-          poolData.data.prizePool?.prizes.map(prize => {
-            let awardedAmount = parseFloat(prize.awardedControlledTokens[0]?.amount) / 10 ** 9 || 0;
+          poolData?.data.prizePool?.prizes.map((prize: Prize) => {
+            const awardedAmount = parseFloat(prize.awardedControlledTokens[0]?.amount) / 10 ** 9 || 0;
             // pushing in an AwardItem {awardedTimestamp, awardedBlock, awardedAmount}
             yourPrizes.push({
               awardedTimestamp: prize.awardedTimestamp,
               awardedBlock: prize.awardedBlock,
               awardedAmount: awardedAmount,
-            });
+            } as AwardItem);
             totalAwards += awardedAmount;
           });
           setYourTotalAwards(totalAwards);
@@ -116,7 +122,7 @@ const PoolTogether = () => {
   }, [graphUrl]);
 
   useEffect(() => {
-    let userOdds = calculateOdds(poolBalance, totalDeposits, winners);
+    const userOdds = calculateOdds(poolBalance, totalDeposits, parseFloat(winners));
     setYourOdds(userOdds);
   }, [winners, totalDeposits, poolBalance]);
 
@@ -159,7 +165,7 @@ const PoolTogether = () => {
           className="pt-tabs"
           aria-label="pool tabs"
           //hides the tab underline sliding animation in while <Zoom> is loading
-          TabIndicatorProps={!zoomed && { style: { display: "none" } }}
+          TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
         >
           <Tab label={t`Deposit`} {...a11yProps(0)} />
           <Tab label={t`Withdraw`} {...a11yProps(1)} />
@@ -184,10 +190,10 @@ const PoolTogether = () => {
       <PoolInfo
         graphLoading={graphLoading}
         isAccountLoading={isAccountLoading}
-        poolBalance={trim(poolBalance, 4)}
-        sohmBalance={trim(sohmBalance, 4)}
-        yourTotalAwards={trim(yourTotalAwards, 4)}
-        yourOdds={trim(yourOdds, 0)}
+        poolBalance={trimOdds(parseFloat(poolBalance))}
+        sohmBalance={trimOdds(parseFloat(sohmBalance))}
+        yourTotalAwards={trimOdds(yourTotalAwards)}
+        yourOdds={trimOdds(yourOdds)}
         winners={winners}
         totalDeposits={totalDeposits}
         totalSponsorship={totalSponsorship}
