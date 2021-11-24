@@ -4,7 +4,7 @@ import { Button, Paper, Typography, Zoom, Grid } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ProjectDetails from "src/components/GiveProject/ProjectDetails";
-import data from "./mock_projects.json";
+import data from "./projects.json";
 import { CancelCallback, RecipientModal, SubmitCallback } from "./RecipientModal";
 import { BigNumber } from "bignumber.js";
 import { error } from "../../slices/MessagesSlice";
