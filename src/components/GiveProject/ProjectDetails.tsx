@@ -1,4 +1,4 @@
-import { Button, Typography, Grid, Paper } from "@material-ui/core";
+import { Button, Typography, Grid, Paper, Tooltip } from "@material-ui/core";
 import Countdown from "react-countdown";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
@@ -78,10 +78,17 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
           <SvgIcon component={ClockIcon} color="primary" />
         </div>
         <div>
-          <strong>
-            {days} days, {hours} hours
-          </strong>{" "}
-          remaining
+          <Tooltip
+            title={!finishDateObject ? "" : "Finishes at " + finishDateObject.toLocaleString() + " in your timezone"}
+            arrow
+          >
+            <div>
+              <strong>
+                {days} days, {hours} hours
+              </strong>{" "}
+              remaining
+            </div>
+          </Tooltip>
         </div>
       </>
     );
@@ -106,7 +113,11 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
           <SvgIcon component={CheckIcon} color="primary" />
         </div>
         <div>
-          <strong>{recipientInfoIsLoading ? <Skeleton /> : goalCompletion}%</strong> <span>of goal</span>
+          <Tooltip title={totalDebt + " of " + depositGoal + " sOHM raised"} arrow>
+            <div>
+              <strong>{recipientInfoIsLoading ? <Skeleton /> : goalCompletion}%</strong> <span>of goal</span>
+            </div>
+          </Tooltip>
         </div>
       </>
     );
