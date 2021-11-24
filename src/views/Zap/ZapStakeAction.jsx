@@ -242,9 +242,9 @@ function ZapStakeAction(props) {
                     <Box flexDirection="column" display="flex">
                       <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
                         <ButtonBase onClick={handleOpen}>
-                          <Avatar src={tokens[zapToken].img} style={{ height: "30px", width: "30px" }} />
+                          <Avatar src={tokens[zapToken]?.img} style={{ height: "30px", width: "30px" }} />
                           <Box width="10px" />
-                          <Typography>{tokens[zapToken].symbol}</Typography>
+                          <Typography>{tokens[zapToken]?.symbol}</Typography>
                           {downIcon}
                         </ButtonBase>
                       </Box>
@@ -252,11 +252,11 @@ function ZapStakeAction(props) {
                       <Box height="5px" />
                       <Box flexDirection="row" display="flex" alignItems="center">
                         <Typography color="textSecondary">{`Your Balance ${trim(
-                          tokens[zapToken].balance,
+                          tokens[zapToken]?.balance,
                           2,
                         )}`}</Typography>
                         <Box width="10px" />
-                        <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken].balance)}>
+                        <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken]?.balance)}>
                           <Typography>
                             <b>Max</b>
                           </Typography>
@@ -339,7 +339,7 @@ function ZapStakeAction(props) {
           <Trans>Exchange Rate</Trans>
         </Typography>
         <Typography>
-          {zapToken == null ? "nil" : `${trim(exchangeRate, 4)} ${tokens[zapToken].symbol}`} = 1 sOHM
+          {zapToken == null ? "nil" : `${trim(exchangeRate, 4)} ${tokens[zapToken]?.symbol}`} = 1 sOHM
         </Typography>
       </Box>
       <Box
