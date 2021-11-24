@@ -179,6 +179,12 @@ function ZapStakeAction(props) {
 
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
 
+  const zapperCredit = (
+    <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px">
+      <Typography style={{ color: "#7B72AF" }}>Powered by Zapper</Typography>
+    </Box>
+  );
+
   return (
     <>
       <div className="card-header">
@@ -376,6 +382,7 @@ function ZapStakeAction(props) {
           </Grid>
         </Grid>
       )}
+      {zapperCredit}
       <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs" id="zap-select-token-modal">
         <DialogTitle>
           <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
@@ -424,6 +431,7 @@ function ZapStakeAction(props) {
               </List>
             </Paper>
           )}
+          {zapperCredit}
         </Box>
       </Dialog>
     </>
