@@ -23,7 +23,7 @@
         "/assets/images/give/gitcoin-project-b/project-b-2.jpg"
       ],
       "category": "BBB",
-      "wallet": "0x1",
+      "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61",
       "depositGoal": 50
     },
     {
@@ -36,7 +36,7 @@
         "/assets/images/give/angel-protocol-project-c/project-c-2.jpg"
       ],
       "category": "CCC",
-      "wallet": "0x2",
+      "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61",
       "depositGoal": 500
     },
     {
@@ -46,7 +46,7 @@
       "finishDate": "2021-12-08T18:00:00.000Z",
       "photos": [],
       "category": "AAA",
-      "wallet": "0x3",
+      "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61",
       "depositGoal": 10
     }
   ]
