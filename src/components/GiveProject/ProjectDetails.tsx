@@ -43,12 +43,10 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
 
-  // TODO handle chainID = 1 during the first pass
-
   // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
   dispatch(
     getRedemptionBalances({
-      networkID: 4,
+      networkID: chainID,
       provider: provider,
       address: wallet,
     }),
