@@ -327,8 +327,7 @@ function ZapStakeAction(props) {
           }
         />
       </FormControl>
-
-      <Box justifyContent="space-between" flexDirection="row" display="flex" m width="100%" marginY="12px">
+      <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="12px">
         <Typography>
           <Trans>Max Slippage</Trans>
         </Typography>
