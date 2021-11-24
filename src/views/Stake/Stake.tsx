@@ -481,7 +481,7 @@ function Stake() {
           </Grid>
         </Paper>
       </Zoom>
-      <ZapCta tokens={inputTokenImages} />
+      <ZapCta />
       <ExternalStakePool />
     </div>
   );
