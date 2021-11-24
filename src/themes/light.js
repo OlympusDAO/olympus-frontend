@@ -63,11 +63,11 @@ export const light = responsiveFontSizes(
       typography: {
         fontFamily: "Square",
       },
-      props: {
-        MuiSvgIcon: {
-          htmlColor: lightTheme.color,
-        },
-      },
+      // props: {
+      //   MuiSvgIcon: {
+      //     htmlColor: lightTheme.color,
+      //   },
+      // },
       overrides: {
         MuiCssBaseline: {
           "@global": {
