@@ -342,63 +342,67 @@ function Stake() {
                       </Grid>
                       <Grid item xs={12} sm={4} className="stake-grid-item">
                         <TabPanel value={view} index={0} className="stake-tab-panel">
-                          {isAllowanceDataLoading ? (
-                            <Skeleton />
-                          ) : address && hasAllowance("ohm") ? (
-                            <Button
-                              className="stake-button"
-                              variant="contained"
-                              color="primary"
-                              disabled={isPendingTxn(pendingTransactions, "staking")}
-                              onClick={() => {
-                                onChangeStake("stake");
-                              }}
-                            >
-                              {txnButtonText(pendingTransactions, "staking", t`Stake OHM`)}
-                            </Button>
-                          ) : (
-                            <Button
-                              className="stake-button"
-                              variant="contained"
-                              color="primary"
-                              disabled={isPendingTxn(pendingTransactions, "approve_staking")}
-                              onClick={() => {
-                                onSeekApproval("ohm");
-                              }}
-                            >
-                              {txnButtonText(pendingTransactions, "approve_staking", t`Approve`)}
-                            </Button>
-                          )}
+                          <Box m={-2}>
+                            {isAllowanceDataLoading ? (
+                              <Skeleton />
+                            ) : address && hasAllowance("ohm") ? (
+                              <Button
+                                className="stake-button"
+                                variant="contained"
+                                color="primary"
+                                disabled={isPendingTxn(pendingTransactions, "staking")}
+                                onClick={() => {
+                                  onChangeStake("stake");
+                                }}
+                              >
+                                {txnButtonText(pendingTransactions, "staking", t`Stake OHM`)}
+                              </Button>
+                            ) : (
+                              <Button
+                                className="stake-button"
+                                variant="contained"
+                                color="primary"
+                                disabled={isPendingTxn(pendingTransactions, "approve_staking")}
+                                onClick={() => {
+                                  onSeekApproval("ohm");
+                                }}
+                              >
+                                {txnButtonText(pendingTransactions, "approve_staking", t`Approve`)}
+                              </Button>
+                            )}
+                          </Box>
                         </TabPanel>
 
                         <TabPanel value={view} index={1} className="stake-tab-panel">
-                          {isAllowanceDataLoading ? (
-                            <Skeleton />
-                          ) : address && hasAllowance("sohm") ? (
-                            <Button
-                              className="stake-button"
-                              variant="contained"
-                              color="primary"
-                              disabled={isPendingTxn(pendingTransactions, "unstaking")}
-                              onClick={() => {
-                                onChangeStake("unstake");
-                              }}
-                            >
-                              {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
-                            </Button>
-                          ) : (
-                            <Button
-                              className="stake-button"
-                              variant="contained"
-                              color="primary"
-                              disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
-                              onClick={() => {
-                                onSeekApproval("sohm");
-                              }}
-                            >
-                              {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
-                            </Button>
-                          )}
+                          <Box m={-2}>
+                            {isAllowanceDataLoading ? (
+                              <Skeleton />
+                            ) : address && hasAllowance("sohm") ? (
+                              <Button
+                                className="stake-button"
+                                variant="contained"
+                                color="primary"
+                                disabled={isPendingTxn(pendingTransactions, "unstaking")}
+                                onClick={() => {
+                                  onChangeStake("unstake");
+                                }}
+                              >
+                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
+                              </Button>
+                            ) : (
+                              <Button
+                                className="stake-button"
+                                variant="contained"
+                                color="primary"
+                                disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
+                                onClick={() => {
+                                  onSeekApproval("sohm");
+                                }}
+                              >
+                                {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
+                              </Button>
+                            )}
+                          </Box>
                         </TabPanel>
                       </Grid>
                     </Grid>
