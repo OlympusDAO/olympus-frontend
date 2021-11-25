@@ -2,7 +2,7 @@ import { Box, Grid, Typography, useMediaQuery } from "@material-ui/core";
 import HeaderLogo from "./HeaderLogo";
 import { ReactComponent as MoreIcon } from "../../assets/icons/circle-more.svg";
 import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.svg";
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 export default function ZapStakeHeader({ images }) {
   const isSmallScreen = useMediaQuery("(max-width: 680px)");
@@ -23,9 +23,7 @@ export default function ZapStakeHeader({ images }) {
         <Grid item xs={6} sm={4}>
           <Box alignItems="center" display="flex" flexDirection="column">
             <HeaderLogo images={images} icons={[MoreIcon]} />
-            <Typography color="textSecondary">
-              <Trans>{isVerySmallScreen ? "Any asset" : "Select any asset"}</Trans>
-            </Typography>
+            <Typography color="textSecondary">{isVerySmallScreen ? t`Any asset` : t`Select any asset`}</Typography>
           </Box>
         </Grid>
 
