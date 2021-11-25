@@ -46,7 +46,6 @@ export const changeZapTokenAllowance = createAsyncThunk(
         data: rawTransactionData.data,
         to: rawTransactionData.to,
         from: rawTransactionData.from,
-        gasLimit: ethers.utils.hexlify(Number(rawTransactionData.gas)),
       };
       const signer = provider.getSigner();
       const tx = await signer.sendTransaction(transactionData);
