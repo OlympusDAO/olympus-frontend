@@ -33,6 +33,7 @@ import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg"
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapper.svg";
 import { ethers } from "ethers";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { trim } from "src/helpers";
@@ -189,9 +190,7 @@ function ZapStakeAction(props) {
 
   const zapperCredit = (
     <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px" width="100%">
-      <Typography style={{ color: "#7B72AF" }}>
-        <Trans>Powered by Zapper</Trans>
-      </Typography>
+      <SvgIcon component={ZapperIcon} viewBox="80 -20 100 80" style={{ width: "200px", height: "40px" }} />
     </Box>
   );
 
@@ -226,7 +225,7 @@ function ZapStakeAction(props) {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    minWidth: "60px",
+                    minWidth: "50px",
                   }}
                 >
                   {zapToken == null ? (
@@ -251,10 +250,7 @@ function ZapStakeAction(props) {
 
                       <Box height="5px" />
                       <Box flexDirection="row" display="flex" alignItems="center">
-                        <Typography color="textSecondary">{`Your Balance ${trim(
-                          tokens[zapToken]?.balance,
-                          2,
-                        )}`}</Typography>
+                        <Typography color="textSecondary">{`Balance ${trim(tokens[zapToken]?.balance, 2)}`}</Typography>
                         <Box width="10px" />
                         <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken]?.balance)}>
                           <Typography>
@@ -306,7 +302,7 @@ function ZapStakeAction(props) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  minWidth: "60px",
+                  minWidth: "50px",
                 }}
               >
                 <Box flexDirection="column" display="flex">
@@ -319,7 +315,7 @@ function ZapStakeAction(props) {
                     <Typography>sOHM</Typography>
                   </Box>
                   <Box flexDirection="row" display="flex" alignItems="center">
-                    <Typography color="textSecondary">{`Your Balance ${trim(sOhmBalance, 2)}`}</Typography>
+                    <Typography color="textSecondary">{`Balance ${trim(sOhmBalance, 2)}`}</Typography>
                   </Box>
                 </Box>
               </div>

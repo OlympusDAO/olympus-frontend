@@ -164,8 +164,6 @@ const PoolTogether = () => {
           onChange={changeView}
           className="pt-tabs"
           aria-label="pool tabs"
-          //hides the tab underline sliding animation in while <Zoom> is loading
-          TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
         >
           <Tab label={t`Deposit`} {...a11yProps(0)} />
           <Tab label={t`Withdraw`} {...a11yProps(1)} />
