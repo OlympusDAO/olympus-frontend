@@ -36,6 +36,7 @@ interface ZapHelperChangeAllowanceTransaction {
   from: string;
   gasPrice: string;
   to: string;
+  gas: string;
 }
 
 const ETHEREUM_ADDRESS = "0x0000000000000000000000000000000000000000";
