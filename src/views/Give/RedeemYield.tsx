@@ -16,9 +16,10 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { redeemBalance } from "../../slices/RedeemThunk";
 import { Skeleton } from "@material-ui/lab";
 import { IAccountSlice } from "src/slices/AccountSlice";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { BigNumber } from "bignumber.js";
+import { t } from "@lingui/macro";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -53,6 +54,10 @@ export default function RedeemYield() {
 
   const fiveDayRate = useSelector((state: State) => {
     return state.app.fiveDayRate;
+  });
+
+  const pendingTransactions = useSelector((state: State) => {
+    return state.pendingTransactions;
   });
 
   const redeemableBalanceNumber: BigNumber = new BigNumber(redeemableBalance);
@@ -102,8 +107,11 @@ export default function RedeemYield() {
 
     if (isRecipientInfoLoading) return false;
 
-    // If the available amount is 0
-    if (redeemableBalanceNumber.isEqualTo(0)) return false;
+    if (isPendingTxn(pendingTransactions, "redeeming")) return false;
+
+    if (redeemableBalanceNumber.isEqualTo(0))
+      // If the available amount is 0
+      return false;
 
     return true;
   };
@@ -161,7 +169,7 @@ export default function RedeemYield() {
                       onClick={() => handleRedeemButtonClick()}
                       disabled={!canRedeem()}
                     >
-                      Redeem
+                      {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
                     </Button>
                   </TableCell>
                 </TableRow>
