@@ -202,7 +202,7 @@ function App() {
       {/* {isAppLoading && <LoadingSplash />} */}
       <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
         <Messages />
-        <TopBar z-index={9} theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+        <TopBar z-index={9} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>
           {isSmallerScreen ? (
             <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />

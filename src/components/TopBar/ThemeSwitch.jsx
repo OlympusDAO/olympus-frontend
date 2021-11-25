@@ -3,8 +3,10 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as SunIcon } from "../../assets/icons/sun.svg";
 import { ReactComponent as MoonIcon } from "../../assets/icons/moon.svg";
 import { t } from "@lingui/macro";
+import useTheme from "src/hooks/useTheme";
 
-function ThemeSwitcher({ theme, toggleTheme }) {
+function ThemeSwitcher() {
+  const [theme, toggleTheme] = useTheme();
   return (
     <ToggleButton
       className="toggle-button"

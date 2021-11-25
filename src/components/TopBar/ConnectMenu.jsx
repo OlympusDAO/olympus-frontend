@@ -6,15 +6,20 @@ import { ReactComponent as CaretDownIcon } from "../../assets/icons/caret-down.s
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Trans } from "@lingui/macro";
 
+const getEtherscanUrl = ({ chainID, txnHash }) => {
+  return chainID === 4 ? "https://rinkeby.etherscan.io/tx/" + txnHash : "https://etherscan.io/tx/" + txnHash;
+};
+
 function ConnectMenu({ theme }) {
   const { connect, disconnect, connected, web3, chainID } = useWeb3Context();
   const [anchorEl, setAnchorEl] = useState(null);
   const [isConnected, setConnected] = useState(connected);
   const [isHovering, setIsHovering] = useState(false);
 
-  const pendingTransactions = useSelector(state => {
-    return state.pendingTransactions;
-  });
+  const pendingTransactions = [{ txnHash: "3241141", text: "test" }];
+  // useSelector(state => {
+  //   return state.pendingTransactions;
+  // });
 
   let buttonText = <Trans>Connect Wallet</Trans>;
   let clickFunc = connect;
@@ -39,10 +44,6 @@ function ConnectMenu({ theme }) {
   const primaryColor = theme === "light" ? "#49A1F2" : "#F8CC82";
   const buttonStyles =
     "pending-txn-container" + (isHovering && pendingTransactions.length > 0 ? " hovered-button" : "");
-
-  const getEtherscanUrl = txnHash => {
-    return chainID === 4 ? "https://rinkeby.etherscan.io/tx/" + txnHash : "https://etherscan.io/tx/" + txnHash;
-  };
 
   useEffect(() => {
     if (pendingTransactions.length === 0) {
@@ -86,12 +87,12 @@ function ConnectMenu({ theme }) {
           return (
             <Fade {...TransitionProps} timeout={100}>
               <Paper className="ohm-menu" elevation={1}>
-                {pendingTransactions.map((x, i) => (
-                  <Box key={i} fullWidth>
-                    <Link key={x.txnHash} href={getEtherscanUrl(x.txnHash)} target="_blank" rel="noreferrer">
+                {pendingTransactions.map(({ txnHash, text }) => (
+                  <Box key={txnHash} fullWidth>
+                    <Link key={txnHash} href={getEtherscanUrl({ chainID, txnHash })} target="_blank" rel="noreferrer">
                       <Button size="large" variant="contained" color="secondary" fullWidth>
                         <Typography align="left">
-                          {x.text} <SvgIcon component={ArrowUpIcon} />
+                          {text} <SvgIcon component={ArrowUpIcon} />
                         </Typography>
                       </Button>
                     </Link>
