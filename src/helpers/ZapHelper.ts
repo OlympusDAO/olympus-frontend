@@ -65,7 +65,12 @@ export class ZapHelper {
       .find(product => product.label === "Tokens")
       ?.assets.flatMap(asset => asset.tokens);
     const arr = parsed?.map(token => [token.symbol.toLowerCase(), token]) ?? null;
-    const result = { balances: arr == null ? {} : Object.fromEntries(arr) };
+    const contractMapping = parsed?.map(token => [token.address, token.symbol.toLowerCase()]) ?? null;
+    const result = {
+      balances: arr == null ? {} : Object.fromEntries(arr),
+      addressMapping: contractMapping == null ? {} : Object.fromEntries(contractMapping),
+    };
+    console.log(result);
     return result;
   };
 
