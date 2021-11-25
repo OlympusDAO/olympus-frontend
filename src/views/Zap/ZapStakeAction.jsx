@@ -73,6 +73,12 @@ function ZapStakeAction(props) {
     handleClose();
   };
 
+  useEffect(() => {
+    if (!tokens[zapToken]) {
+      setZapToken(null);
+    }
+  }, [zapToken]);
+
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => {
     setModalOpen(true);
@@ -129,7 +135,7 @@ function ZapStakeAction(props) {
   const inputTokenImages = useMemo(
     () =>
       Object.entries(tokens)
-        .filter(token => token[0] !== "sohm")
+        .filter(token => token[0] !== "sohm" && !token[1].hide)
         .map(token => token[1].img)
         .slice(0, 3),
     [tokens],
@@ -182,7 +188,7 @@ function ZapStakeAction(props) {
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
 
   const zapperCredit = (
-    <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px">
+    <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px" width="100%">
       <Typography style={{ color: "#7B72AF" }}>
         <Trans>Powered by Zapper</Trans>
       </Typography>
@@ -206,7 +212,7 @@ function ZapStakeAction(props) {
           <OutlinedInput
             id="zap-amount-input"
             type="number"
-            placeholder="Enter an amount"
+            placeholder="Enter Amount"
             className="zap-input"
             disabled={zapToken == null}
             value={inputQuantity}
@@ -236,20 +242,21 @@ function ZapStakeAction(props) {
                     <Box flexDirection="column" display="flex">
                       <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
                         <ButtonBase onClick={handleOpen}>
-                          <Avatar src={tokens[zapToken].img} style={{ height: "30px", width: "30px" }} />
+                          <Avatar src={tokens[zapToken]?.img} style={{ height: "30px", width: "30px" }} />
                           <Box width="10px" />
-                          <Typography>{tokens[zapToken].symbol}</Typography>
+                          <Typography>{tokens[zapToken]?.symbol}</Typography>
                           {downIcon}
                         </ButtonBase>
                       </Box>
 
                       <Box height="5px" />
                       <Box flexDirection="row" display="flex" alignItems="center">
-                        <Typography color="textSecondary">{`Your Balance ${tokens[zapToken].balance.toFixed(
+                        <Typography color="textSecondary">{`Your Balance ${trim(
+                          tokens[zapToken]?.balance,
                           2,
                         )}`}</Typography>
                         <Box width="10px" />
-                        <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken].balance)}>
+                        <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken]?.balance)}>
                           <Typography>
                             <b>Max</b>
                           </Typography>
@@ -274,7 +281,7 @@ function ZapStakeAction(props) {
           </Box>
         )}
       </FormControl>
-      <Box marginY="12px" minHeight="24px" display="flex" justifyContent="center" alignItems="center">
+      <Box marginY="12px" minHeight="24px" display="flex" justifyContent="center" alignItems="center" width="100%">
         {downIcon}
       </Box>
 
@@ -286,7 +293,7 @@ function ZapStakeAction(props) {
         <OutlinedInput
           id="zap-amount-output"
           type="number"
-          placeholder="Enter an amount"
+          placeholder="Enter Amount"
           className="zap-input"
           value={outputQuantity}
           disabled={zapToken == null}
@@ -312,7 +319,7 @@ function ZapStakeAction(props) {
                     <Typography>sOHM</Typography>
                   </Box>
                   <Box flexDirection="row" display="flex" alignItems="center">
-                    <Typography color="textSecondary">{`Your Balance ${sOhmBalance.toFixed(2)}`}</Typography>
+                    <Typography color="textSecondary">{`Your Balance ${trim(sOhmBalance, 2)}`}</Typography>
                   </Box>
                 </Box>
               </div>
@@ -320,26 +327,32 @@ function ZapStakeAction(props) {
           }
         />
       </FormControl>
-
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
+      <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="12px">
         <Typography>
           <Trans>Max Slippage</Trans>
         </Typography>
         <Typography>2.0%</Typography>
       </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginY="12px">
+      <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="12px">
         <Typography>
           <Trans>Exchange Rate</Trans>
         </Typography>
         <Typography>
-          {zapToken == null ? "nil" : `${exchangeRate.toFixed(4)} ${tokens[zapToken].symbol}`} = 1 sOHM
+          {zapToken == null ? "nil" : `${trim(exchangeRate, 4)} ${tokens[zapToken]?.symbol}`} = 1 sOHM
         </Typography>
       </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" marginTop="12px" marginBottom="36px">
+      <Box
+        justifyContent="space-between"
+        flexDirection="row"
+        display="flex"
+        marginTop="12px"
+        marginBottom="36px"
+        width="100%"
+      >
         <Typography>
           <Trans>Minimum You Get</Trans>
         </Typography>
-        <Typography>{Number(outputQuantity) * 0.98} sOHM</Typography>
+        <Typography>{trim(Number(outputQuantity) * 0.98, 2)} sOHM</Typography>
       </Box>
       {initialTokenAllowance ? (
         <Button
@@ -353,14 +366,14 @@ function ZapStakeAction(props) {
           {isExecuteZapLoading ? (
             <Trans>Pending...</Trans>
           ) : outputQuantity === "" ? (
-            <Trans>Enter an Amount</Trans>
+            <Trans>Enter Amount</Trans>
           ) : (
             <Trans>Zap-Stake</Trans>
           )}
         </Button>
       ) : (
         <Grid container spacing={2}>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} sm={6}>
             <Button
               fullWidth
               className="zap-stake-button"
@@ -390,7 +403,7 @@ function ZapStakeAction(props) {
               </Box>
             </Button>
           </Grid>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={12} sm={6}>
             <Button
               fullWidth
               className="zap-stake-button"
@@ -405,7 +418,7 @@ function ZapStakeAction(props) {
                 <SvgIcon component={SecondStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
 
                 <Typography>
-                  {outputQuantity === "" ? <Trans>Enter an Amount</Trans> : <Trans>Zap-Stake</Trans>}
+                  {outputQuantity === "" ? <Trans>Enter Amount</Trans> : <Trans>Zap-Stake</Trans>}
                 </Typography>
               </Box>
             </Button>
@@ -457,8 +470,8 @@ function ZapStakeAction(props) {
                       <Box flexGrow={10} />
                       <ListItemText
                         style={{ primary: { justify: "center" } }}
-                        primary={`$${token[1].balanceUSD.toFixed(2)}`}
-                        secondary={token[1].balance.toFixed(4)}
+                        primary={`$${trim(token[1].balanceUSD, 2)}`}
+                        secondary={trim(token[1].balance, 4)}
                       />
                     </ListItem>
                   ))}
