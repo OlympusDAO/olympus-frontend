@@ -2,11 +2,12 @@ import { AppBar, Toolbar, Box, Button, SvgIcon } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
-import OhmMenu from "./OhmMenu.jsx";
+// import OhmMenu from "./OhmMenu.jsx";
 import ThemeSwitcher from "./ThemeSwitch.jsx";
 import LocaleSwitcher from "./LocaleSwitch.tsx";
 import ConnectMenu from "./ConnectMenu.jsx";
 import "./topbar.scss";
+import { Wallet } from "src/components/Wallet";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
+function TopBar({ handleDrawerToggle }) {
   const classes = useStyles();
   const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
 
@@ -49,13 +50,13 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
         </Button>
 
         <Box display="flex">
-          {!isVerySmallScreen && <OhmMenu />}
+          {/* {!isVerySmallScreen && <OhmMenu />} */}
+          <Wallet />
+          {/* <ConnectMenu /> */}
 
-          <ConnectMenu theme={theme} />
+          <ThemeSwitcher />
 
-          <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
-
-          <LocaleSwitcher theme={theme} />
+          <LocaleSwitcher />
         </Box>
       </Toolbar>
     </AppBar>

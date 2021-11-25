@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/x.svg";
-import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
+import { ReactComponent as WalletIcon } from "../../assets/icons/wallet.svg";
 import "./ohmmenu.scss";
 import { useWeb3Context } from "../../hooks/web3Context";
 import InitialWalletView from "./OhmMenuViews/walletViews/InitialWalletView";
@@ -23,8 +23,8 @@ function OhmMenu() {
         color="secondary"
         title="OHM"
       >
-        <SvgIcon component={InfoIcon} color="primary" />
-        <Typography>OHM</Typography>
+        <SvgIcon component={WalletIcon} color="primary" />
+        <Typography>Wallet</Typography>
       </Button>
       <Drawer style={{ width: "55%" }} anchor={"right"} open={anchor === "OG"} onClose={toggleDrawer("OG")}>
         <Button

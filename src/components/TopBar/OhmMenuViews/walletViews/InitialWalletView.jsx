@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useTheme, makeStyles } from "@material-ui/core/styles";
 import { trim } from "../../../../helpers";
-import { ReactComponent as ArrowUpIcon } from "../../../../assets/icons/fullscreen.svg";
+import { ReactComponent as ArrowUpIcon } from "../../../../assets/icons/arrow-up.svg";
 import { ReactComponent as sOhmTokenImg } from "../../../../assets/tokens/token_sOHM.svg";
 import { ReactComponent as ohmTokenImg } from "../../../../assets/tokens/token_OHM.svg";
 import { ReactComponent as t33TokenImg } from "../../../../assets/tokens/token_33T.svg";
@@ -10,6 +10,8 @@ import { ReactComponent as wsOhmTokenImg } from "src/assets/tokens/token_wsOHM.s
 import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as abracadabraTokenImg } from "src/assets/tokens/MIM.svg";
 import rariTokenImg from "src/assets/tokens/RARI.png";
+
+import { segmentUA } from "src/helpers/userAnalyticHelpers";
 
 import OhmImg from "src/assets/tokens/token_OHM.svg";
 import SOhmImg from "src/assets/tokens/token_sOHM.svg";
@@ -39,6 +41,7 @@ import {
 } from "@material-ui/core";
 
 import { dai, frax } from "src/helpers/AllBonds";
+
 const useStyles = makeStyles(theme => ({
   menuContainer: {
     padding: "16px",
@@ -167,87 +170,73 @@ const MenuItemUserToken = ({ name, icon, userBalance, userBalanceUSD, onExpanded
 };
 
 const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
-  if (window.ethereum) {
-    const host = window.location.origin;
-    let tokenPath;
-    let tokenDecimals = TOKEN_DECIMALS;
-    switch (tokenSymbol) {
-      case "OHM":
-        tokenPath = OhmImg;
-        break;
-      case "33T":
-        tokenPath = token33tImg;
-        break;
-      case "wsOHM":
-        tokenPath = WsOhmImg;
-        tokenDecimals = 18;
-        break;
-      default:
-        tokenPath = SOhmImg;
-    }
-    const imageURL = `${host}/${tokenPath}`;
+  if (!window.ethereum) return;
 
-    try {
-      await window.ethereum.request({
-        method: "wallet_watchAsset",
-        params: {
-          type: "ERC20",
-          options: {
-            address: tokenAddress,
-            symbol: tokenSymbol,
-            decimals: tokenDecimals,
-            image: imageURL,
-          },
+  const host = window.location.origin;
+  let tokenPath;
+  let tokenDecimals = TOKEN_DECIMALS;
+  switch (tokenSymbol) {
+    case "OHM":
+      tokenPath = OhmImg;
+      break;
+    case "33T":
+      tokenPath = token33tImg;
+      break;
+    case "wsOHM":
+      tokenPath = WsOhmImg;
+      tokenDecimals = 18;
+      break;
+    default:
+      tokenPath = SOhmImg;
+  }
+  const imageURL = `${host}/${tokenPath}`;
+
+  try {
+    await window.ethereum.request({
+      method: "wallet_watchAsset",
+      params: {
+        type: "ERC20",
+        options: {
+          address: tokenAddress,
+          symbol: tokenSymbol,
+          decimals: tokenDecimals,
+          image: imageURL,
         },
-      });
-      let uaData = {
-        address: address,
-        type: "Add Token",
-        tokenName: tokenSymbol,
-      };
-      segmentUA(uaData);
-    } catch (error) {
-      console.log(error);
-    }
+      },
+    });
+    segmentUA({
+      address: address,
+      type: "Add Token",
+      tokenName: tokenSymbol,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 function InitialWalletView() {
   const theme = useTheme();
   const styles = useStyles();
   const { chainID, address } = useWeb3Context();
-  const networkID = chainID;
   const isEthereumAPIAvailable = window.ethereum;
   // const [apy, setApy] = useState(null);
   const [anchor, setAnchor] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const SOHM_ADDRESS = addresses[networkID].SOHM_ADDRESS;
-  const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
-  const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
-  const WSOHM_ADDRESS = addresses[networkID].WSOHM_ADDRESS;
-  const ohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.ohm;
-  });
-  const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
-  });
-  const wsohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.wsohm;
-  });
-  const fsohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.fsohm;
-  });
+
+  const SOHM_ADDRESS = addresses[chainID].SOHM_ADDRESS;
+  const OHM_ADDRESS = addresses[chainID].OHM_ADDRESS;
+  const PT_TOKEN_ADDRESS = addresses[chainID].PT_TOKEN_ADDRESS;
+  const WSOHM_ADDRESS = addresses[chainID].WSOHM_ADDRESS;
+
+  const ohmBalance = useSelector(state => state.account.balances?.ohm);
+  const sohmBalance = useSelector(state => state.account.balances?.sohm);
+  const wsohmBalance = useSelector(state => state.account.balances?.wsohm);
+  const fsohmBalance = useSelector(state => state.account.balances?.fsohm);
 
   const poolBalance = useSelector(state => {
     return state.account.balances && parseFloat(state.account.balances.pool);
   });
+  const marketPrice = useSelector(state => state.app.marketPrice);
 
-  const marketPrice = useSelector(state => {
-    return state.app.marketPrice;
-  });
-
-  const toggleDrawer = data => () => {
-    setAnchor(data);
-  };
   const handleChange = panel => (event, isExpanded) => {
     if (isExpanded) {
       setExpanded(isExpanded ? panel : false);
@@ -437,7 +426,7 @@ function InitialWalletView() {
           </ExternalLink>
         </Box>
       </Box>
-      <Drawer style={{ width: "55%" }} anchor={"right"} open={anchor === "sOHMtx"} onClose={toggleDrawer("OG")}>
+      {/* <Drawer style={{ width: "55%" }} anchor={"right"} open={anchor === "sOHMtx"} onClose={toggleDrawer("OG")}>
         {" "}
         <SOhmTxView></SOhmTxView>
       </Drawer>
@@ -446,7 +435,7 @@ function InitialWalletView() {
       </Drawer>
       <Drawer style={{ width: "55%" }} anchor={"right"} open={anchor === "sOHMZaps"} onClose={toggleDrawer("OG")}>
         <SOhmZapView></SOhmZapView>
-      </Drawer>
+      </Drawer> */}
     </Paper>
   );
 }
