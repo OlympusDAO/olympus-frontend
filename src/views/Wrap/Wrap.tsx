@@ -210,7 +210,6 @@ function Wrap() {
                 </Grid>
               </div>
             </Grid>
-
             <div className="staking-area">
               {!address ? (
                 <div className="stake-wallet-notification">
