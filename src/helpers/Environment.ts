@@ -123,4 +123,22 @@ export class EnvHelper {
 
     return apiKey;
   }
+
+  static getZapperAPIKey() {
+    // EnvHelper.env.REACT_APP_ZAPPER_API
+    let apiKey = EnvHelper.env.REACT_APP_ZAPPER_API;
+    if (!apiKey) {
+      console.warn("zaps won't work without REACT_APP_ZAPPER_API key");
+    }
+    return apiKey;
+  }
+
+  static getZapperPoolAddress() {
+    // EnvHelper.env.REACT_APP_ZAPPER_POOL
+    let zapPool = EnvHelper.env.REACT_APP_ZAPPER_POOL;
+    if (!zapPool) {
+      console.warn("zaps won't work without REACT_APP_ZAPPER_POOL address");
+    }
+    return zapPool;
+  }
 }

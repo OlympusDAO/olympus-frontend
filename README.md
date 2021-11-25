@@ -125,3 +125,4 @@ Only the following people have merge access for the master branch.
 
 * [Join our Discord](https://discord.gg/gGZUMVDuhQ) and ask how you can get involved with the DAO!
 
+

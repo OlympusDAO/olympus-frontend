@@ -155,6 +155,7 @@ export const PoolWithdraw = (props: IPoolWithdrawProps) => {
               color="primary"
               disabled={isPendingTxn(pendingTransactions, "pool_withdraw")}
               onClick={() => onWithdraw("withdraw")}
+              style={{ margin: "5px" }}
             >
               {exitFee > 0
                 ? txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw Early & pay` + exitFee + " sOHM")

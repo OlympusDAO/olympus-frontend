@@ -167,6 +167,7 @@ export const PoolDeposit = (props: PoolDepositProps) => {
                 disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
                 onClick={() => onDeposit("deposit")}
                 fullWidth
+                style={{ margin: "5px" }}
               >
                 {txnButtonText(pendingTransactions, "pool_deposit", t`Deposit sOHM`)}
               </Button>
@@ -177,6 +178,7 @@ export const PoolDeposit = (props: PoolDepositProps) => {
                 color="primary"
                 disabled={isPendingTxn(pendingTransactions, "approve_pool_together")}
                 onClick={() => onSeekApproval("sohm")}
+                style={{ margin: "5px" }}
               >
                 {txnButtonText(pendingTransactions, "approve_pool_together", t`Approve`)}
               </Button>
