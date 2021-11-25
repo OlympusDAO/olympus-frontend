@@ -226,7 +226,7 @@ function ZapStakeAction(props) {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    minWidth: "60px",
+                    minWidth: "50px",
                   }}
                 >
                   {zapToken == null ? (
@@ -251,10 +251,7 @@ function ZapStakeAction(props) {
 
                       <Box height="5px" />
                       <Box flexDirection="row" display="flex" alignItems="center">
-                        <Typography color="textSecondary">{`Your Balance ${trim(
-                          tokens[zapToken]?.balance,
-                          2,
-                        )}`}</Typography>
+                        <Typography color="textSecondary">{`Balance ${trim(tokens[zapToken]?.balance, 2)}`}</Typography>
                         <Box width="10px" />
                         <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken]?.balance)}>
                           <Typography>
@@ -306,7 +303,7 @@ function ZapStakeAction(props) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  minWidth: "60px",
+                  minWidth: "50px",
                 }}
               >
                 <Box flexDirection="column" display="flex">
@@ -319,7 +316,7 @@ function ZapStakeAction(props) {
                     <Typography>sOHM</Typography>
                   </Box>
                   <Box flexDirection="row" display="flex" alignItems="center">
-                    <Typography color="textSecondary">{`Your Balance ${trim(sOhmBalance, 2)}`}</Typography>
+                    <Typography color="textSecondary">{`Balance ${trim(sOhmBalance, 2)}`}</Typography>
                   </Box>
                 </Box>
               </div>
