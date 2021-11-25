@@ -33,6 +33,7 @@ import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg"
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapper.svg";
 import { ethers } from "ethers";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { trim } from "src/helpers";
@@ -189,9 +190,7 @@ function ZapStakeAction(props) {
 
   const zapperCredit = (
     <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px" width="100%">
-      <Typography style={{ color: "#7B72AF" }}>
-        <Trans>Powered by Zapper</Trans>
-      </Typography>
+      <SvgIcon component={ZapperIcon} viewBox="80 -20 100 80" style={{ width: "200px", height: "40px" }} />
     </Box>
   );
 
