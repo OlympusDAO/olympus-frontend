@@ -75,7 +75,7 @@ export default function RedeemYield() {
     return number.decimalPlaces(4).toString();
   };
 
-  const isRecipientInfoLoading = recipientInfo === undefined;
+  const isRecipientInfoLoading = recipientInfo.totalDebt == "";
 
   useEffect(() => {
     if (hasCachedProvider()) {
@@ -100,8 +100,10 @@ export default function RedeemYield() {
   const canRedeem = () => {
     if (!address) return false;
 
+    if (isRecipientInfoLoading) return false;
+
     // If the available amount is 0
-    if (!redeemableBalance) return false;
+    if (redeemableBalanceNumber.isEqualTo(0)) return false;
 
     return true;
   };
@@ -122,13 +124,15 @@ export default function RedeemYield() {
               <TableBody>
                 <TableRow>
                   <TableCell>Donated sOHM Generating Yield</TableCell>
-                  <TableCell>{isAppLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + " sOHM"}</TableCell>
+                  <TableCell>
+                    {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + " sOHM"}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Redeemable Amount</TableCell>
                   <TableCell>
                     {" "}
-                    {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(redeemableBalanceNumber) + " sOHM"}
+                    {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(redeemableBalanceNumber) + " sOHM"}
                   </TableCell>
                 </TableRow>
                 <TableRow>
