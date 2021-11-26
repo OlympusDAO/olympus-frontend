@@ -38,7 +38,7 @@ function ZapCta() {
             <Box alignItems="center" display="flex" flexDirection="column">
               <Typography color="textPrimary" align="center" className="cta-header">
                 <Trans>
-                  Zap with more assets and stake <strong>OHM</strong>
+                  Zap with more assets and stake <strong>GAMER</strong>
                 </Trans>
               </Typography>
               <Typography

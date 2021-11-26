@@ -10,7 +10,7 @@
     },
     {
       "inputs": [],
-      "name": "OHM",
+      "name": "GAMER",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"

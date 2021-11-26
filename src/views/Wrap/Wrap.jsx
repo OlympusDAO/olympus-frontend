@@ -186,7 +186,7 @@ function Wrap() {
                         Current Index
                       </Typography>
                       <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                        {currentIndex ? <>{trim(currentIndex, 1)} GAMER</> : <Skeleton width="150px" />}
                       </Typography>
                     </div>
                   </Grid>
@@ -196,7 +196,7 @@ function Wrap() {
                         wsOHM Price
                         <InfoTooltip
                           message={
-                            "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
+                            "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of GAMER multiplied by the current index"
                           }
                         />
                       </Typography>

@@ -105,7 +105,7 @@ export default function ExternalStakePool() {
                     <TableCell>
                       <Box className="ohm-pairs">
                         <BondLogo bond={{ bondIconSvg: OhmLusdImg, isLP: true }}></BondLogo>
-                        <Typography>OHM-LUSD</Typography>
+                        <Typography>GAMER-LUSD</Typography>
                       </Box>
                     </TableCell>
                     <TableCell align="left">
@@ -155,7 +155,7 @@ export default function ExternalStakePool() {
               <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                 <Box className="ohm-pairs">
                   <BondLogo bond={{ bondIconSvg: OhmLusdImg, isLP: true }}></BondLogo>
-                  <Typography gutterBottom={false}>OHM-LUSD</Typography>
+                  <Typography gutterBottom={false}>GAMER-LUSD</Typography>
                 </Box>
               </div>
               <div className="pool-data">

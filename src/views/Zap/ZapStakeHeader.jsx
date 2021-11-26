@@ -47,7 +47,7 @@ export default function ZapStakeHeader({ images }) {
               <Box alignItems="center" display="flex" flexDirection="column" marginX={1}>
                 <HeaderLogo icons={[CircleZapIcon]} />
                 <Typography color="textSecondary">
-                  <Trans>Swap for OHM</Trans>
+                  <Trans>Swap for GAMER</Trans>
                 </Typography>
               </Box>
             </Grid>

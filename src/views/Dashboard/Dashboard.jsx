@@ -159,7 +159,7 @@ function Dashboard() {
                 frameBorder="0"
                 loading="lazy"
                 src="https://duneanalytics.com/embeds/28756/58813/c7893c75-d8f1-421e-85c3-556a22cd7885"
-                title="OHM Stakers"
+                title="GAMER Stakers"
               />
             </div>
           </Grid>

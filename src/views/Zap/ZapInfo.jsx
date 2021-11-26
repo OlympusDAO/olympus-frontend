@@ -130,7 +130,7 @@ function ZapInfo({ tokens, address }) {
               </Typography>
               <Typography align="left" variant="body2" className="oly-info-body">
                 <Trans>
-                  Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an
+                  Staking is the primary value accrual strategy of Olympus. When you stake, you lock GAMER and receive
                   equal amount of sOHM.
                 </Trans>
               </Typography>

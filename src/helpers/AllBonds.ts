@@ -185,7 +185,7 @@ export const cvx_expired = new CustomBond({
 
 export const ohm_dai = new LPBond({
   name: "ohm_dai_lp",
-  displayName: "OHM-DAI LP",
+  displayName: "GAMER-DAI LP",
   bondToken: "DAI",
   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
   bondIconSvg: OhmDaiImg,
@@ -207,7 +207,7 @@ export const ohm_dai = new LPBond({
 
 export const ohm_frax = new LPBond({
   name: "ohm_frax_lp",
-  displayName: "OHM-FRAX LP",
+  displayName: "GAMER-FRAX LP",
   bondToken: "FRAX",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
   bondIconSvg: OhmFraxImg,
@@ -229,7 +229,7 @@ export const ohm_frax = new LPBond({
 
 export const ohm_lusd = new LPBond({
   name: "ohm_lusd_lp",
-  displayName: "OHM-LUSD LP",
+  displayName: "GAMER-LUSD LP",
   bondToken: "LUSD",
   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
   bondIconSvg: OhmLusdImg,
@@ -252,7 +252,7 @@ export const ohm_lusd = new LPBond({
 
 export const ohm_weth = new CustomBond({
   name: "ohm_weth_lp",
-  displayName: "OHM-WETH LP",
+  displayName: "GAMER-WETH LP",
   bondToken: "WETH",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
   bondIconSvg: OhmEthImg,
@@ -287,7 +287,7 @@ export const ohm_weth = new CustomBond({
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD * Number(ethPrice.toString());
     } else {
-      // NOTE (appleseed): using OHM-DAI on rinkeby
+      // NOTE (appleseed): using GAMER-DAI on rinkeby
       const token = this.getContractForReserve(networkID, provider);
       const tokenAddress = this.getAddressForReserve(networkID);
       const bondCalculator = getBondCalculator(networkID, provider);

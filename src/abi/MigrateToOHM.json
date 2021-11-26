@@ -21,7 +21,7 @@
     },
     {
       "inputs": [],
-      "name": "OHM",
+      "name": "GAMER",
       "outputs": [{ "internalType": "contract IERC20", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"

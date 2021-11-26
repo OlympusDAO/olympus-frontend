@@ -73,7 +73,7 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   // furthest start date for past funds
   let oldestDepositDate = Math.max.apply(null, pastDurations);
 
-  // rewardToken is OHM for this Crucible
+  // rewardToken is GAMER for this Crucible
   const rewardTokenContract = new ethers.Contract(
     aludelData.rewardToken as string,
     UniswapIERC20ABI,
