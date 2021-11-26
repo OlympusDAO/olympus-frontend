@@ -15,9 +15,9 @@ query {
     nextEpochRebase
     nextDistributedTELO
     treasuryCUSDRiskFreeValue
-    treasuryFraxMarketValue
+    treasuryCEURMarketValue
     treasuryCUSDMarketValue
-    treasuryFraxRiskFreeValue
+    treasuryCEURRiskFreeValue
     treasuryXsushiMarketValue
     treasuryWETHMarketValue
     treasuryLusdRiskFreeValue
@@ -32,7 +32,7 @@ query {
     runwayCurrent
     holders
     treasuryTELOCUSDPOL
-    treasuryTELOFraxPOL
+    treasuryTELOCEURPOL
   }
 }
 `;
@@ -165,8 +165,8 @@ export const bulletpoints = {
 
 export const tooltipItems = {
   tvl: ["Total Value Deposited"],
-  coin: ["CUSD", "FRAX", "ETH", "SUSHI", "LUSD"],
-  rfv: ["CUSD", "FRAX", "LUSD"],
+  coin: ["CUSD", "CEUR", "ETH", "SUSHI", "LUSD"],
+  rfv: ["CUSD", "CEUR", "LUSD"],
   holder: ["TELOies"],
   apy: ["APY"],
   runway: ["Current", "7.5K APY", "5K APY", "2.5K APY"],

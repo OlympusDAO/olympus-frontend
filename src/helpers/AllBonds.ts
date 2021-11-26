@@ -3,15 +3,15 @@ import { addresses } from "src/constants";
 
 import { ReactComponent as CUSDImg } from "src/assets/tokens/CUSD.svg";
 import { ReactComponent as TELOCUSDImg } from "src/assets/tokens/TELO-CUSD.svg";
-import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
-import { ReactComponent as TELOFraxImg } from "src/assets/tokens/TELO-FRAX.svg";
+import { ReactComponent as CEURImg } from "src/assets/tokens/CEUR.svg";
+import { ReactComponent as TELOCEURImg } from "src/assets/tokens/TELO-CEUR.svg";
 import { ReactComponent as TELOLusdImg } from "src/assets/tokens/TELO-LUSD.svg";
 import { ReactComponent as TELOEthImg } from "src/assets/tokens/TELO-WETH.svg";
 import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
 
-import { abi as FraxTELOBondContract } from "src/abi/bonds/TELOFraxContract.json";
+import { abi as CEURTELOBondContract } from "src/abi/bonds/TELOCEURContract.json";
 import { abi as BondTELOCUSDContract } from "src/abi/bonds/TELOCUSDContract.json";
 import { abi as BondTELOLusdContract } from "src/abi/bonds/TELOLusdContract.json";
 import { abi as BondTELOEthContract } from "src/abi/bonds/TELOEthContract.json";
@@ -19,10 +19,10 @@ import { abi as BondTELOEthContract } from "src/abi/bonds/TELOEthContract.json";
 import { abi as CUSDBondContract } from "src/abi/bonds/CUSDContract.json";
 import { abi as ReserveTELOLusdContract } from "src/abi/reserves/TELOLusd.json";
 import { abi as ReserveTELOCUSDContract } from "src/abi/reserves/TELOCUSD.json";
-import { abi as ReserveTELOFraxContract } from "src/abi/reserves/TELOFrax.json";
+import { abi as ReserveTELOCEURContract } from "src/abi/reserves/TELOCEUR.json";
 import { abi as ReserveTELOEthContract } from "src/abi/reserves/TELOEth.json";
 
-import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
+import { abi as CEURBondContract } from "src/abi/bonds/CEURContract.json";
 import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
 import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
 import { abi as CvxBondContract } from "src/abi/bonds/CvxContract.json";
@@ -53,13 +53,13 @@ export const CUSD = new StableBond({
   },
 });
 
-export const frax = new StableBond({
-  name: "frax",
-  displayName: "FRAX",
-  bondToken: "FRAX",
+export const CEUR = new StableBond({
+  name: "CEUR",
+  displayName: "CEUR",
+  bondToken: "CEUR",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: FraxImg,
-  bondContractABI: FraxBondContract,
+  bondIconSvg: CEURImg,
+  bondContractABI: CEURBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514",
@@ -205,14 +205,14 @@ export const TELO_CUSD = new LPBond({
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
 });
 
-export const TELO_frax = new LPBond({
-  name: "TELO_frax_lp",
-  displayName: "TELO-FRAX LP",
-  bondToken: "FRAX",
+export const TELO_CEUR = new LPBond({
+  name: "TELO_CEUR_lp",
+  displayName: "TELO-CEUR LP",
+  bondToken: "CEUR",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: TELOFraxImg,
-  bondContractABI: FraxTELOBondContract,
-  reserveContract: ReserveTELOFraxContract,
+  bondIconSvg: TELOCEURImg,
+  bondContractABI: CEURTELOBondContract,
+  reserveContract: ReserveTELOCEURContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
@@ -305,7 +305,7 @@ export const TELO_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [CUSD, frax, eth, cvx, TELO_CUSD, TELO_frax, lusd, TELO_lusd, TELO_weth];
+export const allBonds = [CUSD, CEUR, eth, cvx, TELO_CUSD, TELO_CEUR, lusd, TELO_lusd, TELO_weth];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
 export const allExpiredBonds = [cvx_expired];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {

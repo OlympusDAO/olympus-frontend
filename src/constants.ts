@@ -61,7 +61,7 @@ export const addresses: IAddresses = {
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
     FUSE_6_STELO: "", // Tetranode's Locker
     FUSE_18_STELO: "", // Olympus Pool Party
-    FUSE_36_STELO: "", // Fraximalist Money Market
+    FUSE_36_STELO: "", // CEURimalist Money Market
     PT_TOKEN_ADDRESS: "0x0E930b8610229D74Da0A174626138Deb732cE6e9", // 33T token address, taken from `ticket` function on PRIZE_STRATEGY_ADDRESS
     PT_PRIZE_POOL_ADDRESS: "0xEaB695A8F5a44f583003A8bC97d677880D528248", // NEW
     PT_PRIZE_STRATEGY_ADDRESS: "0xf3d253257167c935f8C62A02AEaeBB24c9c5012a", // NEW
