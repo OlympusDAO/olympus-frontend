@@ -168,7 +168,7 @@ export const findOrLoadMarketPrice = createAsyncThunk(
 
 /**
  * - fetches the TELO price from CoinGecko (via getTokenPrice)
- * - falls back to fetch marketPrice from TELO-dai contract
+ * - falls back to fetch marketPrice from TELO-CUSD contract
  * - updates the App.slice when it runs
  */
 const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {

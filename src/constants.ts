@@ -21,7 +21,7 @@ interface IAddresses {
 
 export const addresses: IAddresses = {
   4: {
-    DAI_ADDRESS: "", // duplicate
+    CUSD_ADDRESS: "", // duplicate
     TELO_ADDRESS: "",
     STAKING_ADDRESS: "0xC5d3318C0d74a72cD7C55bdf844e24516796BaB2",
     STAKING_HELPER_ADDRESS: "0xf73f23Bb0edCf4719b12ccEa8638355BF33604A1",
@@ -40,7 +40,7 @@ export const addresses: IAddresses = {
     PT_PRIZE_STRATEGY_ADDRESS: "0x2Df17EA8D6B68Ec444c9a698315AfB36425dac8b", // NEW
   },
   1: {
-    DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
+    CUSD_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
     TELO_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // The new staking contract
     STAKING_HELPER_ADDRESS: "0xc8c436271f9a6f10a5b80c8b8ed7d0e8f37a612d", // Helper contract used for Staking only

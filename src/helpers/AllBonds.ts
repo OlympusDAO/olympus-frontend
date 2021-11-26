@@ -1,8 +1,8 @@
 import { StableBond, LPBond, NetworkID, CustomBond, BondType } from "src/lib/Bond";
 import { addresses } from "src/constants";
 
-import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as TELODaiImg } from "src/assets/tokens/TELO-DAI.svg";
+import { ReactComponent as CUSDImg } from "src/assets/tokens/CUSD.svg";
+import { ReactComponent as TELOCUSDImg } from "src/assets/tokens/TELO-CUSD.svg";
 import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
 import { ReactComponent as TELOFraxImg } from "src/assets/tokens/TELO-FRAX.svg";
 import { ReactComponent as TELOLusdImg } from "src/assets/tokens/TELO-LUSD.svg";
@@ -12,13 +12,13 @@ import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
 
 import { abi as FraxTELOBondContract } from "src/abi/bonds/TELOFraxContract.json";
-import { abi as BondTELODaiContract } from "src/abi/bonds/TELODaiContract.json";
+import { abi as BondTELOCUSDContract } from "src/abi/bonds/TELOCUSDContract.json";
 import { abi as BondTELOLusdContract } from "src/abi/bonds/TELOLusdContract.json";
 import { abi as BondTELOEthContract } from "src/abi/bonds/TELOEthContract.json";
 
-import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
+import { abi as CUSDBondContract } from "src/abi/bonds/CUSDContract.json";
 import { abi as ReserveTELOLusdContract } from "src/abi/reserves/TELOLusd.json";
-import { abi as ReserveTELODaiContract } from "src/abi/reserves/TELODai.json";
+import { abi as ReserveTELOCUSDContract } from "src/abi/reserves/TELOCUSD.json";
 import { abi as ReserveTELOFraxContract } from "src/abi/reserves/TELOFrax.json";
 import { abi as ReserveTELOEthContract } from "src/abi/reserves/TELOEth.json";
 
@@ -34,13 +34,13 @@ import { getTokenPrice } from "src/helpers";
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
-export const dai = new StableBond({
-  name: "dai",
-  displayName: "DAI",
-  bondToken: "DAI",
+export const CUSD = new StableBond({
+  name: "CUSD",
+  displayName: "CUSD",
+  bondToken: "CUSD",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: DaiImg,
-  bondContractABI: DaiBondContract,
+  bondIconSvg: CUSDImg,
+  bondContractABI: CUSDBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x575409F8d77c12B05feD8B455815f0e54797381c",
@@ -139,7 +139,7 @@ export const cvx = new CustomBond({
     },
     [NetworkID.Testnet]: {
       bondAddress: "0xd43940687f6e76056789d00c43A40939b7a559b5",
-      reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using DAI per `principal` address
+      reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using CUSD per `principal` address
       // reserveAddress: "0x6761Cb314E39082e08e1e697eEa23B6D1A77A34b", // guessed
     },
   },
@@ -170,7 +170,7 @@ export const cvx_expired = new CustomBond({
     },
     [NetworkID.Testnet]: {
       bondAddress: "0xd43940687f6e76056789d00c43A40939b7a559b5",
-      reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using DAI per `principal` address
+      reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using CUSD per `principal` address
       // reserveAddress: "0x6761Cb314E39082e08e1e697eEa23B6D1A77A34b", // guessed
     },
   },
@@ -183,14 +183,14 @@ export const cvx_expired = new CustomBond({
   },
 });
 
-export const TELO_dai = new LPBond({
-  name: "TELO_dai_lp",
-  displayName: "TELO-DAI LP",
-  bondToken: "DAI",
+export const TELO_CUSD = new LPBond({
+  name: "TELO_CUSD_lp",
+  displayName: "TELO-CUSD LP",
+  bondToken: "CUSD",
   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
-  bondIconSvg: TELODaiImg,
-  bondContractABI: BondTELODaiContract,
-  reserveContract: ReserveTELODaiContract,
+  bondIconSvg: TELOCUSDImg,
+  bondContractABI: BondTELOCUSDContract,
+  reserveContract: ReserveTELOCUSDContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x956c43998316b6a2F21f89a1539f73fB5B78c151",
@@ -241,7 +241,7 @@ export const TELO_lusd = new LPBond({
       reserveAddress: "0xfDf12D1F85b5082877A6E070524f50F6c84FAa6b",
     },
     [NetworkID.Testnet]: {
-      // NOTE (appleseed-lusd): using TELO-dai rinkeby contracts
+      // NOTE (appleseed-lusd): using TELO-CUSD rinkeby contracts
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
@@ -264,7 +264,7 @@ export const TELO_weth = new CustomBond({
       reserveAddress: "0xfffae4a0f4ac251f4705717cd24cadccc9f33e06",
     },
     [NetworkID.Testnet]: {
-      // NOTE (unbanksy): using TELO-dai rinkeby contracts
+      // NOTE (unbanksy): using TELO-CUSD rinkeby contracts
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
@@ -287,7 +287,7 @@ export const TELO_weth = new CustomBond({
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD * Number(ethPrice.toString());
     } else {
-      // NOTE (appleseed): using TELO-DAI on rinkeby
+      // NOTE (appleseed): using TELO-CUSD on rinkeby
       const token = this.getContractForReserve(networkID, provider);
       const tokenAddress = this.getAddressForReserve(networkID);
       const bondCalculator = getBondCalculator(networkID, provider);
@@ -305,7 +305,7 @@ export const TELO_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, cvx, TELO_dai, TELO_frax, lusd, TELO_lusd, TELO_weth];
+export const allBonds = [CUSD, frax, eth, cvx, TELO_CUSD, TELO_frax, lusd, TELO_lusd, TELO_weth];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
 export const allExpiredBonds = [cvx_expired];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {

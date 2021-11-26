@@ -409,8 +409,8 @@ msgid "Prize is being awarded"
 msgstr "Prize is being awarded"
 
 #: src/views/TreasuryDashboard/TreasuryDashboard.jsx:248
-#~ msgid "Protocol Owned Liquidity TELO-DAI"
-#~ msgstr "Protocol Owned Liquidity TELO-DAI"
+#~ msgid "Protocol Owned Liquidity TELO-CUSD"
+#~ msgstr "Protocol Owned Liquidity TELO-CUSD"
 
 #: src/views/ChooseBond/BondRow.jsx:55
 #: src/views/ChooseBond/ChooseBond.jsx:126

@@ -176,7 +176,7 @@ interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   balances: {
     TELO: string;
     sTELO: string;
-    dai: string;
+    CUSD: string;
     oldsTELO: string;
     fsTELO: string;
     wsTELO: string;
@@ -196,7 +196,7 @@ interface IAccountSlice extends IUserAccountDetails, IUserBalances {
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
-  balances: { TELO: "", sTELO: "", dai: "", oldsTELO: "", fsTELO: "", wsTELO: "", pool: "", wsTELOAsSTELO: "" },
+  balances: { TELO: "", sTELO: "", CUSD: "", oldsTELO: "", fsTELO: "", wsTELO: "", pool: "", wsTELOAsSTELO: "" },
   staking: { TELOStake: 0, TELOUnstake: 0 },
   wrapping: { sTELOWrap: 0, wsTELOUnwrap: 0 },
   pooling: { sTELOPool: 0 },

@@ -3,7 +3,7 @@
     { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
     {
       "inputs": [],
-      "name": "DAI",
+      "name": "CUSD",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
@@ -44,7 +44,7 @@
         { "internalType": "address", "name": "_vault", "type": "address" },
         { "internalType": "address", "name": "_stakingContract", "type": "address" },
         { "internalType": "address", "name": "_TELO", "type": "address" },
-        { "internalType": "address", "name": "_DAI", "type": "address" }
+        { "internalType": "address", "name": "_CUSD", "type": "address" }
       ],
       "name": "initialize",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
@@ -67,7 +67,7 @@
     },
     {
       "inputs": [],
-      "name": "notEnoughDAIToDistribute",
+      "name": "notEnoughCUSDToDistribute",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
       "type": "function"
@@ -116,7 +116,7 @@
     },
     {
       "inputs": [],
-      "name": "transferRemainingDAIOutIfNotEnough",
+      "name": "transferRemainingCUSDOutIfNotEnough",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "nonpayable",
       "type": "function"

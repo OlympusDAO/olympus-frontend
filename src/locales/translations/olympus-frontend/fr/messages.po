@@ -388,8 +388,8 @@ msgid "Prize is being awarded"
 msgstr "La récompense est en cours de distribution"
 
 #: src/views/TreasuryDashboard/TreasuryDashboard.jsx:248
-#~ msgid "Protocol Owned Liquidity TELO-DAI"
-#~ msgstr "Liquidité TELO-DAI dont le protocol est propriétaire"
+#~ msgid "Protocol Owned Liquidity TELO-CUSD"
+#~ msgstr "Liquidité TELO-CUSD dont le protocol est propriétaire"
 
 #: src/views/ChooseBond/BondRow.jsx:55
 #: src/views/ChooseBond/ChooseBond.jsx:126
@@ -413,7 +413,7 @@ msgstr "A propos de l'équité"
 
 #: src/views/Bond/BondPurchase.jsx:276
 msgid "Recipient"
-msgstr "Récipiendaire"
+msgstr "RécipienCUSDre"
 
 #: src/views/Bond/AdvancedSettings.jsx:57
 msgid "Recipient Address"

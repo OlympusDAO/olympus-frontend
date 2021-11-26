@@ -377,8 +377,8 @@ msgid "Prize is being awarded"
 msgstr "Ödül dağıtılıyor"
 
 #: src/views/TreasuryDashboard/TreasuryDashboard.jsx:248
-#~ msgid "Protocol Owned Liquidity TELO-DAI"
-#~ msgstr "Protokole Ait TELO-DAI Likiditesi"
+#~ msgid "Protocol Owned Liquidity TELO-CUSD"
+#~ msgstr "Protokole Ait TELO-CUSD Likiditesi"
 
 #: src/views/ChooseBond/BondRow.jsx:55
 #: src/views/ChooseBond/ChooseBond.jsx:126

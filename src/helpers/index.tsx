@@ -8,14 +8,14 @@ import { SvgIcon } from "@material-ui/core";
 import { ReactComponent as TELOImg } from "../assets/tokens/token_TELO.svg";
 import { ReactComponent as STELOImg } from "../assets/tokens/token_sTELO.svg";
 
-import { TELO_dai } from "./AllBonds";
+import { TELO_CUSD } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { PairContract, RedeemHelper } from "../typechain";
 
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
-  const TELO_dai_address = TELO_dai.getAddressForReserve(networkID);
-  const pairContract = new ethers.Contract(TELO_dai_address, PairContractABI, provider) as PairContract;
+  const TELO_CUSD_address = TELO_CUSD.getAddressForReserve(networkID);
+  const pairContract = new ethers.Contract(TELO_CUSD_address, PairContractABI, provider) as PairContract;
   const reserves = await pairContract.getReserves();
   const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString());
 

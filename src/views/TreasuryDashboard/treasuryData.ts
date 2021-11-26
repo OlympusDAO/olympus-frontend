@@ -14,9 +14,9 @@ query {
     treasuryMarketValue
     nextEpochRebase
     nextDistributedTELO
-    treasuryDaiRiskFreeValue
+    treasuryCUSDRiskFreeValue
     treasuryFraxMarketValue
-    treasuryDaiMarketValue
+    treasuryCUSDMarketValue
     treasuryFraxRiskFreeValue
     treasuryXsushiMarketValue
     treasuryWETHMarketValue
@@ -31,7 +31,7 @@ query {
     runway2dot5k
     runwayCurrent
     holders
-    treasuryTELODaiPOL
+    treasuryTELOCUSDPOL
     treasuryTELOFraxPOL
   }
 }
@@ -165,8 +165,8 @@ export const bulletpoints = {
 
 export const tooltipItems = {
   tvl: ["Total Value Deposited"],
-  coin: ["DAI", "FRAX", "ETH", "SUSHI", "LUSD"],
-  rfv: ["DAI", "FRAX", "LUSD"],
+  coin: ["CUSD", "FRAX", "ETH", "SUSHI", "LUSD"],
+  rfv: ["CUSD", "FRAX", "LUSD"],
   holder: ["TELOies"],
   apy: ["APY"],
   runway: ["Current", "7.5K APY", "5K APY", "2.5K APY"],

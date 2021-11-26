@@ -393,8 +393,8 @@ msgid "Prize is being awarded"
 msgstr "상금이 지급중 입니다."
 
 #: src/views/TreasuryDashboard/TreasuryDashboard.jsx:248
-#~ msgid "Protocol Owned Liquidity TELO-DAI"
-#~ msgstr "프로토콜 소유 유동성 TELO-DAI"
+#~ msgid "Protocol Owned Liquidity TELO-CUSD"
+#~ msgstr "프로토콜 소유 유동성 TELO-CUSD"
 
 #: src/views/ChooseBond/BondRow.jsx:55
 #: src/views/ChooseBond/ChooseBond.jsx:126

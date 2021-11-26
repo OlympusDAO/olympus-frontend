@@ -7,7 +7,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_addressToSendDai",
+          "name": "_addressToSendCUSD",
           "type": "address"
         }
       ],
@@ -35,7 +35,7 @@
     },
     {
       "inputs": [],
-      "name": "DAI",
+      "name": "CUSD",
       "outputs": [
         {
           "internalType": "address",
@@ -61,7 +61,7 @@
     },
     {
       "inputs": [],
-      "name": "addressToSendDai",
+      "name": "addressToSendCUSD",
       "outputs": [
         {
           "internalType": "address",
@@ -121,7 +121,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_dai",
+          "name": "_CUSD",
           "type": "address"
         },
         {
@@ -168,7 +168,7 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_amountDAI",
+          "name": "_amountCUSD",
           "type": "uint256"
         }
       ],
