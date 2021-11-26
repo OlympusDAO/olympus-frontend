@@ -21,8 +21,8 @@
     },
     {
       "inputs": [
-        { "internalType": "address", "name": "ohmTokenAddress_", "type": "address" },
-        { "internalType": "address", "name": "sOHM_", "type": "address" },
+        { "internalType": "address", "name": "TELOTokenAddress_", "type": "address" },
+        { "internalType": "address", "name": "sTELO_", "type": "address" },
         { "internalType": "uint8", "name": "epochLengthInBlocks_", "type": "uint8" }
       ],
       "name": "initialize",
@@ -32,14 +32,14 @@
     },
     {
       "inputs": [],
-      "name": "ohm",
+      "name": "TELO",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
-      "name": "ohmToDistributeNextEpoch",
+      "name": "TELOToDistributeNextEpoch",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
@@ -54,7 +54,7 @@
     { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [],
-      "name": "sOHM",
+      "name": "sTELO",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
@@ -68,7 +68,7 @@
     },
     {
       "inputs": [{ "internalType": "uint256", "name": "amountToStake_", "type": "uint256" }],
-      "name": "stakeOHM",
+      "name": "stakeTELO",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -81,7 +81,7 @@
         { "internalType": "bytes32", "name": "r_", "type": "bytes32" },
         { "internalType": "bytes32", "name": "s_", "type": "bytes32" }
       ],
-      "name": "stakeOHMWithPermit",
+      "name": "stakeTELOWithPermit",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -95,7 +95,7 @@
     },
     {
       "inputs": [{ "internalType": "uint256", "name": "amountToWithdraw_", "type": "uint256" }],
-      "name": "unstakeOHM",
+      "name": "unstakeTELO",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -108,7 +108,7 @@
         { "internalType": "bytes32", "name": "r_", "type": "bytes32" },
         { "internalType": "bytes32", "name": "s_", "type": "bytes32" }
       ],
-      "name": "unstakeOHMWithPermit",
+      "name": "unstakeTELOWithPermit",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

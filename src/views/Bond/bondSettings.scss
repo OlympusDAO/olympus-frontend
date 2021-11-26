@@ -6,7 +6,7 @@
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   background-color: #55555555;
-  .ohm-popover {
+  .TELO-popover {
     max-width: 500px;
     display: flex;
     flex-direction: column;
@@ -23,7 +23,7 @@
       margin: 10px;
     }
   }
-  .mobile .ohm-popover {
+  .mobile .TELO-popover {
     max-width: 400px;
   }
 }

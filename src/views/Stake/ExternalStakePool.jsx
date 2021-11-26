@@ -20,7 +20,7 @@ import { Skeleton } from "@material-ui/lab";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import BondLogo from "../../components/BondLogo";
-import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
+import { ReactComponent as TELOLusdImg } from "src/assets/tokens/TELO-LUSD.svg";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { getLusdData } from "../../slices/LusdSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -39,8 +39,8 @@ export default function ExternalStakePool() {
     return state.lusdData;
   });
 
-  const ohmLusdReserveBalance = useSelector(state => {
-    return state.account && state.account.bonds?.ohm_lusd_lp?.balance;
+  const TELOLusdReserveBalance = useSelector(state => {
+    return state.account && state.account.bonds?.TELO_lusd_lp?.balance;
   });
 
   const loadLusdData = async () => {
@@ -69,7 +69,7 @@ export default function ExternalStakePool() {
 
   return (
     <Zoom in={true}>
-      <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
+      <Paper className={`TELO-card secondary ${isSmallScreen && "mobile"}`}>
         <div className="card-header">
           <Typography variant="h5">
             <Trans>Farm Pool</Trans>
@@ -103,9 +103,9 @@ export default function ExternalStakePool() {
                 <TableBody>
                   <TableRow>
                     <TableCell>
-                      <Box className="ohm-pairs">
-                        <BondLogo bond={{ bondIconSvg: OhmLusdImg, isLP: true }}></BondLogo>
-                        <Typography>OHM-LUSD</Typography>
+                      <Box className="TELO-pairs">
+                        <BondLogo bond={{ bondIconSvg: TELOLusdImg, isLP: true }}></BondLogo>
+                        <Typography>TELO-LUSD</Typography>
                       </Box>
                     </TableCell>
                     <TableCell align="left">
@@ -130,7 +130,7 @@ export default function ExternalStakePool() {
                       )}
                     </TableCell>
                     <TableCell align="left">
-                      {isLusdLoading ? <Skeleton width="80px" /> : (trim(ohmLusdReserveBalance, 2) || 0) + " SLP"}
+                      {isLusdLoading ? <Skeleton width="80px" /> : (trim(TELOLusdReserveBalance, 2) || 0) + " SLP"}
                     </TableCell>
                     <TableCell align="center">
                       <Button
@@ -153,9 +153,9 @@ export default function ExternalStakePool() {
           ) : (
             <div className="stake-pool">
               <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
-                <Box className="ohm-pairs">
-                  <BondLogo bond={{ bondIconSvg: OhmLusdImg, isLP: true }}></BondLogo>
-                  <Typography gutterBottom={false}>OHM-LUSD</Typography>
+                <Box className="TELO-pairs">
+                  <BondLogo bond={{ bondIconSvg: TELOLusdImg, isLP: true }}></BondLogo>
+                  <Typography gutterBottom={false}>TELO-LUSD</Typography>
                 </Box>
               </div>
               <div className="pool-data">

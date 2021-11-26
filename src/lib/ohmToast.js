@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function OhmSnackbar({ message, duration, severity }) {
+function TELOSnackbar({ message, duration, severity }) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
 
@@ -40,17 +40,17 @@ function OhmSnackbar({ message, duration, severity }) {
   );
 }
 
-export const ohmToast = {
+export const TELOToast = {
   success: message => {
-    OhmSnackbar(message, null, "success");
+    TELOSnackbar(message, null, "success");
   },
   error: message => {
-    OhmSnackbar(message, null, "error");
+    TELOSnackbar(message, null, "error");
   },
   info: message => {
-    OhmSnackbar(message, null, "info");
+    TELOSnackbar(message, null, "info");
   },
   warn: message => {
-    OhmSnackbar(message, null, "warning");
+    TELOSnackbar(message, null, "warning");
   },
 };

@@ -75,17 +75,17 @@ export const light = responsiveFontSizes(
         MuiPaper: {
           root: {
             backgroundColor: lightTheme.paperBg,
-            "&.ohm-card": {
+            "&.TELO-card": {
               backgroundColor: lightTheme.paperBg,
             },
-            "&.ohm-modal": {
+            "&.TELO-modal": {
               backgroundColor: lightTheme.modalBg,
             },
-            "&.ohm-menu": {
+            "&.TELO-menu": {
               backgroundColor: lightTheme.menuBg,
               backdropFilter: "blur(33px)",
             },
-            "&.ohm-popover": {
+            "&.TELO-popover": {
               backgroundColor: lightTheme.popoverBg,
               color: lightTheme.color,
               backdropFilter: "blur(15px)",

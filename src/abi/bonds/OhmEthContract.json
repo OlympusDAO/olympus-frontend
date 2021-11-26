@@ -2,7 +2,7 @@
   "abi": [
     {
       "inputs": [
-        { "internalType": "address", "name": "_OHM", "type": "address" },
+        { "internalType": "address", "name": "_TELO", "type": "address" },
         { "internalType": "address", "name": "_principle", "type": "address" },
         { "internalType": "address", "name": "_treasury", "type": "address" },
         { "internalType": "address", "name": "_bondCalculator", "type": "address" },
@@ -73,7 +73,7 @@
     },
     {
       "inputs": [],
-      "name": "OHM",
+      "name": "TELO",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"

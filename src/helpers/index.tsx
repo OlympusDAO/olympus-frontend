@@ -5,17 +5,17 @@ import { abi as PairContractABI } from "../abi/PairContract.json";
 import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
 
 import { SvgIcon } from "@material-ui/core";
-import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
-import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
+import { ReactComponent as TELOImg } from "../assets/tokens/token_TELO.svg";
+import { ReactComponent as STELOImg } from "../assets/tokens/token_sTELO.svg";
 
-import { ohm_dai } from "./AllBonds";
+import { TELO_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { PairContract, RedeemHelper } from "../typechain";
 
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
-  const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
-  const pairContract = new ethers.Contract(ohm_dai_address, PairContractABI, provider) as PairContract;
+  const TELO_dai_address = TELO_dai.getAddressForReserve(networkID);
+  const pairContract = new ethers.Contract(TELO_dai_address, PairContractABI, provider) as PairContract;
   const reserves = await pairContract.getReserves();
   const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString());
 
@@ -111,19 +111,19 @@ export function prettifySeconds(seconds: number, resolution?: string) {
   return result;
 }
 
-function getSohmTokenImage() {
-  return <SvgIcon component={SOhmImg} viewBox="0 0 100 100" style={{ height: "1rem", width: "1rem" }} />;
+function getSTELOTokenImage() {
+  return <SvgIcon component={STELOImg} viewBox="0 0 100 100" style={{ height: "1rem", width: "1rem" }} />;
 }
 
-export function getOhmTokenImage(w?: number, h?: number) {
+export function getTELOTokenImage(w?: number, h?: number) {
   const height = h == null ? "32px" : `${h}px`;
   const width = w == null ? "32px" : `${w}px`;
-  return <SvgIcon component={OhmImg} viewBox="0 0 32 32" style={{ height, width }} />;
+  return <SvgIcon component={TELOImg} viewBox="0 0 32 32" style={{ height, width }} />;
 }
 
 export function getTokenImage(name: string) {
-  if (name === "ohm") return getOhmTokenImage();
-  if (name === "sohm") return getSohmTokenImage();
+  if (name === "TELO") return getTELOTokenImage();
+  if (name === "sTELO") return getSTELOTokenImage();
 }
 
 // TS-REFACTOR-NOTE - Used for:

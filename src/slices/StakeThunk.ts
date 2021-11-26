@@ -25,9 +25,9 @@ function alreadyApprovedToken(token: string, stakeAllowance: BigNumber, unstakeA
   let applicableAllowance = bigZero;
 
   // determine which allowance to check
-  if (token === "ohm") {
+  if (token === "TELO") {
     applicableAllowance = stakeAllowance;
-  } else if (token === "sohm") {
+  } else if (token === "sTELO") {
     applicableAllowance = unstakeAllowance;
   }
 
@@ -46,11 +46,11 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
+    const TELOContract = new ethers.Contract(addresses[networkID].TELO_ADDRESS as string, ierc20ABI, signer) as IERC20;
+    const sTELOContract = new ethers.Contract(addresses[networkID].STELO_ADDRESS as string, ierc20ABI, signer) as IERC20;
     let approveTx;
-    let stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    let unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    let stakeAllowance = await TELOContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    let unstakeAllowance = await sTELOContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
 
     // return early if approval has already happened
     if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance)) {
@@ -58,29 +58,29 @@ export const changeApproval = createAsyncThunk(
       return dispatch(
         fetchAccountSuccess({
           staking: {
-            ohmStake: +stakeAllowance,
-            ohmUnstake: +unstakeAllowance,
+            TELOStake: +stakeAllowance,
+            TELOUnstake: +unstakeAllowance,
           },
         }),
       );
     }
 
     try {
-      if (token === "ohm") {
+      if (token === "TELO") {
         // won't run if stakeAllowance > 0
-        approveTx = await ohmContract.approve(
+        approveTx = await TELOContract.approve(
           addresses[networkID].STAKING_HELPER_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
-      } else if (token === "sohm") {
-        approveTx = await sohmContract.approve(
+      } else if (token === "sTELO") {
+        approveTx = await sTELOContract.approve(
           addresses[networkID].STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
 
-      const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
-      const pendingTxnType = token === "ohm" ? "approve_staking" : "approve_unstaking";
+      const text = "Approve " + (token === "TELO" ? "Staking" : "Unstaking");
+      const pendingTxnType = token === "TELO" ? "approve_staking" : "approve_unstaking";
       if (approveTx) {
         dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
@@ -96,14 +96,14 @@ export const changeApproval = createAsyncThunk(
     }
 
     // go get fresh allowances
-    stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    stakeAllowance = await TELOContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    unstakeAllowance = await sTELOContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
         staking: {
-          ohmStake: +stakeAllowance,
-          ohmUnstake: +unstakeAllowance,
+          TELOStake: +stakeAllowance,
+          TELOUnstake: +unstakeAllowance,
         },
       }),
     );

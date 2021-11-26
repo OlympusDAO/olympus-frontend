@@ -1,5 +1,5 @@
 import { Modal, Backdrop, Paper, SvgIcon, Box, Typography, Button, Fade, useTheme } from "@material-ui/core";
-import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
+import { ReactComponent as sTELOTokenImg } from "../../assets/tokens/token_sTELO.svg";
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
@@ -10,7 +10,7 @@ export const ConfirmationModal = props => {
     <Modal open={props.show} onClose={props.onClose}>
       <Fade in={true}>
         <Backdrop open style>
-          <Paper className="ohm-card ohm-modal" style={{ maxWidth: "450px" }}>
+          <Paper className="TELO-card TELO-modal" style={{ maxWidth: "450px" }}>
             <Button style={{ alignSelf: "flex-start" }}>
               <SvgIcon component={XIcon} color="primary" onClick={props.onClose} />
             </Button>
@@ -18,7 +18,7 @@ export const ConfirmationModal = props => {
               <Typography variant="h4">Confirm Deposit</Typography>
               <Box display="flex" className="swap-icons">
                 <Box className="pool-deposit-confirmation">
-                  <SvgIcon component={sOhmTokenImg} viewBox="0 0 100 100" className="swap-icon-size" />
+                  <SvgIcon component={sTELOTokenImg} viewBox="0 0 100 100" className="swap-icon-size" />
                 </Box>
                 <SvgIcon component={ArrowForwardOutlinedIcon} viewBox="-12 -22 48 48" className="swap-icon-size" />
                 <Box className="pool-deposit-confirmation">
@@ -26,7 +26,7 @@ export const ConfirmationModal = props => {
                 </Box>
               </Box>
               <Typography variant="body2" className="info-text">
-                You're depositing <strong>{props.quantity} sOhm </strong>in the
+                You're depositing <strong>{props.quantity} sTELO </strong>in the
                 <strong> (3, 3) Together Pool </strong>
               </Typography>
               <Typography variant="h6" className="header" style={{ color: theme.palette.highlight }}>
@@ -35,7 +35,7 @@ export const ConfirmationModal = props => {
               <Typography variant="body2" className="info-text">
                 <em>
                   By entering the 3,3 Together Pool, you understand that you will <strong>not</strong> receive your
-                  normal sOHM rebase reward and that it will instead go directly into funding the prize pool.
+                  normal sTELO rebase reward and that it will instead go directly into funding the prize pool.
                 </em>
               </Typography>
               <Typography variant="body2" className="info-text">

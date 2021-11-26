@@ -27,13 +27,13 @@
     justify-items: center;
   }
 
-  .ohm-card .card-header {
+  .TELO-card .card-header {
     position: relative;
   }
-  .ohm-card .header {
+  .TELO-card .header {
     min-height: 3em;
   }
-  .ohm-card.secondary .card-header {
+  .TELO-card.secondary .card-header {
     min-height: 33px !important;
     height: 20px;
   }
@@ -43,7 +43,7 @@
   }
 }
 
-.migrate-sohm-button {
+.migrate-sTELO-button {
   position: absolute;
   right: 0px;
   top: 0px;
@@ -58,7 +58,7 @@
   }
 }
 
-.migrate-sohm-button.complete {
+.migrate-sTELO-button.complete {
   color: #35ee66 !important;
 }
 
@@ -95,7 +95,7 @@
   }
 }
 
-.ohm-logo-tiny {
+.TELO-logo-tiny {
   height: 14px;
   width: 14px;
   vertical-align: middle;
@@ -154,7 +154,7 @@
   }
 }
 
-.ohm-input {
+.TELO-input {
   max-width: 542px;
   width: 100%;
   margin: 5px !important;
@@ -216,7 +216,7 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    .ohm-pairs p {
+    .TELO-pairs p {
       margin-bottom: 0 !important;
     }
   }

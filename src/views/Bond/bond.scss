@@ -9,12 +9,12 @@
       background: rgba(100, 100, 100, 0.1) !important;
       backdrop-filter: blur(33px) !important;
       -webkit-backdrop-filter: blur(33px) !important;
-      .ohm-card {
+      .TELO-card {
         opacity: 1 !important;
         height: auto;
       }
     }
-    .ohm-modal {
+    .TELO-modal {
       max-width: 688px;
       min-height: 605px;
     }
@@ -24,18 +24,18 @@
   @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
     .MuiBackdrop-root {
       background: rgba(100, 100, 100, 0.95);
-      .ohm-card {
+      .TELO-card {
         height: auto;
       }
     }
-    .ohm-modal {
+    .TELO-modal {
       max-width: 688px;
       min-height: 605px;
       opacity: 0.9;
     }
   }
   
-  .ohm-card {
+  .TELO-card {
     max-width: 803px;
   }
 
@@ -43,7 +43,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .ohm-pair-img,
+    .TELO-pair-img,
     .reserve-pair-img {
       height: 38px;
       width: 38px;
@@ -78,7 +78,7 @@
     }
   }
 
-  .ohm-input {
+  .TELO-input {
     min-width: 50%;
     max-width: 408px;
     margin: 5px;
@@ -93,7 +93,7 @@
 }
 
 .mobile #bond-view {
-  .ohm-card {
+  .TELO-card {
     .card-content {
       justify-content: space-evenly !important;
       .bond-toggle-row {
@@ -105,7 +105,7 @@
         justify-content: center;
         align-items: center;
         align-content: center;
-        .input-group.ohm-input-group {
+        .input-group.TELO-input-group {
           margin: 10px !important;
           width: 75%;
           height: 50px;

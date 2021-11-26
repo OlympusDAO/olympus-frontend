@@ -10,7 +10,7 @@
     },
     {
       "inputs": [],
-      "name": "OHM",
+      "name": "TELO",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
@@ -43,7 +43,7 @@
         { "internalType": "uint256", "name": "_rewardRate", "type": "uint256" },
         { "internalType": "address", "name": "_vault", "type": "address" },
         { "internalType": "address", "name": "_stakingContract", "type": "address" },
-        { "internalType": "address", "name": "_OHM", "type": "address" },
+        { "internalType": "address", "name": "_TELO", "type": "address" },
         { "internalType": "address", "name": "_DAI", "type": "address" }
       ],
       "name": "initialize",

@@ -1,14 +1,14 @@
 import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
-import { abi as wsOHM } from "../abi/wsOHM.json";
+import { abi as wsTELO } from "../abi/wsTELO.json";
 import { clearPendingTxn, fetchPendingTxns, getWrappingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, WsOHM } from "src/typechain";
+import { IERC20, WsTELO } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -24,9 +24,9 @@ function alreadyApprovedToken(token: string, wrapAllowance: BigNumber, unwrapAll
   let applicableAllowance = bigZero;
 
   // determine which allowance to check
-  if (token === "sohm") {
+  if (token === "sTELO") {
     applicableAllowance = wrapAllowance;
-  } else if (token === "wsohm") {
+  } else if (token === "wsTELO") {
     applicableAllowance = unwrapAllowance;
   }
 
@@ -45,15 +45,15 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
-    const wsohmContract = new ethers.Contract(
-      addresses[networkID].WSOHM_ADDRESS as string,
+    const sTELOContract = new ethers.Contract(addresses[networkID].STELO_ADDRESS as string, ierc20ABI, signer) as IERC20;
+    const wsTELOContract = new ethers.Contract(
+      addresses[networkID].WSTELO_ADDRESS as string,
       ierc20ABI,
       signer,
     ) as IERC20;
     let approveTx;
-    let wrapAllowance = await sohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
-    let unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
+    let wrapAllowance = await sTELOContract.allowance(address, addresses[networkID].WSTELO_ADDRESS);
+    let unwrapAllowance = await wsTELOContract.allowance(address, addresses[networkID].WSTELO_ADDRESS);
 
     // return early if approval has already happened
     if (alreadyApprovedToken(token, wrapAllowance, unwrapAllowance)) {
@@ -61,29 +61,29 @@ export const changeApproval = createAsyncThunk(
       return dispatch(
         fetchAccountSuccess({
           wrapping: {
-            ohmWrap: +wrapAllowance,
-            ohmUnwrap: +unwrapAllowance,
+            TELOWrap: +wrapAllowance,
+            TELOUnwrap: +unwrapAllowance,
           },
         }),
       );
     }
 
     try {
-      if (token === "sohm") {
+      if (token === "sTELO") {
         // won't run if wrapAllowance > 0
-        approveTx = await sohmContract.approve(
-          addresses[networkID].WSOHM_ADDRESS,
+        approveTx = await sTELOContract.approve(
+          addresses[networkID].WSTELO_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
-      } else if (token === "wsohm") {
-        approveTx = await wsohmContract.approve(
-          addresses[networkID].WSOHM_ADDRESS,
+      } else if (token === "wsTELO") {
+        approveTx = await wsTELOContract.approve(
+          addresses[networkID].WSTELO_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
 
-      const text = "Approve " + (token === "sohm" ? "Wrapping" : "Unwrapping");
-      const pendingTxnType = token === "sohm" ? "approve_wrapping" : "approve_unwrapping";
+      const text = "Approve " + (token === "sTELO" ? "Wrapping" : "Unwrapping");
+      const pendingTxnType = token === "sTELO" ? "approve_wrapping" : "approve_unwrapping";
       if (approveTx) {
         dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
@@ -99,14 +99,14 @@ export const changeApproval = createAsyncThunk(
     }
 
     // go get fresh allowances
-    wrapAllowance = await sohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
-    unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
+    wrapAllowance = await sTELOContract.allowance(address, addresses[networkID].WSTELO_ADDRESS);
+    unwrapAllowance = await wsTELOContract.allowance(address, addresses[networkID].WSTELO_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
         wrapping: {
-          ohmWrap: +wrapAllowance,
-          ohmUnwrap: +unwrapAllowance,
+          TELOWrap: +wrapAllowance,
+          TELOUnwrap: +unwrapAllowance,
         },
       }),
     );
@@ -122,7 +122,7 @@ export const changeWrap = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, signer) as WsOHM;
+    const wsTELOContract = new ethers.Contract(addresses[networkID].WSTELO_ADDRESS as string, wsTELO, signer) as WsTELO;
 
     let wrapTx;
     let uaData: IUAData = {
@@ -135,10 +135,10 @@ export const changeWrap = createAsyncThunk(
     try {
       if (action === "wrap") {
         uaData.type = "wrap";
-        wrapTx = await wsohmContract.wrap(ethers.utils.parseUnits(value, "gwei"));
+        wrapTx = await wsTELOContract.wrap(ethers.utils.parseUnits(value, "gwei"));
       } else {
         uaData.type = "unwrap";
-        wrapTx = await wsohmContract.unwrap(ethers.utils.parseUnits(value));
+        wrapTx = await wsTELOContract.unwrap(ethers.utils.parseUnits(value));
       }
       const pendingTxnType = action === "wrap" ? "wrapping" : "unwrapping";
       uaData.txHash = wrapTx.hash;

@@ -2,25 +2,25 @@ import { StableBond, LPBond, NetworkID, CustomBond, BondType } from "src/lib/Bon
 import { addresses } from "src/constants";
 
 import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
+import { ReactComponent as TELODaiImg } from "src/assets/tokens/TELO-DAI.svg";
 import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
-import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
-import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
-import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
+import { ReactComponent as TELOFraxImg } from "src/assets/tokens/TELO-FRAX.svg";
+import { ReactComponent as TELOLusdImg } from "src/assets/tokens/TELO-LUSD.svg";
+import { ReactComponent as TELOEthImg } from "src/assets/tokens/TELO-WETH.svg";
 import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
 
-import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
-import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
-import { abi as BondOhmLusdContract } from "src/abi/bonds/OhmLusdContract.json";
-import { abi as BondOhmEthContract } from "src/abi/bonds/OhmEthContract.json";
+import { abi as FraxTELOBondContract } from "src/abi/bonds/TELOFraxContract.json";
+import { abi as BondTELODaiContract } from "src/abi/bonds/TELODaiContract.json";
+import { abi as BondTELOLusdContract } from "src/abi/bonds/TELOLusdContract.json";
+import { abi as BondTELOEthContract } from "src/abi/bonds/TELOEthContract.json";
 
 import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
-import { abi as ReserveOhmLusdContract } from "src/abi/reserves/OhmLusd.json";
-import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
-import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
-import { abi as ReserveOhmEthContract } from "src/abi/reserves/OhmEth.json";
+import { abi as ReserveTELOLusdContract } from "src/abi/reserves/TELOLusd.json";
+import { abi as ReserveTELODaiContract } from "src/abi/reserves/TELODai.json";
+import { abi as ReserveTELOFraxContract } from "src/abi/reserves/TELOFrax.json";
+import { abi as ReserveTELOEthContract } from "src/abi/reserves/TELOEth.json";
 
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
@@ -183,14 +183,14 @@ export const cvx_expired = new CustomBond({
   },
 });
 
-export const ohm_dai = new LPBond({
-  name: "ohm_dai_lp",
-  displayName: "OHM-DAI LP",
+export const TELO_dai = new LPBond({
+  name: "TELO_dai_lp",
+  displayName: "TELO-DAI LP",
   bondToken: "DAI",
   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
-  bondIconSvg: OhmDaiImg,
-  bondContractABI: BondOhmDaiContract,
-  reserveContract: ReserveOhmDaiContract,
+  bondIconSvg: TELODaiImg,
+  bondContractABI: BondTELODaiContract,
+  reserveContract: ReserveTELODaiContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x956c43998316b6a2F21f89a1539f73fB5B78c151",
@@ -205,14 +205,14 @@ export const ohm_dai = new LPBond({
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
 });
 
-export const ohm_frax = new LPBond({
-  name: "ohm_frax_lp",
-  displayName: "OHM-FRAX LP",
+export const TELO_frax = new LPBond({
+  name: "TELO_frax_lp",
+  displayName: "TELO-FRAX LP",
   bondToken: "FRAX",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: OhmFraxImg,
-  bondContractABI: FraxOhmBondContract,
-  reserveContract: ReserveOhmFraxContract,
+  bondIconSvg: TELOFraxImg,
+  bondContractABI: FraxTELOBondContract,
+  reserveContract: ReserveTELOFraxContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
@@ -227,21 +227,21 @@ export const ohm_frax = new LPBond({
     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
 });
 
-export const ohm_lusd = new LPBond({
-  name: "ohm_lusd_lp",
-  displayName: "OHM-LUSD LP",
+export const TELO_lusd = new LPBond({
+  name: "TELO_lusd_lp",
+  displayName: "TELO-LUSD LP",
   bondToken: "LUSD",
   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
-  bondIconSvg: OhmLusdImg,
-  bondContractABI: BondOhmLusdContract,
-  reserveContract: ReserveOhmLusdContract,
+  bondIconSvg: TELOLusdImg,
+  bondContractABI: BondTELOLusdContract,
+  reserveContract: ReserveTELOLusdContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xFB1776299E7804DD8016303Df9c07a65c80F67b6",
       reserveAddress: "0xfDf12D1F85b5082877A6E070524f50F6c84FAa6b",
     },
     [NetworkID.Testnet]: {
-      // NOTE (appleseed-lusd): using ohm-dai rinkeby contracts
+      // NOTE (appleseed-lusd): using TELO-dai rinkeby contracts
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
@@ -250,21 +250,21 @@ export const ohm_lusd = new LPBond({
     "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
 });
 
-export const ohm_weth = new CustomBond({
-  name: "ohm_weth_lp",
-  displayName: "OHM-WETH LP",
+export const TELO_weth = new CustomBond({
+  name: "TELO_weth_lp",
+  displayName: "TELO-WETH LP",
   bondToken: "WETH",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: OhmEthImg,
-  bondContractABI: BondOhmEthContract,
-  reserveContract: ReserveOhmEthContract,
+  bondIconSvg: TELOEthImg,
+  bondContractABI: BondTELOEthContract,
+  reserveContract: ReserveTELOEthContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xB6C9dc843dEc44Aa305217c2BbC58B44438B6E16",
       reserveAddress: "0xfffae4a0f4ac251f4705717cd24cadccc9f33e06",
     },
     [NetworkID.Testnet]: {
-      // NOTE (unbanksy): using ohm-dai rinkeby contracts
+      // NOTE (unbanksy): using TELO-dai rinkeby contracts
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
@@ -287,7 +287,7 @@ export const ohm_weth = new CustomBond({
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD * Number(ethPrice.toString());
     } else {
-      // NOTE (appleseed): using OHM-DAI on rinkeby
+      // NOTE (appleseed): using TELO-DAI on rinkeby
       const token = this.getContractForReserve(networkID, provider);
       const tokenAddress = this.getAddressForReserve(networkID);
       const bondCalculator = getBondCalculator(networkID, provider);
@@ -305,7 +305,7 @@ export const ohm_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, cvx, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
+export const allBonds = [dai, frax, eth, cvx, TELO_dai, TELO_frax, lusd, TELO_lusd, TELO_weth];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
 export const allExpiredBonds = [cvx_expired];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {

@@ -25,12 +25,12 @@ export const MarketCap = () => {
   );
 };
 
-export const OHMPrice = () => {
+export const TELOPrice = () => {
   const marketPrice = useSelector(state => state.app.marketPrice);
 
   return (
     <Metric className="price">
-      <Metric.Title>OHM Price</Metric.Title>
+      <Metric.Title>TELO Price</Metric.Title>
       <Metric.Value>{marketPrice && formatCurrency(marketPrice, 2)}</Metric.Value>
     </Metric>
   );
@@ -50,13 +50,13 @@ export const CircSupply = () => {
   );
 };
 
-export const BackingPerOHM = () => {
-  const backingPerOhm = useSelector(state => state.app.treasuryMarketValue / state.app.circSupply);
+export const BackingPerTELO = () => {
+  const backingPerTELO = useSelector(state => state.app.treasuryMarketValue / state.app.circSupply);
 
   return (
     <Metric className="bpo">
-      <Metric.Title>Backing per OHM</Metric.Title>
-      <Metric.Value>{!isNaN(backingPerOhm) && formatCurrency(backingPerOhm, 2)}</Metric.Value>
+      <Metric.Title>Backing per TELO</Metric.Title>
+      <Metric.Value>{!isNaN(backingPerTELO) && formatCurrency(backingPerTELO, 2)}</Metric.Value>
     </Metric>
   );
 };
@@ -68,27 +68,27 @@ export const CurrentIndex = () => {
     <Metric className="index">
       <Metric.Title>
         Current Index
-        <InfoTooltip message="The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held a single OHM from day 1." />
+        <InfoTooltip message="The current index tracks the amount of sTELO accumulated since the beginning of staking. Basically, how much sTELO one would have if they staked and held a single TELO from day 1." />
       </Metric.Title>
-      <Metric.Value>{currentIndex && trim(currentIndex, 2) + " sOHM"}</Metric.Value>
+      <Metric.Value>{currentIndex && trim(currentIndex, 2) + " sTELO"}</Metric.Value>
     </Metric>
   );
 };
 
-export const WSOHMPrice = () => {
-  const wsOhmPrice = useSelector(state => state.app.marketPrice * state.app.currentIndex);
+export const WSTELOPrice = () => {
+  const wsTELOPrice = useSelector(state => state.app.marketPrice * state.app.currentIndex);
 
   return (
     <Metric className="wsoprice">
       <Metric.Title>
-        wsOHM Price
+        wsTELO Price
         <InfoTooltip
           message={
-            "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
+            "wsTELO = sTELO * index\n\nThe price of wsTELO is equal to the price of TELO multiplied by the current index"
           }
         />
       </Metric.Title>
-      <Metric.Value>{wsOhmPrice && formatCurrency(wsOhmPrice, 2)}</Metric.Value>
+      <Metric.Value>{wsTELOPrice && formatCurrency(wsTELOPrice, 2)}</Metric.Value>
     </Metric>
   );
 };

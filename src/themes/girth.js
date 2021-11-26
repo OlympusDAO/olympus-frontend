@@ -69,10 +69,10 @@ export const girth = responsiveFontSizes(
         },
         MuiPaper: {
           root: {
-            "&.ohm-menu": {
+            "&.TELO-menu": {
               backgroundColor: girthTheme.menuBg,
             },
-            "&.ohm-modal": {
+            "&.TELO-modal": {
               backgroundColor: girthTheme.menuBg,
             },
           },

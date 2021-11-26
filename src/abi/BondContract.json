@@ -2,12 +2,12 @@
   "abi": [
     {
       "inputs": [
-        { "internalType": "address", "name": "OHM_", "type": "address" },
+        { "internalType": "address", "name": "TELO_", "type": "address" },
         { "internalType": "address", "name": "LP_", "type": "address" },
         { "internalType": "address", "name": "treasury_", "type": "address" },
         { "internalType": "address", "name": "distributor_", "type": "address" },
         { "internalType": "address", "name": "DAO_", "type": "address" },
-        { "internalType": "address", "name": "circulatingOHMContract_", "type": "address" },
+        { "internalType": "address", "name": "circulatingTELOContract_", "type": "address" },
         { "internalType": "address", "name": "bondCalculator_", "type": "address" }
       ],
       "stateMutability": "nonpayable",
@@ -54,7 +54,7 @@
     },
     {
       "inputs": [],
-      "name": "OHM",
+      "name": "TELO",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
@@ -102,7 +102,7 @@
     },
     {
       "inputs": [],
-      "name": "circulatingOHMContract",
+      "name": "circulatingTELOContract",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"

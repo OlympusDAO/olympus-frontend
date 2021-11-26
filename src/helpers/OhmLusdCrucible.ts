@@ -1,30 +1,30 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { NetworkID } from "src/lib/Bond";
-import { ohm_lusd, lusd } from "../helpers/AllBonds";
-import { abi as OhmLusdCrucibleABI } from "src/abi/OhmLusdCrucible.json";
+import { TELO_lusd, lusd } from "../helpers/AllBonds";
+import { abi as TELOLusdCrucibleABI } from "src/abi/TELOLusdCrucible.json";
 import { abi as UniswapIERC20ABI } from "src/abi/UniswapIERC20.json";
 import { BigNumber, ethers } from "ethers";
 import { addresses } from "src/constants";
 import { getTokenPrice } from "../helpers";
-import { OhmLusdCrucible, UniswapIERC20 } from "src/typechain";
+import { TELOLusdCrucible, UniswapIERC20 } from "src/typechain";
 
 export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJsonRpcProvider) => {
-  const crucibleAddress = addresses[networkID].CRUCIBLE_OHM_LUSD;
+  const crucibleAddress = addresses[networkID].CRUCIBLE_TELO_LUSD;
   const aludelContract = new ethers.Contract(
     crucibleAddress as string,
-    OhmLusdCrucibleABI,
+    TELOLusdCrucibleABI,
     provider,
-  ) as OhmLusdCrucible;
+  ) as TELOLusdCrucible;
   const aludelData = await aludelContract.getAludelData();
   // getting contractAddresses & Pricing for calculations below
-  let ohmPrice = await getTokenPrice("olympus");
-  let ohmContractAddress = addresses[networkID].OHM_ADDRESS.toLowerCase();
+  let TELOPrice = await getTokenPrice("olympus");
+  let TELOContractAddress = addresses[networkID].TELO_ADDRESS.toLowerCase();
 
   let lusdPrice = await getTokenPrice("liquity-usd");
   let lusdContractAddress = lusd.getAddressForReserve(networkID).toLowerCase();
 
-  let ohmLusdPrice = await ohm_lusd.getBondReservePrice(networkID, provider);
-  let ohmLusdContractAddress = ohm_lusd.getAddressForReserve(networkID).toLowerCase();
+  let TELOLusdPrice = await TELO_lusd.getBondReservePrice(networkID, provider);
+  let TELOLusdContractAddress = TELO_lusd.getAddressForReserve(networkID).toLowerCase();
 
   let lqtyPrice = await getTokenPrice("liquity");
   let lqtyContractAddress = addresses[networkID].LQTY.toLowerCase();
@@ -34,8 +34,8 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
 
   // set addresses & pricing in dictionary
   let usdValues: { [key: string]: number } = {};
-  usdValues[ohmContractAddress] = ohmPrice;
-  usdValues[ohmLusdContractAddress] = Number(ohmLusdPrice.toString());
+  usdValues[TELOContractAddress] = TELOPrice;
+  usdValues[TELOLusdContractAddress] = Number(TELOLusdPrice.toString());
   usdValues[lqtyContractAddress] = lqtyPrice;
   usdValues[mistContractAddress] = mistPrice;
 
@@ -73,7 +73,7 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   // furthest start date for past funds
   let oldestDepositDate = Math.max.apply(null, pastDurations);
 
-  // rewardToken is OHM for this Crucible
+  // rewardToken is TELO for this Crucible
   const rewardTokenContract = new ethers.Contract(
     aludelData.rewardToken as string,
     UniswapIERC20ABI,
@@ -132,12 +132,12 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
 
   let lusdContract = new ethers.Contract(lusdContractAddress, UniswapIERC20ABI, provider) as UniswapIERC20;
 
-  let stakedOhm =
+  let stakedTELO =
     Number((await rewardTokenContract.balanceOf(aludelData.stakingToken)).toString()) / 10 ** rewardTokenDecimals;
   // 18 decimals for LUSD
   let stakedLusd = Number((await lusdContract.balanceOf(aludelData.stakingToken)).toString()) / 10 ** 18;
 
-  let totalStakedTokensUsd = stakedOhm * ohmPrice + stakedLusd * lusdPrice;
+  let totalStakedTokensUsd = stakedTELO * TELOPrice + stakedLusd * lusdPrice;
 
   let stakingTokenContract = new ethers.Contract(aludelData.stakingToken, UniswapIERC20ABI, provider) as UniswapIERC20;
   let sushiTokenSupply = Number((await stakingTokenContract.totalSupply()).toString()) / 10 ** 18;
