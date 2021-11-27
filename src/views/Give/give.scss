@@ -199,10 +199,9 @@
 }
 
 .ohm-card {
-  .redeem-button {
-    position: absolute;
-    right: 2.5em;
-    bottom: 2em;
+  .cell-align-end {
+    display: flex;
+    justify-content: flex-end;
   }
 
   .MuiTypography-body2 {
