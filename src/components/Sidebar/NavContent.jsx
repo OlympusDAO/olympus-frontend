@@ -8,6 +8,8 @@ import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.sv
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
 import { ReactComponent as GiveIcon } from "../../assets/icons/give.svg";
+import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
+import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
 import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress, useWeb3Context } from "src/hooks/web3Context";
@@ -27,10 +29,19 @@ function NavContent() {
     if (currentPath.indexOf("dashboard") >= 0 && page === "dashboard") {
       return true;
     }
+    if (currentPath.indexOf("zap") >= 0 && page === "zap") {
+      return true;
+    }
     if (currentPath.indexOf("stake") >= 0 && page === "stake") {
       return true;
     }
     if (currentPath.indexOf("give") >= 0 && page == "give") {
+      return true;
+    }
+    if (currentPath.indexOf("givedonations") >= 0 && page == "give/donations") {
+      return true;
+    }
+    if (currentPath.indexOf("giveredeem") >= 0 && page == "give/redeem") {
       return true;
     }
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
@@ -110,6 +121,47 @@ function NavContent() {
                   <SvgIcon color="primary" component={GiveIcon} />
                   <Trans>Give</Trans>
                 </Typography>
+              </Link>
+              <div className="dapp-menu-data give-actions">
+                <div className="give-sub-menus">
+                  <Link
+                    component={NavLink}
+                    id="give-sub-donations"
+                    to="/give/donations"
+                    isActive={(match, location) => {
+                      return checkPage(match, location, "give/donations");
+                    }}
+                    className={"give-option"}
+                  >
+                    <Typography variant="body2">My Deposits</Typography>
+                  </Link>
+                  <Link
+                    component={NavLink}
+                    id="give-sub-redeem"
+                    to="/give/redeem"
+                    isActive={(match, location) => {
+                      return checkPage(match, location, "give/redeem");
+                    }}
+                    className={"give-option"}
+                  >
+                    <Typography variant="body2">Redeem Yield</Typography>
+                  </Link>
+                </div>
+              </div>
+              <Link
+                component={NavLink}
+                id="zap-nav"
+                to="/zap"
+                isActive={(match, location) => {
+                  return checkPage(match, location, "zap");
+                }}
+                className={`button-dapp-menu ${isActive ? "active" : ""}`}
+              >
+                <Box display="flex" alignItems="center">
+                  <SvgIcon component={ZapIcon} color="primary" />
+                  <Typography variant="h6">OlyZaps</Typography>
+                  <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
+                </Box>
               </Link>
 
               <Link

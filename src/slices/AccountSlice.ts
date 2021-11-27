@@ -252,11 +252,29 @@ export const calculateUserBondDetails = createAsyncThunk(
   },
 );
 
-interface IAccountSlice extends IUserAccountDetails, IUserBalances {
+export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   giving: { sohmGive: number; donationInfo: IUserDonationInfo };
   redeeming: { sohmRedeemable: number; recipientInfo: IUserRecipientInfo };
   bonds: { [key: string]: IUserBondDetails };
+  balances: {
+    ohm: string;
+    sohm: string;
+    dai: string;
+    oldsohm: string;
+    fsohm: string;
+    wsohm: string;
+    wsohmAsSohm: string;
+    pool: string;
+    mockSohm: string;
+  };
   loading: boolean;
+  staking: {
+    ohmStake: number;
+    ohmUnstake: number;
+  };
+  pooling: {
+    sohmPool: number;
+  };
 }
 
 const initialState: IAccountSlice = {
@@ -275,6 +293,7 @@ const initialState: IAccountSlice = {
   },
   staking: { ohmStake: 0, ohmUnstake: 0 },
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0 },
+  pooling: { sohmPool: 0 },
 };
 
 const accountSlice = createSlice({

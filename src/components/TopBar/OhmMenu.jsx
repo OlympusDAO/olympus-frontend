@@ -8,6 +8,8 @@ import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.s
 import { ReactComponent as wsOhmTokenImg } from "../../assets/tokens/token_wsOHM.svg";
 import { ReactComponent as ohmTokenImg } from "../../assets/tokens/token_OHM.svg";
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
+import { getTestTokens } from "../../slices/GiveThunk";
+import { useDispatch } from "react-redux";
 
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
@@ -70,7 +72,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
 function OhmMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const isEthereumAPIAvailable = window.ethereum;
-  const { chainID, address } = useWeb3Context();
+  const { chainID, address, provider } = useWeb3Context();
 
   const networkID = chainID;
 
@@ -86,6 +88,20 @@ function OhmMenu() {
   const id = "ohm-popper";
   const daiAddress = dai.getAddressForReserve(networkID);
   const fraxAddress = frax.getAddressForReserve(networkID);
+
+  const dispatch = useDispatch();
+
+  const handleGetTestTokens = async () => {
+    console.log("foo");
+    await dispatch(
+      getTestTokens({
+        provider,
+        address,
+        networkID: chainID,
+      }),
+    );
+  };
+
   return (
     <Box
       component="div"
@@ -227,6 +243,13 @@ function OhmMenu() {
                     </Typography>
                   </Button>
                 </Link>
+                {chainID !== 1 && (
+                  <Button size="large" variant="contained" color="secondary" onClick={handleGetTestTokens} fullWidth>
+                    <Typography align="left">
+                      <Trans>Get Test Tokens</Trans>
+                    </Typography>
+                  </Button>
+                )}
               </Paper>
             </Fade>
           );
