@@ -7,7 +7,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
-import { changeGive, getTestTokens } from "../../slices/GiveThunk";
+import { changeGive } from "../../slices/GiveThunk";
 import { RecipientModal } from "./RecipientModal";
 import YieldRecipients from "./YieldRecipients";
 
@@ -65,16 +65,6 @@ export default function DepositYield() {
     setIsModalOpen(false);
   };
 
-  const handleGetTestTokens = async () => {
-    await dispatch(
-      getTestTokens({
-        provider,
-        address,
-        networkID: chainID,
-      }),
-    );
-  };
-
   return (
     <Zoom in={true}>
       <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
@@ -84,19 +74,6 @@ export default function DepositYield() {
             <InfoTooltip message="Direct yield from your deposited sOHM to other recipients." />
           </div>
           <div className="give-yield-modals">
-            {chainID === 4 ? (
-              <Button
-                variant="outlined"
-                color="secondary"
-                className="add-recipient-button"
-                onClick={() => handleGetTestTokens()}
-                disabled={!address}
-              >
-                Get Test Tokens
-              </Button>
-            ) : (
-              <Skeleton />
-            )}
             <Button
               variant="outlined"
               color="secondary"
