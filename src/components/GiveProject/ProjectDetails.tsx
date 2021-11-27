@@ -118,7 +118,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
         <div>
           <Tooltip title={totalDebt + " of " + depositGoal + " sOHM raised"} arrow>
             <div>
-              <strong>{!recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}%</strong> <span>of goal</span>
+              <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}%</strong> <span>of goal</span>
             </div>
           </Tooltip>
         </div>
