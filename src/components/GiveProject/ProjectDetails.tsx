@@ -15,7 +15,7 @@ import { RecipientModal, SubmitCallback, CancelCallback } from "src/views/Give/R
 import { changeGive } from "src/slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
-import { countDecimals, roundToDecimal, roundToInteger } from "./utils";
+import { countDecimals, roundToDecimal, toInteger } from "./utils";
 
 type CountdownProps = {
   total: number;
@@ -108,7 +108,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
   const renderGoalCompletion = (): JSX.Element => {
     const goalCompletion = getGoalCompletion();
     const formattedGoalCompletion =
-      countDecimals(goalCompletion) === 0 ? roundToInteger(goalCompletion) : roundToDecimal(goalCompletion);
+      countDecimals(goalCompletion) === 0 ? toInteger(goalCompletion) : roundToDecimal(goalCompletion);
 
     return (
       <>
