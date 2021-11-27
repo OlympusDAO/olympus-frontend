@@ -202,9 +202,13 @@ function Wrap() {
     if (view === 0 && asset === 0)
       return (
         <div className="no-input-visible">
-          Sorry, but wrapping to <b>wsOHM</b> has been disabled at this time
+          Wrapping to <b>wsOHM</b> is disabled at this time due to the upcoming{" "}
+          <a style={{ color: "white" }} href="https://olympusdao.medium.com/introducing-olympus-v2-c4ade14e9fe">
+            V2 migration
+          </a>
+          .
           <br />
-          If you'd like to wrap your <b>sOHM</b>, please try wrapping to <b>gOHM</b> instead
+          If you'd like to wrap your <b>sOHM</b>, please try wrapping to <b>gOHM</b> instead.
         </div>
       );
     if (!hasAllowance("sohm") && view === 0 && asset === 1)
