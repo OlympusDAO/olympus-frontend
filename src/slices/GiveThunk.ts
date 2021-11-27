@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
+import { abi as MockSohm } from "../abi/MockSohm.json";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances, getDonationBalances } from "./AccountSlice";
@@ -131,7 +132,6 @@ export const changeGive = createAsyncThunk(
   },
 );
 
-/*
 export const getTestTokens = createAsyncThunk(
   "give/getTokens",
   async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
@@ -165,4 +165,3 @@ export const getTestTokens = createAsyncThunk(
     dispatch(getBalances({ address, networkID, provider }));
   },
 );
-*/

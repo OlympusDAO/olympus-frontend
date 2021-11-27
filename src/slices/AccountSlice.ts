@@ -5,13 +5,14 @@ import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
+import { abi as mockSohm } from "../abi/MockSohm.json";
 
 import { setAll } from "../helpers";
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
-import { FuseProxy, IERC20, SOhmv2, WsOHM } from "src/typechain";
+import { FuseProxy, IERC20, SOhmv2, WsOHM, MockSohm } from "src/typechain";
 
 interface IUserBalances {
   balances: {
@@ -70,6 +71,12 @@ export const getBalances = createAsyncThunk(
         fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
       }
     }
+    const mockSohmContract = new ethers.Contract(
+      addresses[networkID].MOCK_SOHM as string,
+      mockSohm,
+      provider,
+    ) as MockSohm;
+    const mockSohmBalance = await mockSohmContract.balanceOf(address);
 
     return {
       balances: {
@@ -79,6 +86,7 @@ export const getBalances = createAsyncThunk(
         wsohm: ethers.utils.formatEther(wsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
+        mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei"),
       },
     };
   },
@@ -280,7 +288,7 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
-  balances: { ohm: "", sohm: "", wsohmAsSohm: "", wsohm: "", fsohm: "", pool: "" },
+  balances: { ohm: "", sohm: "", dai: "", oldsohm: "", wsohmAsSohm: "", wsohm: "", fsohm: "", pool: "", mockSohm: "" },
   giving: { sohmGive: 0, donationInfo: {} },
   redeeming: {
     sohmRedeemable: 0,
