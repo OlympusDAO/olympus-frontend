@@ -15,6 +15,7 @@ import { RecipientModal, SubmitCallback, CancelCallback } from "src/views/Give/R
 import { changeGive } from "src/slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
+import { countDecimals, roundToDecimal, roundToInteger } from "./utils";
 
 type CountdownProps = {
   total: number;
@@ -106,6 +107,8 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
 
   const renderGoalCompletion = (): JSX.Element => {
     const goalCompletion = getGoalCompletion();
+    const formattedGoalCompletion =
+      countDecimals(goalCompletion) === 0 ? roundToInteger(goalCompletion) : roundToDecimal(goalCompletion);
 
     return (
       <>
@@ -115,7 +118,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
         <div>
           <Tooltip title={totalDebt + " of " + depositGoal + " sOHM raised"} arrow>
             <div>
-              <strong>{recipientInfoIsLoading ? <Skeleton /> : goalCompletion}%</strong> <span>of goal</span>
+              <strong>{!recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}%</strong> <span>of goal</span>
             </div>
           </Tooltip>
         </div>
