@@ -224,3 +224,10 @@
     padding-bottom: 1rem;
   }
 }
+
+/* slightly more dark and opaque background fallback for Firefox (not supporting backdrop-filter) */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .modal-container {
+    background-color: rgba(100, 100, 100, 0.95);
+  }
+}

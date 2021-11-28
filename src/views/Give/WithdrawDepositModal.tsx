@@ -58,7 +58,7 @@ export function WithdrawDepositModal({
   };
 
   return (
-    <Modal open={isModalOpen}>
+    <Modal className="modal-container" open={isModalOpen}>
       <Paper className="ohm-card ohm-modal">
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
