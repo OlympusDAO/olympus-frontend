@@ -22,6 +22,11 @@ const externalUrls = [
     icon: <SvgIcon color="primary" component={DocsIcon} />,
   },
   // {
+  //   title: <Trans>Bridge</Trans>,
+  //   url: "https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114",
+  //   icon: <SvgIcon color="primary" component={CurrencyExchangeIcon} />,
+  // },
+  // {
   //   title: "Feedback",
   //   url: "https://olympusdao.canny.io/",
   //   icon: <SvgIcon color="primary" component={FeedbackIcon} />,
