@@ -19,7 +19,6 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import TabPanel from "../../components/TabPanel";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
@@ -346,7 +345,7 @@ function Wrap() {
                   href={
                     asset === 0
                       ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
-                      : "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
+                      : "https://olympusdao.medium.com/introducing-olympus-v2-c4ade14e9fe"
                   }
                   aria-label="wsohm-wut"
                   target="_blank"
