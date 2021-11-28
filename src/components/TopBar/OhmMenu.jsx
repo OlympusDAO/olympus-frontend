@@ -227,6 +227,17 @@ function OhmMenu() {
                     </Typography>
                   </Button>
                 </Link>
+                <Link
+                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Button size="large" variant="contained" color="secondary" fullWidth>
+                    <Typography align="left">
+                      <Trans>Bridge Tokens</Trans>
+                    </Typography>
+                  </Button>
+                </Link>
               </Paper>
             </Fade>
           );

@@ -19,6 +19,13 @@
     width: 100%;
     padding: 0;
   }
+
+  .stake-tab-panel.wrap-page {
+    display: flex;
+    // padding: 30px 0;
+    padding-bottom: 16px;
+    width: 100%;
+  }
   .mobile .stake-tab-panel,
   .mobile .stake-tab-panel > div.MuiBox-root {
     display: flex;
@@ -166,6 +173,23 @@
   min-width: 163px !important;
   max-width: 542px !important;
   height: 43px !important;
+  &.wrap-page {
+    margin-left: 2%;
+    width: 40%;
+  }
+}
+
+.no-input-visible {
+  width: 100%;
+  line-height: 1.2em;
+}
+
+// #asset-select {
+//   color: #f8cc82;
+// }
+
+.Muilnput-underline {
+  display: none !important;
 }
 
 .mobile .stake-button {

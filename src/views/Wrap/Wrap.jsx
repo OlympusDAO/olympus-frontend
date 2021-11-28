@@ -16,12 +16,14 @@ import {
   Zoom,
   SvgIcon,
   makeStyles,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
-import TabPanel from "../../components/TabPanel";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrap } from "../../slices/WrapThunk";
+import { changeMigrationApproval, bridgeBack, migrateWithType } from "../../slices/MigrateThunk";
 import "../Stake/stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -51,6 +53,7 @@ function Wrap() {
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
+  const [asset, setAsset] = useState(1);
   const [quantity, setQuantity] = useState("");
   const classes = useStyles();
 
@@ -73,11 +76,22 @@ function Wrap() {
   const wsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
+  const gohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.gohm;
+  });
   const wrapAllowance = useSelector(state => {
     return state.account.wrapping && state.account.wrapping.ohmWrap;
   });
   const unwrapAllowance = useSelector(state => {
     return state.account.wrapping && state.account.wrapping.ohmUnwrap;
+  });
+
+  const migrateAllowance = useSelector(state => {
+    return state.account.migration && state.account.migration.sohm;
+  });
+
+  const unwrapGohmAllowance = useSelector(state => {
+    return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
   });
 
   const pendingTransactions = useSelector(state => {
@@ -88,7 +102,11 @@ function Wrap() {
     if (view === 0) {
       setQuantity(sohmBalance);
     } else {
-      setQuantity(wsohmBalance);
+      if (asset === 0) {
+        setQuantity(wsohmBalance);
+      } else {
+        setQuantity(gohmBalance);
+      }
     }
   };
 
@@ -123,11 +141,13 @@ function Wrap() {
 
   const hasAllowance = useCallback(
     token => {
-      if (token === "sohm") return wrapAllowance > 0;
-      if (token === "wsohm") return wrapAllowance > 0;
+      if (token === "sohm" && asset === 0) return wrapAllowance > 0;
+      if (token === "sohm" && asset === 1) return migrateAllowance > 0;
+      if (token === "wsohm") return unwrapAllowance > 0;
+      if (token === "gohm") return unwrapGohmAllowance > 0;
       return 0;
     },
-    [wrapAllowance, unwrapAllowance],
+    [wrapAllowance, unwrapAllowance, migrateAllowance, asset],
   );
 
   const isAllowanceDataLoading = (wrapAllowance == null && view === 0) || (unwrapAllowance == null && view === 1);
@@ -144,7 +164,171 @@ function Wrap() {
   );
 
   const changeView = (event, newView) => {
+    setQuantity("");
     setView(newView);
+  };
+
+  const changeAsset = event => {
+    setQuantity("");
+    setAsset(event.target.value);
+  };
+
+  const approveMigrate = token => {
+    dispatch(changeMigrationApproval({ token, provider, address, networkID: chainID, displayName: "sohm" }));
+  };
+
+  const migrateToGohm = () => {
+    dispatch(
+      migrateWithType({
+        provider,
+        address,
+        networkID: chainID,
+        type: "sohm",
+        value: quantity,
+        action: "wrap to gOHM",
+      }),
+    );
+  };
+
+  const unwrapGohm = () => {
+    dispatch(bridgeBack({ provider, address, networkID: chainID, value: quantity }));
+  };
+
+  const assetName = asset === 0 ? "wsOHM" : "gOHM";
+
+  const chooseInputArea = () => {
+    if (!address || isAllowanceDataLoading) return <Skeleton width="150px" />;
+    if (view === 0 && asset === 0)
+      return (
+        <div className="no-input-visible">
+          Wrapping to <b>wsOHM</b> is disabled at this time due to the upcoming{" "}
+          <a style={{ color: "white" }} href="https://olympusdao.medium.com/introducing-olympus-v2-c4ade14e9fe">
+            V2 migration
+          </a>
+          .
+          <br />
+          If you'd like to wrap your <b>sOHM</b>, please try wrapping to <b>gOHM</b> instead.
+        </div>
+      );
+    if (!hasAllowance("sohm") && view === 0 && asset === 1)
+      return (
+        <div className="no-input-visible">
+          First time wrapping to <b>gOHM</b>?
+          <br />
+          Please approve Olympus Dao to use your <b>sOHM</b> for this transaction.
+        </div>
+      );
+    if (!hasAllowance("gohm") && view === 1 && asset === 1)
+      return (
+        <div className="no-input-visible">
+          First time unwrapping <b>gOHM</b>?
+          <br />
+          Please approve Olympus Dao to use your <b>gOHM</b> for unwrapping.
+        </div>
+      );
+    if (!hasAllowance("wsohm") && view === 1 && asset === 0)
+      return (
+        <div className="no-input-visible">
+          First time unwrapping <b>wsOHM</b>?
+          <br />
+          Please approve Olympus Dao to use your <b>wsOHM</b> for unwrapping.
+        </div>
+      );
+
+    return (
+      <FormControl className="ohm-input" variant="outlined" color="primary">
+        <InputLabel htmlFor="amount-input"></InputLabel>
+        <OutlinedInput
+          id="amount-input"
+          type="number"
+          placeholder="Enter an amount"
+          className="stake-input"
+          value={quantity}
+          onChange={e => setQuantity(e.target.value)}
+          labelWidth={0}
+          endAdornment={
+            <InputAdornment position="end">
+              <Button variant="text" onClick={setMax} color="inherit">
+                Max
+              </Button>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+    );
+  };
+
+  const chooseButtonArea = () => {
+    if (!address) return "";
+    // wrap view
+    if (view === 0) {
+      // if trying to wrap to wsOHM
+      if (asset === 0) return "";
+      // if trying to wrap to gOhm but not approved yet
+      if (!hasAllowance("sohm") && asset === 1)
+        return (
+          <Button
+            className="stake-button wrap-page"
+            variant="contained"
+            color="primary"
+            disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
+            onClick={() => {
+              approveMigrate("sohm");
+            }}
+          >
+            {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
+          </Button>
+        );
+      if (hasAllowance("sohm") && asset === 1)
+        return (
+          <Button
+            className="stake-button wrap-page"
+            variant="contained"
+            color="primary"
+            disabled={isPendingTxn(pendingTransactions, "wrapping")}
+            onClick={() => {
+              migrateToGohm();
+            }}
+          >
+            {txnButtonText(pendingTransactions, "wrapping", "Wrap to gOHM")}
+          </Button>
+        );
+    }
+    // unwrap view
+    if (view === 1) {
+      // if not approved to unwrap the current asset
+      if (!hasAllowance(assetName.toLowerCase()))
+        return (
+          <Button
+            className="stake-button wrap-page"
+            variant="contained"
+            color="primary"
+            disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
+            onClick={() => {
+              asset === 0 ? onSeekApproval("wsohm") : approveMigrate("gohm");
+            }}
+          >
+            {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
+          </Button>
+        );
+
+      if (hasAllowance(assetName.toLowerCase()))
+        return (
+          <Button
+            className="stake-button wrap-page"
+            variant="contained"
+            color="primary"
+            disabled={isPendingTxn(pendingTransactions, "unwrapping")}
+            onClick={() => {
+              asset === 0 ? onChangeWrap("unwrap") : unwrapGohm();
+            }}
+          >
+            {asset === 0
+              ? txnButtonText(pendingTransactions, "unwrapping", "Unwrap wsOHM")
+              : txnButtonText(pendingTransactions, "unwrapping", "Unwrap gOHM")}
+          </Button>
+        );
+    }
   };
 
   return (
@@ -158,11 +342,15 @@ function Wrap() {
                 <Link
                   className="migrate-sohm-button"
                   style={{ textDecoration: "none" }}
-                  href="https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
+                  href={
+                    asset === 0
+                      ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
+                      : "https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                  }
                   aria-label="wsohm-wut"
                   target="_blank"
                 >
-                  <Typography>wsOHM</Typography> <SvgIcon component={InfoIcon} color="primary" />
+                  <Typography>{assetName}</Typography> <SvgIcon component={InfoIcon} color="primary" />
                 </Link>
               </div>
             </Grid>
@@ -193,11 +381,9 @@ function Wrap() {
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="wrap-wsOHM">
                       <Typography variant="h5" color="textSecondary">
-                        wsOHM Price
+                        {`${assetName} Price`}
                         <InfoTooltip
-                          message={
-                            "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
-                          }
+                          message={`${assetName} = sOHM * index\n\nThe price of ${assetName} is equal to the price of OHM multiplied by the current index`}
                         />
                       </Typography>
                       <Typography variant="h4">
@@ -233,93 +419,30 @@ function Wrap() {
                       <Tab label="Wrap" {...a11yProps(0)} />
                       <Tab label="Unwrap" {...a11yProps(1)} />
                     </Tabs>
-                    <Box className="stake-action-row " display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
-                      {address && !isAllowanceDataLoading ? (
-                        !hasAllowance("sohm") && view === 0 ? (
-                          <Box className="help-text">
-                            <Typography variant="body1" className="stake-note" color="textSecondary">
-                              {view === 0 && (
-                                <>
-                                  First time wrapping <b>sOHM</b>?
-                                  <br />
-                                  Please approve Olympus Dao to use your <b>sOHM</b> for wrapping.
-                                </>
-                              )}
-                            </Typography>
-                          </Box>
-                        ) : (
-                          <FormControl className="ohm-input" variant="outlined" color="primary">
-                            <InputLabel htmlFor="amount-input"></InputLabel>
-                            <OutlinedInput
-                              id="amount-input"
-                              type="number"
-                              placeholder="Enter an amount"
-                              className="stake-input"
-                              value={quantity}
-                              onChange={e => setQuantity(e.target.value)}
-                              labelWidth={0}
-                              endAdornment={
-                                <InputAdornment position="end">
-                                  <Button variant="text" onClick={setMax} color="inherit">
-                                    Max
-                                  </Button>
-                                </InputAdornment>
-                              }
-                            />
-                          </FormControl>
-                        )
-                      ) : (
-                        <Skeleton width="150px" />
-                      )}
-
-                      <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {address && hasAllowance("sohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "wrapping")}
-                            onClick={() => {
-                              onChangeWrap("wrap");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "wrapping", "Wrap sOHM")}
-                          </Button>
-                        ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
-                            onClick={() => {
-                              onSeekApproval("sohm");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
-                          </Button>
-                        )}
-                      </TabPanel>
-
-                      <TabPanel value={view} index={1} className="stake-tab-panel">
-                        <Button
-                          className="stake-button"
-                          variant="contained"
-                          color="primary"
-                          disabled={isPendingTxn(pendingTransactions, "unwrapping")}
-                          onClick={() => {
-                            onChangeWrap("unwrap");
-                          }}
-                        >
-                          {txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")}
-                        </Button>
-                      </TabPanel>
+                    <Box>
+                      <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                        <span className="asset-select-label">{view === 0 ? "Wrap to" : "Unwrap"} </span>
+                        <Select id="asset-select" value={asset} label="Asset" onChange={changeAsset} disableUnderline>
+                          <MenuItem value={0}>wsOHM</MenuItem>
+                          <MenuItem value={1}>gOHM</MenuItem>
+                        </Select>
+                      </FormControl>
                     </Box>
-
+                    <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
+                      <div className="stake-tab-panel wrap-page">
+                        {chooseInputArea()}
+                        {/* <Box width="1px" /> */}
+                        {chooseButtonArea()}
+                      </div>
+                    </Box>
                     {quantity && (
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
                           {isUnwrap
-                            ? `Unwrapping ${quantity} wsOHM will result in ${trim(convertedQuantity, 4)} sOHM`
+                            ? `Unwrapping ${quantity} ${asset === 0 ? "wsOHM" : "gOHM"} will result in ${trim(
+                                convertedQuantity,
+                                4,
+                              )} sOHM`
                             : `Wrapping ${quantity} sOHM will result in ${trim(convertedQuantity, 4)} wsOHM`}
                         </Typography>
                       </Box>
@@ -336,7 +459,11 @@ function Wrap() {
                     <div className="data-row">
                       <Typography variant="body1">Unwrappable Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                        {isAppLoading ? (
+                          <Skeleton width="80px" />
+                        ) : (
+                          <>{asset === 0 ? trim(wsohmBalance, 4) + " wsOHM" : trim(gohmBalance, 4) + " gOHM"}</>
+                        )}
                       </Typography>
                     </div>
                   </div>
