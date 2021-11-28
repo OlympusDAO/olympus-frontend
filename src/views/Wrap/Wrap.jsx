@@ -345,7 +345,7 @@ function Wrap() {
                   href={
                     asset === 0
                       ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
-                      : "https://olympusdao.medium.com/introducing-olympus-v2-c4ade14e9fe"
+                      : "https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                   }
                   aria-label="wsohm-wut"
                   target="_blank"
