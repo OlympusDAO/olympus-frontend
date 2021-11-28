@@ -147,7 +147,7 @@
 }
 
 .stake-action-row [role="tabpanel"] {
-  width: 99%;
+  width: 100%;
   min-width: 162px;
   max-width: 220px;
   margin: 5px;
@@ -197,6 +197,14 @@
   max-width: 542px;
   align-self: center;
   justify-self: center;
+}
+
+.stake-grid-item {
+  width: 100%;
+  padding-right: 10px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
 }
 
 .staking-area {

@@ -34,8 +34,18 @@ export interface IActionValueAsyncThunk extends IValueAsyncThunk {
   readonly action: string;
 }
 
+export interface IActionValueGasAsyncThunk extends IActionValueAsyncThunk {
+  readonly gas: number;
+}
+
 export interface IBaseAddressAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
+}
+
+export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
+  readonly tokenAddress: string;
+  readonly sellAmount: number;
+  readonly slippage: number;
 }
 
 // Account Slice
