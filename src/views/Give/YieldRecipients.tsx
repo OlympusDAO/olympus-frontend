@@ -26,6 +26,8 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { error } from "../../slices/MessagesSlice";
+import data from "./projects.json";
+import { Project } from "src/components/GiveProject/project.type";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -133,6 +135,16 @@ export default function YieldRecipients() {
     setIsWithdrawModalOpen(false);
   };
 
+  const { projects } = data;
+  const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
+
+  const getRecipientTitle = (address: string): string => {
+    const project = projectMap.get(address);
+    if (project) return project.owner + " - " + project.title;
+
+    return shorten(address);
+  };
+
   if (Object.keys(donationInfo).length == 0) {
     return (
       <>
@@ -174,7 +186,7 @@ export default function YieldRecipients() {
                 <Skeleton />
               ) : (
                 <TableRow key={recipient}>
-                  <TableCell>{shorten(recipient)}</TableCell>
+                  <TableCell>{getRecipientTitle(recipient)}</TableCell>
                   <TableCell>{donationInfo[recipient]}</TableCell>
                   <TableCell align="left"></TableCell>
                   <TableCell align="left"></TableCell>
@@ -240,6 +252,7 @@ export default function YieldRecipients() {
                 cancelFunc={handleWithdrawModalCancel}
                 walletAddress={recipient}
                 depositAmount={donationInfo[recipient]}
+                project={projectMap.get(recipient)}
                 key={recipient}
               />
             )

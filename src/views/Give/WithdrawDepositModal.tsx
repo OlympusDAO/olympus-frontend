@@ -8,6 +8,7 @@ import { WalletGraphic, VaultGraphic, ArrowGraphic } from "../../components/Educ
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn } from "../../slices/PendingTxnsSlice";
 import { BigNumber } from "bignumber.js";
+import { Project } from "src/components/GiveProject/project.type";
 
 export interface WithdrawSubmitCallback {
   (walletAddress: string, depositAmount: BigNumber): void;
@@ -23,6 +24,7 @@ type WithdrawModalProps = {
   cancelFunc: WithdrawCancelCallback;
   walletAddress: string;
   depositAmount: number; // As per IUserDonationInfo
+  project?: Project;
 };
 
 // TODO consider shifting this into interfaces.ts
@@ -37,6 +39,7 @@ export function WithdrawDepositModal({
   cancelFunc,
   walletAddress,
   depositAmount,
+  project,
 }: WithdrawModalProps) {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const pendingTransactions = useSelector((state: State) => {
@@ -57,6 +60,12 @@ export function WithdrawDepositModal({
     callbackFunc(walletAddress, new BigNumber(depositAmount));
   };
 
+  const getRecipientTitle = () => {
+    if (!project) return walletAddress;
+
+    return project.owner + " - " + project.title;
+  };
+
   return (
     <Modal className="modal-container" open={isModalOpen}>
       <Paper className="ohm-card ohm-modal">
@@ -73,7 +82,7 @@ export function WithdrawDepositModal({
         </div>
 
         <Typography variant="body1">
-          Any remaining yield will still be redeemable by the recipient ({walletAddress}).
+          Any remaining yield will still be redeemable by the recipient ({getRecipientTitle()}).
         </Typography>
         <FormControl className="ohm-modal-submit">
           <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => handleSubmit()}>
