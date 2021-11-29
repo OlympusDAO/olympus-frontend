@@ -73,6 +73,9 @@ function Stake() {
   const wsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
+  const gOhmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gohm;
+  });
   const wsohmAsSohm = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohmAsSohm;
   });
@@ -451,6 +454,15 @@ function Stake() {
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsohmBalance), 4)} wsOHM</>}
+                      </Typography>
+                    </div>
+
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        <Trans>Wrapped Balance</Trans> (v2)
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(gOhmBalance), 4)} gOHM</>}
                       </Typography>
                     </div>
 
