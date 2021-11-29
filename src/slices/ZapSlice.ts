@@ -130,10 +130,12 @@ export const executeZap = createAsyncThunk(
       segmentUA(uaData);
       dispatch(info("Successful Zap!"));
     } catch (e: unknown) {
+      const result = await ZapHelper.getZapTokens(address);
+      const ticker = result.addressMapping[address];
       let uaData: IUADataZap = {
         address: address,
         value: sellAmount.toString(),
-        token: tokenAddress,
+        token: ticker,
         type: "Zap Swap Failure",
         slippage: slippage,
         approved: false,
