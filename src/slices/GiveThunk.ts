@@ -4,7 +4,7 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 // Delete before mainnet
 import { abi as MockSohm } from "../abi/MockSohm.json";
-import { clearPendingTxn, fetchPendingTxns, getGivingTypeText } from "./PendingTxnsSlice";
+import { clearPendingTxn, fetchPendingTxns, getGivingTypeText, isPendingTxn, IPendingTxn } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances, getDonationBalances } from "./AccountSlice";
 import { error } from "../slices/MessagesSlice";
@@ -25,6 +25,19 @@ interface IUAData {
   type: string | null;
 }
 
+export const PENDING_TXN_GIVE = "giving";
+export const PENDING_TXN_EDIT_GIVE = "editingGive";
+export const PENDING_TXN_WITHDRAW = "endingGive";
+export const PENDING_TXN_GIVE_APPROVAL = "approve_giving";
+
+export const hasPendingGiveTxn = (pendingTransactions: IPendingTxn[]): boolean => {
+  return (
+    isPendingTxn(pendingTransactions, PENDING_TXN_GIVE) ||
+    isPendingTxn(pendingTransactions, PENDING_TXN_EDIT_GIVE) ||
+    isPendingTxn(pendingTransactions, PENDING_TXN_WITHDRAW)
+  );
+};
+
 // This is approving the recipient to spend, not the contract
 export const changeApproval = createAsyncThunk(
   "give/changeApproval",
@@ -43,7 +56,7 @@ export const changeApproval = createAsyncThunk(
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );
       const text = "Approve giving";
-      const pendingTxnType = "approve_giving";
+      const pendingTxnType = PENDING_TXN_GIVE_APPROVAL;
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
       await approveTx.wait();
     } catch (e: unknown) {
@@ -91,11 +104,11 @@ export const changeGive = createAsyncThunk(
       let pendingTxnType = "";
       if (action === "give") {
         uaData.type = "give";
-        pendingTxnType = "giving";
+        pendingTxnType = PENDING_TXN_GIVE;
         giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
       } else if (action === "editGive") {
         uaData.type = "editGive";
-        pendingTxnType = "editingGive";
+        pendingTxnType = PENDING_TXN_EDIT_GIVE;
         if (parseFloat(value) > 0) {
           giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
         } else if (parseFloat(value) < 0) {
@@ -104,7 +117,7 @@ export const changeGive = createAsyncThunk(
         }
       } else if (action === "endGive") {
         uaData.type = "endGive";
-        pendingTxnType = "endingGive";
+        pendingTxnType = PENDING_TXN_WITHDRAW;
         giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
       }
       uaData.txHash = giveTx.hash;

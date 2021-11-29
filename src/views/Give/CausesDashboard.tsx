@@ -46,7 +46,7 @@ export default function CausesDashboard() {
     // If reducing the amount of deposit, withdraw
     await dispatch(
       changeGive({
-        action: "editGive",
+        action: "give",
         value: depositAmount.toFixed(),
         recipient: walletAddress,
         provider,
