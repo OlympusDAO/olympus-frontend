@@ -112,6 +112,42 @@ export const addresses: IAddresses = {
     PICKLE_OHM_LUSD_ADDRESS: "0xc3d03e4f041fd4cd388c549ee2a29a9e5075882f",
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   }, // TODO: Replace with Arbitrum Testnet contract addresses when ready
+  43113: {
+    DAI_ADDRESS: "",
+    OHM_ADDRESS: "",
+    STAKING_ADDRESS: "", // The new staking contract
+    STAKING_HELPER_ADDRESS: "", // Helper contract used for Staking only
+    OLD_STAKING_ADDRESS: "",
+    SOHM_ADDRESS: "",
+    OLD_SOHM_ADDRESS: "",
+    PRESALE_ADDRESS: "",
+    AOHM_ADDRESS: "",
+    MIGRATE_ADDRESS: "",
+    DISTRIBUTOR_ADDRESS: "",
+    BONDINGCALC_ADDRESS: "",
+    CIRCULATING_SUPPLY_ADDRESS: "",
+    TREASURY_ADDRESS: "",
+    PICKLE_OHM_LUSD_ADDRESS: "",
+    REDEEM_HELPER_ADDRESS: "",
+  }, // TODO: Avalanche Testnet addresses
+  43114: {
+    DAI_ADDRESS: "",
+    OHM_ADDRESS: "",
+    STAKING_ADDRESS: "", // The new staking contract
+    STAKING_HELPER_ADDRESS: "", // Helper contract used for Staking only
+    OLD_STAKING_ADDRESS: "",
+    SOHM_ADDRESS: "",
+    OLD_SOHM_ADDRESS: "",
+    PRESALE_ADDRESS: "",
+    AOHM_ADDRESS: "",
+    MIGRATE_ADDRESS: "",
+    DISTRIBUTOR_ADDRESS: "",
+    BONDINGCALC_ADDRESS: "",
+    CIRCULATING_SUPPLY_ADDRESS: "",
+    TREASURY_ADDRESS: "",
+    PICKLE_OHM_LUSD_ADDRESS: "",
+    REDEEM_HELPER_ADDRESS: "",
+  }, // TODO: Avalanche Mainnet addresses
 };
 
 /**
