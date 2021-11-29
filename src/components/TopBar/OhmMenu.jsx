@@ -33,7 +33,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
       case "33T":
         tokenPath = token33tImg;
         break;
-      case "wsOHM":
+      case "gOHM":
         tokenPath = WsOhmImg;
         tokenDecimals = 18;
         break;
