@@ -18,6 +18,7 @@ import WsOhmImg from "src/assets/tokens/token_wsOHM.svg";
 import token33tImg from "src/assets/tokens/token_33T.svg";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { useSelector } from "react-redux";
+import { useWeb3Context } from "../../hooks";
 
 const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
   if (window.ethereum) {
@@ -68,6 +69,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
 function OhmMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const isEthereumAPIAvailable = window.ethereum;
+  const { address } = useWeb3Context();
   const networkId = useSelector(state => state.network.networkId);
 
   const SOHM_ADDRESS = addresses[networkId] && addresses[networkId].SOHM_ADDRESS;
