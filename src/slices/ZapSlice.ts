@@ -117,11 +117,12 @@ export const executeZap = createAsyncThunk(
       const signer = provider.getSigner();
       const tx = await signer.sendTransaction(transactionData);
       await tx.wait();
-
+      const result = await ZapHelper.getZapTokens(address);
+      const ticker = result.addressMapping[address];
       let uaData: IUADataZap = {
         address: address,
         value: sellAmount.toString(),
-        token: tokenAddress,
+        token: ticker,
         type: "Zap Swap Success",
         slippage: slippage,
         approved: true,

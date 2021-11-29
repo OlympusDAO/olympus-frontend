@@ -29,6 +29,7 @@ interface ZapperToken {
 
 interface ZapHelperBalancesResponse {
   balances: { [key: string]: ZapperToken };
+  addressMapping: any;
 }
 
 interface ZapHelperChangeAllowanceTransaction {
