@@ -443,7 +443,7 @@ function Wrap() {
                                 convertedQuantity,
                                 4,
                               )} sOHM`
-                            : `Wrapping ${quantity} sOHM will result in ${trim(convertedQuantity, 4)} wsOHM`}
+                            : `Wrapping ${quantity} sOHM will result in ${trim(convertedQuantity, 4)} gOHM`}
                         </Typography>
                       </Box>
                     )}
