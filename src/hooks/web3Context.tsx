@@ -72,6 +72,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
               4: EnvHelper.alchemyEthereumTestnetURI,
               42161: NodeHelper.getMainnetURI(42161),
               421611: EnvHelper.alchemyArbitrumTestnetURI,
+              43113: EnvHelper.alchemyAvalancheTestnetURI,
+              43114: NodeHelper.getMainnetURI(43114),
             },
           },
         },

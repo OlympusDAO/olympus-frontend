@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import "./networkmenu.scss";
 import ethereum from "../../assets/tokens/wETH.svg";
 import arbitrum from "../../assets/arbitrum.png";
+import avalanche from "../../assets/tokens/AVAX.svg";
 import Grid from "@material-ui/core/Grid";
 import { useSelector } from "react-redux";
 
@@ -21,6 +22,10 @@ function NetworkMenu() {
       case 42161:
       case 421611:
         setImage(arbitrum);
+        break;
+      case 43113:
+      case 43114:
+        setImage(avalanche);
         break;
     }
   }, [networkName]);

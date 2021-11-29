@@ -51,6 +51,10 @@ function ConnectMenu({ theme }) {
         return "https://explorer.arbitrum.io/tx/" + txnHash;
       case 421611:
         return "https://rinkeby-explorer.arbitrum.io/tx/" + txnHash;
+      case 43113:
+        return "https://testnet.snowtrace.io/tx/" + txnHash;
+      case 43114:
+        return "https://snowtrace.io/tx/" + txnHash;
     }
   };
 

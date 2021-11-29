@@ -121,7 +121,7 @@ export const addresses: IAddresses = {
 interface INativeCurrency {
   name: string;
   symbol: string;
-  decimals: number;
+  decimals?: number;
 }
 
 interface INetwork {
@@ -154,5 +154,25 @@ export const NETWORKS: { [key: number]: INetwork } = {
     },
     rpcUrls: ["https://rinkeby.arbitrum.io/rpc"],
     blockExplorerUrls: ["https://rinkeby-explorer.arbitrum.io/#/"],
+  },
+  43113: {
+    chainName: "Avalanche Fuji Testnet",
+    chainId: 43113,
+    nativeCurrency: {
+      name: "Avalanche",
+      symbol: "AVAX",
+    },
+    rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc/"],
+    blockExplorerUrls: ["https://testnet.snowtrace.io/#/"],
+  },
+  43114: {
+    chainName: "Avalanche",
+    chainId: 43114,
+    nativeCurrency: {
+      name: "Avalanche",
+      symbol: "AVAX",
+    },
+    rpcUrls: ["https://api.avax.network/ext/bc/C/rpc/"],
+    blockExplorerUrls: ["https://snowtrace.io/#/"],
   },
 };

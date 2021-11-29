@@ -11,6 +11,7 @@ export class EnvHelper {
   static env = process.env;
   static alchemyEthereumTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_ETHEREUM_TESTNET_ALCHEMY}`;
   static alchemyArbitrumTestnetURI = `https://arb-rinkeby.g.alchemy.com/v2/${EnvHelper.env.REACT_APP_ARBITRUM_TESTNET_ALCHEMY}`;
+  static alchemyAvalancheTestnetURI = ``;
 
   static whitespaceRegex = /\s+/;
 
@@ -68,6 +69,18 @@ export class EnvHelper {
         }
         uriPath = "https://arb-mainnet.alchemyapi.io/v2/";
         break;
+      case 43114:
+        if (
+          EnvHelper.env.NODE_ENV !== "development" &&
+          EnvHelper.env.REACT_APP_AVALANCHE_ALCHEMY_IDS &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_AVALANCHE_ALCHEMY_IDS)
+        ) {
+          ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_AVALANCHE_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
+        } else {
+          ALCHEMY_ID_LIST = [];
+        }
+        uriPath = "";
+        break;
     }
 
     return ALCHEMY_ID_LIST.map(alchemyID => uriPath + alchemyID);
@@ -121,6 +134,16 @@ export class EnvHelper {
           EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_WEBSOCKETS)
         ) {
           URI_LIST = EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_WEBSOCKETS.split(
+            new RegExp(EnvHelper.whitespaceRegex),
+          );
+        }
+        break;
+      case 43114:
+        if (
+          EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_WEBSOCKETS &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_WEBSOCKETS)
+        ) {
+          URI_LIST = EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_WEBSOCKETS.split(
             new RegExp(EnvHelper.whitespaceRegex),
           );
         }

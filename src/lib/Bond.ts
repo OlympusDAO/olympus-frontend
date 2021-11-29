@@ -13,6 +13,8 @@ export enum NetworkID {
   Testnet = 4,
   Arbitrum = 42161,
   ArbitrumTestnet = 421611,
+  AvalancheTestnet = 43113,
+  Avalanche = 43114,
 }
 
 export enum BondType {
@@ -30,6 +32,8 @@ export interface NetworkAddresses {
   [NetworkID.Testnet]?: BondAddresses;
   [NetworkID.Arbitrum]?: BondAddresses;
   [NetworkID.ArbitrumTestnet]?: BondAddresses;
+  [NetworkID.Avalanche]?: BondAddresses;
+  [NetworkID.AvalancheTestnet]?: BondAddresses;
 }
 
 export interface Available {
@@ -37,6 +41,8 @@ export interface Available {
   [NetworkID.Testnet]: boolean;
   [NetworkID.Arbitrum]: boolean;
   [NetworkID.ArbitrumTestnet]: boolean;
+  [NetworkID.Avalanche]: boolean;
+  [NetworkID.AvalancheTestnet]: boolean;
 }
 
 interface BondOpts {

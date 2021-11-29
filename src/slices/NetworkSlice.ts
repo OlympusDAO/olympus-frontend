@@ -37,6 +37,14 @@ export const initializeNetwork = createAsyncThunk(
           networkName = "Arbitrum Testnet";
           uri = EnvHelper.alchemyArbitrumTestnetURI;
           break;
+        case 43113:
+          networkName = "Avalanche Fuji Testnet";
+          uri = EnvHelper.alchemyAvalancheTestnetURI;
+          break;
+        case 43114:
+          networkName = "Avalanche";
+          uri = NodeHelper.getMainnetURI(id);
+          break;
         default:
           supported = false;
           networkName = "Unsupported Network";
