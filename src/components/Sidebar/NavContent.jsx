@@ -9,11 +9,12 @@ import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-he
 import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
 import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
 import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
+import { ReactComponent as WrapIcon } from "../../assets/icons/wrap.svg";
 import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress, useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
-import { Paper, Link, Box, Typography, SvgIcon } from "@material-ui/core";
+import { Paper, Link, Box, Typography, SvgIcon, Divider } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
 
@@ -32,6 +33,9 @@ function NavContent() {
       return true;
     }
     if (currentPath.indexOf("stake") >= 0 && page === "stake") {
+      return true;
+    }
+    if (currentPath.indexOf("wrap") >= 0 && page === "wrap") {
       return true;
     }
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
@@ -100,33 +104,19 @@ function NavContent() {
 
               <Link
                 component={NavLink}
-                id="zap-nav"
-                to="/zap"
+                id="wrap-nav"
+                to="/wrap"
                 isActive={(match, location) => {
-                  return checkPage(match, location, "zap");
+                  return checkPage(match, location, "wrap");
                 }}
                 className={`button-dapp-menu ${isActive ? "active" : ""}`}
               >
                 <Box display="flex" alignItems="center">
-                  <SvgIcon component={ZapIcon} color="primary" />
-                  <Typography variant="h6">OlyZaps</Typography>
-                  <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
+                  <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
+                  {/* <WrapIcon /> */}
+                  <Typography variant="h6">Wrap</Typography>
+                  {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                 </Box>
-              </Link>
-
-              <Link
-                component={NavLink}
-                id="33-together-nav"
-                to="/33-together"
-                isActive={(match, location) => {
-                  return checkPage(match, location, "33-together");
-                }}
-                className={`button-dapp-menu ${isActive ? "active" : ""}`}
-              >
-                <Typography variant="h6">
-                  <SvgIcon color="primary" component={PoolTogetherIcon} />
-                  3,3 Together
-                </Typography>
               </Link>
 
               <Link
@@ -168,6 +158,42 @@ function NavContent() {
                   ))}
                 </div>
               </div>
+              <Box className="menu-divider">
+                <Divider />
+              </Box>
+              <Link
+                component={NavLink}
+                id="zap-nav"
+                to="/zap"
+                isActive={(match, location) => {
+                  return checkPage(match, location, "zap");
+                }}
+                className={`button-dapp-menu ${isActive ? "active" : ""}`}
+              >
+                <Box display="flex" alignItems="center">
+                  <SvgIcon component={ZapIcon} color="primary" />
+                  <Typography variant="h6">OlyZaps</Typography>
+                  <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
+                </Box>
+              </Link>
+
+              <Link
+                component={NavLink}
+                id="33-together-nav"
+                to="/33-together"
+                isActive={(match, location) => {
+                  return checkPage(match, location, "33-together");
+                }}
+                className={`button-dapp-menu ${isActive ? "active" : ""}`}
+              >
+                <Typography variant="h6">
+                  <SvgIcon color="primary" component={PoolTogetherIcon} />
+                  3,3 Together
+                </Typography>
+              </Link>
+              <Box className="menu-divider">
+                <Divider />
+              </Box>
             </div>
           </div>
         </div>
