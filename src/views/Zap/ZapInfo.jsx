@@ -79,7 +79,7 @@ function ZapInfo({ tokens, address }) {
               </Typography>
               <Typography align="left" variant="body2" className="oly-info-body">
                 <Trans>
-                  A zap swap is a series of smart contracts that deploys one asset to another a protocol to handle a
+                  A zap swap is a series of smart contracts that deploys one asset to another protocol to handle a
                   trusted transaction.
                 </Trans>
               </Typography>
