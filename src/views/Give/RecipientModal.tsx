@@ -8,8 +8,14 @@ import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
-import { changeApproval } from "../../slices/GiveThunk";
-import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
+import {
+  changeApproval,
+  hasPendingGiveTxn,
+  PENDING_TXN_GIVE,
+  PENDING_TXN_EDIT_GIVE,
+  PENDING_TXN_GIVE_APPROVAL,
+} from "src/slices/GiveThunk";
+import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 import { BigNumber } from "bignumber.js";
 import {
@@ -223,8 +229,7 @@ export function RecipientModal({
     if (!isDepositAmountValid) return false;
     if (!isWalletAddressValid) return false;
     if (!address) return false;
-    if (isPendingTxn(pendingTransactions, "editingGive")) return false;
-    if (isPendingTxn(pendingTransactions, "giving")) return false;
+    if (hasPendingGiveTxn(pendingTransactions)) return false;
     if (!isCreateMode() && getDepositAmountDiff().isEqualTo(0)) return false;
 
     return true;
@@ -411,20 +416,20 @@ export function RecipientModal({
           address && hasAllowance() ? (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                {txnButtonText(pendingTransactions, "giving", "Give sOHM")}
+                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, "Give sOHM")}
               </Button>
             </FormControl>
           ) : (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" onClick={onSeekApproval}>
-                {txnButtonText(pendingTransactions, "approve_giving", "Approve")}
+                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, "Approve")}
               </Button>
             </FormControl>
           )
         ) : (
           <FormControl className="ohm-modal-submit">
             <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-              {txnButtonText(pendingTransactions, "editingGive", "Edit Give Amount")}
+              {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, "Edit Give Amount")}
             </Button>
           </FormControl>
         )}

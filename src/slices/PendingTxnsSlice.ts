@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { t } from "@lingui/macro";
+import { ACTION_GIVE, ACTION_GIVE_EDIT } from "./GiveThunk";
 
 export interface IPendingTxn {
   readonly txnHash: string;
@@ -30,9 +31,9 @@ export const getStakingTypeText = (action: string) => {
 };
 
 export const getGivingTypeText = (action: string) => {
-  return action.toLowerCase() === "give"
+  return action.toLowerCase() === ACTION_GIVE
     ? "Giving sOHM"
-    : "editGive"
+    : ACTION_GIVE_EDIT
     ? "Editing sOHM donation amount"
     : "Withdrawing sOHM donation";
 };

@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { changeGive } from "../../slices/GiveThunk";
+import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive } from "../../slices/GiveThunk";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal, SubmitCallback } from "./RecipientModal";
 import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
@@ -26,6 +26,8 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { error } from "../../slices/MessagesSlice";
+import data from "./projects.json";
+import { Project } from "src/components/GiveProject/project.type";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -89,7 +91,7 @@ export default function YieldRecipients() {
     // If reducing the amount of deposit, withdraw
     await dispatch(
       changeGive({
-        action: "editGive",
+        action: ACTION_GIVE_EDIT,
         value: depositAmountDiff.toString(),
         recipient: walletAddress,
         provider,
@@ -117,7 +119,7 @@ export default function YieldRecipients() {
     // Issue withdrawal from smart contract
     await dispatch(
       changeGive({
-        action: "endGive",
+        action: ACTION_GIVE_WITHDRAW,
         value: depositAmount.toString(),
         recipient: walletAddress,
         provider,
@@ -131,6 +133,16 @@ export default function YieldRecipients() {
 
   const handleWithdrawModalCancel: WithdrawCancelCallback = () => {
     setIsWithdrawModalOpen(false);
+  };
+
+  const { projects } = data;
+  const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
+
+  const getRecipientTitle = (address: string): string => {
+    const project = projectMap.get(address);
+    if (project) return project.owner + " - " + project.title;
+
+    return shorten(address);
   };
 
   if (Object.keys(donationInfo).length == 0) {
@@ -174,7 +186,7 @@ export default function YieldRecipients() {
                 <Skeleton />
               ) : (
                 <TableRow key={recipient}>
-                  <TableCell>{shorten(recipient)}</TableCell>
+                  <TableCell>{getRecipientTitle(recipient)}</TableCell>
                   <TableCell>{donationInfo[recipient]}</TableCell>
                   <TableCell align="left"></TableCell>
                   <TableCell align="left"></TableCell>
@@ -240,6 +252,7 @@ export default function YieldRecipients() {
                 cancelFunc={handleWithdrawModalCancel}
                 walletAddress={recipient}
                 depositAmount={donationInfo[recipient]}
+                project={projectMap.get(recipient)}
                 key={recipient}
               />
             )

@@ -12,7 +12,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
 import { RecipientModal, SubmitCallback, CancelCallback } from "src/views/Give/RecipientModal";
-import { changeGive } from "src/slices/GiveThunk";
+import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
 import { countDecimals, roundToDecimal, toInteger } from "./utils";
@@ -160,7 +160,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
     // If reducing the amount of deposit, withdraw
     await dispatch(
       changeGive({
-        action: "editGive",
+        action: ACTION_GIVE,
         value: depositAmount.toFixed(),
         recipient: walletAddress,
         provider,
