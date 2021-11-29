@@ -104,6 +104,19 @@
   }
 }
 
+.external-site-link {
+  .external-site-link-icon {
+    margin-left: 12px;
+    opacity: 0%;
+  }
+}
+
+.external-site-link:hover {
+  .external-site-link-icon {
+    opacity: 100%;
+  }
+}
+
 .bond-discounts {
   text-align: left;
   color: #999999;

@@ -11,6 +11,7 @@ import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
 import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
 import { ReactComponent as WrapIcon } from "../../assets/icons/wrap.svg";
 import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
+import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress, useWeb3Context } from "src/hooks/web3Context";
@@ -205,6 +206,16 @@ function NavContent() {
               <Box className="menu-divider">
                 <Divider />
               </Box>
+              <Link href="https://pro.olympusdao.finance/" target="_blank" className="external-site-link">
+                <Box display="flex" alignItems="center">
+                  <SvgIcon component={BondIcon} color="primary" />
+                  <Typography variant="h6">Olympus Pro</Typography>
+                  <SvgIcon component={ArrowUpIcon} className="external-site-link-icon" />
+                </Box>
+              </Link>
+              <Box className="menu-divider">
+                <Divider />
+              </Box>
             </div>
           </div>
         </div>
@@ -212,9 +223,10 @@ function NavContent() {
           <div className="dapp-menu-external-links">
             {Object.keys(externalUrls).map((link, i) => {
               return (
-                <Link key={i} href={`${externalUrls[link].url}`} target="_blank">
+                <Link key={i} href={`${externalUrls[link].url}`} target="_blank" className="external-site-link">
                   <Typography variant="h6">{externalUrls[link].icon}</Typography>
                   <Typography variant="h6">{externalUrls[link].title}</Typography>
+                  <SvgIcon component={ArrowUpIcon} className="external-site-link-icon" />
                 </Link>
               );
             })}
