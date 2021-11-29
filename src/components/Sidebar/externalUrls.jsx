@@ -7,6 +7,11 @@ import { Trans } from "@lingui/macro";
 
 const externalUrls = [
   {
+    title: <Trans>Bridge</Trans>,
+    url: "https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114",
+    icon: <BridgeIcon />,
+  },
+  {
     title: <Trans>Forum</Trans>,
     url: "https://forum.olympusdao.finance/",
     icon: <SvgIcon color="primary" component={ForumIcon} />,
@@ -21,11 +26,7 @@ const externalUrls = [
     url: "https://docs.olympusdao.finance/",
     icon: <SvgIcon color="primary" component={DocsIcon} />,
   },
-  {
-    title: <Trans>Bridge</Trans>,
-    url: "https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114",
-    icon: <BridgeIcon />,
-  },
+
   // {
   //   title: "Feedback",
   //   url: "https://olympusdao.canny.io/",
