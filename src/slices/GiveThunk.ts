@@ -30,6 +30,10 @@ export const PENDING_TXN_EDIT_GIVE = "editingGive";
 export const PENDING_TXN_WITHDRAW = "endingGive";
 export const PENDING_TXN_GIVE_APPROVAL = "approve_giving";
 
+export const ACTION_GIVE = "give";
+export const ACTION_GIVE_EDIT = "editGive";
+export const ACTION_GIVE_WITHDRAW = "endGive";
+
 export const hasPendingGiveTxn = (pendingTransactions: IPendingTxn[]): boolean => {
   return (
     isPendingTxn(pendingTransactions, PENDING_TXN_GIVE) ||
@@ -102,12 +106,12 @@ export const changeGive = createAsyncThunk(
 
     try {
       let pendingTxnType = "";
-      if (action === "give") {
-        uaData.type = "give";
+      if (action === ACTION_GIVE) {
+        uaData.type = ACTION_GIVE;
         pendingTxnType = PENDING_TXN_GIVE;
         giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
-      } else if (action === "editGive") {
-        uaData.type = "editGive";
+      } else if (action === ACTION_GIVE_EDIT) {
+        uaData.type = ACTION_GIVE_EDIT;
         pendingTxnType = PENDING_TXN_EDIT_GIVE;
         if (parseFloat(value) > 0) {
           giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
@@ -115,8 +119,8 @@ export const changeGive = createAsyncThunk(
           let reductionAmount = (-1 * parseFloat(value)).toString();
           giveTx = await giving.withdraw(ethers.utils.parseUnits(reductionAmount, "gwei"), recipient);
         }
-      } else if (action === "endGive") {
-        uaData.type = "endGive";
+      } else if (action === ACTION_GIVE_WITHDRAW) {
+        uaData.type = ACTION_GIVE_WITHDRAW;
         pendingTxnType = PENDING_TXN_WITHDRAW;
         giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
       }

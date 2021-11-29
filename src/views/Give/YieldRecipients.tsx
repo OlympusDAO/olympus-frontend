@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { changeGive } from "../../slices/GiveThunk";
+import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive } from "../../slices/GiveThunk";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal, SubmitCallback } from "./RecipientModal";
 import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
@@ -91,7 +91,7 @@ export default function YieldRecipients() {
     // If reducing the amount of deposit, withdraw
     await dispatch(
       changeGive({
-        action: "editGive",
+        action: ACTION_GIVE_EDIT,
         value: depositAmountDiff.toString(),
         recipient: walletAddress,
         provider,
@@ -119,7 +119,7 @@ export default function YieldRecipients() {
     // Issue withdrawal from smart contract
     await dispatch(
       changeGive({
-        action: "endGive",
+        action: ACTION_GIVE_WITHDRAW,
         value: depositAmount.toString(),
         recipient: walletAddress,
         provider,

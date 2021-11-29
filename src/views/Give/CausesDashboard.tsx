@@ -9,7 +9,7 @@ import { CancelCallback, RecipientModal, SubmitCallback } from "./RecipientModal
 import { BigNumber } from "bignumber.js";
 import { error } from "../../slices/MessagesSlice";
 import { useAppDispatch } from "src/hooks";
-import { changeGive } from "src/slices/GiveThunk";
+import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
 
 export default function CausesDashboard() {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
@@ -46,7 +46,7 @@ export default function CausesDashboard() {
     // If reducing the amount of deposit, withdraw
     await dispatch(
       changeGive({
-        action: "give",
+        action: ACTION_GIVE,
         value: depositAmount.toFixed(),
         recipient: walletAddress,
         provider,
