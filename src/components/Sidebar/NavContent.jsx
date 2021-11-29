@@ -10,6 +10,7 @@ import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-togeth
 import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
 import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
 import { ReactComponent as WrapIcon } from "../../assets/icons/wrap.svg";
+import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
 import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress, useWeb3Context } from "src/hooks/web3Context";
@@ -117,6 +118,16 @@ function NavContent() {
                   <Typography variant="h6">Wrap</Typography>
                   {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                 </Box>
+              </Link>
+
+              <Link
+                href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
+                target="_blank"
+              >
+                <Typography variant="h6">
+                  <BridgeIcon />
+                  <Trans>Bridge</Trans>
+                </Typography>
               </Link>
 
               <Link
