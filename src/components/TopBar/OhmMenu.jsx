@@ -33,7 +33,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
       case "33T":
         tokenPath = token33tImg;
         break;
-      case "wsOHM":
+      case "gOHM":
         tokenPath = WsOhmImg;
         tokenDecimals = 18;
         break;
@@ -77,7 +77,7 @@ function OhmMenu() {
   const SOHM_ADDRESS = addresses[networkID].SOHM_ADDRESS;
   const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
   const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
-  const WSOHM_ADDRESS = addresses[networkID].WSOHM_ADDRESS;
+  const GOHM_ADDRESS = addresses[networkID].GOHM_ADDRESS;
   const handleClick = event => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
@@ -183,18 +183,18 @@ function OhmMenu() {
                           <Typography variant="body1">sOHM</Typography>
                         </Button>
                       )}
-                      {WSOHM_ADDRESS && (
+                      {GOHM_ADDRESS && (
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={addTokenToWallet("wsOHM", WSOHM_ADDRESS, address)}
+                          onClick={addTokenToWallet("gOHM", GOHM_ADDRESS, address)}
                         >
                           <SvgIcon
                             component={wsOhmTokenImg}
                             viewBox="0 0 180 180"
                             style={{ height: "25px", width: "25px" }}
                           />
-                          <Typography variant="body1">wsOHM</Typography>
+                          <Typography variant="body1">gOHM</Typography>
                         </Button>
                       )}
                       {PT_TOKEN_ADDRESS && (
