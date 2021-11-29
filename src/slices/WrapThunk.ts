@@ -8,7 +8,7 @@ import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, WsTELO } from "src/typechain";
+import { IERC20, WTELO } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -122,7 +122,7 @@ export const changeWrap = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const wsteloContract = new ethers.Contract(addresses[networkID].WSTELO_ADDRESS as string, wsTELO, signer) as WsTELO;
+    const wsteloContract = new ethers.Contract(addresses[networkID].WSTELO_ADDRESS as string, wsTELO, signer) as WTELO;
 
     let wrapTx;
     let uaData: IUAData = {
@@ -135,10 +135,10 @@ export const changeWrap = createAsyncThunk(
     try {
       if (action === "wrap") {
         uaData.type = "wrap";
-        wrapTx = await wsteloContract.wrap(ethers.utils.parseUnits(value, "gwei"));
+        wrapTx = await wsteloContract.wrapFromTELO(ethers.utils.parseUnits(value, "gwei"));
       } else {
         uaData.type = "unwrap";
-        wrapTx = await wsteloContract.unwrap(ethers.utils.parseUnits(value));
+        wrapTx = await wsteloContract.unwrapToTELO(ethers.utils.parseUnits(value));
       }
       const pendingTxnType = action === "wrap" ? "wrapping" : "unwrapping";
       uaData.txHash = wrapTx.hash;

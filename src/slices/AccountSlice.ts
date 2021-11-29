@@ -10,7 +10,8 @@ import { setAll } from "../helpers";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
-import { FuseProxy, IERC20, STELOv2, WsTELO } from "src/typechain";
+import {  IERC20, STelesto, WTELO,} from "src/typechain";
+import { FuseProxy } from "src/typechain/FuseProxy";
 
 interface IUserBalances {
   balances: {
@@ -34,10 +35,10 @@ export const getBalances = createAsyncThunk(
       provider,
     ) as IERC20;
     const steloBalance = await steloContract.balanceOf(address);
-    const wsteloContract = new ethers.Contract(addresses[networkID].WSTELO_ADDRESS as string, wsTELO, provider) as WsTELO;
+    const wsteloContract = new ethers.Contract(addresses[networkID].WSTELO_ADDRESS as string, wsTELO, provider) as WTELO;
     const wsteloBalance = await wsteloContract.balanceOf(address);
     // NOTE (appleseed): wsteloAsStelo is wsTELO given as a quantity of sTELO
-    const wsteloAsStelo = await wsteloContract.wTELOTosTELO(wsteloBalance);
+    const wsteloAsStelo = await wsteloContract.sTELOValue(wsteloBalance);
     const poolTokenContract = new ethers.Contract(
       addresses[networkID].PT_TOKEN_ADDRESS as string,
       ierc20Abi,
@@ -89,12 +90,12 @@ export const loadAccountDetails = createAsyncThunk(
     const teloContract = new ethers.Contract(addresses[networkID].TELO_ADDRESS as string, ierc20Abi, provider) as IERC20;
     const stakeAllowance = await teloContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
 
-    const steloContract = new ethers.Contract(addresses[networkID].STELO_ADDRESS as string, sTELOv2, provider) as STELOv2;
+    const steloContract = new ethers.Contract(addresses[networkID].STELO_ADDRESS as string, sTELOv2, provider) as STelesto;
     const unstakeAllowance = await steloContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     const poolAllowance = await steloContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
     const wrapAllowance = await steloContract.allowance(address, addresses[networkID].WSTELO_ADDRESS);
 
-    const wsteloContract = new ethers.Contract(addresses[networkID].WSTELO_ADDRESS as string, wsTELO, provider) as WsTELO;
+    const wsteloContract = new ethers.Contract(addresses[networkID].WSTELO_ADDRESS as string, wsTELO, provider) as WTELO;
     const unwrapAllowance = await wsteloContract.allowance(address, addresses[networkID].WSTELO_ADDRESS);
 
     await dispatch(getBalances({ address, networkID, provider }));

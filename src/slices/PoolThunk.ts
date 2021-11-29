@@ -18,8 +18,11 @@ import {
   IActionAsyncThunk,
   IJsonRPCError,
 } from "./interfaces";
-import { AwardAbi2, PrizePoolAbi, PrizePoolAbi2, STELO } from "src/typechain";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { PrizePoolAbi } from "src/typechain/PrizePoolAbi";
+import { AwardAbi2 } from "src/typechain/AwardAbi2";
+import { PrizePoolAbi2 } from "src/typechain/PrizePoolAbi2";
+import { STelesto } from "src/typechain";
 
 export const getPoolValues = createAsyncThunk(
   "pool/getPoolValues",
@@ -79,7 +82,7 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const steloContract = new ethers.Contract(addresses[networkID].STELO_ADDRESS, ierc20Abi, signer) as STELO;
+    const steloContract = new ethers.Contract(addresses[networkID].STELO_ADDRESS, ierc20Abi, signer) as STelesto;
 
     let approveTx;
     let depositAllowance = await steloContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);

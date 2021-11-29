@@ -7,7 +7,7 @@ import apollo from "../lib/apolloClient";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAsyncThunk } from "./interfaces";
-import { TelestoStakingv2, STelov2 } from "../typechain";
+import { STelesto, TelestoStaking } from "src/typechain";
 
 interface IProtocolMetrics {
   readonly timestamp: string;
@@ -92,13 +92,13 @@ export const loadAppDetails = createAsyncThunk(
       addresses[networkID].STAKING_ADDRESS as string,
       TelestoStakingv2ABI,
       provider,
-    ) as TelestoStakingv2;
+    ) as TelestoStaking;
 
     const steloMainContract = new ethers.Contract(
       addresses[networkID].STELO_ADDRESS as string,
       sTELOv2,
       provider,
-    ) as STelov2;
+    ) as STelesto;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();

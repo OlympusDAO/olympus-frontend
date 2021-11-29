@@ -140,7 +140,7 @@ export const calcBondDetails = createAsyncThunk(
         bondQuote = Number(bondQuote.toString()) / Math.pow(10, 9);
       }
     } else {
-      // RFV = DAI
+      // RFV = CUSD
       bondQuote = await bondContract.payoutFor(amountInWei);
 
       if (!amountInWei.isZero() && Number(bondQuote.toString()) < 100000000000000) {

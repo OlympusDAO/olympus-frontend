@@ -88,7 +88,7 @@
     },
     {
       "inputs": [],
-      "name": "bondPriceInDAI",
+      "name": "bondPriceInCUSD",
       "outputs": [{ "internalType": "uint256", "name": "_price", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"

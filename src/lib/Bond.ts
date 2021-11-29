@@ -4,9 +4,11 @@ import { ethers } from "ethers";
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getTokenPrice } from "src/helpers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
-import { CELOContract, PairContract } from "src/typechain";
+import { } from "src/typechain";
 import { addresses } from "src/constants";
 import React from "react";
+import { CELOContract } from "src/typechain/CELOContract";
+import { PairContract } from "src/typechain/PairContract";
 
 export enum NetworkID {
   Mainnet = 1,

@@ -2,7 +2,6 @@ import { setAll } from "../helpers";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { IBaseAddressAsyncThunk } from "./interfaces";
 
-import { calcAludelDetes } from "../helpers/TeloLusdCrucible";
 
 export const getLusdData = createAsyncThunk(
   "stake/getLusdData",
@@ -13,7 +12,11 @@ export const getLusdData = createAsyncThunk(
       return { apy: 0, tvl: 0 };
     } else {
       // calcing APY & tvl
-      const crucibleDetes = await calcAludelDetes(networkID, provider);
+      const crucibleDetes = {
+        averageApy: 1000000,
+        tvlUsd: 1000
+
+      }//await calcAludelDetes(networkID, provider);
       let avgApy = crucibleDetes.averageApy;
       if (isNaN(avgApy)) avgApy = 0;
 

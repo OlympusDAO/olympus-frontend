@@ -37,8 +37,8 @@ export const MarketValueGraph = () => {
       type="stack"
       data={data}
       dataKey={[
-        "treasuryDaiMarketValue",
-        "treasuryFraxMarketValue",
+        "treasuryCusdMarketValue",
+        "treasuryCeuroMarketValue",
         "treasuryWCELOMarketValue",
         "treasuryXsushiMarketValue",
         "treasuryLusdMarketValue",
@@ -70,7 +70,7 @@ export const RiskFreeValueGraph = () => {
       type="stack"
       data={data}
       format="currency"
-      dataKey={["treasuryDaiRiskFreeValue", "treasuryFraxRiskFreeValue", "treasuryLusdRiskFreeValue"]}
+      dataKey={["treasuryCusdRiskFreeValue", "treasuryCeuroRiskFreeValue", "treasuryLusdRiskFreeValue"]}
       stopColor={[
         ["#F5AC37", "#EA9276"],
         ["#768299", "#98B3E9"],
@@ -101,12 +101,12 @@ export const ProtocolOwnedLiquidityGraph = () => {
       dataFormat="percent"
       itemNames={tooltipItems.pol}
       itemType={itemType.percentage}
-      dataKey={["treasuryTeloDaiPOL"]}
+      dataKey={["treasuryTeloCusdPOL"]}
       bulletpointColors={bulletpoints.pol}
       infoTooltipMessage={tooltipInfoMessages.pol}
-      headerText="Protocol Owned Liquidity TELO-DAI"
+      headerText="Protocol Owned Liquidity TELO-CUSD"
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-      headerSubText={`${data && trim(data[0].treasuryTeloDaiPOL, 2)}% `}
+      headerSubText={`${data && trim(data[0].treasuryTeloCusdPOL, 2)}% `}
       stopColor={[["rgba(128, 204, 131, 1)", "rgba(128, 204, 131, 0)"]]}
     />
   );

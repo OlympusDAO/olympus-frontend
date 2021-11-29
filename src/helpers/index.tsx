@@ -11,7 +11,8 @@ import { ReactComponent as STeloImg } from "../assets/tokens/token_sTELO.svg";
 import { telo_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
-import { PairContract, RedeemHelper } from "../typechain";
+import { RedeemHelper } from "../typechain";
+import { PairContract } from "src/typechain/PairContract";
 
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
   const telo_dai_address = telo_dai.getAddressForReserve(networkID);

@@ -9,7 +9,7 @@ import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, TelestoStakingv2, StakingHelper } from "src/typechain";
+import { IERC20, StakingHelper, TelestoStaking } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -123,7 +123,7 @@ export const changeStake = createAsyncThunk(
       addresses[networkID].STAKING_ADDRESS as string,
       TelestoStakingABI,
       signer,
-    ) as TelestoStakingv2;
+    ) as TelestoStaking;
     const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
       StakingHelperABI,

@@ -1,46 +1,41 @@
-import { StableBond, LPBond, NetworkID, CustomBond, BondType } from "src/lib/Bond";
-import { addresses } from "src/constants";
-
-import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as TeloDaiImg } from "src/assets/tokens/TELO-DAI.svg";
-import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
-import { ReactComponent as TeloFraxImg } from "src/assets/tokens/TELO-FRAX.svg";
-import { ReactComponent as TeloLusdImg } from "src/assets/tokens/TELO-LUSD.svg";
-import { ReactComponent as TeloEthImg } from "src/assets/tokens/TELO-WCELO.svg";
-import { ReactComponent as wCELOImg } from "src/assets/tokens/wCELO.svg";
-import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
-import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
-
-import { abi as FraxTeloBondContract } from "src/abi/bonds/TeloFraxContract.json";
-import { abi as BondTeloDaiContract } from "src/abi/bonds/TeloDaiContract.json";
-import { abi as BondTeloLusdContract } from "src/abi/bonds/TeloLusdContract.json";
-import { abi as BondTeloEthContract } from "src/abi/bonds/TeloEthContract.json";
-
-import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
-import { abi as ReserveTeloLusdContract } from "src/abi/reserves/TeloLusd.json";
-import { abi as ReserveTeloDaiContract } from "src/abi/reserves/TeloDai.json";
-import { abi as ReserveTeloFraxContract } from "src/abi/reserves/TeloFrax.json";
-import { abi as ReserveTeloEthContract } from "src/abi/reserves/TeloEth.json";
-
-import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
-import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
-import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
-import { abi as CvxBondContract } from "src/abi/bonds/CvxContract.json";
-
-import { abi as ierc20Abi } from "src/abi/IERC20.json";
-import { getBondCalculator } from "src/helpers/BondCalculator";
 import { BigNumberish } from "ethers";
-import { getTokenPrice } from "src/helpers";
+// import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
+import { abi as EthBondContract } from "src/abi/bonds/CeloContract.json";
+import { abi as CeuroBondContract } from "src/abi/bonds/CeuroContract.json";
+import { abi as CusdBondContract } from "src/abi/bonds/CusdContract.json";
+// import { abi as BondTeloLusdContract } from "src/abi/bonds/TeloLusdContract.json";
+import { abi as BondTeloCeloContract } from "src/abi/bonds/TeloCeloContract.json";
+import { abi as CeuroTeloBondContract } from "src/abi/bonds/TeloCeuroContract.json";
+import { abi as BondTeloCusdContract } from "src/abi/bonds/TeloCusdContract.json";
+// import { abi as CvxBondContract } from "src/abi/bonds/CvxContract.json";
+import { abi as ierc20Abi } from "src/abi/IERC20.json";
+import { abi as ReserveTeloCeloContract } from "src/abi/reserves/TeloCelo.json";
+import { abi as ReserveTeloCeuroContract } from "src/abi/reserves/TeloCeuro.json";
+// import { abi as ReserveTeloLusdContract } from "src/abi/reserves/TeloLusd.json";
+import { abi as ReserveTeloCusdContract } from "src/abi/reserves/TeloCusd.json";
+import { ReactComponent as CeuroImg } from "src/assets/tokens/CEURO.svg";
+import { ReactComponent as CusdImg } from "src/assets/tokens/CUSD.svg";
+import { ReactComponent as TeloCeuroImg } from "src/assets/tokens/TELO-CEURO.svg";
+import { ReactComponent as TeloCusdImg } from "src/assets/tokens/TELO-CUSD.svg";
+import { ReactComponent as TeloCeloImg } from "src/assets/tokens/TELO-WCELO.svg";
+import { ReactComponent as wCELOImg } from "src/assets/tokens/wCELO.svg";
+import { addresses } from "src/constants";
+import { getBondCalculator } from "src/helpers/BondCalculator";
+import { BondType, CustomBond, LPBond, NetworkID, StableBond } from "src/lib/Bond";
+
+
+
+
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
 export const dai = new StableBond({
   name: "dai",
-  displayName: "DAI",
-  bondToken: "DAI",
+  displayName: "CUSD",
+  bondToken: "CUSD",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: DaiImg,
-  bondContractABI: DaiBondContract,
+  bondIconSvg: CusdImg,
+  bondContractABI: CusdBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x575409F8d77c12B05feD8B455815f0e54797381c",
@@ -55,11 +50,11 @@ export const dai = new StableBond({
 
 export const frax = new StableBond({
   name: "frax",
-  displayName: "FRAX",
-  bondToken: "FRAX",
+  displayName: "CEUR",
+  bondToken: "CEUR",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: FraxImg,
-  bondContractABI: FraxBondContract,
+  bondIconSvg: CeuroImg,
+  bondContractABI: CeuroBondContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514",
@@ -72,24 +67,24 @@ export const frax = new StableBond({
   },
 });
 
-export const lusd = new StableBond({
-  name: "lusd",
-  displayName: "LUSD",
-  bondToken: "LUSD",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
-  bondIconSvg: LusdImg,
-  bondContractABI: LusdBondContract,
-  networkAddrs: {
-    [NetworkID.Mainnet]: {
-      bondAddress: "0x10C0f93f64e3C8D0a1b0f4B87d6155fd9e89D08D",
-      reserveAddress: "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
-    },
-    [NetworkID.Testnet]: {
-      bondAddress: "0x3aD02C4E4D1234590E87A1f9a73B8E0fd8CF8CCa",
-      reserveAddress: "0x45754dF05AA6305114004358eCf8D04FF3B84e26",
-    },
-  },
-});
+// export const lusd = new StableBond({
+//   name: "lusd",
+//   displayName: "LUSD",
+//   bondToken: "LUSD",
+//   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+//   bondIconSvg: LusdImg,
+//   bondContractABI: LusdBondContract,
+//   networkAddrs: {
+//     [NetworkID.Mainnet]: {
+//       bondAddress: "0x10C0f93f64e3C8D0a1b0f4B87d6155fd9e89D08D",
+//       reserveAddress: "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
+//     },
+//     [NetworkID.Testnet]: {
+//       bondAddress: "0x3aD02C4E4D1234590E87A1f9a73B8E0fd8CF8CCa",
+//       reserveAddress: "0x45754dF05AA6305114004358eCf8D04FF3B84e26",
+//     },
+//   },
+// });
 
 export const eth = new CustomBond({
   name: "eth",
@@ -122,75 +117,75 @@ export const eth = new CustomBond({
   },
 });
 
-export const cvx = new CustomBond({
-  name: "cvx",
-  displayName: "CVX",
-  lpUrl: "",
-  bondType: BondType.StableAsset,
-  bondToken: "CVX",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: CvxImg,
-  bondContractABI: CvxBondContract,
-  reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
-  networkAddrs: {
-    [NetworkID.Mainnet]: {
-      bondAddress: "0x767e3459A35419122e5F6274fB1223d75881E0a9",
-      reserveAddress: "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
-    },
-    [NetworkID.Testnet]: {
-      bondAddress: "0xd43940687f6e76056789d00c43A40939b7a559b5",
-      reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using DAI per `principal` address
-      // reserveAddress: "0x6761Cb314E39082e08e1e697eEa23B6D1A77A34b", // guessed
-    },
-  },
-  customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
-    let cvxPrice: number = await getTokenPrice("convex-finance");
-    const token = this.getContractForReserve(networkID, provider);
-    let cvxAmount: BigNumberish = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
-    return cvxAmount * cvxPrice;
-  },
-});
+// export const cvx = new CustomBond({
+//   name: "cvx",
+//   displayName: "CVX",
+//   lpUrl: "",
+//   bondType: BondType.StableAsset,
+//   bondToken: "CVX",
+//   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+//   bondIconSvg: CvxImg,
+//   bondContractABI: CvxBondContract,
+//   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
+//   networkAddrs: {
+//     [NetworkID.Mainnet]: {
+//       bondAddress: "0x767e3459A35419122e5F6274fB1223d75881E0a9",
+//       reserveAddress: "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
+//     },
+//     [NetworkID.Testnet]: {
+//       bondAddress: "0xd43940687f6e76056789d00c43A40939b7a559b5",
+//       reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using CUSD per `principal` address
+//       // reserveAddress: "0x6761Cb314E39082e08e1e697eEa23B6D1A77A34b", // guessed
+//     },
+//   },
+//   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
+//     let cvxPrice: number = await getTokenPrice("convex-finance");
+//     const token = this.getContractForReserve(networkID, provider);
+//     let cvxAmount: BigNumberish = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+//     cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
+//     return cvxAmount * cvxPrice;
+//   },
+// });
 
 // the old convex bonds. Just need to be claimable for the users who previously purchased
-export const cvx_expired = new CustomBond({
-  name: "cvx-v1",
-  displayName: "CVX OLD",
-  lpUrl: "",
-  bondType: BondType.StableAsset,
-  bondToken: "CVX",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
-  bondIconSvg: CvxImg,
-  bondContractABI: CvxBondContract,
-  reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
-  networkAddrs: {
-    [NetworkID.Mainnet]: {
-      bondAddress: "0x6754c69fe02178f54ADa19Ebf1C5569826021920",
-      reserveAddress: "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
-    },
-    [NetworkID.Testnet]: {
-      bondAddress: "0xd43940687f6e76056789d00c43A40939b7a559b5",
-      reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using DAI per `principal` address
-      // reserveAddress: "0x6761Cb314E39082e08e1e697eEa23B6D1A77A34b", // guessed
-    },
-  },
-  customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
-    let cvxPrice: number = await getTokenPrice("convex-finance");
-    const token = this.getContractForReserve(networkID, provider);
-    let cvxAmount: BigNumberish = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
-    return cvxAmount * cvxPrice;
-  },
-});
+// export const cvx_expired = new CustomBond({
+//   name: "cvx-v1",
+//   displayName: "CVX OLD",
+//   lpUrl: "",
+//   bondType: BondType.StableAsset,
+//   bondToken: "CVX",
+//   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+//   bondIconSvg: CvxImg,
+//   bondContractABI: CvxBondContract,
+//   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
+//   networkAddrs: {
+//     [NetworkID.Mainnet]: {
+//       bondAddress: "0x6754c69fe02178f54ADa19Ebf1C5569826021920",
+//       reserveAddress: "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
+//     },
+//     [NetworkID.Testnet]: {
+//       bondAddress: "0xd43940687f6e76056789d00c43A40939b7a559b5",
+//       reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using CUSD per `principal` address
+//       // reserveAddress: "0x6761Cb314E39082e08e1e697eEa23B6D1A77A34b", // guessed
+//     },
+//   },
+//   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
+//     let cvxPrice: number = await getTokenPrice("convex-finance");
+//     const token = this.getContractForReserve(networkID, provider);
+//     let cvxAmount: BigNumberish = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+//     cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
+//     return cvxAmount * cvxPrice;
+//   },
+// });
 
 export const telo_dai = new LPBond({
   name: "telo_dai_lp",
-  displayName: "TELO-DAI LP",
-  bondToken: "DAI",
+  displayName: "TELO-CUSD LP",
+  bondToken: "CUSD",
   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
-  bondIconSvg: TeloDaiImg,
-  bondContractABI: BondTeloDaiContract,
-  reserveContract: ReserveTeloDaiContract,
+  bondIconSvg: TeloCusdImg,
+  bondContractABI: BondTeloCusdContract,
+  reserveContract: ReserveTeloCusdContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x956c43998316b6a2F21f89a1539f73fB5B78c151",
@@ -207,12 +202,12 @@ export const telo_dai = new LPBond({
 
 export const telo_frax = new LPBond({
   name: "telo_frax_lp",
-  displayName: "TELO-FRAX LP",
-  bondToken: "FRAX",
+  displayName: "TELO-CEUR LP",
+  bondToken: "CEUR",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: TeloFraxImg,
-  bondContractABI: FraxTeloBondContract,
-  reserveContract: ReserveTeloFraxContract,
+  bondIconSvg: TeloCeuroImg,
+  bondContractABI: CeuroTeloBondContract,
+  reserveContract: ReserveTeloCeuroContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
@@ -227,37 +222,37 @@ export const telo_frax = new LPBond({
     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
 });
 
-export const telo_lusd = new LPBond({
-  name: "telo_lusd_lp",
-  displayName: "TELO-LUSD LP",
-  bondToken: "LUSD",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
-  bondIconSvg: TeloLusdImg,
-  bondContractABI: BondTeloLusdContract,
-  reserveContract: ReserveTeloLusdContract,
-  networkAddrs: {
-    [NetworkID.Mainnet]: {
-      bondAddress: "0xFB1776299E7804DD8016303Df9c07a65c80F67b6",
-      reserveAddress: "0xfDf12D1F85b5082877A6E070524f50F6c84FAa6b",
-    },
-    [NetworkID.Testnet]: {
-      // NOTE (appleseed-lusd): using telo-dai rinkeby contracts
-      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
-      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
-    },
-  },
-  lpUrl:
-    "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
-});
+// export const telo_lusd = new LPBond({
+//   name: "telo_lusd_lp",
+//   displayName: "TELO-LUSD LP",
+//   bondToken: "LUSD",
+//   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+//   bondIconSvg: TeloLusdImg,
+//   bondContractABI: BondTeloLusdContract,
+//   reserveContract: ReserveTeloLusdContract,
+//   networkAddrs: {
+//     [NetworkID.Mainnet]: {
+//       bondAddress: "0xFB1776299E7804DD8016303Df9c07a65c80F67b6",
+//       reserveAddress: "0xfDf12D1F85b5082877A6E070524f50F6c84FAa6b",
+//     },
+//     [NetworkID.Testnet]: {
+//       // NOTE (appleseed-lusd): using telo-dai rinkeby contracts
+//       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+//       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+//     },
+//   },
+//   lpUrl:
+//     "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
+// });
 
 export const telo_weth = new CustomBond({
   name: "telo_weth_lp",
   displayName: "TELO-WCELO LP",
   bondToken: "WCELO",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: TeloEthImg,
-  bondContractABI: BondTeloEthContract,
-  reserveContract: ReserveTeloEthContract,
+  bondIconSvg: TeloCeloImg,
+  bondContractABI: BondTeloCeloContract,
+  reserveContract: ReserveTeloCeloContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xB6C9dc843dEc44Aa305217c2BbC58B44438B6E16",
@@ -287,7 +282,7 @@ export const telo_weth = new CustomBond({
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD * Number(ethPrice.toString());
     } else {
-      // NOTE (appleseed): using TELO-DAI on rinkeby
+      // NOTE (appleseed): using TELO-CUSD on rinkeby
       const token = this.getContractForReserve(networkID, provider);
       const tokenAddress = this.getAddressForReserve(networkID);
       const bondCalculator = getBondCalculator(networkID, provider);
@@ -305,9 +300,9 @@ export const telo_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, cvx, telo_dai, telo_frax, lusd, telo_lusd, telo_weth];
+export const allBonds = [dai, frax, eth,  telo_dai, telo_frax, telo_weth];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-export const allExpiredBonds = [cvx_expired];
+export const allExpiredBonds = [];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});
