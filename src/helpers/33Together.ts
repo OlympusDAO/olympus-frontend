@@ -1,5 +1,6 @@
 import { BigNumber, ethers } from "ethers";
 import { addresses } from "../constants";
+import { trim } from "src/helpers";
 
 /**
  * Calculates user's odds of winning based on their pool balance
@@ -75,3 +76,12 @@ export const poolTogetherUILinks = (networkId: number): Array<string> => {
     ];
   }
 };
+
+/**
+ * Utility to simplify trimming odds when there's a chance it'll be a string like ngmi
+ *
+ * @param odds current odds as number or a string representing 0 odds
+ * @param precision the amount of decimal places to display, defaults to 4
+ */
+export const trimOdds = (odds: number | string, precision: number = 4) =>
+  typeof odds === "string" ? odds : trim(odds, precision);

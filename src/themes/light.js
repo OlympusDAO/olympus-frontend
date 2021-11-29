@@ -65,11 +65,6 @@ export const light = responsiveFontSizes(
       typography: {
         fontFamily: "Square",
       },
-      props: {
-        MuiSvgIcon: {
-          htmlColor: lightTheme.color,
-        },
-      },
       overrides: {
         MuiCssBaseline: {
           "@global": {
@@ -205,6 +200,11 @@ export const light = responsiveFontSizes(
                 backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
               },
             },
+          },
+        },
+        MuiSelect: {
+          select: {
+            color: "#93AEBC",
           },
         },
         MuiButton: {

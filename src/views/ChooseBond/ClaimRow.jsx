@@ -1,6 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
-import { prettyVestingPeriod, trim } from "../../helpers";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
+import { shorten, trim, prettyVestingPeriod } from "../../helpers";
 import { redeemBond } from "../../slices/BondSlice";
 import BondLogo from "../../components/BondLogo";
 import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";

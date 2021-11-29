@@ -129,10 +129,12 @@ export function getTokenImage(name: string) {
 // TS-REFACTOR-NOTE - Used for:
 // AccountSlice.ts, AppSlice.ts, LusdSlice.ts
 export function setAll(state: any, properties: any) {
-  const props = Object.keys(properties);
-  props.forEach(key => {
-    state[key] = properties[key];
-  });
+  if (properties) {
+    const props = Object.keys(properties);
+    props.forEach(key => {
+      state[key] = properties[key];
+    });
+  }
 }
 
 export function contractForRedeemHelper({

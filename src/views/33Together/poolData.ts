@@ -1,7 +1,7 @@
 // import apollo from "../../lib/apolloClient";
 
 // Graph Explorer: https://thegraph.com/hosted-service/subgraph/pooltogether/rinkeby-v3_4_3
-export const poolDataQuery = address => {
+export const poolDataQuery = (address: string) => {
   return `
   query {
     prizePool(id: "${address.toLowerCase()}") {
@@ -64,7 +64,7 @@ query {
  * @param {*} tokenAddress
  * @returns string
  */
-export const yourAwardsQuery = (poolAddress, userAddress, tokenAddress) => {
+export const yourAwardsQuery = (poolAddress: string, userAddress: string, tokenAddress: string) => {
   let query = `
   query {
       prizePool(id: "${poolAddress.toLowerCase()}") {

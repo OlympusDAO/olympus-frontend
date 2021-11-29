@@ -6,7 +6,7 @@ import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
-import useBonds from "./hooks/Bonds";
+import useBonds, { IAllBondData } from "./hooks/Bonds";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
@@ -14,24 +14,23 @@ import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
-import { loadAccountDetails, calculateUserBondDetails } from "./slices/AccountSlice";
+import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
+import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, Wrap, TreasuryDashboard, PoolTogether } from "./views";
+import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
-
+import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import "./style.scss";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { initializeNetwork } from "./slices/NetworkSlice";
-import store from "./store";
 import { useAppSelector } from "./hooks";
 
 // 😬 Sorry for all the console logging
@@ -137,6 +136,7 @@ function App() {
           dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
         }
       });
+      dispatch(getMigrationAllowances({ address, provider, networkID: networkId }));
     },
     [networkId],
   );
@@ -149,6 +149,7 @@ function App() {
           dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
         }
       });
+      dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
       expiredBonds.map(bond => {
         if (bond.getAvailability(networkId)) {
           dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
@@ -245,6 +246,12 @@ function App() {
               <Stake />
             </Route>
 
+            <Route path="/zap">
+              <Route exact path={`/zap`}>
+                <Zap />
+              </Route>
+            </Route>
+
             <Route path="/wrap">
               <Wrap />
             </Route>
@@ -254,7 +261,7 @@ function App() {
             </Route>
 
             <Route path="/bonds">
-              {bonds.map(bond => {
+              {(bonds as IAllBondData[]).map(bond => {
                 return (
                   <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
                     <Bond bond={bond} />

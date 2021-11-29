@@ -76,6 +76,7 @@ export abstract class Bond {
     this.displayName = bondOpts.displayName;
     this.isAvailable = bondOpts.isAvailable;
     this.type = type;
+    this.isAvailable = bondOpts.isAvailable;
     this.bondIconSvg = bondOpts.bondIconSvg;
     this.bondContractABI = bondOpts.bondContractABI;
     this.networkAddrs = bondOpts.networkAddrs;
@@ -95,6 +96,7 @@ export abstract class Bond {
   getAddressForBond(networkID: NetworkID) {
     return this.networkAddrs[networkID]?.bondAddress;
   }
+
   getContractForBond(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     const bondAddress = this.getAddressForBond(networkID) || "";
     return new ethers.Contract(bondAddress, this.bondContractABI, provider) as EthContract;

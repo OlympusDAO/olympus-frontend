@@ -71,7 +71,7 @@ export const PoolDeposit = props => {
   };
 
   const onSubmitDeposit = async action => {
-    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: networkId }));
+    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
   };
 
   const hasAllowance = useCallback(() => {
@@ -159,6 +159,7 @@ export const PoolDeposit = props => {
                 disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
                 onClick={() => onDeposit("deposit")}
                 fullWidth
+                style={{ margin: "5px" }}
               >
                 {txnButtonText(pendingTransactions, "pool_deposit", t`Deposit sOHM`)}
               </Button>
@@ -169,6 +170,7 @@ export const PoolDeposit = props => {
                 color="primary"
                 disabled={isPendingTxn(pendingTransactions, "approve_pool_together")}
                 onClick={() => onSeekApproval("sohm")}
+                style={{ margin: "5px" }}
               >
                 {txnButtonText(pendingTransactions, "approve_pool_together", t`Approve`)}
               </Button>

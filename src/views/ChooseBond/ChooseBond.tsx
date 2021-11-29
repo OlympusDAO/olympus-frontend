@@ -22,17 +22,19 @@ import { Skeleton } from "@material-ui/lab";
 import ClaimBonds from "./ClaimBonds";
 import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
+import { useAppSelector } from "src/hooks";
+import { IUserBondDetails } from "src/slices/AccountSlice";
 
 function ChooseBond() {
-  const networkId = useSelector(state => state.network.networkId);
+  const networkId = useAppSelector(state => state.network.networkId);
   const { bonds } = useBonds(networkId);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
-  const isAppLoading = useSelector(state => state.app.loading);
-  const isAccountLoading = useSelector(state => state.account.loading);
+  const isAppLoading: boolean = useAppSelector(state => state.app.loading);
+  const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
 
-  const accountBonds = useSelector(state => {
+  const accountBonds: IUserBondDetails[] = useAppSelector(state => {
     const withInterestDue = [];
     for (const bond in state.account.bonds) {
       if (state.account.bonds[bond].interestDue > 0) {
@@ -42,20 +44,20 @@ function ChooseBond() {
     return withInterestDue;
   });
 
-  const marketPrice = useSelector(state => {
+  const marketPrice: number | undefined = useAppSelector(state => {
     return state.app.marketPrice;
   });
 
-  const treasuryBalance = useSelector(state => {
-    let tokenBalances = 0;
+  const treasuryBalance: number | undefined = useAppSelector(state => {
     if (state.bonding.loading == false) {
+      let tokenBalances = 0;
       for (const bond in allBondsMap) {
         if (state.bonding[bond]) {
           tokenBalances += state.bonding[bond].purchased;
         }
       }
+      return tokenBalances;
     }
-    return tokenBalances;
   });
 
   return (
@@ -86,7 +88,7 @@ function ChooseBond() {
                         currency: "USD",
                         maximumFractionDigits: 0,
                         minimumFractionDigits: 0,
-                      }).format(treasuryBalance)}
+                      }).format(Number(treasuryBalance))}
                     </Typography>
                   )}
                 </Box>
@@ -99,7 +101,7 @@ function ChooseBond() {
                   <Trans>OHM Price</Trans>
                 </Typography>
                 <Typography variant="h4">
-                  {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(marketPrice, 2)}
+                  {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(Number(marketPrice), 2)}
                 </Typography>
               </Box>
             </Grid>

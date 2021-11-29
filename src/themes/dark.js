@@ -73,11 +73,6 @@ export const dark = responsiveFontSizes(
       typography: {
         fontFamily: "Square",
       },
-      props: {
-        MuiSvgIcon: {
-          htmlColor: darkTheme.color,
-        },
-      },
       overrides: {
         MuiCssBaseline: {
           "@global": {
@@ -91,6 +86,11 @@ export const dark = responsiveFontSizes(
           paper: {
             backgroundColor: darkTheme.paperBg,
             zIndex: 7,
+          },
+        },
+        MuiSelect: {
+          select: {
+            color: "#F8CC82",
           },
         },
         MuiPaper: {

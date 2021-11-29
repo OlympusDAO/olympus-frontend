@@ -77,6 +77,7 @@ export const switchNetwork = createAsyncThunk(
       dispatch(initializeNetwork({ provider }));
     } catch (e) {
       // If the chain has not been added to the user's wallet
+      // @ts-ignore
       if (e.code === 4902) {
         try {
           const network = NETWORKS[networkId];
