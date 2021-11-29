@@ -6,7 +6,7 @@ import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg
 import { useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import { useAppDispatch } from "src/hooks";
-import { getRedemptionBalancesAsync } from "src/slices/AccountSlice";
+import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
