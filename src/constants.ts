@@ -1,3 +1,9 @@
+import { NodeHelper } from "./helpers/NodeHelper";
+import { EnvHelper } from "./helpers/Environment";
+import ethereum from "./assets/tokens/wETH.svg";
+import arbitrum from "./assets/arbitrum.svg";
+import avalanche from "./assets/tokens/AVAX.svg";
+
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
 export const EPOCH_INTERVAL = 2200;
 
@@ -166,9 +172,48 @@ interface INetwork {
   nativeCurrency: INativeCurrency;
   rpcUrls: string[];
   blockExplorerUrls: string[];
+  image: SVGImageElement;
+  imageAltText: string;
+  uri: () => string;
 }
 
+// These networks will be available for users to select. Other networks may be functional
+// (e.g. testnets, or mainnets being prepared for launch) but need to be selected directly via the wallet.
+export const USER_SELECTABLE_NETWORKS = [1, 42161, 43114];
+
+// Set this to the chain number of the most recently added network in order to enable the 'Now supporting X network'
+// message in the UI. Set to -1 if we don't want to display the message at the current time.
+export const NEWEST_NETWORK_ID = 43114;
+
 export const NETWORKS: { [key: number]: INetwork } = {
+  1: {
+    chainName: "Ethereum",
+    chainId: 1,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: [""],
+    blockExplorerUrls: ["https://etherscan.io/#/"],
+    image: ethereum,
+    imageAltText: "Ethereum Logo",
+    uri: () => NodeHelper.getMainnetURI(1),
+  },
+  4: {
+    chainName: "Rinkeby Testnet",
+    chainId: 4,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: [""],
+    blockExplorerUrls: ["https://rinkeby.etherscan.io/#/"],
+    image: ethereum,
+    imageAltText: "Ethereum Logo",
+    uri: () => EnvHelper.alchemyEthereumTestnetURI,
+  },
   42161: {
     chainName: "Arbitrum",
     chainId: 42161,
@@ -179,6 +224,9 @@ export const NETWORKS: { [key: number]: INetwork } = {
     },
     rpcUrls: ["https://arb1.arbitrum.io/rpc"],
     blockExplorerUrls: ["https://explorer.arbitrum.io/#/"],
+    image: arbitrum,
+    imageAltText: "Arbitrum Logo",
+    uri: () => NodeHelper.getMainnetURI(42161),
   },
   421611: {
     chainName: "Arbitrum Testnet",
@@ -190,6 +238,9 @@ export const NETWORKS: { [key: number]: INetwork } = {
     },
     rpcUrls: ["https://rinkeby.arbitrum.io/rpc"],
     blockExplorerUrls: ["https://rinkeby-explorer.arbitrum.io/#/"],
+    image: arbitrum,
+    imageAltText: "Arbitrum Logo",
+    uri: () => EnvHelper.alchemyArbitrumTestnetURI,
   },
   43113: {
     chainName: "Avalanche Fuji Testnet",
@@ -200,6 +251,9 @@ export const NETWORKS: { [key: number]: INetwork } = {
     },
     rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc/"],
     blockExplorerUrls: ["https://testnet.snowtrace.io/#/"],
+    image: avalanche,
+    imageAltText: "Avalanche Logo",
+    uri: () => EnvHelper.alchemyAvalancheTestnetURI,
   },
   43114: {
     chainName: "Avalanche",
@@ -210,5 +264,8 @@ export const NETWORKS: { [key: number]: INetwork } = {
     },
     rpcUrls: ["https://api.avax.network/ext/bc/C/rpc/"],
     blockExplorerUrls: ["https://snowtrace.io/#/"],
+    image: avalanche,
+    imageAltText: "Avalanche Logo",
+    uri: () => NodeHelper.getMainnetURI(43114),
   },
 };

@@ -6,6 +6,7 @@ import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { EnvHelper } from "../helpers/Environment";
 import store from "../store";
 import { NodeHelper } from "src/helpers/NodeHelper";
+import { NETWORKS } from "../constants";
 
 /**
  * determine if in IFrame for Ledger Live
@@ -68,12 +69,12 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           package: WalletConnectProvider,
           options: {
             rpc: {
-              1: NodeHelper.getMainnetURI(1),
-              4: EnvHelper.alchemyEthereumTestnetURI,
-              42161: NodeHelper.getMainnetURI(42161),
-              421611: EnvHelper.alchemyArbitrumTestnetURI,
-              43113: EnvHelper.alchemyAvalancheTestnetURI,
-              43114: NodeHelper.getMainnetURI(43114),
+              1: NETWORKS[1].uri,
+              4: NETWORKS[4].uri,
+              42161: NETWORKS[42161].uri,
+              421611: NETWORKS[421611].uri,
+              43113: NETWORKS[43113].uri,
+              43114: NETWORKS[43114].uri,
             },
           },
         },
