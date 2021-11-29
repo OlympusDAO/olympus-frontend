@@ -79,8 +79,8 @@ export default function CausesDashboard() {
             </div>
             <div className="custom-recipient">
               <Button
-                variant="outlined"
-                color="secondary"
+                variant="contained"
+                color="primary"
                 onClick={() => handleCustomGiveButtonClick()}
                 disabled={!address}
               >
