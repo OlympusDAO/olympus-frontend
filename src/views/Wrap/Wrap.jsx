@@ -432,9 +432,9 @@ function Wrap() {
                       <div className="stake-tab-panel wrap-page">
                         {chooseInputArea()}
                         {/* <Box width="1px" /> */}
-                        {chooseButtonArea()}
                       </div>
                     </Box>
+                    {chooseButtonArea()}
                     {quantity && (
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
