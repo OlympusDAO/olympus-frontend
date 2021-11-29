@@ -38,7 +38,7 @@ interface ZapHelperChangeAllowanceTransaction {
   to: string;
 }
 
-const ETHEREUM_ADDRESS = "0x0000000000000000000000000000000000000000";
+const CELOEREUM_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export class ZapHelper {
   static getZapTokens = async (address: string): Promise<ZapHelperBalancesResponse> => {
@@ -71,13 +71,13 @@ export class ZapHelper {
 
   static getZapTokenAllowanceHelper = async (tokenAddress: string, ownerAddress: string): Promise<boolean> => {
     tokenAddress = tokenAddress.toLowerCase();
-    if (tokenAddress === ETHEREUM_ADDRESS) {
+    if (tokenAddress === CELOEREUM_ADDRESS) {
       return true;
     }
     ownerAddress = ownerAddress.toLowerCase();
     const apiKey = EnvHelper.getZapperAPIKey();
     const response = await fetch(
-      `https://api.zapper.fi/v1/zap-in/olympus/approval-state?api_key=${apiKey}&ownerAddress=${ownerAddress}&sellTokenAddress=${tokenAddress}`,
+      `https://api.zapper.fi/v1/zap-in/telesto/approval-state?api_key=${apiKey}&ownerAddress=${ownerAddress}&sellTokenAddress=${tokenAddress}`,
     );
     const responseJson = await response.json();
     if (response.ok) {
@@ -96,7 +96,7 @@ export class ZapHelper {
     ownerAddress = ownerAddress.toLowerCase();
     const apiKey = EnvHelper.getZapperAPIKey();
     const response = await fetch(
-      `https://api.zapper.fi/v1/zap-in/olympus/approval-transaction?api_key=${apiKey}&ownerAddress=${ownerAddress}&sellTokenAddress=${tokenAddress}&gasPrice=${gasPrice}`,
+      `https://api.zapper.fi/v1/zap-in/telesto/approval-transaction?api_key=${apiKey}&ownerAddress=${ownerAddress}&sellTokenAddress=${tokenAddress}&gasPrice=${gasPrice}`,
     );
     const responseJson = await response.json();
     if (response.ok) {
@@ -117,7 +117,7 @@ export class ZapHelper {
     ownerAddress = ownerAddress.toLowerCase();
     const apiKey = EnvHelper.getZapperAPIKey();
     const response = await fetch(
-      `https://api.zapper.fi/v1/zap-in/vault/olympus/transaction?ownerAddress=${ownerAddress}&network=ethereum&sellAmount=${sellAmount}&sellTokenAddress=${tokenAddress}&poolAddress=${EnvHelper.getZapperPoolAddress()}&slippagePercentage=${slippagePercentage}&gasPrice=${gasPrice}&api_key=${apiKey}`,
+      `https://api.zapper.fi/v1/zap-in/vault/telesto/transaction?ownerAddress=${ownerAddress}&network=ethereum&sellAmount=${sellAmount}&sellTokenAddress=${tokenAddress}&poolAddress=${EnvHelper.getZapperPoolAddress()}&slippagePercentage=${slippagePercentage}&gasPrice=${gasPrice}&api_key=${apiKey}`,
     );
     const responseJson = await response.json();
     if (response.ok) {

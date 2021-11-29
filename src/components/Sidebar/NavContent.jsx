@@ -5,7 +5,7 @@ import externalUrls from "./externalUrls";
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
-import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
+import { ReactComponent as TelestoIcon } from "../../assets/icons/telesto-nav-header.svg";
 import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
 import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
 import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
@@ -48,10 +48,10 @@ function NavContent() {
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
         <div className="dapp-menu-top">
           <Box className="branding-header">
-            <Link href="https://olympusdao.finance" target="_blank">
+            <Link href="https://telesto.money" target="_blank">
               <SvgIcon
                 color="primary"
-                component={OlympusIcon}
+                component={TelestoIcon}
                 viewBox="0 0 151 100"
                 style={{ minWdth: "151px", minHeight: "98px", width: "151px" }}
               />

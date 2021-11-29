@@ -8,22 +8,22 @@ import { Trans } from "@lingui/macro";
 const externalUrls = [
   {
     title: <Trans>Forum</Trans>,
-    url: "https://forum.olympusdao.finance/",
+    url: "https://forum.telesto.money/",
     icon: <SvgIcon color="primary" component={ForumIcon} />,
   },
   {
     title: <Trans>Governance</Trans>,
-    url: "https://vote.olympusdao.finance/",
+    url: "https://vote.telesto.money/",
     icon: <SvgIcon color="primary" component={GovIcon} />,
   },
   {
     title: <Trans>Docs</Trans>,
-    url: "https://docs.olympusdao.finance/",
+    url: "https://docs.telesto.money/",
     icon: <SvgIcon color="primary" component={DocsIcon} />,
   },
   // {
   //   title: "Feedback",
-  //   url: "https://olympusdao.canny.io/",
+  //   url: "https://telestodao.canny.io/",
   //   icon: <SvgIcon color="primary" component={FeedbackIcon} />,
   // },
 ];

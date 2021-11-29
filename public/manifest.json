@@ -1,8 +1,8 @@
 {
-  "short_name": "OlympusDAO",
+  "short_name": "TelestoDAO",
   "start_url": ".",
   "homepage": "./",
-  "name": "OlympusDAO",
+  "name": "TelestoDAO",
   "launch_path": "/public/index.html",
   "icons": [
     {

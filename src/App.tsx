@@ -160,7 +160,7 @@ function App() {
       setWalletChecked(true);
     }
     if (shouldTriggerSafetyCheck()) {
-      dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
+      dispatch(info("Safety Check: Always verify you're on app.telesto.money!"));
     }
   }, []);
 

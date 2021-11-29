@@ -18,7 +18,7 @@ import {
   IActionAsyncThunk,
   IJsonRPCError,
 } from "./interfaces";
-import { AwardAbi2, PrizePoolAbi, PrizePoolAbi2, SOHM } from "src/typechain";
+import { AwardAbi2, PrizePoolAbi, PrizePoolAbi2, STELO } from "src/typechain";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 export const getPoolValues = createAsyncThunk(
@@ -79,10 +79,10 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer) as SOHM;
+    const steloContract = new ethers.Contract(addresses[networkID].STELO_ADDRESS, ierc20Abi, signer) as STELO;
 
     let approveTx;
-    let depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+    let depositAllowance = await steloContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
 
     // return early if approval already exists
     if (depositAllowance.gt(BigNumber.from("0"))) {
@@ -90,15 +90,15 @@ export const changeApproval = createAsyncThunk(
       return dispatch(
         fetchAccountSuccess({
           pooling: {
-            sohmPool: +depositAllowance,
+            steloPool: +depositAllowance,
           },
         }),
       );
     }
 
     try {
-      if (token === "sohm") {
-        approveTx = await sohmContract.approve(
+      if (token === "stelo") {
+        approveTx = await steloContract.approve(
           addresses[networkID].PT_PRIZE_POOL_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
@@ -118,12 +118,12 @@ export const changeApproval = createAsyncThunk(
     }
 
     // go get fresh allowance
-    depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+    depositAllowance = await steloContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
         pooling: {
-          sohmPool: +depositAllowance,
+          steloPool: +depositAllowance,
         },
       }),
     );

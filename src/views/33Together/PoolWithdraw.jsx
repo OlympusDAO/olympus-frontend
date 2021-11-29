@@ -25,7 +25,7 @@ import { calculateOdds } from "../../helpers/33Together";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { error } from "../../slices/MessagesSlice";
 
-const sohmImg = getTokenImage("sohm");
+const steloImg = getTokenImage("stelo");
 
 export const PoolWithdraw = props => {
   const dispatch = useDispatch();
@@ -118,7 +118,7 @@ export const PoolWithdraw = props => {
       ) : (
         <Box className="withdrawal-container">
           <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
-            <FormControl className="ohm-input" variant="outlined" color="primary">
+            <FormControl className="telo-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
               <OutlinedInput
                 id="amount-input"
@@ -129,7 +129,7 @@ export const PoolWithdraw = props => {
                 onChange={e => setQuantity(parseFloat(e.target.value))}
                 startAdornment={
                   <InputAdornment position="start">
-                    <div className="logo-holder">{sohmImg}</div>
+                    <div className="logo-holder">{steloImg}</div>
                   </InputAdornment>
                 }
                 labelWidth={0}
@@ -151,16 +151,16 @@ export const PoolWithdraw = props => {
               style={{ margin: "5px" }}
             >
               {exitFee > 0
-                ? txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw Early & pay` + exitFee + " sOHM")
-                : txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw sOHM`)}
-              {/* Withdraw sOHM */}
+                ? txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw Early & pay` + exitFee + " sTELO")
+                : txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw sTELO`)}
+              {/* Withdraw sTELO */}
             </Button>
           </Box>
           {newOdds > 0 && quantity > 0 && (
             <Box padding={1}>
               <Typography color="error" variant="body2">
                 <Trans>
-                  Withdrawing {quantity} sOHM reduces your odds of winning to 1 in {newOdds}
+                  Withdrawing {quantity} sTELO reduces your odds of winning to 1 in {newOdds}
                 </Trans>
                 &nbsp;
               </Typography>
@@ -183,7 +183,7 @@ export const PoolWithdraw = props => {
               </Typography>
             </Box>
           )}
-          {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
+          {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sTELO in during testing */}
           <div className={`stake-user-data`}>
             <div className="data-row">
               <Typography variant="body1" align="left">

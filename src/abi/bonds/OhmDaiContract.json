@@ -2,7 +2,7 @@
   "abi": [
     {
       "inputs": [
-        { "internalType": "address", "name": "_OHM", "type": "address" },
+        { "internalType": "address", "name": "_TELO", "type": "address" },
         { "internalType": "address", "name": "_principle", "type": "address" },
         { "internalType": "address", "name": "_treasury", "type": "address" },
         { "internalType": "address", "name": "_DAO", "type": "address" },
@@ -80,7 +80,7 @@
     },
     {
       "inputs": [],
-      "name": "OHM",
+      "name": "TELO",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
@@ -274,7 +274,7 @@
     },
     {
       "inputs": [
-        { "internalType": "enum OlympusBondDepository.PARAMETER", "name": "_parameter", "type": "uint8" },
+        { "internalType": "enum TelestoBondDepository.PARAMETER", "name": "_parameter", "type": "uint8" },
         { "internalType": "uint256", "name": "_input", "type": "uint256" }
       ],
       "name": "setBondTerms",

@@ -20,7 +20,7 @@ import {
 import TabPanel from "../../components/TabPanel";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
-import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
+import { getTeloTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrap } from "../../slices/WrapThunk";
 import "../Stake/stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -36,8 +36,8 @@ function a11yProps(index) {
   };
 }
 
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
+const sTeloImg = getTokenImage("stelo");
+const teloImg = getTeloTokenImage(16, 16);
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -59,25 +59,25 @@ function Wrap() {
     return state.app.currentIndex;
   });
 
-  const sOhmPrice = useSelector(state => {
+  const sTeloPrice = useSelector(state => {
     return state.app.marketPrice;
   });
 
-  const wsOhmPrice = useSelector(state => {
+  const wsTeloPrice = useSelector(state => {
     return state.app.marketPrice * state.app.currentIndex;
   });
 
-  const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+  const steloBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.stelo;
   });
-  const wsohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.wsohm;
+  const wsteloBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.wstelo;
   });
   const wrapAllowance = useSelector(state => {
-    return state.account.wrapping && state.account.wrapping.ohmWrap;
+    return state.account.wrapping && state.account.wrapping.teloWrap;
   });
   const unwrapAllowance = useSelector(state => {
-    return state.account.wrapping && state.account.wrapping.ohmUnwrap;
+    return state.account.wrapping && state.account.wrapping.teloUnwrap;
   });
 
   const pendingTransactions = useSelector(state => {
@@ -86,9 +86,9 @@ function Wrap() {
 
   const setMax = () => {
     if (view === 0) {
-      setQuantity(sohmBalance);
+      setQuantity(steloBalance);
     } else {
-      setQuantity(wsohmBalance);
+      setQuantity(wsteloBalance);
     }
   };
 
@@ -106,16 +106,16 @@ function Wrap() {
     // 1st catch if quantity > balance
     if (
       action === "wrap" &&
-      ethers.utils.parseUnits(quantity, "gwei").gt(ethers.utils.parseUnits(sohmBalance, "gwei"))
+      ethers.utils.parseUnits(quantity, "gwei").gt(ethers.utils.parseUnits(steloBalance, "gwei"))
     ) {
-      return dispatch(error("You cannot wrap more than your sOHM balance."));
+      return dispatch(error("You cannot wrap more than your sTELO balance."));
     }
 
     if (
       action === "unwrap" &&
-      ethers.utils.parseUnits(quantity, "ether").gt(ethers.utils.parseUnits(wsohmBalance, "ether"))
+      ethers.utils.parseUnits(quantity, "ether").gt(ethers.utils.parseUnits(wsteloBalance, "ether"))
     ) {
-      return dispatch(error("You cannot unwrap more than your wsOHM balance."));
+      return dispatch(error("You cannot unwrap more than your wsTELO balance."));
     }
 
     await dispatch(changeWrap({ address, action, value: quantity.toString(), provider, networkID: chainID }));
@@ -123,8 +123,8 @@ function Wrap() {
 
   const hasAllowance = useCallback(
     token => {
-      if (token === "sohm") return wrapAllowance > 0;
-      if (token === "wsohm") return wrapAllowance > 0;
+      if (token === "stelo") return wrapAllowance > 0;
+      if (token === "wstelo") return wrapAllowance > 0;
       return 0;
     },
     [wrapAllowance, unwrapAllowance],
@@ -133,7 +133,7 @@ function Wrap() {
   const isAllowanceDataLoading = (wrapAllowance == null && view === 0) || (unwrapAllowance == null && view === 1);
 
   const isUnwrap = view === 1;
-  const convertedQuantity = isUnwrap ? (quantity * wsOhmPrice) / sOhmPrice : (quantity * sOhmPrice) / wsOhmPrice;
+  const convertedQuantity = isUnwrap ? (quantity * wsTeloPrice) / sTeloPrice : (quantity * sTeloPrice) / wsTeloPrice;
 
   let modalButton = [];
 
@@ -150,19 +150,19 @@ function Wrap() {
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper className={`ohm-card`}>
+        <Paper className={`telo-card`}>
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <div className="card-header">
                 <Typography variant="h5">Wrap / Unwrap</Typography>
                 <Link
-                  className="migrate-sohm-button"
+                  className="migrate-stelo-button"
                   style={{ textDecoration: "none" }}
-                  href="https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
-                  aria-label="wsohm-wut"
+                  href="https://docs.telesto.money/main/contracts/tokens#wstelo"
+                  aria-label="wstelo-wut"
                   target="_blank"
                 >
-                  <Typography>wsOHM</Typography> <SvgIcon component={InfoIcon} color="primary" />
+                  <Typography>wsTELO</Typography> <SvgIcon component={InfoIcon} color="primary" />
                 </Link>
               </div>
             </Grid>
@@ -171,12 +171,12 @@ function Wrap() {
               <div className="stake-top-metrics">
                 <Grid container spacing={2} alignItems="flex-end">
                   <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="wrap-sOHM">
+                    <div className="wrap-sTELO">
                       <Typography variant="h5" color="textSecondary">
-                        sOHM Price
+                        sTELO Price
                       </Typography>
                       <Typography variant="h4">
-                        {sOhmPrice ? formatCurrency(sOhmPrice, 2) : <Skeleton width="150px" />}
+                        {sTeloPrice ? formatCurrency(sTeloPrice, 2) : <Skeleton width="150px" />}
                       </Typography>
                     </div>
                   </Grid>
@@ -186,22 +186,22 @@ function Wrap() {
                         Current Index
                       </Typography>
                       <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                        {currentIndex ? <>{trim(currentIndex, 1)} TELO</> : <Skeleton width="150px" />}
                       </Typography>
                     </div>
                   </Grid>
                   <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="wrap-wsOHM">
+                    <div className="wrap-wsTELO">
                       <Typography variant="h5" color="textSecondary">
-                        wsOHM Price
+                        wsTELO Price
                         <InfoTooltip
                           message={
-                            "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
+                            "wsTELO = sTELO * index\n\nThe price of wsTELO is equal to the price of TELO multiplied by the current index"
                           }
                         />
                       </Typography>
                       <Typography variant="h4">
-                        {wsOhmPrice ? formatCurrency(wsOhmPrice, 2) : <Skeleton width="150px" />}
+                        {wsTeloPrice ? formatCurrency(wsTeloPrice, 2) : <Skeleton width="150px" />}
                       </Typography>
                     </div>
                   </Grid>
@@ -215,7 +215,7 @@ function Wrap() {
                   <div className="wallet-menu" id="wallet-menu">
                     {modalButton}
                   </div>
-                  <Typography variant="h6">Connect your wallet to wrap sOHM</Typography>
+                  <Typography variant="h6">Connect your wallet to wrap sTELO</Typography>
                 </div>
               ) : (
                 <>
@@ -235,20 +235,20 @@ function Wrap() {
                     </Tabs>
                     <Box className="stake-action-row " display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
                       {address && !isAllowanceDataLoading ? (
-                        !hasAllowance("sohm") && view === 0 ? (
+                        !hasAllowance("stelo") && view === 0 ? (
                           <Box className="help-text">
                             <Typography variant="body1" className="stake-note" color="textSecondary">
                               {view === 0 && (
                                 <>
-                                  First time wrapping <b>sOHM</b>?
+                                  First time wrapping <b>sTELO</b>?
                                   <br />
-                                  Please approve Olympus Dao to use your <b>sOHM</b> for wrapping.
+                                  Please approve Telesto Dao to use your <b>sTELO</b> for wrapping.
                                 </>
                               )}
                             </Typography>
                           </Box>
                         ) : (
-                          <FormControl className="ohm-input" variant="outlined" color="primary">
+                          <FormControl className="telo-input" variant="outlined" color="primary">
                             <InputLabel htmlFor="amount-input"></InputLabel>
                             <OutlinedInput
                               id="amount-input"
@@ -273,7 +273,7 @@ function Wrap() {
                       )}
 
                       <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {address && hasAllowance("sohm") ? (
+                        {address && hasAllowance("stelo") ? (
                           <Button
                             className="stake-button"
                             variant="contained"
@@ -283,7 +283,7 @@ function Wrap() {
                               onChangeWrap("wrap");
                             }}
                           >
-                            {txnButtonText(pendingTransactions, "wrapping", "Wrap sOHM")}
+                            {txnButtonText(pendingTransactions, "wrapping", "Wrap sTELO")}
                           </Button>
                         ) : (
                           <Button
@@ -292,7 +292,7 @@ function Wrap() {
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
                             onClick={() => {
-                              onSeekApproval("sohm");
+                              onSeekApproval("stelo");
                             }}
                           >
                             {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
@@ -310,7 +310,7 @@ function Wrap() {
                             onChangeWrap("unwrap");
                           }}
                         >
-                          {txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")}
+                          {txnButtonText(pendingTransactions, "unwrapping", "Unwrap sTELO")}
                         </Button>
                       </TabPanel>
                     </Box>
@@ -319,8 +319,8 @@ function Wrap() {
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
                           {isUnwrap
-                            ? `Unwrapping ${quantity} wsOHM will result in ${trim(convertedQuantity, 4)} sOHM`
-                            : `Wrapping ${quantity} sOHM will result in ${trim(convertedQuantity, 4)} wsOHM`}
+                            ? `Unwrapping ${quantity} wsTELO will result in ${trim(convertedQuantity, 4)} sTELO`
+                            : `Wrapping ${quantity} sTELO will result in ${trim(convertedQuantity, 4)} wsTELO`}
                         </Typography>
                       </Box>
                     )}
@@ -330,13 +330,13 @@ function Wrap() {
                     <div className="data-row">
                       <Typography variant="body1">Wrappable Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(steloBalance, 4)} sTELO</>}
                       </Typography>
                     </div>
                     <div className="data-row">
                       <Typography variant="body1">Unwrappable Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsteloBalance, 4)} wsTELO</>}
                       </Typography>
                     </div>
                   </div>

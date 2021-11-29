@@ -58,7 +58,7 @@ function ZapInfo({ tokens, address }) {
   const classes = useStyles();
   return (
     <>
-      <Paper className="ohm-card" id="olyzaps-info">
+      <Paper className="telo-card" id="olyzaps-info">
         <Grid container direction="row" wrap spacing={4}>
           <Grid item sm={12} md={4} classes={{ root: classes.infoBox, item: classes.infoBoxItem }}>
             <Box
@@ -103,7 +103,7 @@ function ZapInfo({ tokens, address }) {
                 <Trans>All-in-one easy staking</Trans>
               </Typography>
               <Typography align="left" variant="body2" className="oly-info-body">
-                <Trans>OlyZap reduces complexity, saves you time and keeps you here on Olympus.</Trans>
+                <Trans>OlyZap reduces complexity, saves you time and keeps you here on Telesto.</Trans>
               </Typography>
             </Box>
           </Grid>
@@ -121,7 +121,7 @@ function ZapInfo({ tokens, address }) {
                 ]}
               />
               <Typography color="textSecondary" align="center">
-                <Trans>You Get sOHM</Trans>{" "}
+                <Trans>You Get sTELO</Trans>{" "}
               </Typography>
             </Box>
             <Box classes={{ root: classes.infoBody }}>
@@ -130,8 +130,8 @@ function ZapInfo({ tokens, address }) {
               </Typography>
               <Typography align="left" variant="body2" className="oly-info-body">
                 <Trans>
-                  Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an
-                  equal amount of sOHM.
+                  Staking is the primary value accrual strategy of Telesto. When you stake, you lock TELO and receive an
+                  equal amount of sTELO.
                 </Trans>
               </Typography>
             </Box>
@@ -141,7 +141,7 @@ function ZapInfo({ tokens, address }) {
           <Button
             variant="outlined"
             color="secondary"
-            href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
+            href="https://docs.telesto.money/main/using-the-website/olyzaps"
             target="_blank"
             className="learn-more-button"
             onClick={() => {

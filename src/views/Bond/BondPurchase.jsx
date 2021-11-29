@@ -144,13 +144,13 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     <em>
                       <Typography variant="body1" align="center" color="textSecondary">
                         <Trans>First time bonding</Trans> <b>{bond.displayName}</b>? <br />{" "}
-                        <Trans>Please approve Olympus Dao to use your</Trans> <b>{bond.displayName}</b>{" "}
+                        <Trans>Please approve Telesto Dao to use your</Trans> <b>{bond.displayName}</b>{" "}
                         <Trans>for bonding</Trans>.
                       </Typography>
                     </em>
                   </div>
                 ) : (
-                  <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
+                  <FormControl className="telo-input" variant="outlined" color="primary" fullWidth>
                     <InputLabel htmlFor="outlined-adornment-amount">
                       <Trans>Amount</Trans>
                     </InputLabel>
@@ -232,7 +232,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
               <Trans>You Will Get</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4) || "0"} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4) || "0"} TELO`}
             </Typography>
           </div>
 
@@ -241,7 +241,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
               <Trans>Max You Can Buy</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice, 4) || "0"} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice, 4) || "0"} TELO`}
             </Typography>
           </div>
 

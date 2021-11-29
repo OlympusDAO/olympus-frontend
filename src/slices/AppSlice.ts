@@ -1,25 +1,25 @@
 import { ethers } from "ethers";
 import { addresses } from "../constants";
-import { abi as OlympusStakingv2ABI } from "../abi/OlympusStakingv2.json";
-import { abi as sOHMv2 } from "../abi/sOhmv2.json";
+import { abi as TelestoStakingv2ABI } from "../abi/TelestoStakingv2.json";
+import { abi as sTELOv2 } from "../abi/sTelov2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
 import apollo from "../lib/apolloClient";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAsyncThunk } from "./interfaces";
-import { OlympusStakingv2, SOhmv2 } from "../typechain";
+import { TelestoStakingv2, STelov2 } from "../typechain";
 
 interface IProtocolMetrics {
   readonly timestamp: string;
-  readonly ohmCirculatingSupply: string;
-  readonly sOhmCirculatingSupply: string;
+  readonly teloCirculatingSupply: string;
+  readonly sTeloCirculatingSupply: string;
   readonly totalSupply: string;
-  readonly ohmPrice: string;
+  readonly teloPrice: string;
   readonly marketCap: string;
   readonly totalValueLocked: string;
   readonly treasuryMarketValue: string;
   readonly nextEpochRebase: string;
-  readonly nextDistributedOhm: string;
+  readonly nextDistributedTelo: string;
 }
 
 export const loadAppDetails = createAsyncThunk(
@@ -34,15 +34,15 @@ export const loadAppDetails = createAsyncThunk(
     }
     protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
       timestamp
-      ohmCirculatingSupply
-      sOhmCirculatingSupply
+      teloCirculatingSupply
+      sTeloCirculatingSupply
       totalSupply
-      ohmPrice
+      teloPrice
       marketCap
       totalValueLocked
       treasuryMarketValue
       nextEpochRebase
-      nextDistributedOhm
+      nextDistributedTelo
     }
   }
 `;
@@ -56,7 +56,7 @@ export const loadAppDetails = createAsyncThunk(
 
     const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
     // NOTE (appleseed): marketPrice from Graph was delayed, so get CoinGecko price
-    // const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
+    // const marketPrice = parseFloat(graphData.data.protocolMetrics[0].teloPrice);
     let marketPrice;
     try {
       const originalPromiseResult = await dispatch(
@@ -70,7 +70,7 @@ export const loadAppDetails = createAsyncThunk(
     }
 
     const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
-    const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
+    const circSupply = parseFloat(graphData.data.protocolMetrics[0].teloCirculatingSupply);
     const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
     const treasuryMarketValue = parseFloat(graphData.data.protocolMetrics[0].treasuryMarketValue);
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
@@ -90,20 +90,20 @@ export const loadAppDetails = createAsyncThunk(
 
     const stakingContract = new ethers.Contract(
       addresses[networkID].STAKING_ADDRESS as string,
-      OlympusStakingv2ABI,
+      TelestoStakingv2ABI,
       provider,
-    ) as OlympusStakingv2;
+    ) as TelestoStakingv2;
 
-    const sohmMainContract = new ethers.Contract(
-      addresses[networkID].SOHM_ADDRESS as string,
-      sOHMv2,
+    const steloMainContract = new ethers.Contract(
+      addresses[networkID].STELO_ADDRESS as string,
+      sTELOv2,
       provider,
-    ) as SOhmv2;
+    ) as STelov2;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
     const stakingReward = epoch.distribute;
-    const circ = await sohmMainContract.circulatingSupply();
+    const circ = await steloMainContract.circulatingSupply();
     const stakingRebase = Number(stakingReward.toString()) / Number(circ.toString());
     const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
     const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
@@ -167,8 +167,8 @@ export const findOrLoadMarketPrice = createAsyncThunk(
 );
 
 /**
- * - fetches the OHM price from CoinGecko (via getTokenPrice)
- * - falls back to fetch marketPrice from ohm-dai contract
+ * - fetches the TELO price from CoinGecko (via getTokenPrice)
+ * - falls back to fetch marketPrice from telo-dai contract
  * - updates the App.slice when it runs
  */
 const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
@@ -177,7 +177,7 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
     marketPrice = await getMarketPrice({ networkID, provider });
     marketPrice = marketPrice / Math.pow(10, 9);
   } catch (e) {
-    marketPrice = await getTokenPrice("olympus");
+    marketPrice = await getTokenPrice("telesto");
   }
   return { marketPrice };
 });

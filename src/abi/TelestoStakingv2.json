@@ -2,8 +2,8 @@
   "abi": [
     {
       "inputs": [
-        { "internalType": "address", "name": "_OHM", "type": "address" },
-        { "internalType": "address", "name": "_sOHM", "type": "address" },
+        { "internalType": "address", "name": "_TELO", "type": "address" },
+        { "internalType": "address", "name": "_sTELO", "type": "address" },
         { "internalType": "uint256", "name": "_epochLength", "type": "uint256" },
         { "internalType": "uint256", "name": "_firstEpochNumber", "type": "uint256" },
         { "internalType": "uint256", "name": "_firstEpochBlock", "type": "uint256" }
@@ -31,7 +31,7 @@
     },
     {
       "inputs": [],
-      "name": "OHM",
+      "name": "TELO",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
@@ -117,14 +117,14 @@
     },
     {
       "inputs": [],
-      "name": "sOHM",
+      "name": "sTELO",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        { "internalType": "enum OlympusStaking.CONTRACTS", "name": "_contract", "type": "uint8" },
+        { "internalType": "enum TelestoStaking.CONTRACTS", "name": "_contract", "type": "uint8" },
         { "internalType": "address", "name": "_address", "type": "address" }
       ],
       "name": "setContract",

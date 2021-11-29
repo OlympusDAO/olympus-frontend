@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getTokenPrice } from "src/helpers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
-import { EthContract, PairContract } from "src/typechain";
+import { CELOContract, PairContract } from "src/typechain";
 import { addresses } from "src/constants";
 import React from "react";
 
@@ -88,7 +88,7 @@ export abstract class Bond {
   }
   getContractForBond(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     const bondAddress = this.getAddressForBond(networkID);
-    return new ethers.Contract(bondAddress, this.bondContractABI, provider) as EthContract;
+    return new ethers.Contract(bondAddress, this.bondContractABI, provider) as CELOContract;
   }
 
   getAddressForReserve(networkID: NetworkID) {
@@ -146,7 +146,7 @@ export class LPBond extends Bond {
 
 // Generic BondClass we should be using everywhere
 // Assumes the token being deposited follows the standard ERC20 spec
-export interface StableBondOpts extends BondOpts {}
+export interface StableBondOpts extends BondOpts { }
 export class StableBond extends Bond {
   readonly isLP = false;
   readonly reserveContract: ethers.ContractInterface;

@@ -89,17 +89,17 @@ export const dark = responsiveFontSizes(
         MuiPaper: {
           root: {
             backgroundColor: darkTheme.paperBg,
-            "&.ohm-card": {
+            "&.telo-card": {
               backgroundColor: darkTheme.paperBg,
             },
-            "&.ohm-modal": {
+            "&.telo-modal": {
               backgroundColor: darkTheme.modalBg,
             },
-            "&.ohm-menu": {
+            "&.telo-menu": {
               backgroundColor: darkTheme.menuBg,
               backdropFilter: "blur(33px)",
             },
-            "&.ohm-popover": {
+            "&.telo-popover": {
               backgroundColor: darkTheme.popoverBg,
               color: darkTheme.color,
               backdropFilter: "blur(15px)",

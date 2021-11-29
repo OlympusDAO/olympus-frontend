@@ -37,7 +37,7 @@ export default function ZapStakeHeader({ images }) {
                 icons={[CircleZapIcon]}
               />
               <Typography color="textSecondary">
-                <Trans>Swap for sOHM</Trans>
+                <Trans>Swap for sTELO</Trans>
               </Typography>
             </Box>
           </Grid>
@@ -47,7 +47,7 @@ export default function ZapStakeHeader({ images }) {
               <Box alignItems="center" display="flex" flexDirection="column" marginX={1}>
                 <HeaderLogo icons={[CircleZapIcon]} />
                 <Typography color="textSecondary">
-                  <Trans>Swap for OHM</Trans>
+                  <Trans>Swap for TELO</Trans>
                 </Typography>
               </Box>
             </Grid>
@@ -60,7 +60,7 @@ export default function ZapStakeHeader({ images }) {
                   avatarStyleOverride={{ height: "40px", width: "40px", marginInline: "-7px" }}
                 />
                 <Typography color="textSecondary">
-                  <Trans>Auto staked for sOHM</Trans>
+                  <Trans>Auto staked for sTELO</Trans>
                 </Typography>
               </Box>
             </Grid>

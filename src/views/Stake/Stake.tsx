@@ -20,7 +20,7 @@ import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { getTeloTokenImage, getTokenImage, trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -39,8 +39,8 @@ function a11yProps(index: number) {
   };
 }
 
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
+const sTeloImg = getTokenImage("stelo");
+const teloImg = getTeloTokenImage(16, 16);
 
 function Stake() {
   const dispatch = useDispatch();
@@ -58,29 +58,29 @@ function Stake() {
   const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;
   });
-  const ohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.ohm;
+  const teloBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.telo;
   });
-  const oldSohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.oldsohm;
+  const oldSteloBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.oldstelo;
   });
-  const sohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+  const steloBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.stelo;
   });
-  const fsohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.fsohm;
+  const fsteloBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.fstelo;
   });
-  const wsohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.wsohm;
+  const wsteloBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.wstelo;
   });
-  const wsohmAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.wsohmAsSohm;
+  const wsteloAsStelo = useAppSelector(state => {
+    return state.account.balances && state.account.balances.wsteloAsStelo;
   });
   const stakeAllowance = useAppSelector(state => {
-    return (state.account.staking && state.account.staking.ohmStake) || 0;
+    return (state.account.staking && state.account.staking.teloStake) || 0;
   });
   const unstakeAllowance = useAppSelector(state => {
-    return (state.account.staking && state.account.staking.ohmUnstake) || 0;
+    return (state.account.staking && state.account.staking.teloUnstake) || 0;
   });
   const stakingRebase = useAppSelector(state => {
     return state.app.stakingRebase || 0;
@@ -99,7 +99,7 @@ function Stake() {
   const inputTokenImages = useMemo(
     () =>
       Object.entries(tokens)
-        .filter(token => token[0] !== "sohm")
+        .filter(token => token[0] !== "stelo")
         .map(token => token[1].img)
         .slice(0, 3),
     [tokens],
@@ -107,9 +107,9 @@ function Stake() {
 
   const setMax = () => {
     if (view === 0) {
-      setQuantity(Number(ohmBalance));
+      setQuantity(Number(teloBalance));
     } else {
-      setQuantity(Number(sohmBalance));
+      setQuantity(Number(steloBalance));
     }
   };
 
@@ -126,12 +126,12 @@ function Stake() {
 
     // 1st catch if quantity > balance
     let gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
-    if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
-      return dispatch(error(t`You cannot stake more than your OHM balance.`));
+    if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(teloBalance, "gwei"))) {
+      return dispatch(error(t`You cannot stake more than your TELO balance.`));
     }
 
-    if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
-      return dispatch(error(t`You cannot unstake more than your sOHM balance.`));
+    if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(steloBalance, "gwei"))) {
+      return dispatch(error(t`You cannot unstake more than your sTELO balance.`));
     }
 
     await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
@@ -139,8 +139,8 @@ function Stake() {
 
   const hasAllowance = useCallback(
     token => {
-      if (token === "ohm") return stakeAllowance > 0;
-      if (token === "sohm") return unstakeAllowance > 0;
+      if (token === "telo") return stakeAllowance > 0;
+      if (token === "stelo") return unstakeAllowance > 0;
       return 0;
     },
     [stakeAllowance, unstakeAllowance],
@@ -161,7 +161,7 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmAsSohm]
+    [steloBalance, fsteloBalance, wsteloAsStelo]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -174,24 +174,24 @@ function Stake() {
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper className={`ohm-card`}>
+        <Paper className={`telo-card`}>
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <div className="card-header">
                 <Typography variant="h5">Single Stake (3, 3)</Typography>
                 <RebaseTimer />
 
-                {address && Number(oldSohmBalance) > 0.01 && (
+                {address && Number(oldSteloBalance) > 0.01 && (
                   <Link
-                    className="migrate-sohm-button"
+                    className="migrate-stelo-button"
                     style={{ textDecoration: "none" }}
-                    href="https://docs.olympusdao.finance/using-the-website/migrate"
-                    aria-label="migrate-sohm"
+                    href="https://docs.telesto.money/using-the-website/migrate"
+                    aria-label="migrate-stelo"
                     target="_blank"
                   >
                     <NewReleases viewBox="0 0 24 24" />
                     <Typography>
-                      <Trans>Migrate sOHM!</Trans>
+                      <Trans>Migrate sTELO!</Trans>
                     </Typography>
                   </Link>
                 )}
@@ -247,7 +247,7 @@ function Stake() {
                       </Typography>
                       <Typography variant="h4">
                         {currentIndex ? (
-                          <span data-testid="index-value">{trim(Number(currentIndex), 1)} OHM</span>
+                          <span data-testid="index-value">{trim(Number(currentIndex), 1)} TELO</span>
                         ) : (
                           <Skeleton width="150px" data-testid="index-loading" />
                         )}
@@ -265,7 +265,7 @@ function Stake() {
                     {modalButton}
                   </div>
                   <Typography variant="h6">
-                    <Trans>Connect your wallet to stake OHM</Trans>
+                    <Trans>Connect your wallet to stake TELO</Trans>
                   </Typography>
                 </div>
               ) : (
@@ -295,28 +295,28 @@ function Stake() {
                     <Grid container className="stake-action-row">
                       <Grid item xs={12} sm={8} className="stake-grid-item">
                         {address && !isAllowanceDataLoading ? (
-                          (!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1) ? (
+                          (!hasAllowance("telo") && view === 0) || (!hasAllowance("stelo") && view === 1) ? (
                             <Box className="help-text">
                               <Typography variant="body1" className="stake-note" color="textSecondary">
                                 {view === 0 ? (
                                   <>
-                                    <Trans>First time staking</Trans> <b>OHM</b>?
+                                    <Trans>First time staking</Trans> <b>TELO</b>?
                                     <br />
-                                    <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b>{" "}
+                                    <Trans>Please approve Telesto Dao to use your</Trans> <b>TELO</b>{" "}
                                     <Trans>for staking</Trans>.
                                   </>
                                 ) : (
                                   <>
-                                    <Trans>First time unstaking</Trans> <b>sOHM</b>?
+                                    <Trans>First time unstaking</Trans> <b>sTELO</b>?
                                     <br />
-                                    <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM</b>{" "}
+                                    <Trans>Please approve Telesto Dao to use your</Trans> <b>sTELO</b>{" "}
                                     <Trans>for unstaking</Trans>.
                                   </>
                                 )}
                               </Typography>
                             </Box>
                           ) : (
-                            <FormControl className="ohm-input" variant="outlined" color="primary">
+                            <FormControl className="telo-input" variant="outlined" color="primary">
                               <InputLabel htmlFor="amount-input"></InputLabel>
                               <OutlinedInput
                                 id="amount-input"
@@ -345,7 +345,7 @@ function Stake() {
                           <Box m={-2}>
                             {isAllowanceDataLoading ? (
                               <Skeleton />
-                            ) : address && hasAllowance("ohm") ? (
+                            ) : address && hasAllowance("telo") ? (
                               <Button
                                 className="stake-button"
                                 variant="contained"
@@ -355,7 +355,7 @@ function Stake() {
                                   onChangeStake("stake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "staking", t`Stake OHM`)}
+                                {txnButtonText(pendingTransactions, "staking", t`Stake TELO`)}
                               </Button>
                             ) : (
                               <Button
@@ -364,7 +364,7 @@ function Stake() {
                                 color="primary"
                                 disabled={isPendingTxn(pendingTransactions, "approve_staking")}
                                 onClick={() => {
-                                  onSeekApproval("ohm");
+                                  onSeekApproval("telo");
                                 }}
                               >
                                 {txnButtonText(pendingTransactions, "approve_staking", t`Approve`)}
@@ -377,7 +377,7 @@ function Stake() {
                           <Box m={-2}>
                             {isAllowanceDataLoading ? (
                               <Skeleton />
-                            ) : address && hasAllowance("sohm") ? (
+                            ) : address && hasAllowance("stelo") ? (
                               <Button
                                 className="stake-button"
                                 variant="contained"
@@ -387,7 +387,7 @@ function Stake() {
                                   onChangeStake("unstake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
+                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake TELO`)}
                               </Button>
                             ) : (
                               <Button
@@ -396,7 +396,7 @@ function Stake() {
                                 color="primary"
                                 disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                                 onClick={() => {
-                                  onSeekApproval("sohm");
+                                  onSeekApproval("stelo");
                                 }}
                               >
                                 {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
@@ -414,7 +414,7 @@ function Stake() {
                         <Trans>Unstaked Balance</Trans>
                       </Typography>
                       <Typography variant="body1" id="user-balance">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(ohmBalance), 4)} OHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(teloBalance), 4)} TELO</>}
                       </Typography>
                     </div>
 
@@ -423,7 +423,7 @@ function Stake() {
                         <Trans>Staked Balance</Trans>
                       </Typography>
                       <Typography variant="body1" id="user-staked-balance">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sTELO</>}
                       </Typography>
                     </div>
 
@@ -432,7 +432,7 @@ function Stake() {
                         <Trans>Single Staking</Trans>
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(sohmBalance), 4)} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(steloBalance), 4)} sTELO</>}
                       </Typography>
                     </div>
 
@@ -441,7 +441,7 @@ function Stake() {
                         <Trans>Staked Balance in Fuse</Trans>
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fsohmBalance), 4)} fsOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fsteloBalance), 4)} fsTELO</>}
                       </Typography>
                     </div>
 
@@ -450,7 +450,7 @@ function Stake() {
                         <Trans>Wrapped Balance</Trans>
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsohmBalance), 4)} wsOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsteloBalance), 4)} wsTELO</>}
                       </Typography>
                     </div>
 
@@ -461,7 +461,7 @@ function Stake() {
                         <Trans>Next Reward Amount</Trans>
                       </Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sTELO</>}
                       </Typography>
                     </div>
 

@@ -7,27 +7,27 @@
     },
     {
       "inputs": [],
-      "name": "OHM",
+      "name": "TELO",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
-      "name": "OHMCirculatingSupply",
+      "name": "TELOCirculatingSupply",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
-      "name": "getNonCirculatingOHM",
+      "name": "getNonCirculatingTELO",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "address", "name": "_ohm", "type": "address" }],
+      "inputs": [{ "internalType": "address", "name": "_telo", "type": "address" }],
       "name": "initialize",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "nonpayable",
@@ -42,7 +42,7 @@
     },
     {
       "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-      "name": "nonCirculatingOHMAddresses",
+      "name": "nonCirculatingTELOAddresses",
       "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
@@ -56,7 +56,7 @@
     },
     {
       "inputs": [{ "internalType": "address[]", "name": "_nonCirculatingAddresses", "type": "address[]" }],
-      "name": "setNonCirculatingOHMAddresses",
+      "name": "setNonCirculatingTELOAddresses",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "nonpayable",
       "type": "function"

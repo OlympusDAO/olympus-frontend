@@ -103,7 +103,7 @@ export const PoolPrize = () => {
       <Box className="vegas-container">
         <Box className="vegas"></Box>
       </Box>
-      <Paper className="ohm-card">
+      <Paper className="telo-card">
         <Box display="flex" flexDirection="column" alignItems="center">
           {parseFloat(poolAwardBalance) === 0 ? (
             <Box margin={2} textAlign="center">
@@ -116,7 +116,7 @@ export const PoolPrize = () => {
             </Box>
           ) : (
             <Box margin={2} textAlign="center">
-              <Typography variant="h1">{trim(poolAwardBalance, 2)} sOHM</Typography>
+              <Typography variant="h1">{trim(poolAwardBalance, 2)} sTELO</Typography>
               <Typography variant="h4">
                 <Trans>Current Prize</Trans>
               </Typography>

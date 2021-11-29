@@ -15,7 +15,7 @@ function Zap() {
   const inputTokenImages = useMemo(
     () =>
       Object.entries(tokens)
-        .filter(token => token[0] !== "sohm")
+        .filter(token => token[0] !== "stelo")
         .map(token => token[1].img)
         .slice(0, 3),
     [tokens],
@@ -24,7 +24,7 @@ function Zap() {
   return (
     <div id="zap-view">
       <Zoom in={true}>
-        <Paper className="ohm-card">
+        <Paper className="telo-card">
           <div className="staking-area">
             {!address ? (
               <div className="stake-wallet-notification">

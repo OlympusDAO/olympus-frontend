@@ -157,7 +157,7 @@ export const calcBondDetails = createAsyncThunk(
       const errorString =
         "You're trying to bond more than the maximum payout available! The maximum bond payout is " +
         (Number(maxBondPrice.toString()) / Math.pow(10, 9)).toFixed(2).toString() +
-        " OHM.";
+        " TELO.";
       dispatch(error(errorString));
     }
 

@@ -89,7 +89,7 @@ const commonSettings = {
     MuiPaper: {
       root: {
         backdropFilter: "blur(33px)",
-        "&.ohm-card": {
+        "&.telo-card": {
           padding: "20px 30px 30px 30px",
           borderRadius: "10px",
           maxWidth: "833px",
@@ -97,12 +97,12 @@ const commonSettings = {
           marginBottom: "1.8rem",
           overflow: "hidden",
         },
-        "&.ohm-menu": {
+        "&.telo-menu": {
           padding: "22px 0px",
           borderRadius: "10px",
           margin: "0px",
         },
-        "&.ohm-chart-card": {
+        "&.telo-chart-card": {
           padding: "20px 0px",
           whiteSpace: "nowrap",
           maxWidth: "700px",

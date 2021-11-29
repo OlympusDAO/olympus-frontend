@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "OHMPreSale",
-  "sourceName": "contracts/sale/olympus/presale/OHMPresale.sol",
+  "contractName": "TELOPreSale",
+  "sourceName": "contracts/sale/telesto/presale/TELOPresale.sol",
   "abi": [
     {
       "inputs": [
@@ -48,7 +48,7 @@
     },
     {
       "inputs": [],
-      "name": "aOHM",
+      "name": "aTELO",
       "outputs": [
         {
           "internalType": "address",
@@ -126,7 +126,7 @@
         },
         {
           "internalType": "address",
-          "name": "_aOHM",
+          "name": "_aTELO",
           "type": "address"
         },
         {
@@ -172,7 +172,7 @@
           "type": "uint256"
         }
       ],
-      "name": "purchaseaOHM",
+      "name": "purchaseaTELO",
       "outputs": [
         {
           "internalType": "bool",
@@ -220,11 +220,11 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_sendaOHMTo",
+          "name": "_sendaTELOTo",
           "type": "address"
         }
       ],
-      "name": "sendRemainingaOHM",
+      "name": "sendRemainingaTELO",
       "outputs": [
         {
           "internalType": "bool",

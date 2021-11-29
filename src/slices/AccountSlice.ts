@@ -1,24 +1,24 @@
 import { BigNumber, BigNumberish, ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as sOHMv2 } from "../abi/sOhmv2.json";
+import { abi as sTELOv2 } from "../abi/sTelov2.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
-import { abi as wsOHM } from "../abi/wsOHM.json";
+import { abi as wsTELO } from "../abi/wsTELO.json";
 
 import { setAll } from "../helpers";
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
-import { FuseProxy, IERC20, SOhmv2, WsOHM } from "src/typechain";
+import { FuseProxy, IERC20, STELOv2, WsTELO } from "src/typechain";
 
 interface IUserBalances {
   balances: {
-    ohm: string;
-    sohm: string;
-    fsohm: string;
-    wsohm: string;
-    wsohmAsSohm: string;
+    telo: string;
+    stelo: string;
+    fstelo: string;
+    wstelo: string;
+    wsteloAsStelo: string;
     pool: string;
   };
 }
@@ -26,18 +26,18 @@ interface IUserBalances {
 export const getBalances = createAsyncThunk(
   "account/getBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider) as IERC20;
-    const ohmBalance = await ohmContract.balanceOf(address);
-    const sohmContract = new ethers.Contract(
-      addresses[networkID].SOHM_ADDRESS as string,
+    const teloContract = new ethers.Contract(addresses[networkID].TELO_ADDRESS as string, ierc20Abi, provider) as IERC20;
+    const teloBalance = await teloContract.balanceOf(address);
+    const steloContract = new ethers.Contract(
+      addresses[networkID].STELO_ADDRESS as string,
       ierc20Abi,
       provider,
     ) as IERC20;
-    const sohmBalance = await sohmContract.balanceOf(address);
-    const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
-    const wsohmBalance = await wsohmContract.balanceOf(address);
-    // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
-    const wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
+    const steloBalance = await steloContract.balanceOf(address);
+    const wsteloContract = new ethers.Contract(addresses[networkID].WSTELO_ADDRESS as string, wsTELO, provider) as WsTELO;
+    const wsteloBalance = await wsteloContract.balanceOf(address);
+    // NOTE (appleseed): wsteloAsStelo is wsTELO given as a quantity of sTELO
+    const wsteloAsStelo = await wsteloContract.wTELOTosTELO(wsteloBalance);
     const poolTokenContract = new ethers.Contract(
       addresses[networkID].PT_TOKEN_ADDRESS as string,
       ierc20Abi,
@@ -45,27 +45,27 @@ export const getBalances = createAsyncThunk(
     ) as IERC20;
     const poolBalance = await poolTokenContract.balanceOf(address);
 
-    let fsohmBalance = BigNumber.from(0);
-    for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"]) {
+    let fsteloBalance = BigNumber.from(0);
+    for (const fuseAddressKey of ["FUSE_6_STELO", "FUSE_18_STELO", "FUSE_36_STELO"]) {
       if (addresses[networkID][fuseAddressKey]) {
-        const fsohmContract = new ethers.Contract(
+        const fsteloContract = new ethers.Contract(
           addresses[networkID][fuseAddressKey] as string,
           fuseProxy,
           provider.getSigner(),
         ) as FuseProxy;
-        // fsohmContract.signer;
-        const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
-        fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
+        // fsteloContract.signer;
+        const balanceOfUnderlying = await fsteloContract.callStatic.balanceOfUnderlying(address);
+        fsteloBalance = balanceOfUnderlying.add(fsteloBalance);
       }
     }
 
     return {
       balances: {
-        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
-        fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
-        wsohm: ethers.utils.formatEther(wsohmBalance),
-        wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
+        telo: ethers.utils.formatUnits(teloBalance, "gwei"),
+        stelo: ethers.utils.formatUnits(steloBalance, "gwei"),
+        fstelo: ethers.utils.formatUnits(fsteloBalance, "gwei"),
+        wstelo: ethers.utils.formatEther(wsteloBalance),
+        wsteloAsStelo: ethers.utils.formatUnits(wsteloAsStelo, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
       },
     };
@@ -74,42 +74,42 @@ export const getBalances = createAsyncThunk(
 
 interface IUserAccountDetails {
   staking: {
-    ohmStake: number;
-    ohmUnstake: number;
+    teloStake: number;
+    teloUnstake: number;
   };
   wrapping: {
-    sohmWrap: number;
-    wsohmUnwrap: number;
+    steloWrap: number;
+    wsteloUnwrap: number;
   };
 }
 
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
   async ({ networkID, provider, address }: IBaseAddressAsyncThunk, { dispatch }) => {
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20Abi, provider) as IERC20;
-    const stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    const teloContract = new ethers.Contract(addresses[networkID].TELO_ADDRESS as string, ierc20Abi, provider) as IERC20;
+    const stakeAllowance = await teloContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
 
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider) as SOhmv2;
-    const unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-    const poolAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
-    const wrapAllowance = await sohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
+    const steloContract = new ethers.Contract(addresses[networkID].STELO_ADDRESS as string, sTELOv2, provider) as STELOv2;
+    const unstakeAllowance = await steloContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    const poolAllowance = await steloContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+    const wrapAllowance = await steloContract.allowance(address, addresses[networkID].WSTELO_ADDRESS);
 
-    const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
-    const unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
+    const wsteloContract = new ethers.Contract(addresses[networkID].WSTELO_ADDRESS as string, wsTELO, provider) as WsTELO;
+    const unwrapAllowance = await wsteloContract.allowance(address, addresses[networkID].WSTELO_ADDRESS);
 
     await dispatch(getBalances({ address, networkID, provider }));
 
     return {
       staking: {
-        ohmStake: +stakeAllowance,
-        ohmUnstake: +unstakeAllowance,
+        teloStake: +stakeAllowance,
+        teloUnstake: +unstakeAllowance,
       },
       wrapping: {
-        ohmWrap: +wrapAllowance,
-        ohmUnwrap: +unwrapAllowance,
+        teloWrap: +wrapAllowance,
+        teloUnwrap: +unwrapAllowance,
       },
       pooling: {
-        sohmPool: +poolAllowance,
+        steloPool: +poolAllowance,
       },
     };
   },
@@ -174,32 +174,32 @@ export const calculateUserBondDetails = createAsyncThunk(
 interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   bonds: { [key: string]: IUserBondDetails };
   balances: {
-    ohm: string;
-    sohm: string;
+    telo: string;
+    stelo: string;
     dai: string;
-    oldsohm: string;
-    fsohm: string;
-    wsohm: string;
-    wsohmAsSohm: string;
+    oldstelo: string;
+    fstelo: string;
+    wstelo: string;
+    wsteloAsStelo: string;
     pool: string;
   };
   loading: boolean;
   staking: {
-    ohmStake: number;
-    ohmUnstake: number;
+    teloStake: number;
+    teloUnstake: number;
   };
   pooling: {
-    sohmPool: number;
+    steloPool: number;
   };
 }
 
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
-  balances: { ohm: "", sohm: "", dai: "", oldsohm: "", fsohm: "", wsohm: "", pool: "", wsohmAsSohm: "" },
-  staking: { ohmStake: 0, ohmUnstake: 0 },
-  wrapping: { sohmWrap: 0, wsohmUnwrap: 0 },
-  pooling: { sohmPool: 0 },
+  balances: { telo: "", stelo: "", dai: "", oldstelo: "", fstelo: "", wstelo: "", pool: "", wsteloAsStelo: "" },
+  staking: { teloStake: 0, teloUnstake: 0 },
+  wrapping: { steloWrap: 0, wsteloUnwrap: 0 },
+  pooling: { steloPool: 0 },
 };
 
 const accountSlice = createSlice({
