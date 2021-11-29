@@ -6,7 +6,7 @@ import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg
 import { useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import { useAppDispatch } from "src/hooks";
-import { getRedemptionBalances } from "src/slices/AccountSlice";
+import { getRedemptionBalancesAsync } from "src/slices/AccountSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
@@ -49,18 +49,16 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
     if (!connected) return;
 
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
-    dispatch(
-      getRedemptionBalances({
-        networkID: chainID,
-        provider: provider,
-        address: wallet,
-      }),
-    )
-      .then(unwrapResult)
-      .then(resultAction => {
-        setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
-        setRecipientInfoIsLoading(false);
-      });
+    // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
+    // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
+    getRedemptionBalancesAsync({
+      networkID: chainID,
+      provider: provider,
+      address: wallet,
+    }).then(resultAction => {
+      setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
+      setRecipientInfoIsLoading(false);
+    });
   }, [connected]);
 
   // The JSON file returns a string, so we convert it
