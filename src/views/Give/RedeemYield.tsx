@@ -102,6 +102,10 @@ export default function RedeemYield() {
     }
   }, [walletChecked]);
 
+  const getTableCellClass = (condition: boolean): string => {
+    return condition ? "" : "cell-align-end";
+  };
+
   const canRedeem = () => {
     if (!address) return false;
 
@@ -132,35 +136,41 @@ export default function RedeemYield() {
               <TableBody>
                 <TableRow>
                   <TableCell>Donated sOHM Generating Yield</TableCell>
-                  <TableCell>
+                  <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
                     {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + " sOHM"}
                   </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Redeemable Amount</TableCell>
-                  <TableCell>
+                  <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
                     {" "}
                     {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(redeemableBalanceNumber) + " sOHM"}
                   </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Next Reward Amount</TableCell>
-                  <TableCell> {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + " sOHM"}</TableCell>
+                  <TableCell className={getTableCellClass(isAppLoading)}>
+                    {" "}
+                    {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + " sOHM"}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Next Reward Yield</TableCell>
-                  <TableCell>
+                  <TableCell className={getTableCellClass(isAppLoading)}>
                     {" "}
                     {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(stakingRebasePercentage) + "%"}
                   </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>ROI (5-Day Rate)</TableCell>
-                  <TableCell> {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(fiveDayRateValue) + "%"}</TableCell>
+                  <TableCell className={getTableCellClass(isAppLoading)}>
+                    {" "}
+                    {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(fiveDayRateValue) + "%"}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell></TableCell>
-                  <TableCell align="left">
+                  <TableCell align="left" className="cell-align-end">
                     {" "}
                     <Button
                       variant="outlined"
