@@ -40,6 +40,11 @@ export const getBalances = createAsyncThunk(
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmBalance = await gOhmContract.balanceOf(address);
+      const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
+      wsohmBalance = await wsohmContract.balanceOf(address);
+      // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
+      wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
+
       const ohmContract = new ethers.Contract(
         addresses[networkID].OHM_ADDRESS as string,
         ierc20Abi,
@@ -52,10 +57,7 @@ export const getBalances = createAsyncThunk(
         provider,
       ) as IERC20;
       sohmBalance = await sohmContract.balanceOf(address);
-      const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
-      wsohmBalance = await wsohmContract.balanceOf(address);
-      // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
-      wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
+
       const poolTokenContract = new ethers.Contract(
         addresses[networkID].PT_TOKEN_ADDRESS as string,
         ierc20Abi,
