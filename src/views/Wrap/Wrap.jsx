@@ -558,6 +558,7 @@ function Wrap() {
                             {chooseButtonArea()}
                           </div>
                         </Box>
+
                         {quantity && (
                           <Box padding={1}>
                             <Typography variant="body2" className={classes.textHighlight}>
@@ -582,7 +583,7 @@ function Wrap() {
                           </Box> */}
                         </Box>
 
-                        <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }} m={1}>
+                        <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
                           <div className="stake-tab-panel wrap-page">
                             {migrateInputArea()}
 
