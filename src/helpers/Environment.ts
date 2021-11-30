@@ -79,7 +79,7 @@ export class EnvHelper {
         } else {
           ALCHEMY_ID_LIST = [];
         }
-        uriPath = "";
+        uriPath = "https://api.avax.network/ext/bc/C/rpc";
         break;
     }
 
@@ -120,32 +120,26 @@ export class EnvHelper {
     switch (networkId) {
       case 1:
         if (
-          EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_WEBSOCKETS &&
-          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_WEBSOCKETS)
+          EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_NODE &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_NODE)
         ) {
-          URI_LIST = EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_WEBSOCKETS.split(
-            new RegExp(EnvHelper.whitespaceRegex),
-          );
+          URI_LIST = EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
         }
         break;
       case 42161:
         if (
-          EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_WEBSOCKETS &&
-          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_WEBSOCKETS)
+          EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_NODE &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_NODE)
         ) {
-          URI_LIST = EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_WEBSOCKETS.split(
-            new RegExp(EnvHelper.whitespaceRegex),
-          );
+          URI_LIST = EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
         }
         break;
       case 43114:
         if (
-          EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_WEBSOCKETS &&
-          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_WEBSOCKETS)
+          EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_NODE &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_NODE)
         ) {
-          URI_LIST = EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_WEBSOCKETS.split(
-            new RegExp(EnvHelper.whitespaceRegex),
-          );
+          URI_LIST = EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
         }
         break;
     }
