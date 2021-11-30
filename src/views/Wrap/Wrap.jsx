@@ -641,7 +641,7 @@ function Wrap() {
                         <div className="data-row">
                           <Typography variant="body1">wsOHM Balance ({networkName})</Typography>
                           <Typography variant="body1">
-                            {isAppLoading ? <Skeleton width="80px" /> : <>{Number(wsohmBalance).toFixed(4)} wsOHM</>}
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
                           </Typography>
                         </div>
                         <div className="data-row">
