@@ -216,7 +216,7 @@ export const migrateCrossChainWSOHM = createAsyncThunk(
 
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
-      migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "gwei"));
+      migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "ether"));
       const text = `Migrate ${TokenType[type]} Tokens`;
       const pendingTxnType = `migrate_${type}`;
       if (migrateTx) {
