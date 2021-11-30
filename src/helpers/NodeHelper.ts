@@ -1,6 +1,7 @@
 import { minutesAgo } from "./index";
 import { EnvHelper } from "./Environment";
 import { ethers } from "ethers";
+import * as dateUtils from "./dateUtils";
 
 interface ICurrentStats {
   failedConnectionCount: number;
@@ -43,7 +44,7 @@ export class NodeHelper {
   }
 
   static _updateConnectionStatsForProvider(currentStats: ICurrentStats) {
-    const failedAt = new Date().getTime();
+    const failedAt = dateUtils.nowInMilliseconds();
     const failedConnectionCount = currentStats.failedConnectionCount || 0;
     if (
       failedConnectionCount > 0 &&

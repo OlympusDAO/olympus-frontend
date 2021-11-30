@@ -12,6 +12,7 @@ import { ohm_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { PairContract, RedeemHelper } from "../typechain";
+import * as dateUtils from "./dateUtils";
 
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
@@ -171,7 +172,7 @@ export const shouldTriggerSafetyCheck = () => {
  * @param x minutes as a number
  */
 export const minutesAgo = (x: number) => {
-  const now = new Date().getTime();
+  const now = dateUtils.nowInMilliseconds();
   return new Date(now - x * 60000).getTime();
 };
 

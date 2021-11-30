@@ -19,7 +19,7 @@ import {
 import { Typography, Box, SvgIcon, CircularProgress } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { trim } from "../../helpers";
-import { format } from "date-fns";
+import * as dateUtils from "../../helpers/dateUtils";
 import "./chart.scss";
 
 const formatCurrency = c => {
@@ -64,7 +64,7 @@ const renderAreaChart = (
       interval={30}
       axisLine={false}
       tickLine={false}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      tickFormatter={str => dateUtils.format(new Date(str * 1000), "MMM dd")}
       reversed={true}
       connectNulls={true}
       padding={{ right: 20 }}
@@ -142,7 +142,7 @@ const renderStackedAreaChart = (
       interval={30}
       axisLine={false}
       tickLine={false}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      tickFormatter={str => dateUtils.format(new Date(str * 1000), "MMM dd")}
       reversed={true}
       connectNulls={true}
       padding={{ right: 20 }}
@@ -230,7 +230,7 @@ const renderLineChart = (
       tickLine={false}
       reversed={true}
       connectNulls={true}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      tickFormatter={str => dateUtils.format(new Date(str * 1000), "MMM dd")}
       padding={{ right: 20 }}
     />
     <YAxis
@@ -275,7 +275,7 @@ const renderMultiLineChart = (
       tickLine={false}
       reversed={true}
       connectNulls={true}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      tickFormatter={str => dateUtils.format(new Date(str * 1000), "MMM dd")}
       padding={{ right: 20 }}
     />
     <YAxis
@@ -319,7 +319,7 @@ const renderBarChart = (
       tickCount={tickCount}
       tickLine={false}
       reversed={true}
-      tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
+      tickFormatter={str => dateUtils.format(new Date(str * 1000), "MMM dd")}
       padding={{ right: 20 }}
     />
     <YAxis

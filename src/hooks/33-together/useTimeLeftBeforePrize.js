@@ -1,8 +1,8 @@
-import { addSeconds } from "date-fns";
 import { useInterval } from "lib/hooks/useInterval";
 import { usePoolChainValues } from "lib/hooks/usePoolChainValues";
 import { subtractDates } from "lib/utils/subtractDates";
 import { useEffect, useState } from "react";
+import * as dateUtils from "../../helpers/dateUtils";
 
 export const useTimeLeftBeforePrize = () => {
   const { data: poolChainValues } = usePoolChainValues();
@@ -23,7 +23,7 @@ export const useTimeLeftBeforePrize = () => {
   }, 1000);
 
   const currentDate = new Date(Date.now());
-  const futureDate = addSeconds(currentDate, secondsLeft);
+  const futureDate = dateUtils.addSeconds(currentDate, secondsLeft);
 
   const { days, hours, minutes, seconds } = subtractDates(futureDate, currentDate);
   const timeRemaining = Boolean(days || hours || minutes || seconds);
