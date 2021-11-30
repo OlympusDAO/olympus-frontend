@@ -15,9 +15,9 @@ import { abi as ReserveTeloCeuroContract } from "src/abi/reserves/TeloCeuro.json
 import { abi as ReserveTeloCusdContract } from "src/abi/reserves/TeloCusd.json";
 import { ReactComponent as CeuroImg } from "src/assets/tokens/CEURO.svg";
 import { ReactComponent as CusdImg } from "src/assets/tokens/CUSD.svg";
-import { ReactComponent as TeloCeuroImg } from "src/assets/tokens/TELO-CEURO.svg";
+import { ReactComponent as TeloCeuroSVG } from "src/assets/tokens/TELO-CEURO.svg";
 import { ReactComponent as TeloCusdImg } from "src/assets/tokens/TELO-CUSD.svg";
-import { ReactComponent as TeloCeloImg } from "src/assets/tokens/TELO-WCELO.svg";
+//import { ReactComponent as TeloCeloImg } from "src/assets/tokens/TELO-WCELO.svg";
 import { ReactComponent as wCELOImg } from "src/assets/tokens/wCELO.svg";
 import { addresses } from "src/constants";
 import { getBondCalculator } from "src/helpers/BondCalculator";
@@ -205,7 +205,7 @@ export const telo_ceuro = new LPBond({
   displayName: "TELO-CEUR LP",
   bondToken: "CEUR",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
-  bondIconSvg: TeloCeuroImg,
+  bondIconSvg: TeloCeuroSVG,
   bondContractABI: CeuroTeloBondContract,
   reserveContract: ReserveTeloCeuroContract,
   networkAddrs: {
@@ -245,7 +245,7 @@ export const telo_ceuro = new LPBond({
 //     "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
 // });
 
-export const telo_weth = new CustomBond({
+/* export const telo_weth = new CustomBond({
   name: "telo_weth_lp",
   displayName: "TELO-WCELO LP",
   bondToken: "WCELO",
@@ -294,13 +294,13 @@ export const telo_weth = new CustomBond({
       return tokenUSD;
     }
   },
-});
+}); */
 
 // HOW TO ADD A NEW BOND:
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [cusd, ceuro, eth,  telo_cusd, telo_ceuro, telo_weth];
+export const allBonds = [cusd, ceuro, eth,  telo_cusd, telo_ceuro];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
 export const allExpiredBonds = [];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {

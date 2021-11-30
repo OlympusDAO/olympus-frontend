@@ -17,7 +17,7 @@ import { useWeb3Context } from "../../hooks/web3Context";
 import token_TELO from "src/assets/tokens/token_TELO.png";
 import STeloImg from "src/assets/tokens/token_sTELO.svg";
 import WsTeloImg from "src/assets/tokens/token_wsTELO.svg";
-import token33tImg from "src/assets/tokens/token_33T.svg";
+//import token33tImg from "src/assets/tokens/token_33T.svg";
 
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 

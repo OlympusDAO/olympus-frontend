@@ -20,7 +20,7 @@ import { Skeleton } from "@material-ui/lab";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import BondLogo from "../../components/BondLogo";
-import { ReactComponent as TeloLusdImg } from "src/assets/tokens/TELO-LUSD.svg";
+//import { ReactComponent as TeloLusdImg } from "src/assets/tokens/TELO-LUSD.svg";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { getLusdData } from "../../slices/LusdSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
