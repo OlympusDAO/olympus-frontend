@@ -7,6 +7,7 @@ import { EnvHelper } from "../helpers/Environment";
 import store from "../store";
 import { NodeHelper } from "src/helpers/NodeHelper";
 import { NETWORKS } from "../constants";
+import { NetworkID } from "src/lib/Bond";
 
 /**
  * determine if in IFrame for Ledger Live

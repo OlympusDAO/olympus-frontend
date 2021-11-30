@@ -3,6 +3,7 @@ import { EnvHelper } from "./helpers/Environment";
 import ethereum from "./assets/tokens/wETH.svg";
 import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
+import { NetworkID } from "./lib/Bond";
 
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
 export const EPOCH_INTERVAL = 2200;
@@ -21,12 +22,8 @@ export const POOL_GRAPH_URLS: IPoolGraphURLS = {
   1: "https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_4_3",
 };
 
-interface IAddresses {
-  [key: number]: { [key: string]: string };
-}
-
-export const addresses: IAddresses = {
-  4: {
+export const addresses = {
+  [NetworkID.Testnet]: {
     DAI_ADDRESS: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // duplicate
     OHM_ADDRESS: "0xC0b491daBf3709Ee5Eb79E603D73289Ca6060932",
     STAKING_ADDRESS: "0xC5d3318C0d74a72cD7C55bdf844e24516796BaB2",
@@ -51,7 +48,7 @@ export const addresses: IAddresses = {
     SOHM_V2: "0xebED323CEbe4FfF65F7D7612Ea04313F718E5A75",
     STAKING_V2: "0x06984c3A9EB8e3A8df02A4C09770D5886185792D",
   },
-  1: {
+  [NetworkID.Mainnet]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
     OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // The new staking contract
@@ -81,7 +78,7 @@ export const addresses: IAddresses = {
     GOHM_ADDRESS: "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f",
     FIATDAO_WSOHM_ADDRESS: "0xe98ae8cD25CDC06562c29231Db339d17D02Fd486",
   },
-  42161: {
+  [NetworkID.Arbitrum]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
     OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // The new staking contract
@@ -100,7 +97,7 @@ export const addresses: IAddresses = {
     PICKLE_OHM_LUSD_ADDRESS: "0xc3d03e4f041fd4cd388c549ee2a29a9e5075882f",
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   }, // TODO: Replace with Arbitrum contract addresses when ready
-  421611: {
+  [NetworkID.ArbitrumTestnet]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
     OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // The new staking contract
@@ -119,7 +116,7 @@ export const addresses: IAddresses = {
     PICKLE_OHM_LUSD_ADDRESS: "0xc3d03e4f041fd4cd388c549ee2a29a9e5075882f",
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   }, // TODO: Replace with Arbitrum Testnet contract addresses when ready
-  43113: {
+  [NetworkID.AvalancheTestnet]: {
     DAI_ADDRESS: "",
     OHM_ADDRESS: "",
     STAKING_ADDRESS: "", // The new staking contract
@@ -140,7 +137,7 @@ export const addresses: IAddresses = {
     // GOHM_ADDRESS: "",
     // MIGRATOR_ADDRESS: ""
   }, // TODO: Avalanche Testnet addresses
-  43114: {
+  [NetworkID.Avalanche]: {
     DAI_ADDRESS: "",
     OHM_ADDRESS: "",
     // STAKING_ADDRESS: "", // The new staking contract
@@ -161,7 +158,7 @@ export const addresses: IAddresses = {
     GOHM_ADDRESS: "0x321e7092a180bb43555132ec53aaa65a5bf84251",
     MIGRATOR_ADDRESS: "0xB10209BFbb37d38EC1B5F0c964e489564e223ea7",
   }, // TODO: Avalanche Mainnet addresses
-};
+} as const;
 
 /**
  * Network details required to add a network to a user's wallet, as defined in EIP-3085 (https://eips.ethereum.org/EIPS/eip-3085)
@@ -186,14 +183,14 @@ interface INetwork {
 
 // These networks will be available for users to select. Other networks may be functional
 // (e.g. testnets, or mainnets being prepared for launch) but need to be selected directly via the wallet.
-export const USER_SELECTABLE_NETWORKS = [1, 42161, 43114];
+export const USER_SELECTABLE_NETWORKS = [NetworkID.Mainnet, NetworkID.Arbitrum, NetworkID.Avalanche];
 
 // Set this to the chain number of the most recently added network in order to enable the 'Now supporting X network'
 // message in the UI. Set to -1 if we don't want to display the message at the current time.
-export const NEWEST_NETWORK_ID = 43114;
+export const NEWEST_NETWORK_ID = NetworkID.Avalanche;
 
-export const NETWORKS: { [key: number]: INetwork } = {
-  1: {
+export const NETWORKS: { [network in NetworkID]: INetwork } = {
+  [NetworkID.Mainnet]: {
     chainName: "Ethereum",
     chainId: 1,
     nativeCurrency: {
@@ -207,7 +204,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     imageAltText: "Ethereum Logo",
     uri: () => NodeHelper.getMainnetURI(1),
   },
-  4: {
+  [NetworkID.Testnet]: {
     chainName: "Rinkeby Testnet",
     chainId: 4,
     nativeCurrency: {
@@ -221,7 +218,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     imageAltText: "Ethereum Logo",
     uri: () => EnvHelper.alchemyEthereumTestnetURI,
   },
-  42161: {
+  [NetworkID.Arbitrum]: {
     chainName: "Arbitrum",
     chainId: 42161,
     nativeCurrency: {
@@ -235,7 +232,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     imageAltText: "Arbitrum Logo",
     uri: () => NodeHelper.getMainnetURI(42161),
   },
-  421611: {
+  [NetworkID.ArbitrumTestnet]: {
     chainName: "Arbitrum Testnet",
     chainId: 421611,
     nativeCurrency: {
@@ -249,7 +246,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     imageAltText: "Arbitrum Logo",
     uri: () => EnvHelper.alchemyArbitrumTestnetURI,
   },
-  43113: {
+  [NetworkID.AvalancheTestnet]: {
     chainName: "Avalanche Fuji Testnet",
     chainId: 43113,
     nativeCurrency: {
@@ -263,7 +260,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     imageAltText: "Avalanche Logo",
     uri: () => EnvHelper.alchemyAvalancheTestnetURI,
   },
-  43114: {
+  [NetworkID.Avalanche]: {
     chainName: "Avalanche",
     chainId: 43114,
     nativeCurrency: {

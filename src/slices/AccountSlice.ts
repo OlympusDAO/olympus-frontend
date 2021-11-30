@@ -1,5 +1,5 @@
 import { BigNumber, BigNumberish, ethers } from "ethers";
-import { addresses } from "../constants";
+import { addresses, NetworkId } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
@@ -73,8 +73,8 @@ export const getBalances = createAsyncThunk(
       ) as IERC20;
       poolBalance = await poolTokenContract.balanceOf(address);
 
-      for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"]) {
-        if (addresses[networkID][fuseAddressKey]) {
+      if (networkID === NetworkId.Ethereum)
+        for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"] as const) {
           const fsohmContract = new ethers.Contract(
             addresses[networkID][fuseAddressKey] as string,
             fuseProxy,
@@ -84,7 +84,6 @@ export const getBalances = createAsyncThunk(
           const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
           fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
         }
-      }
     } catch (e) {
       console.warn("caught error in getBalances", e);
     }

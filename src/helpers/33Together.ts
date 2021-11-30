@@ -1,6 +1,7 @@
 import { BigNumber, ethers } from "ethers";
 import { addresses } from "../constants";
 import { trim } from "src/helpers";
+import { NetworkID } from "src/lib/Bond";
 
 /**
  * Calculates user's odds of winning based on their pool balance
@@ -61,7 +62,7 @@ export const secondsToDaysForInput = (seconds: number) => {
  * @param networkId
  * @returns [PrizePoolURI, PoolDetailsURI]
  */
-export const poolTogetherUILinks = (networkId: number): Array<string> => {
+export const poolTogetherUILinks = (networkId: NetworkID.Mainnet | NetworkID.Testnet): Array<string> => {
   const contractAddress = addresses[networkId].PT_PRIZE_POOL_ADDRESS;
 
   if (networkId === 4) {

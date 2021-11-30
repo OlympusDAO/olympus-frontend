@@ -8,7 +8,7 @@ import { addresses } from "src/constants";
 import { getTokenPrice } from "../helpers";
 import { OhmLusdCrucible, UniswapIERC20 } from "src/typechain";
 
-export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJsonRpcProvider) => {
+export const calcAludelDetes = async (networkID: NetworkID.Mainnet, provider: StaticJsonRpcProvider) => {
   const crucibleAddress = addresses[networkID].CRUCIBLE_OHM_LUSD;
   const aludelContract = new ethers.Contract(
     crucibleAddress as string,
