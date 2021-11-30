@@ -158,7 +158,7 @@ function Wrap() {
                 <Link
                   className="migrate-stelo-button"
                   style={{ textDecoration: "none" }}
-                  href="https://docs.telesto.money/main/contracts/tokens#wstelo"
+                  href="https://docs.telesto.world/main/contracts/tokens#wstelo"
                   aria-label="wstelo-wut"
                   target="_blank"
                 >

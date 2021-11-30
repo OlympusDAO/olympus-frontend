@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div id="not-found">
       <div className="not-found-header">
-        <a href="https://telesto.money" target="_blank">
+        <a href="https://telesto.world" target="_blank">
           <img className="branding-header-icon" src={TelestoLogo} alt="TelestoDAO" />
         </a>
 

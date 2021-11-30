@@ -141,7 +141,7 @@ function ZapInfo({ tokens, address }) {
           <Button
             variant="outlined"
             color="secondary"
-            href="https://docs.telesto.money/main/using-the-website/olyzaps"
+            href="https://docs.telesto.world/main/using-the-website/olyzaps"
             target="_blank"
             className="learn-more-button"
             onClick={() => {

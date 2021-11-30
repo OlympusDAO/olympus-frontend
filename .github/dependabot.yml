@@ -6,6 +6,6 @@ updates:
     reviewers:
       - 'TelestoDAO/Frontend'
     schedule:
-      interval: 'daily'
+      interval: 'weekly'
       time: '04:00'
     target-branch: 'develop'

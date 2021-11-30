@@ -20,7 +20,7 @@ function Zap() {
         .slice(0, 3),
     [tokens],
   );
-
+  return <></>
   return (
     <div id="zap-view">
       <Zoom in={true}>

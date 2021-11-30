@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 function ZapCta() {
   const classes = useStyles();
+  return <></>
   return (
     <>
       <Paper className="telo-card" id="olyzaps-cta">

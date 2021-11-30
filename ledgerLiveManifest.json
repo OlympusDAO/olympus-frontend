@@ -2,7 +2,7 @@
   "id": "telesto",
   "name": "Telesto",
   "url": "http://localhost:3000/app/dapp-browser?dappName=Telesto&nanoApp=Telesto&url=http%3A%2F%2Flocalhost%3A3001",
-  "homepageUrl": "https://telesto.money/",
+  "homepageUrl": "https://telesto.world/",
   "icon": "https://res.cloudinary.com/appleseed/image/upload/v1634164239/telo-gray_xsbilr.png",
   "platform": "all",
   "apiVersion": "0.0.1",

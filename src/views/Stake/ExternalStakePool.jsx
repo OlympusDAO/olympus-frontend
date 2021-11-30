@@ -66,7 +66,7 @@ export default function ExternalStakePool() {
       loadLusdData();
     }
   }, [walletChecked]);
-
+  return <></>
   return (
     <Zoom in={true}>
       <Paper className={`telo-card secondary ${isSmallScreen && "mobile"}`}>

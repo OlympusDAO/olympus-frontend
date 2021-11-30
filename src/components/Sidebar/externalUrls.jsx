@@ -8,17 +8,17 @@ import { Trans } from "@lingui/macro";
 const externalUrls = [
   {
     title: <Trans>Forum</Trans>,
-    url: "https://forum.telesto.money/",
+    url: "https://forum.telesto.world/",
     icon: <SvgIcon color="primary" component={ForumIcon} />,
   },
   {
     title: <Trans>Governance</Trans>,
-    url: "https://vote.telesto.money/",
+    url: "https://vote.telesto.world/",
     icon: <SvgIcon color="primary" component={GovIcon} />,
   },
   {
     title: <Trans>Docs</Trans>,
-    url: "https://docs.telesto.money/",
+    url: "https://docs.telesto.world/",
     icon: <SvgIcon color="primary" component={DocsIcon} />,
   },
   // {

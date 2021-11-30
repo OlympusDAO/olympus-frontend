@@ -48,7 +48,7 @@ function NavContent() {
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
         <div className="dapp-menu-top">
           <Box className="branding-header">
-            <Link href="https://telesto.money" target="_blank">
+            <Link href="https://telesto.world" target="_blank">
               <SvgIcon
                 color="primary"
                 component={TelestoIcon}
@@ -59,7 +59,9 @@ function NavContent() {
 
             {address && (
               <div className="wallet-link">
-                <Link href={`https://etherscan.io/address/${address}`} target="_blank">
+                <Link href={
+                    "https://alfajores-blockscout.celo-testnet.org/address/${address}"
+                } target="_blank">
                   {shorten(address)}
                 </Link>
               </div>
@@ -98,7 +100,7 @@ function NavContent() {
                 </Typography>
               </Link>
 
-              <Link
+              {/* <Link
                 component={NavLink}
                 id="zap-nav"
                 to="/zap"
@@ -112,9 +114,9 @@ function NavContent() {
                   <Typography variant="h6">OlyZaps</Typography>
                   <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
                 </Box>
-              </Link>
+              </Link> */}
 
-              <Link
+              {/* <Link
                 component={NavLink}
                 id="33-together-nav"
                 to="/33-together"
@@ -128,7 +130,7 @@ function NavContent() {
                   3,3 Together
                 </Typography>
               </Link>
-
+ */}
               <Link
                 component={NavLink}
                 id="bond-nav"

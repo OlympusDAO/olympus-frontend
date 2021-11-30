@@ -10,7 +10,7 @@ import { ReactComponent as teloTokenImg } from "../../assets/tokens/token_TELO.s
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
 
 import "./telomenu.scss";
-import { dai, frax } from "src/helpers/AllBonds";
+import { cusd, ceuro } from "src/helpers/AllBonds";
 import { Trans } from "@lingui/macro";
 import { useWeb3Context } from "../../hooks/web3Context";
 
@@ -81,11 +81,11 @@ function TeloMenu() {
   const handleClick = event => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
-
   const open = Boolean(anchorEl);
   const id = "telo-popper";
-  const daiAddress = dai.getAddressForReserve(networkID);
-  const fraxAddress = frax.getAddressForReserve(networkID);
+  console.log(networkID, cusd);
+  const cusdAddress = cusd.getAddressForReserve(networkID);
+  const ceuroAddress = ceuro.getAddressForReserve(networkID);
   return (
     <Box
       component="div"
@@ -105,7 +105,7 @@ function TeloMenu() {
               <Paper className="telo-menu" elevation={1}>
                 <Box component="div" className="buy-tokens">
                   <Link
-                    href={`https://app.sushi.com/swap?inputCurrency=${daiAddress}&outputCurrency=${TELO_ADDRESS}`}
+                    href={`https://app.sushi.com/swap?inputCurrency=${cusdAddress}&outputCurrency=${TELO_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -118,7 +118,7 @@ function TeloMenu() {
                   </Link>
 
                   <Link
-                    href={`https://app.uniswap.org/#/swap?inputCurrency=${fraxAddress}&outputCurrency=${TELO_ADDRESS}`}
+                    href={`https://app.uniswap.org/#/swap?inputCurrency=${ceuroAddress}&outputCurrency=${TELO_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -217,7 +217,7 @@ function TeloMenu() {
 
                 <Divider color="secondary" />
                 <Link
-                  href="https://docs.telesto.money/using-the-website/unstaking_lp"
+                  href="https://docs.telesto.world/using-the-website/unstaking_lp"
                   target="_blank"
                   rel="noreferrer"
                 >

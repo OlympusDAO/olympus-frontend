@@ -185,7 +185,7 @@ function Stake() {
                   <Link
                     className="migrate-stelo-button"
                     style={{ textDecoration: "none" }}
-                    href="https://docs.telesto.money/using-the-website/migrate"
+                    href="https://docs.telesto.world/using-the-website/migrate"
                     aria-label="migrate-stelo"
                     target="_blank"
                   >

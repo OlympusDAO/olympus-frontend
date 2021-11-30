@@ -121,7 +121,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_dai",
+          "name": "_cusd",
           "type": "address"
         },
         {

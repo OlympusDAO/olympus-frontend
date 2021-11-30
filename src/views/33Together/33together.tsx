@@ -14,7 +14,7 @@ import { PoolPrize } from "./PoolPrize";
 import "./33together.scss";
 import { addresses, POOL_GRAPH_URLS } from "src/constants";
 import { useWeb3Context, useAppSelector } from "src/hooks";
-import { apolloExt } from "src/lib/apolloClient";
+// import { apolloExt } from "src/lib/apolloClient";
 import { poolDataQuery, yourAwardsQuery } from "./poolData";
 import { calculateOdds, trimOdds } from "src/helpers/33Together";
 import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
@@ -40,164 +40,164 @@ const PoolTogether = () => {
     setView(newView);
   };
 
-  // NOTE (appleseed): these calcs were previously in PoolInfo, however would be need in PoolPrize, too, if...
-  // ... we ever were to implement other types of awards
-  const { connect, address, provider, chainID, hasCachedProvider } = useWeb3Context();
-  const dispatch = useDispatch();
-  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID.toString()]);
-  const [poolData, setPoolData] = useState(null);
-  const [poolDataError, setPoolDataError] = useState(null);
-  const [graphLoading, setGraphLoading] = useState(true);
-  const [walletChecked, setWalletChecked] = useState(false);
-  const [winners, setWinners] = useState("--");
-  const [totalDeposits, setTotalDeposits] = useState(0);
-  const [totalSponsorship, setTotalSponsorship] = useState(0);
-  const [yourOdds, setYourOdds] = useState<number | string>(0);
-  const [yourTotalAwards, setYourTotalAwards] = useState(0);
-  // TODO (appleseed-33T): create a table for AwardHistory
-  const [yourAwardHistory, setYourAwardHistory] = useState<Array<AwardItem>>([]);
-  const [infoTooltipMessage, setInfoTooltipMessage] = useState<Array<string>>([
-    "Deposit sTELO to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sTELO is withdrawn.",
-  ]);
-  const isAccountLoading = useAppSelector(state => state.account.loading ?? true);
+  // // NOTE (appleseed): these calcs were previously in PoolInfo, however would be need in PoolPrize, too, if...
+  // // ... we ever were to implement other types of awards
+  // const { connect, address, provider, chainID, hasCachedProvider } = useWeb3Context();
+  // const dispatch = useDispatch();
+  // const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID.toString()]);
+  // const [poolData, setPoolData] = useState(null);
+  // const [poolDataError, setPoolDataError] = useState(null);
+  // const [graphLoading, setGraphLoading] = useState(true);
+  // const [walletChecked, setWalletChecked] = useState(false);
+  // const [winners, setWinners] = useState("--");
+  // const [totalDeposits, setTotalDeposits] = useState(0);
+  // const [totalSponsorship, setTotalSponsorship] = useState(0);
+  // const [yourOdds, setYourOdds] = useState<number | string>(0);
+  // const [yourTotalAwards, setYourTotalAwards] = useState(0);
+  // // TODO (appleseed-33T): create a table for AwardHistory
+  // const [yourAwardHistory, setYourAwardHistory] = useState<Array<AwardItem>>([]);
+  // const [infoTooltipMessage, setInfoTooltipMessage] = useState<Array<string>>([
+  //   "Deposit sTELO to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sTELO is withdrawn.",
+  // ]);
+  // const isAccountLoading = useAppSelector(state => state.account.loading ?? true);
 
-  const steloBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.stelo;
-  });
+  // const steloBalance = useAppSelector(state => {
+  //   return state.account.balances && state.account.balances.stelo;
+  // });
 
-  const poolBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.pool;
-  });
+  // const poolBalance = useAppSelector(state => {
+  //   return state.account.balances && state.account.balances.pool;
+  // });
 
-  // query correct pool subgraph depending on current chain
-  useEffect(() => {
-    setGraphUrl(POOL_GRAPH_URLS[chainID]);
-  }, [chainID]);
+  // // query correct pool subgraph depending on current chain
+  // useEffect(() => {
+  //   setGraphUrl(POOL_GRAPH_URLS[chainID]);
+  // }, [chainID]);
 
-  useEffect(() => {
-    // get poolData
-    apolloExt(poolDataQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS), graphUrl)
-      .then(poolData => {
-        const prizePool: PrizePool = poolData?.data.prizePool;
+  // useEffect(() => {
+  //   // get poolData
+  //   apolloExt(poolDataQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS), graphUrl)
+  //     .then(poolData => {
+  //       const prizePool: PrizePool = poolData?.data.prizePool;
 
-        const poolWinners = prizePool.prizeStrategy?.multipleWinners?.numberOfWinners;
-        if (poolWinners) setWinners(poolWinners);
+  //       const poolWinners = prizePool.prizeStrategy?.multipleWinners?.numberOfWinners;
+  //       if (poolWinners) setWinners(poolWinners);
 
-        const poolTotalDeposits = prizePool.controlledTokens[0].totalSupply / 1_000_000_000;
-        if (poolTotalDeposits) setTotalDeposits(poolTotalDeposits);
+  //       const poolTotalDeposits = prizePool.controlledTokens[0].totalSupply / 1_000_000_000;
+  //       if (poolTotalDeposits) setTotalDeposits(poolTotalDeposits);
 
-        // sponsorship is deposited funds contributing to the prize without being eligible to win
-        const poolTotalSponsorship = prizePool.controlledTokens[1].totalSupply / 1_000_000_000;
-        if (poolTotalSponsorship) setTotalSponsorship(poolTotalSponsorship);
+  //       // sponsorship is deposited funds contributing to the prize without being eligible to win
+  //       const poolTotalSponsorship = prizePool.controlledTokens[1].totalSupply / 1_000_000_000;
+  //       if (poolTotalSponsorship) setTotalSponsorship(poolTotalSponsorship);
 
-        setPoolData(poolData?.data);
-        setGraphLoading(false);
-      })
-      .catch(err => setPoolDataError(err));
+  //       setPoolData(poolData?.data);
+  //       setGraphLoading(false);
+  //     })
+  //     .catch(err => setPoolDataError(err));
 
-    // get your Award History
-    if (address) {
-      const yourPrizes: Array<AwardItem> = [];
-      let totalAwards = 0;
-      apolloExt(
-        yourAwardsQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS, address, addresses[chainID].PT_TOKEN_ADDRESS),
-        graphUrl,
-      )
-        .then(poolData => {
-          poolData?.data.prizePool?.prizes.map((prize: Prize) => {
-            const awardedAmount = parseFloat(prize.awardedControlledTokens[0]?.amount) / 10 ** 9 || 0;
-            // pushing in an AwardItem {awardedTimestamp, awardedBlock, awardedAmount}
-            yourPrizes.push({
-              awardedTimestamp: prize.awardedTimestamp,
-              awardedBlock: prize.awardedBlock,
-              awardedAmount: awardedAmount,
-            } as AwardItem);
-            totalAwards += awardedAmount;
-          });
-          setYourTotalAwards(totalAwards);
-          setYourAwardHistory(yourPrizes);
-        })
-        .catch(err => setPoolDataError(err));
-    }
-  }, [graphUrl]);
+  //   // get your Award History
+  //   if (address) {
+  //     const yourPrizes: Array<AwardItem> = [];
+  //     let totalAwards = 0;
+  //     apolloExt(
+  //       yourAwardsQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS, address, addresses[chainID].PT_TOKEN_ADDRESS),
+  //       graphUrl,
+  //     )
+  //       .then(poolData => {
+  //         poolData?.data.prizePool?.prizes.map((prize: Prize) => {
+  //           const awardedAmount = parseFloat(prize.awardedControlledTokens[0]?.amount) / 10 ** 9 || 0;
+  //           // pushing in an AwardItem {awardedTimestamp, awardedBlock, awardedAmount}
+  //           yourPrizes.push({
+  //             awardedTimestamp: prize.awardedTimestamp,
+  //             awardedBlock: prize.awardedBlock,
+  //             awardedAmount: awardedAmount,
+  //           } as AwardItem);
+  //           totalAwards += awardedAmount;
+  //         });
+  //         setYourTotalAwards(totalAwards);
+  //         setYourAwardHistory(yourPrizes);
+  //       })
+  //       .catch(err => setPoolDataError(err));
+  //   }
+  // }, [graphUrl]);
 
-  useEffect(() => {
-    const userOdds = calculateOdds(poolBalance, totalDeposits, parseFloat(winners));
-    setYourOdds(userOdds);
-  }, [winners, totalDeposits, poolBalance]);
+  // useEffect(() => {
+  //   const userOdds = calculateOdds(poolBalance, totalDeposits, parseFloat(winners));
+  //   setYourOdds(userOdds);
+  // }, [winners, totalDeposits, poolBalance]);
 
-  useEffect(() => {
-    if (hasCachedProvider()) {
-      // then user DOES have a wallet
-      connect().then(() => {
-        setWalletChecked(true);
-      });
-    } else {
-      // then user DOES NOT have a wallet
-      setWalletChecked(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (hasCachedProvider()) {
+  //     // then user DOES have a wallet
+  //     connect().then(() => {
+  //       setWalletChecked(true);
+  //     });
+  //   } else {
+  //     // then user DOES NOT have a wallet
+  //     setWalletChecked(true);
+  //   }
+  // }, []);
 
-  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
-  useEffect(() => {
-    // don't load ANY details until wallet is Checked
-    if (walletChecked) {
-      dispatch(getPoolValues({ networkID: chainID, provider: provider }));
-      dispatch(getRNGStatus({ networkID: chainID, provider: provider }));
-    }
-  }, [walletChecked]);
+  // // this useEffect fires on state change from above. It will ALWAYS fire AFTER
+  // useEffect(() => {
+  //   // don't load ANY details until wallet is Checked
+  //   if (walletChecked) {
+  //     dispatch(getPoolValues({ networkID: chainID, provider: provider }));
+  //     dispatch(getRNGStatus({ networkID: chainID, provider: provider }));
+  //   }
+  // }, [walletChecked]);
+  return <></>
+  // return (
+  //   <div id="pool-together-view">
+  //     <PoolPrize />
 
-  return (
-    <div id="pool-together-view">
-      <PoolPrize />
+  //     <Paper className="telo-card">
+  //       <Box display="flex">
+  //         <CardHeader title={t`3, 3 Together`} />
+  //         <InfoTooltipMulti messagesArray={infoTooltipMessage} />
+  //       </Box>
+  //       <Tabs
+  //         centered
+  //         value={view}
+  //         textColor="primary"
+  //         indicatorColor="primary"
+  //         onChange={changeView}
+  //         className="pt-tabs"
+  //         aria-label="pool tabs"
+  //       >
+  //         <Tab label={t`Deposit`} {...a11yProps(0)} />
+  //         <Tab label={t`Withdraw`} {...a11yProps(1)} />
+  //       </Tabs>
 
-      <Paper className="telo-card">
-        <Box display="flex">
-          <CardHeader title={t`3, 3 Together`} />
-          <InfoTooltipMulti messagesArray={infoTooltipMessage} />
-        </Box>
-        <Tabs
-          centered
-          value={view}
-          textColor="primary"
-          indicatorColor="primary"
-          onChange={changeView}
-          className="pt-tabs"
-          aria-label="pool tabs"
-        >
-          <Tab label={t`Deposit`} {...a11yProps(0)} />
-          <Tab label={t`Withdraw`} {...a11yProps(1)} />
-        </Tabs>
+  //       <TabPanel value={view} index={0} className="pool-tab">
+  //         <PoolDeposit
+  //           totalPoolDeposits={totalDeposits}
+  //           winners={winners}
+  //           setInfoTooltipMessage={setInfoTooltipMessage}
+  //         />
+  //       </TabPanel>
+  //       <TabPanel value={view} index={1} className="pool-tab">
+  //         <PoolWithdraw
+  //           totalPoolDeposits={totalDeposits}
+  //           winners={winners}
+  //           setInfoTooltipMessage={setInfoTooltipMessage}
+  //         />
+  //       </TabPanel>
+  //     </Paper>
 
-        <TabPanel value={view} index={0} className="pool-tab">
-          <PoolDeposit
-            totalPoolDeposits={totalDeposits}
-            winners={winners}
-            setInfoTooltipMessage={setInfoTooltipMessage}
-          />
-        </TabPanel>
-        <TabPanel value={view} index={1} className="pool-tab">
-          <PoolWithdraw
-            totalPoolDeposits={totalDeposits}
-            winners={winners}
-            setInfoTooltipMessage={setInfoTooltipMessage}
-          />
-        </TabPanel>
-      </Paper>
-
-      <PoolInfo
-        graphLoading={graphLoading}
-        isAccountLoading={isAccountLoading}
-        poolBalance={trimOdds(parseFloat(poolBalance))}
-        steloBalance={trimOdds(parseFloat(steloBalance))}
-        yourTotalAwards={trimOdds(yourTotalAwards)}
-        yourOdds={trimOdds(yourOdds)}
-        winners={winners}
-        totalDeposits={totalDeposits}
-        totalSponsorship={totalSponsorship}
-      />
-    </div>
-  );
+  //     <PoolInfo
+  //       graphLoading={graphLoading}
+  //       isAccountLoading={isAccountLoading}
+  //       poolBalance={trimOdds(parseFloat(poolBalance))}
+  //       steloBalance={trimOdds(parseFloat(steloBalance))}
+  //       yourTotalAwards={trimOdds(yourTotalAwards)}
+  //       yourOdds={trimOdds(yourOdds)}
+  //       winners={winners}
+  //       totalDeposits={totalDeposits}
+  //       totalSponsorship={totalSponsorship}
+  //     />
+  //   </div>
+  // );
 };
 
 export default PoolTogether;

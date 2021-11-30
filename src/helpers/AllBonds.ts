@@ -29,8 +29,8 @@ import { BondType, CustomBond, LPBond, NetworkID, StableBond } from "src/lib/Bon
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
-export const dai = new StableBond({
-  name: "dai",
+export const cusd = new StableBond({
+  name: "cusd",
   displayName: "CUSD",
   bondToken: "CUSD",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
@@ -48,8 +48,8 @@ export const dai = new StableBond({
   },
 });
 
-export const frax = new StableBond({
-  name: "frax",
+export const ceuro = new StableBond({
+  name: "ceuro",
   displayName: "CEUR",
   bondToken: "CEUR",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
@@ -178,8 +178,8 @@ export const eth = new CustomBond({
 //   },
 // });
 
-export const telo_dai = new LPBond({
-  name: "telo_dai_lp",
+export const telo_cusd = new LPBond({
+  name: "telo_cusd_lp",
   displayName: "TELO-CUSD LP",
   bondToken: "CUSD",
   isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
@@ -200,8 +200,8 @@ export const telo_dai = new LPBond({
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
 });
 
-export const telo_frax = new LPBond({
-  name: "telo_frax_lp",
+export const telo_ceuro = new LPBond({
+  name: "telo_ceuro_lp",
   displayName: "TELO-CEUR LP",
   bondToken: "CEUR",
   isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
@@ -236,7 +236,7 @@ export const telo_frax = new LPBond({
 //       reserveAddress: "0xfDf12D1F85b5082877A6E070524f50F6c84FAa6b",
 //     },
 //     [NetworkID.Testnet]: {
-//       // NOTE (appleseed-lusd): using telo-dai rinkeby contracts
+//       // NOTE (appleseed-lusd): using telo-cusd rinkeby contracts
 //       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
 //       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
 //     },
@@ -259,7 +259,7 @@ export const telo_weth = new CustomBond({
       reserveAddress: "0xfffae4a0f4ac251f4705717cd24cadccc9f33e06",
     },
     [NetworkID.Testnet]: {
-      // NOTE (unbanksy): using telo-dai rinkeby contracts
+      // NOTE (unbanksy): using telo-cusd rinkeby contracts
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
@@ -300,7 +300,7 @@ export const telo_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth,  telo_dai, telo_frax, telo_weth];
+export const allBonds = [cusd, ceuro, eth,  telo_cusd, telo_ceuro, telo_weth];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
 export const allExpiredBonds = [];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {

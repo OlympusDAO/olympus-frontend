@@ -11,8 +11,8 @@ import { CELOContract } from "src/typechain/CELOContract";
 import { PairContract } from "src/typechain/PairContract";
 
 export enum NetworkID {
-  Mainnet = 1,
-  Testnet = 4,
+  Mainnet = 42220,
+  Testnet = 44787,
 }
 
 export enum BondType {

@@ -5,6 +5,7 @@ import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as CaretDownIcon } from "../../assets/icons/caret-down.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Trans } from "@lingui/macro";
+import { NetworkID } from "src/lib/Bond";
 
 function ConnectMenu({ theme }) {
   const { connect, disconnect, connected, web3, chainID } = useWeb3Context();
@@ -41,7 +42,7 @@ function ConnectMenu({ theme }) {
     "pending-txn-container" + (isHovering && pendingTransactions.length > 0 ? " hovered-button" : "");
 
   const getEtherscanUrl = txnHash => {
-    return chainID === 4 ? "https://rinkeby.etherscan.io/tx/" + txnHash : "https://etherscan.io/tx/" + txnHash;
+    return chainID === NetworkID.Testnet ? "https://alfajores-blockscout.celo-testnet.org/tx/" + txnHash : "https://explorer.celo.org/tx/" + txnHash;
   };
 
   useEffect(() => {

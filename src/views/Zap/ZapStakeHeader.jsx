@@ -10,6 +10,7 @@ export default function ZapStakeHeader({ images }) {
   if (isVerySmallScreen) {
     images = images?.slice(0, 2);
   }
+  return <></>
   return (
     <Box
       paddingBottom={4}

@@ -1,4 +1,4 @@
-# [Ω Telesto Frontend](https://app.telesto.money/)
+# [Ω Telesto Frontend](https://app.telesto.world/)
 This is the front-end repo for Telesto that allows users be part of the future of Greece. 
 
 **_ Note We're currently in the process of switching to TypeScript. Please read  this  guide on how to use TypeScript for this repository. https://github.com/TelestoDAO/telesto-frontend/wiki/TypeScript-Refactor-General-Guidelines _**
@@ -93,8 +93,8 @@ _**TODO**: TheGraph implementation/how/why we use it._
 Commits to the follow branches are automatically deployed to their respective URLs.
 | Branch | URL |
 | --- | --- |
-| master | https://app.telesto.money |
-| deploy | https://staging.telesto.money |
+| master | https://app.telesto.world |
+| deploy | https://staging.telesto.world |
 
 **Pull Requests**:
 Each PR into master will get its own custom URL that is visible on the PR page. QA & validate changes on that URL before merging into the deploy branch. 
