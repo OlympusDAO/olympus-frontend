@@ -52,7 +52,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
         <Box display="flex">
           {!isVerySmallScreen && <OhmMenu />}
 
-          <NetworkMenu />
+          {/* <NetworkMenu /> */}
 
           <ConnectMenu theme={theme} />
 

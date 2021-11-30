@@ -234,41 +234,45 @@ function App() {
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
-            <Route exact path="/dashboard">
-              <TreasuryDashboard />
-            </Route>
+            {networkId === 1 ||
+              (networkId === 4 && (
+                <>
+                  <Route exact path="/dashboard">
+                    <TreasuryDashboard />
+                  </Route>
 
-            <Route exact path="/">
-              <Redirect to="/stake" />
-            </Route>
+                  <Route exact path="/">
+                    <Redirect to="/stake" />
+                  </Route>
 
-            <Route path="/stake">
-              <Stake />
-            </Route>
+                  <Route path="/stake">
+                    <Stake />
+                  </Route>
 
-            <Route path="/zap">
-              <Route exact path={`/zap`}>
-                <Zap />
-              </Route>
-            </Route>
+                  <Route path="/zap">
+                    <Route exact path={`/zap`}>
+                      <Zap />
+                    </Route>
+                  </Route>
 
+                  <Route path="/33-together">
+                    <PoolTogether />
+                  </Route>
+
+                  <Route path="/bonds">
+                    {(bonds as IAllBondData[]).map(bond => {
+                      return (
+                        <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
+                          <Bond bond={bond} />
+                        </Route>
+                      );
+                    })}
+                    <ChooseBond />
+                  </Route>
+                </>
+              ))}
             <Route path="/wrap">
               <Wrap />
-            </Route>
-
-            <Route path="/33-together">
-              {networkId === 1 || networkId === 4 ? <PoolTogether /> : <Redirect to="/stake" />}
-            </Route>
-
-            <Route path="/bonds">
-              {(bonds as IAllBondData[]).map(bond => {
-                return (
-                  <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
-                    <Bond bond={bond} />
-                  </Route>
-                );
-              })}
-              <ChooseBond />
             </Route>
 
             <Route path="/network">

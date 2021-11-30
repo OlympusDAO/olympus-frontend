@@ -1,7 +1,7 @@
 import { NodeHelper } from "./helpers/NodeHelper";
 import { EnvHelper } from "./helpers/Environment";
 import ethereum from "./assets/tokens/wETH.svg";
-import arbitrum from "./assets/arbitrum.svg";
+import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
@@ -135,11 +135,14 @@ export const addresses: IAddresses = {
     TREASURY_ADDRESS: "",
     PICKLE_OHM_LUSD_ADDRESS: "",
     REDEEM_HELPER_ADDRESS: "",
+    // WSOHM_ADDRESS: "",
+    // GOHM_ADDRESS: "",
+    // MIGRATOR_ADDRESS: ""
   }, // TODO: Avalanche Testnet addresses
   43114: {
     DAI_ADDRESS: "",
     OHM_ADDRESS: "",
-    STAKING_ADDRESS: "", // The new staking contract
+    // STAKING_ADDRESS: "", // The new staking contract
     STAKING_HELPER_ADDRESS: "", // Helper contract used for Staking only
     OLD_STAKING_ADDRESS: "",
     SOHM_ADDRESS: "",
@@ -153,6 +156,9 @@ export const addresses: IAddresses = {
     TREASURY_ADDRESS: "",
     PICKLE_OHM_LUSD_ADDRESS: "",
     REDEEM_HELPER_ADDRESS: "",
+    WSOHM_ADDRESS: "0x8cd309e14575203535ef120b5b0ab4dded0c2073",
+    GOHM_ADDRESS: "0x321e7092a180bb43555132ec53aaa65a5bf84251",
+    MIGRATOR_ADDRESS: "0x86d9fA104598497eCc0E661661cFb08B83Db7E63",
   }, // TODO: Avalanche Mainnet addresses
 };
 
