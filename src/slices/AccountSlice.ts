@@ -8,6 +8,7 @@ import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
 
 import { setAll } from "../helpers";
+import { getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
@@ -136,32 +137,8 @@ export const getDonationBalances = createAsyncThunk(
 export const getRedemptionBalances = createAsyncThunk(
   "account/getRedemptionBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
-    const redeemableBalance = await givingContract.redeemableBalance(address);
-
-    let recipientInfo: IUserRecipientInfo = {
-      totalDebt: "",
-      carry: "",
-      agnosticAmount: "",
-      indexAtLastChange: "",
-    };
-    try {
-      let recipientInfoData = await givingContract.recipientInfo(address);
-      recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
-      recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
-      recipientInfo.agnosticAmount = ethers.utils.formatUnits(recipientInfoData.agnosticAmount.toNumber(), "gwei");
-      recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
-        recipientInfoData.indexAtLastChange.toNumber(),
-        "gwei",
-      );
-    } catch (e: unknown) {}
-
-    return {
-      redeeming: {
-        sohmRedeemable: ethers.utils.formatUnits(redeemableBalance, "gwei"),
-        recipientInfo: recipientInfo,
-      },
-    };
+    const redeeming = await getRedemptionBalancesAsync({ address, networkID, provider });
+    return redeeming;
   },
 );
 

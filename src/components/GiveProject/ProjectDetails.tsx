@@ -3,10 +3,10 @@ import Countdown from "react-countdown";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import { useAppDispatch } from "src/hooks";
-import { getRedemptionBalances } from "src/slices/AccountSlice";
+import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
@@ -44,19 +44,22 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
 
-  // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
-  dispatch(
-    getRedemptionBalances({
+  // When the user's wallet is connected, we perform these actions
+  useEffect(() => {
+    if (!connected) return;
+
+    // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
+    // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
+    // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
+    getRedemptionBalancesAsync({
       networkID: chainID,
       provider: provider,
       address: wallet,
-    }),
-  )
-    .then(unwrapResult)
-    .then(resultAction => {
+    }).then(resultAction => {
       setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
       setRecipientInfoIsLoading(false);
     });
+  }, [connected]);
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
