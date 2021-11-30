@@ -1,3 +1,5 @@
+import { NetworkID } from "src/lib/Bond";
+
 /**
  * Access `process.env` in an environment helper
  * Usage: `EnvHelper.env`
@@ -152,9 +154,11 @@ export class EnvHelper {
    * @returns array of API urls
    */
   static getAPIUris(networkId: number) {
+    console.log("api", networkId);
+    let ALL_URIs = EnvHelper.getSelfHostedNode(networkId);
     // Debug log
     // console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());
-    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getSelfHostedNode(networkId)];
+    // ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getSelfHostedNode(networkId)];
     if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
     return ALL_URIs;
   }

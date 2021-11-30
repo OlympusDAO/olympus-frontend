@@ -143,6 +143,7 @@ function App() {
 
   const loadAccount = useCallback(
     loadProvider => {
+      console.log("loadA", networkId);
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       bonds.map(bond => {
         if (bond.getAvailability(networkId)) {

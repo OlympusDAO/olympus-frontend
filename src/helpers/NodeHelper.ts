@@ -106,6 +106,7 @@ export class NodeHelper {
    * @returns string
    */
   static getMainnetURI = (networkId: number): string => {
+    console.log("main", networkId);
     // Shuffles the URIs for "intelligent" loadbalancing
     const allURIs = NodeHelper.getNodesUris(networkId);
 

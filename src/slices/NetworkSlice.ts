@@ -44,6 +44,7 @@ export const initializeNetwork = createAsyncThunk(
         case 43114:
           networkName = "Avalanche";
           uri = NodeHelper.getMainnetURI(id);
+          console.log("slice", uri);
           break;
         default:
           supported = false;
