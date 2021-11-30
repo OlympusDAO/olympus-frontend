@@ -79,7 +79,8 @@ export const getBalances = createAsyncThunk(
       console.warn("caught error in getBalances", e);
     }
 
-    console.log("before return");
+    console.log("before return\nwsohm: ", ethers.utils.formatEther(wsohmBalance));
+    console.log("gohm: ", ethers.utils.formatEther(gOhmBalance));
 
     return {
       balances: {
