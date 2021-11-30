@@ -1,3 +1,9 @@
+import { NodeHelper } from "./helpers/NodeHelper";
+import { EnvHelper } from "./helpers/Environment";
+import ethereum from "./assets/tokens/wETH.svg";
+import arbitrum from "./assets/arbitrum.png";
+import avalanche from "./assets/tokens/AVAX.svg";
+
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
 export const EPOCH_INTERVAL = 2200;
 
@@ -73,5 +79,199 @@ export const addresses: IAddresses = {
     PT_PRIZE_STRATEGY_ADDRESS: "0xf3d253257167c935f8C62A02AEaeBB24c9c5012a", // NEW
     MIGRATOR_ADDRESS: "0x184f3FAd8618a6F458C16bae63F70C426fE784B3",
     GOHM_ADDRESS: "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f",
+  },
+  42161: {
+    DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
+    OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
+    STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // The new staking contract
+    STAKING_HELPER_ADDRESS: "0xc8c436271f9a6f10a5b80c8b8ed7d0e8f37a612d", // Helper contract used for Staking only
+    OLD_STAKING_ADDRESS: "0x0822F3C03dcc24d200AFF33493Dc08d0e1f274A2",
+    SOHM_ADDRESS: "0x04F2694C8fcee23e8Fd0dfEA1d4f5Bb8c352111F",
+    OLD_SOHM_ADDRESS: "0x31932E6e45012476ba3A3A4953cbA62AeE77Fbbe",
+    PRESALE_ADDRESS: "0xcBb60264fe0AC96B0EFa0145A9709A825afa17D8",
+    AOHM_ADDRESS: "0x24ecfd535675f36ba1ab9c5d39b50dc097b0792e",
+    MIGRATE_ADDRESS: "0xC7f56EC779cB9e60afA116d73F3708761197dB3d",
+    DISTRIBUTOR_ADDRESS: "0xbe731507810C8747C3E01E62c676b1cA6F93242f",
+    BONDINGCALC_ADDRESS: "0xcaaa6a2d4b26067a391e7b7d65c16bb2d5fa571a",
+    CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
+    TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
+    // TODO (appleseed-lusd): swap this out
+    PICKLE_OHM_LUSD_ADDRESS: "0xc3d03e4f041fd4cd388c549ee2a29a9e5075882f",
+    REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
+  }, // TODO: Replace with Arbitrum contract addresses when ready
+  421611: {
+    DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
+    OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
+    STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // The new staking contract
+    STAKING_HELPER_ADDRESS: "0xc8c436271f9a6f10a5b80c8b8ed7d0e8f37a612d", // Helper contract used for Staking only
+    OLD_STAKING_ADDRESS: "0x0822F3C03dcc24d200AFF33493Dc08d0e1f274A2",
+    SOHM_ADDRESS: "0x04F2694C8fcee23e8Fd0dfEA1d4f5Bb8c352111F",
+    OLD_SOHM_ADDRESS: "0x31932E6e45012476ba3A3A4953cbA62AeE77Fbbe",
+    PRESALE_ADDRESS: "0xcBb60264fe0AC96B0EFa0145A9709A825afa17D8",
+    AOHM_ADDRESS: "0x24ecfd535675f36ba1ab9c5d39b50dc097b0792e",
+    MIGRATE_ADDRESS: "0xC7f56EC779cB9e60afA116d73F3708761197dB3d",
+    DISTRIBUTOR_ADDRESS: "0xbe731507810C8747C3E01E62c676b1cA6F93242f",
+    BONDINGCALC_ADDRESS: "0xcaaa6a2d4b26067a391e7b7d65c16bb2d5fa571a",
+    CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
+    TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
+    // TODO (appleseed-lusd): swap this out
+    PICKLE_OHM_LUSD_ADDRESS: "0xc3d03e4f041fd4cd388c549ee2a29a9e5075882f",
+    REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
+  }, // TODO: Replace with Arbitrum Testnet contract addresses when ready
+  43113: {
+    DAI_ADDRESS: "",
+    OHM_ADDRESS: "",
+    STAKING_ADDRESS: "", // The new staking contract
+    STAKING_HELPER_ADDRESS: "", // Helper contract used for Staking only
+    OLD_STAKING_ADDRESS: "",
+    SOHM_ADDRESS: "",
+    OLD_SOHM_ADDRESS: "",
+    PRESALE_ADDRESS: "",
+    AOHM_ADDRESS: "",
+    MIGRATE_ADDRESS: "",
+    DISTRIBUTOR_ADDRESS: "",
+    BONDINGCALC_ADDRESS: "",
+    CIRCULATING_SUPPLY_ADDRESS: "",
+    TREASURY_ADDRESS: "",
+    PICKLE_OHM_LUSD_ADDRESS: "",
+    REDEEM_HELPER_ADDRESS: "",
+    // WSOHM_ADDRESS: "",
+    // GOHM_ADDRESS: "",
+    // MIGRATOR_ADDRESS: ""
+  }, // TODO: Avalanche Testnet addresses
+  43114: {
+    DAI_ADDRESS: "",
+    OHM_ADDRESS: "",
+    // STAKING_ADDRESS: "", // The new staking contract
+    STAKING_HELPER_ADDRESS: "", // Helper contract used for Staking only
+    OLD_STAKING_ADDRESS: "",
+    SOHM_ADDRESS: "",
+    OLD_SOHM_ADDRESS: "",
+    PRESALE_ADDRESS: "",
+    AOHM_ADDRESS: "",
+    MIGRATE_ADDRESS: "",
+    DISTRIBUTOR_ADDRESS: "",
+    BONDINGCALC_ADDRESS: "",
+    CIRCULATING_SUPPLY_ADDRESS: "",
+    TREASURY_ADDRESS: "",
+    PICKLE_OHM_LUSD_ADDRESS: "",
+    REDEEM_HELPER_ADDRESS: "",
+    WSOHM_ADDRESS: "0x8cd309e14575203535ef120b5b0ab4dded0c2073",
+    GOHM_ADDRESS: "0x321e7092a180bb43555132ec53aaa65a5bf84251",
+    MIGRATOR_ADDRESS: "0xB10209BFbb37d38EC1B5F0c964e489564e223ea7",
+  }, // TODO: Avalanche Mainnet addresses
+};
+
+/**
+ * Network details required to add a network to a user's wallet, as defined in EIP-3085 (https://eips.ethereum.org/EIPS/eip-3085)
+ */
+
+interface INativeCurrency {
+  name: string;
+  symbol: string;
+  decimals?: number;
+}
+
+interface INetwork {
+  chainName: string;
+  chainId: number;
+  nativeCurrency: INativeCurrency;
+  rpcUrls: string[];
+  blockExplorerUrls: string[];
+  image: SVGImageElement;
+  imageAltText: string;
+  uri: () => string;
+}
+
+// These networks will be available for users to select. Other networks may be functional
+// (e.g. testnets, or mainnets being prepared for launch) but need to be selected directly via the wallet.
+export const USER_SELECTABLE_NETWORKS = [1, 42161, 43114];
+
+// Set this to the chain number of the most recently added network in order to enable the 'Now supporting X network'
+// message in the UI. Set to -1 if we don't want to display the message at the current time.
+export const NEWEST_NETWORK_ID = 43114;
+
+export const NETWORKS: { [key: number]: INetwork } = {
+  1: {
+    chainName: "Ethereum",
+    chainId: 1,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: [""],
+    blockExplorerUrls: ["https://etherscan.io/#/"],
+    image: ethereum,
+    imageAltText: "Ethereum Logo",
+    uri: () => NodeHelper.getMainnetURI(1),
+  },
+  4: {
+    chainName: "Rinkeby Testnet",
+    chainId: 4,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: [""],
+    blockExplorerUrls: ["https://rinkeby.etherscan.io/#/"],
+    image: ethereum,
+    imageAltText: "Ethereum Logo",
+    uri: () => EnvHelper.alchemyEthereumTestnetURI,
+  },
+  42161: {
+    chainName: "Arbitrum",
+    chainId: 42161,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+    blockExplorerUrls: ["https://explorer.arbitrum.io/#/"],
+    image: arbitrum,
+    imageAltText: "Arbitrum Logo",
+    uri: () => NodeHelper.getMainnetURI(42161),
+  },
+  421611: {
+    chainName: "Arbitrum Testnet",
+    chainId: 421611,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://rinkeby.arbitrum.io/rpc"],
+    blockExplorerUrls: ["https://rinkeby-explorer.arbitrum.io/#/"],
+    image: arbitrum,
+    imageAltText: "Arbitrum Logo",
+    uri: () => EnvHelper.alchemyArbitrumTestnetURI,
+  },
+  43113: {
+    chainName: "Avalanche Fuji Testnet",
+    chainId: 43113,
+    nativeCurrency: {
+      name: "Avalanche",
+      symbol: "AVAX",
+    },
+    rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc/"],
+    blockExplorerUrls: ["https://testnet.snowtrace.io/#/"],
+    image: avalanche,
+    imageAltText: "Avalanche Logo",
+    uri: () => EnvHelper.alchemyAvalancheTestnetURI,
+  },
+  43114: {
+    chainName: "Avalanche",
+    chainId: 43114,
+    nativeCurrency: {
+      name: "Avalanche",
+      symbol: "AVAX",
+    },
+    rpcUrls: ["https://api.avax.network/ext/bc/C/rpc/"],
+    blockExplorerUrls: ["https://snowtrace.io/#/"],
+    image: avalanche,
+    imageAltText: "Avalanche Logo",
+    uri: () => NodeHelper.getMainnetURI(43114),
   },
 };

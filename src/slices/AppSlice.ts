@@ -3,6 +3,7 @@ import { addresses } from "../constants";
 import { abi as OlympusStakingv2ABI } from "../abi/OlympusStakingv2.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
+import { NodeHelper } from "src/helpers/NodeHelper";
 import apollo from "../lib/apolloClient";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
@@ -26,27 +27,31 @@ export const loadAppDetails = createAsyncThunk(
   "app/loadAppDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
     const protocolMetricsQuery = `
-  query {
-    _meta {
-      block {
-        number
+      query {
+        _meta {
+          block {
+            number
+          }
+        }
+        protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+          timestamp
+          ohmCirculatingSupply
+          sOhmCirculatingSupply
+          totalSupply
+          ohmPrice
+          marketCap
+          totalValueLocked
+          treasuryMarketValue
+          nextEpochRebase
+          nextDistributedOhm
+        }
       }
-    }
-    protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
-      timestamp
-      ohmCirculatingSupply
-      sOhmCirculatingSupply
-      totalSupply
-      ohmPrice
-      marketCap
-      totalValueLocked
-      treasuryMarketValue
-      nextEpochRebase
-      nextDistributedOhm
-    }
-  }
-`;
+    `;
 
+    if (networkID !== 1) {
+      provider = NodeHelper.getMainnetStaticProvider();
+      networkID = 1;
+    }
     const graphData = await apollo<{ protocolMetrics: IProtocolMetrics[] }>(protocolMetricsQuery);
 
     if (!graphData || graphData == null) {
@@ -110,7 +115,6 @@ export const loadAppDetails = createAsyncThunk(
 
     // Current index
     const currentIndex = await stakingContract.index();
-
     return {
       currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
       currentBlock,
@@ -174,7 +178,9 @@ export const findOrLoadMarketPrice = createAsyncThunk(
 const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
   let marketPrice: number;
   try {
+    // only get marketPrice from eth mainnet
     marketPrice = await getMarketPrice({ networkID, provider });
+    // let mainnetProvider = (marketPrice = await getMarketPrice({ 1: NetworkID, provider }));
     marketPrice = marketPrice / Math.pow(10, 9);
   } catch (e) {
     marketPrice = await getTokenPrice("olympus");

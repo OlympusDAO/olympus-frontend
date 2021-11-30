@@ -26,13 +26,6 @@
     padding-bottom: 16px;
     width: 100%;
   }
-  .mobile .stake-tab-panel,
-  .mobile .stake-tab-panel > div.MuiBox-root {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    justify-items: center;
-  }
 
   .ohm-card .card-header {
     position: relative;
@@ -100,7 +93,7 @@
   .stake-index {
     align-items: flex-start;
   }
-    text-align: left;
+  text-align: left;
 }
 
 .ohm-logo-tiny {
@@ -150,7 +143,7 @@
 .stake-action-row [role="tabpanel"] {
   width: 100%;
   min-width: 162px;
-  max-width: 220px;
+  max-width: initial;
   margin: 5px;
 }
 
@@ -165,7 +158,7 @@
 .ohm-input {
   max-width: 542px;
   width: 100%;
-  margin: 5px !important;
+  margin: 4px !important;
 }
 
 .stake-button {
@@ -175,7 +168,7 @@
   max-width: 542px !important;
   height: 43px !important;
   &.wrap-page {
-    margin-left: 2%;
+    // margin-left: 2%;
     width: 40%;
   }
 }
@@ -183,10 +176,11 @@
 .no-input-visible {
   width: 100%;
   line-height: 1.2em;
+  padding: 5px 0;
 }
 
-.v2-migration-link{
- color: inherit; 
+.v2-migration-link {
+  color: inherit;
 }
 
 // #asset-select {
@@ -277,4 +271,16 @@
       margin-bottom: 15px;
     }
   }
+}
+
+.mobile .stake-tab-panel,
+.mobile .stake-tab-panel > div.MuiBox-root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+}
+
+.mobile .stake-tab-panel.wrap-page {
+  align-items: center;
 }

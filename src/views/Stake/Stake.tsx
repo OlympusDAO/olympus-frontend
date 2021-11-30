@@ -1,5 +1,5 @@
 import { useCallback, useState, useMemo } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -44,7 +44,8 @@ const ohmImg = getOhmTokenImage(16, 16);
 
 function Stake() {
   const dispatch = useDispatch();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, address, connect } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
@@ -117,7 +118,7 @@ function Stake() {
   };
 
   const onSeekApproval = async (token: string) => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
   const onChangeStake = async (action: string) => {
@@ -137,7 +138,7 @@ function Stake() {
       return dispatch(error(t`You cannot unstake more than your sOHM balance.`));
     }
 
-    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId }));
   };
 
   const hasAllowance = useCallback(
@@ -164,7 +165,7 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmAsSohm]
+    [sohmBalance, fsohmBalance, wsohmAsSohm, gOhmBalance]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
