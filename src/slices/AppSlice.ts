@@ -174,7 +174,9 @@ export const findOrLoadMarketPrice = createAsyncThunk(
 const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
   let marketPrice: number;
   try {
+    // only get marketPrice from eth mainnet
     marketPrice = await getMarketPrice({ networkID, provider });
+    // let mainnetProvider = (marketPrice = await getMarketPrice({ 1: NetworkID, provider }));
     marketPrice = marketPrice / Math.pow(10, 9);
   } catch (e) {
     marketPrice = await getTokenPrice("olympus");

@@ -113,6 +113,7 @@ export class NodeHelper {
     // There is no lightweight way to test each URL. so just return a random one.
     // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
     const randomIndex = Math.floor(Math.random() * allURIs.length);
+    console.log("returning", allURIs[randomIndex]);
     return allURIs[randomIndex];
   };
 
@@ -128,8 +129,10 @@ export class NodeHelper {
 
     // return the remaining elements
     if (allURIs.length === 0) {
-      NodeHelper._emptyInvalidNodesList(networkId);
-      allURIs = EnvHelper.getAPIUris(networkId);
+      // NodeHelper._emptyInvalidNodesList(networkId);
+      // allURIs = EnvHelper.getAPIUris(networkId);
+      // In the meantime use the fallbacks
+      allURIs = EnvHelper.getFallbackURIs(networkId);
     }
     return allURIs;
   };

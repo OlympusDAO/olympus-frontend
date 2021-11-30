@@ -111,7 +111,7 @@ function App() {
     }
 
     // don't run unless provider is a connected Wallet...
-    if (whichDetails === "network" && address && connected) {
+    if (whichDetails === "network") {
       initNetwork(loadProvider);
     }
 
