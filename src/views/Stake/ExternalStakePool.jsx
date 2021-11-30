@@ -147,7 +147,7 @@ export default function ExternalStakePool() {
                         className="stake-lp-button"
                       >
                         <Typography variant="body1">
-                          <Trans>Stake on TraderJoe</Trans>
+                          <Trans>Stake on Trader Joe</Trans>
                         </Typography>
                         <SvgIcon component={ArrowUp} color="primary" />
                       </Button>
@@ -216,7 +216,7 @@ export default function ExternalStakePool() {
                   fullWidth
                 >
                   <Typography variant="body1">
-                    <Trans>Stake on TraderJoe</Trans>
+                    <Trans>Stake on Trader Joe</Trans>
                   </Typography>
                   <SvgIcon component={ArrowUp} color="primary" />
                 </Button>
