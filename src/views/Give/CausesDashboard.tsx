@@ -10,6 +10,8 @@ import { BigNumber } from "bignumber.js";
 import { error } from "../../slices/MessagesSlice";
 import { useAppDispatch } from "src/hooks";
 import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
+import { DepositSohm, LockInVault, ReceivesYield } from "../../components/EducationCard";
+import { GiveInfo } from "./GiveInfo";
 import { useUIDSeed } from "react-uid";
 
 export default function CausesDashboard() {
@@ -73,6 +75,11 @@ export default function CausesDashboard() {
               <div className="give-yield-title">
                 <Typography variant="h5">Causes Dashboard</Typography>
               </div>
+              <div className="give-education">
+                <DepositSohm />
+                <LockInVault />
+                <ReceivesYield />
+              </div>
             </div>
             <div className="causes-body">
               <Grid container className="data-grid">
@@ -95,6 +102,9 @@ export default function CausesDashboard() {
               cancelFunc={handleCustomGiveModalCancel}
             />
           </Paper>
+        </Zoom>
+        <Zoom in={true}>
+          <GiveInfo />
         </Zoom>
       </div>
     </>
