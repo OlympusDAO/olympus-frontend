@@ -154,7 +154,6 @@ export class EnvHelper {
    * @returns array of API urls
    */
   static getAPIUris(networkId: number) {
-    console.log("api", networkId);
     let ALL_URIs = EnvHelper.getSelfHostedNode(networkId);
     // Debug log
     // console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());

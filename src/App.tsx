@@ -142,7 +142,6 @@ function App() {
 
   const loadAccount = useCallback(
     loadProvider => {
-      console.log("loadA", networkId);
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       bonds.map(bond => {
         if (bond.getAvailability(networkId)) {
@@ -198,6 +197,14 @@ function App() {
       onChainChangeComplete();
     }
   }, [walletChecked, chainChanged, networkId]);
+
+  // this useEffect picks up any time a user Connects via the button
+  useEffect(() => {
+    // don't load ANY details until wallet is Connected
+    if (connected) {
+      loadDetails("account");
+    }
+  }, [connected]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

@@ -28,7 +28,6 @@ interface IUserBalances {
 export const getBalances = createAsyncThunk(
   "account/getBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    console.log("getBalances", networkID);
     let gOhmBalance = BigNumber.from("0");
     let ohmBalance = BigNumber.from("0");
     let sohmBalance = BigNumber.from("0");
@@ -80,9 +79,6 @@ export const getBalances = createAsyncThunk(
     } catch (e) {
       console.warn("caught error in getBalances", e);
     }
-
-    console.log("before return\nwsohm: ", ethers.utils.formatEther(wsohmBalance));
-    console.log("gohm: ", ethers.utils.formatEther(gOhmBalance));
 
     return {
       balances: {
@@ -153,7 +149,6 @@ export const getMigrationAllowances = createAsyncThunk(
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
   async ({ networkID, provider, address }: IBaseAddressAsyncThunk, { dispatch }) => {
-    console.log("loadAccountDetails", networkID);
     let stakeAllowance = BigNumber.from("0");
     let unstakeAllowance = BigNumber.from("0");
     let wrapAllowance = BigNumber.from("0");

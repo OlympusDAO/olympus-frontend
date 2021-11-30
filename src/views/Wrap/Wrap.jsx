@@ -65,6 +65,7 @@ function Wrap() {
   const classes = useStyles();
 
   const isAppLoading = useSelector(state => state.app.loading);
+  const isAccountLoading = useSelector(state => state.account.loading);
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });

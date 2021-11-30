@@ -46,7 +46,6 @@ export const PoolPrize = () => {
 
   // handleAward not used yet
   const handleAward = async action => {
-    console.log(`run ${action} on pool`);
     await dispatch(awardProcess({ action, provider, networkID: networkId }));
   };
 

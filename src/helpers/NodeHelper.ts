@@ -108,14 +108,12 @@ export class NodeHelper {
    * @returns string
    */
   static getMainnetURI = (networkId: number): string => {
-    console.log("main", networkId);
     // Shuffles the URIs for "intelligent" loadbalancing
     const allURIs = NodeHelper.getNodesUris(networkId);
 
     // There is no lightweight way to test each URL. so just return a random one.
     // if (workingURI !== undefined || workingURI !== "") return workingURI as string;
     const randomIndex = Math.floor(Math.random() * allURIs.length);
-    console.log("returning", allURIs[randomIndex]);
     return allURIs[randomIndex];
   };
 

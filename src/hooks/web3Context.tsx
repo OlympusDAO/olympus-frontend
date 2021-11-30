@@ -145,7 +145,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const disconnect = useCallback(async () => {
-    console.log("disconnecting");
     web3Modal.clearCachedProvider();
     setConnected(false);
 

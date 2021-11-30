@@ -48,12 +48,10 @@ export const loadAppDetails = createAsyncThunk(
       }
     `;
 
-    console.log("check", networkID, provider);
     if (networkID !== 1) {
       provider = NodeHelper.getMainnetStaticProvider();
       networkID = 1;
     }
-    console.log("after", networkID, provider);
     const graphData = await apollo<{ protocolMetrics: IProtocolMetrics[] }>(protocolMetricsQuery);
 
     if (!graphData || graphData == null) {
@@ -117,7 +115,6 @@ export const loadAppDetails = createAsyncThunk(
 
     // Current index
     const currentIndex = await stakingContract.index();
-    console.log("currentIndex", currentIndex);
     return {
       currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
       currentBlock,
