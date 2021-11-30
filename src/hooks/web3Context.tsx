@@ -70,12 +70,12 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           package: WalletConnectProvider,
           options: {
             rpc: {
-              1: NETWORKS[1].uri,
-              4: NETWORKS[4].uri,
-              42161: NETWORKS[42161].uri,
-              421611: NETWORKS[421611].uri,
-              43113: NETWORKS[43113].uri,
-              43114: NETWORKS[43114].uri,
+              1: NETWORKS[1].uri(),
+              4: NETWORKS[4].uri(),
+              42161: NETWORKS[42161].uri(),
+              421611: NETWORKS[421611].uri(),
+              43113: NETWORKS[43113].uri(),
+              43114: NETWORKS[43114].uri(),
             },
           },
         },
@@ -123,6 +123,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     if (isIframe()) {
       rawProvider = new IFrameEthereumProvider();
     } else {
+      console.log("web3", web3Modal);
       rawProvider = await web3Modal.connect();
     }
 
