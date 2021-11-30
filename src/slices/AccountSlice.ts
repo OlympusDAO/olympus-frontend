@@ -111,24 +111,14 @@ export const getDonationBalances = createAsyncThunk(
     const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
     let donationInfo: IUserDonationInfo = {};
-    let i = 0;
-    let endOfDonations = false;
-    while (!endOfDonations) {
-      try {
-        let currDonation = await givingContract.donationInfo(address, i);
-        if (currDonation.recipient === "0x0000000000000000000000000000000000000000") {
-          i += 1;
-          continue;
-        } else {
-          donationInfo[currDonation.recipient] = parseFloat(
-            ethers.utils.formatUnits(currDonation.amount.toNumber(), "gwei"),
-          );
-          i += 1;
+    try {
+      let allDeposits = await givingContract.getAllDeposits(address);
+      for (let i = 0; i < allDeposits[0].length; i++) {
+        if (allDeposits[1][i] !== 0) {
+          donationInfo[allDeposits[0][i]] = parseFloat(ethers.utils.formatUnits(allDeposits[1][i].toNumber(), "gwei"));
         }
-      } catch (e: unknown) {
-        endOfDonations = true;
       }
-    }
+    } catch (e: unknown) {}
 
     return {
       giving: {
