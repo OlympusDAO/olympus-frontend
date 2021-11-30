@@ -7,6 +7,7 @@ import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { ethers } from "ethers";
 interface IUAData {
   address: string;
   value: string;
@@ -39,7 +40,8 @@ export const changeZapTokenAllowance = createAsyncThunk(
   "zap/changeZapTokenAllowance",
   async ({ address, value, provider, action }: IActionValueAsyncThunk, { dispatch }) => {
     try {
-      const rawTransactionData = await ZapHelper.changeZapTokenAllowanceHelper(value, address, 1);
+      const gasPrice = await provider.getGasPrice();
+      const rawTransactionData = await ZapHelper.changeZapTokenAllowanceHelper(value, address, +gasPrice);
       const transactionData = {
         data: rawTransactionData.data,
         to: rawTransactionData.to,
@@ -80,6 +82,9 @@ export const getZapTokenBalances = createAsyncThunk(
     if (address) {
       try {
         const result = await ZapHelper.getZapTokens(address);
+        if (result.balances["ohm"]) {
+          result.balances["ohm"].hide = true;
+        }
         return result;
       } catch (e: unknown) {
         console.error(e);
@@ -94,12 +99,20 @@ export const executeZap = createAsyncThunk(
   "zap/executeZap",
   async ({ provider, address, sellAmount, slippage, tokenAddress, networkID }: IZapAsyncThunk, { dispatch }) => {
     try {
-      const rawTransactionData = await ZapHelper.executeZapHelper(sellAmount, address, tokenAddress, slippage, 1);
+      const gasPrice = await provider.getGasPrice();
+      const rawTransactionData = await ZapHelper.executeZapHelper(
+        sellAmount,
+        address,
+        tokenAddress,
+        slippage,
+        +gasPrice,
+      );
       const transactionData = {
         data: rawTransactionData.data,
         from: rawTransactionData.from,
         to: rawTransactionData.to,
         value: rawTransactionData.value,
+        gasLimit: ethers.utils.hexlify(Number(rawTransactionData.gas)),
       };
       const signer = provider.getSigner();
       const tx = await signer.sendTransaction(transactionData);
