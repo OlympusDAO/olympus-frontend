@@ -1,6 +1,6 @@
 import { Modal, Backdrop, Paper, SvgIcon, Box, Typography, Button, Fade, useTheme } from "@material-ui/core";
 import { ReactComponent as sTeloTokenImg } from "../../assets/tokens/token_sTELO.svg";
-import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
+//import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 

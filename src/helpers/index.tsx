@@ -5,7 +5,7 @@ import { abi as PairContractABI } from "../abi/PairContract.json";
 import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
 
 import { SvgIcon } from "@material-ui/core";
-import { ReactComponent as TeloImg } from "../assets/tokens/token_TELO.svg";
+import  token_TELO  from "../assets/tokens/token_TELO.png";
 import { ReactComponent as STeloImg } from "../assets/tokens/token_sTELO.svg";
 
 import { telo_cusd } from "./AllBonds";
@@ -119,7 +119,7 @@ function getSteloTokenImage() {
 export function getTeloTokenImage(w?: number, h?: number) {
   const height = h == null ? "32px" : `${h}px`;
   const width = w == null ? "32px" : `${w}px`;
-  return <SvgIcon component={TeloImg} viewBox="0 0 32 32" style={{ height, width }} />;
+  return <img src={token_TELO} width="32" height="32" style={{ height, width }} />;
 }
 
 export function getTokenImage(name: string) {

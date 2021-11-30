@@ -6,15 +6,15 @@ import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as sTeloTokenImg } from "../../assets/tokens/token_sTELO.svg";
 import { ReactComponent as wsTeloTokenImg } from "../../assets/tokens/token_wsTELO.svg";
-import { ReactComponent as teloTokenImg } from "../../assets/tokens/token_TELO.svg";
-import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
+
+//import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
 
 import "./telomenu.scss";
 import { cusd, ceuro } from "src/helpers/AllBonds";
 import { Trans } from "@lingui/macro";
 import { useWeb3Context } from "../../hooks/web3Context";
 
-import TeloImg from "src/assets/tokens/token_TELO.svg";
+import token_TELO from "src/assets/tokens/token_TELO.png";
 import STeloImg from "src/assets/tokens/token_sTELO.svg";
 import WsTeloImg from "src/assets/tokens/token_wsTELO.svg";
 import token33tImg from "src/assets/tokens/token_33T.svg";
