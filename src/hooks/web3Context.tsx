@@ -58,7 +58,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [connected, setConnected] = useState(false);
   const [address, setAddress] = useState("");
   // NOTE (appleseed): loading eth mainnet as default rpc provider for a non-connected wallet
-  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(NodeHelper.getMainnetURI(1)));
+  const [provider, setProvider] = useState<JsonRpcProvider>(NodeHelper.getMainnetStaticProvider());
   const [chainChanged, setChainChanged] = useState(true);
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(

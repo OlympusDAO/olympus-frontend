@@ -1,6 +1,7 @@
 import { minutesAgo } from "./index";
 import { EnvHelper } from "./Environment";
 import { ethers } from "ethers";
+import { StaticJsonRpcProvider } from "@ethersproject/providers";
 
 interface ICurrentStats {
   failedConnectionCount: number;
@@ -102,6 +103,7 @@ export class NodeHelper {
   }
 
   /**
+   * **no longer just MAINNET** =>
    * "intelligently" loadbalances production API Keys
    * @returns string
    */
@@ -115,6 +117,16 @@ export class NodeHelper {
     const randomIndex = Math.floor(Math.random() * allURIs.length);
     console.log("returning", allURIs[randomIndex]);
     return allURIs[randomIndex];
+  };
+
+  /**
+   * this is a static mainnet only RPC Provider
+   * should be used when querying AppSlice from other chains
+   * because we don't need tvl, apy, marketcap, supply, treasuryMarketVal for anything but mainnet
+   * @returns StaticJsonRpcProvider for querying
+   */
+  static getMainnetStaticProvider = () => {
+    return new StaticJsonRpcProvider(NodeHelper.getMainnetURI(1));
   };
 
   /**

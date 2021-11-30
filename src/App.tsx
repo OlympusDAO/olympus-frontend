@@ -110,7 +110,6 @@ function App() {
       loadApp(loadProvider);
     }
 
-    // don't run unless provider is a connected Wallet...
     if (whichDetails === "network") {
       initNetwork(loadProvider);
     }
