@@ -8,6 +8,24 @@
   .ohm-card .header {
     min-height: 3em;
   }
+
+  .card-header {
+    display: flex;
+    flex-direction: column;
+
+    .give-education {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      align-content: center;
+    }
+  }
+}
+
+.give-info {
+  display: flex;
+  flex-direction: row;
 }
 
 .cta-text {

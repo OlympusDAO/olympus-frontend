@@ -9,6 +9,7 @@ const viewBox = "0 0 100 100";
 // The sOHM SVG is 100x100px, whereas the others are 50x50px
 const smallViewBox = "0 0 50 50";
 const iconStyle = { height: "64px", width: "64px", margin: "auto" };
+const smallIconStyle = { height: "48px", width: "48px", margin: "auto" };
 
 type EducationGraphicProps = {
   quantity: string;
@@ -35,6 +36,21 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
   );
 }
 
+export function DepositSohm() {
+  return (
+    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
+        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={smallIconStyle} />
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
+        <Typography variant="body2" align="center" className="cta-text">
+          Deposit sOHM from wallet
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
 export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
@@ -55,6 +71,21 @@ export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicP
   );
 }
 
+export function LockInVault() {
+  return (
+    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
+        <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="body2" align="center" className="cta-text">
+          Lock sOHM in vault
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
 export function YieldGraphic({ quantity }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
@@ -69,6 +100,21 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
           Receives yield from {quantity} sOHM
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+export function ReceivesYield() {
+  return (
+    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
+        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} />
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="body2" align="center" className="cta-text">
+          Project receives sOHM rebases
         </Typography>
       </Box>
     </Box>
