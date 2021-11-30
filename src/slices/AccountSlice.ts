@@ -50,17 +50,23 @@ export const getBalances = createAsyncThunk(
     const poolBalance = await poolTokenContract.balanceOf(address);
 
     let fsohmBalance = BigNumber.from(0);
-    for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"]) {
-      if (addresses[networkID][fuseAddressKey]) {
-        const fsohmContract = new ethers.Contract(
-          addresses[networkID][fuseAddressKey] as string,
-          fuseProxy,
-          provider.getSigner(),
-        ) as FuseProxy;
-        // fsohmContract.signer;
-        const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
-        fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
-      }
+
+    if (networkID === 1) {
+      const underlyingBalances = await Promise.all(
+        (["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"] as const).map(fuseAddressKey => {
+          const fsohmContract = new ethers.Contract(
+            addresses[networkID][fuseAddressKey] as string,
+            fuseProxy,
+            provider.getSigner(),
+          ) as FuseProxy;
+          // fsohmContract.signer;
+          return fsohmContract.callStatic.balanceOfUnderlying(address);
+        }),
+      );
+      fsohmBalance = underlyingBalances.reduce(
+        (_fsohmBalance, balance) => _fsohmBalance.add(balance),
+        BigNumber.from(0),
+      );
     }
 
     return {

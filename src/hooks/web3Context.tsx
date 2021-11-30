@@ -5,6 +5,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { EnvHelper } from "../helpers/Environment";
 import { NodeHelper } from "src/helpers/NodeHelper";
+import { NetworkID } from "src/lib/Bond";
 
 /**
  * kept as function to mimic `getMainnetURI()`
@@ -45,7 +46,7 @@ type onChainProvider = {
   disconnect: () => void;
   hasCachedProvider: () => boolean;
   address: string;
-  chainID: number;
+  chainID: NetworkID;
   connected: boolean;
   provider: JsonRpcProvider;
   uri: string;

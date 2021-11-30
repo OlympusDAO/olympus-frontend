@@ -15,11 +15,7 @@ export const POOL_GRAPH_URLS: IPoolGraphURLS = {
   1: "https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_4_3",
 };
 
-interface IAddresses {
-  [key: number]: { [key: string]: string };
-}
-
-export const addresses: IAddresses = {
+export const addresses = {
   4: {
     DAI_ADDRESS: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // duplicate
     OHM_ADDRESS: "0xC0b491daBf3709Ee5Eb79E603D73289Ca6060932",
@@ -74,4 +70,4 @@ export const addresses: IAddresses = {
     MIGRATOR_ADDRESS: "0x184f3FAd8618a6F458C16bae63F70C426fE784B3",
     GOHM_ADDRESS: "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f",
   },
-};
+} as const;

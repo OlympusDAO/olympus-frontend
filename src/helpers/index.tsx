@@ -12,6 +12,7 @@ import { ohm_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { PairContract, RedeemHelper } from "../typechain";
+import { NetworkID } from "src/lib/Bond";
 
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
@@ -141,7 +142,7 @@ export function contractForRedeemHelper({
   networkID,
   provider,
 }: {
-  networkID: number;
+  networkID: NetworkID;
   provider: StaticJsonRpcProvider | JsonRpcSigner;
 }) {
   return new ethers.Contract(
