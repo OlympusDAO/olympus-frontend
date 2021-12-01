@@ -112,7 +112,7 @@ export const bridgeBack = createAsyncThunk(
     try {
       unMigrateTx = await migrator.bridgeBack(ethers.utils.parseUnits(value, "ether"), TokenType.STAKED);
       const text = `Bridge Back gOHM`;
-      const pendingTxnType = `unmigrate_gohm`;
+      const pendingTxnType = `migrate`;
 
       dispatch(fetchPendingTxns({ txnHash: unMigrateTx.hash, text, type: pendingTxnType }));
       await unMigrateTx.wait();
@@ -149,7 +149,7 @@ export const migrateWithType = createAsyncThunk(
         TokenType.WRAPPED,
       );
       const text = `Migrate ${type} Tokens`;
-      const pendingTxnType = `migrate_${type}`;
+      const pendingTxnType = `migrate`;
 
       dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
       await migrateTx.wait();
@@ -214,7 +214,7 @@ export const migrateCrossChainWSOHM = createAsyncThunk(
     try {
       migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "ether"));
       const text = `Migrate ${type} Tokens`;
-      const pendingTxnType = `migrate_${type}`;
+      const pendingTxnType = `migrate`;
       if (migrateTx) {
         dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
         await migrateTx.wait();

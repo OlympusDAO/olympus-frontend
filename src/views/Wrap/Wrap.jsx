@@ -32,7 +32,7 @@ import {
 } from "../../slices/MigrateThunk";
 import { switchNetwork } from "../../slices/NetworkSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { isPendingTxn, txnButtonText, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
 import { NETWORKS } from "../../constants";
@@ -62,8 +62,6 @@ function Wrap() {
     return "Transform";
   };
   const currentAction = chooseCurrentAction();
-
-  const wrapButtonText = assetTo === "gOHM" ? "Wrap to gOHM" : `${currentAction} ${assetFrom}`;
 
   const classes = useStyles();
 
@@ -121,6 +119,9 @@ function Wrap() {
       setAssetTo("gOHM");
     }
   }, [isAvax]);
+
+  const wrapButtonText =
+    assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap to gOHM") : `${currentAction} ${assetFrom}`;
 
   const setMax = () => {
     if (assetFrom === "sOHM") setQuantity(sohmBalance);
@@ -312,10 +313,13 @@ function Wrap() {
           className="stake-button wrap-page"
           variant="contained"
           color="primary"
-          disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
+          disabled={
+            isPendingTxn(pendingTransactions, "approve_wrapping") ||
+            isPendingTxn(pendingTransactions, "approve_migration")
+          }
           onClick={approveCorrectToken}
         >
-          {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
+          {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
         </Button>
       );
 
@@ -325,10 +329,10 @@ function Wrap() {
           className="stake-button wrap-page"
           variant="contained"
           color="primary"
-          disabled={isPendingTxn(pendingTransactions, "wrapping")}
+          disabled={isPendingTxn(pendingTransactions, "wrapping") || isPendingTxn(pendingTransactions, "migrate")}
           onClick={chooseCorrectWrappingFunction}
         >
-          {txnButtonText(pendingTransactions, "wrapping", wrapButtonText)}
+          {txnButtonTextMultiType(pendingTransactions, ["wrapping", "migrate"], wrapButtonText)}
         </Button>
       );
   };

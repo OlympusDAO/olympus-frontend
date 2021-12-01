@@ -41,6 +41,10 @@ export const txnButtonText = (pendingTransactions: IPendingTxn[], type: string, 
   return isPendingTxn(pendingTransactions, type) ? t`Pending...` : defaultText;
 };
 
+export const txnButtonTextMultiType = (pendingTransactions: IPendingTxn[], types: string[], defaultText: string) => {
+  return types.map(type => isPendingTxn(pendingTransactions, type)).indexOf(true) != -1 ? t`Pending...` : defaultText;
+};
+
 export const txnButtonTextGeneralPending = (pendingTransactions: IPendingTxn[], type: string, defaultText: string) => {
   return pendingTransactions.length >= 1 ? t`Pending...` : defaultText;
 };
