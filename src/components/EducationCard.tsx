@@ -16,8 +16,8 @@ type EducationGraphicProps = {
   verb?: string;
 };
 
-type SimpleEducationGraphicProps = {
-  subject: string;
+type GenericEducationGraphicProps = {
+  message: string;
 };
 
 export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicProps) {
@@ -40,7 +40,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
   );
 }
 
-export function DepositSohm() {
+export function DepositSohm({ message }: GenericEducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
@@ -48,7 +48,7 @@ export function DepositSohm() {
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="body2" align="center" className="cta-text">
-          Deposit sOHM from wallet
+          {message}
         </Typography>
       </Box>
     </Box>
@@ -75,7 +75,7 @@ export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicP
   );
 }
 
-export function LockInVault() {
+export function LockInVault({ message }: GenericEducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
@@ -83,7 +83,7 @@ export function LockInVault() {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="body2" align="center" className="cta-text">
-          Lock sOHM in vault
+          {message}
         </Typography>
       </Box>
     </Box>
@@ -110,7 +110,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
   );
 }
 
-export function ReceivesYield({ subject }: SimpleEducationGraphicProps) {
+export function ReceivesYield({ message }: GenericEducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
@@ -118,7 +118,7 @@ export function ReceivesYield({ subject }: SimpleEducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="body2" align="center" className="cta-text">
-          {subject} receives sOHM rebases
+          {message}
         </Typography>
       </Box>
     </Box>
