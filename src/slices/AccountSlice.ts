@@ -194,9 +194,9 @@ export const loadAccountDetails = createAsyncThunk(
         ohmUnstake: +unstakeAllowance,
       },
       wrapping: {
-        ohmWrap: +wrapAllowance,
-        ohmUnwrap: +unwrapAllowance,
-        gOhmUnwrap: +gOhmUnwrapAllowance,
+        ohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
+        ohmUnwrap: Number(ethers.utils.formatUnits(unwrapAllowance, "gwei")),
+        gOhmUnwrap: Number(ethers.utils.formatUnits(gOhmUnwrapAllowance, "ether")),
       },
       pooling: {
         sohmPool: +poolAllowance,
