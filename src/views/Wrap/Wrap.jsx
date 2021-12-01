@@ -514,7 +514,7 @@ function Wrap() {
                             {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
                           </Typography>
                         </div>
-                        <div className="data-row">
+                        {/* <div className="data-row">
                           <Typography variant="body1">Unwrappable Balance</Typography>
                           <Typography variant="body1">
                             {isAppLoading ? (
@@ -523,7 +523,7 @@ function Wrap() {
                               <>{asset === 0 ? trim(wsohmBalance, 4) + " wsOHM" : trim(gohmBalance, 4) + " gOHM"}</>
                             )}
                           </Typography>
-                        </div>
+                        </div> */}
                         <Divider />
                         <Box width="100%" align="center" p={1}>
                           <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>

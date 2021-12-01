@@ -224,7 +224,7 @@ export const migrateCrossChainWSOHM = createAsyncThunk(
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
       migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "ether"));
-      const text = `Migrate ${TokenType[type]} Tokens`;
+      const text = `Migrate ${type} Tokens`;
       const pendingTxnType = `migrate_${type}`;
       if (migrateTx) {
         dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
