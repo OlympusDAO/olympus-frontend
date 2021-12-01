@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -113,6 +113,15 @@ function Wrap() {
 
   const avax = NETWORKS[43114];
   const ethereum = NETWORKS[1];
+
+  const isAvax = useMemo(() => networkId != 1 && networkId != 4, [networkId]);
+  useEffect(() => {
+    if (isAvax) {
+      setAssetFrom("wsOHM");
+      setAssetTo("gOHM");
+    }
+  }, [isAvax]);
+  console.log(isAvax);
 
   const setMax = () => {
     if (assetFrom === "sOHM") setQuantity(sohmBalance);
@@ -249,7 +258,7 @@ function Wrap() {
         <div className="no-input-visible">
           First time wrapping to <b>gOHM</b>?
           <br />
-          Please approve Olympus Dao to use your <b>{assetFrom}</b> for this transaction.
+          Please approve Olympus to use your <b>{assetFrom}</b> for this transaction.
         </div>
       );
     if (!hasCorrectAllowance() && assetTo === "sOHM")
@@ -257,7 +266,7 @@ function Wrap() {
         <div className="no-input-visible">
           First time unwrapping <b>{assetFrom}</b>?
           <br />
-          Please approve Olympus Dao to use your <b>{assetFrom}</b> for unwrapping.
+          Please approve Olympus to use your <b>{assetFrom}</b> for unwrapping.
         </div>
       );
 
@@ -311,75 +320,6 @@ function Wrap() {
           onClick={chooseCorrectWrappingFunction}
         >
           {txnButtonText(pendingTransactions, "wrapping", wrapButtonText)}
-        </Button>
-      );
-  };
-
-  const migrateInputArea = () => {
-    if (!address || isAllowanceDataLoading) return <Skeleton width="150px" />;
-
-    if (!hasAllowance("wsohm-avax"))
-      return (
-        <div className="no-input-visible">
-          First time migrating your <b>wsOHM</b>?
-          <br />
-          Please approve Olympus Dao to use your <b>wsOHM</b> for v2 migration.
-        </div>
-      );
-
-    return (
-      <FormControl className="ohm-input" variant="outlined" color="primary">
-        <InputLabel htmlFor="amount-input"></InputLabel>
-        <OutlinedInput
-          id="amount-input"
-          type="number"
-          placeholder="Enter an amount"
-          className="stake-input"
-          value={quantity}
-          onChange={e => setQuantity(e.target.value)}
-          labelWidth={0}
-          endAdornment={
-            <InputAdornment position="end">
-              <Button variant="text" onClick={setMax} color="inherit">
-                Max
-              </Button>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-    );
-  };
-
-  const migrateButtonArea = () => {
-    if (!address) return "";
-    // wrap view
-
-    if (!hasAllowance("wsohm-avax"))
-      return (
-        <Button
-          className="stake-button wrap-page"
-          variant="contained"
-          color="primary"
-          disabled={isPendingTxn(pendingTransactions, "approve_migrate")}
-          onClick={() => {
-            approveMigrateCrossChain("wsohm");
-          }}
-        >
-          {txnButtonText(pendingTransactions, "approve_migrate", "Approve")}
-        </Button>
-      );
-    if (hasAllowance("wsohm-avax"))
-      return (
-        <Button
-          className="stake-button wrap-page"
-          variant="contained"
-          color="primary"
-          disabled={isPendingTxn(pendingTransactions, "migrating")}
-          onClick={() => {
-            migrateToGohmCrossChain();
-          }}
-        >
-          {txnButtonText(pendingTransactions, "migrating", "Migrate to gOHM")}
         </Button>
       );
   };
@@ -460,37 +400,48 @@ function Wrap() {
                 <>
                   <Box className="stake-action-area">
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                      <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <Typography>
-                          <span className="asset-select-label">{currentAction}</span>
-                        </Typography>
-                        <Select
-                          id="asset-select"
-                          value={assetFrom}
-                          label="Asset"
-                          onChange={changeAssetFrom}
-                          disableUnderline
-                        >
-                          <MenuItem value={"sOHM"}>sOHM</MenuItem>
-                          <MenuItem value={"wsOHM"}> wsOHM</MenuItem>
-                          <MenuItem value={"gOHM"}>gOHM</MenuItem>
-                        </Select>
-                      </FormControl>
-                      <Typography>
-                        <span className="asset-select-label"> to </span>
-                      </Typography>
-                      <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <Select
-                          id="asset-select"
-                          value={assetTo}
-                          label="Asset"
-                          onChange={changeAssetTo}
-                          disableUnderline
-                        >
-                          <MenuItem value={"gOHM"}>gOHM</MenuItem>
-                          <MenuItem value={"sOHM"}>sOHM</MenuItem>
-                        </Select>
-                      </FormControl>
+                      {isAvax ? (
+                        <Box height="32px">
+                          <Typography>
+                            Transform <b>wsOHM</b> to <b>gOHM</b>
+                          </Typography>
+                        </Box>
+                      ) : (
+                        <>
+                          <Typography>
+                            <span className="asset-select-label">{currentAction}</span>
+                          </Typography>
+                          <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <Select
+                              id="asset-select"
+                              value={assetFrom}
+                              label="Asset"
+                              onChange={changeAssetFrom}
+                              disableUnderline
+                            >
+                              <MenuItem value={"sOHM"}>sOHM</MenuItem>
+                              <MenuItem value={"wsOHM"}> wsOHM</MenuItem>
+                              <MenuItem value={"gOHM"}>gOHM</MenuItem>
+                            </Select>
+                          </FormControl>
+
+                          <Typography>
+                            <span className="asset-select-label"> to </span>
+                          </Typography>
+                          <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <Select
+                              id="asset-select"
+                              value={assetTo}
+                              label="Asset"
+                              onChange={changeAssetTo}
+                              disableUnderline
+                            >
+                              <MenuItem value={"gOHM"}>gOHM</MenuItem>
+                              <MenuItem value={"sOHM"}>sOHM</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </>
+                      )}
                     </Box>
                     <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
                       <div className="stake-tab-panel wrap-page">
@@ -508,24 +459,27 @@ function Wrap() {
                     )}
                   </Box>
                   <div className={`stake-user-data`}>
-                    {networkId === 1 || networkId === 4 ? (
+                    {!isAvax ? (
                       <>
                         <div className="data-row">
-                          <Typography variant="body1">Wrappable Balance</Typography>
+                          <Typography variant="body1">sOHM Balance</Typography>
                           <Typography variant="body1">
                             {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
                           </Typography>
                         </div>
-                        {/* <div className="data-row">
-                          <Typography variant="body1">Unwrappable Balance</Typography>
+                        <div className="data-row">
+                          <Typography variant="body1">wsOHM Balance</Typography>
                           <Typography variant="body1">
-                            {isAppLoading ? (
-                              <Skeleton width="80px" />
-                            ) : (
-                              <>{asset === 0 ? trim(wsohmBalance, 4) + " wsOHM" : trim(gohmBalance, 4) + " gOHM"}</>
-                            )}
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
                           </Typography>
-                        </div> */}
+                        </div>
+                        <div className="data-row">
+                          <Typography variant="body1">gOHM Balance</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
+                          </Typography>
+                        </div>
+
                         <Divider />
                         <Box width="100%" align="center" p={1}>
                           <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
