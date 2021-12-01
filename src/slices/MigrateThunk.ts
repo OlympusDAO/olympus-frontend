@@ -142,9 +142,6 @@ export const migrateWithType = createAsyncThunk(
     const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
 
     let migrateTx: ethers.ContractTransaction | undefined;
-    console.log(type);
-    console.log(value);
-    console.log(+ethers.utils.parseEther(value));
     try {
       migrateTx = await migrator.migrate(
         ethers.utils.parseUnits(value, type === "wsohm" ? "ether" : "gwei"),
