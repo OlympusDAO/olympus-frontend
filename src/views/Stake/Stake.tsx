@@ -77,9 +77,11 @@ function Stake() {
   const fiatDaowsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.fiatDaowsohm;
   });
+  const fiatDaoAsSohm = Number(fiatDaowsohmBalance) * Number(currentIndex);
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
+  const gOhmAsSohm = Number(gOhmBalance) * Number(currentIndex);
   const wsohmAsSohm = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohmAsSohm;
   });
@@ -168,7 +170,7 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmAsSohm, gOhmBalance]
+    [sohmBalance, fsohmBalance, wsohmAsSohm, gOhmAsSohm, fiatDaoAsSohm]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)

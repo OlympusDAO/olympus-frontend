@@ -106,6 +106,7 @@ export const switchNetwork = createAsyncThunk(
           dispatch(error("Error switching network!"));
         }
       }
+      // }
     }
   },
 );
