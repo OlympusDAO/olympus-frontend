@@ -94,8 +94,12 @@ function Wrap() {
     return state.account.wrapping && state.account.wrapping.ohmUnwrap;
   });
 
-  const migrateAllowance = useSelector(state => {
+  const migrateSohmAllowance = useSelector(state => {
     return state.account.migration && state.account.migration.sohm;
+  });
+
+  const migrateWsohmAllowance = useSelector(state => {
+    return state.account.migration && state.account.migration.wsohm;
   });
 
   const unwrapGohmAllowance = useSelector(state => {
@@ -130,11 +134,13 @@ function Wrap() {
   };
 
   const hasCorrectAllowance = useCallback(() => {
-    if (assetFrom === "sOHM" && assetTo === "gOHM") return migrateAllowance > 0;
+    if (assetFrom === "sOHM" && assetTo === "gOHM") return migrateSohmAllowance > 0;
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") return migrateWsohmAllowance > 0;
     if (assetFrom === "wsOHM" && assetTo === "sOHM") return unwrapAllowance > 0;
     if (assetFrom === "gOHM") return unwrapGohmAllowance > 0;
+
     return 0;
-  }, [unwrapAllowance, migrateAllowance, assetTo, assetFrom]);
+  }, [unwrapAllowance, migrateSohmAllowance, migrateWsohmAllowance, assetTo, assetFrom]);
 
   const isAllowanceDataLoading = unwrapAllowance == null && currentAction === "Unwrap";
 
@@ -160,16 +166,16 @@ function Wrap() {
   };
 
   const approveMigrate = token => {
-    dispatch(changeMigrationApproval({ token, provider, address, networkID: chainID, displayName: "sohm" }));
+    dispatch(changeMigrationApproval({ token, provider, address, networkID: chainID, displayName: token }));
   };
 
-  const migrateToGohm = () => {
+  const migrateToGohm = type => {
     dispatch(
       migrateWithType({
         provider,
         address,
         networkID: chainID,
-        type: "sohm",
+        type,
         value: quantity,
         action: "wrap to gOHM",
       }),
@@ -182,27 +188,21 @@ function Wrap() {
 
   const approveCorrectToken = () => {
     if (assetFrom === "sOHM" && assetTo === "gOHM") approveMigrate("sohm");
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") approveMigrate("wsohm");
     if (assetFrom === "wsOHM" && assetTo === "sOHM") onSeekApproval("wsohm");
     if (assetFrom === "gOHM" && assetTo === "sOHM") approveMigrate("gohm");
   };
 
   const chooseCorrectWrappingFunction = () => {
-    if (assetFrom === "sOHM" && assetTo === "gOHM") migrateToGohm();
+    if (assetFrom === "sOHM" && assetTo === "gOHM") migrateToGohm("sohm");
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") migrateToGohm("wsohm");
     if (assetFrom === "gOHM" && assetTo === "sOHM") unwrapGohm();
     if (assetFrom === "wsOHM" && assetTo === "sOHM") unWrapWSOHM();
   };
 
   const chooseInputArea = () => {
     if (!address || isAllowanceDataLoading) return <Skeleton width="150px" />;
-    if (assetFrom === "wsOHM" && assetTo === "gOHM")
-      return (
-        <div className="no-input-visible">
-          This feature is currently being worked on and wll be released soon.
-          <br />
-          Plz wait a sec and we'll have it all nice.
-        </div>
-      );
-
+    if (assetFrom === assetTo) return "";
     if (assetFrom === "sOHM" && assetTo === "wsOHM")
       return (
         <div className="no-input-visible">
@@ -258,6 +258,7 @@ function Wrap() {
   const chooseButtonArea = () => {
     if (!address) return "";
     if (assetTo === "wsOHM") return "";
+    if (assetFrom === assetTo) return "";
     if (!hasCorrectAllowance())
       return (
         <Button
@@ -297,7 +298,7 @@ function Wrap() {
                   className="migrate-sohm-button"
                   style={{ textDecoration: "none" }}
                   href={
-                    assetTo === 0
+                    assetTo === "wsOHM"
                       ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
                       : "https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                   }
@@ -360,7 +361,7 @@ function Wrap() {
               ) : (
                 <>
                   <Box className="stake-action-area">
-                    <Box>
+                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                       <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                         <span className="asset-select-label">{currentAction} from</span>
                         <Select
@@ -374,7 +375,9 @@ function Wrap() {
                           <MenuItem value={"wsOHM"}> wsOHM</MenuItem>
                           <MenuItem value={"gOHM"}>gOHM</MenuItem>
                         </Select>
-                        <span className="asset-select-label"> to </span>
+                      </FormControl>
+                      <span className="asset-select-label"> to </span>
+                      <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                         <Select
                           id="asset-select"
                           value={assetTo}
@@ -382,9 +385,9 @@ function Wrap() {
                           onChange={changeAssetTo}
                           disableUnderline
                         >
-                          {assetFrom !== "gOHM" && <MenuItem value={"gOHM"}>gOHM</MenuItem>}
-                          {assetFrom === "sOHM" && <MenuItem value={"wsOHM"}>wsOHM</MenuItem>}
-                          {assetFrom !== "sOHM" && <MenuItem value={"sOHM"}>sOHM</MenuItem>}
+                          <MenuItem value={"gOHM"}>gOHM</MenuItem>
+                          <MenuItem value={"wsOHM"}>wsOHM</MenuItem>
+                          <MenuItem value={"sOHM"}>sOHM</MenuItem>
                         </Select>
                       </FormControl>
                     </Box>
@@ -395,35 +398,35 @@ function Wrap() {
                         {chooseButtonArea()}
                       </div>
                     </Box>
-                    {quantity && (
+                    {/* {quantity && (
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
-                          {isUnwrap
-                            ? `Unwrapping ${quantity} ${assetTo === 0 ? "wsOHM" : "gOHM"} will result in ${trim(
-                                convertedQuantity,
-                                4,
-                              )} sOHM`
-                            : `Wrapping ${quantity} sOHM will result in ${trim(convertedQuantity, 4)} gOHM`}
+                          {`${currentAction}ping ${quantity} ${assetFrom} will result in ${trim(
+                            convertedQuantity,
+                            4,
+                          )} ${assetTo}`}
                         </Typography>
                       </Box>
-                    )}
+                    )} */}
                   </Box>
 
                   <div className={`stake-user-data`}>
                     <div className="data-row">
-                      <Typography variant="body1">Wrappable Balance</Typography>
+                      <Typography variant="body1">sOHM Balance</Typography>
                       <Typography variant="body1">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
                       </Typography>
                     </div>
                     <div className="data-row">
-                      <Typography variant="body1">Unwrappable Balance</Typography>
+                      <Typography variant="body1">wsOHM Balance</Typography>
                       <Typography variant="body1">
-                        {isAppLoading ? (
-                          <Skeleton width="80px" />
-                        ) : (
-                          <>{assetTo === 0 ? trim(wsohmBalance, 4) + " wsOHM" : trim(gohmBalance, 4) + " gOHM"}</>
-                        )}
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                      </Typography>
+                    </div>
+                    <div className="data-row">
+                      <Typography variant="body1">gOHM Balance</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
                       </Typography>
                     </div>
                   </div>
