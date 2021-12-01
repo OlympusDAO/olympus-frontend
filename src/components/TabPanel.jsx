@@ -2,7 +2,7 @@ import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, className, ...other } = props;
 
   return (
     <div
@@ -13,7 +13,7 @@ function TabPanel(props) {
       {...other}
       style={{ overflow: "hidden" }}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box p={2}>{children}</Box>}
     </div>
   );
 }
@@ -22,6 +22,7 @@ TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
+  className: PropTypes.any,
 };
 
 export default TabPanel;

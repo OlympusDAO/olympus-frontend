@@ -24,13 +24,14 @@ tenderly.yaml
 
 # testing
 coverage
+tests/e2e/videos
 
 # production
 build
 
 # misc
 .DS_Store
-.env*
+.env
 
 # debug
 npm-debug.log*
@@ -40,3 +41,6 @@ yarn-error.log*
 # Integrated development environnements
 .idea
 *.sublime-*
+.vscode
+
+src/typechain

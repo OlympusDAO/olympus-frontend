@@ -4,8 +4,10 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import OhmMenu from "./OhmMenu.jsx";
 import ThemeSwitcher from "./ThemeSwitch.jsx";
+import LocaleSwitcher from "./LocaleSwitch.tsx";
 import ConnectMenu from "./ConnectMenu.jsx";
 import "./topbar.scss";
+import NetworkMenu from "./NetworkMenu.jsx";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -21,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("981")]: {
       display: "none",
     },
   },
@@ -50,9 +52,13 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
         <Box display="flex">
           {!isVerySmallScreen && <OhmMenu />}
 
+          {/* <NetworkMenu /> */}
+
           <ConnectMenu theme={theme} />
 
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
+
+          <LocaleSwitcher theme={theme} />
         </Box>
       </Toolbar>
     </AppBar>

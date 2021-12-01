@@ -31,10 +31,10 @@
     .ohm-modal {
       max-width: 688px;
       min-height: 605px;
-      background-color: rgb(50, 50, 50);
       opacity: 0.9;
     }
   }
+
   .ohm-card {
     max-width: 803px;
   }
@@ -120,4 +120,8 @@
       }
     }
   }
+}
+
+.web3modal-modal-lightbox {
+  z-index: 70 !important;
 }

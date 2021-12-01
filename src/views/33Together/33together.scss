@@ -17,7 +17,7 @@
       width: 97%;
       margin-bottom: -15px;
       margin-top: -10px;
-      z-index: 3;
+      z-index: 2;
       position: sticky;
     }
 
@@ -45,6 +45,59 @@
       }
     }
   }
+
+  .pool-tab > div {
+    padding: 0;
+  }
+}
+
+.pool-deposit-ui {
+  width: 100%;
+
+  .deposit-container,
+  .withdrawal-container {
+    width: 100%;
+  }
+}
+
+.pool-deposit-confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.3rem 0;
+
+  .swap-icons {
+    display: flex;
+    justify-content: space-around;
+    max-width: 50%;
+    width: inherit;
+  }
+
+  .swap-icon-size {
+    margin: inherit;
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .header {
+    margin: 0;
+  }
+
+  .info-text {
+    text-align: center;
+    line-height: 1rem;
+    width: 85%;
+    margin-bottom: 0.4rem;
+  }
+
+  .confirm-btn {
+    width: 50%;
+    margin: 1rem;
+  }
+}
+
+.light .vegas {
+  filter: invert(0.99);
 }
 
 // Mobile styles
@@ -53,7 +106,6 @@
 }
 
 :not(.mobile) .pool-deposit-button,
-:not(.mobile) .pool-withdraw-button,
 .pool-start-award-button,
 .pool-complete-award-button {
   width: 200px;
@@ -67,7 +119,7 @@
 }
 
 .tablet .vegas {
-  height: 200px;
+  height: 190px;
   margin-bottom: -10px;
 }
 

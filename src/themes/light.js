@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import fonts from "./fonts";
-import commonSettings from "./global.js";
+import commonSettings, { handleBackdropFilter } from "./global.js";
 
 const lightTheme = {
   color: "#253449",
@@ -15,7 +15,7 @@ const lightTheme = {
   paperBg: "rgba(255, 255, 255, 0.6)",
   modalBg: "#FAFAFAEF",
   popoverBg: "rgba(255, 255, 255, 0.95)",
-  menuBg: "rgba(255, 255, 255, 0.5)",
+  menuBg: handleBackdropFilter("rgba(255, 255, 255, 0.5)"),
   backdropBg: "rgba(200, 200, 200, 0.4)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
@@ -32,6 +32,8 @@ const lightTheme = {
   outlinedSecondaryButtonHoverColor: "#333333",
   containedSecondaryButtonHoverBG: "#33333333",
   graphStrokeColor: "rgba(37, 52, 73, .2)",
+  gridButtonHoverBackground: "rgba(118, 130, 153, 0.2)",
+  gridButtonActiveBackground: "rgba(118, 130, 153, 0.7)",
 };
 
 export const light = responsiveFontSizes(
@@ -62,11 +64,6 @@ export const light = responsiveFontSizes(
       },
       typography: {
         fontFamily: "Square",
-      },
-      props: {
-        MuiSvgIcon: {
-          htmlColor: lightTheme.color,
-        },
       },
       overrides: {
         MuiCssBaseline: {
@@ -99,13 +96,13 @@ export const light = responsiveFontSizes(
         },
         MuiDrawer: {
           paper: {
-            backgroundColor: lightTheme.paperBg,
+            backgroundColor: lightTheme.backdropBg,
             zIndex: 7,
           },
         },
         MuiBackdrop: {
           root: {
-            backgroundColor: lightTheme.backdropBg,
+            backgroundColor: "rgba(255,255,255, 0)",
           },
         },
         MuiLink: {
@@ -205,6 +202,11 @@ export const light = responsiveFontSizes(
             },
           },
         },
+        MuiSelect: {
+          select: {
+            color: "#93AEBC",
+          },
+        },
         MuiButton: {
           containedPrimary: {
             color: "#FCFCFC",
@@ -278,6 +280,35 @@ export const light = responsiveFontSizes(
             color: lightTheme.color,
             "&:hover": {
               color: lightTheme.textHighlightColor,
+            },
+          },
+          "&.grid-button-text": {
+            color: "#FFFFFF",
+          },
+        },
+        MuiTypography: {
+          root: {
+            "&.grid-message-typography": {
+              color: lightTheme.blueish_gray,
+            },
+            "&.chain-highlight": {
+              color: lightTheme.color,
+            },
+          },
+        },
+        MuiGrid: {
+          root: {
+            "&.grid-button": {
+              borderColor: `${lightTheme.gridButtonActiveBackground} !important`,
+              "&:hover": {
+                backgroundColor: lightTheme.gridButtonHoverBackground,
+              },
+              "&.current": {
+                backgroundColor: lightTheme.gridButtonActiveBackground,
+                "&:hover": {
+                  backgroundColor: lightTheme.gridButtonHoverBackground,
+                },
+              },
             },
           },
         },
