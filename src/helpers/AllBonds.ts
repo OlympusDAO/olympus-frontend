@@ -38,9 +38,17 @@ export const dai = new StableBond({
   name: "dai",
   displayName: "DAI",
   bondToken: "DAI",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
   bondIconSvg: DaiImg,
   bondContractABI: DaiBondContract,
+  isAvailable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x575409F8d77c12B05feD8B455815f0e54797381c",
@@ -57,9 +65,17 @@ export const frax = new StableBond({
   name: "frax",
   displayName: "FRAX",
   bondToken: "FRAX",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
   bondIconSvg: FraxImg,
   bondContractABI: FraxBondContract,
+  isAvailable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514",
@@ -76,9 +92,17 @@ export const lusd = new StableBond({
   name: "lusd",
   displayName: "LUSD",
   bondToken: "LUSD",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
   bondIconSvg: LusdImg,
   bondContractABI: LusdBondContract,
+  isAvailable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x10C0f93f64e3C8D0a1b0f4B87d6155fd9e89D08D",
@@ -97,10 +121,18 @@ export const eth = new CustomBond({
   lpUrl: "",
   bondType: BondType.StableAsset,
   bondToken: "wETH",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
   bondIconSvg: wETHImg,
   bondContractABI: EthBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
+  isAvailable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xE6295201CD1ff13CeD5f063a5421c39A1D236F1c",
@@ -128,10 +160,18 @@ export const cvx = new CustomBond({
   lpUrl: "",
   bondType: BondType.StableAsset,
   bondToken: "CVX",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
   bondIconSvg: CvxImg,
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
+  isAvailable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x767e3459A35419122e5F6274fB1223d75881E0a9",
@@ -159,10 +199,18 @@ export const cvx_expired = new CustomBond({
   lpUrl: "",
   bondType: BondType.StableAsset,
   bondToken: "CVX",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
   bondIconSvg: CvxImg,
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
+  isAvailable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x6754c69fe02178f54ADa19Ebf1C5569826021920",
@@ -187,10 +235,18 @@ export const ohm_dai = new LPBond({
   name: "ohm_dai_lp",
   displayName: "OHM-DAI LP",
   bondToken: "DAI",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
   bondIconSvg: OhmDaiImg,
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
+  isAvailable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x956c43998316b6a2F21f89a1539f73fB5B78c151",
@@ -209,10 +265,18 @@ export const ohm_frax = new LPBond({
   name: "ohm_frax_lp",
   displayName: "OHM-FRAX LP",
   bondToken: "FRAX",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
   bondIconSvg: OhmFraxImg,
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
+  isAvailable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
@@ -231,10 +295,18 @@ export const ohm_lusd = new LPBond({
   name: "ohm_lusd_lp",
   displayName: "OHM-LUSD LP",
   bondToken: "LUSD",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
   bondIconSvg: OhmLusdImg,
   bondContractABI: BondOhmLusdContract,
   reserveContract: ReserveOhmLusdContract,
+  isAvailable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xFB1776299E7804DD8016303Df9c07a65c80F67b6",
@@ -254,10 +326,18 @@ export const ohm_weth = new CustomBond({
   name: "ohm_weth_lp",
   displayName: "OHM-WETH LP",
   bondToken: "WETH",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
   bondIconSvg: OhmEthImg,
   bondContractABI: BondOhmEthContract,
   reserveContract: ReserveOhmEthContract,
+  isAvailable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xB6C9dc843dEc44Aa305217c2BbC58B44438B6E16",
@@ -281,8 +361,8 @@ export const ohm_weth = new CustomBond({
       const tokenAddress = this.getAddressForReserve(networkID);
       const bondCalculator = getBondCalculator(networkID, provider);
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-      const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
-      const markdown = await bondCalculator.markdown(tokenAddress);
+      const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
+      const markdown = await bondCalculator.markdown(tokenAddress || "");
       let tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD * Number(ethPrice.toString());
@@ -292,8 +372,8 @@ export const ohm_weth = new CustomBond({
       const tokenAddress = this.getAddressForReserve(networkID);
       const bondCalculator = getBondCalculator(networkID, provider);
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-      const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
-      const markdown = await bondCalculator.markdown(tokenAddress);
+      const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
+      const markdown = await bondCalculator.markdown(tokenAddress || "");
       let tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD;

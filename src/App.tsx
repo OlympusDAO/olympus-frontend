@@ -24,13 +24,14 @@ import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
-
+import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import "./style.scss";
-import { Bond as IBond } from "./lib/Bond";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import { initializeNetwork } from "./slices/NetworkSlice";
+import { useAppSelector } from "./hooks";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -88,24 +89,29 @@ function App() {
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { connect, hasCachedProvider, provider, chainID, connected, uri } = useWeb3Context();
+  const { connect, hasCachedProvider, provider, connected, chainChanged, onChainChangeComplete } = useWeb3Context();
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
+  const networkId = useAppSelector(state => state.network.networkId);
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-  const { bonds, expiredBonds } = useBonds(chainID);
+  const { bonds, expiredBonds } = useBonds(networkId);
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
-    // it's because the initial provider loaded always starts with chainID=1. This causes
+    // it's because the initial provider loaded always starts with networkID=1. This causes
     // address lookup on the wrong chain which then throws the error. To properly resolve this,
-    // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
-    // network. To actually test rinkeby, change setChainID equal to 4 before testing.
+    // we shouldn't be initializing to networkID=1 in web3Context without first listening for the
+    // network. To actually test rinkeby, change setnetworkID equal to 4 before testing.
     let loadProvider = provider;
 
     if (whichDetails === "app") {
       loadApp(loadProvider);
+    }
+
+    if (whichDetails === "network") {
+      initNetwork(loadProvider);
     }
 
     // don't run unless provider is a Wallet...
@@ -114,29 +120,42 @@ function App() {
     }
   }
 
+  const initNetwork = useCallback(
+    loadProvider => {
+      dispatch(initializeNetwork({ provider: loadProvider }));
+    },
+    [networkId],
+  );
+
   const loadApp = useCallback(
     loadProvider => {
-      dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+      dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       bonds.map(bond => {
-        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: chainID }));
+        if (bond.getAvailability(networkId)) {
+          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+        }
       });
-      dispatch(getMigrationAllowances({ address, provider, networkID: chainID }));
+      dispatch(getMigrationAllowances({ address, provider, networkID: networkId }));
     },
-    [connected],
+    [networkId],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+      dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       bonds.map(bond => {
-        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        if (bond.getAvailability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
+        }
       });
-      dispatch(getZapTokenBalances({ address, networkID: chainID, provider: loadProvider }));
+      dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
       expiredBonds.map(bond => {
-        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        if (bond.getAvailability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
+        }
       });
     },
-    [connected],
+    [networkId],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
@@ -169,9 +188,15 @@ function App() {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
-      loadDetails("app");
+      loadDetails("network").then(() => {
+        if (networkId !== -1) {
+          loadDetails("account");
+          loadDetails("app");
+        }
+      });
+      onChainChangeComplete();
     }
-  }, [walletChecked]);
+  }, [walletChecked, chainChanged, networkId]);
 
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
@@ -228,13 +253,16 @@ function App() {
               <Stake />
             </Route>
 
+            <Route path="/wrap">
+              <Route exact path={`/wrap`}>
+                <Wrap />
+              </Route>
+            </Route>
+
             <Route path="/zap">
               <Route exact path={`/zap`}>
                 <Zap />
               </Route>
-            </Route>
-            <Route path="/wrap">
-              <Wrap />
             </Route>
 
             <Route path="/33-together">
@@ -250,6 +278,10 @@ function App() {
                 );
               })}
               <ChooseBond />
+            </Route>
+
+            <Route path="/network">
+              <ChangeNetwork />
             </Route>
 
             <Route component={NotFound} />
