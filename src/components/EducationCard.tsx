@@ -16,6 +16,10 @@ type EducationGraphicProps = {
   verb?: string;
 };
 
+type SimpleEducationGraphicProps = {
+  subject: string;
+};
+
 export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
@@ -106,7 +110,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
   );
 }
 
-export function ReceivesYield() {
+export function ReceivesYield({ subject }: SimpleEducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
@@ -114,7 +118,7 @@ export function ReceivesYield() {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="body2" align="center" className="cta-text">
-          Project receives sOHM rebases
+          {subject} receives sOHM rebases
         </Typography>
       </Box>
     </Box>
