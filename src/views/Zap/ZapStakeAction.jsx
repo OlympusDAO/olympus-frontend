@@ -90,10 +90,12 @@ function ZapStakeAction(props) {
   const [outputQuantity, setOutputQuantity] = useState("");
 
   const olyZapsSwapOfferDisplay = (amount, outPutQuantity) => {
+    const cleanedOutput = outPutQuantity.toFixed(2);
     const uaData = {
       type: "OlyZaps Offer Display",
       token: zapToken,
-      minOutput: outputQuantity,
+      inputAmount: amount.toFixed(2),
+      minOutput: cleanedOutput,
     };
     segmentUA(uaData);
   };
