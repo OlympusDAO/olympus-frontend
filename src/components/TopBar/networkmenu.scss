@@ -1,0 +1,21 @@
+.network-menu-container {
+  justify-content: center;
+  align-items: center;
+  .network-menu-button {
+    justify-content: start;
+    align-items: center;
+    padding: 10px;
+  }
+  .network-menu-button-text {
+    padding-left: 5px;
+  }
+  img {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+  }
+}
+
+.mobile .network-menu-button-text {
+  display: none !important;
+}

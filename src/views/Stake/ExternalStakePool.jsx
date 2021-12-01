@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
-  Paper,
-  Typography,
   Button,
+  Paper,
   SvgIcon,
-  TableHead,
-  TableCell,
-  TableBody,
   Table,
-  TableRow,
+  TableBody,
+  TableCell,
   TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
   Zoom,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
@@ -31,7 +30,8 @@ import MultiLogo from "src/components/MultiLogo";
 
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, hasCachedProvider, address, connect } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -46,7 +46,7 @@ export default function ExternalStakePool() {
   });
 
   const loadLusdData = async () => {
-    await dispatch(getLusdData({ address: address, provider: provider, networkID: chainID }));
+    await dispatch(getLusdData({ address: address, provider: provider, networkID: networkId }));
   };
 
   const avatarStyle = { height: "35px", width: "35px", marginInline: "-4px", marginTop: "16px" };

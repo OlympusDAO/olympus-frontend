@@ -1,6 +1,6 @@
 import { ethers, BigNumber, BigNumberish } from "ethers";
 import { contractForRedeemHelper } from "../helpers";
-import { getBalances, calculateUserBondDetails } from "./AccountSlice";
+import { calculateUserBondDetails, getBalances } from "./AccountSlice";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import { error, info } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
@@ -30,7 +30,7 @@ export const changeApproval = createAsyncThunk(
     const bondAddr = bond.getAddressForBond(networkID);
 
     let approveTx;
-    let bondAllowance = await reserveContract.allowance(address, bondAddr);
+    let bondAllowance = await reserveContract.allowance(address, bondAddr || "");
 
     // return early if approval already exists
     if (bondAllowance.gt(BigNumber.from("0"))) {
@@ -40,7 +40,10 @@ export const changeApproval = createAsyncThunk(
     }
 
     try {
-      approveTx = await reserveContract.approve(bondAddr, ethers.utils.parseUnits("1000000000", "ether").toString());
+      approveTx = await reserveContract.approve(
+        bondAddr || "",
+        ethers.utils.parseUnits("1000000000", "ether").toString(),
+      );
       dispatch(
         fetchPendingTxns({
           txnHash: approveTx.hash,
@@ -129,7 +132,7 @@ export const calcBondDetails = createAsyncThunk(
       bondQuote = BigNumber.from(0);
     } else if (bond.isLP) {
       valuation = Number(
-        (await bondCalcContract.valuation(bond.getAddressForReserve(networkID), amountInWei)).toString(),
+        (await bondCalcContract.valuation(bond.getAddressForReserve(networkID) || "", amountInWei)).toString(),
       );
       bondQuote = await bondContract.payoutFor(valuation);
       if (!amountInWei.isZero() && Number(bondQuote.toString()) < 100000) {

@@ -1,3 +1,5 @@
+import { NetworkID } from "src/lib/Bond";
+
 /**
  * Access `process.env` in an environment helper
  * Usage: `EnvHelper.env`
@@ -9,7 +11,10 @@ export class EnvHelper {
    * @returns `process.env`
    */
   static env = process.env;
-  static alchemyTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_TESTNET_ALCHEMY}`;
+  static alchemyEthereumTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_ETHEREUM_TESTNET_ALCHEMY}`;
+  static alchemyArbitrumTestnetURI = `https://arb-rinkeby.g.alchemy.com/v2/${EnvHelper.env.REACT_APP_ARBITRUM_TESTNET_ALCHEMY}`;
+  static alchemyAvalancheTestnetURI = ``;
+
   static whitespaceRegex = /\s+/;
 
   /**
@@ -36,23 +41,51 @@ export class EnvHelper {
    * in development environment will return the `ethers` community api key so that devs don't need to add elements to their .env
    * @returns Array of Alchemy API URIs or empty set
    */
-  static getAlchemyAPIKeyList() {
-    let ALCHEMY_ID_LIST: string[];
+  static getAlchemyAPIKeyList(networkId: number): string[] {
+    let ALCHEMY_ID_LIST: string[] = [];
+    let uriPath: string;
 
-    // split the provided API keys on whitespace
-    if (EnvHelper.env.REACT_APP_ALCHEMY_IDS && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ALCHEMY_IDS)) {
-      ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
-    } else {
-      ALCHEMY_ID_LIST = [];
+    // If in production, split the provided API keys on whitespace. Otherwise use default.
+    switch (networkId) {
+      case 1:
+        if (
+          EnvHelper.env.NODE_ENV !== "development" &&
+          EnvHelper.env.REACT_APP_ETHEREUM_ALCHEMY_IDS &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ETHEREUM_ALCHEMY_IDS)
+        ) {
+          ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ETHEREUM_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
+        } else {
+          ALCHEMY_ID_LIST = ["_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC"];
+        }
+        uriPath = "https://eth-mainnet.alchemyapi.io/v2/";
+        break;
+      case 42161:
+        if (
+          EnvHelper.env.NODE_ENV !== "development" &&
+          EnvHelper.env.REACT_APP_ARBITRUM_ALCHEMY_IDS &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ARBITRUM_ALCHEMY_IDS)
+        ) {
+          ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ARBITRUM_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
+        } else {
+          ALCHEMY_ID_LIST = ["7Fz2U-NiLphizjlRkJzWtK5jef-5rX-G"];
+        }
+        uriPath = "https://arb-mainnet.alchemyapi.io/v2/";
+        break;
+      case 43114:
+        if (
+          EnvHelper.env.NODE_ENV !== "development" &&
+          EnvHelper.env.REACT_APP_AVALANCHE_ALCHEMY_IDS &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_AVALANCHE_ALCHEMY_IDS)
+        ) {
+          ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_AVALANCHE_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
+        } else {
+          ALCHEMY_ID_LIST = [];
+        }
+        uriPath = "https://api.avax.network/ext/bc/C/rpc";
+        break;
     }
 
-    // now add the uri path
-    if (ALCHEMY_ID_LIST.length > 0) {
-      ALCHEMY_ID_LIST = ALCHEMY_ID_LIST.map(alchemyID => `https://eth-mainnet.alchemyapi.io/v2/${alchemyID}`);
-    } else {
-      ALCHEMY_ID_LIST = [];
-    }
-    return ALCHEMY_ID_LIST;
+    return ALCHEMY_ID_LIST.map(alchemyID => uriPath + alchemyID);
   }
 
   /**
@@ -84,12 +117,33 @@ export class EnvHelper {
    * - functionality for Websocket addresses has been deprecated due to issues with WalletConnect
    *     - WalletConnect Issue: https://github.com/WalletConnect/walletconnect-monorepo/issues/193
    */
-  static getSelfHostedNode() {
-    let URI_LIST: string[];
-    if (EnvHelper.env.REACT_APP_SELF_HOSTED_NODE && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_SELF_HOSTED_NODE)) {
-      URI_LIST = EnvHelper.env.REACT_APP_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
-    } else {
-      URI_LIST = [];
+  static getSelfHostedNode(networkId: number) {
+    let URI_LIST: string[] = [];
+    switch (networkId) {
+      case 1:
+        if (
+          EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_NODE &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_NODE)
+        ) {
+          URI_LIST = EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
+        }
+        break;
+      case 42161:
+        if (
+          EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_NODE &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_NODE)
+        ) {
+          URI_LIST = EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
+        }
+        break;
+      case 43114:
+        if (
+          EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_NODE &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_NODE)
+        ) {
+          URI_LIST = EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
+        }
+        break;
     }
     return URI_LIST;
   }
@@ -99,18 +153,17 @@ export class EnvHelper {
    * in prod if .env is blank API connections will fail
    * @returns array of API urls
    */
-  static getAPIUris() {
-    let ALL_URIs = EnvHelper.getSelfHostedNode();
-    if (EnvHelper.env.NODE_ENV === "development" && ALL_URIs.length === 0) {
-      // push in the common ethers key in development
-      ALL_URIs.push("https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC");
-    }
+  static getAPIUris(networkId: number) {
+    let ALL_URIs = EnvHelper.getSelfHostedNode(networkId);
+    // Debug log
+    // console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());
+    // ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getSelfHostedNode(networkId)];
     if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
     return ALL_URIs;
   }
 
-  static getFallbackURIs() {
-    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(), ...EnvHelper.getInfuraIdList()];
+  static getFallbackURIs(networkId: number) {
+    const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getInfuraIdList()];
     return ALL_URIs;
   }
 
