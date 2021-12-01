@@ -69,7 +69,7 @@ export const changeMigrationApproval = createAsyncThunk(
     try {
       approveTx = await tokenContract.approve(
         addresses[networkID].MIGRATOR_ADDRESS,
-        ethers.utils.parseUnits("1000000000", token === "wsohm" ? "ether" : "gwei").toString(),
+        ethers.utils.parseUnits("1000000000", token === "wsohm" || token === "gohm" ? "ether" : "gwei").toString(),
       );
 
       const text = `Approve ${displayName} Migration`;
