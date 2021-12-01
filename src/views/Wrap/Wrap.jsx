@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -30,16 +30,6 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -143,10 +133,16 @@ function Wrap() {
   }, [unwrapAllowance, migrateSohmAllowance, migrateWsohmAllowance, assetTo, assetFrom]);
 
   const isAllowanceDataLoading = unwrapAllowance == null && currentAction === "Unwrap";
-  const convertedQuantity = 0;
-  // const convertedQuantity = useMemo(() => {
-  //   if (assetFrom === )
-  // }, [quantity]);
+  // const convertedQuantity = 0;
+  const convertedQuantity = useMemo(() => {
+    if (assetFrom === "sOHM") {
+      return quantity / currentIndex;
+    } else if (assetTo === "sOHM") {
+      return quantity * currentIndex;
+    } else {
+      return quantity;
+    }
+  }, [quantity]);
   // currentAction === "Unwrap" ? (quantity * wsOhmPrice) / sOhmPrice : (quantity * sOhmPrice) / wsOhmPrice;
 
   let modalButton = [];
@@ -414,7 +410,7 @@ function Wrap() {
                     {quantity && (
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
-                          {`${quantity} ${assetFrom} will result in ${trim(convertedQuantity, 4)} ${assetTo}`}
+                          {`${trim(quantity, 4)} ${assetFrom} will result in ${trim(convertedQuantity, 4)} ${assetTo}`}
                         </Typography>
                       </Box>
                     )}
