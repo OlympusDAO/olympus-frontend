@@ -57,9 +57,9 @@ function Wrap() {
   const [quantity, setQuantity] = useState("");
 
   const chooseCurrentAction = () => {
-    if (assetFrom === "sOHM") return "Wrap";
-    if (assetTo === "sOHM") return "Unwrap";
-    if (assetFrom === "wsOHM" && assetTo === "gOHM") return "Wrap";
+    if (assetFrom === "sOHM") return "Wrap from";
+    if (assetTo === "sOHM") return "Unwrap from";
+    return "Transform";
   };
   const currentAction = chooseCurrentAction();
 
@@ -143,9 +143,11 @@ function Wrap() {
   }, [unwrapAllowance, migrateSohmAllowance, migrateWsohmAllowance, assetTo, assetFrom]);
 
   const isAllowanceDataLoading = unwrapAllowance == null && currentAction === "Unwrap";
-
-  const convertedQuantity =
-    currentAction === "Unwrap" ? (quantity * wsOhmPrice) / sOhmPrice : (quantity * sOhmPrice) / wsOhmPrice;
+  const convertedQuantity = 0;
+  // const convertedQuantity = useMemo(() => {
+  //   if (assetFrom === )
+  // }, [quantity]);
+  // currentAction === "Unwrap" ? (quantity * wsOhmPrice) / sOhmPrice : (quantity * sOhmPrice) / wsOhmPrice;
 
   let modalButton = [];
 
@@ -166,7 +168,15 @@ function Wrap() {
   };
 
   const approveMigrate = token => {
-    dispatch(changeMigrationApproval({ token, provider, address, networkID: chainID, displayName: token }));
+    dispatch(
+      changeMigrationApproval({
+        token: token.toLowerCase(),
+        provider,
+        address,
+        networkID: chainID,
+        displayName: token,
+      }),
+    );
   };
 
   const migrateToGohm = type => {
@@ -177,7 +187,7 @@ function Wrap() {
         networkID: chainID,
         type,
         value: quantity,
-        action: "wrap to gOHM",
+        action: "Successfully wrapped to gOHM!",
       }),
     );
   };
@@ -187,10 +197,10 @@ function Wrap() {
   };
 
   const approveCorrectToken = () => {
-    if (assetFrom === "sOHM" && assetTo === "gOHM") approveMigrate("sohm");
-    if (assetFrom === "wsOHM" && assetTo === "gOHM") approveMigrate("wsohm");
-    if (assetFrom === "wsOHM" && assetTo === "sOHM") onSeekApproval("wsohm");
-    if (assetFrom === "gOHM" && assetTo === "sOHM") approveMigrate("gohm");
+    if (assetFrom === "sOHM" && assetTo === "gOHM") approveMigrate("sOHM");
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") approveMigrate("wsOHM");
+    if (assetFrom === "wsOHM" && assetTo === "sOHM") onSeekApproval("wsOHM");
+    if (assetFrom === "gOHM" && assetTo === "sOHM") approveMigrate("gOHM");
   };
 
   const chooseCorrectWrappingFunction = () => {
@@ -203,7 +213,7 @@ function Wrap() {
   const chooseInputArea = () => {
     if (!address || isAllowanceDataLoading) return <Skeleton width="150px" />;
     if (assetFrom === assetTo) return "";
-    if (assetFrom === "sOHM" && assetTo === "wsOHM")
+    if (assetTo === "wsOHM")
       return (
         <div className="no-input-visible">
           Wrapping to <b>wsOHM</b> is disabled at this time due to the upcoming{" "}
@@ -363,7 +373,9 @@ function Wrap() {
                   <Box className="stake-action-area">
                     <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                       <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <span className="asset-select-label">{currentAction} from</span>
+                        <Typography>
+                          <span className="asset-select-label">{currentAction}</span>
+                        </Typography>
                         <Select
                           id="asset-select"
                           value={assetFrom}
@@ -376,7 +388,9 @@ function Wrap() {
                           <MenuItem value={"gOHM"}>gOHM</MenuItem>
                         </Select>
                       </FormControl>
-                      <span className="asset-select-label"> to </span>
+                      <Typography>
+                        <span className="asset-select-label"> to </span>
+                      </Typography>
                       <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                         <Select
                           id="asset-select"
@@ -386,7 +400,6 @@ function Wrap() {
                           disableUnderline
                         >
                           <MenuItem value={"gOHM"}>gOHM</MenuItem>
-                          <MenuItem value={"wsOHM"}>wsOHM</MenuItem>
                           <MenuItem value={"sOHM"}>sOHM</MenuItem>
                         </Select>
                       </FormControl>
@@ -398,16 +411,13 @@ function Wrap() {
                         {chooseButtonArea()}
                       </div>
                     </Box>
-                    {/* {quantity && (
+                    {quantity && (
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
-                          {`${currentAction}ping ${quantity} ${assetFrom} will result in ${trim(
-                            convertedQuantity,
-                            4,
-                          )} ${assetTo}`}
+                          {`${quantity} ${assetFrom} will result in ${trim(convertedQuantity, 4)} ${assetTo}`}
                         </Typography>
                       </Box>
-                    )} */}
+                    )}
                   </Box>
 
                   <div className={`stake-user-data`}>

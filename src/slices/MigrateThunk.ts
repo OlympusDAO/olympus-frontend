@@ -70,7 +70,7 @@ export const changeMigrationApproval = createAsyncThunk(
     try {
       approveTx = await tokenContract.approve(
         addresses[networkID].MIGRATOR_ADDRESS,
-        ethers.utils.parseUnits("1000000000", "gwei").toString(),
+        ethers.utils.parseUnits("1000000000", token === "wsohm" ? "ether" : "gwei").toString(),
       );
 
       const text = `Approve ${token} Migration`;
@@ -143,10 +143,13 @@ export const migrateWithType = createAsyncThunk(
       return;
     }
     let migrateTx: ethers.ContractTransaction | undefined;
+    console.log(type);
+    console.log(value);
+    console.log(+ethers.utils.parseEther(value));
     try {
       migrateTx = await migrator.migrate(
-        type == "wsohm" ? ethers.utils.parseUnits(value, 18) : ethers.utils.parseUnits(value, "gwei"),
-        type == "wsohm" ? TokenType.WRAPPED : TokenType.STAKED,
+        ethers.utils.parseUnits(value, type === "wsohm" ? "ether" : "gwei"),
+        type === "wsohm" ? TokenType.WRAPPED : TokenType.STAKED,
         TokenType.WRAPPED,
       );
       const text = `Migrate ${type} Tokens`;
