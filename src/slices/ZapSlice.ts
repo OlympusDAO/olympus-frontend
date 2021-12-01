@@ -101,7 +101,7 @@ export const executeZap = createAsyncThunk(
     try {
       const gasPrice = await provider.getGasPrice();
       const rawTransactionData = await ZapHelper.executeZapHelper(
-        sellAmount.toFixed(2),
+        sellAmount,
         address,
         tokenAddress,
         slippage,
