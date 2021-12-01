@@ -20,6 +20,8 @@ import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxns
 import { IAppData } from "src/slices/AppSlice";
 import { BigNumber } from "bignumber.js";
 import { t } from "@lingui/macro";
+import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { DepositSohm, ArrowGraphic, ReceivesYield } from "../../components/EducationCard";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -129,7 +131,18 @@ export default function RedeemYield() {
       <Zoom in={true}>
         <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
           <div className="card-header">
-            <Typography variant="h5">Redeem Yield</Typography>
+            <div className="give-yield-title">
+              <Typography variant="h5">Redeem Yield</Typography>
+              <InfoTooltip
+                message="If another user has directed their sOHM rebases to you, you can redeem those rebases here and cash them out to your wallet."
+                children={null}
+              />
+            </div>
+            <div className="give-education">
+              <DepositSohm message="User directs sOHM rebases to you" />
+              <ArrowGraphic />
+              <ReceivesYield message="You redeem sOHM yield" />
+            </div>
           </div>
           <TableContainer className="redeem-table">
             <Table>

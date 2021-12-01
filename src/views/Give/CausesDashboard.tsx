@@ -76,9 +76,9 @@ export default function CausesDashboard() {
                 <Typography variant="h5">Causes Dashboard</Typography>
               </div>
               <div className="give-education">
-                <DepositSohm />
-                <LockInVault />
-                <ReceivesYield subject="Project" />
+                <DepositSohm message="Deposit sOHM from wallet" />
+                <LockInVault message="Lock sOHM in vault" />
+                <ReceivesYield message="Project receives sOHM rebases" />
               </div>
             </div>
             <div className="causes-body">
