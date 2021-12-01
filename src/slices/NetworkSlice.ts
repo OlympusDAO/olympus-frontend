@@ -86,24 +86,25 @@ export const switchNetwork = createAsyncThunk(
     } catch (e) {
       // If the chain has not been added to the user's wallet
       // @ts-ignore
-      //if (e.code === 4902 || e.code === -32603) {
-      const network = NETWORKS[networkId];
-      const params = [
-        {
-          chainId: idToHexString(networkId),
-          chainName: network["chainName"],
-          nativeCurrency: network["nativeCurrency"],
-          rpcUrls: network["rpcUrls"],
-          blockExplorerUrls: network["blockExplorerUrls"],
-        },
-      ];
+      if (e.code === 4902) {
+        const network = NETWORKS[networkId];
+        const params = [
+          {
+            chainId: idToHexString(networkId),
+            chainName: network["chainName"],
+            nativeCurrency: network["nativeCurrency"],
+            rpcUrls: network["rpcUrls"],
+            blockExplorerUrls: network["blockExplorerUrls"],
+          },
+        ];
 
-      try {
-        await provider.send("wallet_addEthereumChain", params);
-        dispatch(initializeNetwork({ provider }));
-      } catch (e) {
-        console.log(e);
-        dispatch(error("Error switching network!"));
+        try {
+          await provider.send("wallet_addEthereumChain", params);
+          dispatch(initializeNetwork({ provider }));
+        } catch (e) {
+          console.log(e);
+          dispatch(error("Error switching network!"));
+        }
       }
       // }
     }

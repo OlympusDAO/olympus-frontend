@@ -255,8 +255,9 @@ export const NETWORKS: { [key: number]: INetwork } = {
     nativeCurrency: {
       name: "Avalanche",
       symbol: "AVAX",
+      decimals: 18,
     },
-    rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc/"],
+    rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
     blockExplorerUrls: ["https://testnet.snowtrace.io/#/"],
     image: avalanche,
     imageAltText: "Avalanche Logo",
@@ -268,9 +269,10 @@ export const NETWORKS: { [key: number]: INetwork } = {
     nativeCurrency: {
       name: "Avalanche",
       symbol: "AVAX",
+      decimals: 18,
     },
-    rpcUrls: ["https://api.avax.network/ext/bc/C/rpc/"],
-    blockExplorerUrls: ["https://snowtrace.io/#/"],
+    rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
+    blockExplorerUrls: ["https://cchain.explorer.avax.network/"],
     image: avalanche,
     imageAltText: "Avalanche Logo",
     uri: () => NodeHelper.getMainnetURI(43114),
