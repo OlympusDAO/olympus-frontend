@@ -121,7 +121,7 @@ function Wrap() {
   }, [isAvax]);
 
   const wrapButtonText =
-    assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap to gOHM") : `${currentAction} ${assetFrom}`;
+    assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap") + " to gOHM" : `${currentAction} ${assetFrom}`;
 
   const setMax = () => {
     if (assetFrom === "sOHM") setQuantity(sohmBalance);
@@ -429,8 +429,9 @@ function Wrap() {
                               display: "flex",
                               flexDirection: "row",
                               alignItems: "center",
-                              padding: "0 10px",
-                              height: "1.6rem",
+                              margin: "0 10px",
+                              height: "33px",
+                              minWidth: "69px",
                             }}
                           >
                             <Select
@@ -454,8 +455,9 @@ function Wrap() {
                               display: "flex",
                               flexDirection: "row",
                               alignItems: "center",
-                              padding: "0 10px",
-                              height: "1.6rem",
+                              margin: "0 10px",
+                              height: "33px",
+                              minWidth: "69px",
                             }}
                           >
                             <Select
@@ -511,7 +513,7 @@ function Wrap() {
 
                         <Divider />
                         <Box width="100%" align="center" p={1}>
-                          <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
+                          <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
                             Got wsOHM on Avalanche? Click below to switch networks and migrate to gOHM (no bridge
                             required!)
                           </Typography>

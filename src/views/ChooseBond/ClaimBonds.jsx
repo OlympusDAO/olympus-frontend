@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { t, Trans } from "@lingui/macro";
 import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
-<<<<<<< HEAD
-import { txnButtonText, isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { redeemBond } from "src/slices/BondSlice";
-=======
 import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 import { redeemAllBonds } from "src/slices/BondSlice";
->>>>>>> 3782ec1201cea50dc3d6545829f72649cbb99fc1
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "src/hooks/Bonds";

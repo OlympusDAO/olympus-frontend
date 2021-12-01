@@ -183,9 +183,12 @@
   color: inherit;
 }
 
-// #asset-select {
-//   color: #f8cc82;
-// }
+#asset-select {
+  // color: #f8cc82;
+  input {
+    height: 33px !important;
+  }
+}
 
 .Muilnput-underline {
   display: none !important;
