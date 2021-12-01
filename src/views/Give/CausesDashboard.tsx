@@ -76,7 +76,7 @@ export default function CausesDashboard() {
               <div className="give-education">
                 <DepositSohm />
                 <LockInVault />
-                <ReceivesYield />
+                <ReceivesYield subject="Project" />
               </div>
             </div>
             <div className="causes-body">

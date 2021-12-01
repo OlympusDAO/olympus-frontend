@@ -23,7 +23,7 @@ export function GiveInfo() {
           </Box>
           <ArrowGraphic />
           <Box className="give-info-yield-box">
-            <ReceivesYield />
+            <ReceivesYield subject="Recipient" />
             <Typography variant="body2">
               The recipient you specified, or the project you selected, will then receive the rebases associated with
               your sOHM deposit until you withdraw your sOHM principal from the vault.
