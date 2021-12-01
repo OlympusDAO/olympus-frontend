@@ -272,6 +272,13 @@
     }
   }
 }
+.MuiSelect-select.MuiSelect-select {
+  padding-right: 10px !important;
+}
+
+.asset-select-label + .MuiInput-root.MuiInputBase-formControl {
+  margin-right: 3px;
+}
 
 .mobile .stake-tab-panel,
 .mobile .stake-tab-panel > div.MuiBox-root {
