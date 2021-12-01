@@ -94,7 +94,7 @@ export const changeMigrationApproval = createAsyncThunk(
 );
 
 interface IMigrationWithType extends IActionValueAsyncThunk {
-  type: TokenType;
+  type: String;
 }
 
 export const bridgeBack = createAsyncThunk(
@@ -144,8 +144,12 @@ export const migrateWithType = createAsyncThunk(
     }
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
-      migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "gwei"), TokenType.STAKED, TokenType.WRAPPED);
-      const text = `Migrate ${TokenType[type]} Tokens`;
+      migrateTx = await migrator.migrate(
+        type == "wsohm" ? ethers.utils.parseUnits(value, 18) : ethers.utils.parseUnits(value, "gwei"),
+        type == "wsohm" ? TokenType.WRAPPED : TokenType.STAKED,
+        TokenType.WRAPPED,
+      );
+      const text = `Migrate ${type} Tokens`;
       const pendingTxnType = `migrate_${type}`;
 
       dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));

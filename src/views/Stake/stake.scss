@@ -184,6 +184,19 @@
   line-height: 1.2em;
 }
 
+.v2-migration-link {
+  color: inherit;
+}
+
+.MuiSelect-select.MuiSelect-select{
+  padding-right: 10px !important;
+}
+
+
+.asset-select-label + .MuiInput-root.MuiInputBase-formControl{
+  margin-right: 3px;
+}
+
 // #asset-select {
 //   color: #f8cc82;
 // }
