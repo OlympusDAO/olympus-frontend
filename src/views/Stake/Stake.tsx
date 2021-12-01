@@ -463,7 +463,7 @@ function Stake() {
                     </div>
                     <div className="data-row" style={{ paddingLeft: "10px" }}>
                       <Typography variant="body2" color="textSecondary">
-                        <Trans>Staked Wrapped Balance in FiatDAO</Trans>
+                        <Trans>Wrapped Balance in FiatDAO</Trans>
                       </Typography>
                       <Typography variant="body2" color="textSecondary">
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiatDaowsohmBalance), 4)} wsOHM</>}
