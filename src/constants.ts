@@ -219,7 +219,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://rinkeby.etherscan.io/#/"],
     image: ethereum,
     imageAltText: "Ethereum Logo",
-    uri: () => EnvHelper.alchemyEthereumTestnetURI,
+    uri: () => NodeHelper.getMainnetURI(4),
   },
   42161: {
     chainName: "Arbitrum",

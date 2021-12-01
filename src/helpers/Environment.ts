@@ -11,7 +11,7 @@ export class EnvHelper {
    * @returns `process.env`
    */
   static env = process.env;
-  static alchemyEthereumTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_ETHEREUM_TESTNET_ALCHEMY}`;
+  // static alchemyEthereumTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_ETHEREUM_TESTNET_ALCHEMY}`;
   static alchemyArbitrumTestnetURI = `https://arb-rinkeby.g.alchemy.com/v2/${EnvHelper.env.REACT_APP_ARBITRUM_TESTNET_ALCHEMY}`;
   static alchemyAvalancheTestnetURI = ``;
 
@@ -58,6 +58,17 @@ export class EnvHelper {
           ALCHEMY_ID_LIST = ["_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC"];
         }
         uriPath = "https://eth-mainnet.alchemyapi.io/v2/";
+        break;
+      case 4:
+        if (
+          EnvHelper.env.REACT_APP_ETHEREUM_TESTNET_ALCHEMY &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ETHEREUM_TESTNET_ALCHEMY)
+        ) {
+          ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ETHEREUM_TESTNET_ALCHEMY.split(EnvHelper.whitespaceRegex);
+        } else {
+          ALCHEMY_ID_LIST = ["aF5TH9E9RGZwaAUdUd90BNsrVkDDoeaO"];
+        }
+        uriPath = "https://eth-rinkeby.alchemyapi.io/v2/";
         break;
       case 42161:
         if (
@@ -158,7 +169,10 @@ export class EnvHelper {
     // Debug log
     // console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());
     // ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getSelfHostedNode(networkId)];
-    if (ALL_URIs.length === 0) console.error("API keys must be set in the .env");
+    if (ALL_URIs.length === 0) {
+      console.warn("API keys must be set in the .env, reverting to fallbacks");
+      ALL_URIs = EnvHelper.getFallbackURIs(networkId);
+    }
     return ALL_URIs;
   }
 

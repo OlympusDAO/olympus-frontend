@@ -27,7 +27,7 @@ export const initializeNetwork = createAsyncThunk(
           break;
         case 4:
           networkName = "Rinkeby Testnet";
-          uri = EnvHelper.alchemyEthereumTestnetURI;
+          uri = NodeHelper.getMainnetURI(id);
           break;
         case 42161:
           networkName = "Arbitrum";
