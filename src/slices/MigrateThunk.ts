@@ -9,12 +9,15 @@ import {
   IJsonRPCError,
   IValueAsyncThunk,
 } from "./interfaces";
-import { fetchAccountSuccess, getBalances, getMigrationAllowances } from "./AccountSlice";
+import { fetchAccountSuccess, getBalances, getMigrationAllowances, loadAccountDetails } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { OlympusTokenMigrator__factory } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 import { NetworkID } from "src/lib/Bond";
+
+// need to do generate typechain for this
+import { abi as CrossChainMigratorABI } from "src/abi/CrossChainMigrator.json";
 
 enum TokenType {
   UNSTAKED,
@@ -196,5 +199,40 @@ export const migrateAll = createAsyncThunk(
     // go get fresh balances
     // dispatch(loadAccountDetails({ address, provider, networkID }));
     dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
+  },
+);
+
+export const migrateCrossChainWSOHM = createAsyncThunk(
+  "migrate/migrateAvax",
+  async ({ provider, address, networkID, type, value, action }: IMigrationWithType, { dispatch }) => {
+    const signer = provider.getSigner();
+    const migrator = new ethers.Contract(addresses[networkID].MIGRATOR_ADDRESS, CrossChainMigratorABI, signer);
+    // console.log(provider);
+
+    if (!provider) {
+      dispatch(error("Please connect your wallet!"));
+      return;
+    }
+
+    let migrateTx: ethers.ContractTransaction | undefined;
+    try {
+      migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "ether"));
+      const text = `Migrate ${TokenType[type]} Tokens`;
+      const pendingTxnType = `migrate_${type}`;
+      if (migrateTx) {
+        dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
+        await migrateTx.wait();
+        dispatch(info(action));
+      }
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
+    } finally {
+      if (migrateTx) {
+        dispatch(clearPendingTxn(migrateTx.hash));
+      }
+    }
+    // go get fresh balances
+    dispatch(getBalances({ address, provider, networkID }));
+    // dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
