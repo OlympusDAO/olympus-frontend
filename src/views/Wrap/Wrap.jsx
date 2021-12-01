@@ -154,11 +154,10 @@ function Wrap() {
   };
 
   const hasCorrectAllowance = useCallback(() => {
-    if (assetFrom === "sOHM" && assetTo === "gOHM") return migrateSohmAllowance > 0;
-    if (assetFrom === "wsOHM" && assetTo === "gOHM") return migrateWsohmAllowance > 0;
-    if (assetFrom === "wsOHM" && assetTo === "sOHM") return unwrapAllowance > 0;
-    if (assetFrom === "gOHM") return unwrapGohmAllowance > 0;
-    if (assetFrom === "wsohm-avax") return migrateAllowanceWsohmAvax > 0;
+    if (assetFrom === "sOHM" && assetTo === "gOHM") return migrateSohmAllowance > sohmBalance;
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") return migrateWsohmAllowance > wsohmBalance;
+    if (assetFrom === "wsOHM" && assetTo === "sOHM") return unwrapAllowance > wsohmBalance;
+    if (assetFrom === "gOHM") return unwrapGohmAllowance > gohmBalance;
 
     return 0;
   }, [unwrapAllowance, migrateSohmAllowance, migrateWsohmAllowance, assetTo, assetFrom]);
