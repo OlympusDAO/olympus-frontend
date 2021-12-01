@@ -74,6 +74,9 @@ function Stake() {
   const wsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
+  const fiatDaowsohmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.fiatDaowsohm;
+  });
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
@@ -172,6 +175,7 @@ function Stake() {
       .toFixed(4),
   );
   const trimmedStakingAPY = trim(stakingAPY * 100, 1);
+
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((Number(stakingRebasePercentage) / 100) * trimmedBalance, 4);
 
@@ -457,7 +461,14 @@ function Stake() {
                         {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsohmBalance), 4)} wsOHM</>}
                       </Typography>
                     </div>
-
+                    <div className="data-row" style={{ paddingLeft: "10px" }}>
+                      <Typography variant="body2" color="textSecondary">
+                        <Trans>Wrapped Balance in FiatDAO</Trans>
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiatDaowsohmBalance), 4)} wsOHM</>}
+                      </Typography>
+                    </div>
                     <div className="data-row" style={{ paddingLeft: "10px" }}>
                       <Typography variant="body2" color="textSecondary">
                         <Trans>Wrapped Balance</Trans> (v2)

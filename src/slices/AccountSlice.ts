@@ -4,13 +4,14 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
+import { abi as fiatDAO } from "../abi/FiatDAOContract.json";
 
 import { setAll } from "../helpers";
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
-import { FuseProxy, IERC20, IERC20__factory, SOhmv2, SOhmv2__factory, WsOHM } from "src/typechain";
+import { FiatDAOContract, FuseProxy, IERC20, IERC20__factory, SOhmv2, SOhmv2__factory, WsOHM } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
 interface IUserBalances {
@@ -20,6 +21,7 @@ interface IUserBalances {
     sohm: string;
     fsohm: string;
     wsohm: string;
+    fiatDaowsohm: string;
     wsohmAsSohm: string;
     pool: string;
   };
@@ -35,12 +37,19 @@ export const getBalances = createAsyncThunk(
     let wsohmAsSohm = BigNumber.from("0");
     let poolBalance = BigNumber.from("0");
     let fsohmBalance = BigNumber.from(0);
+    let fiatDaowsohmBalance = BigNumber.from("0");
 
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmBalance = await gOhmContract.balanceOf(address);
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
       wsohmBalance = await wsohmContract.balanceOf(address);
+      const fiatDaoContract = new ethers.Contract(
+        addresses[networkID].FIATDAO_WSOHM_ADDRESS as string,
+        fiatDAO,
+        provider,
+      ) as FiatDAOContract;
+      fiatDaowsohmBalance = await fiatDaoContract.balanceOf(address, addresses[networkID].WSOHM_ADDRESS as string);
       // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
       wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
 
@@ -87,6 +96,7 @@ export const getBalances = createAsyncThunk(
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
         wsohm: ethers.utils.formatEther(wsohmBalance),
+        fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
       },
@@ -261,6 +271,7 @@ interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     oldsohm: string;
     fsohm: string;
     wsohm: string;
+    fiatDaowsohm: string;
     wsohmAsSohm: string;
     pool: string;
   };
@@ -283,7 +294,18 @@ interface IAccountSlice extends IUserAccountDetails, IUserBalances {
 const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
-  balances: { gohm: "", ohm: "", sohm: "", dai: "", oldsohm: "", fsohm: "", wsohm: "", pool: "", wsohmAsSohm: "" },
+  balances: {
+    gohm: "",
+    ohm: "",
+    sohm: "",
+    dai: "",
+    oldsohm: "",
+    fsohm: "",
+    wsohm: "",
+    fiatDaowsohm: "",
+    pool: "",
+    wsohmAsSohm: "",
+  },
   staking: { ohmStake: 0, ohmUnstake: 0 },
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0, gOhmUnwrap: 0 },
   pooling: { sohmPool: 0 },
