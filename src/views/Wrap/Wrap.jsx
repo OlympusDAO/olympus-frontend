@@ -121,7 +121,6 @@ function Wrap() {
       setAssetTo("gOHM");
     }
   }, [isAvax]);
-  console.log(isAvax);
 
   const setMax = () => {
     if (assetFrom === "sOHM") setQuantity(sohmBalance);
@@ -208,16 +207,27 @@ function Wrap() {
   };
 
   const migrateToGohm = type => {
-    dispatch(
-      migrateWithType({
-        provider,
-        address,
-        networkID: networkId,
-        type,
-        value: quantity,
-        action: "Successfully wrapped to gOHM!",
-      }),
-    );
+    if (isAvax) {
+      dispatch(
+        migrateCrossChainWSOHM({
+          provider,
+          address,
+          networkID: networkId,
+          value: quantity,
+        }),
+      );
+    } else {
+      dispatch(
+        migrateWithType({
+          provider,
+          address,
+          networkID: networkId,
+          type,
+          value: quantity,
+          action: "Successfully wrapped to gOHM!",
+        }),
+      );
+    }
   };
 
   const unwrapGohm = () => {
