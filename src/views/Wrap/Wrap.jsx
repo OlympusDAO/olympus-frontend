@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
+  Divider,
   FormControl,
   Grid,
   InputAdornment,
@@ -23,13 +24,20 @@ import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrap } from "../../slices/WrapThunk";
-import { changeMigrationApproval, bridgeBack, migrateWithType } from "../../slices/MigrateThunk";
-import "../Stake/stake.scss";
+import {
+  changeMigrationApproval,
+  bridgeBack,
+  migrateWithType,
+  migrateCrossChainWSOHM,
+} from "../../slices/MigrateThunk";
+import { switchNetwork } from "../../slices/NetworkSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
+import { NETWORKS } from "../../constants";
 import { ethers } from "ethers";
+import "../Stake/stake.scss";
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -39,7 +47,9 @@ const useStyles = makeStyles(theme => ({
 
 function Wrap() {
   const dispatch = useDispatch();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, address, connect } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
+  const networkName = useSelector(state => state.network.networkName);
 
   const [zoomed, setZoomed] = useState(false);
   const [assetFrom, setAssetFrom] = useState("sOHM");
@@ -58,6 +68,7 @@ function Wrap() {
   const classes = useStyles();
 
   const isAppLoading = useSelector(state => state.app.loading);
+  const isAccountLoading = useSelector(state => state.account.loading);
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
@@ -100,14 +111,23 @@ function Wrap() {
     return state.pendingTransactions;
   });
 
+  const avax = NETWORKS[43114];
+  const ethereum = NETWORKS[1];
+
   const setMax = () => {
     if (assetFrom === "sOHM") setQuantity(sohmBalance);
     if (assetFrom === "wsOHM") setQuantity(wsohmBalance);
     if (assetFrom === "gOHM") setQuantity(gohmBalance);
   };
 
+  const handleSwitchChain = id => {
+    return () => {
+      dispatch(switchNetwork({ provider: provider, networkId: id }));
+    };
+  };
+
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
   const unWrapWSOHM = async () => {
@@ -128,6 +148,7 @@ function Wrap() {
     if (assetFrom === "wsOHM" && assetTo === "gOHM") return migrateWsohmAllowance > 0;
     if (assetFrom === "wsOHM" && assetTo === "sOHM") return unwrapAllowance > 0;
     if (assetFrom === "gOHM") return unwrapGohmAllowance > 0;
+    if (assetFrom === "wsohm-avax") return migrateAllowanceWsohmAvax > 0;
 
     return 0;
   }, [unwrapAllowance, migrateSohmAllowance, migrateWsohmAllowance, assetTo, assetFrom]);
@@ -292,8 +313,77 @@ function Wrap() {
       );
   };
 
+  const migrateInputArea = () => {
+    if (!address || isAllowanceDataLoading) return <Skeleton width="150px" />;
+
+    if (!hasAllowance("wsohm-avax"))
+      return (
+        <div className="no-input-visible">
+          First time migrating your <b>wsOHM</b>?
+          <br />
+          Please approve Olympus Dao to use your <b>wsOHM</b> for v2 migration.
+        </div>
+      );
+
+    return (
+      <FormControl className="ohm-input" variant="outlined" color="primary">
+        <InputLabel htmlFor="amount-input"></InputLabel>
+        <OutlinedInput
+          id="amount-input"
+          type="number"
+          placeholder="Enter an amount"
+          className="stake-input"
+          value={quantity}
+          onChange={e => setQuantity(e.target.value)}
+          labelWidth={0}
+          endAdornment={
+            <InputAdornment position="end">
+              <Button variant="text" onClick={setMax} color="inherit">
+                Max
+              </Button>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+    );
+  };
+
+  const migrateButtonArea = () => {
+    if (!address) return "";
+    // wrap view
+
+    if (!hasAllowance("wsohm-avax"))
+      return (
+        <Button
+          className="stake-button wrap-page"
+          variant="contained"
+          color="primary"
+          disabled={isPendingTxn(pendingTransactions, "approve_migrate")}
+          onClick={() => {
+            approveMigrateCrossChain("wsohm");
+          }}
+        >
+          {txnButtonText(pendingTransactions, "approve_migrate", "Approve")}
+        </Button>
+      );
+    if (hasAllowance("wsohm-avax"))
+      return (
+        <Button
+          className="stake-button wrap-page"
+          variant="contained"
+          color="primary"
+          disabled={isPendingTxn(pendingTransactions, "migrating")}
+          onClick={() => {
+            migrateToGohmCrossChain();
+          }}
+        >
+          {txnButtonText(pendingTransactions, "migrating", "Migrate to gOHM")}
+        </Button>
+      );
+  };
+
   return (
-    <div id="stake-view">
+    <div id="stake-view" className="wrapper">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
         <Paper className={`ohm-card`}>
           <Grid container direction="column" spacing={2}>
@@ -362,7 +452,7 @@ function Wrap() {
                   <div className="wallet-menu" id="wallet-menu">
                     {modalButton}
                   </div>
-                  <Typography variant="h6">Connect your wallet to wrap sOHM</Typography>
+                  <Typography variant="h6">Connect your wallet</Typography>
                 </div>
               ) : (
                 <>
@@ -415,26 +505,67 @@ function Wrap() {
                       </Box>
                     )}
                   </Box>
-
                   <div className={`stake-user-data`}>
-                    <div className="data-row">
-                      <Typography variant="body1">sOHM Balance</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row">
-                      <Typography variant="body1">wsOHM Balance</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row">
-                      <Typography variant="body1">gOHM Balance</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
-                      </Typography>
-                    </div>
+                    {networkId === 1 || networkId === 4 ? (
+                      <>
+                        <div className="data-row">
+                          <Typography variant="body1">Wrappable Balance</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
+                          </Typography>
+                        </div>
+                        <div className="data-row">
+                          <Typography variant="body1">Unwrappable Balance</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? (
+                              <Skeleton width="80px" />
+                            ) : (
+                              <>{asset === 0 ? trim(wsohmBalance, 4) + " wsOHM" : trim(gohmBalance, 4) + " gOHM"}</>
+                            )}
+                          </Typography>
+                        </div>
+                        <Divider />
+                        <Box width="100%" align="center" p={1}>
+                          <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
+                            Got wsOHM on Avalanche? Click below to switch networks and migrate to gOHM (no bridge
+                            required!)
+                          </Typography>
+                          <Button onClick={handleSwitchChain(43114)} variant="outlined" p={1}>
+                            <img height="28px" width="28px" src={avax.image} alt={avax.imageAltText} />
+                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                              {avax.chainName}
+                            </Typography>
+                          </Button>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <div className="data-row">
+                          <Typography variant="body1">wsOHM Balance ({networkName})</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                          </Typography>
+                        </div>
+                        <div className="data-row">
+                          <Typography variant="body1">gOHM Balance ({networkName})</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4) + " gOHM"}</>}
+                          </Typography>
+                        </div>
+                        <Divider />
+                        <Box width="100%" align="center" p={1}>
+                          <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
+                            Back to Ethereum Mainnet
+                          </Typography>
+                          <Button onClick={handleSwitchChain(1)} variant="outlined" p={1}>
+                            <img height="28px" width="28px" src={ethereum.image} alt={ethereum.imageAltText} />
+                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                              {ethereum.chainName}
+                            </Typography>
+                          </Button>
+                        </Box>
+                      </>
+                    )}
                   </div>
                 </>
               )}

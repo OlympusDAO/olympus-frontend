@@ -23,7 +23,7 @@ export interface IAllBondData extends Bond, IBondDetails, IUserBondDetails {}
 const initialBondArray = allBonds;
 const initialExpiredArray = allExpiredBonds;
 // Slaps together bond data within the account & bonding states
-function useBonds(chainID: number) {
+function useBonds(networkId: number) {
   const bondLoading = useSelector((state: IBondingStateView) => !state.bonding.loading);
   const bondState = useSelector((state: IBondingStateView) => state.bonding);
   const accountBondsState = useSelector((state: IBondingStateView) => state.account.bonds);
@@ -47,8 +47,8 @@ function useBonds(chainID: number) {
       });
 
     const mostProfitableBonds = bondDetails.concat().sort((a, b) => {
-      if (a.getAvailability(chainID) === false) return 1;
-      if (b.getAvailability(chainID) === false) return -1;
+      if (!a.getAvailability(networkId)) return 1;
+      if (!b.getAvailability(networkId)) return -1;
       return a["bondDiscount"] > b["bondDiscount"] ? -1 : b["bondDiscount"] > a["bondDiscount"] ? 1 : 0;
     });
     setBonds(mostProfitableBonds);

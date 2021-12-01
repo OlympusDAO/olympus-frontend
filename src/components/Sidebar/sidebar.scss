@@ -16,6 +16,11 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
+.menu-divider {
+  margin-left: 30px;
+  margin-block: 10px;
+}
+
 .dapp-sidebar-inner {
   height: 100%;
   overflow: auto;
@@ -44,7 +49,7 @@
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  margin-bottom: 33px;
+  margin-bottom: 10px;
   min-height: max-content;
   .dapp-nav {
     display: flex;
