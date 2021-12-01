@@ -253,7 +253,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     chainName: "Avalanche Fuji Testnet",
     chainId: 43113,
     nativeCurrency: {
-      name: "Avalanche",
+      name: "AVAX",
       symbol: "AVAX",
       decimals: 18,
     },
@@ -264,10 +264,10 @@ export const NETWORKS: { [key: number]: INetwork } = {
     uri: () => EnvHelper.alchemyAvalancheTestnetURI,
   },
   43114: {
-    chainName: "Avalanche",
+    chainName: "Avalanche Mainnet",
     chainId: 43114,
     nativeCurrency: {
-      name: "Avalanche",
+      name: "AVAX",
       symbol: "AVAX",
       decimals: 18,
     },

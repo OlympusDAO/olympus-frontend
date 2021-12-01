@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import { addresses } from "src/constants";
-import { IERC20, IERC20__factory } from "src/typechain";
+import { CrossChainMigrator__factory, IERC20, IERC20__factory } from "src/typechain";
 import {
   IActionValueAsyncThunk,
   IBaseAddressAsyncThunk,
@@ -13,11 +13,7 @@ import { fetchAccountSuccess, getBalances, getMigrationAllowances, loadAccountDe
 import { error, info } from "../slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { OlympusTokenMigrator__factory } from "src/typechain";
-import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 import { NetworkID } from "src/lib/Bond";
-
-// need to do generate typechain for this
-import { abi as CrossChainMigratorABI } from "src/abi/CrossChainMigrator.json";
 
 enum TokenType {
   UNSTAKED,
@@ -73,10 +69,10 @@ export const changeMigrationApproval = createAsyncThunk(
     try {
       approveTx = await tokenContract.approve(
         addresses[networkID].MIGRATOR_ADDRESS,
-        ethers.utils.parseUnits("1000000000", "gwei").toString(),
+        ethers.utils.parseUnits("1000000000", token === "wsohm" || token === "gohm" ? "ether" : "gwei").toString(),
       );
 
-      const text = `Approve ${token} Migration`;
+      const text = `Approve ${displayName} Migration`;
       const pendingTxnType = `approve_migration`;
 
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
@@ -97,27 +93,26 @@ export const changeMigrationApproval = createAsyncThunk(
 );
 
 interface IMigrationWithType extends IActionValueAsyncThunk {
-  type: TokenType;
+  type: String;
 }
 
 export const bridgeBack = createAsyncThunk(
   "migrate/bridgeBack",
   async ({ provider, address, networkID, value }: IValueAsyncThunk, { dispatch }) => {
-    const signer = provider.getSigner();
-    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
-    // console.log(provider);
-
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
+
+    const signer = provider.getSigner();
+    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
 
     let unMigrateTx: ethers.ContractTransaction | undefined;
 
     try {
       unMigrateTx = await migrator.bridgeBack(ethers.utils.parseUnits(value, "ether"), TokenType.STAKED);
       const text = `Bridge Back gOHM`;
-      const pendingTxnType = `unmigrate_gohm`;
+      const pendingTxnType = `migrate`;
 
       dispatch(fetchPendingTxns({ txnHash: unMigrateTx.hash, text, type: pendingTxnType }));
       await unMigrateTx.wait();
@@ -138,18 +133,23 @@ export const bridgeBack = createAsyncThunk(
 export const migrateWithType = createAsyncThunk(
   "migrate/migrateWithType",
   async ({ provider, address, networkID, type, value, action }: IMigrationWithType, { dispatch }) => {
-    const signer = provider.getSigner();
-    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
-    // console.log(provider);
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
+
+    const signer = provider.getSigner();
+    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
-      migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "gwei"), TokenType.STAKED, TokenType.WRAPPED);
-      const text = `Migrate ${TokenType[type]} Tokens`;
-      const pendingTxnType = `migrate_${type}`;
+      migrateTx = await migrator.migrate(
+        ethers.utils.parseUnits(value, type === "wsohm" ? "ether" : "gwei"),
+        type === "wsohm" ? TokenType.WRAPPED : TokenType.STAKED,
+        TokenType.WRAPPED,
+      );
+      const text = `Migrate ${type} Tokens`;
+      const pendingTxnType = `migrate`;
 
       dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
       await migrateTx.wait();
@@ -170,14 +170,13 @@ export const migrateWithType = createAsyncThunk(
 export const migrateAll = createAsyncThunk(
   "migrate/migrateAll",
   async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
-    const signer = provider.getSigner();
-    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
-    // console.log(provider);
-
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
+
+    const signer = provider.getSigner();
+    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
 
     let migrateAllTx: ethers.ContractTransaction | undefined;
 
@@ -205,20 +204,17 @@ export const migrateAll = createAsyncThunk(
 export const migrateCrossChainWSOHM = createAsyncThunk(
   "migrate/migrateAvax",
   async ({ provider, address, networkID, type, value, action }: IMigrationWithType, { dispatch }) => {
-    const signer = provider.getSigner();
-    const migrator = new ethers.Contract(addresses[networkID].MIGRATOR_ADDRESS, CrossChainMigratorABI, signer);
-    // console.log(provider);
-
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
-
+    const signer = provider.getSigner();
+    const migrator = CrossChainMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
       migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "ether"));
-      const text = `Migrate ${TokenType[type]} Tokens`;
-      const pendingTxnType = `migrate_${type}`;
+      const text = `Migrate ${type} Tokens`;
+      const pendingTxnType = `migrate`;
       if (migrateTx) {
         dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
         await migrateTx.wait();
