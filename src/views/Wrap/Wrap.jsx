@@ -140,7 +140,9 @@ function Wrap() {
       return dispatch(error("You cannot unwrap more than your wsOHM balance."));
     }
 
-    await dispatch(changeWrap({ address, action: "unwrap", value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(
+      changeWrap({ address, action: "unwrap", value: quantity.toString(), provider, networkID: networkId }),
+    );
   };
 
   const hasCorrectAllowance = useCallback(() => {
@@ -190,7 +192,7 @@ function Wrap() {
         token: token.toLowerCase(),
         provider,
         address,
-        networkID: chainID,
+        networkID: networkId,
         displayName: token,
       }),
     );
@@ -201,7 +203,7 @@ function Wrap() {
       migrateWithType({
         provider,
         address,
-        networkID: chainID,
+        networkID: networkId,
         type,
         value: quantity,
         action: "Successfully wrapped to gOHM!",
@@ -210,7 +212,7 @@ function Wrap() {
   };
 
   const unwrapGohm = () => {
-    dispatch(bridgeBack({ provider, address, networkID: chainID, value: quantity }));
+    dispatch(bridgeBack({ provider, address, networkID: networkId, value: quantity }));
   };
 
   const approveCorrectToken = () => {
