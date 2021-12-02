@@ -48,7 +48,12 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
     margin-bottom: 2rem;
+
+    .cause-title {
+      padding-left: 0rem;
+    }
 
     .cause-image {
       width: 33%;
@@ -73,23 +78,27 @@
       }
     }
 
-    .cause-category {
+    .cause-link {
       display: flex;
       flex-direction: row;
       align-content: center;
       align-items: center;
       justify-content: space-between;
       color: #999999;
-      padding-top: 0.2rem;
-      padding-bottom: 0.2rem;
-      margin-top: 1.1rem;
-      margin-bottom: 1.1rem;
       font-size: small;
       border-radius: 12px;
       font-weight: 500;
 
       svg path {
         fill: #999999;
+      }
+    }
+
+    .cause-link:hover {
+      color: #F4D092;
+
+      svg path {
+        fill: #F4D092;
       }
     }
 
@@ -109,7 +118,7 @@
     }
 
     .cause-give-button {
-      width: 10rem;
+      width: 12rem;
       margin-left: auto;
       margin-right: 0;
     }
