@@ -219,7 +219,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://rinkeby.etherscan.io/#/"],
     image: ethereum,
     imageAltText: "Ethereum Logo",
-    uri: () => EnvHelper.alchemyEthereumTestnetURI,
+    uri: () => NodeHelper.getMainnetURI(4),
   },
   42161: {
     chainName: "Arbitrum",
@@ -253,7 +253,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     chainName: "Avalanche Fuji Testnet",
     chainId: 43113,
     nativeCurrency: {
-      name: "Avalanche",
+      name: "AVAX",
       symbol: "AVAX",
       decimals: 18,
     },
@@ -264,10 +264,10 @@ export const NETWORKS: { [key: number]: INetwork } = {
     uri: () => EnvHelper.alchemyAvalancheTestnetURI,
   },
   43114: {
-    chainName: "Avalanche",
+    chainName: "Avalanche Mainnet",
     chainId: 43114,
     nativeCurrency: {
-      name: "Avalanche",
+      name: "AVAX",
       symbol: "AVAX",
       decimals: 18,
     },
