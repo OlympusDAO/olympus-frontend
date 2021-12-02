@@ -202,14 +202,12 @@ export const loadAccountDetails = createAsyncThunk(
         ohmUnwrap: Number(ethers.utils.formatUnits(unwrapAllowance, "gwei")),
         gOhmUnwrap: Number(ethers.utils.formatUnits(gOhmUnwrapAllowance, "ether")),
       },
-      pooling: {
-        sohmPool: +poolAllowance,
-      },
     };
   },
 );
 
 export interface IUserBondDetails {
+  // bond: string;
   allowance: number;
   interestDue: number;
   bondMaturationBlock: number;

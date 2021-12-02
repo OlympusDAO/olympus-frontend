@@ -121,7 +121,7 @@ function Wrap() {
   }, [isAvax]);
 
   const wrapButtonText =
-    assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap to gOHM") : `${currentAction} ${assetFrom}`;
+    assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap") + " to gOHM" : `${currentAction} ${assetFrom}`;
 
   const setMax = () => {
     if (assetFrom === "sOHM") setQuantity(sohmBalance);
@@ -424,7 +424,16 @@ function Wrap() {
                           <Typography>
                             <span className="asset-select-label">{currentAction}</span>
                           </Typography>
-                          <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                          <FormControl
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              margin: "0 10px",
+                              height: "33px",
+                              minWidth: "69px",
+                            }}
+                          >
                             <Select
                               id="asset-select"
                               value={assetFrom}
@@ -441,7 +450,16 @@ function Wrap() {
                           <Typography>
                             <span className="asset-select-label"> to </span>
                           </Typography>
-                          <FormControl style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                          <FormControl
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              margin: "0 10px",
+                              height: "33px",
+                              minWidth: "69px",
+                            }}
+                          >
                             <Select
                               id="asset-select"
                               value={assetTo}
@@ -495,7 +513,7 @@ function Wrap() {
 
                         <Divider />
                         <Box width="100%" align="center" p={1}>
-                          <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
+                          <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
                             Got wsOHM on Avalanche? Click below to switch networks and migrate to gOHM (no bridge
                             required!)
                           </Typography>
