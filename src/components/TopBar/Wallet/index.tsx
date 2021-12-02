@@ -31,13 +31,7 @@ export function Wallet() {
     <>
       <WalletButton openWallet={openWallet} />
       <Drawer style={{ width: "450px" }} anchor="right" open={isWalletOpen} onClose={closeWallet}>
-        <Box sx={{ display: "flex", justifyContent: "right" }}>
-          <ConnectMenu theme={theme} />
-          <IconButton onClick={closeWallet} aria-label="close wallet">
-            <SvgIcon component={CloseIcon} color="primary" />
-          </IconButton>
-        </Box>
-        <InitialWalletView />
+        <InitialWalletView onClose={closeWallet} />
       </Drawer>
     </>
   );

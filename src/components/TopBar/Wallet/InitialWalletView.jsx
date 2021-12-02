@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useTheme, makeStyles, withStyles } from "@material-ui/core";
 import { trim } from "src/helpers";
+import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
 import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as ohmTokenImg } from "src/assets/tokens/token_OHM.svg";
@@ -15,7 +16,8 @@ import { addresses, TOKEN_DECIMALS } from "src/constants";
 // import apollo from "../../../../lib/apolloClient";
 // import { rebasesDataQuery, bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "../../treasuryData.js";
 import { useWeb3Context } from "src/hooks";
-import { SvgIcon, Button, Typography, Box, Drawer, Paper, Divider, Link } from "@material-ui/core";
+import { SvgIcon, Button, Typography, Box, Drawer, Paper, Divider, Link, IconButton } from "@material-ui/core";
+import ConnectMenu from "../ConnectMenu";
 
 import { dai, frax } from "src/helpers/AllBonds";
 
@@ -98,13 +100,20 @@ const DisconnectButton = () => {
   );
 };
 
-function InitialWalletView() {
+function InitialWalletView({ onClose }) {
   const theme = useTheme();
   const styles = useStyles();
   // const { chainID } = useWeb3Context();
   const chainID = 4;
   return (
     <Box sx={{ padding: theme.spacing(0, 3) }}>
+      <Box sx={{ display: "flex", justifyContent: "right" }}>
+        <ConnectMenu theme={theme} />
+        <IconButton size="small" onClick={onClose} aria-label="close wallet">
+          <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", heigth: "15px" }} />
+        </IconButton>
+      </Box>
+
       <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(0.5) }}>
         <TokensList />
       </Box>
@@ -139,15 +148,12 @@ function InitialWalletView() {
         </ExternalLink>
         <Borrow borrowOn="Abracadabra" Icon1={ohmTokenImg} Icon2={abracadabraTokenImg} />
         <Borrow borrowOn="Rari Capital" Icon1={ohmTokenImg} Icon2={props => <img src={rariTokenImg} {...props} />} />
-        <Box
-          sx={{
-            gridColumnStart: 1,
-            gridColumnEnd: 3,
-          }}
-        >
+        <Box sx={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
             <Typography style={{ marginLeft: "18px" }}>Rusowsky's Dune</Typography>
           </ExternalLink>
+        </Box>
+        <Box sx={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           <ExternalLink href={`https://dune.xyz/shadow/Olympus-(OHM)`}>
             <Typography style={{ marginLeft: "18px" }}>Shadow's Dune</Typography>
           </ExternalLink>
