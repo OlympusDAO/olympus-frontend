@@ -188,18 +188,23 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
           <div className="cause-content">
             <Grid container justifyContent="space-between" alignItems="center">
               <Grid item className="cause-title">
-                <Typography variant="h6">{title}</Typography>
+                <Typography variant="h6">
+                  {title} - {owner}
+                </Typography>
               </Grid>
-              <Grid item className="cause-category">
-                <Typography variant="body2">View Details</Typography>
-                <SvgIcon component={ArrowRight} style={{ width: "30px", marginLeft: "0.33em" }} viewBox={"0 0 57 24"} />
+              <Grid item>
+                <Link className="cause-link">
+                  <Typography variant="body1">View Details</Typography>
+                  <SvgIcon
+                    component={ArrowRight}
+                    style={{ width: "30px", marginLeft: "0.33em" }}
+                    viewBox={"0 5 57 24"}
+                  />
+                </Link>
               </Grid>
             </Grid>
-            <Typography variant="body1" style={{ fontSize: 12 }}>
-              {owner}
-            </Typography>
             <div className="cause-body">
-              <Typography variant="body2">{details}</Typography>
+              <Typography variant="body1">{details}</Typography>
             </div>
             <Grid container direction="column" className="cause-misc-info">
               <Grid item xs={3}>
