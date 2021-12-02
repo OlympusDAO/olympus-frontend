@@ -1,8 +1,9 @@
-import { Button, Typography, Grid, Paper, Tooltip } from "@material-ui/core";
+import { Button, Typography, Grid, Paper, Tooltip, Link } from "@material-ui/core";
 import Countdown from "react-countdown";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
+import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
 import { useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import { useAppDispatch } from "src/hooks";
@@ -181,16 +182,17 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
 
   return (
     <>
-      <Paper>
+      <Paper style={{ backdropFilter: "none", backgroundColor: "transparent" }}>
         <Grid item className="cause-card" key={title}>
           {getProjectImage()}
           <div className="cause-content">
-            <Grid container justifyContent="space-between">
+            <Grid container justifyContent="space-between" alignItems="center">
               <Grid item className="cause-title">
                 <Typography variant="h6">{title}</Typography>
               </Grid>
-              <Grid item className="cause-category" style={{ backgroundColor: theme.palette.background.default }}>
-                {category}
+              <Grid item className="cause-category">
+                <Typography variant="body2">View Details</Typography>
+                <SvgIcon component={ArrowRight} style={{ width: "30px", marginLeft: "0.33em" }} viewBox={"0 0 57 24"} />
               </Grid>
             </Grid>
             <Typography variant="body1" style={{ fontSize: 12 }}>
@@ -219,15 +221,15 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
               </Grid>
             </Grid>
           </div>
-          <RecipientModal
-            isModalOpen={isGiveModalOpen}
-            callbackFunc={handleGiveModalSubmit}
-            cancelFunc={handleGiveModalCancel}
-            project={project}
-            key={title}
-          />
         </Grid>
       </Paper>
+      <RecipientModal
+        isModalOpen={isGiveModalOpen}
+        callbackFunc={handleGiveModalSubmit}
+        cancelFunc={handleGiveModalCancel}
+        project={project}
+        key={title}
+      />
     </>
   );
 }

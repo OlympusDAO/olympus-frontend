@@ -92,6 +92,12 @@
     }
 
     .cause-category {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      align-items: center;
+      justify-content: space-between;
+      color: #999999;
       padding-top: 0.2rem;
       padding-bottom: 0.2rem;
       margin-top: 1.1rem;
@@ -99,6 +105,10 @@
       font-size: small;
       border-radius: 12px;
       font-weight: 500;
+
+      svg path {
+        fill: #999999;
+      }
     }
 
     .cause-misc-info {
@@ -240,6 +250,18 @@
     line-height: 1;
     padding-left: 0rem;
     padding-bottom: 1rem;
+  }
+}
+
+.arrow-graphic {
+  svg path {
+    fill: #999999;
+  }
+}
+
+.yield-graphic {
+  svg path {
+    fill: none;
   }
 }
 

@@ -98,7 +98,15 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
           Recipient
         </Typography>
       </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
+      <Box
+        className="yield-graphic"
+        display="flex"
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        alignContent="center"
+        m={2}
+      >
         <SvgIcon component={yieldImg} viewBox={smallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
@@ -189,7 +197,7 @@ export function ArrowGraphic() {
   const arrowViewBox = "0 0 57 24";
   return (
     <Box className="sect" minWidth={"2%"} style={{ marginTop: "0px", marginBottom: "0px" }}>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
+      <Box className="arrow-graphic" display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
         <SvgIcon component={arrowRightImg} viewBox={arrowViewBox} style={iconStyle} />
       </Box>
     </Box>
