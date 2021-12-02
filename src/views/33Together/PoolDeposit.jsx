@@ -27,7 +27,8 @@ const sohmImg = getTokenImage("sohm");
 
 export const PoolDeposit = props => {
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
   const [quantity, setQuantity] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
   const [rngCompleted, setRngCompleted] = useState(false);
@@ -56,7 +57,7 @@ export const PoolDeposit = props => {
   });
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
   const onDeposit = async action => {
@@ -158,6 +159,7 @@ export const PoolDeposit = props => {
                 disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
                 onClick={() => onDeposit("deposit")}
                 fullWidth
+                style={{ margin: "5px" }}
               >
                 {txnButtonText(pendingTransactions, "pool_deposit", t`Deposit sOHM`)}
               </Button>
@@ -168,6 +170,7 @@ export const PoolDeposit = props => {
                 color="primary"
                 disabled={isPendingTxn(pendingTransactions, "approve_pool_together")}
                 onClick={() => onSeekApproval("sohm")}
+                style={{ margin: "5px" }}
               >
                 {txnButtonText(pendingTransactions, "approve_pool_together", t`Approve`)}
               </Button>

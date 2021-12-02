@@ -66,3 +66,21 @@
     padding-bottom: 8px;
   }
 }
+
+.mobile #ohm-menu-button {
+  padding: 0px;
+  max-width: 40px !important;
+  width: 40px !important;
+}
+
+.mobile #ohm-menu-button-hover {
+  .ohm-menu-button-text {
+    display: none !important;
+  }
+
+  svg {
+    height: 26px;
+    width: 26px;
+    margin-right: 0;
+  }
+}

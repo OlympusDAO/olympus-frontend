@@ -1,8 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
+  Divider,
   FormControl,
   Grid,
   InputAdornment,
@@ -16,28 +17,27 @@ import {
   Zoom,
   SvgIcon,
   makeStyles,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
-import TabPanel from "../../components/TabPanel";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrap } from "../../slices/WrapThunk";
-import "../Stake/stake.scss";
+import {
+  changeMigrationApproval,
+  bridgeBack,
+  migrateWithType,
+  migrateCrossChainWSOHM,
+} from "../../slices/MigrateThunk";
+import { switchNetwork } from "../../slices/NetworkSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { isPendingTxn, txnButtonText, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
+import { NETWORKS } from "../../constants";
 import { ethers } from "ethers";
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
+import "../Stake/stake.scss";
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -47,14 +47,26 @@ const useStyles = makeStyles(theme => ({
 
 function Wrap() {
   const dispatch = useDispatch();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, address, connect } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
+  const networkName = useSelector(state => state.network.networkName);
 
   const [zoomed, setZoomed] = useState(false);
-  const [view, setView] = useState(0);
+  const [assetFrom, setAssetFrom] = useState("sOHM");
+  const [assetTo, setAssetTo] = useState("gOHM");
   const [quantity, setQuantity] = useState("");
+
+  const chooseCurrentAction = () => {
+    if (assetFrom === "sOHM") return "Wrap from";
+    if (assetTo === "sOHM") return "Unwrap from";
+    return "Transform";
+  };
+  const currentAction = chooseCurrentAction();
+
   const classes = useStyles();
 
   const isAppLoading = useSelector(state => state.app.loading);
+  const isAccountLoading = useSelector(state => state.account.loading);
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
@@ -73,67 +85,96 @@ function Wrap() {
   const wsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
-  const wrapAllowance = useSelector(state => {
-    return state.account.wrapping && state.account.wrapping.ohmWrap;
+  const gohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.gohm;
   });
+
   const unwrapAllowance = useSelector(state => {
     return state.account.wrapping && state.account.wrapping.ohmUnwrap;
+  });
+
+  const migrateSohmAllowance = useSelector(state => {
+    return state.account.migration && state.account.migration.sohm;
+  });
+
+  const migrateWsohmAllowance = useSelector(state => {
+    return state.account.migration && state.account.migration.wsohm;
+  });
+
+  const unwrapGohmAllowance = useSelector(state => {
+    return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
   });
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
 
-  const setMax = () => {
-    if (view === 0) {
-      setQuantity(sohmBalance);
-    } else {
-      setQuantity(wsohmBalance);
+  const avax = NETWORKS[43114];
+  const ethereum = NETWORKS[1];
+
+  const isAvax = useMemo(() => networkId != 1 && networkId != 4, [networkId]);
+  useEffect(() => {
+    if (isAvax) {
+      setAssetFrom("wsOHM");
+      setAssetTo("gOHM");
     }
+  }, [isAvax]);
+
+  const wrapButtonText =
+    assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap") + " to gOHM" : `${currentAction} ${assetFrom}`;
+
+  const setMax = () => {
+    if (assetFrom === "sOHM") setQuantity(sohmBalance);
+    if (assetFrom === "wsOHM") setQuantity(wsohmBalance);
+    if (assetFrom === "gOHM") setQuantity(gohmBalance);
+  };
+
+  const handleSwitchChain = id => {
+    return () => {
+      dispatch(switchNetwork({ provider: provider, networkId: id }));
+    };
   };
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
-  const onChangeWrap = async action => {
+  const unWrapWSOHM = async () => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || Number(quantity) === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
       return dispatch(error("Please enter a value!"));
     }
-
-    // 1st catch if quantity > balance
-    if (
-      action === "wrap" &&
-      ethers.utils.parseUnits(quantity, "gwei").gt(ethers.utils.parseUnits(sohmBalance, "gwei"))
-    ) {
-      return dispatch(error("You cannot wrap more than your sOHM balance."));
-    }
-
-    if (
-      action === "unwrap" &&
-      ethers.utils.parseUnits(quantity, "ether").gt(ethers.utils.parseUnits(wsohmBalance, "ether"))
-    ) {
+    if (ethers.utils.parseUnits(quantity, "ether").gt(ethers.utils.parseUnits(wsohmBalance, "ether"))) {
       return dispatch(error("You cannot unwrap more than your wsOHM balance."));
     }
 
-    await dispatch(changeWrap({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(
+      changeWrap({ address, action: "unwrap", value: quantity.toString(), provider, networkID: networkId }),
+    );
   };
 
-  const hasAllowance = useCallback(
-    token => {
-      if (token === "sohm") return wrapAllowance > 0;
-      if (token === "wsohm") return wrapAllowance > 0;
-      return 0;
-    },
-    [wrapAllowance, unwrapAllowance],
-  );
+  const hasCorrectAllowance = useCallback(() => {
+    if (assetFrom === "sOHM" && assetTo === "gOHM") return migrateSohmAllowance > sohmBalance;
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") return migrateWsohmAllowance > wsohmBalance;
+    if (assetFrom === "wsOHM" && assetTo === "sOHM") return unwrapAllowance > wsohmBalance;
+    if (assetFrom === "gOHM") return unwrapGohmAllowance > gohmBalance;
 
-  const isAllowanceDataLoading = (wrapAllowance == null && view === 0) || (unwrapAllowance == null && view === 1);
+    return 0;
+  }, [unwrapAllowance, migrateSohmAllowance, migrateWsohmAllowance, assetTo, assetFrom]);
 
-  const isUnwrap = view === 1;
-  const convertedQuantity = isUnwrap ? (quantity * wsOhmPrice) / sOhmPrice : (quantity * sOhmPrice) / wsOhmPrice;
+  const isAllowanceDataLoading = unwrapAllowance == null && currentAction === "Unwrap";
+  // const convertedQuantity = 0;
+  const convertedQuantity = useMemo(() => {
+    if (assetFrom === "sOHM") {
+      return quantity / currentIndex;
+    } else if (assetTo === "sOHM") {
+      return quantity * currentIndex;
+    } else {
+      return quantity;
+    }
+  }, [quantity]);
+  // currentAction === "Unwrap" ? (quantity * wsOhmPrice) / sOhmPrice : (quantity * sOhmPrice) / wsOhmPrice;
 
   let modalButton = [];
 
@@ -143,12 +184,161 @@ function Wrap() {
     </Button>,
   );
 
-  const changeView = (event, newView) => {
-    setView(newView);
+  const changeAssetFrom = event => {
+    setQuantity("");
+    setAssetFrom(event.target.value);
+  };
+
+  const changeAssetTo = event => {
+    setQuantity("");
+    setAssetTo(event.target.value);
+  };
+
+  const approveMigrate = token => {
+    dispatch(
+      changeMigrationApproval({
+        token: token.toLowerCase(),
+        provider,
+        address,
+        networkID: networkId,
+        displayName: token,
+      }),
+    );
+  };
+
+  const migrateToGohm = type => {
+    if (isAvax) {
+      dispatch(
+        migrateCrossChainWSOHM({
+          provider,
+          address,
+          networkID: networkId,
+          value: quantity,
+        }),
+      );
+    } else {
+      dispatch(
+        migrateWithType({
+          provider,
+          address,
+          networkID: networkId,
+          type,
+          value: quantity,
+          action: "Successfully wrapped to gOHM!",
+        }),
+      );
+    }
+  };
+
+  const unwrapGohm = () => {
+    dispatch(bridgeBack({ provider, address, networkID: networkId, value: quantity }));
+  };
+
+  const approveCorrectToken = () => {
+    if (assetFrom === "sOHM" && assetTo === "gOHM") approveMigrate("sOHM");
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") approveMigrate("wsOHM");
+    if (assetFrom === "wsOHM" && assetTo === "sOHM") onSeekApproval("wsOHM");
+    if (assetFrom === "gOHM" && assetTo === "sOHM") approveMigrate("gOHM");
+  };
+
+  const chooseCorrectWrappingFunction = () => {
+    if (assetFrom === "sOHM" && assetTo === "gOHM") migrateToGohm("sohm");
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") migrateToGohm("wsohm");
+    if (assetFrom === "gOHM" && assetTo === "sOHM") unwrapGohm();
+    if (assetFrom === "wsOHM" && assetTo === "sOHM") unWrapWSOHM();
+  };
+
+  const chooseInputArea = () => {
+    if (!address || isAllowanceDataLoading) return <Skeleton width="150px" />;
+    if (assetFrom === assetTo) return "";
+    if (assetTo === "wsOHM")
+      return (
+        <div className="no-input-visible">
+          Wrapping to <b>wsOHM</b> is disabled at this time due to the upcoming{" "}
+          <a className="v2-migration-link" href="https://olympusdao.medium.com/introducing-olympus-v2-c4ade14e9fe">
+            V2 migration
+          </a>
+          .
+          <br />
+          If you'd like to wrap your <b>sOHM</b>, please try wrapping to <b>gOHM</b> instead.
+        </div>
+      );
+    if (!hasCorrectAllowance() && assetTo === "gOHM")
+      return (
+        <div className="no-input-visible">
+          First time wrapping to <b>gOHM</b>?
+          <br />
+          Please approve Olympus to use your <b>{assetFrom}</b> for this transaction.
+        </div>
+      );
+    if (!hasCorrectAllowance() && assetTo === "sOHM")
+      return (
+        <div className="no-input-visible">
+          First time unwrapping <b>{assetFrom}</b>?
+          <br />
+          Please approve Olympus to use your <b>{assetFrom}</b> for unwrapping.
+        </div>
+      );
+
+    return (
+      <FormControl className="ohm-input" variant="outlined" color="primary">
+        <InputLabel htmlFor="amount-input"></InputLabel>
+        <OutlinedInput
+          id="amount-input"
+          type="number"
+          placeholder="Enter an amount"
+          className="stake-input"
+          value={quantity}
+          onChange={e => setQuantity(e.target.value)}
+          labelWidth={0}
+          endAdornment={
+            <InputAdornment position="end">
+              <Button variant="text" onClick={setMax} color="inherit">
+                Max
+              </Button>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+    );
+  };
+
+  const chooseButtonArea = () => {
+    if (!address) return "";
+    if (assetTo === "wsOHM") return "";
+    if (assetFrom === assetTo) return "";
+    if (!hasCorrectAllowance())
+      return (
+        <Button
+          className="stake-button wrap-page"
+          variant="contained"
+          color="primary"
+          disabled={
+            isPendingTxn(pendingTransactions, "approve_wrapping") ||
+            isPendingTxn(pendingTransactions, "approve_migration")
+          }
+          onClick={approveCorrectToken}
+        >
+          {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
+        </Button>
+      );
+
+    if (hasCorrectAllowance())
+      return (
+        <Button
+          className="stake-button wrap-page"
+          variant="contained"
+          color="primary"
+          disabled={isPendingTxn(pendingTransactions, "wrapping") || isPendingTxn(pendingTransactions, "migrate")}
+          onClick={chooseCorrectWrappingFunction}
+        >
+          {txnButtonTextMultiType(pendingTransactions, ["wrapping", "migrate"], wrapButtonText)}
+        </Button>
+      );
   };
 
   return (
-    <div id="stake-view">
+    <div id="stake-view" className="wrapper">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
         <Paper className={`ohm-card`}>
           <Grid container direction="column" spacing={2}>
@@ -158,11 +348,15 @@ function Wrap() {
                 <Link
                   className="migrate-sohm-button"
                   style={{ textDecoration: "none" }}
-                  href="https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
+                  href={
+                    assetTo === "wsOHM"
+                      ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
+                      : "https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                  }
                   aria-label="wsohm-wut"
                   target="_blank"
                 >
-                  <Typography>wsOHM</Typography> <SvgIcon component={InfoIcon} color="primary" />
+                  <Typography>{assetTo}</Typography> <SvgIcon component={InfoIcon} color="primary" />
                 </Link>
               </div>
             </Grid>
@@ -193,11 +387,9 @@ function Wrap() {
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="wrap-wsOHM">
                       <Typography variant="h5" color="textSecondary">
-                        wsOHM Price
+                        {`${assetTo} Price`}
                         <InfoTooltip
-                          message={
-                            "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
-                          }
+                          message={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
                         />
                       </Typography>
                       <Typography variant="h4">
@@ -215,130 +407,152 @@ function Wrap() {
                   <div className="wallet-menu" id="wallet-menu">
                     {modalButton}
                   </div>
-                  <Typography variant="h6">Connect your wallet to wrap sOHM</Typography>
+                  <Typography variant="h6">Connect your wallet</Typography>
                 </div>
               ) : (
                 <>
                   <Box className="stake-action-area">
-                    <Tabs
-                      key={String(zoomed)}
-                      centered
-                      value={view}
-                      textColor="primary"
-                      indicatorColor="primary"
-                      className="stake-tab-buttons"
-                      onChange={changeView}
-                      aria-label="stake tabs"
-                    >
-                      <Tab label="Wrap" {...a11yProps(0)} />
-                      <Tab label="Unwrap" {...a11yProps(1)} />
-                    </Tabs>
-                    <Box className="stake-action-row " display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
-                      {address && !isAllowanceDataLoading ? (
-                        !hasAllowance("sohm") && view === 0 ? (
-                          <Box className="help-text">
-                            <Typography variant="body1" className="stake-note" color="textSecondary">
-                              {view === 0 && (
-                                <>
-                                  First time wrapping <b>sOHM</b>?
-                                  <br />
-                                  Please approve Olympus Dao to use your <b>sOHM</b> for wrapping.
-                                </>
-                              )}
-                            </Typography>
-                          </Box>
-                        ) : (
-                          <FormControl className="ohm-input" variant="outlined" color="primary">
-                            <InputLabel htmlFor="amount-input"></InputLabel>
-                            <OutlinedInput
-                              id="amount-input"
-                              type="number"
-                              placeholder="Enter an amount"
-                              className="stake-input"
-                              value={quantity}
-                              onChange={e => setQuantity(e.target.value)}
-                              labelWidth={0}
-                              endAdornment={
-                                <InputAdornment position="end">
-                                  <Button variant="text" onClick={setMax} color="inherit">
-                                    Max
-                                  </Button>
-                                </InputAdornment>
-                              }
-                            />
-                          </FormControl>
-                        )
+                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                      {isAvax ? (
+                        <Box height="32px">
+                          <Typography>
+                            Transform <b>wsOHM</b> to <b>gOHM</b>
+                          </Typography>
+                        </Box>
                       ) : (
-                        <Skeleton width="150px" />
+                        <>
+                          <Typography>
+                            <span className="asset-select-label">{currentAction}</span>
+                          </Typography>
+                          <FormControl
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              margin: "0 10px",
+                              height: "33px",
+                              minWidth: "69px",
+                            }}
+                          >
+                            <Select
+                              id="asset-select"
+                              value={assetFrom}
+                              label="Asset"
+                              onChange={changeAssetFrom}
+                              disableUnderline
+                            >
+                              <MenuItem value={"sOHM"}>sOHM</MenuItem>
+                              <MenuItem value={"wsOHM"}> wsOHM</MenuItem>
+                              <MenuItem value={"gOHM"}>gOHM</MenuItem>
+                            </Select>
+                          </FormControl>
+
+                          <Typography>
+                            <span className="asset-select-label"> to </span>
+                          </Typography>
+                          <FormControl
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              margin: "0 10px",
+                              height: "33px",
+                              minWidth: "69px",
+                            }}
+                          >
+                            <Select
+                              id="asset-select"
+                              value={assetTo}
+                              label="Asset"
+                              onChange={changeAssetTo}
+                              disableUnderline
+                            >
+                              <MenuItem value={"gOHM"}>gOHM</MenuItem>
+                              <MenuItem value={"sOHM"}>sOHM</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </>
                       )}
-
-                      <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {address && hasAllowance("sohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "wrapping")}
-                            onClick={() => {
-                              onChangeWrap("wrap");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "wrapping", "Wrap sOHM")}
-                          </Button>
-                        ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_wrapping")}
-                            onClick={() => {
-                              onSeekApproval("sohm");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "approve_wrapping", "Approve")}
-                          </Button>
-                        )}
-                      </TabPanel>
-
-                      <TabPanel value={view} index={1} className="stake-tab-panel">
-                        <Button
-                          className="stake-button"
-                          variant="contained"
-                          color="primary"
-                          disabled={isPendingTxn(pendingTransactions, "unwrapping")}
-                          onClick={() => {
-                            onChangeWrap("unwrap");
-                          }}
-                        >
-                          {txnButtonText(pendingTransactions, "unwrapping", "Unwrap sOHM")}
-                        </Button>
-                      </TabPanel>
                     </Box>
-
+                    <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
+                      <div className="stake-tab-panel wrap-page">
+                        {chooseInputArea()}
+                        {/* <Box width="1px" /> */}
+                        {chooseButtonArea()}
+                      </div>
+                    </Box>
                     {quantity && (
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
-                          {isUnwrap
-                            ? `Unwrapping ${quantity} wsOHM will result in ${trim(convertedQuantity, 4)} sOHM`
-                            : `Wrapping ${quantity} sOHM will result in ${trim(convertedQuantity, 4)} wsOHM`}
+                          {`${trim(quantity, 4)} ${assetFrom} will result in ${trim(convertedQuantity, 4)} ${assetTo}`}
                         </Typography>
                       </Box>
                     )}
                   </Box>
-
                   <div className={`stake-user-data`}>
-                    <div className="data-row">
-                      <Typography variant="body1">Wrappable Balance</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row">
-                      <Typography variant="body1">Unwrappable Balance</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
-                      </Typography>
-                    </div>
+                    {!isAvax ? (
+                      <>
+                        <div className="data-row">
+                          <Typography variant="body1">sOHM Balance</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
+                          </Typography>
+                        </div>
+                        <div className="data-row">
+                          <Typography variant="body1">wsOHM Balance</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                          </Typography>
+                        </div>
+                        <div className="data-row">
+                          <Typography variant="body1">gOHM Balance</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
+                          </Typography>
+                        </div>
+
+                        <Divider />
+                        <Box width="100%" align="center" p={1}>
+                          <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
+                            Got wsOHM on Avalanche? Click below to switch networks and migrate to gOHM (no bridge
+                            required!)
+                          </Typography>
+                          <Button onClick={handleSwitchChain(43114)} variant="outlined" p={1}>
+                            <img height="28px" width="28px" src={avax.image} alt={avax.imageAltText} />
+                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                              {avax.chainName}
+                            </Typography>
+                          </Button>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <div className="data-row">
+                          <Typography variant="body1">wsOHM Balance ({networkName})</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                          </Typography>
+                        </div>
+                        <div className="data-row">
+                          <Typography variant="body1">gOHM Balance ({networkName})</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4) + " gOHM"}</>}
+                          </Typography>
+                        </div>
+                        <Divider />
+                        <Box width="100%" align="center" p={1}>
+                          <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
+                            Back to Ethereum Mainnet
+                          </Typography>
+                          <Button onClick={handleSwitchChain(1)} variant="outlined" p={1}>
+                            <img height="28px" width="28px" src={ethereum.image} alt={ethereum.imageAltText} />
+                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                              {ethereum.chainName}
+                            </Typography>
+                          </Button>
+                        </Box>
+                      </>
+                    )}
                   </div>
                 </>
               )}

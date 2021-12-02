@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { addresses, TOKEN_DECIMALS } from "../../constants";
 import { NavLink } from "react-router-dom";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, Slide } from "@material-ui/core";
@@ -8,18 +8,17 @@ import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.s
 import { ReactComponent as wsOhmTokenImg } from "../../assets/tokens/token_wsOHM.svg";
 import { ReactComponent as ohmTokenImg } from "../../assets/tokens/token_OHM.svg";
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
-
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
 import { Trans } from "@lingui/macro";
-import { useWeb3Context } from "../../hooks/web3Context";
-
+import Grid from "@material-ui/core/Grid";
 import OhmImg from "src/assets/tokens/token_OHM.svg";
 import SOhmImg from "src/assets/tokens/token_sOHM.svg";
 import WsOhmImg from "src/assets/tokens/token_wsOHM.svg";
 import token33tImg from "src/assets/tokens/token_33T.svg";
-
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
+import { useSelector } from "react-redux";
+import { useWeb3Context } from "../../hooks";
 
 const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
   if (window.ethereum) {
@@ -33,7 +32,7 @@ const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
       case "33T":
         tokenPath = token33tImg;
         break;
-      case "wsOHM":
+      case "gOHM":
         tokenPath = WsOhmImg;
         tokenDecimals = 18;
         break;
@@ -70,24 +69,25 @@ const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
 function OhmMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const isEthereumAPIAvailable = window.ethereum;
-  const { chainID, address } = useWeb3Context();
+  const { address } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
 
-  const networkID = chainID;
+  const SOHM_ADDRESS = addresses[networkId] && addresses[networkId].SOHM_ADDRESS;
+  const OHM_ADDRESS = addresses[networkId] && addresses[networkId].OHM_ADDRESS;
+  const PT_TOKEN_ADDRESS = addresses[networkId] && addresses[networkId].PT_TOKEN_ADDRESS;
+  const GOHM_ADDRESS = addresses[networkId] && addresses[networkId].GOHM_ADDRESS;
 
-  const SOHM_ADDRESS = addresses[networkID].SOHM_ADDRESS;
-  const OHM_ADDRESS = addresses[networkID].OHM_ADDRESS;
-  const PT_TOKEN_ADDRESS = addresses[networkID].PT_TOKEN_ADDRESS;
-  const WSOHM_ADDRESS = addresses[networkID].WSOHM_ADDRESS;
   const handleClick = event => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
   const open = Boolean(anchorEl);
   const id = "ohm-popper";
-  const daiAddress = dai.getAddressForReserve(networkID);
-  const fraxAddress = frax.getAddressForReserve(networkID);
+  const daiAddress = dai.getAddressForReserve(networkId);
+  const fraxAddress = frax.getAddressForReserve(networkId);
   return (
-    <Box
+    <Grid
+      container
       component="div"
       onMouseEnter={e => handleClick(e)}
       onMouseLeave={e => handleClick(e)}
@@ -95,7 +95,7 @@ function OhmMenu() {
     >
       <Button id="ohm-menu-button" size="large" variant="contained" color="secondary" title="OHM" aria-describedby={id}>
         <SvgIcon component={InfoIcon} color="primary" />
-        <Typography>OHM</Typography>
+        <Typography className="ohm-menu-button-text">OHM</Typography>
       </Button>
 
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start" transition>
@@ -183,18 +183,18 @@ function OhmMenu() {
                           <Typography variant="body1">sOHM</Typography>
                         </Button>
                       )}
-                      {WSOHM_ADDRESS && (
+                      {GOHM_ADDRESS && (
                         <Button
                           variant="contained"
                           color="secondary"
-                          onClick={addTokenToWallet("wsOHM", WSOHM_ADDRESS, address)}
+                          onClick={addTokenToWallet("gOHM", GOHM_ADDRESS, address)}
                         >
                           <SvgIcon
                             component={wsOhmTokenImg}
                             viewBox="0 0 180 180"
                             style={{ height: "25px", width: "25px" }}
                           />
-                          <Typography variant="body1">wsOHM</Typography>
+                          <Typography variant="body1">gOHM</Typography>
                         </Button>
                       )}
                       {PT_TOKEN_ADDRESS && (
@@ -227,12 +227,23 @@ function OhmMenu() {
                     </Typography>
                   </Button>
                 </Link>
+                <Link
+                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Button size="large" variant="contained" color="secondary" fullWidth>
+                    <Typography align="left">
+                      <Trans>Bridge Tokens</Trans>
+                    </Typography>
+                  </Button>
+                </Link>
               </Paper>
             </Fade>
           );
         }}
       </Popper>
-    </Box>
+    </Grid>
   );
 }
 
