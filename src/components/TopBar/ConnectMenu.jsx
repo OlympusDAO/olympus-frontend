@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { Box, Button, Divider, Fade, Link, Paper, Popper, Slide, SvgIcon, Typography } from "@material-ui/core";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as CaretDownIcon } from "../../assets/icons/caret-down.svg";
+import { ReactComponent as Info } from "../../assets/icons/info.svg";
+
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Trans } from "@lingui/macro";
 
@@ -17,7 +19,13 @@ function ConnectMenu({ theme }) {
     return state.pendingTransactions;
   });
 
-  let buttonText = <Trans>Connect Wallet</Trans>;
+  let buttonText = (
+    <Paper>
+      <Trans>Disconnect</Trans>
+
+      <img component={Info} />
+    </Paper>
+  );
   let clickFunc = connect;
 
   const handleClick = event => {
@@ -25,7 +33,11 @@ function ConnectMenu({ theme }) {
   };
 
   if (isConnected) {
-    buttonText = <Trans>Disconnect</Trans>;
+    buttonText = (
+      <Trans>
+        Disconnect <SvgIcon component={Info} />
+      </Trans>
+    );
     clickFunc = disconnect;
   }
 

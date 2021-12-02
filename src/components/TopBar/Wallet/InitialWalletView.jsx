@@ -7,7 +7,6 @@ import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as ohmTokenImg } from "src/assets/tokens/token_OHM.svg";
 import { ReactComponent as abracadabraTokenImg } from "src/assets/tokens/MIM.svg";
 import rariTokenImg from "src/assets/tokens/RARI.png";
-
 import { addresses, TOKEN_DECIMALS } from "src/constants";
 // import SOhmLearnView from "./SOhm/SOhmLearnView";
 // import SOhmTxView from "./SOhm/SOhmTxView";
@@ -147,7 +146,10 @@ function InitialWalletView() {
           }}
         >
           <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
-            <Typography style={{ marginLeft: "18px" }}>Charts & Analytics</Typography>
+            <Typography style={{ marginLeft: "18px" }}>Rusowsky's Dune</Typography>
+          </ExternalLink>
+          <ExternalLink href={`https://dune.xyz/shadow/Olympus-(OHM)`}>
+            <Typography style={{ marginLeft: "18px" }}>Shadow's Dune</Typography>
           </ExternalLink>
         </Box>
       </Box>
