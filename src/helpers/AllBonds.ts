@@ -48,7 +48,6 @@ export const dai = new StableBond({
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
     [NetworkID.AvalancheTestnet]: false,
-    [NetworkID.Unknown]: false,
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -76,7 +75,6 @@ export const frax = new StableBond({
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
     [NetworkID.AvalancheTestnet]: false,
-    [NetworkID.Unknown]: false,
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -104,7 +102,6 @@ export const lusd = new StableBond({
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
     [NetworkID.AvalancheTestnet]: false,
-    [NetworkID.Unknown]: false,
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -135,7 +132,6 @@ export const eth = new CustomBond({
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
     [NetworkID.AvalancheTestnet]: false,
-    [NetworkID.Unknown]: false,
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -175,7 +171,6 @@ export const cvx = new CustomBond({
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
     [NetworkID.AvalancheTestnet]: false,
-    [NetworkID.Unknown]: false,
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -215,7 +210,6 @@ export const cvx_expired = new CustomBond({
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
     [NetworkID.AvalancheTestnet]: false,
-    [NetworkID.Unknown]: false,
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -252,7 +246,6 @@ export const ohm_dai = new LPBond({
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
     [NetworkID.AvalancheTestnet]: false,
-    [NetworkID.Unknown]: false,
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -283,7 +276,6 @@ export const ohm_frax = new LPBond({
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
     [NetworkID.AvalancheTestnet]: false,
-    [NetworkID.Unknown]: false,
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -314,7 +306,6 @@ export const ohm_lusd = new LPBond({
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
     [NetworkID.AvalancheTestnet]: false,
-    [NetworkID.Unknown]: false,
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
@@ -346,7 +337,6 @@ export const ohm_weth = new CustomBond({
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
     [NetworkID.AvalancheTestnet]: false,
-    [NetworkID.Unknown]: false,
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {

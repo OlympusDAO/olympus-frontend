@@ -129,6 +129,9 @@ function App() {
 
   const loadApp = useCallback(
     loadProvider => {
+      if (networkId == -1) {
+        return;
+      }
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       bonds.map(bond => {
         if (bond.getAvailability(networkId)) {
