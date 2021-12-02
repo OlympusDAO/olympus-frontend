@@ -8,7 +8,7 @@ import token33tImg from "src/assets/tokens/token_33T.svg";
 
 import { OHMToken } from "./Tokens";
 
-const addTokenToWallet = (tokenSymbol: OHMToken, tokenAddress: string, userAddress: string) => async () => {
+const addTokenToWallet = async (tokenSymbol: OHMToken, tokenAddress: string, userAddress: string) => {
   if (!window.ethereum) return;
 
   const host = window.location.origin;
