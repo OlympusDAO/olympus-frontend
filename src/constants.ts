@@ -274,4 +274,4 @@ export const NETWORKS: { [network in NetworkID]: INetwork } = {
     imageAltText: "Avalanche Logo",
     uri: () => NodeHelper.getMainnetURI(43114),
   },
-};
+} as const;

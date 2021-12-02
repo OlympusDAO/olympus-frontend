@@ -73,17 +73,16 @@ export const getBalances = createAsyncThunk(
       ) as IERC20;
       poolBalance = await poolTokenContract.balanceOf(address);
 
-      if (networkID === NetworkId.Ethereum)
-        for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"] as const) {
-          const fsohmContract = new ethers.Contract(
-            addresses[networkID][fuseAddressKey] as string,
-            fuseProxy,
-            provider.getSigner(),
-          ) as FuseProxy;
-          // fsohmContract.signer;
-          const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
-          fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
-        }
+      for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"] as const) {
+        const fsohmContract = new ethers.Contract(
+          addresses[networkID][fuseAddressKey] as string,
+          fuseProxy,
+          provider.getSigner(),
+        ) as FuseProxy;
+        // fsohmContract.signer;
+        const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
+        fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
+      }
     } catch (e) {
       console.warn("caught error in getBalances", e);
     }
