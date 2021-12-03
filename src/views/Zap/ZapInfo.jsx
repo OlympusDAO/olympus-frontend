@@ -2,7 +2,7 @@ import { Box, Button, Paper, Typography, Grid, SvgIcon } from "@material-ui/core
 import "./zap.scss";
 import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.svg";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import HeaderLogo from "./HeaderLogo";
+import MultiLogo from "../../components/MultiLogo";
 import { makeStyles } from "@material-ui/core/styles";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { useState } from "react";
@@ -68,7 +68,7 @@ function ZapInfo({ tokens, address }) {
               classes={{ root: classes.infoHeader }}
               className="oly-info-header-box"
             >
-              <HeaderLogo images={[]} />
+              <MultiLogo images={[]} />
               <Typography color="textSecondary" align="center">
                 <Trans>You Give</Trans>
               </Typography>
@@ -93,7 +93,7 @@ function ZapInfo({ tokens, address }) {
               classes={{ root: classes.infoHeader }}
               className="oly-info-header-box"
             >
-              <HeaderLogo icons={[CircleZapIcon]} />
+              <MultiLogo icons={[CircleZapIcon]} />
               <Typography color="textSecondary" align="center">
                 <Trans>All-in-one zap contracts</Trans>
               </Typography>
@@ -115,7 +115,7 @@ function ZapInfo({ tokens, address }) {
               classes={{ root: classes.infoHeader }}
               className="oly-info-header-box"
             >
-              <HeaderLogo
+              <MultiLogo
                 images={[
                   "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png",
                 ]}

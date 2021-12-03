@@ -142,39 +142,6 @@ export const OHMStakedGraph = () => {
   );
 };
 
-export const APYOverTimeGraph = () => {
-  const theme = useTheme();
-  const { data } = useTreasuryRebases({ refetchOnMount: false });
-
-  let apy =
-    data &&
-    data
-      .map(entry => ({
-        timestamp: entry.timestamp,
-        apy: Math.pow(parseFloat(entry.percentage) + 1, 365 * 3) * 100,
-      }))
-      .filter(pm => pm.apy < 300000);
-
-  return (
-    <Chart
-      type="line"
-      scale="log"
-      data={apy}
-      dataKey={["apy"]}
-      dataFormat="percent"
-      headerText="APY over time"
-      itemNames={tooltipItems.apy}
-      itemType={itemType.percentage}
-      color={theme.palette.text.primary}
-      bulletpointColors={bulletpoints.apy}
-      stroke={[theme.palette.text.primary]}
-      infoTooltipMessage={tooltipInfoMessages.apy}
-      headerSubText={`${data && trim(apy[0].apy, 2)}%`}
-      expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-    />
-  );
-};
-
 export const RunwayAvailableGraph = () => {
   const theme = useTheme();
   const { data } = useTreasuryMetrics({ refetchOnMount: false });

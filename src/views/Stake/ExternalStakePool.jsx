@@ -19,12 +19,14 @@ import { Skeleton } from "@material-ui/lab";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import BondLogo from "../../components/BondLogo";
-import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
+import avaxImage from "src/assets/tokens/avax.png";
+import gOhmImage from "src/assets/tokens/gohm.png";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { getLusdData } from "../../slices/LusdSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { trim } from "../../helpers";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import MultiLogo from "src/components/MultiLogo";
 
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
@@ -46,6 +48,8 @@ export default function ExternalStakePool() {
   const loadLusdData = async () => {
     await dispatch(getLusdData({ address: address, provider: provider, networkID: networkId }));
   };
+
+  const avatarStyle = { height: "35px", width: "35px", marginInline: "-4px", marginTop: "16px" };
 
   useEffect(() => {
     if (hasCachedProvider()) {
@@ -79,7 +83,7 @@ export default function ExternalStakePool() {
           {!isSmallScreen ? (
             <TableContainer className="stake-table">
               <Table>
-                <TableHead>
+                {/* <TableHead>
                   <TableRow>
                     <TableCell>
                       <Trans>Asset</Trans>
@@ -98,17 +102,19 @@ export default function ExternalStakePool() {
                     </TableCell>
                     <TableCell></TableCell>
                   </TableRow>
-                </TableHead>
+                </TableHead> */}
 
                 <TableBody>
                   <TableRow>
                     <TableCell>
                       <Box className="ohm-pairs">
-                        <BondLogo bond={{ bondIconSvg: OhmLusdImg, isLP: true }}></BondLogo>
-                        <Typography>OHM-LUSD</Typography>
+                        {/* <BondLogo bond={{ bondIconSvg: OhmLusdImg, isLP: true }}></BondLogo> */}
+                        <MultiLogo images={[gOhmImage, avaxImage]} avatarStyleOverride={avatarStyle} />
+                        <Box width="16px" />
+                        <Typography>gOHM-AVAX</Typography>
                       </Box>
                     </TableCell>
-                    <TableCell align="left">
+                    {/* <TableCell align="left">
                       {isLusdLoading ? (
                         <Skeleton width="80px" />
                       ) : lusdData.apy === 0 ? (
@@ -131,17 +137,17 @@ export default function ExternalStakePool() {
                     </TableCell>
                     <TableCell align="left">
                       {isLusdLoading ? <Skeleton width="80px" /> : (trim(ohmLusdReserveBalance, 2) || 0) + " SLP"}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="center">
                       <Button
                         variant="outlined"
                         color="secondary"
-                        href="https://crucible.alchemist.wtf/reward-programs"
+                        href="https://traderjoexyz.com/#/pool/0x321e7092a180bb43555132ec53aaa65a5bf84251/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
                         target="_blank"
                         className="stake-lp-button"
                       >
                         <Typography variant="body1">
-                          <Trans>Stake in Crucible</Trans>
+                          <Trans>Stake on Trader Joe</Trans>
                         </Typography>
                         <SvgIcon component={ArrowUp} color="primary" />
                       </Button>
@@ -154,12 +160,13 @@ export default function ExternalStakePool() {
             <div className="stake-pool">
               <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
                 <Box className="ohm-pairs">
-                  <BondLogo bond={{ bondIconSvg: OhmLusdImg, isLP: true }}></BondLogo>
-                  <Typography gutterBottom={false}>OHM-LUSD</Typography>
+                  <MultiLogo images={[gOhmImage, avaxImage]} avatarStyleOverride={avatarStyle} />
+                  <Box width="16px" />
+                  <Typography gutterBottom={false}>gOHM-AVAX</Typography>
                 </Box>
               </div>
               <div className="pool-data">
-                <div className="data-row">
+                {/* <div className="data-row">
                   <Typography>APY</Typography>
                   <Typography>
                     {isLusdLoading ? (
@@ -198,18 +205,18 @@ export default function ExternalStakePool() {
                   <Typography>
                     {isLusdLoading ? <Skeleton width="80px" /> : (trim(lusdData.balance, 2) || 0) + "LP"}
                   </Typography>
-                </div>
+                </div> */}
 
                 <Button
                   variant="outlined"
                   color="secondary"
-                  href="https://crucible.alchemist.wtf/reward-programs"
+                  href="https://traderjoexyz.com/#/pool/0x321e7092a180bb43555132ec53aaa65a5bf84251/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
                   target="_blank"
                   className="stake-lp-button"
                   fullWidth
                 >
                   <Typography variant="body1">
-                    <Trans>Stake in Crucible</Trans>
+                    <Trans>Stake on Trader Joe</Trans>
                   </Typography>
                   <SvgIcon component={ArrowUp} color="primary" />
                 </Button>

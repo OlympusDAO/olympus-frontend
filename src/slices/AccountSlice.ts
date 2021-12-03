@@ -38,18 +38,11 @@ export const getBalances = createAsyncThunk(
     let poolBalance = BigNumber.from("0");
     let fsohmBalance = BigNumber.from(0);
     let fiatDaowsohmBalance = BigNumber.from("0");
-
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmBalance = await gOhmContract.balanceOf(address);
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
       wsohmBalance = await wsohmContract.balanceOf(address);
-      const fiatDaoContract = new ethers.Contract(
-        addresses[networkID].FIATDAO_WSOHM_ADDRESS as string,
-        fiatDAO,
-        provider,
-      ) as FiatDAOContract;
-      fiatDaowsohmBalance = await fiatDaoContract.balanceOf(address, addresses[networkID].WSOHM_ADDRESS as string);
       // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
       wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
 
@@ -84,6 +77,14 @@ export const getBalances = createAsyncThunk(
           const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
           fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
         }
+      }
+      if (addresses[networkID].FIATDAO_WSOHM_ADDRESS) {
+        const fiatDaoContract = new ethers.Contract(
+          addresses[networkID].FIATDAO_WSOHM_ADDRESS as string,
+          fiatDAO,
+          provider,
+        ) as FiatDAOContract;
+        fiatDaowsohmBalance = await fiatDaoContract.balanceOf(address, addresses[networkID].WSOHM_ADDRESS as string);
       }
     } catch (e) {
       console.warn("caught error in getBalances", e);
