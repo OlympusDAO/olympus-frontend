@@ -53,10 +53,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ZapStakeAction(props) {
-  const { address, connect, chainID, provider } = useWeb3Context();
+  const { address, provider } = useWeb3Context();
 
   const dispatch = useDispatch();
   const classes = useStyles();
+  const networkId = useAppSelector(state => state.network.networkId);
   const tokens = useAppSelector(state => state.zap.balances);
   const isTokensLoading = useAppSelector(state => state.zap.balancesLoading);
   const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
@@ -182,7 +183,7 @@ function ZapStakeAction(props) {
         slippage: 0.02,
         sellAmount: ethers.utils.parseUnits(inputQuantity.toString(), tokens[zapToken]?.decimals),
         tokenAddress: tokens[zapToken]?.address,
-        networkID: chainID,
+        networkID: networkId,
       }),
     );
 

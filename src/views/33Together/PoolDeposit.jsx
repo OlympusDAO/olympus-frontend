@@ -71,7 +71,7 @@ export const PoolDeposit = props => {
   };
 
   const onSubmitDeposit = async action => {
-    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: networkId }));
   };
 
   const hasAllowance = useCallback(() => {
