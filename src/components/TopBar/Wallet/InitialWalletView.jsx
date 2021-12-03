@@ -41,11 +41,11 @@ const ExternalLinkIcon = ({ size = 18 }) => (
 );
 // const ExternalLink = props => <Link target="_blank" rel="noreferrer" {...props} />;
 
-const Borrow = ({ Icon1, Icon2, borrowOn, totalAvailable }) => {
+const Borrow = ({ Icon1, Icon2, borrowOn, totalAvailable, href }) => {
   const theme = useTheme();
   const iconSize = "24px";
   return (
-    <ExternalLink>
+    <ExternalLink href={href}>
       <Box sx={{ display: "flex", flexDirection: "column", padding: theme.spacing(1, 0) }}>
         <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row-reverse", justifyContent: "flex-end" }}>
           <Icon2 style={{ height: iconSize, width: iconSize, marginLeft: "-4px" }} />
@@ -146,8 +146,18 @@ function InitialWalletView({ onClose }) {
         >
           <Typography align="left">Buy on Uniswap</Typography>
         </ExternalLink>
-        <Borrow borrowOn="Abracadabra" Icon1={ohmTokenImg} Icon2={abracadabraTokenImg} />
-        <Borrow borrowOn="Rari Capital" Icon1={ohmTokenImg} Icon2={props => <img src={rariTokenImg} {...props} />} />
+        <Borrow
+          href={`https://abracadabra.money/pool/10`}
+          borrowOn="Abracadabra"
+          Icon1={ohmTokenImg}
+          Icon2={abracadabraTokenImg}
+        />
+        <Borrow
+          href={`https://app.rari.capital/fuse/pool/18`}
+          borrowOn="Rari Capital"
+          Icon1={ohmTokenImg}
+          Icon2={props => <img src={rariTokenImg} {...props} />}
+        />
         <Box sx={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
             <Typography style={{ marginLeft: "18px" }}>Rusowsky's Dune</Typography>
