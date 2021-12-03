@@ -155,7 +155,7 @@ function App() {
         }
       });
     },
-    [networkId],
+    [networkId, address],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
