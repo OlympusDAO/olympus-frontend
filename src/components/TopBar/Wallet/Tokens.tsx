@@ -83,7 +83,9 @@ export const Token = ({ name, Icon, userBalance, price, address, expanded, onCha
           <Typography>{name}</Typography>
         </Box>
         <Box sx={{ textAlign: "right", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <Typography variant="body2">{trim(Number(userBalance), 4)}</Typography>
+          <Typography variant="body2" style={{ fontWeight: 600 }}>
+            {trim(Number(userBalance), 4)} Ω
+          </Typography>
           <Typography variant="body2" color="textSecondary">
             {formatCurrency(userBalanceTotalValue, 2)}
           </Typography>
@@ -105,7 +107,7 @@ export const Token = ({ name, Icon, userBalance, price, address, expanded, onCha
   );
 };
 
-export const TokensList = () => {
+export const Tokens = () => {
   const userBalances = useAppSelector(state => state.account.balances);
   const marketPrice = useAppSelector(state => state.app.marketPrice) || 0;
   const currentIndex = useAppSelector(state => state.app.currentIndex);

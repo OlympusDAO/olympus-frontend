@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useTheme, makeStyles, withStyles } from "@material-ui/core";
 import { trim } from "src/helpers";
 import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
+import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
 import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as ohmTokenImg } from "src/assets/tokens/token_OHM.svg";
@@ -16,30 +17,11 @@ import { addresses, TOKEN_DECIMALS } from "src/constants";
 // import apollo from "../../../../lib/apolloClient";
 // import { rebasesDataQuery, bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "../../treasuryData.js";
 import { useWeb3Context } from "src/hooks";
-import { SvgIcon, Button, Typography, Box, Drawer, Paper, Divider, Link, IconButton } from "@material-ui/core";
-import ConnectMenu from "../ConnectMenu";
+import { SvgIcon, Button, Typography, Box, Divider, Link, IconButton } from "@material-ui/core";
 
 import { dai, frax } from "src/helpers/AllBonds";
 
-import { TokensList } from "./Tokens";
-
-const useStyles = makeStyles(theme => ({
-  section: {
-    display: "flex",
-    flexDirection: "column",
-    gap: theme.spacing(0.5),
-    padding: theme.spacing(1, 0),
-  },
-}));
-
-const ExternalLinkIcon = ({ size = 18 }) => (
-  <SvgIcon
-    component={ArrowUpIcon}
-    style={{ height: `${size}px`, width: `${size}px`, verticalAlign: "sub" }}
-    // htmlColor="#A3A3A3"
-  />
-);
-// const ExternalLink = props => <Link target="_blank" rel="noreferrer" {...props} />;
+import { Tokens } from "./Tokens";
 
 const Borrow = ({ Icon1, Icon2, borrowOn, totalAvailable, href }) => {
   const theme = useTheme();
@@ -94,11 +76,42 @@ const ExternalLink = ({ href, children, color = "textSecondary" }) => (
 const DisconnectButton = () => {
   const { disconnect } = useWeb3Context();
   return (
-    <Button onClick={disconnect} variant="contained" size="large" color="secondary" fullWidth>
-      <Typography>Disconnect</Typography>
+    <Button onClick={disconnect} variant="contained" size="small" color="secondary" fullWidth>
+      <Typography variant="body2" color="textSecondary">
+        Disconnect
+        <SvgIcon
+          component={WalletIcon}
+          style={{ width: "15px", height: "15px", verticalAlign: "middle", marginLeft: "4px" }}
+        />
+      </Typography>
     </Button>
   );
 };
+
+const CloseButton = ({ onClose }) => {
+  const styles = useStyles();
+  return (
+    <IconButton className={styles.closeButton} size="small" onClick={onClose} aria-label="close wallet">
+      <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", height: "15px" }} />
+    </IconButton>
+  );
+};
+
+const useStyles = makeStyles(theme => ({
+  totalValue: {
+    fontWeight: "700",
+  },
+  myWallet: {
+    lineHeight: 1.1,
+    fontWeight: "600",
+  },
+  closeButton: {
+    ...theme.overrides.MuiButton.containedSecondary, // is this how it should be done? I am finding this styling patterns not very streight foward
+    // borderRadius: "5px",
+    width: "30px",
+    height: "30px",
+  },
+}));
 
 function InitialWalletView({ onClose }) {
   const theme = useTheme();
@@ -107,15 +120,23 @@ function InitialWalletView({ onClose }) {
   const chainID = 4;
   return (
     <Box sx={{ padding: theme.spacing(0, 3) }}>
-      <Box sx={{ display: "flex", justifyContent: "right" }}>
-        <ConnectMenu theme={theme} />
-        <IconButton size="small" onClick={onClose} aria-label="close wallet">
-          <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", heigth: "15px" }} />
-        </IconButton>
+      <Box sx={{ display: "flex", justifyContent: "space-between", padding: theme.spacing(2, 0) }}>
+        <Box sx={{ fontWeight: "bold" }}>
+          <Typography className={styles.myWallet} color="textSecondary">
+            MY WALLET
+          </Typography>
+          <Typography className={styles.totalValue} variant="h4">
+            $72,314
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", flexWrap: "nowrap", alignSelf: "end", gap: theme.spacing(1) }}>
+          <DisconnectButton />
+          <CloseButton onClose={onClose} />
+        </Box>
       </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(0.5) }}>
-        <TokensList />
+      <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(1) }}>
+        <Tokens />
       </Box>
 
       <Box sx={{ margin: theme.spacing(2, -3) }}>

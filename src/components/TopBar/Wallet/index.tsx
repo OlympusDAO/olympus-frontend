@@ -30,7 +30,7 @@ export function Wallet() {
   return (
     <>
       <WalletButton openWallet={openWallet} />
-      <Drawer style={{ width: "450px" }} anchor="right" open={isWalletOpen} onClose={closeWallet}>
+      <Drawer style={{ width: "460px" }} anchor="right" open={isWalletOpen} onClose={closeWallet}>
         <InitialWalletView onClose={closeWallet} />
       </Drawer>
     </>
