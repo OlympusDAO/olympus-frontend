@@ -71,6 +71,7 @@
 
     .cause-title {
       padding-left: 0rem;
+      padding-bottom: 0rem;
     }
 
     .cause-image {
@@ -94,21 +95,34 @@
       .MuiTypography-body2 {
         margin-top: 0.5rem;
       }
+
+      .cause-header {
+        justify-content: space-between;
+        align-items: center;
+      }
     }
 
-    .cause-link {
-      display: flex;
-      flex-direction: row;
-      align-content: center;
-      align-items: center;
-      justify-content: space-between;
-      color: #999999;
-      font-size: small;
-      border-radius: 12px;
-      font-weight: 500;
+    .view-details {
+      padding-bottom: 0rem;
 
-      svg path {
-        fill: #999999;
+      .cause-link {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: space-between;
+        color: #999999;
+        font-size: small;
+        border-radius: 12px;
+        font-weight: 500;
+
+        svg path {
+          fill: #999999;
+        }
+
+        > p {
+          margin-bottom: 0px;
+        }
       }
     }
 
@@ -129,6 +143,8 @@
 
     .cause-misc-info .MuiGrid-item {
       height: 70px;
+      padding-left: 0px;
+      align-items: flex-end;
     }
 
     .cause-info-icon {
@@ -138,8 +154,7 @@
     .cause-give-button {
       width: 12rem;
       margin-left: auto;
-      margin-right: 0;
-    }
+      margin-right: 0;    }
   }
 }
 
@@ -227,6 +242,10 @@
     margin-top: 1rem;
     margin-left: auto;
     margin-right: auto;
+
+    button {
+      width: 375px;
+    }
   }
 }
 
@@ -234,6 +253,7 @@
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
+  margin-left: 3em;
 }
 
 .ohm-card {

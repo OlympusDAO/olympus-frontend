@@ -64,7 +64,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
-  const countdownRenderer = ({ days, hours, completed }: CountdownProps) => {
+  const countdownRenderer = ({ days, hours, minutes, completed }: CountdownProps) => {
     if (completed)
       return (
         <>
@@ -89,8 +89,9 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
           >
             <div>
               <strong>
-                {days} days, {hours} hours
-              </strong>{" "}
+                {days}:{hours}:{minutes}
+              </strong>
+              <br />
               remaining
             </div>
           </Tooltip>
@@ -122,7 +123,9 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
         <div>
           <Tooltip title={totalDebt + " of " + depositGoal + " sOHM raised"} arrow>
             <div>
-              <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}%</strong> <span>of goal</span>
+              <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}%</strong>
+              <br />
+              <span>of goal</span>
             </div>
           </Tooltip>
         </div>
@@ -186,25 +189,30 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
         <Grid item className="cause-card" key={title}>
           {getProjectImage()}
           <div className="cause-content">
-            <Grid container justifyContent="space-between" alignItems="center">
+            <Grid container className="cause-header">
               <Grid item className="cause-title">
-                <Typography variant="h6">
-                  {title} - {owner}
+                <Typography variant="h4">
+                  <strong>
+                    {title} - {owner}
+                  </strong>
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item className="view-details">
                 <Link className="cause-link">
                   <Typography variant="body1">View Details</Typography>
                   <SvgIcon
                     component={ArrowRight}
                     style={{ width: "30px", marginLeft: "0.33em" }}
-                    viewBox={"0 5 57 24"}
+                    viewBox={"0 0 57 24"}
                   />
                 </Link>
               </Grid>
             </Grid>
+            <Typography variant="body1"></Typography>
             <div className="cause-body">
-              <Typography variant="body1">{details}</Typography>
+              <Typography variant="body1" style={{ lineHeight: "20px" }}>
+                {details}
+              </Typography>
             </div>
             <Grid container direction="column" className="cause-misc-info">
               <Grid item xs={3}>
@@ -221,7 +229,9 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
                   onClick={() => handleGiveButtonClick()}
                   disabled={!address}
                 >
-                  Give Yield
+                  <Typography variant="body1" style={{ marginBottom: "0px" }}>
+                    Give Yield
+                  </Typography>
                 </Button>
               </Grid>
             </Grid>
