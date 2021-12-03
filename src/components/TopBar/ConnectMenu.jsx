@@ -130,7 +130,7 @@ function ConnectMenu({ theme }) {
                     variant="contained"
                     color="secondary"
                     onClick={disconnect}
-                    style={{ marginBottom: "0px" }}
+                    style={{ marginBottom: "0px", marginRight: "10px" }}
                     fullWidth
                   >
                     <Typography>
