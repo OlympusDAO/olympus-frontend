@@ -181,16 +181,6 @@ export class EnvHelper {
     return ALL_URIs;
   }
 
-  static getGeoapifyAPIKey() {
-    var apiKey = EnvHelper.env.REACT_APP_GEOAPIFY_API_KEY;
-    if (!apiKey) {
-      console.warn("Missing REACT_APP_GEOAPIFY_API_KEY environment variable");
-      return null;
-    }
-
-    return apiKey;
-  }
-
   static getZapperAPIKey() {
     // EnvHelper.env.REACT_APP_ZAPPER_API
     let apiKey = EnvHelper.env.REACT_APP_ZAPPER_API;
