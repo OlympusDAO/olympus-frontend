@@ -27,7 +27,7 @@ export const initializeNetwork = createAsyncThunk(
           break;
         case 4:
           networkName = "Rinkeby Testnet";
-          uri = EnvHelper.alchemyEthereumTestnetURI;
+          uri = NodeHelper.getMainnetURI(id);
           break;
         case 42161:
           networkName = "Arbitrum";
@@ -87,17 +87,18 @@ export const switchNetwork = createAsyncThunk(
       // If the chain has not been added to the user's wallet
       // @ts-ignore
       if (e.code === 4902) {
+        const network = NETWORKS[networkId];
+        const params = [
+          {
+            chainId: idToHexString(networkId),
+            chainName: network["chainName"],
+            nativeCurrency: network["nativeCurrency"],
+            rpcUrls: network["rpcUrls"],
+            blockExplorerUrls: network["blockExplorerUrls"],
+          },
+        ];
+
         try {
-          const network = NETWORKS[networkId];
-          const params = [
-            {
-              chainId: idToHexString(networkId),
-              chainName: network["chainName"],
-              nativeCurrency: network["nativeCurrency"],
-              rpcUrls: network["rpcUrls"],
-              blockExplorerUrls: network["blockExplorerUrls"],
-            },
-          ];
           await provider.send("wallet_addEthereumChain", params);
           dispatch(initializeNetwork({ provider }));
         } catch (e) {
@@ -105,6 +106,7 @@ export const switchNetwork = createAsyncThunk(
           dispatch(error("Error switching network!"));
         }
       }
+      // }
     }
   },
 );

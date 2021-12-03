@@ -183,9 +183,12 @@
   color: inherit;
 }
 
-// #asset-select {
-//   color: #f8cc82;
-// }
+#asset-select {
+  // color: #f8cc82;
+  input {
+    height: 33px !important;
+  }
+}
 
 .Muilnput-underline {
   display: none !important;
@@ -271,6 +274,13 @@
       margin-bottom: 15px;
     }
   }
+}
+.MuiSelect-select.MuiSelect-select {
+  padding-right: 10px !important;
+}
+
+.asset-select-label + .MuiInput-root.MuiInputBase-formControl {
+  margin-right: 3px;
 }
 
 .mobile .stake-tab-panel,

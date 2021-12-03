@@ -79,7 +79,7 @@ export const addresses: IAddresses = {
     PT_PRIZE_STRATEGY_ADDRESS: "0xf3d253257167c935f8C62A02AEaeBB24c9c5012a", // NEW
     MIGRATOR_ADDRESS: "0x184f3FAd8618a6F458C16bae63F70C426fE784B3",
     GOHM_ADDRESS: "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f",
-    FIATDAO_WSOHM_ADDRESS: "0xe98ae8cD25CDC06562c29231Db339d17D02Fd486", //FiatDAO Staking Contract
+    FIATDAO_WSOHM_ADDRESS: "0xe98ae8cD25CDC06562c29231Db339d17D02Fd486",
   },
   42161: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
@@ -219,7 +219,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://rinkeby.etherscan.io/#/"],
     image: ethereum,
     imageAltText: "Ethereum Logo",
-    uri: () => EnvHelper.alchemyEthereumTestnetURI,
+    uri: () => NodeHelper.getMainnetURI(4),
   },
   42161: {
     chainName: "Arbitrum",
@@ -253,24 +253,26 @@ export const NETWORKS: { [key: number]: INetwork } = {
     chainName: "Avalanche Fuji Testnet",
     chainId: 43113,
     nativeCurrency: {
-      name: "Avalanche",
+      name: "AVAX",
       symbol: "AVAX",
+      decimals: 18,
     },
-    rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc/"],
+    rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
     blockExplorerUrls: ["https://testnet.snowtrace.io/#/"],
     image: avalanche,
     imageAltText: "Avalanche Logo",
     uri: () => EnvHelper.alchemyAvalancheTestnetURI,
   },
   43114: {
-    chainName: "Avalanche",
+    chainName: "Avalanche Mainnet",
     chainId: 43114,
     nativeCurrency: {
-      name: "Avalanche",
+      name: "AVAX",
       symbol: "AVAX",
+      decimals: 18,
     },
-    rpcUrls: ["https://api.avax.network/ext/bc/C/rpc/"],
-    blockExplorerUrls: ["https://snowtrace.io/#/"],
+    rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
+    blockExplorerUrls: ["https://cchain.explorer.avax.network/"],
     image: avalanche,
     imageAltText: "Avalanche Logo",
     uri: () => NodeHelper.getMainnetURI(43114),
