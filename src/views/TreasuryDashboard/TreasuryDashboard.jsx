@@ -10,7 +10,6 @@ import {
   RiskFreeValueGraph,
   ProtocolOwnedLiquidityGraph,
   OHMStakedGraph,
-  APYOverTimeGraph,
   RunwayAvailableGraph,
 } from "./components/Graph/Graph";
 
@@ -87,12 +86,6 @@ const TreasuryDashboard = memo(() => {
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <OHMStakedGraph />
-              </Paper>
-            </Grid>
-
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card">
-                <APYOverTimeGraph />
               </Paper>
             </Grid>
 
