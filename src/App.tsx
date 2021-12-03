@@ -131,9 +131,7 @@ function App() {
     loadProvider => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       bonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
-        }
+        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
       });
       dispatch(getMigrationAllowances({ address, provider, networkID: networkId }));
     },
