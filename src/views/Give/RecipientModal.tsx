@@ -416,7 +416,7 @@ export function RecipientModal({
           address && hasAllowance() ? (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, "Give sOHM")}
+                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, "Continue")}
               </Button>
             </FormControl>
           ) : (
