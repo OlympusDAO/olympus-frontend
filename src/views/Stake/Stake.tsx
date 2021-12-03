@@ -31,6 +31,7 @@ import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
+import StakeRow from "./StakeRow";
 
 function a11yProps(index: number) {
   return {
@@ -418,96 +419,61 @@ function Stake() {
                     </Grid>
                   </Box>
 
-                  <div className={`stake-user-data`}>
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Unstaked Balance</Trans>
-                      </Typography>
-                      <Typography variant="body1" id="user-balance">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(ohmBalance), 4)} OHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Staked Balance</Trans>
-                      </Typography>
-                      <Typography variant="body1" id="user-staked-balance">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Single Staking</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(sohmBalance), 4)} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Staked Balance in Fuse</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fsohmBalance), 4)} fsOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsohmBalance), 4)} wsOHM</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance in FiatDAO</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiatDaowsohmBalance), 4)} wsOHM</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance</Trans> (v2)
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(gOhmBalance), 4)} gOHM</>}
-                      </Typography>
-                    </div>
-
+                  <div className="stake-user-data">
+                    <StakeRow
+                      title={t`Unstaked Balance`}
+                      id="user-balance"
+                      balance={`${trim(Number(ohmBalance), 4)} OHM`}
+                      {...{ isAppLoading }}
+                    />
+                    <StakeRow
+                      title={t`Staked Balance`}
+                      id="user-staked-balance"
+                      balance={`${trimmedBalance} sOHM`}
+                      {...{ isAppLoading }}
+                    />
+                    <StakeRow
+                      title={t`Single Staking`}
+                      balance={`${trim(Number(sohmBalance), 4)} sOHM`}
+                      indented
+                      {...{ isAppLoading }}
+                    />
+                    <StakeRow
+                      title={t`Staked Balance in Fuse`}
+                      balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                      indented
+                      {...{ isAppLoading }}
+                    />
+                    <StakeRow
+                      title={t`Wrapped Balance`}
+                      balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
+                      {...{ isAppLoading }}
+                      indented
+                    />
+                    <StakeRow
+                      title={t`Wrapped Balance in FiatDAO`}
+                      balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
+                      {...{ isAppLoading }}
+                      indented
+                    />
+                    <StakeRow
+                      title={`${t`Wrapped Balance`} (v2)`}
+                      balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                      indented
+                      {...{ isAppLoading }}
+                    />
                     <Divider color="secondary" />
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Next Reward Amount</Trans>
-                      </Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Next Reward Yield</Trans>
-                      </Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>ROI (5-Day Rate)</Trans>
-                      </Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiveDayRate) * 100, 4)}%</>}
-                      </Typography>
-                    </div>
+                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
+                    <StakeRow
+                      title={t`Next Reward Yield`}
+                      balance={`${stakingRebasePercentage}%`}
+                      {...{ isAppLoading }}
+                    />
+                    <StakeRow
+                      title={t`ROI (5-Day Rate)`}
+                      balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
+                      {...{ isAppLoading }}
+                    />
                   </div>
                 </>
               )}
