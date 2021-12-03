@@ -232,7 +232,9 @@ export const bondAsset = createAsyncThunk(
           category: "Bonds",
           action: uaData.type ?? "unknown",
           value: parseFloat(uaData.value),
-          label: uaData.address,
+          label: uaData.bondName,
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
         });
         dispatch(clearPendingTxn(bondTx.hash));
       }
@@ -281,7 +283,10 @@ export const redeemBond = createAsyncThunk(
         ReactGA.event({
           category: "Bonds",
           action: uaData.type ?? "unknown",
-          label: uaData.address,
+          label: uaData.bondName,
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
+          dimension3: uaData.autoStake.toString(),
         });
         dispatch(clearPendingTxn(redeemTx.hash));
       }

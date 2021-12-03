@@ -169,7 +169,8 @@ export const changeStake = createAsyncThunk(
           category: "Staking",
           action: uaData.type ?? "unknown",
           value: parseFloat(uaData.value),
-          label: uaData.address,
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
         });
         dispatch(clearPendingTxn(stakeTx.hash));
       }
