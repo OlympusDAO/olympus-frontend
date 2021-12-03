@@ -136,7 +136,7 @@ function Wrap() {
   };
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
+    await dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
   };
 
   const unWrapWSOHM = async () => {
