@@ -1,7 +1,4 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useTheme, makeStyles, withStyles } from "@material-ui/core";
-import { trim } from "src/helpers";
 import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
@@ -10,18 +7,13 @@ import { ReactComponent as ohmTokenImg } from "src/assets/tokens/token_OHM.svg";
 import { ReactComponent as abracadabraTokenImg } from "src/assets/tokens/MIM.svg";
 import rariTokenImg from "src/assets/tokens/RARI.png";
 import { addresses, TOKEN_DECIMALS } from "src/constants";
-// import SOhmLearnView from "./SOhm/SOhmLearnView";
-// import SOhmTxView from "./SOhm/SOhmTxView";
-// import SOhmZapView from "./SOhm/SOhmTxView";
-// import Chart from "../../../../components/Chart/WalletChart.jsx";
-// import apollo from "../../../../lib/apolloClient";
-// import { rebasesDataQuery, bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "../../treasuryData.js";
+import { formatCurrency } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { SvgIcon, Button, Typography, Box, Divider, Link, IconButton } from "@material-ui/core";
 
 import { dai, frax } from "src/helpers/AllBonds";
 
-import { Tokens } from "./Tokens";
+import { Tokens, useTokens } from "./Token";
 
 const Borrow = ({ Icon1, Icon2, borrowOn, totalAvailable, href }) => {
   const theme = useTheme();
@@ -88,15 +80,6 @@ const DisconnectButton = () => {
   );
 };
 
-const CloseButton = ({ onClose }) => {
-  const styles = useStyles();
-  return (
-    <IconButton className={styles.closeButton} size="small" onClick={onClose} aria-label="close wallet">
-      <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", height: "15px" }} />
-    </IconButton>
-  );
-};
-
 const useStyles = makeStyles(theme => ({
   totalValue: {
     fontWeight: "700",
@@ -107,11 +90,38 @@ const useStyles = makeStyles(theme => ({
   },
   closeButton: {
     ...theme.overrides.MuiButton.containedSecondary, // is this how it should be done? I am finding this styling patterns not very streight foward
-    // borderRadius: "5px",
+    borderRadius: "5px",
     width: "30px",
     height: "30px",
   },
 }));
+
+const CloseButton = withStyles(theme => ({
+  root: {
+    ...theme.overrides.MuiButton.containedSecondary, // is this how it should be done? I am finding this styling patterns not very streight foward
+    // borderRadius: "5px",
+    width: "30px",
+    height: "30px",
+  },
+}))(IconButton);
+
+const WalletTotalValue = ({ onChangeCurrency }) => {
+  const tokens = useTokens();
+  const styles = useStyles();
+  return (
+    <Box>
+      <Typography className={styles.myWallet} color="textSecondary">
+        MY WALLET
+      </Typography>
+      <Typography className={styles.totalValue} variant="h4">
+        {formatCurrency(
+          tokens.reduce((totalValue, token) => totalValue + parseFloat(token.balance) * token.price, 0),
+          2,
+        )}
+      </Typography>
+    </Box>
+  );
+};
 
 function InitialWalletView({ onClose }) {
   const theme = useTheme();
@@ -121,17 +131,12 @@ function InitialWalletView({ onClose }) {
   return (
     <Box sx={{ padding: theme.spacing(0, 3) }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", padding: theme.spacing(2, 0) }}>
-        <Box sx={{ fontWeight: "bold" }}>
-          <Typography className={styles.myWallet} color="textSecondary">
-            MY WALLET
-          </Typography>
-          <Typography className={styles.totalValue} variant="h4">
-            $72,314
-          </Typography>
-        </Box>
+        <WalletTotalValue />
         <Box sx={{ display: "flex", flexWrap: "nowrap", alignSelf: "end", gap: theme.spacing(1) }}>
           <DisconnectButton />
-          <CloseButton onClose={onClose} />
+          <CloseButton className={styles.closeButton} size="small" onClick={onClose} aria-label="close wallet">
+            <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", height: "15px" }} />
+          </CloseButton>
         </Box>
       </Box>
 
