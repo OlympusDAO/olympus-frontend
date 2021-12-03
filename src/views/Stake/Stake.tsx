@@ -1,5 +1,5 @@
 import { useCallback, useState, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
@@ -15,12 +15,15 @@ import {
   Typography,
   Zoom,
   Divider,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -31,6 +34,7 @@ import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
+import { ExpandMore } from "@material-ui/icons";
 
 function a11yProps(index: number) {
   return {
@@ -38,9 +42,6 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
 
 function Stake() {
   const dispatch = useDispatch();
@@ -104,15 +105,6 @@ function Stake() {
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
-
-  const inputTokenImages = useMemo(
-    () =>
-      Object.entries(tokens)
-        .filter(token => token[0] !== "sohm")
-        .map(token => token[1].img)
-        .slice(0, 3),
-    [tokens],
-  );
 
   const setMax = () => {
     if (view === 0) {
@@ -428,57 +420,66 @@ function Stake() {
                       </Typography>
                     </div>
 
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Staked Balance</Trans>
-                      </Typography>
-                      <Typography variant="body1" id="user-staked-balance">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
-                      </Typography>
-                    </div>
+                    <Accordion className="stake-accordion" square>
+                      <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
+                        <>
+                          <Typography variant="body1">
+                            <Trans>Staked Balance</Trans>
+                          </Typography>
+                          <Typography variant="body1" id="user-staked-balance">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
+                          </Typography>
+                        </>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <div className="data-row" style={{ paddingLeft: "10px" }}>
+                          <Typography variant="body2" color="textSecondary">
+                            <Trans>Single Staking</Trans>
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(sohmBalance), 4)} sOHM</>}
+                          </Typography>
+                        </div>
 
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Single Staking</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(sohmBalance), 4)} sOHM</>}
-                      </Typography>
-                    </div>
+                        <div className="data-row" style={{ paddingLeft: "10px" }}>
+                          <Typography variant="body2" color="textSecondary">
+                            <Trans>Staked Balance in Fuse</Trans>
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fsohmBalance), 4)} fsOHM</>}
+                          </Typography>
+                        </div>
 
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Staked Balance in Fuse</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fsohmBalance), 4)} fsOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsohmBalance), 4)} wsOHM</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance in FiatDAO</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiatDaowsohmBalance), 4)} wsOHM</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance</Trans> (v2)
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(gOhmBalance), 4)} gOHM</>}
-                      </Typography>
-                    </div>
+                        <div className="data-row" style={{ paddingLeft: "10px" }}>
+                          <Typography variant="body2" color="textSecondary">
+                            <Trans>Wrapped Balance</Trans>
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsohmBalance), 4)} wsOHM</>}
+                          </Typography>
+                        </div>
+                        <div className="data-row" style={{ paddingLeft: "10px" }}>
+                          <Typography variant="body2" color="textSecondary">
+                            <Trans>Wrapped Balance in FiatDAO</Trans>
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {isAppLoading ? (
+                              <Skeleton width="80px" />
+                            ) : (
+                              <>{trim(Number(fiatDaowsohmBalance), 4)} wsOHM</>
+                            )}
+                          </Typography>
+                        </div>
+                        <div className="data-row" style={{ paddingLeft: "10px" }}>
+                          <Typography variant="body2" color="textSecondary">
+                            <Trans>Wrapped Balance</Trans> (v2)
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(gOhmBalance), 4)} gOHM</>}
+                          </Typography>
+                        </div>
+                      </AccordionDetails>
+                    </Accordion>
 
                     <Divider color="secondary" />
 
