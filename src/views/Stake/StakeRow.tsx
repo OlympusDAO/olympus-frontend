@@ -1,6 +1,5 @@
 import { Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Trans } from "@lingui/macro";
 
 interface StakeRowProps {
   title: string;
@@ -14,7 +13,7 @@ const StakeRow = (props: StakeRowProps) => {
   return (
     <div className="data-row" style={props.indented ? { paddingLeft: "10px" } : {}}>
       <Typography variant={props.indented ? `body2` : `body1`} color={props.indented ? "textSecondary" : "primary"}>
-        <Trans>{props.title}</Trans>
+        {props.title}
       </Typography>
       <Typography
         variant={props.indented ? `body2` : `body1`}

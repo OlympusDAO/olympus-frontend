@@ -421,52 +421,56 @@ function Stake() {
 
                   <div className="stake-user-data">
                     <StakeRow
-                      title="Unstaked Balance"
+                      title={t`Unstaked Balance`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
                       {...{ isAppLoading }}
                     />
                     <StakeRow
-                      title="Staked Balance"
+                      title={t`Staked Balance`}
                       id="user-staked-balance"
                       balance={`${trimmedBalance} sOHM`}
                       {...{ isAppLoading }}
                     />
                     <StakeRow
-                      title="Single Staking"
+                      title={t`Single Staking`}
                       balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                       indented
                       {...{ isAppLoading }}
                     />
                     <StakeRow
-                      title="Staked Balance in Fuse"
+                      title={t`Staked Balance in Fuse`}
                       balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
                       indented
                       {...{ isAppLoading }}
                     />
                     <StakeRow
-                      title="Wrapped Balance"
+                      title={t`Wrapped Balance`}
                       balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
                       {...{ isAppLoading }}
                       indented
                     />
                     <StakeRow
-                      title="Wrapped Balance in FiatDAO"
+                      title={t`Wrapped Balance in FiatDAO`}
                       balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
                       {...{ isAppLoading }}
                       indented
                     />
                     <StakeRow
-                      title="Wrapped Balance (v2)"
+                      title={`${t`Wrapped Balance`} (v2)`}
                       balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                       indented
                       {...{ isAppLoading }}
                     />
                     <Divider color="secondary" />
-                    <StakeRow title="Next Reward Amount" balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
-                    <StakeRow title="Next Reward Yield" balance={`${stakingRebasePercentage}%`} {...{ isAppLoading }} />
+                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
                     <StakeRow
-                      title="ROI (5-Day Rate)"
+                      title={t`Next Reward Yield`}
+                      balance={`${stakingRebasePercentage}%`}
+                      {...{ isAppLoading }}
+                    />
+                    <StakeRow
+                      title={t`ROI (5-Day Rate)`}
                       balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
                       {...{ isAppLoading }}
                     />
