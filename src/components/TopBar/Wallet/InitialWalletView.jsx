@@ -8,7 +8,7 @@ import { ReactComponent as abracadabraTokenImg } from "src/assets/tokens/MIM.svg
 import rariTokenImg from "src/assets/tokens/RARI.png";
 import { addresses, TOKEN_DECIMALS } from "src/constants";
 import { formatCurrency } from "src/helpers";
-import { useWeb3Context } from "src/hooks";
+import { useAppSelector, useWeb3Context } from "src/hooks";
 import { SvgIcon, Button, Typography, Box, Divider, Link, IconButton } from "@material-ui/core";
 
 import { dai, frax } from "src/helpers/AllBonds";
@@ -88,18 +88,11 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 1.1,
     fontWeight: "600",
   },
-  closeButton: {
-    ...theme.overrides.MuiButton.containedSecondary, // is this how it should be done? I am finding this styling patterns not very streight foward
-    borderRadius: "5px",
-    width: "30px",
-    height: "30px",
-  },
 }));
 
 const CloseButton = withStyles(theme => ({
   root: {
     ...theme.overrides.MuiButton.containedSecondary, // is this how it should be done? I am finding this styling patterns not very streight foward
-    // borderRadius: "5px",
     width: "30px",
     height: "30px",
   },
@@ -126,8 +119,7 @@ const WalletTotalValue = ({ onChangeCurrency }) => {
 function InitialWalletView({ onClose }) {
   const theme = useTheme();
   const styles = useStyles();
-  // const { chainID } = useWeb3Context();
-  const chainID = 4;
+  const networkId = useAppSelector(state => state.network.networkId);
   return (
     <Box sx={{ padding: theme.spacing(0, 3) }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", padding: theme.spacing(2, 0) }}>
@@ -158,16 +150,16 @@ function InitialWalletView({ onClose }) {
       >
         <ExternalLink
           color="primary"
-          href={`https://app.sushi.com/swap?inputCurrency=${dai.getAddressForReserve(chainID)}&outputCurrency=${
-            addresses[chainID].OHM_ADDRESS
+          href={`https://app.sushi.com/swap?inputCurrency=${dai.getAddressForReserve(networkId)}&outputCurrency=${
+            addresses[networkId].OHM_ADDRESS
           }`}
         >
           <Typography align="left">Buy on Sushiswap</Typography>
         </ExternalLink>
         <ExternalLink
           color="primary"
-          href={`https://app.uniswap.org/#/swap?inputCurrency=${frax.getAddressForReserve(chainID)}&outputCurrency=${
-            addresses[chainID].OHM_ADDRESS
+          href={`https://app.uniswap.org/#/swap?inputCurrency=${frax.getAddressForReserve(networkId)}&outputCurrency=${
+            addresses[networkId].OHM_ADDRESS
           }`}
         >
           <Typography align="left">Buy on Uniswap</Typography>
