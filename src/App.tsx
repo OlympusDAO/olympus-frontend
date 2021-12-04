@@ -131,11 +131,8 @@ function App() {
     loadProvider => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       bonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
-        }
+        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
       });
-      dispatch(getMigrationAllowances({ address, provider, networkID: networkId }));
     },
     [networkId],
   );
@@ -143,6 +140,7 @@ function App() {
   const loadAccount = useCallback(
     loadProvider => {
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
+      dispatch(getMigrationAllowances({ address, provider, networkID: networkId }));
       bonds.map(bond => {
         if (bond.getAvailability(networkId)) {
           dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
@@ -155,7 +153,7 @@ function App() {
         }
       });
     },
-    [networkId],
+    [networkId, address],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked

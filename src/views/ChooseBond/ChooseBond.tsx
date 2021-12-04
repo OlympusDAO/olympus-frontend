@@ -79,18 +79,18 @@ function ChooseBond() {
                   <Trans>Treasury Balance</Trans>
                 </Typography>
                 <Box>
-                  {isAppLoading ? (
-                    <Skeleton width="180px" data-testid="treasury-balance-loading" />
-                  ) : (
-                    <Typography variant="h4" data-testid="treasury-balance">
-                      {new Intl.NumberFormat("en-US", {
+                  <Typography variant="h4" data-testid="treasury-balance">
+                    {isAppLoading || isNaN(Number(treasuryBalance)) ? (
+                      <Skeleton width="180px" data-testid="treasury-balance-loading" />
+                    ) : (
+                      new Intl.NumberFormat("en-US", {
                         style: "currency",
                         currency: "USD",
                         maximumFractionDigits: 0,
                         minimumFractionDigits: 0,
-                      }).format(Number(treasuryBalance))}
-                    </Typography>
-                  )}
+                      }).format(Number(treasuryBalance))
+                    )}
+                  </Typography>
                 </Box>
               </Box>
             </Grid>
@@ -101,7 +101,11 @@ function ChooseBond() {
                   <Trans>OHM Price</Trans>
                 </Typography>
                 <Typography variant="h4">
-                  {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(Number(marketPrice), 2)}
+                  {isAppLoading || isNaN(Number(marketPrice)) ? (
+                    <Skeleton width="100px" />
+                  ) : (
+                    formatCurrency(Number(marketPrice), 2)
+                  )}
                 </Typography>
               </Box>
             </Grid>
