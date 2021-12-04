@@ -58,8 +58,12 @@
     }
 
     .MuiAccordionSummary-content {
-      justify-content: space-between;
+      display: block;
       margin: 0;
+
+      .data-row {
+        margin: 0;
+      }
     }
 
     .MuiAccordionSummary-expandIcon {
