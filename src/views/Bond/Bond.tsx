@@ -25,7 +25,7 @@ function a11yProps(index: number) {
 
 const Bond = ({ bond }: { bond: IAllBondData }) => {
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
 
   const [slippage, setSlippage] = useState<number>(0.5);
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
@@ -119,9 +119,9 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
 };
 
 export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement => {
-  const { chainID }: { chainID: NetworkID } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
 
-  if (typeof bond.bondPrice === undefined || !bond.isAvailable[chainID]) {
+  if (typeof bond.bondPrice === undefined || !bond.getAvailability(networkId)) {
     return <Fragment>--</Fragment>;
   }
 
@@ -138,9 +138,9 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement
 };
 
 export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
-  const { chainID }: { chainID: NetworkID } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
 
-  if (typeof bond.bondDiscount === undefined || !bond.isAvailable[chainID]) {
+  if (typeof bond.bondDiscount === undefined || !bond.getAvailability(networkId)) {
     return <Fragment>--</Fragment>;
   }
 
