@@ -68,9 +68,9 @@ export function BondDataCard({ bond }) {
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[networkId]}>
+          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isBondable[networkId]}>
             <Typography variant="h5">
-              {!bond.isAvailable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`}
+              {!bond.isBondable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`}
             </Typography>
           </Button>
         </Link>
@@ -124,8 +124,8 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" disabled={!bond.isAvailable[networkId]}>
-            <Typography variant="h6">{!bond.isAvailable[networkId] ? t`Sold Out` : t`do_bond`}</Typography>
+          <Button variant="outlined" color="primary" disabled={!bond.isBondable[networkId]}>
+            <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography>
           </Button>
         </Link>
       </TableCell>
