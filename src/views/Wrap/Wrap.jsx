@@ -481,13 +481,13 @@ function Wrap() {
                         {chooseButtonArea()}
                       </div>
                     </Box>
-                    {quantity && (
+                    {/* {quantity && (
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
                           {`${trim(quantity, 4)} ${assetFrom} will result in ${trim(convertedQuantity, 4)} ${assetTo}`}
                         </Typography>
                       </Box>
-                    )}
+                    )} */}
                   </Box>
                   <div className={`stake-user-data`}>
                     {!isAvax ? (

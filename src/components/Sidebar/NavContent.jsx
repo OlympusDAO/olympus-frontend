@@ -11,6 +11,7 @@ import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
 import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
 import { ReactComponent as WrapIcon } from "../../assets/icons/wrap.svg";
 import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
+import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress } from "src/hooks/web3Context";
@@ -133,6 +134,7 @@ function NavContent() {
                     <Typography variant="h6">
                       <BridgeIcon />
                       <Trans>Bridge</Trans>
+                      <SvgIcon style={{ marginLeft: "5px" }} component={ArrowUpIcon} />
                     </Typography>
                   </Link>
 
@@ -242,6 +244,7 @@ function NavContent() {
                     <Typography variant="h6">
                       <BridgeIcon />
                       <Trans>Bridge</Trans>
+                      <SvgIcon style={{ marginLeft: "5px" }} component={ArrowUpIcon} />
                     </Typography>
                   </Link>
                 </>
