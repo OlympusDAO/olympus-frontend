@@ -142,13 +142,14 @@ function App() {
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       dispatch(getMigrationAllowances({ address, provider, networkID: networkId }));
       bonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
+        // NOTE: get any Claimable bonds, they may not be bondable
+        if (bond.getClaimability(networkId)) {
           dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
         }
       });
       dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
       expiredBonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
+        if (bond.getClaimability(networkId)) {
           dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
         }
       });

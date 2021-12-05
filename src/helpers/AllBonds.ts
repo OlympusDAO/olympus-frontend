@@ -41,7 +41,15 @@ export const dai = new StableBond({
   payoutToken: "OHM",
   bondIconSvg: DaiImg,
   bondContractABI: DaiBondContract,
-  isAvailable: {
+  isBondable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isClaimable: {
     [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
@@ -68,7 +76,15 @@ export const frax = new StableBond({
   payoutToken: "OHM",
   bondIconSvg: FraxImg,
   bondContractABI: FraxBondContract,
-  isAvailable: {
+  isBondable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isClaimable: {
     [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
@@ -95,8 +111,16 @@ export const lusd = new StableBond({
   payoutToken: "OHM",
   bondIconSvg: LusdImg,
   bondContractABI: LusdBondContract,
-  isAvailable: {
+  isBondable: {
     [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
@@ -125,7 +149,15 @@ export const eth = new CustomBond({
   bondIconSvg: wETHImg,
   bondContractABI: EthBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
-  isAvailable: {
+  isBondable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isClaimable: {
     [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
@@ -164,7 +196,15 @@ export const cvx = new CustomBond({
   bondIconSvg: CvxImg,
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
-  isAvailable: {
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isClaimable: {
     [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
@@ -203,8 +243,16 @@ export const cvx_expired = new CustomBond({
   bondIconSvg: CvxImg,
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
-  isAvailable: {
+  isBondable: {
     [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
@@ -239,8 +287,16 @@ export const ohm_dai = new LPBond({
   bondIconSvg: OhmDaiImg,
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
-  isAvailable: {
+  isBondable: {
     [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
@@ -269,7 +325,15 @@ export const ohm_frax = new LPBond({
   bondIconSvg: OhmFraxImg,
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
-  isAvailable: {
+  isBondable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isClaimable: {
     [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
@@ -299,8 +363,16 @@ export const ohm_lusd = new LPBond({
   bondIconSvg: OhmLusdImg,
   bondContractABI: BondOhmLusdContract,
   reserveContract: ReserveOhmLusdContract,
-  isAvailable: {
+  isBondable: {
     [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
@@ -330,7 +402,15 @@ export const ohm_weth = new CustomBond({
   bondIconSvg: OhmEthImg,
   bondContractABI: BondOhmEthContract,
   reserveContract: ReserveOhmEthContract,
-  isAvailable: {
+  isBondable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isClaimable: {
     [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,

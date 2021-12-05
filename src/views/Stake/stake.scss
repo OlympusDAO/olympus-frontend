@@ -41,6 +41,49 @@
     text-align: center;
     font-style: italic;
   }
+
+  .stake-accordion {
+    backdrop-filter: none;
+    background-color: inherit;
+    margin: 12px 0;
+
+    &:before {
+      display: none;
+    }
+
+    .MuiAccordionSummary-root {
+      padding: 0;
+      justify-content: space-between;
+      min-height: auto;
+    }
+
+    .MuiAccordionSummary-content {
+      display: block;
+      margin: 0;
+
+      .data-row {
+        margin: 0;
+      }
+    }
+
+    .MuiAccordionSummary-expandIcon {
+      color: inherit;
+      height: inherit;
+      padding-top: 0;
+      padding-bottom: 0;
+      position: absolute;
+      left: 105px;
+      // transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      // &.Mui-expanded {
+      //   left: -32px
+      // }
+    }
+
+    .MuiAccordionDetails-root {
+      padding: 0;
+      display: block;
+    }
+  }
 }
 
 .migrate-sohm-button {
