@@ -1,5 +1,5 @@
 import { useCallback, useState, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
@@ -15,12 +15,15 @@ import {
   Typography,
   Zoom,
   Divider,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -31,6 +34,7 @@ import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
+import { ExpandMore } from "@material-ui/icons";
 import StakeRow from "./StakeRow";
 
 function a11yProps(index: number) {
@@ -39,9 +43,6 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
 
 function Stake() {
   const dispatch = useDispatch();
@@ -105,15 +106,6 @@ function Stake() {
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
-
-  const inputTokenImages = useMemo(
-    () =>
-      Object.entries(tokens)
-        .filter(token => token[0] !== "sohm")
-        .map(token => token[1].img)
-        .slice(0, 3),
-    [tokens],
-  );
 
   const setMax = () => {
     if (view === 0) {
@@ -418,7 +410,6 @@ function Stake() {
                       </Grid>
                     </Grid>
                   </Box>
-
                   <div className="stake-user-data">
                     <StakeRow
                       title={t`Unstaked Balance`}
@@ -426,42 +417,48 @@ function Stake() {
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
                       {...{ isAppLoading }}
                     />
-                    <StakeRow
-                      title={t`Staked Balance`}
-                      id="user-staked-balance"
-                      balance={`${trimmedBalance} sOHM`}
-                      {...{ isAppLoading }}
-                    />
-                    <StakeRow
-                      title={t`Single Staking`}
-                      balance={`${trim(Number(sohmBalance), 4)} sOHM`}
-                      indented
-                      {...{ isAppLoading }}
-                    />
-                    <StakeRow
-                      title={t`Staked Balance in Fuse`}
-                      balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
-                      indented
-                      {...{ isAppLoading }}
-                    />
-                    <StakeRow
-                      title={t`Wrapped Balance`}
-                      balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                      {...{ isAppLoading }}
-                      indented
-                    />
-                    <StakeRow
-                      title={t`Wrapped Balance in FiatDAO`}
-                      balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
-                      {...{ isAppLoading }}
-                      indented
-                    />
-                    <StakeRow
-                      title={`${t`Wrapped Balance`} (v2)`}
-                      balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
-                      indented
-                      {...{ isAppLoading }}
-                    />
+                    <Accordion className="stake-accordion" square>
+                      <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
+                        <StakeRow
+                          title={t`Staked Balance`}
+                          id="user-staked-balance"
+                          balance={`${trimmedBalance} sOHM`}
+                          {...{ isAppLoading }}
+                        />
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <StakeRow
+                          title={t`Single Staking`}
+                          balance={`${trim(Number(sohmBalance), 4)} sOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={t`Staked Balance in Fuse`}
+                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={t`Wrapped Balance`}
+                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
+                          {...{ isAppLoading }}
+                          indented
+                        />
+                        <StakeRow
+                          title={t`Wrapped Balance in FiatDAO`}
+                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
+                          {...{ isAppLoading }}
+                          indented
+                        />
+                        <StakeRow
+                          title={`${t`Wrapped Balance`} (v2)`}
+                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                      </AccordionDetails>
+                    </Accordion>
                     <Divider color="secondary" />
                     <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
                     <StakeRow
