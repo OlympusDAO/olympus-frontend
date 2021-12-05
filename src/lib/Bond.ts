@@ -48,7 +48,8 @@ export interface Available {
 interface BondOpts {
   name: string; // Internal name used for references
   displayName: string; // Displayname on UI
-  isAvailable: Available; // set false to hide
+  isBondable: Available; // aka isBondable => set false to hide
+  isClaimable: Available; // set false to hide
   bondIconSvg: React.ReactNode; //  SVG path for icons
   bondContractABI: ethers.ContractInterface; // ABI for contract
   networkAddrs: NetworkAddresses; // Mapping of network --> Addresses
@@ -61,7 +62,8 @@ export abstract class Bond {
   // Standard Bond fields regardless of LP bonds or stable bonds.
   readonly name: string;
   readonly displayName: string;
-  readonly isAvailable: Available;
+  readonly isBondable: Available;
+  readonly isClaimable: Available;
   readonly type: BondType;
   readonly bondIconSvg: React.ReactNode;
   readonly bondContractABI: ethers.ContractInterface; // Bond ABI
@@ -80,9 +82,9 @@ export abstract class Bond {
   constructor(type: BondType, bondOpts: BondOpts) {
     this.name = bondOpts.name;
     this.displayName = bondOpts.displayName;
-    this.isAvailable = bondOpts.isAvailable;
+    this.isBondable = bondOpts.isBondable;
     this.type = type;
-    this.isAvailable = bondOpts.isAvailable;
+    this.isClaimable = bondOpts.isClaimable;
     this.bondIconSvg = bondOpts.bondIconSvg;
     this.bondContractABI = bondOpts.bondContractABI;
     this.networkAddrs = bondOpts.networkAddrs;
@@ -91,12 +93,15 @@ export abstract class Bond {
   }
 
   /**
-   * makes isAvailable accessible within Bonds.ts
+   * makes isBondable accessible within Bonds.ts
    * @param networkID
    * @returns boolean
    */
-  getAvailability(networkID: NetworkID) {
-    return this.isAvailable[networkID];
+  getBondability(networkID: NetworkID) {
+    return this.isBondable[networkID];
+  }
+  getClaimability(networkID: NetworkID) {
+    return this.isClaimable[networkID];
   }
 
   getAddressForBond(networkID: NetworkID) {

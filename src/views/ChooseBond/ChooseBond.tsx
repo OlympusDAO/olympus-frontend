@@ -134,7 +134,7 @@ function ChooseBond() {
                   </TableHead>
                   <TableBody>
                     {bonds.map(bond => {
-                      if (bond.getAvailability(networkId)) {
+                      if (bond.getBondability(networkId)) {
                         return <BondTableData key={bond.name} bond={bond} />;
                       }
                     })}
@@ -150,7 +150,7 @@ function ChooseBond() {
         <Box className="ohm-card-container">
           <Grid container item spacing={2}>
             {bonds.map(bond => {
-              if (bond.getAvailability(networkId)) {
+              if (bond.getBondability(networkId)) {
                 return (
                   <Grid item xs={12} key={bond.name}>
                     <BondDataCard key={bond.name} bond={bond} />

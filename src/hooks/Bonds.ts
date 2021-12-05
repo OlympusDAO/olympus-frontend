@@ -47,8 +47,8 @@ function useBonds(networkId: number) {
       });
 
     const mostProfitableBonds = bondDetails.concat().sort((a, b) => {
-      if (!a.getAvailability(networkId)) return 1;
-      if (!b.getAvailability(networkId)) return -1;
+      if (!a.getBondability(networkId)) return 1;
+      if (!b.getBondability(networkId)) return -1;
       return a["bondDiscount"] > b["bondDiscount"] ? -1 : b["bondDiscount"] > a["bondDiscount"] ? 1 : 0;
     });
     setBonds(mostProfitableBonds);

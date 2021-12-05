@@ -159,7 +159,7 @@ function NavContent() {
                         <Trans>Bond discounts</Trans>
                       </Typography>
                       {bonds.map((bond, i) => {
-                        if (bond.getAvailability(networkId)) {
+                        if (bond.getBondability(networkId)) {
                           return (
                             <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
                               {!bond.bondDiscount ? (
@@ -169,7 +169,7 @@ function NavContent() {
                                   {bond.displayName}
 
                                   <span className="bond-pair-roi">
-                                    {!bond.isAvailable[networkId]
+                                    {!bond.isBondable[networkId]
                                       ? "Sold Out"
                                       : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
                                   </span>
