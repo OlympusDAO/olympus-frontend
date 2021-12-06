@@ -9,7 +9,7 @@ import { ReactComponent as wsOhmTokenImg } from "../../assets/tokens/token_wsOHM
 import { ReactComponent as ohmTokenImg } from "../../assets/tokens/token_OHM.svg";
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
 import "./ohmmenu.scss";
-import { dai, frax } from "src/helpers/AllBonds";
+import { dai } from "src/helpers/AllBonds";
 import { Trans } from "@lingui/macro";
 import Grid from "@material-ui/core/Grid";
 import OhmImg from "src/assets/tokens/token_OHM.svg";
@@ -84,7 +84,6 @@ function OhmMenu() {
   const open = Boolean(anchorEl);
   const id = "ohm-popper";
   const daiAddress = dai.getAddressForReserve(networkId);
-  const fraxAddress = frax.getAddressForReserve(networkId);
   return (
     <Grid
       container
@@ -112,19 +111,6 @@ function OhmMenu() {
                     <Button size="large" variant="contained" color="secondary" fullWidth>
                       <Typography align="left">
                         <Trans>Buy on {new String("Sushiswap")}</Trans>
-                        <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
-                      </Typography>
-                    </Button>
-                  </Link>
-
-                  <Link
-                    href={`https://app.uniswap.org/#/swap?inputCurrency=${fraxAddress}&outputCurrency=${OHM_ADDRESS}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Button size="large" variant="contained" color="secondary" fullWidth>
-                      <Typography align="left">
-                        <Trans>Buy on {new String("Uniswap")}</Trans>
                         <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
                     </Button>
