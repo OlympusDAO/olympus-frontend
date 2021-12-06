@@ -1,4 +1,4 @@
-import { Box, Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
+import { Box, Modal, Paper, Typography, SvgIcon, Link, Button, Divider } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
@@ -28,8 +28,8 @@ import {
 } from "../../components/EducationCard";
 import { IAccountSlice } from "../../slices/AccountSlice";
 import { Project } from "src/components/GiveProject/project.type";
-
 const sOhmImg = getTokenImage("sohm");
+import { shorten } from "src/helpers";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -72,6 +72,8 @@ export function RecipientModal({
   const [walletAddress, setWalletAddress] = useState(currentWalletAddress ? currentWalletAddress : "");
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(false);
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
+
+  const [isAmountSet, setIsAmountSet] = useState(false);
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toFixed());
@@ -281,6 +283,10 @@ export function RecipientModal({
     return walletAddress;
   };
 
+  const handleContinue = () => {
+    setIsAmountSet(true);
+  };
+
   /**
    * Calls the submission callback function that is provided to the component.
    */
@@ -358,6 +364,37 @@ export function RecipientModal({
           </Box>
         ) : isAllowanceDataLoading ? (
           <Skeleton />
+        ) : isAmountSet ? (
+          <>
+            <div className="give-confirmation-details">
+              <Typography variant="h6">Details</Typography>
+              <div className="details-row">
+                <div className="sohm-allocation-col">
+                  <Typography variant="body1">sOHM Allocation</Typography>
+                  <Typography variant="h6">{shorten(address)}</Typography>
+                </div>
+                <ArrowGraphic />
+                <div className="recipient-address-col">
+                  <Typography variant="body1">Recipient Address</Typography>
+                  <Typography variant="h6">
+                    {project ? project.title + " - " + project.owner : shorten(walletAddress)}
+                  </Typography>
+                </div>
+              </div>
+            </div>
+            <div className="give-confirmation-divider">
+              <Divider />
+            </div>
+            <div className="give-confirmation-details">
+              <Typography variant="h6" className="confirmation-sect-header">
+                Transaction
+              </Typography>
+              <div className="details-row">
+                <Typography variant="body1">Amount</Typography>
+                <Typography variant="h6">{depositAmount} sOHM</Typography>
+              </div>
+            </div>
+          </>
         ) : (
           <>
             <Typography variant="body1">sOHM Allocation</Typography>
@@ -413,10 +450,16 @@ export function RecipientModal({
           </>
         )}
         {isCreateMode() ? (
-          address && hasAllowance() ? (
+          address && hasAllowance() && !isAmountSet ? (
+            <FormControl className="ohm-modal-submit">
+              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
+                Continue
+              </Button>
+            </FormControl>
+          ) : isAmountSet ? (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, "Continue")}
+                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, "Confirm sOHM")}
               </Button>
             </FormControl>
           ) : (
@@ -426,6 +469,12 @@ export function RecipientModal({
               </Button>
             </FormControl>
           )
+        ) : !isAmountSet ? (
+          <FormControl className="ohm-modal-submit">
+            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
+              Continue
+            </Button>
+          </FormControl>
         ) : (
           <FormControl className="ohm-modal-submit">
             <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
