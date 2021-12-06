@@ -360,7 +360,7 @@ export function RecipientModal({
           <Skeleton />
         ) : (
           <>
-            <Typography variant="h5">Amount of sOHM</Typography>
+            <Typography variant="body1">sOHM Allocation</Typography>
             <FormControl className="modal-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
               <OutlinedInput
