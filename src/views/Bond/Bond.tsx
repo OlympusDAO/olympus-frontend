@@ -156,4 +156,3 @@ export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode
   return <Fragment>{bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%</Fragment>;
 };
 export default Bond;
-
