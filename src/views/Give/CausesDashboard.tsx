@@ -26,7 +26,7 @@ export default function CausesDashboard() {
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      return <ProjectDetails key={seed(project.id)} project={project} />;
+      return <ProjectDetails key={seed(project.title)} project={project} />;
     });
   }, [projects]);
 

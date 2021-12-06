@@ -1,7 +1,6 @@
 {
   "projects": [
     {
-      "id": 1,
       "title": "Project A",
       "owner": "ImpactMarket",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae fermentum ante. Proin tincidunt nisl leo, eu scelerisque metus venenatis vel. Proin at maximus purus. Curabitur convallis convallis posuere. Quisque dolor nunc, varius ac bibendum eget, tempus in neque. Sed ultricies est at molestie vehicula. Ut ipsum tortor, vestibulum nec gravida sed, ultricies vitae mauris. Morbi at pulvinar magna, in hendrerit arcu. Sed non sem sapien. Donec dolor sapien, dignissim in sem eget, efficitur consectetur est. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae",
@@ -15,7 +14,6 @@
       "depositGoal": 20
     },
     {
-      "id": 2,
       "title": "Project B",
       "owner": "Gitcoin",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae quam non mi eleifend faucibus non vel augue. Suspendisse sagittis nisi quis odio tincidunt, a facilisis lectus efficitur. Sed pulvinar fringilla ex, vel efficitur lectus hendrerit nec. Fusce et lacus nec turpis bibendum lacinia sit amet id erat. Integer cursus interdum pellentesque. Integer ligula orci, elementum a dolor eu, rutrum volutpat sem. Suspendisse ultricies ligula faucibus scelerisque congue. Nunc lorem nibh, hendrerit a convallis dapibus, blandit nec orci. Donec rutrum sapien massa, lobortis lacinia nibh accumsan quis. Suspendisse laoreet et risus sit amet bibendum. Donec sed convallis nisi. Nullam iaculis justo odio, ac bibendum odio blandit vel. Sed sapien augue, faucibus vel nulla ac, faucibus fringilla ligula. Pellentesque finibus augue iaculis rhoncus consectetur.",
@@ -29,7 +27,6 @@
       "depositGoal": 50
     },
     {
-      "id": 3,
       "title": "Project C",
       "owner": "Angel Protocol",
       "details": "Etiam tincidunt ullamcorper orci et hendrerit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam vel tellus eget nisi lobortis ultricies. Ut sodales sagittis nisi. Nulla ornare vestibulum ante, sagittis varius metus volutpat et. Mauris semper ultrices massa vitae malesuada. In ornare ex sit amet pretium accumsan. Nam porttitor nunc non purus sagittis dictum. Curabitur ac dolor rutrum, sollicitudin nunc eu, auctor metus. Praesent eleifend dolor in quam rhoncus aliquet. Nulla nisi augue, tincidunt eu imperdiet vitae, tempor in enim.",
@@ -43,7 +40,6 @@
       "depositGoal": 500
     },
     {
-      "id": 4,
       "title": "Project D",
       "owner": "Angel Protocol",
       "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu cursus lectus, nec aliquam lorem. Sed id accumsan libero. Cras nec aliquam mauris. Donec et pretium turpis. Quisque velit tortor, semper a sodales non, laoreet nec velit. Integer eu lacus efficitur, scelerisque lorem et, fringilla sapien. Suspendisse pretium sit amet eros quis sollicitudin. Phasellus id mi odio. Praesent malesuada metus interdum massa lobortis, id congue sapien rutrum.",
