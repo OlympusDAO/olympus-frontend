@@ -244,11 +244,40 @@
   }
 }
 
+.give-confirmation-details {
+  .confirmation-sect-header {
+    margin-bottom: 16px;
+  }
+
+  .details-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .recipient-address-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      align-content: flex-end;
+    }
+  }
+}
+
+.give-confirmation-divider {
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+  .MuiDivider-root {
+   background-color: #F4D092;
+  }
+}
+
 .card-header {
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
-  margin-left: 3em;
+  margin-left: 16px;
 }
 
 .ohm-card {
