@@ -53,22 +53,22 @@ function useBonds(networkId: number) {
     });
     setBonds(mostProfitableBonds);
 
-    // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    let expiredDetails: IAllBondData[];
-    expiredDetails = allExpiredBonds
-      .flatMap(bond => {
-        if (bondState[bond.name] && bondState[bond.name].bondDiscount) {
-          return Object.assign(bond, bondState[bond.name]); // Keeps the object type
-        }
-        return bond;
-      })
-      .flatMap(bond => {
-        if (accountBondsState[bond.name]) {
-          return Object.assign(bond, accountBondsState[bond.name]);
-        }
-        return bond;
-      });
-    setExpiredBonds(expiredDetails);
+    // // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
+    // let expiredDetails: IAllBondData[];
+    // expiredDetails = allExpiredBonds
+    //   .flatMap(bond => {
+    //     if (bondState[bond.name] && bondState[bond.name].bondDiscount) {
+    //       return Object.assign(bond, bondState[bond.name]); // Keeps the object type
+    //     }
+    //     return bond;
+    //   })
+    //   .flatMap(bond => {
+    //     if (accountBondsState[bond.name]) {
+    //       return Object.assign(bond, accountBondsState[bond.name]);
+    //     }
+    //     return bond;
+    //   });
+    // setExpiredBonds(expiredDetails);
   }, [bondState, accountBondsState, bondLoading]);
 
   // Debug Log:
