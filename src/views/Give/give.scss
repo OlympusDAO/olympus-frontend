@@ -44,7 +44,6 @@
   .MuiGrid-root.MuiGrid-item {
     display: flex;
     justify-self: center !important;
-    padding: 1.33em;
   }
 
   .data-grid {
@@ -74,11 +73,17 @@
       padding-bottom: 0rem;
     }
 
+    .cause-title:hover {
+      h5 {
+        text-decoration: underline;
+      }
+    }
+
     .cause-image {
       width: 33%;
       height: 100%;
       justify-content: flex-start;
-      padding-right: 1rem;
+      padding: 30px;
 
       img {
         border-radius: 5%;
@@ -91,6 +96,9 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      padding-right: 30px;
+      padding-top: 30px;
+      padding-bottom: 30px;
 
       .MuiTypography-body2 {
         margin-top: 0.5rem;

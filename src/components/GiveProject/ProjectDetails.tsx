@@ -191,7 +191,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
           <div className="cause-content">
             <Grid container className="cause-header">
               <Grid item className="cause-title">
-                <Typography variant="h4">
+                <Typography variant="h5">
                   <strong>
                     {title} - {owner}
                   </strong>
