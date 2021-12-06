@@ -112,34 +112,6 @@ function NavContent() {
 
                   <Link
                     component={NavLink}
-                    id="wrap-nav"
-                    to="/wrap"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "wrap");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
-                      {/* <WrapIcon /> */}
-                      <Typography variant="h6">Wrap</Typography>
-                      {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
-                    </Box>
-                  </Link>
-
-                  <Link
-                    href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
-                    target="_blank"
-                  >
-                    <Typography variant="h6">
-                      <BridgeIcon />
-                      <Trans>Bridge</Trans>
-                      <SvgIcon style={{ marginLeft: "5px" }} component={ArrowUpIcon} />
-                    </Typography>
-                  </Link>
-
-                  <Link
-                    component={NavLink}
                     id="bond-nav"
                     to="/bonds"
                     isActive={(match, location) => {
@@ -181,39 +153,6 @@ function NavContent() {
                       })}
                     </div>
                   </div>
-                  <Box className="menu-divider">
-                    <Divider />
-                  </Box>
-                  <Link
-                    component={NavLink}
-                    id="zap-nav"
-                    to="/zap"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "zap");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <SvgIcon component={ZapIcon} color="primary" />
-                      <Typography variant="h6">OlyZaps</Typography>
-                      <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
-                    </Box>
-                  </Link>
-
-                  <Link
-                    component={NavLink}
-                    id="33-together-nav"
-                    to="/33-together"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "33-together");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Typography variant="h6">
-                      <SvgIcon color="primary" component={PoolTogetherIcon} />
-                      3,3 Together
-                    </Typography>
-                  </Link>
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
