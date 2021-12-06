@@ -44,7 +44,7 @@ const PoolTogether = () => {
   const { connect, address, provider, hasCachedProvider } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
   const dispatch = useDispatch();
-  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[networkId.toString()]);
+  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[1]);
   const [poolData, setPoolData] = useState(null);
   const [poolDataError, setPoolDataError] = useState(null);
   const [graphLoading, setGraphLoading] = useState(true);
@@ -71,12 +71,23 @@ const PoolTogether = () => {
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
-    setGraphUrl(POOL_GRAPH_URLS[networkId]);
+    if (networkId === -1) {
+      setGraphUrl(POOL_GRAPH_URLS[1]);
+    } else {
+      setGraphUrl(POOL_GRAPH_URLS[networkId]);
+    }
   }, [networkId]);
 
   useEffect(() => {
+    console.log("apollo", networkId);
+    let apolloUrl: string;
+    if (networkId === -1) {
+      apolloUrl = poolDataQuery(addresses[1].PT_PRIZE_POOL_ADDRESS);
+    } else {
+      apolloUrl = poolDataQuery(addresses[networkId].PT_PRIZE_POOL_ADDRESS);
+    }
     // get poolData
-    apolloExt(poolDataQuery(addresses[networkId].PT_PRIZE_POOL_ADDRESS), graphUrl)
+    apolloExt(apolloUrl, graphUrl)
       .then(poolData => {
         const prizePool: PrizePool = poolData?.data.prizePool;
 
@@ -165,18 +176,18 @@ const PoolTogether = () => {
           className="pt-tabs"
           aria-label="pool tabs"
         >
-          <Tab label={t`Deposit`} {...a11yProps(0)} />
-          <Tab label={t`Withdraw`} {...a11yProps(1)} />
+          {/* <Tab label={t`Deposit`} {...a11yProps(0)} /> */}
+          <Tab label={t`Withdraw`} {...a11yProps(0)} />
         </Tabs>
 
-        <TabPanel value={view} index={0} className="pool-tab">
+        {/* <TabPanel value={view} index={0} className="pool-tab">
           <PoolDeposit
             totalPoolDeposits={totalDeposits}
             winners={winners}
             setInfoTooltipMessage={setInfoTooltipMessage}
           />
-        </TabPanel>
-        <TabPanel value={view} index={1} className="pool-tab">
+        </TabPanel> */}
+        <TabPanel value={view} index={0} className="pool-tab">
           <PoolWithdraw
             totalPoolDeposits={totalDeposits}
             winners={winners}

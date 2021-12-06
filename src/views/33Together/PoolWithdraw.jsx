@@ -113,95 +113,100 @@ export const PoolWithdraw = props => {
   }
 
   return (
-    <Box display="flex" justifyContent="center" className="pool-deposit-ui">
-      {!address ? (
-        <ConnectButton />
-      ) : (
-        <Box className="withdrawal-container">
-          <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
-            <FormControl className="ohm-input" variant="outlined" color="primary">
-              <InputLabel htmlFor="amount-input"></InputLabel>
-              <OutlinedInput
-                id="amount-input"
-                type="number"
-                placeholder="Enter an amount"
-                className="pool-input"
-                value={quantity}
-                onChange={e => setQuantity(parseFloat(e.target.value))}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <div className="logo-holder">{sohmImg}</div>
-                  </InputAdornment>
-                }
-                labelWidth={0}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <Button variant="text" onClick={setMax}>
-                      <Trans>Max</Trans>
-                    </Button>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            <Button
-              className="pool-withdraw-button"
-              variant="contained"
-              color="primary"
-              disabled={isPendingTxn(pendingTransactions, "pool_withdraw")}
-              onClick={() => onWithdraw("withdraw")}
-              style={{ margin: "5px" }}
-            >
-              {exitFee > 0
-                ? txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw Early & pay` + exitFee + " sOHM")
-                : txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw sOHM`)}
-              {/* Withdraw sOHM */}
-            </Button>
-          </Box>
-          {newOdds > 0 && quantity > 0 && (
-            <Box padding={1}>
-              <Typography color="error" variant="body2">
-                <Trans>
-                  Withdrawing {quantity} sOHM reduces your odds of winning to 1 in {newOdds}
-                </Trans>
-                &nbsp;
-              </Typography>
+    <>
+      <Typography variant="body1" style={{ margin: "0.5rem" }} align="center">
+        <Trans>The pool has been temporarily disabled for V2 Migration. Please withdraw your 33T</Trans>
+      </Typography>
+      <Box display="flex" justifyContent="center" className="pool-deposit-ui">
+        {!address ? (
+          <ConnectButton />
+        ) : (
+          <Box className="withdrawal-container">
+            <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
+              <FormControl className="ohm-input" variant="outlined" color="primary">
+                <InputLabel htmlFor="amount-input"></InputLabel>
+                <OutlinedInput
+                  id="amount-input"
+                  type="number"
+                  placeholder="Enter an amount"
+                  className="pool-input"
+                  value={quantity}
+                  onChange={e => setQuantity(parseFloat(e.target.value))}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <div className="logo-holder">{sohmImg}</div>
+                    </InputAdornment>
+                  }
+                  labelWidth={0}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <Button variant="text" onClick={setMax}>
+                        <Trans>Max</Trans>
+                      </Button>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              <Button
+                className="pool-withdraw-button"
+                variant="contained"
+                color="primary"
+                disabled={isPendingTxn(pendingTransactions, "pool_withdraw")}
+                onClick={() => onWithdraw("withdraw")}
+                style={{ margin: "5px" }}
+              >
+                {exitFee > 0
+                  ? txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw Early & pay` + exitFee + " sOHM")
+                  : txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw sOHM`)}
+                {/* Withdraw sOHM */}
+              </Button>
             </Box>
-          )}
-          {exitFee > 0 && (
-            <Box margin={1}>
-              <Typography color="error">
-                <Trans>Early withdraw will incur a fairness fee of {exitFee}.</Trans> &nbsp;
-                <Link
-                  href="https://v3.docs.pooltogether.com/protocol/prize-pool/fairness"
-                  target="_blank"
-                  rel="noreferrer"
-                  color="primary"
-                >
-                  <br />
-                  <Trans>Read more about Fairness</Trans>{" "}
-                  <SvgIcon component={ArrowUp} style={{ fontSize: "1rem", verticalAlign: "middle" }} />
-                </Link>
-              </Typography>
-            </Box>
-          )}
-          {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
-          <div className={`stake-user-data`}>
-            <div className="data-row">
-              <Typography variant="body1" align="left">
-                <Trans>Your Pooled Balance (withdrawable)</Trans>
-              </Typography>
-              <Typography variant="body1" align="right">
-                {isPoolLoading ? (
-                  <Skeleton width="80px" />
-                ) : (
-                  <>{new Intl.NumberFormat("en-US").format(poolBalance)} 33T</>
-                )}
-              </Typography>
+            {newOdds > 0 && quantity > 0 && (
+              <Box padding={1}>
+                <Typography color="error" variant="body2">
+                  <Trans>
+                    Withdrawing {quantity} sOHM reduces your odds of winning to 1 in {newOdds}
+                  </Trans>
+                  &nbsp;
+                </Typography>
+              </Box>
+            )}
+            {exitFee > 0 && (
+              <Box margin={1}>
+                <Typography color="error">
+                  <Trans>Early withdraw will incur a fairness fee of {exitFee}.</Trans> &nbsp;
+                  <Link
+                    href="https://v3.docs.pooltogether.com/protocol/prize-pool/fairness"
+                    target="_blank"
+                    rel="noreferrer"
+                    color="primary"
+                  >
+                    <br />
+                    <Trans>Read more about Fairness</Trans>{" "}
+                    <SvgIcon component={ArrowUp} style={{ fontSize: "1rem", verticalAlign: "middle" }} />
+                  </Link>
+                </Typography>
+              </Box>
+            )}
+            {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
+            <div className={`stake-user-data`}>
+              <div className="data-row">
+                <Typography variant="body1" align="left">
+                  <Trans>Your Pooled Balance (withdrawable)</Trans>
+                </Typography>
+                <Typography variant="body1" align="right">
+                  {isPoolLoading ? (
+                    <Skeleton width="80px" />
+                  ) : (
+                    <>{new Intl.NumberFormat("en-US").format(poolBalance)} 33T</>
+                  )}
+                </Typography>
+              </div>
             </div>
-          </div>
-        </Box>
-      )}
-    </Box>
+          </Box>
+        )}
+      </Box>
+    </>
   );
 };
 
