@@ -22,7 +22,7 @@ import {
   CircularProgress,
   Paper,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withTheme } from "@material-ui/core/styles";
 import { changeZapTokenAllowance, executeZap, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -384,7 +384,12 @@ function ZapStakeAction(props) {
               <Box display="flex" flexDirection="row">
                 {isAllowanceTxSuccess ? (
                   <>
-                    <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 18 18"} />
+                    <SvgIcon
+                      htmlColor={props.theme.palette.type === "light" ? "#fff" : "#333333"}
+                      component={CompleteStepIcon}
+                      style={buttonIconStyle}
+                      viewBox={"0 0 18 18"}
+                    />
                     <Typography classes={{ root: classes.ApprovedText }}>
                       <Trans>Approved</Trans>
                     </Typography>
@@ -482,4 +487,4 @@ function ZapStakeAction(props) {
   );
 }
 
-export default ZapStakeAction;
+export default withTheme(ZapStakeAction);
