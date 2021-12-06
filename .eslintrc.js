@@ -13,7 +13,7 @@ module.exports = {
   extends: ["plugin:prettier/recommended", "prettier/react", "prettier/@typescript-eslint"],
   plugins: ["prettier"],
   rules: {
-    "prettier/prettier": ["error"],
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "import/prefer-default-export": "off",
     "prefer-destructuring": "off",
     "prefer-template": "off",
