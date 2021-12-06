@@ -193,7 +193,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
               <Grid item className="cause-title">
                 <Typography variant="h5">
                   <strong>
-                    {title} - {owner}
+                    {owner} - {title}
                   </strong>
                 </Typography>
               </Grid>
