@@ -69,7 +69,7 @@ export default function CausesDashboard() {
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
             <div className="card-header">
               <div className="give-yield-title">
-                <Typography variant="h5">Causes Dashboard</Typography>
+                <Typography variant="h5">Give</Typography>
               </div>
             </div>
             <div className="causes-body">
