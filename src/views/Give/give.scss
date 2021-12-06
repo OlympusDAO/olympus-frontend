@@ -150,6 +150,7 @@
 
 .custom-recipient {
   padding-top: 2rem;
+  padding-right: 2.3rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -211,6 +212,11 @@
       position: absolute;
       left: 1.7rem;
     }
+  }
+
+  .give-modal-header {
+    display: flex;
+    flex-direction: row;
   }
 
   .modal-input {
