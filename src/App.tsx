@@ -131,11 +131,8 @@ function App() {
     loadProvider => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       bonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
-        }
+        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
       });
-      dispatch(getMigrationAllowances({ address, provider, networkID: networkId }));
     },
     [networkId],
   );
@@ -143,19 +140,21 @@ function App() {
   const loadAccount = useCallback(
     loadProvider => {
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
+      dispatch(getMigrationAllowances({ address, provider, networkID: networkId }));
       bonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
+        // NOTE: get any Claimable bonds, they may not be bondable
+        if (bond.getClaimability(networkId)) {
           dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
         }
       });
       dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
       expiredBonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
+        if (bond.getClaimability(networkId)) {
           dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
         }
       });
     },
-    [networkId],
+    [networkId, address],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked

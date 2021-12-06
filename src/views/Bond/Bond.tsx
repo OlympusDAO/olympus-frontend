@@ -121,7 +121,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
 export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement => {
   const networkId = useAppSelector(state => state.network.networkId);
 
-  if (typeof bond.bondPrice === undefined || !bond.getAvailability(networkId)) {
+  if (typeof bond.bondPrice === undefined || !bond.getBondability(networkId)) {
     return <Fragment>--</Fragment>;
   }
 
@@ -140,7 +140,7 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement
 export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
   const networkId = useAppSelector(state => state.network.networkId);
 
-  if (typeof bond.bondDiscount === undefined || !bond.getAvailability(networkId)) {
+  if (typeof bond.bondDiscount === undefined || !bond.getBondability(networkId)) {
     return <Fragment>--</Fragment>;
   }
 
