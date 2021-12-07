@@ -5,6 +5,11 @@ export function GiveInfo() {
   return (
     <>
       <Paper className={"ohm-card secondary"}>
+        <div className="card-header">
+          <div className="give-yield-title">
+            <Typography variant="h5">How It Works</Typography>
+          </div>
+        </div>
         <div className="give-info">
           <Box className="give-info-deposit-box">
             <DepositSohm message="Deposit sOHM from wallet" />

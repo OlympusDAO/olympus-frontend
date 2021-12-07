@@ -70,20 +70,7 @@ export default function CausesDashboard() {
     <>
       <div className="give-view">
         <Zoom in={true}>
-          <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-            <div className="card-header">
-              <div className="give-yield-title">
-                <Typography variant="h5">How It Works</Typography>
-              </div>
-              <div className="give-education">
-                <DepositSohm message="Deposit sOHM from wallet" />
-                <ArrowGraphic />
-                <LockInVault message="Lock sOHM in vault" />
-                <ArrowGraphic />
-                <ReceivesYield message="Project receives sOHM rebases" />
-              </div>
-            </div>
-          </Paper>
+          <GiveInfo />
         </Zoom>
         <Zoom in={true}>
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
@@ -113,9 +100,6 @@ export default function CausesDashboard() {
               cancelFunc={handleCustomGiveModalCancel}
             />
           </Paper>
-        </Zoom>
-        <Zoom in={true}>
-          <GiveInfo />
         </Zoom>
       </div>
     </>
