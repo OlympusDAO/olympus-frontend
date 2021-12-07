@@ -136,7 +136,9 @@ function Stake() {
       return dispatch(error(t`You cannot unstake more than your sOHM balance.`));
     }
 
-    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId }));
+    await dispatch(
+      changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId, version2: false }),
+    );
   };
 
   const hasAllowance = useCallback(

@@ -18,7 +18,7 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap } from "./views";
+import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap, V1Stake } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import CallToAction from "./components/CallToAction/CallToAction";
@@ -97,7 +97,7 @@ function App() {
     setMigrationModalOpen(true);
   };
   const migModalClose = () => {
-    dispatch(loadAccountDetails({ networkID: chainID, address, provider }));
+    dispatch(loadAccountDetails({ networkID: networkId, address, provider }));
     setMigrationModalOpen(false);
   };
 
@@ -167,7 +167,7 @@ function App() {
     [networkId, address],
   );
 
-  const oldAssetsDetected = useSelector(state => {
+  const oldAssetsDetected = useAppSelector(state => {
     return (
       state.account.balances &&
       (Number(state.account.balances.sohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)

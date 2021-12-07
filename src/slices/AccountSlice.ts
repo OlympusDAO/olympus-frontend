@@ -100,9 +100,8 @@ export const getBalances = createAsyncThunk(
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
-        gohm: ethers.utils.formatUnits(gOhmBalance, "gwei"),
-        ohmv2: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
-        sohmv2: ethers.utils.formatUnits(sOhmV2Balance, "gwei"),
+        // ohmv2: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
+        // sohmv2: ethers.utils.formatUnits(sOhmV2Balance, "gwei"),
       },
     };
   },
@@ -169,6 +168,7 @@ export const loadAccountDetails = createAsyncThunk(
     let unwrapAllowance = BigNumber.from("0");
     let gOhmUnwrapAllowance = BigNumber.from("0");
     let poolAllowance = BigNumber.from("0");
+    let gOhmBalance = BigNumber.from("0");
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmUnwrapAllowance = await gOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
@@ -205,8 +205,8 @@ export const loadAccountDetails = createAsyncThunk(
       staking: {
         ohmStake: +stakeAllowance,
         ohmUnstake: +unstakeAllowance,
-        ohmStakeV2: +stakeAllowanceV2,
-        ohmUnstakeV2: +unstakeAllowanceV2,
+        // ohmStakeV2: +stakeAllowanceV2,
+        // ohmUnstakeV2: +unstakeAllowanceV2,
       },
       wrapping: {
         ohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),

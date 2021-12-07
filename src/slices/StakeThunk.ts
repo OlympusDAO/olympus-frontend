@@ -9,7 +9,7 @@ import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, OlympusStakingv2, StakingHelper } from "src/typechain";
+import { IERC20, OlympusStakingv2, SOhmv2, StakingHelper } from "src/typechain";
 import ReactGA from "react-ga";
 
 interface IUAData {
