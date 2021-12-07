@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   Box,
@@ -36,6 +36,7 @@ import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
 import StakeRow from "./StakeRow";
+import Metric from "../../components/Metric/Metric";
 
 function a11yProps(index: number) {
   return {
@@ -53,7 +54,6 @@ function Stake() {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState(0);
 
-  const tokens = useAppSelector(state => state.zap.balances);
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
@@ -100,7 +100,7 @@ function Stake() {
     return state.app.stakingAPY || 0;
   });
   const stakingTVL = useAppSelector(state => {
-    return state.app.stakingTVL;
+    return state.app.stakingTVL || 0;
   });
 
   const pendingTransactions = useAppSelector(state => {
@@ -174,6 +174,14 @@ function Stake() {
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((Number(stakingRebasePercentage) / 100) * trimmedBalance, 4);
 
+  const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));
+  const formattedStakingTVL = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(stakingTVL);
+  const formattedCurrentIndex = trim(Number(currentIndex), 1);
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -205,57 +213,30 @@ function Stake() {
               <div className="stake-top-metrics">
                 <Grid container spacing={2} alignItems="flex-end">
                   <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-apy">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>APY</Trans>
-                      </Typography>
-                      <Typography variant="h4">
-                        {stakingAPY ? (
-                          <span data-testid="apy-value">
-                            {new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY))}%
-                          </span>
-                        ) : (
-                          <Skeleton width="150px" data-testid="apy-loading" />
-                        )}
-                      </Typography>
-                    </div>
+                    <Metric
+                      className="stake-apy"
+                      label={t`APY`}
+                      metric={`${formattedTrimmedStakingAPY}%`}
+                      isLoading={stakingAPY ? true : false}
+                    />
                   </Grid>
 
                   <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-tvl">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>Total Value Deposited</Trans>
-                      </Typography>
-                      <Typography variant="h4">
-                        {stakingTVL ? (
-                          <span data-testid="tvl-value">
-                            {new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "USD",
-                              maximumFractionDigits: 0,
-                              minimumFractionDigits: 0,
-                            }).format(stakingTVL)}
-                          </span>
-                        ) : (
-                          <Skeleton width="150px" data-testid="tvl-loading" />
-                        )}
-                      </Typography>
-                    </div>
+                    <Metric
+                      className="stake-tvl"
+                      label={t`Total Value Deposited`}
+                      metric={formattedStakingTVL}
+                      isLoading={stakingTVL ? true : false}
+                    />
                   </Grid>
 
                   <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-index">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>Current Index</Trans>
-                      </Typography>
-                      <Typography variant="h4">
-                        {currentIndex ? (
-                          <span data-testid="index-value">{trim(Number(currentIndex), 1)} OHM</span>
-                        ) : (
-                          <Skeleton width="150px" data-testid="index-loading" />
-                        )}
-                      </Typography>
-                    </div>
+                    <Metric
+                      className="stake-index"
+                      label={t`Current Index`}
+                      metric={`${formattedCurrentIndex} OHM`}
+                      isLoading={currentIndex ? true : false}
+                    />
                   </Grid>
                 </Grid>
               </div>
