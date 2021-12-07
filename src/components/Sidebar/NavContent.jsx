@@ -11,6 +11,7 @@ import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
 import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
 import { ReactComponent as WrapIcon } from "../../assets/icons/wrap.svg";
 import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
+import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress } from "src/hooks/web3Context";
@@ -133,6 +134,7 @@ function NavContent() {
                     <Typography variant="h6">
                       <BridgeIcon />
                       <Trans>Bridge</Trans>
+                      <SvgIcon style={{ marginLeft: "5px" }} component={ArrowUpIcon} />
                     </Typography>
                   </Link>
 
@@ -157,7 +159,7 @@ function NavContent() {
                         <Trans>Bond discounts</Trans>
                       </Typography>
                       {bonds.map((bond, i) => {
-                        if (bond.getAvailability(networkId)) {
+                        if (bond.getBondability(networkId)) {
                           return (
                             <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
                               {!bond.bondDiscount ? (
@@ -167,7 +169,7 @@ function NavContent() {
                                   {bond.displayName}
 
                                   <span className="bond-pair-roi">
-                                    {!bond.isAvailable[networkId]
+                                    {!bond.isBondable[networkId]
                                       ? "Sold Out"
                                       : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
                                   </span>
@@ -242,6 +244,7 @@ function NavContent() {
                     <Typography variant="h6">
                       <BridgeIcon />
                       <Trans>Bridge</Trans>
+                      <SvgIcon style={{ marginLeft: "5px" }} component={ArrowUpIcon} />
                     </Typography>
                   </Link>
                 </>

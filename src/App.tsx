@@ -97,6 +97,7 @@ function App() {
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
   const { bonds, expiredBonds } = useBonds(networkId);
+
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
@@ -120,22 +121,16 @@ function App() {
     }
   }
 
-  const initNetwork = useCallback(
-    loadProvider => {
-      dispatch(initializeNetwork({ provider: loadProvider }));
-    },
-    [networkId],
-  );
+  const initNetwork = useCallback(loadProvider => {
+    dispatch(initializeNetwork({ provider: loadProvider }));
+  }, []);
 
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       bonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
-        }
+        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
       });
-      dispatch(getMigrationAllowances({ address, provider, networkID: networkId }));
     },
     [networkId],
   );
@@ -143,19 +138,21 @@ function App() {
   const loadAccount = useCallback(
     loadProvider => {
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
+      dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
       bonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
-          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
+        // NOTE: get any Claimable bonds, they may not be bondable
+        if (bond.getClaimability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
         }
       });
       dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
       expiredBonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
-          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
+        if (bond.getClaimability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
         }
       });
     },
-    [networkId],
+    [networkId, address],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
@@ -201,10 +198,10 @@ function App() {
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected) {
+    if (connected && networkId !== -1) {
       loadDetails("account");
     }
-  }, [connected]);
+  }, [connected, networkId]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
