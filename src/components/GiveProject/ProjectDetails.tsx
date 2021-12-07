@@ -88,11 +88,12 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
             arrow
           >
             <div>
-              <strong>
-                {days}:{hours}:{minutes}
-              </strong>
-              <br />
-              remaining
+              <div className="cause-info-main-text">
+                <strong>
+                  {days}:{hours}:{minutes}
+                </strong>
+              </div>
+              <span>remaining</span>
             </div>
           </Tooltip>
         </div>
@@ -123,8 +124,9 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
         <div>
           <Tooltip title={totalDebt + " of " + depositGoal + " sOHM raised"} arrow>
             <div>
-              <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}%</strong>
-              <br />
+              <div className="cause-info-main-text">
+                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}%</strong>
+              </div>
               <span>of goal</span>
             </div>
           </Tooltip>

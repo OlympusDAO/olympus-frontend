@@ -147,6 +147,10 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+
+      .cause-info-main-text {
+        font-size: 1rem;
+      }
     }
 
     .cause-misc-info .MuiGrid-item {
