@@ -9,10 +9,15 @@ const viewBox = "0 0 100 100";
 // The sOHM SVG is 100x100px, whereas the others are 50x50px
 const smallViewBox = "0 0 50 50";
 const iconStyle = { height: "64px", width: "64px", margin: "auto" };
+const smallIconStyle = { height: "48px", width: "48px", margin: "auto" };
 
 type EducationGraphicProps = {
   quantity: string;
   verb?: string;
+};
+
+type GenericEducationGraphicProps = {
+  message: string;
 };
 
 export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicProps) {
@@ -29,6 +34,21 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
           {quantity} sOHM {verb}
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+export function DepositSohm({ message }: GenericEducationGraphicProps) {
+  return (
+    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
+        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={smallIconStyle} />
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
+        <Typography variant="body2" align="center" className="cta-text">
+          {message}
         </Typography>
       </Box>
     </Box>
@@ -55,6 +75,21 @@ export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicP
   );
 }
 
+export function LockInVault({ message }: GenericEducationGraphicProps) {
+  return (
+    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
+        <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="body2" align="center" className="cta-text">
+          {message}
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
 export function YieldGraphic({ quantity }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
@@ -69,6 +104,41 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
           Receives yield from {quantity} sOHM
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+export function RedeemGraphic({ quantity }: EducationGraphicProps) {
+  return (
+    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="h6" align="center" className="cta-text">
+          You
+        </Typography>
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
+        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={iconStyle} />
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="h6" align="center" className="cta-text">
+          Redeem {quantity} sOHM in yield
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+export function ReceivesYield({ message }: GenericEducationGraphicProps) {
+  return (
+    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
+        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} />
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="body2" align="center" className="cta-text">
+          {message}
         </Typography>
       </Box>
     </Box>

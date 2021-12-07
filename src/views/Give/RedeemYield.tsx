@@ -20,6 +20,9 @@ import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxns
 import { IAppData } from "src/slices/AppSlice";
 import { BigNumber } from "bignumber.js";
 import { t } from "@lingui/macro";
+import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
+import { RedeemCancelCallback, RedeemYieldModal, RedeemSubmitCallback } from "./RedeemYieldModal";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -31,6 +34,7 @@ type State = {
 export default function RedeemYield() {
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
+  const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
 
@@ -120,8 +124,17 @@ export default function RedeemYield() {
     return true;
   };
 
-  const handleRedeemButtonClick = async () => {
+  const handleRedeemButtonClick = () => {
+    setIsRedeemYieldModalOpen(true);
+  };
+
+  const handleRedeemYieldModalSubmit = async () => {
     await dispatch(redeemBalance({ address, provider, networkID: chainID }));
+    setIsRedeemYieldModalOpen(false);
+  };
+
+  const handleRedeemYieldModalCancel: RedeemCancelCallback = () => {
+    setIsRedeemYieldModalOpen(false);
   };
 
   return (
@@ -129,7 +142,18 @@ export default function RedeemYield() {
       <Zoom in={true}>
         <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
           <div className="card-header">
-            <Typography variant="h5">Redeem Yield</Typography>
+            <div className="give-yield-title">
+              <Typography variant="h5">Redeem Yield</Typography>
+              <InfoTooltip
+                message="If another wallets have directed their sOHM rebases to you, you can transfer that yield into your wallet."
+                children={null}
+              />
+            </div>
+            <div className="give-education">
+              <VaultGraphic quantity={totalDeposit.toFixed(2)} verb="in deposits remains" />
+              <ArrowGraphic />
+              <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} />
+            </div>
           </div>
           <TableContainer className="redeem-table">
             <Table>
@@ -186,6 +210,13 @@ export default function RedeemYield() {
               </TableBody>
             </Table>
           </TableContainer>
+          <RedeemYieldModal
+            isModalOpen={isRedeemYieldModalOpen}
+            callbackFunc={handleRedeemYieldModalSubmit}
+            cancelFunc={handleRedeemYieldModalCancel}
+            deposit={totalDeposit}
+            redeemableBalance={redeemableBalanceNumber}
+          />
         </Paper>
       </Zoom>
     </div>
