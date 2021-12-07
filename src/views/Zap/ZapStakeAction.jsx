@@ -354,10 +354,10 @@ function ZapStakeAction(props) {
         ) : (
           <Box display="flex" alignItems="center">
             <Typography>1.0%</Typography>
-            <Box width="8px" />
-            <IconButton style={{ margin: 0, padding: 0 }} onClick={() => setUseCustomSlippage(true)}>
-              <SvgIcon color="primary" component={SettingsIcon} />
-            </IconButton>
+            {/* <Box width="8px" />
+          <IconButton style={{ margin: 0, padding: 0 }} onClick={() => setUseCustomSlippage(true)}>
+            <SvgIcon color="primary" component={SettingsIcon} />
+          </IconButton> */}
           </Box>
         )}
       </Box>
