@@ -81,10 +81,13 @@ export default function CausesDashboard() {
               <Button
                 variant="contained"
                 color="primary"
+                className="custom-give-button"
                 onClick={() => handleCustomGiveButtonClick()}
                 disabled={!address}
               >
-                Custom Recipient
+                <Typography variant="h6" style={{ marginBottom: "0px" }}>
+                  Custom Recipient
+                </Typography>
               </Button>
             </div>
             <RecipientModal

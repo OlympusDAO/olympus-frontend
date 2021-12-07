@@ -229,7 +229,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
                   onClick={() => handleGiveButtonClick()}
                   disabled={!address}
                 >
-                  <Typography variant="body1" style={{ marginBottom: "0px" }}>
+                  <Typography variant="h6" style={{ marginBottom: "0px" }}>
                     Give Yield
                   </Typography>
                 </Button>

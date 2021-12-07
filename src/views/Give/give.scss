@@ -142,6 +142,7 @@
     }
 
     .cause-give-button {
+      height: 40px;
       width: 12rem;
       margin-left: auto;
       margin-right: 0;    }
@@ -149,11 +150,17 @@
 }
 
 .custom-recipient {
-  padding-top: 2rem;
-  padding-right: 2.3rem;
+  padding-top: 1rem;
+  padding-right: 2.5rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+
+  .custom-give-button {
+    height: 40px;
+    width: 12rem;
+    margin-right: 30px;
+  }
 }
 
 .give-education-graphics {
@@ -184,6 +191,7 @@
 .give-yield-title {
   display: flex;
   flex-direction: row;
+  margin-left: 20px;
 }
 
 .give-yield-modals {
@@ -239,6 +247,7 @@
     margin-right: auto;
 
     button {
+      height: 40px;
       width: 375px;
     }
   }
