@@ -71,7 +71,7 @@ export function RedeemYieldModal({
           <ArrowGraphic />
           <RedeemGraphic quantity={redeemableBalance.toFixed(2)} />
         </div>
-        <Typography variant="body1">
+        <Typography variant="body1" align="center">
           Any sOHM directed towards you will continue to rebase and earn additional yield on your behalf.
         </Typography>
         <FormControl className="ohm-modal-submit">
