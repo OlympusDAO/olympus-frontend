@@ -125,8 +125,6 @@ export const bridgeBack = createAsyncThunk(
         dispatch(getBalances({ address, provider, networkID }));
       }
     }
-    // go get fresh balances
-    // dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
 
@@ -163,7 +161,6 @@ export const migrateWithType = createAsyncThunk(
     }
     // go get fresh balances
     dispatch(getBalances({ address, provider, networkID }));
-    // dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
 
@@ -190,13 +187,14 @@ export const migrateAll = createAsyncThunk(
       dispatch(info("All assets have been successfully migrated!"));
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
+      throw e;
     } finally {
       if (migrateAllTx) {
         dispatch(clearPendingTxn(migrateAllTx.hash));
       }
     }
     // go get fresh balances
-    // dispatch(loadAccountDetails({ address, provider, networkID }));
+    dispatch(loadAccountDetails({ address, provider, networkID }));
     dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
@@ -229,6 +227,5 @@ export const migrateCrossChainWSOHM = createAsyncThunk(
     }
     // go get fresh balances
     dispatch(getBalances({ address, provider, networkID }));
-    // dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );

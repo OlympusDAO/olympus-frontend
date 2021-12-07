@@ -26,7 +26,8 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { info } from "src/slices/MessagesSlice";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import "./migration-modal.scss";
-import { Link } from "react-router-dom";
+import { useAppSelector } from "src/hooks";
+import { trim } from "src/helpers";
 
 const style = {
   position: "absolute",
@@ -51,7 +52,9 @@ const useStyles = makeStyles({
 function MigrationModal({ open, handleOpen, handleClose }) {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, address, connect } = useWeb3Context();
+
+  const networkId = useAppSelector(state => state.network.networkId);
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
@@ -59,12 +62,12 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   let rows = [];
   let isMigrationComplete = useSelector(state => state.account.isMigrationComplete);
-
+  // console.log(networkId);
   const onSeekApproval = token => {
     dispatch(
       changeMigrationApproval({
         address,
-        networkID: chainID,
+        networkID: networkId,
         provider,
         token: token.toLowerCase(),
         displayName: token,
@@ -72,7 +75,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
     );
   };
 
-  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: chainID }));
+  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId }));
   const currentIndex = useSelector(state => state.app.currentIndex);
 
   const currentOhmBalance = useSelector(state => Number(state.account.balances.ohm));
@@ -206,13 +209,12 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     </TableCell>
                     <TableCell align="left">
                       <Typography>
-                        {row.initialBalance == 0 ? row.initialBalance : row.initialBalance.toFixed(4)}{" "}
-                        {row.initialAsset}
+                        {row.initialBalance == 0 ? row.initialBalance : trim(row.initialBalance, 4)} {row.initialAsset}
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
                       <Typography>
-                        {row.targetBalance == 0 ? row.targetBalance : row.targetBalance.toFixed(4)} {row.targetAsset}
+                        {row.targetBalance == 0 ? row.targetBalance : trim(row.targetBalance, 4)} {row.targetAsset}
                       </Typography>
                     </TableCell>
                     <TableCell align="left">

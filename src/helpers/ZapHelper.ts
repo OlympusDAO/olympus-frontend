@@ -42,6 +42,7 @@ const ETHEREUM_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export class ZapHelper {
   static getZapTokens = async (address: string): Promise<ZapHelperBalancesResponse> => {
+    console.log(address);
     address = address.toLowerCase();
     const apiKey = EnvHelper.getZapperAPIKey();
     try {
