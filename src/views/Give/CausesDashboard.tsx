@@ -10,7 +10,7 @@ import { BigNumber } from "bignumber.js";
 import { error } from "../../slices/MessagesSlice";
 import { useAppDispatch } from "src/hooks";
 import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
-import { DepositSohm, LockInVault, ReceivesYield } from "../../components/EducationCard";
+import { DepositSohm, LockInVault, ReceivesYield, ArrowGraphic } from "../../components/EducationCard";
 import { GiveInfo } from "./GiveInfo";
 
 export default function CausesDashboard() {
@@ -71,12 +71,23 @@ export default function CausesDashboard() {
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
             <div className="card-header">
               <div className="give-yield-title">
-                <Typography variant="h5">Causes Dashboard</Typography>
+                <Typography variant="h5">How It Works</Typography>
               </div>
               <div className="give-education">
                 <DepositSohm message="Deposit sOHM from wallet" />
+                <ArrowGraphic />
                 <LockInVault message="Lock sOHM in vault" />
+                <ArrowGraphic />
                 <ReceivesYield message="Project receives sOHM rebases" />
+              </div>
+            </div>
+          </Paper>
+        </Zoom>
+        <Zoom in={true}>
+          <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
+            <div className="card-header">
+              <div className="give-yield-title">
+                <Typography variant="h5">Causes</Typography>
               </div>
             </div>
             <div className="causes-body">
