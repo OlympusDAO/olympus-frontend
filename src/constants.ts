@@ -26,12 +26,6 @@ export const addresses: IAddresses = {
     STAKING_ADDRESS: "0xC5d3318C0d74a72cD7C55bdf844e24516796BaB2",
     STAKING_HELPER_ADDRESS: "0xf73f23Bb0edCf4719b12ccEa8638355BF33604A1",
     OLD_STAKING_ADDRESS: "0xb640AA9082ad720c60102489b806E665d67DCE32",
-    /*** This is the new sOHM contract which works for giving
-     * with Yield Director but has issues with staking
-     * and treasury stuff. If you need to test old staking stuff
-     * the old contract is 0x1Fecda1dE7b6951B248C0B62CaeBD5BAbedc2084
-     * and if you need new sOHM reach out to Lienid or Indigo
-     ***/
     SOHM_ADDRESS: "0x1Fecda1dE7b6951B248C0B62CaeBD5BAbedc2084",
     WSOHM_ADDRESS: "0xe73384f11Bb748Aa0Bc20f7b02958DF573e6E2ad",
     OLD_SOHM_ADDRESS: "0x8Fc4167B0bdA22cb9890af2dB6cB1B818D6068AE",
@@ -44,7 +38,7 @@ export const addresses: IAddresses = {
     PT_TOKEN_ADDRESS: "0x0a2d026bacc573a8b5a2b049f956bdf8e5256cfd", // 33T token address, taken from `ticket` function on PRIZE_STRATEGY_ADDRESS
     PT_PRIZE_POOL_ADDRESS: "0xf9081132864ed5e4980CFae83bDB122d86619281", // NEW
     PT_PRIZE_STRATEGY_ADDRESS: "0x2Df17EA8D6B68Ec444c9a698315AfB36425dac8b", // NEW
-    GIVING_ADDRESS: "0x4EEd641a08D202F223eCc0Eb2cc28281a3832788",
+    GIVING_ADDRESS: "0xfC93B6fC25D751ef1141EAB01C3f51Ecd484Ba05",
     MOCK_SOHM: "0x22C0b7Dc53a4caa95fEAbb05ea0729995a10D727",
     MIGRATOR_ADDRESS: "0x568c257BF4714864382b643fC8e6Ce5fbBcC6d3C",
     GOHM_ADDRESS: "0xcF2D6893A1CB459fD6B48dC9C41c6110B968611E",
