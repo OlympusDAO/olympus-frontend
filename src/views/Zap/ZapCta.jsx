@@ -57,8 +57,6 @@ function ZapCta() {
                 <Typography variant="body1">
                   <Trans>Swap into sOHM</Trans>
                 </Typography>
-                <Box width={4} />
-                <SvgIcon component={ArrowUp} color="primary" />
               </Button>
             </Link>
           </Grid>

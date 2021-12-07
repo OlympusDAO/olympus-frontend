@@ -15,7 +15,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { redeemBalance } from "../../slices/RedeemThunk";
 import { Skeleton } from "@material-ui/lab";
-import { IAccountSlice } from "src/slices/AccountSlice";
+import { IAccountSlice, loadAccountDetails } from "src/slices/AccountSlice";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { BigNumber } from "bignumber.js";
@@ -97,10 +97,10 @@ export default function RedeemYield() {
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
   useEffect(() => {
     // don't load ANY details until wallet is Checked
-    if (walletChecked) {
-      //   loadLusdData();
+    if (connected) {
+      loadAccountDetails({ networkID: chainID, provider, address });
     }
-  }, [walletChecked]);
+  }, [connected]);
 
   const getTableCellClass = (condition: boolean): string => {
     return condition ? "" : "cell-align-end";
@@ -186,7 +186,6 @@ export default function RedeemYield() {
               </TableBody>
             </Table>
           </TableContainer>
-          {/* <Typography variant="body1">Press the redeem below to transfer the yield into your wallet.</Typography> */}
         </Paper>
       </Zoom>
     </div>
