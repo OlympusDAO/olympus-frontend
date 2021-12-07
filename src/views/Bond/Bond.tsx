@@ -13,6 +13,7 @@ import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
 import { NetworkID } from "src/lib/Bond";
+import { useHistory } from "react-router";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -24,6 +25,7 @@ function a11yProps(index: number) {
 }
 
 const Bond = ({ bond }: { bond: IAllBondData }) => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { provider, address } = useWeb3Context();
 
@@ -43,6 +45,13 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     return setSlippage(Number(e.target.value));
   };
 
+  const onClickAway = (): void => {
+    history.goBack();
+  };
+
+  const onClickModal = (e: any): void => {
+    e.stopPropagation();
+  };
   useEffect(() => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
@@ -54,9 +63,9 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   return (
     <Fade in={true} mountOnEnter unmountOnExit>
       <Grid container id="bond-view">
-        <Backdrop open={true}>
+        <Backdrop open={true} onClick={onClickAway}>
           <Fade in={true}>
-            <Paper className="ohm-card ohm-modal">
+            <Paper className="ohm-card ohm-modal" onClick={onClickModal}>
               <BondHeader
                 bond={bond}
                 slippage={slippage}
