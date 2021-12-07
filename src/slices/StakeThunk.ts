@@ -9,7 +9,8 @@ import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, OlympusStakingv2, StakingHelper, SOhmv2 } from "src/typechain";
+import { IERC20, OlympusStakingv2, StakingHelper } from "src/typechain";
+import ReactGA from "react-ga";
 
 interface IUAData {
   address: string;
@@ -206,7 +207,13 @@ export const changeStake = createAsyncThunk(
     } finally {
       if (stakeTx) {
         segmentUA(uaData);
-
+        ReactGA.event({
+          category: "Staking",
+          action: uaData.type ?? "unknown",
+          value: parseFloat(uaData.value),
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
+        });
         dispatch(clearPendingTxn(stakeTx.hash));
       }
     }

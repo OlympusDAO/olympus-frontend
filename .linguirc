@@ -1,0 +1,12 @@
+{
+   "locales": ["en", "fr", "ko", "tr", "pt", "zh", "ar", "de", "es"],
+   "sourceLocale": "en",
+   "catalogs": [{
+      "path": "src/locales/translations/olympus-frontend/{locale}/messages",
+      "include": ["src"]
+   }],
+   "fallbackLocales": {
+      "default": "en"
+   },
+   "format": "po"
+}

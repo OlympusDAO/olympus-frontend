@@ -11,6 +11,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
 import ConnectButton from "../../components/ConnectButton.jsx";
 import { useWeb3Context } from "../../hooks";
 import { getTokenImage } from "src/helpers/index";
@@ -20,15 +21,18 @@ import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { changeApproval, poolDeposit } from "../../slices/PoolThunk";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
+import { ConfirmationModal } from "./ConfirmationModal.jsx";
 
 const sohmImg = getTokenImage("sohm");
 
 export const PoolDeposit = props => {
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
   const [quantity, setQuantity] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
   const [rngCompleted, setRngCompleted] = useState(false);
+  const [isDepositing, setDepositing] = useState(false);
   const isAppLoading = useSelector(state => state.app.loading);
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
@@ -53,17 +57,21 @@ export const PoolDeposit = props => {
   });
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
   const onDeposit = async action => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(quantity) || quantity === 0 || quantity === "") {
       // eslint-disable-next-line no-alert
-      dispatch(error("Please enter a value!"));
+      dispatch(error(t`Please enter a value!`));
     } else {
-      await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+      setDepositing(true);
     }
+  };
+
+  const onSubmitDeposit = async action => {
+    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: networkId }));
   };
 
   const hasAllowance = useCallback(() => {
@@ -90,7 +98,7 @@ export const PoolDeposit = props => {
 
   useEffect(() => {
     props.setInfoTooltipMessage([
-      "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn.",
+      t`Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn.`,
     ]);
   }, []);
 
@@ -98,12 +106,14 @@ export const PoolDeposit = props => {
     return (
       <Box display="flex" alignItems="center" className="pool-deposit-ui" flexDirection="column">
         {/*<img src={Warning} className="w-10 sm:w-14 mx-auto mb-4" />*/}
-        <Typography variant="h6">This Prize Pool is unable to accept deposits at this time.</Typography>
-        <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
-          Deposits can be made once the prize has been awarded.
+        <Typography variant="h6">
+          <Trans>This Prize Pool is unable to accept deposits at this time.</Trans>
         </Typography>
         <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
-          Check back soon!
+          <Trans>Deposits can be made once the prize has been awarded.</Trans>
+        </Typography>
+        <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
+          <Trans>Check back soon!</Trans>
         </Typography>
       </Box>
     );
@@ -121,7 +131,7 @@ export const PoolDeposit = props => {
               <OutlinedInput
                 id="amount-input"
                 type="number"
-                placeholder="Enter an amount"
+                placeholder={t`Enter an amount`}
                 className="pool-input"
                 value={quantity}
                 onChange={e => updateDepositQuantity(e)}
@@ -134,7 +144,7 @@ export const PoolDeposit = props => {
                 endAdornment={
                   <InputAdornment position="end">
                     <Button variant="text" onClick={setMax}>
-                      Max
+                      <Trans>Max</Trans>
                     </Button>
                   </InputAdornment>
                 }
@@ -149,8 +159,9 @@ export const PoolDeposit = props => {
                 disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
                 onClick={() => onDeposit("deposit")}
                 fullWidth
+                style={{ margin: "5px" }}
               >
-                {txnButtonText(pendingTransactions, "pool_deposit", "Deposit sOHM")}
+                {txnButtonText(pendingTransactions, "pool_deposit", t`Deposit sOHM`)}
               </Button>
             ) : (
               <Button
@@ -159,15 +170,19 @@ export const PoolDeposit = props => {
                 color="primary"
                 disabled={isPendingTxn(pendingTransactions, "approve_pool_together")}
                 onClick={() => onSeekApproval("sohm")}
+                style={{ margin: "5px" }}
               >
-                {txnButtonText(pendingTransactions, "approve_pool_together", "Approve")}
+                {txnButtonText(pendingTransactions, "approve_pool_together", t`Approve`)}
               </Button>
             )}
           </Box>
           {newOdds > 0 && quantity > 0 && (
             <Box padding={1}>
               <Typography variant="body2" style={{ color: "#33BB33" }}>
-                Depositing {quantity} sOHM will increase odds of winning to 1 in {newOdds}&nbsp;
+                <Trans>
+                  Depositing {quantity} sOHM will increase odds of winning to 1 in {newOdds}
+                </Trans>
+                &nbsp;
               </Typography>
             </Box>
           )}
@@ -175,7 +190,7 @@ export const PoolDeposit = props => {
           <div className={`stake-user-data`}>
             <div className="data-row">
               <Typography variant="body1" align="left">
-                Your Staked Balance (depositable)
+                <Trans>Your Staked Balance (Depositable)</Trans>
               </Typography>
               <Typography variant="body1" align="right">
                 {isAppLoading ? (
@@ -187,6 +202,17 @@ export const PoolDeposit = props => {
             </div>
           </div>
         </Box>
+      )}
+      {isDepositing && (
+        <ConfirmationModal
+          show={isDepositing}
+          quantity={quantity}
+          onClose={() => setDepositing(false)}
+          onSubmit={() => {
+            setDepositing(false);
+            onSubmitDeposit("deposit");
+          }}
+        />
       )}
     </Box>
   );

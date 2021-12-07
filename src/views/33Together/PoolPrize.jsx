@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { t, Trans } from "@lingui/macro";
 import { useWeb3Context } from "../../hooks";
 import { awardProcess, getRNGStatus, getPoolValues } from "../../slices/PoolThunk";
 
@@ -9,7 +10,8 @@ import { Skeleton } from "@material-ui/lab";
 import { trim, subtractDates } from "src/helpers";
 
 export const PoolPrize = () => {
-  const { provider, chainID } = useWeb3Context();
+  const { provider } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
   const dispatch = useDispatch();
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState(null);
@@ -44,13 +46,12 @@ export const PoolPrize = () => {
 
   // handleAward not used yet
   const handleAward = async action => {
-    console.log(`run ${action} on pool`);
-    await dispatch(awardProcess({ action, provider, networkID: chainID }));
+    await dispatch(awardProcess({ action, provider, networkID: networkId }));
   };
 
   const rngQueryFunc = () => {
-    dispatch(getRNGStatus({ networkID: chainID, provider: provider }));
-    if (poolIsLocked) dispatch(getPoolValues({ networkID: chainID, provider: provider }));
+    dispatch(getRNGStatus({ networkID: networkId, provider: provider }));
+    if (poolIsLocked) dispatch(getPoolValues({ networkID: networkId, provider: provider }));
   };
 
   const decreaseNum = () => {
@@ -82,18 +83,18 @@ export const PoolPrize = () => {
     } else if (poolIsLocked) {
       setShowAwardStart(false);
       // wait 30 seconds... we're just waiting for award
-      setTimeout(() => {
-        // retry until Pool Is Not Locked, then go get new time
-        rngQueryFunc();
-      }, 30000);
+      // setTimeout(() => {
+      //   // retry until Pool Is Not Locked, then go get new time
+      //   rngQueryFunc();
+      // }, 30000);
     } else if (parseInt(poolAwardTimeRemaining, 10) <= 0) {
       setShowAwardStart(true);
       // There is no time left, attach RNG (Award) Start listener
       // the rngQueryFunc will run repeatedly once the above conditions are true;
-      setTimeout(() => {
-        // retry until pool is locked, then hits above block
-        rngQueryFunc();
-      }, 10000);
+      // setTimeout(() => {
+      //   // retry until pool is locked, then hits above block
+      //   rngQueryFunc();
+      // }, 10000);
     }
   }, [poolAwardTimeRemaining, poolIsLocked, rngRequestCompleted]);
 
@@ -106,40 +107,59 @@ export const PoolPrize = () => {
         <Box display="flex" flexDirection="column" alignItems="center">
           {parseFloat(poolAwardBalance) === 0 ? (
             <Box margin={2} textAlign="center">
-              <Typography variant="h3">Pool Award Balance is currently 0.</Typography>
-              <Typography variant="h4">Award Balance will grow at 1st rebase.</Typography>
+              <Typography variant="h3">
+                <Trans>Pool Award Balance is currently 0.</Trans>
+              </Typography>
+              <Typography variant="h4">
+                <Trans>Award Balance will grow at 1st rebase.</Trans>
+              </Typography>
             </Box>
           ) : (
             <Box margin={2} textAlign="center">
               <Typography variant="h1">{trim(poolAwardBalance, 2)} sOHM</Typography>
-              <Typography variant="h4">Current Prize</Typography>
+              <Typography variant="h4">
+                <Trans>Current Prize</Trans>
+              </Typography>
             </Box>
           )}
           {poolIsLocked ? (
-            <Typography variant="h6">Prize is being awarded</Typography>
+            <Typography variant="h6">
+              <Trans>Prize is being awarded</Trans>
+            </Typography>
           ) : (
-            <Typography variant="h6">Next award</Typography>
+            <Typography></Typography>
+            // <Typography variant="h6">
+            //   <Trans>Next award</Trans>
+            // </Typography>
           )}
           <Box className="pool-timer">
             {timer && poolIsLocked !== true && (
               <>
                 <Box className="pool-timer-unit">
                   <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.days}</Typography>
-                  <Typography>day</Typography>
+                  <Typography>
+                    <Trans>day</Trans>
+                  </Typography>
                 </Box>
 
                 <Box className="pool-timer-unit">
                   <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.hours}</Typography>
-                  <Typography>hrs</Typography>
+                  <Typography>
+                    <Trans>hrs</Trans>
+                  </Typography>
                 </Box>
 
                 <Box className="pool-timer-unit">
                   <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.minutes}</Typography>
-                  <Typography>min</Typography>
+                  <Typography>
+                    <Trans>min</Trans>
+                  </Typography>
                 </Box>
                 <Box className="pool-timer-unit">
                   <Typography variant="h3">{isPoolLoading ? <Skeleton width={20} /> : timer.seconds}</Typography>
-                  <Typography>sec</Typography>
+                  <Typography>
+                    <Trans>sec</Trans>
+                  </Typography>
                 </Box>
               </>
             )}
@@ -159,7 +179,9 @@ export const PoolPrize = () => {
                 Complete Award
               </Button> */}
               <Typography variant="body1" color="textSecondary" padding={2}>
-                Award period has finished, you can navigate to Pool Together's UI to complete distribution
+                <Trans>
+                  Award period has finished, you can navigate to Pool Together's UI to complete distribution
+                </Trans>
               </Typography>
             </Box>
           )}
@@ -178,7 +200,7 @@ export const PoolPrize = () => {
                 Start Award
               </Button> */}
               <Typography variant="body1" color="textSecondary">
-                Award period has finished, you can navigate to Pool Together's UI to begin distribution
+                <Trans>Award period has finished, you can navigate to Pool Together's UI to begin distribution</Trans>
               </Typography>
             </Box>
           )}

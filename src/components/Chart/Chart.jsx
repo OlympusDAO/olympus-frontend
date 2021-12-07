@@ -4,19 +4,19 @@ import ExpandedChart from "./ExpandedChart";
 import { useEffect, useState } from "react";
 import { ReactComponent as Fullscreen } from "../../assets/icons/fullscreen.svg";
 import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
+  Area,
   AreaChart,
-  LineChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Area,
-  CartesianGrid,
-  Tooltip,
 } from "recharts";
-import { Typography, Box, SvgIcon, CircularProgress } from "@material-ui/core";
+import { Box, CircularProgress, SvgIcon, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { trim } from "../../helpers";
 import { format } from "date-fns";

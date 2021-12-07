@@ -12,17 +12,8 @@
       })(window, document, 'script', 'dataLayer', 'GTM-PD2T9BC');</script>
     <!-- End Google Tag Manager -->
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-196137638-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-
-      gtag('config', 'UA-196137638-1');
-    </script>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.svg" type="image/svg+xml"/> <!-- browser theme aware favicon -->
     <meta name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
     <meta name="description"
@@ -34,6 +25,7 @@
   </head>
 
   <body>
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> <!-- fallback, if on head browsers will prefer the .ico over .svg -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>

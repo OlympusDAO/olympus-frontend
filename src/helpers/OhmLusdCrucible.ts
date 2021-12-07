@@ -21,10 +21,13 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   let ohmContractAddress = addresses[networkID].OHM_ADDRESS.toLowerCase();
 
   let lusdPrice = await getTokenPrice("liquity-usd");
-  let lusdContractAddress = lusd.getAddressForReserve(networkID).toLowerCase();
+  let lusdContractAddress = lusd.getAddressForReserve(networkID)?.toLowerCase();
 
   let ohmLusdPrice = await ohm_lusd.getBondReservePrice(networkID, provider);
-  let ohmLusdContractAddress = ohm_lusd.getAddressForReserve(networkID).toLowerCase();
+  let ohmLusdContractAddress = ohm_lusd.getAddressForReserve(networkID)?.toLowerCase();
+
+  // If this is unavailable on the current network
+  if (!lusdContractAddress || !ohmLusdContractAddress) return;
 
   let lqtyPrice = await getTokenPrice("liquity");
   let lqtyContractAddress = addresses[networkID].LQTY.toLowerCase();

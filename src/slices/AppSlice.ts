@@ -3,43 +3,56 @@ import { addresses } from "../constants";
 import { abi as OlympusStakingv2ABI } from "../abi/OlympusStakingv2.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
-import apollo from "../lib/apolloClient.js";
+import { NodeHelper } from "src/helpers/NodeHelper";
+import apollo from "../lib/apolloClient";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAsyncThunk } from "./interfaces";
 import { OlympusStakingv2, SOhmv2 } from "../typechain";
 
-const initialState = {
-  loading: false,
-  loadingMarketPrice: false,
-};
+interface IProtocolMetrics {
+  readonly timestamp: string;
+  readonly ohmCirculatingSupply: string;
+  readonly sOhmCirculatingSupply: string;
+  readonly totalSupply: string;
+  readonly ohmPrice: string;
+  readonly marketCap: string;
+  readonly totalValueLocked: string;
+  readonly treasuryMarketValue: string;
+  readonly nextEpochRebase: string;
+  readonly nextDistributedOhm: string;
+}
 
 export const loadAppDetails = createAsyncThunk(
   "app/loadAppDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
     const protocolMetricsQuery = `
-  query {
-    _meta {
-      block {
-        number
+      query {
+        _meta {
+          block {
+            number
+          }
+        }
+        protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+          timestamp
+          ohmCirculatingSupply
+          sOhmCirculatingSupply
+          totalSupply
+          ohmPrice
+          marketCap
+          totalValueLocked
+          treasuryMarketValue
+          nextEpochRebase
+          nextDistributedOhm
+        }
       }
-    }
-    protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
-      timestamp
-      ohmCirculatingSupply
-      sOhmCirculatingSupply
-      totalSupply
-      ohmPrice
-      marketCap
-      totalValueLocked
-      treasuryMarketValue
-      nextEpochRebase
-      nextDistributedOhm
-    }
-  }
-`;
+    `;
 
-    const graphData = await apollo(protocolMetricsQuery);
+    if (networkID !== 1) {
+      provider = NodeHelper.getMainnetStaticProvider();
+      networkID = 1;
+    }
+    const graphData = await apollo<{ protocolMetrics: IProtocolMetrics[] }>(protocolMetricsQuery);
 
     if (!graphData || graphData == null) {
       console.error("Returned a null response when querying TheGraph");
@@ -76,7 +89,7 @@ export const loadAppDetails = createAsyncThunk(
         circSupply,
         totalSupply,
         treasuryMarketValue,
-      };
+      } as IAppData;
     }
     const currentBlock = await provider.getBlockNumber();
 
@@ -102,7 +115,6 @@ export const loadAppDetails = createAsyncThunk(
 
     // Current index
     const currentIndex = await stakingContract.index();
-
     return {
       currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
       currentBlock,
@@ -166,7 +178,9 @@ export const findOrLoadMarketPrice = createAsyncThunk(
 const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
   let marketPrice: number;
   try {
+    // only get marketPrice from eth mainnet
     marketPrice = await getMarketPrice({ networkID, provider });
+    // let mainnetProvider = (marketPrice = await getMarketPrice({ 1: NetworkID, provider }));
     marketPrice = marketPrice / Math.pow(10, 9);
   } catch (e) {
     marketPrice = await getTokenPrice("olympus");
@@ -175,19 +189,26 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
 });
 
 interface IAppData {
-  readonly circSupply: number;
+  readonly circSupply?: number;
   readonly currentIndex?: string;
   readonly currentBlock?: number;
   readonly fiveDayRate?: number;
-  readonly marketCap: number;
-  readonly marketPrice: number;
+  readonly loading: boolean;
+  readonly loadingMarketPrice: boolean;
+  readonly marketCap?: number;
+  readonly marketPrice?: number;
   readonly stakingAPY?: number;
   readonly stakingRebase?: number;
-  readonly stakingTVL: number;
-  readonly totalSupply: number;
+  readonly stakingTVL?: number;
+  readonly totalSupply?: number;
   readonly treasuryBalance?: number;
   readonly treasuryMarketValue?: number;
 }
+
+const initialState: IAppData = {
+  loading: false,
+  loadingMarketPrice: false,
+};
 
 const appSlice = createSlice({
   name: "app",

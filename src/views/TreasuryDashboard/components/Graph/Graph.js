@@ -3,7 +3,7 @@ import { useTheme } from "@material-ui/core/styles";
 import { trim, formatCurrency } from "../../../../helpers";
 import { useTreasuryMetrics } from "../../hooks/useTreasuryMetrics";
 import { useTreasuryRebases } from "../../hooks/useTreasuryRebases";
-import { bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "../../treasuryData.js";
+import { bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "../../treasuryData";
 
 export const Graph = ({ children }) => <>{children}</>;
 
@@ -142,44 +142,15 @@ export const OHMStakedGraph = () => {
   );
 };
 
-export const APYOverTimeGraph = () => {
-  const theme = useTheme();
-  const { data } = useTreasuryRebases({ refetchOnMount: false });
-
-  let apy =
-    data &&
-    data
-      .map(entry => ({
-        timestamp: entry.timestamp,
-        apy: Math.pow(parseFloat(entry.percentage) + 1, 365 * 3) * 100,
-      }))
-      .filter(pm => pm.apy < 300000);
-
-  return (
-    <Chart
-      type="line"
-      scale="log"
-      data={apy}
-      dataKey={["apy"]}
-      dataFormat="percent"
-      headerText="APY over time"
-      itemNames={tooltipItems.apy}
-      itemType={itemType.percentage}
-      color={theme.palette.text.primary}
-      bulletpointColors={bulletpoints.apy}
-      stroke={[theme.palette.text.primary]}
-      infoTooltipMessage={tooltipInfoMessages.apy}
-      headerSubText={`${data && trim(apy[0].apy, 2)}%`}
-      expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-    />
-  );
-};
-
 export const RunwayAvailableGraph = () => {
   const theme = useTheme();
   const { data } = useTreasuryMetrics({ refetchOnMount: false });
 
   const runway = data && data.filter(metric => metric.runway10k > 5);
+
+  const [current, ...others] = bulletpoints.runway;
+  const runwayBulletpoints = [{ ...current, background: theme.palette.text.primary }, ...others];
+  const colors = runwayBulletpoints.map(b => b.background);
 
   return (
     <Chart
@@ -187,11 +158,11 @@ export const RunwayAvailableGraph = () => {
       data={runway}
       dataKey={["runwayCurrent", "runway7dot5k", "runway5k", "runway2dot5k"]}
       color={theme.palette.text.primary}
-      stroke={[theme.palette.text.primary, "#2EC608", "#49A1F2", "#ff758f"]}
+      stroke={colors}
       headerText="Runway Available"
       headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
       dataFormat="days"
-      bulletpointColors={bulletpoints.runway}
+      bulletpointColors={runwayBulletpoints}
       itemNames={tooltipItems.runway}
       itemType={""}
       infoTooltipMessage={tooltipInfoMessages.runway}

@@ -41,10 +41,28 @@
           "internalType": "uint256",
           "name": "_timelock",
           "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_authority",
+          "type": "address"
         }
       ],
       "stateMutability": "nonpayable",
       "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "contract IOlympusAuthority",
+          "name": "authority",
+          "type": "address"
+        }
+      ],
+      "name": "AuthorityUpdated",
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -95,44 +113,6 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": true,
-          "internalType": "address",
-          "name": "previousOwner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "OwnershipPulled",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "previousOwner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "OwnershipPushed",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
           "indexed": false,
           "internalType": "uint256",
           "name": "block",
@@ -147,6 +127,19 @@
       ],
       "name": "TimelockStarted",
       "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "authority",
+      "outputs": [
+        {
+          "internalType": "contract IOlympusAuthority",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "inputs": [
@@ -277,6 +270,16 @@
           "internalType": "address",
           "name": "token",
           "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_minA",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_minB",
+          "type": "uint256"
         }
       ],
       "name": "migrateLP",
@@ -393,7 +396,7 @@
       "name": "oldTreasury",
       "outputs": [
         {
-          "internalType": "contract ITreasury",
+          "internalType": "contract ITreasuryV1",
           "name": "",
           "type": "address"
         }
@@ -428,41 +431,14 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "pullManagement",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "newOwner_",
+          "internalType": "contract IOlympusAuthority",
+          "name": "_newAuthority",
           "type": "address"
         }
       ],
-      "name": "pushManagement",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "renounceManagement",
+      "name": "setAuthority",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
