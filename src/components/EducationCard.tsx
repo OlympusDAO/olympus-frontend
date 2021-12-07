@@ -110,6 +110,26 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
   );
 }
 
+export function RedeemGraphic({ quantity }: EducationGraphicProps) {
+  return (
+    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="h6" align="center" className="cta-text">
+          You
+        </Typography>
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
+        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={iconStyle} />
+      </Box>
+      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
+        <Typography variant="h6" align="center" className="cta-text">
+          Redeem {quantity} sOHM in yield
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
 export function ReceivesYield({ message }: GenericEducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>

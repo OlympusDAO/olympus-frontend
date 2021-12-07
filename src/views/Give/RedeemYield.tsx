@@ -21,7 +21,7 @@ import { IAppData } from "src/slices/AppSlice";
 import { BigNumber } from "bignumber.js";
 import { t } from "@lingui/macro";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
-import { DepositSohm, ArrowGraphic, ReceivesYield } from "../../components/EducationCard";
+import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
 import { RedeemCancelCallback, RedeemYieldModal, RedeemSubmitCallback } from "./RedeemYieldModal";
 
 // TODO consider shifting this into interfaces.ts
@@ -145,14 +145,14 @@ export default function RedeemYield() {
             <div className="give-yield-title">
               <Typography variant="h5">Redeem Yield</Typography>
               <InfoTooltip
-                message="If another user has directed their sOHM rebases to you, you can redeem those rebases here and cash them out to your wallet."
+                message="If another wallets have directed their sOHM rebases to you, you can transfer that yield into your wallet."
                 children={null}
               />
             </div>
             <div className="give-education">
-              <DepositSohm message="User directs sOHM rebases to you" />
+              <VaultGraphic quantity={totalDeposit.toFixed(2)} verb="in deposits remains" />
               <ArrowGraphic />
-              <ReceivesYield message="You redeem sOHM yield" />
+              <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} />
             </div>
           </div>
           <TableContainer className="redeem-table">
@@ -214,6 +214,8 @@ export default function RedeemYield() {
             isModalOpen={isRedeemYieldModalOpen}
             callbackFunc={handleRedeemYieldModalSubmit}
             cancelFunc={handleRedeemYieldModalCancel}
+            deposit={totalDeposit}
+            redeemableBalance={redeemableBalanceNumber}
           />
         </Paper>
       </Zoom>
