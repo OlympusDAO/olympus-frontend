@@ -49,7 +49,7 @@ export const redeemBalance = createAsyncThunk(
       uaData.approved = false;
       const rpcError = e as IJsonRPCError;
       if (rpcError.message.indexOf("No redeemable balance") >= 0) {
-        dispatch(error("You have no redeemable balance"));
+        dispatch(error("You have no yield that can be redeemed."));
       } else {
         dispatch(error(rpcError.message));
       }
