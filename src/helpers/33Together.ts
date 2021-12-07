@@ -62,6 +62,7 @@ export const secondsToDaysForInput = (seconds: number) => {
  * @returns [PrizePoolURI, PoolDetailsURI]
  */
 export const poolTogetherUILinks = (networkId: number): Array<string> => {
+  if (networkId === -1) networkId = 1;
   const contractAddress = addresses[networkId].PT_PRIZE_POOL_ADDRESS;
 
   if (networkId === 4) {
