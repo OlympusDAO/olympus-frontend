@@ -4,6 +4,7 @@ import { ReactComponent as yieldImg } from "../assets/icons/yield.svg";
 import { ReactComponent as vaultLockImg } from "../assets/icons/vault-lock.svg";
 import { ReactComponent as arrowRightImg } from "../assets/icons/arrow-right.svg";
 import { shorten } from "src/helpers";
+import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 
 const viewBox = "0 0 100 100";
 // The sOHM SVG is 100x100px, whereas the others are 50x50px
@@ -50,6 +51,10 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
         <Typography variant="body2" align="center" className="cta-text">
           {message}
         </Typography>
+        <InfoTooltip
+          message="Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient."
+          children={null}
+        />
       </Box>
     </Box>
   );
@@ -85,6 +90,10 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
         <Typography variant="body2" align="center" className="cta-text">
           {message}
         </Typography>
+        <InfoTooltip
+          message="Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You can withdraw your principal sOHM amount at any time."
+          children={null}
+        />
       </Box>
     </Box>
   );
@@ -142,12 +151,16 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
-        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} />
+        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} className="receives-yield-icon" />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="body2" align="center" className="cta-text">
           {message}
         </Typography>
+        <InfoTooltip
+          message="The recipient you specified, or the project you selected, will then receive the rebases associated with your sOHM deposit until you withdraw your sOHM principal from the vault."
+          children={null}
+        />
       </Box>
     </Box>
   );

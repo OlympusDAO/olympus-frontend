@@ -23,11 +23,6 @@
   }
 }
 
-.give-info {
-  display: flex;
-  flex-direction: row;
-}
-
 .cta-text {
   color: #999999;
 }
@@ -108,6 +103,10 @@
         justify-content: space-between;
         align-items: center;
       }
+
+      .cause-body {
+        padding-bottom: 30px;
+      }
     }
 
     .view-details {
@@ -151,16 +150,22 @@
       .cause-info-main-text {
         font-size: 1rem;
       }
+
+      .cause-info-bottom-text {
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
     }
 
     .cause-misc-info .MuiGrid-item {
-      height: 70px;
+      height: 30px;
       padding-left: 0px;
       align-items: flex-end;
     }
 
     .cause-info-icon {
       margin-right: 0.2rem;
+      align-self: flex-start;
     }
 
     .cause-give-button {
@@ -326,6 +331,16 @@
   }
 }
 
+.give-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .MuiTypography-body2 {
+    margin-bottom: 0px;
+  }
+}
+
 .redeem-table {
   .MuiTableCell-body {
     font-size: 0.875rem;
@@ -345,6 +360,12 @@
 
 .yield-graphic {
   svg path {
+    fill: none;
+  }
+}
+
+.give-info-yield-box {
+  .receives-yield-icon path {
     fill: none;
   }
 }

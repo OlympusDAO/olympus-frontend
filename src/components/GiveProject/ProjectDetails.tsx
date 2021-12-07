@@ -72,7 +72,9 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
             <SvgIcon component={ClockIcon} color="primary" />
           </div>
           <div>
-            <strong>Fundraise Complete!</strong>
+            <div className="cause-info-bottom-text">
+              <strong>Fundraise Complete!</strong>
+            </div>
           </div>
         </>
       );
@@ -93,7 +95,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
                   {days}:{hours}:{minutes}
                 </strong>
               </div>
-              <span>remaining</span>
+              <span className="cause-info-bottom-text">remaining</span>
             </div>
           </Tooltip>
         </div>
@@ -127,7 +129,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
               <div className="cause-info-main-text">
                 <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}%</strong>
               </div>
-              <span>of goal</span>
+              <span className="cause-info-bottom-text">of goal</span>
             </div>
           </Tooltip>
         </div>
