@@ -464,7 +464,7 @@ export function RecipientModal({
             </FormControl>
           ) : (
             <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" onClick={onSeekApproval}>
+              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={onSeekApproval}>
                 {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, "Approve")}
               </Button>
             </FormControl>

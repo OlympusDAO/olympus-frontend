@@ -10,6 +10,9 @@ import { BigNumber } from "bignumber.js";
 import { error } from "../../slices/MessagesSlice";
 import { useAppDispatch } from "src/hooks";
 import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
+import { DepositSohm, LockInVault, ReceivesYield, ArrowGraphic } from "../../components/EducationCard";
+import { GiveInfo } from "./GiveInfo";
+import { useUIDSeed } from "react-uid";
 
 export default function CausesDashboard() {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
@@ -21,10 +24,11 @@ export default function CausesDashboard() {
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
+  const seed = useUIDSeed();
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      return <ProjectDetails project={project} />;
+      return <ProjectDetails key={seed(project.title)} project={project} />;
     });
   }, [projects]);
 
@@ -66,10 +70,13 @@ export default function CausesDashboard() {
     <>
       <div className="give-view">
         <Zoom in={true}>
+          <GiveInfo />
+        </Zoom>
+        <Zoom in={true}>
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
             <div className="card-header">
               <div className="give-yield-title">
-                <Typography variant="h5">Give</Typography>
+                <Typography variant="h5">Causes</Typography>
               </div>
             </div>
             <div className="causes-body">
