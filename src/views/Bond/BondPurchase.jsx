@@ -114,7 +114,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
         setSecondsToRefresh(secondsToRefresh => secondsToRefresh - 1);
       }, 1000);
     } else {
-      if (bond.getAvailability(networkId)) {
+      if (bond.getBondability(networkId)) {
         clearInterval(interval);
         dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: networkId }));
         setSecondsToRefresh(SECONDS_TO_REFRESH);
@@ -174,7 +174,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     />
                   </FormControl>
                 )}
-                {!bond.isAvailable[networkId] ? (
+                {!bond.isBondable[networkId] ? (
                   <Button
                     variant="contained"
                     color="primary"
