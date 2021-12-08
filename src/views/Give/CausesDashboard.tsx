@@ -3,7 +3,7 @@ import "./give.scss";
 import { Button, Paper, Typography, Zoom, Grid } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import ProjectDetails from "src/components/GiveProject/ProjectDetails";
+import ProjectCard from "src/components/GiveProject/ProjectCard";
 import data from "./projects.json";
 import { CancelCallback, RecipientModal, SubmitCallback } from "./RecipientModal";
 import { BigNumber } from "bignumber.js";
@@ -28,7 +28,7 @@ export default function CausesDashboard() {
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      return <ProjectDetails key={seed(project.title)} project={project} />;
+      return <ProjectCard key={seed(project.title)} project={project} />;
     });
   }, [projects]);
 

@@ -32,7 +32,7 @@ type ProjectDetailsProps = {
   project: Project;
 };
 
-export default function ProjectDetails({ project }: ProjectDetailsProps) {
+export default function ProjectCard({ project }: ProjectDetailsProps) {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const { title, owner, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
