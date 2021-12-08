@@ -30,6 +30,7 @@ import { IAccountSlice } from "../../slices/AccountSlice";
 import { Project } from "src/components/GiveProject/project.type";
 const sOhmImg = getTokenImage("sohm");
 import { shorten } from "src/helpers";
+import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -301,7 +302,7 @@ export function RecipientModal({
     if (isProjectMode()) {
       return (
         <>
-          <Typography variant="h5">Recipient</Typography>
+          <Typography variant="body1">Recipient</Typography>
           <Typography variant="h6">
             {project?.title} by {project?.owner}
           </Typography>
@@ -316,7 +317,7 @@ export function RecipientModal({
 
     return (
       <>
-        <Typography variant="h5">Recipient</Typography>
+        <Typography variant="body1">Recipient</Typography>
         <FormControl className="modal-input" variant="outlined" color="primary">
           <InputLabel htmlFor="wallet-input"></InputLabel>
           <OutlinedInput
@@ -345,7 +346,9 @@ export function RecipientModal({
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />
           </Link>
-          <Typography variant="h4">{getTitle()}</Typography>
+          <Typography variant="h4">
+            <strong>{getTitle()}</strong>
+          </Typography>
         </div>
         {!address ? (
           <>
@@ -367,17 +370,21 @@ export function RecipientModal({
         ) : isAmountSet ? (
           <>
             <div className="give-confirmation-details">
-              <Typography variant="h6">Details</Typography>
+              <Typography variant="h5">
+                <strong>Details</strong>
+              </Typography>
               <div className="details-row">
                 <div className="sohm-allocation-col">
                   <Typography variant="body1">sOHM Allocation</Typography>
-                  <Typography variant="h6">{shorten(address)}</Typography>
+                  <Typography variant="h6">
+                    <strong>{shorten(address)}</strong>
+                  </Typography>
                 </div>
                 <ArrowGraphic />
                 <div className="recipient-address-col">
                   <Typography variant="body1">Recipient Address</Typography>
                   <Typography variant="h6">
-                    {project ? project.title + " - " + project.owner : shorten(walletAddress)}
+                    <strong>{project ? project.title + " - " + project.owner : shorten(walletAddress)}</strong>
                   </Typography>
                 </div>
               </div>
@@ -386,18 +393,26 @@ export function RecipientModal({
               <Divider />
             </div>
             <div className="give-confirmation-details">
-              <Typography variant="h6" className="confirmation-sect-header">
-                Transaction
+              <Typography variant="h5" className="confirmation-sect-header">
+                <strong>Transaction</strong>
               </Typography>
               <div className="details-row">
                 <Typography variant="body1">Amount</Typography>
-                <Typography variant="h6">{depositAmount} sOHM</Typography>
+                <Typography variant="h6">
+                  <strong>{depositAmount} sOHM</strong>
+                </Typography>
               </div>
             </div>
           </>
         ) : (
           <>
-            <Typography variant="body1">sOHM Allocation</Typography>
+            <div className="give-modal-alloc-tip">
+              <Typography variant="body1">sOHM Allocation</Typography>
+              <InfoTooltip
+                message="Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees."
+                children={null}
+              />
+            </div>
             <FormControl className="modal-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
               <OutlinedInput

@@ -20,10 +20,6 @@
       align-items: center;
       align-content: center;
     }
-
-    .cause-dash-title {
-      margin-left: 1.5rem;
-    }
   }
 }
 
@@ -54,7 +50,7 @@
   .cause-card {
     height: auto;
     min-width: 333px;
-    max-width: 700px;
+    max-width: 773px;
     width: auto;
     box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.03);
     background-color: #ffffff0e;
@@ -79,7 +75,7 @@
     }
 
     .cause-image {
-      width: 40%;
+      width: 35%;
       height: 100%;
       justify-content: flex-start;
       padding: 30px;
@@ -182,8 +178,6 @@
 }
 
 .custom-recipient {
-  padding-top: 1rem;
-  padding-right: 2.2rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -191,7 +185,6 @@
   .custom-give-button {
     height: 40px;
     width: 12rem;
-    margin-right: 30px;
   }
 }
 
@@ -250,6 +243,7 @@
     display: flex;
     height: 44px;
     justify-content: center;
+    margin-bottom: 30px;
 
     a {
       position: absolute;
@@ -260,6 +254,15 @@
   .give-modal-header {
     display: flex;
     flex-direction: row;
+  }
+
+  .give-modal-alloc-tip {
+    display: flex;
+    flex-direction: row;
+
+    .MuiBox-root {
+      margin-bottom: 0.5rem;
+    }
   }
 
   .modal-input {
@@ -299,7 +302,12 @@
     justify-content: space-between;
     align-items: center;
 
+    .sohm-allocation-col {
+      width: 30%;
+    }
+
     .recipient-address-col {
+      width: 30%;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
@@ -321,7 +329,6 @@
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
-  margin-left: 16px;
 }
 
 .ohm-card {
