@@ -240,7 +240,7 @@ export function RecipientModal({
     if (isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL)) return false;
 
     return true;
-  }
+  };
 
   /**
    * Indicates the amount retained in the user's wallet after a deposit to the vault.
@@ -428,12 +428,7 @@ export function RecipientModal({
             </FormControl>
           ) : (
             <FormControl className="ohm-modal-submit">
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={!canApprove()}
-                onClick={onSeekApproval}
-              >
+              <Button variant="contained" color="primary" disabled={!canApprove()} onClick={onSeekApproval}>
                 {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, "Approve")}
               </Button>
             </FormControl>
