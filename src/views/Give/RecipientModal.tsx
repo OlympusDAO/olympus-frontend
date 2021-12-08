@@ -235,6 +235,13 @@ export function RecipientModal({
     return true;
   };
 
+  const canApprove = (): boolean => {
+    if (!address) return false;
+    if (isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL)) return false;
+
+    return true;
+  }
+
   /**
    * Indicates the amount retained in the user's wallet after a deposit to the vault.
    *
@@ -424,7 +431,7 @@ export function RecipientModal({
               <Button
                 variant="contained"
                 color="primary"
-                disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL)}
+                disabled={!canApprove()}
                 onClick={onSeekApproval}
               >
                 {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, "Approve")}
