@@ -135,7 +135,15 @@ export function RedeemGraphic({ quantity }: EducationGraphicProps) {
           You
         </Typography>
       </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
+      <Box
+        display="flex"
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        alignContent="center"
+        m={2}
+        className="yield-graphic"
+      >
         <SvgIcon component={yieldImg} viewBox={smallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">

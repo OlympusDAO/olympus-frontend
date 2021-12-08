@@ -75,7 +75,7 @@ export default function CausesDashboard() {
         <Zoom in={true}>
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
             <div className="card-header">
-              <div className="give-yield-title">
+              <div className="cause-dash-title">
                 <Typography variant="h5">Causes</Typography>
               </div>
             </div>

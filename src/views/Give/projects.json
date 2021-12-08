@@ -42,9 +42,11 @@
     {
       "title": "Project D",
       "owner": "Angel Protocol",
-      "details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu cursus lectus, nec aliquam lorem. Sed id accumsan libero. Cras nec aliquam mauris. Donec et pretium turpis. Quisque velit tortor, semper a sodales non, laoreet nec velit. Integer eu lacus efficitur, scelerisque lorem et, fringilla sapien. Suspendisse pretium sit amet eros quis sollicitudin. Phasellus id mi odio. Praesent malesuada metus interdum massa lobortis, id congue sapien rutrum.",
+      "details": "Enables charities to create an endowment that makes better use of decentralized finance",
       "finishDate": "2021-12-08T18:00:00.000Z",
-      "photos": [],
+      "photos": [
+        "/assets/images/give/angel-protocol-project-c/angel-protocol-logo.png"
+      ],
       "category": "AAA",
       "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61",
       "depositGoal": 10

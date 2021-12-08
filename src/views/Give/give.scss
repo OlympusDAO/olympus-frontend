@@ -20,6 +20,10 @@
       align-items: center;
       align-content: center;
     }
+
+    .cause-dash-title {
+      margin-left: 1.5rem;
+    }
   }
 }
 
@@ -179,7 +183,7 @@
 
 .custom-recipient {
   padding-top: 1rem;
-  padding-right: 2.5rem;
+  padding-right: 2.2rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -197,6 +201,10 @@
   justify-content: center;
   align-content: center;
   align-items: center;
+
+  .yield-graphic svg path {
+    fill: none;
+  }
 }
 
 .give-staked-balance {
@@ -219,7 +227,6 @@
 .give-yield-title {
   display: flex;
   flex-direction: row;
-  margin-left: 20px;
 }
 
 .give-yield-modals {
