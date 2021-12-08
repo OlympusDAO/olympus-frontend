@@ -1,4 +1,4 @@
-import { Button, Typography, Grid, Paper, Tooltip, Link } from "@material-ui/core";
+import { Button, Typography, Grid, Paper, Tooltip, Link, LinearProgress } from "@material-ui/core";
 import Countdown from "react-countdown";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
@@ -18,6 +18,8 @@ import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
 import { countDecimals, roundToDecimal, toInteger } from "./utils";
 import { ReactComponent as WebsiteIcon } from "../../assets/icons/website.svg";
+import { ReactComponent as DonatedIcon } from "../../assets/icons/donated.svg";
+import { ReactComponent as GoalIcon } from "../../assets/icons/goal.svg";
 
 type CountdownProps = {
   total: number;
@@ -144,6 +146,31 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     );
   };
 
+  const renderGoalCompletionDetailed = (): JSX.Element => {
+    const goalProgress = parseFloat(getGoalCompletion());
+
+    return (
+      <>
+        <Grid container className="project-goal">
+          <Grid item xs={4} className="project-donated">
+            <SvgIcon component={DonatedIcon} />
+            <strong>{totalDebt} sOHM</strong>
+            <div>Donated</div>
+          </Grid>
+          <Grid item xs={4} />
+          <Grid item xs={4} className="project-completion">
+            <SvgIcon component={GoalIcon} />
+            <strong>{depositGoal} sOHM</strong>
+            <div>Goal</div>
+          </Grid>
+        </Grid>
+        <div className="project-goal-progress">
+          <LinearProgress color="primary" variant="determinate" value={goalProgress} />
+        </div>
+      </>
+    );
+  };
+
   const getProjectImage = (): JSX.Element => {
     // We return an empty image with a set width, so that the spacing remains the same.
     if (!photos || photos.length < 1)
@@ -265,7 +292,18 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     );
   };
 
+  const renderCountdownDetailed = () => {
+    if (!finishDateObject) return <></>;
+
+    return (
+      <div className="project-countdown">
+        <Countdown date={finishDateObject} renderer={countdownRenderer} />
+      </div>
+    );
+  };
+
   const getPageContent = () => {
+    // TODO fix progress positioning
     return (
       <>
         <Grid container className="project">
@@ -285,22 +323,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Grid>
               </Grid>
               {getProjectImage()}
-              {renderGoalCompletion()}
-              {finishDateObject ? <Countdown date={finishDateObject} renderer={countdownRenderer} /> : <></>}
+              {renderGoalCompletionDetailed()}
+              {renderCountdownDetailed()}
 
-              <Grid item xs={6}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="cause-give-button"
-                  onClick={() => handleGiveButtonClick()}
-                  disabled={!address}
-                >
-                  <Typography variant="h6" style={{ marginBottom: "0px" }}>
-                    Give Yield
-                  </Typography>
+              <div className="project-give-button">
+                <Button variant="contained" color="primary" onClick={() => handleGiveButtonClick()} disabled={!address}>
+                  <Typography variant="h6">Give Yield</Typography>
                 </Button>
-              </Grid>
+              </div>
             </Paper>
           </Grid>
           <Grid item xs={6}>
