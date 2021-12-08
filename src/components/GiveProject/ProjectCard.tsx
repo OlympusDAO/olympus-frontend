@@ -154,7 +154,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     return (
       <div className="cause-image">
-        <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
+        <Link href={`#/give/projects/${project.slug}`}>
+          <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
+        </Link>
       </div>
     );
   };
@@ -202,14 +204,16 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <div className="cause-content">
               <Grid container className="cause-header">
                 <Grid item className="cause-title">
-                  <Typography variant="h5">
-                    <strong>
-                      {owner} - {title}
-                    </strong>
-                  </Typography>
+                  <Link href={`#/give/projects/${project.slug}`}>
+                    <Typography variant="h5">
+                      <strong>
+                        {owner} - {title}
+                      </strong>
+                    </Typography>
+                  </Link>
                 </Grid>
                 <Grid item className="view-details">
-                  <Link className="cause-link">
+                  <Link href={`#/give/projects/${project.slug}`} className="cause-link">
                     <Typography variant="body1">View Details</Typography>
                     <SvgIcon
                       component={ArrowRight}
@@ -260,7 +264,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     );
   };
 
-  if (mode == ProjectDetailsMode.Card) return getCardContent();
+  const getPageContent = () => {
+    return <>"Hi"</>;
+  };
 
-  return <></>;
+  if (mode == ProjectDetailsMode.Card) return getCardContent();
+  else return getPageContent();
 }
