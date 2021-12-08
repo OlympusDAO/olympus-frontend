@@ -28,11 +28,17 @@ type CountdownProps = {
   completed: boolean;
 };
 
+export enum ProjectDetailsMode {
+  Card = "Card",
+  Page = "Page",
+}
+
 type ProjectDetailsProps = {
   project: Project;
+  mode: ProjectDetailsMode;
 };
 
-export default function ProjectCard({ project }: ProjectDetailsProps) {
+export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const { title, owner, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
@@ -187,68 +193,74 @@ export default function ProjectCard({ project }: ProjectDetailsProps) {
     setIsGiveModalOpen(false);
   };
 
-  return (
-    <>
-      <Paper style={{ backdropFilter: "none", backgroundColor: "transparent" }}>
-        <Grid item className="cause-card" key={title}>
-          {getProjectImage()}
-          <div className="cause-content">
-            <Grid container className="cause-header">
-              <Grid item className="cause-title">
-                <Typography variant="h5">
-                  <strong>
-                    {owner} - {title}
-                  </strong>
-                </Typography>
-              </Grid>
-              <Grid item className="view-details">
-                <Link className="cause-link">
-                  <Typography variant="body1">View Details</Typography>
-                  <SvgIcon
-                    component={ArrowRight}
-                    style={{ width: "30px", marginLeft: "0.33em" }}
-                    viewBox={"0 0 57 24"}
-                  />
-                </Link>
-              </Grid>
-            </Grid>
-            <Typography variant="body1"></Typography>
-            <div className="cause-body">
-              <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                {details}
-              </Typography>
-            </div>
-            <Grid container direction="column" className="cause-misc-info">
-              <Grid item xs={3}>
-                {finishDateObject ? <Countdown date={finishDateObject} renderer={countdownRenderer} /> : <></>}
-              </Grid>
-              <Grid item xs={3}>
-                {renderGoalCompletion()}
-              </Grid>
-              <Grid item xs={6}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="cause-give-button"
-                  onClick={() => handleGiveButtonClick()}
-                  disabled={!address}
-                >
-                  <Typography variant="h6" style={{ marginBottom: "0px" }}>
-                    Give Yield
+  const getCardContent = () => {
+    return (
+      <>
+        <Paper style={{ backdropFilter: "none", backgroundColor: "transparent" }}>
+          <Grid item className="cause-card" key={title}>
+            {getProjectImage()}
+            <div className="cause-content">
+              <Grid container className="cause-header">
+                <Grid item className="cause-title">
+                  <Typography variant="h5">
+                    <strong>
+                      {owner} - {title}
+                    </strong>
                   </Typography>
-                </Button>
+                </Grid>
+                <Grid item className="view-details">
+                  <Link className="cause-link">
+                    <Typography variant="body1">View Details</Typography>
+                    <SvgIcon
+                      component={ArrowRight}
+                      style={{ width: "30px", marginLeft: "0.33em" }}
+                      viewBox={"0 0 57 24"}
+                    />
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
-          </div>
-        </Grid>
-      </Paper>
-      <RecipientModal
-        isModalOpen={isGiveModalOpen}
-        callbackFunc={handleGiveModalSubmit}
-        cancelFunc={handleGiveModalCancel}
-        project={project}
-        key={title}
-      />
-    </>
-  );
+              <Typography variant="body1"></Typography>
+              <div className="cause-body">
+                <Typography variant="body1" style={{ lineHeight: "20px" }}>
+                  {details}
+                </Typography>
+              </div>
+              <Grid container direction="column" className="cause-misc-info">
+                <Grid item xs={3}>
+                  {finishDateObject ? <Countdown date={finishDateObject} renderer={countdownRenderer} /> : <></>}
+                </Grid>
+                <Grid item xs={3}>
+                  {renderGoalCompletion()}
+                </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className="cause-give-button"
+                    onClick={() => handleGiveButtonClick()}
+                    disabled={!address}
+                  >
+                    <Typography variant="h6" style={{ marginBottom: "0px" }}>
+                      Give Yield
+                    </Typography>
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+          </Grid>
+        </Paper>
+        <RecipientModal
+          isModalOpen={isGiveModalOpen}
+          callbackFunc={handleGiveModalSubmit}
+          cancelFunc={handleGiveModalCancel}
+          project={project}
+          key={title}
+        />
+      </>
+    );
+  };
+
+  if (mode == ProjectDetailsMode.Card) return getCardContent();
+
+  return <></>;
 }

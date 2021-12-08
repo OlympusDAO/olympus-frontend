@@ -3,6 +3,7 @@
     {
       "title": "Project A",
       "owner": "ImpactMarket",
+      "slug": "impactmarket-project-a",
       "details": "Enable any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income",
       "finishDate": "2021-12-04T18:00:00.000Z",
       "photos": [
@@ -16,6 +17,7 @@
     {
       "title": "Project B",
       "owner": "Gitcoin",
+      "slug": "gitcoin-project-b",
       "details": "Gitcoin Grants use quadratic funding, ensuring that projects doing the greatest public good get the most support",
       "finishDate": "2021-12-06T18:00:00.000Z",
       "photos": [
@@ -29,6 +31,7 @@
     {
       "title": "Project C",
       "owner": "Angel Protocol",
+      "slug": "angel-protocol-project-c",
       "details": "Enables charities to create an endowment that makes better use of decentralized finance",
       "finishDate": "2021-12-06T18:00:00.000Z",
       "photos": [
@@ -42,6 +45,7 @@
     {
       "title": "Project D",
       "owner": "Angel Protocol",
+      "slug": "angel-protocol-project-d",
       "details": "Enables charities to create an endowment that makes better use of decentralized finance",
       "finishDate": "2021-12-08T18:00:00.000Z",
       "photos": [
