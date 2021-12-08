@@ -15,7 +15,7 @@ import {
   PENDING_TXN_EDIT_GIVE,
   PENDING_TXN_GIVE_APPROVAL,
 } from "src/slices/GiveThunk";
-import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
+import { IPendingTxn, txnButtonText, isPendingTxn } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 import { BigNumber } from "bignumber.js";
 import {
@@ -421,7 +421,12 @@ export function RecipientModal({
             </FormControl>
           ) : (
             <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={onSeekApproval}>
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL)}
+                onClick={onSeekApproval}
+              >
                 {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, "Approve")}
               </Button>
             </FormControl>
