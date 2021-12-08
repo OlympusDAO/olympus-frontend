@@ -8,4 +8,5 @@ export type Project = {
   category: string;
   wallet: string;
   depositGoal: number;
+  website: string;
 };

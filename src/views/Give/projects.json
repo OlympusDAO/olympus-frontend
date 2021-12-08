@@ -12,7 +12,8 @@
       ],
       "category": "AAAAAAA",
       "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61",
-      "depositGoal": 20
+      "depositGoal": 20,
+      "website": "https://impactmarket.com"
     },
     {
       "title": "Project B",
@@ -26,7 +27,8 @@
       ],
       "category": "BBB",
       "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61",
-      "depositGoal": 50
+      "depositGoal": 50,
+      "website": "https://gitcoin.com"
     },
     {
       "title": "Project C",
@@ -40,7 +42,8 @@
       ],
       "category": "CCC",
       "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61",
-      "depositGoal": 500
+      "depositGoal": 500,
+      "website": "https://angel.com"
     },
     {
       "title": "Project D",
@@ -53,7 +56,8 @@
       ],
       "category": "AAA",
       "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61",
-      "depositGoal": 10
+      "depositGoal": 10,
+      "website": "https://angel.com"
     }
   ]
 }

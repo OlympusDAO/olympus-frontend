@@ -17,6 +17,7 @@ import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
 import { countDecimals, roundToDecimal, toInteger } from "./utils";
+import { ReactComponent as WebsiteIcon } from "../../assets/icons/website.svg";
 
 type CountdownProps = {
   total: number;
@@ -265,7 +266,54 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const getPageContent = () => {
-    return <>"Hi"</>;
+    return (
+      <>
+        <Grid container className="project">
+          <Grid item xs={1}></Grid>
+          <Grid item xs={4}>
+            <Paper className="project-sidebar">
+              <Grid container className="project-intro">
+                <Grid item className="project-title">
+                  <Typography variant="h5">
+                    <strong>{title}</strong>
+                  </Typography>
+                </Grid>
+                <Grid item className="project-link">
+                  <Link href={project.website} target="_blank">
+                    <SvgIcon color="primary" component={WebsiteIcon} />
+                  </Link>
+                </Grid>
+              </Grid>
+              {getProjectImage()}
+              {renderGoalCompletion()}
+              {finishDateObject ? <Countdown date={finishDateObject} renderer={countdownRenderer} /> : <></>}
+
+              <Grid item xs={6}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="cause-give-button"
+                  onClick={() => handleGiveButtonClick()}
+                  disabled={!address}
+                >
+                  <Typography variant="h6" style={{ marginBottom: "0px" }}>
+                    Give Yield
+                  </Typography>
+                </Button>
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className="project-info">
+              <Typography variant="h5">
+                <strong>About</strong>
+              </Typography>
+              <div>{project.details}</div>
+            </Paper>
+          </Grid>
+        </Grid>
+      </>
+    );
   };
 
   if (mode == ProjectDetailsMode.Card) return getCardContent();

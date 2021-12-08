@@ -160,10 +160,10 @@
     }
 
     .cause-link:hover {
-      color: #F4D092;
+      color: #f4d092;
 
       svg path {
-        fill: #F4D092;
+        fill: #f4d092;
       }
     }
 
@@ -199,7 +199,8 @@
       height: 40px;
       width: 12rem;
       margin-left: auto;
-      margin-right: 0;    }
+      margin-right: 0;
+    }
   }
 }
 
@@ -347,7 +348,7 @@
   margin-bottom: 16px;
 
   .MuiDivider-root {
-   background-color: #F4D092;
+    background-color: #f4d092;
   }
 }
 
@@ -406,5 +407,33 @@
 @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
   .modal-container {
     background-color: rgba(100, 100, 100, 0.95);
+  }
+}
+
+.project {
+  .project-sidebar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .project-intro {
+    padding-bottom: 1rem;
+  }
+
+  .project-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .project-info {
+    margin-left: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    height: 80%;
+    width: 100%;
   }
 }
