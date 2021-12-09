@@ -458,4 +458,13 @@
       width: 100%;
     }
   }
+
+  .MuiLinearProgress-determinate {
+    height: 1rem;
+    border-radius: 3px;
+  }
+
+  .MuiLinearProgress-barColorPrimary {
+    background-color: #f4d092;
+  }
 }
