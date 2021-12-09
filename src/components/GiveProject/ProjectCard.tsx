@@ -29,6 +29,12 @@ type CountdownProps = {
   seconds: number;
   milliseconds: number;
   completed: boolean;
+  formatted: {
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+  };
 };
 
 export enum ProjectDetailsMode {
@@ -111,6 +117,49 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       </>
     );
   };
+  const countdownRendererDetailed = ({ days, hours, minutes, completed, formatted }: CountdownProps) => {
+    if (completed)
+      return (
+        <>
+          <Grid container>
+            <Grid item xs={3}>
+              <SvgIcon component={ClockIcon} color="primary" />
+            </Grid>
+            <Grid item xs={9} className="project-countdown-text">
+              Fundraise Complete!
+            </Grid>
+          </Grid>
+        </>
+      );
+
+    return (
+      <>
+        <>
+          <Grid container>
+            <Grid item xs={2}>
+              <SvgIcon component={ClockIcon} color="primary" />
+            </Grid>
+            <Grid item xs={10} className="project-countdown-text">
+              <Tooltip
+                title={
+                  !finishDateObject ? "" : "Finishes at " + finishDateObject.toLocaleString() + " in your timezone"
+                }
+                arrow
+              >
+                <div>
+                  {" "}
+                  <strong>
+                    {formatted.days}:{formatted.hours}:{formatted.minutes}
+                  </strong>
+                  <span className="cause-info-bottom-text"> remaining</span>
+                </div>
+              </Tooltip>
+            </Grid>
+          </Grid>
+        </>
+      </>
+    );
+  };
 
   const getGoalCompletion = (): string => {
     if (!depositGoal) return "NaN";
@@ -147,7 +196,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
-    const goalProgress = parseFloat(getGoalCompletion());
+    const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
 
     return (
       <>
@@ -165,7 +214,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           </Grid>
         </Grid>
         <div className="project-goal-progress">
-          <LinearProgress color="primary" variant="determinate" value={goalProgress} />
+          <LinearProgress variant="determinate" value={goalProgress} />
         </div>
       </>
     );
@@ -296,9 +345,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     if (!finishDateObject) return <></>;
 
     return (
-      <div className="project-countdown">
-        <Countdown date={finishDateObject} renderer={countdownRenderer} />
-      </div>
+      <Grid container className="project-countdown">
+        <Grid item xs={3}></Grid>
+        <Grid item xs={6}>
+          <Countdown date={finishDateObject} renderer={countdownRendererDetailed} />
+        </Grid>{" "}
+        <Grid item xs={3}></Grid>
+      </Grid>
     );
   };
 

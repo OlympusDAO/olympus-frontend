@@ -5,7 +5,7 @@
       "owner": "ImpactMarket",
       "slug": "impactmarket-project-a",
       "details": "Enable any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income",
-      "finishDate": "2021-12-04T18:00:00.000Z",
+      "finishDate": "2021-12-14T18:00:00.000Z",
       "photos": [
         "/assets/images/give/impact-market-project-a/impact-market-logo.png",
         "/assets/images/give/impact-market-project-a/project-a-2.jpg"
@@ -51,9 +51,7 @@
       "slug": "angel-protocol-project-d",
       "details": "Enables charities to create an endowment that makes better use of decentralized finance",
       "finishDate": "2021-12-08T18:00:00.000Z",
-      "photos": [
-        "/assets/images/give/angel-protocol-project-c/angel-protocol-logo.png"
-      ],
+      "photos": ["/assets/images/give/angel-protocol-project-c/angel-protocol-logo.png"],
       "category": "AAA",
       "wallet": "0x2156173c408ce94d46392E18Ae478497A9DA4a61",
       "depositGoal": 10,
