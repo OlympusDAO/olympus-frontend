@@ -1,5 +1,6 @@
-import { Paper, Box, Typography } from "@material-ui/core";
+import { Paper, Box, Button, Typography, SvgIcon } from "@material-ui/core";
 import { DepositSohm, LockInVault, ReceivesYield, ArrowGraphic } from "../../components/EducationCard";
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 
 export function GiveInfo() {
   return (
@@ -23,6 +24,18 @@ export function GiveInfo() {
             <ReceivesYield message="Recipient earns sOHM rebases" />
           </Box>
         </div>
+        <Box className="button-box">
+          <Button
+            variant="outlined"
+            color="secondary"
+            href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
+            target="_blank"
+            className="learn-more-button"
+          >
+            <Typography variant="body1">Learn More</Typography>
+            <SvgIcon component={ArrowUp} color="primary" />
+          </Button>
+        </Box>
       </Paper>
     </>
   );

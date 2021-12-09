@@ -43,18 +43,26 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
 
 export function DepositSohm({ message }: GenericEducationGraphicProps) {
   return (
-    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
-      <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
+    <Box className="sect" style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box
+        display="flex"
+        flex="1"
+        alignItems="center"
+        alignContent="center"
+        justifyContent="center"
+        m={2}
+        style={{ marginBottom: "30px" }}
+      >
         <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={smallIconStyle} />
       </Box>
-      <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
-        <Typography variant="body2" align="center" className="cta-text">
-          {message}
+      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
+        <Typography variant="body2" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
+          <strong>{message}</strong>
         </Typography>
-        <InfoTooltip
-          message="Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient."
-          children={null}
-        />
+        <Typography variant="body1" align="left" className="education-message" style={{ lineHeight: "20px" }}>
+          Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step
+          is depositing your sOHM and specifying a recipient.
+        </Typography>
       </Box>
     </Box>
   );
@@ -83,17 +91,25 @@ export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicP
 export function LockInVault({ message }: GenericEducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
+      <Box
+        display="flex"
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        alignContent="center"
+        m={2}
+        style={{ marginBottom: "30px" }}
+      >
         <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
       </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="body2" align="center" className="cta-text">
-          {message}
+      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
+        <Typography variant="body2" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
+          <strong>{message}</strong>
         </Typography>
-        <InfoTooltip
-          message="Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You can withdraw your principal sOHM amount at any time."
-          children={null}
-        />
+        <Typography variant="body1" align="left" className="education-message" style={{ lineHeight: "20px" }}>
+          Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You
+          can withdraw your principal sOHM amount at any time.
+        </Typography>
       </Box>
     </Box>
   );
@@ -157,18 +173,26 @@ export function RedeemGraphic({ quantity }: EducationGraphicProps) {
 
 export function ReceivesYield({ message }: GenericEducationGraphicProps) {
   return (
-    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
+    <Box className="sect" style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box
+        display="flex"
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        alignContent="center"
+        m={2}
+        style={{ marginBottom: "30px" }}
+      >
         <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} className="receives-yield-icon" />
       </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="body2" align="center" className="cta-text">
-          {message}
+      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
+        <Typography variant="body2" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
+          <strong>{message}</strong>
         </Typography>
-        <InfoTooltip
-          message="The recipient you specified, or the project you selected, will then receive the rebases associated with your sOHM deposit until you withdraw your sOHM principal from the vault."
-          children={null}
-        />
+        <Typography variant="body1" align="left" className="education-message" style={{ lineHeight: "20px" }}>
+          The recipient you specified, or the project you selected, will then receive the rebases associated with your
+          sOHM deposit until you withdraw your sOHM principal from the vault.
+        </Typography>
       </Box>
     </Box>
   );

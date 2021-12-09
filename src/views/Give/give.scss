@@ -5,8 +5,38 @@
   align-items: center;
   overflow: hidden;
 
-  .ohm-card .header {
-    min-height: 3em;
+  .ohm-card {
+    .cell-align-end {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .MuiTypography-body2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .MuiTypography-body1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .header {
+      min-height: 3em;
+    }
+
+    .button-box {
+      display: flex;
+      justify-content: center;
+
+      .learn-more-button {
+        p {
+          margin-bottom: 0px;
+        }
+
+        svg {
+          margin-left: 4px;
+        }
+      }
+    }
   }
 
   .card-header {
@@ -21,10 +51,6 @@
       align-content: center;
     }
   }
-}
-
-.cta-text {
-  color: #999999;
 }
 
 .causes-body {
@@ -331,28 +357,25 @@
   vertical-align: middle;
 }
 
-.ohm-card {
-  .cell-align-end {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .MuiTypography-body2 {
-    margin-bottom: 0.5rem;
-  }
-
-  .MuiTypography-body1 {
-    margin-bottom: 0.5rem;
-  }
-}
-
 .give-info {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
-  .MuiTypography-body2 {
-    margin-bottom: 0px;
+  .give-info-deposit-box {
+    max-width: 25%
+  }
+
+  .give-info-vault-box {
+    max-width: 25%;
+  }
+
+  .give-info-yield-box {
+    max-width: 25%;
+
+    .receives-yield-icon path {
+      fill: none;
+    }
   }
 }
 
@@ -375,12 +398,6 @@
 
 .yield-graphic {
   svg path {
-    fill: none;
-  }
-}
-
-.give-info-yield-box {
-  .receives-yield-icon path {
     fill: none;
   }
 }

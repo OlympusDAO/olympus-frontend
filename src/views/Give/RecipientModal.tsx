@@ -420,7 +420,7 @@ export function RecipientModal({
                 type="number"
                 placeholder="Enter an amount"
                 className="stake-input"
-                value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+                value={getDepositAmount().isEqualTo(0) ? "" : getDepositAmount()}
                 error={!isDepositAmountValid}
                 onChange={e => handleSetDepositAmount(e.target.value)}
                 labelWidth={0}
