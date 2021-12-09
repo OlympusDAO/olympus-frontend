@@ -366,7 +366,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={1}></Grid>
           <Grid item xs={4}>
             <Paper className="project-sidebar">
-              <Grid container className="project-intro">
+              <Grid container className="project-intro" justifyContent="space-between">
                 <Grid item className="project-title">
                   <Typography variant="h5">
                     <strong>{title}</strong>
