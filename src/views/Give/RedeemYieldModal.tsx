@@ -64,7 +64,9 @@ export function RedeemYieldModal({
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />
           </Link>
-          <Typography variant="h4">Redeem Yield?</Typography>
+          <Typography variant="h4">
+            <strong>Redeem Yield?</strong>
+          </Typography>
         </div>
         <div className="give-education-graphics">
           <VaultGraphic quantity={deposit.toFixed(2)} verb="in deposits remains" />

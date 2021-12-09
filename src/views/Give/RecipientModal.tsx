@@ -1,4 +1,4 @@
-import { Box, Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
+import { Box, Modal, Paper, Typography, SvgIcon, Link, Button, Divider } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
@@ -28,8 +28,9 @@ import {
 } from "../../components/EducationCard";
 import { IAccountSlice } from "../../slices/AccountSlice";
 import { Project } from "src/components/GiveProject/project.type";
-
 const sOhmImg = getTokenImage("sohm");
+import { shorten } from "src/helpers";
+import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -72,6 +73,8 @@ export function RecipientModal({
   const [walletAddress, setWalletAddress] = useState(currentWalletAddress ? currentWalletAddress : "");
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(false);
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
+
+  const [isAmountSet, setIsAmountSet] = useState(false);
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toFixed());
@@ -281,6 +284,10 @@ export function RecipientModal({
     return walletAddress;
   };
 
+  const handleContinue = () => {
+    setIsAmountSet(true);
+  };
+
   /**
    * Calls the submission callback function that is provided to the component.
    */
@@ -295,7 +302,7 @@ export function RecipientModal({
     if (isProjectMode()) {
       return (
         <>
-          <Typography variant="h5">Recipient</Typography>
+          <Typography variant="body1">Recipient</Typography>
           <Typography variant="h6">
             {project?.title} by {project?.owner}
           </Typography>
@@ -310,7 +317,7 @@ export function RecipientModal({
 
     return (
       <>
-        <Typography variant="h5">Recipient</Typography>
+        <Typography variant="body1">Recipient</Typography>
         <FormControl className="modal-input" variant="outlined" color="primary">
           <InputLabel htmlFor="wallet-input"></InputLabel>
           <OutlinedInput
@@ -339,7 +346,9 @@ export function RecipientModal({
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />
           </Link>
-          <Typography variant="h4">{getTitle()}</Typography>
+          <Typography variant="h4">
+            <strong>{getTitle()}</strong>
+          </Typography>
         </div>
         {!address ? (
           <>
@@ -358,9 +367,52 @@ export function RecipientModal({
           </Box>
         ) : isAllowanceDataLoading ? (
           <Skeleton />
+        ) : isAmountSet ? (
+          <>
+            <div className="give-confirmation-details">
+              <Typography variant="h5">
+                <strong>Details</strong>
+              </Typography>
+              <div className="details-row">
+                <div className="sohm-allocation-col">
+                  <Typography variant="body1">sOHM Allocation</Typography>
+                  <Typography variant="h6">
+                    <strong>{shorten(address)}</strong>
+                  </Typography>
+                </div>
+                <ArrowGraphic />
+                <div className="recipient-address-col">
+                  <Typography variant="body1">Recipient Address</Typography>
+                  <Typography variant="h6">
+                    <strong>{project ? project.title + " - " + project.owner : shorten(walletAddress)}</strong>
+                  </Typography>
+                </div>
+              </div>
+            </div>
+            <div className="give-confirmation-divider">
+              <Divider />
+            </div>
+            <div className="give-confirmation-details">
+              <Typography variant="h5" className="confirmation-sect-header">
+                <strong>Transaction</strong>
+              </Typography>
+              <div className="details-row">
+                <Typography variant="body1">Amount</Typography>
+                <Typography variant="h6">
+                  <strong>{depositAmount} sOHM</strong>
+                </Typography>
+              </div>
+            </div>
+          </>
         ) : (
           <>
-            <Typography variant="h5">Amount of sOHM</Typography>
+            <div className="give-modal-alloc-tip">
+              <Typography variant="body1">sOHM Allocation</Typography>
+              <InfoTooltip
+                message="Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees."
+                children={null}
+              />
+            </div>
             <FormControl className="modal-input" variant="outlined" color="primary">
               <InputLabel htmlFor="amount-input"></InputLabel>
               <OutlinedInput
@@ -368,7 +420,7 @@ export function RecipientModal({
                 type="number"
                 placeholder="Enter an amount"
                 className="stake-input"
-                value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+                value={getDepositAmount().isEqualTo(0) ? "" : getDepositAmount()}
                 error={!isDepositAmountValid}
                 onChange={e => handleSetDepositAmount(e.target.value)}
                 labelWidth={0}
@@ -413,10 +465,16 @@ export function RecipientModal({
           </>
         )}
         {isCreateMode() ? (
-          address && hasAllowance() ? (
+          address && hasAllowance() && !isAmountSet ? (
+            <FormControl className="ohm-modal-submit">
+              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
+                Continue
+              </Button>
+            </FormControl>
+          ) : isAmountSet ? (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, "Give sOHM")}
+                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, "Confirm sOHM")}
               </Button>
             </FormControl>
           ) : (
@@ -431,6 +489,12 @@ export function RecipientModal({
               </Button>
             </FormControl>
           )
+        ) : !isAmountSet ? (
+          <FormControl className="ohm-modal-submit">
+            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
+              Continue
+            </Button>
+          </FormControl>
         ) : (
           <FormControl className="ohm-modal-submit">
             <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>

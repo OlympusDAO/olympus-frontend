@@ -139,7 +139,7 @@ function NavContent() {
                     }}
                     className={"give-option"}
                   >
-                    <Typography variant="body2">My Deposits</Typography>
+                    <Typography variant="body2">My Donations</Typography>
                   </Link>
                   <Link
                     component={NavLink}

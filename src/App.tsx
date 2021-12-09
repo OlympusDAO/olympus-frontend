@@ -43,6 +43,9 @@ import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
 import { Bond as IBond } from "./lib/Bond";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import { Project } from "src/components/GiveProject/project.type";
+import ProjectInfo from "./views/Give/ProjectInfo";
+import projectData from "src/views/Give/projects.json";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -104,6 +107,8 @@ function App() {
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
+
+  const { projects } = projectData;
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
   const { bonds, expiredBonds } = useBonds(chainID);
@@ -242,6 +247,16 @@ function App() {
 
             <Route exact path="/give">
               <CausesDashboard />
+            </Route>
+
+            <Route path="/give/projects">
+              {projects.map(project => {
+                return (
+                  <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
+                    <ProjectInfo project={project} />
+                  </Route>
+                );
+              })}
             </Route>
 
             <Route exact path="/give/donations">

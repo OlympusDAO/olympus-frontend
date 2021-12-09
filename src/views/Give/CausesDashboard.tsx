@@ -3,7 +3,7 @@ import "./give.scss";
 import { Button, Paper, Typography, Zoom, Grid } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import ProjectDetails from "src/components/GiveProject/ProjectDetails";
+import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
 import data from "./projects.json";
 import { CancelCallback, RecipientModal, SubmitCallback } from "./RecipientModal";
 import { BigNumber } from "bignumber.js";
@@ -28,7 +28,7 @@ export default function CausesDashboard() {
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      return <ProjectDetails key={seed(project.title)} project={project} />;
+      return <ProjectCard key={seed(project.title)} project={project} mode={ProjectDetailsMode.Card} />;
     });
   }, [projects]);
 
@@ -70,26 +70,13 @@ export default function CausesDashboard() {
     <>
       <div className="give-view">
         <Zoom in={true}>
-          <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-            <div className="card-header">
-              <div className="give-yield-title">
-                <Typography variant="h5">How It Works</Typography>
-              </div>
-              <div className="give-education">
-                <DepositSohm message="Deposit sOHM from wallet" />
-                <ArrowGraphic />
-                <LockInVault message="Lock sOHM in vault" />
-                <ArrowGraphic />
-                <ReceivesYield message="Project receives sOHM rebases" />
-              </div>
-            </div>
-          </Paper>
+          <GiveInfo />
         </Zoom>
         <Zoom in={true}>
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
             <div className="card-header">
-              <div className="give-yield-title">
-                <Typography variant="h5">Causes</Typography>
+              <div>
+                <Typography variant="h5">Give</Typography>
               </div>
             </div>
             <div className="causes-body">
@@ -101,10 +88,13 @@ export default function CausesDashboard() {
               <Button
                 variant="contained"
                 color="primary"
+                className="custom-give-button"
                 onClick={() => handleCustomGiveButtonClick()}
                 disabled={!address}
               >
-                Custom Recipient
+                <Typography variant="h6" style={{ marginBottom: "0px" }}>
+                  Custom Recipient
+                </Typography>
               </Button>
             </div>
             <RecipientModal
@@ -113,9 +103,6 @@ export default function CausesDashboard() {
               cancelFunc={handleCustomGiveModalCancel}
             />
           </Paper>
-        </Zoom>
-        <Zoom in={true}>
-          <GiveInfo />
         </Zoom>
       </div>
     </>
