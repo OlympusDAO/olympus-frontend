@@ -28,7 +28,7 @@ export function GiveInfo() {
           <Button
             variant="outlined"
             color="secondary"
-            href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
+            href="https://docs.olympusdao.finance/main/"
             target="_blank"
             className="learn-more-button"
           >
