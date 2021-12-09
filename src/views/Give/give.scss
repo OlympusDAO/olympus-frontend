@@ -437,6 +437,18 @@
     width: 100%;
   }
 
+  .project-donated-icon {
+    display: inline-flex;
+  }
+
+  .project-completion {
+    text-align: right;
+
+    .project-completion-icon {
+      display: inline-flex;
+    }
+  }
+
   .project-goal {
     padding-top: 1rem;
   }

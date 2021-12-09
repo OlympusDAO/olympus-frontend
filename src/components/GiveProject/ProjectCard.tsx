@@ -202,14 +202,18 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       <>
         <Grid container className="project-goal">
           <Grid item xs={4} className="project-donated">
-            <SvgIcon component={DonatedIcon} />
-            <strong>{totalDebt} sOHM</strong>
+            <div className="project-donated-icon">
+              <SvgIcon component={DonatedIcon} />
+              <strong>{totalDebt} sOHM</strong>
+            </div>
             <div>Donated</div>
           </Grid>
           <Grid item xs={4} />
           <Grid item xs={4} className="project-completion">
-            <SvgIcon component={GoalIcon} />
-            <strong>{depositGoal} sOHM</strong>
+            <div className="project-completion-icon">
+              <SvgIcon component={GoalIcon} />
+              <strong>{depositGoal} sOHM</strong>
+            </div>
             <div>Goal</div>
           </Grid>
         </Grid>
@@ -356,7 +360,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const getPageContent = () => {
-    // TODO fix progress positioning
     return (
       <>
         <Grid container className="project">
