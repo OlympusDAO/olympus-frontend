@@ -14,7 +14,13 @@ import {
   Tabs,
   Typography,
   Zoom,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Divider,
 } from "@material-ui/core";
+import { ExpandMore } from "@material-ui/icons";
+import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
@@ -24,6 +30,7 @@ import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "../Stake/stake.scss";
 import "./v1stake.scss";
+import StakeRow from "../Stake/StakeRow";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
@@ -90,6 +97,14 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
 
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
+  });
+
+  const fiatDaowsohmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.fiatDaowsohm;
+  });
+
+  const gOhmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gohm;
   });
 
   const setMax = () => {
@@ -342,42 +357,67 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                       </TabPanel>
                     </Box>
                   </Box>
-
-                  <div className={`stake-user-data`}>
-                    <div className="data-row">
-                      <Typography variant="body1">Your Balance (v1)</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(ohmBalance, 4)} OHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">Your Staked Balance (v1)</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">Next Reward Amount</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">Next Reward Yield</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">ROI (5-Day Rate)</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(fiveDayRate * 100, 4)}%</>}
-                      </Typography>
-                    </div>
+                  <div className="stake-user-data">
+                    <StakeRow
+                      title={t`Unstaked Balance`}
+                      id="user-balance"
+                      balance={`${trim(Number(ohmBalance), 4)} OHM`}
+                      {...{ isAppLoading }}
+                    />
+                    <Accordion className="stake-accordion" square>
+                      <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
+                        <StakeRow
+                          title={t`Staked Balance`}
+                          id="user-staked-balance"
+                          balance={`${trimmedBalance} sOHM`}
+                          {...{ isAppLoading }}
+                        />
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <StakeRow
+                          title={t`Single Staking`}
+                          balance={`${trim(Number(sohmBalance), 4)} sOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={t`Staked Balance in Fuse`}
+                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={t`Wrapped Balance`}
+                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
+                          {...{ isAppLoading }}
+                          indented
+                        />
+                        <StakeRow
+                          title={t`Wrapped Balance in FiatDAO`}
+                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
+                          {...{ isAppLoading }}
+                          indented
+                        />
+                        <StakeRow
+                          title={`${t`Wrapped Balance (v2)`}`}
+                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                      </AccordionDetails>
+                    </Accordion>
+                    <Divider color="secondary" />
+                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
+                    <StakeRow
+                      title={t`Next Reward Yield`}
+                      balance={`${stakingRebasePercentage}%`}
+                      {...{ isAppLoading }}
+                    />
+                    <StakeRow
+                      title={t`ROI (5-Day Rate)`}
+                      balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
+                      {...{ isAppLoading }}
+                    />
                   </div>
                 </>
               )}
