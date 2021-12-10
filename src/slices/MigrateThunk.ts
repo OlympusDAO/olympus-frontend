@@ -49,7 +49,7 @@ export const changeMigrationApproval = createAsyncThunk(
       dispatch(error("Please connect your wallet!"));
       return;
     }
-
+    console.log("change", token);
     const signer = provider.getSigner();
     const tokenContract = chooseContract(token, networkID, signer);
 
