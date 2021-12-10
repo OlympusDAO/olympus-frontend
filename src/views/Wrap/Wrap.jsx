@@ -112,7 +112,7 @@ function Wrap() {
   const avax = NETWORKS[43114];
   const ethereum = NETWORKS[1];
 
-  const isAvax = useMemo(() => networkId != 1 && networkId != 4, [networkId]);
+  const isAvax = useMemo(() => networkId != 1 && networkId != 4 && networkId != -1, [networkId]);
   useEffect(() => {
     if (isAvax) {
       setAssetFrom("wsOHM");
