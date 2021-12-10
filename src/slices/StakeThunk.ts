@@ -31,19 +31,24 @@ function alreadyApprovedToken(
   unstakeAllowance: BigNumber,
   stakeAllowanceV2: BigNumber,
   unstakeAllowanceV2: BigNumber,
+  version2: boolean,
 ) {
   // set defaults
   let bigZero = BigNumber.from("0");
   let applicableAllowance = bigZero;
-
+  console.log(token);
   // determine which allowance to check
-  if (token === "ohm") {
+  if (token === "ohm" && version2) {
+    console.log("HAAAA");
     applicableAllowance = stakeAllowanceV2;
-  } else if (token === "sohm") {
+  } else if (token === "sohm" && version2) {
+    console.log("HEYYY");
     applicableAllowance = unstakeAllowanceV2;
-  } else if (token === "old_ohm") {
+  } else if (token === "ohm") {
+    console.log("HOOO");
     applicableAllowance = stakeAllowance;
-  } else if (token === "old_sohm") {
+  } else if (token === "sohm") {
+    console.log("HIII");
     applicableAllowance = unstakeAllowance;
   }
 
@@ -71,9 +76,9 @@ export const changeApproval = createAsyncThunk(
     let unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
     let stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
     let unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
-
+    console.log(unstakeAllowance);
     // return early if approval has already happened
-    if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance, stakeAllowanceV2, unstakeAllowanceV2)) {
+    if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance, stakeAllowanceV2, unstakeAllowanceV2, version2)) {
       dispatch(info("Approval completed."));
       return dispatch(
         fetchAccountSuccess({

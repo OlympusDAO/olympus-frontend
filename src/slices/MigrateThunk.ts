@@ -42,7 +42,7 @@ const chooseContract = (token: string, networkID: NetworkID, signer: ethers.prov
 export const changeMigrationApproval = createAsyncThunk(
   "migrate/changeApproval",
   async (
-    { token, provider, address, networkID, displayName }: IChangeApprovalWithDisplayNameAsyncThunk,
+    { token, provider, address, networkID, displayName, insertName }: IChangeApprovalWithDisplayNameAsyncThunk,
     { dispatch },
   ) => {
     if (!provider) {
@@ -73,7 +73,7 @@ export const changeMigrationApproval = createAsyncThunk(
       );
 
       const text = `Approve ${displayName} Migration`;
-      const pendingTxnType = `approve_migration`;
+      const pendingTxnType = insertName ? `approve_migration_${token}` : "approve_migration";
 
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
       await approveTx.wait();

@@ -22,6 +22,7 @@ export interface IChangeApprovalWithVersionAsyncThunk extends IChangeApprovalAsy
 
 export interface IChangeApprovalWithDisplayNameAsyncThunk extends IChangeApprovalAsyncThunk {
   readonly displayName: string;
+  readonly insertName: boolean;
 }
 
 export interface IActionAsyncThunk extends IBaseAsyncThunk {

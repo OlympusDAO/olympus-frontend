@@ -31,6 +31,7 @@ import ExternalStakePool from "../Stake/ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import { getMigrationAllowances } from "src/slices/AccountSlice";
+import { useAppSelector } from "src/hooks";
 
 function a11yProps(index) {
   return {
@@ -44,7 +45,9 @@ const ohmImg = getOhmTokenImage(16, 16);
 
 function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   const dispatch = useDispatch();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, address, connect } = useWeb3Context();
+
+  const chainID = useAppSelector(state => state.network.networkId);
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
@@ -339,7 +342,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                             color="primary"
                             disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                             onClick={() => {
-                              onSeekApproval("old_sohm");
+                              onSeekApproval("sohm");
                             }}
                           >
                             {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}

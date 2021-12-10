@@ -202,6 +202,7 @@ function Wrap() {
         address,
         networkID: networkId,
         displayName: token,
+        insertName: false,
       }),
     );
   };

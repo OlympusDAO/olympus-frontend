@@ -71,6 +71,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
         provider,
         token: token.toLowerCase(),
         displayName: token,
+        insertName: true,
       }),
     );
   };
@@ -230,9 +231,18 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                         <Button
                           variant="outlined"
                           onClick={() => onSeekApproval(row.initialAsset)}
-                          disabled={isPendingTxn(pendingTransactions, "approve_migration")}
+                          disabled={isPendingTxn(
+                            pendingTransactions,
+                            `approve_migration_${row.initialAsset.toLowerCase()}`,
+                          )}
                         >
-                          <Typography>{txnButtonText(pendingTransactions, "approve_migration", "Approve")}</Typography>
+                          <Typography>
+                            {txnButtonText(
+                              pendingTransactions,
+                              `approve_migration_${row.initialAsset.toLowerCase()}`,
+                              "Approve",
+                            )}
+                          </Typography>
                         </Button>
                       )}
                     </TableCell>
