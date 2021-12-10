@@ -176,7 +176,7 @@ function App() {
   const oldAssetsDetected = useAppSelector(state => {
     return (
       state.account.balances &&
-      (Number(state.account.balances.gohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
+      (Number(state.account.balances.sohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
         ? true
         : false)
     );
