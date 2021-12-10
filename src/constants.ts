@@ -96,8 +96,9 @@ export const addresses: IAddresses = {
     BONDINGCALC_ADDRESS: "0xcaaa6a2d4b26067a391e7b7d65c16bb2d5fa571a",
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
     TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
-    // TODO (appleseed-lusd): swap this out
-    PICKLE_OHM_LUSD_ADDRESS: "0xc3d03e4f041fd4cd388c549ee2a29a9e5075882f",
+    WSOHM_ADDRESS: "0x739ca6D71365a08f584c8FC4e1029045Fa8ABC4B",
+    MIGRATOR_ADDRESS: "0x1e7902a8b0adbf81042b5e30bdfa281f0b928d6d", // good
+    GOHM_ADDRESS: "0x8D9bA570D6cb60C7e3e0F31343Efe75AB8E65FB1", // good
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   }, // TODO: Replace with Arbitrum contract addresses when ready
   421611: {
@@ -264,7 +265,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     uri: () => EnvHelper.alchemyAvalancheTestnetURI,
   },
   43114: {
-    chainName: "Avalanche Mainnet",
+    chainName: "Avalanche",
     chainId: 43114,
     nativeCurrency: {
       name: "AVAX",
@@ -276,5 +277,75 @@ export const NETWORKS: { [key: number]: INetwork } = {
     image: avalanche,
     imageAltText: "Avalanche Logo",
     uri: () => NodeHelper.getMainnetURI(43114),
+  },
+};
+
+// VIEWS FOR NETWORK is used to denote which paths should be viewable on each network
+// ... attempting to prevent contract calls that can't complete & prevent user's from getting
+// ... stuck on the wrong view
+interface IViewsForNetwork {
+  dashboard: boolean;
+  stake: boolean;
+  wrap: boolean;
+  zap: boolean;
+  threeTogether: boolean;
+  bonds: boolean;
+  network: boolean;
+}
+
+export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
+  1: {
+    dashboard: true,
+    stake: true,
+    wrap: true,
+    zap: true,
+    threeTogether: true,
+    bonds: true,
+    network: true,
+  },
+  4: {
+    dashboard: true,
+    stake: true,
+    wrap: true,
+    zap: true,
+    threeTogether: true,
+    bonds: true,
+    network: true,
+  },
+  42161: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+  },
+  421611: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+  },
+  43114: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+  },
+  43113: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
   },
 };
