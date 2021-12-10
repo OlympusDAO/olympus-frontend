@@ -96,6 +96,10 @@ export function RecipientModal({
     return state.account.giving && state.account.giving.sohmGive;
   });
 
+  const isAccountLoading: boolean = useSelector((state: State) => {
+    return state.account.loading;
+  });
+
   const pendingTransactions: IPendingTxn[] = useSelector((state: State) => {
     return state.pendingTransactions;
   });
@@ -107,8 +111,6 @@ export function RecipientModal({
   const hasAllowance = useCallback(() => {
     return giveAllowance > 0;
   }, [giveAllowance]);
-
-  const isAllowanceDataLoading = giveAllowance == null;
 
   const getSOhmBalance = (): BigNumber => {
     return new BigNumber(sohmBalance);
@@ -365,6 +367,8 @@ export function RecipientModal({
               again.
             </FormHelperText>
           </>
+        ) : isAccountLoading ? (
+          <Skeleton />
         ) : !hasAllowance() ? (
           <Box className="help-text">
             <Typography variant="body1" className="stream-note" color="textSecondary">
@@ -373,8 +377,6 @@ export function RecipientModal({
               Please approve Olympus DAO to use your <b>sOHM</b> for giving.
             </Typography>
           </Box>
-        ) : isAllowanceDataLoading ? (
-          <Skeleton />
         ) : isAmountSet ? (
           <>
             <div className="give-confirmation-details">
@@ -490,7 +492,7 @@ export function RecipientModal({
               <Button
                 variant="contained"
                 color="primary"
-                disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL)}
+                disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading}
                 onClick={onSeekApproval}
               >
                 {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, "Approve")}
