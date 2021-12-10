@@ -18,12 +18,14 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap } from "./views";
+import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap, V1Stake } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
+import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
+import MigrationModal from "src/components/Migration/MigrationModal";
 import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
@@ -86,17 +88,28 @@ function App() {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 980px)");
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const { connect, hasCachedProvider, provider, connected, chainChanged, onChainChangeComplete } = useWeb3Context();
   const address = useAddress();
+
+  const [migrationModalOpen, setMigrationModalOpen] = useState(false);
+  const migModalOpen = () => {
+    setMigrationModalOpen(true);
+  };
+  const migModalClose = () => {
+    dispatch(loadAccountDetails({ networkID: networkId, address, provider }));
+    setMigrationModalOpen(false);
+  };
+
+  const isSmallerScreen = useMediaQuery("(max-width: 980px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const [walletChecked, setWalletChecked] = useState(false);
   const networkId = useAppSelector(state => state.network.networkId);
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
   const { bonds, expiredBonds } = useBonds(networkId);
+
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
@@ -120,12 +133,9 @@ function App() {
     }
   }
 
-  const initNetwork = useCallback(
-    loadProvider => {
-      dispatch(initializeNetwork({ provider: loadProvider }));
-    },
-    [networkId],
-  );
+  const initNetwork = useCallback(loadProvider => {
+    dispatch(initializeNetwork({ provider: loadProvider }));
+  }, []);
 
   const loadApp = useCallback(
     loadProvider => {
@@ -134,11 +144,8 @@ function App() {
       }
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       bonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
-        }
+        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
       });
-      dispatch(getMigrationAllowances({ address, provider, networkID: networkId }));
     },
     [networkId],
   );
@@ -149,20 +156,31 @@ function App() {
         return;
       }
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
+      dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
       bonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
-          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
+        // NOTE: get any Claimable bonds, they may not be bondable
+        if (bond.getClaimability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
         }
       });
       dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
       expiredBonds.map(bond => {
-        if (bond.getAvailability(networkId)) {
-          dispatch(calculateUserBondDetails({ address, bond, provider, networkID: networkId }));
+        if (bond.getClaimability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
         }
       });
     },
-    [networkId],
+    [networkId, address],
   );
+
+  const oldAssetsDetected = useAppSelector(state => {
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.sohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
+        ? true
+        : false)
+    );
+  });
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
@@ -207,10 +225,10 @@ function App() {
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected) {
+    if (connected && networkId !== -1) {
       loadDetails("account");
     }
-  }, [connected]);
+  }, [connected, networkId]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -246,6 +264,8 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+          {oldAssetsDetected && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+
           <Switch>
             <Route exact path="/dashboard">
               <TreasuryDashboard />
@@ -256,6 +276,14 @@ function App() {
             </Route>
 
             <Route path="/stake">
+              {oldAssetsDetected ? (
+                <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
+              ) : (
+                <Stake />
+              )}
+            </Route>
+
+            <Route path="/stakey-stake">
               <Stake />
             </Route>
 
@@ -293,6 +321,7 @@ function App() {
             <Route component={NotFound} />
           </Switch>
         </div>
+        <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
       </div>
     </ThemeProvider>
   );

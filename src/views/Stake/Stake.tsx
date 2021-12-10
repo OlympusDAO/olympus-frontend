@@ -1,5 +1,5 @@
 import { useCallback, useState, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
@@ -15,12 +15,15 @@ import {
   Typography,
   Zoom,
   Divider,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -31,6 +34,8 @@ import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
+import { ExpandMore } from "@material-ui/icons";
+import StakeRow from "./StakeRow";
 
 function a11yProps(index: number) {
   return {
@@ -38,9 +43,6 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
 
 function Stake() {
   const dispatch = useDispatch();
@@ -105,15 +107,6 @@ function Stake() {
     return state.pendingTransactions;
   });
 
-  const inputTokenImages = useMemo(
-    () =>
-      Object.entries(tokens)
-        .filter(token => token[0] !== "sohm")
-        .map(token => token[1].img)
-        .slice(0, 3),
-    [tokens],
-  );
-
   const setMax = () => {
     if (view === 0) {
       setQuantity(Number(ohmBalance));
@@ -143,7 +136,9 @@ function Stake() {
       return dispatch(error(t`You cannot unstake more than your sOHM balance.`));
     }
 
-    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId }));
+    await dispatch(
+      changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId, version2: false }),
+    );
   };
 
   const hasAllowance = useCallback(
@@ -417,97 +412,67 @@ function Stake() {
                       </Grid>
                     </Grid>
                   </Box>
-
-                  <div className={`stake-user-data`}>
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Unstaked Balance</Trans>
-                      </Typography>
-                      <Typography variant="body1" id="user-balance">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(ohmBalance), 4)} OHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Staked Balance</Trans>
-                      </Typography>
-                      <Typography variant="body1" id="user-staked-balance">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Single Staking</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(sohmBalance), 4)} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Staked Balance in Fuse</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fsohmBalance), 4)} fsOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsohmBalance), 4)} wsOHM</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance in FiatDAO</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiatDaowsohmBalance), 4)} wsOHM</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance</Trans> (v2)
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(gOhmBalance), 4)} gOHM</>}
-                      </Typography>
-                    </div>
-
+                  <div className="stake-user-data">
+                    <StakeRow
+                      title={t`Unstaked Balance`}
+                      id="user-balance"
+                      balance={`${trim(Number(ohmBalance), 4)} OHM`}
+                      {...{ isAppLoading }}
+                    />
+                    <Accordion className="stake-accordion" square>
+                      <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
+                        <StakeRow
+                          title={t`Staked Balance`}
+                          id="user-staked-balance"
+                          balance={`${trimmedBalance} sOHM`}
+                          {...{ isAppLoading }}
+                        />
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <StakeRow
+                          title={t`Single Staking`}
+                          balance={`${trim(Number(sohmBalance), 4)} sOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={t`Staked Balance in Fuse`}
+                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={t`Wrapped Balance`}
+                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
+                          {...{ isAppLoading }}
+                          indented
+                        />
+                        <StakeRow
+                          title={t`Wrapped Balance in FiatDAO`}
+                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
+                          {...{ isAppLoading }}
+                          indented
+                        />
+                        <StakeRow
+                          title={`${t`Wrapped Balance`} (v2)`}
+                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                      </AccordionDetails>
+                    </Accordion>
                     <Divider color="secondary" />
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Next Reward Amount</Trans>
-                      </Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Next Reward Yield</Trans>
-                      </Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>ROI (5-Day Rate)</Trans>
-                      </Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiveDayRate) * 100, 4)}%</>}
-                      </Typography>
-                    </div>
+                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
+                    <StakeRow
+                      title={t`Next Reward Yield`}
+                      balance={`${stakingRebasePercentage}%`}
+                      {...{ isAppLoading }}
+                    />
+                    <StakeRow
+                      title={t`ROI (5-Day Rate)`}
+                      balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
+                      {...{ isAppLoading }}
+                    />
                   </div>
                 </>
               )}

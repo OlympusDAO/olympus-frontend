@@ -2,13 +2,14 @@ import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
+import { abi as v2sOHM } from "../abi/v2sOhmNew.json";
 import { clearPendingTxn, fetchPendingTxns, getWrappingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, WsOHM } from "src/typechain";
+import { IERC20, WsOHM, V2sOhmNew } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -16,24 +17,6 @@ interface IUAData {
   approved: boolean;
   txHash: string | null;
   type: string | null;
-}
-
-function alreadyApprovedToken(token: string, wrapAllowance: BigNumber, unwrapAllowance: BigNumber) {
-  // set defaults
-  let bigZero = BigNumber.from("0");
-  let applicableAllowance = bigZero;
-
-  // determine which allowance to check
-  if (token === "sohm") {
-    applicableAllowance = wrapAllowance;
-  } else if (token === "wsohm") {
-    applicableAllowance = unwrapAllowance;
-  }
-
-  // check if allowance exists
-  if (applicableAllowance.gt(bigZero)) return true;
-
-  return false;
 }
 
 export const changeApproval = createAsyncThunk(
@@ -55,30 +38,17 @@ export const changeApproval = createAsyncThunk(
     let wrapAllowance = await sohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
     let unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
 
-    // return early if approval has already happened
-    if (alreadyApprovedToken(token, wrapAllowance, unwrapAllowance)) {
-      dispatch(info("Approval completed."));
-      return dispatch(
-        fetchAccountSuccess({
-          wrapping: {
-            ohmWrap: +wrapAllowance,
-            ohmUnwrap: +unwrapAllowance,
-          },
-        }),
-      );
-    }
-
     try {
       if (token === "sohm") {
         // won't run if wrapAllowance > 0
         approveTx = await sohmContract.approve(
           addresses[networkID].WSOHM_ADDRESS,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+          ethers.utils.parseUnits("1000000000", "gwei"),
         );
       } else if (token === "wsohm") {
         approveTx = await wsohmContract.approve(
           addresses[networkID].WSOHM_ADDRESS,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+          ethers.utils.parseUnits("1000000000", "ether"),
         );
       }
 
@@ -86,8 +56,8 @@ export const changeApproval = createAsyncThunk(
       const pendingTxnType = token === "sohm" ? "approve_wrapping" : "approve_unwrapping";
       if (approveTx) {
         dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
-
         await approveTx.wait();
+        dispatch(info("Successfully Approved!"));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
@@ -160,6 +130,55 @@ export const changeWrap = createAsyncThunk(
         segmentUA(uaData);
 
         dispatch(clearPendingTxn(wrapTx.hash));
+      }
+    }
+    dispatch(getBalances({ address, networkID, provider }));
+  },
+);
+
+export const changeWrapV2 = createAsyncThunk(
+  "wrap/changeWrapV2",
+  async ({ action, value, provider, address, networkID }: IActionValueAsyncThunk, { dispatch }) => {
+    if (!provider) {
+      dispatch(error("Please connect your wallet!"));
+      return;
+    }
+
+    const signer = provider.getSigner();
+
+    const v2sOhmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, v2sOHM, signer) as V2sOhmNew;
+
+    let wrapTx;
+    let uaData: IUAData = {
+      address: address,
+      value: value,
+      approved: true,
+      txHash: null,
+      type: null,
+    };
+    try {
+      uaData.type = "unwrap";
+      wrapTx = await v2sOhmContract.fromG(4);
+      // const pendingTxnType = action === "wrap" ? "wrapping" : "unwrapping";
+      // uaData.txHash = wrapTx.hash;
+      // dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: pendingTxnType }));
+      // await wrapTx.wait();
+    } catch (e: unknown) {
+      uaData.approved = false;
+      const rpcError = e as IJsonRPCError;
+      if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
+        dispatch(
+          error("You may be trying to wrap more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+        );
+      } else {
+        dispatch(error(rpcError.message));
+      }
+      return;
+    } finally {
+      if (wrapTx) {
+        segmentUA(uaData);
+
+        // dispatch(clearPendingTxn(wrapTx.hash));
       }
     }
     dispatch(getBalances({ address, networkID, provider }));

@@ -100,6 +100,8 @@ export const getBalances = createAsyncThunk(
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
+        // ohmv2: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
+        // sohmv2: ethers.utils.formatUnits(sOhmV2Balance, "gwei"),
       },
     };
   },
@@ -166,6 +168,7 @@ export const loadAccountDetails = createAsyncThunk(
     let unwrapAllowance = BigNumber.from("0");
     let gOhmUnwrapAllowance = BigNumber.from("0");
     let poolAllowance = BigNumber.from("0");
+    let gOhmBalance = BigNumber.from("0");
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmUnwrapAllowance = await gOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
@@ -189,10 +192,21 @@ export const loadAccountDetails = createAsyncThunk(
     }
     await dispatch(getBalances({ address, networkID, provider }));
 
+    if (addresses[networkID].GOHM_ADDRESS) {
+      const gOhmContract = new ethers.Contract(
+        addresses[networkID].GOHM_ADDRESS as string,
+        ierc20Abi,
+        provider,
+      ) as IERC20;
+      gOhmBalance = await gOhmContract.balanceOf(address);
+    }
+
     return {
       staking: {
         ohmStake: +stakeAllowance,
         ohmUnstake: +unstakeAllowance,
+        // ohmStakeV2: +stakeAllowanceV2,
+        // ohmUnstakeV2: +unstakeAllowanceV2,
       },
       wrapping: {
         ohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
