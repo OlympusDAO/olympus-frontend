@@ -17,7 +17,7 @@ interface IUADataZap {
   value: string;
   token: string;
   type: string;
-  slippage: number;
+  slippage: string;
   approved: boolean;
 }
 export const getZapTokenAllowance = createAsyncThunk(
