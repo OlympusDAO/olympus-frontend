@@ -98,7 +98,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   };
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: chainID, version2: false }));
   };
 
   const onChangeStake = async action => {

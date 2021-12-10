@@ -116,7 +116,7 @@ function Stake() {
   };
 
   const onSeekApproval = async (token: string) => {
-    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId, version2: true }));
   };
 
   const onChangeStake = async (action: string) => {
