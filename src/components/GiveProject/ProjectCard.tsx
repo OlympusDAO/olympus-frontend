@@ -21,6 +21,8 @@ import { countDecimals, roundToDecimal, toInteger } from "./utils";
 import { ReactComponent as WebsiteIcon } from "../../assets/icons/website.svg";
 import { ReactComponent as DonatedIcon } from "../../assets/icons/donated.svg";
 import { ReactComponent as GoalIcon } from "../../assets/icons/goal.svg";
+import MarkdownIt from "markdown-it";
+import { shortenString } from "src/helpers";
 
 type CountdownProps = {
   total: number;
@@ -288,6 +290,16 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     setIsGiveModalOpen(false);
   };
 
+  const getTitle = () => {
+    if (!owner) return title;
+
+    return owner + " - " + title;
+  };
+
+  const getRenderedDetails = (shorten: boolean) => {
+    return { __html: MarkdownIt({ html: true }).render(shorten ? shortenString(details, 250) : details) };
+  };
+
   const getCardContent = () => {
     return (
       <>
@@ -299,9 +311,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Grid item className="cause-title">
                   <Link href={`#/give/projects/${project.slug}`}>
                     <Typography variant="h5">
-                      <strong>
-                        {owner} - {title}
-                      </strong>
+                      <strong>{getTitle()}</strong>
                     </Typography>
                   </Link>
                 </Grid>
@@ -319,7 +329,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               <Typography variant="body1"></Typography>
               <div className="cause-body">
                 <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                  {details}
+                  <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
                 </Typography>
               </div>
               <Grid container direction="column" className="cause-misc-info">
@@ -381,7 +391,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               <Grid container className="project-intro" justifyContent="space-between">
                 <Grid item className="project-title">
                   <Typography variant="h5">
-                    <strong>{title}</strong>
+                    <strong>{getTitle()}</strong>
                   </Typography>
                 </Grid>
                 <Grid item className="project-link">
@@ -425,7 +435,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               <Typography variant="h5">
                 <strong>About</strong>
               </Typography>
-              <div>{project.details}</div>
+              <div dangerouslySetInnerHTML={getRenderedDetails(false)} />
             </Paper>
           </Grid>
         </Grid>
