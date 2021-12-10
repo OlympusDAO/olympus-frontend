@@ -482,7 +482,8 @@
   }
 
   .MuiLinearProgress-barColorPrimary {
-    background-color: #f4d092;
+    background: rgb(112, 139, 150);
+    background: linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%);
   }
 }
 
