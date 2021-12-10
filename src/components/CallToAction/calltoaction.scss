@@ -1,6 +1,12 @@
 .call-to-action {
-  height: 72px;
   display: flex;
+  @media (max-width: 500px) {
+    flex-direction: column;
+    & .actionable {
+      margin-top: 10px;
+      width: 100%;
+    }
+  }
   align-items: center;
   justify-content: space-between;
   width: 97%;
