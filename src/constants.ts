@@ -4,7 +4,7 @@ import ethereum from "./assets/tokens/wETH.svg";
 import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 
-export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
+export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";
 export const EPOCH_INTERVAL = 2200;
 
 // NOTE could get this from an outside source since it changes slightly over time
