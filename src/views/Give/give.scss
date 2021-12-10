@@ -368,7 +368,7 @@
   }
 
   .give-info-deposit-box {
-    max-width: 28%
+    max-width: 28%;
   }
 
   .give-info-vault-box {
@@ -483,4 +483,8 @@
   .MuiLinearProgress-barColorPrimary {
     background-color: #f4d092;
   }
+}
+
+.yield-recipients-empty {
+  align-items: center;
 }
