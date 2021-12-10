@@ -176,10 +176,14 @@ function App() {
   const oldAssetsDetected = useAppSelector(state => {
     return (
       state.account.balances &&
-      (Number(state.account.balances.sohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
+      (Number(state.account.balances.gohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
         ? true
         : false)
     );
+  });
+
+  const newAssetsDetected = useAppSelector(state => {
+    return state.account.balances && (Number(state.account.balances.gohm) ? true : false);
   });
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
@@ -276,15 +280,15 @@ function App() {
             </Route>
 
             <Route path="/stake">
-              {oldAssetsDetected ? (
-                <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
-              ) : (
+              {newAssetsDetected ? (
                 <Stake />
+              ) : (
+                <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
               )}
             </Route>
 
-            <Route path="/stakey-stake">
-              <Stake />
+            <Route path="/v1-stake">
+              <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
             </Route>
 
             <Route path="/wrap">

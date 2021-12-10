@@ -130,9 +130,9 @@ function OhmMenu() {
                     </Button>
                   </Link>
 
-                  <Link component={NavLink} to="/wrap" style={{ textDecoration: "none" }}>
+                  <Link component={NavLink} to="/v1-stake" style={{ textDecoration: "none" }}>
                     <Button size="large" variant="contained" color="secondary" fullWidth>
-                      <Typography align="left">Wrap sOHM</Typography>
+                      <Typography align="left">Switch to OHM v1 (Legacy)</Typography>
                     </Button>
                   </Link>
                 </Box>
