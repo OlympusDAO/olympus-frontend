@@ -442,7 +442,6 @@ function Wrap() {
                               disableUnderline
                             >
                               <MenuItem value={"sOHM"}>sOHM</MenuItem>
-                              <MenuItem value={"wsOHM"}> wsOHM</MenuItem>
                               <MenuItem value={"gOHM"}>gOHM</MenuItem>
                             </Select>
                           </FormControl>
