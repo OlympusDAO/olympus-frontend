@@ -454,7 +454,7 @@ function Stake() {
                           indented
                         />
                         <StakeRow
-                          title={`${t`Wrapped Balance`} (v2)`}
+                          title={`${t`Wrapped Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
                           {...{ isAppLoading }}

@@ -60,9 +60,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   const ohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.ohm;
   });
-  const oldSohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.oldsohm;
-  });
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
