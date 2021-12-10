@@ -160,10 +160,10 @@
     }
 
     .cause-link:hover {
-      color: #F4D092;
+      color: #f4d092;
 
       svg path {
-        fill: #F4D092;
+        fill: #f4d092;
       }
     }
 
@@ -199,7 +199,8 @@
       height: 40px;
       width: 12rem;
       margin-left: auto;
-      margin-right: 0;    }
+      margin-right: 0;
+    }
   }
 }
 
@@ -347,7 +348,7 @@
   margin-bottom: 16px;
 
   .MuiDivider-root {
-   background-color: #F4D092;
+    background-color: #f4d092;
   }
 }
 
@@ -367,7 +368,7 @@
   }
 
   .give-info-deposit-box {
-    max-width: 28%
+    max-width: 28%;
   }
 
   .give-info-vault-box {
@@ -411,4 +412,123 @@
   .modal-container {
     background-color: rgba(100, 100, 100, 0.95);
   }
+}
+
+.project {
+  .project-sidebar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    .project-countdown .countdown-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+      .countdown-object {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+          padding-right: 0.3rem;
+        }
+      }
+
+      .project-countdown-text {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        padding-top: 0.3rem;
+
+        .cause-info-bottom-text {
+          color: #999999;
+        }
+      }
+    }
+  }
+
+  .project-intro {
+    padding-bottom: 30px;
+  }
+
+  .project-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.3rem;
+  }
+
+  .project-info {
+    margin-left: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    height: 80%;
+    width: 100%;
+
+    .project-about-header {
+      padding-bottom: 30px;
+    }
+
+    p {
+      line-height: 20px;
+    }
+  }
+
+  .project-donated {
+    .project-donated-icon {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .subtext {
+      color: #999999;
+    }
+  }
+
+  .project-completion {
+    text-align: right;
+
+    .project-completion-icon {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .subtext {
+      color: #999999
+    }
+  }
+
+  .project-goal {
+    padding-top: 1rem;
+  }
+
+  .project-goal-progress {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .project-give-button {
+    padding-top: 2rem;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .MuiLinearProgress-determinate {
+    height: 1rem;
+    border-radius: 3px;
+  }
+
+  .MuiLinearProgress-barColorPrimary {
+    background-color: #f4d092;
+  }
+}
+
+.yield-recipients-empty {
+  align-items: center;
 }
