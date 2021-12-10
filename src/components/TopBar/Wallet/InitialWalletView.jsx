@@ -1,4 +1,15 @@
-import { useTheme, makeStyles, withStyles } from "@material-ui/core";
+import {
+  useTheme,
+  makeStyles,
+  withStyles,
+  SvgIcon,
+  Button,
+  Typography,
+  Box,
+  Divider,
+  Link,
+  IconButton,
+} from "@material-ui/core";
 import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
@@ -9,7 +20,7 @@ import rariTokenImg from "src/assets/tokens/RARI.png";
 import { addresses, TOKEN_DECIMALS } from "src/constants";
 import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
-import { SvgIcon, Button, Typography, Box, Divider, Link, IconButton } from "@material-ui/core";
+import useCurrentTheme from "src/hooks/useTheme";
 
 import { dai, frax } from "src/helpers/AllBonds";
 
@@ -48,28 +59,31 @@ const ExternalLinkStyledButton = withStyles(theme => ({
   },
 }))(Button);
 
-const ExternalLink = ({ href, children, color = "textSecondary" }) => (
-  <Link target="_blank" rel="noreferrer" href={href} style={{ width: "100%" }}>
-    <ExternalLinkStyledButton color={color} variant="outlined" fullWidth>
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-        <Box sx={{ width: "100%" }}>{children}</Box>
-        <Box sx={{ display: "flex", alignSelf: "start" }}>
-          <SvgIcon
-            component={ArrowUpIcon}
-            htmlColor={color === "textSecondary" && "#ffffff3b"}
-            style={{ height: `18px`, width: `18px`, verticalAlign: "middle" }}
-          />
+const ExternalLink = ({ href, children, color = "textSecondary" }) => {
+  const theme = useTheme();
+  return (
+    <Link target="_blank" rel="noreferrer" href={href} style={{ width: "100%" }}>
+      <ExternalLinkStyledButton color={color} variant="outlined" fullWidth>
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+          <Box sx={{ width: "100%" }}>{children}</Box>
+          <Box sx={{ display: "flex", alignSelf: "start" }}>
+            <SvgIcon
+              component={ArrowUpIcon}
+              htmlColor={color === "textSecondary" && theme.palette.text.secondary}
+              style={{ height: `18px`, width: `18px`, verticalAlign: "middle" }}
+            />
+          </Box>
         </Box>
-      </Box>
-    </ExternalLinkStyledButton>
-  </Link>
-);
+      </ExternalLinkStyledButton>
+    </Link>
+  );
+};
 
 const DisconnectButton = () => {
   const { disconnect } = useWeb3Context();
   return (
     <Button onClick={disconnect} variant="contained" size="small" color="secondary" fullWidth>
-      <Typography variant="body2" color="textSecondary">
+      <Typography variant="body2">
         Disconnect
         <SvgIcon
           component={WalletIcon}
@@ -92,7 +106,7 @@ const useStyles = makeStyles(theme => ({
 
 const CloseButton = withStyles(theme => ({
   root: {
-    ...theme.overrides.MuiButton.containedSecondary, // is this how it should be done? I am finding this styling patterns not very streight foward
+    ...theme.overrides.MuiButton.containedSecondary,
     width: "30px",
     height: "30px",
   },
@@ -108,7 +122,7 @@ const WalletTotalValue = ({ onChangeCurrency }) => {
       </Typography>
       <Typography className={styles.totalValue} variant="h4">
         {formatCurrency(
-          tokens.reduce((totalValue, token) => totalValue + parseFloat(token.balance) * token.price, 0),
+          tokens.reduce((totalValue, token) => totalValue + parseFloat(token.balance) * token.price, 0) || 0,
           2,
         )}
       </Typography>
@@ -118,6 +132,7 @@ const WalletTotalValue = ({ onChangeCurrency }) => {
 
 function InitialWalletView({ onClose }) {
   const theme = useTheme();
+  const currentTheme = useCurrentTheme();
   const styles = useStyles();
   const networkId = useAppSelector(state => state.network.networkId);
   return (
@@ -149,7 +164,7 @@ function InitialWalletView({ onClose }) {
         }}
       >
         <ExternalLink
-          color="primary"
+          color={currentTheme === "dark" ? "primary" : undefined}
           href={`https://app.sushi.com/swap?inputCurrency=${dai.getAddressForReserve(networkId)}&outputCurrency=${
             addresses[networkId].OHM_ADDRESS
           }`}
@@ -157,7 +172,7 @@ function InitialWalletView({ onClose }) {
           <Typography align="left">Buy on Sushiswap</Typography>
         </ExternalLink>
         <ExternalLink
-          color="primary"
+          color={currentTheme === "dark" ? "primary" : undefined}
           href={`https://app.uniswap.org/#/swap?inputCurrency=${frax.getAddressForReserve(networkId)}&outputCurrency=${
             addresses[networkId].OHM_ADDRESS
           }`}
