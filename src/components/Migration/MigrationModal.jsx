@@ -138,7 +138,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>
+          <Box sx={style} className="modal-inner">
             <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
               <Button onClick={handleClose}>
                 <SvgIcon component={XIcon} color="primary" />

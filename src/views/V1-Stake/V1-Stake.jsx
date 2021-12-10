@@ -249,13 +249,15 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                       <Tab label="Unstake" {...a11yProps(1)} />
                     </Tabs>
 
-                    <Box className="help-text">
-                      <Typography variant="body1" className="stake-note" color="textSecondary">
-                        <>
-                          You must complete the migration of your assest to stake additional <b>OHM</b>
-                        </>
-                      </Typography>
-                    </Box>
+                    {view === 0 && (
+                      <Box className="help-text">
+                        <Typography variant="body1" className="stake-note" color="textSecondary">
+                          <>
+                            You must complete the migration of your assest to stake additional <b>OHM</b>
+                          </>
+                        </Typography>
+                      </Box>
+                    )}
 
                     <Box className="stake-action-row v1-row " display="flex" alignItems="center">
                       {address && !isAllowanceDataLoading ? (

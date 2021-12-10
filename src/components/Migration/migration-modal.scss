@@ -8,8 +8,16 @@
   color: inherit;
 }
 
-.mig-modal-full {
-  background-color: rgba(54, 56, 64, 0.4);
+.dark .mig-modal-full .MuiBox-root.modal-inner {
+  background-color: rgba(54, 56, 64, 0.8);
+}
+
+.light .mig-modal-full .MuiBox-root.modal-inner {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+#migration-modal-description {
+  line-height: 1.5em;
 }
 
 @media (max-width: 500px) {
