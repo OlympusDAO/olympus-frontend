@@ -176,10 +176,10 @@ function MigrationModal({ open, handleOpen, handleClose }) {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">
+                  <TableCell align="center">
                     <Typography>Asset</Typography>
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell align="center">
                     <Box display="inline-flex">
                       <Typography>Pre-migration</Typography>
                       <InfoTooltip
@@ -188,7 +188,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                       ></InfoTooltip>
                     </Box>
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell align="center">
                     <Box display="inline-flex">
                       <Typography>Post-migration</Typography>
                       <InfoTooltip
