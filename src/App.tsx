@@ -248,6 +248,11 @@ function App() {
             <Route exact path="/give">
               <CausesDashboard />
             </Route>
+            <Redirect from="/olympusgive" to="/give" />
+            <Redirect from="/tyche" to="/give" />
+            <Redirect from="/olygive" to="/give" />
+            <Redirect from="/olympusdaogive" to="/give" />
+            <Redirect from="/ohmgive" to="/give" />
 
             <Route path="/give/projects">
               {projects.map(project => {

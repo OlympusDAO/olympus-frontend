@@ -10,7 +10,7 @@ const viewBox = "0 0 100 100";
 // The sOHM SVG is 100x100px, whereas the others are 50x50px
 const smallViewBox = "0 0 50 50";
 const iconStyle = { height: "64px", width: "64px", margin: "auto" };
-const smallIconStyle = { height: "48px", width: "48px", margin: "auto" };
+const smallIconStyle = { height: "32px", width: "32px", margin: "auto" };
 
 type EducationGraphicProps = {
   quantity: string;
@@ -51,15 +51,27 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
         alignContent="center"
         justifyContent="center"
         m={2}
-        style={{ marginBottom: "30px" }}
+        style={{ marginBottom: "8px" }}
       >
         <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={smallIconStyle} />
       </Box>
-      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
-        <Typography variant="body2" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          <strong>{message}</strong>
+      <Box
+        display="flex"
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        className="text"
+        style={{ marginBottom: "16px", color: "#999999" }}
+      >
+        <Typography variant="body1" className="subtext">
+          Wallet
         </Typography>
-        <Typography variant="body1" align="left" className="education-message" style={{ lineHeight: "20px" }}>
+      </Box>
+      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
+        <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
+          {message}
+        </Typography>
+        <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step
           is depositing your sOHM and specifying a recipient.
         </Typography>
@@ -98,15 +110,27 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
         justifyContent="center"
         alignContent="center"
         m={2}
-        style={{ marginBottom: "30px" }}
+        style={{ marginBottom: "8px" }}
       >
         <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
       </Box>
-      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
-        <Typography variant="body2" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          <strong>{message}</strong>
+      <Box
+        display="flex"
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        className="text"
+        style={{ marginBottom: "16px", color: "#999999" }}
+      >
+        <Typography variant="body1" className="subtext">
+          Vault
         </Typography>
-        <Typography variant="body1" align="left" className="education-message" style={{ lineHeight: "20px" }}>
+      </Box>
+      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
+        <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
+          {message}
+        </Typography>
+        <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You
           can withdraw your principal sOHM amount at any time.
         </Typography>
@@ -181,15 +205,27 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
         justifyContent="center"
         alignContent="center"
         m={2}
-        style={{ marginBottom: "30px" }}
+        style={{ marginBottom: "8px" }}
       >
         <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} className="receives-yield-icon" />
       </Box>
-      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
-        <Typography variant="body2" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          <strong>{message}</strong>
+      <Box
+        display="flex"
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        className="text"
+        style={{ marginBottom: "16px", color: "#999999" }}
+      >
+        <Typography variant="body1" className="subtext">
+          Recipient
         </Typography>
-        <Typography variant="body1" align="left" className="education-message" style={{ lineHeight: "20px" }}>
+      </Box>
+      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
+        <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
+          {message}
+        </Typography>
+        <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           The recipient you specified, or the project you selected, will then receive the rebases associated with your
           sOHM deposit until you withdraw your sOHM principal from the vault.
         </Typography>

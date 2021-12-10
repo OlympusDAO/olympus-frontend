@@ -112,9 +112,9 @@ export const getDonationBalances = createAsyncThunk(
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
     let donationInfo: IUserDonationInfo = {};
     try {
-      let allDeposits: [string[], number[]] = await givingContract.getAllDeposits(address);
+      let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
       for (let i = 0; i < allDeposits[0].length; i++) {
-        if (allDeposits[1][i] !== 0) {
+        if (allDeposits[1][i] !== BigNumber.from(0)) {
           donationInfo[allDeposits[0][i]] = parseFloat(ethers.utils.formatUnits(allDeposits[1][i], "gwei"));
         }
       }

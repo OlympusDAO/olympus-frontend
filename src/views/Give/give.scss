@@ -82,7 +82,7 @@
     background-color: #ffffff0e;
     backdrop-filter: blur(60px);
     -webkit-backdrop-filter: blur(60px);
-    border-radius: 5px !important;
+    border-radius: 10px !important;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -363,16 +363,20 @@
   flex-direction: row;
   justify-content: space-between;
 
+  .subtext {
+    font-weight: 400;
+  }
+
   .give-info-deposit-box {
-    max-width: 25%
+    max-width: 28%;
   }
 
   .give-info-vault-box {
-    max-width: 25%;
+    max-width: 28%;
   }
 
   .give-info-yield-box {
-    max-width: 25%;
+    max-width: 28%;
 
     .receives-yield-icon path {
       fill: none;
@@ -479,4 +483,8 @@
   .MuiLinearProgress-barColorPrimary {
     background-color: #f4d092;
   }
+}
+
+.yield-recipients-empty {
+  align-items: center;
 }

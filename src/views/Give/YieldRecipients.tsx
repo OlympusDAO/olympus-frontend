@@ -148,7 +148,7 @@ export default function YieldRecipients() {
   if (Object.keys(donationInfo).length == 0) {
     return (
       <>
-        <Grid container>
+        <Grid container className="yield-recipients-empty">
           <Grid item xs={10}>
             <Typography variant="h5">It looks like you haven't donated any yield. Let's fix that!</Typography>
           </Grid>
