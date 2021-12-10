@@ -70,9 +70,6 @@ export default function CausesDashboard() {
     <>
       <div className="give-view">
         <Zoom in={true}>
-          <GiveInfo />
-        </Zoom>
-        <Zoom in={true}>
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
             <div className="card-header">
               <div>
@@ -103,6 +100,9 @@ export default function CausesDashboard() {
               cancelFunc={handleCustomGiveModalCancel}
             />
           </Paper>
+        </Zoom>
+        <Zoom in={true}>
+          <GiveInfo />
         </Zoom>
       </div>
     </>
