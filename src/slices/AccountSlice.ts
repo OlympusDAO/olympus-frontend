@@ -163,6 +163,8 @@ export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
   async ({ networkID, provider, address }: IBaseAddressAsyncThunk, { dispatch }) => {
     let stakeAllowance = BigNumber.from("0");
+    let stakeAllowanceV2 = BigNumber.from("0");
+    let unstakeAllowanceV2 = BigNumber.from("0");
     let unstakeAllowance = BigNumber.from("0");
     let wrapAllowance = BigNumber.from("0");
     let unwrapAllowance = BigNumber.from("0");
@@ -187,6 +189,12 @@ export const loadAccountDetails = createAsyncThunk(
 
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
       unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
+
+      const sohmV2Contract = IERC20__factory.connect(addresses[networkID].SOHM_V2, provider);
+      unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
+
+      const ohmV2Contract = IERC20__factory.connect(addresses[networkID].OHM_V2, provider);
+      stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
     } catch (e) {
       console.warn("failed contract calls in slice", e);
     }
@@ -205,8 +213,8 @@ export const loadAccountDetails = createAsyncThunk(
       staking: {
         ohmStake: +stakeAllowance,
         ohmUnstake: +unstakeAllowance,
-        // ohmStakeV2: +stakeAllowanceV2,
-        // ohmUnstakeV2: +unstakeAllowanceV2,
+        ohmStakeV2: +stakeAllowanceV2,
+        ohmUnstakeV2: +unstakeAllowanceV2,
       },
       wrapping: {
         ohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),

@@ -9,7 +9,7 @@ import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, OlympusStakingv2, SOhmv2, StakingHelper } from "src/typechain";
+import { IERC20, OlympusStakingv2, OlympusStakingv2__factory, SOhmv2, StakingHelper } from "src/typechain";
 import ReactGA from "react-ga";
 
 interface IUAData {
@@ -157,11 +157,7 @@ export const changeStake = createAsyncThunk(
       signer,
     ) as StakingHelper;
 
-    // const stakingV2 = new ethers.Contract(
-    //   addresses[networkID].STAKING_V2 as string,
-    //   OlympusStakingABI,
-    //   signer,
-    // ) as OlympusStakingv2;
+    const stakingV2 = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, signer);
 
     let stakeTx;
     let uaData: IUAData = {
@@ -172,23 +168,23 @@ export const changeStake = createAsyncThunk(
       type: null,
     };
     try {
-      // if (version2) {
-      //   if (action === "stake") {
-      //     uaData.type = "stake";
-      //     stakeTx = await stakingV2.stake(ethers.utils.parseUnits(value, "gwei"), address);
-      //   } else {
-      //     uaData.type = "unstake";
-      //     stakeTx = await stakingV2.unstake(ethers.utils.parseUnits(value, "gwei"), true);
-      //   }
-      // } else {
-      if (action === "stake") {
-        uaData.type = "stake";
-        stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"));
+      if (version2) {
+        if (action === "stake") {
+          uaData.type = "stake";
+          stakeTx = await stakingV2.stake(ethers.utils.parseUnits(value, "gwei"), address);
+        } else {
+          uaData.type = "unstake";
+          stakeTx = await stakingV2.unstake(ethers.utils.parseUnits(value, "gwei"), true);
+        }
       } else {
-        uaData.type = "unstake";
-        stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
+        if (action === "stake") {
+          uaData.type = "stake";
+          stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"));
+        } else {
+          uaData.type = "unstake";
+          stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
+        }
       }
-      // }
       const pendingTxnType = action === "stake" ? "staking" : "unstaking";
       uaData.txHash = stakeTx.hash;
       dispatch(fetchPendingTxns({ txnHash: stakeTx.hash, text: getStakingTypeText(action), type: pendingTxnType }));

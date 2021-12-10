@@ -137,7 +137,7 @@ function Stake() {
     }
 
     await dispatch(
-      changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId, version2: false }),
+      changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId, version2: true }),
     );
   };
 
