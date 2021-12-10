@@ -4,10 +4,11 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
+import { ReactComponent as DonorsIcon } from "../../assets/icons/donors.svg";
 import { useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import { useAppDispatch } from "src/hooks";
-import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
@@ -51,7 +52,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const { title, owner, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
+  const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
+  const [donorCount, setDonorCount] = useState(0);
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
 
@@ -74,6 +77,15 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     }).then(resultAction => {
       setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
       setRecipientInfoIsLoading(false);
+    });
+
+    getDonorNumbers({
+      networkID: chainID,
+      provider: provider,
+      address: wallet,
+    }).then(resultAction => {
+      setDonorCount(!resultAction ? 0 : resultAction.length);
+      setDonorCountIsLoading(false);
     });
   }, [connected]);
 
@@ -110,7 +122,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   {days}:{hours}:{minutes}
                 </strong>
               </div>
-              <span className="cause-info-bottom-text">remaining</span>
+              <span className="cause-info-bottom-text">Remaining</span>
             </div>
           </Tooltip>
         </div>
@@ -151,7 +163,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   <strong>
                     {formatted.days}:{formatted.hours}:{formatted.minutes}
                   </strong>
-                  <span className="cause-info-bottom-text"> remaining</span>
+                  <span className="cause-info-bottom-text"> Remaining</span>
                 </div>
               </Tooltip>
             </Grid>
@@ -387,6 +399,25 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   <Typography variant="h6">Give Yield</Typography>
                 </Button>
               </div>
+            </Paper>
+            <Paper className="project-sidebar">
+              <Grid container direction="column">
+                <Grid item className="project-title">
+                  <Typography variant="h5">
+                    <strong>Donations</strong>
+                  </Typography>
+                </Grid>
+                <Grid item xs={4} className="project-goal">
+                  <Grid container className="project-donated-icon">
+                    <Grid item xs={4}>
+                      <SvgIcon color="primary" component={DonorsIcon} />
+                    </Grid>
+                    <Grid item xs={4}>
+                      {donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>} Donors
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
           <Grid item xs={6}>
