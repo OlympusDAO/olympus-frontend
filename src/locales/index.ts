@@ -5,19 +5,24 @@ import { en, fr, ko, tr, zh, ar, es } from "make-plural/plurals";
 interface ILocale {
   flag: string;
   plurals: (n: number | string, ord?: boolean) => "zero" | "one" | "two" | "few" | "many" | "other";
+  direction: "inherit" | "rtl";
 }
 interface ILocales {
   [locale: string]: ILocale;
 }
 export const locales: ILocales = {
-  en: { flag: "gb", plurals: en },
-  fr: { flag: "fr", plurals: fr },
-  ko: { flag: "kr", plurals: ko },
-  tr: { flag: "tr", plurals: tr },
-  zh: { flag: "cn", plurals: zh },
-  ar: { flag: "sa", plurals: ar },
-  es: { flag: "es", plurals: es },
+  en: { flag: "gb", plurals: en, direction: "inherit" },
+  fr: { flag: "fr", plurals: fr, direction: "inherit" },
+  ko: { flag: "kr", plurals: ko, direction: "inherit" },
+  tr: { flag: "tr", plurals: tr, direction: "inherit" },
+  zh: { flag: "cn", plurals: zh, direction: "inherit" },
+  ar: { flag: "sa", plurals: ar, direction: "rtl" },
+  es: { flag: "es", plurals: es, direction: "inherit" },
 };
+// Create translations style element
+const translations_style_dom = document.createElement("style");
+translations_style_dom.type = "text/css";
+document.getElementsByTagName("head")[0].appendChild(translations_style_dom);
 
 // Load locale data
 for (var [key, locale] of Object.entries(locales)) {
@@ -30,6 +35,7 @@ async function fetchLocale(locale: string = "en") {
   );
   i18n.load(locale, messages);
   i18n.activate(locale);
+  translations_style_dom.innerHTML = `.MuiTypography-root { direction: ${locales[locale].direction}; !important}`;
 }
 export function selectLocale(locale: string) {
   window.localStorage.setItem("locale", locale);
