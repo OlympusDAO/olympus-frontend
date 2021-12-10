@@ -7,7 +7,12 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
-import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
+import {
+  IActionValueAsyncThunk,
+  IChangeApprovalAsyncThunk,
+  IChangeApprovalWithVersionAsyncThunk,
+  IJsonRPCError,
+} from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { IERC20, OlympusStakingv2, OlympusStakingv2__factory, SOhmv2, StakingHelper } from "src/typechain";
 import ReactGA from "react-ga";
@@ -50,7 +55,7 @@ function alreadyApprovedToken(
 
 export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
-  async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
+  async ({ token, provider, address, networkID, version2 }: IChangeApprovalWithVersionAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -60,7 +65,7 @@ export const changeApproval = createAsyncThunk(
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
     const ohmV2Contract = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20ABI, signer) as IERC20;
-    const sohmV2Contract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20ABI, signer) as SOhmv2;
+    const sohmV2Contract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20ABI, signer) as IERC20;
     let approveTx;
     let stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     let unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
@@ -83,21 +88,30 @@ export const changeApproval = createAsyncThunk(
     }
 
     try {
-      if (token === "ohm") {
-        approveTx = await ohmV2Contract.approve(
-          addresses[networkID].STAKING_V2,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
-        );
-      } else if (token === "sohm") {
-        approveTx = await sohmV2Contract.approve(
-          addresses[networkID].STAKING_V2,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
-        );
-      } else if (token === "old_sohm") {
-        approveTx = await sohmV2Contract.approve(
-          addresses[networkID].STAKING_ADDRESS,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
-        );
+      if (version2) {
+        if (token === "ohm") {
+          approveTx = await ohmV2Contract.approve(
+            addresses[networkID].STAKING_V2,
+            ethers.utils.parseUnits("1000000000", "gwei").toString(),
+          );
+        } else if (token === "sohm") {
+          approveTx = await sohmV2Contract.approve(
+            addresses[networkID].STAKING_V2,
+            ethers.utils.parseUnits("1000000000", "gwei").toString(),
+          );
+        }
+      } else {
+        if (token === "ohm") {
+          approveTx = await ohmContract.approve(
+            addresses[networkID].STAKING_ADDRESS,
+            ethers.utils.parseUnits("1000000000", "gwei").toString(),
+          );
+        } else if (token === "sohm") {
+          approveTx = await sohmContract.approve(
+            addresses[networkID].STAKING_ADDRESS,
+            ethers.utils.parseUnits("1000000000", "gwei").toString(),
+          );
+        }
       }
 
       const text = "Approve " + (token === "ohm" ? "Staking" : "Unstaking");
