@@ -339,6 +339,14 @@ export function RecipientModal({
 
   // TODO stop modal from moving when validation messages are shown
 
+  // NOTE: the following warning is caused by the amount-input field:
+  // Warning: `value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.%s
+  // This is caused by this line (currently 423):
+  // value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+  // If we set the value to an empty string instead of null, any decimal number that is entered will not be accepted
+  // This appears to be due to the following bug (which is still not resolved);
+  // https://github.com/facebook/react/issues/11877
+
   return (
     <Modal className="modal-container" open={isModalOpen}>
       <Paper className="ohm-card ohm-modal">
@@ -420,7 +428,7 @@ export function RecipientModal({
                 type="number"
                 placeholder="Enter an amount"
                 className="stake-input"
-                value={getDepositAmount().isEqualTo(0) ? "" : getDepositAmount()}
+                value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
                 error={!isDepositAmountValid}
                 onChange={e => handleSetDepositAmount(e.target.value)}
                 labelWidth={0}
