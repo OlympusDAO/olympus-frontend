@@ -21,7 +21,8 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
-import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrap } from "../../slices/WrapThunk";
 import {
@@ -357,7 +358,8 @@ function Wrap() {
                   aria-label="wsohm-wut"
                   target="_blank"
                 >
-                  <Typography>{assetTo}</Typography> <SvgIcon component={InfoIcon} color="primary" />
+                  <Typography>{assetTo}</Typography>{" "}
+                  <SvgIcon component={ArrowUp} color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
                 </Link>
               </div>
             </Grid>
