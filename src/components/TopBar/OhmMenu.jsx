@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { addresses, TOKEN_DECIMALS } from "../../constants";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Link, SvgIcon, Popper, Button, Paper, Typography, Divider, Box, Fade, Slide } from "@material-ui/core";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
@@ -66,7 +66,8 @@ const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
   }
 };
 
-function OhmMenu() {
+function OhmMenu(props) {
+  const path = useLocation().pathname;
   const [anchorEl, setAnchorEl] = useState(null);
   const isEthereumAPIAvailable = window.ethereum;
   const { address } = useWeb3Context();
@@ -130,11 +131,20 @@ function OhmMenu() {
                     </Button>
                   </Link>
 
-                  <Link component={NavLink} to="/wrap" style={{ textDecoration: "none" }}>
-                    <Button size="large" variant="contained" color="secondary" fullWidth>
-                      <Typography align="left">Wrap sOHM</Typography>
-                    </Button>
-                  </Link>
+                  {path === "/stake" && (
+                    <Link component={NavLink} to="/v1-stake" style={{ textDecoration: "none" }}>
+                      <Button size="large" variant="contained" color="secondary" fullWidth>
+                        <Typography align="left">Switch to OHM v1 (Legacy)</Typography>
+                      </Button>
+                    </Link>
+                  )}
+                  {path === "/v1-stake" && (
+                    <Link component={NavLink} to="/stake" style={{ textDecoration: "none" }}>
+                      <Button size="large" variant="contained" color="secondary" fullWidth>
+                        <Typography align="left">Switch to OHM v2</Typography>
+                      </Button>
+                    </Link>
+                  )}
                 </Box>
 
                 <Box component="div" className="data-links">
