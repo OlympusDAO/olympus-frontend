@@ -34,7 +34,6 @@ export function usePathForNetwork({
           break;
         }
       case "33-t":
-        console.log(VIEWS_FOR_NETWORK[networkID]);
         if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].threeTogether) {
           break;
         } else {
