@@ -44,4 +44,3 @@ yarn-error.log*
 .vscode
 
 src/typechain
-src/locales
