@@ -227,3 +227,7 @@ export const toBN = (num: number) => {
 export const bnToNum = (bigNum: BigNumber) => {
   return Number(bigNum.toString());
 };
+
+export const handleContractError = (e: any) => {
+  console.warn("caught error in slices; usually network related", e);
+};

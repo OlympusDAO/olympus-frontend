@@ -279,3 +279,73 @@ export const NETWORKS: { [key: number]: INetwork } = {
     uri: () => NodeHelper.getMainnetURI(43114),
   },
 };
+
+// VIEWS FOR NETWORK is used to denote which paths should be viewable on each network
+// ... attempting to prevent contract calls that can't complete & prevent user's from getting
+// ... stuck on the wrong view
+interface IViewsForNetwork {
+  dashboard: boolean;
+  stake: boolean;
+  wrap: boolean;
+  zap: boolean;
+  threeTogether: boolean;
+  bonds: boolean;
+  network: boolean;
+}
+
+export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
+  1: {
+    dashboard: true,
+    stake: true,
+    wrap: true,
+    zap: true,
+    threeTogether: true,
+    bonds: true,
+    network: true,
+  },
+  4: {
+    dashboard: true,
+    stake: true,
+    wrap: true,
+    zap: true,
+    threeTogether: true,
+    bonds: true,
+    network: true,
+  },
+  42161: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+  },
+  421611: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+  },
+  43114: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+  },
+  43113: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+  },
+};

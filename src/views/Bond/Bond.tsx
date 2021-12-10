@@ -1,5 +1,6 @@
 import { ChangeEvent, Fragment, ReactNode, ReactElement, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { t, Trans } from "@lingui/macro";
 import { formatCurrency, trim } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
@@ -12,8 +13,6 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
-import { NetworkID } from "src/lib/Bond";
-import { useHistory } from "react-router";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -26,8 +25,9 @@ function a11yProps(index: number) {
 
 const Bond = ({ bond }: { bond: IAllBondData }) => {
   const history = useHistory();
-  const dispatch = useDispatch();
   const { provider, address } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
+  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   const [slippage, setSlippage] = useState<number>(0.5);
   const [recipientAddress, setRecipientAddress] = useState<string>(address);

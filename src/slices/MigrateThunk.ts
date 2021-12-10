@@ -55,7 +55,6 @@ export const changeMigrationApproval = createAsyncThunk(
 
     let migrateAllowance = BigNumber.from("0");
     let currentBalance = BigNumber.from("0");
-
     migrateAllowance = await tokenContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
     currentBalance = await tokenContract.balanceOf(address);
 
@@ -63,8 +62,8 @@ export const changeMigrationApproval = createAsyncThunk(
     if (migrateAllowance.gt(currentBalance)) {
       dispatch(info("Approval completed."));
       dispatch(getMigrationAllowances({ address, provider, networkID }));
+      return;
     }
-
     let approveTx: ethers.ContractTransaction | undefined;
     try {
       approveTx = await tokenContract.approve(
