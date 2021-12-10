@@ -443,7 +443,7 @@ export function RecipientModal({
                   Your Staked Balance (depositable)
                 </Typography>
                 <Typography variant="body2" align="right">
-                  {new Intl.NumberFormat("en-US").format(getSOhmBalance().toNumber())} sOHM
+                  {getSOhmBalance().toFixed(4)} sOHM
                 </Typography>
               </div>
             </FormControl>
