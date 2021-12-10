@@ -8,7 +8,7 @@ export const LearnMoreButton = () => {
     <Button
       variant="outlined"
       color="secondary"
-      href="https://docs.olympusdao.finance/main/using-the-website/migrate"
+      href="https://docs.olympusdao.finance/main/basics/migration"
       target="_blank"
       className="learn-more-button"
     >

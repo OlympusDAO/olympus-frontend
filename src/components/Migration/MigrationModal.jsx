@@ -39,7 +39,7 @@ const style = {
   p: 2,
   zIndex: 3,
   maxWidth: 600,
-  minWidth: 500,
+  minWidth: 300,
   borderRadius: 10,
 };
 
@@ -126,6 +126,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   return (
     <div>
       <Modal
+        className="mig-modal-full"
         aria-labelledby="migration-modal-title"
         aria-describedby="migration-modal-description"
         open={open}
@@ -160,7 +161,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     ? "Click on the Migrate button to complete the upgrade to v2. "
                     : "Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability. "}
                   <a
-                    href="https://github.com/OlympusDAO-Education/Documentation/blob/migration/basics/migration.md"
+                    href="https://docs.olympusdao.finance/main/basics/migration"
                     target="_blank"
                     color="inherit"
                     rel="noreferrer"

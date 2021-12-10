@@ -169,19 +169,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
               <div className="card-header">
                 <Typography variant="h5">Single Stake (3, 3)</Typography>
                 <RebaseTimer />
-
-                {address && oldAssetsDetected && (
-                  <Link
-                    className="migrate-sohm-button"
-                    style={{ textDecoration: "none" }}
-                    href="https://docs.olympusdao.finance/using-the-website/migrate"
-                    aria-label="migrate-sohm"
-                    target="_blank"
-                  >
-                    <NewReleases viewBox="0 0 24 24" />
-                    <Typography>Migrate sOHM!</Typography>
-                  </Link>
-                )}
               </div>
             </Grid>
 
