@@ -92,6 +92,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const currentOhmBalance = useSelector(state => Number(state.account.balances.ohm));
   const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohm));
   const currentWSOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
+  const wsOhmPrice = useSelector(state => state.app.marketPrice * state.app.currentIndex);
+
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
@@ -105,7 +107,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   const ohmInUSD = formatCurrency(marketPrice * currentOhmBalance);
   const sOhmInUSD = formatCurrency(marketPrice * currentSOhmBalance);
-  const wsOhmInUSD = formatCurrency(marketPrice * currentWSOhmBalance);
+  const wsOhmInUSD = formatCurrency(marketPrice * wsOhmPrice);
 
   useEffect(() => {
     if (isAllApproved && (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)) {
