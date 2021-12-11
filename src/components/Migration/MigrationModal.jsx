@@ -107,7 +107,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   const ohmInUSD = formatCurrency(marketPrice * currentOhmBalance);
   const sOhmInUSD = formatCurrency(marketPrice * currentSOhmBalance);
-  const wsOhmInUSD = formatCurrency(marketPrice * wsOhmPrice);
+  const wsOhmInUSD = formatCurrency(wsOhmPrice * currentWSOhmBalance);
 
   useEffect(() => {
     if (isAllApproved && (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)) {
