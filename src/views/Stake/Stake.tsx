@@ -38,7 +38,7 @@ import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
 import StakeRow from "./StakeRow";
-import Metric from "../../components/Metric/Metric";
+import { Metric, MetricCollection } from "../../components/Metric";
 
 function a11yProps(index: number) {
   return {
@@ -215,36 +215,26 @@ function Stake() {
             </Grid>
 
             <Grid item>
-              <div className="stake-top-metrics">
-                <Grid container spacing={2} alignItems="flex-end">
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-apy"
-                      label={t`APY`}
-                      metric={`${formattedTrimmedStakingAPY}%`}
-                      isLoading={stakingAPY ? false : true}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-tvl"
-                      label={t`Total Value Deposited`}
-                      metric={formattedStakingTVL}
-                      isLoading={stakingTVL ? false : true}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-index"
-                      label={t`Current Index`}
-                      metric={`${formattedCurrentIndex} OHM`}
-                      isLoading={currentIndex ? false : true}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
+              <MetricCollection>
+                <Metric
+                  className="stake-apy"
+                  label={t`APY`}
+                  metric={`${formattedTrimmedStakingAPY}%`}
+                  isLoading={stakingAPY ? false : true}
+                />
+                <Metric
+                  className="stake-tvl"
+                  label={t`Total Value Deposited`}
+                  metric={formattedStakingTVL}
+                  isLoading={stakingTVL ? false : true}
+                />
+                <Metric
+                  className="stake-index"
+                  label={t`Current Index`}
+                  metric={`${formattedCurrentIndex} OHM`}
+                  isLoading={currentIndex ? false : true}
+                />
+              </MetricCollection>
             </Grid>
 
             <div className="staking-area">

@@ -12,7 +12,7 @@ import {
   OHMStakedGraph,
   RunwayAvailableGraph,
 } from "./components/Graph/Graph";
-
+import { MetricCollection } from "src/components/Metric";
 const TreasuryDashboard = memo(() => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
@@ -27,14 +27,14 @@ const TreasuryDashboard = memo(() => {
       >
         <Box className="hero-metrics">
           <Paper className="ohm-card">
-            <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
+            <MetricCollection>
               <MarketCap />
               <OHMPrice />
               <WSOHMPrice />
               <CircSupply />
               <BackingPerOHM />
               <CurrentIndex />
-            </Box>
+            </MetricCollection>
           </Paper>
         </Box>
 
