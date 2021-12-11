@@ -8,13 +8,6 @@
   color: inherit;
 }
 
-.dark .mig-modal-full .MuiBox-root.modal-inner {
-  background-color: rgba(54, 56, 64, 0.8);
-}
-
-.light .mig-modal-full .MuiBox-root.modal-inner {
-  background-color: rgba(255, 255, 255, 0.8);
-}
 
 .mig-modal-full {
   backdrop-filter: blur(33px);
@@ -33,8 +26,13 @@
     margin: 0 auto;
     padding: 2% 10%;
   }
+  .modal-inner{
+    width: 250px;
+    overflow: scroll;
+  
+  }
 }
 
-.mig-modal-full .MuiBox-root .MuiTable-root {
-  padding: 5% 30%;
-}
+// .mig-modal-full .MuiBox-root .MuiTable-root {
+//   padding: 5% 30%;
+// }
