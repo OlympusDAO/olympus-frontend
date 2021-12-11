@@ -54,7 +54,6 @@
 }
 
 .smaller {
-
   .causes-body {
     .cause-card {
       .cause-container {
@@ -70,7 +69,6 @@
 }
 
 .very-small {
-  
 }
 
 .causes-body {
@@ -388,7 +386,7 @@
   }
 
   .give-info-deposit-box {
-    max-width: 28%
+    max-width: 28%;
   }
 
   .give-info-vault-box {
@@ -435,6 +433,7 @@
 }
 
 .project {
+  // TODO look at whether we can make this less flakey by using rem instead of px
   .project-sidebar {
     padding-left: 30px;
     padding-right: 30px;
@@ -500,7 +499,6 @@
   }
 
   .project-info {
-    margin-left: 2rem;
     padding-left: 30px;
     padding-right: 30px;
     padding-top: 30px;
@@ -548,7 +546,7 @@
     }
 
     .subtext {
-      color: #999999
+      color: #999999;
     }
   }
 

@@ -388,9 +388,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Grid container className="project">
+        <Grid container className="project" spacing={4}>
           <Grid item xs={1}></Grid>
-          <Grid item md={12} lg={4}>
+          <Grid item sm={12} md={12} lg={4}>
             <Paper className="project-sidebar">
               <Grid container className="project-intro" justifyContent="space-between">
                 <Grid item className="project-title">
@@ -437,7 +437,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               </Grid>
             </Paper>
           </Grid>
-          <Grid item md={12} lg={6}>
+          <Grid item sm={12} md={12} lg={6}>
             <Paper className="project-info">
               <Typography variant="h5" className="project-about-header">
                 <strong>About</strong>
