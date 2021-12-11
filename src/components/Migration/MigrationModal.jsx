@@ -98,30 +98,21 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const approvedOhmBalance = useSelector(state => Number(state.account.migration.ohm));
   const approvedSOhmBalance = useSelector(state => Number(state.account.migration.sohm));
   const approvedWSOhmBalance = useSelector(state => Number(state.account.migration.wsohm));
-
   const ohmFullApproval = approvedOhmBalance >= currentOhmBalance;
   const sOhmFullApproval = approvedSOhmBalance >= currentSOhmBalance;
   const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
+  const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
   const ohmInUSD = formatCurrency(marketPrice * currentOhmBalance);
   const sOhmInUSD = formatCurrency(marketPrice * currentSOhmBalance);
   const wsOhmInUSD = formatCurrency(marketPrice * currentWSOhmBalance);
 
-  const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
   useEffect(() => {
     if (isAllApproved && (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)) {
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
-  // {
-  //   formatCurrency(
-  //     tokens.reduce(
-  //       (totalValue, token) => totalValue + parseFloat(token.balance) * token.price,
-  //       0,
-  //     ) || 0,
-  //     2,
-  //   )
-  // }
+
   rows = [
     {
       initialAsset: "OHM",
