@@ -2,7 +2,6 @@ import Chart from "src/components/Chart/Chart.jsx";
 import { useTheme } from "@material-ui/core/styles";
 import { trim, formatCurrency } from "../../../../helpers";
 import { useTreasuryMetrics } from "../../hooks/useTreasuryMetrics";
-import { useTreasuryRebases } from "../../hooks/useTreasuryRebases";
 import { bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "../../treasuryData";
 
 export const Graph = ({ children }) => <>{children}</>;
