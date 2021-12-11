@@ -261,7 +261,7 @@ function App() {
     }
     return withInterestDue;
   });
-  const hasActiveV1Bonds = accountBonds.length > 1;
+  const hasActiveV1Bonds = accountBonds.length > 0;
 
   return (
     <ThemeProvider theme={themeMode}>
