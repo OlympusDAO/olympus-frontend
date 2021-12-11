@@ -50,7 +50,7 @@ function a11yProps(index) {
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
 
-function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
+function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds }) {
   const dispatch = useDispatch();
   const { provider, address, connect } = useWeb3Context();
 
@@ -268,7 +268,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                       <Typography variant="body1" className="stake-note" color="textSecondary">
                         {view === 0 ? (
                           <>
-                            You must complete the migration of your assest to stake additional <b>OHM</b>
+                            {hasActiveV1Bonds
+                              ? "Once your current bonds have been claimed, you can migrate your assets to stake more OHM"
+                              : "You must complete the migration of your assest to stake additional <b>OHM</b>"}
                           </>
                         ) : (
                           <br />
@@ -319,13 +321,16 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                         <Skeleton width="150px" />
                       )}
 
-                      <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {isAllowanceDataLoading ? (
-                          <Skeleton />
-                        ) : (
-                          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
-                        )}
-                      </TabPanel>
+                      {!hasActiveV1Bonds && (
+                        <TabPanel value={view} index={0} className="stake-tab-panel">
+                          {isAllowanceDataLoading ? (
+                            <Skeleton />
+                          ) : (
+                            <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
+                          )}
+                        </TabPanel>
+                      )}
+
                       <TabPanel value={view} index={1} className="stake-tab-panel">
                         {isAllowanceDataLoading ? (
                           <Skeleton />

@@ -252,6 +252,17 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
+  const accountBonds = useAppSelector(state => {
+    const withInterestDue = [];
+    for (const bond in state.account.bonds) {
+      if (state.account.bonds[bond].interestDue > 0) {
+        withInterestDue.push(state.account.bonds[bond]);
+      }
+    }
+    return withInterestDue;
+  });
+  const hasActiveV1Bonds = accountBonds.length > 0;
+
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
@@ -283,12 +294,20 @@ function App() {
               {newAssetsDetected ? (
                 <Stake />
               ) : (
-                <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
+                <V1Stake
+                  hasActiveV1Bonds={hasActiveV1Bonds}
+                  oldAssetsDetected={oldAssetsDetected}
+                  setMigrationModalOpen={setMigrationModalOpen}
+                />
               )}
             </Route>
 
             <Route path="/v1-stake">
-              <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
+              <V1Stake
+                hasActiveV1Bonds={hasActiveV1Bonds}
+                oldAssetsDetected={oldAssetsDetected}
+                setMigrationModalOpen={setMigrationModalOpen}
+              />
             </Route>
 
             <Route path="/wrap">
