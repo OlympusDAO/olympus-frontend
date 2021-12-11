@@ -220,15 +220,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                   </TableCell>
 
                   <TableCell align="center">
-                    <Box display="inline-flex">
-                      {/* <Typography>Migration Completion Status</Typography> */}
-                      <InfoTooltip
-                        className="migartion-tooltip"
-                        message={
-                          "This is the equivalent amount of gOHM you will have in your wallet once migration is complete."
-                        }
-                      ></InfoTooltip>
-                    </Box>
+                    <Box display="inline-flex">{/* <Typography>Migration Completion Status</Typography> */}</Box>
                   </TableCell>
 
                   <TableCell align="left"></TableCell>
