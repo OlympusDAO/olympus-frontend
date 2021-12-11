@@ -186,6 +186,15 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                         className="migartion-tooltip"
                         message={"This is the current balance of v1 assets in your wallet."}
                       ></InfoTooltip>
+                      <Typography variant="h4">
+                        {formatCurrency(
+                          tokens.reduce(
+                            (totalValue, token) => totalValue + parseFloat(token.balance) * token.price,
+                            0,
+                          ) || 0,
+                          2,
+                        )}
+                      </Typography>
                     </Box>
                   </TableCell>
                   <TableCell align="center">
