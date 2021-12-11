@@ -14,6 +14,10 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
+import { NetworkID } from "../../lib/Bond";
+console.log(NetworkID);
+import { addresses } from "../../constants";
+
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { makeStyles } from "@material-ui/core/styles";
@@ -28,7 +32,14 @@ import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import "./migration-modal.scss";
 import { useAppSelector } from "src/hooks";
 import { trim } from "src/helpers";
-
+const formatCurrency = c => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(c);
+};
 const style = {
   position: "absolute",
   top: "50%",
@@ -54,14 +65,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const classes = useStyles();
   const { provider, address, connect } = useWeb3Context();
 
-  const networkId = useAppSelector(state => state.network.networkId);
-
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
 
   let rows = [];
   let isMigrationComplete = useSelector(state => state.account.isMigrationComplete);
+  const networkId = NetworkID;
   // console.log(networkId);
   const onSeekApproval = token => {
     dispatch(
@@ -82,16 +92,20 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const currentOhmBalance = useSelector(state => Number(state.account.balances.ohm));
   const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohm));
   const currentWSOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
-
+  const marketPrice = useSelector(state => {
+    return state.app.marketPrice;
+  });
   const approvedOhmBalance = useSelector(state => Number(state.account.migration.ohm));
   const approvedSOhmBalance = useSelector(state => Number(state.account.migration.sohm));
   const approvedWSOhmBalance = useSelector(state => Number(state.account.migration.wsohm));
-
   const ohmFullApproval = approvedOhmBalance >= currentOhmBalance;
   const sOhmFullApproval = approvedSOhmBalance >= currentSOhmBalance;
   const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
-
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
+
+  const ohmInUSD = formatCurrency(marketPrice * currentOhmBalance);
+  const sOhmInUSD = formatCurrency(marketPrice * currentSOhmBalance);
+  const wsOhmInUSD = formatCurrency(marketPrice * currentWSOhmBalance);
 
   useEffect(() => {
     if (isAllApproved && (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)) {
@@ -106,6 +120,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
       targetAsset: "gOHM",
       targetBalance: currentOhmBalance / currentIndex,
       fullApproval: ohmFullApproval,
+      usdBalance: ohmInUSD,
     },
     {
       initialAsset: "sOHM",
@@ -113,6 +128,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
       targetAsset: "gOHM",
       targetBalance: currentSOhmBalance / currentIndex,
       fullApproval: sOhmFullApproval,
+      usdBalance: sOhmInUSD,
     },
     {
       initialAsset: "wsOHM",
@@ -120,6 +136,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
       targetAsset: "gOHM",
       targetBalance: currentWSOhmBalance,
       fullApproval: wsOhmFullApproval,
+      usdBalance: wsOhmInUSD,
     },
   ].filter(row => row.initialBalance != 0);
 
@@ -200,6 +217,18 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     </Box>
                   </TableCell>
 
+                  <TableCell align="center">
+                    <Box display="inline-flex">
+                      {/* <Typography>Migration Completion Status</Typography> */}
+                      <InfoTooltip
+                        className="migartion-tooltip"
+                        message={
+                          "This is the equivalent amount of gOHM you will have in your wallet once migration is complete."
+                        }
+                      ></InfoTooltip>
+                    </Box>
+                  </TableCell>
+
                   <TableCell align="left"></TableCell>
                 </TableRow>
               </TableHead>
@@ -212,11 +241,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     <TableCell align="left">
                       <Typography>
                         {row.initialBalance == 0 ? row.initialBalance : trim(row.initialBalance, 4)} {row.initialAsset}
+                        <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
                       <Typography>
                         {row.targetBalance == 0 ? row.targetBalance : trim(row.targetBalance, 4)} {row.targetAsset}
+                        <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
