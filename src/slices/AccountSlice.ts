@@ -33,6 +33,8 @@ export const getBalances = createAsyncThunk(
     let gOhmBalance = BigNumber.from("0");
     let ohmBalance = BigNumber.from("0");
     let sohmBalance = BigNumber.from("0");
+    let ohmV2Balance = BigNumber.from("0");
+    let sohmV2Balance = BigNumber.from("0");
     let wsohmBalance = BigNumber.from("0");
     let wsohmAsSohm = BigNumber.from("0");
     let poolBalance = BigNumber.from("0");
@@ -58,6 +60,11 @@ export const getBalances = createAsyncThunk(
         provider,
       ) as IERC20;
       sohmBalance = await sohmContract.balanceOf(address);
+
+      const ohmV2Contract = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20Abi, provider) as IERC20;
+      ohmV2Balance = await ohmV2Contract.balanceOf(address);
+      const sohmV2Contract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider) as IERC20;
+      sohmV2Balance = await sohmV2Contract.balanceOf(address);
 
       const poolTokenContract = new ethers.Contract(
         addresses[networkID].PT_TOKEN_ADDRESS as string,
@@ -100,8 +107,8 @@ export const getBalances = createAsyncThunk(
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
-        // ohmv2: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
-        // sohmv2: ethers.utils.formatUnits(sOhmV2Balance, "gwei"),
+        ohmv2: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
+        sohmv2: ethers.utils.formatUnits(sohmV2Balance, "gwei"),
       },
     };
   },
@@ -287,6 +294,8 @@ interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   balances: {
     gohm: string;
     ohm: string;
+    ohmv2: string;
+    sohmv2: string;
     sohm: string;
     dai: string;
     oldsohm: string;
@@ -318,6 +327,8 @@ const initialState: IAccountSlice = {
   balances: {
     gohm: "",
     ohm: "",
+    ohmv2: "",
+    sohmv2: "",
     sohm: "",
     dai: "",
     oldsohm: "",
