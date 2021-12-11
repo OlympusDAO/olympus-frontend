@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react";
 import { t, Trans } from "@lingui/macro";
 import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
-import { txnButtonText, isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { redeemAllBonds, redeemBond } from "src/slices/BondSlice";
-import { calculateUserBondDetails } from "src/slices/AccountSlice";
+import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
+import { redeemAllBonds } from "src/slices/BondSlice";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "src/hooks/Bonds";
 import {
-  Button,
   Box,
+  Button,
   Paper,
+  Table,
+  TableBody,
+  TableCell,
   TableContainer,
   TableHead,
-  TableBody,
   TableRow,
-  TableCell,
-  Table,
   Zoom,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./choosebond.scss";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function ClaimBonds({ activeBonds }) {
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
-  const { bonds } = useBonds(chainID);
+  const { provider, address } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
+  const { bonds } = useBonds(networkId);
 
   const [numberOfBonds, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
@@ -49,7 +49,7 @@ function ClaimBonds({ activeBonds }) {
   const onRedeemAll = async ({ autostake }) => {
     console.log("redeeming all bonds");
 
-    await dispatch(redeemAllBonds({ address, bonds, networkID: chainID, provider, autostake }));
+    await dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
 
     console.log("redeem all complete");
   };
