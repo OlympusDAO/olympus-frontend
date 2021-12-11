@@ -359,7 +359,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                   </Box>
                   <div className="stake-user-data">
                     <StakeRow
-                      title={t`Unstaked Balance`}
+                      title={t`Unstaked Balance (v1)`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
                       {...{ isAppLoading }}
@@ -375,25 +375,25 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                       </AccordionSummary>
                       <AccordionDetails>
                         <StakeRow
-                          title={t`Single Staking`}
+                          title={t`Single Staking (v1)`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
                         <StakeRow
-                          title={t`Staked Balance in Fuse`}
+                          title={t`Staked Balance in Fuse (v1)`}
                           balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
                         <StakeRow
-                          title={t`Wrapped Balance`}
+                          title={t`Wrapped Balance (v1)`}
                           balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
                           {...{ isAppLoading }}
                           indented
                         />
                         <StakeRow
-                          title={t`Wrapped Balance in FiatDAO`}
+                          title={t`Wrapped Balance in FiatDAO (v1)`}
                           balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
                           {...{ isAppLoading }}
                           indented
