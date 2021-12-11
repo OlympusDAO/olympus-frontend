@@ -227,53 +227,55 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map(row => (
-                  <TableRow key={row.initialAsset} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                    <TableCell component="th" scope="row">
-                      <Typography>{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
-                    </TableCell>
-                    <TableCell align="left">
-                      <Typography>
-                        {trim(row.initialBalance, 4)} {row.initialAsset}
-                        <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="left">
-                      <Typography>
-                        {trim(row.targetBalance, 4)} {row.targetAsset}
-                        <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="left">
-                      {isMigrationComplete ? (
-                        <Typography align="center" className={classes.custom}>
-                          Migrated
+                {rows
+                  .filter(asset => asset.initialBalance > 0)
+                  .map(row => (
+                    <TableRow key={row.initialAsset} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                      <TableCell component="th" scope="row">
+                        <Typography>{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Typography>
+                          {trim(row.initialBalance, 4)} {row.initialAsset}
+                          <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
                         </Typography>
-                      ) : row.fullApproval ? (
-                        <Typography align="center" className={classes.custom}>
-                          Approved
+                      </TableCell>
+                      <TableCell align="left">
+                        <Typography>
+                          {trim(row.targetBalance, 4)} {row.targetAsset}
+                          <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
                         </Typography>
-                      ) : (
-                        <Button
-                          variant="outlined"
-                          onClick={() => onSeekApproval(row.initialAsset)}
-                          disabled={isPendingTxn(
-                            pendingTransactions,
-                            `approve_migration_${row.initialAsset.toLowerCase()}`,
-                          )}
-                        >
-                          <Typography>
-                            {txnButtonText(
+                      </TableCell>
+                      <TableCell align="left">
+                        {isMigrationComplete ? (
+                          <Typography align="center" className={classes.custom}>
+                            Migrated
+                          </Typography>
+                        ) : row.fullApproval ? (
+                          <Typography align="center" className={classes.custom}>
+                            Approved
+                          </Typography>
+                        ) : (
+                          <Button
+                            variant="outlined"
+                            onClick={() => onSeekApproval(row.initialAsset)}
+                            disabled={isPendingTxn(
                               pendingTransactions,
                               `approve_migration_${row.initialAsset.toLowerCase()}`,
-                              "Approve",
                             )}
-                          </Typography>
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                          >
+                            <Typography>
+                              {txnButtonText(
+                                pendingTransactions,
+                                `approve_migration_${row.initialAsset.toLowerCase()}`,
+                                "Approve",
+                              )}
+                            </Typography>
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
 
