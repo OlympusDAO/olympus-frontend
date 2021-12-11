@@ -62,13 +62,13 @@ function Stake() {
     return state.app.fiveDayRate;
   });
   const ohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.ohm;
+    return state.account.balances && state.account.balances.ohmv2;
   });
   const oldSohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.oldsohm;
   });
   const sohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+    return state.account.balances && state.account.balances.sohmv2;
   });
   const fsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
@@ -416,26 +416,26 @@ function Stake() {
                           indented
                           {...{ isAppLoading }}
                         />
-                        <StakeRow
+                        {/* <StakeRow
                           title={t`Staked Balance in Fuse`}
                           balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
                           indented
                           {...{ isAppLoading }}
-                        />
-                        <StakeRow
+                        /> */}
+                        {/* <StakeRow
                           title={t`Wrapped Balance`}
                           balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
                           {...{ isAppLoading }}
                           indented
-                        />
-                        <StakeRow
+                        /> */}
+                        {/* <StakeRow
                           title={t`Wrapped Balance in FiatDAO`}
                           balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
                           {...{ isAppLoading }}
                           indented
-                        />
+                        /> */}
                         <StakeRow
-                          title={`${t`Wrapped Balance (v2)`}`}
+                          title={`${t`Wrapped Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
                           {...{ isAppLoading }}
