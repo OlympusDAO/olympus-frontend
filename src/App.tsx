@@ -279,7 +279,7 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+          {oldAssetsDetected && !hasActiveV1Bonds && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
           <Switch>
             <Route exact path="/dashboard">
