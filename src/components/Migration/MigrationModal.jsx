@@ -92,6 +92,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const currentOhmBalance = useSelector(state => Number(state.account.balances.ohm));
   const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohm));
   const currentWSOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
+  const wsOhmPrice = useSelector(state => state.app.marketPrice * state.app.currentIndex);
+
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
   });
@@ -105,7 +107,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   const ohmInUSD = formatCurrency(marketPrice * currentOhmBalance);
   const sOhmInUSD = formatCurrency(marketPrice * currentSOhmBalance);
-  const wsOhmInUSD = formatCurrency(marketPrice * currentWSOhmBalance);
+  const wsOhmInUSD = formatCurrency(marketPrice * wsOhmPrice);
 
   useEffect(() => {
     if (isAllApproved && (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)) {
@@ -138,7 +140,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
       fullApproval: wsOhmFullApproval,
       usdBalance: wsOhmInUSD,
     },
-  ].filter(row => row.initialBalance != 0);
+  ];
 
   return (
     <div>
@@ -240,13 +242,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     </TableCell>
                     <TableCell align="left">
                       <Typography>
-                        {row.initialBalance == 0 ? row.initialBalance : trim(row.initialBalance, 4)} {row.initialAsset}
+                        {trim(row.initialBalance, 4)} {row.initialAsset}
                         <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
                       <Typography>
-                        {row.targetBalance == 0 ? row.targetBalance : trim(row.targetBalance, 4)} {row.targetAsset}
+                        {trim(row.targetBalance, 4)} {row.targetAsset}
                         <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
                       </Typography>
                     </TableCell>
