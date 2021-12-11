@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { t } from "@lingui/macro";
-import { Paper, Tab, Tabs, Box, Zoom } from "@material-ui/core";
+import { Paper, Tab, Tabs, Box } from "@material-ui/core";
 import InfoTooltipMulti from "../../components/InfoTooltip/InfoTooltipMulti";
 import { Prize, PrizePool } from "src/typechain/pooltogether";
 import TabPanel from "../../components/TabPanel";
@@ -42,9 +41,10 @@ const PoolTogether = () => {
 
   // NOTE (appleseed): these calcs were previously in PoolInfo, however would be need in PoolPrize, too, if...
   // ... we ever were to implement other types of awards
-  const { connect, address, provider, chainID, hasCachedProvider } = useWeb3Context();
+  const { connect, address, provider, hasCachedProvider } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
   const dispatch = useDispatch();
-  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[chainID.toString()]);
+  const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[1]);
   const [poolData, setPoolData] = useState(null);
   const [poolDataError, setPoolDataError] = useState(null);
   const [graphLoading, setGraphLoading] = useState(true);
@@ -71,12 +71,23 @@ const PoolTogether = () => {
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
-    setGraphUrl(POOL_GRAPH_URLS[chainID]);
-  }, [chainID]);
+    if (networkId === -1) {
+      setGraphUrl(POOL_GRAPH_URLS[1]);
+    } else {
+      setGraphUrl(POOL_GRAPH_URLS[networkId]);
+    }
+  }, [networkId]);
 
   useEffect(() => {
+    console.log("apollo", networkId);
+    let apolloUrl: string;
+    if (networkId === -1) {
+      apolloUrl = poolDataQuery(addresses[1].PT_PRIZE_POOL_ADDRESS);
+    } else {
+      apolloUrl = poolDataQuery(addresses[networkId].PT_PRIZE_POOL_ADDRESS);
+    }
     // get poolData
-    apolloExt(poolDataQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS), graphUrl)
+    apolloExt(apolloUrl, graphUrl)
       .then(poolData => {
         const prizePool: PrizePool = poolData?.data.prizePool;
 
@@ -100,7 +111,7 @@ const PoolTogether = () => {
       const yourPrizes: Array<AwardItem> = [];
       let totalAwards = 0;
       apolloExt(
-        yourAwardsQuery(addresses[chainID].PT_PRIZE_POOL_ADDRESS, address, addresses[chainID].PT_TOKEN_ADDRESS),
+        yourAwardsQuery(addresses[networkId].PT_PRIZE_POOL_ADDRESS, address, addresses[networkId].PT_TOKEN_ADDRESS),
         graphUrl,
       )
         .then(poolData => {
@@ -142,8 +153,8 @@ const PoolTogether = () => {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
-      dispatch(getPoolValues({ networkID: chainID, provider: provider }));
-      dispatch(getRNGStatus({ networkID: chainID, provider: provider }));
+      dispatch(getPoolValues({ networkID: networkId, provider: provider }));
+      dispatch(getRNGStatus({ networkID: networkId, provider: provider }));
     }
   }, [walletChecked]);
 
@@ -165,18 +176,18 @@ const PoolTogether = () => {
           className="pt-tabs"
           aria-label="pool tabs"
         >
-          <Tab label={t`Deposit`} {...a11yProps(0)} />
-          <Tab label={t`Withdraw`} {...a11yProps(1)} />
+          {/* <Tab label={t`Deposit`} {...a11yProps(0)} /> */}
+          <Tab label={t`Withdraw`} {...a11yProps(0)} />
         </Tabs>
 
-        <TabPanel value={view} index={0} className="pool-tab">
+        {/* <TabPanel value={view} index={0} className="pool-tab">
           <PoolDeposit
             totalPoolDeposits={totalDeposits}
             winners={winners}
             setInfoTooltipMessage={setInfoTooltipMessage}
           />
-        </TabPanel>
-        <TabPanel value={view} index={1} className="pool-tab">
+        </TabPanel> */}
+        <TabPanel value={view} index={0} className="pool-tab">
           <PoolWithdraw
             totalPoolDeposits={totalDeposits}
             winners={winners}

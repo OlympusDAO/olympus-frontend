@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Box, Button, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Skeleton } from "@material-ui/lab";
@@ -12,7 +11,8 @@ import { poolTogetherUILinks } from "../../helpers/33Together";
 
 export const PoolInfo = props => {
   const [poolLoadedCount, setPoolLoadedCount] = useState(0);
-  const { address, chainID } = useWeb3Context();
+  const { address } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
   const isPoolLoading = useSelector(state => state.poolData.loading ?? true);
 
   const creditMaturationInDays = useSelector(state => {
@@ -145,7 +145,7 @@ export const PoolInfo = props => {
         </div>
         <div className="data-row-centered">
           <div className="marginedBtn">
-            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(chainID)[0]} target="_blank">
+            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(networkId)[0]} target="_blank">
               <Typography variant="body1">
                 <Trans>sOHM Prize Pool</Trans>&nbsp;
               </Typography>
@@ -153,7 +153,7 @@ export const PoolInfo = props => {
             </Button>
           </div>
           <div className="marginedBtn">
-            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(chainID)[1]} target="_blank">
+            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(networkId)[1]} target="_blank">
               <Typography variant="body1">
                 <Trans>sOHM Pool Details</Trans>&nbsp;
               </Typography>

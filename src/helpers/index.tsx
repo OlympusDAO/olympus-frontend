@@ -13,9 +13,11 @@ import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { PairContract, RedeemHelper } from "../typechain";
 
+import { EnvHelper } from "../helpers/Environment";
+
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
   const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
-  const pairContract = new ethers.Contract(ohm_dai_address, PairContractABI, provider) as PairContract;
+  const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, provider) as PairContract;
   const reserves = await pairContract.getReserves();
   const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString());
 
@@ -226,4 +228,8 @@ export const toBN = (num: number) => {
 
 export const bnToNum = (bigNum: BigNumber) => {
   return Number(bigNum.toString());
+};
+
+export const handleContractError = (e: any) => {
+  if (EnvHelper.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
 };
