@@ -221,7 +221,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <div className="project-donated-icon">
               <SvgIcon component={DonatedIcon} viewBox={"0 0 16 12"} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
-                <strong>{totalDebt} sOHM</strong>
+                <strong>{new BigNumber(totalDebt).toFormat()} sOHM</strong>
               </Typography>
             </div>
             <div className="subtext">Donated</div>
@@ -231,7 +231,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <div className="project-completion-icon">
               <SvgIcon component={GoalIcon} viewBox={"0 0 16 12"} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
-                <strong>{depositGoal} sOHM</strong>
+                <strong>{new BigNumber(depositGoal).toFormat()} sOHM</strong>
               </Typography>
             </div>
             <div className="subtext">Goal</div>
