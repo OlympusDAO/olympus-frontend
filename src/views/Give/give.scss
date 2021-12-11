@@ -53,6 +53,26 @@
   }
 }
 
+.smaller {
+
+  .causes-body {
+    .cause-card {
+      .cause-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .cause-image {
+        width: 50%;
+      }
+    }
+  }
+}
+
+.very-small {
+  
+}
+
 .causes-body {
   display: flex;
   flex-direction: column;
@@ -368,7 +388,7 @@
   }
 
   .give-info-deposit-box {
-    max-width: 28%;
+    max-width: 28%
   }
 
   .give-info-vault-box {
@@ -416,10 +436,25 @@
 
 .project {
   .project-sidebar {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1rem;
+
+    .cause-image {
+      padding-bottom: 30px;
+    }
+
+    .project-goal .project-donated-icon {
+      .subtext {
+        color: #999999;
+      }
+
+      h6 {
+        line-height: 1rem;
+      }
+    }
 
     .project-countdown .countdown-container {
       display: flex;
@@ -448,6 +483,10 @@
         }
       }
     }
+
+    .donors-title {
+      padding-bottom: 30px;
+    }
   }
 
   .project-intro {
@@ -462,11 +501,12 @@
 
   .project-info {
     margin-left: 2rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 1rem;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
     padding-bottom: 1rem;
-    height: 80%;
+    height: auto;
+    min-height: 80% !important;
     width: 100%;
 
     .project-about-header {
@@ -474,6 +514,8 @@
     }
 
     p {
+      margin-top: 0rem;
+      font-size: 0.875rem;
       line-height: 20px;
     }
   }
@@ -482,6 +524,10 @@
     .project-donated-icon {
       display: inline-flex;
       align-items: center;
+
+      h6 {
+        line-height: 1rem;
+      }
     }
 
     .subtext {
@@ -495,6 +541,10 @@
     .project-completion-icon {
       display: inline-flex;
       align-items: center;
+
+      h6 {
+        line-height: 1rem;
+      }
     }
 
     .subtext {
@@ -502,17 +552,13 @@
     }
   }
 
-  .project-goal {
-    padding-top: 1rem;
-  }
-
   .project-goal-progress {
     padding-top: 0.5rem;
-    padding-bottom: 1rem;
+    padding-bottom: 1.5rem;
   }
 
   .project-give-button {
-    padding-top: 2rem;
+    padding-top: 1.5rem;
 
     button {
       width: 100%;
@@ -525,7 +571,8 @@
   }
 
   .MuiLinearProgress-barColorPrimary {
-    background-color: #f4d092;
+    background: rgb(112, 139, 150);
+    background: linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%);
   }
 }
 

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import "./give.scss";
-import { Button, Paper, Typography, Zoom, Grid } from "@material-ui/core";
+import { Button, Paper, Typography, Zoom, Grid, Container } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
@@ -19,6 +19,7 @@ export default function CausesDashboard() {
   const [zoomed, setZoomed] = useState(false);
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
+  const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
   const { projects } = data;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
@@ -67,44 +68,51 @@ export default function CausesDashboard() {
   };
 
   return (
-    <>
-      <div className="give-view">
-        <Zoom in={true}>
-          <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-            <div className="card-header">
-              <div>
-                <Typography variant="h5">Give</Typography>
+    <div className={`${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
+      <Container
+        style={{
+          paddingLeft: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
+          paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
+        }}
+      >
+        <div className="give-view">
+          <Zoom in={true}>
+            <Paper className={`ohm-card secondary ${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
+              <div className="card-header">
+                <div>
+                  <Typography variant="h5">Give</Typography>
+                </div>
               </div>
-            </div>
-            <div className="causes-body">
-              <Grid container className="data-grid">
-                {renderProjects}
-              </Grid>
-            </div>
-            <div className="custom-recipient">
-              <Button
-                variant="contained"
-                color="primary"
-                className="custom-give-button"
-                onClick={() => handleCustomGiveButtonClick()}
-                disabled={!address}
-              >
-                <Typography variant="h6" style={{ marginBottom: "0px" }}>
-                  Custom Recipient
-                </Typography>
-              </Button>
-            </div>
-            <RecipientModal
-              isModalOpen={isCustomGiveModalOpen}
-              callbackFunc={handleCustomGiveModalSubmit}
-              cancelFunc={handleCustomGiveModalCancel}
-            />
-          </Paper>
-        </Zoom>
-        <Zoom in={true}>
-          <GiveInfo />
-        </Zoom>
-      </div>
-    </>
+              <div className="causes-body">
+                <Grid container className="data-grid">
+                  {renderProjects}
+                </Grid>
+              </div>
+              <div className="custom-recipient">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="custom-give-button"
+                  onClick={() => handleCustomGiveButtonClick()}
+                  disabled={!address}
+                >
+                  <Typography variant="h6" style={{ marginBottom: "0px" }}>
+                    Custom Recipient
+                  </Typography>
+                </Button>
+              </div>
+              <RecipientModal
+                isModalOpen={isCustomGiveModalOpen}
+                callbackFunc={handleCustomGiveModalSubmit}
+                cancelFunc={handleCustomGiveModalCancel}
+              />
+            </Paper>
+          </Zoom>
+          <Zoom in={true}>
+            <GiveInfo />
+          </Zoom>
+        </div>
+      </Container>
+    </div>
   );
 }
