@@ -253,6 +253,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         </div>
       );
 
+    // For the moment, we only display the first photo
     return (
       <div className="cause-image">
         <Link href={`#/give/projects/${project.slug}`}>
