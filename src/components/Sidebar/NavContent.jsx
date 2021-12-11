@@ -120,64 +120,64 @@ function NavContent() {
                     </Typography>
                   </Link>
 
-              <Link
-                component={NavLink}
-                id="give-nav"
-                to="/give"
-                isActive={(match, location) => {
-                  return checkPage(match, location, "give");
-                }}
-                className={`button-dapp-menu ${isActive ? "active" : ""}`}
-              >
-                <Typography variant="h6">
-                  <SvgIcon color="primary" component={GiveIcon} />
-                  <Trans>Give</Trans>
-                </Typography>
-              </Link>
-
-              <div className="dapp-menu-data give-actions">
-                <div className="give-sub-menus">
                   <Link
                     component={NavLink}
-                    id="give-sub-donations"
-                    to="/give/donations"
+                    id="give-nav"
+                    to="/give"
                     isActive={(match, location) => {
-                      return checkPage(match, location, "give/donations");
+                      return checkPage(match, location, "give");
                     }}
-                    className={"give-option"}
+                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
                   >
-                    <Typography variant="body2">My Donations</Typography>
+                    <Typography variant="h6">
+                      <SvgIcon color="primary" component={GiveIcon} />
+                      <Trans>Give</Trans>
+                    </Typography>
                   </Link>
+
+                  <div className="dapp-menu-data give-actions">
+                    <div className="give-sub-menus">
+                      <Link
+                        component={NavLink}
+                        id="give-sub-donations"
+                        to="/give/donations"
+                        isActive={(match, location) => {
+                          return checkPage(match, location, "give/donations");
+                        }}
+                        className={"give-option"}
+                      >
+                        <Typography variant="body2">My Donations</Typography>
+                      </Link>
+                      <Link
+                        component={NavLink}
+                        id="give-sub-redeem"
+                        to="/give/redeem"
+                        isActive={(match, location) => {
+                          return checkPage(match, location, "give/redeem");
+                        }}
+                        className={"give-option"}
+                      >
+                        <Typography variant="body2">Redeem Yield</Typography>
+                      </Link>
+                    </div>
+                  </div>
+
                   <Link
                     component={NavLink}
-                    id="give-sub-redeem"
-                    to="/give/redeem"
+                    id="wrap-nav"
+                    to="/wrap"
                     isActive={(match, location) => {
-                      return checkPage(match, location, "give/redeem");
+                      return checkPage(match, location, "wrap");
                     }}
-                    className={"give-option"}
+                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
                   >
-                    <Typography variant="body2">Redeem Yield</Typography>
+                    <Box display="flex" alignItems="center">
+                      <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
+                      {/* <WrapIcon /> */}
+                      <Typography variant="h6">Wrap</Typography>
+                      {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
+                    </Box>
                   </Link>
-                </div>
-              </div>
-
-              <Link
-                component={NavLink}
-                id="wrap-nav"
-                to="/wrap"
-                isActive={(match, location) => {
-                  return checkPage(match, location, "wrap");
-                }}
-                className={`button-dapp-menu ${isActive ? "active" : ""}`}
-              >
-                <Box display="flex" alignItems="center">
-                  <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
-                  {/* <WrapIcon /> */}
-                  <Typography variant="h6">Wrap</Typography>
-                  {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
-                </Box>
-              </Link>
 
                   <Link
                     href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}

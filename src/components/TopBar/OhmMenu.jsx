@@ -86,8 +86,8 @@ function OhmMenu() {
 
   const open = Boolean(anchorEl);
   const id = "ohm-popper";
-  const daiAddress = dai.getAddressForReserve(networkID);
-  const fraxAddress = frax.getAddressForReserve(networkID);
+  const daiAddress = dai.getAddressForReserve(networkId);
+  const fraxAddress = frax.getAddressForReserve(networkId);
 
   const dispatch = useDispatch();
 
@@ -97,7 +97,7 @@ function OhmMenu() {
       getTestTokens({
         provider,
         address,
-        networkID: chainID,
+        networkID: networkId,
       }),
     );
   };

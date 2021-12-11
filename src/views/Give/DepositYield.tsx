@@ -7,8 +7,7 @@ import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import YieldRecipients from "./YieldRecipients";
 
 export default function DepositYield() {
-  const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
+  const { hasCachedProvider, connect } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
 
@@ -24,6 +23,7 @@ export default function DepositYield() {
     }
   }, []);
 
+  // TODO if not needed, remove?
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
   useEffect(() => {
     // don't load ANY details until wallet is Checked

@@ -10,7 +10,6 @@ import { setAll, handleContractError } from "../helpers";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
 
-import { setAll } from "../helpers";
 import { getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
@@ -407,7 +406,7 @@ const initialState: IAccountSlice = {
     oldsohm: "",
     fsohm: "",
     wsohm: "",
-	fiatDaowsohm: "",
+    fiatDaowsohm: "",
     pool: "",
     wsohmAsSohm: "",
     mockSohm: "",

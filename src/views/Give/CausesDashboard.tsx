@@ -8,15 +8,14 @@ import data from "./projects.json";
 import { CancelCallback, RecipientModal, SubmitCallback } from "./RecipientModal";
 import { BigNumber } from "bignumber.js";
 import { error } from "../../slices/MessagesSlice";
-import { useAppDispatch } from "src/hooks";
+import { useAppDispatch, useAppSelector } from "src/hooks";
 import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
-import { DepositSohm, LockInVault, ReceivesYield, ArrowGraphic } from "../../components/EducationCard";
 import { GiveInfo } from "./GiveInfo";
 import { useUIDSeed } from "react-uid";
 
 export default function CausesDashboard() {
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
-  const [zoomed, setZoomed] = useState(false);
+  const { provider, address } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const { projects } = data;
@@ -55,7 +54,7 @@ export default function CausesDashboard() {
         recipient: walletAddress,
         provider,
         address,
-        networkID: chainID,
+        networkID: networkId,
       }),
     );
 

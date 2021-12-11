@@ -23,6 +23,7 @@ import { t } from "@lingui/macro";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
 import { RedeemCancelCallback, RedeemYieldModal, RedeemSubmitCallback } from "./RedeemYieldModal";
+import { useAppSelector } from "src/hooks";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -33,7 +34,8 @@ type State = {
 
 export default function RedeemYield() {
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, hasCachedProvider, address, connected, connect } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
@@ -102,7 +104,7 @@ export default function RedeemYield() {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (connected) {
-      loadAccountDetails({ networkID: chainID, provider, address });
+      loadAccountDetails({ networkID: networkId, provider, address });
     }
   }, [connected]);
 
@@ -129,7 +131,7 @@ export default function RedeemYield() {
   };
 
   const handleRedeemYieldModalSubmit = async () => {
-    await dispatch(redeemBalance({ address, provider, networkID: chainID }));
+    await dispatch(redeemBalance({ address, provider, networkID: networkId }));
     setIsRedeemYieldModalOpen(false);
   };
 

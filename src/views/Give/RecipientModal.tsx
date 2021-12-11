@@ -31,6 +31,7 @@ import { Project } from "src/components/GiveProject/project.type";
 const sOhmImg = getTokenImage("sohm");
 import { shorten } from "src/helpers";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { useAppSelector } from "src/hooks";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -64,7 +65,8 @@ export function RecipientModal({
   currentDepositAmount,
 }: RecipientModalProps) {
   const dispatch = useDispatch();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
 
   const [depositAmount, setDepositAmount] = useState(currentDepositAmount ? currentDepositAmount : 0);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(false);
@@ -105,7 +107,7 @@ export function RecipientModal({
   });
 
   const onSeekApproval = async () => {
-    await dispatch(changeApproval({ address, token: "sohm", provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
   };
 
   const hasAllowance = useCallback(() => {
