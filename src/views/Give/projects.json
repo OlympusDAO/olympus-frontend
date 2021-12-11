@@ -55,8 +55,8 @@
       "details": "Popcorn is a new paradigm for DeFi, where yield-generating products simultaneously fund social impact beneficiaries at absolutely no cost to the user. These beneficiaries are nonprofits, charities, and grassroot projects working in the areas of environment, education, open source, and inequality.\n\nMembers of the PopcornDAO (POP token holders) are eligible to participate in all aspects of DAO governance, including beneficiary nominations and grant elections. They determine which beneficiaries receive a percentage of earned protocol fees on a monthly, quarterly, and annual basis, and are incentivized to do so with POP rewards. POP holders are also able to stake their POP and earn even more.\n\nAlong with directly funding community-selected beneficiaries, one of Popcorn’s key goals is to be a bridge between the social impact world and DeFi, helping them onramp into DeFi and educating them about the opportunities of DeFi and web3 to achieve social impact goals through community-led and equitable means. Popcorn will introduce them not only to DeFi but all the benefits of decentralisation. In summary, Popcorn’s purpose is to aid the current revolutionary shift in global systems through accessible DeFi products that align financial wellbeing with positive global impact.",
       "finishDate": "2021-12-31T18:00:00.000Z",
       "photos": ["/assets/images/give/popcorndao/popcorndao-logo.png"],
-      "category": "CCC",
-      "wallet": "0x6BE8ef6207b4114A52ae5011FE8846dA2Af8F281",
+      "category": "Grants",
+      "wallet": "0x0ec6290abb4714ba5f1371647894ce53c6dd673a",
       "depositGoal": 500,
       "website": "https://popcorn.network/"
     }
