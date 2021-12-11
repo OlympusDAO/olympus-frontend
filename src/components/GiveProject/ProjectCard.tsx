@@ -93,7 +93,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
-  const countdownRenderer = ({ days, hours, minutes, completed }: CountdownProps) => {
+  const countdownRenderer = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
         <>
@@ -121,7 +121,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <div>
               <div className="cause-info-main-text">
                 <strong>
-                  {days}:{hours}:{minutes}
+                  {formatted.days}:{formatted.hours}:{formatted.minutes}
                 </strong>
               </div>
               <span className="cause-info-bottom-text">Remaining</span>
@@ -131,7 +131,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       </>
     );
   };
-  const countdownRendererDetailed = ({ days, hours, minutes, completed, formatted }: CountdownProps) => {
+  const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
         <>
