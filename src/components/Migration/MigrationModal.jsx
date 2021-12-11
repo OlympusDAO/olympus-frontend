@@ -14,6 +14,8 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
+import { addresses } from "../../constants";
+
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { makeStyles } from "@material-ui/core/styles";
@@ -28,7 +30,14 @@ import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import "./migration-modal.scss";
 import { useAppSelector } from "src/hooks";
 import { trim } from "src/helpers";
-
+const formatCurrency = c => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(c);
+};
 const style = {
   position: "absolute",
   top: "50%",
@@ -53,6 +62,37 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { provider, address, connect } = useWeb3Context();
+  const tokenSelector = state => [
+    {
+      symbol: "OHM",
+      address: addresses[state.network.networkId].OHM_ADDRESS,
+      balance: state.account.balances.ohm,
+      price: state.app.marketPrice || 0,
+      decimals: 9,
+    },
+    {
+      symbol: "sOHM",
+      address: addresses[state.network.networkId].SOHM_ADDRESS,
+      balance: state.account.balances.sohm,
+      price: state.app.marketPrice || 0,
+      decimals: 9,
+    },
+    {
+      symbol: "wsOHM",
+      address: addresses[state.network.networkId].WSOHM_ADDRESS,
+      balance: state.account.balances.wsohm,
+      price: (state.app.marketPrice || 0) * Number(state.app.currentIndex),
+      decimals: 18,
+    },
+    {
+      symbol: "33T",
+      address: addresses[state.network.networkId].PT_TOKEN_ADDRESS,
+      balance: state.account.balances.pool,
+      price: state.app.marketPrice || 0,
+      decimals: 9,
+    },
+  ];
+  const token = tokenSelector();
 
   const networkId = useAppSelector(state => state.network.networkId);
 

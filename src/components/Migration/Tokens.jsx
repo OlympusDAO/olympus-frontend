@@ -1,6 +1,6 @@
 import { addresses } from "src/constants";
 
-export const tokensSelector = state => [
+const tokensSelector = state => [
   {
     symbol: "OHM",
     address: addresses[state.network.networkId].OHM_ADDRESS,
@@ -30,3 +30,7 @@ export const tokensSelector = state => [
     decimals: 9,
   },
 ];
+
+module.exports = {
+  tokensSelector: tokensSelector,
+};
