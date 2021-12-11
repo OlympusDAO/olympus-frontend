@@ -7,8 +7,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 function Give() {
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
-  const [zoomed, setZoomed] = useState(false);
+  const { address, connect } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   let connectButton = [];
   connectButton.push(

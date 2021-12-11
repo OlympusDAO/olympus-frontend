@@ -10,7 +10,8 @@ import { Skeleton } from "@material-ui/lab";
 import { trim, subtractDates } from "src/helpers";
 
 export const PoolPrize = () => {
-  const { provider, chainID } = useWeb3Context();
+  const { provider } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
   const dispatch = useDispatch();
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState(null);
@@ -45,13 +46,12 @@ export const PoolPrize = () => {
 
   // handleAward not used yet
   const handleAward = async action => {
-    console.log(`run ${action} on pool`);
-    await dispatch(awardProcess({ action, provider, networkID: chainID }));
+    await dispatch(awardProcess({ action, provider, networkID: networkId }));
   };
 
   const rngQueryFunc = () => {
-    dispatch(getRNGStatus({ networkID: chainID, provider: provider }));
-    if (poolIsLocked) dispatch(getPoolValues({ networkID: chainID, provider: provider }));
+    dispatch(getRNGStatus({ networkID: networkId, provider: provider }));
+    if (poolIsLocked) dispatch(getPoolValues({ networkID: networkId, provider: provider }));
   };
 
   const decreaseNum = () => {
@@ -83,18 +83,18 @@ export const PoolPrize = () => {
     } else if (poolIsLocked) {
       setShowAwardStart(false);
       // wait 30 seconds... we're just waiting for award
-      setTimeout(() => {
-        // retry until Pool Is Not Locked, then go get new time
-        rngQueryFunc();
-      }, 30000);
+      // setTimeout(() => {
+      //   // retry until Pool Is Not Locked, then go get new time
+      //   rngQueryFunc();
+      // }, 30000);
     } else if (parseInt(poolAwardTimeRemaining, 10) <= 0) {
       setShowAwardStart(true);
       // There is no time left, attach RNG (Award) Start listener
       // the rngQueryFunc will run repeatedly once the above conditions are true;
-      setTimeout(() => {
-        // retry until pool is locked, then hits above block
-        rngQueryFunc();
-      }, 10000);
+      // setTimeout(() => {
+      //   // retry until pool is locked, then hits above block
+      //   rngQueryFunc();
+      // }, 10000);
     }
   }, [poolAwardTimeRemaining, poolIsLocked, rngRequestCompleted]);
 
@@ -127,9 +127,10 @@ export const PoolPrize = () => {
               <Trans>Prize is being awarded</Trans>
             </Typography>
           ) : (
-            <Typography variant="h6">
-              <Trans>Next award</Trans>
-            </Typography>
+            <Typography></Typography>
+            // <Typography variant="h6">
+            //   <Trans>Next award</Trans>
+            // </Typography>
           )}
           <Box className="pool-timer">
             {timer && poolIsLocked !== true && (

@@ -1,5 +1,7 @@
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useHistory } from "react-router";
 import {
   Box,
   Button,
@@ -15,12 +17,15 @@ import {
   Typography,
   Zoom,
   Divider,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -31,6 +36,9 @@ import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
+import { ExpandMore } from "@material-ui/icons";
+import StakeRow from "./StakeRow";
+import Metric from "../../components/Metric/Metric";
 
 function a11yProps(index: number) {
   return {
@@ -39,18 +47,17 @@ function a11yProps(index: number) {
   };
 }
 
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
-
 function Stake() {
   const dispatch = useDispatch();
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const history = useHistory();
+  const { provider, address, connect } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
+  usePathForNetwork({ pathName: "stake", networkID: networkId, history });
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState(0);
 
-  const tokens = useAppSelector(state => state.zap.balances);
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
@@ -73,9 +80,14 @@ function Stake() {
   const wsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
+  const fiatDaowsohmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.fiatDaowsohm;
+  });
+  const fiatDaoAsSohm = Number(fiatDaowsohmBalance) * Number(currentIndex);
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
+  const gOhmAsSohm = Number(gOhmBalance) * Number(currentIndex);
   const wsohmAsSohm = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohmAsSohm;
   });
@@ -92,21 +104,12 @@ function Stake() {
     return state.app.stakingAPY || 0;
   });
   const stakingTVL = useAppSelector(state => {
-    return state.app.stakingTVL;
+    return state.app.stakingTVL || 0;
   });
 
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
-
-  const inputTokenImages = useMemo(
-    () =>
-      Object.entries(tokens)
-        .filter(token => token[0] !== "sohm")
-        .map(token => token[1].img)
-        .slice(0, 3),
-    [tokens],
-  );
 
   const setMax = () => {
     if (view === 0) {
@@ -117,7 +120,7 @@ function Stake() {
   };
 
   const onSeekApproval = async (token: string) => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
   const onChangeStake = async (action: string) => {
@@ -137,7 +140,7 @@ function Stake() {
       return dispatch(error(t`You cannot unstake more than your sOHM balance.`));
     }
 
-    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId }));
   };
 
   const hasAllowance = useCallback(
@@ -164,15 +167,25 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmAsSohm]
+    [sohmBalance, fsohmBalance, wsohmAsSohm, gOhmAsSohm, fiatDaoAsSohm]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
       .toFixed(4),
   );
   const trimmedStakingAPY = trim(stakingAPY * 100, 1);
+
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((Number(stakingRebasePercentage) / 100) * trimmedBalance, 4);
+
+  const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));
+  const formattedStakingTVL = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(stakingTVL);
+  const formattedCurrentIndex = trim(Number(currentIndex), 1);
 
   return (
     <div id="stake-view">
@@ -205,57 +218,30 @@ function Stake() {
               <div className="stake-top-metrics">
                 <Grid container spacing={2} alignItems="flex-end">
                   <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-apy">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>APY</Trans>
-                      </Typography>
-                      <Typography variant="h4">
-                        {stakingAPY ? (
-                          <span data-testid="apy-value">
-                            {new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY))}%
-                          </span>
-                        ) : (
-                          <Skeleton width="150px" data-testid="apy-loading" />
-                        )}
-                      </Typography>
-                    </div>
+                    <Metric
+                      className="stake-apy"
+                      label={t`APY`}
+                      metric={`${formattedTrimmedStakingAPY}%`}
+                      isLoading={stakingAPY ? false : true}
+                    />
                   </Grid>
 
                   <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-tvl">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>Total Value Deposited</Trans>
-                      </Typography>
-                      <Typography variant="h4">
-                        {stakingTVL ? (
-                          <span data-testid="tvl-value">
-                            {new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "USD",
-                              maximumFractionDigits: 0,
-                              minimumFractionDigits: 0,
-                            }).format(stakingTVL)}
-                          </span>
-                        ) : (
-                          <Skeleton width="150px" data-testid="tvl-loading" />
-                        )}
-                      </Typography>
-                    </div>
+                    <Metric
+                      className="stake-tvl"
+                      label={t`Total Value Deposited`}
+                      metric={formattedStakingTVL}
+                      isLoading={stakingTVL ? false : true}
+                    />
                   </Grid>
 
                   <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-index">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>Current Index</Trans>
-                      </Typography>
-                      <Typography variant="h4">
-                        {currentIndex ? (
-                          <span data-testid="index-value">{trim(Number(currentIndex), 1)} OHM</span>
-                        ) : (
-                          <Skeleton width="150px" data-testid="index-loading" />
-                        )}
-                      </Typography>
-                    </div>
+                    <Metric
+                      className="stake-index"
+                      label={t`Current Index`}
+                      metric={`${formattedCurrentIndex} OHM`}
+                      isLoading={currentIndex ? false : true}
+                    />
                   </Grid>
                 </Grid>
               </div>
@@ -410,90 +396,67 @@ function Stake() {
                       </Grid>
                     </Grid>
                   </Box>
-
-                  <div className={`stake-user-data`}>
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Unstaked Balance</Trans>
-                      </Typography>
-                      <Typography variant="body1" id="user-balance">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(ohmBalance), 4)} OHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Staked Balance</Trans>
-                      </Typography>
-                      <Typography variant="body1" id="user-staked-balance">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Single Staking</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(sohmBalance), 4)} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Staked Balance in Fuse</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fsohmBalance), 4)} fsOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance</Trans>
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(wsohmBalance), 4)} wsOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row" style={{ paddingLeft: "10px" }}>
-                      <Typography variant="body2" color="textSecondary">
-                        <Trans>Wrapped Balance</Trans> (v2)
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(gOhmBalance), 4)} gOHM</>}
-                      </Typography>
-                    </div>
-
+                  <div className="stake-user-data">
+                    <StakeRow
+                      title={t`Unstaked Balance`}
+                      id="user-balance"
+                      balance={`${trim(Number(ohmBalance), 4)} OHM`}
+                      {...{ isAppLoading }}
+                    />
+                    <Accordion className="stake-accordion" square>
+                      <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
+                        <StakeRow
+                          title={t`Staked Balance`}
+                          id="user-staked-balance"
+                          balance={`${trimmedBalance} sOHM`}
+                          {...{ isAppLoading }}
+                        />
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <StakeRow
+                          title={t`Single Staking`}
+                          balance={`${trim(Number(sohmBalance), 4)} sOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={t`Staked Balance in Fuse`}
+                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={t`Wrapped Balance`}
+                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
+                          {...{ isAppLoading }}
+                          indented
+                        />
+                        <StakeRow
+                          title={t`Wrapped Balance in FiatDAO`}
+                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
+                          {...{ isAppLoading }}
+                          indented
+                        />
+                        <StakeRow
+                          title={`${t`Wrapped Balance`} (v2)`}
+                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                      </AccordionDetails>
+                    </Accordion>
                     <Divider color="secondary" />
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Next Reward Amount</Trans>
-                      </Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sOHM</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>Next Reward Yield</Trans>
-                      </Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}
-                      </Typography>
-                    </div>
-
-                    <div className="data-row">
-                      <Typography variant="body1">
-                        <Trans>ROI (5-Day Rate)</Trans>
-                      </Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiveDayRate) * 100, 4)}%</>}
-                      </Typography>
-                    </div>
+                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
+                    <StakeRow
+                      title={t`Next Reward Yield`}
+                      balance={`${stakingRebasePercentage}%`}
+                      {...{ isAppLoading }}
+                    />
+                    <StakeRow
+                      title={t`ROI (5-Day Rate)`}
+                      balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
+                      {...{ isAppLoading }}
+                    />
                   </div>
                 </>
               )}

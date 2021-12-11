@@ -23,6 +23,7 @@ import { ReactComponent as DonatedIcon } from "../../assets/icons/donated.svg";
 import { ReactComponent as GoalIcon } from "../../assets/icons/goal.svg";
 import MarkdownIt from "markdown-it";
 import { shortenString } from "src/helpers";
+import { useAppSelector } from "src/hooks";
 
 type CountdownProps = {
   total: number;
@@ -51,7 +52,8 @@ type ProjectDetailsProps = {
 };
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, address, connected, connect } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
   const { title, owner, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
@@ -73,7 +75,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
     // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
     getRedemptionBalancesAsync({
-      networkID: chainID,
+      networkID: networkId,
       provider: provider,
       address: wallet,
     }).then(resultAction => {
@@ -82,7 +84,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     });
 
     getDonorNumbers({
-      networkID: chainID,
+      networkID: networkId,
       provider: provider,
       address: wallet,
     }).then(resultAction => {
@@ -286,7 +288,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         recipient: walletAddress,
         provider,
         address,
-        networkID: chainID,
+        networkID: networkId,
       }),
     );
 

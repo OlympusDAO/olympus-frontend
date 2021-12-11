@@ -2,7 +2,6 @@
   overflow-y: hidden;
   overflow-x: hidden;
   height: 100%;
-  // width: 100%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
@@ -19,7 +18,6 @@
     max-width: unset !important;
     width: 100%;
     margin: auto;
-    max-height: 355px;
     .card-header {
       margin-bottom: 1rem;
     }

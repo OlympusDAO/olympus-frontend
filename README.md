@@ -46,6 +46,10 @@ Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day
 2. then copy the rinkeby `reserveAddress` for the applicable bond & navigate to that contract on rinkeby etherscan.
 3. On Rinkeby etherscan use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
+## Avax Fuji Testnet
+1. [avax faucet](https://faucet.avax-test.network/)
+2. [explorer](https://explorer.avax-test.network/)
+
 ## Architecture/Layout
 
 The app is written in [React](https://reactjs.org/) using [Redux](https://redux.js.org/) as the state container.
@@ -113,6 +117,28 @@ t({
 ```
 
 When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.
+
+### Resolving merge conflicts with translations
+
+```bash
+$ git diff
+# shows two commits in conflict below (fbdd867,e6e0919)
+diff --cc src/locales/translations
+index fbdd867,e6e0919..0000000
+--- a/src/locales/translations
++++ b/src/locales/translations
+
+cd src/locales/translations
+# first commit
+git checkout fbdd867
+# merge in second commit
+git merge e6e0919
+git commit
+
+cd ../../..
+git add src/locales/translations
+git commit
+```
 
 ## 🚀 Deployment
 

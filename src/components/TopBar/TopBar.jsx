@@ -7,6 +7,7 @@ import ThemeSwitcher from "./ThemeSwitch.jsx";
 import LocaleSwitcher from "./LocaleSwitch.tsx";
 import ConnectMenu from "./ConnectMenu.jsx";
 import "./topbar.scss";
+import NetworkMenu from "./NetworkMenu.jsx";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -50,6 +51,8 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
 
         <Box display="flex">
           {!isVerySmallScreen && <OhmMenu />}
+
+          {/* <NetworkMenu /> */}
 
           <ConnectMenu theme={theme} />
 

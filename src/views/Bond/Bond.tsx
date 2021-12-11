@@ -1,5 +1,6 @@
 import { ChangeEvent, Fragment, ReactNode, ReactElement, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { t, Trans } from "@lingui/macro";
 import { formatCurrency, trim } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
@@ -12,7 +13,6 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
-import { NetworkID } from "src/lib/Bond";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -24,8 +24,10 @@ function a11yProps(index: number) {
 }
 
 const Bond = ({ bond }: { bond: IAllBondData }) => {
-  const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const history = useHistory();
+  const { provider, address } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
+  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   const [slippage, setSlippage] = useState<number>(0.5);
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
@@ -43,6 +45,13 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     return setSlippage(Number(e.target.value));
   };
 
+  const onClickAway = (): void => {
+    history.goBack();
+  };
+
+  const onClickModal = (e: any): void => {
+    e.stopPropagation();
+  };
   useEffect(() => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
@@ -54,9 +63,9 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   return (
     <Fade in={true} mountOnEnter unmountOnExit>
       <Grid container id="bond-view">
-        <Backdrop open={true}>
+        <Backdrop open={true} onClick={onClickAway}>
           <Fade in={true}>
-            <Paper className="ohm-card ohm-modal">
+            <Paper className="ohm-card ohm-modal" onClick={onClickModal}>
               <BondHeader
                 bond={bond}
                 slippage={slippage}
@@ -119,9 +128,9 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
 };
 
 export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement => {
-  const { chainID }: { chainID: NetworkID } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
 
-  if (typeof bond.bondPrice === undefined || !bond.isAvailable[chainID]) {
+  if (typeof bond.bondPrice === undefined || !bond.getBondability(networkId)) {
     return <Fragment>--</Fragment>;
   }
 
@@ -138,9 +147,9 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement
 };
 
 export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
-  const { chainID }: { chainID: NetworkID } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
 
-  if (typeof bond.bondDiscount === undefined || !bond.isAvailable[chainID]) {
+  if (typeof bond.bondDiscount === undefined || !bond.getBondability(networkId)) {
     return <Fragment>--</Fragment>;
   }
 
