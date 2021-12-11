@@ -132,7 +132,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You
-          can withdraw your principal sOHM amount at any time.
+          can withdraw or edit your principal sOHM amount at any time.
         </Typography>
       </Box>
     </Box>

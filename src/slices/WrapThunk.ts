@@ -18,24 +18,6 @@ interface IUAData {
   type: string | null;
 }
 
-function alreadyApprovedToken(token: string, wrapAllowance: BigNumber, unwrapAllowance: BigNumber) {
-  // set defaults
-  let bigZero = BigNumber.from("0");
-  let applicableAllowance = bigZero;
-
-  // determine which allowance to check
-  if (token === "sohm") {
-    applicableAllowance = wrapAllowance;
-  } else if (token === "wsohm") {
-    applicableAllowance = unwrapAllowance;
-  }
-
-  // check if allowance exists
-  if (applicableAllowance.gt(bigZero)) return true;
-
-  return false;
-}
-
 export const changeApproval = createAsyncThunk(
   "wrap/changeApproval",
   async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
@@ -55,30 +37,17 @@ export const changeApproval = createAsyncThunk(
     let wrapAllowance = await sohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
     let unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
 
-    // return early if approval has already happened
-    if (alreadyApprovedToken(token, wrapAllowance, unwrapAllowance)) {
-      dispatch(info("Approval completed."));
-      return dispatch(
-        fetchAccountSuccess({
-          wrapping: {
-            ohmWrap: +wrapAllowance,
-            ohmUnwrap: +unwrapAllowance,
-          },
-        }),
-      );
-    }
-
     try {
       if (token === "sohm") {
         // won't run if wrapAllowance > 0
         approveTx = await sohmContract.approve(
           addresses[networkID].WSOHM_ADDRESS,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+          ethers.utils.parseUnits("1000000000", "gwei"),
         );
       } else if (token === "wsohm") {
         approveTx = await wsohmContract.approve(
           addresses[networkID].WSOHM_ADDRESS,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+          ethers.utils.parseUnits("1000000000", "ether"),
         );
       }
 
@@ -86,8 +55,8 @@ export const changeApproval = createAsyncThunk(
       const pendingTxnType = token === "sohm" ? "approve_wrapping" : "approve_unwrapping";
       if (approveTx) {
         dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
-
         await approveTx.wait();
+        dispatch(info("Successfully Approved!"));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));

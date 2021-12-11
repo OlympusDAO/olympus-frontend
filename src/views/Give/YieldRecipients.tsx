@@ -28,6 +28,7 @@ import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { error } from "../../slices/MessagesSlice";
 import data from "./projects.json";
 import { Project } from "src/components/GiveProject/project.type";
+import { useAppSelector } from "src/hooks";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -38,7 +39,8 @@ type State = {
 
 export default function YieldRecipients() {
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, hasCachedProvider, address, connect } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
   const [walletChecked, setWalletChecked] = useState(false);
   const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState("");
   const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
@@ -96,7 +98,7 @@ export default function YieldRecipients() {
         recipient: walletAddress,
         provider,
         address,
-        networkID: chainID,
+        networkID: networkId,
       }),
     );
 
@@ -124,7 +126,7 @@ export default function YieldRecipients() {
         recipient: walletAddress,
         provider,
         address,
-        networkID: chainID,
+        networkID: networkId,
       }),
     );
 

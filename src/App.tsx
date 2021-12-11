@@ -35,14 +35,15 @@ import TopBar from "./components/TopBar/TopBar.jsx";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
-
+import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
-import { Bond as IBond } from "./lib/Bond";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import { initializeNetwork } from "./slices/NetworkSlice";
+import { useAppSelector } from "./hooks";
 import { Project } from "src/components/GiveProject/project.type";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
@@ -96,33 +97,39 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
-  const currentPath = location.pathname + location.search + location.hash;
+  const currentPath = location.pathname + location.hash + location.search;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { connect, hasCachedProvider, provider, chainID, connected, uri } = useWeb3Context();
+  const { connect, hasCachedProvider, provider, connected, chainChanged, onChainChangeComplete } = useWeb3Context();
   const address = useAddress();
 
   const [walletChecked, setWalletChecked] = useState(false);
+  const networkId = useAppSelector(state => state.network.networkId);
 
   const { projects } = projectData;
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-  const { bonds, expiredBonds } = useBonds(chainID);
+  const { bonds, expiredBonds } = useBonds(networkId);
+
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
-    // it's because the initial provider loaded always starts with chainID=1. This causes
+    // it's because the initial provider loaded always starts with networkID=1. This causes
     // address lookup on the wrong chain which then throws the error. To properly resolve this,
-    // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
-    // network. To actually test rinkeby, change setChainID equal to 4 before testing.
+    // we shouldn't be initializing to networkID=1 in web3Context without first listening for the
+    // network. To actually test rinkeby, change setnetworkID equal to 4 before testing.
     let loadProvider = provider;
 
     if (whichDetails === "app") {
       loadApp(loadProvider);
+    }
+
+    if (whichDetails === "network") {
+      initNetwork(loadProvider);
     }
 
     // don't run unless provider is a Wallet...
@@ -131,29 +138,41 @@ function App() {
     }
   }
 
+  const initNetwork = useCallback(loadProvider => {
+    dispatch(initializeNetwork({ provider: loadProvider }));
+  }, []);
+
   const loadApp = useCallback(
     loadProvider => {
-      dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-      bonds.map(bond => {
-        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: chainID }));
-      });
-      dispatch(getMigrationAllowances({ address, provider, networkID: chainID }));
+      dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
+      // NOTE (appleseed) - tech debt - better network filtering for active bonds
+      if (networkId === 1 || networkId === 4) {
+        bonds.map(bond => {
+          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+        });
+      }
     },
-    [connected],
+    [networkId],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+      dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
+      dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
       bonds.map(bond => {
-        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        // NOTE: get any Claimable bonds, they may not be bondable
+        if (bond.getClaimability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
+        }
       });
-      dispatch(getZapTokenBalances({ address, networkID: chainID, provider: loadProvider }));
+      dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
       expiredBonds.map(bond => {
-        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        if (bond.getClaimability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
+        }
       });
     },
-    [connected],
+    [networkId, address],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
@@ -186,17 +205,23 @@ function App() {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
-      loadDetails("app");
+      loadDetails("network").then(() => {
+        if (networkId !== -1) {
+          loadDetails("account");
+          loadDetails("app");
+        }
+      });
+      onChainChangeComplete();
     }
-  }, [walletChecked]);
+  }, [walletChecked, chainChanged, networkId]);
 
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected) {
+    if (connected && networkId !== -1) {
       loadDetails("account");
     }
-  }, [connected]);
+  }, [connected, networkId]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -295,6 +320,10 @@ function App() {
                 );
               })}
               <ChooseBond />
+            </Route>
+
+            <Route path="/network">
+              <ChangeNetwork />
             </Route>
 
             <Route component={NotFound} />

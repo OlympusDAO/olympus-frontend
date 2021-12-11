@@ -38,7 +38,7 @@ export function RedeemYieldModal({
   deposit,
   redeemableBalance,
 }: RedeemModalProps) {
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { address } = useWeb3Context();
   const pendingTransactions = useSelector((state: State) => {
     return state.pendingTransactions;
   });

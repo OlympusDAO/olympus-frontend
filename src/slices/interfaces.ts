@@ -49,7 +49,7 @@ export interface IActionValueRecipientAsyncThunk extends IActionValueAsyncThunk 
 export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
   readonly tokenAddress: string;
   readonly sellAmount: number;
-  readonly slippage: number;
+  readonly slippage: string;
 }
 
 // Account Slice

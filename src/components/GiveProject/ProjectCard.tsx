@@ -33,6 +33,7 @@ import { ReactComponent as DonatedIcon } from "../../assets/icons/donated.svg";
 import { ReactComponent as GoalIcon } from "../../assets/icons/goal.svg";
 import MarkdownIt from "markdown-it";
 import { shortenString } from "src/helpers";
+import { useAppSelector } from "src/hooks";
 
 type CountdownProps = {
   total: number;
@@ -64,7 +65,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
   const isSmallScreen = useMediaQuery("(max-width: 576px) and (min-width: 375px)") && !isVerySmallScreen;
   const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 576px)") && !isSmallScreen;
-  const { provider, address, connected, connect, chainID } = useWeb3Context();
+  const { provider, address, connected, connect } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
   const { title, owner, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
@@ -86,7 +88,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
     // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
     getRedemptionBalancesAsync({
-      networkID: chainID,
+      networkID: networkId,
       provider: provider,
       address: wallet,
     }).then(resultAction => {
@@ -95,7 +97,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     });
 
     getDonorNumbers({
-      networkID: chainID,
+      networkID: networkId,
       provider: provider,
       address: wallet,
     }).then(resultAction => {
@@ -106,7 +108,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
-  const countdownRenderer = ({ days, hours, minutes, completed }: CountdownProps) => {
+  const countdownRenderer = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
         <>
@@ -134,7 +136,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <div>
               <div className="cause-info-main-text">
                 <strong>
-                  {days}:{hours}:{minutes}
+                  {formatted.days}:{formatted.hours}:{formatted.minutes}
                 </strong>
               </div>
               <span className="cause-info-bottom-text">Remaining</span>
@@ -144,7 +146,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       </>
     );
   };
-  const countdownRendererDetailed = ({ days, hours, minutes, completed, formatted }: CountdownProps) => {
+  const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
         <>
@@ -234,7 +236,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <div className="project-donated-icon">
               <SvgIcon component={DonatedIcon} viewBox={"0 0 16 12"} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
-                <strong>{totalDebt} sOHM</strong>
+                <strong>{new BigNumber(totalDebt).toFormat()} sOHM</strong>
               </Typography>
             </div>
             <div className="subtext">Donated</div>
@@ -244,7 +246,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <div className="project-completion-icon">
               <SvgIcon component={GoalIcon} viewBox={"0 0 16 12"} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
-                <strong>{depositGoal} sOHM</strong>
+                <strong>{new BigNumber(depositGoal).toFormat()} sOHM</strong>
               </Typography>
             </div>
             <div className="subtext">Goal</div>
@@ -266,6 +268,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         </div>
       );
 
+    // For the moment, we only display the first photo
     return (
       <div className="cause-image">
         <Link href={`#/give/projects/${project.slug}`}>
@@ -298,7 +301,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         recipient: walletAddress,
         provider,
         address,
-        networkID: chainID,
+        networkID: networkId,
       }),
     );
 
@@ -401,6 +404,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getPageContent = () => {
     return (
       <>
+<<<<<<< HEAD
         <Container
           style={{
             paddingLeft: "3.3rem",
@@ -448,6 +452,45 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                           </Button>
                         </div>
                       </div>
+=======
+        <Grid container className="project" spacing={4}>
+          <Grid item xs={1}></Grid>
+          <Grid item sm={12} md={12} lg={4}>
+            <Paper className="project-sidebar">
+              <Grid container className="project-intro" justifyContent="space-between">
+                <Grid item className="project-title">
+                  <Typography variant="h5">
+                    <strong>{getTitle()}</strong>
+                  </Typography>
+                </Grid>
+                <Grid item className="project-link">
+                  <Link href={project.website} target="_blank">
+                    <SvgIcon color="primary" component={WebsiteIcon} />
+                  </Link>
+                </Grid>
+              </Grid>
+              {getProjectImage()}
+              {renderGoalCompletionDetailed()}
+              {renderCountdownDetailed()}
+
+              <div className="project-give-button">
+                <Button variant="contained" color="primary" onClick={() => handleGiveButtonClick()} disabled={!address}>
+                  <Typography variant="h6">Give Yield</Typography>
+                </Button>
+              </div>
+            </Paper>
+            <Paper className="project-sidebar">
+              <Grid container direction="column">
+                <Grid item className="donors-title">
+                  <Typography variant="h5">
+                    <strong>Donations</strong>
+                  </Typography>
+                </Grid>
+                <Grid item md={12} lg={4} className="project-goal">
+                  <Grid container className="project-donated-icon">
+                    <Grid item xs={4}>
+                      <SvgIcon color="primary" component={DonorsIcon} viewBox={"0 0 18 13"} />
+>>>>>>> 7b44f19125dbd7204260f4c31537c57efa362309
                     </Grid>
                   </Grid>
                 </Paper>
@@ -474,6 +517,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   </Grid>
                 </Paper>
               </Grid>
+<<<<<<< HEAD
               <Grid item xs={12} md={6}>
                 <Paper className="project-info">
                   <Typography variant="h5" className="project-about-header">
@@ -485,6 +529,19 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             </Grid>
           </div>
         </Container>
+=======
+            </Paper>
+          </Grid>
+          <Grid item sm={12} md={12} lg={6}>
+            <Paper className="project-info">
+              <Typography variant="h5" className="project-about-header">
+                <strong>About</strong>
+              </Typography>
+              <div dangerouslySetInnerHTML={getRenderedDetails(false)} />
+            </Paper>
+          </Grid>
+        </Grid>
+>>>>>>> 7b44f19125dbd7204260f4c31537c57efa362309
       </>
     );
   };
