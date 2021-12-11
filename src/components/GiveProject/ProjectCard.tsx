@@ -105,7 +105,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       setDonorCount(!resultAction ? 0 : resultAction.length);
       setDonorCountIsLoading(false);
     });
-  }, [connected, networkId]);
+  }, [connected, networkId, isGiveModalOpen]);
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
@@ -488,6 +488,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             </Grid>
           </div>
         </Container>
+        <RecipientModal
+          isModalOpen={isGiveModalOpen}
+          callbackFunc={handleGiveModalSubmit}
+          cancelFunc={handleGiveModalCancel}
+          project={project}
+          key={title}
+        />
       </>
     );
   };
