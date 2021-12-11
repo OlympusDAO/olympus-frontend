@@ -17,8 +17,9 @@ export default function CausesDashboard() {
   const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 650px)");
-  const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
+  const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
+  const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
   const { projects } = data;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
@@ -67,14 +68,18 @@ export default function CausesDashboard() {
   };
 
   return (
-    <div className={`${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
-      <Container
-        style={{
-          paddingLeft: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
-          paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
-        }}
-      >
-        <div className="give-view">
+    <Container
+      style={{
+        paddingLeft: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
+        paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
+      }}
+    >
+      <div className="give-view">
+        <div
+          className={`${isMediumScreen && "medium"}
+            ${isSmallScreen && "smaller"}
+            ${isVerySmallScreen && "very-small"}`}
+        >
           <Zoom in={true}>
             <Paper className={`ohm-card secondary ${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
               <div className="card-header">
@@ -111,7 +116,7 @@ export default function CausesDashboard() {
             <GiveInfo />
           </Zoom>
         </div>
-      </Container>
-    </div>
+      </div>
+    </Container>
   );
 }

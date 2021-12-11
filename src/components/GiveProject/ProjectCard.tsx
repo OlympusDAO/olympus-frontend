@@ -63,8 +63,8 @@ type ProjectDetailsProps = {
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
-  const isSmallScreen = useMediaQuery("(max-width: 576px) and (min-width: 375px)") && !isVerySmallScreen;
-  const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 576px)") && !isSmallScreen;
+  const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
+  const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
   const { provider, address, connected, connect } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
   const { title, owner, details, finishDate, photos, category, wallet, depositGoal } = project;
@@ -83,6 +83,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   // When the user's wallet is connected, we perform these actions
   useEffect(() => {
     if (!connected) return;
+    if (networkId == -1) return;
 
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
     // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
@@ -104,7 +105,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       setDonorCount(!resultAction ? 0 : resultAction.length);
       setDonorCountIsLoading(false);
     });
-  }, [connected]);
+  }, [connected, networkId]);
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
@@ -319,7 +320,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const getRenderedDetails = (shorten: boolean) => {
-    return { __html: MarkdownIt({ html: true }).render(shorten ? shortenString(details, 250) : details) };
+    return { __html: MarkdownIt({ html: true }).render(shorten ? shortenString(details, 100) : details) };
   };
 
   const getCardContent = () => {
@@ -348,20 +349,19 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   </Link>
                 </Grid>
               </Grid>
-              <Typography variant="body1"></Typography>
               <div className="cause-body">
                 <Typography variant="body1" style={{ lineHeight: "20px" }}>
                   <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
                 </Typography>
               </div>
               <Grid container direction="column" className="cause-misc-info">
-                <Grid item xs={3}>
+                <Grid item xs={3} sm={6} md={3}>
                   {finishDateObject ? <Countdown date={finishDateObject} renderer={countdownRenderer} /> : <></>}
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={3} sm={6} md={3}>
                   {renderGoalCompletion()}
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} sm={12} md={6}>
                   <Button
                     variant="contained"
                     color="primary"
@@ -404,7 +404,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-<<<<<<< HEAD
         <Container
           style={{
             paddingLeft: "3.3rem",
@@ -452,45 +451,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                           </Button>
                         </div>
                       </div>
-=======
-        <Grid container className="project" spacing={4}>
-          <Grid item xs={1}></Grid>
-          <Grid item sm={12} md={12} lg={4}>
-            <Paper className="project-sidebar">
-              <Grid container className="project-intro" justifyContent="space-between">
-                <Grid item className="project-title">
-                  <Typography variant="h5">
-                    <strong>{getTitle()}</strong>
-                  </Typography>
-                </Grid>
-                <Grid item className="project-link">
-                  <Link href={project.website} target="_blank">
-                    <SvgIcon color="primary" component={WebsiteIcon} />
-                  </Link>
-                </Grid>
-              </Grid>
-              {getProjectImage()}
-              {renderGoalCompletionDetailed()}
-              {renderCountdownDetailed()}
-
-              <div className="project-give-button">
-                <Button variant="contained" color="primary" onClick={() => handleGiveButtonClick()} disabled={!address}>
-                  <Typography variant="h6">Give Yield</Typography>
-                </Button>
-              </div>
-            </Paper>
-            <Paper className="project-sidebar">
-              <Grid container direction="column">
-                <Grid item className="donors-title">
-                  <Typography variant="h5">
-                    <strong>Donations</strong>
-                  </Typography>
-                </Grid>
-                <Grid item md={12} lg={4} className="project-goal">
-                  <Grid container className="project-donated-icon">
-                    <Grid item xs={4}>
-                      <SvgIcon color="primary" component={DonorsIcon} viewBox={"0 0 18 13"} />
->>>>>>> 7b44f19125dbd7204260f4c31537c57efa362309
                     </Grid>
                   </Grid>
                 </Paper>
@@ -517,7 +477,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   </Grid>
                 </Paper>
               </Grid>
-<<<<<<< HEAD
               <Grid item xs={12} md={6}>
                 <Paper className="project-info">
                   <Typography variant="h5" className="project-about-header">
@@ -529,19 +488,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             </Grid>
           </div>
         </Container>
-=======
-            </Paper>
-          </Grid>
-          <Grid item sm={12} md={12} lg={6}>
-            <Paper className="project-info">
-              <Typography variant="h5" className="project-about-header">
-                <strong>About</strong>
-              </Typography>
-              <div dangerouslySetInnerHTML={getRenderedDetails(false)} />
-            </Paper>
-          </Grid>
-        </Grid>
->>>>>>> 7b44f19125dbd7204260f4c31537c57efa362309
       </>
     );
   };

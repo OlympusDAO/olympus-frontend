@@ -244,7 +244,7 @@ function OhmMenu() {
                     </Typography>
                   </Button>
                 </Link>
-                {chainID !== 1 && (
+                {networkId !== 1 && (
                   <Button size="large" variant="contained" color="secondary" onClick={handleGetTestTokens} fullWidth>
                     <Typography align="left">
                       <Trans>Get Test Tokens</Trans>
