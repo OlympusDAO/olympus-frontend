@@ -71,6 +71,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   let rows = [];
   let isMigrationComplete = useSelector(state => state.account.isMigrationComplete);
+  const networkId = NetworkID;
   // console.log(networkId);
   const onSeekApproval = token => {
     dispatch(
@@ -91,7 +92,9 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const currentOhmBalance = useSelector(state => Number(state.account.balances.ohm));
   const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohm));
   const currentWSOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
-
+  const marketPrice = useSelector(state => {
+    return state.app.marketPrice;
+  });
   const approvedOhmBalance = useSelector(state => Number(state.account.migration.ohm));
   const approvedSOhmBalance = useSelector(state => Number(state.account.migration.sohm));
   const approvedWSOhmBalance = useSelector(state => Number(state.account.migration.wsohm));
@@ -100,19 +103,25 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const sOhmFullApproval = approvedSOhmBalance >= currentSOhmBalance;
   const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
 
-  const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
+  const ohmInUSD = formatCurrency(marketPrice * currentOhmBalance);
+  const sOhmInUSD = formatCurrency(marketPrice * currentSOhmBalance);
+  const wsOhmInUSD = formatCurrency(marketPrice * currentWSOhmBalance);
 
+  const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
   useEffect(() => {
     if (isAllApproved && (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)) {
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
-  {
-    formatCurrency(
-      tokens.reduce((totalValue, token) => totalValue + parseFloat(token.balance) * token.price, 0) || 0,
-      2,
-    );
-  }
+  // {
+  //   formatCurrency(
+  //     tokens.reduce(
+  //       (totalValue, token) => totalValue + parseFloat(token.balance) * token.price,
+  //       0,
+  //     ) || 0,
+  //     2,
+  //   )
+  // }
   rows = [
     {
       initialAsset: "OHM",
@@ -120,6 +129,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
       targetAsset: "gOHM",
       targetBalance: currentOhmBalance / currentIndex,
       fullApproval: ohmFullApproval,
+      usdBalance: ohmInUSD,
     },
     {
       initialAsset: "sOHM",
@@ -127,6 +137,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
       targetAsset: "gOHM",
       targetBalance: currentSOhmBalance / currentIndex,
       fullApproval: sOhmFullApproval,
+      usdBalance: sOhmInUSD,
     },
     {
       initialAsset: "wsOHM",
@@ -134,6 +145,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
       targetAsset: "gOHM",
       targetBalance: currentWSOhmBalance,
       fullApproval: wsOhmFullApproval,
+      usdBalance: wsOhmInUSD,
     },
   ].filter(row => row.initialBalance != 0);
 
@@ -200,15 +212,6 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                         className="migartion-tooltip"
                         message={"This is the current balance of v1 assets in your wallet."}
                       ></InfoTooltip>
-                      <Typography variant="h4">
-                        {formatCurrency(
-                          tokens.reduce(
-                            (totalValue, token) => totalValue + parseFloat(token.balance) * token.price,
-                            0,
-                          ) || 0,
-                          2,
-                        )}
-                      </Typography>
                     </Box>
                   </TableCell>
                   <TableCell align="center">
@@ -235,11 +238,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     <TableCell align="left">
                       <Typography>
                         {row.initialBalance == 0 ? row.initialBalance : trim(row.initialBalance, 4)} {row.initialAsset}
+                        <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
                       <Typography>
                         {row.targetBalance == 0 ? row.targetBalance : trim(row.targetBalance, 4)} {row.targetAsset}
+                        <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
