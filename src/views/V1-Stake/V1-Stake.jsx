@@ -50,7 +50,7 @@ function a11yProps(index) {
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
 
-function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
+function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds }) {
   const dispatch = useDispatch();
   const { provider, address, connect } = useWeb3Context();
 
@@ -268,7 +268,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                       <Typography variant="body1" className="stake-note" color="textSecondary">
                         {view === 0 ? (
                           <>
-                            You must complete the migration of your assest to stake additional <b>OHM</b>
+                            {hasActiveV1Bonds
+                              ? "Once your current bonds have been claimed, you can migrate your assets to stake more OHM"
+                              : "You must complete the migration of your assest to stake additional <b>OHM</b>"}
                           </>
                         ) : (
                           <br />
@@ -319,13 +321,16 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                         <Skeleton width="150px" />
                       )}
 
-                      <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {isAllowanceDataLoading ? (
-                          <Skeleton />
-                        ) : (
-                          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
-                        )}
-                      </TabPanel>
+                      {!hasActiveV1Bonds && (
+                        <TabPanel value={view} index={0} className="stake-tab-panel">
+                          {isAllowanceDataLoading ? (
+                            <Skeleton />
+                          ) : (
+                            <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
+                          )}
+                        </TabPanel>
+                      )}
+
                       <TabPanel value={view} index={1} className="stake-tab-panel">
                         {isAllowanceDataLoading ? (
                           <Skeleton />
@@ -359,7 +364,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                   </Box>
                   <div className="stake-user-data">
                     <StakeRow
-                      title={t`Unstaked Balance`}
+                      title={t`Unstaked Balance (v1)`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
                       {...{ isAppLoading }}
@@ -375,25 +380,25 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                       </AccordionSummary>
                       <AccordionDetails>
                         <StakeRow
-                          title={t`Single Staking`}
+                          title={t`Single Staking (v1)`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
                         <StakeRow
-                          title={t`Staked Balance in Fuse`}
+                          title={t`Staked Balance in Fuse (v1)`}
                           balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
                         <StakeRow
-                          title={t`Wrapped Balance`}
+                          title={t`Wrapped Balance (v1)`}
                           balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
                           {...{ isAppLoading }}
                           indented
                         />
                         <StakeRow
-                          title={t`Wrapped Balance in FiatDAO`}
+                          title={t`Wrapped Balance in FiatDAO (v1)`}
                           balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
                           {...{ isAppLoading }}
                           indented

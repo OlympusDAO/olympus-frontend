@@ -66,12 +66,25 @@ const addTokenToWallet = (tokenSymbol, tokenAddress, address) => async () => {
   }
 };
 
-function OhmMenu(props) {
+function OhmMenu() {
   const path = useLocation().pathname;
   const [anchorEl, setAnchorEl] = useState(null);
   const isEthereumAPIAvailable = window.ethereum;
   const { address } = useWeb3Context();
   const networkId = useSelector(state => state.network.networkId);
+
+  const oldAssetsDetected = useSelector(state => {
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.sohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
+        ? true
+        : false)
+    );
+  });
+
+  const newAssetsDetected = useSelector(state => {
+    return state.account.balances && (Number(state.account.balances.gohm) ? true : false);
+  });
 
   const SOHM_ADDRESS = addresses[networkId] && addresses[networkId].SOHM_ADDRESS;
   const OHM_ADDRESS = addresses[networkId] && addresses[networkId].OHM_ADDRESS;
@@ -131,14 +144,14 @@ function OhmMenu(props) {
                     </Button>
                   </Link>
 
-                  {path === "/stake" && (
+                  {path === "/stake" && oldAssetsDetected && (
                     <Link component={NavLink} to="/v1-stake" style={{ textDecoration: "none" }}>
                       <Button size="large" variant="contained" color="secondary" fullWidth>
                         <Typography align="left">Switch to OHM v1 (Legacy)</Typography>
                       </Button>
                     </Link>
                   )}
-                  {path === "/v1-stake" && (
+                  {path === "/v1-stake" && newAssetsDetected && (
                     <Link component={NavLink} to="/stake" style={{ textDecoration: "none" }}>
                       <Button size="large" variant="contained" color="secondary" fullWidth>
                         <Typography align="left">Switch to OHM v2</Typography>
