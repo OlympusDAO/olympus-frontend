@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useWeb3Context } from "./web3Context";
 
@@ -10,18 +11,21 @@ const useENS = (address: string) => {
   useEffect(() => {
     const resolevENSName = async () => {
       setLoading(true);
-      if (address) {
-        let ensName = await provider.lookupAddress(address);
-        let avatar = ensName ? await provider.getAvatar(ensName) : null;
-        setENSName(ensName);
-        setENSAvatar(avatar);
-        setLoading(false);
+      if (ethers.utils.isAddress(address)) {
+        try {
+          let ensName = await provider.lookupAddress(address);
+          let avatar = ensName ? await provider.getAvatar(ensName) : null;
+          setENSName(ensName);
+          setENSAvatar(avatar);
+        } finally {
+          setLoading(false);
+        }
       }
     };
     resolevENSName();
   }, [address]);
 
-  return [ensName, ensAvatar, loading];
+  return { ensName, ensAvatar, ensLoading: loading };
 };
 
 export default useENS;

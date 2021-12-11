@@ -27,7 +27,7 @@ function NavContent() {
   const address = useAddress();
   const networkId = useSelector(state => state.network.networkId);
   const { bonds } = useBonds(networkId);
-  const [ensName] = useENS(address);
+  const { ensName } = useENS(address);
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
