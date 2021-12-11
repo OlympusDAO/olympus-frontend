@@ -9,7 +9,7 @@ const useENS = (address: string) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const resolevENSName = async () => {
+    const resolveENS = async () => {
       setLoading(true);
       if (ethers.utils.isAddress(address)) {
         try {
@@ -22,7 +22,7 @@ const useENS = (address: string) => {
         }
       }
     };
-    resolevENSName();
+    resolveENS();
   }, [address]);
 
   return { ensName, ensAvatar, ensLoading: loading };
