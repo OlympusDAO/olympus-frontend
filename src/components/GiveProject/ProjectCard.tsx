@@ -67,7 +67,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
   const { provider, address, connected, connect } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
-  const { title, owner, details, finishDate, photos, category, wallet, depositGoal } = project;
+  const { title, owner, shortDescription, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
@@ -320,7 +320,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const getRenderedDetails = (shorten: boolean) => {
-    return { __html: MarkdownIt({ html: true }).render(shorten ? shortenString(details, 100) : details) };
+    return { __html: MarkdownIt({ html: true }).render(shorten ? shortDescription : details) };
   };
 
   const getCardContent = () => {
