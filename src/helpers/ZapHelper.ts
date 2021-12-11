@@ -110,7 +110,7 @@ export class ZapHelper {
     sellAmount: number,
     ownerAddress: string,
     tokenAddress: string,
-    slippagePercentage: number,
+    slippagePercentage: string,
     gasPrice: number,
   ) => {
     tokenAddress = tokenAddress.toLowerCase();

@@ -30,7 +30,6 @@ query {
     runway5k
     runway2dot5k
     runwayCurrent
-    holders
     treasuryOhmDaiPOL
     treasuryOhmFraxPOL
   }

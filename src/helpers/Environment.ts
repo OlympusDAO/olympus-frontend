@@ -166,9 +166,6 @@ export class EnvHelper {
    */
   static getAPIUris(networkId: number) {
     let ALL_URIs = EnvHelper.getSelfHostedNode(networkId);
-    // Debug log
-    // console.log("uris", EnvHelper.getAlchemyAPIKeyList(), EnvHelper.getSelfHostedSockets());
-    // ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getSelfHostedNode(networkId)];
     if (ALL_URIs.length === 0) {
       console.warn("API keys must be set in the .env, reverting to fallbacks");
       ALL_URIs = EnvHelper.getFallbackURIs(networkId);
