@@ -1,4 +1,14 @@
-import { Button, Typography, Grid, Paper, Tooltip, Link, LinearProgress, useMediaQuery } from "@material-ui/core";
+import {
+  Button,
+  Typography,
+  Grid,
+  Paper,
+  Tooltip,
+  Link,
+  LinearProgress,
+  useMediaQuery,
+  Container,
+} from "@material-ui/core";
 import Countdown from "react-countdown";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
@@ -51,6 +61,9 @@ type ProjectDetailsProps = {
 };
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
+  const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
+  const isSmallScreen = useMediaQuery("(max-width: 576px) and (min-width: 375px)") && !isVerySmallScreen;
+  const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 576px)") && !isSmallScreen;
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const { title, owner, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
@@ -154,7 +167,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               title={!finishDateObject ? "" : "Finishes at " + finishDateObject.toLocaleString() + " in your timezone"}
               arrow
             >
-              <Grid item xs={10} className="countdown-object">
+              <Grid item xs={12} className="countdown-object">
                 <div>
                   <SvgIcon component={ClockIcon} color="primary" />
                 </div>
@@ -388,64 +401,90 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Grid container className="project">
-          <Grid item xs={1}></Grid>
-          <Grid item md={12} lg={4}>
-            <Paper className="project-sidebar">
-              <Grid container className="project-intro" justifyContent="space-between">
-                <Grid item className="project-title">
-                  <Typography variant="h5">
-                    <strong>{getTitle()}</strong>
-                  </Typography>
-                </Grid>
-                <Grid item className="project-link">
-                  <Link href={project.website} target="_blank">
-                    <SvgIcon color="primary" component={WebsiteIcon} />
-                  </Link>
-                </Grid>
-              </Grid>
-              {getProjectImage()}
-              {renderGoalCompletionDetailed()}
-              {renderCountdownDetailed()}
-
-              <div className="project-give-button">
-                <Button variant="contained" color="primary" onClick={() => handleGiveButtonClick()} disabled={!address}>
-                  <Typography variant="h6">Give Yield</Typography>
-                </Button>
-              </div>
-            </Paper>
-            <Paper className="project-sidebar">
-              <Grid container direction="column">
-                <Grid item className="donors-title">
-                  <Typography variant="h5">
-                    <strong>Donations</strong>
-                  </Typography>
-                </Grid>
-                <Grid item md={12} lg={4} className="project-goal">
-                  <Grid container className="project-donated-icon">
-                    <Grid item xs={4}>
-                      <SvgIcon color="primary" component={DonorsIcon} viewBox={"0 0 18 13"} />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Typography variant="h6">
-                        {donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}
+        <Container
+          style={{
+            paddingLeft: "3.3rem",
+            paddingRight: "3.3rem",
+          }}
+          className="project-container"
+        >
+          <div
+            className={`${isMediumScreen && "medium"}
+              ${isSmallScreen && "smaller"}
+              ${isVerySmallScreen && "very-small"}`}
+          >
+            <Grid container className="project">
+              <Grid item xs={1}></Grid>
+              <Grid item xs={12} md={4}>
+                <Paper className="project-sidebar">
+                  <Grid container className="project-intro" justifyContent="space-between">
+                    <Grid item className="project-title">
+                      <Typography variant="h5">
+                        <strong>{getTitle()}</strong>
                       </Typography>
-                      <div className="subtext">Donors</div>
+                    </Grid>
+                    <Grid item className="project-link">
+                      <Link href={project.website} target="_blank">
+                        <SvgIcon color="primary" component={WebsiteIcon} />
+                      </Link>
                     </Grid>
                   </Grid>
-                </Grid>
+                  <Grid item className="project-visual-info">
+                    {getProjectImage()}
+                    <Grid item className="goal-graphics">
+                      {renderGoalCompletionDetailed()}
+
+                      <div className="visual-info-bottom">
+                        {renderCountdownDetailed()}
+
+                        <div className="project-give-button">
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handleGiveButtonClick()}
+                            disabled={!address}
+                          >
+                            <Typography variant="h6">Give Yield</Typography>
+                          </Button>
+                        </div>
+                      </div>
+                    </Grid>
+                  </Grid>
+                </Paper>
+                <Paper className="project-sidebar">
+                  <Grid container direction="column">
+                    <Grid item className="donors-title">
+                      <Typography variant="h5">
+                        <strong>Donations</strong>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={4} className="project-goal">
+                      <Grid container className="project-donated-icon">
+                        <Grid item xs={1} md={4}>
+                          <SvgIcon color="primary" component={DonorsIcon} viewBox={"0 0 18 13"} />
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography variant="h6">
+                            {donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}
+                          </Typography>
+                          <div className="subtext">Donors</div>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Paper>
               </Grid>
-            </Paper>
-          </Grid>
-          <Grid item md={12} lg={6}>
-            <Paper className="project-info">
-              <Typography variant="h5" className="project-about-header">
-                <strong>About</strong>
-              </Typography>
-              <div dangerouslySetInnerHTML={getRenderedDetails(false)} />
-            </Paper>
-          </Grid>
-        </Grid>
+              <Grid item xs={12} md={6}>
+                <Paper className="project-info">
+                  <Typography variant="h5" className="project-about-header">
+                    <strong>About</strong>
+                  </Typography>
+                  <div dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                </Paper>
+              </Grid>
+            </Grid>
+          </div>
+        </Container>
       </>
     );
   };

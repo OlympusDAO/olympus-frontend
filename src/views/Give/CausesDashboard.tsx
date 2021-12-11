@@ -18,7 +18,7 @@ export default function CausesDashboard() {
   const { provider, address, connected, connect, chainID } = useWeb3Context();
   const [zoomed, setZoomed] = useState(false);
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 705px)");
+  const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
   const { projects } = data;
 

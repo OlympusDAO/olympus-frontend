@@ -565,6 +565,10 @@
     }
   }
 
+  .MuiPaper-root {
+    border-radius: 10px;
+  }
+
   .MuiLinearProgress-determinate {
     height: 1rem;
     border-radius: 3px;
@@ -573,6 +577,69 @@
   .MuiLinearProgress-barColorPrimary {
     background: rgb(112, 139, 150);
     background: linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%);
+  }
+}
+
+.project-container {
+  .very-small {
+    .visual-info-bottom {
+      flex-direction: column;
+
+      .project-give-button {
+        padding-top: 1.5rem;
+      }
+    }
+  }
+
+  .smaller {
+    .project-visual-info {
+      flex-direction: column;
+
+      .cause-image {
+        width: 100%;
+        margin-right: 0px;
+      }
+
+      .goal-graphics {
+        width: 100%;
+      }
+
+      .visual-info-bottom {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .project-give-button {
+          padding-top: 0px;
+        }
+
+        .project-countdown {
+          width: 50%;
+        }
+      }
+    }
+  }
+
+  .medium {
+    .project-info {
+      margin-left: 0;
+    }
+
+    .project-visual-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      .cause-image {
+        width: 50%;
+        margin-right: 30px;
+      }
+
+      .goal-graphics {
+        width: 50%;
+      }
+    }
   }
 }
 
