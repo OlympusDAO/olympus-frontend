@@ -19,7 +19,7 @@ export default function CausesDashboard() {
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
-  const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
+  const isMediumScreen = useMediaQuery("(max-width: 980px) and (min-width: 600px)") && !isSmallScreen;
   const { projects } = data;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly

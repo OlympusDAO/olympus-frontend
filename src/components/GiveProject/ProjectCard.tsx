@@ -463,7 +463,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     </Grid>
                     <Grid item xs={12} md={4} className="project-goal">
                       <Grid container className="project-donated-icon">
-                        <Grid item xs={1} md={4}>
+                        <Grid item xs={1} md={2}>
                           <SvgIcon color="primary" component={DonorsIcon} viewBox={"0 0 18 13"} />
                         </Grid>
                         <Grid item xs={4}>

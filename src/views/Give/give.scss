@@ -210,6 +210,10 @@
     .causes-body {
       .cause-content {
         width: 50%;
+
+        .cause-body {
+          padding-bottom: 0px;
+        }
       }
 
       .cause-misc-info {
@@ -473,12 +477,20 @@
     }
 
     .project-goal .project-donated-icon {
+      flex-direction: row;
+      flex-wrap: nowrap;
+
       .subtext {
         color: #999999;
       }
 
       h6 {
         line-height: 1rem;
+      }
+
+      .MuiGrid-item {
+        max-width: 20px;
+        margin-right: 1rem;
       }
     }
 
@@ -569,6 +581,7 @@
       align-items: center;
 
       h6 {
+        max-width: 3.3rem;
         line-height: 1rem;
       }
     }
