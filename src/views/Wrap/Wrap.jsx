@@ -21,11 +21,15 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-
+import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
-import { changeApproval, changeWrap, changeWrapV2 } from "../../slices/WrapThunk";
-import { migrateWithType, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
+import { changeApproval, changeWrap } from "../../slices/WrapThunk";
+import {
+  changeMigrationApproval,
+  bridgeBack,
+  migrateWithType,
+  migrateCrossChainWSOHM,
+} from "../../slices/MigrateThunk";
 import { switchNetwork } from "../../slices/NetworkSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
@@ -76,9 +80,11 @@ function Wrap() {
   });
 
   const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohmv2;
+    return state.account.balances && state.account.balances.sohm;
   });
-
+  const wsohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.wsohm;
+  });
   const gohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
@@ -87,12 +93,16 @@ function Wrap() {
     return state.account.wrapping && state.account.wrapping.ohmUnwrap;
   });
 
-  const unwrapGohmAllowance = useSelector(state => {
-    return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
+  const migrateSohmAllowance = useSelector(state => {
+    return state.account.migration && state.account.migration.sohm;
   });
 
-  const wrapSohmAllowance = useSelector(state => {
-    return state.account.wrapping && state.account.wrapping.sohmWrap;
+  const migrateWsohmAllowance = useSelector(state => {
+    return state.account.migration && state.account.migration.wsohm;
+  });
+
+  const unwrapGohmAllowance = useSelector(state => {
+    return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
   });
 
   const pendingTransactions = useSelector(state => {
@@ -103,7 +113,7 @@ function Wrap() {
   const arbitrum = NETWORKS[42161];
   const ethereum = NETWORKS[1];
 
-  const isAvax = useMemo(() => networkId != 1 && networkId != 4 && networkId != -1, [networkId]);
+  const isAvax = useMemo(() => networkId != 1 && networkId != 4, [networkId]);
   useEffect(() => {
     if (isAvax) {
       setAssetFrom("wsOHM");
@@ -116,6 +126,7 @@ function Wrap() {
 
   const setMax = () => {
     if (assetFrom === "sOHM") setQuantity(sohmBalance);
+    if (assetFrom === "wsOHM") setQuantity(wsohmBalance);
     if (assetFrom === "gOHM") setQuantity(gohmBalance);
   };
 
@@ -125,12 +136,33 @@ function Wrap() {
     };
   };
 
+  const onSeekApproval = async token => {
+    await dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
+  };
+
+  const unWrapWSOHM = async () => {
+    // eslint-disable-next-line no-restricted-globals
+    if (isNaN(quantity) || Number(quantity) === 0 || quantity === "") {
+      // eslint-disable-next-line no-alert
+      return dispatch(error("Please enter a value!"));
+    }
+    if (ethers.utils.parseUnits(quantity, "ether").gt(ethers.utils.parseUnits(wsohmBalance, "ether"))) {
+      return dispatch(error("You cannot unwrap more than your wsOHM balance."));
+    }
+
+    await dispatch(
+      changeWrap({ address, action: "unwrap", value: quantity.toString(), provider, networkID: networkId }),
+    );
+  };
+
   const hasCorrectAllowance = useCallback(() => {
-    if (assetFrom === "sOHM" && assetTo === "gOHM") return wrapSohmAllowance > sohmBalance;
-    if (assetFrom === "gOHM" && assetTo === "sOHM") return unwrapGohmAllowance > gohmBalance;
+    if (assetFrom === "sOHM" && assetTo === "gOHM") return migrateSohmAllowance > sohmBalance;
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") return migrateWsohmAllowance > wsohmBalance;
+    if (assetFrom === "wsOHM" && assetTo === "sOHM") return unwrapAllowance > wsohmBalance;
+    if (assetFrom === "gOHM") return unwrapGohmAllowance > gohmBalance;
 
     return 0;
-  }, [unwrapAllowance, wrapSohmAllowance, assetTo, assetFrom]);
+  }, [unwrapAllowance, migrateSohmAllowance, migrateWsohmAllowance, assetTo, assetFrom]);
 
   const isAllowanceDataLoading = unwrapAllowance == null && currentAction === "Unwrap";
   // const convertedQuantity = 0;
@@ -143,6 +175,7 @@ function Wrap() {
       return quantity;
     }
   }, [quantity]);
+  // currentAction === "Unwrap" ? (quantity * wsOhmPrice) / sOhmPrice : (quantity * sOhmPrice) / wsOhmPrice;
 
   let modalButton = [];
 
@@ -160,6 +193,18 @@ function Wrap() {
   const changeAssetTo = event => {
     setQuantity("");
     setAssetTo(event.target.value);
+  };
+
+  const approveMigrate = token => {
+    dispatch(
+      changeMigrationApproval({
+        token: token.toLowerCase(),
+        provider,
+        address,
+        networkID: networkId,
+        displayName: token,
+      }),
+    );
   };
 
   const migrateToGohm = type => {
@@ -186,26 +231,22 @@ function Wrap() {
     }
   };
 
-  const approveWrap = async token => {
-    await dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
-  };
-
   const unwrapGohm = () => {
-    dispatch(changeWrapV2({ action: "unwrap", value: quantity, provider, address, networkID: networkId }));
-  };
-
-  const wrapSohm = () => {
-    dispatch(changeWrapV2({ action: "wrap", value: quantity, provider, address, networkID: networkId }));
+    dispatch(bridgeBack({ provider, address, networkID: networkId, value: quantity }));
   };
 
   const approveCorrectToken = () => {
-    if (assetFrom === "sOHM" && assetTo === "gOHM") approveWrap("sOHM");
-    if (assetFrom === "gOHM" && assetTo === "sOHM") approveWrap("gOHM");
+    if (assetFrom === "sOHM" && assetTo === "gOHM") approveMigrate("sOHM");
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") approveMigrate("wsOHM");
+    if (assetFrom === "wsOHM" && assetTo === "sOHM") onSeekApproval("wsOHM");
+    if (assetFrom === "gOHM" && assetTo === "sOHM") approveMigrate("gOHM");
   };
 
   const chooseCorrectWrappingFunction = () => {
-    if (assetFrom === "sOHM" && assetTo === "gOHM") wrapSohm();
+    if (assetFrom === "sOHM" && assetTo === "gOHM") migrateToGohm("sohm");
+    if (assetFrom === "wsOHM" && assetTo === "gOHM") migrateToGohm("wsohm");
     if (assetFrom === "gOHM" && assetTo === "sOHM") unwrapGohm();
+    if (assetFrom === "wsOHM" && assetTo === "sOHM") unWrapWSOHM();
   };
 
   const chooseInputArea = () => {
@@ -265,6 +306,7 @@ function Wrap() {
 
   const chooseButtonArea = () => {
     if (!address) return "";
+    if (assetTo === "wsOHM") return "";
     if (assetFrom === assetTo) return "";
     if (!hasCorrectAllowance())
       return (
@@ -315,8 +357,7 @@ function Wrap() {
                   aria-label="wsohm-wut"
                   target="_blank"
                 >
-                  <Typography>gOHM</Typography>{" "}
-                  <SvgIcon component={ArrowUp} color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
+                  <Typography>{assetTo}</Typography> <SvgIcon component={InfoIcon} color="primary" />
                 </Link>
               </div>
             </Grid>
@@ -402,6 +443,7 @@ function Wrap() {
                               disableUnderline
                             >
                               <MenuItem value={"sOHM"}>sOHM</MenuItem>
+                              <MenuItem value={"wsOHM"}> wsOHM</MenuItem>
                               <MenuItem value={"gOHM"}>gOHM</MenuItem>
                             </Select>
                           </FormControl>
@@ -458,6 +500,12 @@ function Wrap() {
                           </Typography>
                         </div>
                         <div className="data-row">
+                          <Typography variant="body1">wsOHM Balance</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                          </Typography>
+                        </div>
+                        <div className="data-row">
                           <Typography variant="body1">gOHM Balance</Typography>
                           <Typography variant="body1">
                             {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
@@ -496,6 +544,12 @@ function Wrap() {
                       </>
                     ) : (
                       <>
+                        <div className="data-row">
+                          <Typography variant="body1">wsOHM Balance ({networkName})</Typography>
+                          <Typography variant="body1">
+                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsohmBalance, 4)} wsOHM</>}
+                          </Typography>
+                        </div>
                         <div className="data-row">
                           <Typography variant="body1">gOHM Balance ({networkName})</Typography>
                           <Typography variant="body1">
