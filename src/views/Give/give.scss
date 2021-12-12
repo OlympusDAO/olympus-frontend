@@ -129,7 +129,11 @@
         }
 
         .cause-body {
-          padding-bottom: 30px;
+          padding-bottom: 16px;
+
+          p {
+            margin-bottom: 0px;
+          }
         }
       }
 
@@ -190,7 +194,7 @@
 
       .cause-info-icon {
         margin-right: 0.2rem;
-        align-self: flex-start;
+        align-self: center;
       }
 
       .cause-give-button {
@@ -206,6 +210,18 @@
     .causes-body {
       .cause-content {
         width: 50%;
+      }
+
+      .cause-misc-info {
+        .MuiGrid-item {
+          margin-top: 1rem;
+          align-self: center;
+        }
+
+        .cause-give-button {
+          width: 100%;
+          margin-left: 0rem;
+        }
       }
 
       .cause-image {

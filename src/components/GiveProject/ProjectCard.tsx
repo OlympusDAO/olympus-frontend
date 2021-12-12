@@ -361,7 +361,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Grid item xs={3} sm={6} md={3}>
                   {renderGoalCompletion()}
                 </Grid>
-                <Grid item xs={6} sm={12} md={6}>
+                <Grid item xs={6} sm={12} md={6} className="give-button-grid">
                   <Button
                     variant="contained"
                     color="primary"
