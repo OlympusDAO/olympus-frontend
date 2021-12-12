@@ -45,6 +45,7 @@ export const changeMigrationApproval = createAsyncThunk(
     { token, provider, address, networkID, displayName, insertName }: IChangeApprovalWithDisplayNameAsyncThunk,
     { dispatch },
   ) => {
+    // NOTE (Appleseed): what is `insertName`??? it looks like it's always true???
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
