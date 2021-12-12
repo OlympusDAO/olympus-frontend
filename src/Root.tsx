@@ -10,6 +10,8 @@ import { initLocale } from "./locales";
 
 import App from "./App";
 import store from "./store";
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "./lib/react-query";
 
 const Root: FC = () => {
   useEffect(() => {
@@ -18,13 +20,15 @@ const Root: FC = () => {
 
   return (
     <Web3ContextProvider>
-      <Provider store={store}>
-        <I18nProvider i18n={i18n}>
-          <BrowserRouter basename={"/#"}>
-            <App />
-          </BrowserRouter>
-        </I18nProvider>
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <I18nProvider i18n={i18n}>
+            <BrowserRouter basename={"/#"}>
+              <App />
+            </BrowserRouter>
+          </I18nProvider>
+        </Provider>
+      </QueryClientProvider>
     </Web3ContextProvider>
   );
 };
