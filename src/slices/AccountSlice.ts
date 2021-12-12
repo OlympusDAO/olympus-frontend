@@ -13,10 +13,11 @@ import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 import { FiatDAOContract, FuseProxy, IERC20, IERC20__factory, SOhmv2, SOhmv2__factory, WsOHM } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
+import { NetworkID } from "src/lib/Bond";
 
 interface IUserBalances {
   balances: {
-    gohm: string;
+    gohm: { [networkId in NetworkID]?: string };
     ohm: string;
     sohm: string;
     fsohm: string;
@@ -92,7 +93,9 @@ export const getBalances = createAsyncThunk(
 
     return {
       balances: {
-        gohm: ethers.utils.formatEther(gOhmBalance),
+        gohm: {
+          [NetworkID.Mainnet]: ethers.utils.formatEther(gOhmBalance),
+        },
         ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
@@ -263,7 +266,7 @@ export const calculateUserBondDetails = createAsyncThunk(
 interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   bonds: { [key: string]: IUserBondDetails };
   balances: {
-    gohm: string;
+    gohm: { [networkId in NetworkID]?: string };
     ohm: string;
     sohm: string;
     dai: string;
@@ -294,7 +297,7 @@ const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
   balances: {
-    gohm: "",
+    gohm: {},
     ohm: "",
     sohm: "",
     dai: "",
