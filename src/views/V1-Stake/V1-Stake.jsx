@@ -68,10 +68,10 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     return state.app.fiveDayRate;
   });
   const ohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.ohm;
+    return state.account.balances && state.account.balances.ohmV1;
   });
   const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+    return state.account.balances && state.account.balances.sohmV1;
   });
   const fsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.fsohm;

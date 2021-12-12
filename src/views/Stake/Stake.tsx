@@ -66,13 +66,13 @@ function Stake() {
     return state.app.fiveDayRate;
   });
   const ohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.ohmv2;
-  });
-  const oldSohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.oldsohm;
+    return state.account.balances && state.account.balances.ohm;
   });
   const sohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.sohmv2;
+    return state.account.balances && state.account.balances.sohm;
+  });
+  const sohmV1Balance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.sohmV1;
   });
   const fsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
@@ -83,14 +83,17 @@ function Stake() {
   const fiatDaowsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.fiatDaowsohm;
   });
-  const fiatDaoAsSohm = Number(fiatDaowsohmBalance) * Number(currentIndex);
+  const calculateWrappedAsSohm = (balance: string) => {
+    console.log("ci", currentIndex);
+    return Number(balance) * Number(currentIndex);
+  };
+  const fiatDaoAsSohm = calculateWrappedAsSohm(fiatDaowsohmBalance);
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
-  const gOhmAsSohm = Number(gOhmBalance) * Number(currentIndex);
-  const wsohmAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.wsohmAsSohm;
-  });
+  const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
+  const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
+
   const stakeAllowance = useAppSelector(state => {
     return (state.account.staking && state.account.staking.ohmStake) || 0;
   });
@@ -169,7 +172,7 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmAsSohm, gOhmAsSohm, fiatDaoAsSohm]
+    [sohmBalance, gOhmAsSohm, sohmV1Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -198,21 +201,6 @@ function Stake() {
               <div className="card-header">
                 <Typography variant="h5">Single Stake (3, 3)</Typography>
                 <RebaseTimer />
-
-                {address && Number(oldSohmBalance) > 0.01 && (
-                  <Link
-                    className="migrate-sohm-button"
-                    style={{ textDecoration: "none" }}
-                    href="https://docs.olympusdao.finance/using-the-website/migrate"
-                    aria-label="migrate-sohm"
-                    target="_blank"
-                  >
-                    <NewReleases viewBox="0 0 24 24" />
-                    <Typography>
-                      <Trans>Migrate sOHM!</Trans>
-                    </Typography>
-                  </Link>
-                )}
               </div>
             </Grid>
 
@@ -378,7 +366,7 @@ function Stake() {
                                   onChangeStake("unstake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
+                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake sOHM`)}
                               </Button>
                             ) : (
                               <Button
@@ -422,13 +410,19 @@ function Stake() {
                           {...{ isAppLoading }}
                         />
                         <StakeRow
-                          title={t`Staked Balance in Fuse`}
-                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM (v1)`}
+                          title={`${t`Wrapped Balance`}`}
+                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
                         <StakeRow
-                          title={t`Wrapped Balance`}
+                          title={t`Single Staking (v1)`}
+                          balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={t`Wrapped Balance (v1)`}
                           balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
                           {...{ isAppLoading }}
                           indented
@@ -440,8 +434,8 @@ function Stake() {
                           indented
                         />
                         <StakeRow
-                          title={`${t`Wrapped Balance`}`}
-                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                          title={t`Staked Balance in Fuse`}
+                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM (v1)`}
                           indented
                           {...{ isAppLoading }}
                         />
