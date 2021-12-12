@@ -416,24 +416,24 @@ function Stake() {
                           indented
                           {...{ isAppLoading }}
                         />
-                        {/* <StakeRow
+                        <StakeRow
                           title={t`Staked Balance in Fuse`}
-                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM (v1)`}
                           indented
                           {...{ isAppLoading }}
-                        /> */}
-                        {/* <StakeRow
+                        />
+                        <StakeRow
                           title={t`Wrapped Balance`}
-                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
+                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
                           {...{ isAppLoading }}
                           indented
-                        /> */}
-                        {/* <StakeRow
+                        />
+                        <StakeRow
                           title={t`Wrapped Balance in FiatDAO`}
-                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
+                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
                           {...{ isAppLoading }}
                           indented
-                        /> */}
+                        />
                         <StakeRow
                           title={`${t`Wrapped Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
