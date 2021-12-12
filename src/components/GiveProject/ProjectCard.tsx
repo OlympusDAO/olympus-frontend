@@ -196,8 +196,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const getGoalCompletion = (): string => {
-    if (!depositGoal) return "NaN";
-    if (recipientInfoIsLoading) return ""; // This shouldn't be needed, but just to be sure...
+    if (!depositGoal) return "0";
+    if (recipientInfoIsLoading) return "0"; // This shouldn't be needed, but just to be sure...
     if (!totalDebt) return "0";
 
     const totalDebtNumber = new BigNumber(totalDebt);
@@ -231,6 +231,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
+    const formattedTotalDebt = new BigNumber(totalDebt).toFormat();
 
     return (
       <>
@@ -244,7 +245,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 fill={svgFillColour}
               />
               <Typography variant="h6">
-                <strong>{new BigNumber(totalDebt).toFormat()} sOHM</strong>
+                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDebt} sOHM</strong>
               </Typography>
             </div>
             <div className="subtext">Donated</div>
