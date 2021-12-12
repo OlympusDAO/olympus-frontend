@@ -22,6 +22,7 @@ import OhmImg from "src/assets/tokens/token_OHM.svg";
 import SOhmImg from "src/assets/tokens/token_sOHM.svg";
 import WsOhmImg from "src/assets/tokens/token_wsOHM.svg";
 import Token33tImg from "src/assets/tokens/token_33T.svg";
+import GOhmImg from "src/assets/tokens/gohm.png";
 
 import { segmentUA } from "src/helpers/userAnalyticHelpers";
 
@@ -63,7 +64,7 @@ interface Token {
   address: string;
   decimals: number;
   icon: string;
-  balance: string;
+  balance: number;
   price: number;
 }
 
@@ -93,12 +94,7 @@ const addTokenToWallet = async (token: Token, userAddress: string) => {
   }
 };
 
-interface TokenProps {
-  symbol: string;
-  address: string;
-  icon: string;
-  balance: string;
-  price: number;
+interface TokenProps extends Token {
   expanded: boolean;
   onChangeExpanded: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void;
   onAddTokenToWallet: () => void;
@@ -106,7 +102,7 @@ interface TokenProps {
 
 export const Token = ({ symbol, icon, balance, price, onAddTokenToWallet, expanded, onChangeExpanded }: TokenProps) => {
   const theme = useTheme();
-  const balanceValue = parseFloat(balance) * price || 0;
+  const balanceValue = balance * price || 0;
   return (
     <Accordion expanded={expanded} onChange={onChangeExpanded}>
       <AccordionSummary expandIcon={<SvgIcon component={MoreIcon} color="disabled" />}>
@@ -116,7 +112,7 @@ export const Token = ({ symbol, icon, balance, price, onAddTokenToWallet, expand
         </Box>
         <Box sx={{ textAlign: "right", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <Typography variant="body2" style={{ fontWeight: 600 }}>
-            {trim(Number(balance), 4)} Ω
+            {trim(Number(balance), 4)}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {formatCurrency(balanceValue, 2)}
@@ -138,7 +134,7 @@ const tokensSelector = (state: RootState): Token[] => [
   {
     symbol: "OHM",
     address: addresses[state.network.networkId].OHM_ADDRESS,
-    balance: state.account.balances.ohm,
+    balance: parseFloat(state.account.balances.ohm),
     price: state.app.marketPrice || 0,
     icon: OhmImg,
     decimals: 9,
@@ -146,7 +142,7 @@ const tokensSelector = (state: RootState): Token[] => [
   {
     symbol: "sOHM",
     address: addresses[state.network.networkId].SOHM_ADDRESS,
-    balance: state.account.balances.sohm,
+    balance: parseFloat(state.account.balances.sohm),
     price: state.app.marketPrice || 0,
     icon: SOhmImg,
     decimals: 9,
@@ -154,7 +150,7 @@ const tokensSelector = (state: RootState): Token[] => [
   {
     symbol: "wsOHM",
     address: addresses[state.network.networkId].WSOHM_ADDRESS,
-    balance: state.account.balances.wsohm,
+    balance: parseFloat(state.account.balances.wsohm),
     price: (state.app.marketPrice || 0) * Number(state.app.currentIndex),
     icon: WsOhmImg,
     decimals: 18,
@@ -162,9 +158,20 @@ const tokensSelector = (state: RootState): Token[] => [
   {
     symbol: "33T",
     address: addresses[state.network.networkId].PT_TOKEN_ADDRESS,
-    balance: state.account.balances.pool,
+    balance: parseFloat(state.account.balances.pool),
     price: state.app.marketPrice || 0,
     icon: Token33tImg,
+    decimals: 9,
+  },
+  {
+    symbol: "gOHM",
+    address: addresses[state.network.networkId].GOHM_ADDRESS,
+    balance: Object.values(state.account.balances.gohm).reduce(
+      (total, networkGOhmBalance) => total + (parseFloat(networkGOhmBalance) || 0),
+      0,
+    ),
+    price: state.app.marketPrice || 0,
+    icon: GOhmImg,
     decimals: 9,
   },
 ];
