@@ -80,6 +80,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
 
+  const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
+
   // When the user's wallet is connected, we perform these actions
   useEffect(() => {
     if (!connected) return;
@@ -114,7 +116,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       return (
         <>
           <div className="cause-info-icon">
-            <SvgIcon component={ClockIcon} color="primary" />
+            <SvgIcon component={ClockIcon} fill={svgFillColour} />
           </div>
           <div>
             <div className="cause-info-bottom-text">
@@ -127,7 +129,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     return (
       <>
         <div className="cause-info-icon">
-          <SvgIcon component={ClockIcon} color="primary" />
+          <SvgIcon component={ClockIcon} fill={svgFillColour} />
         </div>
         <div>
           <Tooltip
@@ -153,7 +155,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <>
           <Grid container className="countdown-container">
             <Grid item xs={3}>
-              <SvgIcon component={ClockIcon} color="primary" />
+              <SvgIcon component={ClockIcon} fill={svgFillColour} />
             </Grid>
             <Grid item xs={9} className="project-countdown-text">
               Fundraise Complete!
@@ -172,7 +174,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             >
               <Grid item xs={12} className="countdown-object">
                 <div>
-                  <SvgIcon component={ClockIcon} color="primary" />
+                  <SvgIcon component={ClockIcon} fill={svgFillColour} />
                 </div>
                 <div className="project-countdown-text">
                   <div>
@@ -211,7 +213,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     return (
       <>
         <div className="cause-info-icon">
-          <SvgIcon component={CheckIcon} color="primary" />
+          <SvgIcon component={CheckIcon} fill={svgFillColour} />
         </div>
         <div>
           <Tooltip title={totalDebt + " of " + depositGoal + " sOHM raised"} arrow>
@@ -235,7 +237,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <Grid container className="project-goal">
           <Grid item xs={4} className="project-donated">
             <div className="project-donated-icon">
-              <SvgIcon component={DonatedIcon} viewBox={"0 0 16 12"} style={{ marginRight: "0.33rem" }} />
+              <SvgIcon
+                component={DonatedIcon}
+                viewBox={"0 0 16 12"}
+                style={{ marginRight: "0.33rem" }}
+                fill={svgFillColour}
+              />
               <Typography variant="h6">
                 <strong>{new BigNumber(totalDebt).toFormat()} sOHM</strong>
               </Typography>
@@ -245,7 +252,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={4} />
           <Grid item xs={4} className="project-completion">
             <div className="project-completion-icon">
-              <SvgIcon component={GoalIcon} viewBox={"0 0 16 12"} style={{ marginRight: "0.33rem" }} />
+              <SvgIcon
+                component={GoalIcon}
+                viewBox={"0 0 16 12"}
+                style={{ marginRight: "0.33rem" }}
+                fill={svgFillColour}
+              />
               <Typography variant="h6">
                 <strong>{new BigNumber(depositGoal).toFormat()} sOHM</strong>
               </Typography>
@@ -345,6 +357,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       component={ArrowRight}
                       style={{ width: "30px", marginLeft: "0.33em" }}
                       viewBox={"0 0 57 24"}
+                      fill={svgFillColour}
                     />
                   </Link>
                 </Grid>
@@ -428,7 +441,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     </Grid>
                     <Grid item className="project-link">
                       <Link href={project.website} target="_blank">
-                        <SvgIcon color="primary" component={WebsiteIcon} />
+                        <SvgIcon component={WebsiteIcon} fill={svgFillColour} />
                       </Link>
                     </Grid>
                   </Grid>
@@ -464,7 +477,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Grid item xs={12} md={4} className="project-goal">
                       <Grid container className="project-donated-icon">
                         <Grid item xs={1} md={2}>
-                          <SvgIcon color="primary" component={DonorsIcon} viewBox={"0 0 18 13"} />
+                          <SvgIcon component={DonorsIcon} viewBox={"0 0 18 13"} fill={svgFillColour} />
                         </Grid>
                         <Grid item xs={4}>
                           <Typography variant="h6">
