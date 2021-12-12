@@ -118,7 +118,7 @@ export const PoolWithdraw = props => {
         <Trans>The pool has been temporarily disabled for V2 Migration. Please withdraw your 33T</Trans>
       </Typography>
       <Typography variant="body1" style={{ margin: "0.5rem" }} align="center">
-        <Trans>(exit fee has been waived)</Trans>
+        <Trans>(The 6-day early exit fee has been waived. Network fees apply.)</Trans>
       </Typography>
       <Box display="flex" justifyContent="center" className="pool-deposit-ui">
         {!address ? (

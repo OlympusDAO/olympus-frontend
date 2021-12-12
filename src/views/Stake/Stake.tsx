@@ -1,5 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useHistory } from "react-router";
 import {
   Box,
   Button,
@@ -47,8 +49,10 @@ function a11yProps(index: number) {
 
 function Stake() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { provider, address, connect } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
+  usePathForNetwork({ pathName: "stake", networkID: networkId, history });
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
@@ -184,6 +188,7 @@ function Stake() {
     minimumFractionDigits: 0,
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
+
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>

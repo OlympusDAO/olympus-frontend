@@ -100,6 +100,7 @@ function Wrap() {
   });
 
   const avax = NETWORKS[43114];
+  const arbitrum = NETWORKS[42161];
   const ethereum = NETWORKS[1];
 
   const isAvax = useMemo(() => networkId != 1 && networkId != 4 && networkId != -1, [networkId]);
@@ -466,13 +467,29 @@ function Wrap() {
                         <Divider />
                         <Box width="100%" align="center" p={1}>
                           <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
-                            Got wsOHM on Avalanche? Click below to switch networks and migrate to gOHM (no bridge
-                            required!)
+                            Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
+                            bridge required!)
                           </Typography>
-                          <Button onClick={handleSwitchChain(43114)} variant="outlined" p={1}>
+                          <Button
+                            onClick={handleSwitchChain(43114)}
+                            variant="outlined"
+                            p={1}
+                            style={{ margin: "0.3rem" }}
+                          >
                             <img height="28px" width="28px" src={avax.image} alt={avax.imageAltText} />
                             <Typography variant="h6" style={{ marginLeft: "8px" }}>
                               {avax.chainName}
+                            </Typography>
+                          </Button>
+                          <Button
+                            onClick={handleSwitchChain(42161)}
+                            variant="outlined"
+                            p={1}
+                            style={{ margin: "0.3rem" }}
+                          >
+                            <img height="28px" width="28px" src={arbitrum.image} alt={arbitrum.imageAltText} />
+                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                              {arbitrum.chainName}
                             </Typography>
                           </Button>
                         </Box>

@@ -84,7 +84,7 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
-  const currentPath = location.pathname + location.search + location.hash;
+  const currentPath = location.pathname + location.hash + location.search;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -143,9 +143,12 @@ function App() {
         return;
       }
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
-      bonds.map(bond => {
-        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
-      });
+      // NOTE (appleseed) - tech debt - better network filtering for active bonds
+      if (networkId === 1 || networkId === 4) {
+        bonds.map(bond => {
+          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+        });
+      }
     },
     [networkId],
   );

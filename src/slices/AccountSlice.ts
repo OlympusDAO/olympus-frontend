@@ -6,7 +6,7 @@ import { abi as fuseProxy } from "../abi/FuseProxy.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
 import { abi as fiatDAO } from "../abi/FiatDAOContract.json";
 
-import { setAll } from "../helpers";
+import { setAll, handleContractError } from "../helpers";
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
@@ -44,36 +44,61 @@ export const getBalances = createAsyncThunk(
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmBalance = await gOhmContract.balanceOf(address);
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
       wsohmBalance = await wsohmContract.balanceOf(address);
       // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
       wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
-
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
       const ohmContract = new ethers.Contract(
         addresses[networkID].OHM_ADDRESS as string,
         ierc20Abi,
         provider,
       ) as IERC20;
       ohmBalance = await ohmContract.balanceOf(address);
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
       const sohmContract = new ethers.Contract(
         addresses[networkID].SOHM_ADDRESS as string,
         ierc20Abi,
         provider,
       ) as IERC20;
       sohmBalance = await sohmContract.balanceOf(address);
-
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
       const ohmV2Contract = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20Abi, provider) as IERC20;
       ohmV2Balance = await ohmV2Contract.balanceOf(address);
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
       const sohmV2Contract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider) as IERC20;
       sohmV2Balance = await sohmV2Contract.balanceOf(address);
+    } catch (e) {
+      handleContractError(e);
+    }
 
+    try {
       const poolTokenContract = new ethers.Contract(
         addresses[networkID].PT_TOKEN_ADDRESS as string,
         ierc20Abi,
         provider,
       ) as IERC20;
       poolBalance = await poolTokenContract.balanceOf(address);
-
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
       for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"]) {
         if (addresses[networkID][fuseAddressKey]) {
           const fsohmContract = new ethers.Contract(
@@ -86,6 +111,10 @@ export const getBalances = createAsyncThunk(
           fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
         }
       }
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
       if (addresses[networkID].FIATDAO_WSOHM_ADDRESS) {
         const fiatDaoContract = new ethers.Contract(
           addresses[networkID].FIATDAO_WSOHM_ADDRESS as string,
@@ -95,7 +124,7 @@ export const getBalances = createAsyncThunk(
         fiatDaowsohmBalance = await fiatDaoContract.balanceOf(address, addresses[networkID].WSOHM_ADDRESS as string);
       }
     } catch (e) {
-      console.warn("caught error in getBalances", e);
+      handleContractError(e);
     }
 
     return {
@@ -136,23 +165,39 @@ export const getMigrationAllowances = createAsyncThunk(
     let gOhmAllowance = BigNumber.from(0);
 
     if (addresses[networkID].OHM_ADDRESS) {
-      const ohmContract = IERC20__factory.connect(addresses[networkID].OHM_ADDRESS, provider);
-      ohmAllowance = await ohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      try {
+        const ohmContract = IERC20__factory.connect(addresses[networkID].OHM_ADDRESS, provider);
+        ohmAllowance = await ohmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      } catch (e) {
+        handleContractError(e);
+      }
     }
 
     if (addresses[networkID].SOHM_ADDRESS) {
-      const sOhmContract = IERC20__factory.connect(addresses[networkID].SOHM_ADDRESS, provider);
-      sOhmAllowance = await sOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      try {
+        const sOhmContract = IERC20__factory.connect(addresses[networkID].SOHM_ADDRESS, provider);
+        sOhmAllowance = await sOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      } catch (e) {
+        handleContractError(e);
+      }
     }
 
     if (addresses[networkID].WSOHM_ADDRESS) {
-      const wsOhmContract = IERC20__factory.connect(addresses[networkID].WSOHM_ADDRESS, provider);
-      wsOhmAllowance = await wsOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      try {
+        const wsOhmContract = IERC20__factory.connect(addresses[networkID].WSOHM_ADDRESS, provider);
+        wsOhmAllowance = await wsOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      } catch (e) {
+        handleContractError(e);
+      }
     }
 
     if (addresses[networkID].GOHM_ADDRESS) {
-      const gOhmContract = IERC20__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
-      gOhmAllowance = await gOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      try {
+        const gOhmContract = IERC20__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
+        gOhmAllowance = await gOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      } catch (e) {
+        handleContractError(e);
+      }
     }
 
     return {
