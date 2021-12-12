@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 import InitialWalletView from "./InitialWalletView";
-import { Drawer, SvgIcon, Button, Typography, useTheme } from "@material-ui/core";
+import { SwipeableDrawer, SvgIcon, Button, Typography, useTheme, withStyles } from "@material-ui/core";
 import { t } from "@lingui/macro";
 
 const WalletButton = ({ openWallet }: { openWallet: () => void }) => {
@@ -19,18 +19,40 @@ const WalletButton = ({ openWallet }: { openWallet: () => void }) => {
   );
 };
 
+const StyledSwipeableDrawer = withStyles(theme => ({
+  root: {
+    width: "460px",
+    maxWidth: "100%",
+  },
+  paper: {
+    maxWidth: "100%",
+  },
+}))(SwipeableDrawer);
+
 export function Wallet() {
   const [isWalletOpen, setWalletOpen] = useState(false);
   const closeWallet = () => setWalletOpen(false);
   const openWallet = () => setWalletOpen(true);
   const theme = useTheme();
 
+  // only enable backdrop transition on ios devices,
+  // because we can assume IOS is hosted on hight-end devices and will not drop frames
+  // also disable discovery on IOS, because of it's 'swipe to go back' feat
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
   return (
     <>
       <WalletButton openWallet={openWallet} />
-      <Drawer style={{ width: "460px" }} anchor="right" open={isWalletOpen} onClose={closeWallet}>
+      <StyledSwipeableDrawer
+        disableBackdropTransition={!isIOS}
+        disableDiscovery={isIOS}
+        anchor="right"
+        open={isWalletOpen}
+        onOpen={openWallet}
+        onClose={closeWallet}
+      >
         <InitialWalletView onClose={closeWallet} />
-      </Drawer>
+      </StyledSwipeableDrawer>
     </>
   );
 }
