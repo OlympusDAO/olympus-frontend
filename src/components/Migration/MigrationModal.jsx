@@ -89,8 +89,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId }));
   const currentIndex = useSelector(state => state.app.currentIndex);
 
-  const currentOhmBalance = useSelector(state => Number(state.account.balances.ohm));
-  const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohm));
+  const currentOhmBalance = useSelector(state => Number(state.account.balances.ohmV1));
+  const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohmV1));
   const currentWSOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
   const wsOhmPrice = useSelector(state => state.app.marketPrice * state.app.currentIndex);
 

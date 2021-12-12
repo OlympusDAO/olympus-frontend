@@ -76,7 +76,7 @@ function Wrap() {
   });
 
   const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohmv2;
+    return state.account.balances && state.account.balances.sohm;
   });
 
   const gohmBalance = useSelector(state => {
