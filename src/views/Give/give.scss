@@ -51,155 +51,204 @@
       align-content: center;
     }
   }
-}
-
-.causes-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: 10px;
-
-  .MuiGrid-root.MuiGrid-item {
+  .causes-body {
     display: flex;
-    justify-self: center !important;
-  }
-
-  .data-grid {
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
     justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
+    width: 100%;
+    margin-top: 10px;
 
-  .cause-card {
-    height: auto;
-    min-width: 333px;
-    max-width: 773px;
-    width: auto;
-    box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.03);
-    background-color: #ffffff0e;
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
-    border-radius: 10px !important;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 2rem;
-
-    .cause-title {
-      padding-left: 0rem;
-      padding-bottom: 0rem;
-    }
-
-    .cause-title:hover {
-      h5 {
-        text-decoration: underline;
-      }
-    }
-
-    .cause-image {
-      width: 35%;
-      height: 100%;
-      justify-content: flex-start;
-      padding: 30px;
-
-      img {
-        border-radius: 5%;
-      }
-    }
-
-    .cause-content {
-      height: 100%;
-      width: 66%;
+    .MuiGrid-root.MuiGrid-item {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding-right: 30px;
-      padding-top: 30px;
-      padding-bottom: 30px;
-
-      .MuiTypography-body2 {
-        margin-top: 0.5rem;
-      }
-
-      .cause-header {
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .cause-body {
-        padding-bottom: 30px;
-      }
+      justify-self: center !important;
     }
 
-    .view-details {
-      padding-bottom: 0rem;
-
-      .cause-link {
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        align-items: center;
-        justify-content: space-between;
-        color: #999999;
-        font-size: small;
-        border-radius: 12px;
-        font-weight: 500;
-
-        svg path {
-          fill: #999999;
-        }
-
-        > p {
-          margin-bottom: 0px;
-        }
-      }
+    .data-grid {
+      justify-content: center;
+      align-items: center;
+      height: 100%;
     }
 
-    .cause-link:hover {
-      color: #f4d092;
-
-      svg path {
-        fill: #f4d092;
-      }
-    }
-
-    .cause-misc-info {
+    .cause-card {
+      height: auto;
+      min-width: 333px;
+      max-width: 773px;
+      width: auto;
+      box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.03);
+      background-color: #ffffff0e;
+      backdrop-filter: blur(60px);
+      -webkit-backdrop-filter: blur(60px);
+      border-radius: 10px !important;
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
+      margin-bottom: 2rem;
 
-      .cause-info-main-text {
-        font-size: 1rem;
+      .cause-title {
+        padding-left: 0rem;
+        padding-bottom: 0rem;
       }
 
-      .cause-info-bottom-text {
-        font-size: 0.875rem;
-        font-weight: 500;
+      .cause-title:hover {
+        h5 {
+          text-decoration: underline;
+        }
+      }
+
+      .cause-image {
+        width: 35%;
+        height: 100%;
+        justify-content: flex-start;
+        padding: 30px;
+
+        img {
+          border-radius: 5%;
+        }
+      }
+
+      .cause-content {
+        height: 100%;
+        width: 65%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-right: 30px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+
+        .MuiTypography-body2 {
+          margin-top: 0.5rem;
+        }
+
+        .cause-header {
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .cause-body {
+          padding-bottom: 16px;
+
+          p {
+            margin-bottom: 0px;
+          }
+        }
+      }
+
+      .view-details {
+        padding-bottom: 0rem;
+
+        .cause-link {
+          display: flex;
+          flex-direction: row;
+          align-content: center;
+          align-items: center;
+          justify-content: space-between;
+          color: #999999;
+          font-size: small;
+          border-radius: 12px;
+          font-weight: 500;
+
+          svg path {
+            fill: #999999;
+          }
+
+          > p {
+            margin-bottom: 0px;
+          }
+        }
+      }
+
+      .cause-link:hover {
+        color: #f4d092;
+
+        svg path {
+          fill: #f4d092;
+        }
+      }
+
+      .cause-misc-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .cause-info-main-text {
+          font-size: 1rem;
+        }
+
+        .cause-info-bottom-text {
+          font-size: 0.875rem;
+          font-weight: 500;
+        }
+      }
+
+      .cause-misc-info .MuiGrid-item {
+        height: 40px;
+        padding-left: 0px;
+        align-items: flex-end;
+        justify-content: center;
+      }
+
+      .cause-info-icon {
+        margin-right: 0.2rem;
+        align-self: center;
+      }
+
+      .cause-give-button {
+        height: 40px;
+        width: 12rem;
+        margin-left: auto;
+        margin-right: 0;
       }
     }
+  }
 
-    .cause-misc-info .MuiGrid-item {
-      height: 30px;
-      padding-left: 0px;
-      align-items: flex-end;
-      justify-content: center;
+  .medium {
+    .causes-body {
+      .cause-content {
+        width: 50%;
+
+        .cause-body {
+          padding-bottom: 0px;
+        }
+      }
+
+      .cause-misc-info {
+        .MuiGrid-item {
+          margin-top: 1rem;
+          align-self: center;
+        }
+
+        .cause-give-button {
+          width: 100%;
+          margin-left: 0rem;
+        }
+      }
+
+      .cause-image {
+        width: 50%;
+      }
     }
+  }
 
-    .cause-info-icon {
-      margin-right: 0.2rem;
-      align-self: flex-start;
-    }
+  .smaller {
+    .causes-body {
+      .cause-card {
+        flex-direction: column;
+      }
 
-    .cause-give-button {
-      height: 40px;
-      width: 12rem;
-      margin-left: auto;
-      margin-right: 0;
+      .cause-content {
+        padding-top: 0px;
+        padding-left: 30px;
+        width: 100%;
+      }
+
+      .cause-image {
+        width: 100%;
+      }
     }
   }
 }
@@ -415,16 +464,71 @@
 }
 
 .project {
+  // TODO look at whether we can make this less flakey by using rem instead of px
   .project-sidebar {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 1rem;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
     padding-bottom: 1.5rem;
     margin-bottom: 1rem;
+
+    .cause-image {
+      padding-bottom: 30px;
+    }
+
+    .project-goal .project-donated-icon {
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      .subtext {
+        color: #999999;
+      }
+
+      h6 {
+        line-height: 1rem;
+      }
+
+      .MuiGrid-item {
+        max-width: 20px;
+        margin-right: 1rem;
+      }
+    }
+
+    .project-countdown .countdown-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+      .countdown-object {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+          padding-right: 0.3rem;
+        }
+      }
+
+      .project-countdown-text {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        padding-top: 0.3rem;
+
+        .cause-info-bottom-text {
+          color: #999999;
+        }
+      }
+    }
+
+    .donors-title {
+      padding-bottom: 30px;
+    }
   }
 
   .project-intro {
-    padding-bottom: 1rem;
+    padding-bottom: 30px;
   }
 
   .project-link {
@@ -434,17 +538,39 @@
   }
 
   .project-info {
-    margin-left: 2rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 1rem;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
     padding-bottom: 1rem;
-    height: 80%;
+    margin-left: 2rem;
+    height: auto;
+    min-height: 80% !important;
     width: 100%;
+
+    .project-about-header {
+      padding-bottom: 30px;
+    }
+
+    p {
+      margin-top: 0rem;
+      font-size: 0.875rem;
+      line-height: 20px;
+    }
   }
 
-  .project-donated-icon {
-    display: inline-flex;
+  .project-donated {
+    .project-donated-icon {
+      display: inline-flex;
+      align-items: center;
+
+      h6 {
+        line-height: 1rem;
+      }
+    }
+
+    .subtext {
+      color: #999999;
+    }
   }
 
   .project-completion {
@@ -452,20 +578,22 @@
 
     .project-completion-icon {
       display: inline-flex;
-    }
-  }
+      align-items: center;
 
-  .project-goal {
-    padding-top: 1rem;
+      h6 {
+        max-width: 3.3rem;
+        line-height: 1rem;
+      }
+    }
+
+    .subtext {
+      color: #999999;
+    }
   }
 
   .project-goal-progress {
     padding-top: 0.5rem;
     padding-bottom: 1.5rem;
-  }
-
-  .project-countdown-text {
-    padding-top: 0.3rem;
   }
 
   .project-give-button {
@@ -476,6 +604,10 @@
     }
   }
 
+  .MuiPaper-root {
+    border-radius: 10px;
+  }
+
   .MuiLinearProgress-determinate {
     height: 1rem;
     border-radius: 3px;
@@ -484,6 +616,77 @@
   .MuiLinearProgress-barColorPrimary {
     background: rgb(112, 139, 150);
     background: linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%);
+  }
+}
+
+.project-container {
+  .very-small {
+    .project-info {
+      margin-left: 0;
+    }
+
+    .visual-info-bottom {
+      flex-direction: column;
+
+      .project-give-button {
+        padding-top: 1.5rem;
+      }
+    }
+  }
+
+  .smaller {
+    .project-info {
+      margin-left: 0;
+    }
+
+    .project-visual-info {
+      flex-direction: column;
+
+      .cause-image {
+        width: 100%;
+        margin-right: 0px;
+      }
+
+      .goal-graphics {
+        width: 100%;
+      }
+
+      .visual-info-bottom {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .project-give-button {
+          padding-top: 0px;
+        }
+
+        .project-countdown {
+          width: 50%;
+        }
+      }
+    }
+  }
+
+  .medium {
+    .project-info {
+      margin-left: 0;
+    }
+
+    .project-visual-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      .cause-image {
+        width: 50%;
+        margin-right: 30px;
+      }
+
+      .goal-graphics {
+        width: 50%;
+      }
+    }
   }
 }
 
