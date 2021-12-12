@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   useTheme,
   makeStyles,
@@ -82,14 +83,8 @@ const ExternalLink = ({ href, children, color = "textSecondary" }) => {
 const DisconnectButton = () => {
   const { disconnect } = useWeb3Context();
   return (
-    <Button onClick={disconnect} variant="contained" size="small" color="secondary" fullWidth>
-      <Typography variant="body2">
-        Disconnect
-        <SvgIcon
-          component={WalletIcon}
-          style={{ width: "15px", height: "15px", verticalAlign: "middle", marginLeft: "4px" }}
-        />
-      </Typography>
+    <Button onClick={disconnect} variant="contained" size="large" color="secondary">
+      <Typography>Disconnect</Typography>
     </Button>
   );
 };
@@ -112,11 +107,12 @@ const CloseButton = withStyles(theme => ({
   },
 }))(IconButton);
 
-const WalletTotalValue = ({ onChangeCurrency }) => {
+const WalletTotalValue = () => {
   const tokens = useTokens();
   const styles = useStyles();
+  const [currency, setCurrency] = useState("USD");
   return (
-    <Box>
+    <Box onClick={() => setCurrency(currency === "USD" ? "OHM" : "USD")}>
       <Typography className={styles.myWallet} color="textSecondary">
         MY WALLET
       </Typography>
@@ -124,6 +120,7 @@ const WalletTotalValue = ({ onChangeCurrency }) => {
         {formatCurrency(
           tokens.reduce((totalValue, token) => totalValue + parseFloat(token.balance) * token.price, 0) || 0,
           2,
+          currency,
         )}
       </Typography>
     </Box>
@@ -132,19 +129,16 @@ const WalletTotalValue = ({ onChangeCurrency }) => {
 
 function InitialWalletView({ onClose }) {
   const theme = useTheme();
-  const currentTheme = useCurrentTheme();
+  const [currentTheme] = useCurrentTheme();
   const styles = useStyles();
   const networkId = useAppSelector(state => state.network.networkId);
   return (
-    <Box sx={{ padding: theme.spacing(0, 3) }}>
+    <Box sx={{ padding: theme.spacing(0, 3), display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", padding: theme.spacing(2, 0) }}>
         <WalletTotalValue />
-        <Box sx={{ display: "flex", flexWrap: "nowrap", alignSelf: "end", gap: theme.spacing(1) }}>
-          <DisconnectButton />
-          <CloseButton className={styles.closeButton} size="small" onClick={onClose} aria-label="close wallet">
-            <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", height: "15px" }} />
-          </CloseButton>
-        </Box>
+        <CloseButton className={styles.closeButton} size="small" onClick={onClose} aria-label="close wallet">
+          <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", height: "15px" }} />
+        </CloseButton>
       </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(1) }}>
@@ -193,14 +187,18 @@ function InitialWalletView({ onClose }) {
         />
         <Box sx={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
-            <Typography style={{ marginLeft: "18px" }}>Rusowsky's Dune</Typography>
+            <Typography style={{ marginLeft: "18px" }}>Rusowsky's dashboard</Typography>
           </ExternalLink>
         </Box>
         <Box sx={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           <ExternalLink href={`https://dune.xyz/shadow/Olympus-(OHM)`}>
-            <Typography style={{ marginLeft: "18px" }}>Shadow's Dune</Typography>
+            <Typography style={{ marginLeft: "18px" }}>Shadow's dashboard</Typography>
           </ExternalLink>
         </Box>
+      </Box>
+
+      <Box sx={{ marginTop: "auto", marginX: "auto", padding: theme.spacing(2) }}>
+        <DisconnectButton />
       </Box>
     </Box>
   );
