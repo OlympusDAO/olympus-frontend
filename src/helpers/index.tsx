@@ -42,10 +42,11 @@ export function shorten(str: string) {
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
 }
 
-export function formatCurrency(c: number, precision = 0) {
+export function formatCurrency(c: number, precision = 0, currency = "USD") {
+  if (currency === "OHM") return `${trim(c, precision)} Ω`;
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency,
     maximumFractionDigits: precision,
     minimumFractionDigits: precision,
   }).format(c);
