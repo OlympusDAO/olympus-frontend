@@ -161,7 +161,9 @@ function NavContent() {
                         <Trans>Bond discounts</Trans>
                       </Typography>
                       {bonds.map((bond, i) => {
-                        if (bond.getBondability(networkId)) {
+                        // NOTE (appleseed): temporary for ONHOLD MIGRATION
+                        // if (bond.getBondability(networkId)) {
+                        if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
                           return (
                             <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
                               {!bond.bondDiscount ? (
@@ -171,9 +173,14 @@ function NavContent() {
                                   {bond.displayName}
 
                                   <span className="bond-pair-roi">
-                                    {!bond.isBondable[networkId]
+                                    {bond.isLOLable[networkId]
+                                      ? "--"
+                                      : !bond.isBondable[networkId]
                                       ? "Sold Out"
                                       : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
+                                    {/* {!bond.isBondable[networkId]
+                                      ? "Sold Out"
+                                      : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
                                   </span>
                                 </Typography>
                               )}
