@@ -129,7 +129,7 @@ function Wrap() {
     if (assetFrom === "gOHM" && assetTo === "sOHM") return unwrapGohmAllowance > gohmBalance;
 
     return 0;
-  }, [unwrapAllowance, assetTo, assetFrom]);
+  }, [unwrapAllowance, wrapSohmAllowance, assetTo, assetFrom]);
 
   const isAllowanceDataLoading = unwrapAllowance == null && currentAction === "Unwrap";
   // const convertedQuantity = 0;
