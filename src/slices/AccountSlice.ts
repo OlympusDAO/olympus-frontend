@@ -13,6 +13,7 @@ import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 import { FiatDAOContract, FuseProxy, IERC20, IERC20__factory, SOhmv2, SOhmv2__factory, WsOHM } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
+import { OlympusStakingv2__factory } from "src/typechain/factories/OlympusStakingv2__factory";
 
 interface IUserBalances {
   balances: {
@@ -180,7 +181,7 @@ export const loadAccountDetails = createAsyncThunk(
     let gOhmBalance = BigNumber.from("0");
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
-      gOhmUnwrapAllowance = await gOhmContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+      gOhmUnwrapAllowance = await gOhmContract.allowance(address, addresses[networkID].STAKING_V2);
 
       const ohmContract = new ethers.Contract(
         addresses[networkID].OHM_ADDRESS as string,
@@ -189,10 +190,10 @@ export const loadAccountDetails = createAsyncThunk(
       ) as IERC20;
       stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
 
-      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, sOHMv2, provider) as SOhmv2;
+      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, sOHMv2, provider) as SOhmv2;
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
       poolAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
-      wrapAllowance = await sohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
+      wrapAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_V2);
 
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
       unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
@@ -224,8 +225,7 @@ export const loadAccountDetails = createAsyncThunk(
         ohmUnstakeV2: +unstakeAllowanceV2,
       },
       wrapping: {
-        ohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
-        ohmUnwrap: Number(ethers.utils.formatUnits(unwrapAllowance, "gwei")),
+        sohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
         gOhmUnwrap: Number(ethers.utils.formatUnits(gOhmUnwrapAllowance, "ether")),
       },
     };
