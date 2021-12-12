@@ -70,7 +70,9 @@ export function BondDataCard({ bond }) {
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" fullWidth disabled={!bond.isBondable[networkId]}>
             <Typography variant="h5">
-              {!bond.isBondable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`}
+              {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
+              {/* {!bond.isBondable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`} */}
+              {bond.isLOLable[networkId] ? bond.LOLmessage : t`Bond ${bond.displayName}`}
             </Typography>
           </Button>
         </Link>
@@ -125,7 +127,9 @@ export function BondTableData({ bond }) {
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" disabled={!bond.isBondable[networkId]}>
-            <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography>
+            {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
+            {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
+            <Typography variant="h6">{bond.isLOLable[networkId] ? bond.LOLmessage : t`do_bond`}</Typography>
           </Button>
         </Link>
       </TableCell>
