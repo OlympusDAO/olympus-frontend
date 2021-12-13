@@ -14,9 +14,6 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
-import { NetworkID } from "../../lib/Bond";
-console.log(NetworkID);
-import { addresses } from "../../constants";
 
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
@@ -71,8 +68,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   let rows = [];
   let isMigrationComplete = useSelector(state => state.account.isMigrationComplete);
-  const networkId = NetworkID;
-  // console.log(networkId);
+  const networkId = useAppSelector(state => state.network.networkId);
   const onSeekApproval = token => {
     dispatch(
       changeMigrationApproval({
