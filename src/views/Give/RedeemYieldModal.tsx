@@ -8,6 +8,7 @@ import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/Educ
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn, isPendingTxn } from "../../slices/PendingTxnsSlice";
 import { BigNumber } from "bignumber.js";
+import { t, Trans } from "@lingui/macro";
 
 export interface RedeemSubmitCallback {
   (): void;
@@ -65,20 +66,22 @@ export function RedeemYieldModal({
             <SvgIcon color="primary" component={XIcon} />
           </Link>
           <Typography variant="h4">
-            <strong>Redeem Yield?</strong>
+            <strong>
+              <Trans>Redeem Yield?</Trans>
+            </strong>
           </Typography>
         </div>
         <div className="give-education-graphics">
-          <VaultGraphic quantity={deposit.toFixed(2)} verb="in deposits remains" />
+          <VaultGraphic quantity={deposit.toFixed(2)} verb={t`in deposits remains`} />
           <ArrowGraphic />
           <RedeemGraphic quantity={redeemableBalance.toFixed(2)} />
         </div>
         <Typography variant="body1" align="center">
-          Any sOHM directed towards you will continue to rebase and earn additional yield on your behalf.
+          <Trans>Any sOHM directed towards you will continue to rebase and earn additional yield on your behalf.</Trans>
         </Typography>
         <FormControl className="ohm-modal-submit">
           <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => handleSubmit()}>
-            {txnButtonText(pendingTransactions, "redeeming", "Redeem")}
+            {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
           </Button>
         </FormControl>
       </Paper>

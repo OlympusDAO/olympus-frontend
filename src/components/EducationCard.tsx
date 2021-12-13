@@ -5,6 +5,7 @@ import { ReactComponent as vaultLockImg } from "../assets/icons/vault-lock.svg";
 import { ReactComponent as arrowRightImg } from "../assets/icons/arrow-right.svg";
 import { shorten } from "src/helpers";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { t, Trans } from "@lingui/macro";
 
 const viewBox = "0 0 100 100";
 // The sOHM SVG is 100x100px, whereas the others are 50x50px
@@ -26,7 +27,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          Wallet
+          <Trans>Wallet</Trans>
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
@@ -34,7 +35,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          {quantity} sOHM {verb}
+          <Trans>{quantity} sOHM {verb}</Trans>
         </Typography>
       </Box>
     </Box>
@@ -64,16 +65,18 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
         style={{ marginBottom: "16px", color: "#999999" }}
       >
         <Typography variant="body1" className="subtext">
-          Wallet
+          <Trans>Wallet</Trans>
         </Typography>
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          {message}
+          <Trans>{message}</Trans>
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
-          Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step
-          is depositing your sOHM and specifying a recipient.
+          <Trans>
+            Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step
+            is depositing your sOHM and specifying a recipient.
+          </Trans>
         </Typography>
       </Box>
     </Box>
@@ -85,7 +88,7 @@ export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicP
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          Vault
+          <Trans>Vault</Trans>
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
@@ -93,7 +96,7 @@ export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicP
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          {quantity} sOHM {verb}
+          <Trans>{quantity} sOHM {verb}</Trans>
         </Typography>
       </Box>
     </Box>
@@ -123,16 +126,18 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
         style={{ marginBottom: "16px", color: "#999999" }}
       >
         <Typography variant="body1" className="subtext">
-          Vault
+          <Trans>Vault</Trans>
         </Typography>
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          {message}
+          <Trans>{message}</Trans>
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
-          Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You
-          can withdraw or edit your principal sOHM amount at any time.
+          <Trans>
+            Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You
+            can withdraw or edit your principal sOHM amount at any time.
+          </Trans>
         </Typography>
       </Box>
     </Box>
@@ -144,7 +149,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          Recipient
+          <Trans>Recipient</Trans>
         </Typography>
       </Box>
       <Box
@@ -160,7 +165,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          Receives yield from {quantity} sOHM
+          <Trans>Receives yield from {quantity} sOHM</Trans>
         </Typography>
       </Box>
     </Box>
@@ -172,7 +177,7 @@ export function RedeemGraphic({ quantity }: EducationGraphicProps) {
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          You
+          <Trans>You</Trans>
         </Typography>
       </Box>
       <Box
@@ -188,7 +193,7 @@ export function RedeemGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          Redeem {quantity} sOHM in yield
+          <Trans>Redeem {quantity} sOHM in yield</Trans>
         </Typography>
       </Box>
     </Box>
@@ -218,16 +223,18 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
         style={{ marginBottom: "16px", color: "#999999" }}
       >
         <Typography variant="body1" className="subtext">
-          Recipient
+          <Trans>Recipient</Trans>
         </Typography>
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          {message}
+          <Trans>{message}</Trans>
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
-          The recipient you specified, or the project you selected, will then receive the rebases associated with your
-          sOHM deposit until you withdraw your sOHM principal from the vault.
+          <Trans>
+            The recipient you specified, or the project you selected, will then receive the rebases associated with your
+            sOHM deposit until you withdraw your sOHM principal from the vault.
+          </Trans>
         </Typography>
       </Box>
     </Box>
@@ -239,7 +246,7 @@ export function CurrPositionGraphic({ quantity }: EducationGraphicProps) {
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          Current Deposit
+          <Trans>Current Deposit</Trans>
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
@@ -247,7 +254,7 @@ export function CurrPositionGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          {quantity} sOHM
+          <Trans>{quantity} sOHM</Trans>
         </Typography>
       </Box>
     </Box>
@@ -259,7 +266,7 @@ export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          Updated Deposit
+          <Trans>Updated Deposit</Trans>
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
@@ -267,7 +274,7 @@ export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          {quantity} sOHM
+          <Trans>{quantity} sOHM</Trans>
         </Typography>
       </Box>
     </Box>

@@ -10,6 +10,7 @@ import { IPendingTxn } from "../../slices/PendingTxnsSlice";
 import { BigNumber } from "bignumber.js";
 import { Project } from "src/components/GiveProject/project.type";
 import { hasPendingGiveTxn, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
+import { t, Trans } from "@lingui/macro";
 
 export interface WithdrawSubmitCallback {
   (walletAddress: string, depositAmount: BigNumber): void;
@@ -74,20 +75,22 @@ export function WithdrawDepositModal({
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />
           </Link>
-          <Typography variant="h4">Withdraw Deposit?</Typography>
+          <Typography variant="h4">
+            <Trans>Withdraw Deposit?</Trans>
+          </Typography>
         </div>
         <div className="give-education-graphics">
-          <VaultGraphic quantity={depositAmount.toString()} verb="withdrawn" />
+          <VaultGraphic quantity={depositAmount.toString()} verb={t`withdrawn`} />
           <ArrowGraphic />
-          <WalletGraphic quantity={depositAmount.toString()} verb="deposited" />
+          <WalletGraphic quantity={depositAmount.toString()} verb={t`deposited`} />
         </div>
 
         <Typography variant="body1">
-          Any remaining yield will still be redeemable by the recipient ({getRecipientTitle()}).
+          <Trans>Any remaining yield will still be redeemable by the recipient ({getRecipientTitle()}).</Trans>
         </Typography>
         <FormControl className="ohm-modal-submit">
           <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => handleSubmit()}>
-            {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, "Withdraw")}
+            {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
           </Button>
         </FormControl>
       </Paper>

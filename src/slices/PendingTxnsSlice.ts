@@ -31,10 +31,10 @@ export const getStakingTypeText = (action: string) => {
 
 export const getGivingTypeText = (action: string) => {
   return action.toLowerCase() === ACTION_GIVE
-    ? "Giving sOHM"
+    ? t`Giving sOHM`
     : ACTION_GIVE_EDIT
-    ? "Editing sOHM donation amount"
-    : "Withdrawing sOHM donation";
+    ? t`Editing sOHM donation amount`
+    : t`Withdrawing sOHM donation`;
 };
 
 export const getWrappingTypeText = (action: string) => {

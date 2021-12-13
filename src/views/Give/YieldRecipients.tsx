@@ -29,6 +29,7 @@ import { error } from "../../slices/MessagesSlice";
 import data from "./projects.json";
 import { Project } from "src/components/GiveProject/project.type";
 import { useAppSelector } from "src/hooks";
+import { t, Trans } from "@lingui/macro";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -83,7 +84,7 @@ export default function YieldRecipients() {
 
   const handleEditModalSubmit: SubmitCallback = async (walletAddress, depositAmount, depositAmountDiff) => {
     if (!depositAmountDiff) {
-      return dispatch(error("Please enter a value!"));
+      return dispatch(error(t`Please enter a value!`));
     }
 
     if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
@@ -152,11 +153,13 @@ export default function YieldRecipients() {
       <>
         <Grid container className="yield-recipients-empty">
           <Grid item xs={10}>
-            <Typography variant="h5">It looks like you haven't donated any yield. Let's fix that!</Typography>
+            <Typography variant="h5">
+              <Trans>It looks like you haven't donated any yield. Let's fix that!</Trans>
+            </Typography>
           </Grid>
           <Grid item xs={2}>
             <Button component={NavLink} to="/give" variant="contained" color="primary">
-              Give Yield
+              <Trans>Give Yield</Trans>
             </Button>
           </Grid>
         </Grid>
@@ -170,10 +173,12 @@ export default function YieldRecipients() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Recipient</TableCell>
+              <TableCell>
+                <Trans>Recipient</Trans>
+              </TableCell>
               <TableCell align="left">
-                Deposit
-                <InfoTooltip message="The amount of sOHM deposited" children={null} />
+                <Trans>Deposit</Trans>
+                <InfoTooltip message={t`The amount of sOHM deposited`} children={null} />
               </TableCell>
               <TableCell />
               <TableCell />
@@ -188,8 +193,12 @@ export default function YieldRecipients() {
                 <Skeleton />
               ) : (
                 <TableRow key={recipient}>
-                  <TableCell>{getRecipientTitle(recipient)}</TableCell>
-                  <TableCell>{donationInfo[recipient]}</TableCell>
+                  <TableCell>
+                    <Trans>{getRecipientTitle(recipient)}</Trans>
+                  </TableCell>
+                  <TableCell>
+                    <Trans>{donationInfo[recipient]}</Trans>
+                  </TableCell>
                   <TableCell align="left"></TableCell>
                   <TableCell align="left"></TableCell>
                   <TableCell align="right" width="10%" padding="none">
@@ -201,7 +210,7 @@ export default function YieldRecipients() {
                       onClick={() => handleEditButtonClick(recipient)}
                       disabled={!address}
                     >
-                      Edit
+                      <Trans>Edit</Trans>
                     </Button>
                   </TableCell>
                   <TableCell align="right" width="10%" padding="none">
@@ -213,7 +222,7 @@ export default function YieldRecipients() {
                       onClick={() => handleWithdrawButtonClick(recipient)}
                       disabled={!address}
                     >
-                      Withdraw
+                      <Trans>Withdraw</Trans>
                     </Button>
                   </TableCell>
                 </TableRow>

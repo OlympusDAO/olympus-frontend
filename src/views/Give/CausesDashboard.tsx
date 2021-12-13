@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "src/hooks";
 import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
 import { GiveInfo } from "./GiveInfo";
 import { useUIDSeed } from "react-uid";
+import { t, Trans } from "@lingui/macro";
 
 export default function CausesDashboard() {
   const { provider, address } = useWeb3Context();
@@ -43,7 +44,7 @@ export default function CausesDashboard() {
     depositAmountDiff?: BigNumber,
   ) => {
     if (depositAmount.isEqualTo(new BigNumber(0))) {
-      return dispatch(error("Please enter a value!"));
+      return dispatch(error(t`Please enter a value!`));
     }
 
     // Record segment user event
@@ -84,7 +85,9 @@ export default function CausesDashboard() {
             <Paper className={`ohm-card secondary ${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
               <div className="card-header">
                 <div>
-                  <Typography variant="h5">Give</Typography>
+                  <Typography variant="h5">
+                    <Trans>Give</Trans>
+                  </Typography>
                 </div>
               </div>
               <div className="causes-body">
@@ -101,7 +104,7 @@ export default function CausesDashboard() {
                   disabled={!address}
                 >
                   <Typography variant="h6" style={{ marginBottom: "0px" }}>
-                    Custom Recipient
+                    <Trans>Custom Recipient</Trans>
                   </Typography>
                 </Button>
               </div>

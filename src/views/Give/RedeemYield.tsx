@@ -19,7 +19,7 @@ import { IAccountSlice, loadAccountDetails } from "src/slices/AccountSlice";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { BigNumber } from "bignumber.js";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
 import { RedeemCancelCallback, RedeemYieldModal, RedeemSubmitCallback } from "./RedeemYieldModal";
@@ -145,14 +145,16 @@ export default function RedeemYield() {
         <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
           <div className="card-header">
             <div className="give-yield-title">
-              <Typography variant="h5">Redeem Yield</Typography>
+              <Typography variant="h5">
+                <Trans>Redeem Yield</Trans>
+              </Typography>
               <InfoTooltip
-                message="If another wallets have directed their sOHM rebases to you, you can transfer that yield into your wallet."
+                message={t`If another wallets have directed their sOHM rebases to you, you can transfer that yield into your wallet.`}
                 children={null}
               />
             </div>
             <div className="give-education">
-              <VaultGraphic quantity={totalDeposit.toFixed(2)} verb="in deposits remains" />
+              <VaultGraphic quantity={totalDeposit.toFixed(2)} verb={t`in deposits remains`} />
               <ArrowGraphic />
               <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} />
             </div>
@@ -161,34 +163,44 @@ export default function RedeemYield() {
             <Table>
               <TableBody>
                 <TableRow>
-                  <TableCell>Donated sOHM Generating Yield</TableCell>
+                  <TableCell>
+                    <Trans>Donated sOHM Generating Yield</Trans>
+                  </TableCell>
                   <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
-                    {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + " sOHM"}
+                    {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + t` sOHM`}
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Redeemable Amount</TableCell>
+                  <TableCell>
+                    <Trans>Redeemable Amount</Trans>
+                  </TableCell>
                   <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
                     {" "}
-                    {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(redeemableBalanceNumber) + " sOHM"}
+                    {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(redeemableBalanceNumber) + t` sOHM`}
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Next Reward Amount</TableCell>
+                  <TableCell>
+                    <Trans>Next Reward Amount</Trans>
+                  </TableCell>
                   <TableCell className={getTableCellClass(isAppLoading)}>
                     {" "}
-                    {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + " sOHM"}
+                    {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + t` sOHM`}
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Next Reward Yield</TableCell>
+                  <TableCell>
+                    <Trans>Next Reward Yield</Trans>
+                  </TableCell>
                   <TableCell className={getTableCellClass(isAppLoading)}>
                     {" "}
                     {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(stakingRebasePercentage) + "%"}
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>ROI (5-Day Rate)</TableCell>
+                  <TableCell>
+                    <Trans>ROI (5-Day Rate)</Trans>
+                  </TableCell>
                   <TableCell className={getTableCellClass(isAppLoading)}>
                     {" "}
                     {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(fiveDayRateValue) + "%"}

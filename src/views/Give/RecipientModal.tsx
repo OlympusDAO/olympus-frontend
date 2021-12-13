@@ -32,6 +32,7 @@ const sOhmImg = getTokenImage("sohm");
 import { shorten } from "src/helpers";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { useAppSelector } from "src/hooks";
+import { t, Trans } from "@lingui/macro";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -140,24 +141,24 @@ export function RecipientModal({
 
     if (!value || value == "" || valueNumber.isEqualTo(0)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError("Please enter a value");
+      setIsDepositAmountValidError(t`Please enter a value`);
       return;
     }
 
     if (valueNumber.isLessThan(0)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError("Value must be positive");
+      setIsDepositAmountValidError(t`Value must be positive`);
       return;
     }
 
     if (sOhmBalanceNumber.isEqualTo(0)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError("You must have a balance of sOHM (staked OHM) to continue");
+      setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
     }
 
     if (valueNumber.isGreaterThan(getMaximumDepositAmount())) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError("Value cannot be more than your sOHM balance of " + getMaximumDepositAmount());
+      setIsDepositAmountValidError(t`Value cannot be more than your sOHM balance of ` + getMaximumDepositAmount());
       return;
     }
 
@@ -182,13 +183,13 @@ export function RecipientModal({
   const checkIsWalletAddressValid = (value: string) => {
     if (!isAddress(value)) {
       setIsWalletAddressValid(false);
-      setIsWalletAddressValidError("Please enter a valid Ethereum address");
+      setIsWalletAddressValidError(t`Please enter a valid Ethereum address`);
       return;
     }
 
     if (value == address) {
       setIsWalletAddressValid(false);
-      setIsWalletAddressValidError("Please enter a different address: cannot direct to the same wallet");
+      setIsWalletAddressValidError(t`Please enter a different address: cannot direct to the same wallet`);
       return;
     }
 
@@ -215,9 +216,9 @@ export function RecipientModal({
   };
 
   const getTitle = (): string => {
-    if (!isCreateMode()) return "Edit Yield";
+    if (!isCreateMode()) return t`Edit Yield`;
 
-    return "Give Yield";
+    return t`Give Yield`;
   };
 
   /**
@@ -306,9 +307,11 @@ export function RecipientModal({
     if (isProjectMode()) {
       return (
         <>
-          <Typography variant="body1">Recipient</Typography>
+          <Typography variant="body1">
+            <Trans>Recipient</Trans>
+          </Typography>
           <Typography variant="h6">
-            {project?.title} by {project?.owner}
+            <Trans>{project?.title} by {project?.owner}</Trans>
           </Typography>
         </>
       );
@@ -321,13 +324,15 @@ export function RecipientModal({
 
     return (
       <>
-        <Typography variant="body1">Recipient</Typography>
+        <Typography variant="body1">
+          <Trans>Recipient</Trans>
+        </Typography>
         <FormControl className="modal-input" variant="outlined" color="primary">
           <InputLabel htmlFor="wallet-input"></InputLabel>
           <OutlinedInput
             id="wallet-input"
             type="text"
-            placeholder="Enter a wallet address in the form of 0x ..."
+            placeholder={t`Enter a wallet address in the form of 0x ...`}
             className="stake-input"
             value={walletAddress}
             error={!isWalletAddressValid}
@@ -359,14 +364,18 @@ export function RecipientModal({
             <SvgIcon color="primary" component={XIcon} />
           </Link>
           <Typography variant="h4">
-            <strong>{getTitle()}</strong>
+            <strong>
+              <Trans>{getTitle()}</Trans>
+            </strong>
           </Typography>
         </div>
         {!address ? (
           <>
             <FormHelperText>
-              You must be logged into your wallet to use this feature. Click on the "Connect Wallet" button and try
-              again.
+              <Trans>
+                You must be logged into your wallet to use this feature. Click on the "Connect Wallet" button and try
+                again.
+              </Trans>
             </FormHelperText>
           </>
         ) : isAccountLoading ? (
@@ -374,29 +383,39 @@ export function RecipientModal({
         ) : !hasAllowance() ? (
           <Box className="help-text">
             <Typography variant="body1" className="stream-note" color="textSecondary">
-              First time giving <b>sOHM</b>?
-              <br />
-              Please approve Olympus DAO to use your <b>sOHM</b> for giving.
+              <Trans>
+                First time giving <b>sOHM</b>?
+                <br />
+                Please approve Olympus DAO to use your <b>sOHM</b> for giving.
+              </Trans>
             </Typography>
           </Box>
         ) : isAmountSet ? (
           <>
             <div className="give-confirmation-details">
               <Typography variant="h5">
-                <strong>Details</strong>
+                <strong>
+                  <Trans>Details</Trans>
+                </strong>
               </Typography>
               <div className="details-row">
                 <div className="sohm-allocation-col">
-                  <Typography variant="body1">sOHM Allocation</Typography>
+                  <Typography variant="body1">
+                    <Trans>sOHM Allocation</Trans>
+                  </Typography>
                   <Typography variant="h6">
                     <strong>{shorten(address)}</strong>
                   </Typography>
                 </div>
                 <ArrowGraphic />
                 <div className="recipient-address-col">
-                  <Typography variant="body1">Recipient Address</Typography>
+                  <Typography variant="body1">
+                    <Trans>Recipient Address</Trans>
+                  </Typography>
                   <Typography variant="h6">
-                    <strong>{project ? project.title + " - " + project.owner : shorten(walletAddress)}</strong>
+                    <strong>
+                      <Trans>{project ? project.title + " - " + project.owner : shorten(walletAddress)}</Trans>
+                    </strong>
                   </Typography>
                 </div>
               </div>
@@ -406,12 +425,18 @@ export function RecipientModal({
             </div>
             <div className="give-confirmation-details">
               <Typography variant="h5" className="confirmation-sect-header">
-                <strong>Transaction</strong>
+                <strong>
+                  <Trans>Transaction</Trans>
+                </strong>
               </Typography>
               <div className="details-row">
-                <Typography variant="body1">Amount</Typography>
+                <Typography variant="body1">
+                  <Trans>Amount</Trans>
+                </Typography>
                 <Typography variant="h6">
-                  <strong>{depositAmount} sOHM</strong>
+                  <strong>
+                    <Trans>{depositAmount} sOHM</Trans>
+                  </strong>
                 </Typography>
               </div>
             </div>
@@ -419,9 +444,11 @@ export function RecipientModal({
         ) : (
           <>
             <div className="give-modal-alloc-tip">
-              <Typography variant="body1">sOHM Allocation</Typography>
+              <Typography variant="body1">
+                <Trans>sOHM Allocation</Trans>
+              </Typography>
               <InfoTooltip
-                message="Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees."
+                message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                 children={null}
               />
             </div>
@@ -430,7 +457,7 @@ export function RecipientModal({
               <OutlinedInput
                 id="amount-input"
                 type="number"
-                placeholder="Enter an amount"
+                placeholder={t`Enter an amount`}
                 className="stake-input"
                 value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
                 error={!isDepositAmountValid}
@@ -444,7 +471,7 @@ export function RecipientModal({
                 endAdornment={
                   <InputAdornment position="end">
                     <Button variant="text" onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}>
-                      Max
+                      <Trans>Max</Trans>
                     </Button>
                   </InputAdornment>
                 }
@@ -452,10 +479,10 @@ export function RecipientModal({
               <FormHelperText>{isDepositAmountValidError}</FormHelperText>
               <div className="give-staked-balance">
                 <Typography variant="body2" align="left">
-                  Your Staked Balance (depositable)
+                  <Trans>Your Staked Balance (depositable)</Trans>
                 </Typography>
                 <Typography variant="body2" align="right">
-                  {getSOhmBalance().toFixed(4)} sOHM
+                  <Trans>{getSOhmBalance().toFixed(4)} sOHM</Trans>
                 </Typography>
               </div>
             </FormControl>
@@ -480,13 +507,13 @@ export function RecipientModal({
           address && hasAllowance() && !isAmountSet ? (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
-                Continue
+                <Trans>Continue</Trans>
               </Button>
             </FormControl>
           ) : isAmountSet ? (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, "Confirm sOHM")}
+                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Confirm sOHM`)}
               </Button>
             </FormControl>
           ) : (
@@ -497,20 +524,20 @@ export function RecipientModal({
                 disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading}
                 onClick={onSeekApproval}
               >
-                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, "Approve")}
+                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
               </Button>
             </FormControl>
           )
         ) : !isAmountSet ? (
           <FormControl className="ohm-modal-submit">
             <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
-              Continue
+              <Trans>Continue</Trans>
             </Button>
           </FormControl>
         ) : (
           <FormControl className="ohm-modal-submit">
             <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-              {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, "Edit Give Amount")}
+              {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Edit Give Amount`)}
             </Button>
           </FormControl>
         )}
