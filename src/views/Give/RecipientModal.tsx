@@ -366,9 +366,7 @@ export function RecipientModal({
             <SvgIcon color="primary" component={XIcon} />
           </Link>
           <Typography variant="h4">
-            <strong>
-              <Trans>{getTitle()}</Trans>
-            </strong>
+            <strong>{getTitle()}</strong>
           </Typography>
         </div>
         {!address ? (
@@ -415,9 +413,7 @@ export function RecipientModal({
                     <Trans>Recipient Address</Trans>
                   </Typography>
                   <Typography variant="h6">
-                    <strong>
-                      <Trans>{project ? project.title + " - " + project.owner : shorten(walletAddress)}</Trans>
-                    </strong>
+                    <strong>{project ? project.title + " - " + project.owner : shorten(walletAddress)}</strong>
                   </Typography>
                 </div>
               </div>

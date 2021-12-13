@@ -149,7 +149,7 @@ export default function RedeemYield() {
                 <Trans>Redeem Yield</Trans>
               </Typography>
               <InfoTooltip
-                message={t`If another wallets have directed their sOHM rebases to you, you can transfer that yield into your wallet.`}
+                message={t`If other wallets have directed their sOHM rebases to you, you can transfer that yield into your wallet.`}
                 children={null}
               />
             </div>

@@ -193,12 +193,8 @@ export default function YieldRecipients() {
                 <Skeleton />
               ) : (
                 <TableRow key={recipient}>
-                  <TableCell>
-                    <Trans>{getRecipientTitle(recipient)}</Trans>
-                  </TableCell>
-                  <TableCell>
-                    <Trans>{donationInfo[recipient]}</Trans>
-                  </TableCell>
+                  <TableCell>{getRecipientTitle(recipient)}</TableCell>
+                  <TableCell>{donationInfo[recipient]}</TableCell>
                   <TableCell align="left"></TableCell>
                   <TableCell align="left"></TableCell>
                   <TableCell align="right" width="10%" padding="none">

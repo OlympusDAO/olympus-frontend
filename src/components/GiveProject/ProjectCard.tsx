@@ -261,7 +261,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               />
               <Typography variant="h6">
                 <strong>
-                  <Trans>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDebt} sOHM</Trans>
+                  {recipientInfoIsLoading ? <Skeleton /> : formattedTotalDebt}
+                  <Trans> sOHM</Trans>
                 </strong>
               </Typography>
             </div>
@@ -280,7 +281,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               />
               <Typography variant="h6">
                 <strong>
-                  <Trans>{new BigNumber(depositGoal).toFormat()} sOHM</Trans>
+                  {new BigNumber(depositGoal).toFormat()}
+                  <Trans> sOHM</Trans>
                 </strong>
               </Typography>
             </div>
@@ -372,9 +374,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Grid item className="cause-title">
                   <Link href={`#/give/projects/${project.slug}`}>
                     <Typography variant="h5">
-                      <strong>
-                        <Trans>{getTitle()}</Trans>
-                      </strong>
+                      <strong>{getTitle()}</strong>
                     </Typography>
                   </Link>
                 </Grid>
@@ -468,9 +468,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   <Grid container className="project-intro" justifyContent="space-between">
                     <Grid item className="project-title">
                       <Typography variant="h5">
-                        <strong>
-                          <Trans>{getTitle()}</Trans>
-                        </strong>
+                        <strong>{getTitle()}</strong>
                       </Typography>
                     </Grid>
                     <Grid item className="project-link">
