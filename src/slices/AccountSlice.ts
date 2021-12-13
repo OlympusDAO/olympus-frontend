@@ -7,7 +7,7 @@ import { abi as wsOHM } from "../abi/wsOHM.json";
 import { abi as fiatDAO } from "../abi/FiatDAOContract.json";
 
 import { setAll, handleContractError } from "../helpers";
-
+import { trim } from "src/helpers";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
@@ -409,3 +409,63 @@ export const { fetchAccountSuccess } = accountSlice.actions;
 const baseInfo = (state: RootState) => state.account;
 
 export const getAccountState = createSelector(baseInfo, account => account);
+
+export const accountBalances = (state: any) => {
+  let formattedCurrentIndex, fiatDaoAsSohm, gOhmAsSohm;
+
+  if (state.app.currentIndex) {
+    formattedCurrentIndex = trim(Number(state.app.currentIndex), 1);
+    fiatDaoAsSohm = Number(state.account.balances.fiatDaowsohm) * Number(state.app.currentIndex);
+    gOhmAsSohm = Number(state.account.balances.gohm) * Number(state.app.currentIndex);
+  }
+  const trimmedBalance = Number(
+    [
+      state.account.balances.sohm,
+      state.account.balances.fsohm,
+      state.account.balances.wsohmAsSohm,
+      gOhmAsSohm,
+      fiatDaoAsSohm,
+    ]
+      .filter(Boolean)
+      .map(balance => Number(balance))
+      .reduce((a, b) => a + b, 0)
+      .toFixed(4),
+  );
+  const trimmedStakingAPY =
+    state.app.stakingAPY && new Intl.NumberFormat("en-US").format(Number(trim(state.app.stakingAPY * 100, 1)));
+  const stakingRebasePercentage = trim(state.app.stakingRebase * 100, 4);
+  const nextRewardValue = trim((Number(stakingRebasePercentage) / 100) * trimmedBalance, 4);
+  const formattedStakingTVL = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(state.app.stakingTVL);
+
+  const returnObject = {
+    loading: state.app.loading,
+    fiveDayRate: trim(Number(state.app.fiveDayRate) * 100, 4),
+    ohmBalance: trim(Number(state.account.balances.ohm), 4),
+    oldSohmBalance: state.account.balances.oldsohm,
+    sohmBalance: trim(Number(state.account.balances.sohm), 4),
+    fsohmBalance: trim(Number(state.account.balances.fsohm), 4),
+    wsohmBalance: trim(Number(state.account.balances.wsohm), 4),
+    fiatDaowsohmBalance: trim(Number(state.account.balances.fiatDaowsohm), 4),
+    gOhmBalance: trim(Number(state.account.balances.gohm), 4),
+    wsohmAsSohm: state.account.balances.wsohmAsSohm,
+    stakeAllowance: state.account.staking.ohmStake,
+    unstakeAllowance: state.account.staking.ohmUnstake,
+    stakingTVL: state.app.stakingTVL,
+    pendingTransactions: state.pendingTransactions,
+    fiatDaoAsSohm: fiatDaoAsSohm,
+    gOhmAsSohm: gOhmAsSohm,
+    trimmedBalance: trimmedBalance,
+    trimmedStakingAPY: trimmedStakingAPY,
+    stakingRebasePercentage: stakingRebasePercentage,
+    nextRewardValue: nextRewardValue,
+    formattedStakingTVL: formattedStakingTVL,
+    formattedCurrentIndex: formattedCurrentIndex,
+  };
+
+  return returnObject;
+};

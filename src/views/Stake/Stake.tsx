@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useHistory } from "react-router";
 import {
@@ -25,8 +25,8 @@ import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
+import { accountBalances } from "../../slices/AccountSlice";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -50,72 +50,19 @@ function a11yProps(index: number) {
 function Stake() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const state = useSelector(accountBalances, shallowEqual);
   const { provider, address, connect } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
   usePathForNetwork({ pathName: "stake", networkID: networkId, history });
-
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState(0);
 
-  const isAppLoading = useAppSelector(state => state.app.loading);
-  const currentIndex = useAppSelector(state => {
-    return state.app.currentIndex;
-  });
-  const fiveDayRate = useAppSelector(state => {
-    return state.app.fiveDayRate;
-  });
-  const ohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.ohm;
-  });
-  const oldSohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.oldsohm;
-  });
-  const sohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
-  });
-  const fsohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.fsohm;
-  });
-  const wsohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.wsohm;
-  });
-  const fiatDaowsohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.fiatDaowsohm;
-  });
-  const fiatDaoAsSohm = Number(fiatDaowsohmBalance) * Number(currentIndex);
-  const gOhmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gohm;
-  });
-  const gOhmAsSohm = Number(gOhmBalance) * Number(currentIndex);
-  const wsohmAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.wsohmAsSohm;
-  });
-  const stakeAllowance = useAppSelector(state => {
-    return (state.account.staking && state.account.staking.ohmStake) || 0;
-  });
-  const unstakeAllowance = useAppSelector(state => {
-    return (state.account.staking && state.account.staking.ohmUnstake) || 0;
-  });
-  const stakingRebase = useAppSelector(state => {
-    return state.app.stakingRebase || 0;
-  });
-  const stakingAPY = useAppSelector(state => {
-    return state.app.stakingAPY || 0;
-  });
-  const stakingTVL = useAppSelector(state => {
-    return state.app.stakingTVL || 0;
-  });
-
-  const pendingTransactions = useAppSelector(state => {
-    return state.pendingTransactions;
-  });
-
   const setMax = () => {
     if (view === 0) {
-      setQuantity(Number(ohmBalance));
+      setQuantity(Number(state.ohmBalance));
     } else {
-      setQuantity(Number(sohmBalance));
+      setQuantity(Number(state.sohmBalance));
     }
   };
 
@@ -132,11 +79,11 @@ function Stake() {
 
     // 1st catch if quantity > balance
     let gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
-    if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
+    if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(state.ohmBalance, "gwei"))) {
       return dispatch(error(t`You cannot stake more than your OHM balance.`));
     }
 
-    if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+    if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(state.sohmBalance, "gwei"))) {
       return dispatch(error(t`You cannot unstake more than your sOHM balance.`));
     }
 
@@ -145,14 +92,15 @@ function Stake() {
 
   const hasAllowance = useCallback(
     token => {
-      if (token === "ohm") return stakeAllowance > 0;
-      if (token === "sohm") return unstakeAllowance > 0;
+      if (token === "ohm") return state.stakeAllowance > 0;
+      if (token === "sohm") return state.unstakeAllowance > 0;
       return 0;
     },
-    [stakeAllowance, unstakeAllowance],
+    [state.stakeAllowance, state.unstakeAllowance],
   );
 
-  const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
+  const isAllowanceDataLoading =
+    (state.stakeAllowance == null && view === 0) || (state.unstakeAllowance == null && view === 1);
 
   let modalButton = [];
 
@@ -166,27 +114,6 @@ function Stake() {
     setView(newView);
   };
 
-  const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmAsSohm, gOhmAsSohm, fiatDaoAsSohm]
-      .filter(Boolean)
-      .map(balance => Number(balance))
-      .reduce((a, b) => a + b, 0)
-      .toFixed(4),
-  );
-  const trimmedStakingAPY = trim(stakingAPY * 100, 1);
-
-  const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((Number(stakingRebasePercentage) / 100) * trimmedBalance, 4);
-
-  const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));
-  const formattedStakingTVL = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0,
-  }).format(stakingTVL);
-  const formattedCurrentIndex = trim(Number(currentIndex), 1);
-
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -197,7 +124,7 @@ function Stake() {
                 <Typography variant="h5">Single Stake (3, 3)</Typography>
                 <RebaseTimer />
 
-                {address && Number(oldSohmBalance) > 0.01 && (
+                {address && Number(state.oldSohmBalance) > 0.01 && (
                   <Link
                     className="migrate-sohm-button"
                     style={{ textDecoration: "none" }}
@@ -221,8 +148,8 @@ function Stake() {
                     <Metric
                       className="stake-apy"
                       label={t`APY`}
-                      metric={`${formattedTrimmedStakingAPY}%`}
-                      isLoading={stakingAPY ? false : true}
+                      metric={`${state.trimmedStakingAPY}%`}
+                      isLoading={state.trimmedStakingAPY ? false : true}
                     />
                   </Grid>
 
@@ -230,8 +157,8 @@ function Stake() {
                     <Metric
                       className="stake-tvl"
                       label={t`Total Value Deposited`}
-                      metric={formattedStakingTVL}
-                      isLoading={stakingTVL ? false : true}
+                      metric={state.formattedStakingTVL}
+                      isLoading={state.stakingTVL ? false : true}
                     />
                   </Grid>
 
@@ -239,8 +166,8 @@ function Stake() {
                     <Metric
                       className="stake-index"
                       label={t`Current Index`}
-                      metric={`${formattedCurrentIndex} OHM`}
-                      isLoading={currentIndex ? false : true}
+                      metric={`${state.formattedCurrentIndex} OHM`}
+                      isLoading={state.formattedCurrentIndex ? false : true}
                     />
                   </Grid>
                 </Grid>
@@ -339,24 +266,24 @@ function Stake() {
                                 className="stake-button"
                                 variant="contained"
                                 color="primary"
-                                disabled={isPendingTxn(pendingTransactions, "staking")}
+                                disabled={isPendingTxn(state.pendingTransactions, "staking")}
                                 onClick={() => {
                                   onChangeStake("stake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "staking", t`Stake OHM`)}
+                                {txnButtonText(state.pendingTransactions, "staking", t`Stake OHM`)}
                               </Button>
                             ) : (
                               <Button
                                 className="stake-button"
                                 variant="contained"
                                 color="primary"
-                                disabled={isPendingTxn(pendingTransactions, "approve_staking")}
+                                disabled={isPendingTxn(state.pendingTransactions, "approve_staking")}
                                 onClick={() => {
                                   onSeekApproval("ohm");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "approve_staking", t`Approve`)}
+                                {txnButtonText(state.pendingTransactions, "approve_staking", t`Approve`)}
                               </Button>
                             )}
                           </Box>
@@ -371,24 +298,24 @@ function Stake() {
                                 className="stake-button"
                                 variant="contained"
                                 color="primary"
-                                disabled={isPendingTxn(pendingTransactions, "unstaking")}
+                                disabled={isPendingTxn(state.pendingTransactions, "unstaking")}
                                 onClick={() => {
                                   onChangeStake("unstake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
+                                {txnButtonText(state.pendingTransactions, "unstaking", t`Unstake OHM`)}
                               </Button>
                             ) : (
                               <Button
                                 className="stake-button"
                                 variant="contained"
                                 color="primary"
-                                disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
+                                disabled={isPendingTxn(state.pendingTransactions, "approve_unstaking")}
                                 onClick={() => {
                                   onSeekApproval("sohm");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
+                                {txnButtonText(state.pendingTransactions, "approve_unstaking", t`Approve`)}
                               </Button>
                             )}
                           </Box>
@@ -400,62 +327,66 @@ function Stake() {
                     <StakeRow
                       title={t`Unstaked Balance`}
                       id="user-balance"
-                      balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      {...{ isAppLoading }}
+                      balance={`${state.ohmBalance} OHM`}
+                      isAppLoading={state.loading}
                     />
                     <Accordion className="stake-accordion" square>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
                         <StakeRow
                           title={t`Staked Balance`}
                           id="user-staked-balance"
-                          balance={`${trimmedBalance} sOHM`}
-                          {...{ isAppLoading }}
+                          balance={`${state.trimmedBalance} sOHM`}
+                          isAppLoading={state.loading}
                         />
                       </AccordionSummary>
                       <AccordionDetails>
                         <StakeRow
                           title={t`Single Staking`}
-                          balance={`${trim(Number(sohmBalance), 4)} sOHM`}
+                          balance={`${state.sohmBalance} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isAppLoading={state.loading}
                         />
                         <StakeRow
                           title={t`Staked Balance in Fuse`}
-                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                          balance={`${state.fsohmBalance} fsOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isAppLoading={state.loading}
                         />
                         <StakeRow
                           title={t`Wrapped Balance`}
-                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                          {...{ isAppLoading }}
+                          balance={`${state.wsohmBalance} wsOHM`}
+                          isAppLoading={state.loading}
                           indented
                         />
                         <StakeRow
                           title={t`Wrapped Balance in FiatDAO`}
-                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
-                          {...{ isAppLoading }}
+                          balance={`${state.fiatDaowsohmBalance} wsOHM`}
+                          isAppLoading={state.loading}
                           indented
                         />
                         <StakeRow
                           title={`${t`Wrapped Balance`} (v2)`}
-                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                          balance={`${state.gOhmBalance} gOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isAppLoading={state.loading}
                         />
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
-                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
+                    <StakeRow
+                      title={t`Next Reward Amount`}
+                      balance={`${state.nextRewardValue} sOHM`}
+                      isAppLoading={state.loading}
+                    />
                     <StakeRow
                       title={t`Next Reward Yield`}
-                      balance={`${stakingRebasePercentage}%`}
-                      {...{ isAppLoading }}
+                      balance={`${state.stakingRebasePercentage}%`}
+                      isAppLoading={state.loading}
                     />
                     <StakeRow
                       title={t`ROI (5-Day Rate)`}
-                      balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      {...{ isAppLoading }}
+                      balance={`${state.fiveDayRate}%`}
+                      isAppLoading={state.loading}
                     />
                   </div>
                 </>
