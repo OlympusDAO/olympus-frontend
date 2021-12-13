@@ -35,7 +35,9 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          <Trans>{quantity} sOHM {verb}</Trans>
+          <Trans>
+            {quantity} sOHM {verb}
+          </Trans>
         </Typography>
       </Box>
     </Box>
@@ -74,8 +76,8 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           <Trans>
-            Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step
-            is depositing your sOHM and specifying a recipient.
+            Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first
+            step is depositing your sOHM and specifying a recipient.
           </Trans>
         </Typography>
       </Box>
@@ -96,7 +98,9 @@ export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicP
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          <Trans>{quantity} sOHM {verb}</Trans>
+          <Trans>
+            {quantity} sOHM {verb}
+          </Trans>
         </Typography>
       </Box>
     </Box>
@@ -135,8 +139,8 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           <Trans>
-            Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You
-            can withdraw or edit your principal sOHM amount at any time.
+            Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient.
+            You can withdraw or edit your principal sOHM amount at any time.
           </Trans>
         </Typography>
       </Box>

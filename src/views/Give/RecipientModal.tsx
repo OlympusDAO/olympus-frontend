@@ -311,7 +311,9 @@ export function RecipientModal({
             <Trans>Recipient</Trans>
           </Typography>
           <Typography variant="h6">
-            <Trans>{project?.title} by {project?.owner}</Trans>
+            <Trans>
+              {project?.title} by {project?.owner}
+            </Trans>
           </Typography>
         </>
       );
