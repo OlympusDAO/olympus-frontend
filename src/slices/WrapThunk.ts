@@ -105,13 +105,14 @@ export const changeWrapV2 = createAsyncThunk(
       type: null,
     };
 
-    const formattedValue = ethers.utils.parseUnits(value, "ether");
     try {
       if (action === "wrap") {
+        const formattedValue = ethers.utils.parseUnits(value, "gwei");
         uaData.type = "wrap";
         wrapTx = await stakingContract.wrap(address, formattedValue);
         dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: "wrapping" }));
       } else if (action === "unwrap") {
+        const formattedValue = ethers.utils.parseUnits(value, "ether");
         uaData.type = "unwrap";
         wrapTx = await stakingContract.unwrap(address, formattedValue);
         dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: "unwrapping" }));
