@@ -71,8 +71,8 @@ export const changeApproval = createAsyncThunk(
     return dispatch(
       fetchAccountSuccess({
         wrapping: {
-          sohmWrap: +wrapAllowance,
-          gOhmUnwrap: +unwrapAllowance,
+          sohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
+          gOhmUnwrap: Number(ethers.utils.formatUnits(unwrapAllowance, "ether")),
         },
       }),
     );
