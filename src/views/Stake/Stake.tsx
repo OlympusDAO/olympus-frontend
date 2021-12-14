@@ -308,7 +308,6 @@ function Stake() {
               ) : (
                 <>
                   <Box className="stake-action-area">
-                    {ConfirmDialog()}
                     <Tabs
                       key={String(zoomed)}
                       centered
