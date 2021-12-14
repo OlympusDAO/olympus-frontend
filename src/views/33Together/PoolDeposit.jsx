@@ -37,7 +37,7 @@ export const PoolDeposit = props => {
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohmV1;
+    return state.account.balances && state.account.balances.sohm;
   });
 
   const poolBalance = useSelector(state => {
