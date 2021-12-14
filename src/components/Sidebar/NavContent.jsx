@@ -205,7 +205,7 @@ function NavContent() {
                     <Box display="flex" alignItems="center">
                       <SvgIcon component={ZapIcon} color="primary" />
                       <Typography variant="h6">OlyZaps</Typography>
-                      <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
+                      {/* <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                     </Box>
                   </Link>
 
