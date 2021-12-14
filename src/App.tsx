@@ -180,9 +180,7 @@ function App() {
   const oldAssetsDetected = useAppSelector(state => {
     return (
       state.account.balances &&
-      (Number(state.account.balances.sohmV1) ||
-      Number(state.account.balances.ohmV1) ||
-      Number(state.account.balances.wsohm)
+      (Number(state.account.balances.sohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
         ? true
         : false)
     );
@@ -297,8 +295,7 @@ function App() {
             </Route>
 
             <Route path="/stake">
-              {/* if newAssets or 0 assets */}
-              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) ? (
+              {newAssetsDetected ? (
                 <Stake />
               ) : (
                 <V1Stake

@@ -39,7 +39,6 @@ import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import { getMigrationAllowances } from "src/slices/AccountSlice";
 import { useAppSelector } from "src/hooks";
-import { useHistory } from "react-router-dom";
 
 function a11yProps(index) {
   return {
@@ -53,7 +52,6 @@ const ohmImg = getOhmTokenImage(16, 16);
 
 function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds }) {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { provider, address, connect } = useWeb3Context();
 
   const chainID = useAppSelector(state => state.network.networkId);
@@ -70,10 +68,10 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     return state.app.fiveDayRate;
   });
   const ohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.ohmV1;
+    return state.account.balances && state.account.balances.ohm;
   });
   const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohmV1;
+    return state.account.balances && state.account.balances.sohm;
   });
   const fsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
@@ -177,16 +175,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
-  const goToV2Stake = () => {
-    history.push("/stake");
-  };
-
-  // useEffect(() => {
-  //   if (!oldAssetsDetected) {
-  //     history.push("/stake");
-  //   }
-  // }, []);
-
   return (
     <div id="v1-stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -282,8 +270,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           <>
                             {hasActiveV1Bonds
                               ? "Once your current bonds have been claimed, you can migrate your assets to stake more OHM"
-                              : !oldAssetsDetected
-                              ? "All your assets are migrated"
                               : "You must complete the migration of your assest to stake additional OHM"}
                           </>
                         ) : (
@@ -335,26 +321,13 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                         <Skeleton width="150px" />
                       )}
 
-                      {!hasActiveV1Bonds && oldAssetsDetected ? (
+                      {!hasActiveV1Bonds && (
                         <TabPanel value={view} index={0} className="stake-tab-panel">
                           {isAllowanceDataLoading ? (
                             <Skeleton />
                           ) : (
                             <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
                           )}
-                        </TabPanel>
-                      ) : (
-                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
-                          <Button
-                            className="migrate-button"
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              goToV2Stake();
-                            }}
-                          >
-                            Go to Stake V2
-                          </Button>
                         </TabPanel>
                       )}
 

@@ -34,7 +34,6 @@ import { error } from "../../slices/MessagesSlice";
 import { NETWORKS } from "../../constants";
 import { ethers } from "ethers";
 import "../Stake/stake.scss";
-import { useAppSelector } from "src/hooks/index.ts";
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -76,19 +75,23 @@ function Wrap() {
     return state.app.marketPrice * state.app.currentIndex;
   });
 
-  const sohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+  const sohmBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.sohmv2;
   });
 
-  const gohmBalance = useAppSelector(state => {
+  const gohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
 
-  const unwrapGohmAllowance = useAppSelector(state => {
+  const unwrapAllowance = useSelector(state => {
+    return state.account.wrapping && state.account.wrapping.ohmUnwrap;
+  });
+
+  const unwrapGohmAllowance = useSelector(state => {
     return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
   });
 
-  const wrapSohmAllowance = useAppSelector(state => {
+  const wrapSohmAllowance = useSelector(state => {
     return state.account.wrapping && state.account.wrapping.sohmWrap;
   });
 
@@ -123,13 +126,13 @@ function Wrap() {
   };
 
   const hasCorrectAllowance = useCallback(() => {
-    if (assetFrom === "sOHM" && assetTo === "gOHM") return wrapSohmAllowance > Number(sohmBalance);
-    if (assetFrom === "gOHM" && assetTo === "sOHM") return unwrapGohmAllowance > Number(gohmBalance);
+    if (assetFrom === "sOHM" && assetTo === "gOHM") return wrapSohmAllowance > sohmBalance;
+    if (assetFrom === "gOHM" && assetTo === "sOHM") return unwrapGohmAllowance > gohmBalance;
 
     return 0;
-  }, [unwrapGohmAllowance, wrapSohmAllowance, assetTo, assetFrom]);
+  }, [unwrapAllowance, wrapSohmAllowance, assetTo, assetFrom]);
 
-  const isAllowanceDataLoading = currentAction === "Unwrap";
+  const isAllowanceDataLoading = unwrapAllowance == null && currentAction === "Unwrap";
   // const convertedQuantity = 0;
   const convertedQuantity = useMemo(() => {
     if (assetFrom === "sOHM") {
