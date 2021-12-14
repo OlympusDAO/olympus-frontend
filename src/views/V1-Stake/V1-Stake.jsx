@@ -344,9 +344,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           )}
                         </TabPanel>
                       ) : (
-                        <TabPanel value={view} index={0} className="stake-tab-panel">
+                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
                           <Button
-                            className="stake-button"
+                            className="migrate-button"
                             variant="contained"
                             color="primary"
                             onClick={() => {
