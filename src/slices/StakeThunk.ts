@@ -139,7 +139,7 @@ export const changeApproval = createAsyncThunk(
       fetchAccountSuccess({
         staking: {
           ohmStakeV1: +stakeAllowance,
-          ohmUnstake: +unstakeAllowance,
+          ohmUnstakeV1: +unstakeAllowance,
           ohmStake: +stakeAllowanceV2,
           ohmUnstake: +unstakeAllowanceV2,
         },
