@@ -14,9 +14,6 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
-import { NetworkID } from "../../lib/Bond";
-console.log(NetworkID);
-import { addresses } from "../../constants";
 
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
@@ -69,10 +66,20 @@ function MigrationModal({ open, handleOpen, handleClose }) {
     return state.pendingTransactions;
   });
 
+  const oldAssetsDetected = useAppSelector(state => {
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.sohmV1) ||
+      Number(state.account.balances.ohmV1) ||
+      Number(state.account.balances.wsohm)
+        ? true
+        : false)
+    );
+  });
+
   let rows = [];
   let isMigrationComplete = useSelector(state => state.account.isMigrationComplete);
-  const networkId = NetworkID;
-  // console.log(networkId);
+  const networkId = useAppSelector(state => state.network.networkId);
   const onSeekApproval = token => {
     dispatch(
       changeMigrationApproval({
@@ -89,8 +96,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId }));
   const currentIndex = useSelector(state => state.app.currentIndex);
 
-  const currentOhmBalance = useSelector(state => Number(state.account.balances.ohm));
-  const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohm));
+  const currentOhmBalance = useSelector(state => Number(state.account.balances.ohmV1));
+  const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohmV1));
   const currentWSOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
   const wsOhmPrice = useSelector(state => state.app.marketPrice * state.app.currentIndex);
 
@@ -164,7 +171,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
               </Button>
               <Box paddingRight={6}>
                 <Typography id="migration-modal-title" variant="h6" component="h2">
-                  {isMigrationComplete
+                  {isMigrationComplete || !oldAssetsDetected
                     ? "Migration complete"
                     : isAllApproved
                     ? "You are now ready to migrate"
@@ -173,7 +180,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
               </Box>
               <Box />
             </Box>
-            {isMigrationComplete ? null : (
+            {isMigrationComplete || !oldAssetsDetected ? null : (
               <Box paddingTop={4}>
                 <Typography id="migration-modal-description" variant="body1">
                   {isAllApproved
@@ -247,7 +254,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                         </Typography>
                       </TableCell>
                       <TableCell align="left">
-                        {isMigrationComplete ? (
+                        {isMigrationComplete || !oldAssetsDetected ? (
                           <Typography align="center" className={classes.custom}>
                             Migrated
                           </Typography>
@@ -284,11 +291,13 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                 color="primary"
                 variant="contained"
                 disabled={!isAllApproved || isPendingTxn(pendingTransactions, "migrate_all")}
-                onClick={isMigrationComplete ? handleClose : onMigrate}
+                onClick={isMigrationComplete || !oldAssetsDetected ? handleClose : onMigrate}
               >
                 <Box marginX={4} marginY={0.5}>
                   <Typography>
-                    {isMigrationComplete ? "Close" : txnButtonText(pendingTransactions, "migrate_all", "Migrate")}
+                    {isMigrationComplete || !oldAssetsDetected
+                      ? "Close"
+                      : txnButtonText(pendingTransactions, "migrate_all", "Migrate")}
                   </Typography>
                 </Box>
               </Button>

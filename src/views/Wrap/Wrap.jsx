@@ -36,6 +36,7 @@ import { ethers } from "ethers";
 import "../Stake/stake.scss";
 import { Metric, MetricCollection } from "src/components/Metric";
 import { t } from "@lingui/macro";
+import { useAppSelector } from "src/hooks/index.ts";
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -77,23 +78,19 @@ function Wrap() {
     return state.app.marketPrice * state.app.currentIndex;
   });
 
-  const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohmv2;
+  const sohmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.sohm;
   });
 
-  const gohmBalance = useSelector(state => {
+  const gohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
 
-  const unwrapAllowance = useSelector(state => {
-    return state.account.wrapping && state.account.wrapping.ohmUnwrap;
-  });
-
-  const unwrapGohmAllowance = useSelector(state => {
+  const unwrapGohmAllowance = useAppSelector(state => {
     return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
   });
 
-  const wrapSohmAllowance = useSelector(state => {
+  const wrapSohmAllowance = useAppSelector(state => {
     return state.account.wrapping && state.account.wrapping.sohmWrap;
   });
 
@@ -128,13 +125,13 @@ function Wrap() {
   };
 
   const hasCorrectAllowance = useCallback(() => {
-    if (assetFrom === "sOHM" && assetTo === "gOHM") return wrapSohmAllowance > sohmBalance;
-    if (assetFrom === "gOHM" && assetTo === "sOHM") return unwrapGohmAllowance > gohmBalance;
+    if (assetFrom === "sOHM" && assetTo === "gOHM") return wrapSohmAllowance > Number(sohmBalance);
+    if (assetFrom === "gOHM" && assetTo === "sOHM") return unwrapGohmAllowance > Number(gohmBalance);
 
     return 0;
-  }, [unwrapAllowance, wrapSohmAllowance, assetTo, assetFrom]);
+  }, [unwrapGohmAllowance, wrapSohmAllowance, assetTo, assetFrom, sohmBalance, gohmBalance]);
 
-  const isAllowanceDataLoading = unwrapAllowance == null && currentAction === "Unwrap";
+  const isAllowanceDataLoading = currentAction === "Unwrap";
   // const convertedQuantity = 0;
   const convertedQuantity = useMemo(() => {
     if (assetFrom === "sOHM") {
@@ -188,8 +185,8 @@ function Wrap() {
     }
   };
 
-  const approveWrap = async token => {
-    await dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
+  const approveWrap = token => {
+    dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
   };
 
   const unwrapGohm = () => {

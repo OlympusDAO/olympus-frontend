@@ -1,7 +1,6 @@
 import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
-import { abi as OlympusStakingABI } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelperABI } from "../abi/StakingHelper.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -14,7 +13,7 @@ import {
   IJsonRPCError,
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, OlympusStakingv2, OlympusStakingv2__factory, SOhmv2, StakingHelper } from "src/typechain";
+import { IERC20, OlympusStakingv2__factory, OlympusStaking__factory, StakingHelper } from "src/typechain";
 import ReactGA from "react-ga";
 
 interface IUAData {
@@ -77,10 +76,10 @@ export const changeApproval = createAsyncThunk(
       return dispatch(
         fetchAccountSuccess({
           staking: {
-            ohmStake: +stakeAllowance,
-            ohmUnstake: +unstakeAllowance,
-            ohmStakeV2: +stakeAllowanceV2,
-            ohmUnstakeV2: +unstakeAllowanceV2,
+            ohmStakeV1: +stakeAllowance,
+            ohmUnstakeV1: +unstakeAllowance,
+            ohmStake: +stakeAllowanceV2,
+            ohmUnstake: +unstakeAllowanceV2,
           },
         }),
       );
@@ -138,10 +137,10 @@ export const changeApproval = createAsyncThunk(
     return dispatch(
       fetchAccountSuccess({
         staking: {
-          ohmStake: +stakeAllowance,
-          ohmUnstake: +unstakeAllowance,
-          ohmStakeV2: +stakeAllowanceV2,
-          ohmUnstakeV2: +unstakeAllowanceV2,
+          ohmStakeV1: +stakeAllowance,
+          ohmUnstakeV1: +unstakeAllowance,
+          ohmStake: +stakeAllowanceV2,
+          ohmUnstake: +unstakeAllowanceV2,
         },
       }),
     );
@@ -158,11 +157,7 @@ export const changeStake = createAsyncThunk(
 
     const signer = provider.getSigner();
 
-    const staking = new ethers.Contract(
-      addresses[networkID].STAKING_ADDRESS as string,
-      OlympusStakingABI,
-      signer,
-    ) as OlympusStakingv2;
+    const staking = OlympusStaking__factory.connect(addresses[networkID].STAKING_ADDRESS, signer);
 
     const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
@@ -184,10 +179,10 @@ export const changeStake = createAsyncThunk(
       if (version2) {
         if (action === "stake") {
           uaData.type = "stake";
-          stakeTx = await stakingV2.stake(ethers.utils.parseUnits(value, "gwei"), address);
+          stakeTx = await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), true, true);
         } else {
           uaData.type = "unstake";
-          stakeTx = await stakingV2.unstake(ethers.utils.parseUnits(value, "gwei"), true);
+          stakeTx = await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), true, true);
         }
       } else {
         if (action === "stake") {

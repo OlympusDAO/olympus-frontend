@@ -11,22 +11,8 @@ import { setAll, handleContractError } from "../helpers";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
-import { FiatDAOContract, FuseProxy, IERC20, IERC20__factory, SOhmv2, SOhmv2__factory, WsOHM } from "src/typechain";
+import { FiatDAOContract, FuseProxy, IERC20, IERC20__factory, SOhmv2, WsOHM } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
-import { OlympusStakingv2__factory } from "src/typechain/factories/OlympusStakingv2__factory";
-
-interface IUserBalances {
-  balances: {
-    gohm: string;
-    ohm: string;
-    sohm: string;
-    fsohm: string;
-    wsohm: string;
-    fiatDaowsohm: string;
-    wsohmAsSohm: string;
-    pool: string;
-  };
-}
 
 export const getBalances = createAsyncThunk(
   "account/getBalances",
@@ -37,7 +23,6 @@ export const getBalances = createAsyncThunk(
     let ohmV2Balance = BigNumber.from("0");
     let sohmV2Balance = BigNumber.from("0");
     let wsohmBalance = BigNumber.from("0");
-    let wsohmAsSohm = BigNumber.from("0");
     let poolBalance = BigNumber.from("0");
     let fsohmBalance = BigNumber.from(0);
     let fiatDaowsohmBalance = BigNumber.from("0");
@@ -50,8 +35,6 @@ export const getBalances = createAsyncThunk(
     try {
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
       wsohmBalance = await wsohmContract.balanceOf(address);
-      // NOTE (appleseed): wsohmAsSohm is wsOHM given as a quantity of sOHM
-      wsohmAsSohm = await wsohmContract.wOHMTosOHM(wsohmBalance);
     } catch (e) {
       handleContractError(e);
     }
@@ -130,25 +113,20 @@ export const getBalances = createAsyncThunk(
     return {
       balances: {
         gohm: ethers.utils.formatEther(gOhmBalance),
-        ohm: ethers.utils.formatUnits(ohmBalance, "gwei"),
-        sohm: ethers.utils.formatUnits(sohmBalance, "gwei"),
+        ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
+        sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
         wsohm: ethers.utils.formatEther(wsohmBalance),
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
-        wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
-        ohmv2: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
-        sohmv2: ethers.utils.formatUnits(sohmV2Balance, "gwei"),
+        ohm: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
+        sohm: ethers.utils.formatUnits(sohmV2Balance, "gwei"),
       },
     };
   },
 );
 
 interface IUserAccountDetails {
-  staking: {
-    ohmStake: number;
-    ohmUnstake: number;
-  };
   wrapping: {
     sohmWrap: number;
     wsohmUnwrap: number;
@@ -264,10 +242,10 @@ export const loadAccountDetails = createAsyncThunk(
 
     return {
       staking: {
-        ohmStake: +stakeAllowance,
-        ohmUnstake: +unstakeAllowance,
-        ohmStakeV2: +stakeAllowanceV2,
-        ohmUnstakeV2: +unstakeAllowanceV2,
+        ohmStakeV1: +stakeAllowance,
+        ohmUnstakeV1: +unstakeAllowance,
+        ohmStake: +stakeAllowanceV2,
+        ohmUnstake: +unstakeAllowanceV2,
       },
       wrapping: {
         sohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
@@ -334,24 +312,25 @@ export const calculateUserBondDetails = createAsyncThunk(
   },
 );
 
-interface IAccountSlice extends IUserAccountDetails, IUserBalances {
+interface IAccountSlice extends IUserAccountDetails {
   bonds: { [key: string]: IUserBondDetails };
   balances: {
     gohm: string;
+    ohmV1: string;
     ohm: string;
-    ohmv2: string;
-    sohmv2: string;
     sohm: string;
+    sohmV1: string;
     dai: string;
     oldsohm: string;
     fsohm: string;
     wsohm: string;
     fiatDaowsohm: string;
-    wsohmAsSohm: string;
     pool: string;
   };
   loading: boolean;
   staking: {
+    ohmStakeV1: number;
+    ohmUnstakeV1: number;
     ohmStake: number;
     ohmUnstake: number;
   };
@@ -371,19 +350,18 @@ const initialState: IAccountSlice = {
   bonds: {},
   balances: {
     gohm: "",
+    ohmV1: "",
     ohm: "",
-    ohmv2: "",
-    sohmv2: "",
     sohm: "",
+    sohmV1: "",
     dai: "",
     oldsohm: "",
     fsohm: "",
     wsohm: "",
     fiatDaowsohm: "",
     pool: "",
-    wsohmAsSohm: "",
   },
-  staking: { ohmStake: 0, ohmUnstake: 0 },
+  staking: { ohmStakeV1: 0, ohmUnstakeV1: 0, ohmStake: 0, ohmUnstake: 0 },
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0, gOhmUnwrap: 0 },
   pooling: { sohmPool: 0 },
   migration: { ohm: 0, sohm: 0, wsohm: 0, gohm: 0 },

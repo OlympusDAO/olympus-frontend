@@ -40,6 +40,8 @@ import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { trim } from "src/helpers";
 import { Trans } from "@lingui/macro";
 
+const DISABLE_ZAPS = true;
+
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
 const viewBox = "-8 -12 48 48";
 const buttonIconStyle = { height: "16px", width: "16px", marginInline: "6px" };
@@ -203,7 +205,9 @@ function ZapStakeAction(props) {
   return (
     <>
       <div className="card-header">
-        <Typography variant="h5">OlyZaps</Typography>
+        <Typography variant="h5">
+          OlyZaps <b>(Currently disabled for upcoming migration)</b>
+        </Typography>
       </div>
 
       <ZapStakeHeader images={inputTokenImages} />
@@ -354,10 +358,6 @@ function ZapStakeAction(props) {
         ) : (
           <Box display="flex" alignItems="center">
             <Typography>1.0%</Typography>
-            {/* <Box width="8px" />
-          <IconButton style={{ margin: 0, padding: 0 }} onClick={() => setUseCustomSlippage(true)}>
-            <SvgIcon color="primary" component={SettingsIcon} />
-          </IconButton> */}
           </Box>
         )}
       </Box>
@@ -388,7 +388,7 @@ function ZapStakeAction(props) {
           className="zap-stake-button"
           variant="contained"
           color="primary"
-          disabled={zapToken == null || isExecuteZapLoading || outputQuantity === ""}
+          disabled={zapToken == null || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
           onClick={onZap}
         >
           {isExecuteZapLoading ? (
@@ -407,7 +407,9 @@ function ZapStakeAction(props) {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={zapToken == null || isTokensLoading || isAllowanceTxSuccess || isChangeAllowanceLoading}
+              disabled={
+                zapToken == null || isTokensLoading || isAllowanceTxSuccess || isChangeAllowanceLoading || DISABLE_ZAPS
+              }
               onClick={onSeekApproval}
               classes={isAllowanceTxSuccess ? { disabled: classes.ApprovedButton } : {}}
             >
@@ -437,7 +439,7 @@ function ZapStakeAction(props) {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === ""}
+              disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
               onClick={onZap}
             >

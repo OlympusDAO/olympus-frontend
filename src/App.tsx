@@ -180,14 +180,19 @@ function App() {
   const oldAssetsDetected = useAppSelector(state => {
     return (
       state.account.balances &&
-      (Number(state.account.balances.sohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
+      (Number(state.account.balances.sohmV1) ||
+      Number(state.account.balances.ohmV1) ||
+      Number(state.account.balances.wsohm)
         ? true
         : false)
     );
   });
 
   const newAssetsDetected = useAppSelector(state => {
-    return state.account.balances && (Number(state.account.balances.gohm) ? true : false);
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.gohm) || Number(state.account.balances.sohm) ? true : false)
+    );
   });
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
@@ -295,7 +300,8 @@ function App() {
             </Route>
 
             <Route path="/stake">
-              {newAssetsDetected ? (
+              {/* if newAssets or 0 assets */}
+              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) ? (
                 <Stake />
               ) : (
                 <V1Stake
@@ -326,9 +332,9 @@ function App() {
               </Route>
             </Route>
 
-            <Route path="/33-together">
+            {/* <Route path="/33-together">
               <PoolTogether />
-            </Route>
+            </Route> */}
 
             <Route path="/bonds">
               {(bonds as IAllBondData[]).map(bond => {

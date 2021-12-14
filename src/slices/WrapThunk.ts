@@ -1,7 +1,6 @@
 import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
-import { abi as v2Staking } from "../abi/v2Staking.json";
 import { abi as v2sOHM } from "../abi/v2sOhmNew.json";
 import { clearPendingTxn, fetchPendingTxns, getWrappingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -9,7 +8,7 @@ import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, WsOHM, V2sOhmNew, V2Staking } from "src/typechain";
+import { IERC20, OlympusStakingv2__factory } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -71,8 +70,8 @@ export const changeApproval = createAsyncThunk(
     return dispatch(
       fetchAccountSuccess({
         wrapping: {
-          sohmWrap: +wrapAllowance,
-          gOhmUnwrap: +unwrapAllowance,
+          sohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
+          gOhmUnwrap: Number(ethers.utils.formatUnits(unwrapAllowance, "ether")),
         },
       }),
     );
@@ -89,12 +88,7 @@ export const changeWrapV2 = createAsyncThunk(
 
     const signer = provider.getSigner();
 
-    const stakingContract = new ethers.Contract(
-      addresses[networkID].STAKING_V2 as string,
-      v2Staking,
-      signer,
-    ) as V2Staking;
-    const v2sOhmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, v2sOHM, signer) as V2sOhmNew;
+    const stakingContract = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, signer);
 
     let wrapTx;
     let uaData: IUAData = {
@@ -107,17 +101,15 @@ export const changeWrapV2 = createAsyncThunk(
 
     try {
       if (action === "wrap") {
-        uaData.type = "wrap";
         const formattedValue = ethers.utils.parseUnits(value, "gwei");
+        uaData.type = "wrap";
         wrapTx = await stakingContract.wrap(address, formattedValue);
+        dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: "wrapping" }));
       } else if (action === "unwrap") {
-        uaData.type = "unwrap";
         const formattedValue = ethers.utils.parseUnits(value, "ether");
+        uaData.type = "unwrap";
         wrapTx = await stakingContract.unwrap(address, formattedValue);
-        // const pendingTxnType = action === "wrap" ? "wrapping" : "unwrapping";
-        // uaData.txHash = wrapTx.hash;
-        // dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: pendingTxnType }));
-        // await wrapTx.wait();
+        dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: "wrapping" }));
       }
     } catch (e: unknown) {
       uaData.approved = false;
@@ -132,11 +124,13 @@ export const changeWrapV2 = createAsyncThunk(
       return;
     } finally {
       if (wrapTx) {
+        uaData.txHash = wrapTx.hash;
+        await wrapTx.wait();
         segmentUA(uaData);
-
-        // dispatch(clearPendingTxn(wrapTx.hash));
+        console.log("getBalances");
+        dispatch(getBalances({ address, networkID, provider }));
+        dispatch(clearPendingTxn(wrapTx.hash));
       }
     }
-    dispatch(getBalances({ address, networkID, provider }));
   },
 );

@@ -39,6 +39,7 @@ import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import { getMigrationAllowances } from "src/slices/AccountSlice";
 import { useAppSelector } from "src/hooks";
+import { useHistory } from "react-router-dom";
 
 function a11yProps(index) {
   return {
@@ -52,6 +53,7 @@ const ohmImg = getOhmTokenImage(16, 16);
 
 function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds }) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { provider, address, connect } = useWeb3Context();
 
   const chainID = useAppSelector(state => state.network.networkId);
@@ -68,10 +70,10 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     return state.app.fiveDayRate;
   });
   const ohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.ohm;
+    return state.account.balances && state.account.balances.ohmV1;
   });
   const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+    return state.account.balances && state.account.balances.sohmV1;
   });
   const fsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
@@ -80,10 +82,10 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     return state.account.balances && state.account.balances.wsohm;
   });
   const stakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmStake;
+    return state.account.staking && state.account.staking.ohmStakeV1;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmUnstake;
+    return state.account.staking && state.account.staking.ohmUnstakeV1;
   });
   const stakingRebase = useSelector(state => {
     return state.app.stakingRebase;
@@ -106,6 +108,16 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
+  const sohmV2Balance = useSelector(state => {
+    return state.account.balances && state.account.balances.sohm;
+  });
+
+  const calculateWrappedAsSohm = balance => {
+    return Number(balance) * Number(currentIndex);
+  };
+  const fiatDaoAsSohm = calculateWrappedAsSohm(fiatDaowsohmBalance);
+  const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
+  const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const setMax = () => {
     if (view === 0) {
@@ -165,7 +177,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmBalance]
+    [sohmBalance, gOhmAsSohm, sohmV2Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -174,6 +186,14 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   const trimmedStakingAPY = trim(stakingAPY * 100, 1);
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
+
+  const goToV2Stake = () => {
+    history.push("/stake");
+  };
+
+  const goToBonds = () => {
+    history.push("/bonds");
+  };
 
   return (
     <div id="v1-stake-view">
@@ -270,7 +290,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           <>
                             {hasActiveV1Bonds
                               ? "Once your current bonds have been claimed, you can migrate your assets to stake more OHM"
-                              : "You must complete the migration of your assest to stake additional OHM"}
+                              : !oldAssetsDetected
+                              ? "All your assets are migrated"
+                              : "You must complete the migration of your assets to stake additional OHM"}
                           </>
                         ) : (
                           <br />
@@ -321,13 +343,39 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                         <Skeleton width="150px" />
                       )}
 
-                      {!hasActiveV1Bonds && (
+                      {!hasActiveV1Bonds && oldAssetsDetected ? (
                         <TabPanel value={view} index={0} className="stake-tab-panel">
                           {isAllowanceDataLoading ? (
                             <Skeleton />
                           ) : (
                             <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
                           )}
+                        </TabPanel>
+                      ) : hasActiveV1Bonds ? (
+                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
+                          <Button
+                            className="migrate-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              goToBonds();
+                            }}
+                          >
+                            Go to Bonds
+                          </Button>
+                        </TabPanel>
+                      ) : (
+                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
+                          <Button
+                            className="migrate-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              goToV2Stake();
+                            }}
+                          >
+                            Go to Stake V2
+                          </Button>
                         </TabPanel>
                       )}
 
@@ -402,6 +450,12 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
                           {...{ isAppLoading }}
                           indented
+                        />
+                        <StakeRow
+                          title={t`Single Staking (v2)`}
+                          balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
+                          indented
+                          {...{ isAppLoading }}
                         />
                         <StakeRow
                           title={`${t`Wrapped Balance (v2)`}`}
