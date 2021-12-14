@@ -177,12 +177,13 @@ export const changeStake = createAsyncThunk(
     };
     try {
       if (version2) {
+        let rebasing = true; // when true stake into sOHM
         if (action === "stake") {
           uaData.type = "stake";
-          stakeTx = await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), true, true);
+          stakeTx = await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), rebasing, true);
         } else {
           uaData.type = "unstake";
-          stakeTx = await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), true, true);
+          stakeTx = await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), rebasing, true);
         }
       } else {
         if (action === "stake") {

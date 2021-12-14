@@ -102,6 +102,7 @@ export const loadAppDetails = createAsyncThunk(
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
+    const secondsToEpoch = Number(await stakingContract.secondsToNextEpoch());
     const stakingReward = epoch.distribute;
     const circ = await sohmMainContract.circulatingSupply();
     const stakingRebase = Number(stakingReward.toString()) / Number(circ.toString());
@@ -122,6 +123,7 @@ export const loadAppDetails = createAsyncThunk(
       circSupply,
       totalSupply,
       treasuryMarketValue,
+      secondsToEpoch,
     } as IAppData;
   },
 );
@@ -198,6 +200,7 @@ interface IAppData {
   readonly totalSupply?: number;
   readonly treasuryBalance?: number;
   readonly treasuryMarketValue?: number;
+  readonly secondsToEpoch?: number;
 }
 
 const initialState: IAppData = {
