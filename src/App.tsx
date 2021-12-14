@@ -266,9 +266,9 @@ function App() {
               </Route>
             </Route>
 
-            <Route path="/33-together">
+            {/* <Route path="/33-together">
               <PoolTogether />
-            </Route>
+            </Route> */}
 
             <Route path="/bonds">
               {(bonds as IAllBondData[]).map(bond => {

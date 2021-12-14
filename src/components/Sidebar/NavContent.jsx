@@ -207,7 +207,7 @@ function NavContent() {
                     </Box>
                   </Link>
 
-                  <Link
+                  {/* <Link
                     component={NavLink}
                     id="33-together-nav"
                     to="/33-together"
@@ -220,7 +220,7 @@ function NavContent() {
                       <SvgIcon color="primary" component={PoolTogetherIcon} />
                       3,3 Together
                     </Typography>
-                  </Link>
+                  </Link> */}
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
