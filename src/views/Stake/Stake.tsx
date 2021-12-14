@@ -28,6 +28,7 @@ import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
+import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -130,7 +131,11 @@ function Stake() {
   };
 
   const onSeekApproval = async (token: string) => {
-    await dispatch(changeApproval({ address, token, provider, networkID: networkId, version2: true }));
+    if (token === "gohm") {
+      await dispatch(changeGohmApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
+    } else {
+      await dispatch(changeApproval({ address, token, provider, networkID: networkId, version2: true }));
+    }
   };
 
   const onChangeStake = async (action: string) => {
