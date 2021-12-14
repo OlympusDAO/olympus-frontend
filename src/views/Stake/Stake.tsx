@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useHistory } from "react-router";
@@ -20,6 +20,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Checkbox,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
@@ -99,6 +100,11 @@ function Stake() {
   const unstakeAllowance = useAppSelector(state => {
     return (state.account.staking && state.account.staking.ohmUnstake) || 0;
   });
+
+  const directUnstakeAllowance = useAppSelector(state => {
+    return (state.account.wrapping && state.account.wrapping.gOhmUnwrap) || 0;
+  });
+
   const stakingRebase = useAppSelector(state => {
     return state.app.stakingRebase || 0;
   });
@@ -116,8 +122,10 @@ function Stake() {
   const setMax = () => {
     if (view === 0) {
       setQuantity(Number(ohmBalance));
-    } else {
+    } else if (!checked) {
       setQuantity(Number(sohmBalance));
+    } else if (checked) {
+      setQuantity(Number(gOhmAsSohm));
     }
   };
 
@@ -138,12 +146,26 @@ function Stake() {
       return dispatch(error(t`You cannot stake more than your OHM balance.`));
     }
 
-    if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
-      return dispatch(error(t`You cannot unstake more than your sOHM balance.`));
+    if (checked === false && action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+      return dispatch(
+        error(
+          t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please check the box.`,
+        ),
+      );
     }
 
+    const formQuant = checked && currentIndex ? quantity / Number(currentIndex) : quantity;
+
     await dispatch(
-      changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId, version2: true }),
+      changeStake({
+        address,
+        action,
+        value: formQuant.toString(),
+        provider,
+        networkID: networkId,
+        version2: true,
+        rebase: !checked,
+      }),
     );
   };
 
@@ -151,9 +173,10 @@ function Stake() {
     token => {
       if (token === "ohm") return stakeAllowance > 0;
       if (token === "sohm") return unstakeAllowance > 0;
+      if (token === "gohm") return directUnstakeAllowance > 0;
       return 0;
     },
-    [stakeAllowance, unstakeAllowance],
+    [stakeAllowance, unstakeAllowance, directUnstakeAllowance],
   );
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
@@ -190,6 +213,37 @@ function Stake() {
     minimumFractionDigits: 0,
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
+
+  const [checked, setChecked] = useState(true);
+
+  const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+    setChecked(e.target.checked);
+  };
+
+  function ConfirmDialog() {
+    return (
+      <Paper
+        className="ohm-card confirm-dialog"
+        style={{ marginBottom: "0.8rem", width: "100%", padding: "12px 12px" }}
+      >
+        <Box className="dialog-container" display="flex" alignItems="center" justifyContent="center">
+          <Box>
+            <Checkbox
+              checked={checked}
+              onChange={e => handleCheck(e)}
+              color="primary"
+              inputProps={{ "aria-label": "checkbox" }}
+            />
+          </Box>
+          <Box width="100%">
+            <Typography variant="body2" style={{ margin: "10px" }}>
+              {view === 0 ? "Stake to gOHM" : "Unstake from gOHM"}
+            </Typography>
+          </Box>
+        </Box>
+      </Paper>
+    );
+  }
 
   return (
     <div id="stake-view">
@@ -249,6 +303,7 @@ function Stake() {
               ) : (
                 <>
                   <Box className="stake-action-area">
+                    {ConfirmDialog()}
                     <Tabs
                       key={String(zoomed)}
                       centered
@@ -273,7 +328,9 @@ function Stake() {
                     <Grid container className="stake-action-row">
                       <Grid item xs={12} sm={8} className="stake-grid-item">
                         {address && !isAllowanceDataLoading ? (
-                          (!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1) ? (
+                          (!hasAllowance("ohm") && view === 0) ||
+                          (!hasAllowance("sohm") && view === 1 && !checked) ||
+                          (!hasAllowance("gohm") && view === 1 && checked) ? (
                             <Box className="help-text">
                               <Typography variant="body1" className="stake-note" color="textSecondary">
                                 {view === 0 ? (
@@ -355,7 +412,7 @@ function Stake() {
                           <Box m={-2}>
                             {isAllowanceDataLoading ? (
                               <Skeleton />
-                            ) : address && hasAllowance("sohm") ? (
+                            ) : (address && hasAllowance("sohm") && !checked) || (hasAllowance("gohm") && checked) ? (
                               <Button
                                 className="stake-button"
                                 variant="contained"
@@ -365,7 +422,7 @@ function Stake() {
                                   onChangeStake("unstake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake sOHM`)}
+                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake`)}
                               </Button>
                             ) : (
                               <Button
@@ -374,7 +431,7 @@ function Stake() {
                                 color="primary"
                                 disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                                 onClick={() => {
-                                  onSeekApproval("sohm");
+                                  onSeekApproval(checked ? "gohm" : "sohm");
                                 }}
                               >
                                 {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
