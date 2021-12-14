@@ -29,7 +29,6 @@ function RebaseTimer() {
     const rebaseBlock = getRebaseBlock(currentBlock);
     const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
     setSecondsToRebase(secondsToEpoch);
-    // console.log("seconds", secondsToEpoch, seconds);
     const prettified = prettifySeconds(secondsToEpoch);
     setRebaseString(prettified !== "" ? prettified : <Trans>Less than a minute</Trans>);
   }
@@ -37,7 +36,6 @@ function RebaseTimer() {
   // This initializes secondsToRebase as soon as currentBlock becomes available
   useMemo(() => {
     if (secondsToEpoch) {
-      // secondsToRebase(secondsToEpoch);
       initializeTimer();
     }
   }, [secondsToEpoch]);
