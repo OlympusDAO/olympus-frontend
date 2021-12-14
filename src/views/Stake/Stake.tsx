@@ -447,6 +447,7 @@ function Stake() {
                       </Grid>
                     </Grid>
                   </Box>
+                  {ConfirmDialog()}
                   <div className="stake-user-data">
                     <StakeRow
                       title={t`Unstaked Balance`}
