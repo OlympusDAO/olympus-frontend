@@ -109,7 +109,7 @@ export const changeWrapV2 = createAsyncThunk(
         const formattedValue = ethers.utils.parseUnits(value, "ether");
         uaData.type = "unwrap";
         wrapTx = await stakingContract.unwrap(address, formattedValue);
-        dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: "unwrapping" }));
+        dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: "wrapping" }));
       }
     } catch (e: unknown) {
       uaData.approved = false;

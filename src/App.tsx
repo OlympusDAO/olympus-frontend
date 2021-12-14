@@ -189,7 +189,10 @@ function App() {
   });
 
   const newAssetsDetected = useAppSelector(state => {
-    return state.account.balances && (Number(state.account.balances.gohm) ? true : false);
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.gohm) || Number(state.account.balances.sohm) ? true : false)
+    );
   });
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked

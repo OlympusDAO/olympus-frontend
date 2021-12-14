@@ -176,6 +176,7 @@ export const changeStake = createAsyncThunk(
     };
     try {
       if (version2) {
+        let rebasing = true; // when true stake into sOHM
         if (action === "stake") {
           uaData.type = "stake";
           // 3rd arg is rebase

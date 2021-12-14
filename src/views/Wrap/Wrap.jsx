@@ -72,7 +72,7 @@ function Wrap() {
     return state.app.marketPrice;
   });
 
-  const wsOhmPrice = useSelector(state => {
+  const gOhmPrice = useSelector(state => {
     return state.app.marketPrice * state.app.currentIndex;
   });
 
@@ -127,7 +127,7 @@ function Wrap() {
     if (assetFrom === "gOHM" && assetTo === "sOHM") return unwrapGohmAllowance > Number(gohmBalance);
 
     return 0;
-  }, [unwrapGohmAllowance, wrapSohmAllowance, assetTo, assetFrom]);
+  }, [unwrapGohmAllowance, wrapSohmAllowance, assetTo, assetFrom, sohmBalance, gohmBalance]);
 
   const isAllowanceDataLoading = currentAction === "Unwrap";
   // const convertedQuantity = 0;
@@ -183,8 +183,8 @@ function Wrap() {
     }
   };
 
-  const approveWrap = async token => {
-    await dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
+  const approveWrap = token => {
+    dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
   };
 
   const unwrapGohm = () => {
@@ -350,7 +350,7 @@ function Wrap() {
                         />
                       </Typography>
                       <Typography variant="h4">
-                        {wsOhmPrice ? formatCurrency(wsOhmPrice, 2) : <Skeleton width="150px" />}
+                        {gOhmPrice ? formatCurrency(gOhmPrice, 2) : <Skeleton width="150px" />}
                       </Typography>
                     </div>
                   </Grid>
