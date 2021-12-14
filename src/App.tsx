@@ -296,7 +296,8 @@ function App() {
             </Route>
 
             <Route path="/stake">
-              {newAssetsDetected ? (
+              {/* if newAssets or 0 assets */}
+              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) ? (
                 <Stake />
               ) : (
                 <V1Stake
