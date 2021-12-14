@@ -119,9 +119,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <SvgIcon component={ClockIcon} fill={svgFillColour} />
           </div>
           <div>
-            <div className="cause-info-bottom-text">
-              <strong>Fundraise Complete!</strong>
+            <div className="cause-info-main-text">
+              <strong>00:00:00</strong>
             </div>
+            <span className="cause-info-bottom-text">Completed</span>
           </div>
         </>
       );
@@ -158,7 +159,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               <SvgIcon component={ClockIcon} fill={svgFillColour} />
             </Grid>
             <Grid item xs={9} className="project-countdown-text">
-              Fundraise Complete!
+              <div>
+                <div className="cause-info-main-text">
+                  <strong>00:00:00</strong>
+                </div>
+                <span className="cause-info-bottom-text">Completed</span>
+              </div>
             </Grid>
           </Grid>
         </>
