@@ -166,144 +166,59 @@ function MigrationModal({ open, handleOpen, handleClose }) {
         }}
       >
         <Fade in={open}>
-          <Box sx={style} className="modal-inner">
-            <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
-              <Button onClick={handleClose}>
-                <SvgIcon component={XIcon} color="primary" />
-              </Button>
-              <Box paddingRight={isMobileScreen ? 0 : 6}>
-                <Typography id="migration-modal-title" variant="h6" component="h2">
-                  {isMigrationComplete || !oldAssetsDetected
-                    ? "Migration complete"
-                    : isAllApproved
-                    ? "You are now ready to migrate"
-                    : "You have assets ready to migrate to v2"}
-                </Typography>
+          <Box display="flex" alignItems="center" justifyContent="center" style={{ width: "100%", height: "100%" }}>
+            <Paper className="ohm-card migration-card">
+              <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
+                <Button onClick={handleClose}>
+                  <SvgIcon component={XIcon} color="primary" />
+                </Button>
+                <Box paddingRight={isMobileScreen ? 0 : 6}>
+                  <Typography id="migration-modal-title" variant="h6" component="h2">
+                    {isMigrationComplete || !oldAssetsDetected
+                      ? "Migration complete"
+                      : isAllApproved
+                      ? "You are now ready to migrate"
+                      : "You have assets ready to migrate to v2"}
+                  </Typography>
+                </Box>
+                <Box />
               </Box>
-              <Box />
-            </Box>
-            {isMigrationComplete || !oldAssetsDetected ? null : (
-              <Box paddingTop={4}>
-                <Typography id="migration-modal-description" variant="body2">
-                  {isAllApproved
-                    ? "Click on the Migrate button to complete the upgrade to v2. "
-                    : "Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability. "}
-                  <a
-                    href="https://docs.olympusdao.finance/main/basics/migration"
-                    target="_blank"
-                    color="inherit"
-                    rel="noreferrer"
-                    className="docs-link"
-                  >
-                    <u>Learn More</u>
-                  </a>
-                </Typography>
-              </Box>
-            )}
+              {isMigrationComplete || !oldAssetsDetected ? null : (
+                <Box paddingTop={4}>
+                  <Typography id="migration-modal-description" variant="body2">
+                    {isAllApproved
+                      ? "Click on the Migrate button to complete the upgrade to v2. "
+                      : "Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability. "}
+                    <a
+                      href="https://docs.olympusdao.finance/main/basics/migration"
+                      target="_blank"
+                      color="inherit"
+                      rel="noreferrer"
+                      className="docs-link"
+                    >
+                      <u>Learn More</u>
+                    </a>
+                  </Typography>
+                </Box>
+              )}
 
-            {isMobileScreen ? (
-              <Box id="mobile-container-migration">
-                {rows
-                  .filter(asset => asset.initialBalance > 0)
-                  .map(row => (
-                    <Box style={{ margin: "20px 0px 20px 0px" }}>
-                      <Typography
-                        id="m-asset-row"
-                        style={{ margin: "10px 0px 10px 0px", fontWeight: "700" }}
-                      >{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
-                      <Box display="flex" flexFlow="row wrap" justifyContent="space-between">
-                        <Typography>
-                          {trim(row.initialBalance, 4)} {row.initialAsset}
-                        </Typography>
-                        <Typography>{`(${row.usdBalance})`}</Typography>
-                      </Box>
-                      <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
-                        {isMigrationComplete || !oldAssetsDetected ? (
-                          <Typography align="center" className={classes.custom}>
-                            Migrated
-                          </Typography>
-                        ) : row.fullApproval ? (
-                          <Typography align="center" className={classes.custom}>
-                            Approved
-                          </Typography>
-                        ) : (
-                          <Button
-                            variant="outlined"
-                            onClick={() => onSeekApproval(row.initialAsset)}
-                            disabled={isPendingTxn(
-                              pendingTransactions,
-                              `approve_migration_${row.initialAsset.toLowerCase()}`,
-                            )}
-                          >
-                            <Typography>
-                              {txnButtonText(
-                                pendingTransactions,
-                                `approve_migration_${row.initialAsset.toLowerCase()}`,
-                                "Approve",
-                              )}
-                            </Typography>
-                          </Button>
-                        )}
-                      </Box>
-                    </Box>
-                  ))}
-              </Box>
-            ) : (
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center">
-                      <Typography>Asset</Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Box display="inline-flex">
-                        <Typography>Pre-migration</Typography>
-                        <InfoTooltip
-                          className="migartion-tooltip"
-                          message={"This is the current balance of v1 assets in your wallet."}
-                        ></InfoTooltip>
-                      </Box>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Box display="inline-flex">
-                        <Typography>Post-migration</Typography>
-                        <InfoTooltip
-                          className="migartion-tooltip"
-                          message={
-                            "This is the equivalent amount of gOHM you will have in your wallet once migration is complete."
-                          }
-                        ></InfoTooltip>
-                      </Box>
-                    </TableCell>
-
-                    <TableCell align="center">
-                      <Box display="inline-flex">{/* <Typography>Migration Completion Status</Typography> */}</Box>
-                    </TableCell>
-
-                    <TableCell align="left"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
+              {isMobileScreen ? (
+                <Box id="mobile-container-migration">
                   {rows
                     .filter(asset => asset.initialBalance > 0)
                     .map(row => (
-                      <TableRow key={row.initialAsset} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                        <TableCell component="th" scope="row">
-                          <Typography>{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
-                        </TableCell>
-                        <TableCell align="left">
+                      <Box style={{ margin: "20px 0px 20px 0px" }}>
+                        <Typography
+                          id="m-asset-row"
+                          style={{ margin: "10px 0px 10px 0px", fontWeight: "700" }}
+                        >{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
+                        <Box display="flex" flexFlow="row wrap" justifyContent="space-between">
                           <Typography>
                             {trim(row.initialBalance, 4)} {row.initialAsset}
-                            <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
                           </Typography>
-                        </TableCell>
-                        <TableCell align="left">
-                          <Typography>
-                            {trim(row.targetBalance, 4)} {row.targetAsset}
-                            <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
-                          </Typography>
-                        </TableCell>
-                        <TableCell align="left">
+                          <Typography>{`(${row.usdBalance})`}</Typography>
+                        </Box>
+                        <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
                           {isMigrationComplete || !oldAssetsDetected ? (
                             <Typography align="center" className={classes.custom}>
                               Migrated
@@ -330,30 +245,117 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                               </Typography>
                             </Button>
                           )}
-                        </TableCell>
-                      </TableRow>
+                        </Box>
+                      </Box>
                     ))}
-                </TableBody>
-              </Table>
-            )}
-
-            <Box display="flex" flexDirection="row" justifyContent="center">
-              <Button
-                color="primary"
-                variant="contained"
-                disabled={!isAllApproved || isPendingTxn(pendingTransactions, "migrate_all")}
-                onClick={isMigrationComplete || !oldAssetsDetected ? handleClose : onMigrate}
-                fullWidth={isMobileScreen}
-              >
-                <Box marginX={4} marginY={0.5}>
-                  <Typography>
-                    {isMigrationComplete || !oldAssetsDetected
-                      ? "Close"
-                      : txnButtonText(pendingTransactions, "migrate_all", "Migrate")}
-                  </Typography>
                 </Box>
-              </Button>
-            </Box>
+              ) : (
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">
+                        <Typography>Asset</Typography>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Box display="inline-flex">
+                          <Typography>Pre-migration</Typography>
+                          <InfoTooltip
+                            className="migartion-tooltip"
+                            message={"This is the current balance of v1 assets in your wallet."}
+                          ></InfoTooltip>
+                        </Box>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Box display="inline-flex">
+                          <Typography>Post-migration</Typography>
+                          <InfoTooltip
+                            className="migartion-tooltip"
+                            message={
+                              "This is the equivalent amount of gOHM you will have in your wallet once migration is complete."
+                            }
+                          ></InfoTooltip>
+                        </Box>
+                      </TableCell>
+
+                      <TableCell align="center">
+                        <Box display="inline-flex">{/* <Typography>Migration Completion Status</Typography> */}</Box>
+                      </TableCell>
+
+                      <TableCell align="left"></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows
+                      .filter(asset => asset.initialBalance > 0)
+                      .map(row => (
+                        <TableRow key={row.initialAsset} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                          <TableCell component="th" scope="row">
+                            <Typography>{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
+                          </TableCell>
+                          <TableCell align="left">
+                            <Typography>
+                              {trim(row.initialBalance, 4)} {row.initialAsset}
+                              <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
+                            </Typography>
+                          </TableCell>
+                          <TableCell align="left">
+                            <Typography>
+                              {trim(row.targetBalance, 4)} {row.targetAsset}
+                              <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
+                            </Typography>
+                          </TableCell>
+                          <TableCell align="left">
+                            {isMigrationComplete || !oldAssetsDetected ? (
+                              <Typography align="center" className={classes.custom}>
+                                Migrated
+                              </Typography>
+                            ) : row.fullApproval ? (
+                              <Typography align="center" className={classes.custom}>
+                                Approved
+                              </Typography>
+                            ) : (
+                              <Button
+                                variant="outlined"
+                                onClick={() => onSeekApproval(row.initialAsset)}
+                                disabled={isPendingTxn(
+                                  pendingTransactions,
+                                  `approve_migration_${row.initialAsset.toLowerCase()}`,
+                                )}
+                              >
+                                <Typography>
+                                  {txnButtonText(
+                                    pendingTransactions,
+                                    `approve_migration_${row.initialAsset.toLowerCase()}`,
+                                    "Approve",
+                                  )}
+                                </Typography>
+                              </Button>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              )}
+
+              <Box display="flex" flexDirection="row" justifyContent="center">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  disabled={!isAllApproved || isPendingTxn(pendingTransactions, "migrate_all")}
+                  onClick={isMigrationComplete || !oldAssetsDetected ? handleClose : onMigrate}
+                  fullWidth={isMobileScreen}
+                >
+                  <Box marginX={4} marginY={0.5}>
+                    <Typography>
+                      {isMigrationComplete || !oldAssetsDetected
+                        ? "Close"
+                        : txnButtonText(pendingTransactions, "migrate_all", "Migrate")}
+                    </Typography>
+                  </Box>
+                </Button>
+              </Box>
+            </Paper>
           </Box>
         </Fade>
       </Modal>
