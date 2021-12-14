@@ -11,7 +11,15 @@ import { setAll, handleContractError } from "../helpers";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
-import { FiatDAOContract, FuseProxy, IERC20, IERC20__factory, SOhmv2, WsOHM } from "src/typechain";
+import {
+  FiatDAOContract,
+  FuseProxy,
+  IERC20,
+  IERC20__factory,
+  SOhmv2,
+  WsOHM,
+  OlympusStakingv2__factory,
+} from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
 export const getBalances = createAsyncThunk(
@@ -202,6 +210,8 @@ export const loadAccountDetails = createAsyncThunk(
     let gOhmUnwrapAllowance = BigNumber.from("0");
     let poolAllowance = BigNumber.from("0");
     let gOhmBalance = BigNumber.from("0");
+    let ohmToGohmAllowance = BigNumber.from("0");
+
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmUnwrapAllowance = await gOhmContract.allowance(address, addresses[networkID].STAKING_V2);
@@ -246,6 +256,7 @@ export const loadAccountDetails = createAsyncThunk(
         ohmUnstakeV1: +unstakeAllowance,
         ohmStake: +stakeAllowanceV2,
         ohmUnstake: +unstakeAllowanceV2,
+        ohmtoGohm: +ohmToGohmAllowance,
       },
       wrapping: {
         sohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),

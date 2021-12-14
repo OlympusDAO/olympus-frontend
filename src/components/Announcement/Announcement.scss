@@ -12,15 +12,13 @@
   }
 
   @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-   
     .new-network {
-      background: linear-gradient(90deg, #3a4148EE 1.58%, #333847FF 99%) !important;
-      
+      background: linear-gradient(90deg, #3a4148ee 1.58%, #333847ff 99%) !important;
+
       // backdrop-filter: blur(33px) !important;
       // -webkit-backdrop-filter: blur(33px) !important;
     }
   }
-  
 }
 
 .mobile .announcement-banner {

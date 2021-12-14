@@ -59,7 +59,6 @@ export const changeApproval = createAsyncThunk(
       dispatch(error("Please connect your wallet!"));
       return;
     }
-
     const signer = provider.getSigner();
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
@@ -149,7 +148,7 @@ export const changeApproval = createAsyncThunk(
 
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID, version2 }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ action, value, provider, address, networkID, version2, rebase }: IActionValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -180,10 +179,18 @@ export const changeStake = createAsyncThunk(
         let rebasing = true; // when true stake into sOHM
         if (action === "stake") {
           uaData.type = "stake";
-          stakeTx = await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), rebasing, true);
+          // 3rd arg is rebase
+          // 4th argument is claim default to true
+          stakeTx = rebase
+            ? await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
+            : await stakingV2.stake(address, ethers.utils.parseUnits(value, "ether"), false, true);
         } else {
           uaData.type = "unstake";
-          stakeTx = await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), rebasing, true);
+          // 3rd arg is trigger defualt to true for mainnet and false for rinkeby
+          // 4th arg is rebasing
+          stakeTx = rebase
+            ? await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
+            : await stakingV2.unstake(address, ethers.utils.parseUnits(value, "ether"), true, false);
         }
       } else {
         if (action === "stake") {
