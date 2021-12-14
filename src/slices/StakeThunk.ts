@@ -59,7 +59,6 @@ export const changeApproval = createAsyncThunk(
       dispatch(error("Please connect your wallet!"));
       return;
     }
-
     const signer = provider.getSigner();
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
@@ -179,10 +178,14 @@ export const changeStake = createAsyncThunk(
       if (version2) {
         if (action === "stake") {
           uaData.type = "stake";
+          // 3rd argument is trigger default to true 
+          // 4th arg is rebase 
           stakeTx = await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), true, true);
         } else {
           uaData.type = "unstake";
           console.log("HEREEE");
+          // 3rd arg is rebasing 
+          // 4th arg is claim defualt to true 
           stakeTx = await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), true, true);
         }
       } else {

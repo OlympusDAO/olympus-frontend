@@ -20,6 +20,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Checkbox,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
@@ -190,6 +191,32 @@ function Stake() {
     minimumFractionDigits: 0,
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
+
+  const [checked, setChecked] = useState(true);
+
+
+  function ConfirmDialog() {
+    return (
+      <Paper
+        className="ohm-card confirm-dialog"
+        style={{ marginBottom: "0.8rem", width: "100%", padding: "12px 12px" }}
+      >
+        <Box className="dialog-container" display="flex" alignItems="center" justifyContent="space-between">
+          <Box>
+            <Checkbox
+              checked={checked}
+              // onChange={e => handleCheck(e)}
+              color="primary"
+              inputProps={{ "aria-label": "checkbox" }}
+            />
+          </Box>
+          <Box width="100%">
+            <Typography variant="body2" style={{ margin: "10px" }}>Allow Staking/Unstaking of gOHM</Typography>
+          </Box>
+        </Box>
+      </Paper>
+    );
+  }
 
   return (
     <div id="stake-view">
