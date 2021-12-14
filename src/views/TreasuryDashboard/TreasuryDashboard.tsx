@@ -2,7 +2,7 @@ import { memo } from "react";
 import "./treasury-dashboard.scss";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Paper, Grid, Box, Zoom, Container, useMediaQuery } from "@material-ui/core";
-import { MarketCap, OHMPrice, WSOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
+import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
 
 import {
   TotalValueDepositedGraph,
@@ -30,7 +30,7 @@ const TreasuryDashboard = memo(() => {
             <MetricCollection>
               <MarketCap />
               <OHMPrice />
-              <WSOHMPrice />
+              <GOHMPrice />
               <CircSupply />
               <BackingPerOHM />
               <CurrentIndex />

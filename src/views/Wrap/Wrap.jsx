@@ -74,7 +74,7 @@ function Wrap() {
     return state.app.marketPrice;
   });
 
-  const wsOhmPrice = useSelector(state => {
+  const gOhmPrice = useSelector(state => {
     return state.app.marketPrice * state.app.currentIndex;
   });
 
@@ -334,8 +334,8 @@ function Wrap() {
                 />
                 <Metric
                   label={t`${assetTo} Price`}
-                  metric={formatCurrency(wsOhmPrice, 2)}
-                  isLoading={wsOhmPrice ? false : true}
+                  metric={formatCurrency(gOhmPrice, 2)}
+                  isLoading={gOhmPrice ? false : true}
                   tooltip={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
                 />
               </MetricCollection>
