@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Box, IconButton, Paper, SvgIcon } from "@material-ui/core";
+import { Box, IconButton, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { NETWORKS, NEWEST_NETWORK_ID } from "src/constants";
 import Pill from "../Pill/Pill";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import "./Announcement.scss";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 function Announcement() {
   const [newNetworkVisible, setNewNetworkVisible] = useState(true);
+  const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const handleClose = () => {
     setNewNetworkVisible(false);
@@ -15,15 +17,18 @@ function Announcement() {
 
   return (
     <div className="announcement-banner">
-      {newNetworkVisible ? (
-        <Paper className="new-network">
+      {newNetworkVisible && (
+        <Paper
+          className="new-network"
+          style={isMobileScreen ? { borderRadius: "0" } : { width: "100%", maxWidth: "600px" }}
+        >
           <Box className="new-network-box" style={{ marginRight: "10px" }}>
             <Pill message="Info" style={{ color: "#F8CC82" }} />
           </Box>
           <Box className="new-network-box">
-            <span>
+            <Typography variant="body2">
               Treasury Stats may be inaccurate during the migration. Please check discord if you have any questions.
-            </span>
+            </Typography>
           </Box>
           <Box>
             <IconButton onClick={handleClose}>
@@ -31,8 +36,6 @@ function Announcement() {
             </IconButton>
           </Box>
         </Paper>
-      ) : (
-        <div />
       )}
     </div>
   );
