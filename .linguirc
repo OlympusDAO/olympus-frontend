@@ -1,5 +1,5 @@
 {
-   "locales": ["en", "fr", "ko", "tr", "pt", "zh", "ar", "de"],
+   "locales": ["en", "fr", "ko", "tr", "pt", "zh", "ar", "de", "es", "vi"],
    "sourceLocale": "en",
    "catalogs": [{
       "path": "src/locales/translations/olympus-frontend/{locale}/messages",

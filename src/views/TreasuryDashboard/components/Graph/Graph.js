@@ -2,7 +2,6 @@ import Chart from "src/components/Chart/Chart.jsx";
 import { useTheme } from "@material-ui/core/styles";
 import { trim, formatCurrency } from "../../../../helpers";
 import { useTreasuryMetrics } from "../../hooks/useTreasuryMetrics";
-import { useTreasuryRebases } from "../../hooks/useTreasuryRebases";
 import { bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "../../treasuryData";
 
 export const Graph = ({ children }) => <>{children}</>;
@@ -138,39 +137,6 @@ export const OHMStakedGraph = () => {
       infoTooltipMessage={tooltipInfoMessages.staked}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
       headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
-    />
-  );
-};
-
-export const APYOverTimeGraph = () => {
-  const theme = useTheme();
-  const { data } = useTreasuryRebases({ refetchOnMount: false });
-
-  let apy =
-    data &&
-    data
-      .map(entry => ({
-        timestamp: entry.timestamp,
-        apy: Math.pow(parseFloat(entry.percentage) + 1, 365 * 3) * 100,
-      }))
-      .filter(pm => pm.apy < 300000);
-
-  return (
-    <Chart
-      type="line"
-      scale="log"
-      data={apy}
-      dataKey={["apy"]}
-      dataFormat="percent"
-      headerText="APY over time"
-      itemNames={tooltipItems.apy}
-      itemType={itemType.percentage}
-      color={theme.palette.text.primary}
-      bulletpointColors={bulletpoints.apy}
-      stroke={[theme.palette.text.primary]}
-      infoTooltipMessage={tooltipInfoMessages.apy}
-      headerSubText={`${data && trim(apy[0].apy, 2)}%`}
-      expandedGraphStrokeColor={theme.palette.graphStrokeColor}
     />
   );
 };

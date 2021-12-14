@@ -18,19 +18,23 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap } from "./views";
+import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap, V1Stake } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
+import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
-
+import MigrationModal from "src/components/Migration/MigrationModal";
+import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import "./style.scss";
-import { Bond as IBond } from "./lib/Bond";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import { initializeNetwork } from "./slices/NetworkSlice";
+import { useAppSelector } from "./hooks";
+import Announcement from "./components/Announcement/Announcement";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -81,31 +85,47 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
-  const currentPath = location.pathname + location.search + location.hash;
+  const currentPath = location.pathname + location.hash + location.search;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const { connect, hasCachedProvider, provider, connected, chainChanged, onChainChangeComplete } = useWeb3Context();
+  const address = useAddress();
+
+  const [migrationModalOpen, setMigrationModalOpen] = useState(false);
+  const migModalOpen = () => {
+    setMigrationModalOpen(true);
+  };
+  const migModalClose = () => {
+    dispatch(loadAccountDetails({ networkID: networkId, address, provider }));
+    setMigrationModalOpen(false);
+  };
+
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const { connect, hasCachedProvider, provider, chainID, connected, uri } = useWeb3Context();
-  const address = useAddress();
-
   const [walletChecked, setWalletChecked] = useState(false);
+  const networkId = useAppSelector(state => state.network.networkId);
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-  const { bonds, expiredBonds } = useBonds(chainID);
+  const { bonds, expiredBonds } = useBonds(networkId);
+
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
-    // it's because the initial provider loaded always starts with chainID=1. This causes
+    // it's because the initial provider loaded always starts with networkID=1. This causes
     // address lookup on the wrong chain which then throws the error. To properly resolve this,
-    // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
-    // network. To actually test rinkeby, change setChainID equal to 4 before testing.
+    // we shouldn't be initializing to networkID=1 in web3Context without first listening for the
+    // network. To actually test rinkeby, change setnetworkID equal to 4 before testing.
     let loadProvider = provider;
 
     if (whichDetails === "app") {
       loadApp(loadProvider);
+    }
+
+    if (whichDetails === "network") {
+      initNetwork(loadProvider);
     }
 
     // don't run unless provider is a Wallet...
@@ -114,30 +134,63 @@ function App() {
     }
   }
 
+  const initNetwork = useCallback(loadProvider => {
+    dispatch(initializeNetwork({ provider: loadProvider }));
+  }, []);
+
   const loadApp = useCallback(
     loadProvider => {
-      dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
-      bonds.map(bond => {
-        dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: chainID }));
-      });
-      dispatch(getMigrationAllowances({ address, provider, networkID: chainID }));
+      if (networkId == -1) {
+        return;
+      }
+      dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
+      // NOTE (appleseed) - tech debt - better network filtering for active bonds
+      if (networkId === 1 || networkId === 4) {
+        bonds.map(bond => {
+          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+        });
+      }
     },
-    [connected],
+    [networkId],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+      if (networkId == -1) {
+        return;
+      }
+      dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
+      dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
       bonds.map(bond => {
-        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        // NOTE: get any Claimable bonds, they may not be bondable
+        if (bond.getClaimability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
+        }
       });
-      dispatch(getZapTokenBalances({ address, networkID: chainID, provider: loadProvider }));
+      dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
       expiredBonds.map(bond => {
-        dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+        if (bond.getClaimability(networkId)) {
+          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
+        }
       });
     },
-    [connected],
+    [networkId, address],
   );
+
+  const oldAssetsDetected = useAppSelector(state => {
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.sohmV1) ||
+      Number(state.account.balances.ohmV1) ||
+      Number(state.account.balances.wsohm)
+        ? true
+        : false)
+    );
+  });
+
+  const newAssetsDetected = useAppSelector(state => {
+    return state.account.balances && (Number(state.account.balances.gohm) ? true : false);
+  });
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
@@ -169,17 +222,23 @@ function App() {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
-      loadDetails("app");
+      loadDetails("network").then(() => {
+        if (networkId !== -1) {
+          loadDetails("account");
+          loadDetails("app");
+        }
+      });
+      onChainChangeComplete();
     }
-  }, [walletChecked]);
+  }, [walletChecked, chainChanged, networkId]);
 
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected) {
+    if (connected && networkId !== -1) {
       loadDetails("account");
     }
-  }, [connected]);
+  }, [connected, networkId]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -199,6 +258,17 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
+  const accountBonds = useAppSelector(state => {
+    const withInterestDue = [];
+    for (const bond in state.account.bonds) {
+      if (state.account.bonds[bond].interestDue > 0) {
+        withInterestDue.push(state.account.bonds[bond]);
+      }
+    }
+    return withInterestDue;
+  });
+  const hasActiveV1Bonds = accountBonds.length > 0;
+
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
@@ -215,6 +285,8 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+          {oldAssetsDetected && !hasActiveV1Bonds && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+
           <Switch>
             <Route exact path="/dashboard">
               <TreasuryDashboard />
@@ -225,7 +297,30 @@ function App() {
             </Route>
 
             <Route path="/stake">
-              <Stake />
+              {/* if newAssets or 0 assets */}
+              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) ? (
+                <Stake />
+              ) : (
+                <V1Stake
+                  hasActiveV1Bonds={hasActiveV1Bonds}
+                  oldAssetsDetected={oldAssetsDetected}
+                  setMigrationModalOpen={setMigrationModalOpen}
+                />
+              )}
+            </Route>
+
+            <Route path="/v1-stake">
+              <V1Stake
+                hasActiveV1Bonds={hasActiveV1Bonds}
+                oldAssetsDetected={oldAssetsDetected}
+                setMigrationModalOpen={setMigrationModalOpen}
+              />
+            </Route>
+
+            <Route path="/wrap">
+              <Route exact path={`/wrap`}>
+                <Wrap />
+              </Route>
             </Route>
 
             <Route path="/zap">
@@ -233,13 +328,10 @@ function App() {
                 <Zap />
               </Route>
             </Route>
-            <Route path="/wrap">
-              <Wrap />
-            </Route>
 
-            <Route path="/33-together">
+            {/* <Route path="/33-together">
               <PoolTogether />
-            </Route>
+            </Route> */}
 
             <Route path="/bonds">
               {(bonds as IAllBondData[]).map(bond => {
@@ -252,9 +344,17 @@ function App() {
               <ChooseBond />
             </Route>
 
+            <Route path="/network">
+              <ChangeNetwork />
+            </Route>
+
             <Route component={NotFound} />
           </Switch>
         </div>
+
+        <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
+
+        <Announcement />
       </div>
     </ThemeProvider>
   );
