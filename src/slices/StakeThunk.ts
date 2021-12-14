@@ -77,10 +77,10 @@ export const changeApproval = createAsyncThunk(
       return dispatch(
         fetchAccountSuccess({
           staking: {
-            ohmStake: +stakeAllowance,
-            ohmUnstake: +unstakeAllowance,
-            ohmStakeV2: +stakeAllowanceV2,
-            ohmUnstakeV2: +unstakeAllowanceV2,
+            ohmStakeV1: +stakeAllowance,
+            ohmUnstakeV1: +unstakeAllowance,
+            ohmStake: +stakeAllowanceV2,
+            ohmUnstake: +unstakeAllowanceV2,
           },
         }),
       );
@@ -138,10 +138,10 @@ export const changeApproval = createAsyncThunk(
     return dispatch(
       fetchAccountSuccess({
         staking: {
-          ohmStake: +stakeAllowance,
+          ohmStakeV1: +stakeAllowance,
           ohmUnstake: +unstakeAllowance,
-          ohmStakeV2: +stakeAllowanceV2,
-          ohmUnstakeV2: +unstakeAllowanceV2,
+          ohmStake: +stakeAllowanceV2,
+          ohmUnstake: +unstakeAllowanceV2,
         },
       }),
     );

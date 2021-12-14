@@ -82,10 +82,10 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     return state.account.balances && state.account.balances.wsohm;
   });
   const stakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmStake;
+    return state.account.staking && state.account.staking.ohmStakeV1;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmUnstake;
+    return state.account.staking && state.account.staking.ohmUnstakeV1;
   });
   const stakingRebase = useSelector(state => {
     return state.app.stakingRebase;

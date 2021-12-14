@@ -127,10 +127,6 @@ export const getBalances = createAsyncThunk(
 );
 
 interface IUserAccountDetails {
-  staking: {
-    ohmStake: number;
-    ohmUnstake: number;
-  };
   wrapping: {
     sohmWrap: number;
     wsohmUnwrap: number;
@@ -246,10 +242,10 @@ export const loadAccountDetails = createAsyncThunk(
 
     return {
       staking: {
-        ohmStake: +stakeAllowance,
-        ohmUnstake: +unstakeAllowance,
-        ohmStakeV2: +stakeAllowanceV2,
-        ohmUnstakeV2: +unstakeAllowanceV2,
+        ohmStakeV1: +stakeAllowance,
+        ohmUnstakeV1: +unstakeAllowance,
+        ohmStake: +stakeAllowanceV2,
+        ohmUnstake: +unstakeAllowanceV2,
       },
       wrapping: {
         sohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
@@ -333,6 +329,8 @@ interface IAccountSlice extends IUserAccountDetails {
   };
   loading: boolean;
   staking: {
+    ohmStakeV1: number;
+    ohmUnstakeV1: number;
     ohmStake: number;
     ohmUnstake: number;
   };
@@ -363,7 +361,7 @@ const initialState: IAccountSlice = {
     fiatDaowsohm: "",
     pool: "",
   },
-  staking: { ohmStake: 0, ohmUnstake: 0 },
+  staking: { ohmStakeV1: 0, ohmUnstakeV1: 0, ohmStake: 0, ohmUnstake: 0 },
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0, gOhmUnwrap: 0 },
   pooling: { sohmPool: 0 },
   migration: { ohm: 0, sohm: 0, wsohm: 0, gohm: 0 },
