@@ -71,8 +71,8 @@ export const changeApproval = createAsyncThunk(
     return dispatch(
       fetchAccountSuccess({
         wrapping: {
-          sohmWrap: +wrapAllowance,
-          gOhmUnwrap: +unwrapAllowance,
+          sohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
+          gOhmUnwrap: Number(ethers.utils.formatUnits(unwrapAllowance, "ether")),
         },
       }),
     );
@@ -107,17 +107,15 @@ export const changeWrapV2 = createAsyncThunk(
 
     try {
       if (action === "wrap") {
-        uaData.type = "wrap";
         const formattedValue = ethers.utils.parseUnits(value, "gwei");
+        uaData.type = "wrap";
         wrapTx = await stakingContract.wrap(address, formattedValue);
+        dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: "wrapping" }));
       } else if (action === "unwrap") {
-        uaData.type = "unwrap";
         const formattedValue = ethers.utils.parseUnits(value, "ether");
+        uaData.type = "unwrap";
         wrapTx = await stakingContract.unwrap(address, formattedValue);
-        // const pendingTxnType = action === "wrap" ? "wrapping" : "unwrapping";
-        // uaData.txHash = wrapTx.hash;
-        // dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: pendingTxnType }));
-        // await wrapTx.wait();
+        dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: "unwrapping" }));
       }
     } catch (e: unknown) {
       uaData.approved = false;
@@ -132,11 +130,13 @@ export const changeWrapV2 = createAsyncThunk(
       return;
     } finally {
       if (wrapTx) {
+        uaData.txHash = wrapTx.hash;
+        await wrapTx.wait();
         segmentUA(uaData);
-
-        // dispatch(clearPendingTxn(wrapTx.hash));
+        console.log("getBalances");
+        dispatch(getBalances({ address, networkID, provider }));
+        dispatch(clearPendingTxn(wrapTx.hash));
       }
     }
-    dispatch(getBalances({ address, networkID, provider }));
   },
 );
