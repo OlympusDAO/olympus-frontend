@@ -18,12 +18,14 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap } from "./views";
+import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap, V1Stake } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
+import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
+import MigrationModal from "src/components/Migration/MigrationModal";
 import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
@@ -87,11 +89,21 @@ function App() {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 980px)");
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const { connect, hasCachedProvider, provider, connected, chainChanged, onChainChangeComplete } = useWeb3Context();
   const address = useAddress();
+
+  const [migrationModalOpen, setMigrationModalOpen] = useState(false);
+  const migModalOpen = () => {
+    setMigrationModalOpen(true);
+  };
+  const migModalClose = () => {
+    dispatch(loadAccountDetails({ networkID: networkId, address, provider }));
+    setMigrationModalOpen(false);
+  };
+
+  const isSmallerScreen = useMediaQuery("(max-width: 980px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const [walletChecked, setWalletChecked] = useState(false);
   const networkId = useAppSelector(state => state.network.networkId);
@@ -128,6 +140,9 @@ function App() {
 
   const loadApp = useCallback(
     loadProvider => {
+      if (networkId == -1) {
+        return;
+      }
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       // NOTE (appleseed) - tech debt - better network filtering for active bonds
       if (networkId === 1 || networkId === 4) {
@@ -141,6 +156,9 @@ function App() {
 
   const loadAccount = useCallback(
     loadProvider => {
+      if (networkId == -1) {
+        return;
+      }
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
       bonds.map(bond => {
@@ -158,6 +176,21 @@ function App() {
     },
     [networkId, address],
   );
+
+  const oldAssetsDetected = useAppSelector(state => {
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.sohmV1) ||
+      Number(state.account.balances.ohmV1) ||
+      Number(state.account.balances.wsohm)
+        ? true
+        : false)
+    );
+  });
+
+  const newAssetsDetected = useAppSelector(state => {
+    return state.account.balances && (Number(state.account.balances.gohm) ? true : false);
+  });
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
@@ -225,6 +258,17 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
+  const accountBonds = useAppSelector(state => {
+    const withInterestDue = [];
+    for (const bond in state.account.bonds) {
+      if (state.account.bonds[bond].interestDue > 0) {
+        withInterestDue.push(state.account.bonds[bond]);
+      }
+    }
+    return withInterestDue;
+  });
+  const hasActiveV1Bonds = accountBonds.length > 0;
+
   return (
     <ThemeProvider theme={themeMode}>
       <CssBaseline />
@@ -241,6 +285,8 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+          {oldAssetsDetected && !hasActiveV1Bonds && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+
           <Switch>
             <Route exact path="/dashboard">
               <TreasuryDashboard />
@@ -251,7 +297,24 @@ function App() {
             </Route>
 
             <Route path="/stake">
-              <Stake />
+              {/* if newAssets or 0 assets */}
+              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) ? (
+                <Stake />
+              ) : (
+                <V1Stake
+                  hasActiveV1Bonds={hasActiveV1Bonds}
+                  oldAssetsDetected={oldAssetsDetected}
+                  setMigrationModalOpen={setMigrationModalOpen}
+                />
+              )}
+            </Route>
+
+            <Route path="/v1-stake">
+              <V1Stake
+                hasActiveV1Bonds={hasActiveV1Bonds}
+                oldAssetsDetected={oldAssetsDetected}
+                setMigrationModalOpen={setMigrationModalOpen}
+              />
             </Route>
 
             <Route path="/wrap">
@@ -288,6 +351,8 @@ function App() {
             <Route component={NotFound} />
           </Switch>
         </div>
+
+        <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
 
         <Announcement />
       </div>
