@@ -108,6 +108,16 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
+  const sohmV2Balance = useSelector(state => {
+    return state.account.balances && state.account.balances.sohm;
+  });
+
+  const calculateWrappedAsSohm = balance => {
+    return Number(balance) * Number(currentIndex);
+  };
+  const fiatDaoAsSohm = calculateWrappedAsSohm(fiatDaowsohmBalance);
+  const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
+  const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const setMax = () => {
     if (view === 0) {
@@ -167,7 +177,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmBalance]
+    [sohmBalance, gOhmAsSohm, sohmV2Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -181,11 +191,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     history.push("/stake");
   };
 
-  // useEffect(() => {
-  //   if (!oldAssetsDetected) {
-  //     history.push("/stake");
-  //   }
-  // }, []);
+  const goToBonds = () => {
+    history.push("/bonds");
+  };
 
   return (
     <div id="v1-stake-view">
@@ -343,6 +351,19 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                             <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
                           )}
                         </TabPanel>
+                      ) : hasActiveV1Bonds ? (
+                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
+                          <Button
+                            className="migrate-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              goToBonds();
+                            }}
+                          >
+                            Go to Bonds
+                          </Button>
+                        </TabPanel>
                       ) : (
                         <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
                           <Button
@@ -429,6 +450,12 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
                           {...{ isAppLoading }}
                           indented
+                        />
+                        <StakeRow
+                          title={t`Single Staking (v2)`}
+                          balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
+                          indented
+                          {...{ isAppLoading }}
                         />
                         <StakeRow
                           title={`${t`Wrapped Balance (v2)`}`}
