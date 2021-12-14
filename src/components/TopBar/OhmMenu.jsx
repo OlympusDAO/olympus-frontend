@@ -76,7 +76,9 @@ function OhmMenu() {
   const oldAssetsDetected = useSelector(state => {
     return (
       state.account.balances &&
-      (Number(state.account.balances.sohm) || Number(state.account.balances.ohm) || Number(state.account.balances.wsohm)
+      (Number(state.account.balances.sohmV1) ||
+      Number(state.account.balances.ohmV1) ||
+      Number(state.account.balances.wsohm)
         ? true
         : false)
     );
@@ -86,8 +88,8 @@ function OhmMenu() {
     return state.account.balances && (Number(state.account.balances.gohm) ? true : false);
   });
 
-  const SOHM_ADDRESS = addresses[networkId] && addresses[networkId].SOHM_ADDRESS;
-  const OHM_ADDRESS = addresses[networkId] && addresses[networkId].OHM_ADDRESS;
+  const SOHM_ADDRESS = addresses[networkId] && addresses[networkId].SOHM_V2;
+  const OHM_ADDRESS = addresses[networkId] && addresses[networkId].OHM_V2;
   const PT_TOKEN_ADDRESS = addresses[networkId] && addresses[networkId].PT_TOKEN_ADDRESS;
   const GOHM_ADDRESS = addresses[networkId] && addresses[networkId].GOHM_ADDRESS;
 
