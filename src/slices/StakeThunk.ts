@@ -148,7 +148,7 @@ export const changeApproval = createAsyncThunk(
 
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID, version2 }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ action, value, provider, address, networkID, version2, rebase }: IActionValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -178,15 +178,18 @@ export const changeStake = createAsyncThunk(
       if (version2) {
         if (action === "stake") {
           uaData.type = "stake";
-          // 3rd argument is trigger default to true 
-          // 4th arg is rebase 
-          stakeTx = await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), true, true);
+          // 3rd argument is trigger default to true
+          // 4th arg is rebase
+          stakeTx = rebase
+            ? await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
+            : await stakingV2.stake(address, ethers.utils.parseUnits(value, "ether"), true, false);
         } else {
           uaData.type = "unstake";
-          console.log("HEREEE");
-          // 3rd arg is rebasing 
-          // 4th arg is claim defualt to true 
-          stakeTx = await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), true, true);
+          // 3rd arg is rebasing
+          // 4th arg is claim defualt to true
+          stakeTx = rebase
+            ? await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
+            : await stakingV2.unstake(address, value, false, true);
         }
       } else {
         if (action === "stake") {
