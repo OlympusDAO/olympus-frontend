@@ -159,6 +159,7 @@ function NavContent() {
                         <Trans>Bond discounts</Trans>
                       </Typography>
                       {bonds.map((bond, i) => {
+                        console.log("navbar", bond);
                         // NOTE (appleseed): temporary for ONHOLD MIGRATION
                         // if (bond.getBondability(networkId)) {
                         if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
