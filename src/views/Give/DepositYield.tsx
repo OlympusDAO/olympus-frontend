@@ -5,6 +5,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import YieldRecipients from "./YieldRecipients";
+import { t, Trans } from "@lingui/macro";
 
 export default function DepositYield() {
   const { hasCachedProvider, connect } = useWeb3Context();
@@ -38,9 +39,11 @@ export default function DepositYield() {
         <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
           <div className="card-header">
             <div className="give-yield-title">
-              <Typography variant="h5">Deposits Dashboard</Typography>
+              <Typography variant="h5">
+                <Trans>Deposits Dashboard</Trans>
+              </Typography>
               <InfoTooltip
-                message="Direct yield from your deposited sOHM to other recipients. Your sOHM is deposited in a vault, but you can withdraw it or change the deposited amount at any time."
+                message={t`Direct yield from your deposited sOHM to other recipients. Your sOHM is deposited in a vault, but you can withdraw it or change the deposited amount at any time.`}
                 children={null}
               />
             </div>

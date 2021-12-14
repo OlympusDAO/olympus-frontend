@@ -8,6 +8,7 @@ import { fetchAccountSuccess, getBalances, getRedemptionBalances } from "./Accou
 import { error } from "../slices/MessagesSlice";
 import { IBaseAddressAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { t } from "@lingui/macro";
 
 interface IUAData {
   address: string;
@@ -21,7 +22,7 @@ export const redeemBalance = createAsyncThunk(
   "redeem/redeemBalance",
   async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please conenect your wallet!"));
+      dispatch(error(t`Please conenect your wallet!`));
       return;
     }
 
@@ -49,7 +50,7 @@ export const redeemBalance = createAsyncThunk(
       uaData.approved = false;
       const rpcError = e as IJsonRPCError;
       if (rpcError.message.indexOf("No redeemable balance") >= 0) {
-        dispatch(error("You have no yield that can be redeemed."));
+        dispatch(error(t`You have no yield that can be redeemed.`));
       } else {
         dispatch(error(rpcError.message));
       }

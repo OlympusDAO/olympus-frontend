@@ -15,6 +15,7 @@ import {
   IBaseAddressAsyncThunk,
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { t } from "@lingui/macro";
 
 interface IUAData {
   address: string;
@@ -47,7 +48,7 @@ export const changeApproval = createAsyncThunk(
   "give/changeApproval",
   async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please connect your wallet"));
+      dispatch(error(t`Please connect your wallet`));
       return;
     }
 
@@ -87,7 +88,7 @@ export const changeGive = createAsyncThunk(
   "give/changeGive",
   async ({ action, value, recipient, provider, address, networkID }: IActionValueRecipientAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please connect your wallet!"));
+      dispatch(error(t`Please connect your wallet!`));
       return;
     }
 
@@ -132,7 +133,7 @@ export const changeGive = createAsyncThunk(
       const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         dispatch(
-          error("You may be trying to give more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+          error(t`You may be trying to give more than your balance! Error code: 32603. Message: ds-math-sub-underflow`),
         );
       } else {
         dispatch(error(rpcError.message));
@@ -155,7 +156,7 @@ export const getTestTokens = createAsyncThunk(
   "give/getTokens",
   async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please connect your wallet!"));
+      dispatch(error(t`Please connect your wallet!`));
       return;
     }
 

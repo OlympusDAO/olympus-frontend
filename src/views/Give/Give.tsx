@@ -5,6 +5,7 @@ import RedeemYield from "./RedeemYield";
 import { Button, Paper, Typography, Zoom } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { t, Trans } from "@lingui/macro";
 
 function Give() {
   const { address, connect } = useWeb3Context();
@@ -12,7 +13,7 @@ function Give() {
   let connectButton = [];
   connectButton.push(
     <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      Connect Wallet
+      <Trans>Connect Wallet</Trans>
     </Button>,
   );
 
@@ -26,7 +27,9 @@ function Give() {
                 <div className="wallet-menu" id="wallet-menu">
                   {connectButton}
                 </div>
-                <Typography variant="h6">Connect your wallet to give or redeem OHM</Typography>
+                <Typography variant="h6">
+                  <Trans>Connect your wallet to give or redeem OHM</Trans>
+                </Typography>
               </div>
             </Paper>
           </Zoom>
