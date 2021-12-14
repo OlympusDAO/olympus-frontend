@@ -1,5 +1,4 @@
-#stake-view,
-#v1-stake-view {
+#stake-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -75,8 +74,7 @@
       position: absolute;
       left: 100px;
       top: -3px;
-      transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, top 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-        transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, top 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
       &.Mui-expanded {
         left: 104px;
         top: 1px;
