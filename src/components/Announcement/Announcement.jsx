@@ -18,24 +18,26 @@ function Announcement() {
   return (
     <div className="announcement-banner">
       {newNetworkVisible && (
-        <Paper
-          className="new-network"
-          style={isMobileScreen ? { borderRadius: "0" } : { width: "100%", maxWidth: "600px" }}
-        >
-          <Box className="new-network-box" style={{ marginRight: "10px" }}>
-            <Pill message="Info" style={{ color: "#F8CC82" }} />
-          </Box>
-          <Box className="new-network-box">
-            <Typography variant="body2">
-              Treasury Stats may be inaccurate during the migration. Please check discord if you have any questions.
-            </Typography>
-          </Box>
-          <Box>
-            <IconButton onClick={handleClose}>
-              <SvgIcon color="primary" component={XIcon} />
-            </IconButton>
-          </Box>
-        </Paper>
+        <>
+          <Paper className="new-network" style={isMobileScreen ? { borderRadius: "0" } : { width: "100%" }}>
+            <Box style={{ width: "15%" }}></Box>
+            <Box display="flex" alignItems="center">
+              <Box className="new-network-box" style={{ marginRight: "10px" }}>
+                <Pill message="Info" style={{ color: "#F8CC82" }} />
+              </Box>
+              <Box className="new-network-box">
+                <Typography variant="body2">
+                  Treasury Stats may be inaccurate during the migration. Please check discord if you have any questions.
+                </Typography>
+              </Box>
+            </Box>
+            <Box>
+              <IconButton onClick={handleClose}>
+                <SvgIcon color="primary" component={XIcon} />
+              </IconButton>
+            </Box>
+          </Paper>
+        </>
       )}
     </div>
   );
