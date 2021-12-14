@@ -72,7 +72,7 @@ function Wrap() {
     return state.app.marketPrice;
   });
 
-  const wsOhmPrice = useSelector(state => {
+  const gOhmPrice = useSelector(state => {
     return state.app.marketPrice * state.app.currentIndex;
   });
 
@@ -350,7 +350,7 @@ function Wrap() {
                         />
                       </Typography>
                       <Typography variant="h4">
-                        {wsOhmPrice ? formatCurrency(wsOhmPrice, 2) : <Skeleton width="150px" />}
+                        {gOhmPrice ? formatCurrency(gOhmPrice, 2) : <Skeleton width="150px" />}
                       </Typography>
                     </div>
                   </Grid>
