@@ -123,7 +123,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <div className="cause-info-main-text">
               <strong>00:00:00</strong>
             </div>
-            <span className="cause-info-bottom-text"><Trans>Completed</Trans></span>
+            <span className="cause-info-bottom-text">
+              <Trans>Completed</Trans>
+            </span>
           </div>
         </>
       );
@@ -166,7 +168,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <div className="cause-info-main-text">
                   <strong>00:00:00</strong>
                 </div>
-                <span className="cause-info-bottom-text"><Trans>Completed</Trans></span>
+                <span className="cause-info-bottom-text">
+                  <Trans>Completed</Trans>
+                </span>
               </div>
             </Grid>
           </Grid>
