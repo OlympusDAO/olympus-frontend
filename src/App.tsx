@@ -352,7 +352,6 @@ function App() {
         <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
 
         <Announcement />
-
       </div>
     </ThemeProvider>
   );
