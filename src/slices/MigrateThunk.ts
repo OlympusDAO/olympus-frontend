@@ -42,10 +42,9 @@ const chooseContract = (token: string, networkID: NetworkID, signer: ethers.prov
 export const changeMigrationApproval = createAsyncThunk(
   "migrate/changeApproval",
   async (
-    { token, provider, address, networkID, displayName, insertName }: IChangeApprovalWithDisplayNameAsyncThunk,
+    { token, provider, address, networkID, displayName }: IChangeApprovalWithDisplayNameAsyncThunk,
     { dispatch },
   ) => {
-    // NOTE (Appleseed): what is `insertName`??? it looks like it's always true???
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -72,7 +71,7 @@ export const changeMigrationApproval = createAsyncThunk(
       );
 
       const text = `Approve ${displayName} Migration`;
-      const pendingTxnType = insertName ? `approve_migration_${token}` : "approve_migration";
+      const pendingTxnType = `approve_migration`;
 
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
       await approveTx.wait();
@@ -124,6 +123,8 @@ export const bridgeBack = createAsyncThunk(
         dispatch(getBalances({ address, provider, networkID }));
       }
     }
+    // go get fresh balances
+    // dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
 
@@ -160,6 +161,7 @@ export const migrateWithType = createAsyncThunk(
     }
     // go get fresh balances
     dispatch(getBalances({ address, provider, networkID }));
+    // dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
 
@@ -186,14 +188,13 @@ export const migrateAll = createAsyncThunk(
       dispatch(info("All assets have been successfully migrated!"));
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
-      throw e;
     } finally {
       if (migrateAllTx) {
         dispatch(clearPendingTxn(migrateAllTx.hash));
       }
     }
     // go get fresh balances
-    dispatch(loadAccountDetails({ address, provider, networkID }));
+    // dispatch(loadAccountDetails({ address, provider, networkID }));
     dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
@@ -226,5 +227,6 @@ export const migrateCrossChainWSOHM = createAsyncThunk(
     }
     // go get fresh balances
     dispatch(getBalances({ address, provider, networkID }));
+    // dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
