@@ -84,7 +84,6 @@ function Stake() {
     return state.account.balances && state.account.balances.fiatDaowsohm;
   });
   const calculateWrappedAsSohm = (balance: string) => {
-    console.log("ci", currentIndex);
     return Number(balance) * Number(currentIndex);
   };
   const fiatDaoAsSohm = calculateWrappedAsSohm(fiatDaowsohmBalance);

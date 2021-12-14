@@ -1,7 +1,6 @@
 import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
-import { abi as v2Staking } from "../abi/v2Staking.json";
 import { abi as v2sOHM } from "../abi/v2sOhmNew.json";
 import { clearPendingTxn, fetchPendingTxns, getWrappingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -9,7 +8,7 @@ import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, WsOHM, V2sOhmNew, V2Staking } from "src/typechain";
+import { IERC20, OlympusStakingv2__factory } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -89,12 +88,7 @@ export const changeWrapV2 = createAsyncThunk(
 
     const signer = provider.getSigner();
 
-    const stakingContract = new ethers.Contract(
-      addresses[networkID].STAKING_V2 as string,
-      v2Staking,
-      signer,
-    ) as V2Staking;
-    const v2sOhmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, v2sOHM, signer) as V2sOhmNew;
+    const stakingContract = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, signer);
 
     let wrapTx;
     let uaData: IUAData = {
