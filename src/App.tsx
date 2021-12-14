@@ -32,6 +32,7 @@ import "./style.scss";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import { initializeNetwork } from "./slices/NetworkSlice";
 import { useAppSelector } from "./hooks";
+import Announcement from "./components/Announcement/Announcement";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -287,6 +288,8 @@ function App() {
             <Route component={NotFound} />
           </Switch>
         </div>
+
+        <Announcement />
       </div>
     </ThemeProvider>
   );
