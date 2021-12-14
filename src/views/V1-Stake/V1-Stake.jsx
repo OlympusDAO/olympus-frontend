@@ -284,7 +284,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                               ? "Once your current bonds have been claimed, you can migrate your assets to stake more OHM"
                               : !oldAssetsDetected
                               ? "All your assets are migrated"
-                              : "You must complete the migration of your assest to stake additional OHM"}
+                              : "You must complete the migration of your assets to stake additional OHM"}
                           </>
                         ) : (
                           <br />

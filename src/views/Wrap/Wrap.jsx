@@ -127,7 +127,7 @@ function Wrap() {
     if (assetFrom === "gOHM" && assetTo === "sOHM") return unwrapGohmAllowance > Number(gohmBalance);
 
     return 0;
-  }, [unwrapGohmAllowance, wrapSohmAllowance, assetTo, assetFrom]);
+  }, [unwrapGohmAllowance, wrapSohmAllowance, assetTo, assetFrom, sohmBalance, gohmBalance]);
 
   const isAllowanceDataLoading = currentAction === "Unwrap";
   // const convertedQuantity = 0;
@@ -183,8 +183,8 @@ function Wrap() {
     }
   };
 
-  const approveWrap = async token => {
-    await dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
+  const approveWrap = token => {
+    dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
   };
 
   const unwrapGohm = () => {
