@@ -101,9 +101,6 @@ function Stake() {
     return (state.account.staking && state.account.staking.ohmUnstake) || 0;
   });
 
-  const directStakeAllowance = useAppSelector(state => {
-    return (state.account.staking && state.account.staking.ohmStake) || 0;
-  });
   const directUnstakeAllowance = useAppSelector(state => {
     return (state.account.wrapping && state.account.wrapping.gOhmUnwrap) || 0;
   });
@@ -125,8 +122,10 @@ function Stake() {
   const setMax = () => {
     if (view === 0) {
       setQuantity(Number(ohmBalance));
-    } else {
+    } else if (!checked) {
       setQuantity(Number(sohmBalance));
+    } else if (checked) {
+      setQuantity(Number(gOhmAsSohm));
     }
   };
 
@@ -155,11 +154,13 @@ function Stake() {
       );
     }
 
+    const formQuant = checked && currentIndex ? quantity / Number(currentIndex) : quantity;
+
     await dispatch(
       changeStake({
         address,
         action,
-        value: quantity.toString(),
+        value: formQuant.toString(),
         provider,
         networkID: networkId,
         version2: true,
@@ -173,10 +174,9 @@ function Stake() {
       if (token === "ohm") return stakeAllowance > 0;
       if (token === "sohm") return unstakeAllowance > 0;
       if (token === "gohm") return directUnstakeAllowance > 0;
-
       return 0;
     },
-    [stakeAllowance, unstakeAllowance, directStakeAllowance, directUnstakeAllowance],
+    [stakeAllowance, unstakeAllowance, directUnstakeAllowance],
   );
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);

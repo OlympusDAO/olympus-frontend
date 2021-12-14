@@ -178,18 +178,18 @@ export const changeStake = createAsyncThunk(
       if (version2) {
         if (action === "stake") {
           uaData.type = "stake";
-          // 3rd argument is trigger default to true
-          // 4th arg is rebase
+          // 3rd arg is rebase
+          // 4th argument is claim default to true
           stakeTx = rebase
             ? await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
-            : await stakingV2.stake(address, ethers.utils.parseUnits(value, "ether"), true, false);
+            : await stakingV2.stake(address, ethers.utils.parseUnits(value, "ether"), false, true);
         } else {
           uaData.type = "unstake";
-          // 3rd arg is rebasing
-          // 4th arg is claim defualt to true
+          // 3rd arg is trigger defualt to true for mainnet and false for rinkeby
+          // 4th arg is rebasing
           stakeTx = rebase
             ? await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
-            : await stakingV2.unstake(address, ethers.utils.parseUnits(value, "ether"), false, true);
+            : await stakingV2.unstake(address, ethers.utils.parseUnits(value, "ether"), true, false);
         }
       } else {
         if (action === "stake") {
