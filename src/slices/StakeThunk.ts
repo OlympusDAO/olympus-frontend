@@ -189,7 +189,7 @@ export const changeStake = createAsyncThunk(
           // 4th arg is claim defualt to true
           stakeTx = rebase
             ? await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
-            : await stakingV2.unstake(address, value, false, true);
+            : await stakingV2.unstake(address, ethers.utils.parseUnits(value, "ether"), false, true);
         }
       } else {
         if (action === "stake") {
