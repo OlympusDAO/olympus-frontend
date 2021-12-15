@@ -289,6 +289,20 @@ export function RecipientModal({
     return walletAddress;
   };
 
+  /**
+   * Returns the appropriate title of the recipient.
+   * - No project: shortened wallet address
+   * - Project without a separate owner value: project title
+   * - Otherwise the project title and owner
+   */
+  const getRecipientTitle = (): string => {
+    if (!project) return shorten(walletAddress);
+
+    if (!project.owner) return project.title;
+
+    return project.owner + " - " + project.title;
+  };
+
   const handleContinue = () => {
     setIsAmountSet(true);
   };
@@ -311,9 +325,7 @@ export function RecipientModal({
             <Trans>Recipient</Trans>
           </Typography>
           <Typography variant="h6">
-            <Trans>
-              {project?.title} by {project?.owner}
-            </Trans>
+            <Trans>{getRecipientTitle()}</Trans>
           </Typography>
         </>
       );
@@ -401,7 +413,7 @@ export function RecipientModal({
               <div className="details-row">
                 <div className="sohm-allocation-col">
                   <Typography variant="body1">
-                    <Trans>sOHM Allocation</Trans>
+                    <Trans>Your Wallet Address</Trans>
                   </Typography>
                   <Typography variant="h6">
                     <strong>{shorten(address)}</strong>
@@ -413,7 +425,7 @@ export function RecipientModal({
                     <Trans>Recipient Address</Trans>
                   </Typography>
                   <Typography variant="h6">
-                    <strong>{project ? project.title + " - " + project.owner : shorten(walletAddress)}</strong>
+                    <strong>{getRecipientTitle()}</strong>
                   </Typography>
                 </div>
               </div>
