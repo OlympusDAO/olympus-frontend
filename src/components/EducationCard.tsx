@@ -6,6 +6,7 @@ import { ReactComponent as arrowRightImg } from "../assets/icons/arrow-right.svg
 import { shorten } from "src/helpers";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { t, Trans } from "@lingui/macro";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const viewBox = "0 0 100 100";
 // The sOHM SVG is 100x100px, whereas the others are 50x50px
@@ -45,30 +46,70 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
 }
 
 export function DepositSohm({ message }: GenericEducationGraphicProps) {
-  return (
-    <Box className="sect" style={{ marginTop: "16px", marginBottom: "16px" }}>
-      <Box
-        display="flex"
-        flex="1"
-        alignItems="center"
-        alignContent="center"
-        justifyContent="center"
-        m={2}
-        style={{ marginBottom: "8px" }}
-      >
-        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={smallIconStyle} />
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  return isSmallScreen ? (
+    <Box display="flex" flexDirection="row" className="sect" style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box className="graphic">
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          alignContent="center"
+          justifyContent="center"
+          m={2}
+          style={{ marginBottom: "8px" }}
+        >
+          <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={smallIconStyle} />
+        </Box>
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          justifyContent="center"
+          style={{ marginBottom: "16px", color: "#999999" }}
+        >
+          <Typography variant="body1" className="subtext">
+            <Trans>Wallet</Trans>
+          </Typography>
+        </Box>
       </Box>
-      <Box
-        display="flex"
-        flex="1"
-        alignItems="center"
-        justifyContent="center"
-        className="text"
-        style={{ marginBottom: "16px", color: "#999999" }}
-      >
-        <Typography variant="body1" className="subtext">
-          <Trans>Wallet</Trans>
+      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
+        <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
+          <Trans>{message}</Trans>
         </Typography>
+        <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
+          <Trans>
+            Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first
+            step is depositing your sOHM and specifying a recipient.
+          </Trans>
+        </Typography>
+      </Box>
+    </Box>
+  ) : (
+    <Box display="flex" flexDirection="column" className="sect" style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box className="graphic">
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          alignContent="center"
+          justifyContent="center"
+          m={2}
+          style={{ marginBottom: "8px" }}
+        >
+          <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={smallIconStyle} />
+        </Box>
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          justifyContent="center"
+          style={{ marginBottom: "16px", color: "#999999" }}
+        >
+          <Typography variant="body1" className="subtext">
+            <Trans>Wallet</Trans>
+          </Typography>
+        </Box>
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
@@ -108,30 +149,82 @@ export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicP
 }
 
 export function LockInVault({ message }: GenericEducationGraphicProps) {
-  return (
-    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
-      <Box
-        display="flex"
-        flex="1"
-        alignItems="center"
-        justifyContent="center"
-        alignContent="center"
-        m={2}
-        style={{ marginBottom: "8px" }}
-      >
-        <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  return isSmallScreen ? (
+    <Box
+      className="sect"
+      display="flex"
+      flexDirection="row"
+      minWidth={"33%"}
+      style={{ marginTop: "16px", marginBottom: "16px" }}
+    >
+      <Box>
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          justifyContent="center"
+          alignContent="center"
+          m={2}
+          style={{ marginBottom: "8px" }}
+        >
+          <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
+        </Box>
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          justifyContent="center"
+          style={{ marginBottom: "16px", color: "#999999" }}
+        >
+          <Typography variant="body1" className="subtext">
+            <Trans>Vault</Trans>
+          </Typography>
+        </Box>
       </Box>
-      <Box
-        display="flex"
-        flex="1"
-        alignItems="center"
-        justifyContent="center"
-        className="text"
-        style={{ marginBottom: "16px", color: "#999999" }}
-      >
-        <Typography variant="body1" className="subtext">
-          <Trans>Vault</Trans>
+      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
+        <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
+          <Trans>{message}</Trans>
         </Typography>
+        <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
+          <Trans>
+            Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient.
+            You can withdraw or edit your principal sOHM amount at any time.
+          </Trans>
+        </Typography>
+      </Box>
+    </Box>
+  ) : (
+    <Box
+      className="sect"
+      display="flex"
+      flexDirection="column"
+      minWidth={"33%"}
+      style={{ marginTop: "16px", marginBottom: "16px" }}
+    >
+      <Box>
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          justifyContent="center"
+          alignContent="center"
+          m={2}
+          style={{ marginBottom: "8px" }}
+        >
+          <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
+        </Box>
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          justifyContent="center"
+          style={{ marginBottom: "16px", color: "#999999" }}
+        >
+          <Typography variant="body1" className="subtext">
+            <Trans>Vault</Trans>
+          </Typography>
+        </Box>
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
@@ -205,30 +298,70 @@ export function RedeemGraphic({ quantity }: EducationGraphicProps) {
 }
 
 export function ReceivesYield({ message }: GenericEducationGraphicProps) {
-  return (
-    <Box className="sect" style={{ marginTop: "16px", marginBottom: "16px" }}>
-      <Box
-        display="flex"
-        flex="1"
-        alignItems="center"
-        justifyContent="center"
-        alignContent="center"
-        m={2}
-        style={{ marginBottom: "8px" }}
-      >
-        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} className="receives-yield-icon" />
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  return isSmallScreen ? (
+    <Box className="sect" display="flex" flexDirection="row" style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box>
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          justifyContent="center"
+          alignContent="center"
+          m={2}
+          style={{ marginBottom: "8px" }}
+        >
+          <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} className="receives-yield-icon" />
+        </Box>
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          justifyContent="center"
+          style={{ marginBottom: "16px", color: "#999999" }}
+        >
+          <Typography variant="body1" className="subtext">
+            <Trans>Recipient</Trans>
+          </Typography>
+        </Box>
       </Box>
-      <Box
-        display="flex"
-        flex="1"
-        alignItems="center"
-        justifyContent="center"
-        className="text"
-        style={{ marginBottom: "16px", color: "#999999" }}
-      >
-        <Typography variant="body1" className="subtext">
-          <Trans>Recipient</Trans>
+      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
+        <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
+          <Trans>{message}</Trans>
         </Typography>
+        <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
+          <Trans>
+            The recipient you specified, or the project you selected, will then receive the rebases associated with your
+            sOHM deposit until you withdraw your sOHM principal from the vault.
+          </Trans>
+        </Typography>
+      </Box>
+    </Box>
+  ) : (
+    <Box className="sect" display="flex" flexDirection="column" style={{ marginTop: "16px", marginBottom: "16px" }}>
+      <Box>
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          justifyContent="center"
+          alignContent="center"
+          m={2}
+          style={{ marginBottom: "8px" }}
+        >
+          <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} className="receives-yield-icon" />
+        </Box>
+        <Box
+          display="flex"
+          flex="1"
+          alignItems="center"
+          justifyContent="center"
+          style={{ marginBottom: "16px", color: "#999999" }}
+        >
+          <Typography variant="body1" className="subtext">
+            <Trans>Recipient</Trans>
+          </Typography>
+        </Box>
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
