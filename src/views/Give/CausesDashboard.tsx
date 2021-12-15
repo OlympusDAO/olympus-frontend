@@ -58,6 +58,8 @@ export default function CausesDashboard() {
         provider,
         address,
         networkID: networkId,
+        version2: false,
+        rebase: false,
       }),
     );
 
