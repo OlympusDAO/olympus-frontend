@@ -47,6 +47,7 @@ Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day
 3. On Rinkeby etherscan use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
 ## Avax Fuji Testnet
+
 1. [avax faucet](https://faucet.avax-test.network/)
 2. [explorer](https://explorer.avax-test.network/)
 
@@ -156,6 +157,10 @@ Commits to the follow branches are automatically deployed to their respective UR
 
 **Pull Requests**:
 Each PR into master will get its own custom URL that is visible on the PR page. QA & validate changes on that URL before merging into the deploy branch.
+
+### Feature Flags
+
+- Give: by default it is disabled. It can be enabled by setting the `REACT_APP_GIVE_ENABLED` environment variable to "true", or appending `give_enabled` as a URL parameter.
 
 ## 👏🏽 Contributing Guidelines
 
