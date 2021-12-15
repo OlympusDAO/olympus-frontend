@@ -156,7 +156,7 @@ export const frax = new StableBond({
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
-      bondAddress: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514",
+      bondAddress: "0xE04925C19A6c53f388d568c02A1833eFB6E10dC3",
       reserveAddress: "0x853d955acef822db058eb8505911ed77f175b99e",
     },
     [NetworkID.Testnet]: {
