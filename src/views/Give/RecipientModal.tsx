@@ -370,6 +370,8 @@ export function RecipientModal({
   // This appears to be due to the following bug (which is still not resolved);
   // https://github.com/facebook/react/issues/11877
 
+  // TODO re-arrange the below output to be around the state: approval, custom recipient, project recipient, editing
+
   return (
     <Modal className="modal-container" open={isModalOpen}>
       <Paper className="ohm-card ohm-modal">
