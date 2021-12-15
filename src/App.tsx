@@ -102,6 +102,7 @@ function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const currentPath = location.pathname + location.hash + location.search;
+  const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -196,14 +197,18 @@ function App() {
   );
 
   const oldAssetsDetected = useAppSelector(state => {
-    return (
-      state.account.balances &&
-      (Number(state.account.balances.sohmV1) ||
-      Number(state.account.balances.ohmV1) ||
-      Number(state.account.balances.wsohm)
-        ? true
-        : false)
-    );
+    if (networkId && (networkId === 1 || networkId === 4)) {
+      return (
+        state.account.balances &&
+        (Number(state.account.balances.sohmV1) ||
+        Number(state.account.balances.ohmV1) ||
+        Number(state.account.balances.wsohm)
+          ? true
+          : false)
+      );
+    } else {
+      return false;
+    }
   });
 
   const newAssetsDetected = useAppSelector(state => {
@@ -297,6 +302,7 @@ function App() {
       <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
         <Messages />
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+        <Announcement />
         <nav className={classes.drawer}>
           {isSmallerScreen ? (
             <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
@@ -306,7 +312,9 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected && !hasActiveV1Bonds && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+          {oldAssetsDetected && !hasActiveV1Bonds && trimmedPath.indexOf("dashboard") === -1 && (
+            <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
+          )}
 
           <Switch>
             <Route exact path="/dashboard">
@@ -399,8 +407,6 @@ function App() {
         </div>
 
         <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
-
-        <Announcement />
       </div>
     </ThemeProvider>
   );

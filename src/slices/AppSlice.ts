@@ -94,11 +94,7 @@ export const loadAppDetails = createAsyncThunk(
 
     const stakingContract = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, provider);
 
-    const sohmMainContract = new ethers.Contract(
-      addresses[networkID].SOHM_ADDRESS as string,
-      sOHMv2,
-      provider,
-    ) as SOhmv2;
+    const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, sOHMv2, provider) as SOhmv2;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
