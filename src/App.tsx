@@ -178,14 +178,18 @@ function App() {
   );
 
   const oldAssetsDetected = useAppSelector(state => {
-    return (
-      state.account.balances &&
-      (Number(state.account.balances.sohmV1) ||
-      Number(state.account.balances.ohmV1) ||
-      Number(state.account.balances.wsohm)
-        ? true
-        : false)
-    );
+    if (networkId && (networkId === 1 || networkId === 4)) {
+      return (
+        state.account.balances &&
+        (Number(state.account.balances.sohmV1) ||
+        Number(state.account.balances.ohmV1) ||
+        Number(state.account.balances.wsohm)
+          ? true
+          : false)
+      );
+    } else {
+      return false;
+    }
   });
 
   const newAssetsDetected = useAppSelector(state => {
@@ -279,6 +283,7 @@ function App() {
       <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
         <Messages />
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+        <Announcement />
         <nav className={classes.drawer}>
           {isSmallerScreen ? (
             <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
@@ -356,8 +361,6 @@ function App() {
         </div>
 
         <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
-
-        <Announcement />
       </div>
     </ThemeProvider>
   );

@@ -1,7 +1,8 @@
 import { memo } from "react";
 import "./treasury-dashboard.scss";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Paper, Grid, Box, Zoom, Container, useMediaQuery } from "@material-ui/core";
+import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
 
 import {
@@ -25,6 +26,24 @@ const TreasuryDashboard = memo(() => {
           paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
         }}
       >
+        <Box className="hero-metrics" style={{ marginTop: "20px" }}>
+          {/* <Typography color="error">
+            Stay calm, frens. Treasury Stats are inaccurate during migration. After all assets are migrated to new V2
+            treasury contracts the dashboard will be updated. Funds are safu.
+          </Typography> */}
+          <Alert
+            variant="filled"
+            icon={false}
+            severity={`error`}
+            // onClose={handleClose(message)}
+            // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
+            style={{ wordBreak: "break-word" }}
+          >
+            Stay calm, frens. Treasury Stats are inaccurate during migration. After all assets are migrated to new V2
+            treasury contracts the dashboard will be updated. Funds are safu.
+            {/* <Linear message={message} /> */}
+          </Alert>
+        </Box>
         <Box className="hero-metrics">
           <Paper className="ohm-card">
             <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
