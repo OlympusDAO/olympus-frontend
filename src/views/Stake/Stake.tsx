@@ -159,7 +159,7 @@ function Stake() {
       );
     }
 
-    const formQuant = checked && currentIndex ? quantity / Number(currentIndex) : quantity;
+    const formQuant = checked && currentIndex && view === 1 ? quantity / Number(currentIndex) : quantity;
 
     await dispatch(
       changeStake({
@@ -242,7 +242,14 @@ function Stake() {
           </Box>
           <Box width="100%">
             <Typography variant="body2" style={{ margin: "10px" }}>
-              {view === 0 ? "Stake to gOHM" : "Unstake from gOHM"}
+              {view === 0 &&
+                checked &&
+                `Stake ${quantity.toFixed(4)} OHM to ${(quantity / Number(currentIndex)).toFixed(4)} gOHM`}
+              {view === 1 &&
+                checked &&
+                `Unstake ${quantity.toFixed(4)} gOHM to ${(quantity * Number(currentIndex)).toFixed(4)} OHM`}
+              {view === 0 && !checked && `Stake ${quantity.toFixed(4)} OHM to ${quantity.toFixed(4)} sOHM`}
+              {view === 1 && !checked && `Unstake ${quantity.toFixed(4)} sOHM to ${quantity.toFixed(4)} OHM`}
             </Typography>
           </Box>
         </Box>
