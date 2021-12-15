@@ -364,7 +364,7 @@ export const calculateUserBondDetails = createAsyncThunk(
 
 export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   giving: { sohmGive: number; donationInfo: IUserDonationInfo };
-  redeeming: { sohmRedeemable: number; recipientInfo: IUserRecipientInfo };
+  redeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   bonds: { [key: string]: IUserBondDetails };
   balances: {
     gohm: string;
@@ -413,7 +413,7 @@ const initialState: IAccountSlice = {
   },
   giving: { sohmGive: 0, donationInfo: {} },
   redeeming: {
-    sohmRedeemable: 0,
+    sohmRedeemable: "",
     recipientInfo: {
       totalDebt: "",
       carry: "",
