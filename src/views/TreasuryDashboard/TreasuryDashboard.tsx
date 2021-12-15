@@ -1,8 +1,9 @@
 import { memo } from "react";
 import "./treasury-dashboard.scss";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Paper, Grid, Box, Zoom, Container, useMediaQuery } from "@material-ui/core";
-import { MarketCap, OHMPrice, WSOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
+import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
 
 import {
   TotalValueDepositedGraph,
@@ -30,12 +31,24 @@ const TreasuryDashboard = memo(() => {
             <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
               <MarketCap />
               <OHMPrice />
-              <WSOHMPrice />
+              <GOHMPrice />
               <CircSupply />
               <BackingPerOHM />
               <CurrentIndex />
             </Box>
           </Paper>
+        </Box>
+        <Box className="hero-metrics" style={{ marginTop: "20px" }}>
+          <Alert
+            variant="filled"
+            icon={false}
+            severity={`info`}
+            // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
+            style={{ wordBreak: "break-word" }}
+          >
+            Olympus is currently migrating to improved contracts. Please note that during this time, frontend metrics
+            may be inaccurate.
+          </Alert>
         </Box>
 
         <Zoom in={true}>
