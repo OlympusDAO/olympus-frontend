@@ -40,7 +40,7 @@ type RecipientModalProps = {
   cancelFunc: CancelCallback;
   project?: Project;
   currentWalletAddress?: string;
-  currentDepositAmount?: string; // As per IUserDonationInfo
+  currentDepositAmount?: number; // As per IUserDonationInfo
 };
 
 // TODO consider shifting this into interfaces.ts

@@ -33,7 +33,7 @@ interface IUserBalances {
 }
 
 interface IUserDonationInfo {
-  [key: string]: string;
+  [key: string]: number;
 }
 
 interface IUserRecipientInfo {
@@ -180,7 +180,7 @@ export const getDonationBalances = createAsyncThunk(
       let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
       for (let i = 0; i < allDeposits[0].length; i++) {
         if (allDeposits[1][i] !== BigNumber.from(0)) {
-          donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
+          donationInfo[allDeposits[0][i]] = parseFloat(ethers.utils.formatUnits(allDeposits[1][i], "gwei")); // think we should change this to stay a string
         }
       }
     } catch (e: unknown) {
