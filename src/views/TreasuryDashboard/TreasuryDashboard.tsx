@@ -46,8 +46,8 @@ const TreasuryDashboard = memo(() => {
             // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
             style={{ wordBreak: "break-word" }}
           >
-            Stay calm, frens. Treasury Stats are inaccurate during migration. After all assets are migrated to new V2
-            treasury contracts the dashboard will be updated. Funds are safu.
+            Olympus is currently migrating to improved contracts. Please note that during this time, frontend metrics
+            may be inaccurate.
           </Alert>
         </Box>
 
