@@ -33,7 +33,6 @@ export function Wallet() {
   const [isWalletOpen, setWalletOpen] = useState(false);
   const closeWallet = () => setWalletOpen(false);
   const openWallet = () => setWalletOpen(true);
-  const theme = useTheme();
 
   // only enable backdrop transition on ios devices,
   // because we can assume IOS is hosted on hight-end devices and will not drop frames

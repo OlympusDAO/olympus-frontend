@@ -10,6 +10,7 @@ import {
   withStyles,
   useTheme,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -100,9 +101,18 @@ interface TokenProps extends Token {
   onAddTokenToWallet: () => void;
 }
 
-export const Token = ({ symbol, icon, balance, price, onAddTokenToWallet, expanded, onChangeExpanded }: TokenProps) => {
+export const Token = ({
+  symbol,
+  icon,
+  balance = 0,
+  price = 0,
+  onAddTokenToWallet,
+  expanded,
+  onChangeExpanded,
+}: TokenProps) => {
   const theme = useTheme();
-  const balanceValue = balance * price || 0;
+  const balanceValue = balance * price;
+  const isLoadingBalance = useAppSelector(state => state.account.loading);
   return (
     <Accordion expanded={expanded} onChange={onChangeExpanded}>
       <AccordionSummary expandIcon={<SvgIcon component={MoreIcon} color="disabled" />}>
@@ -112,10 +122,10 @@ export const Token = ({ symbol, icon, balance, price, onAddTokenToWallet, expand
         </Box>
         <Box sx={{ textAlign: "right", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <Typography variant="body2" style={{ fontWeight: 600 }}>
-            {trim(Number(balance), 4)}
+            {!isLoadingBalance ? trim(balance, 4) : <Skeleton variant="text" width={50} />}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {formatCurrency(balanceValue, 2)}
+            {!isLoadingBalance && price ? formatCurrency(balanceValue, 2) : <Skeleton variant="text" width={50} />}
           </Typography>
         </Box>
       </AccordionSummary>
@@ -130,51 +140,55 @@ export const Token = ({ symbol, icon, balance, price, onAddTokenToWallet, expand
   );
 };
 
-const tokensSelector = (state: RootState): Token[] => [
-  {
-    symbol: "OHM",
-    address: addresses[state.network.networkId].OHM_ADDRESS,
-    balance: parseFloat(state.account.balances.ohm),
-    price: state.app.marketPrice || 0,
-    icon: OhmImg,
-    decimals: 9,
-  },
-  {
-    symbol: "sOHM",
-    address: addresses[state.network.networkId].SOHM_ADDRESS,
-    balance: parseFloat(state.account.balances.sohm),
-    price: state.app.marketPrice || 0,
-    icon: SOhmImg,
-    decimals: 9,
-  },
-  {
-    symbol: "wsOHM",
-    address: addresses[state.network.networkId].WSOHM_ADDRESS,
-    balance: parseFloat(state.account.balances.wsohm),
-    price: (state.app.marketPrice || 0) * Number(state.app.currentIndex),
-    icon: WsOhmImg,
-    decimals: 18,
-  },
-  {
-    symbol: "33T",
-    address: addresses[state.network.networkId].PT_TOKEN_ADDRESS,
-    balance: parseFloat(state.account.balances.pool),
-    price: state.app.marketPrice || 0,
-    icon: Token33tImg,
-    decimals: 9,
-  },
-  {
-    symbol: "gOHM",
-    address: addresses[state.network.networkId].GOHM_ADDRESS,
-    balance: Object.values(state.account.balances.gohm).reduce(
-      (total, networkGOhmBalance) => total + (parseFloat(networkGOhmBalance) || 0),
-      0,
-    ),
-    price: state.app.marketPrice || 0,
-    icon: GOhmImg,
-    decimals: 9,
-  },
-];
+const tokensSelector = (state: RootState): Token[] => {
+  // defaulting to mainnet while not initialized
+  const networkId = state.network.initialized ? state.network.networkId : 1;
+  return [
+    {
+      symbol: "OHM",
+      address: addresses[networkId].OHM_ADDRESS,
+      balance: parseFloat(state.account.balances.ohm),
+      price: state.app.marketPrice || 0,
+      icon: OhmImg,
+      decimals: 9,
+    },
+    {
+      symbol: "sOHM",
+      address: addresses[networkId].SOHM_ADDRESS,
+      balance: parseFloat(state.account.balances.sohm),
+      price: state.app.marketPrice || 0,
+      icon: SOhmImg,
+      decimals: 9,
+    },
+    {
+      symbol: "wsOHM",
+      address: addresses[networkId].WSOHM_ADDRESS,
+      balance: parseFloat(state.account.balances.wsohm),
+      price: (state.app.marketPrice || 0) * Number(state.app.currentIndex),
+      icon: WsOhmImg,
+      decimals: 18,
+    },
+    {
+      symbol: "33T",
+      address: addresses[networkId].PT_TOKEN_ADDRESS,
+      balance: parseFloat(state.account.balances.pool),
+      price: state.app.marketPrice || 0,
+      icon: Token33tImg,
+      decimals: 9,
+    },
+    {
+      symbol: "gOHM",
+      address: addresses[networkId].GOHM_ADDRESS,
+      balance: Object.values(state.account.balances.gohm).reduce(
+        (total, networkGOhmBalance) => total + (parseFloat(networkGOhmBalance) || 0),
+        0,
+      ),
+      price: (state.app.marketPrice || 0) * Number(state.app.currentIndex),
+      icon: GOhmImg,
+      decimals: 9,
+    },
+  ];
+};
 
 export const useTokens = () => {
   return useAppSelector(tokensSelector);

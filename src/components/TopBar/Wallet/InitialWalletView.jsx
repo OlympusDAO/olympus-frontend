@@ -11,12 +11,14 @@ import {
   Link,
   IconButton,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
 import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as ohmTokenImg } from "src/assets/tokens/token_OHM.svg";
 import { ReactComponent as abracadabraTokenImg } from "src/assets/tokens/MIM.svg";
+import { ReactComponent as arrowRight } from "src/assets/icons/arrow-down.svg";
 import rariTokenImg from "src/assets/tokens/RARI.png";
 import { addresses, TOKEN_DECIMALS } from "src/constants";
 import { formatCurrency } from "src/helpers";
@@ -27,19 +29,31 @@ import { dai, frax } from "src/helpers/AllBonds";
 
 import { Tokens, useTokens } from "./Token";
 
+const iconStyle = { height: "24px", width: "24px" };
+
 const Borrow = ({ Icon1, Icon2, borrowOn, totalAvailable, href }) => {
   const theme = useTheme();
-  const iconSize = "24px";
   return (
     <ExternalLink href={href}>
       <Box sx={{ display: "flex", flexDirection: "column", padding: theme.spacing(1, 0) }}>
         <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row-reverse", justifyContent: "flex-end" }}>
-          <Icon2 style={{ height: iconSize, width: iconSize, marginLeft: "-4px" }} />
-          <Icon1 style={{ height: iconSize, width: iconSize }} />
+          <Icon2 style={{ ...iconStyle, marginLeft: "-8px" }} />
+          <Icon2 style={{ ...iconStyle, marginLeft: "-8px" }} />
+          <Icon2 style={iconStyle} />
+          <SvgIcon component={arrowRight} viewBox="-8 -12 48 48" style={iconStyle} />
+          <Icon1 style={iconStyle} />
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", marginTop: theme.spacing(1) }}>
           <Box sx={{ display: "flex", flexDirection: "column", textAlign: "right", marginRight: theme.spacing(0.5) }}>
-            <Typography>Borrow on {borrowOn}</Typography>
+            <Typography
+              style={{
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                maxWidth: "100%",
+              }}
+            >
+              Borrow on {borrowOn}
+            </Typography>
             {totalAvailable && (
               <Typography variant="body2" color="textSecondary">
                 {totalAvailable} Available
@@ -65,13 +79,28 @@ const ExternalLink = ({ href, children, color = "textSecondary" }) => {
   return (
     <Link target="_blank" rel="noreferrer" href={href} style={{ width: "100%" }}>
       <ExternalLinkStyledButton color={color} variant="outlined" fullWidth>
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+        <Box
+          sx={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
           <Box sx={{ width: "100%" }}>{children}</Box>
           <Box sx={{ display: "flex", alignSelf: "start" }}>
             <SvgIcon
               component={ArrowUpIcon}
               htmlColor={color === "textSecondary" && theme.palette.text.secondary}
-              style={{ height: `18px`, width: `18px`, verticalAlign: "middle" }}
+              style={{
+                position: "absolute",
+                right: -2,
+                top: -2,
+                height: `18px`,
+                width: `18px`,
+                verticalAlign: "middle",
+              }}
             />
           </Box>
         </Box>
@@ -110,17 +139,24 @@ const CloseButton = withStyles(theme => ({
 const WalletTotalValue = () => {
   const tokens = useTokens();
   const styles = useStyles();
+  const marketPrice = useAppSelector(s => s.app.marketPrice);
   const [currency, setCurrency] = useState("USD");
+
+  const walletValueUSD = tokens.reduce((totalValue, token) => totalValue + parseFloat(token.balance) * token.price, 0);
+  const walletValue = {
+    USD: walletValueUSD,
+    OHM: walletValueUSD / marketPrice,
+  };
   return (
     <Box onClick={() => setCurrency(currency === "USD" ? "OHM" : "USD")}>
       <Typography className={styles.myWallet} color="textSecondary">
         MY WALLET
       </Typography>
       <Typography className={styles.totalValue} variant="h4">
-        {formatCurrency(
-          tokens.reduce((totalValue, token) => totalValue + parseFloat(token.balance) * token.price, 0) || 0,
-          2,
-          currency,
+        {marketPrice && walletValueUSD ? (
+          formatCurrency(walletValue[currency], 2, currency)
+        ) : (
+          <Skeleton variant="text" width={100} />
         )}
       </Typography>
     </Box>
@@ -131,7 +167,10 @@ function InitialWalletView({ onClose }) {
   const theme = useTheme();
   const [currentTheme] = useCurrentTheme();
   const styles = useStyles();
-  const networkId = useAppSelector(state => state.network.networkId);
+
+  // we can check if network has been initialized but I think just defaulting to mainnet while it's not initialized is fine
+  const networkId = useAppSelector(({ network: { networkId, initialized } }) => (initialized ? networkId : 1));
+
   return (
     <Box sx={{ padding: theme.spacing(0, 3), display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", padding: theme.spacing(2, 0) }}>
@@ -152,7 +191,7 @@ function InitialWalletView({ onClose }) {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
           gridTemplateRows: "min-content",
           gap: theme.spacing(1.5),
         }}
