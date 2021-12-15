@@ -245,7 +245,9 @@ function Stake() {
               {view === 0 &&
                 checked &&
                 `Stake ${quantity.toFixed(4)} OHM to ${(quantity / Number(currentIndex)).toFixed(4)} gOHM`}
-              {view === 1 && checked && `Unstake ${quantity.toFixed(4)} gOHM to ${(quantity*Number(currentIndex)).toFixed(4)} OHM`}
+              {view === 1 &&
+                checked &&
+                `Unstake ${quantity.toFixed(4)} gOHM to ${(quantity * Number(currentIndex)).toFixed(4)} OHM`}
               {view === 0 && !checked && `Stake ${quantity.toFixed(4)} OHM to ${quantity.toFixed(4)} sOHM`}
               {view === 1 && !checked && `Unstake ${quantity.toFixed(4)} sOHM to ${quantity.toFixed(4)} OHM`}
             </Typography>
