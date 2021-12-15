@@ -244,12 +244,12 @@ function Stake() {
             <Typography variant="body2" style={{ margin: "10px" }}>
               {view === 0 &&
                 checked &&
-                `Stake ${quantity.toFixed(4)} OHM to ${(quantity / Number(currentIndex)).toFixed(4)} gOHM`}
+                `Staking ${quantity.toFixed(4)} OHM to ${(quantity / Number(currentIndex)).toFixed(4)} gOHM`}
               {view === 1 &&
                 checked &&
-                `Unstake ${quantity.toFixed(4)} gOHM to ${(quantity * Number(currentIndex)).toFixed(4)} OHM`}
-              {view === 0 && !checked && `Stake ${quantity.toFixed(4)} OHM to ${quantity.toFixed(4)} sOHM`}
-              {view === 1 && !checked && `Unstake ${quantity.toFixed(4)} sOHM to ${quantity.toFixed(4)} OHM`}
+                `Unstaking ${quantity.toFixed(4)} gOHM to ${(quantity * Number(currentIndex)).toFixed(4)} OHM`}
+              {view === 0 && !checked && "Stake to gOHM instead"}
+              {view === 1 && !checked && "Unstake from gOHM instead"}
             </Typography>
           </Box>
         </Box>
