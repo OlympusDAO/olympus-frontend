@@ -26,24 +26,6 @@ const TreasuryDashboard = memo(() => {
           paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
         }}
       >
-        <Box className="hero-metrics" style={{ marginTop: "20px" }}>
-          {/* <Typography color="error">
-            Stay calm, frens. Treasury Stats are inaccurate during migration. After all assets are migrated to new V2
-            treasury contracts the dashboard will be updated. Funds are safu.
-          </Typography> */}
-          <Alert
-            variant="filled"
-            icon={false}
-            severity={`error`}
-            // onClose={handleClose(message)}
-            // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
-            style={{ wordBreak: "break-word" }}
-          >
-            Stay calm, frens. Treasury Stats are inaccurate during migration. After all assets are migrated to new V2
-            treasury contracts the dashboard will be updated. Funds are safu.
-            {/* <Linear message={message} /> */}
-          </Alert>
-        </Box>
         <Box className="hero-metrics">
           <Paper className="ohm-card">
             <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
@@ -55,6 +37,18 @@ const TreasuryDashboard = memo(() => {
               <CurrentIndex />
             </Box>
           </Paper>
+        </Box>
+        <Box className="hero-metrics" style={{ marginTop: "20px" }}>
+          <Alert
+            variant="filled"
+            icon={false}
+            severity={`info`}
+            // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
+            style={{ wordBreak: "break-word" }}
+          >
+            Stay calm, frens. Treasury Stats are inaccurate during migration. After all assets are migrated to new V2
+            treasury contracts the dashboard will be updated. Funds are safu.
+          </Alert>
         </Box>
 
         <Zoom in={true}>

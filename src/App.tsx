@@ -86,6 +86,7 @@ function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const currentPath = location.pathname + location.hash + location.search;
+  const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -293,7 +294,9 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected && !hasActiveV1Bonds && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+          {oldAssetsDetected && !hasActiveV1Bonds && trimmedPath.indexOf("dashboard") === -1 && (
+            <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
+          )}
 
           <Switch>
             <Route exact path="/dashboard">
