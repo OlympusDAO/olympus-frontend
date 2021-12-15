@@ -195,4 +195,23 @@ export class EnvHelper {
     }
     return zapPool;
   }
+
+  /**
+   * Indicates whether the give feature is enabled.
+   *
+   * The feature is enabled when:
+   * - REACT_APP_GIVE_ENABLED is true
+   * - give_enabled parameter is present
+   *
+   * @param url
+   * @returns
+   */
+  static isGiveEnabled(url: string): boolean {
+    const giveEnabled = EnvHelper.env.REACT_APP_GIVE_ENABLED;
+    const giveEnabledParameter = url && url.includes("give_enabled");
+
+    if (giveEnabled || giveEnabledParameter) return true;
+
+    return false;
+  }
 }

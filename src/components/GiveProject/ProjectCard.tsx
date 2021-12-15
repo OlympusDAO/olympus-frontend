@@ -264,14 +264,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 fill={svgFillColour}
               />
               <Typography variant="h6">
-                <strong>
-                  {recipientInfoIsLoading ? <Skeleton /> : formattedTotalDebt}
-                  <Trans> sOHM</Trans>
-                </strong>
+                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDebt}</strong>
               </Typography>
             </div>
             <div className="subtext">
-              <Trans>Donated</Trans>
+              <Trans>sOHM Donated</Trans>
             </div>
           </Grid>
           <Grid item xs={4} />
@@ -284,14 +281,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 fill={svgFillColour}
               />
               <Typography variant="h6">
-                <strong>
-                  {new BigNumber(depositGoal).toFormat()}
-                  <Trans> sOHM</Trans>
-                </strong>
+                <strong>{new BigNumber(depositGoal).toFormat()}</strong>
               </Typography>
             </div>
             <div className="subtext">
-              <Trans>Goal</Trans>
+              <Trans>sOHM Goal</Trans>
             </div>
           </Grid>
         </Grid>
@@ -345,6 +339,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         provider,
         address,
         networkID: networkId,
+        version2: false,
+        rebase: false,
       }),
     );
 
@@ -408,7 +404,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Grid item xs={3} sm={6} md={3}>
                   {renderGoalCompletion()}
                 </Grid>
-                <Grid item xs={6} sm={12} md={6} className="give-button-grid">
+                <Grid item xs={4} sm={12} md={6} className="give-button-grid">
                   <Button
                     variant="contained"
                     color="primary"

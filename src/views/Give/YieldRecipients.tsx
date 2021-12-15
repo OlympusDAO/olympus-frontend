@@ -100,6 +100,8 @@ export default function YieldRecipients() {
         provider,
         address,
         networkID: networkId,
+        version2: false,
+        rebase: false,
       }),
     );
 
@@ -128,6 +130,8 @@ export default function YieldRecipients() {
         provider,
         address,
         networkID: networkId,
+        version2: false,
+        rebase: false,
       }),
     );
 
