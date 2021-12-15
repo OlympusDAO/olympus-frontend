@@ -2,7 +2,6 @@ import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-// Delete before mainnet
 import { abi as MockSohm } from "../abi/MockSohm.json";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText, isPendingTxn, IPendingTxn } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -53,10 +52,15 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+    const sohmContract;
+    if (networkID === 1) {
+      sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
+    } else if (networkID === 4) {
+      sohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+    }
     let approveTx;
     try {
-      approveTx = await mockSohmContract.approve(
+      approveTx = await sohmContract.approve(
         addresses[networkID].GIVING_ADDRESS,
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );
@@ -73,7 +77,13 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+    const giveAllowance;
+    if (networkID === 1) {
+      giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    } else if (networkID === 4) {
+      giveAllowance = await sohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+    }
+
     return dispatch(
       fetchAccountSuccess({
         giving: {
@@ -151,7 +161,10 @@ export const changeGive = createAsyncThunk(
   },
 );
 
-// Delete before mainnet
+/*
+  Put in place for anyone testing Give on testnet to easily get our mockSohm tokens
+  through a button in the ohmmenu component. Does not appear on mainnet.
+*/
 export const getTestTokens = createAsyncThunk(
   "give/getTokens",
   async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
