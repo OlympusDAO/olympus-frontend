@@ -2,7 +2,6 @@ import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-// Delete before mainnet
 import { abi as MockSohm } from "../abi/MockSohm.json";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText, isPendingTxn, IPendingTxn } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -52,11 +51,22 @@ export const changeApproval = createAsyncThunk(
       return;
     }
 
+    /*
+      On testnet it's been best for testing Give to use a pseudo-sOHM contract
+      that gives us more control to rebase manually when needed. However, this 
+      makes it not as perfectly translatable to mainnet without changing any parameters
+      this is the best way to avoid manually switching out code every deployment
+    */
     const signer = provider.getSigner();
-    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+    let sohmContract;
+    if (networkID === 1) {
+      sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
+    } else if (networkID === 4) {
+      sohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+    }
     let approveTx;
     try {
-      approveTx = await mockSohmContract.approve(
+      approveTx = await sohmContract?.approve(
         addresses[networkID].GIVING_ADDRESS,
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );
@@ -73,7 +83,17 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+    /*
+      The pseudo-sOHM contract used on testnet does not have a functional allowance
+      mapping. Instead approval calls write allowaces to a mapping title _allowedValue
+    */
+    let giveAllowance;
+    if (networkID === 1) {
+      giveAllowance = await sohmContract?.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    } else if (networkID === 4) {
+      giveAllowance = await sohmContract?._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+    }
+
     return dispatch(
       fetchAccountSuccess({
         giving: {
@@ -151,7 +171,10 @@ export const changeGive = createAsyncThunk(
   },
 );
 
-// Delete before mainnet
+/*
+  Put in place for anyone testing Give on testnet to easily get our mockSohm tokens
+  through a button in the ohmmenu component. Does not appear on mainnet.
+*/
 export const getTestTokens = createAsyncThunk(
   "give/getTokens",
   async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {

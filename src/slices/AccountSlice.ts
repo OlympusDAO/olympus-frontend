@@ -145,8 +145,11 @@ export const getBalances = createAsyncThunk(
     } catch (e) {
       handleContractError(e);
     }
-    // delete before mainnet
-    let mockSohmBalance = BigNumber.from(0);
+    /*
+      Needed a sOHM contract on testnet that could easily 
+      be manually rebased to test redeem features
+    */
+    let mockSohmBalance = null;
     if (addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(
         addresses[networkID].MOCK_SOHM as string,
@@ -167,6 +170,7 @@ export const getBalances = createAsyncThunk(
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
         ohm: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmV2Balance, "gwei"),
+        ...(mockSohmBalance && { mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei") }),
       },
     };
   },
@@ -175,16 +179,28 @@ export const getBalances = createAsyncThunk(
 export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
-    // Change to .allowance before mainnet
-    const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+    /*
+      On testnet it's been best for testing Give to use a pseudo-sOHM contract
+      that gives us more control to rebase manually when needed. However, this 
+      makes it not as perfectly translatable to mainnet without changing any parameters
+      this is the best way to avoid manually switching out code every deployment
+    */
+    let giveAllowance = 0;
+    if (networkID === 1) {
+      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
+      giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    } else if (networkID === 4) {
+      const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
+      giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+    }
+
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
     let donationInfo: IUserDonationInfo = {};
     try {
       let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
       for (let i = 0; i < allDeposits[0].length; i++) {
         if (allDeposits[1][i] !== BigNumber.from(0)) {
-          donationInfo[allDeposits[0][i]] = parseFloat(ethers.utils.formatUnits(allDeposits[1][i], "gwei"));
+          donationInfo[allDeposits[0][i]] = parseFloat(ethers.utils.formatUnits(allDeposits[1][i], "gwei")); // think we should change this to stay a string
         }
       }
     } catch (e: unknown) {
