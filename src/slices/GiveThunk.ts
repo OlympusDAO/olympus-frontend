@@ -51,6 +51,12 @@ export const changeApproval = createAsyncThunk(
       return;
     }
 
+    /*
+      On testnet it's been best for testing Give to use a pseudo-sOHM contract
+      that gives us more control to rebase manually when needed. However, this 
+      makes it not as perfectly translatable to mainnet without changing any parameters
+      this is the best way to avoid manually switching out code every deployment
+    */
     const signer = provider.getSigner();
     let sohmContract;
     if (networkID === 1) {
@@ -77,6 +83,10 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
+    /*
+      The pseudo-sOHM contract used on testnet does not have a functional allowance
+      mapping. Instead approval calls write allowaces to a mapping title _allowedValue
+    */
     let giveAllowance;
     if (networkID === 1) {
       giveAllowance = await sohmContract?.allowance(address, addresses[networkID].GIVING_ADDRESS);

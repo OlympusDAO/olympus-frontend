@@ -130,7 +130,7 @@ export const getBalances = createAsyncThunk(
       Needed a sOHM contract on testnet that could easily 
       be manually rebased to test redeem features
     */
-    let mockSohmBalance = BigNumber.from(0);
+    let mockSohmBalance = null;
     if (addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(
         addresses[networkID].MOCK_SOHM as string,
@@ -150,7 +150,7 @@ export const getBalances = createAsyncThunk(
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
         wsohmAsSohm: ethers.utils.formatUnits(wsohmAsSohm, "gwei"),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
-        mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei"), // is there a way to include this ONLY on testnet?
+        ...(mockSohmBalance && { mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei") }),
       },
     };
   },
@@ -165,7 +165,7 @@ export const getDonationBalances = createAsyncThunk(
       makes it not as perfectly translatable to mainnet without changing any parameters
       this is the best way to avoid manually switching out code every deployment
     */
-    let giveAllowance;
+    let giveAllowance = 0;
     if (networkID === 1) {
       const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
       giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
