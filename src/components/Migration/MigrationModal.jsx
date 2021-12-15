@@ -64,6 +64,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const { provider, address, connect } = useWeb3Context();
 
+  const networkId = useAppSelector(state => state.network.networkId);
+
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
@@ -81,7 +83,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   let rows = [];
   let isMigrationComplete = useSelector(state => state.account.isMigrationComplete);
-  const networkId = useAppSelector(state => state.network.networkId);
+
   const onSeekApproval = token => {
     dispatch(
       changeMigrationApproval({
@@ -119,7 +121,12 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const wsOhmInUSD = formatCurrency(wsOhmPrice * currentWSOhmBalance);
 
   useEffect(() => {
-    if (isAllApproved && (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)) {
+    if (
+      networkId &&
+      (networkId === 1 || networkId === 4) &&
+      isAllApproved &&
+      (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
+    ) {
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
