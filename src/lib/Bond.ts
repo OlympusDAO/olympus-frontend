@@ -49,6 +49,9 @@ interface BondOpts {
   name: string; // Internal name used for references
   displayName: string; // Displayname on UI
   isBondable: Available; // aka isBondable => set false to hide
+  // NOTE (appleseed): temporary for ONHOLD MIGRATION
+  isLOLable: Available; // aka isBondable => set false to hide
+  LOLmessage: string; // aka isBondable => set false to hide
   isClaimable: Available; // set false to hide
   bondIconSvg: React.ReactNode; //  SVG path for icons
   bondContractABI: ethers.ContractInterface; // ABI for contract
@@ -63,6 +66,9 @@ export abstract class Bond {
   readonly name: string;
   readonly displayName: string;
   readonly isBondable: Available;
+  // NOTE (appleseed): temporary for ONHOLD MIGRATION
+  readonly isLOLable: Available;
+  readonly LOLmessage: string;
   readonly isClaimable: Available;
   readonly type: BondType;
   readonly bondIconSvg: React.ReactNode;
@@ -83,6 +89,9 @@ export abstract class Bond {
     this.name = bondOpts.name;
     this.displayName = bondOpts.displayName;
     this.isBondable = bondOpts.isBondable;
+    // NOTE (appleseed): temporary for ONHOLD MIGRATION
+    this.isLOLable = bondOpts.isLOLable;
+    this.LOLmessage = bondOpts.LOLmessage;
     this.type = type;
     this.isClaimable = bondOpts.isClaimable;
     this.bondIconSvg = bondOpts.bondIconSvg;
@@ -102,6 +111,10 @@ export abstract class Bond {
   }
   getClaimability(networkID: NetworkID) {
     return this.isClaimable[networkID];
+  }
+  // NOTE (appleseed): temporary for ONHOLD MIGRATION
+  getLOLability(networkID: NetworkID) {
+    return this.isLOLable[networkID];
   }
 
   getAddressForBond(networkID: NetworkID) {

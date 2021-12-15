@@ -7,9 +7,14 @@ import ZapStakeAction from "./ZapStakeAction";
 import ZapInfo from "./ZapInfo";
 import { useAppSelector } from "src/hooks";
 import { Trans } from "@lingui/macro";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useHistory } from "react-router";
 
 function Zap() {
   const { address, connect } = useWeb3Context();
+  const history = useHistory();
+  const networkId = useAppSelector(state => state.network.networkId);
+  usePathForNetwork({ pathName: "zap", networkID: networkId, history });
 
   const tokens = useAppSelector(state => state.zap.balances);
   const inputTokenImages = useMemo(

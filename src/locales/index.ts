@@ -1,5 +1,5 @@
 import { i18n } from "@lingui/core";
-import { en, fr, ko, tr, zh, ar, es } from "make-plural/plurals";
+import { en, fr, ko, tr, zh, ar, es, vi } from "make-plural/plurals";
 
 // Declare locales
 interface ILocale {
@@ -18,6 +18,7 @@ export const locales: ILocales = {
   zh: { flag: "cn", plurals: zh, direction: "inherit" },
   ar: { flag: "sa", plurals: ar, direction: "rtl" },
   es: { flag: "es", plurals: es, direction: "inherit" },
+  vi: { flag: "vi", plurals: vi, direction: "inherit" },
 };
 // Create translations style element
 const translations_style_dom = document.createElement("style");

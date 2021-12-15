@@ -182,7 +182,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     className="transaction-button"
                     disabled={true}
                   >
-                    <Trans>Sold Out</Trans>
+                    {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
+                    {/* <Trans>Sold Out</Trans> */}
+                    {bond.LOLmessage}
                   </Button>
                 ) : hasAllowance() ? (
                   <Button

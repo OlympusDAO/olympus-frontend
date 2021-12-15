@@ -2,7 +2,7 @@ import { memo } from "react";
 import "./treasury-dashboard.scss";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Paper, Grid, Box, Zoom, Container, useMediaQuery } from "@material-ui/core";
-import { MarketCap, OHMPrice, WSOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
+import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
 
 import {
   TotalValueDepositedGraph,
@@ -30,7 +30,7 @@ const TreasuryDashboard = memo(() => {
             <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
               <MarketCap />
               <OHMPrice />
-              <WSOHMPrice />
+              <GOHMPrice />
               <CircSupply />
               <BackingPerOHM />
               <CurrentIndex />
@@ -59,7 +59,7 @@ const TreasuryDashboard = memo(() => {
             </Grid>
 
             <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card">
+              <Paper className="ohm-card ohm-chart-card">
                 <ProtocolOwnedLiquidityGraph />
               </Paper>
             </Grid>
@@ -90,13 +90,13 @@ const TreasuryDashboard = memo(() => {
             </Grid> */}
 
             <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card">
+              <Paper className="ohm-card ohm-chart-card">
                 <OHMStakedGraph />
               </Paper>
             </Grid>
 
             <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card">
+              <Paper className="ohm-card ohm-chart-card">
                 <RunwayAvailableGraph />
               </Paper>
             </Grid>
