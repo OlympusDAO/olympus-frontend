@@ -122,53 +122,6 @@ function NavContent() {
                     </Typography>
                   </Link>
 
-                  {EnvHelper.isGiveEnabled(location.search) ? (
-                    <>
-                      <Link
-                        component={NavLink}
-                        id="give-nav"
-                        to="/give"
-                        isActive={(match, location) => {
-                          return checkPage(match, location, "give");
-                        }}
-                        className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                      >
-                        <Typography variant="h6">
-                          <SvgIcon color="primary" component={GiveIcon} />
-                          <Trans>Give</Trans>
-                        </Typography>
-                      </Link>
-                      <div className="dapp-menu-data give-actions">
-                        <div className="give-sub-menus">
-                          <Link
-                            component={NavLink}
-                            id="give-sub-donations"
-                            to="/give/donations"
-                            isActive={(match, location) => {
-                              return checkPage(match, location, "give/donations");
-                            }}
-                            className={"give-option"}
-                          >
-                            <Typography variant="body2">My Donations</Typography>
-                          </Link>
-                          <Link
-                            component={NavLink}
-                            id="give-sub-redeem"
-                            to="/give/redeem"
-                            isActive={(match, location) => {
-                              return checkPage(match, location, "give/redeem");
-                            }}
-                            className={"give-option"}
-                          >
-                            <Typography variant="body2">Redeem Yield</Typography>
-                          </Link>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-
                   <Link
                     component={NavLink}
                     id="wrap-nav"
@@ -265,6 +218,54 @@ function NavContent() {
                       {/* <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                     </Box>
                   </Link>
+
+                  {EnvHelper.isGiveEnabled(location.search) ? (
+                    <>
+                      <Link
+                        component={NavLink}
+                        id="give-nav"
+                        to="/give"
+                        isActive={(match, location) => {
+                          return checkPage(match, location, "give");
+                        }}
+                        className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                      >
+                        <Typography variant="h6">
+                          <SvgIcon color="primary" component={GiveIcon} />
+                          <Trans>Give</Trans>
+                          <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
+                        </Typography>
+                      </Link>
+                      <div className="dapp-menu-data give-actions">
+                        <div className="give-sub-menus">
+                          <Link
+                            component={NavLink}
+                            id="give-sub-donations"
+                            to="/give/donations"
+                            isActive={(match, location) => {
+                              return checkPage(match, location, "give/donations");
+                            }}
+                            className={"give-option"}
+                          >
+                            <Typography variant="body2">My Donations</Typography>
+                          </Link>
+                          <Link
+                            component={NavLink}
+                            id="give-sub-redeem"
+                            to="/give/redeem"
+                            isActive={(match, location) => {
+                              return checkPage(match, location, "give/redeem");
+                            }}
+                            className={"give-option"}
+                          >
+                            <Typography variant="body2">Redeem Yield</Typography>
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <></>
+                  )}
 
                   {/* <Link
                     component={NavLink}
