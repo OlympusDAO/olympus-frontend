@@ -76,16 +76,16 @@ export const CurrentIndex = () => {
   );
 };
 
-export const WSOHMPrice = () => {
-  const wsOhmPrice = useSelector(state => state.app.marketPrice * state.app.currentIndex);
+export const GOHMPrice = () => {
+  const gOhmPrice = useSelector(state => state.app.marketPrice * state.app.currentIndex);
   return (
     <Metric
       className="metric wsoprice"
-      label={t`wsOHM Price`}
-      metric={wsOhmPrice && formatCurrency(wsOhmPrice, 2)}
-      isLoading={wsOhmPrice ? false : true}
+      label={t`gOHM Price`}
+      metric={gOhmPrice && formatCurrency(gOhmPrice, 2)}
+      isLoading={gOhmPrice ? false : true}
       {...sharedProps}
-      tooltip={`wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index`}
+      tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of OHM multiplied by the current index`}
     />
   );
 };

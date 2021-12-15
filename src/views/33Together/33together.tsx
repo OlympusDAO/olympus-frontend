@@ -62,7 +62,7 @@ const PoolTogether = () => {
   const isAccountLoading = useAppSelector(state => state.account.loading ?? true);
 
   const sohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+    return state.account.balances && state.account.balances.sohmV1;
   });
 
   const poolBalance = useAppSelector(state => {
