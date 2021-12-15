@@ -35,6 +35,7 @@ import { NETWORKS } from "../../constants";
 import { ethers } from "ethers";
 import "../Stake/stake.scss";
 import { useAppSelector } from "src/hooks/index.ts";
+import WrapCrossChain from "./WrapCrossChain.tsx";
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -293,235 +294,239 @@ function Wrap() {
       );
   };
 
-  return (
-    <div id="stake-view" className="wrapper">
-      <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper className={`ohm-card`}>
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <div className="card-header">
-                <Typography variant="h5">Wrap / Unwrap</Typography>
-                <Link
-                  className="migrate-sohm-button"
-                  style={{ textDecoration: "none" }}
-                  href={
-                    assetTo === "wsOHM"
-                      ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
-                      : "https://docs.olympusdao.finance/main/contracts/tokens#gohm"
-                  }
-                  aria-label="wsohm-wut"
-                  target="_blank"
-                >
-                  <Typography>gOHM</Typography>{" "}
-                  <SvgIcon component={ArrowUp} color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
-                </Link>
-              </div>
-            </Grid>
-
-            <Grid item>
-              <div className="stake-top-metrics">
-                <Grid container spacing={2} alignItems="flex-end">
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="wrap-sOHM">
-                      <Typography variant="h5" color="textSecondary">
-                        sOHM Price
-                      </Typography>
-                      <Typography variant="h4">
-                        {sOhmPrice ? formatCurrency(sOhmPrice, 2) : <Skeleton width="150px" />}
-                      </Typography>
-                    </div>
-                  </Grid>
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="wrap-index">
-                      <Typography variant="h5" color="textSecondary">
-                        Current Index
-                      </Typography>
-                      <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
-                      </Typography>
-                    </div>
-                  </Grid>
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="wrap-wsOHM">
-                      <Typography variant="h5" color="textSecondary">
-                        {`${assetTo} Price`}
-                        <InfoTooltip
-                          message={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
-                        />
-                      </Typography>
-                      <Typography variant="h4">
-                        {gOhmPrice ? formatCurrency(gOhmPrice, 2) : <Skeleton width="150px" />}
-                      </Typography>
-                    </div>
-                  </Grid>
-                </Grid>
-              </div>
-            </Grid>
-
-            <div className="staking-area">
-              {!address ? (
-                <div className="stake-wallet-notification">
-                  <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
-                  </div>
-                  <Typography variant="h6">Connect your wallet</Typography>
+  if (!isAvax) {
+    return (
+      <div id="stake-view" className="wrapper">
+        <Zoom in={true} onEntered={() => setZoomed(true)}>
+          <Paper className={`ohm-card`}>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <div className="card-header">
+                  <Typography variant="h5">Wrap / Unwrap</Typography>
+                  <Link
+                    className="migrate-sohm-button"
+                    style={{ textDecoration: "none" }}
+                    href={
+                      assetTo === "wsOHM"
+                        ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
+                        : "https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                    }
+                    aria-label="wsohm-wut"
+                    target="_blank"
+                  >
+                    <Typography>gOHM</Typography>{" "}
+                    <SvgIcon component={ArrowUp} color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
+                  </Link>
                 </div>
-              ) : (
-                <>
-                  <Box className="stake-action-area">
-                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                      {isAvax ? (
-                        <Box height="32px">
-                          <Typography>
-                            Transform <b>wsOHM</b> to <b>gOHM</b>
-                          </Typography>
-                        </Box>
-                      ) : (
-                        <>
-                          <Typography>
-                            <span className="asset-select-label">{currentAction}</span>
-                          </Typography>
-                          <FormControl
-                            style={{
-                              display: "flex",
-                              flexDirection: "row",
-                              alignItems: "center",
-                              margin: "0 10px",
-                              height: "33px",
-                              minWidth: "69px",
-                            }}
-                          >
-                            <Select
-                              id="asset-select"
-                              value={assetFrom}
-                              label="Asset"
-                              onChange={changeAssetFrom}
-                              disableUnderline
-                            >
-                              <MenuItem value={"sOHM"}>sOHM</MenuItem>
-                              <MenuItem value={"gOHM"}>gOHM</MenuItem>
-                            </Select>
-                          </FormControl>
+              </Grid>
 
-                          <Typography>
-                            <span className="asset-select-label"> to </span>
-                          </Typography>
-                          <FormControl
-                            style={{
-                              display: "flex",
-                              flexDirection: "row",
-                              alignItems: "center",
-                              margin: "0 10px",
-                              height: "33px",
-                              minWidth: "69px",
-                            }}
-                          >
-                            <Select
-                              id="asset-select"
-                              value={assetTo}
-                              label="Asset"
-                              onChange={changeAssetTo}
-                              disableUnderline
-                            >
-                              <MenuItem value={"gOHM"}>gOHM</MenuItem>
-                              <MenuItem value={"sOHM"}>sOHM</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </>
-                      )}
-                    </Box>
-                    <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
-                      <div className="stake-tab-panel wrap-page">
-                        {chooseInputArea()}
-                        {/* <Box width="1px" /> */}
-                        {chooseButtonArea()}
+              <Grid item>
+                <div className="stake-top-metrics">
+                  <Grid container spacing={2} alignItems="flex-end">
+                    <Grid item xs={12} sm={4} md={4} lg={4}>
+                      <div className="wrap-sOHM">
+                        <Typography variant="h5" color="textSecondary">
+                          sOHM Price
+                        </Typography>
+                        <Typography variant="h4">
+                          {sOhmPrice ? formatCurrency(sOhmPrice, 2) : <Skeleton width="150px" />}
+                        </Typography>
                       </div>
-                    </Box>
-                    {/* {quantity && (
+                    </Grid>
+                    <Grid item xs={12} sm={4} md={4} lg={4}>
+                      <div className="wrap-index">
+                        <Typography variant="h5" color="textSecondary">
+                          Current Index
+                        </Typography>
+                        <Typography variant="h4">
+                          {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                        </Typography>
+                      </div>
+                    </Grid>
+                    <Grid item xs={12} sm={4} md={4} lg={4}>
+                      <div className="wrap-wsOHM">
+                        <Typography variant="h5" color="textSecondary">
+                          {`${assetTo} Price`}
+                          <InfoTooltip
+                            message={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
+                          />
+                        </Typography>
+                        <Typography variant="h4">
+                          {gOhmPrice ? formatCurrency(gOhmPrice, 2) : <Skeleton width="150px" />}
+                        </Typography>
+                      </div>
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+
+              <div className="staking-area">
+                {!address ? (
+                  <div className="stake-wallet-notification">
+                    <div className="wallet-menu" id="wallet-menu">
+                      {modalButton}
+                    </div>
+                    <Typography variant="h6">Connect your wallet</Typography>
+                  </div>
+                ) : (
+                  <>
+                    <Box className="stake-action-area">
+                      <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                        {isAvax ? (
+                          <Box height="32px">
+                            <Typography>
+                              Transform <b>wsOHM</b> to <b>gOHM</b>
+                            </Typography>
+                          </Box>
+                        ) : (
+                          <>
+                            <Typography>
+                              <span className="asset-select-label">{currentAction}</span>
+                            </Typography>
+                            <FormControl
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                margin: "0 10px",
+                                height: "33px",
+                                minWidth: "69px",
+                              }}
+                            >
+                              <Select
+                                id="asset-select"
+                                value={assetFrom}
+                                label="Asset"
+                                onChange={changeAssetFrom}
+                                disableUnderline
+                              >
+                                <MenuItem value={"sOHM"}>sOHM</MenuItem>
+                                <MenuItem value={"gOHM"}>gOHM</MenuItem>
+                              </Select>
+                            </FormControl>
+
+                            <Typography>
+                              <span className="asset-select-label"> to </span>
+                            </Typography>
+                            <FormControl
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                margin: "0 10px",
+                                height: "33px",
+                                minWidth: "69px",
+                              }}
+                            >
+                              <Select
+                                id="asset-select"
+                                value={assetTo}
+                                label="Asset"
+                                onChange={changeAssetTo}
+                                disableUnderline
+                              >
+                                <MenuItem value={"gOHM"}>gOHM</MenuItem>
+                                <MenuItem value={"sOHM"}>sOHM</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </>
+                        )}
+                      </Box>
+                      <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
+                        <div className="stake-tab-panel wrap-page">
+                          {chooseInputArea()}
+                          {/* <Box width="1px" /> */}
+                          {chooseButtonArea()}
+                        </div>
+                      </Box>
+                      {/* {quantity && (
                       <Box padding={1}>
                         <Typography variant="body2" className={classes.textHighlight}>
                           {`${trim(quantity, 4)} ${assetFrom} will result in ${trim(convertedQuantity, 4)} ${assetTo}`}
                         </Typography>
                       </Box>
                     )} */}
-                  </Box>
-                  <div className={`stake-user-data`}>
-                    {!isAvax ? (
-                      <>
-                        <div className="data-row">
-                          <Typography variant="body1">sOHM Balance</Typography>
-                          <Typography variant="body1">
-                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
-                          </Typography>
-                        </div>
-                        <div className="data-row">
-                          <Typography variant="body1">gOHM Balance</Typography>
-                          <Typography variant="body1">
-                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
-                          </Typography>
-                        </div>
+                    </Box>
+                    <div className={`stake-user-data`}>
+                      {!isAvax ? (
+                        <>
+                          <div className="data-row">
+                            <Typography variant="body1">sOHM Balance</Typography>
+                            <Typography variant="body1">
+                              {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
+                            </Typography>
+                          </div>
+                          <div className="data-row">
+                            <Typography variant="body1">gOHM Balance</Typography>
+                            <Typography variant="body1">
+                              {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
+                            </Typography>
+                          </div>
 
-                        <Divider />
-                        <Box width="100%" align="center" p={1}>
-                          <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
-                            Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
-                            bridge required!)
-                          </Typography>
-                          <Button
-                            onClick={handleSwitchChain(43114)}
-                            variant="outlined"
-                            p={1}
-                            style={{ margin: "0.3rem" }}
-                          >
-                            <img height="28px" width="28px" src={avax.image} alt={avax.imageAltText} />
-                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                              {avax.chainName}
+                          <Divider />
+                          <Box width="100%" align="center" p={1}>
+                            <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
+                              Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
+                              bridge required!)
                             </Typography>
-                          </Button>
-                          <Button
-                            onClick={handleSwitchChain(42161)}
-                            variant="outlined"
-                            p={1}
-                            style={{ margin: "0.3rem" }}
-                          >
-                            <img height="28px" width="28px" src={arbitrum.image} alt={arbitrum.imageAltText} />
-                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                              {arbitrum.chainName}
+                            <Button
+                              onClick={handleSwitchChain(43114)}
+                              variant="outlined"
+                              p={1}
+                              style={{ margin: "0.3rem" }}
+                            >
+                              <img height="28px" width="28px" src={avax.image} alt={avax.imageAltText} />
+                              <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                                {avax.chainName}
+                              </Typography>
+                            </Button>
+                            <Button
+                              onClick={handleSwitchChain(42161)}
+                              variant="outlined"
+                              p={1}
+                              style={{ margin: "0.3rem" }}
+                            >
+                              <img height="28px" width="28px" src={arbitrum.image} alt={arbitrum.imageAltText} />
+                              <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                                {arbitrum.chainName}
+                              </Typography>
+                            </Button>
+                          </Box>
+                        </>
+                      ) : (
+                        <>
+                          <div className="data-row">
+                            <Typography variant="body1">gOHM Balance ({networkName})</Typography>
+                            <Typography variant="body1">
+                              {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4) + " gOHM"}</>}
                             </Typography>
-                          </Button>
-                        </Box>
-                      </>
-                    ) : (
-                      <>
-                        <div className="data-row">
-                          <Typography variant="body1">gOHM Balance ({networkName})</Typography>
-                          <Typography variant="body1">
-                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4) + " gOHM"}</>}
-                          </Typography>
-                        </div>
-                        <Divider />
-                        <Box width="100%" align="center" p={1}>
-                          <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
-                            Back to Ethereum Mainnet
-                          </Typography>
-                          <Button onClick={handleSwitchChain(1)} variant="outlined" p={1}>
-                            <img height="28px" width="28px" src={ethereum.image} alt={ethereum.imageAltText} />
-                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                              {ethereum.chainName}
+                          </div>
+                          <Divider />
+                          <Box width="100%" align="center" p={1}>
+                            <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
+                              Back to Ethereum Mainnet
                             </Typography>
-                          </Button>
-                        </Box>
-                      </>
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
-          </Grid>
-        </Paper>
-      </Zoom>
-    </div>
-  );
+                            <Button onClick={handleSwitchChain(1)} variant="outlined" p={1}>
+                              <img height="28px" width="28px" src={ethereum.image} alt={ethereum.imageAltText} />
+                              <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                                {ethereum.chainName}
+                              </Typography>
+                            </Button>
+                          </Box>
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            </Grid>
+          </Paper>
+        </Zoom>
+      </div>
+    );
+  } else {
+    return <WrapCrossChain />;
+  }
 }
 
 export default Wrap;
