@@ -16,10 +16,10 @@ import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
 import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
+import { ReactComponent as daiTokenImg } from "src/assets/tokens/DAI.svg";
 import { ReactComponent as ohmTokenImg } from "src/assets/tokens/token_OHM.svg";
 import { ReactComponent as abracadabraTokenImg } from "src/assets/tokens/MIM.svg";
-import { ReactComponent as arrowRight } from "src/assets/icons/arrow-down.svg";
-import rariTokenImg from "src/assets/tokens/RARI.png";
+import { ReactComponent as arrowDown } from "src/assets/icons/arrow-down.svg";
 import { addresses, TOKEN_DECIMALS } from "src/constants";
 import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
@@ -29,29 +29,25 @@ import { dai, frax } from "src/helpers/AllBonds";
 
 import { Tokens, useTokens } from "./Token";
 
-const iconStyle = { height: "24px", width: "24px" };
-
-const Borrow = ({ Icon1, Icon2, borrowOn, totalAvailable, href }) => {
+const Borrow = ({ Icon1, borrowableTokensIcons, borrowOn, totalAvailable, href }) => {
   const theme = useTheme();
   return (
     <ExternalLink href={href}>
       <Box sx={{ display: "flex", flexDirection: "column", padding: theme.spacing(1, 0) }}>
         <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row-reverse", justifyContent: "flex-end" }}>
-          <Icon2 style={{ ...iconStyle, marginLeft: "-8px" }} />
-          <Icon2 style={{ ...iconStyle, marginLeft: "-8px" }} />
-          <Icon2 style={iconStyle} />
-          <SvgIcon component={arrowRight} viewBox="-8 -12 48 48" style={iconStyle} />
-          <Icon1 style={iconStyle} />
+          {borrowableTokensIcons.map((Icon, i, arr) => (
+            <Icon style={{ height: "24px", width: "24px", ...(arr.length !== i + 1 && { marginLeft: "-8px" }) }} />
+          ))}
+          <SvgIcon
+            component={arrowDown}
+            viewBox="-8 -12 48 48"
+            style={{ height: "24px", width: "24px", transform: "rotate(270deg)" }}
+          />
+          <Icon1 style={{ height: "24px", width: "24px" }} />
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", marginTop: theme.spacing(1) }}>
           <Box sx={{ display: "flex", flexDirection: "column", textAlign: "right", marginRight: theme.spacing(0.5) }}>
-            <Typography
-              style={{
-                wordWrap: "break-word",
-                wordBreak: "break-all",
-                maxWidth: "100%",
-              }}
-            >
+            <Typography align="left" style={{ maxWidth: "90px", whiteSpace: "break-spaces" }}>
               Borrow on {borrowOn}
             </Typography>
             {totalAvailable && (
@@ -215,14 +211,14 @@ function InitialWalletView({ onClose }) {
         <Borrow
           href={`https://abracadabra.money/pool/10`}
           borrowOn="Abracadabra"
+          borrowableTokensIcons={[wethTokenImg, daiTokenImg, abracadabraTokenImg]}
           Icon1={ohmTokenImg}
-          Icon2={abracadabraTokenImg}
         />
         <Borrow
           href={`https://app.rari.capital/fuse/pool/18`}
           borrowOn="Rari Capital"
+          borrowableTokensIcons={[wethTokenImg, wethTokenImg, wethTokenImg]}
           Icon1={ohmTokenImg}
-          Icon2={props => <img src={rariTokenImg} {...props} />}
         />
         <Box sx={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
