@@ -159,7 +159,7 @@ function Stake() {
       );
     }
 
-    const formQuant = checked && currentIndex ? quantity / Number(currentIndex) : quantity;
+    const formQuant = checked && currentIndex && view === 1 ? quantity / Number(currentIndex) : quantity;
 
     await dispatch(
       changeStake({
