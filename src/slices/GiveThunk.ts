@@ -52,7 +52,7 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract;
+    let sohmContract;
     if (networkID === 1) {
       sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
     } else if (networkID === 4) {
@@ -60,7 +60,7 @@ export const changeApproval = createAsyncThunk(
     }
     let approveTx;
     try {
-      approveTx = await sohmContract.approve(
+      approveTx = await sohmContract?.approve(
         addresses[networkID].GIVING_ADDRESS,
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );
@@ -77,11 +77,11 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const giveAllowance;
+    let giveAllowance;
     if (networkID === 1) {
-      giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+      giveAllowance = await sohmContract?.allowance(address, addresses[networkID].GIVING_ADDRESS);
     } else if (networkID === 4) {
-      giveAllowance = await sohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+      giveAllowance = await sohmContract?._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
     }
 
     return dispatch(

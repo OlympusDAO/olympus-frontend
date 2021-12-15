@@ -165,12 +165,13 @@ export const getDonationBalances = createAsyncThunk(
       makes it not as perfectly translatable to mainnet without changing any parameters
       this is the best way to avoid manually switching out code every deployment
     */
+    let giveAllowance;
     if (networkID === 1) {
-      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, provider);
-      const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
+      giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
     } else if (networkID === 4) {
       const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
-      const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+      giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
     }
 
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
