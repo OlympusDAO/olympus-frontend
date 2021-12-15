@@ -124,87 +124,6 @@ function NavContent() {
 
                   <Link
                     component={NavLink}
-                    id="wrap-nav"
-                    to="/wrap"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "wrap");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
-                      {/* <WrapIcon /> */}
-                      <Typography variant="h6">Wrap</Typography>
-                      {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
-                    </Box>
-                  </Link>
-
-                  <Link
-                    href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
-                    target="_blank"
-                  >
-                    <Typography variant="h6">
-                      <BridgeIcon />
-                      <Trans>Bridge</Trans>
-                      <SvgIcon style={{ marginLeft: "5px" }} component={ArrowUpIcon} />
-                    </Typography>
-                  </Link>
-
-                  <Link
-                    component={NavLink}
-                    id="bond-nav"
-                    to="/bonds"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "bonds");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Typography variant="h6">
-                      <SvgIcon color="primary" component={BondIcon} />
-                      <Trans>Bond</Trans>
-                    </Typography>
-                  </Link>
-
-                  <div className="dapp-menu-data discounts">
-                    <div className="bond-discounts">
-                      <Typography variant="body2">
-                        <Trans>Bond discounts</Trans>
-                      </Typography>
-                      {bonds.map((bond, i) => {
-                        // NOTE (appleseed): temporary for ONHOLD MIGRATION
-                        // if (bond.getBondability(networkId)) {
-                        if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
-                          return (
-                            <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
-                              {!bond.bondDiscount ? (
-                                <Skeleton variant="text" width={"150px"} />
-                              ) : (
-                                <Typography variant="body2">
-                                  {bond.displayName}
-
-                                  <span className="bond-pair-roi">
-                                    {bond.isLOLable[networkId]
-                                      ? "--"
-                                      : !bond.isBondable[networkId]
-                                      ? "Sold Out"
-                                      : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
-                                    {/* {!bond.isBondable[networkId]
-                                      ? "Sold Out"
-                                      : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
-                                  </span>
-                                </Typography>
-                              )}
-                            </Link>
-                          );
-                        }
-                      })}
-                    </div>
-                  </div>
-                  <Box className="menu-divider">
-                    <Divider />
-                  </Box>
-                  <Link
-                    component={NavLink}
                     id="zap-nav"
                     to="/zap"
                     isActive={(match, location) => {
@@ -266,6 +185,89 @@ function NavContent() {
                   ) : (
                     <></>
                   )}
+
+                  <Link
+                    component={NavLink}
+                    id="bond-nav"
+                    to="/bonds"
+                    isActive={(match, location) => {
+                      return checkPage(match, location, "bonds");
+                    }}
+                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                  >
+                    <Typography variant="h6">
+                      <SvgIcon color="primary" component={BondIcon} />
+                      <Trans>Bond</Trans>
+                    </Typography>
+                  </Link>
+
+                  <div className="dapp-menu-data discounts">
+                    <div className="bond-discounts">
+                      <Typography variant="body2">
+                        <Trans>Bond discounts</Trans>
+                      </Typography>
+                      {bonds.map((bond, i) => {
+                        // NOTE (appleseed): temporary for ONHOLD MIGRATION
+                        // if (bond.getBondability(networkId)) {
+                        if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
+                          return (
+                            <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
+                              {!bond.bondDiscount ? (
+                                <Skeleton variant="text" width={"150px"} />
+                              ) : (
+                                <Typography variant="body2">
+                                  {bond.displayName}
+
+                                  <span className="bond-pair-roi">
+                                    {bond.isLOLable[networkId]
+                                      ? "--"
+                                      : !bond.isBondable[networkId]
+                                      ? "Sold Out"
+                                      : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
+                                    {/* {!bond.isBondable[networkId]
+                                      ? "Sold Out"
+                                      : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
+                                  </span>
+                                </Typography>
+                              )}
+                            </Link>
+                          );
+                        }
+                      })}
+                    </div>
+                  </div>
+
+                  <Link
+                    component={NavLink}
+                    id="wrap-nav"
+                    to="/wrap"
+                    isActive={(match, location) => {
+                      return checkPage(match, location, "wrap");
+                    }}
+                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                  >
+                    <Box display="flex" alignItems="center">
+                      <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
+                      {/* <WrapIcon /> */}
+                      <Typography variant="h6">Wrap</Typography>
+                      {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
+                    </Box>
+                  </Link>
+
+                  <Link
+                    href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
+                    target="_blank"
+                  >
+                    <Typography variant="h6">
+                      <BridgeIcon />
+                      <Trans>Bridge</Trans>
+                      <SvgIcon style={{ marginLeft: "5px" }} component={ArrowUpIcon} />
+                    </Typography>
+                  </Link>
+
+                  <Box className="menu-divider">
+                    <Divider />
+                  </Box>
 
                   {/* <Link
                     component={NavLink}
