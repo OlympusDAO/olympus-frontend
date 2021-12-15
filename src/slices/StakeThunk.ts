@@ -183,7 +183,7 @@ export const changeStake = createAsyncThunk(
           // 4th argument is claim default to true
           stakeTx = rebase
             ? await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
-            : await stakingV2.stake(address, ethers.utils.parseUnits(value, "ether"), false, true);
+            : await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), false, true);
         } else {
           uaData.type = "unstake";
           // 3rd arg is trigger defualt to true for mainnet and false for rinkeby
