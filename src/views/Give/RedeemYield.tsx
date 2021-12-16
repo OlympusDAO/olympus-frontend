@@ -194,7 +194,7 @@ export default function RedeemYield() {
                       <Trans>Donated sOHM Generating Yield</Trans>
                     </TableCell>
                     <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
-                      {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + t` sOHM`}
+                      {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + " " + t` sOHM`}
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -203,7 +203,11 @@ export default function RedeemYield() {
                     </TableCell>
                     <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
                       {" "}
-                      {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(redeemableBalanceNumber) + t` sOHM`}
+                      {isRecipientInfoLoading ? (
+                        <Skeleton />
+                      ) : (
+                        getTrimmedBigNumber(redeemableBalanceNumber) + " " + t` sOHM`
+                      )}
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -212,7 +216,7 @@ export default function RedeemYield() {
                     </TableCell>
                     <TableCell className={getTableCellClass(isAppLoading)}>
                       {" "}
-                      {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + t` sOHM`}
+                      {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + " " + t` sOHM`}
                     </TableCell>
                   </TableRow>
                   <TableRow>
