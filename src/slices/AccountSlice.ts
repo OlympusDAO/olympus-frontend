@@ -37,7 +37,6 @@ export const getBalances = createAsyncThunk(
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmBalance = await gOhmContract.balanceOf(address);
-      console.log(gOhmBalance);
     } catch (e) {
       handleContractError(e);
     }
