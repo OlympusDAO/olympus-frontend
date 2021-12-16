@@ -62,7 +62,7 @@ export const changeApproval = createAsyncThunk(
     if (networkID === 1) {
       sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
     } else if (networkID === 4) {
-      sohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+      sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, signer);
     }
     let approveTx;
     try {
@@ -91,7 +91,7 @@ export const changeApproval = createAsyncThunk(
     if (networkID === 1) {
       giveAllowance = await sohmContract?.allowance(address, addresses[networkID].GIVING_ADDRESS);
     } else if (networkID === 4) {
-      giveAllowance = await sohmContract?._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+      giveAllowance = await sohmContract?.allowance(address, addresses[networkID].GIVING_ADDRESS);
     }
 
     return dispatch(

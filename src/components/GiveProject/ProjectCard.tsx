@@ -105,8 +105,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       provider: provider,
       address: wallet,
     }).then(resultAction => {
-      setDonorCount(!resultAction ? 0 : resultAction.length);
-      setDonorCountIsLoading(false);
+      // setDonorCount(!resultAction ? 0 : resultAction.length);
+      // setDonorCountIsLoading(false);
     });
   }, [connected, networkId, isGiveModalOpen]);
 
