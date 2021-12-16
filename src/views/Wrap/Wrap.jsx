@@ -384,7 +384,6 @@ function Wrap() {
                       <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
                         <div className="stake-tab-panel wrap-page">
                           {chooseInputArea()}
-                          {/* <Box width="1px" /> */}
                           {chooseButtonArea()}
                         </div>
                       </Box>

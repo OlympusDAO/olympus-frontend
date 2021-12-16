@@ -176,7 +176,7 @@ function WrapCrossChain() {
           }
           onClick={approveWrap}
         >
-          {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
+          {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Migrate")}
         </Button>
       );
 
