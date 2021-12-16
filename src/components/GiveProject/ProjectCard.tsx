@@ -104,10 +104,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       networkID: networkId,
       provider: provider,
       address: wallet,
-    }).then(resultAction => {
-      setDonorCount(!resultAction ? 0 : resultAction.length);
-      setDonorCountIsLoading(false);
-    });
+    })
+      .then(resultAction => {
+        setDonorCount(!resultAction ? 0 : resultAction.length);
+        setDonorCountIsLoading(false);
+      })
+      .catch(e => console.error(e));
   }, [connected, networkId, isGiveModalOpen]);
 
   // The JSON file returns a string, so we convert it
