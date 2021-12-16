@@ -106,7 +106,7 @@ export default function CausesDashboard() {
 
         {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
           <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
-            <Typography variant="h6">Redeem Yield</Typography>
+            <Typography variant="h6">Redeem</Typography>
           </Link>
         ) : (
           <></>

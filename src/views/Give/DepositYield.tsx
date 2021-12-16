@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { Paper, Typography, Zoom, Container, Box, Link } from "@material-ui/core";
+import { Paper, Typography, Zoom, Container, Box, Link, SvgIcon } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -11,6 +11,7 @@ import { t, Trans } from "@lingui/macro";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
+import { ChevronLeft } from "@material-ui/icons";
 
 type State = {
   account: IAccountSlice;
@@ -57,11 +58,15 @@ export default function DepositYield() {
     >
       <Box className="give-subnav">
         <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
-          <Typography variant="h6">Back to Dashboard</Typography>
+          <SvgIcon component={ChevronLeft} />
+          <Typography variant="h6">Back</Typography>
+        </Link>
+        <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
+          <Typography variant="h6">My Donations</Typography>
         </Link>
         {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
           <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
-            <Typography variant="h6">Redeem Yield</Typography>
+            <Typography variant="h6">Redeem</Typography>
           </Link>
         ) : (
           <></>

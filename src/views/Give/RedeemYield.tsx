@@ -13,6 +13,7 @@ import {
   TableRow,
   TableContainer,
   Container,
+  SvgIcon,
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -28,6 +29,7 @@ import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
 import { RedeemCancelCallback, RedeemYieldModal, RedeemSubmitCallback } from "./RedeemYieldModal";
 import { useAppSelector } from "src/hooks";
+import { ChevronLeft } from "@material-ui/icons";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -157,15 +159,19 @@ export default function RedeemYield() {
     >
       <Box className="give-subnav">
         <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
-          <Typography variant="h6">Back to Dashboard</Typography>
+          <SvgIcon component={ChevronLeft} />
+          <Typography variant="h6">Back</Typography>
         </Link>
         {Object.keys(donationInfo).length > 0 ? (
-          <Link component={NavLink} id="give-sub-redeem" to="/give/donations" className="give-option">
+          <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
             <Typography variant="h6">My Donations</Typography>
           </Link>
         ) : (
           <></>
         )}
+        <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
+          <Typography variant="h6">Redeem</Typography>
+        </Link>
       </Box>
       <div id="give-view">
         <Zoom in={true}>

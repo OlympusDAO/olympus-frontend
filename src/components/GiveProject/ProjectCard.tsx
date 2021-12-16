@@ -9,9 +9,9 @@ import {
   useMediaQuery,
   Container,
   Box,
+  SvgIcon,
 } from "@material-ui/core";
 import Countdown from "react-countdown";
-import SvgIcon from "@material-ui/core/SvgIcon";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
@@ -41,6 +41,7 @@ import { NavLink } from "react-router-dom";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
+import { ChevronLeft } from "@material-ui/icons";
 
 type CountdownProps = {
   total: number;
@@ -478,7 +479,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         >
           <Box className="give-subnav">
             <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
-              <Typography variant="h6">Back to Dashboard</Typography>
+              <SvgIcon component={ChevronLeft} />
+              <Typography variant="h6">Back</Typography>
             </Link>
             {Object.keys(donationInfo).length > 0 ? (
               <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
@@ -489,7 +491,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             )}
             {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
               <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
-                <Typography variant="h6">Redeem Yield</Typography>
+                <Typography variant="h6">Redeem</Typography>
               </Link>
             ) : (
               <></>

@@ -255,13 +255,19 @@
 
 .give-subnav {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
 
   max-width: 833px;
   margin: 25px auto;
 
+  .give-option {
+    margin-right: 1rem;
+  }
+
   #give-sub-dash {
+    display: flex;
+    flex-direction: row;
     text-decoration: none;
   }
 
