@@ -276,6 +276,14 @@
   }
 }
 
+.give-subnav.smaller {
+  margin-left: 6px;
+
+  #give-sub-dash {
+    margin-left: -7px;
+  }
+}
+
 .custom-recipient {
   display: flex;
   flex-direction: row;

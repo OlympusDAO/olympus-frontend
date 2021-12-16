@@ -157,7 +157,7 @@ export default function RedeemYield() {
         paddingRight: isSmallScreen ? "0" : "3.3rem",
       }}
     >
-      <Box className="give-subnav">
+      <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
         <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
           <SvgIcon component={ChevronLeft} />
           <Typography variant="h6">Back</Typography>

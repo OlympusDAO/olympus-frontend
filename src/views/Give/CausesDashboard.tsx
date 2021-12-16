@@ -95,7 +95,7 @@ export default function CausesDashboard() {
         paddingRight: isSmallScreen ? "0" : "3.3rem",
       }}
     >
-      <Box className="give-subnav">
+      <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
         {Object.keys(donationInfo).length > 0 ? (
           <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
             <Typography variant="h6">My Donations</Typography>

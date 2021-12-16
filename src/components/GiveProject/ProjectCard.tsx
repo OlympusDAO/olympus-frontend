@@ -477,7 +477,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           }}
           className="project-container"
         >
-          <Box className="give-subnav">
+          <Box className={`give-subnav ${(isSmallScreen || isVerySmallScreen) && "smaller"}`}>
             <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
               <SvgIcon component={ChevronLeft} />
               <Typography variant="h6">Back</Typography>
