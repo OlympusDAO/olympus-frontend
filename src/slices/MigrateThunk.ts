@@ -193,7 +193,7 @@ export const migrateAll = createAsyncThunk(
       }
     }
     // go get fresh balances
-    dispatch(loadAccountDetails({ address, provider, networkID }));
+    dispatch(getBalances({ address, provider, networkID }));
     dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
