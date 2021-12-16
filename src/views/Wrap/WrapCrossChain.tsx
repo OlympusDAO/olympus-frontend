@@ -81,7 +81,7 @@ function WrapCrossChain() {
     assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap") + " to gOHM" : `${currentAction} ${assetFrom}`;
 
   const setMax = () => {
-    setQuantity(gohmBalance.toString());
+    setQuantity(wsOhmBalance.toString());
   };
 
   const handleSwitchChain = (id: any) => {
