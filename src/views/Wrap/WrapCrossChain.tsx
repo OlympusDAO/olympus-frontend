@@ -44,11 +44,6 @@ function WrapCrossChain() {
   const assetFrom = "wsOHM";
   const assetTo = "gOHM";
 
-  const chooseCurrentAction = () => {
-    return "Transform";
-  };
-  const currentAction = chooseCurrentAction();
-
   const isAppLoading = useAppSelector(state => state.app.loading || state.account.loading);
   const currentIndex =
     useAppSelector(state => {
@@ -68,7 +63,7 @@ function WrapCrossChain() {
     return state.account.balances && Number(state.account.balances.gohm);
   });
 
-  const wsOhmAllowance = useAppSelector(state => state.account.wrapping.wsohmUnwrap);
+  const wsOhmAllowance = useAppSelector(state => state.account.migration.wsohm);
   const wsOhmBalance = useAppSelector(state => Number(state.account.balances.wsohm));
 
   const pendingTransactions = useAppSelector(state => {
@@ -77,8 +72,7 @@ function WrapCrossChain() {
 
   const ethereum = NETWORKS[1];
 
-  const wrapButtonText =
-    assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap") + " to gOHM" : `${currentAction} ${assetFrom}`;
+  const wrapButtonText = "Migrate";
 
   const setMax = () => {
     setQuantity(wsOhmBalance.toString());
@@ -176,7 +170,7 @@ function WrapCrossChain() {
           }
           onClick={approveWrap}
         >
-          {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Migrate")}
+          {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
         </Button>
       );
 
@@ -282,6 +276,12 @@ function WrapCrossChain() {
                     </Box>
                   </Box>
                   <div className={`stake-user-data`}>
+                    <div className="data-row">
+                      <Typography variant="body1">wsOHM Balance ({networkName})</Typography>
+                      <Typography variant="body1">
+                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsOhmBalance, 4) + " wsOHM"}</>}
+                      </Typography>
+                    </div>
                     <div className="data-row">
                       <Typography variant="body1">gOHM Balance ({networkName})</Typography>
                       <Typography variant="body1">
