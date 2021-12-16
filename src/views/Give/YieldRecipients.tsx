@@ -243,7 +243,7 @@ export default function YieldRecipients() {
                 callbackFunc={handleEditModalSubmit}
                 cancelFunc={handleEditModalCancel}
                 currentWalletAddress={recipient}
-                currentDepositAmount={donationInfo[recipient]}
+                currentDepositAmount={new BigNumber(donationInfo[recipient])}
                 key={recipient}
               />
             )
@@ -262,7 +262,7 @@ export default function YieldRecipients() {
                 callbackFunc={handleWithdrawModalSubmit}
                 cancelFunc={handleWithdrawModalCancel}
                 walletAddress={recipient}
-                depositAmount={donationInfo[recipient]}
+                depositAmount={new BigNumber(donationInfo[recipient])}
                 project={projectMap.get(recipient)}
                 key={recipient}
               />

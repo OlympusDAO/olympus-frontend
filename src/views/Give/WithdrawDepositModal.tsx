@@ -25,7 +25,7 @@ type WithdrawModalProps = {
   callbackFunc: WithdrawSubmitCallback;
   cancelFunc: WithdrawCancelCallback;
   walletAddress: string;
-  depositAmount: number; // As per IUserDonationInfo
+  depositAmount: BigNumber; // As per IUserDonationInfo
   project?: Project;
 };
 
