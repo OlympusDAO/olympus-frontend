@@ -69,7 +69,7 @@ export default function DepositYield() {
           )}
         </Paper>
       </Box>
-      <div className="give-view">
+      <div id="give-view">
         <Zoom in={true}>
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
             <div className="card-header">
