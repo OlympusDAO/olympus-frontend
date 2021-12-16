@@ -41,6 +41,10 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
   };
 };
 
+/*
+  With the old YieldDirector contract hooked to MockSohm this will no longer work
+  but it will work with the new YieldDirector version that indexes event topics
+*/
 export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   const zeroPadAddress = ethers.utils.hexZeroPad(address, 32);
 
