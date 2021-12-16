@@ -9,12 +9,15 @@ import { CancelCallback, RecipientModal, SubmitCallback } from "./RecipientModal
 import { BigNumber } from "bignumber.js";
 import { error } from "../../slices/MessagesSlice";
 import { useAppDispatch, useAppSelector } from "src/hooks";
-import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
+import { changeGive, changeMockGive, ACTION_GIVE } from "src/slices/GiveThunk";
 import { GiveInfo } from "./GiveInfo";
 import { useUIDSeed } from "react-uid";
 import { t, Trans } from "@lingui/macro";
+import { useLocation } from "react-router-dom";
+import { EnvHelper } from "src/helpers/Environment";
 
 export default function CausesDashboard() {
+  const location = useLocation();
   const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
@@ -49,18 +52,33 @@ export default function CausesDashboard() {
     // Record segment user event
 
     // If reducing the amount of deposit, withdraw
-    await dispatch(
-      changeGive({
-        action: ACTION_GIVE,
-        value: depositAmount.toFixed(),
-        recipient: walletAddress,
-        provider,
-        address,
-        networkID: networkId,
-        version2: false,
-        rebase: false,
-      }),
-    );
+    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(
+        changeMockGive({
+          action: ACTION_GIVE,
+          value: depositAmount.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    } else {
+      await dispatch(
+        changeGive({
+          action: ACTION_GIVE,
+          value: depositAmount.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    }
 
     setIsCustomGiveModalOpen(false);
   };

@@ -18,7 +18,7 @@ import { NavLink } from "react-router-dom";
 
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive } from "../../slices/GiveThunk";
+import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal, SubmitCallback } from "./RecipientModal";
 import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
@@ -32,6 +32,8 @@ import data from "./projects.json";
 import { Project } from "src/components/GiveProject/project.type";
 import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
+import { useLocation } from "react-router-dom";
+import { EnvHelper } from "src/helpers/Environment";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -41,6 +43,7 @@ type State = {
 };
 
 export default function YieldRecipients() {
+  const location = useLocation();
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connect } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
@@ -53,7 +56,9 @@ export default function YieldRecipients() {
   // TODO fix typing of state.app.loading
   const isAppLoading = useSelector((state: any) => state.app.loading);
   const donationInfo = useSelector((state: State) => {
-    return state.account.giving && state.account.giving.donationInfo;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockGiving && state.account.mockGiving.donationInfo
+      : state.account.giving && state.account.giving.donationInfo;
   });
 
   const isDonationInfoLoading = donationInfo == undefined;
@@ -94,18 +99,33 @@ export default function YieldRecipients() {
     // Record segment user event
 
     // If reducing the amount of deposit, withdraw
-    await dispatch(
-      changeGive({
-        action: ACTION_GIVE_EDIT,
-        value: depositAmountDiff.toFixed(),
-        recipient: walletAddress,
-        provider,
-        address,
-        networkID: networkId,
-        version2: false,
-        rebase: false,
-      }),
-    );
+    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(
+        changeMockGive({
+          action: ACTION_GIVE_EDIT,
+          value: depositAmountDiff.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    } else {
+      await dispatch(
+        changeGive({
+          action: ACTION_GIVE_EDIT,
+          value: depositAmountDiff.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    }
 
     setIsEditModalOpen(false);
   };
@@ -124,18 +144,33 @@ export default function YieldRecipients() {
     // Record Segment user event
 
     // Issue withdrawal from smart contract
-    await dispatch(
-      changeGive({
-        action: ACTION_GIVE_WITHDRAW,
-        value: depositAmount.toFixed(),
-        recipient: walletAddress,
-        provider,
-        address,
-        networkID: networkId,
-        version2: false,
-        rebase: false,
-      }),
-    );
+    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(
+        changeMockGive({
+          action: ACTION_GIVE_WITHDRAW,
+          value: depositAmount.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    } else {
+      await dispatch(
+        changeGive({
+          action: ACTION_GIVE_WITHDRAW,
+          value: depositAmount.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    }
 
     setIsWithdrawModalOpen(false);
   };

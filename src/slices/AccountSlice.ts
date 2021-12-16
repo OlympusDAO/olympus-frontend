@@ -14,7 +14,7 @@ import { getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelp
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
-import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk, IBaseAddressLocationAsyncThunk } from "./interfaces";
+import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 import {
   FiatDAOContract,
   FuseProxy,
@@ -59,8 +59,6 @@ interface IUserRecipientInfo {
   agnosticAmount: string;
   indexAtLastChange: string;
 }
-
-const location = useLocation();
 
 export const getBalances = createAsyncThunk(
   "account/getBalances",
@@ -222,22 +220,43 @@ export const getDonationBalances = createAsyncThunk(
 );
 
 export const getMockDonationBalances = createAsyncThunk(
-  "account/getDonationBalances",
+  "account/getMockDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     if (addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
       const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
-      const givingContract = new ethers.Contract(addresses[networkID].MOCK_GIVING_ADDRESS as string, OlympusGiving, provider);
+      const givingContract = new ethers.Contract(
+        addresses[networkID].MOCK_GIVING_ADDRESS as string,
+        OlympusGiving,
+        provider,
+      );
 
       let donationInfo: IUserDonationInfo = {};
       try {
         let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
         for (let i = 0; i < allDeposits[0].length; i++) {
           if (allDeposits[1][i] !== BigNumber.from(0)) {
-            
+            // Store as a formatted string
+            donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
           }
         }
+      } catch (e: unknown) {
+        console.error(e);
       }
+
+      return {
+        mockGiving: {
+          sohmGive: +giveAllowance,
+          donationInfo: donationInfo,
+        },
+      };
+    } else {
+      return {
+        mockGiving: {
+          sohmGive: "0",
+          donationInfo: {},
+        },
+      };
     }
   },
 );
@@ -357,6 +376,7 @@ export const loadAccountDetails = createAsyncThunk(
     }
     await dispatch(getBalances({ address, networkID, provider }));
     await dispatch(getDonationBalances({ address, networkID, provider }));
+    await dispatch(getMockDonationBalances({ address, networkID, provider }));
     await dispatch(getRedemptionBalances({ address, networkID, provider }));
 
     if (addresses[networkID].GOHM_ADDRESS) {
@@ -443,6 +463,7 @@ export const calculateUserBondDetails = createAsyncThunk(
 
 export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   giving: { sohmGive: number; donationInfo: IUserDonationInfo };
+  mockGiving: { sohmGive: number; donationInfo: IUserDonationInfo };
   redeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   bonds: { [key: string]: IUserBondDetails };
   balances: {
@@ -497,6 +518,7 @@ const initialState: IAccountSlice = {
     mockSohm: "",
   },
   giving: { sohmGive: 0, donationInfo: {} },
+  mockGiving: { sohmGive: 0, donationInfo: {} },
   redeeming: {
     sohmRedeemable: "",
     recipientInfo: {
@@ -552,6 +574,17 @@ const accountSlice = createSlice({
         state.loading = false;
       })
       .addCase(getDonationBalances.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(getMockDonationBalances.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getMockDonationBalances.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.loading = false;
+      })
+      .addCase(getMockDonationBalances.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       })

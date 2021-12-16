@@ -10,6 +10,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import {
   changeApproval,
+  changeMockApproval,
   hasPendingGiveTxn,
   PENDING_TXN_GIVE,
   PENDING_TXN_EDIT_GIVE,
@@ -95,18 +96,15 @@ export function RecipientModal({
    * TODO consider extracting this into a helper file
    */
   const sohmBalance: string = useSelector((state: State) => {
-    console.log(
-      state.account.balances && networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
-        ? state.account.balances.sohm
-        : state.account.balances.mockSohm,
-    );
-    return state.account.balances && networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.balances.sohm
-      : state.account.balances.mockSohm;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.balances && state.account.balances.mockSohm
+      : state.account.balances && state.account.balances.sohm;
   });
 
   const giveAllowance: number = useSelector((state: State) => {
-    return state.account.giving && state.account.giving.sohmGive;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockGiving && state.account.mockGiving.sohmGive
+      : state.account.giving && state.account.giving.sohmGive;
   });
 
   const isAccountLoading: boolean = useSelector((state: State) => {
@@ -118,7 +116,11 @@ export function RecipientModal({
   });
 
   const onSeekApproval = async () => {
-    await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
+    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
+    } else {
+      await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
+    }
   };
 
   const hasAllowance = useCallback(() => {
