@@ -18,7 +18,7 @@ export const locales: ILocales = {
   zh: { flag: "cn", plurals: zh, direction: "inherit" },
   ar: { flag: "sa", plurals: ar, direction: "rtl" },
   es: { flag: "es", plurals: es, direction: "inherit" },
-  vi: { flag: "vi", plurals: vi, direction: "inherit" },
+  vi: { flag: "vn", plurals: vi, direction: "inherit" },
 };
 // Create translations style element
 const translations_style_dom = document.createElement("style");
