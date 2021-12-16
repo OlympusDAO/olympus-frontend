@@ -147,9 +147,11 @@ export default function YieldRecipients() {
 
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);
-    if (project) return project.owner + " - " + project.title;
+    if (!project) return shorten(address);
 
-    return shorten(address);
+    if (!project.owner) return project.title;
+
+    return project.owner + " - " + project.title;
   };
 
   if (Object.keys(donationInfo).length == 0) {
