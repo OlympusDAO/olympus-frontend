@@ -14,7 +14,7 @@ import { getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelp
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
-import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
+import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk, IBaseAddressLocationAsyncThunk } from "./interfaces";
 import {
   FiatDAOContract,
   FuseProxy,
@@ -25,6 +25,8 @@ import {
   OlympusStakingv2__factory,
 } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
+import { useLocation } from "react-router-dom";
+import { EnvHelper } from "src/helpers/Environment";
 
 interface IUserBalances {
   balances: {
@@ -49,6 +51,8 @@ interface IUserRecipientInfo {
   agnosticAmount: string;
   indexAtLastChange: string;
 }
+
+const location = useLocation();
 
 export const getBalances = createAsyncThunk(
   "account/getBalances",
@@ -179,22 +183,10 @@ export const getBalances = createAsyncThunk(
 export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    /*
-      On testnet it's been best for testing Give to use a pseudo-sOHM contract
-      that gives us more control to rebase manually when needed. However, this 
-      makes it not as perfectly translatable to mainnet without changing any parameters
-      this is the best way to avoid manually switching out code every deployment
-    */
-    let giveAllowance = 0;
-    if (networkID === 1) {
-      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
-      giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
-    } else if (networkID === 4) {
-      const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
-      giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
-    }
-
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
+    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
+
     let donationInfo: IUserDonationInfo = {};
     try {
       let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
@@ -213,6 +205,27 @@ export const getDonationBalances = createAsyncThunk(
         donationInfo: donationInfo,
       },
     };
+  },
+);
+
+export const getMockDonationBalances = createAsyncThunk(
+  "account/getDonationBalances",
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+    if (addresses[networkID].MOCK_SOHM) {
+      const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
+      const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
+      const givingContract = new ethers.Contract(addresses[networkID].MOCK_GIVING_ADDRESS as string, OlympusGiving, provider);
+
+      let donationInfo: IUserDonationInfo = {};
+      try {
+        let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
+        for (let i = 0; i < allDeposits[0].length; i++) {
+          if (allDeposits[1][i] !== BigNumber.from(0)) {
+            
+          }
+        }
+      }
+    }
   },
 );
 

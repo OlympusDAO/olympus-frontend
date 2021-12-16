@@ -33,6 +33,8 @@ import { shorten } from "src/helpers";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
+import { useLocation } from "react-router-dom";
+import { EnvHelper } from "src/helpers/Environment";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -65,6 +67,7 @@ export function RecipientModal({
   currentWalletAddress,
   currentDepositAmount,
 }: RecipientModalProps) {
+  const location = useLocation();
   const dispatch = useDispatch();
   const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
@@ -92,7 +95,14 @@ export function RecipientModal({
    * TODO consider extracting this into a helper file
    */
   const sohmBalance: string = useSelector((state: State) => {
-    return state.account.balances && networkId === 1 ? state.account.balances.sohm : state.account.balances.mockSohm;
+    console.log(
+      state.account.balances && networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+        ? state.account.balances.sohm
+        : state.account.balances.mockSohm,
+    );
+    return state.account.balances && networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.balances.sohm
+      : state.account.balances.mockSohm;
   });
 
   const giveAllowance: number = useSelector((state: State) => {

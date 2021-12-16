@@ -15,6 +15,8 @@ import {
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
+import { useLocation } from "react-router-dom";
+import { EnvHelper } from "src/helpers/Environment";
 
 interface IUAData {
   address: string;
@@ -59,10 +61,10 @@ export const changeApproval = createAsyncThunk(
     */
     const signer = provider.getSigner();
     let sohmContract;
-    if (networkID === 1) {
+    if (EnvHelper.isMockSohmEnabled(location.search) && networkID === 4) {
+      sohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, ierc20Abi, signer);
+    } else if (!EnvHelper.isMockSohmEnabled(location.search)) {
       sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, signer);
-    } else if (networkID === 4) {
-      sohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
     }
     let approveTx;
     try {
@@ -88,10 +90,10 @@ export const changeApproval = createAsyncThunk(
       mapping. Instead approval calls write allowaces to a mapping title _allowedValue
     */
     let giveAllowance;
-    if (networkID === 1) {
-      giveAllowance = await sohmContract?.allowance(address, addresses[networkID].GIVING_ADDRESS);
-    } else if (networkID === 4) {
+    if (EnvHelper.isMockSohmEnabled(location.search) && networkID === 4) {
       giveAllowance = await sohmContract?._allowedValue(address, addresses[networkID].GIVING_ADDRESS);
+    } else if (!EnvHelper.isMockSohmEnabled(location.search)) {
+      giveAllowance = await sohmContract?.allowance(address, addresses[networkID].GIVING_ADDRESS);
     }
 
     return dispatch(
