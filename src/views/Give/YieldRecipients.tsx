@@ -32,6 +32,7 @@ import data from "./projects.json";
 import { Project } from "src/components/GiveProject/project.type";
 import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -49,6 +50,7 @@ export default function YieldRecipients() {
   const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // TODO fix typing of state.app.loading
   const isAppLoading = useSelector((state: any) => state.app.loading);
@@ -178,7 +180,7 @@ export default function YieldRecipients() {
   return (
     <div className="card-content">
       <Grid container className="donation-table">
-        <Grid item sm={12} md={6} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
+        <Grid item xs={12} sm={6} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
           <Typography variant="h6">
             <Trans>Recipient</Trans>
           </Typography>
@@ -194,12 +196,16 @@ export default function YieldRecipients() {
             return isAppLoading ? (
               <Skeleton />
             ) : (
-              <Box className="donation-row">
-                <Grid item sm={12} md={6} style={{ display: "flex" }}>
-                  <Typography variant="body1">{getRecipientTitle(recipient)}</Typography>
-                  <Typography variant="body1">{donationInfo[recipient]}</Typography>
+              <Grid container className="donation-row">
+                <Grid item xs={12} sm={6} className="donation-info" style={{ display: "flex" }}>
+                  <Typography variant="body1" align="left">
+                    {getRecipientTitle(recipient)}
+                  </Typography>
+                  <Typography variant="body1" align="left">
+                    {donationInfo[recipient]}
+                  </Typography>
                 </Grid>
-                <Grid item sm={12} md={6} style={{ display: "flex" }}>
+                <Grid item xs={12} sm={6} className={`donation-buttons ${isSmallScreen && "smaller"}`}>
                   <Button
                     variant="outlined"
                     color="secondary"
@@ -219,10 +225,10 @@ export default function YieldRecipients() {
                     <Trans>Withdraw</Trans>
                   </Button>
                 </Grid>
-                <Box className="recipient-divider">
+                <Grid item xs={12} className="recipient-divider">
                   <Divider />
-                </Box>
-              </Box>
+                </Grid>
+              </Grid>
             );
           })
         )}

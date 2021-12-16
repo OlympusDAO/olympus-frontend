@@ -257,10 +257,28 @@
     flex-direction: row;
 
     .donation-row {
+      display: flex;
+      justify-content: flex-end;
       width: 100%;
 
-      button {
-        margin-right: 1rem;
+      .donation-buttons {
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+          margin-right: 1rem;
+        }
+      }
+
+      .donation-buttons.smaller {
+        justify-content: flex-start;
+        margin-top: 1rem;
+      }
+
+      .recipient-divider {
+        width: 100%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
       }
     }
 
@@ -269,12 +287,10 @@
     }
 
     .MuiTypography-body1 {
+      width: 25%;
       margin-right: 2rem;
-    }
-
-    .recipient-divider {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0rem;
     }
   }
 }
