@@ -18,7 +18,7 @@ const externalUrls = [
   },
   {
     title: <Trans>Docs</Trans>,
-    url: "https://docs.olympusdao.finance/",
+    url: "https://cre8rdao.gitbook.io/cre8r/",
     icon: <SvgIcon color="primary" component={DocsIcon} />,
   },
   // {

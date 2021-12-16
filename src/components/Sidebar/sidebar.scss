@@ -34,7 +34,7 @@
   width: 100%;
   align-items: center;
   text-decoration: none;
-  margin: 30px 0 10px 0;
+  margin: 30px 0 60px 0;
   .branding-header-icon {
     width: 50px;
     display: block;
@@ -49,8 +49,7 @@
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  margin-bottom: 10px;
-  min-height: max-content;
+  height: 60vh;
   .dapp-nav {
     display: flex;
     flex-flow: column;
@@ -63,13 +62,13 @@
 }
 
 .dapp-menu-links {
-  min-height: 35vh;
+  width: 50%;
+  margin: 0 auto;
   display: flex;
   align-items: center;
 }
 .dapp-nav a {
   margin-top: 0.7rem;
-  margin-left: 33px;
   align-items: center;
   margin-bottom: 0.5rem;
   svg {
@@ -85,7 +84,8 @@
   flex-flow: column;
   align-items: flex-start;
   justify-content: center;
-  margin-left: 33px;
+  width: 50%;
+  margin: 0 auto;
   h6 {
     display: flex;
     align-self: center;

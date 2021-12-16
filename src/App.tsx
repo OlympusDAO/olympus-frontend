@@ -34,7 +34,7 @@ import { initializeNetwork } from "./slices/NetworkSlice";
 import { useAppSelector } from "./hooks";
 
 // 😬 Sorry for all the console logging
-const DEBUG = false;
+const DEBUG = true;
 
 // 🛰 providers
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
@@ -250,23 +250,31 @@ function App() {
               <Stake />
             </Route>
 
+            {/* <Route path="/v1-stake">
+              <V1Stake
+                hasActiveV1Bonds={hasActiveV1Bonds}
+                oldAssetsDetected={oldAssetsDetected}
+                setMigrationModalOpen={setMigrationModalOpen}
+              />
+            </Route> */}
+
             <Route path="/wrap">
               <Route exact path={`/wrap`}>
                 <Wrap />
               </Route>
             </Route>
 
-            <Route path="/zap">
+            {/* <Route path="/zap">
               <Route exact path={`/zap`}>
                 <Zap />
               </Route>
-            </Route>
+            </Route> */}
 
-            <Route path="/33-together">
+            {/* <Route path="/33-together">
               <PoolTogether />
-            </Route>
+            </Route> */}
 
-            <Route path="/bonds">
+            {/* <Route path="/bonds">
               {(bonds as IAllBondData[]).map(bond => {
                 return (
                   <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
@@ -275,7 +283,7 @@ function App() {
                 );
               })}
               <ChooseBond />
-            </Route>
+            </Route> */}
 
             <Route path="/network">
               <ChangeNetwork />
