@@ -95,7 +95,7 @@ export default function YieldRecipients() {
     await dispatch(
       changeGive({
         action: ACTION_GIVE_EDIT,
-        value: depositAmountDiff.toString(),
+        value: depositAmountDiff.toFixed(),
         recipient: walletAddress,
         provider,
         address,
@@ -125,7 +125,7 @@ export default function YieldRecipients() {
     await dispatch(
       changeGive({
         action: ACTION_GIVE_WITHDRAW,
-        value: depositAmount.toString(),
+        value: depositAmount.toFixed(),
         recipient: walletAddress,
         provider,
         address,

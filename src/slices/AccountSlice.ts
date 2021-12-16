@@ -205,6 +205,7 @@ export const getDonationBalances = createAsyncThunk(
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
     let donationInfo: IUserDonationInfo = {};
     try {
+      // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
       let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
       for (let i = 0; i < allDeposits[0].length; i++) {
         if (allDeposits[1][i].eq(0)) continue;
