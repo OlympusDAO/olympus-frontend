@@ -62,6 +62,7 @@ export const getBalances = createAsyncThunk(
   "account/getBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     let gOhmBalance = BigNumber.from("0");
+    let gOhmBalAsSohmBal = BigNumber.from("0");
     let ohmBalance = BigNumber.from("0");
     let sohmBalance = BigNumber.from("0");
     let ohmV2Balance = BigNumber.from("0");
@@ -73,6 +74,7 @@ export const getBalances = createAsyncThunk(
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmBalance = await gOhmContract.balanceOf(address);
+      gOhmBalAsSohmBal = await gOhmContract.balanceFrom(gOhmBalance.toString());
     } catch (e) {
       handleContractError(e);
     }
@@ -170,6 +172,7 @@ export const getBalances = createAsyncThunk(
     return {
       balances: {
         gohm: ethers.utils.formatEther(gOhmBalance),
+        gOhmAsSohmBal: ethers.utils.formatUnits(gOhmBalAsSohmBal, "gwei"),
         ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
@@ -431,6 +434,7 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   bonds: { [key: string]: IUserBondDetails };
   balances: {
     gohm: string;
+    gOhmAsSohmBal: string;
     ohmV1: string;
     ohm: string;
     sohm: string;
@@ -466,6 +470,7 @@ const initialState: IAccountSlice = {
   bonds: {},
   balances: {
     gohm: "",
+    gOhmAsSohmBal: "",
     ohmV1: "",
     ohm: "",
     sohm: "",

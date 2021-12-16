@@ -214,7 +214,9 @@ function App() {
   const newAssetsDetected = useAppSelector(state => {
     return (
       state.account.balances &&
-      (Number(state.account.balances.gohm) || Number(state.account.balances.sohm) ? true : false)
+      (Number(state.account.balances.gohm) || Number(state.account.balances.sohm) || Number(state.account.balances.ohm)
+        ? true
+        : false)
     );
   });
 
