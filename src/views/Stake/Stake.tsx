@@ -23,7 +23,9 @@ import {
   Checkbox,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
-import NewReleases from "@material-ui/icons/NewReleases";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { getGohmBalFromSohm, trim } from "../../helpers";
@@ -254,6 +256,8 @@ function Stake() {
               color="primary"
               inputProps={{ "aria-label": "checkbox" }}
               className="stake-to-ohm-checkbox"
+              checkedIcon={<CheckBoxIcon viewBox="0 0 25 25" />}
+              icon={<CheckBoxOutlineBlankIcon viewBox="0 0 25 25" />}
             />
           </Box>
           <Box width="100%">
