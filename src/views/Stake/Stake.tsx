@@ -26,7 +26,7 @@ import { t, Trans } from "@lingui/macro";
 import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim } from "../../helpers";
+import { getGohmBalFromSohm, trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import "./stake.scss";
@@ -58,7 +58,7 @@ function Stake() {
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState("");
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
@@ -92,7 +92,11 @@ function Stake() {
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
-  const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
+
+  // const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
+  const gOhmAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmAsSohmBal;
+  });
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const stakeAllowance = useAppSelector(state => {
@@ -122,11 +126,11 @@ function Stake() {
 
   const setMax = () => {
     if (view === 0) {
-      setQuantity(Number(ohmBalance));
+      setQuantity(ohmBalance);
     } else if (!checked) {
-      setQuantity(Number(sohmBalance));
+      setQuantity(sohmBalance);
     } else if (checked) {
-      setQuantity(Number(gOhmAsSohm));
+      setQuantity(gOhmAsSohm.toString());
     }
   };
 
@@ -140,7 +144,7 @@ function Stake() {
 
   const onChangeStake = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(quantity) || quantity === 0) {
+    if (isNaN(Number(quantity)) || Number(quantity) === 0) {
       // eslint-disable-next-line no-alert
       return dispatch(error(t`Please enter a value!`));
     }
@@ -159,13 +163,24 @@ function Stake() {
       );
     }
 
-    const formQuant = checked && currentIndex && view === 1 ? quantity / Number(currentIndex) : quantity;
+    /**
+     * converts sOHM quantity to gOHM quantity when box is checked for gOHM staking
+     * @returns sOHM as gOHM quantity
+     */
+    // const formQuant = checked && currentIndex && view === 1 ? quantity / Number(currentIndex) : quantity;
+    const formQuant = async () => {
+      if (checked && currentIndex && view === 1) {
+        return await getGohmBalFromSohm({ provider, networkID: networkId, sOHMbalance: quantity });
+      } else {
+        return quantity;
+      }
+    };
 
     await dispatch(
       changeStake({
         address,
         action,
-        value: formQuant.toString(),
+        value: await formQuant(),
         provider,
         networkID: networkId,
         version2: true,
@@ -245,10 +260,14 @@ function Stake() {
             <Typography variant="body2" style={{ margin: "10px" }}>
               {view === 0 &&
                 checked &&
-                `Staking ${quantity.toFixed(4)} OHM to ${(quantity / Number(currentIndex)).toFixed(4)} gOHM`}
+                `Staking ${Number(quantity).toFixed(4)} OHM to ${(Number(quantity) / Number(currentIndex)).toFixed(
+                  4,
+                )} gOHM`}
               {view === 1 &&
                 checked &&
-                `Unstaking ${(quantity / Number(currentIndex)).toFixed(4)} gOHM to ${quantity.toFixed(4)} OHM`}
+                `Unstaking ${(Number(quantity) / Number(currentIndex)).toFixed(4)} gOHM to ${Number(quantity).toFixed(
+                  4,
+                )} OHM`}
               {view === 0 && !checked && "Stake to gOHM instead"}
               {view === 1 && !checked && "Unstake from gOHM instead"}
             </Typography>
@@ -371,7 +390,7 @@ function Stake() {
                                 placeholder="Enter an amount"
                                 className="stake-input"
                                 value={quantity}
-                                onChange={e => setQuantity(Number(e.target.value))}
+                                onChange={e => setQuantity(e.target.value)}
                                 labelWidth={0}
                                 endAdornment={
                                   <InputAdornment position="end">
