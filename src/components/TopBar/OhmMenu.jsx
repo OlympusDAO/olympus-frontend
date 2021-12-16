@@ -84,7 +84,7 @@ function OhmMenu() {
     );
   });
 
-  const newAssetsDetected = useAppSelector(state => {
+  const newAssetsDetected = useSelector(state => {
     return (
       state.account.balances &&
       (Number(state.account.balances.gohm) || Number(state.account.balances.sohm) || Number(state.account.balances.ohm)
