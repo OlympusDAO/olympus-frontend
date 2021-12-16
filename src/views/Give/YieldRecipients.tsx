@@ -95,7 +95,7 @@ export default function YieldRecipients() {
     await dispatch(
       changeGive({
         action: ACTION_GIVE_EDIT,
-        value: depositAmountDiff.toString(),
+        value: depositAmountDiff.toFixed(),
         recipient: walletAddress,
         provider,
         address,
@@ -125,7 +125,7 @@ export default function YieldRecipients() {
     await dispatch(
       changeGive({
         action: ACTION_GIVE_WITHDRAW,
-        value: depositAmount.toString(),
+        value: depositAmount.toFixed(),
         recipient: walletAddress,
         provider,
         address,
@@ -147,9 +147,11 @@ export default function YieldRecipients() {
 
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);
-    if (project) return project.owner + " - " + project.title;
+    if (!project) return shorten(address);
 
-    return shorten(address);
+    if (!project.owner) return project.title;
+
+    return project.owner + " - " + project.title;
   };
 
   if (Object.keys(donationInfo).length == 0) {
@@ -243,7 +245,7 @@ export default function YieldRecipients() {
                 callbackFunc={handleEditModalSubmit}
                 cancelFunc={handleEditModalCancel}
                 currentWalletAddress={recipient}
-                currentDepositAmount={donationInfo[recipient]}
+                currentDepositAmount={new BigNumber(donationInfo[recipient])}
                 key={recipient}
               />
             )
@@ -262,7 +264,7 @@ export default function YieldRecipients() {
                 callbackFunc={handleWithdrawModalSubmit}
                 cancelFunc={handleWithdrawModalCancel}
                 walletAddress={recipient}
-                depositAmount={donationInfo[recipient]}
+                depositAmount={new BigNumber(donationInfo[recipient])}
                 project={projectMap.get(recipient)}
                 key={recipient}
               />

@@ -39,8 +39,16 @@ interface IUserBalances {
   };
 }
 
+/**
+ * Stores the user donation information in a map.
+ * - Key: recipient wallet address
+ * - Value: amount deposited by the sender
+ *
+ * We store the amount as a string, since numbers in Javascript are inaccurate.
+ * We later parse the string into BigNumber for performing arithmetic.
+ */
 interface IUserDonationInfo {
-  [key: string]: number;
+  [key: string]: string;
 }
 
 interface IUserRecipientInfo {
@@ -197,11 +205,13 @@ export const getDonationBalances = createAsyncThunk(
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
     let donationInfo: IUserDonationInfo = {};
     try {
+      // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
       let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
       for (let i = 0; i < allDeposits[0].length; i++) {
-        if (allDeposits[1][i] !== BigNumber.from(0)) {
-          donationInfo[allDeposits[0][i]] = parseFloat(ethers.utils.formatUnits(allDeposits[1][i], "gwei")); // think we should change this to stay a string
-        }
+        if (allDeposits[1][i].eq(0)) continue;
+
+        // Store as a formatted string
+        donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
       }
     } catch (e: unknown) {
       console.error(e);
