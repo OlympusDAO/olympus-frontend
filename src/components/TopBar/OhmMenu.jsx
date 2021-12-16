@@ -84,8 +84,13 @@ function OhmMenu() {
     );
   });
 
-  const newAssetsDetected = useSelector(state => {
-    return state.account.balances && (Number(state.account.balances.gohm) ? true : false);
+  const newAssetsDetected = useAppSelector(state => {
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.gohm) || Number(state.account.balances.sohm) || Number(state.account.balances.ohm)
+        ? true
+        : false)
+    );
   });
 
   const SOHM_ADDRESS = addresses[networkId] && addresses[networkId].SOHM_V2;
