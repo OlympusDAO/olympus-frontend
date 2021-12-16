@@ -12,6 +12,7 @@ import { ohm_dai } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { PairContract, RedeemHelper } from "../typechain";
+import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
 import { EnvHelper } from "../helpers/Environment";
 
@@ -55,7 +56,7 @@ export function formatCurrency(c: number, precision = 0) {
 
 export function trim(number = 0, precision = 0) {
   // why would number ever be undefined??? what are we trimming?
-  const array = number.toString().split(".");
+  const array = Number(number).toFixed(8).split(".");
   if (array.length === 1) return number.toString();
   if (precision === 0) return array[0].toString();
 
@@ -232,4 +233,14 @@ export const bnToNum = (bigNum: BigNumber) => {
 
 export const handleContractError = (e: any) => {
   if (EnvHelper.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
+};
+
+interface ICheckBalance extends IBaseAsyncThunk {
+  readonly sOHMbalance: string;
+}
+
+export const getGohmBalFromSohm = async ({ provider, networkID, sOHMbalance }: ICheckBalance) => {
+  const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
+  const formattedGohmBal = await gOhmContract.balanceTo(ethers.utils.parseUnits(sOHMbalance, "gwei").toString());
+  return ethers.utils.formatEther(formattedGohmBal);
 };
