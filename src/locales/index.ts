@@ -17,7 +17,7 @@ export const locales: ILocales = {
   zh: { flag: "cn", plurals: zh },
   ar: { flag: "sa", plurals: ar },
   es: { flag: "es", plurals: es },
-  vi: { flag: "vi", plurals: vi },
+  vi: { flag: "vn", plurals: vi },
 };
 
 // Load locale data
