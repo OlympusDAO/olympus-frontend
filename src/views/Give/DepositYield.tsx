@@ -56,18 +56,16 @@ export default function DepositYield() {
       }}
     >
       <Box className="give-subnav">
-        <Paper className="ohm-card secondary">
-          <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
-            <Typography variant="h6">Back to Dashboard</Typography>
+        <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
+          <Typography variant="h6">Back to Dashboard</Typography>
+        </Link>
+        {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
+          <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
+            <Typography variant="h6">Redeem Yield</Typography>
           </Link>
-          {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
-            <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
-              <Typography variant="h6">Redeem Yield</Typography>
-            </Link>
-          ) : (
-            <></>
-          )}
-        </Paper>
+        ) : (
+          <></>
+        )}
       </Box>
       <div className="give-view">
         <Zoom in={true}>

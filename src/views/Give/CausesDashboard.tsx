@@ -96,16 +96,18 @@ export default function CausesDashboard() {
       }}
     >
       <Box className="give-subnav">
-        {Object.keys(donationInfo).length > 0 || new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
-          <Paper className="ohm-card secondary">
-            <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
-              <Typography variant="h6">My Donations</Typography>
-            </Link>
+        {Object.keys(donationInfo).length > 0 ? (
+          <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
+            <Typography variant="h6">My Donations</Typography>
+          </Link>
+        ) : (
+          <></>
+        )}
 
-            <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
-              <Typography variant="h6">Redeem Yield</Typography>
-            </Link>
-          </Paper>
+        {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
+          <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
+            <Typography variant="h6">Redeem Yield</Typography>
+          </Link>
         ) : (
           <></>
         )}

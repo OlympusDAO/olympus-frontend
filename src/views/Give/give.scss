@@ -255,7 +255,19 @@
 
 .give-subnav {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+
+  max-width: 833px;
+  margin: 25px auto;
+
+  #give-sub-dash {
+    text-decoration: none;
+  }
+
+  #give-sub-dash:hover {
+    color: #f4d092;
+  }
 }
 
 .custom-recipient {
@@ -694,19 +706,6 @@
       }
     }
   }
-}
-
-#give-sub-donations {
-  margin-top: 10px;
-}
-
-#give-sub-dash {
-  margin-top: 10px;
-  text-decoration: none;
-}
-
-#give-sub-dash:hover {
-  color: #f4d092;
 }
 
 .yield-recipients-empty {
