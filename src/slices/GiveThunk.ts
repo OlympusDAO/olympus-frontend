@@ -60,7 +60,7 @@ export const changeApproval = createAsyncThunk(
     const signer = provider.getSigner();
     let sohmContract;
     if (networkID === 1) {
-      sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, signer);
+      sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, signer);
     } else if (networkID === 4) {
       sohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
     }

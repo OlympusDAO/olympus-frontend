@@ -187,7 +187,7 @@ export const getDonationBalances = createAsyncThunk(
     */
     let giveAllowance = 0;
     if (networkID === 1) {
-      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20Abi, provider);
+      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
       giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
     } else if (networkID === 4) {
       const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);

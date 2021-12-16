@@ -92,7 +92,7 @@ export function RecipientModal({
    * TODO consider extracting this into a helper file
    */
   const sohmBalance: string = useSelector((state: State) => {
-    return state.account.balances && state.account.balances.mockSohm;
+    return state.account.balances && networkId === 1 ? state.account.balances.sohm : state.account.balances.mockSohm;
   });
 
   const giveAllowance: number = useSelector((state: State) => {
