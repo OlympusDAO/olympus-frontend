@@ -219,7 +219,7 @@ function Stake() {
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
 
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
@@ -238,6 +238,7 @@ function Stake() {
               onChange={e => handleCheck(e)}
               color="primary"
               inputProps={{ "aria-label": "checkbox" }}
+              className="stake-to-ohm-checkbox"
             />
           </Box>
           <Box width="100%">
@@ -247,7 +248,7 @@ function Stake() {
                 `Staking ${quantity.toFixed(4)} OHM to ${(quantity / Number(currentIndex)).toFixed(4)} gOHM`}
               {view === 1 &&
                 checked &&
-                `Unstaking ${quantity.toFixed(4)} gOHM to ${(quantity * Number(currentIndex)).toFixed(4)} OHM`}
+                `Unstaking ${(quantity / Number(currentIndex)).toFixed(4)} gOHM to ${quantity.toFixed(4)} OHM`}
               {view === 0 && !checked && "Stake to gOHM instead"}
               {view === 1 && !checked && "Unstake from gOHM instead"}
             </Typography>
