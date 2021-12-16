@@ -8,6 +8,7 @@ import {
   LinearProgress,
   useMediaQuery,
   Container,
+  Box,
 } from "@material-ui/core";
 import Countdown from "react-countdown";
 import SvgIcon from "@material-ui/core/SvgIcon";
@@ -16,6 +17,7 @@ import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
 import { ReactComponent as DonorsIcon } from "../../assets/icons/donors.svg";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useTheme } from "@material-ui/core/styles";
 import { useAppDispatch } from "src/hooks";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
@@ -35,6 +37,10 @@ import MarkdownIt from "markdown-it";
 import { shortenString } from "src/helpers";
 import { t, Trans } from "@lingui/macro";
 import { useAppSelector } from "src/hooks";
+import { NavLink } from "react-router-dom";
+import { IAccountSlice } from "src/slices/AccountSlice";
+import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { IAppData } from "src/slices/AppSlice";
 
 type CountdownProps = {
   total: number;
@@ -62,6 +68,12 @@ type ProjectDetailsProps = {
   mode: ProjectDetailsMode;
 };
 
+type State = {
+  account: IAccountSlice;
+  pendingTransactions: IPendingTxn[];
+  app: IAppData;
+};
+
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
@@ -75,6 +87,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const [donorCount, setDonorCount] = useState(0);
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
+
+  const donationInfo = useSelector((state: State) => {
+    return state.account.giving && state.account.giving.donationInfo;
+  });
+
+  const redeemableBalance = useSelector((state: State) => {
+    return state.account.redeeming && state.account.redeeming.sohmRedeemable;
+  });
 
   const theme = useTheme();
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
@@ -456,6 +476,27 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           }}
           className="project-container"
         >
+          <Box className="give-subnav">
+            <Paper className="ohm-card secondary">
+              <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
+                <Typography variant="h6">Back to Dashboard</Typography>
+              </Link>
+              {Object.keys(donationInfo).length > 0 ? (
+                <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
+                  <Typography variant="h6">My Donations</Typography>
+                </Link>
+              ) : (
+                <></>
+              )}
+              {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
+                <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
+                  <Typography variant="h6">Redeem Yield</Typography>
+                </Link>
+              ) : (
+                <></>
+              )}
+            </Paper>
+          </Box>
           <div
             className={`${isMediumScreen && "medium"}
               ${isSmallScreen && "smaller"}

@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import "./give.scss";
-import { Button, Paper, Typography, Zoom, Grid, Container } from "@material-ui/core";
+import { NavLink, useLocation } from "react-router-dom";
+import { Button, Box, Link, Paper, Typography, Zoom, Grid, Container } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
@@ -12,7 +13,17 @@ import { useAppDispatch, useAppSelector } from "src/hooks";
 import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
 import { GiveInfo } from "./GiveInfo";
 import { useUIDSeed } from "react-uid";
+import { useSelector } from "react-redux";
 import { t, Trans } from "@lingui/macro";
+import { IAccountSlice } from "src/slices/AccountSlice";
+import { IAppData } from "src/slices/AppSlice";
+import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+
+type State = {
+  account: IAccountSlice;
+  pendingTransactions: IPendingTxn[];
+  app: IAppData;
+};
 
 export default function CausesDashboard() {
   const { provider, address } = useWeb3Context();
@@ -26,6 +37,14 @@ export default function CausesDashboard() {
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
   const seed = useUIDSeed();
+
+  const donationInfo = useSelector((state: State) => {
+    return state.account.giving && state.account.giving.donationInfo;
+  });
+
+  const redeemableBalance = useSelector((state: State) => {
+    return state.account.redeeming && state.account.redeeming.sohmRedeemable;
+  });
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
@@ -76,6 +95,21 @@ export default function CausesDashboard() {
         paddingRight: isSmallScreen ? "0" : "3.3rem",
       }}
     >
+      <Box className="give-subnav">
+        {Object.keys(donationInfo).length > 0 || new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
+          <Paper className="ohm-card secondary">
+            <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
+              <Typography variant="h6">My Donations</Typography>
+            </Link>
+
+            <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
+              <Typography variant="h6">Redeem Yield</Typography>
+            </Link>
+          </Paper>
+        ) : (
+          <></>
+        )}
+      </Box>
       <div className="give-view">
         <div
           className={`${isMediumScreen && "medium"}

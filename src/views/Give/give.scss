@@ -253,6 +253,11 @@
   }
 }
 
+.give-subnav {
+  display: flex;
+  justify-content: center;
+}
+
 .custom-recipient {
   display: flex;
   flex-direction: row;
@@ -689,6 +694,19 @@
       }
     }
   }
+}
+
+#give-sub-donations {
+  margin-top: 10px;
+}
+
+#give-sub-dash {
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+#give-sub-dash:hover {
+  color: #f4d092;
 }
 
 .yield-recipients-empty {
