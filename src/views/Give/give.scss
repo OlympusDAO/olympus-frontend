@@ -251,6 +251,32 @@
       }
     }
   }
+
+  .donation-table {
+    display: flex;
+    flex-direction: row;
+
+    .donation-row {
+      width: 100%;
+
+      button {
+        margin-right: 1rem;
+      }
+    }
+
+    .MuiTypography-h6 {
+      margin-right: 2rem;
+    }
+
+    .MuiTypography-body1 {
+      margin-right: 2rem;
+    }
+
+    .recipient-divider {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
 }
 
 .custom-recipient {
