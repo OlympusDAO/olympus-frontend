@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Social from "./Social";
 import externalUrls from "./externalUrls";
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
@@ -21,12 +21,14 @@ import { Paper, Link, Box, Typography, SvgIcon, Divider } from "@material-ui/cor
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
 import { useSelector } from "react-redux";
+import { EnvHelper } from "src/helpers/Environment";
 
 function NavContent() {
   const [isActive] = useState();
   const address = useAddress();
   const networkId = useSelector(state => state.network.networkId);
   const { bonds } = useBonds(networkId);
+  const location = useLocation();
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -120,47 +122,52 @@ function NavContent() {
                     </Typography>
                   </Link>
 
-                  <Link
-                    component={NavLink}
-                    id="give-nav"
-                    to="/give"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "give");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Typography variant="h6">
-                      <SvgIcon color="primary" component={GiveIcon} />
-                      <Trans>Give</Trans>
-                    </Typography>
-                  </Link>
-
-                  <div className="dapp-menu-data give-actions">
-                    <div className="give-sub-menus">
+                  {EnvHelper.isGiveEnabled(location.search) ? (
+                    <>
                       <Link
                         component={NavLink}
-                        id="give-sub-donations"
-                        to="/give/donations"
+                        id="give-nav"
+                        to="/give"
                         isActive={(match, location) => {
-                          return checkPage(match, location, "give/donations");
+                          return checkPage(match, location, "give");
                         }}
-                        className={"give-option"}
+                        className={`button-dapp-menu ${isActive ? "active" : ""}`}
                       >
-                        <Typography variant="body2">My Donations</Typography>
+                        <Typography variant="h6">
+                          <SvgIcon color="primary" component={GiveIcon} />
+                          <Trans>Give</Trans>
+                        </Typography>
                       </Link>
-                      <Link
-                        component={NavLink}
-                        id="give-sub-redeem"
-                        to="/give/redeem"
-                        isActive={(match, location) => {
-                          return checkPage(match, location, "give/redeem");
-                        }}
-                        className={"give-option"}
-                      >
-                        <Typography variant="body2">Redeem Yield</Typography>
-                      </Link>
-                    </div>
-                  </div>
+                      <div className="dapp-menu-data give-actions">
+                        <div className="give-sub-menus">
+                          <Link
+                            component={NavLink}
+                            id="give-sub-donations"
+                            to="/give/donations"
+                            isActive={(match, location) => {
+                              return checkPage(match, location, "give/donations");
+                            }}
+                            className={"give-option"}
+                          >
+                            <Typography variant="body2">My Donations</Typography>
+                          </Link>
+                          <Link
+                            component={NavLink}
+                            id="give-sub-redeem"
+                            to="/give/redeem"
+                            isActive={(match, location) => {
+                              return checkPage(match, location, "give/redeem");
+                            }}
+                            className={"give-option"}
+                          >
+                            <Typography variant="body2">Redeem Yield</Typography>
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <></>
+                  )}
 
                   <Link
                     component={NavLink}
@@ -255,11 +262,11 @@ function NavContent() {
                     <Box display="flex" alignItems="center">
                       <SvgIcon component={ZapIcon} color="primary" />
                       <Typography variant="h6">OlyZaps</Typography>
-                      <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
+                      {/* <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                     </Box>
                   </Link>
 
-                  <Link
+                  {/* <Link
                     component={NavLink}
                     id="33-together-nav"
                     to="/33-together"
@@ -272,7 +279,7 @@ function NavContent() {
                       <SvgIcon color="primary" component={PoolTogetherIcon} />
                       3,3 Together
                     </Typography>
-                  </Link>
+                  </Link> */}
                   <Box className="menu-divider">
                     <Divider />
                   </Box>

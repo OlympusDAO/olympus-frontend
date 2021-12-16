@@ -416,16 +416,18 @@
     font-weight: 400;
   }
 
-  .give-info-deposit-box {
-    max-width: 28%;
+  .give-info-deposit-box .text {
+      margin-left: 30px;
   }
 
-  .give-info-vault-box {
-    max-width: 28%;
+  .give-info-vault-box .text {
+      margin-left: 30px;
   }
 
   .give-info-yield-box {
-    max-width: 28%;
+    .text {
+      margin-left: 30px;
+    }
 
     .receives-yield-icon path {
       fill: none;
