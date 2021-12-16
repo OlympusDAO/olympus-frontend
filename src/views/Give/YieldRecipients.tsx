@@ -11,6 +11,8 @@ import {
   TableRow,
   TableContainer,
   Grid,
+  Box,
+  Divider,
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 
@@ -158,12 +160,12 @@ export default function YieldRecipients() {
     return (
       <>
         <Grid container className="yield-recipients-empty">
-          <Grid item xs={10}>
+          <Grid item sm={10} md={8}>
             <Typography variant="h5">
               <Trans>It looks like you haven't donated any yield. Let's fix that!</Trans>
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={4}>
             <Button component={NavLink} to="/give" variant="contained" color="primary">
               <Trans>Give Yield</Trans>
             </Button>
@@ -175,65 +177,56 @@ export default function YieldRecipients() {
 
   return (
     <div className="card-content">
-      <TableContainer className="stake-table">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Trans>Recipient</Trans>
-              </TableCell>
-              <TableCell align="left">
-                <Trans>Deposit</Trans>
-                <InfoTooltip message={t`The amount of sOHM deposited`} children={null} />
-              </TableCell>
-              <TableCell />
-              <TableCell />
-            </TableRow>
-          </TableHead>
-
-          {isDonationInfoLoading ? (
-            <Skeleton />
-          ) : (
-            Object.keys(donationInfo).map(recipient => {
-              return isAppLoading ? (
-                <Skeleton />
-              ) : (
-                <TableRow key={recipient}>
-                  <TableCell>{getRecipientTitle(recipient)}</TableCell>
-                  <TableCell>{donationInfo[recipient]}</TableCell>
-                  <TableCell align="left"></TableCell>
-                  <TableCell align="left"></TableCell>
-                  <TableCell align="right" width="10%" padding="none">
-                    {" "}
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      className="stake-lp-button"
-                      onClick={() => handleEditButtonClick(recipient)}
-                      disabled={!address}
-                    >
-                      <Trans>Edit</Trans>
-                    </Button>
-                  </TableCell>
-                  <TableCell align="right" width="10%" padding="none">
-                    {" "}
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      className="stake-lp-button"
-                      onClick={() => handleWithdrawButtonClick(recipient)}
-                      disabled={!address}
-                    >
-                      <Trans>Withdraw</Trans>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })
-          )}
-        </Table>
-      </TableContainer>
-
+      <Grid container className="donation-table">
+        <Grid item sm={12} md={6} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
+          <Typography variant="h6">
+            <Trans>Recipient</Trans>
+          </Typography>
+          <Typography variant="h6">
+            <Trans>Deposit</Trans>
+            <InfoTooltip message={t`The amount of sOHM deposited`} children={null} />
+          </Typography>
+        </Grid>
+        {isDonationInfoLoading ? (
+          <Skeleton />
+        ) : (
+          Object.keys(donationInfo).map(recipient => {
+            return isAppLoading ? (
+              <Skeleton />
+            ) : (
+              <Box className="donation-row">
+                <Grid item sm={12} md={6} style={{ display: "flex" }}>
+                  <Typography variant="body1">{getRecipientTitle(recipient)}</Typography>
+                  <Typography variant="body1">{donationInfo[recipient]}</Typography>
+                </Grid>
+                <Grid item sm={12} md={6} style={{ display: "flex" }}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    className="stake-lp-button"
+                    onClick={() => handleEditButtonClick(recipient)}
+                    disabled={!address}
+                  >
+                    <Trans>Edit</Trans>
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    className="stake-lp-button"
+                    onClick={() => handleWithdrawButtonClick(recipient)}
+                    disabled={!address}
+                  >
+                    <Trans>Withdraw</Trans>
+                  </Button>
+                </Grid>
+                <Box className="recipient-divider">
+                  <Divider />
+                </Box>
+              </Box>
+            );
+          })
+        )}
+      </Grid>
       {isDonationInfoLoading ? (
         <Skeleton />
       ) : (
