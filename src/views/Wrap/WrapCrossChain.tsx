@@ -33,7 +33,7 @@ import { Skeleton } from "@material-ui/lab";
 import { NETWORKS } from "../../constants";
 import "../Stake/stake.scss";
 import { useAppSelector } from "src/hooks/index";
-import { getBalances } from "src/slices/AccountSlice";
+import { getBalances, loadAccountDetails } from "src/slices/AccountSlice";
 
 function WrapCrossChain() {
   const dispatch = useDispatch();
@@ -81,12 +81,12 @@ function WrapCrossChain() {
   const handleSwitchChain = (id: any) => {
     return () => {
       dispatch(switchNetwork({ provider, networkId: id }));
-      dispatch(getBalances({ address, provider, networkID: id }));
+      dispatch(loadAccountDetails({ address, provider, networkID: id }));
     };
   };
 
   const hasCorrectAllowance = useCallback(() => {
-    return wsOhmAllowance >= wsOhmBalance;
+    return wsOhmAllowance > wsOhmBalance;
   }, [wsOhmBalance, wsOhmAllowance]);
 
   const isDataLoading = useAppSelector(state => state.account.loading);

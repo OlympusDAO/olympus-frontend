@@ -36,6 +36,7 @@ import { ethers } from "ethers";
 import "../Stake/stake.scss";
 import { useAppSelector } from "src/hooks/index.ts";
 import WrapCrossChain from "./WrapCrossChain.tsx";
+import { loadAccountDetails } from "src/slices/AccountSlice";
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -113,6 +114,7 @@ function Wrap() {
   const handleSwitchChain = id => {
     return () => {
       dispatch(switchNetwork({ provider: provider, networkId: id }));
+      dispatch(loadAccountDetails({ address, provider, networkID: id }));
     };
   };
 
