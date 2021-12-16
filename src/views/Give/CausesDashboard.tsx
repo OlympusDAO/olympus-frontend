@@ -110,49 +110,48 @@ export default function CausesDashboard() {
           <></>
         )}
       </Box>
-      <div className="give-view">
-        <div
-          className={`${isMediumScreen && "medium"}
-            ${isSmallScreen && "smaller"}`}
-        >
-          <Zoom in={true}>
-            <Paper className={`ohm-card secondary`}>
-              <div className="card-header">
-                <div>
-                  <Typography variant="h5">
-                    <Trans>Give</Trans>
-                  </Typography>
-                </div>
+      <div
+        id="give-view"
+        className={`${isMediumScreen && "medium"}
+          ${isSmallScreen && "smaller"}`}
+      >
+        <Zoom in={true}>
+          <Paper className={`ohm-card secondary`}>
+            <div className="card-header">
+              <div>
+                <Typography variant="h5">
+                  <Trans>Give</Trans>
+                </Typography>
               </div>
-              <div className="causes-body">
-                <Grid container className="data-grid">
-                  {renderProjects}
-                </Grid>
-              </div>
-              <div className="custom-recipient">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="custom-give-button"
-                  onClick={() => handleCustomGiveButtonClick()}
-                  disabled={!address}
-                >
-                  <Typography variant="h6" style={{ marginBottom: "0px" }}>
-                    <Trans>Custom Recipient</Trans>
-                  </Typography>
-                </Button>
-              </div>
-              <RecipientModal
-                isModalOpen={isCustomGiveModalOpen}
-                callbackFunc={handleCustomGiveModalSubmit}
-                cancelFunc={handleCustomGiveModalCancel}
-              />
-            </Paper>
-          </Zoom>
-          <Zoom in={true}>
-            <GiveInfo />
-          </Zoom>
-        </div>
+            </div>
+            <div className="causes-body">
+              <Grid container className="data-grid">
+                {renderProjects}
+              </Grid>
+            </div>
+            <div className="custom-recipient">
+              <Button
+                variant="contained"
+                color="primary"
+                className="custom-give-button"
+                onClick={() => handleCustomGiveButtonClick()}
+                disabled={!address}
+              >
+                <Typography variant="h6" style={{ marginBottom: "0px" }}>
+                  <Trans>Custom Recipient</Trans>
+                </Typography>
+              </Button>
+            </div>
+            <RecipientModal
+              isModalOpen={isCustomGiveModalOpen}
+              callbackFunc={handleCustomGiveModalSubmit}
+              cancelFunc={handleCustomGiveModalCancel}
+            />
+          </Paper>
+        </Zoom>
+        <Zoom in={true}>
+          <GiveInfo />
+        </Zoom>
       </div>
     </Container>
   );
