@@ -41,8 +41,16 @@ interface IUserBalances {
   };
 }
 
+/**
+ * Stores the user donation information in a map.
+ * - Key: recipient wallet address
+ * - Value: amount deposited by the sender
+ *
+ * We store the amount as a string, since numbers in Javascript are inaccurate.
+ * We later parse the string into BigNumber for performing arithmetic.
+ */
 interface IUserDonationInfo {
-  [key: string]: number;
+  [key: string]: string;
 }
 
 interface IUserRecipientInfo {
@@ -58,6 +66,7 @@ export const getBalances = createAsyncThunk(
   "account/getBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     let gOhmBalance = BigNumber.from("0");
+    let gOhmBalAsSohmBal = BigNumber.from("0");
     let ohmBalance = BigNumber.from("0");
     let sohmBalance = BigNumber.from("0");
     let ohmV2Balance = BigNumber.from("0");
@@ -69,6 +78,7 @@ export const getBalances = createAsyncThunk(
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmBalance = await gOhmContract.balanceOf(address);
+      gOhmBalAsSohmBal = await gOhmContract.balanceFrom(gOhmBalance.toString());
     } catch (e) {
       handleContractError(e);
     }
@@ -166,6 +176,7 @@ export const getBalances = createAsyncThunk(
     return {
       balances: {
         gohm: ethers.utils.formatEther(gOhmBalance),
+        gOhmAsSohmBal: ethers.utils.formatUnits(gOhmBalAsSohmBal, "gwei"),
         ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
@@ -189,11 +200,13 @@ export const getDonationBalances = createAsyncThunk(
 
     let donationInfo: IUserDonationInfo = {};
     try {
+      // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
       let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
       for (let i = 0; i < allDeposits[0].length; i++) {
-        if (allDeposits[1][i] !== BigNumber.from(0)) {
-          donationInfo[allDeposits[0][i]] = parseFloat(ethers.utils.formatUnits(allDeposits[1][i], "gwei")); // think we should change this to stay a string
-        }
+        if (allDeposits[1][i].eq(0)) continue;
+
+        // Store as a formatted string
+        donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
       }
     } catch (e: unknown) {
       console.error(e);
@@ -434,6 +447,7 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   bonds: { [key: string]: IUserBondDetails };
   balances: {
     gohm: string;
+    gOhmAsSohmBal: string;
     ohmV1: string;
     ohm: string;
     sohm: string;
@@ -469,6 +483,7 @@ const initialState: IAccountSlice = {
   bonds: {},
   balances: {
     gohm: "",
+    gOhmAsSohmBal: "",
     ohmV1: "",
     ohm: "",
     sohm: "",

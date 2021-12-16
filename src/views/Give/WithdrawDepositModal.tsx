@@ -11,6 +11,7 @@ import { BigNumber } from "bignumber.js";
 import { Project } from "src/components/GiveProject/project.type";
 import { hasPendingGiveTxn, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 import { t, Trans } from "@lingui/macro";
+import { shorten } from "src/helpers";
 
 export interface WithdrawSubmitCallback {
   (walletAddress: string, depositAmount: BigNumber): void;
@@ -25,7 +26,7 @@ type WithdrawModalProps = {
   callbackFunc: WithdrawSubmitCallback;
   cancelFunc: WithdrawCancelCallback;
   walletAddress: string;
-  depositAmount: number; // As per IUserDonationInfo
+  depositAmount: BigNumber; // As per IUserDonationInfo
   project?: Project;
 };
 
@@ -63,7 +64,9 @@ export function WithdrawDepositModal({
   };
 
   const getRecipientTitle = () => {
-    if (!project) return walletAddress;
+    if (!project) return shorten(walletAddress);
+
+    if (!project.owner) return project.title;
 
     return project.owner + " - " + project.title;
   };
