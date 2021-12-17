@@ -16,25 +16,69 @@ interface IDonorAddresses {
 }
 
 export const getRedemptionBalancesAsync = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-  const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
-  const redeemableBalance = await givingContract.redeemableBalance(address);
-
+  let redeemableBalance = 0;
   let recipientInfo: IUserRecipientInfo = {
     totalDebt: "",
     carry: "",
     agnosticAmount: "",
     indexAtLastChange: "",
   };
-  try {
-    let recipientInfoData = await givingContract.recipientInfo(address);
-    recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
-    recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
-    recipientInfo.agnosticAmount = ethers.utils.formatUnits(recipientInfoData.agnosticAmount.toNumber(), "gwei");
-    recipientInfo.indexAtLastChange = ethers.utils.formatUnits(recipientInfoData.indexAtLastChange.toNumber(), "gwei");
-  } catch (e: unknown) {}
+
+  if (addresses[networkID].GIVING_ADDRESS) {
+    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
+    redeemableBalance = await givingContract.redeemableBalance(address);
+
+    try {
+      let recipientInfoData = await givingContract.recipientInfo(address);
+      recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
+      recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
+      recipientInfo.agnosticAmount = ethers.utils.formatUnits(recipientInfoData.agnosticAmount.toNumber(), "gwei");
+      recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
+        recipientInfoData.indexAtLastChange.toNumber(),
+        "gwei",
+      );
+    } catch (e: unknown) {}
+  }
 
   return {
     redeeming: {
+      sohmRedeemable: ethers.utils.formatUnits(redeemableBalance, "gwei"),
+      recipientInfo: recipientInfo,
+    },
+  };
+};
+
+export const getMockRedemptionBalancesAsync = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+  let redeemableBalance = 0;
+  let recipientInfo: IUserRecipientInfo = {
+    totalDebt: "",
+    carry: "",
+    agnosticAmount: "",
+    indexAtLastChange: "",
+  };
+
+  if (addresses[networkID].MOCK_GIVING_ADDRESS) {
+    const givingContract = new ethers.Contract(
+      addresses[networkID].MOCK_GIVING_ADDRESS as string,
+      OlympusGiving,
+      provider,
+    );
+    redeemableBalance = await givingContract.redeemableBalance(address);
+
+    try {
+      let recipientInfoData = await givingContract.recipientInfo(address);
+      recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
+      recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
+      recipientInfo.agnosticAmount = ethers.utils.formatUnits(recipientInfoData.agnosticAmount.toNumber(), "gwei");
+      recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
+        recipientInfoData.indexAtLastChange.toNumber(),
+        "gwei",
+      );
+    } catch (e: unknown) {}
+  }
+
+  return {
+    mockRedeeming: {
       sohmRedeemable: ethers.utils.formatUnits(redeemableBalance, "gwei"),
       recipientInfo: recipientInfo,
     },

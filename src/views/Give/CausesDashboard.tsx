@@ -46,7 +46,9 @@ export default function CausesDashboard() {
   });
 
   const redeemableBalance = useSelector((state: State) => {
-    return state.account.redeeming && state.account.redeeming.sohmRedeemable;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
+      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
 
   const renderProjects = useMemo(() => {

@@ -97,7 +97,7 @@ export const changeApproval = createAsyncThunk(
 );
 
 export const changeMockApproval = createAsyncThunk(
-  "give/changeApproval",
+  "give/changeMockApproval",
   async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet`));
@@ -215,7 +215,7 @@ export const changeGive = createAsyncThunk(
 );
 
 export const changeMockGive = createAsyncThunk(
-  "give/changeGive",
+  "give/changeMockGive",
   async ({ action, value, recipient, provider, address, networkID }: IActionValueRecipientAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
