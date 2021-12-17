@@ -39,6 +39,7 @@ export const dai = new StableBond({
   displayName: "DAI",
   bondToken: "DAI",
   payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: DaiImg,
   bondContractABI: DaiBondContract,
   isBondable: {
@@ -83,6 +84,7 @@ export const fraxOld = new StableBond({
   displayName: "FRAX OLD",
   bondToken: "FRAX",
   payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: FraxImg,
   bondContractABI: FraxBondContract,
   isBondable: {
@@ -127,6 +129,7 @@ export const frax = new StableBond({
   displayName: "FRAX",
   bondToken: "FRAX",
   payoutToken: "OHM",
+  v2Bond: true,
   bondIconSvg: FraxImg,
   bondContractABI: FraxBondContract,
   isBondable: {
@@ -171,6 +174,7 @@ export const lusd = new StableBond({
   displayName: "LUSD",
   bondToken: "LUSD",
   payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: LusdImg,
   bondContractABI: LusdBondContract,
   isBondable: {
@@ -217,6 +221,7 @@ export const eth = new CustomBond({
   bondType: BondType.StableAsset,
   bondToken: "wETH",
   payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: wETHImg,
   bondContractABI: EthBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
@@ -273,6 +278,7 @@ export const cvx = new CustomBond({
   bondType: BondType.StableAsset,
   bondToken: "CVX",
   payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: CvxImg,
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
@@ -329,6 +335,7 @@ export const cvx_expired = new CustomBond({
   bondType: BondType.StableAsset,
   bondToken: "CVX",
   payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: CvxImg,
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
@@ -382,6 +389,7 @@ export const ohm_dai = new LPBond({
   displayName: "OHM-DAI LP",
   bondToken: "DAI",
   payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: OhmDaiImg,
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
@@ -429,59 +437,13 @@ export const ohm_frax = new LPBond({
   displayName: "OHM-FRAX LP",
   bondToken: "FRAX",
   payoutToken: "OHM",
+  v2Bond: true,
   bondIconSvg: OhmFraxImg,
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
   isBondable: {
     [NetworkID.Mainnet]: false,
     [NetworkID.Testnet]: true,
-    [NetworkID.Arbitrum]: false,
-    [NetworkID.ArbitrumTestnet]: false,
-    [NetworkID.Avalanche]: false,
-    [NetworkID.AvalancheTestnet]: false,
-  },
-  isLOLable: {
-    [NetworkID.Mainnet]: false,
-    [NetworkID.Testnet]: false,
-    [NetworkID.Arbitrum]: false,
-    [NetworkID.ArbitrumTestnet]: false,
-    [NetworkID.Avalanche]: false,
-    [NetworkID.AvalancheTestnet]: false,
-  },
-  LOLmessage: "",
-  isClaimable: {
-    [NetworkID.Mainnet]: true,
-    [NetworkID.Testnet]: true,
-    [NetworkID.Arbitrum]: false,
-    [NetworkID.ArbitrumTestnet]: false,
-    [NetworkID.Avalanche]: false,
-    [NetworkID.AvalancheTestnet]: false,
-  },
-  networkAddrs: {
-    [NetworkID.Mainnet]: {
-      bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
-      reserveAddress: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
-    },
-    [NetworkID.Testnet]: {
-      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
-      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
-    },
-  },
-  lpUrl:
-    "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
-});
-
-export const ohm_fraxOld = new LPBond({
-  name: "ohm_frax_lp_old",
-  displayName: "OHM-FRAX LP OLD",
-  bondToken: "FRAX",
-  payoutToken: "OHM",
-  bondIconSvg: OhmFraxImg,
-  bondContractABI: FraxOhmBondContract,
-  reserveContract: ReserveOhmFraxContract,
-  isBondable: {
-    [NetworkID.Mainnet]: false,
-    [NetworkID.Testnet]: false,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
@@ -518,11 +480,60 @@ export const ohm_fraxOld = new LPBond({
     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
 });
 
+export const ohm_fraxOld = new LPBond({
+  name: "ohm_frax_lp_old",
+  displayName: "OHM-FRAX LP OLD",
+  bondToken: "FRAX",
+  payoutToken: "OHM",
+  v2Bond: false,
+  bondIconSvg: OhmFraxImg,
+  bondContractABI: FraxOhmBondContract,
+  reserveContract: ReserveOhmFraxContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "Out of Office",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
+      reserveAddress: "0x2dce0dda1c2f98e0f171de8333c3c6fe1bbf4877",
+    },
+    [NetworkID.Testnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
+    },
+  },
+  lpUrl:
+    "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
+});
+
 export const ohm_lusd = new LPBond({
   name: "ohm_lusd_lp",
   displayName: "OHM-LUSD LP",
   bondToken: "LUSD",
   payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: OhmLusdImg,
   bondContractABI: BondOhmLusdContract,
   reserveContract: ReserveOhmLusdContract,
@@ -571,6 +582,7 @@ export const ohm_weth = new CustomBond({
   displayName: "OHM-WETH LP",
   bondToken: "WETH",
   payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: OhmEthImg,
   bondContractABI: BondOhmEthContract,
   reserveContract: ReserveOhmEthContract,
@@ -620,7 +632,7 @@ export const ohm_weth = new CustomBond({
       ethPrice = Number(ethPrice.toString()) / Math.pow(10, 8);
       const token = this.getContractForReserve(networkID, provider);
       const tokenAddress = this.getAddressForReserve(networkID);
-      const bondCalculator = getBondCalculator(networkID, provider);
+      const bondCalculator = getBondCalculator(networkID, provider, false);
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
@@ -631,7 +643,7 @@ export const ohm_weth = new CustomBond({
       // NOTE (appleseed): using OHM-DAI on rinkeby
       const token = this.getContractForReserve(networkID, provider);
       const tokenAddress = this.getAddressForReserve(networkID);
-      const bondCalculator = getBondCalculator(networkID, provider);
+      const bondCalculator = getBondCalculator(networkID, provider, false);
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
@@ -646,7 +658,7 @@ export const ohm_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, fraxOld, eth, cvx, ohm_dai, ohm_frax, ohm_fraxOld, lusd, ohm_lusd, ohm_weth];
+export const allBonds = [dai, frax, fraxOld, eth, cvx, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
 export const allExpiredBonds = [cvx_expired];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {

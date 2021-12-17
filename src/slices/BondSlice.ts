@@ -88,7 +88,7 @@ export const calcBondDetails = createAsyncThunk(
       valuation = 0,
       bondQuote: BigNumberish = BigNumber.from(0);
     const bondContract = bond.getContractForBond(networkID, provider);
-    const bondCalcContract = getBondCalculator(networkID, provider);
+    const bondCalcContract = getBondCalculator(networkID, provider, bond.v2Bond);
 
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
