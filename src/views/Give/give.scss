@@ -265,14 +265,10 @@
         display: flex;
         justify-content: flex-end;
 
-        button {
+        .donation-lp-button {
+          width: 25%;
           margin-right: 1rem;
         }
-      }
-
-      .donation-buttons.smaller {
-        justify-content: flex-start;
-        margin-top: 1rem;
       }
 
       .recipient-divider {
@@ -283,14 +279,26 @@
     }
 
     .MuiTypography-h6 {
+      min-width: 33%;
       margin-right: 2rem;
     }
 
     .MuiTypography-body1 {
-      width: 25%;
-      margin-right: 2rem;
+      min-width: 33%;
       margin-top: 0.5rem;
+      margin-right: 2rem;
       margin-bottom: 0rem;
+    }
+  }
+
+  .donation-table.smaller {
+    .donation-buttons {
+      justify-content: flex-start;
+      margin-top: 1rem;
+
+      .donation-lp-button {
+        width: 40%;
+      }
     }
   }
 }

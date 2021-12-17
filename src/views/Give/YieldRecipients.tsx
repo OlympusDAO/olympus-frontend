@@ -179,7 +179,7 @@ export default function YieldRecipients() {
 
   return (
     <div className="card-content">
-      <Grid container className="donation-table">
+      <Grid container className={`donation-table ${isSmallScreen && "smaller"}`}>
         <Grid item xs={12} sm={6} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
           <Typography variant="h6">
             <Trans>Recipient</Trans>
@@ -205,11 +205,11 @@ export default function YieldRecipients() {
                     {donationInfo[recipient]}
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} className={`donation-buttons ${isSmallScreen && "smaller"}`}>
+                <Grid item xs={12} sm={6} className="donation-buttons">
                   <Button
                     variant="outlined"
                     color="secondary"
-                    className="stake-lp-button"
+                    className="donation-lp-button"
                     onClick={() => handleEditButtonClick(recipient)}
                     disabled={!address}
                   >
@@ -218,7 +218,7 @@ export default function YieldRecipients() {
                   <Button
                     variant="outlined"
                     color="secondary"
-                    className="stake-lp-button"
+                    className="donation-lp-button"
                     onClick={() => handleWithdrawButtonClick(recipient)}
                     disabled={!address}
                   >
