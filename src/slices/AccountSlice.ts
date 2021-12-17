@@ -162,7 +162,7 @@ export const getBalances = createAsyncThunk(
       be manually rebased to test redeem features
     */
     let mockSohmBalance = null;
-    if (addresses[networkID].MOCK_SOHM) {
+    if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(
         addresses[networkID].MOCK_SOHM as string,
         MockSohm,
@@ -198,7 +198,7 @@ export const getDonationBalances = createAsyncThunk(
     let giveAllowance = 0;
     let donationInfo: IUserDonationInfo = {};
 
-    if (addresses[networkID].GIVING_ADDRESS) {
+    if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
       const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
       giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
       const givingContract = new ethers.Contract(
@@ -242,7 +242,7 @@ export const getMockDonationBalances = createAsyncThunk(
     let giveAllowance = 0;
     let donationInfo: IUserDonationInfo = {};
 
-    if (addresses[networkID].MOCK_SOHM) {
+    if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
       const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
       const givingContract = new ethers.Contract(

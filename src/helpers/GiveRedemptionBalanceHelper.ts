@@ -24,7 +24,7 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
     indexAtLastChange: "",
   };
 
-  if (addresses[networkID].GIVING_ADDRESS) {
+  if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
     redeemableBalance = await givingContract.redeemableBalance(address);
 
