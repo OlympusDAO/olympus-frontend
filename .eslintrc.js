@@ -17,7 +17,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
   ],
-  plugins: ["simple-import-sort"],
+  plugins: ["simple-import-sort", "unused-imports"],
   rules: {
     "prettier/prettier": ["error"],
     "import/prefer-default-export": "off",
@@ -34,5 +34,6 @@ module.exports = {
     "no-restricted-syntax": "off",
     "no-plusplus": "off",
     "simple-import-sort/imports": "error",
+    "unused-imports/no-unused-imports": "error",
   },
 };
