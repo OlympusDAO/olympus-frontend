@@ -214,4 +214,23 @@ export class EnvHelper {
 
     return false;
   }
+
+  /**
+   * Indicates whether mockSohm is enabled.
+   * This is needed for easily manually testing rebases
+   * for Give on testnet
+   *
+   * The feature is enabled when:
+   * - mock_sohm parameter is present
+   *
+   * @param url
+   * @returns
+   */
+  static isMockSohmEnabled(url: string): boolean {
+    const mockSohmEnabledParameter = url && url.includes("mock_sohm");
+
+    if (mockSohmEnabledParameter) return true;
+
+    return false;
+  }
 }

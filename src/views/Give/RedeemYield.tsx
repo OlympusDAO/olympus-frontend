@@ -154,9 +154,13 @@ export default function RedeemYield() {
               />
             </div>
             <div className="give-education">
-              <VaultGraphic quantity={totalDeposit.toFixed(2)} verb={t`in deposits remains`} />
+              <VaultGraphic
+                quantity={isRecipientInfoLoading ? "0" : totalDeposit.toFixed(2)}
+                verb={t`in deposits remains`}
+                isLoading={isRecipientInfoLoading}
+              />
               <ArrowGraphic />
-              <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} />
+              <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} isLoading={isRecipientInfoLoading} />
             </div>
           </div>
           <TableContainer className="redeem-table">

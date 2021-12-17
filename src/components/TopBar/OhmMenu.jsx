@@ -10,6 +10,7 @@ import { ReactComponent as ohmTokenImg } from "../../assets/tokens/token_OHM.svg
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
 import { getTestTokens } from "../../slices/GiveThunk";
 import { useDispatch } from "react-redux";
+import { EnvHelper } from "src/helpers/Environment";
 
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
@@ -113,7 +114,6 @@ function OhmMenu() {
   const dispatch = useDispatch();
 
   const handleGetTestTokens = async () => {
-    console.log("foo");
     await dispatch(
       getTestTokens({
         provider,
@@ -274,7 +274,7 @@ function OhmMenu() {
                     </Typography>
                   </Button>
                 </Link>
-                {networkId !== 1 && (
+                {networkId !== 1 && EnvHelper.isMockSohmEnabled(useLocation().search) && (
                   <Button size="large" variant="contained" color="secondary" onClick={handleGetTestTokens} fullWidth>
                     <Typography align="left">
                       <Trans>Get Test Tokens</Trans>
