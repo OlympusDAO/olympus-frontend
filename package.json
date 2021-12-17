@@ -131,6 +131,7 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "lint": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore ./src/",
+    "lint:fix": "prettier --write ./src/ & yarn lint --fix",
     "surge": "surge ./build",
     "ship": "yarn surge",
     "theme": "npx gulp less",
