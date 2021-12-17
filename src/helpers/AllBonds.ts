@@ -625,7 +625,7 @@ export const ohm_weth = new CustomBond({
   },
   bondType: BondType.LP,
   lpUrl:
-    "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
     if (networkID === NetworkID.Mainnet) {
       const ethBondContract = this.getContractForBond(networkID, provider);
