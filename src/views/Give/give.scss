@@ -257,24 +257,48 @@
     flex-direction: row;
 
     .donation-row {
+      display: flex;
+      justify-content: flex-end;
       width: 100%;
 
-      button {
-        margin-right: 1rem;
+      .donation-buttons {
+        display: flex;
+        justify-content: flex-end;
+
+        .donation-lp-button {
+          width: 25%;
+          margin-right: 1rem;
+        }
+      }
+
+      .recipient-divider {
+        width: 100%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
       }
     }
 
     .MuiTypography-h6 {
+      min-width: 33%;
       margin-right: 2rem;
     }
 
     .MuiTypography-body1 {
+      min-width: 33%;
+      margin-top: 0.5rem;
       margin-right: 2rem;
+      margin-bottom: 0rem;
     }
+  }
 
-    .recipient-divider {
+  .donation-table.smaller {
+    .donation-buttons {
+      justify-content: flex-start;
       margin-top: 1rem;
-      margin-bottom: 1rem;
+
+      .donation-lp-button {
+        width: 40%;
+      }
     }
   }
 }
