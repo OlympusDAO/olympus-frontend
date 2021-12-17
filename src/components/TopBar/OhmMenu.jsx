@@ -114,7 +114,6 @@ function OhmMenu() {
   const dispatch = useDispatch();
 
   const handleGetTestTokens = async () => {
-    console.log("foo");
     await dispatch(
       getTestTokens({
         provider,
