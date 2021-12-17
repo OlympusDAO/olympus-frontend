@@ -10,8 +10,13 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: ["plugin:prettier/recommended", "prettier/react", "prettier/@typescript-eslint"],
-  plugins: ["prettier"],
+  extends: [
+    "react-app",
+    "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+  ],
   rules: {
     "prettier/prettier": ["error"],
     "import/prefer-default-export": "off",

@@ -124,9 +124,6 @@
     "type-graphql": "^1.1.1",
     "typechain": "^6.0.2"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "scripts": {
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "eject": "react-scripts eject",
