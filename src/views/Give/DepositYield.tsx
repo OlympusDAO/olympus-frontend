@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useAppSelector } from "src/hooks";
+import { NavLink, useLocation } from "react-router-dom";
 import { Paper, Typography, Zoom, Container, Box, Link, SvgIcon } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -12,6 +13,7 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { ChevronLeft } from "@material-ui/icons";
+import { EnvHelper } from "src/helpers/Environment";
 
 type State = {
   account: IAccountSlice;
@@ -20,12 +22,16 @@ type State = {
 };
 
 export default function DepositYield() {
+  const location = useLocation();
   const { hasCachedProvider, connect } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
+  const networkId = useAppSelector(state => state.network.networkId);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const redeemableBalance = useSelector((state: State) => {
-    return state.account.redeeming && state.account.redeeming.sohmRedeemable;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
+      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
 
   useEffect(() => {

@@ -10,7 +10,7 @@ import { setAll, handleContractError } from "../helpers";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
 
-import { getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
+import { getRedemptionBalancesAsync, getMockRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
@@ -170,13 +170,15 @@ export const getBalances = createAsyncThunk(
       be manually rebased to test redeem features
     */
     let mockSohmBalance = null;
-    if (addresses[networkID].MOCK_SOHM) {
+    if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(
         addresses[networkID].MOCK_SOHM as string,
         MockSohm,
         provider,
       ) as IERC20;
       mockSohmBalance = await mockSohmContract.balanceOf(address);
+    } else {
+      console.error("Unable to find MOCK_SOHM contract on chain ID " + networkID);
     }
 
     return {
@@ -205,22 +207,32 @@ export const getBalances = createAsyncThunk(
 export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
-    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
-    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
-
+    let giveAllowance = 0;
     let donationInfo: IUserDonationInfo = {};
-    try {
-      // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
-      let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
-      for (let i = 0; i < allDeposits[0].length; i++) {
-        if (allDeposits[1][i].eq(0)) continue;
 
-        // Store as a formatted string
-        donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
+    if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
+      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
+      giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+      const givingContract = new ethers.Contract(
+        addresses[networkID].GIVING_ADDRESS as string,
+        OlympusGiving,
+        provider,
+      );
+
+      try {
+        // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
+        let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
+        for (let i = 0; i < allDeposits[0].length; i++) {
+          if (allDeposits[1][i].eq(0)) continue;
+
+          // Store as a formatted string
+          donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
+        }
+      } catch (e: unknown) {
+        console.error(e);
       }
-    } catch (e: unknown) {
-      console.error(e);
+    } else {
+      console.error("Unable to find GIVING_ADDRESS contract on chain ID " + networkID);
     }
 
     return {
@@ -241,7 +253,10 @@ export const getDonationBalances = createAsyncThunk(
 export const getMockDonationBalances = createAsyncThunk(
   "account/getMockDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    if (addresses[networkID].MOCK_SOHM) {
+    let giveAllowance = 0;
+    let donationInfo: IUserDonationInfo = {};
+
+    if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
       const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
       const givingContract = new ethers.Contract(
@@ -263,21 +278,16 @@ export const getMockDonationBalances = createAsyncThunk(
       } catch (e: unknown) {
         console.error(e);
       }
-
-      return {
-        mockGiving: {
-          sohmGive: +giveAllowance,
-          donationInfo: donationInfo,
-        },
-      };
     } else {
-      return {
-        mockGiving: {
-          sohmGive: "0",
-          donationInfo: {},
-        },
-      };
+      console.error("Unable to find MOCK_SOHM contract on chain ID " + networkID);
     }
+
+    return {
+      mockGiving: {
+        sohmGive: +giveAllowance,
+        donationInfo: donationInfo,
+      },
+    };
   },
 );
 
@@ -286,6 +296,14 @@ export const getRedemptionBalances = createAsyncThunk(
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     const redeeming = await getRedemptionBalancesAsync({ address, networkID, provider });
     return redeeming;
+  },
+);
+
+export const getMockRedemptionBalances = createAsyncThunk(
+  "account/getMockRedemptionBalances",
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+    const mockRedeeming = await getMockRedemptionBalancesAsync({ address, networkID, provider });
+    return mockRedeeming;
   },
 );
 
@@ -398,6 +416,7 @@ export const loadAccountDetails = createAsyncThunk(
     await dispatch(getDonationBalances({ address, networkID, provider }));
     await dispatch(getMockDonationBalances({ address, networkID, provider }));
     await dispatch(getRedemptionBalances({ address, networkID, provider }));
+    await dispatch(getMockRedemptionBalances({ address, networkID, provider }));
 
     return {
       staking: {
@@ -477,6 +496,7 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   giving: { sohmGive: number; donationInfo: IUserDonationInfo };
   mockGiving: { sohmGive: number; donationInfo: IUserDonationInfo };
   redeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
+  mockRedeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   bonds: { [key: string]: IUserBondDetails };
   balances: {
     gohm: string;
@@ -537,6 +557,15 @@ const initialState: IAccountSlice = {
   giving: { sohmGive: 0, donationInfo: {} },
   mockGiving: { sohmGive: 0, donationInfo: {} },
   redeeming: {
+    sohmRedeemable: "",
+    recipientInfo: {
+      totalDebt: "",
+      carry: "",
+      agnosticAmount: "",
+      indexAtLastChange: "",
+    },
+  },
+  mockRedeeming: {
     sohmRedeemable: "",
     recipientInfo: {
       totalDebt: "",
@@ -614,6 +643,17 @@ const accountSlice = createSlice({
         state.loading = false;
       })
       .addCase(getRedemptionBalances.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(getMockRedemptionBalances.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getMockRedemptionBalances.fulfilled, (state, action) => {
+        setAll(state, action.payload);
+        state.loading = false;
+      })
+      .addCase(getMockRedemptionBalances.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       })

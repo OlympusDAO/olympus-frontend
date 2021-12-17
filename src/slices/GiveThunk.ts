@@ -36,6 +36,13 @@ export const ACTION_GIVE = "give";
 export const ACTION_GIVE_EDIT = "editGive";
 export const ACTION_GIVE_WITHDRAW = "endGive";
 
+export const isSupportedChain = (chainID: number): boolean => {
+  // Give is only supported on Ethereum mainnet (1) and rinkeby (4) for the moment.
+  if (chainID === 1 || chainID === 4) return true;
+
+  return false;
+};
+
 export const hasPendingGiveTxn = (pendingTransactions: IPendingTxn[]): boolean => {
   return (
     isPendingTxn(pendingTransactions, PENDING_TXN_GIVE) ||
@@ -97,7 +104,7 @@ export const changeApproval = createAsyncThunk(
 );
 
 export const changeMockApproval = createAsyncThunk(
-  "give/changeApproval",
+  "give/changeMockApproval",
   async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet`));
@@ -215,7 +222,7 @@ export const changeGive = createAsyncThunk(
 );
 
 export const changeMockGive = createAsyncThunk(
-  "give/changeGive",
+  "give/changeMockGive",
   async ({ action, value, recipient, provider, address, networkID }: IActionValueRecipientAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));

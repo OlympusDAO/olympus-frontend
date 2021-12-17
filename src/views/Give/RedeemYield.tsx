@@ -18,7 +18,7 @@ import {
 import { NavLink } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { redeemBalance } from "../../slices/RedeemThunk";
+import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
 import { Skeleton } from "@material-ui/lab";
 import { IAccountSlice, loadAccountDetails } from "src/slices/AccountSlice";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -57,7 +57,9 @@ export default function RedeemYield() {
   });
 
   const redeemableBalance = useSelector((state: State) => {
-    return state.account.redeeming && state.account.redeeming.sohmRedeemable;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
+      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
 
   const stakingAPY = useSelector((state: State) => {
@@ -145,7 +147,11 @@ export default function RedeemYield() {
   };
 
   const handleRedeemYieldModalSubmit = async () => {
-    await dispatch(redeemBalance({ address, provider, networkID: networkId }));
+    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(redeemMockBalance({ address, provider, networkID: networkId }));
+    } else {
+      await dispatch(redeemBalance({ address, provider, networkID: networkId }));
+    }
     setIsRedeemYieldModalOpen(false);
   };
 

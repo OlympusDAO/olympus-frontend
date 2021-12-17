@@ -26,7 +26,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
 import { RecipientModal, SubmitCallback, CancelCallback } from "src/views/Give/RecipientModal";
-import { changeGive, changeMockGive, ACTION_GIVE } from "src/slices/GiveThunk";
+import { changeGive, changeMockGive, ACTION_GIVE, isSupportedChain } from "src/slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
 import { countDecimals, roundToDecimal, toInteger } from "./utils";
@@ -99,7 +99,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   });
 
   const redeemableBalance = useSelector((state: State) => {
-    return state.account.redeeming && state.account.redeeming.sohmRedeemable;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
+      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
 
   const theme = useTheme();
@@ -451,7 +453,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     color="primary"
                     className="cause-give-button"
                     onClick={() => handleGiveButtonClick()}
-                    disabled={!address}
+                    disabled={!address || !isSupportedChain(networkId)}
                   >
                     <Typography variant="h6">
                       <Trans>Give Yield</Trans>
@@ -552,7 +554,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                               variant="contained"
                               color="primary"
                               onClick={() => handleGiveButtonClick()}
-                              disabled={!address}
+                              disabled={!address || !isSupportedChain(networkId)}
                             >
                               <Typography variant="h6">
                                 <Trans>Give Yield</Trans>
