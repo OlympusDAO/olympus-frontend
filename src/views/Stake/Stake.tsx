@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, ChangeEvent } from "react";
+import { useCallback, useState, useEffect, ChangeEvent, ChangeEventHandler } from "react";
 import { useDispatch } from "react-redux";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useHistory } from "react-router";
@@ -80,6 +80,12 @@ function Stake() {
   });
   const fsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
+  });
+  const fgohmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.fgohm;
+  });
+  const fgOHMAsfsOHMBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.fgOHMAsfsOHM;
   });
   const wsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
@@ -215,8 +221,12 @@ function Stake() {
     setView(newView);
   };
 
+  const handleChangeQuantity = useCallback<ChangeEventHandler<HTMLInputElement>>(e => {
+    if (Number(e.target.value) >= 0) setQuantity(e.target.value);
+  }, []);
+
   const trimmedBalance = Number(
-    [sohmBalance, gOhmAsSohm, sohmV1Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance]
+    [sohmBalance, gOhmAsSohm, sohmV1Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance, fgOHMAsfsOHMBalance]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -394,7 +404,7 @@ function Stake() {
                                 placeholder="Enter an amount"
                                 className="stake-input"
                                 value={quantity}
-                                onChange={e => setQuantity(e.target.value)}
+                                onChange={handleChangeQuantity}
                                 labelWidth={0}
                                 endAdornment={
                                   <InputAdornment position="end">
@@ -504,6 +514,12 @@ function Stake() {
                         <StakeRow
                           title={`${t`Wrapped Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={`${t`Wrapped Balance in Fuse`}`}
+                          balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
