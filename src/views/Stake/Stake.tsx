@@ -21,6 +21,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Checkbox,
+  Switch,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
@@ -101,7 +102,6 @@ function Stake() {
     return state.account.balances && state.account.balances.gohm;
   });
 
-  // const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
   const gOhmAsSohm = useAppSelector(state => {
     return state.account.balances && state.account.balances.gOhmAsSohmBal;
   });
@@ -152,7 +152,7 @@ function Stake() {
 
   const onChangeStake = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(Number(quantity)) || Number(quantity) === 0) {
+    if (isNaN(Number(quantity)) || Number(quantity) === 0 || Number(quantity) < 0) {
       // eslint-disable-next-line no-alert
       return dispatch(error(t`Please enter a value!`));
     }
@@ -259,33 +259,29 @@ function Stake() {
         style={{ marginBottom: "0.8rem", width: "100%", padding: "12px 12px" }}
       >
         <Box className="dialog-container" display="flex" alignItems="center" justifyContent="center">
-          <Box>
-            <Checkbox
-              checked={checked}
-              onChange={e => handleCheck(e)}
-              color="primary"
-              inputProps={{ "aria-label": "checkbox" }}
-              className="stake-to-ohm-checkbox"
-              checkedIcon={<CheckBoxIcon viewBox="0 0 25 25" />}
-              icon={<CheckBoxOutlineBlankIcon viewBox="0 0 25 25" />}
-            />
-          </Box>
-          <Box width="100%">
-            <Typography variant="body2" style={{ margin: "10px" }}>
-              {view === 0 &&
-                checked &&
-                `Staking ${Number(quantity).toFixed(4)} OHM to ${(Number(quantity) / Number(currentIndex)).toFixed(
-                  4,
-                )} gOHM`}
-              {view === 1 &&
-                checked &&
-                `Unstaking ${(Number(quantity) / Number(currentIndex)).toFixed(4)} gOHM to ${Number(quantity).toFixed(
-                  4,
-                )} OHM`}
-              {view === 0 && !checked && "Stake to gOHM instead"}
-              {view === 1 && !checked && "Unstake from gOHM instead"}
-            </Typography>
-          </Box>
+          <Typography variant="body2">
+            <Grid component="label" container alignItems="center" spacing={1}>
+              <Grid item>{view === 0 ? "Stake to sOHM" : "Unstake from sOHM"}</Grid>
+              <Grid item>
+                <Switch
+                  checked={checked}
+                  onChange={handleCheck}
+                  color="primary"
+                  className="stake-to-ohm-checkbox"
+                  inputProps={{ "aria-label": "stake to gohm" }}
+                />
+              </Grid>
+              <Grid item>
+                {view === 0
+                  ? `Staking ${Number(Number(quantity).toFixed(4))} OHM to ${Number(
+                      (Number(quantity) / Number(currentIndex)).toFixed(4),
+                    )} gOHM`
+                  : `Unstaking ${Number((Number(quantity) / Number(currentIndex)).toFixed(4))} gOHM to ${Number(
+                      Number(quantity).toFixed(4),
+                    )} OHM`}
+              </Grid>
+            </Grid>
+          </Typography>
         </Box>
       </Paper>
     );
