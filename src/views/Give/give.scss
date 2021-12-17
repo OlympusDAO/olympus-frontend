@@ -1,4 +1,4 @@
-.give-view {
+#give-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -205,50 +205,50 @@
       }
     }
   }
+}
 
-  .medium {
-    .causes-body {
-      .cause-content {
-        width: 50%;
+#give-view.medium {
+  .causes-body {
+    .cause-content {
+      width: 50%;
 
-        .cause-body {
-          padding-bottom: 0px;
-        }
-      }
-
-      .cause-misc-info {
-        .MuiGrid-item {
-          margin-top: 1rem;
-          align-self: center;
-        }
-
-        .cause-give-button {
-          width: 100%;
-          margin-left: 0rem;
-        }
-      }
-
-      .cause-image {
-        width: 50%;
+      .cause-body {
+        padding-bottom: 0px;
       }
     }
+
+    .cause-misc-info {
+      .MuiGrid-item {
+        margin-top: 1rem;
+        align-self: center;
+      }
+
+      .cause-give-button {
+        width: 100%;
+        margin-left: 0rem;
+      }
+    }
+
+    .cause-image {
+      width: 50%;
+    }
   }
+}
 
-  .smaller {
-    .causes-body {
-      .cause-card {
-        flex-direction: column;
-      }
+#give-view.smaller {
+  .causes-body {
+    .cause-card {
+      flex-direction: column;
+    }
 
-      .cause-content {
-        padding-top: 0px;
-        padding-left: 30px;
-        width: 100%;
-      }
+    .cause-content {
+      padding-top: 0px;
+      padding-left: 30px;
+      width: 100%;
+    }
 
-      .cause-image {
-        width: 100%;
-      }
+    .cause-image {
+      width: 100%;
     }
   }
 
@@ -300,6 +300,37 @@
         width: 40%;
       }
     }
+  }
+}
+
+.give-subnav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  max-width: 833px;
+  margin: 25px auto;
+
+  .give-option {
+    margin-right: 1rem;
+  }
+
+  #give-sub-dash {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+  }
+
+  #give-sub-dash:hover {
+    color: #f4d092;
+  }
+}
+
+.give-subnav.smaller {
+  margin-left: 6px;
+
+  #give-sub-dash {
+    margin-left: -7px;
   }
 }
 

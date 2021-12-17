@@ -221,15 +221,17 @@ export class EnvHelper {
    * for Give on testnet
    *
    * The feature is enabled when:
+   * - REACT_APP_MOCK_SOHM_ENABLED is true
    * - mock_sohm parameter is present
    *
    * @param url
    * @returns
    */
   static isMockSohmEnabled(url: string): boolean {
+    const mockSohmEnabled = EnvHelper.env.REACT_APP_MOCK_SOHM_ENABLED;
     const mockSohmEnabledParameter = url && url.includes("mock_sohm");
 
-    if (mockSohmEnabledParameter) return true;
+    if (mockSohmEnabled || mockSohmEnabledParameter) return true;
 
     return false;
   }
