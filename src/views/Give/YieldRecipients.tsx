@@ -1,24 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  Typography,
-  Button,
-  TableHead,
-  TableCell,
-  TableBody,
-  Table,
-  TableRow,
-  TableContainer,
-  Grid,
-  Box,
-  Divider,
-} from "@material-ui/core";
+import { Typography, Button, Grid, Box, Divider } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive } from "../../slices/GiveThunk";
+import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { RecipientModal, SubmitCallback } from "./RecipientModal";
 import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
@@ -32,6 +20,8 @@ import data from "./projects.json";
 import { Project } from "src/components/GiveProject/project.type";
 import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
+import { useLocation } from "react-router-dom";
+import { EnvHelper } from "src/helpers/Environment";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -41,10 +31,10 @@ type State = {
 };
 
 export default function YieldRecipients() {
+  const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connect } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
-  const [walletChecked, setWalletChecked] = useState(false);
   const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState("");
   const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -53,30 +43,13 @@ export default function YieldRecipients() {
   // TODO fix typing of state.app.loading
   const isAppLoading = useSelector((state: any) => state.app.loading);
   const donationInfo = useSelector((state: State) => {
-    return state.account.giving && state.account.giving.donationInfo;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockGiving && state.account.mockGiving.donationInfo
+      : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const isDonationInfoLoading = donationInfo == undefined;
-
-  useEffect(() => {
-    if (hasCachedProvider()) {
-      // then user DOES have a wallet
-      connect().then(() => {
-        setWalletChecked(true);
-      });
-    } else {
-      // then user DOES NOT have a wallet
-      setWalletChecked(true);
-    }
-  }, []);
-
-  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
-  useEffect(() => {
-    // don't load ANY details until wallet is Checked
-    if (walletChecked) {
-      //   loadLusdData();
-    }
-  }, [walletChecked]);
+  const isDonationInfoLoading = useSelector((state: any) => state.account.loading);
+  const isLoading = isAppLoading || isDonationInfoLoading;
 
   // *** Edit modal
   const handleEditButtonClick = (walletAddress: string) => {
@@ -91,21 +64,34 @@ export default function YieldRecipients() {
 
     if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
-    // Record segment user event
-
     // If reducing the amount of deposit, withdraw
-    await dispatch(
-      changeGive({
-        action: ACTION_GIVE_EDIT,
-        value: depositAmountDiff.toFixed(),
-        recipient: walletAddress,
-        provider,
-        address,
-        networkID: networkId,
-        version2: false,
-        rebase: false,
-      }),
-    );
+    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(
+        changeMockGive({
+          action: ACTION_GIVE_EDIT,
+          value: depositAmountDiff.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    } else {
+      await dispatch(
+        changeGive({
+          action: ACTION_GIVE_EDIT,
+          value: depositAmountDiff.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    }
 
     setIsEditModalOpen(false);
   };
@@ -121,21 +107,34 @@ export default function YieldRecipients() {
   };
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
-    // Record Segment user event
-
     // Issue withdrawal from smart contract
-    await dispatch(
-      changeGive({
-        action: ACTION_GIVE_WITHDRAW,
-        value: depositAmount.toFixed(),
-        recipient: walletAddress,
-        provider,
-        address,
-        networkID: networkId,
-        version2: false,
-        rebase: false,
-      }),
-    );
+    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(
+        changeMockGive({
+          action: ACTION_GIVE_WITHDRAW,
+          value: depositAmount.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    } else {
+      await dispatch(
+        changeGive({
+          action: ACTION_GIVE_WITHDRAW,
+          value: depositAmount.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    }
 
     setIsWithdrawModalOpen(false);
   };
@@ -156,7 +155,11 @@ export default function YieldRecipients() {
     return project.owner + " - " + project.title;
   };
 
-  if (Object.keys(donationInfo).length == 0) {
+  if (isLoading) {
+    return <Skeleton />;
+  }
+
+  if (!donationInfo || Object.keys(donationInfo).length == 0) {
     return (
       <>
         <Grid container className="yield-recipients-empty">
@@ -187,13 +190,11 @@ export default function YieldRecipients() {
             <InfoTooltip message={t`The amount of sOHM deposited`} children={null} />
           </Typography>
         </Grid>
-        {isDonationInfoLoading ? (
+        {isLoading ? (
           <Skeleton />
         ) : (
           Object.keys(donationInfo).map(recipient => {
-            return isAppLoading ? (
-              <Skeleton />
-            ) : (
+            return (
               <Box className="donation-row">
                 <Grid item sm={12} md={6} style={{ display: "flex" }}>
                   <Typography variant="body1">{getRecipientTitle(recipient)}</Typography>
@@ -206,6 +207,7 @@ export default function YieldRecipients() {
                     className="stake-lp-button"
                     onClick={() => handleEditButtonClick(recipient)}
                     disabled={!address}
+                    key={"edit-" + recipient}
                   >
                     <Trans>Edit</Trans>
                   </Button>
@@ -215,6 +217,7 @@ export default function YieldRecipients() {
                     className="stake-lp-button"
                     onClick={() => handleWithdrawButtonClick(recipient)}
                     disabled={!address}
+                    key={"withdraw-" + recipient}
                   >
                     <Trans>Withdraw</Trans>
                   </Button>
@@ -227,7 +230,8 @@ export default function YieldRecipients() {
           })
         )}
       </Grid>
-      {isDonationInfoLoading ? (
+
+      {isLoading ? (
         <Skeleton />
       ) : (
         Object.keys(donationInfo).map(recipient => {
@@ -239,14 +243,15 @@ export default function YieldRecipients() {
                 cancelFunc={handleEditModalCancel}
                 currentWalletAddress={recipient}
                 currentDepositAmount={new BigNumber(donationInfo[recipient])}
-                key={recipient}
+                project={projectMap.get(recipient)}
+                key={"edit-modal-" + recipient}
               />
             )
           );
         })
       )}
 
-      {isDonationInfoLoading ? (
+      {isLoading ? (
         <Skeleton />
       ) : (
         Object.keys(donationInfo).map(recipient => {
@@ -259,7 +264,7 @@ export default function YieldRecipients() {
                 walletAddress={recipient}
                 depositAmount={new BigNumber(donationInfo[recipient])}
                 project={projectMap.get(recipient)}
-                key={recipient}
+                key={"withdraw-modal-" + recipient}
               />
             )
           );
