@@ -1,5 +1,10 @@
 import fonts from "./fonts";
 
+// Main colors
+export const BG_RED = "#ff0000";
+export const BG_RED_SECONDARY = "#fd6b66";
+export const PRIMARY_WHITE = "#FCFCFC";
+
 const breakpointValues = {
   xs: 0,
   sm: 596,
@@ -33,7 +38,7 @@ const commonSettings = {
   direction: "ltr",
   typography: {
     fontSize: 16,
-    fontFamily: "Square",
+    fontFamily: "Poppins, sans-serif",
     h1: {
       fontSize: "3.3rem",
     },
