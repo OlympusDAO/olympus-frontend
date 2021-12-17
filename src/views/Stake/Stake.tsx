@@ -261,7 +261,7 @@ function Stake() {
             />
           </Box>
           <Box width="100%">
-            <Typography variant="body2" style={{ margin: "10px" }}>
+            <Typography variant="body2" style={{ margin: "10px 10px 10px 0px" }}>
               {view === 0 &&
                 checked &&
                 `Staking ${Number(quantity).toFixed(4)} OHM to ${(Number(quantity) / Number(currentIndex)).toFixed(
