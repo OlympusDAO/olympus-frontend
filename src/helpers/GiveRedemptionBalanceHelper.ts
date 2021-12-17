@@ -38,6 +38,8 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
         "gwei",
       );
     } catch (e: unknown) {}
+  } else {
+    console.error("Unable to find MOCK_SOHM contract on chain ID " + networkID);
   }
 
   return {
@@ -57,7 +59,7 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
     indexAtLastChange: "",
   };
 
-  if (addresses[networkID].MOCK_GIVING_ADDRESS) {
+  if (addresses[networkID] && addresses[networkID].MOCK_GIVING_ADDRESS) {
     const givingContract = new ethers.Contract(
       addresses[networkID].MOCK_GIVING_ADDRESS as string,
       OlympusGiving,
@@ -75,6 +77,8 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
         "gwei",
       );
     } catch (e: unknown) {}
+  } else {
+    console.error("Unable to find MOCK_GIVING_ADDRESS contract on chain ID " + networkID);
   }
 
   return {

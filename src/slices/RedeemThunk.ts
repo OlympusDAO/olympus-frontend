@@ -75,7 +75,7 @@ export const redeemMockBalance = createAsyncThunk(
       return;
     }
 
-    if (!addresses[networkID].MOCK_GIVING_ADDRESS) {
+    if (!addresses[networkID] || !addresses[networkID].MOCK_GIVING_ADDRESS) {
       dispatch(error(t`Please switch to testnet!`));
       return;
     }
