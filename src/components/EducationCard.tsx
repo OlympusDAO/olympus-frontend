@@ -7,6 +7,7 @@ import { shorten } from "src/helpers";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Skeleton } from "@material-ui/lab";
 
 const viewBox = "0 0 100 100";
 // The sOHM SVG is 100x100px, whereas the others are 50x50px
@@ -17,6 +18,7 @@ const smallIconStyle = { height: "32px", width: "32px", margin: "auto" };
 type EducationGraphicProps = {
   quantity: string;
   verb?: string;
+  isLoading?: boolean;
 };
 
 type GenericEducationGraphicProps = {
@@ -126,7 +128,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
   );
 }
 
-export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicProps) {
+export function VaultGraphic({ quantity, verb = "deposited", isLoading }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
@@ -139,9 +141,13 @@ export function VaultGraphic({ quantity, verb = "deposited" }: EducationGraphicP
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          <Trans>
-            {quantity} sOHM {verb}
-          </Trans>
+          {isLoading ? (
+            <Skeleton width={120} />
+          ) : (
+            <Trans>
+              {quantity} sOHM {verb}
+            </Trans>
+          )}
         </Typography>
       </Box>
     </Box>
@@ -269,7 +275,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
   );
 }
 
-export function RedeemGraphic({ quantity }: EducationGraphicProps) {
+export function RedeemGraphic({ quantity, isLoading }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
@@ -290,7 +296,7 @@ export function RedeemGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          <Trans>Redeem {quantity} sOHM in yield</Trans>
+          {isLoading ? <Skeleton width={120} /> : <Trans>Redeem {quantity} sOHM in yield</Trans>}
         </Typography>
       </Box>
     </Box>
