@@ -35,5 +35,7 @@ module.exports = {
     "no-plusplus": "off",
     "simple-import-sort/imports": "error",
     "unused-imports/no-unused-imports": "error",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
   },
 };
