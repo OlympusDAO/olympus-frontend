@@ -17,6 +17,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
   ],
+  plugins: ["simple-import-sort"],
   rules: {
     "prettier/prettier": ["error"],
     "import/prefer-default-export": "off",
@@ -32,5 +33,6 @@ module.exports = {
     "no-nested-ternary": "off",
     "no-restricted-syntax": "off",
     "no-plusplus": "off",
+    "simple-import-sort/imports": "error",
   },
 };
