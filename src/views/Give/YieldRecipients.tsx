@@ -96,8 +96,6 @@ export default function YieldRecipients() {
 
     if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
-    // Record segment user event
-
     // If reducing the amount of deposit, withdraw
     if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
@@ -141,8 +139,6 @@ export default function YieldRecipients() {
   };
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
-    // Record Segment user event
-
     // Issue withdrawal from smart contract
     if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(

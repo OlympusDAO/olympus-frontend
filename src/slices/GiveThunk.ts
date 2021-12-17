@@ -82,7 +82,7 @@ export const changeApproval = createAsyncThunk(
 
     /*
       The pseudo-sOHM contract used on testnet does not have a functional allowance
-      mapping. Instead approval calls write allowaces to a mapping title _allowedValue
+      mapping. Instead approval calls write allowances to a mapping title _allowedValue
     */
     let giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
 

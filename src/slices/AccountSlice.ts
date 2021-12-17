@@ -189,6 +189,9 @@ export const getBalances = createAsyncThunk(
   },
 );
 
+/**
+ * Provides the details of deposits/donations provided by a specific wallet.
+ */
 export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
@@ -219,6 +222,12 @@ export const getDonationBalances = createAsyncThunk(
   },
 );
 
+/**
+ * Provides the details of deposits/donations provided by a specific wallet.
+ *
+ * This differs from the standard `getDonationBalances` function because it uses a alternative
+ * sOHM contract that allows for manual rebases, which is helpful during testing of the 'Give' functionality.
+ */
 export const getMockDonationBalances = createAsyncThunk(
   "account/getMockDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
@@ -233,6 +242,7 @@ export const getMockDonationBalances = createAsyncThunk(
 
       let donationInfo: IUserDonationInfo = {};
       try {
+        // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
         let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
         for (let i = 0; i < allDeposits[0].length; i++) {
           if (allDeposits[1][i] !== BigNumber.from(0)) {

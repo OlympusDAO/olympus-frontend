@@ -49,8 +49,6 @@ export default function CausesDashboard() {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    // Record segment user event
-
     // If reducing the amount of deposit, withdraw
     if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
