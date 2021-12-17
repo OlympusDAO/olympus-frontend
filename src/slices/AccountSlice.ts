@@ -72,6 +72,8 @@ export const getBalances = createAsyncThunk(
     let wsohmBalance = BigNumber.from("0");
     let poolBalance = BigNumber.from("0");
     let fsohmBalance = BigNumber.from(0);
+    let fgohmBalance = BigNumber.from(0);
+    let fgOHMAsfsOHMBalance = BigNumber.from(0);
     let fiatDaowsohmBalance = BigNumber.from("0");
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
@@ -137,10 +139,16 @@ export const getBalances = createAsyncThunk(
             fuseProxy,
             provider.getSigner(),
           ) as FuseProxy;
-          // fsohmContract.signer;
-          const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
-          fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
+          let balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
+          const underlying = await fsohmContract.callStatic.underlying();
+          if (underlying == addresses[networkID].GOHM_ADDRESS) {
+            fgohmBalance = balanceOfUnderlying.add(fgohmBalance);
+          } else fsohmBalance = balanceOfUnderlying.add(fsohmBalance);
         }
+      }
+      const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
+      if (fgohmBalance.gt(0)) {
+        fgOHMAsfsOHMBalance = await gOhmContract.balanceFrom(fgohmBalance.toString());
       }
     } catch (e) {
       handleContractError(e);
@@ -178,6 +186,8 @@ export const getBalances = createAsyncThunk(
         ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
+        fgohm: ethers.utils.formatEther(fgohmBalance),
+        fgOHMAsfsOHM: ethers.utils.formatUnits(fgOHMAsfsOHMBalance, "gwei"),
         wsohm: ethers.utils.formatEther(wsohmBalance),
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
@@ -478,6 +488,8 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     dai: string;
     oldsohm: string;
     fsohm: string;
+    fgohm: string;
+    fgOHMAsfsOHM: string;
     wsohm: string;
     fiatDaowsohm: string;
     pool: string;
@@ -499,6 +511,7 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   pooling: {
     sohmPool: number;
   };
+  isMigrationComplete: boolean;
 }
 
 const initialState: IAccountSlice = {
@@ -514,6 +527,8 @@ const initialState: IAccountSlice = {
     dai: "",
     oldsohm: "",
     fsohm: "",
+    fgohm: "",
+    fgOHMAsfsOHM: "",
     wsohm: "",
     fiatDaowsohm: "",
     pool: "",
@@ -534,6 +549,7 @@ const initialState: IAccountSlice = {
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0, gOhmUnwrap: 0, wsOhmMigrate: 0 },
   pooling: { sohmPool: 0 },
   migration: { ohm: 0, sohm: 0, wsohm: 0, gohm: 0 },
+  isMigrationComplete: false,
 };
 
 const accountSlice = createSlice({

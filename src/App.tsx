@@ -419,7 +419,7 @@ function App() {
           </Switch>
         </div>
 
-        <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
+        <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
       </div>
     </ThemeProvider>
   );

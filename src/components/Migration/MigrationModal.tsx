@@ -19,7 +19,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BigNumber } from "ethers";
 import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
 import { useWeb3Context } from "src/hooks";
@@ -31,7 +31,7 @@ import "./migration-modal.scss";
 import { useAppSelector } from "src/hooks";
 import { trim } from "src/helpers";
 import { t, Trans } from "@lingui/macro";
-const formatCurrency = c => {
+const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -59,7 +59,7 @@ const useStyles = makeStyles({
   },
 });
 
-function MigrationModal({ open, handleOpen, handleClose }) {
+function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any }) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -67,7 +67,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   const networkId = useAppSelector(state => state.network.networkId);
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
@@ -83,9 +83,9 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   });
 
   let rows = [];
-  let isMigrationComplete = useSelector(state => state.account.isMigrationComplete);
+  let isMigrationComplete = useAppSelector(state => state.account.isMigrationComplete);
 
-  const onSeekApproval = token => {
+  const onSeekApproval = (token: string) => {
     dispatch(
       changeMigrationApproval({
         address,
@@ -99,26 +99,26 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   };
 
   const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId }));
-  const currentIndex = useSelector(state => state.app.currentIndex);
+  const currentIndex = useAppSelector(state => Number(state.app.currentIndexV1!));
 
-  const currentOhmBalance = useSelector(state => Number(state.account.balances.ohmV1));
-  const currentSOhmBalance = useSelector(state => Number(state.account.balances.sohmV1));
-  const currentWSOhmBalance = useSelector(state => Number(state.account.balances.wsohm));
-  const wsOhmPrice = useSelector(state => state.app.marketPrice * state.app.currentIndex);
+  const currentOhmBalance = useAppSelector(state => Number(state.account.balances.ohmV1));
+  const currentSOhmBalance = useAppSelector(state => Number(state.account.balances.sohmV1));
+  const currentWSOhmBalance = useAppSelector(state => Number(state.account.balances.wsohm));
+  const wsOhmPrice = useAppSelector(state => state.app.marketPrice! * Number(state.app.currentIndex!));
 
-  const marketPrice = useSelector(state => {
+  const marketPrice = useAppSelector(state => {
     return state.app.marketPrice;
   });
-  const approvedOhmBalance = useSelector(state => Number(state.account.migration.ohm));
-  const approvedSOhmBalance = useSelector(state => Number(state.account.migration.sohm));
-  const approvedWSOhmBalance = useSelector(state => Number(state.account.migration.wsohm));
+  const approvedOhmBalance = useAppSelector(state => Number(state.account.migration.ohm));
+  const approvedSOhmBalance = useAppSelector(state => Number(state.account.migration.sohm));
+  const approvedWSOhmBalance = useAppSelector(state => Number(state.account.migration.wsohm));
   const ohmFullApproval = approvedOhmBalance >= currentOhmBalance;
   const sOhmFullApproval = approvedSOhmBalance >= currentSOhmBalance;
   const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  const ohmInUSD = formatCurrency(marketPrice * currentOhmBalance);
-  const sOhmInUSD = formatCurrency(marketPrice * currentSOhmBalance);
+  const ohmInUSD = formatCurrency(marketPrice! * currentOhmBalance);
+  const sOhmInUSD = formatCurrency(marketPrice! * currentSOhmBalance);
   const wsOhmInUSD = formatCurrency(wsOhmPrice * currentWSOhmBalance);
 
   useEffect(() => {
@@ -220,9 +220,9 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                       <Box style={{ margin: "20px 0px 20px 0px" }}>
                         <Typography
                           id="m-asset-row"
-                          style={{ margin: "10px 0px 10px 0px", fontWeight: "700" }}
+                          style={{ margin: "10px 0px 10px 0px", fontWeight: 700 }}
                         >{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
-                        <Box display="flex" flexFlow="row wrap" justifyContent="space-between">
+                        <Box display="flex" flexDirection="row" justifyContent="space-between">
                           <Typography>
                             {trim(row.initialBalance, 4)} {row.initialAsset}
                           </Typography>
@@ -272,8 +272,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                             <Trans>Pre-migration</Trans>
                           </Typography>
                           <InfoTooltip
-                            className="migartion-tooltip"
                             message={t`This is the current balance of v1 assets in your wallet.`}
+                            children={undefined}
                           ></InfoTooltip>
                         </Box>
                       </TableCell>
@@ -283,8 +283,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                             <Trans>Post-migration</Trans>
                           </Typography>
                           <InfoTooltip
-                            className="migartion-tooltip"
                             message={t`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
+                            children={undefined}
                           ></InfoTooltip>
                         </Box>
                       </TableCell>
@@ -300,7 +300,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     {rows
                       .filter(asset => asset.initialBalance > 0)
                       .map(row => (
-                        <TableRow key={row.initialAsset} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                        <TableRow key={row.initialAsset}>
                           <TableCell component="th" scope="row">
                             <Typography>{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
                           </TableCell>

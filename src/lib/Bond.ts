@@ -58,6 +58,7 @@ interface BondOpts {
   networkAddrs: NetworkAddresses; // Mapping of network --> Addresses
   bondToken: string; // Unused, but native token to buy the bond.
   payoutToken: string; // Token the user will receive - currently OHM on ethereum, wsOHM on arbitrum
+  v2Bond: boolean; // if v2Bond use v2BondingCalculator
 }
 
 // Technically only exporting for the interface
@@ -76,6 +77,7 @@ export abstract class Bond {
   readonly networkAddrs: NetworkAddresses;
   readonly bondToken: string;
   readonly payoutToken: string;
+  readonly v2Bond: boolean;
 
   // The following two fields will differ on how they are set depending on bond type
   abstract isLP: Boolean;
@@ -99,6 +101,7 @@ export abstract class Bond {
     this.networkAddrs = bondOpts.networkAddrs;
     this.bondToken = bondOpts.bondToken;
     this.payoutToken = bondOpts.payoutToken;
+    this.v2Bond = bondOpts.v2Bond;
   }
 
   /**
@@ -170,8 +173,11 @@ export class LPBond extends Bond {
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
     const token = this.getContractForReserve(networkID, provider);
     const tokenAddress = this.getAddressForReserve(networkID);
-    const bondCalculator = getBondCalculator(networkID, provider);
-    const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    const bondCalculator = getBondCalculator(networkID, provider, false);
+    const tokenAmountV1 = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    // const tokenAmountV2 = await token.balanceOf(addresses[networkID].TREASURY_V2);
+    // const tokenAmount = tokenAmountV1.add(tokenAmountV2);
+    const tokenAmount = tokenAmountV1;
     const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
     const markdown = await bondCalculator.markdown(tokenAddress || "");
     let tokenUSD = (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
@@ -196,7 +202,9 @@ export class StableBond extends Bond {
 
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
     let token = this.getContractForReserve(networkID, provider);
-    let tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let tokenAmountV1 = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    const tokenAmountV2 = await token.balanceOf(addresses[networkID].TREASURY_V2);
+    const tokenAmount = tokenAmountV1.add(tokenAmountV2);
     return Number(tokenAmount.toString()) / Math.pow(10, 18);
   }
 }
