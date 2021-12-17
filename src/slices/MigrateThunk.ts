@@ -193,14 +193,14 @@ export const migrateAll = createAsyncThunk(
       }
     }
     // go get fresh balances
-    dispatch(loadAccountDetails({ address, provider, networkID }));
+    dispatch(getBalances({ address, provider, networkID }));
     dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
 
 export const migrateCrossChainWSOHM = createAsyncThunk(
-  "migrate/migrateAvax",
-  async ({ provider, address, networkID, type, value, action }: IMigrationWithType, { dispatch }) => {
+  "migrate/migrateCrossChain",
+  async ({ provider, address, networkID, value }: IValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -210,12 +210,12 @@ export const migrateCrossChainWSOHM = createAsyncThunk(
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
       migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "ether"));
-      const text = `Migrate ${type} Tokens`;
+      const text = `Migrate wsOHM Tokens`;
       const pendingTxnType = `migrate`;
       if (migrateTx) {
         dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
         await migrateTx.wait();
-        dispatch(info(action));
+        dispatch(info("Successfully migrated tokens"));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
