@@ -10,6 +10,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import {
   changeApproval,
+  changeMockApproval,
   hasPendingGiveTxn,
   PENDING_TXN_GIVE,
   PENDING_TXN_EDIT_GIVE,
@@ -33,6 +34,8 @@ import { shorten } from "src/helpers";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
+import { useLocation } from "react-router-dom";
+import { EnvHelper } from "src/helpers/Environment";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -40,7 +43,7 @@ type RecipientModalProps = {
   cancelFunc: CancelCallback;
   project?: Project;
   currentWalletAddress?: string;
-  currentDepositAmount?: number; // As per IUserDonationInfo
+  currentDepositAmount?: BigNumber; // As per IUserDonationInfo
 };
 
 // TODO consider shifting this into interfaces.ts
@@ -65,6 +68,7 @@ export function RecipientModal({
   currentWalletAddress,
   currentDepositAmount,
 }: RecipientModalProps) {
+  const location = useLocation();
   const dispatch = useDispatch();
   const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
@@ -92,11 +96,15 @@ export function RecipientModal({
    * TODO consider extracting this into a helper file
    */
   const sohmBalance: string = useSelector((state: State) => {
-    return state.account.balances && state.account.balances.mockSohm;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.balances && state.account.balances.mockSohm
+      : state.account.balances && state.account.balances.sohm;
   });
 
   const giveAllowance: number = useSelector((state: State) => {
-    return state.account.giving && state.account.giving.sohmGive;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockGiving && state.account.mockGiving.sohmGive
+      : state.account.giving && state.account.giving.sohmGive;
   });
 
   const isAccountLoading: boolean = useSelector((state: State) => {
@@ -108,7 +116,11 @@ export function RecipientModal({
   });
 
   const onSeekApproval = async () => {
-    await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
+    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
+    } else {
+      await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
+    }
   };
 
   const hasAllowance = useCallback(() => {

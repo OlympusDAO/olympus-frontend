@@ -26,7 +26,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
 import { RecipientModal, SubmitCallback, CancelCallback } from "src/views/Give/RecipientModal";
-import { changeGive, ACTION_GIVE } from "src/slices/GiveThunk";
+import { changeGive, changeMockGive, ACTION_GIVE } from "src/slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
 import { countDecimals, roundToDecimal, toInteger } from "./utils";
@@ -42,6 +42,8 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { ChevronLeft } from "@material-ui/icons";
+import { useLocation } from "react-router-dom";
+import { EnvHelper } from "src/helpers/Environment";
 
 type CountdownProps = {
   total: number;
@@ -76,6 +78,7 @@ type State = {
 };
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
+  const location = useLocation();
   const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
   const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
@@ -125,10 +128,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       networkID: networkId,
       provider: provider,
       address: wallet,
-    }).then(resultAction => {
-      setDonorCount(!resultAction ? 0 : resultAction.length);
-      setDonorCountIsLoading(false);
-    });
+    })
+      .then(resultAction => {
+        setDonorCount(!resultAction ? 0 : resultAction.length);
+        setDonorCountIsLoading(false);
+      })
+      .catch(e => console.error(e));
   }, [connected, networkId, isGiveModalOpen]);
 
   // The JSON file returns a string, so we convert it
@@ -349,21 +354,34 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    // Record segment user event
-
     // If reducing the amount of deposit, withdraw
-    await dispatch(
-      changeGive({
-        action: ACTION_GIVE,
-        value: depositAmount.toFixed(),
-        recipient: walletAddress,
-        provider,
-        address,
-        networkID: networkId,
-        version2: false,
-        rebase: false,
-      }),
-    );
+    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(
+        changeMockGive({
+          action: ACTION_GIVE,
+          value: depositAmount.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    } else {
+      await dispatch(
+        changeGive({
+          action: ACTION_GIVE,
+          value: depositAmount.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+        }),
+      );
+    }
 
     setIsGiveModalOpen(false);
   };
