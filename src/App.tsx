@@ -193,6 +193,16 @@ function App() {
     }
   });
 
+  const oldAssetsEnoughToMigrate = useAppSelector(state => {
+    if (!state.app.currentIndex || !state.app.marketPrice) {
+      return true;
+    }
+    const wrappedBalance = Number(state.account.balances.wsohm) / Number(state.app.currentIndex!);
+    const allAssetsBalance =
+      Number(state.account.balances.sohmV1) + Number(state.account.balances.ohmV1) + wrappedBalance;
+    return state.app.marketPrice * allAssetsBalance >= 10;
+  });
+
   const newAssetsDetected = useAppSelector(state => {
     return (
       state.account.balances &&
@@ -296,9 +306,10 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected && !hasActiveV1Bonds && trimmedPath.indexOf("dashboard") === -1 && (
-            <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
-          )}
+          {oldAssetsDetected &&
+            !hasActiveV1Bonds &&
+            trimmedPath.indexOf("dashboard") === -1 &&
+            oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
           <Switch>
             <Route exact path="/dashboard">
@@ -311,7 +322,7 @@ function App() {
 
             <Route path="/stake">
               {/* if newAssets or 0 assets */}
-              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) ? (
+              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
                 <Stake />
               ) : (
                 <V1Stake
