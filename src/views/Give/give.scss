@@ -205,52 +205,6 @@
       }
     }
   }
-}
-
-#give-view.medium {
-  .causes-body {
-    .cause-content {
-      width: 50%;
-
-      .cause-body {
-        padding-bottom: 0px;
-      }
-    }
-
-    .cause-misc-info {
-      .MuiGrid-item {
-        margin-top: 1rem;
-        align-self: center;
-      }
-
-      .cause-give-button {
-        width: 100%;
-        margin-left: 0rem;
-      }
-    }
-
-    .cause-image {
-      width: 50%;
-    }
-  }
-}
-
-#give-view.smaller {
-  .causes-body {
-    .cause-card {
-      flex-direction: column;
-    }
-
-    .cause-content {
-      padding-top: 0px;
-      padding-left: 30px;
-      width: 100%;
-    }
-
-    .cause-image {
-      width: 100%;
-    }
-  }
 
   .donation-table {
     display: flex;
@@ -299,6 +253,52 @@
       .donation-lp-button {
         width: 40%;
       }
+    }
+  }
+}
+
+#give-view.medium {
+  .causes-body {
+    .cause-content {
+      width: 50%;
+
+      .cause-body {
+        padding-bottom: 0px;
+      }
+    }
+
+    .cause-misc-info {
+      .MuiGrid-item {
+        margin-top: 1rem;
+        align-self: center;
+      }
+
+      .cause-give-button {
+        width: 100%;
+        margin-left: 0rem;
+      }
+    }
+
+    .cause-image {
+      width: 50%;
+    }
+  }
+}
+
+#give-view.smaller {
+  .causes-body {
+    .cause-card {
+      flex-direction: column;
+    }
+
+    .cause-content {
+      padding-top: 0px;
+      padding-left: 30px;
+      width: 100%;
+    }
+
+    .cause-image {
+      width: 100%;
     }
   }
 }
