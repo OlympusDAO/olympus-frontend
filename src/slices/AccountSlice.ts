@@ -350,6 +350,7 @@ interface IAccountSlice extends IUserAccountDetails {
   pooling: {
     sohmPool: number;
   };
+  isMigrationComplete: boolean;
 }
 
 const initialState: IAccountSlice = {
@@ -373,6 +374,7 @@ const initialState: IAccountSlice = {
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0, gOhmUnwrap: 0, wsOhmMigrate: 0 },
   pooling: { sohmPool: 0 },
   migration: { ohm: 0, sohm: 0, wsohm: 0, gohm: 0 },
+  isMigrationComplete: false,
 };
 
 const accountSlice = createSlice({
