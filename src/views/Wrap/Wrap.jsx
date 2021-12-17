@@ -34,6 +34,8 @@ import { error } from "../../slices/MessagesSlice";
 import { NETWORKS } from "../../constants";
 import { ethers } from "ethers";
 import "../Stake/stake.scss";
+import { Metric, MetricCollection } from "src/components/Metric";
+import { t } from "@lingui/macro";
 import { useAppSelector } from "src/hooks/index.ts";
 import WrapCrossChain from "./WrapCrossChain.tsx";
 import { loadAccountDetails } from "src/slices/AccountSlice";
@@ -280,43 +282,24 @@ function Wrap() {
               </Grid>
 
               <Grid item>
-                <div className="stake-top-metrics">
-                  <Grid container spacing={2} alignItems="flex-end">
-                    <Grid item xs={12} sm={4} md={4} lg={4}>
-                      <div className="wrap-sOHM">
-                        <Typography variant="h5" color="textSecondary">
-                          sOHM Price
-                        </Typography>
-                        <Typography variant="h4">
-                          {sOhmPrice ? formatCurrency(sOhmPrice, 2) : <Skeleton width="150px" />}
-                        </Typography>
-                      </div>
-                    </Grid>
-                    <Grid item xs={12} sm={4} md={4} lg={4}>
-                      <div className="wrap-index">
-                        <Typography variant="h5" color="textSecondary">
-                          Current Index
-                        </Typography>
-                        <Typography variant="h4">
-                          {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
-                        </Typography>
-                      </div>
-                    </Grid>
-                    <Grid item xs={12} sm={4} md={4} lg={4}>
-                      <div className="wrap-wsOHM">
-                        <Typography variant="h5" color="textSecondary">
-                          {`${assetTo} Price`}
-                          <InfoTooltip
-                            message={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
-                          />
-                        </Typography>
-                        <Typography variant="h4">
-                          {gOhmPrice ? formatCurrency(gOhmPrice, 2) : <Skeleton width="150px" />}
-                        </Typography>
-                      </div>
-                    </Grid>
-                  </Grid>
-                </div>
+                <MetricCollection>
+                  <Metric
+                    label={t`sOHM Price`}
+                    metric={formatCurrency(sOhmPrice, 2)}
+                    isLoading={sOhmPrice ? false : true}
+                  />
+                  <Metric
+                    label={t`Current Index`}
+                    metric={trim(currentIndex, 1)}
+                    isLoading={currentIndex ? false : true}
+                  />
+                  <Metric
+                    label={t`${assetTo} Price`}
+                    metric={formatCurrency(gOhmPrice, 2)}
+                    isLoading={gOhmPrice ? false : true}
+                    tooltip={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
+                  />
+                </MetricCollection>
               </Grid>
 
               <div className="staking-area">
