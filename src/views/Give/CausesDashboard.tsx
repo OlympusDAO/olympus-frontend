@@ -10,7 +10,7 @@ import { CancelCallback, RecipientModal, SubmitCallback } from "./RecipientModal
 import { BigNumber } from "bignumber.js";
 import { error } from "../../slices/MessagesSlice";
 import { useAppDispatch, useAppSelector } from "src/hooks";
-import { changeGive, changeMockGive, ACTION_GIVE } from "src/slices/GiveThunk";
+import { changeGive, changeMockGive, ACTION_GIVE, isSupportedChain } from "src/slices/GiveThunk";
 import { GiveInfo } from "./GiveInfo";
 import { useUIDSeed } from "react-uid";
 import { useSelector } from "react-redux";
@@ -114,7 +114,7 @@ export default function CausesDashboard() {
       }}
     >
       <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
-        {Object.keys(donationInfo).length > 0 ? (
+        {Object.keys(donationInfo).length > 0 && isSupportedChain(networkId) ? (
           <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
             <Typography variant="h6">My Donations</Typography>
           </Link>
@@ -122,7 +122,7 @@ export default function CausesDashboard() {
           <></>
         )}
 
-        {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
+        {new BigNumber(redeemableBalance).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
           <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
             <Typography variant="h6">Redeem</Typography>
           </Link>
@@ -144,6 +144,14 @@ export default function CausesDashboard() {
                 </Typography>
               </div>
             </div>
+            {!isSupportedChain(networkId) ? (
+              <Typography variant="h6">
+                Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
+                functionality.
+              </Typography>
+            ) : (
+              <></>
+            )}
             <div className="causes-body">
               <Grid container className="data-grid">
                 {renderProjects}
