@@ -30,6 +30,7 @@ import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/Educ
 import { RedeemCancelCallback, RedeemYieldModal, RedeemSubmitCallback } from "./RedeemYieldModal";
 import { useAppSelector } from "src/hooks";
 import { ChevronLeft } from "@material-ui/icons";
+import { EnvHelper } from "src/helpers/Environment";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -50,7 +51,9 @@ export default function RedeemYield() {
   const isAppLoading = useSelector((state: any) => state.app.loading);
 
   const donationInfo = useSelector((state: State) => {
-    return state.account.giving && state.account.giving.donationInfo;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockGiving && state.account.mockGiving.donationInfo
+      : state.account.giving && state.account.giving.donationInfo;
   });
 
   const redeemableBalance = useSelector((state: State) => {

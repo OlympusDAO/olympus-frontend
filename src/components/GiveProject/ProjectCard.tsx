@@ -93,7 +93,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
 
   const donationInfo = useSelector((state: State) => {
-    return state.account.giving && state.account.giving.donationInfo;
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockGiving && state.account.mockGiving.donationInfo
+      : state.account.giving && state.account.giving.donationInfo;
   });
 
   const redeemableBalance = useSelector((state: State) => {
