@@ -30,6 +30,7 @@ import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import "./migration-modal.scss";
 import { useAppSelector } from "src/hooks";
 import { trim } from "src/helpers";
+import { t, Trans } from "@lingui/macro";
 const formatCurrency = c => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -64,6 +65,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const { provider, address, connect } = useWeb3Context();
 
+  const networkId = useAppSelector(state => state.network.networkId);
+
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
@@ -81,7 +84,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
 
   let rows = [];
   let isMigrationComplete = useSelector(state => state.account.isMigrationComplete);
-  const networkId = useAppSelector(state => state.network.networkId);
+
   const onSeekApproval = token => {
     dispatch(
       changeMigrationApproval({
@@ -119,7 +122,12 @@ function MigrationModal({ open, handleOpen, handleClose }) {
   const wsOhmInUSD = formatCurrency(wsOhmPrice * currentWSOhmBalance);
 
   useEffect(() => {
-    if (isAllApproved && (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)) {
+    if (
+      networkId &&
+      (networkId === 1 || networkId === 4) &&
+      isAllApproved &&
+      (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
+    ) {
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
@@ -175,10 +183,10 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                 <Box paddingRight={isMobileScreen ? 0 : 6}>
                   <Typography id="migration-modal-title" variant="h6" component="h2">
                     {isMigrationComplete || !oldAssetsDetected
-                      ? "Migration complete"
+                      ? t`Migration complete`
                       : isAllApproved
-                      ? "You are now ready to migrate"
-                      : "You have assets ready to migrate to v2"}
+                      ? t`You are now ready to migrate`
+                      : t`You have assets ready to migrate to v2`}
                   </Typography>
                 </Box>
                 <Box />
@@ -187,8 +195,8 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                 <Box paddingTop={4}>
                   <Typography id="migration-modal-description" variant="body2">
                     {isAllApproved
-                      ? "Click on the Migrate button to complete the upgrade to v2. "
-                      : "Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability. "}
+                      ? t`Click on the Migrate button to complete the upgrade to v2. `
+                      : `Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability. `}
                     <a
                       href="https://docs.olympusdao.finance/main/basics/migration"
                       target="_blank"
@@ -196,7 +204,9 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                       rel="noreferrer"
                       className="docs-link"
                     >
-                      <u>Learn More</u>
+                      <u>
+                        <Trans>Learn More</Trans>
+                      </u>
                     </a>
                   </Typography>
                 </Box>
@@ -221,11 +231,11 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                         <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
                           {isMigrationComplete || !oldAssetsDetected ? (
                             <Typography align="center" className={classes.custom}>
-                              Migrated
+                              <Trans>Migrated</Trans>
                             </Typography>
                           ) : row.fullApproval ? (
                             <Typography align="center" className={classes.custom}>
-                              Approved
+                              <Trans>Approved</Trans>
                             </Typography>
                           ) : (
                             <Button
@@ -240,7 +250,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                                 {txnButtonText(
                                   pendingTransactions,
                                   `approve_migration_${row.initialAsset.toLowerCase()}`,
-                                  "Approve",
+                                  t`Approve`,
                                 )}
                               </Typography>
                             </Button>
@@ -258,21 +268,23 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                       </TableCell>
                       <TableCell align="center">
                         <Box display="inline-flex">
-                          <Typography>Pre-migration</Typography>
+                          <Typography>
+                            <Trans>Pre-migration</Trans>
+                          </Typography>
                           <InfoTooltip
                             className="migartion-tooltip"
-                            message={"This is the current balance of v1 assets in your wallet."}
+                            message={t`This is the current balance of v1 assets in your wallet.`}
                           ></InfoTooltip>
                         </Box>
                       </TableCell>
                       <TableCell align="center">
                         <Box display="inline-flex">
-                          <Typography>Post-migration</Typography>
+                          <Typography>
+                            <Trans>Post-migration</Trans>
+                          </Typography>
                           <InfoTooltip
                             className="migartion-tooltip"
-                            message={
-                              "This is the equivalent amount of gOHM you will have in your wallet once migration is complete."
-                            }
+                            message={t`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
                           ></InfoTooltip>
                         </Box>
                       </TableCell>
@@ -307,11 +319,11 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                           <TableCell align="left">
                             {isMigrationComplete || !oldAssetsDetected ? (
                               <Typography align="center" className={classes.custom}>
-                                Migrated
+                                <Trans>Migrated</Trans>
                               </Typography>
                             ) : row.fullApproval ? (
                               <Typography align="center" className={classes.custom}>
-                                Approved
+                                <Trans>Approved</Trans>
                               </Typography>
                             ) : (
                               <Button
@@ -326,7 +338,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                                   {txnButtonText(
                                     pendingTransactions,
                                     `approve_migration_${row.initialAsset.toLowerCase()}`,
-                                    "Approve",
+                                    t`Approve`,
                                   )}
                                 </Typography>
                               </Button>
@@ -350,7 +362,7 @@ function MigrationModal({ open, handleOpen, handleClose }) {
                     <Typography>
                       {isMigrationComplete || !oldAssetsDetected
                         ? "Close"
-                        : txnButtonText(pendingTransactions, "migrate_all", "Migrate")}
+                        : txnButtonText(pendingTransactions, "migrate_all", t`Migrate`)}
                     </Typography>
                   </Box>
                 </Button>

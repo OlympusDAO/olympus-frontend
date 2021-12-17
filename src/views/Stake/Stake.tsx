@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useHistory } from "react-router";
@@ -20,13 +20,17 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Checkbox,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
-import NewReleases from "@material-ui/icons/NewReleases";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
-import { trim } from "../../helpers";
+import { getGohmBalFromSohm, trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
+import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -56,7 +60,7 @@ function Stake() {
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState("");
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
@@ -90,7 +94,11 @@ function Stake() {
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
-  const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
+
+  // const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
+  const gOhmAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmAsSohmBal;
+  });
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const stakeAllowance = useAppSelector(state => {
@@ -99,6 +107,11 @@ function Stake() {
   const unstakeAllowance = useAppSelector(state => {
     return (state.account.staking && state.account.staking.ohmUnstake) || 0;
   });
+
+  const directUnstakeAllowance = useAppSelector(state => {
+    return (state.account.wrapping && state.account.wrapping.gOhmUnwrap) || 0;
+  });
+
   const stakingRebase = useAppSelector(state => {
     return state.app.stakingRebase || 0;
   });
@@ -115,19 +128,25 @@ function Stake() {
 
   const setMax = () => {
     if (view === 0) {
-      setQuantity(Number(ohmBalance));
-    } else {
-      setQuantity(Number(sohmBalance));
+      setQuantity(ohmBalance);
+    } else if (!checked) {
+      setQuantity(sohmBalance);
+    } else if (checked) {
+      setQuantity(gOhmAsSohm.toString());
     }
   };
 
   const onSeekApproval = async (token: string) => {
-    await dispatch(changeApproval({ address, token, provider, networkID: networkId, version2: true }));
+    if (token === "gohm") {
+      await dispatch(changeGohmApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
+    } else {
+      await dispatch(changeApproval({ address, token, provider, networkID: networkId, version2: true }));
+    }
   };
 
   const onChangeStake = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(quantity) || quantity === 0) {
+    if (isNaN(Number(quantity)) || Number(quantity) === 0) {
       // eslint-disable-next-line no-alert
       return dispatch(error(t`Please enter a value!`));
     }
@@ -138,12 +157,37 @@ function Stake() {
       return dispatch(error(t`You cannot stake more than your OHM balance.`));
     }
 
-    if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
-      return dispatch(error(t`You cannot unstake more than your sOHM balance.`));
+    if (checked === false && action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+      return dispatch(
+        error(
+          t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please check the box.`,
+        ),
+      );
     }
 
+    /**
+     * converts sOHM quantity to gOHM quantity when box is checked for gOHM staking
+     * @returns sOHM as gOHM quantity
+     */
+    // const formQuant = checked && currentIndex && view === 1 ? quantity / Number(currentIndex) : quantity;
+    const formQuant = async () => {
+      if (checked && currentIndex && view === 1) {
+        return await getGohmBalFromSohm({ provider, networkID: networkId, sOHMbalance: quantity });
+      } else {
+        return quantity;
+      }
+    };
+
     await dispatch(
-      changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId, version2: true }),
+      changeStake({
+        address,
+        action,
+        value: await formQuant(),
+        provider,
+        networkID: networkId,
+        version2: true,
+        rebase: !checked,
+      }),
     );
   };
 
@@ -151,9 +195,10 @@ function Stake() {
     token => {
       if (token === "ohm") return stakeAllowance > 0;
       if (token === "sohm") return unstakeAllowance > 0;
+      if (token === "gohm") return directUnstakeAllowance > 0;
       return 0;
     },
-    [stakeAllowance, unstakeAllowance],
+    [stakeAllowance, unstakeAllowance, directUnstakeAllowance],
   );
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
@@ -190,6 +235,51 @@ function Stake() {
     minimumFractionDigits: 0,
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
+
+  const [checked, setChecked] = useState(false);
+
+  const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+    setChecked(e.target.checked);
+  };
+
+  function ConfirmDialog() {
+    return (
+      <Paper
+        className="ohm-card confirm-dialog"
+        style={{ marginBottom: "0.8rem", width: "100%", padding: "12px 12px" }}
+      >
+        <Box className="dialog-container" display="flex" alignItems="center" justifyContent="center">
+          <Box>
+            <Checkbox
+              checked={checked}
+              onChange={e => handleCheck(e)}
+              color="primary"
+              inputProps={{ "aria-label": "checkbox" }}
+              className="stake-to-ohm-checkbox"
+              checkedIcon={<CheckBoxIcon viewBox="0 0 25 25" />}
+              icon={<CheckBoxOutlineBlankIcon viewBox="0 0 25 25" />}
+            />
+          </Box>
+          <Box width="100%">
+            <Typography variant="body2" style={{ margin: "10px" }}>
+              {view === 0 &&
+                checked &&
+                `Staking ${Number(quantity).toFixed(4)} OHM to ${(Number(quantity) / Number(currentIndex)).toFixed(
+                  4,
+                )} gOHM`}
+              {view === 1 &&
+                checked &&
+                `Unstaking ${(Number(quantity) / Number(currentIndex)).toFixed(4)} gOHM to ${Number(quantity).toFixed(
+                  4,
+                )} OHM`}
+              {view === 0 && !checked && "Stake to gOHM instead"}
+              {view === 1 && !checked && "Unstake from gOHM instead"}
+            </Typography>
+          </Box>
+        </Box>
+      </Paper>
+    );
+  }
 
   return (
     <div id="stake-view">
@@ -263,7 +353,9 @@ function Stake() {
                     <Grid container className="stake-action-row">
                       <Grid item xs={12} sm={8} className="stake-grid-item">
                         {address && !isAllowanceDataLoading ? (
-                          (!hasAllowance("ohm") && view === 0) || (!hasAllowance("sohm") && view === 1) ? (
+                          (!hasAllowance("ohm") && view === 0) ||
+                          (!hasAllowance("sohm") && view === 1 && !checked) ||
+                          (!hasAllowance("gohm") && view === 1 && checked) ? (
                             <Box className="help-text">
                               <Typography variant="body1" className="stake-note" color="textSecondary">
                                 {view === 0 ? (
@@ -292,7 +384,7 @@ function Stake() {
                                 placeholder="Enter an amount"
                                 className="stake-input"
                                 value={quantity}
-                                onChange={e => setQuantity(Number(e.target.value))}
+                                onChange={e => setQuantity(e.target.value)}
                                 labelWidth={0}
                                 endAdornment={
                                   <InputAdornment position="end">
@@ -345,7 +437,7 @@ function Stake() {
                           <Box m={-2}>
                             {isAllowanceDataLoading ? (
                               <Skeleton />
-                            ) : address && hasAllowance("sohm") ? (
+                            ) : (address && hasAllowance("sohm") && !checked) || (hasAllowance("gohm") && checked) ? (
                               <Button
                                 className="stake-button"
                                 variant="contained"
@@ -355,7 +447,7 @@ function Stake() {
                                   onChangeStake("unstake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake sOHM`)}
+                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake`)}
                               </Button>
                             ) : (
                               <Button
@@ -364,7 +456,7 @@ function Stake() {
                                 color="primary"
                                 disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                                 onClick={() => {
-                                  onSeekApproval("sohm");
+                                  onSeekApproval(checked ? "gohm" : "sohm");
                                 }}
                               >
                                 {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
@@ -375,6 +467,7 @@ function Stake() {
                       </Grid>
                     </Grid>
                   </Box>
+                  {ConfirmDialog()}
                   <div className="stake-user-data">
                     <StakeRow
                       title={t`Unstaked Balance`}

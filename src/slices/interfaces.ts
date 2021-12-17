@@ -38,6 +38,7 @@ export interface IValueAsyncThunk extends IBaseAsyncThunk {
 export interface IActionValueAsyncThunk extends IValueAsyncThunk {
   readonly action: string;
   readonly version2: boolean;
+  readonly rebase: boolean;
 }
 
 export interface IActionValueGasAsyncThunk extends IActionValueAsyncThunk {
