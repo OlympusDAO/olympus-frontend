@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, ChangeEvent } from "react";
+import { useCallback, useState, useEffect, ChangeEvent, ChangeEventHandler } from "react";
 import { useDispatch } from "react-redux";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useHistory } from "react-router";
@@ -42,7 +42,7 @@ import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
 import StakeRow from "./StakeRow";
-import Metric from "../../components/Metric/Metric";
+import { Metric, MetricCollection } from "../../components/Metric";
 
 function a11yProps(index: number) {
   return {
@@ -80,6 +80,12 @@ function Stake() {
   });
   const fsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
+  });
+  const fgohmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.fgohm;
+  });
+  const fgOHMAsfsOHMBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.fgOHMAsfsOHM;
   });
   const wsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
@@ -215,8 +221,12 @@ function Stake() {
     setView(newView);
   };
 
+  const handleChangeQuantity = useCallback<ChangeEventHandler<HTMLInputElement>>(e => {
+    if (Number(e.target.value) >= 0) setQuantity(e.target.value);
+  }, []);
+
   const trimmedBalance = Number(
-    [sohmBalance, gOhmAsSohm, sohmV1Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance]
+    [sohmBalance, gOhmAsSohm, sohmV1Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance, fgOHMAsfsOHMBalance]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -261,7 +271,7 @@ function Stake() {
             />
           </Box>
           <Box width="100%">
-            <Typography variant="body2" style={{ margin: "10px" }}>
+            <Typography variant="body2" style={{ margin: "10px 10px 10px 0px" }}>
               {view === 0 &&
                 checked &&
                 `Staking ${Number(quantity).toFixed(4)} OHM to ${(Number(quantity) / Number(currentIndex)).toFixed(
@@ -294,36 +304,26 @@ function Stake() {
             </Grid>
 
             <Grid item>
-              <div className="stake-top-metrics">
-                <Grid container spacing={2} alignItems="flex-end">
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-apy"
-                      label={t`APY`}
-                      metric={`${formattedTrimmedStakingAPY}%`}
-                      isLoading={stakingAPY ? false : true}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-tvl"
-                      label={t`Total Value Deposited`}
-                      metric={formattedStakingTVL}
-                      isLoading={stakingTVL ? false : true}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-index"
-                      label={t`Current Index`}
-                      metric={`${formattedCurrentIndex} OHM`}
-                      isLoading={currentIndex ? false : true}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
+              <MetricCollection>
+                <Metric
+                  className="stake-apy"
+                  label={t`APY`}
+                  metric={`${formattedTrimmedStakingAPY}%`}
+                  isLoading={stakingAPY ? false : true}
+                />
+                <Metric
+                  className="stake-tvl"
+                  label={t`Total Value Deposited`}
+                  metric={formattedStakingTVL}
+                  isLoading={stakingTVL ? false : true}
+                />
+                <Metric
+                  className="stake-index"
+                  label={t`Current Index`}
+                  metric={`${formattedCurrentIndex} OHM`}
+                  isLoading={currentIndex ? false : true}
+                />
+              </MetricCollection>
             </Grid>
 
             <div className="staking-area">
@@ -394,7 +394,7 @@ function Stake() {
                                 placeholder="Enter an amount"
                                 className="stake-input"
                                 value={quantity}
-                                onChange={e => setQuantity(e.target.value)}
+                                onChange={handleChangeQuantity}
                                 labelWidth={0}
                                 endAdornment={
                                   <InputAdornment position="end">
@@ -504,6 +504,12 @@ function Stake() {
                         <StakeRow
                           title={`${t`Wrapped Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                          indented
+                          {...{ isAppLoading }}
+                        />
+                        <StakeRow
+                          title={`${t`Wrapped Balance in Fuse`}`}
+                          balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
