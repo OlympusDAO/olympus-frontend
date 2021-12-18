@@ -389,13 +389,62 @@ export const ohm_dai = new LPBond({
   displayName: "OHM-DAI LP",
   bondToken: "DAI",
   payoutToken: "OHM",
+  v2Bond: true,
+  bondIconSvg: OhmDaiImg,
+  bondContractABI: BondOhmDaiContract,
+  reserveContract: ReserveOhmDaiContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      // TODO: add correct bond address when it's created
+      bondAddress: "0x956c43998316b6a2F21f89a1539f73fB5B78c151",
+      reserveAddress: "0x055475920a8c93CfFb64d039A8205F7AcC7722d3",
+    },
+    [NetworkID.Testnet]: {
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
+  },
+  lpUrl:
+    "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
+});
+
+export const ohm_daiOld = new LPBond({
+  name: "ohm_dai_lp_old",
+  displayName: "OHM-DAI LP OLD",
+  bondToken: "DAI",
+  payoutToken: "OHM",
   v2Bond: false,
   bondIconSvg: OhmDaiImg,
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
   isBondable: {
     [NetworkID.Mainnet]: false,
-    [NetworkID.Testnet]: true,
+    [NetworkID.Testnet]: false,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
@@ -442,7 +491,7 @@ export const ohm_frax = new LPBond({
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
   isBondable: {
-    [NetworkID.Mainnet]: true,
+    [NetworkID.Mainnet]: false,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
@@ -736,7 +785,20 @@ export const ohm_wethOld = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, cvx, ohm_dai, ohm_frax, ohm_fraxOld, lusd, ohm_lusd, ohm_weth, ohm_wethOld];
+export const allBonds = [
+  dai,
+  frax,
+  eth,
+  cvx,
+  ohm_dai,
+  ohm_daiOld,
+  ohm_frax,
+  ohm_fraxOld,
+  lusd,
+  ohm_lusd,
+  ohm_weth,
+  ohm_wethOld,
+];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
 export const allExpiredBonds = [cvx_expired, fraxOld];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
