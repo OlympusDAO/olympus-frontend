@@ -177,7 +177,6 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
     // only get marketPrice from eth mainnet
     marketPrice = await getMarketPrice();
     // v1MarketPrice = await getV1MarketPrice();
-    marketPrice = marketPrice;
   } catch (e) {
     marketPrice = await getTokenPrice("olympus");
   }

@@ -491,7 +491,7 @@ export const ohm_frax = new LPBond({
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
   isBondable: {
-    [NetworkID.Mainnet]: false,
+    [NetworkID.Mainnet]: true,
     [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
