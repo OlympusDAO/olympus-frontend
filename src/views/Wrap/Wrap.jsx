@@ -294,7 +294,7 @@ function Wrap() {
                     isLoading={currentIndex ? false : true}
                   />
                   <Metric
-                    label={t`${assetTo} Price`}
+                    label={`${assetTo} Price`}
                     metric={formatCurrency(gOhmPrice, 2)}
                     isLoading={gOhmPrice ? false : true}
                     tooltip={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
