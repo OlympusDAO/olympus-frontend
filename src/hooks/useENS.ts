@@ -9,8 +9,12 @@ const useENS = (address: string) => {
   useEffect(() => {
     const resolveENS = async () => {
       if (ethers.utils.isAddress(address)) {
-        let ensName = await provider.lookupAddress(address);
-        setENSName(ensName);
+        try {
+          let ensName = await provider.lookupAddress(address);
+          setENSName(ensName);
+        } catch (e) {
+          console.log("e", e);
+        }
       }
     };
     resolveENS();

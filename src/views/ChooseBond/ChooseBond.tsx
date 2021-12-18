@@ -88,7 +88,7 @@ function ChooseBond() {
             <Metric
               label={t`Treasury Balance`}
               metric={formattedTreasuryBalance}
-              isLoading={formattedTreasuryBalance ? false : true}
+              isLoading={!!treasuryBalance ? false : true}
             />
             <Metric
               label={t`OHM Price`}

@@ -1,5 +1,5 @@
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getTokenPrice } from "src/helpers";
@@ -173,11 +173,10 @@ export class LPBond extends Bond {
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
     const token = this.getContractForReserve(networkID, provider);
     const tokenAddress = this.getAddressForReserve(networkID);
-    const bondCalculator = getBondCalculator(networkID, provider, false);
+    const bondCalculator = getBondCalculator(networkID, provider, this.v2Bond);
     const tokenAmountV1 = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    // const tokenAmountV2 = await token.balanceOf(addresses[networkID].TREASURY_V2);
-    // const tokenAmount = tokenAmountV1.add(tokenAmountV2);
-    const tokenAmount = tokenAmountV1;
+    const tokenAmountV2 = await token.balanceOf(addresses[networkID].TREASURY_V2);
+    const tokenAmount = tokenAmountV1.add(tokenAmountV2);
     const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
     const markdown = await bondCalculator.markdown(tokenAddress || "");
     let tokenUSD = (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
@@ -203,7 +202,13 @@ export class StableBond extends Bond {
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
     let token = this.getContractForReserve(networkID, provider);
     let tokenAmountV1 = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    const tokenAmountV2 = await token.balanceOf(addresses[networkID].TREASURY_V2);
+    let tokenAmountV2 = BigNumber.from("0");
+    try {
+      tokenAmountV2 = await token.balanceOf(addresses[networkID].TREASURY_V2);
+    } catch (e) {
+      console.log("balance e", e);
+      tokenAmountV2 = BigNumber.from("0");
+    }
     const tokenAmount = tokenAmountV1.add(tokenAmountV2);
     return Number(tokenAmount.toString()) / Math.pow(10, 18);
   }

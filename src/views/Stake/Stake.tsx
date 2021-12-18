@@ -246,13 +246,28 @@ function Stake() {
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
   };
 
   function ConfirmDialog() {
+    const gohmQuantity = () => {
+      if (quantity) {
+        return (Number(quantity) / Number(currentIndex)).toFixed(4);
+      } else {
+        return "";
+      }
+    };
+    const ohmQuantity = () => {
+      if (quantity) {
+        return Number(quantity).toFixed(4);
+      } else {
+        return "";
+      }
+    };
+
     return (
       <Paper
         className="ohm-card confirm-dialog"
@@ -272,16 +287,8 @@ function Stake() {
           </Box>
           <Box width="100%">
             <Typography variant="body2" style={{ margin: "10px 10px 10px 0px" }}>
-              {view === 0 &&
-                checked &&
-                `Staking ${Number(quantity).toFixed(4)} OHM to ${(Number(quantity) / Number(currentIndex)).toFixed(
-                  4,
-                )} gOHM`}
-              {view === 1 &&
-                checked &&
-                `Unstaking ${(Number(quantity) / Number(currentIndex)).toFixed(4)} gOHM to ${Number(quantity).toFixed(
-                  4,
-                )} OHM`}
+              {view === 0 && checked && `Staking ${ohmQuantity()} OHM to ${gohmQuantity()} gOHM`}
+              {view === 1 && checked && `Unstaking ${gohmQuantity()} gOHM to ${ohmQuantity()} OHM`}
               {view === 0 && !checked && "Stake to gOHM instead"}
               {view === 1 && !checked && "Unstake from gOHM instead"}
             </Typography>
@@ -485,7 +492,7 @@ function Stake() {
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
                       {...{ isAppLoading }}
                     />
-                    <Accordion className="stake-accordion" square>
+                    <Accordion className="stake-accordion" square expanded={true}>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
                         <StakeRow
                           title={t`Staked Balance`}
@@ -507,36 +514,46 @@ function Stake() {
                           indented
                           {...{ isAppLoading }}
                         />
-                        <StakeRow
-                          title={`${t`Wrapped Balance in Fuse`}`}
-                          balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
-                        <StakeRow
-                          title={t`Single Staking (v1)`}
-                          balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
-                        <StakeRow
-                          title={t`Wrapped Balance (v1)`}
-                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
-                          {...{ isAppLoading }}
-                          indented
-                        />
-                        <StakeRow
-                          title={t`Wrapped Balance in FiatDAO`}
-                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
-                          {...{ isAppLoading }}
-                          indented
-                        />
-                        <StakeRow
-                          title={t`Staked Balance in Fuse`}
-                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM (v1)`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
+                        {Number(fgohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Wrapped Balance in Fuse`}`}
+                            balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(sohmV1Balance) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Single Staking`} (v1)`}
+                            balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(wsohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Wrapped Balance`} (v1)`}
+                            balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
+                            {...{ isAppLoading }}
+                            indented
+                          />
+                        )}
+                        {Number(fiatDaowsohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={t`Wrapped Balance in FiatDAO`}
+                            balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
+                            {...{ isAppLoading }}
+                            indented
+                          />
+                        )}
+                        {Number(fsohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={t`Staked Balance in Fuse`}
+                            balance={`${trim(Number(fsohmBalance), 4)} fsOHM (v1)`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
