@@ -280,11 +280,10 @@ function Wrap() {
                   </Link>
                 </div>
               </Grid>
-
               <Grid item>
                 <MetricCollection>
                   <Metric
-                    label={t`sOHM Price`}
+                    label={`sOHM ${t`Price`}`}
                     metric={formatCurrency(sOhmPrice, 2)}
                     isLoading={sOhmPrice ? false : true}
                   />
@@ -294,14 +293,13 @@ function Wrap() {
                     isLoading={currentIndex ? false : true}
                   />
                   <Metric
-                    label={t`${assetTo} Price`}
+                    label={`${assetTo} ${t`Price`}`}
                     metric={formatCurrency(gOhmPrice, 2)}
                     isLoading={gOhmPrice ? false : true}
                     tooltip={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
                   />
                 </MetricCollection>
               </Grid>
-
               <div className="staking-area">
                 {!address ? (
                   <div className="stake-wallet-notification">

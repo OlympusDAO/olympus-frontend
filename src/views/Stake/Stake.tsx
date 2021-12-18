@@ -514,13 +514,13 @@ function Stake() {
                           {...{ isAppLoading }}
                         />
                         <StakeRow
-                          title={t`Single Staking (v1)`}
+                          title={`${t`Single Staking`} (v1)`}
                           balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
                           indented
                           {...{ isAppLoading }}
                         />
                         <StakeRow
-                          title={t`Wrapped Balance (v1)`}
+                          title={`${t`Wrapped Balance`} (v1)`}
                           balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
                           {...{ isAppLoading }}
                           indented
