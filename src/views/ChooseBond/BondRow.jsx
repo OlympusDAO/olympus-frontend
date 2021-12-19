@@ -89,7 +89,7 @@ export function BondTableData({ bond }) {
   return (
     <TableRow id={`${bond.name}--bond`}>
       <TableCell align="left" className="bond-name-cell">
-        <MultiLogo icons={[bond.bondIconSvg]} isLP={bond.isLP} />
+        <BondLogo bond={bond} />
         <div className="bond-name">
           <Typography variant="body1">{bond.displayName}</Typography>
           {bond.isLP && (
