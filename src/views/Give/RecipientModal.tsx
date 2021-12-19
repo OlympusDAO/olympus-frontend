@@ -341,6 +341,10 @@ export function RecipientModal({
     return project.owner + " - " + project.title;
   };
 
+  const handleGoBack = () => {
+    setIsAmountSet(false);
+  };
+
   const handleContinue = () => {
     setIsAmountSet(true);
   };
@@ -561,11 +565,18 @@ export function RecipientModal({
               </Button>
             </FormControl>
           ) : isAmountSet ? (
-            <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Confirm sOHM`)}
-              </Button>
-            </FormControl>
+            <>
+              <FormControl className="ohm-modal-submit">
+                <Button variant="contained" color="primary" onClick={handleGoBack}>
+                  <Trans>Go Back</Trans>
+                </Button>
+              </FormControl>
+              <FormControl className="ohm-modal-submit">
+                <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
+                  {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Confirm sOHM`)}
+                </Button>
+              </FormControl>
+            </>
           ) : (
             <FormControl className="ohm-modal-submit">
               <Button
