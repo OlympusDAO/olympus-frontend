@@ -186,13 +186,4 @@ export class EnvHelper {
     }
     return apiKey;
   }
-
-  static getZapperPoolAddress() {
-    // EnvHelper.env.REACT_APP_ZAPPER_POOL
-    let zapPool = "0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f";
-    if (!zapPool) {
-      console.warn("zaps won't work without REACT_APP_ZAPPER_POOL address");
-    }
-    return zapPool;
-  }
 }
