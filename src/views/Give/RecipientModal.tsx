@@ -73,20 +73,43 @@ export function RecipientModal({
   const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
 
-  const [depositAmount, setDepositAmount] = useState(currentDepositAmount ? currentDepositAmount : 0);
-  const [isDepositAmountValid, setIsDepositAmountValid] = useState(false);
-  const [isDepositAmountValidError, setIsDepositAmountValidError] = useState("");
+  const _initialDepositAmount = 0;
+  const _initialWalletAddress = "";
+  const _initialDepositAmountValid = false;
+  const _initialDepositAmountValidError = "";
+  const _initialWalletAddressValid = false;
+  const _initialWalletAddressValidError = "";
+  const _initialIsAmountSet = false;
 
-  const [walletAddress, setWalletAddress] = useState(currentWalletAddress ? currentWalletAddress : "");
-  const [isWalletAddressValid, setIsWalletAddressValid] = useState(false);
-  const [isWalletAddressValidError, setIsWalletAddressValidError] = useState("");
+  const getInitialDepositAmount = () => {
+    return currentDepositAmount ? currentDepositAmount.toNumber() : _initialDepositAmount;
+  };
+  const [depositAmount, setDepositAmount] = useState(getInitialDepositAmount());
+  const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
+  const [isDepositAmountValidError, setIsDepositAmountValidError] = useState(_initialDepositAmountValidError);
 
-  const [isAmountSet, setIsAmountSet] = useState(false);
+  const getInitialWalletAddress = () => {
+    return currentWalletAddress ? currentWalletAddress : _initialWalletAddress;
+  };
+  const [walletAddress, setWalletAddress] = useState(getInitialWalletAddress());
+  const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
+  const [isWalletAddressValidError, setIsWalletAddressValidError] = useState(_initialWalletAddressValidError);
+
+  const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toFixed());
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
+
+  useEffect(() => {
+    // When we close the modal, we ensure that the state is also reset to default
+    if (!isModalOpen) {
+      handleSetDepositAmount(getInitialDepositAmount().toFixed());
+      handleSetWallet(getInitialWalletAddress());
+      setIsAmountSet(_initialIsAmountSet);
+    }
+  }, [isModalOpen]);
 
   /**
    * Returns the user's sOHM balance
@@ -247,7 +270,10 @@ export function RecipientModal({
    */
   const canSubmit = (): boolean => {
     if (!isDepositAmountValid) return false;
-    if (!isWalletAddressValid) return false;
+
+    // The wallet address is only set when a project is not given
+    if (!isProjectMode() && !isWalletAddressValid) return false;
+
     if (!address) return false;
     if (hasPendingGiveTxn(pendingTransactions)) return false;
     if (!isCreateMode() && getDepositAmountDiff().isEqualTo(0)) return false;
