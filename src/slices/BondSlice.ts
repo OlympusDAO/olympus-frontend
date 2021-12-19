@@ -88,18 +88,22 @@ export const calcBondDetails = createAsyncThunk(
       valuation = 0,
       bondQuote: BigNumberish = BigNumber.from(0);
     const bondContract = bond.getContractForBond(networkID, provider);
-    const bondCalcContract = getBondCalculator(networkID, provider);
+    const bondCalcContract = getBondCalculator(networkID, provider, bond.v2Bond);
 
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
     let debtRatio: BigNumberish;
-    // TODO (appleseed): improve this logic
-    if (bond.name === "cvx") {
-      debtRatio = await bondContract.debtRatio();
-    } else {
-      debtRatio = await bondContract.standardizedDebtRatio();
+    try {
+      // TODO (appleseed): improve this logic
+      if (bond.name === "cvx") {
+        debtRatio = await bondContract.debtRatio();
+      } else {
+        debtRatio = await bondContract.standardizedDebtRatio();
+      }
+      debtRatio = Number(debtRatio.toString()) / Math.pow(10, 9);
+    } catch (e) {
+      debtRatio = BigNumber.from("0");
     }
-    debtRatio = Number(debtRatio.toString()) / Math.pow(10, 9);
 
     let marketPrice: number = 0;
     try {
@@ -123,37 +127,48 @@ export const calcBondDetails = createAsyncThunk(
       } else {
         bondPrice = await bondContract.bondPriceInUSD();
       }
-      bondDiscount = (marketPrice * Math.pow(10, 18) - Number(bondPrice.toString())) / Number(bondPrice.toString()); // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      if (bondPrice.eq(BigNumber.from("0"))) {
+        bondDiscount = 0;
+      } else {
+        bondDiscount = (marketPrice * Math.pow(10, 18) - Number(bondPrice.toString())) / Number(bondPrice.toString()); // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      }
     } catch (e) {
       console.log("error getting bondPriceInUSD", bond.name, e);
+      let preliminaryBondPrice = marketPrice * Math.pow(10, 18);
+      bondPrice = ethers.utils.parseUnits(preliminaryBondPrice.toString(), "0");
+      bondDiscount = 0;
     }
 
-    if (Number(value) === 0) {
-      // if inputValue is 0 avoid the bondQuote calls
-      bondQuote = BigNumber.from(0);
-    } else if (bond.isLP) {
-      valuation = Number(
-        (await bondCalcContract.valuation(bond.getAddressForReserve(networkID) || "", amountInWei)).toString(),
-      );
-      bondQuote = await bondContract.payoutFor(valuation);
-      if (!amountInWei.isZero() && Number(bondQuote.toString()) < 100000) {
+    try {
+      if (Number(value) === 0) {
+        // if inputValue is 0 avoid the bondQuote calls
         bondQuote = BigNumber.from(0);
-        const errorString = "Amount is too small!";
-        dispatch(error(errorString));
+      } else if (bond.isLP) {
+        valuation = Number(
+          (await bondCalcContract.valuation(bond.getAddressForReserve(networkID) || "", amountInWei)).toString(),
+        );
+        bondQuote = await bondContract.payoutFor(valuation);
+        if (!amountInWei.isZero() && Number(bondQuote.toString()) < 100000) {
+          bondQuote = BigNumber.from(0);
+          const errorString = "Amount is too small!";
+          dispatch(error(errorString));
+        } else {
+          bondQuote = Number(bondQuote.toString()) / Math.pow(10, 9);
+        }
       } else {
-        bondQuote = Number(bondQuote.toString()) / Math.pow(10, 9);
-      }
-    } else {
-      // RFV = DAI
-      bondQuote = await bondContract.payoutFor(amountInWei);
+        // RFV = DAI
+        bondQuote = await bondContract.payoutFor(amountInWei);
 
-      if (!amountInWei.isZero() && Number(bondQuote.toString()) < 100000000000000) {
-        bondQuote = BigNumber.from(0);
-        const errorString = "Amount is too small!";
-        dispatch(error(errorString));
-      } else {
-        bondQuote = Number(bondQuote.toString()) / Math.pow(10, 18);
+        if (!amountInWei.isZero() && Number(bondQuote.toString()) < 100000000000000) {
+          bondQuote = BigNumber.from(0);
+          const errorString = "Amount is too small!";
+          dispatch(error(errorString));
+        } else {
+          bondQuote = Number(bondQuote.toString()) / Math.pow(10, 18);
+        }
       }
+    } catch (e) {
+      console.log("e", e);
     }
 
     // Display error if user tries to exceed maximum.

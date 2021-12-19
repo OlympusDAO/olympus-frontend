@@ -82,10 +82,10 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     return state.account.balances && state.account.balances.wsohm;
   });
   const stakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmStake;
+    return state.account.staking && state.account.staking.ohmStakeV1;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.ohmUnstake;
+    return state.account.staking && state.account.staking.ohmUnstakeV1;
   });
   const stakingRebase = useSelector(state => {
     return state.app.stakingRebase;
@@ -108,6 +108,16 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
+  const sohmV2Balance = useSelector(state => {
+    return state.account.balances && state.account.balances.sohm;
+  });
+
+  const calculateWrappedAsSohm = balance => {
+    return Number(balance) * Number(currentIndex);
+  };
+  const fiatDaoAsSohm = calculateWrappedAsSohm(fiatDaowsohmBalance);
+  const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
+  const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const setMax = () => {
     if (view === 0) {
@@ -167,7 +177,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, fsohmBalance, wsohmBalance]
+    [sohmBalance, gOhmAsSohm, sohmV2Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -181,11 +191,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     history.push("/stake");
   };
 
-  // useEffect(() => {
-  //   if (!oldAssetsDetected) {
-  //     history.push("/stake");
-  //   }
-  // }, []);
+  const goToBonds = () => {
+    history.push("/bonds");
+  };
 
   return (
     <div id="v1-stake-view">
@@ -194,7 +202,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <div className="card-header">
-                <Typography variant="h5">Single Stake (3, 3)</Typography>
+                <Typography variant="h5">
+                  <Trans>Single Stake</Trans> (3, 3)
+                </Typography>
                 <RebaseTimer />
               </div>
             </Grid>
@@ -205,7 +215,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-apy">
                       <Typography variant="h5" color="textSecondary">
-                        APY (v1)
+                        <Trans>APY</Trans> (v1)
                       </Typography>
                       <Typography variant="h4">
                         {stakingAPY ? (
@@ -220,7 +230,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-tvl">
                       <Typography variant="h5" color="textSecondary">
-                        TVL (v1)
+                        <Trans>TVL</Trans> (v1)
                       </Typography>
                       <Typography variant="h4">
                         {stakingTVL ? (
@@ -240,7 +250,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <div className="stake-index">
                       <Typography variant="h5" color="textSecondary">
-                        Current Index (v1)
+                        <Trans>Current Index</Trans> (v1)
                       </Typography>
                       <Typography variant="h4">
                         {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
@@ -257,7 +267,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                   <div className="wallet-menu" id="wallet-menu">
                     {modalButton}
                   </div>
-                  <Typography variant="h6">Connect your wallet to stake OHM</Typography>
+                  <Typography variant="h6">
+                    <Trans>Connect your wallet to stake OHM</Trans>
+                  </Typography>
                 </div>
               ) : (
                 <>
@@ -272,8 +284,8 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       onChange={changeView}
                       aria-label="stake tabs"
                     >
-                      <Tab label="Stake" {...a11yProps(0)} />
-                      <Tab label="Unstake" {...a11yProps(1)} />
+                      <Tab label={t`Stake`} {...a11yProps(0)} />
+                      <Tab label={t`Unstake`} {...a11yProps(1)} />
                     </Tabs>
 
                     <Box className="help-text">
@@ -281,10 +293,10 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                         {view === 0 ? (
                           <>
                             {hasActiveV1Bonds
-                              ? "Once your current bonds have been claimed, you can migrate your assets to stake more OHM"
+                              ? t`Once your current bonds have been claimed, you can migrate your assets to stake more OHM`
                               : !oldAssetsDetected
-                              ? "All your assets are migrated"
-                              : "You must complete the migration of your assest to stake additional OHM"}
+                              ? t`All your assets are migrated`
+                              : t`You must complete the migration of your assets to stake additional OHM`}
                           </>
                         ) : (
                           <br />
@@ -298,9 +310,10 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           <Box className="help-text">
                             <Typography variant="body1" className="stake-note" color="textSecondary">
                               <>
-                                First time unstaking <b>sOHM</b>?
+                                <Trans>First time unstaking</Trans> <b>sOHM</b>?
                                 <br />
-                                Please approve Olympus Dao to use your <b>sOHM</b> for unstaking.
+                                <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM </b>
+                                <Trans> for unstaking</Trans>.
                               </>
                             </Typography>
                           </Box>
@@ -340,8 +353,21 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           {isAllowanceDataLoading ? (
                             <Skeleton />
                           ) : (
-                            <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={"Migrate"} />
+                            <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Migrate`} />
                           )}
+                        </TabPanel>
+                      ) : hasActiveV1Bonds ? (
+                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
+                          <Button
+                            className="migrate-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                              goToBonds();
+                            }}
+                          >
+                            <Trans>Go to Bonds</Trans>
+                          </Button>
                         </TabPanel>
                       ) : (
                         <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
@@ -353,7 +379,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                               goToV2Stake();
                             }}
                           >
-                            Go to Stake V2
+                            <Trans>Go to Stake V2</Trans>
                           </Button>
                         </TabPanel>
                       )}
@@ -371,7 +397,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                               onChangeStake("unstake");
                             }}
                           >
-                            {txnButtonText(pendingTransactions, "unstaking", "Unstake OHM")}
+                            {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
                           </Button>
                         ) : (
                           <Button
@@ -383,7 +409,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                               onSeekApproval("sohm");
                             }}
                           >
-                            {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
+                            {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
                           </Button>
                         )}
                       </TabPanel>
@@ -391,7 +417,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                   </Box>
                   <div className="stake-user-data">
                     <StakeRow
-                      title={t`Unstaked Balance (v1)`}
+                      title={`${t`Unstaked Balance`} (v1)`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
                       {...{ isAppLoading }}
@@ -407,31 +433,43 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       </AccordionSummary>
                       <AccordionDetails>
                         <StakeRow
-                          title={t`Single Staking (v1)`}
+                          title={`${t`Single Staking`} (v1)`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
+                        {Number(fsohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Staked Balance in Fuse`} (v2)`}
+                            balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(wsohmBalance) > 0.0 && (
+                          <StakeRow
+                            title={`${t`Wrapped Balance`} (v1)`}
+                            balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
+                            {...{ isAppLoading }}
+                            indented
+                          />
+                        )}
+                        {Number(fiatDaowsohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Wrapped Balance in FiatDAO`} (v1)`}
+                            balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
+                            {...{ isAppLoading }}
+                            indented
+                          />
+                        )}
                         <StakeRow
-                          title={t`Staked Balance in Fuse (v1)`}
-                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                          title={`${t`Single Staking`} (v2)`}
+                          balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
                         <StakeRow
-                          title={t`Wrapped Balance (v1)`}
-                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                          {...{ isAppLoading }}
-                          indented
-                        />
-                        <StakeRow
-                          title={t`Wrapped Balance in FiatDAO (v1)`}
-                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
-                          {...{ isAppLoading }}
-                          indented
-                        />
-                        <StakeRow
-                          title={`${t`Wrapped Balance (v2)`}`}
+                          title={`${t`Wrapped Balance`} (v2)`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
                           {...{ isAppLoading }}
