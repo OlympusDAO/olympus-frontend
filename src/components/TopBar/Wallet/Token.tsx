@@ -26,6 +26,7 @@ import Token33tImg from "src/assets/tokens/token_33T.svg";
 import GOhmImg from "src/assets/tokens/gohm.png";
 
 import { segmentUA } from "src/helpers/userAnalyticHelpers";
+import { t } from "@lingui/macro";
 
 const Accordion = withStyles({
   root: {
@@ -132,7 +133,7 @@ export const Token = ({
       <AccordionDetails style={{ margin: "auto", padding: theme.spacing(0.5, 0) }}>
         <Box className="ohm-pairs" style={{ width: "100%" }}>
           <Button variant="contained" color="secondary" fullWidth onClick={onAddTokenToWallet}>
-            <Typography>Add to Wallet</Typography>
+            <Typography>{t`Add to Wallet`}</Typography>
           </Button>
         </Box>
       </AccordionDetails>
