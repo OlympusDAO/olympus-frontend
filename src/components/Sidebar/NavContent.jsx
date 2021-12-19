@@ -16,6 +16,7 @@ import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
+import useENS from "../../hooks/useENS";
 import { Paper, Link, Box, Typography, SvgIcon, Divider } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
@@ -26,6 +27,7 @@ function NavContent() {
   const address = useAddress();
   const networkId = useSelector(state => state.network.networkId);
   const { bonds } = useBonds(networkId);
+  const { ensName } = useENS(address);
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -70,7 +72,7 @@ function NavContent() {
             {address && (
               <div className="wallet-link">
                 <Link href={`https://etherscan.io/address/${address}`} target="_blank">
-                  {shorten(address)}
+                  {ensName || shorten(address)}
                 </Link>
               </div>
             )}
@@ -159,7 +161,9 @@ function NavContent() {
                         <Trans>Bond discounts</Trans>
                       </Typography>
                       {bonds.map((bond, i) => {
-                        if (bond.getBondability(networkId)) {
+                        // NOTE (appleseed): temporary for ONHOLD MIGRATION
+                        // if (bond.getBondability(networkId)) {
+                        if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
                           return (
                             <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
                               {!bond.bondDiscount ? (
@@ -169,9 +173,14 @@ function NavContent() {
                                   {bond.displayName}
 
                                   <span className="bond-pair-roi">
-                                    {!bond.isBondable[networkId]
+                                    {bond.isLOLable[networkId]
+                                      ? "--"
+                                      : !bond.isBondable[networkId]
                                       ? "Sold Out"
                                       : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
+                                    {/* {!bond.isBondable[networkId]
+                                      ? "Sold Out"
+                                      : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
                                   </span>
                                 </Typography>
                               )}
@@ -196,11 +205,11 @@ function NavContent() {
                     <Box display="flex" alignItems="center">
                       <SvgIcon component={ZapIcon} color="primary" />
                       <Typography variant="h6">OlyZaps</Typography>
-                      <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
+                      {/* <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                     </Box>
                   </Link>
 
-                  <Link
+                  {/* <Link
                     component={NavLink}
                     id="33-together-nav"
                     to="/33-together"
@@ -213,7 +222,7 @@ function NavContent() {
                       <SvgIcon color="primary" component={PoolTogetherIcon} />
                       3,3 Together
                     </Typography>
-                  </Link>
+                  </Link> */}
                   <Box className="menu-divider">
                     <Divider />
                   </Box>

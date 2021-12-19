@@ -4,7 +4,7 @@ import ethereum from "./assets/tokens/wETH.svg";
 import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 
-export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-graph";
+export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";
 export const EPOCH_INTERVAL = 2200;
 
 // NOTE could get this from an outside source since it changes slightly over time
@@ -77,8 +77,13 @@ export const addresses: IAddresses = {
     PT_TOKEN_ADDRESS: "0x0E930b8610229D74Da0A174626138Deb732cE6e9", // 33T token address, taken from `ticket` function on PRIZE_STRATEGY_ADDRESS
     PT_PRIZE_POOL_ADDRESS: "0xEaB695A8F5a44f583003A8bC97d677880D528248", // NEW
     PT_PRIZE_STRATEGY_ADDRESS: "0xf3d253257167c935f8C62A02AEaeBB24c9c5012a", // NEW
+    BONDINGCALC_V2: "0x7b1a5649145143F4faD8504712ca9c614c3dA2Ae",
     MIGRATOR_ADDRESS: "0x184f3FAd8618a6F458C16bae63F70C426fE784B3",
     GOHM_ADDRESS: "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f",
+    OHM_V2: "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
+    TREASURY_V2: "0x9a315bdf513367c0377fb36545857d12e85813ef",
+    SOHM_V2: "0x04906695D6D12CF5459975d7C3C03356E4Ccd460",
+    STAKING_V2: "0xB63cac384247597756545b500253ff8E607a8020",
     FIATDAO_WSOHM_ADDRESS: "0xe98ae8cD25CDC06562c29231Db339d17D02Fd486",
   },
   42161: {
@@ -96,8 +101,9 @@ export const addresses: IAddresses = {
     BONDINGCALC_ADDRESS: "0xcaaa6a2d4b26067a391e7b7d65c16bb2d5fa571a",
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
     TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
-    // TODO (appleseed-lusd): swap this out
-    PICKLE_OHM_LUSD_ADDRESS: "0xc3d03e4f041fd4cd388c549ee2a29a9e5075882f",
+    WSOHM_ADDRESS: "0x739ca6D71365a08f584c8FC4e1029045Fa8ABC4B",
+    MIGRATOR_ADDRESS: "0x1e7902a8b0adbf81042b5e30bdfa281f0b928d6d", // good
+    GOHM_ADDRESS: "0x8D9bA570D6cb60C7e3e0F31343Efe75AB8E65FB1", // good
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   }, // TODO: Replace with Arbitrum contract addresses when ready
   421611: {
@@ -264,7 +270,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     uri: () => EnvHelper.alchemyAvalancheTestnetURI,
   },
   43114: {
-    chainName: "Avalanche Mainnet",
+    chainName: "Avalanche",
     chainId: 43114,
     nativeCurrency: {
       name: "AVAX",
@@ -276,5 +282,75 @@ export const NETWORKS: { [key: number]: INetwork } = {
     image: avalanche,
     imageAltText: "Avalanche Logo",
     uri: () => NodeHelper.getMainnetURI(43114),
+  },
+};
+
+// VIEWS FOR NETWORK is used to denote which paths should be viewable on each network
+// ... attempting to prevent contract calls that can't complete & prevent user's from getting
+// ... stuck on the wrong view
+interface IViewsForNetwork {
+  dashboard: boolean;
+  stake: boolean;
+  wrap: boolean;
+  zap: boolean;
+  threeTogether: boolean;
+  bonds: boolean;
+  network: boolean;
+}
+
+export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
+  1: {
+    dashboard: true,
+    stake: true,
+    wrap: true,
+    zap: true,
+    threeTogether: true,
+    bonds: true,
+    network: true,
+  },
+  4: {
+    dashboard: true,
+    stake: true,
+    wrap: true,
+    zap: true,
+    threeTogether: true,
+    bonds: true,
+    network: true,
+  },
+  42161: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+  },
+  421611: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+  },
+  43114: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
+  },
+  43113: {
+    dashboard: true,
+    stake: false,
+    wrap: true,
+    zap: false,
+    threeTogether: false,
+    bonds: false,
+    network: true,
   },
 };

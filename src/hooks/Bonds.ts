@@ -46,12 +46,14 @@ function useBonds(networkId: number) {
         return bond;
       });
 
+    // NOTE (appleseed): temporary for ONHOLD MIGRATION
     const mostProfitableBonds = bondDetails.concat().sort((a, b) => {
       if (!a.getBondability(networkId)) return 1;
       if (!b.getBondability(networkId)) return -1;
       return a["bondDiscount"] > b["bondDiscount"] ? -1 : b["bondDiscount"] > a["bondDiscount"] ? 1 : 0;
     });
     setBonds(mostProfitableBonds);
+    // setBonds(bondDetails);
 
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
     let expiredDetails: IAllBondData[];

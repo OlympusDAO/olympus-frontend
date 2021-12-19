@@ -1,0 +1,17 @@
+.stake-action-row.v1-row {
+  display: flex;
+  width: 70%;
+  margin: 0 auto;
+  .learn-more-button {
+    width: 91%;
+    height: 40px;
+    p {
+      margin-right: 5px;
+    }
+  }
+  .migrate-button {
+    width: 100%;
+    font-size: 16px;
+    height: 40px;
+  }
+}

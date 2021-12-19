@@ -1,5 +1,5 @@
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getTokenPrice } from "src/helpers";
@@ -49,12 +49,16 @@ interface BondOpts {
   name: string; // Internal name used for references
   displayName: string; // Displayname on UI
   isBondable: Available; // aka isBondable => set false to hide
+  // NOTE (appleseed): temporary for ONHOLD MIGRATION
+  isLOLable: Available; // aka isBondable => set false to hide
+  LOLmessage: string; // aka isBondable => set false to hide
   isClaimable: Available; // set false to hide
   bondIconSvg: React.ReactNode; //  SVG path for icons
   bondContractABI: ethers.ContractInterface; // ABI for contract
   networkAddrs: NetworkAddresses; // Mapping of network --> Addresses
   bondToken: string; // Unused, but native token to buy the bond.
   payoutToken: string; // Token the user will receive - currently OHM on ethereum, wsOHM on arbitrum
+  v2Bond: boolean; // if v2Bond use v2BondingCalculator
 }
 
 // Technically only exporting for the interface
@@ -63,6 +67,9 @@ export abstract class Bond {
   readonly name: string;
   readonly displayName: string;
   readonly isBondable: Available;
+  // NOTE (appleseed): temporary for ONHOLD MIGRATION
+  readonly isLOLable: Available;
+  readonly LOLmessage: string;
   readonly isClaimable: Available;
   readonly type: BondType;
   readonly bondIconSvg: React.ReactNode;
@@ -70,6 +77,7 @@ export abstract class Bond {
   readonly networkAddrs: NetworkAddresses;
   readonly bondToken: string;
   readonly payoutToken: string;
+  readonly v2Bond: boolean;
 
   // The following two fields will differ on how they are set depending on bond type
   abstract isLP: Boolean;
@@ -83,6 +91,9 @@ export abstract class Bond {
     this.name = bondOpts.name;
     this.displayName = bondOpts.displayName;
     this.isBondable = bondOpts.isBondable;
+    // NOTE (appleseed): temporary for ONHOLD MIGRATION
+    this.isLOLable = bondOpts.isLOLable;
+    this.LOLmessage = bondOpts.LOLmessage;
     this.type = type;
     this.isClaimable = bondOpts.isClaimable;
     this.bondIconSvg = bondOpts.bondIconSvg;
@@ -90,6 +101,7 @@ export abstract class Bond {
     this.networkAddrs = bondOpts.networkAddrs;
     this.bondToken = bondOpts.bondToken;
     this.payoutToken = bondOpts.payoutToken;
+    this.v2Bond = bondOpts.v2Bond;
   }
 
   /**
@@ -102,6 +114,10 @@ export abstract class Bond {
   }
   getClaimability(networkID: NetworkID) {
     return this.isClaimable[networkID];
+  }
+  // NOTE (appleseed): temporary for ONHOLD MIGRATION
+  getLOLability(networkID: NetworkID) {
+    return this.isLOLable[networkID];
   }
 
   getAddressForBond(networkID: NetworkID) {
@@ -157,8 +173,10 @@ export class LPBond extends Bond {
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
     const token = this.getContractForReserve(networkID, provider);
     const tokenAddress = this.getAddressForReserve(networkID);
-    const bondCalculator = getBondCalculator(networkID, provider);
-    const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    const bondCalculator = getBondCalculator(networkID, provider, this.v2Bond);
+    const tokenAmountV1 = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    const tokenAmountV2 = await token.balanceOf(addresses[networkID].TREASURY_V2);
+    const tokenAmount = tokenAmountV1.add(tokenAmountV2);
     const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
     const markdown = await bondCalculator.markdown(tokenAddress || "");
     let tokenUSD = (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
@@ -183,7 +201,15 @@ export class StableBond extends Bond {
 
   async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
     let token = this.getContractForReserve(networkID, provider);
-    let tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let tokenAmountV1 = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+    let tokenAmountV2 = BigNumber.from("0");
+    try {
+      tokenAmountV2 = await token.balanceOf(addresses[networkID].TREASURY_V2);
+    } catch (e) {
+      console.log("balance e", e);
+      tokenAmountV2 = BigNumber.from("0");
+    }
+    const tokenAmount = tokenAmountV1.add(tokenAmountV2);
     return Number(tokenAmount.toString()) / Math.pow(10, 18);
   }
 }

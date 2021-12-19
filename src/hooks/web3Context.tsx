@@ -178,18 +178,5 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     ],
   );
 
-  useEffect(() => {
-    // logs non-functioning nodes && returns an array of working mainnet nodes
-    NodeHelper.checkAllNodesStatus(store.getState().network.networkId).then((validNodes: any) => {
-      validNodes = validNodes.filter((url: boolean | string) => url !== false);
-      if (!validNodes.includes(store.getState().network.uri) && NodeHelper.retryOnInvalid()) {
-        // force new provider...
-        setTimeout(() => {
-          window.location.reload();
-        }, 1);
-      }
-    });
-  }, []);
-
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };

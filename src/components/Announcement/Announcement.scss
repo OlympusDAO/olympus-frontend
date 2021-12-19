@@ -1,0 +1,31 @@
+.announcement-banner {
+  position: sticky;
+  z-index: 5;
+  top: 60px;
+  width: 100%;
+  max-width: 500px;
+  left: 100%;
+  .new-network {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .new-network {
+      background: linear-gradient(90deg, #3a4148ee 1.58%, #333847ff 99%) !important;
+
+      // backdrop-filter: blur(33px) !important;
+      // -webkit-backdrop-filter: blur(33px) !important;
+    }
+  }
+}
+
+.mobile .announcement-banner {
+  top: unset;
+  bottom: 0 !important;
+  left: 0;
+  right: 0;
+  max-width: 100%;
+  position: fixed;
+}
