@@ -1,6 +1,3 @@
-import { shorten } from "src/helpers";
-import { Project } from "./project.type";
-
 export const countDecimals = (value: string): number => {
   let number = Number(value);
   if (Math.floor(number) !== number) {

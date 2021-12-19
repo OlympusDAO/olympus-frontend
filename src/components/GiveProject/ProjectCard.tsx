@@ -21,7 +21,6 @@ import { useSelector } from "react-redux";
 import { useTheme } from "@material-ui/core/styles";
 import { useAppDispatch } from "src/hooks";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
-import { unwrapResult } from "@reduxjs/toolkit";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
@@ -34,7 +33,6 @@ import { ReactComponent as WebsiteIcon } from "../../assets/icons/website.svg";
 import { ReactComponent as DonatedIcon } from "../../assets/icons/donated.svg";
 import { ReactComponent as GoalIcon } from "../../assets/icons/goal.svg";
 import MarkdownIt from "markdown-it";
-import { shortenString } from "src/helpers";
 import { t, Trans } from "@lingui/macro";
 import { useAppSelector } from "src/hooks";
 import { NavLink } from "react-router-dom";
@@ -44,7 +42,6 @@ import { IAppData } from "src/slices/AppSlice";
 import { ChevronLeft } from "@material-ui/icons";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
-import data from "../../views/Give/projects.json";
 
 type CountdownProps = {
   total: number;
