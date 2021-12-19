@@ -39,11 +39,20 @@ export default function DepositYield() {
       }}
     >
       <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
-        <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
-          <SvgIcon component={ChevronLeft} />
-          <Typography variant="h6">Back</Typography>
+        <Link
+          component={NavLink}
+          id="give-sub-dash"
+          to="/give"
+          className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
+        >
+          <Typography variant="h6">Projects</Typography>
         </Link>
-        <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
+        <Link
+          component={NavLink}
+          id="give-sub-donations"
+          to="/give/donations"
+          className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
+        >
           <Typography variant="h6">My Donations</Typography>
         </Link>
         {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (

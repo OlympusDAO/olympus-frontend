@@ -4,7 +4,6 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  margin-bottom: 10rem;
 
   .ohm-card {
     .cell-align-end {
@@ -312,14 +311,21 @@
   max-width: 833px;
   margin: 25px auto;
 
+  .MuiLink-root.active {
+    text-decoration: none;
+  }
+
   .give-option {
     margin-right: 1rem;
+  }
+
+  .give-option.give-active {
+    text-decoration: underline;
   }
 
   #give-sub-dash {
     display: flex;
     flex-direction: row;
-    text-decoration: none;
   }
 
   #give-sub-dash:hover {

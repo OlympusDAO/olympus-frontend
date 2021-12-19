@@ -27,6 +27,7 @@ type State = {
   app: IAppData;
 };
 export default function CausesDashboard() {
+  const [isActive] = useState();
   const location = useLocation();
   const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
@@ -115,16 +116,29 @@ export default function CausesDashboard() {
       }}
     >
       <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
-        {donationInfo && Object.keys(donationInfo).length > 0 && isSupportedChain(networkId) ? (
-          <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
-            <Typography variant="h6">My Donations</Typography>
-          </Link>
-        ) : (
-          <></>
-        )}
-
+        <Link
+          component={NavLink}
+          id="give-sub-dash"
+          to="/give"
+          className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
+        >
+          <Typography variant="h6">Projects</Typography>
+        </Link>
+        <Link
+          component={NavLink}
+          id="give-sub-donations"
+          to="/give/donations"
+          className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
+        >
+          <Typography variant="h6">My Donations</Typography>
+        </Link>
         {new BigNumber(redeemableBalance).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
-          <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
+          <Link
+            component={NavLink}
+            id="give-sub-redeem"
+            to="/give/redeem"
+            className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "active" : ""}`}
+          >
             <Typography variant="h6">Redeem</Typography>
           </Link>
         ) : (

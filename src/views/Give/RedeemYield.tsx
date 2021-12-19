@@ -15,7 +15,7 @@ import {
   Container,
   SvgIcon,
 } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
@@ -40,6 +40,7 @@ type State = {
 };
 
 export default function RedeemYield() {
+  const location = useLocation();
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
@@ -167,18 +168,28 @@ export default function RedeemYield() {
       }}
     >
       <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
-        <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
-          <SvgIcon component={ChevronLeft} />
-          <Typography variant="h6">Back</Typography>
+        <Link
+          component={NavLink}
+          id="give-sub-dash"
+          to="/give"
+          className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
+        >
+          <Typography variant="h6">Projects</Typography>
         </Link>
-        {donationInfo && Object.keys(donationInfo).length > 0 ? (
-          <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
-            <Typography variant="h6">My Donations</Typography>
-          </Link>
-        ) : (
-          <></>
-        )}
-        <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
+        <Link
+          component={NavLink}
+          id="give-sub-donations"
+          to="/give/donations"
+          className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
+        >
+          <Typography variant="h6">My Donations</Typography>
+        </Link>
+        <Link
+          component={NavLink}
+          id="give-sub-redeem"
+          to="/give/redeem"
+          className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "give-active" : ""}`}
+        >
           <Typography variant="h6">Redeem</Typography>
         </Link>
       </Box>
