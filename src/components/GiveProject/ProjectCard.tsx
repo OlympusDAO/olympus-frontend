@@ -589,7 +589,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                               <Trans>Donors</Trans>
                             </div>
                           </Grid>
-                          {/* cena */}
                         </Grid>
                         <Grid container className="project-donated-icon" style={{ marginTop: 10 }}>
                           <Grid item xs={1} md={2}>
