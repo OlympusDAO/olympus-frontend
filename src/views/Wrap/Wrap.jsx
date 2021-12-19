@@ -39,6 +39,7 @@ import { t } from "@lingui/macro";
 import { useAppSelector } from "src/hooks/index.ts";
 import WrapCrossChain from "./WrapCrossChain.tsx";
 import { loadAccountDetails } from "src/slices/AccountSlice";
+import ButtonComponent from "src/components/Button";
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -142,9 +143,9 @@ function Wrap() {
   let modalButton = [];
 
   modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+    <ButtonComponent size="large" onClick={connect} key={1}>
       Connect Wallet
-    </Button>,
+    </ButtonComponent>,
   );
 
   const changeAssetFrom = event => {
@@ -227,10 +228,7 @@ function Wrap() {
     if (assetFrom === assetTo) return "";
     if (!hasCorrectAllowance())
       return (
-        <Button
-          className="stake-button wrap-page"
-          variant="contained"
-          color="primary"
+        <ButtonComponent
           disabled={
             isPendingTxn(pendingTransactions, "approve_wrapping") ||
             isPendingTxn(pendingTransactions, "approve_migration")
@@ -238,20 +236,17 @@ function Wrap() {
           onClick={approveCorrectToken}
         >
           {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
-        </Button>
+        </ButtonComponent>
       );
 
     if (hasCorrectAllowance())
       return (
-        <Button
-          className="stake-button wrap-page"
-          variant="contained"
-          color="primary"
+        <ButtonComponent
           disabled={isPendingTxn(pendingTransactions, "wrapping") || isPendingTxn(pendingTransactions, "migrate")}
           onClick={chooseCorrectWrappingFunction}
         >
           {txnButtonTextMultiType(pendingTransactions, ["wrapping", "migrate"], wrapButtonText)}
-        </Button>
+        </ButtonComponent>
       );
   };
 
@@ -392,28 +387,24 @@ function Wrap() {
                             Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
                             bridge required!)
                           </Typography>
-                          <Button
+                          <ButtonComponent
                             onClick={handleSwitchChain(43114)}
-                            variant="outlined"
-                            p={1}
+                            template="secondary"
                             style={{ margin: "0.3rem" }}
+                            size="small"
                           >
                             <img height="28px" width="28px" src={avax.image} alt={avax.imageAltText} />
-                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                              {avax.chainName}
-                            </Typography>
-                          </Button>
-                          <Button
+                            <Typography style={{ marginLeft: "8px" }}>{avax.chainName}</Typography>
+                          </ButtonComponent>
+                          <ButtonComponent
                             onClick={handleSwitchChain(42161)}
-                            variant="outlined"
-                            p={1}
+                            template="secondary"
                             style={{ margin: "0.3rem" }}
+                            size="small"
                           >
                             <img height="28px" width="28px" src={arbitrum.image} alt={arbitrum.imageAltText} />
-                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                              {arbitrum.chainName}
-                            </Typography>
-                          </Button>
+                            <Typography style={{ marginLeft: "8px" }}>{arbitrum.chainName}</Typography>
+                          </ButtonComponent>
                         </Box>
                       </>
                     </div>

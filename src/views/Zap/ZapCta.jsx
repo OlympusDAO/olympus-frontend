@@ -1,10 +1,10 @@
 import { Box, Button, Paper, Typography, Grid, SvgIcon, Link } from "@material-ui/core";
 import "./zap.scss";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import MultiLogo from "../../components/MultiLogo";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Trans } from "@lingui/macro";
+import ButtonComponent from "src/components/Button";
 
 const useStyles = makeStyles(theme => ({
   subHeader: {
@@ -53,11 +53,9 @@ function ZapCta() {
           </Grid>
           <Grid item xs={12} sm={4} className="button-box" classes={{ root: classes.buttonBox }}>
             <Link component={NavLink} to="/zap">
-              <Button component="div" variant="outlined" color="secondary" className="learn-more-button">
-                <Typography variant="body1">
-                  <Trans>Swap into sOHM</Trans>
-                </Typography>
-              </Button>
+              <ButtonComponent template="secondary" size="small">
+                <Trans>Swap into sOHM</Trans>
+              </ButtonComponent>
             </Link>
           </Grid>
         </Grid>

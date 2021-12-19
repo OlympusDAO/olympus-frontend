@@ -214,18 +214,6 @@
   margin: 4px !important;
 }
 
-.stake-button {
-  align-self: center;
-  width: 100%;
-  min-width: 163px !important;
-  max-width: 542px !important;
-  height: 43px !important;
-  &.wrap-page {
-    // margin-left: 2%;
-    width: 40%;
-  }
-}
-
 .no-input-visible {
   width: 100%;
   line-height: 1.2em;
@@ -247,13 +235,6 @@
   display: none !important;
 }
 
-.mobile .stake-button {
-  width: 100% !important;
-  max-width: 542px;
-  align-self: center;
-  justify-self: center;
-}
-
 .stake-grid-item {
   width: 100%;
   padding-right: 10px;
@@ -264,22 +245,6 @@
 
 .staking-area {
   margin: 13px 10px 13px 10px;
-}
-
-.stake-lp-button {
-  text-align: center !important;
-  display: flex !important;
-  justify-content: center !important;
-  svg {
-    margin-left: 4px;
-    vertical-align: middle;
-    font-size: 1.1em;
-  }
-  &:hover {
-    svg {
-      color: inherit;
-    }
-  }
 }
 
 .stake-user-data {
@@ -307,12 +272,6 @@
       display: flex;
       justify-content: space-between;
       line-height: 225%;
-    }
-  }
-  .stake-lp-button {
-    margin-top: 10px;
-    svg {
-      margin-left: 10px !important;
     }
   }
 }

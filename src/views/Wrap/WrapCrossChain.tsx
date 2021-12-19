@@ -34,6 +34,7 @@ import { NETWORKS } from "../../constants";
 import "../Stake/stake.scss";
 import { useAppSelector } from "src/hooks/index";
 import { getBalances, loadAccountDetails } from "src/slices/AccountSlice";
+import ButtonComponent from "src/components/Button";
 
 function WrapCrossChain() {
   const dispatch = useDispatch();
@@ -94,9 +95,9 @@ function WrapCrossChain() {
   let modalButton = [];
 
   modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+    <ButtonComponent size="large" onClick={connect} key={1}>
       Connect Wallet
-    </Button>,
+    </ButtonComponent>,
   );
 
   const migrateToGohm = () =>
@@ -160,31 +161,25 @@ function WrapCrossChain() {
     if (!address) return "";
     if (!hasCorrectAllowance())
       return (
-        <Button
-          className="stake-button wrap-page"
-          variant="contained"
-          color="primary"
+        <ButtonComponent
           disabled={
             isPendingTxn(pendingTransactions, "approve_wrapping") ||
             isPendingTxn(pendingTransactions, "approve_migration")
           }
           onClick={approveWrap}
         >
-          {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
-        </Button>
+          {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approved")}
+        </ButtonComponent>
       );
 
     if (hasCorrectAllowance())
       return (
-        <Button
-          className="stake-button wrap-page"
-          variant="contained"
-          color="primary"
+        <ButtonComponent
           disabled={isPendingTxn(pendingTransactions, "wrapping") || isPendingTxn(pendingTransactions, "migrate")}
           onClick={migrateToGohm}
         >
           {txnButtonTextMultiType(pendingTransactions, ["wrapping", "migrate"], wrapButtonText)}
-        </Button>
+        </ButtonComponent>
       );
   };
 
@@ -293,12 +288,10 @@ function WrapCrossChain() {
                       <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
                         Back to Ethereum Mainnet
                       </Typography>
-                      <Button onClick={handleSwitchChain(1)} variant="outlined">
+                      <ButtonComponent onClick={handleSwitchChain(1)} template="secondary" size="small">
                         <img height="28px" width="28px" src={String(ethereum.image)} alt={ethereum.imageAltText} />
-                        <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                          {ethereum.chainName}
-                        </Typography>
-                      </Button>
+                        <Box ml={1}>{ethereum.chainName}</Box>
+                      </ButtonComponent>
                     </Box>
                   </div>
                 </>

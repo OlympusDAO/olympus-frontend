@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Typography, Box, Slide } from "@material-ui/core";
+import { Typography, Box, Slide } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import { redeemBond } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -9,6 +9,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import { DisplayBondDiscount } from "./Bond";
 import ConnectButton from "../../components/ConnectButton";
+import ButtonComponent from "src/components/Button/ButtonComponent";
 
 function BondRedeem({ bond }) {
   // const { bond: bondName } = bond;
@@ -53,40 +54,34 @@ function BondRedeem({ bond }) {
 
   return (
     <Box display="flex" flexDirection="column">
-      <Box display="flex" justifyContent="space-around" flexWrap="wrap">
+      <Box display="flex" justifyContent="center" flexWrap="wrap">
         {!address ? (
           <ConnectButton />
         ) : (
           <>
-            <Button
-              variant="contained"
-              color="primary"
-              id="bond-claim-btn"
-              className="transaction-button"
-              fullWidth
-              disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name) || bond.pendingPayout == 0.0}
-              onClick={() => {
-                onRedeem({ autostake: false });
-              }}
-            >
-              {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name, t`Claim`)}
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              id="bond-claim-autostake-btn"
-              className="transaction-button"
-              fullWidth
-              disabled={
-                isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name + "_autostake") ||
-                bond.pendingPayout == 0.0
-              }
-              onClick={() => {
-                onRedeem({ autostake: true });
-              }}
-            >
-              {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name + "_autostake", t`Claim and Autostake`)}
-            </Button>
+            <Box mr={2}>
+              <ButtonComponent
+                disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name) || bond.pendingPayout == 0.0}
+                onClick={() => {
+                  onRedeem({ autostake: false });
+                }}
+              >
+                {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name, t`Claim`)}
+              </ButtonComponent>
+            </Box>
+            <Box>
+              <ButtonComponent
+                disabled={
+                  isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name + "_autostake") ||
+                  bond.pendingPayout == 0.0
+                }
+                onClick={() => {
+                  onRedeem({ autostake: true });
+                }}
+              >
+                {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name + "_autostake", t`Claim and Autostake`)}
+              </ButtonComponent>
+            </Box>
           </>
         )}
       </Box>

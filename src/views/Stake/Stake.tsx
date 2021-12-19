@@ -43,6 +43,7 @@ import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
 import StakeRow from "./StakeRow";
 import { Metric, MetricCollection } from "../../components/Metric";
+import ButtonComponent from "../../components/Button";
 
 function a11yProps(index: number) {
   return {
@@ -212,9 +213,9 @@ function Stake() {
   let modalButton = [];
 
   modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+    <ButtonComponent onClick={connect} key={1}>
       <Trans>Connect Wallet</Trans>
-    </Button>,
+    </ButtonComponent>,
   );
 
   const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
@@ -423,29 +424,25 @@ function Stake() {
                             {isAllowanceDataLoading ? (
                               <Skeleton />
                             ) : address && hasAllowance("ohm") ? (
-                              <Button
-                                className="stake-button"
-                                variant="contained"
-                                color="primary"
+                              <ButtonComponent
                                 disabled={isPendingTxn(pendingTransactions, "staking")}
                                 onClick={() => {
                                   onChangeStake("stake");
                                 }}
+                                fullWidth
                               >
                                 {txnButtonText(pendingTransactions, "staking", t`Stake OHM`)}
-                              </Button>
+                              </ButtonComponent>
                             ) : (
-                              <Button
-                                className="stake-button"
-                                variant="contained"
-                                color="primary"
+                              <ButtonComponent
                                 disabled={isPendingTxn(pendingTransactions, "approve_staking")}
                                 onClick={() => {
                                   onSeekApproval("ohm");
                                 }}
+                                fullWidth
                               >
                                 {txnButtonText(pendingTransactions, "approve_staking", t`Approve`)}
-                              </Button>
+                              </ButtonComponent>
                             )}
                           </Box>
                         </TabPanel>
@@ -455,29 +452,25 @@ function Stake() {
                             {isAllowanceDataLoading ? (
                               <Skeleton />
                             ) : (address && hasAllowance("sohm") && !checked) || (hasAllowance("gohm") && checked) ? (
-                              <Button
-                                className="stake-button"
-                                variant="contained"
-                                color="primary"
+                              <ButtonComponent
                                 disabled={isPendingTxn(pendingTransactions, "unstaking")}
                                 onClick={() => {
                                   onChangeStake("unstake");
                                 }}
+                                fullWidth
                               >
                                 {txnButtonText(pendingTransactions, "unstaking", t`Unstake`)}
-                              </Button>
+                              </ButtonComponent>
                             ) : (
-                              <Button
-                                className="stake-button"
-                                variant="contained"
-                                color="primary"
+                              <ButtonComponent
                                 disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                                 onClick={() => {
                                   onSeekApproval(checked ? "gohm" : "sohm");
                                 }}
+                                fullWidth
                               >
                                 {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
-                              </Button>
+                              </ButtonComponent>
                             )}
                           </Box>
                         </TabPanel>

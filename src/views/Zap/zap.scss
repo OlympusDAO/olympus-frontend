@@ -61,20 +61,6 @@
     align-items: center;
     padding-top: 2rem;
   }
-  .learn-more-button {
-    svg {
-      margin-left: 4px;
-      vertical-align: middle;
-      font-size: 1.1em;
-      height: 1.15rem;
-      width: 1.15rem;
-    }
-    &:hover {
-      svg {
-        color: inherit;
-      }
-    }
-  }
 }
 
 .stake-action-area {
@@ -90,11 +76,6 @@
   width: 100%;
   margin-block: 20px;
   min-height: 70px;
-}
-
-.zap-stake-button {
-  min-width: 140px !important;
-  height: 43px !important;
 }
 
 .stake-wallet-notification {

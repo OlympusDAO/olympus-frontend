@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -7,7 +7,6 @@ import {
   Grid,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
   Paper,
   Tab,
@@ -21,13 +20,11 @@ import {
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { t, Trans } from "@lingui/macro";
-import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { MigrateButton, LearnMoreButton } from "src/components/CallToAction/CallToAction";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "../Stake/stake.scss";
 import "./v1stake.scss";
 import StakeRow from "../Stake/StakeRow";
@@ -37,9 +34,9 @@ import { Skeleton } from "@material-ui/lab";
 import ExternalStakePool from "../Stake/ExternalStakePool";
 import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
-import { getMigrationAllowances } from "src/slices/AccountSlice";
 import { useAppSelector } from "src/hooks";
 import { useHistory } from "react-router-dom";
+import ButtonComponent from "src/components/Button";
 
 function a11yProps(index) {
   return {
@@ -167,9 +164,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   let modalButton = [];
 
   modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+    <ButtonComponent onClick={connect} key={1} size="large">
       Connect Wallet
-    </Button>,
+    </ButtonComponent>,
   );
 
   const changeView = (event, newView) => {
@@ -347,70 +344,48 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       ) : (
                         <Skeleton width="150px" />
                       )}
-
-                      {!hasActiveV1Bonds && oldAssetsDetected ? (
-                        <TabPanel value={view} index={0} className="stake-tab-panel">
-                          {isAllowanceDataLoading ? (
+                      <TabPanel value={view} index={0} className="stake-tab-panel">
+                        {!hasActiveV1Bonds && oldAssetsDetected ? (
+                          isAllowanceDataLoading ? (
                             <Skeleton />
                           ) : (
                             <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Migrate`} />
-                          )}
-                        </TabPanel>
-                      ) : hasActiveV1Bonds ? (
-                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
-                          <Button
-                            className="migrate-button"
-                            variant="contained"
-                            color="primary"
+                          )
+                        ) : (
+                          <ButtonComponent
                             onClick={() => {
-                              goToBonds();
+                              hasActiveV1Bonds ? goToBonds() : goToV2Stake();
                             }}
+                            fullWidth
                           >
-                            <Trans>Go to Bonds</Trans>
-                          </Button>
-                        </TabPanel>
-                      ) : (
-                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
-                          <Button
-                            className="migrate-button"
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              goToV2Stake();
-                            }}
-                          >
-                            <Trans>Go to Stake V2</Trans>
-                          </Button>
-                        </TabPanel>
-                      )}
+                            {hasActiveV1Bonds ? t`Go to Bonds` : t`Go to Stake V2`}
+                          </ButtonComponent>
+                        )}
+                      </TabPanel>
 
                       <TabPanel value={view} index={1} className="stake-tab-panel">
                         {isAllowanceDataLoading ? (
                           <Skeleton />
                         ) : address && hasAllowance("sohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
+                          <ButtonComponent
                             disabled={isPendingTxn(pendingTransactions, "unstaking")}
                             onClick={() => {
                               onChangeStake("unstake");
                             }}
+                            fullWidth
                           >
                             {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
-                          </Button>
+                          </ButtonComponent>
                         ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
+                          <ButtonComponent
                             disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                             onClick={() => {
                               onSeekApproval("sohm");
                             }}
+                            fullWidth
                           >
                             {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
-                          </Button>
+                          </ButtonComponent>
                         )}
                       </TabPanel>
                     </Box>

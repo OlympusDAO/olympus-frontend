@@ -1,6 +1,5 @@
-import BondLogo from "../../components/BondLogo";
 import { DisplayBondPrice, DisplayBondDiscount } from "../Bond/Bond";
-import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
+import { Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
@@ -8,6 +7,7 @@ import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 import useBonds from "src/hooks/Bonds";
 import { useSelector } from "react-redux";
+import ButtonComponent from "src/components/Button";
 
 export function BondDataCard({ bond }) {
   const networkId = useSelector(state => state.network.networkId);
@@ -18,7 +18,7 @@ export function BondDataCard({ bond }) {
     <Slide direction="up" in={true}>
       <Paper id={`${bond.name}--bond`} className="bond-data-card ohm-card">
         <div className="bond-pair">
-          <BondLogo bond={bond} />
+          <MultiLogo icons={[bond.bondIconSvg]} isLP={bond.isLP} />
           <div className="bond-name">
             <Typography>{bond.displayName}</Typography>
             {bond.isLP && (
@@ -68,13 +68,11 @@ export function BondDataCard({ bond }) {
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isBondable[networkId]}>
-            <Typography variant="h5">
-              {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
-              {/* {!bond.isBondable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`} */}
-              {bond.isLOLable[networkId] ? bond.LOLmessage : t`Bond ${bond.displayName}`}
-            </Typography>
-          </Button>
+          <ButtonComponent template="tertiary" fullWidth disabled={!bond.isBondable[networkId]}>
+            {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
+            {/* {!bond.isBondable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`} */}
+            {bond.isLOLable[networkId] ? bond.LOLmessage : t`Bond ${bond.displayName}`}
+          </ButtonComponent>
         </Link>
       </Paper>
     </Slide>
@@ -126,11 +124,11 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" disabled={!bond.isBondable[networkId]} style={{ width: "100%" }}>
+          <ButtonComponent template="tertiary" disabled={!bond.isBondable[networkId]}>
             {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
             {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
-            <Typography variant="h6">{bond.isLOLable[networkId] ? bond.LOLmessage : t`do_bond`}</Typography>
-          </Button>
+            {bond.isLOLable[networkId] ? bond.LOLmessage : t`do_bond`}
+          </ButtonComponent>
         </Link>
       </TableCell>
     </TableRow>

@@ -39,6 +39,7 @@ import { ethers } from "ethers";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { trim } from "src/helpers";
 import { Trans } from "@lingui/macro";
+import ButtonComponent from "src/components/Button";
 
 const DISABLE_ZAPS = true;
 
@@ -382,12 +383,9 @@ function ZapStakeAction(props) {
         </Typography>
         <Typography>{trim(Number(outputQuantity) * 0.98, 2)} sOHM</Typography>
       </Box>
-      {initialTokenAllowance ? (
-        <Button
+      {!initialTokenAllowance ? (
+        <ButtonComponent
           fullWidth
-          className="zap-stake-button"
-          variant="contained"
-          color="primary"
           disabled={zapToken == null || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
           onClick={onZap}
         >
@@ -398,15 +396,12 @@ function ZapStakeAction(props) {
           ) : (
             <Trans>Zap-Stake</Trans>
           )}
-        </Button>
+        </ButtonComponent>
       ) : (
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <Button
+            <ButtonComponent
               fullWidth
-              className="zap-stake-button"
-              variant="contained"
-              color="primary"
               disabled={
                 zapToken == null || isTokensLoading || isAllowanceTxSuccess || isChangeAllowanceLoading || DISABLE_ZAPS
               }
@@ -414,7 +409,7 @@ function ZapStakeAction(props) {
               classes={isAllowanceTxSuccess ? { disabled: classes.ApprovedButton } : {}}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
-              <Box display="flex" flexDirection="row">
+              <Box display="flex" flexDirection="row" alignItems="center">
                 {isAllowanceTxSuccess ? (
                   <>
                     <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 18 18"} />
@@ -425,20 +420,15 @@ function ZapStakeAction(props) {
                 ) : (
                   <>
                     <SvgIcon component={FirstStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
-                    <Typography>
-                      {isChangeAllowanceLoading ? <Trans>Pending...</Trans> : <Trans>Approve</Trans>}
-                    </Typography>
+                    {isChangeAllowanceLoading ? <Trans>Pending...</Trans> : <Trans>Approve</Trans>}
                   </>
                 )}
               </Box>
-            </Button>
+            </ButtonComponent>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Button
+            <ButtonComponent
               fullWidth
-              className="zap-stake-button"
-              variant="contained"
-              color="primary"
               disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
               onClick={onZap}
@@ -446,12 +436,9 @@ function ZapStakeAction(props) {
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
               <Box display="flex" flexDirection="row" alignItems="center">
                 <SvgIcon component={SecondStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
-
-                <Typography>
-                  {outputQuantity === "" ? <Trans>Enter Amount</Trans> : <Trans>Zap-Stake</Trans>}
-                </Typography>
+                {outputQuantity === "" ? <Trans>Enter Amount</Trans> : <Trans>Zap-Stake</Trans>}
               </Box>
-            </Button>
+            </ButtonComponent>
           </Grid>
         </Grid>
       )}

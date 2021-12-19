@@ -6,6 +6,7 @@ import { redeemAllBonds } from "src/slices/BondSlice";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "src/hooks/Bonds";
+import ButtonComponent from "src/components/Button";
 import {
   Box,
   Button,
@@ -105,25 +106,18 @@ function ClaimBonds({ activeBonds }) {
               >
                 {numberOfBonds > 1 && (
                   <>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className="transaction-button"
-                      fullWidth
-                      disabled={pendingClaim()}
-                      onClick={() => {
-                        onRedeemAll({ autostake: false });
-                      }}
-                    >
-                      {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
-                    </Button>
-
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      id="claim-all-and-stake-btn"
-                      className="transaction-button"
-                      fullWidth
+                    <Box mr={2}>
+                      <ButtonComponent
+                        fullWidth
+                        disabled={pendingClaim()}
+                        onClick={() => {
+                          onRedeemAll({ autostake: false });
+                        }}
+                      >
+                        {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
+                      </ButtonComponent>
+                    </Box>
+                    <ButtonComponent
                       disabled={pendingClaim()}
                       onClick={() => {
                         onRedeemAll({ autostake: true });
@@ -134,7 +128,7 @@ function ClaimBonds({ activeBonds }) {
                         "redeem_all_bonds_autostake",
                         t`Claim all and Stake`,
                       )}
-                    </Button>
+                    </ButtonComponent>
                   </>
                 )}
               </Box>

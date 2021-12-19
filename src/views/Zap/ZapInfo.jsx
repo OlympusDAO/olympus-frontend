@@ -1,12 +1,11 @@
-import { Box, Button, Paper, Typography, Grid, SvgIcon } from "@material-ui/core";
+import { Box, Paper, Typography, Grid, SvgIcon } from "@material-ui/core";
 import "./zap.scss";
 import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.svg";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import MultiLogo from "../../components/MultiLogo";
 import { makeStyles } from "@material-ui/core/styles";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
-import { useState } from "react";
 import { Trans } from "@lingui/macro";
+import ButtonComponent from "src/components/Button";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {
@@ -138,19 +137,15 @@ function ZapInfo({ tokens, address }) {
           </Grid>
         </Grid>
         <Box className="button-box">
-          <Button
-            variant="outlined"
-            color="secondary"
+          <ButtonComponent
+            template="secondary"
             href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
-            target="_blank"
-            className="learn-more-button"
             onClick={() => {
               trackClick(address);
             }}
           >
-            <Typography variant="body1">Learn More</Typography>
-            <SvgIcon component={ArrowUp} color="primary" />
-          </Button>
+            Learn More
+          </ButtonComponent>
         </Box>
       </Paper>
     </>

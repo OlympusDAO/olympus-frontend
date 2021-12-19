@@ -20,6 +20,7 @@ import useDebounce from "../../hooks/Debounce";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./Bond";
 import ConnectButton from "../../components/ConnectButton";
+import ButtonComponent from "src/components/Button";
 
 function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
@@ -175,39 +176,22 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                   </FormControl>
                 )}
                 {!bond.isBondable[networkId] ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-btn"
-                    className="transaction-button"
-                    disabled={true}
-                  >
+                  <ButtonComponent disabled={true}>
                     {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
                     {/* <Trans>Sold Out</Trans> */}
                     {bond.LOLmessage}
-                  </Button>
+                  </ButtonComponent>
                 ) : hasAllowance() ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-btn"
-                    className="transaction-button"
-                    disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
-                    onClick={onBond}
-                  >
+                  <ButtonComponent disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)} onClick={onBond}>
                     {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
-                  </Button>
+                  </ButtonComponent>
                 ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-approve-btn"
-                    className="transaction-button"
+                  <ButtonComponent
                     disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
                     onClick={onSeekApproval}
                   >
                     {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
-                  </Button>
+                  </ButtonComponent>
                 )}
               </>
             )}{" "}

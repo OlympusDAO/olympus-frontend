@@ -18,11 +18,11 @@ import { Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import avaxImage from "src/assets/tokens/avax.png";
 import gOhmImage from "src/assets/tokens/gohm.png";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { getLusdData } from "../../slices/LusdSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import MultiLogo from "src/components/MultiLogo";
 import { useAppSelector } from "../../hooks";
+import ButtonComponent from "src/components/Button";
 
 const avatarStyle = { height: "35px", width: "35px", marginInline: "-4px", marginTop: "16px" };
 
@@ -76,18 +76,13 @@ export default function ExternalStakePool() {
                       </Box>
                     </TableCell>
                     <TableCell align="center">
-                      <Button
-                        variant="outlined"
-                        color="secondary"
+                      <ButtonComponent
+                        template="secondary"
                         href="https://traderjoexyz.com/#/pool/0x321e7092a180bb43555132ec53aaa65a5bf84251/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
-                        target="_blank"
-                        className="stake-lp-button"
+                        size="large"
                       >
-                        <Typography variant="body1">
-                          <Trans>Stake on Trader Joe</Trans>
-                        </Typography>
-                        <SvgIcon component={ArrowUp} color="primary" />
-                      </Button>
+                        Stake on Trader Joe
+                      </ButtonComponent>
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -103,19 +98,13 @@ export default function ExternalStakePool() {
                 </Box>
               </div>
               <div className="pool-data">
-                <Button
-                  variant="outlined"
-                  color="secondary"
+                <ButtonComponent
+                  template="secondary"
                   href="https://traderjoexyz.com/#/pool/0x321e7092a180bb43555132ec53aaa65a5bf84251/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
-                  target="_blank"
-                  className="stake-lp-button"
                   fullWidth
                 >
-                  <Typography variant="body1">
-                    <Trans>Stake on Trader Joe</Trans>
-                  </Typography>
-                  <SvgIcon component={ArrowUp} color="primary" />
-                </Button>
+                  <Trans>Stake on Trader Joe</Trans>
+                </ButtonComponent>
               </div>
             </div>
           )}
