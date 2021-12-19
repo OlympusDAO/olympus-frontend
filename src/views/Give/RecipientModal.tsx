@@ -596,11 +596,18 @@ export function RecipientModal({
             </Button>
           </FormControl>
         ) : (
-          <FormControl className="ohm-modal-submit">
-            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-              {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Edit Give Amount`)}
-            </Button>
-          </FormControl>
+          <>
+            <FormControl className="ohm-modal-submit">
+              <Button variant="contained" color="primary" onClick={handleGoBack}>
+                <Trans>Go Back</Trans>
+              </Button>
+            </FormControl>
+            <FormControl className="ohm-modal-submit">
+              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
+                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Edit Give Amount`)}
+              </Button>
+            </FormControl>
+          </>
         )}
       </Paper>
     </Modal>
