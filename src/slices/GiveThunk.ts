@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
+import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText, isPendingTxn, IPendingTxn } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -60,12 +61,6 @@ export const changeApproval = createAsyncThunk(
       return;
     }
 
-    /*
-      On testnet it's been best for testing Give to use a pseudo-sOHM contract
-      that gives us more control to rebase manually when needed. However, this 
-      makes it not as perfectly translatable to mainnet without changing any parameters
-      this is the best way to avoid manually switching out code every deployment
-    */
     const signer = provider.getSigner();
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, signer);
     let approveTx;
@@ -87,10 +82,6 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    /*
-      The pseudo-sOHM contract used on testnet does not have a functional allowance
-      mapping. Instead approval calls write allowances to a mapping title _allowedValue
-    */
     let giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
 
     return dispatch(
@@ -230,7 +221,7 @@ export const changeMockGive = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const giving = new ethers.Contract(addresses[networkID].MOCK_GIVING_ADDRESS as string, OlympusGiving, signer);
+    const giving = new ethers.Contract(addresses[networkID].MOCK_GIVING_ADDRESS as string, OlympusMockGiving, signer);
     let giveTx;
 
     let uaData: IUAData = {

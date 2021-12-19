@@ -7,7 +7,7 @@ import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "../slice
 interface IUserRecipientInfo {
   totalDebt: string;
   carry: string;
-  agnosticAmount: string;
+  agnosticDebt: string;
   indexAtLastChange: string;
 }
 
@@ -20,7 +20,7 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
   let recipientInfo: IUserRecipientInfo = {
     totalDebt: "",
     carry: "",
-    agnosticAmount: "",
+    agnosticDebt: "",
     indexAtLastChange: "",
   };
 
@@ -32,12 +32,14 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
       let recipientInfoData = await givingContract.recipientInfo(address);
       recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
       recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
-      recipientInfo.agnosticAmount = ethers.utils.formatUnits(recipientInfoData.agnosticAmount.toNumber(), "gwei");
+      recipientInfo.agnosticDebt = ethers.utils.formatUnits(recipientInfoData.agnosticDebt.toNumber(), "gwei");
       recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
         recipientInfoData.indexAtLastChange.toNumber(),
         "gwei",
       );
-    } catch (e: unknown) {}
+    } catch (e: unknown) {
+      console.error(e);
+    }
   } else {
     console.error("Unable to find MOCK_SOHM contract on chain ID " + networkID);
   }
@@ -55,7 +57,7 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
   let recipientInfo: IUserRecipientInfo = {
     totalDebt: "",
     carry: "",
-    agnosticAmount: "",
+    agnosticDebt: "",
     indexAtLastChange: "",
   };
 
@@ -71,12 +73,14 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
       let recipientInfoData = await givingContract.recipientInfo(address);
       recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
       recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
-      recipientInfo.agnosticAmount = ethers.utils.formatUnits(recipientInfoData.agnosticAmount.toNumber(), "gwei");
+      recipientInfo.agnosticDebt = ethers.utils.formatUnits(recipientInfoData.agnosticDebt.toNumber(), "gwei");
       recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
         recipientInfoData.indexAtLastChange.toNumber(),
         "gwei",
       );
-    } catch (e: unknown) {}
+    } catch (e: unknown) {
+      console.error(e);
+    }
   } else {
     console.error("Unable to find MOCK_GIVING_ADDRESS contract on chain ID " + networkID);
   }

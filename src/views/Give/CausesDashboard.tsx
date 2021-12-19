@@ -114,7 +114,7 @@ export default function CausesDashboard() {
       }}
     >
       <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
-        {Object.keys(donationInfo).length > 0 && isSupportedChain(networkId) ? (
+        {donationInfo && Object.keys(donationInfo).length > 0 && isSupportedChain(networkId) ? (
           <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
             <Typography variant="h6">My Donations</Typography>
           </Link>
