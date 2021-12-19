@@ -122,7 +122,9 @@ export default function CausesDashboard() {
           to="/give"
           className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
         >
-          <Typography variant="h6">Projects</Typography>
+          <Button variant="contained" color="secondary">
+            <Typography variant="h6">Projects</Typography>
+          </Button>
         </Link>
         <Link
           component={NavLink}
@@ -130,7 +132,9 @@ export default function CausesDashboard() {
           to="/give/donations"
           className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
         >
-          <Typography variant="h6">My Donations</Typography>
+          <Button variant="contained" color="secondary">
+            <Typography variant="h6">My Donations</Typography>
+          </Button>
         </Link>
         {new BigNumber(redeemableBalance).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
           <Link
@@ -139,7 +143,9 @@ export default function CausesDashboard() {
             to="/give/redeem"
             className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "active" : ""}`}
           >
-            <Typography variant="h6">Redeem</Typography>
+            <Button variant="contained" color="secondary">
+              <Typography variant="h6">Redeem</Typography>
+            </Button>
           </Link>
         ) : (
           <></>

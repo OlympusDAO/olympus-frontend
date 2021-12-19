@@ -507,8 +507,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               to="/give"
               className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
             >
-              <SvgIcon component={ChevronLeft} />
-              <Typography variant="h6">Projects</Typography>
+              <Button variant="contained" color="secondary">
+                <SvgIcon component={ChevronLeft} viewBox="5 2 20 20" />
+                <Typography variant="h6">Projects</Typography>
+              </Button>
             </Link>
             <Link
               component={NavLink}
@@ -516,7 +518,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               to="/give/donations"
               className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
             >
-              <Typography variant="h6">My Donations</Typography>
+              <Button variant="contained" color="secondary">
+                <Typography variant="h6">My Donations</Typography>
+              </Button>
             </Link>
             {new BigNumber(redeemableBalance).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
               <Link
@@ -525,7 +529,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 to="/give/redeem"
                 className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "active" : ""}`}
               >
-                <Typography variant="h6">Redeem</Typography>
+                <Button variant="contained" color="secondary">
+                  <Typography variant="h6">Redeem</Typography>
+                </Button>
               </Link>
             ) : (
               <></>

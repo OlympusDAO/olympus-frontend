@@ -174,8 +174,10 @@ export default function RedeemYield() {
           to="/give"
           className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
         >
-          <SvgIcon component={ChevronLeft} />
-          <Typography variant="h6">Projects</Typography>
+          <Button variant="contained" color="secondary">
+            <SvgIcon component={ChevronLeft} viewBox="5 2 20 20" />
+            <Typography variant="h6">Projects</Typography>
+          </Button>
         </Link>
         <Link
           component={NavLink}
@@ -183,7 +185,9 @@ export default function RedeemYield() {
           to="/give/donations"
           className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
         >
-          <Typography variant="h6">My Donations</Typography>
+          <Button variant="contained" color="secondary">
+            <Typography variant="h6">My Donations</Typography>
+          </Button>
         </Link>
         <Link
           component={NavLink}
@@ -191,7 +195,9 @@ export default function RedeemYield() {
           to="/give/redeem"
           className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "give-active" : ""}`}
         >
-          <Typography variant="h6">Redeem</Typography>
+          <Button variant="contained" color="secondary">
+            <Typography variant="h6">Redeem</Typography>
+          </Button>
         </Link>
       </Box>
       <div id="give-view">

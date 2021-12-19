@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { NavLink, useLocation } from "react-router-dom";
-import { Paper, Typography, Zoom, Container, Box, Link, SvgIcon } from "@material-ui/core";
+import { Paper, Typography, Zoom, Container, Box, Link, SvgIcon, Button } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
@@ -45,8 +45,10 @@ export default function DepositYield() {
           to="/give"
           className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
         >
-          <SvgIcon component={ChevronLeft} />
-          <Typography variant="h6">Projects</Typography>
+          <Button variant="contained" color="secondary">
+            <SvgIcon component={ChevronLeft} viewBox="5 2 20 20" />
+            <Typography variant="h6">Projects</Typography>
+          </Button>
         </Link>
         <Link
           component={NavLink}
@@ -54,11 +56,15 @@ export default function DepositYield() {
           to="/give/donations"
           className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
         >
-          <Typography variant="h6">My Donations</Typography>
+          <Button variant="contained" color="secondary">
+            <Typography variant="h6">My Donations</Typography>
+          </Button>
         </Link>
         {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
           <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
-            <Typography variant="h6">Redeem</Typography>
+            <Button variant="contained" color="secondary">
+              <Typography variant="h6">Redeem</Typography>
+            </Button>
           </Link>
         ) : (
           <></>
