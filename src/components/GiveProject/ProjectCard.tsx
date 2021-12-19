@@ -409,7 +409,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getCardContent = () => {
     return (
       <>
-        <Paper style={{ backdropFilter: "none", backgroundColor: "transparent" }}>
+        <Paper style={{ backdropFilter: "none", backgroundColor: "transparent", width: "100%" }}>
           <Grid item className="cause-card" key={title}>
             {getProjectImage()}
             <div className="cause-content">
