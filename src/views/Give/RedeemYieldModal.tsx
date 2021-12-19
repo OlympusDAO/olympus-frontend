@@ -9,6 +9,7 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn, isPendingTxn } from "../../slices/PendingTxnsSlice";
 import { BigNumber } from "bignumber.js";
 import { t, Trans } from "@lingui/macro";
+import { useOnEscape } from "src/helpers/window";
 
 export interface RedeemSubmitCallback {
   (): void;
@@ -43,6 +44,8 @@ export function RedeemYieldModal({
   const pendingTransactions = useSelector((state: State) => {
     return state.pendingTransactions;
   });
+
+  useOnEscape(cancelFunc);
 
   const canSubmit = () => {
     if (!address) return false;

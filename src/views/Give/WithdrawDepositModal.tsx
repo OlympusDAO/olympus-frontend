@@ -12,6 +12,7 @@ import { Project } from "src/components/GiveProject/project.type";
 import { hasPendingGiveTxn, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 import { t, Trans } from "@lingui/macro";
 import { shorten } from "src/helpers";
+import { useOnEscape } from "src/helpers/window";
 
 export interface WithdrawSubmitCallback {
   (walletAddress: string, depositAmount: BigNumber): void;
@@ -48,6 +49,8 @@ export function WithdrawDepositModal({
   const pendingTransactions = useSelector((state: State) => {
     return state.pendingTransactions;
   });
+
+  useOnEscape(cancelFunc);
 
   const canSubmit = () => {
     if (!address) return false;

@@ -36,6 +36,9 @@ import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { CancelCallback, SubmitCallback } from "./Interfaces";
+import { useOnEscape } from "src/helpers/window";
+import useEscape from "src/hooks/useEscape";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -51,14 +54,6 @@ type State = {
   account: IAccountSlice;
   pendingTransactions: IPendingTxn[];
 };
-
-export interface SubmitCallback {
-  (walletAddress: string, depositAmount: BigNumber, depositAmountDiff?: BigNumber): void;
-}
-
-export interface CancelCallback {
-  (): void;
-}
 
 export function RecipientModal({
   isModalOpen,
@@ -96,6 +91,11 @@ export function RecipientModal({
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState(_initialWalletAddressValidError);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
+
+  useEscape(() => {
+    console.log("escape!");
+  });
+  // useOnEscape(cancelFunc);
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toFixed());
