@@ -504,7 +504,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               <SvgIcon component={ChevronLeft} />
               <Typography variant="h6">Back</Typography>
             </Link>
-            {Object.keys(donationInfo).length > 0 ? (
+            {donationInfo && Object.keys(donationInfo).length > 0 ? (
               <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
                 <Typography variant="h6">My Donations</Typography>
               </Link>
