@@ -501,19 +501,30 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           className="project-container"
         >
           <Box className={`give-subnav ${(isSmallScreen || isVerySmallScreen) && "smaller"}`}>
-            <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
+            <Link
+              component={NavLink}
+              id="give-sub-dash"
+              to="/give"
+              className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
+            >
               <SvgIcon component={ChevronLeft} />
-              <Typography variant="h6">Back</Typography>
+              <Typography variant="h6">Projects</Typography>
             </Link>
-            {donationInfo && Object.keys(donationInfo).length > 0 ? (
-              <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
-                <Typography variant="h6">My Donations</Typography>
-              </Link>
-            ) : (
-              <></>
-            )}
-            {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
-              <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
+            <Link
+              component={NavLink}
+              id="give-sub-donations"
+              to="/give/donations"
+              className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
+            >
+              <Typography variant="h6">My Donations</Typography>
+            </Link>
+            {new BigNumber(redeemableBalance).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
+              <Link
+                component={NavLink}
+                id="give-sub-redeem"
+                to="/give/redeem"
+                className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "active" : ""}`}
+              >
                 <Typography variant="h6">Redeem</Typography>
               </Link>
             ) : (

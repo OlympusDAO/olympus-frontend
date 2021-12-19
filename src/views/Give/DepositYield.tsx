@@ -45,6 +45,7 @@ export default function DepositYield() {
           to="/give"
           className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
         >
+          <SvgIcon component={ChevronLeft} />
           <Typography variant="h6">Projects</Typography>
         </Link>
         <Link
