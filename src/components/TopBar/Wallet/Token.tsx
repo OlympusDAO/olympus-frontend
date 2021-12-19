@@ -113,7 +113,7 @@ export const Token = ({
 }: TokenProps) => {
   const theme = useTheme();
   const balanceValue = balance * price;
-  const isLoadingBalance = useAppSelector(state => state.account.loading);
+  const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   return (
     <Accordion expanded={expanded} onChange={onChangeExpanded}>
       <AccordionSummary expandIcon={<SvgIcon component={MoreIcon} color="disabled" />}>
@@ -123,10 +123,10 @@ export const Token = ({
         </Box>
         <Box sx={{ textAlign: "right", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <Typography variant="body2" style={{ fontWeight: 600 }}>
-            {!isLoadingBalance ? trim(balance, 4) : <Skeleton variant="text" width={50} />}
+            {!isLoading ? trim(balance, 4) : <Skeleton variant="text" width={50} />}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {!isLoadingBalance && price ? formatCurrency(balanceValue, 2) : <Skeleton variant="text" width={50} />}
+            {!isLoading ? formatCurrency(balanceValue, 2) : <Skeleton variant="text" width={50} />}
           </Typography>
         </Box>
       </AccordionSummary>
