@@ -213,7 +213,7 @@ function Stake() {
   let modalButton = [];
 
   modalButton.push(
-    <ButtonComponent onClick={connect} key={1}>
+    <ButtonComponent size="large" onClick={connect} key={1}>
       <Trans>Connect Wallet</Trans>
     </ButtonComponent>,
   );
