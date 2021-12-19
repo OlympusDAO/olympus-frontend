@@ -8,6 +8,7 @@ import { abi as fiatDAO } from "../abi/FiatDAOContract.json";
 
 import { setAll, handleContractError } from "../helpers";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
+import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
 
 import { getRedemptionBalancesAsync, getMockRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
@@ -261,11 +262,10 @@ export const getMockDonationBalances = createAsyncThunk(
       const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
       const givingContract = new ethers.Contract(
         addresses[networkID].MOCK_GIVING_ADDRESS as string,
-        OlympusGiving,
+        OlympusMockGiving,
         provider,
       );
 
-      let donationInfo: IUserDonationInfo = {};
       try {
         // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
         let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
@@ -281,6 +281,7 @@ export const getMockDonationBalances = createAsyncThunk(
     } else {
       console.error("Unable to find MOCK_SOHM contract on chain ID " + networkID);
     }
+    console.log(donationInfo);
 
     return {
       mockGiving: {
