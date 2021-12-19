@@ -44,6 +44,7 @@ import { IAppData } from "src/slices/AppSlice";
 import { ChevronLeft } from "@material-ui/icons";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import data from "../../views/Give/projects.json";
 
 type CountdownProps = {
   total: number;
@@ -89,7 +90,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
   const [donorCount, setDonorCount] = useState(0);
-
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
 
   const donationInfo = useSelector((state: State) => {
@@ -97,6 +97,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
+
+  const donatedAmount = new BigNumber(donationInfo[wallet] || 0).toNumber();
 
   const redeemableBalance = useSelector((state: State) => {
     return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
@@ -585,6 +587,20 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             </Typography>
                             <div className="subtext">
                               <Trans>Donors</Trans>
+                            </div>
+                          </Grid>
+                          {/* cena */}
+                        </Grid>
+                        <Grid container className="project-donated-icon" style={{ marginTop: 10 }}>
+                          <Grid item xs={1} md={2}>
+                            <SvgIcon component={DonatedIcon} viewBox={"0 0 18 13"} fill={svgFillColour} />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography variant="h6">
+                              {donorCountIsLoading ? <Skeleton /> : <strong>{donatedAmount}</strong>}
+                            </Typography>
+                            <div className="subtext">
+                              <Trans>Your Donation</Trans>
                             </div>
                           </Grid>
                         </Grid>
