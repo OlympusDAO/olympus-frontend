@@ -1,4 +1,5 @@
 import { EnvHelper } from "./Environment";
+import { addresses } from "../constants";
 
 interface ZapperResponse {
   [key: string]: ZapperAddress;
@@ -106,18 +107,30 @@ export class ZapHelper {
     }
   };
 
+  /**
+   * contract address for sOHM zap pool
+   * @param networkID number
+   * @returns string
+   */
+  static getZapperPoolAddress = (networkID: number) => {
+    return addresses[networkID].ZAPPER_POOL_V1;
+  };
+
   static executeZapHelper = async (
     sellAmount: number,
     ownerAddress: string,
     tokenAddress: string,
     slippagePercentage: string,
     gasPrice: number,
+    networkID: number,
   ) => {
     tokenAddress = tokenAddress.toLowerCase();
     ownerAddress = ownerAddress.toLowerCase();
     const apiKey = EnvHelper.getZapperAPIKey();
     const response = await fetch(
-      `https://api.zapper.fi/v1/zap-in/vault/olympus/transaction?ownerAddress=${ownerAddress}&network=ethereum&sellAmount=${sellAmount}&sellTokenAddress=${tokenAddress}&poolAddress=${EnvHelper.getZapperPoolAddress()}&slippagePercentage=${slippagePercentage}&gasPrice=${gasPrice}&api_key=${apiKey}`,
+      `https://api.zapper.fi/v1/zap-in/vault/olympus/transaction?ownerAddress=${ownerAddress}&network=ethereum&sellAmount=${sellAmount}&sellTokenAddress=${tokenAddress}&poolAddress=${ZapHelper.getZapperPoolAddress(
+        networkID,
+      )}&slippagePercentage=${slippagePercentage}&gasPrice=${gasPrice}&api_key=${apiKey}`,
     );
     const responseJson = await response.json();
     if (response.ok) {

@@ -179,8 +179,8 @@ export class EnvHelper {
   }
 
   static getZapperAPIKey() {
-    // EnvHelper.env.REACT_APP_ZAPPER_API
-    let apiKey = EnvHelper.env.REACT_APP_ZAPPER_API;
+    // below is public key from Zapper, per: https://docs.zapper.fi/zapper-api/endpoints
+    let apiKey = "96e0cc51-a62e-42ca-acee-910ea7d2a241";
     if (!apiKey) {
       console.warn("zaps won't work without REACT_APP_ZAPPER_API key");
     }
@@ -189,7 +189,7 @@ export class EnvHelper {
 
   static getZapperPoolAddress() {
     // EnvHelper.env.REACT_APP_ZAPPER_POOL
-    let zapPool = EnvHelper.env.REACT_APP_ZAPPER_POOL;
+    let zapPool = "0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f";
     if (!zapPool) {
       console.warn("zaps won't work without REACT_APP_ZAPPER_POOL address");
     }
