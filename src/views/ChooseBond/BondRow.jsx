@@ -1,3 +1,4 @@
+import BondLogo from "../../components/BondLogo";
 import { DisplayBondPrice, DisplayBondDiscount } from "../Bond/Bond";
 import { Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
@@ -18,7 +19,7 @@ export function BondDataCard({ bond }) {
     <Slide direction="up" in={true}>
       <Paper id={`${bond.name}--bond`} className="bond-data-card ohm-card">
         <div className="bond-pair">
-          <MultiLogo icons={[bond.bondIconSvg]} isLP={bond.isLP} />
+          <BondLogo bond={bond} />
           <div className="bond-name">
             <Typography>{bond.displayName}</Typography>
             {bond.isLP && (
@@ -88,7 +89,7 @@ export function BondTableData({ bond }) {
   return (
     <TableRow id={`${bond.name}--bond`}>
       <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={bond} />
+        <MultiLogo icons={[bond.bondIconSvg]} isLP={bond.isLP} />
         <div className="bond-name">
           <Typography variant="body1">{bond.displayName}</Typography>
           {bond.isLP && (
