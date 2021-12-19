@@ -86,7 +86,6 @@ export function RecipientModal({
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toFixed());
     checkIsWalletAddressValid(getWalletAddress());
-    console.log(giveAllowance);
   }, []);
 
   /**

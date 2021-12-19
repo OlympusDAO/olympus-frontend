@@ -229,10 +229,10 @@ export const getDonationBalances = createAsyncThunk(
           donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
         }
       } catch (e: unknown) {
-        console.log("User is currently not donating");
+        console.error("User is currently not donating");
       }
     } else {
-      console.log("Unable to find GIVING_ADDRESS contract on chain ID " + networkID);
+      console.error("Unable to find GIVING_ADDRESS contract on chain ID " + networkID);
     }
 
     return {
@@ -276,10 +276,10 @@ export const getMockDonationBalances = createAsyncThunk(
           }
         }
       } catch (e: unknown) {
-        console.log("User is currently not donating");
+        console.error(e);
       }
     } else {
-      console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
+      console.error("Unable to find MOCK_SOHM contract on chain ID " + networkID);
     }
 
     return {
@@ -618,10 +618,12 @@ const accountSlice = createSlice({
       })
       .addCase(getDonationBalances.fulfilled, (state, action) => {
         setAll(state, action.payload);
+        console.log("Success");
         state.loading = false;
       })
       .addCase(getDonationBalances.rejected, (state, { error }) => {
         state.loading = false;
+        console.log("Rejected");
         console.log(error);
       })
       .addCase(getMockDonationBalances.pending, state => {
