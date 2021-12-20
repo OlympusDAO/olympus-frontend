@@ -39,7 +39,7 @@ export default function DepositYield() {
         justifyContent: "center",
       }}
     >
-      <Paper className="subnav-paper">
+      <Paper className="subnav-paper" style={{ width: "100%" }}>
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}

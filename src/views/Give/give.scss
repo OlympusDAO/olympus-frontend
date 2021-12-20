@@ -804,6 +804,9 @@
 @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
   .modal-container {
     background: rgba(100, 100, 100, 0.95);
+    div:first-child {
+      background-color: none;
+    }
     .ohm-card {
       height: auto;
     }
