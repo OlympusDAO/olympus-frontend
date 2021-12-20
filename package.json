@@ -120,7 +120,9 @@
     "gulp-debug": "^4.0.0",
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^9.0.0",
+    "husky": "^7.0.4",
     "less-plugin-npm-import": "^2.1.0",
+    "lint-staged": "^12.1.3",
     "prettier": "^2.0.5",
     "surge": "^0.21.5",
     "type-graphql": "^1.1.1",
@@ -149,7 +151,8 @@
     "lingui:fetch": "git submodule update --init --remote src/locales/translations",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "preinstall": "[ ! -e src/locales/translations/.git ] && yarn lingui:fetch || exit 0",
-    "postinstall": "yarn typechain:build && yarn lingui:compile"
+    "postinstall": "yarn typechain:build && yarn lingui:compile",
+    "prepare": "husky install"
   },
   "resolutions": {
     "**/immer": "9.0.6",
@@ -160,5 +163,8 @@
     "**/node-fetch": "2.6.1",
     "**/nth-check": "2.0.1",
     "**/ansi-regex": "5.0.1"
+  },
+  "lint-staged": {
+    "*.{jsx,js,tsx,ts}": "eslint --quiet --config ./.eslintrc.js"
   }
 }
