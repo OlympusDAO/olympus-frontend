@@ -1,7 +1,6 @@
 import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
-import { abi as OlympusStakingABI } from "../abi/OlympusStakingv2.json";
 import { abi as StakingHelperABI } from "../abi/StakingHelper.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -14,7 +13,7 @@ import {
   IJsonRPCError,
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, OlympusStakingv2, OlympusStakingv2__factory, SOhmv2, StakingHelper } from "src/typechain";
+import { IERC20, OlympusStakingv2__factory, OlympusStaking__factory, StakingHelper } from "src/typechain";
 import ReactGA from "react-ga";
 
 interface IUAData {
@@ -60,7 +59,6 @@ export const changeApproval = createAsyncThunk(
       dispatch(error("Please connect your wallet!"));
       return;
     }
-
     const signer = provider.getSigner();
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
@@ -77,10 +75,10 @@ export const changeApproval = createAsyncThunk(
       return dispatch(
         fetchAccountSuccess({
           staking: {
-            ohmStake: +stakeAllowance,
-            ohmUnstake: +unstakeAllowance,
-            ohmStakeV2: +stakeAllowanceV2,
-            ohmUnstakeV2: +unstakeAllowanceV2,
+            ohmStakeV1: +stakeAllowance,
+            ohmUnstakeV1: +unstakeAllowance,
+            ohmStake: +stakeAllowanceV2,
+            ohmUnstake: +unstakeAllowanceV2,
           },
         }),
       );
@@ -138,10 +136,10 @@ export const changeApproval = createAsyncThunk(
     return dispatch(
       fetchAccountSuccess({
         staking: {
-          ohmStake: +stakeAllowance,
-          ohmUnstake: +unstakeAllowance,
-          ohmStakeV2: +stakeAllowanceV2,
-          ohmUnstakeV2: +unstakeAllowanceV2,
+          ohmStakeV1: +stakeAllowance,
+          ohmUnstakeV1: +unstakeAllowance,
+          ohmStake: +stakeAllowanceV2,
+          ohmUnstake: +unstakeAllowanceV2,
         },
       }),
     );
@@ -150,7 +148,7 @@ export const changeApproval = createAsyncThunk(
 
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID, version2 }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ action, value, provider, address, networkID, version2, rebase }: IActionValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -158,11 +156,7 @@ export const changeStake = createAsyncThunk(
 
     const signer = provider.getSigner();
 
-    const staking = new ethers.Contract(
-      addresses[networkID].STAKING_ADDRESS as string,
-      OlympusStakingABI,
-      signer,
-    ) as OlympusStakingv2;
+    const staking = OlympusStaking__factory.connect(addresses[networkID].STAKING_ADDRESS, signer);
 
     const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
@@ -182,12 +176,21 @@ export const changeStake = createAsyncThunk(
     };
     try {
       if (version2) {
+        let rebasing = true; // when true stake into sOHM
         if (action === "stake") {
           uaData.type = "stake";
-          stakeTx = await stakingV2.stake(ethers.utils.parseUnits(value, "gwei"), address);
+          // 3rd arg is rebase
+          // 4th argument is claim default to true
+          stakeTx = rebase
+            ? await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
+            : await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), false, true);
         } else {
           uaData.type = "unstake";
-          stakeTx = await stakingV2.unstake(ethers.utils.parseUnits(value, "gwei"), true);
+          // 3rd arg is trigger default to true for mainnet and false for rinkeby
+          // 4th arg is rebasing
+          stakeTx = rebase
+            ? await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
+            : await stakingV2.unstake(address, ethers.utils.parseUnits(value, "ether"), true, false);
         }
       } else {
         if (action === "stake") {

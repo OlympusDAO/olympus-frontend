@@ -34,6 +34,7 @@ import "./style.scss";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import { initializeNetwork } from "./slices/NetworkSlice";
 import { useAppSelector } from "./hooks";
+import Announcement from "./components/Announcement/Announcement";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -85,6 +86,7 @@ function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const currentPath = location.pathname + location.hash + location.search;
+  const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -177,18 +179,37 @@ function App() {
   );
 
   const oldAssetsDetected = useAppSelector(state => {
-    return (
-      state.account.balances &&
-      (Number(state.account.balances.sohmV1) ||
-      Number(state.account.balances.ohmV1) ||
-      Number(state.account.balances.wsohm)
-        ? true
-        : false)
-    );
+    if (networkId && (networkId === 1 || networkId === 4)) {
+      return (
+        state.account.balances &&
+        (Number(state.account.balances.sohmV1) ||
+        Number(state.account.balances.ohmV1) ||
+        Number(state.account.balances.wsohm)
+          ? true
+          : false)
+      );
+    } else {
+      return false;
+    }
+  });
+
+  const oldAssetsEnoughToMigrate = useAppSelector(state => {
+    if (!state.app.currentIndex || !state.app.marketPrice) {
+      return true;
+    }
+    const wrappedBalance = Number(state.account.balances.wsohm) * Number(state.app.currentIndex!);
+    const allAssetsBalance =
+      Number(state.account.balances.sohmV1) + Number(state.account.balances.ohmV1) + wrappedBalance;
+    return state.app.marketPrice * allAssetsBalance >= 10;
   });
 
   const newAssetsDetected = useAppSelector(state => {
-    return state.account.balances && (Number(state.account.balances.gohm) ? true : false);
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.gohm) || Number(state.account.balances.sohm) || Number(state.account.balances.ohm)
+        ? true
+        : false)
+    );
   });
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
@@ -275,6 +296,7 @@ function App() {
       <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
         <Messages />
         <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+        <Announcement />
         <nav className={classes.drawer}>
           {isSmallerScreen ? (
             <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
@@ -284,7 +306,10 @@ function App() {
         </nav>
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected && !hasActiveV1Bonds && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+          {oldAssetsDetected &&
+            !hasActiveV1Bonds &&
+            trimmedPath.indexOf("dashboard") === -1 &&
+            oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
           <Switch>
             <Route exact path="/dashboard">
@@ -297,7 +322,7 @@ function App() {
 
             <Route path="/stake">
               {/* if newAssets or 0 assets */}
-              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) ? (
+              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
                 <Stake />
               ) : (
                 <V1Stake
@@ -328,9 +353,9 @@ function App() {
               </Route>
             </Route>
 
-            <Route path="/33-together">
+            {/* <Route path="/33-together">
               <PoolTogether />
-            </Route>
+            </Route> */}
 
             <Route path="/bonds">
               {(bonds as IAllBondData[]).map(bond => {
@@ -350,7 +375,8 @@ function App() {
             <Route component={NotFound} />
           </Switch>
         </div>
-        <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
+
+        <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
       </div>
     </ThemeProvider>
   );

@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 import { addresses } from "../constants";
-import { abi as OlympusStakingv2ABI } from "../abi/OlympusStakingv2.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
 import { NodeHelper } from "src/helpers/NodeHelper";
@@ -8,7 +7,7 @@ import apollo from "../lib/apolloClient";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAsyncThunk } from "./interfaces";
-import { OlympusStakingv2, SOhmv2 } from "../typechain";
+import { OlympusStakingv2__factory, OlympusStaking__factory, SOhmv2 } from "../typechain";
 
 interface IProtocolMetrics {
   readonly timestamp: string;
@@ -93,20 +92,14 @@ export const loadAppDetails = createAsyncThunk(
     }
     const currentBlock = await provider.getBlockNumber();
 
-    const stakingContract = new ethers.Contract(
-      addresses[networkID].STAKING_ADDRESS as string,
-      OlympusStakingv2ABI,
-      provider,
-    ) as OlympusStakingv2;
+    const stakingContract = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, provider);
+    const stakingContractV1 = OlympusStaking__factory.connect(addresses[networkID].STAKING_ADDRESS, provider);
 
-    const sohmMainContract = new ethers.Contract(
-      addresses[networkID].SOHM_ADDRESS as string,
-      sOHMv2,
-      provider,
-    ) as SOhmv2;
+    const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, sOHMv2, provider) as SOhmv2;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
+    const secondsToEpoch = Number(await stakingContract.secondsToNextEpoch());
     const stakingReward = epoch.distribute;
     const circ = await sohmMainContract.circulatingSupply();
     const stakingRebase = Number(stakingReward.toString()) / Number(circ.toString());
@@ -115,8 +108,10 @@ export const loadAppDetails = createAsyncThunk(
 
     // Current index
     const currentIndex = await stakingContract.index();
+    const currentIndexV1 = await stakingContractV1.index();
     return {
       currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
+      currentIndexV1: ethers.utils.formatUnits(currentIndexV1, "gwei"),
       currentBlock,
       fiveDayRate,
       stakingAPY,
@@ -127,6 +122,7 @@ export const loadAppDetails = createAsyncThunk(
       circSupply,
       totalSupply,
       treasuryMarketValue,
+      secondsToEpoch,
     } as IAppData;
   },
 );
@@ -179,9 +175,8 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
   let marketPrice: number;
   try {
     // only get marketPrice from eth mainnet
-    marketPrice = await getMarketPrice({ networkID, provider });
-    // let mainnetProvider = (marketPrice = await getMarketPrice({ 1: NetworkID, provider }));
-    marketPrice = marketPrice / Math.pow(10, 9);
+    marketPrice = await getMarketPrice();
+    // v1MarketPrice = await getV1MarketPrice();
   } catch (e) {
     marketPrice = await getTokenPrice("olympus");
   }
@@ -191,6 +186,7 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
 interface IAppData {
   readonly circSupply?: number;
   readonly currentIndex?: string;
+  readonly currentIndexV1?: string;
   readonly currentBlock?: number;
   readonly fiveDayRate?: number;
   readonly loading: boolean;
@@ -203,6 +199,7 @@ interface IAppData {
   readonly totalSupply?: number;
   readonly treasuryBalance?: number;
   readonly treasuryMarketValue?: number;
+  readonly secondsToEpoch?: number;
 }
 
 const initialState: IAppData = {
