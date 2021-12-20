@@ -408,7 +408,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     return (
       <>
         <Paper style={{ backdropFilter: "none", backgroundColor: "transparent", width: "100%" }}>
-          <Grid item className="cause-card" key={title}>
+          <Grid item className={isVerySmallScreen ? "cause-card very-small" : "cause-card"} key={title}>
             {getProjectImage()}
             <div className="cause-content">
               <Grid container className="cause-header">
@@ -499,7 +499,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           }}
           className="project-container"
         >
-          <Paper className="subnav-paper">
+          <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"}>
             <GiveHeader
               isSmallScreen={isSmallScreen}
               isVerySmallScreen={isVerySmallScreen}
@@ -592,7 +592,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Grid>
               </Box>
             </div>
-          </Paper>
+          </Box>
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
