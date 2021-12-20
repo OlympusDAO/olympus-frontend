@@ -9,6 +9,7 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn, isPendingTxn } from "../../slices/PendingTxnsSlice";
 import { BigNumber } from "bignumber.js";
 import { t, Trans } from "@lingui/macro";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 export interface RedeemSubmitCallback {
   (): void;
@@ -43,6 +44,7 @@ export function RedeemYieldModal({
   const pendingTransactions = useSelector((state: State) => {
     return state.pendingTransactions;
   });
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const canSubmit = () => {
     if (!address) return false;
@@ -77,9 +79,9 @@ export function RedeemYieldModal({
             </strong>
           </Typography>
         </div>
-        <div className="give-education-graphics">
+        <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
           <VaultGraphic quantity={deposit.toFixed(2)} verb={t`in deposits remains`} />
-          <ArrowGraphic />
+          {!isSmallScreen && <ArrowGraphic />}
           <RedeemGraphic quantity={redeemableBalance.toFixed(2)} />
         </div>
         <Typography variant="body1" align="center">

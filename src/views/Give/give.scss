@@ -380,6 +380,10 @@
   }
 }
 
+.give-education-graphics.smaller {
+  flex-direction: column;
+}
+
 .give-staked-balance {
   display: flex;
   flex-direction: row;
@@ -458,7 +462,7 @@
   .ohm-modal-submit {
     display: flex;
     align-items: center;
-    width: 10rem;
+    width: 60%;
     height: 43px !important;
     margin-top: 1rem;
     margin-left: auto;
@@ -466,7 +470,7 @@
 
     button {
       height: 40px;
-      width: 375px;
+      width: 100%;
     }
   }
 }
@@ -631,9 +635,7 @@
   }
 
   .project-link {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.3rem;
+    padding-top: 0.4rem;
   }
 
   .project-info {
@@ -805,6 +807,7 @@
     }
     .ohm-modal {
       max-width: 688px;
+      opacity: 0.9;
     }
   }
 }

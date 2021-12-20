@@ -193,7 +193,7 @@ export default function RedeemYield() {
                     verb={t`in deposits remains`}
                     isLoading={isRecipientInfoLoading}
                   />
-                  <ArrowGraphic />
+                  {!isSmallScreen && <ArrowGraphic />}
                   <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} isLoading={isRecipientInfoLoading} />
                 </div>
               </div>

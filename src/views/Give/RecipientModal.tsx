@@ -37,6 +37,7 @@ import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -89,6 +90,7 @@ export function RecipientModal({
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState(_initialWalletAddressValidError);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toFixed());
@@ -386,9 +388,16 @@ export function RecipientModal({
 
     return (
       <>
-        <Typography variant="body1">
-          <Trans>Recipient</Trans>
-        </Typography>
+        <div className="give-modal-alloc-tip">
+          <Typography variant="body1">
+            <Trans>Recipient</Trans>
+          </Typography>
+          {/* The main reason for having this tooltip is because it keeps spacing consistent with the sOHM Allocation above */}
+          <InfoTooltip
+            message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+            children={null}
+          />
+        </div>
         <FormControl className="modal-input" variant="outlined" color="primary">
           <InputLabel htmlFor="wallet-input"></InputLabel>
           <OutlinedInput
@@ -470,7 +479,7 @@ export function RecipientModal({
                     <strong>{shorten(address)}</strong>
                   </Typography>
                 </div>
-                <ArrowGraphic />
+                {!isSmallScreen && <ArrowGraphic />}
                 <div className="recipient-address-col">
                   <Typography variant="body1">
                     <Trans>Recipient Address</Trans>
@@ -549,11 +558,11 @@ export function RecipientModal({
             </FormControl>
             {getRecipientElements()}
             {isCreateMode() ? (
-              <div className="give-education-graphics">
+              <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
                 <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
-                <ArrowGraphic />
+                {!isSmallScreen && <ArrowGraphic />}
                 <VaultGraphic quantity={getDepositAmount().toFixed()} />
-                <ArrowGraphic />
+                {!isSmallScreen && <ArrowGraphic />}
                 <YieldGraphic quantity={getDepositAmount().toFixed()} />
               </div>
             ) : (
@@ -574,8 +583,13 @@ export function RecipientModal({
           ) : isAmountSet ? (
             <>
               <FormControl className="ohm-modal-submit">
-                <Button variant="contained" color="primary" onClick={handleGoBack}>
-                  <Trans>Go Back</Trans>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={hasPendingGiveTxn(pendingTransactions)}
+                  onClick={handleGoBack}
+                >
+                  {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Go Back`)}
                 </Button>
               </FormControl>
               <FormControl className="ohm-modal-submit">
@@ -605,8 +619,13 @@ export function RecipientModal({
         ) : (
           <>
             <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" onClick={handleGoBack}>
-                <Trans>Go Back</Trans>
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={hasPendingGiveTxn(pendingTransactions)}
+                onClick={handleGoBack}
+              >
+                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Go Back`)}
               </Button>
             </FormControl>
             <FormControl className="ohm-modal-submit">
