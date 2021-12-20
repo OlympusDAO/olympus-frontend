@@ -165,6 +165,6 @@
     "**/ansi-regex": "5.0.1"
   },
   "lint-staged": {
-    "*.{jsx,js,tsx,ts}": "eslint --quiet --config ./.eslintrc.js"
+    "*.{jsx,js,tsx,ts}": "eslint --quiet --fix --config ./.eslintrc.js"
   }
 }
