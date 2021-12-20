@@ -307,10 +307,12 @@
 .give-subnav {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  align-content: flex-start;
 
   max-width: 833px;
-  margin: 25px auto;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
 
   .MuiLink-root.active {
     text-decoration: none;

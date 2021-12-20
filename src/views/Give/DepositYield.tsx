@@ -37,30 +37,32 @@ export default function DepositYield() {
         paddingRight: isSmallScreen ? "0" : "3.3rem",
       }}
     >
-      <GiveHeader
-        isSmallScreen={isSmallScreen}
-        isVerySmallScreen={false}
-        redeemableBalance={new BigNumber(redeemableBalance)}
-        networkId={networkId}
-      />
-      <div id="give-view">
-        <Zoom in={true}>
-          <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-            <div className="card-header">
-              <div className="give-yield-title">
-                <Typography variant="h5">
-                  <Trans>Deposits Dashboard</Trans>
-                </Typography>
-                <InfoTooltip
-                  message={t`Direct yield from your deposited sOHM to other recipients. Your sOHM is deposited in a vault, but you can withdraw it or change the deposited amount at any time.`}
-                  children={null}
-                />
+      <Paper>
+        <GiveHeader
+          isSmallScreen={isSmallScreen}
+          isVerySmallScreen={false}
+          redeemableBalance={new BigNumber(redeemableBalance)}
+          networkId={networkId}
+        />
+        <div id="give-view">
+          <Zoom in={true}>
+            <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
+              <div className="card-header">
+                <div className="give-yield-title">
+                  <Typography variant="h5">
+                    <Trans>Deposits Dashboard</Trans>
+                  </Typography>
+                  <InfoTooltip
+                    message={t`Direct yield from your deposited sOHM to other recipients. Your sOHM is deposited in a vault, but you can withdraw it or change the deposited amount at any time.`}
+                    children={null}
+                  />
+                </div>
               </div>
-            </div>
-            <YieldRecipients />
-          </Paper>
-        </Zoom>
-      </div>
+              <YieldRecipients />
+            </Paper>
+          </Zoom>
+        </div>
+      </Paper>
     </Container>
   );
 }

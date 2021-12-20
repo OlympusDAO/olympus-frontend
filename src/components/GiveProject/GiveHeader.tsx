@@ -26,7 +26,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, redeemableBalance
             : ""
         }`}
       >
-        <Button variant="contained" color="secondary">
+        <Button color="secondary">
           <Typography variant="h6">
             <Trans>Projects</Trans>
           </Typography>
@@ -38,7 +38,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, redeemableBalance
         to="/give/donations"
         className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
       >
-        <Button variant="contained" color="secondary">
+        <Button color="secondary">
           <Typography variant="h6">
             <Trans>My Donations</Trans>
           </Typography>
@@ -51,7 +51,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, redeemableBalance
           to="/give/redeem"
           className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "give-active" : ""}`}
         >
-          <Button variant="contained" color="secondary">
+          <Button color="secondary">
             <Typography variant="h6">
               <Trans>Redeem</Trans>
             </Typography>

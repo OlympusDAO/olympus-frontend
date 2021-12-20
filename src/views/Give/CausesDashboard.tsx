@@ -115,63 +115,65 @@ export default function CausesDashboard() {
         paddingRight: isSmallScreen ? "0" : "3.3rem",
       }}
     >
-      <GiveHeader
-        isSmallScreen={isSmallScreen}
-        isVerySmallScreen={false}
-        redeemableBalance={new BigNumber(redeemableBalance)}
-        networkId={networkId}
-      />
-      <div
-        id="give-view"
-        className={`${isMediumScreen && "medium"}
+      <Paper>
+        <GiveHeader
+          isSmallScreen={isSmallScreen}
+          isVerySmallScreen={false}
+          redeemableBalance={new BigNumber(redeemableBalance)}
+          networkId={networkId}
+        />
+        <div
+          id="give-view"
+          className={`${isMediumScreen && "medium"}
           ${isSmallScreen && "smaller"}`}
-      >
-        <Zoom in={true}>
-          <Paper className={`ohm-card secondary`}>
-            <div className="card-header">
-              <div>
-                <Typography variant="h5">
-                  <Trans>Give</Trans>
-                </Typography>
+        >
+          <Zoom in={true}>
+            <Paper className={`ohm-card secondary`}>
+              <div className="card-header">
+                <div>
+                  <Typography variant="h5">
+                    <Trans>Give</Trans>
+                  </Typography>
+                </div>
               </div>
-            </div>
-            {!isSupportedChain(networkId) ? (
-              <Typography variant="h6">
-                Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-                functionality.
-              </Typography>
-            ) : (
-              <></>
-            )}
-            <div className="causes-body">
-              <Grid container className="data-grid">
-                {renderProjects}
-              </Grid>
-            </div>
-            <div className="custom-recipient">
-              <Button
-                variant="contained"
-                color="primary"
-                className="custom-give-button"
-                onClick={() => handleCustomGiveButtonClick()}
-                disabled={!address}
-              >
-                <Typography variant="h6" style={{ marginBottom: "0px" }}>
-                  <Trans>Custom Recipient</Trans>
+              {!isSupportedChain(networkId) ? (
+                <Typography variant="h6">
+                  Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
+                  functionality.
                 </Typography>
-              </Button>
-            </div>
-            <RecipientModal
-              isModalOpen={isCustomGiveModalOpen}
-              callbackFunc={handleCustomGiveModalSubmit}
-              cancelFunc={handleCustomGiveModalCancel}
-            />
-          </Paper>
-        </Zoom>
-        <Zoom in={true}>
-          <GiveInfo />
-        </Zoom>
-      </div>
+              ) : (
+                <></>
+              )}
+              <div className="causes-body">
+                <Grid container className="data-grid">
+                  {renderProjects}
+                </Grid>
+              </div>
+              <div className="custom-recipient">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="custom-give-button"
+                  onClick={() => handleCustomGiveButtonClick()}
+                  disabled={!address}
+                >
+                  <Typography variant="h6" style={{ marginBottom: "0px" }}>
+                    <Trans>Custom Recipient</Trans>
+                  </Typography>
+                </Button>
+              </div>
+              <RecipientModal
+                isModalOpen={isCustomGiveModalOpen}
+                callbackFunc={handleCustomGiveModalSubmit}
+                cancelFunc={handleCustomGiveModalCancel}
+              />
+            </Paper>
+          </Zoom>
+          <Zoom in={true}>
+            <GiveInfo />
+          </Zoom>
+        </div>
+      </Paper>
     </Container>
   );
 }
