@@ -386,9 +386,16 @@ export function RecipientModal({
 
     return (
       <>
-        <Typography variant="body1">
-          <Trans>Recipient</Trans>
-        </Typography>
+        <div className="give-modal-alloc-tip">
+          <Typography variant="body1">
+            <Trans>Recipient</Trans>
+          </Typography>
+          {/* The main reason for having this tooltip is because it keeps spacing consistent with the sOHM Allocation above */}
+          <InfoTooltip
+            message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+            children={null}
+          />
+        </div>
         <FormControl className="modal-input" variant="outlined" color="primary">
           <InputLabel htmlFor="wallet-input"></InputLabel>
           <OutlinedInput
@@ -574,8 +581,13 @@ export function RecipientModal({
           ) : isAmountSet ? (
             <>
               <FormControl className="ohm-modal-submit">
-                <Button variant="contained" color="primary" onClick={handleGoBack}>
-                  <Trans>Go Back</Trans>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={hasPendingGiveTxn(pendingTransactions)}
+                  onClick={handleGoBack}
+                >
+                  {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Go Back`)}
                 </Button>
               </FormControl>
               <FormControl className="ohm-modal-submit">
@@ -605,8 +617,13 @@ export function RecipientModal({
         ) : (
           <>
             <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" onClick={handleGoBack}>
-                <Trans>Go Back</Trans>
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={hasPendingGiveTxn(pendingTransactions)}
+                onClick={handleGoBack}
+              >
+                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Go Back`)}
               </Button>
             </FormControl>
             <FormControl className="ohm-modal-submit">

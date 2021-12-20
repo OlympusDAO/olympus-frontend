@@ -493,7 +493,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <Container
           style={{
             paddingLeft: isSmallScreen || isVerySmallScreen ? 0 : "3.3rem",
-            paddingRight: isSmallScreen || isVerySmallScreen ? 0 : "3.3rem",
+            paddingRight: isSmallScreen || isVerySmallScreen ? 0 : "4.4rem",
             display: "flex",
             justifyContent: "center",
           }}
@@ -513,8 +513,15 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             >
               <Box className="project-content-container">
                 <Grid container className="project">
-                  <Grid item xs={1}></Grid>
-                  <Grid item xs={12} md={4}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={5}
+                    style={{
+                      paddingLeft: "1rem",
+                      paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                    }}
+                  >
                     <Paper className="project-sidebar">
                       <Grid container className="project-intro" justifyContent="space-between">
                         <Grid item className="project-title">
@@ -579,7 +586,16 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       </Grid>
                     </Paper>
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    style={{
+                      marginBottom: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                      paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                      paddingLeft: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                    }}
+                  >
                     <Paper className="project-info">
                       <Typography variant="h5" className="project-about-header">
                         <strong>
