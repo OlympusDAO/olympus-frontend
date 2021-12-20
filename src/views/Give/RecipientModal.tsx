@@ -574,8 +574,13 @@ export function RecipientModal({
           ) : isAmountSet ? (
             <>
               <FormControl className="ohm-modal-submit">
-                <Button variant="contained" color="primary" onClick={handleGoBack}>
-                  <Trans>Go Back</Trans>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={hasPendingGiveTxn(pendingTransactions)}
+                  onClick={handleGoBack}
+                >
+                  {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Go Back`)}
                 </Button>
               </FormControl>
               <FormControl className="ohm-modal-submit">
@@ -605,8 +610,13 @@ export function RecipientModal({
         ) : (
           <>
             <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" onClick={handleGoBack}>
-                <Trans>Go Back</Trans>
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={hasPendingGiveTxn(pendingTransactions)}
+                onClick={handleGoBack}
+              >
+                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Go Back`)}
               </Button>
             </FormControl>
             <FormControl className="ohm-modal-submit">
