@@ -167,7 +167,7 @@ export default function YieldRecipients() {
       <>
         <Grid container className="yield-recipients-empty">
           <Grid item sm={10} md={8}>
-            <Typography variant="h5">
+            <Typography variant="h6">
               <Trans>It looks like you haven't donated any yield. Let's fix that!</Trans>
             </Typography>
           </Grid>

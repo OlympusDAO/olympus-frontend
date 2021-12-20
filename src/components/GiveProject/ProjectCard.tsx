@@ -407,7 +407,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getCardContent = () => {
     return (
       <>
-        <Paper style={{ backdropFilter: "none", backgroundColor: "transparent", width: "100%" }}>
+        <Paper style={{ width: "100%" }}>
           <Grid item className={isVerySmallScreen ? "cause-card very-small" : "cause-card"} key={title}>
             {getProjectImage()}
             <div className="cause-content">
