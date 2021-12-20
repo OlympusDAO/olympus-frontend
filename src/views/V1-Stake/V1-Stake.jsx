@@ -438,24 +438,30 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           indented
                           {...{ isAppLoading }}
                         />
-                        <StakeRow
-                          title={`${t`Staked Balance in Fuse`} (v2)`}
-                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
-                        <StakeRow
-                          title={`${t`Wrapped Balance`} (v1)`}
-                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                          {...{ isAppLoading }}
-                          indented
-                        />
-                        <StakeRow
-                          title={`${t`Wrapped Balance in FiatDAO`} (v1)`}
-                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
-                          {...{ isAppLoading }}
-                          indented
-                        />
+                        {Number(fsohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Staked Balance in Fuse`} (v2)`}
+                            balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(wsohmBalance) > 0.0 && (
+                          <StakeRow
+                            title={`${t`Wrapped Balance`} (v1)`}
+                            balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
+                            {...{ isAppLoading }}
+                            indented
+                          />
+                        )}
+                        {Number(fiatDaowsohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Wrapped Balance in FiatDAO`} (v1)`}
+                            balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
+                            {...{ isAppLoading }}
+                            indented
+                          />
+                        )}
                         <StakeRow
                           title={`${t`Single Staking`} (v2)`}
                           balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
