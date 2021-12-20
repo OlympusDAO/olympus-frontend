@@ -45,6 +45,7 @@ import { IAppData } from "src/slices/AppSlice";
 import { ChevronLeft } from "@material-ui/icons";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { GiveHeader } from "./GiveHeader";
 
 type CountdownProps = {
   total: number;
@@ -500,49 +501,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           }}
           className="project-container"
         >
-          <Box className={`give-subnav ${(isSmallScreen || isVerySmallScreen) && "smaller"}`}>
-            <Link
-              component={NavLink}
-              id="give-sub-dash"
-              to="/give"
-              className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
-            >
-              <Button variant="contained" color="secondary">
-                <SvgIcon component={ChevronLeft} viewBox="5 2 20 20" />
-                <Typography variant="h6">
-                  <Trans>Projects</Trans>
-                </Typography>
-              </Button>
-            </Link>
-            <Link
-              component={NavLink}
-              id="give-sub-donations"
-              to="/give/donations"
-              className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
-            >
-              <Button variant="contained" color="secondary">
-                <Typography variant="h6">
-                  <Trans>My Donations</Trans>
-                </Typography>
-              </Button>
-            </Link>
-            {new BigNumber(redeemableBalance).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
-              <Link
-                component={NavLink}
-                id="give-sub-redeem"
-                to="/give/redeem"
-                className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "active" : ""}`}
-              >
-                <Button variant="contained" color="secondary">
-                  <Typography variant="h6">
-                    <Trans>Redeem</Trans>
-                  </Typography>
-                </Button>
-              </Link>
-            ) : (
-              <></>
-            )}
-          </Box>
+          <GiveHeader
+            isSmallScreen={isSmallScreen}
+            isVerySmallScreen={isVerySmallScreen}
+            redeemableBalance={new BigNumber(redeemableBalance)}
+            networkId={networkId}
+          />
           <div
             className={`${isMediumScreen && "medium"}
               ${isSmallScreen && "smaller"}

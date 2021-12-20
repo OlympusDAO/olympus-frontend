@@ -31,6 +31,7 @@ import { RedeemCancelCallback, RedeemYieldModal, RedeemSubmitCallback } from "./
 import { useAppSelector } from "src/hooks";
 import { ChevronLeft } from "@material-ui/icons";
 import { EnvHelper } from "src/helpers/Environment";
+import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -167,45 +168,12 @@ export default function RedeemYield() {
         paddingRight: isSmallScreen ? "0" : "3.3rem",
       }}
     >
-      <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
-        <Link
-          component={NavLink}
-          id="give-sub-dash"
-          to="/give"
-          className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
-        >
-          <Button variant="contained" color="secondary">
-            <SvgIcon component={ChevronLeft} viewBox="5 2 20 20" />
-            <Typography variant="h6">
-              <Trans>Projects</Trans>
-            </Typography>
-          </Button>
-        </Link>
-        <Link
-          component={NavLink}
-          id="give-sub-donations"
-          to="/give/donations"
-          className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
-        >
-          <Button variant="contained" color="secondary">
-            <Typography variant="h6">
-              <Trans>My Donations</Trans>
-            </Typography>
-          </Button>
-        </Link>
-        <Link
-          component={NavLink}
-          id="give-sub-redeem"
-          to="/give/redeem"
-          className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "give-active" : ""}`}
-        >
-          <Button variant="contained" color="secondary">
-            <Typography variant="h6">
-              <Trans>Redeem</Trans>
-            </Typography>
-          </Button>
-        </Link>
-      </Box>
+      <GiveHeader
+        isSmallScreen={isSmallScreen}
+        isVerySmallScreen={false}
+        redeemableBalance={new BigNumber(redeemableBalance)}
+        networkId={networkId}
+      />
       <div id="give-view">
         <Zoom in={true}>
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>

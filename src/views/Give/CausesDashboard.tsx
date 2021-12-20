@@ -20,6 +20,7 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { EnvHelper } from "src/helpers/Environment";
+import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 
 type State = {
   account: IAccountSlice;
@@ -108,8 +109,6 @@ export default function CausesDashboard() {
     setIsCustomGiveModalOpen(false);
   };
 
-  // TODO shift projects/donations header into component
-
   return (
     <Container
       style={{
@@ -117,48 +116,12 @@ export default function CausesDashboard() {
         paddingRight: isSmallScreen ? "0" : "3.3rem",
       }}
     >
-      <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
-        <Link
-          component={NavLink}
-          id="give-sub-dash"
-          to="/give"
-          className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
-        >
-          <Button variant="contained" color="secondary">
-            <Typography variant="h6">
-              <Trans>Projects</Trans>
-            </Typography>
-          </Button>
-        </Link>
-        <Link
-          component={NavLink}
-          id="give-sub-donations"
-          to="/give/donations"
-          className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
-        >
-          <Button variant="contained" color="secondary">
-            <Typography variant="h6">
-              <Trans>My Donations</Trans>
-            </Typography>
-          </Button>
-        </Link>
-        {new BigNumber(redeemableBalance).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
-          <Link
-            component={NavLink}
-            id="give-sub-redeem"
-            to="/give/redeem"
-            className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "active" : ""}`}
-          >
-            <Button variant="contained" color="secondary">
-              <Typography variant="h6">
-                <Trans>Redeem</Trans>
-              </Typography>
-            </Button>
-          </Link>
-        ) : (
-          <></>
-        )}
-      </Box>
+      <GiveHeader
+        isSmallScreen={isSmallScreen}
+        isVerySmallScreen={false}
+        redeemableBalance={new BigNumber(redeemableBalance)}
+        networkId={networkId}
+      />
       <div
         id="give-view"
         className={`${isMediumScreen && "medium"}
