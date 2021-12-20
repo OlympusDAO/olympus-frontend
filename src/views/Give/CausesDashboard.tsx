@@ -1,7 +1,7 @@
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState } from "react";
 import "./give.scss";
-import { NavLink, useLocation } from "react-router-dom";
-import { Button, Box, Link, Paper, Typography, Zoom, Grid, Container } from "@material-ui/core";
+import { useLocation } from "react-router-dom";
+import { Button, Paper, Typography, Zoom, Grid, Container } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
@@ -28,7 +28,6 @@ type State = {
   app: IAppData;
 };
 export default function CausesDashboard() {
-  const [isActive] = useState();
   const location = useLocation();
   const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);

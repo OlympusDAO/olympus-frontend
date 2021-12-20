@@ -1,8 +1,7 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAppSelector } from "src/hooks";
-import { NavLink, useLocation } from "react-router-dom";
-import { Paper, Typography, Zoom, Container, Box, Link, SvgIcon, Button } from "@material-ui/core";
+import { useLocation } from "react-router-dom";
+import { Paper, Typography, Zoom, Container } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
@@ -11,7 +10,6 @@ import { t, Trans } from "@lingui/macro";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
-import { ChevronLeft } from "@material-ui/icons";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 

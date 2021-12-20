@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Typography, Button, Grid, Box, Divider } from "@material-ui/core";
+import { Typography, Button, Grid, Divider } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 
 import { Skeleton } from "@material-ui/lab";

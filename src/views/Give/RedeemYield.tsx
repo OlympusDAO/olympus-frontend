@@ -2,20 +2,17 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Paper,
-  Box,
   Typography,
   Button,
   Zoom,
-  Link,
   TableCell,
   TableBody,
   Table,
   TableRow,
   TableContainer,
   Container,
-  SvgIcon,
 } from "@material-ui/core";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
@@ -27,9 +24,8 @@ import { BigNumber } from "bignumber.js";
 import { t, Trans } from "@lingui/macro";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
-import { RedeemCancelCallback, RedeemYieldModal, RedeemSubmitCallback } from "./RedeemYieldModal";
+import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 import { useAppSelector } from "src/hooks";
-import { ChevronLeft } from "@material-ui/icons";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 
