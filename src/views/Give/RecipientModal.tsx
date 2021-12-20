@@ -1,8 +1,8 @@
-import { Box, Modal, Paper, Typography, SvgIcon, Link, Button, Divider, Backdrop, Fade, Grid } from "@material-ui/core";
+import { Box, Modal, Paper, Typography, SvgIcon, Link, Button, Divider } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
-import { useCallback, useEffect, useState } from "react";
+import { MouseEventHandler, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { isAddress } from "@ethersproject/address";
@@ -37,8 +37,6 @@ import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
-import { useOnEscape } from "src/helpers/window";
-import useEscape from "src/hooks/useEscape";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -92,11 +90,6 @@ export function RecipientModal({
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
 
-  useEscape(() => {
-    console.log("escape!");
-  });
-  // useOnEscape(cancelFunc);
-
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toFixed());
     checkIsWalletAddressValid(getWalletAddress());
@@ -111,7 +104,8 @@ export function RecipientModal({
     }
   }, [isModalOpen]);
 
-  const onClickModal = (e: any): void => {
+  const handleModalInsideClick = (e: any): void => {
+    // When the user clicks within the modal window, we do not want to pass the event up the tree
     e.stopPropagation();
   };
 
@@ -419,8 +413,9 @@ export function RecipientModal({
   // TODO re-arrange the below output to be around the state: approval, custom recipient, project recipient, editing
 
   return (
+    /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
     <Modal className="modal-container" open={isModalOpen} onClick={cancelFunc}>
-      <Paper className="ohm-card ohm-modal" onClick={onClickModal}>
+      <Paper className="ohm-card ohm-modal" onClick={handleModalInsideClick}>
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />

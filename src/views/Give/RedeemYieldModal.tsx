@@ -9,7 +9,6 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn, isPendingTxn } from "../../slices/PendingTxnsSlice";
 import { BigNumber } from "bignumber.js";
 import { t, Trans } from "@lingui/macro";
-import { useOnEscape } from "src/helpers/window";
 
 export interface RedeemSubmitCallback {
   (): void;
@@ -45,8 +44,6 @@ export function RedeemYieldModal({
     return state.pendingTransactions;
   });
 
-  useOnEscape(cancelFunc);
-
   const canSubmit = () => {
     if (!address) return false;
     if (isPendingTxn(pendingTransactions, "redeeming")) return false;
@@ -61,9 +58,15 @@ export function RedeemYieldModal({
     callbackFunc();
   };
 
+  const handleModalInsideClick = (e: any): void => {
+    // When the user clicks within the modal window, we do not want to pass the event up the tree
+    e.stopPropagation();
+  };
+
   return (
-    <Modal className="modal-container" open={isModalOpen}>
-      <Paper className="ohm-card ohm-modal">
+    /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
+    <Modal className="modal-container" open={isModalOpen} onClick={cancelFunc}>
+      <Paper className="ohm-card ohm-modal" onClick={handleModalInsideClick}>
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />

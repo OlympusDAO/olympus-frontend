@@ -12,7 +12,6 @@ import { Project } from "src/components/GiveProject/project.type";
 import { hasPendingGiveTxn, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 import { t, Trans } from "@lingui/macro";
 import { shorten } from "src/helpers";
-import { useOnEscape } from "src/helpers/window";
 
 export interface WithdrawSubmitCallback {
   (walletAddress: string, depositAmount: BigNumber): void;
@@ -50,13 +49,16 @@ export function WithdrawDepositModal({
     return state.pendingTransactions;
   });
 
-  useOnEscape(cancelFunc);
-
   const canSubmit = () => {
     if (!address) return false;
     if (hasPendingGiveTxn(pendingTransactions)) return false;
 
     return true;
+  };
+
+  const handleModalInsideClick = (e: any): void => {
+    // When the user clicks within the modal window, we do not want to pass the event up the tree
+    e.stopPropagation();
   };
 
   /**
@@ -75,8 +77,9 @@ export function WithdrawDepositModal({
   };
 
   return (
-    <Modal className="modal-container" open={isModalOpen}>
-      <Paper className="ohm-card ohm-modal">
+    /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
+    <Modal className="modal-container" open={isModalOpen} onClick={cancelFunc}>
+      <Paper className="ohm-card ohm-modal" onClick={handleModalInsideClick}>
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />
