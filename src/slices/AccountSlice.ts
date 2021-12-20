@@ -15,7 +15,7 @@ import { getRedemptionBalancesAsync, getMockRedemptionBalancesAsync } from "../h
 
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
-import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
+import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk, IJsonRPCError } from "./interfaces";
 import {
   FiatDAOContract,
   FuseProxy,
@@ -230,10 +230,10 @@ export const getDonationBalances = createAsyncThunk(
           donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
         }
       } catch (e: unknown) {
-        console.error(e);
+        console.log(e);
       }
     } else {
-      console.error("Unable to find GIVING_ADDRESS contract on chain ID " + networkID);
+      console.log("Unable to find GIVING_ADDRESS contract on chain ID " + networkID);
     }
 
     return {
@@ -277,10 +277,10 @@ export const getMockDonationBalances = createAsyncThunk(
           }
         }
       } catch (e: unknown) {
-        console.error(e);
+        console.log(e);
       }
     } else {
-      console.error("Unable to find MOCK_SOHM contract on chain ID " + networkID);
+      console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
     }
 
     return {
@@ -416,9 +416,13 @@ export const loadAccountDetails = createAsyncThunk(
     }
     await dispatch(getBalances({ address, networkID, provider }));
     await dispatch(getDonationBalances({ address, networkID, provider }));
-    await dispatch(getMockDonationBalances({ address, networkID, provider }));
     await dispatch(getRedemptionBalances({ address, networkID, provider }));
-    await dispatch(getMockRedemptionBalances({ address, networkID, provider }));
+    if (networkID === 4) {
+      await dispatch(getMockDonationBalances({ address, networkID, provider }));
+      await dispatch(getMockRedemptionBalances({ address, networkID, provider }));
+    } else {
+      if (EnvHelper.env.NODE_ENV !== "production") console.log("Give - Contract mocks skipped except on Rinkeby");
+    }
 
     return {
       staking: {

@@ -11,6 +11,7 @@ import {
   TableRow,
   TableContainer,
   Container,
+  Box,
 } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -166,7 +167,7 @@ export default function RedeemYield() {
         justifyContent: "center",
       }}
     >
-      <Paper className="subnav-paper" style={{ width: "100%" }}>
+      <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"} style={{ width: "100%" }}>
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}
@@ -275,7 +276,7 @@ export default function RedeemYield() {
             </Paper>
           </Zoom>
         </div>
-      </Paper>
+      </Box>
     </Container>
   );
 }

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useLocation } from "react-router-dom";
-import { Paper, Typography, Zoom, Container } from "@material-ui/core";
+import { Paper, Typography, Zoom, Container, Box } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
@@ -39,7 +39,7 @@ export default function DepositYield() {
         justifyContent: "center",
       }}
     >
-      <Paper className="subnav-paper" style={{ width: "100%" }}>
+      <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"} style={{ width: "100%" }}>
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}
@@ -64,7 +64,7 @@ export default function DepositYield() {
             </Paper>
           </Zoom>
         </div>
-      </Paper>
+      </Box>
     </Container>
   );
 }
