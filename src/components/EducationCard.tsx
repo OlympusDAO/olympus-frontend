@@ -39,7 +39,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
           <Trans>
-            {quantity} sOHM {verb}
+            {Number(quantity).toFixed(4)} sOHM {verb}
           </Trans>
         </Typography>
       </Box>

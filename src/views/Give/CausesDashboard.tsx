@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import "./give.scss";
 import { useLocation } from "react-router-dom";
-import { Button, Paper, Typography, Zoom, Grid, Container } from "@material-ui/core";
+import { Button, Paper, Typography, Zoom, Grid, Container, Box } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
@@ -117,7 +117,7 @@ export default function CausesDashboard() {
         justifyContent: "center",
       }}
     >
-      <Paper className="subnav-paper">
+      <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"}>
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}
@@ -130,7 +130,7 @@ export default function CausesDashboard() {
           ${isSmallScreen && "smaller"}`}
         >
           <Zoom in={true}>
-            <Paper className={`ohm-card secondary`}>
+            <Paper className={`ohm-card secondary causes-container`}>
               <div className="card-header">
                 <div>
                   <Typography variant="h5">
@@ -147,9 +147,7 @@ export default function CausesDashboard() {
                 <></>
               )}
               <div className="causes-body">
-                <Grid container className="data-grid">
-                  {renderProjects}
-                </Grid>
+                <Box className="data-grid">{renderProjects}</Box>
               </div>
               <div className="custom-recipient">
                 <Button
@@ -175,7 +173,7 @@ export default function CausesDashboard() {
             <GiveInfo />
           </Zoom>
         </div>
-      </Paper>
+      </Box>
     </Container>
   );
 }

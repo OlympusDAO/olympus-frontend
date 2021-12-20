@@ -74,6 +74,9 @@
 
     .cause-card {
       height: auto;
+      &.very-small {
+        min-width: 200px;
+      }
       min-width: 333px;
       max-width: 773px;
       width: auto;
@@ -287,6 +290,12 @@
 }
 
 #give-view.smaller {
+  .causes-container {
+    padding: 20px 5px 30px 5px;
+    .card-header {
+      padding: 0px 0px 0px 30px;
+    }
+  }
   .causes-body {
     .cause-card {
       flex-direction: column;
@@ -824,4 +833,7 @@
 .subnav-paper {
   max-width: 833px;
   margin-bottom: 10rem;
+  &.mobile {
+    width: 100%;
+  }
 }
