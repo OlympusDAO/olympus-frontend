@@ -494,10 +494,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           style={{
             paddingLeft: isSmallScreen || isVerySmallScreen ? 0 : "3.3rem",
             paddingRight: isSmallScreen || isVerySmallScreen ? 0 : "3.3rem",
+            display: "flex",
+            justifyContent: "center",
           }}
           className="project-container"
         >
-          <Paper>
+          <Paper className="subnav-paper">
             <GiveHeader
               isSmallScreen={isSmallScreen}
               isVerySmallScreen={isVerySmallScreen}

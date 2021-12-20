@@ -4,7 +4,6 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  margin-bottom: 10rem;
 
   .ohm-card {
     .cell-align-end {
@@ -814,4 +813,9 @@
     max-width: 688px;
     opacity: 0.9;
   }
+}
+
+.subnav-paper {
+  max-width: 833px;
+  margin-bottom: 10rem;
 }

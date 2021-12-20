@@ -35,9 +35,11 @@ export default function DepositYield() {
       style={{
         paddingLeft: isSmallScreen ? "0" : "3.3rem",
         paddingRight: isSmallScreen ? "0" : "3.3rem",
+        display: "flex",
+        justifyContent: "center",
       }}
     >
-      <Paper>
+      <Paper className="subnav-paper">
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}

@@ -162,116 +162,120 @@ export default function RedeemYield() {
       style={{
         paddingLeft: isSmallScreen ? "0" : "3.3rem",
         paddingRight: isSmallScreen ? "0" : "3.3rem",
+        display: "flex",
+        justifyContent: "center",
       }}
     >
-      <GiveHeader
-        isSmallScreen={isSmallScreen}
-        isVerySmallScreen={false}
-        redeemableBalance={new BigNumber(redeemableBalance)}
-        networkId={networkId}
-      />
-      <div id="give-view">
-        <Zoom in={true}>
-          <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-            <div className="card-header">
-              <div className="give-yield-title">
-                <Typography variant="h5">
-                  <Trans>Redeem Yield</Trans>
-                </Typography>
-                <InfoTooltip
-                  message={t`If other wallets have directed their sOHM rebases to you, you can transfer that yield into your wallet.`}
-                  children={null}
-                />
+      <Paper className="subnav-paper" style={{ width: "100%" }}>
+        <GiveHeader
+          isSmallScreen={isSmallScreen}
+          isVerySmallScreen={false}
+          redeemableBalance={new BigNumber(redeemableBalance)}
+          networkId={networkId}
+        />
+        <div id="give-view">
+          <Zoom in={true}>
+            <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
+              <div className="card-header">
+                <div className="give-yield-title">
+                  <Typography variant="h5">
+                    <Trans>Redeem Yield</Trans>
+                  </Typography>
+                  <InfoTooltip
+                    message={t`If other wallets have directed their sOHM rebases to you, you can transfer that yield into your wallet.`}
+                    children={null}
+                  />
+                </div>
+                <div className="give-education">
+                  <VaultGraphic
+                    quantity={isRecipientInfoLoading ? "0" : totalDeposit.toFixed(2)}
+                    verb={t`in deposits remains`}
+                    isLoading={isRecipientInfoLoading}
+                  />
+                  <ArrowGraphic />
+                  <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} isLoading={isRecipientInfoLoading} />
+                </div>
               </div>
-              <div className="give-education">
-                <VaultGraphic
-                  quantity={isRecipientInfoLoading ? "0" : totalDeposit.toFixed(2)}
-                  verb={t`in deposits remains`}
-                  isLoading={isRecipientInfoLoading}
-                />
-                <ArrowGraphic />
-                <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} isLoading={isRecipientInfoLoading} />
-              </div>
-            </div>
-            <TableContainer className="redeem-table">
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <Trans>Donated sOHM Generating Yield</Trans>
-                    </TableCell>
-                    <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
-                      {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + " " + t` sOHM`}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Trans>Redeemable Amount</Trans>
-                    </TableCell>
-                    <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
-                      {" "}
-                      {isRecipientInfoLoading ? (
-                        <Skeleton />
-                      ) : (
-                        getTrimmedBigNumber(redeemableBalanceNumber) + " " + t` sOHM`
-                      )}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Trans>Next Reward Amount</Trans>
-                    </TableCell>
-                    <TableCell className={getTableCellClass(isAppLoading)}>
-                      {" "}
-                      {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + " " + t` sOHM`}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Trans>Next Reward Yield</Trans>
-                    </TableCell>
-                    <TableCell className={getTableCellClass(isAppLoading)}>
-                      {" "}
-                      {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(stakingRebasePercentage) + "%"}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Trans>ROI (5-Day Rate)</Trans>
-                    </TableCell>
-                    <TableCell className={getTableCellClass(isAppLoading)}>
-                      {" "}
-                      {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(fiveDayRateValue) + "%"}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell></TableCell>
-                    <TableCell align="left" className="cell-align-end">
-                      {" "}
-                      <Button
-                        variant="outlined"
-                        color="secondary"
-                        className="redeem-button"
-                        onClick={() => handleRedeemButtonClick()}
-                        disabled={!canRedeem()}
-                      >
-                        {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <RedeemYieldModal
-              isModalOpen={isRedeemYieldModalOpen}
-              callbackFunc={handleRedeemYieldModalSubmit}
-              cancelFunc={handleRedeemYieldModalCancel}
-              deposit={totalDeposit}
-              redeemableBalance={redeemableBalanceNumber}
-            />
-          </Paper>
-        </Zoom>
-      </div>
+              <TableContainer className="redeem-table">
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>
+                        <Trans>Donated sOHM Generating Yield</Trans>
+                      </TableCell>
+                      <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
+                        {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + " " + t` sOHM`}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Trans>Redeemable Amount</Trans>
+                      </TableCell>
+                      <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
+                        {" "}
+                        {isRecipientInfoLoading ? (
+                          <Skeleton />
+                        ) : (
+                          getTrimmedBigNumber(redeemableBalanceNumber) + " " + t` sOHM`
+                        )}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Trans>Next Reward Amount</Trans>
+                      </TableCell>
+                      <TableCell className={getTableCellClass(isAppLoading)}>
+                        {" "}
+                        {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + " " + t` sOHM`}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Trans>Next Reward Yield</Trans>
+                      </TableCell>
+                      <TableCell className={getTableCellClass(isAppLoading)}>
+                        {" "}
+                        {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(stakingRebasePercentage) + "%"}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Trans>ROI (5-Day Rate)</Trans>
+                      </TableCell>
+                      <TableCell className={getTableCellClass(isAppLoading)}>
+                        {" "}
+                        {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(fiveDayRateValue) + "%"}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell></TableCell>
+                      <TableCell align="left" className="cell-align-end">
+                        {" "}
+                        <Button
+                          variant="outlined"
+                          color="secondary"
+                          className="redeem-button"
+                          onClick={() => handleRedeemButtonClick()}
+                          disabled={!canRedeem()}
+                        >
+                          {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <RedeemYieldModal
+                isModalOpen={isRedeemYieldModalOpen}
+                callbackFunc={handleRedeemYieldModalSubmit}
+                cancelFunc={handleRedeemYieldModalCancel}
+                deposit={totalDeposit}
+                redeemableBalance={redeemableBalanceNumber}
+              />
+            </Paper>
+          </Zoom>
+        </div>
+      </Paper>
     </Container>
   );
 }
