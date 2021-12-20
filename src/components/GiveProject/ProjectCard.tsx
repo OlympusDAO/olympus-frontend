@@ -183,6 +183,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       </>
     );
   };
+
+  // Removed for now. Will leave this function in for when we re-add this feature
   const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
@@ -264,11 +266,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Tooltip title={totalDebt + t` of ` + depositGoal + t` sOHM raised`} arrow>
             <div>
               <div className="cause-info-main-text">
-                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}%</strong>
+                <Typography variant="body1">
+                  <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}% </strong>
+                  of goal
+                </Typography>
               </div>
-              <span className="cause-info-bottom-text">
-                <Trans>of goal</Trans>
-              </span>
             </div>
           </Tooltip>
         </div>
@@ -439,10 +441,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Typography>
               </div>
               <Grid container direction="column" className="cause-misc-info">
-                <Grid item xs={3} sm={6} md={3}>
-                  {finishDateObject ? <Countdown date={finishDateObject} renderer={countdownRenderer} /> : <></>}
-                </Grid>
-                <Grid item xs={3} sm={6} md={3}>
+                <Grid item xs={3} sm={6}>
                   {renderGoalCompletion()}
                 </Grid>
                 <Grid item xs={4} sm={12} md={6} className="give-button-grid">
