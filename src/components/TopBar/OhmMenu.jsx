@@ -8,6 +8,10 @@ import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.s
 import { ReactComponent as wsOhmTokenImg } from "../../assets/tokens/token_wsOHM.svg";
 import { ReactComponent as ohmTokenImg } from "../../assets/tokens/token_OHM.svg";
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
+import { getTestTokens } from "../../slices/GiveThunk";
+import { useDispatch } from "react-redux";
+import { EnvHelper } from "src/helpers/Environment";
+
 import "./ohmmenu.scss";
 import { dai, frax } from "src/helpers/AllBonds";
 import { Trans } from "@lingui/macro";
@@ -106,6 +110,19 @@ function OhmMenu() {
   const id = "ohm-popper";
   const daiAddress = dai.getAddressForReserve(networkId);
   const fraxAddress = frax.getAddressForReserve(networkId);
+
+  const dispatch = useDispatch();
+
+  const handleGetTestTokens = async () => {
+    await dispatch(
+      getTestTokens({
+        provider,
+        address,
+        networkID: networkId,
+      }),
+    );
+  };
+
   return (
     <Grid
       container
@@ -257,6 +274,13 @@ function OhmMenu() {
                     </Typography>
                   </Button>
                 </Link>
+                {networkId !== 1 && EnvHelper.isMockSohmEnabled(useLocation().search) && (
+                  <Button size="large" variant="contained" color="secondary" onClick={handleGetTestTokens} fullWidth>
+                    <Typography align="left">
+                      <Trans>Get Test Tokens</Trans>
+                    </Typography>
+                  </Button>
+                )}
                 <Link
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
                   target="_blank"

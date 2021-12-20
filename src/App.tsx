@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,7 +18,19 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap, V1Stake } from "./views";
+import {
+  Stake,
+  ChooseBond,
+  Bond,
+  TreasuryDashboard,
+  PoolTogether,
+  Zap,
+  Wrap,
+  V1Stake,
+  CausesDashboard,
+  DepositYield,
+  RedeemYield,
+} from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import CallToAction from "./components/CallToAction/CallToAction";
@@ -30,10 +42,14 @@ import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
+import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import { initializeNetwork } from "./slices/NetworkSlice";
 import { useAppSelector } from "./hooks";
+import { Project } from "src/components/GiveProject/project.type";
+import ProjectInfo from "./views/Give/ProjectInfo";
+import projectData from "src/views/Give/projects.json";
 import Announcement from "./components/Announcement/Announcement";
 
 // 😬 Sorry for all the console logging
@@ -108,6 +124,8 @@ function App() {
 
   const [walletChecked, setWalletChecked] = useState(false);
   const networkId = useAppSelector(state => state.network.networkId);
+
+  const { projects } = projectData;
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
   const { bonds, expiredBonds } = useBonds(networkId);
@@ -341,16 +359,41 @@ function App() {
               />
             </Route>
 
-            <Route path="/wrap">
-              <Route exact path={`/wrap`}>
-                <Wrap />
-              </Route>
+            <Route exact path="/give">
+              <CausesDashboard />
+            </Route>
+            <Redirect from="/olympusgive" to="/give" />
+            <Redirect from="/tyche" to="/give" />
+            <Redirect from="/olygive" to="/give" />
+            <Redirect from="/olympusdaogive" to="/give" />
+            <Redirect from="/ohmgive" to="/give" />
+
+            <Route path="/give/projects">
+              {projects.map(project => {
+                return (
+                  <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
+                    <ProjectInfo project={project} />
+                  </Route>
+                );
+              })}
+            </Route>
+
+            <Route exact path="/give/donations">
+              <DepositYield />
+            </Route>
+
+            <Route exact path="/give/redeem">
+              <RedeemYield />
             </Route>
 
             <Route path="/zap">
               <Route exact path={`/zap`}>
                 <Zap />
               </Route>
+            </Route>
+
+            <Route path="/wrap">
+              <Wrap />
             </Route>
 
             {/* <Route path="/33-together">
