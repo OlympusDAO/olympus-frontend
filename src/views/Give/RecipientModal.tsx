@@ -386,9 +386,16 @@ export function RecipientModal({
 
     return (
       <>
-        <Typography variant="body1">
-          <Trans>Recipient</Trans>
-        </Typography>
+        <div className="give-modal-alloc-tip">
+          <Typography variant="body1">
+            <Trans>Recipient</Trans>
+          </Typography>
+          {/* The main reason for having this tooltip is because it keeps spacing consistent with the sOHM Allocation above */}
+          <InfoTooltip
+            message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+            children={null}
+          />
+        </div>
         <FormControl className="modal-input" variant="outlined" color="primary">
           <InputLabel htmlFor="wallet-input"></InputLabel>
           <OutlinedInput
