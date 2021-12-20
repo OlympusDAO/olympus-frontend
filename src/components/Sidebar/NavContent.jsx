@@ -138,8 +138,16 @@ function NavContent() {
 
                   <div className="dapp-menu-data discounts">
                     <div className="bond-discounts">
-                      <Accordion className="discounts-accordion" square>
-                        <AccordionSummary expandIcon={<ExpandMore className="discounts-expand" />}>
+                      <Accordion className="discounts-accordion" square defaultExpanded="true">
+                        <AccordionSummary
+                          expandIcon={
+                            <ExpandMore
+                              className="discounts-expand"
+                              viewbox="0 0 12 12"
+                              style={{ width: "18px", height: "18px" }}
+                            />
+                          }
+                        >
                           <Typography variant="body2">
                             <Trans>Bond discounts</Trans>
                           </Typography>

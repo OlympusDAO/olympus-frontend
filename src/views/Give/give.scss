@@ -181,6 +181,10 @@
 
         .cause-info-main-text {
           font-size: 1rem;
+
+          .MuiTypography-body1 {
+            margin-bottom: 0rem;
+          }
         }
 
         .cause-info-bottom-text {
@@ -192,8 +196,8 @@
       .cause-misc-info .MuiGrid-item {
         height: 40px;
         padding-left: 0px;
-        align-items: flex-end;
-        justify-content: center;
+        align-items: center;
+        justify-content: flex-end;
       }
 
       .cause-info-icon {
