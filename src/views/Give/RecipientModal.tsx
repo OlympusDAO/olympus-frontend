@@ -36,6 +36,7 @@ import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -51,14 +52,6 @@ type State = {
   account: IAccountSlice;
   pendingTransactions: IPendingTxn[];
 };
-
-export interface SubmitCallback {
-  (walletAddress: string, depositAmount: BigNumber, depositAmountDiff?: BigNumber): void;
-}
-
-export interface CancelCallback {
-  (): void;
-}
 
 export function RecipientModal({
   isModalOpen,
@@ -110,6 +103,11 @@ export function RecipientModal({
       setIsAmountSet(_initialIsAmountSet);
     }
   }, [isModalOpen]);
+
+  const handleModalInsideClick = (e: any): void => {
+    // When the user clicks within the modal window, we do not want to pass the event up the tree
+    e.stopPropagation();
+  };
 
   /**
    * Returns the user's sOHM balance
@@ -415,8 +413,9 @@ export function RecipientModal({
   // TODO re-arrange the below output to be around the state: approval, custom recipient, project recipient, editing
 
   return (
-    <Modal className="modal-container" open={isModalOpen}>
-      <Paper className="ohm-card ohm-modal">
+    /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
+    <Modal className="modal-container" open={isModalOpen} onClick={cancelFunc}>
+      <Paper className="ohm-card ohm-modal" onClick={handleModalInsideClick}>
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />

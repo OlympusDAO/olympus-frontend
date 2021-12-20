@@ -281,7 +281,6 @@ export const getMockDonationBalances = createAsyncThunk(
     } else {
       console.error("Unable to find MOCK_SOHM contract on chain ID " + networkID);
     }
-    console.log(donationInfo);
 
     return {
       mockGiving: {
