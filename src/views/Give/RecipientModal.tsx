@@ -37,6 +37,7 @@ import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -89,6 +90,7 @@ export function RecipientModal({
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState(_initialWalletAddressValidError);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toFixed());
@@ -477,7 +479,7 @@ export function RecipientModal({
                     <strong>{shorten(address)}</strong>
                   </Typography>
                 </div>
-                <ArrowGraphic />
+                {!isSmallScreen && <ArrowGraphic />}
                 <div className="recipient-address-col">
                   <Typography variant="body1">
                     <Trans>Recipient Address</Trans>
@@ -556,11 +558,11 @@ export function RecipientModal({
             </FormControl>
             {getRecipientElements()}
             {isCreateMode() ? (
-              <div className="give-education-graphics">
+              <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
                 <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
-                <ArrowGraphic />
+                {!isSmallScreen && <ArrowGraphic />}
                 <VaultGraphic quantity={getDepositAmount().toFixed()} />
-                <ArrowGraphic />
+                {!isSmallScreen && <ArrowGraphic />}
                 <YieldGraphic quantity={getDepositAmount().toFixed()} />
               </div>
             ) : (
