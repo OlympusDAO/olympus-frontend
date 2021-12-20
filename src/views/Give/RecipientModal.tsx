@@ -132,6 +132,12 @@ export function RecipientModal({
     return state.account.loading;
   });
 
+  const isGiveLoading: boolean = useSelector((state: State) => {
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockGiving.loading
+      : state.account.giving.loading;
+  });
+
   const pendingTransactions: IPendingTxn[] = useSelector((state: State) => {
     return state.pendingTransactions;
   });
@@ -268,6 +274,8 @@ export function RecipientModal({
    */
   const canSubmit = (): boolean => {
     if (!isDepositAmountValid) return false;
+
+    if (isAccountLoading || isGiveLoading) return false;
 
     // The wallet address is only set when a project is not given
     if (!isProjectMode() && !isWalletAddressValid) return false;
@@ -414,7 +422,7 @@ export function RecipientModal({
 
   return (
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
-    <Modal className="modal-container" open={isModalOpen} onClick={cancelFunc}>
+    <Modal className="modal-container" open={isModalOpen} onClick={cancelFunc} hideBackdrop={true}>
       <Paper className="ohm-card ohm-modal" onClick={handleModalInsideClick}>
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
@@ -433,7 +441,7 @@ export function RecipientModal({
               </Trans>
             </FormHelperText>
           </>
-        ) : isAccountLoading ? (
+        ) : isAccountLoading || isGiveLoading ? (
           <Skeleton />
         ) : !hasAllowance() ? (
           <Box className="help-text">
@@ -557,7 +565,7 @@ export function RecipientModal({
           </>
         )}
         {isCreateMode() ? (
-          address && hasAllowance() && !isAmountSet ? (
+          address && (hasAllowance() || isGiveLoading) && !isAmountSet ? (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
                 <Trans>Continue</Trans>
