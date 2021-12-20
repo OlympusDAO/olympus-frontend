@@ -15,7 +15,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, redeemableBalance
   const location = useLocation();
 
   return (
-    <Box className={`give-subnav ${isSmallScreen ? "smaller" : ""}`}>
+    <Box className={`give-subnav ${isSmallScreen || isVerySmallScreen ? "smaller" : ""}`}>
       <Link
         component={NavLink}
         id="give-sub-dash"
