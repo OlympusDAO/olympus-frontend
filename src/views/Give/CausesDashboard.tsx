@@ -108,6 +108,8 @@ export default function CausesDashboard() {
     setIsCustomGiveModalOpen(false);
   };
 
+  // TODO shift projects/donations header into component
+
   return (
     <Container
       style={{
@@ -123,7 +125,9 @@ export default function CausesDashboard() {
           className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
         >
           <Button variant="contained" color="secondary">
-            <Typography variant="h6">Projects</Typography>
+            <Typography variant="h6">
+              <Trans>Projects</Trans>
+            </Typography>
           </Button>
         </Link>
         <Link
@@ -133,7 +137,9 @@ export default function CausesDashboard() {
           className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
         >
           <Button variant="contained" color="secondary">
-            <Typography variant="h6">My Donations</Typography>
+            <Typography variant="h6">
+              <Trans>My Donations</Trans>
+            </Typography>
           </Button>
         </Link>
         {new BigNumber(redeemableBalance).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
@@ -144,7 +150,9 @@ export default function CausesDashboard() {
             className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "active" : ""}`}
           >
             <Button variant="contained" color="secondary">
-              <Typography variant="h6">Redeem</Typography>
+              <Typography variant="h6">
+                <Trans>Redeem</Trans>
+              </Typography>
             </Button>
           </Link>
         ) : (

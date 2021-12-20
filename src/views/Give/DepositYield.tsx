@@ -47,7 +47,9 @@ export default function DepositYield() {
         >
           <Button variant="contained" color="secondary">
             <SvgIcon component={ChevronLeft} viewBox="5 2 20 20" />
-            <Typography variant="h6">Projects</Typography>
+            <Typography variant="h6">
+              <Trans>Projects</Trans>
+            </Typography>
           </Button>
         </Link>
         <Link
@@ -57,13 +59,17 @@ export default function DepositYield() {
           className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
         >
           <Button variant="contained" color="secondary">
-            <Typography variant="h6">My Donations</Typography>
+            <Typography variant="h6">
+              <Trans>My Donations</Trans>
+            </Typography>
           </Button>
         </Link>
         {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
           <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
             <Button variant="contained" color="secondary">
-              <Typography variant="h6">Redeem</Typography>
+              <Typography variant="h6">
+                <Trans>Redeem</Trans>
+              </Typography>
             </Button>
           </Link>
         ) : (
