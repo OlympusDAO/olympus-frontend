@@ -96,10 +96,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const redeemableBalance = useSelector((state: State) => {
+  const userTotalDebt = useSelector((state: State) => {
     return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
-      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
+      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
+      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
 
   const theme = useTheme();
@@ -503,7 +503,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <GiveHeader
               isSmallScreen={isSmallScreen}
               isVerySmallScreen={isVerySmallScreen}
-              redeemableBalance={new BigNumber(redeemableBalance)}
+              totalDebt={new BigNumber(userTotalDebt)}
               networkId={networkId}
             />
             <div

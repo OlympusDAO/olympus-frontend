@@ -24,10 +24,10 @@ export default function DepositYield() {
   const networkId = useAppSelector(state => state.network.networkId);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const redeemableBalance = useSelector((state: State) => {
+  const totalDebt = useSelector((state: State) => {
     return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
-      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
+      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
+      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
 
   return (
@@ -43,7 +43,7 @@ export default function DepositYield() {
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}
-          redeemableBalance={new BigNumber(redeemableBalance)}
+          totalDebt={new BigNumber(totalDebt)}
           networkId={networkId}
         />
         <div id="give-view">

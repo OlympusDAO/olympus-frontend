@@ -61,6 +61,12 @@ export default function RedeemYield() {
       : state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
 
+  const totalDebt = useSelector((state: State) => {
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
+      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
+  });
+
   const stakingAPY = useSelector((state: State) => {
     return state.app.stakingAPY;
   });
@@ -171,7 +177,7 @@ export default function RedeemYield() {
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}
-          redeemableBalance={new BigNumber(redeemableBalance)}
+          totalDebt={new BigNumber(totalDebt)}
           networkId={networkId}
         />
         <div id="give-view">

@@ -47,10 +47,10 @@ export default function CausesDashboard() {
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const redeemableBalance = useSelector((state: State) => {
+  const totalDebt = useSelector((state: State) => {
     return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
-      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
+      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
+      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
 
   const renderProjects = useMemo(() => {
@@ -121,7 +121,7 @@ export default function CausesDashboard() {
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}
-          redeemableBalance={new BigNumber(redeemableBalance)}
+          totalDebt={new BigNumber(totalDebt)}
           networkId={networkId}
         />
         <div
