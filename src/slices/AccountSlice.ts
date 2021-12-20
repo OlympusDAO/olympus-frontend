@@ -240,6 +240,7 @@ export const getDonationBalances = createAsyncThunk(
       giving: {
         sohmGive: +giveAllowance,
         donationInfo: donationInfo,
+        loading: false,
       },
     };
   },
@@ -259,7 +260,7 @@ export const getMockDonationBalances = createAsyncThunk(
 
     if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
-      const giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
+      giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
       const givingContract = new ethers.Contract(
         addresses[networkID].MOCK_GIVING_ADDRESS as string,
         OlympusMockGiving,
@@ -286,6 +287,7 @@ export const getMockDonationBalances = createAsyncThunk(
       mockGiving: {
         sohmGive: +giveAllowance,
         donationInfo: donationInfo,
+        loading: false,
       },
     };
   },
@@ -493,8 +495,8 @@ export const calculateUserBondDetails = createAsyncThunk(
 );
 
 export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
-  giving: { sohmGive: number; donationInfo: IUserDonationInfo };
-  mockGiving: { sohmGive: number; donationInfo: IUserDonationInfo };
+  giving: { sohmGive: number; donationInfo: IUserDonationInfo; loading: boolean };
+  mockGiving: { sohmGive: number; donationInfo: IUserDonationInfo; loading: boolean };
   redeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   mockRedeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   bonds: { [key: string]: IUserBondDetails };
@@ -554,8 +556,8 @@ const initialState: IAccountSlice = {
     pool: "",
     mockSohm: "",
   },
-  giving: { sohmGive: 0, donationInfo: {} },
-  mockGiving: { sohmGive: 0, donationInfo: {} },
+  giving: { sohmGive: 0, donationInfo: {}, loading: true },
+  mockGiving: { sohmGive: 0, donationInfo: {}, loading: true },
   redeeming: {
     sohmRedeemable: "",
     recipientInfo: {
