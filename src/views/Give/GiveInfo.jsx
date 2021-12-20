@@ -22,7 +22,7 @@ export function GiveInfo() {
           <Button
             variant="outlined"
             color="secondary"
-            href="https://docs.olympusdao.finance/main/"
+            href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
             target="_blank"
             className="learn-more-button"
           >
