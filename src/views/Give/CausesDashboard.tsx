@@ -1,7 +1,7 @@
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState } from "react";
 import "./give.scss";
-import { NavLink, useLocation } from "react-router-dom";
-import { Button, Box, Link, Paper, Typography, Zoom, Grid, Container } from "@material-ui/core";
+import { useLocation } from "react-router-dom";
+import { Button, Paper, Typography, Zoom, Grid, Container } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
@@ -20,6 +20,7 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { EnvHelper } from "src/helpers/Environment";
+import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 
 type State = {
   account: IAccountSlice;
@@ -114,74 +115,65 @@ export default function CausesDashboard() {
         paddingRight: isSmallScreen ? "0" : "3.3rem",
       }}
     >
-      <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
-        {donationInfo && Object.keys(donationInfo).length > 0 && isSupportedChain(networkId) ? (
-          <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
-            <Typography variant="h6">My Donations</Typography>
-          </Link>
-        ) : (
-          <></>
-        )}
-
-        {new BigNumber(redeemableBalance).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
-          <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
-            <Typography variant="h6">Redeem</Typography>
-          </Link>
-        ) : (
-          <></>
-        )}
-      </Box>
-      <div
-        id="give-view"
-        className={`${isMediumScreen && "medium"}
+      <Paper>
+        <GiveHeader
+          isSmallScreen={isSmallScreen}
+          isVerySmallScreen={false}
+          redeemableBalance={new BigNumber(redeemableBalance)}
+          networkId={networkId}
+        />
+        <div
+          id="give-view"
+          className={`${isMediumScreen && "medium"}
           ${isSmallScreen && "smaller"}`}
-      >
-        <Zoom in={true}>
-          <Paper className={`ohm-card secondary`}>
-            <div className="card-header">
-              <div>
-                <Typography variant="h5">
-                  <Trans>Give</Trans>
-                </Typography>
+        >
+          <Zoom in={true}>
+            <Paper className={`ohm-card secondary`}>
+              <div className="card-header">
+                <div>
+                  <Typography variant="h5">
+                    <Trans>Give</Trans>
+                  </Typography>
+                </div>
               </div>
-            </div>
-            {!isSupportedChain(networkId) ? (
-              <Typography variant="h6">
-                Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-                functionality.
-              </Typography>
-            ) : (
-              <></>
-            )}
-            <div className="causes-body">
-              <Grid container className="data-grid">
-                {renderProjects}
-              </Grid>
-            </div>
-            <div className="custom-recipient">
-              <Button
-                variant="contained"
-                color="primary"
-                className="custom-give-button"
-                onClick={() => handleCustomGiveButtonClick()}
-                disabled={!address}
-              >
-                <Typography variant="h6" style={{ marginBottom: "0px" }}>
-                  <Trans>Custom Recipient</Trans>
+              {!isSupportedChain(networkId) ? (
+                <Typography variant="h6">
+                  Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
+                  functionality.
                 </Typography>
-              </Button>
-            </div>
-            <RecipientModal
-              isModalOpen={isCustomGiveModalOpen}
-              callbackFunc={handleCustomGiveModalSubmit}
-              cancelFunc={handleCustomGiveModalCancel}
-            />
-          </Paper>
-        </Zoom>
-        <Zoom in={true}>
-          <GiveInfo />
-        </Zoom>
-      </div>
+              ) : (
+                <></>
+              )}
+              <div className="causes-body">
+                <Grid container className="data-grid">
+                  {renderProjects}
+                </Grid>
+              </div>
+              <div className="custom-recipient">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="custom-give-button"
+                  onClick={() => handleCustomGiveButtonClick()}
+                  disabled={!address}
+                >
+                  <Typography variant="h6" style={{ marginBottom: "0px" }}>
+                    <Trans>Custom Recipient</Trans>
+                  </Typography>
+                </Button>
+              </div>
+              <RecipientModal
+                isModalOpen={isCustomGiveModalOpen}
+                callbackFunc={handleCustomGiveModalSubmit}
+                cancelFunc={handleCustomGiveModalCancel}
+              />
+            </Paper>
+          </Zoom>
+          <Zoom in={true}>
+            <GiveInfo />
+          </Zoom>
+        </div>
+      </Paper>
     </Container>
   );
 }

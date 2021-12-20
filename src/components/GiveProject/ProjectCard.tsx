@@ -21,7 +21,6 @@ import { useSelector } from "react-redux";
 import { useTheme } from "@material-ui/core/styles";
 import { useAppDispatch } from "src/hooks";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
-import { unwrapResult } from "@reduxjs/toolkit";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
@@ -35,16 +34,14 @@ import { ReactComponent as WebsiteIcon } from "../../assets/icons/website.svg";
 import { ReactComponent as DonatedIcon } from "../../assets/icons/donated.svg";
 import { ReactComponent as GoalIcon } from "../../assets/icons/goal.svg";
 import MarkdownIt from "markdown-it";
-import { shortenString } from "src/helpers";
 import { t, Trans } from "@lingui/macro";
 import { useAppSelector } from "src/hooks";
-import { NavLink } from "react-router-dom";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
-import { ChevronLeft } from "@material-ui/icons";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { GiveHeader } from "./GiveHeader";
 
 type CountdownProps = {
   total: number;
@@ -500,112 +497,100 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           }}
           className="project-container"
         >
-          <Box className={`give-subnav ${(isSmallScreen || isVerySmallScreen) && "smaller"}`}>
-            <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
-              <SvgIcon component={ChevronLeft} />
-              <Typography variant="h6">Back</Typography>
-            </Link>
-            {donationInfo && Object.keys(donationInfo).length > 0 ? (
-              <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
-                <Typography variant="h6">My Donations</Typography>
-              </Link>
-            ) : (
-              <></>
-            )}
-            {new BigNumber(redeemableBalance).gt(new BigNumber(0)) ? (
-              <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
-                <Typography variant="h6">Redeem</Typography>
-              </Link>
-            ) : (
-              <></>
-            )}
-          </Box>
-          <div
-            className={`${isMediumScreen && "medium"}
+          <Paper>
+            <GiveHeader
+              isSmallScreen={isSmallScreen}
+              isVerySmallScreen={isVerySmallScreen}
+              redeemableBalance={new BigNumber(redeemableBalance)}
+              networkId={networkId}
+            />
+            <div
+              className={`${isMediumScreen && "medium"}
               ${isSmallScreen && "smaller"}
               ${isVerySmallScreen && "very-small"}`}
-          >
-            <Box className="project-content-container">
-              <Grid container className="project">
-                <Grid item xs={1}></Grid>
-                <Grid item xs={12} md={4}>
-                  <Paper className="project-sidebar">
-                    <Grid container className="project-intro" justifyContent="space-between">
-                      <Grid item className="project-title">
-                        <Typography variant="h5">
-                          <strong>{getTitle()}</strong>
-                        </Typography>
+            >
+              <Box className="project-content-container">
+                <Grid container className="project">
+                  <Grid item xs={1}></Grid>
+                  <Grid item xs={12} md={4}>
+                    <Paper className="project-sidebar">
+                      <Grid container className="project-intro" justifyContent="space-between">
+                        <Grid item className="project-title">
+                          <Typography variant="h5">
+                            <strong>{getTitle()}</strong>
+                          </Typography>
+                        </Grid>
+                        <Grid item className="project-link">
+                          <Link href={project.website} target="_blank">
+                            <SvgIcon component={WebsiteIcon} fill={svgFillColour} />
+                          </Link>
+                        </Grid>
                       </Grid>
-                      <Grid item className="project-link">
-                        <Link href={project.website} target="_blank">
-                          <SvgIcon component={WebsiteIcon} fill={svgFillColour} />
-                        </Link>
-                      </Grid>
-                    </Grid>
-                    <Grid item className="project-visual-info">
-                      {getProjectImage()}
-                      <Grid item className="goal-graphics">
-                        {renderGoalCompletionDetailed()}
+                      <Grid item className="project-visual-info">
+                        {getProjectImage()}
+                        <Grid item className="goal-graphics">
+                          {renderGoalCompletionDetailed()}
 
-                        <div className="visual-info-bottom">
-                          {renderCountdownDetailed()}
+                          <div className="visual-info-bottom">
+                            {renderCountdownDetailed()}
 
-                          <div className="project-give-button">
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => handleGiveButtonClick()}
-                              disabled={!address || !isSupportedChain(networkId)}
-                            >
-                              <Typography variant="h6">
-                                <Trans>Give Yield</Trans>
-                              </Typography>
-                            </Button>
-                          </div>
-                        </div>
-                      </Grid>
-                    </Grid>
-                  </Paper>
-                  <Paper className="project-sidebar">
-                    <Grid container direction="column">
-                      <Grid item className="donors-title">
-                        <Typography variant="h5">
-                          <strong>
-                            <Trans>Donations</Trans>
-                          </strong>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={4} className="project-goal">
-                        <Grid container className="project-donated-icon">
-                          <Grid item xs={1} md={2}>
-                            <SvgIcon component={DonorsIcon} viewBox={"0 0 18 13"} fill={svgFillColour} />
-                          </Grid>
-                          <Grid item xs={4}>
-                            <Typography variant="h6">
-                              {donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}
-                            </Typography>
-                            <div className="subtext">
-                              <Trans>Donors</Trans>
+                            <div className="project-give-button">
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => handleGiveButtonClick()}
+                                disabled={!address || !isSupportedChain(networkId)}
+                              >
+                                <Typography variant="h6">
+                                  <Trans>Give Yield</Trans>
+                                </Typography>
+                              </Button>
                             </div>
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                    <Paper className="project-sidebar">
+                      <Grid container direction="column">
+                        <Grid item className="donors-title">
+                          <Typography variant="h5">
+                            <strong>
+                              <Trans>Donations</Trans>
+                            </strong>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={4} className="project-goal">
+                          <Grid container className="project-donated-icon">
+                            <Grid item xs={1} md={2}>
+                              <SvgIcon component={DonorsIcon} viewBox={"0 0 18 13"} fill={svgFillColour} />
+                            </Grid>
+                            <Grid item xs={4}>
+                              <Typography variant="h6">
+                                {donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}
+                              </Typography>
+                              <div className="subtext">
+                                <Trans>Donors</Trans>
+                              </div>
+                            </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                  </Paper>
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Paper className="project-info">
+                      <Typography variant="h5" className="project-about-header">
+                        <strong>
+                          <Trans>About</Trans>
+                        </strong>
+                      </Typography>
+                      <div dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                    </Paper>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <Paper className="project-info">
-                    <Typography variant="h5" className="project-about-header">
-                      <strong>
-                        <Trans>About</Trans>
-                      </strong>
-                    </Typography>
-                    <div dangerouslySetInnerHTML={getRenderedDetails(false)} />
-                  </Paper>
-                </Grid>
-              </Grid>
-            </Box>
-          </div>
+              </Box>
+            </div>
+          </Paper>
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}

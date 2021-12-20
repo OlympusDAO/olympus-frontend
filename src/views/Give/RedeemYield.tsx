@@ -2,20 +2,17 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Paper,
-  Box,
   Typography,
   Button,
   Zoom,
-  Link,
   TableCell,
   TableBody,
   Table,
   TableRow,
   TableContainer,
   Container,
-  SvgIcon,
 } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
@@ -27,10 +24,10 @@ import { BigNumber } from "bignumber.js";
 import { t, Trans } from "@lingui/macro";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
-import { RedeemCancelCallback, RedeemYieldModal, RedeemSubmitCallback } from "./RedeemYieldModal";
+import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 import { useAppSelector } from "src/hooks";
-import { ChevronLeft } from "@material-ui/icons";
 import { EnvHelper } from "src/helpers/Environment";
+import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -40,6 +37,7 @@ type State = {
 };
 
 export default function RedeemYield() {
+  const location = useLocation();
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
@@ -166,22 +164,12 @@ export default function RedeemYield() {
         paddingRight: isSmallScreen ? "0" : "3.3rem",
       }}
     >
-      <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
-        <Link component={NavLink} id="give-sub-dash" to="/give" className="give-option">
-          <SvgIcon component={ChevronLeft} />
-          <Typography variant="h6">Back</Typography>
-        </Link>
-        {donationInfo && Object.keys(donationInfo).length > 0 ? (
-          <Link component={NavLink} id="give-sub-donations" to="/give/donations" className="give-option">
-            <Typography variant="h6">My Donations</Typography>
-          </Link>
-        ) : (
-          <></>
-        )}
-        <Link component={NavLink} id="give-sub-redeem" to="/give/redeem" className="give-option">
-          <Typography variant="h6">Redeem</Typography>
-        </Link>
-      </Box>
+      <GiveHeader
+        isSmallScreen={isSmallScreen}
+        isVerySmallScreen={false}
+        redeemableBalance={new BigNumber(redeemableBalance)}
+        networkId={networkId}
+      />
       <div id="give-view">
         <Zoom in={true}>
           <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>

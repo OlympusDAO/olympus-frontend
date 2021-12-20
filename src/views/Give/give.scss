@@ -307,19 +307,33 @@
 .give-subnav {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  align-content: flex-start;
 
   max-width: 833px;
-  margin: 25px auto;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+
+  .MuiLink-root.active {
+    text-decoration: none;
+  }
 
   .give-option {
     margin-right: 1rem;
   }
 
+  .give-option.give-active {
+    text-decoration: underline;
+    text-decoration-color: #f4d092;
+
+    .MuiTypography-h6 {
+      color: #f4d092;
+    }
+  }
+
   #give-sub-dash {
     display: flex;
     flex-direction: row;
-    text-decoration: none;
   }
 
   #give-sub-dash:hover {
