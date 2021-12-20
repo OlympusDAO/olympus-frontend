@@ -1,4 +1,4 @@
-import { Box, Modal, Paper, Typography, SvgIcon, Link, Button, Divider } from "@material-ui/core";
+import { Box, Modal, Paper, Typography, SvgIcon, Link, Button, Divider, Backdrop, Fade, Grid } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
@@ -110,6 +110,10 @@ export function RecipientModal({
       setIsAmountSet(_initialIsAmountSet);
     }
   }, [isModalOpen]);
+
+  const onClickModal = (e: any): void => {
+    e.stopPropagation();
+  };
 
   /**
    * Returns the user's sOHM balance
@@ -415,8 +419,8 @@ export function RecipientModal({
   // TODO re-arrange the below output to be around the state: approval, custom recipient, project recipient, editing
 
   return (
-    <Modal className="modal-container" open={isModalOpen}>
-      <Paper className="ohm-card ohm-modal">
+    <Modal className="modal-container" open={isModalOpen} onClick={cancelFunc}>
+      <Paper className="ohm-card ohm-modal" onClick={onClickModal}>
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />

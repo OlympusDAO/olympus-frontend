@@ -778,3 +778,35 @@
 .yield-recipients-empty {
   align-items: center;
 }
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .modal-container {
+    background: rgba(100, 100, 100, 0.1) !important;
+    backdrop-filter: blur(33px) !important;
+    -webkit-backdrop-filter: blur(33px) !important;
+    .ohm-card {
+        opacity: 1 !important;
+        height: auto;
+      }
+    .ohm-modal {
+      max-width: 688px;
+      min-height: 605px;
+    }
+  }
+}
+
+/* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .modal-container {
+    background: rgba(100, 100, 100, 0.95);
+    .ohm-card {
+      height: auto;
+    }
+  }
+
+  .ohm-modal {
+    max-width: 688px;
+    min-height: 605px;
+    opacity: 0.9;
+  }
+}
