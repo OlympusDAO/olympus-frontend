@@ -3,27 +3,17 @@ import {
   Button,
   FormControl,
   Grid,
-  Icon,
   InputAdornment,
   InputLabel,
   OutlinedInput,
   Avatar,
   Typography,
-  Dialog,
-  DialogTitle,
-  List,
-  ListItem,
-  ListItemAvatar,
   ButtonBase,
   IconButton,
-  CardHeader,
-  ListItemText,
   SvgIcon,
-  CircularProgress,
-  Paper,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { changeZapTokenAllowance, executeZap, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
+import { changeZapTokenAllowance, executeZap, getZapTokenAllowance } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import ZapStakeHeader from "./ZapStakeHeader";
@@ -32,13 +22,14 @@ import { ReactComponent as FirstStepIcon } from "../../assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
 import { useAppSelector, useWeb3Context } from "src/hooks";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapper.svg";
 import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
 import { ethers } from "ethers";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { trim } from "src/helpers";
 import { Trans } from "@lingui/macro";
+import SelectTokenModal from "./SelectTokenModal";
+import SlippageModal from "./SlippageModal";
 
 const DISABLE_ZAPS = true;
 
@@ -89,6 +80,10 @@ function ZapStakeAction(props) {
     setModalOpen(true);
   };
   const handleClose = () => setModalOpen(false);
+
+  const [slippageModalOpen, setSlippageModalOpen] = useState(false);
+  const handleSlippageModalOpen = () => setSlippageModalOpen(true);
+  const handleSlippageModalClose = () => setSlippageModalOpen(false);
 
   const [inputQuantity, setInputQuantity] = useState("");
   const [outputQuantity, setOutputQuantity] = useState("");
@@ -358,6 +353,10 @@ function ZapStakeAction(props) {
         ) : (
           <Box display="flex" alignItems="center">
             <Typography>1.0%</Typography>
+            <Box width="8px" />
+            <IconButton style={{ margin: 0, padding: 0 }} onClick={handleSlippageModalOpen}>
+              <SvgIcon color="primary" component={SettingsIcon} />
+            </IconButton>
           </Box>
         )}
       </Box>
@@ -456,61 +455,8 @@ function ZapStakeAction(props) {
         </Grid>
       )}
       {zapperCredit}
-      <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs" id="zap-select-token-modal">
-        <DialogTitle>
-          <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
-            <Button onClick={handleClose}>
-              <SvgIcon component={XIcon} color="primary" />
-            </Button>
-            <Box paddingRight={6}>
-              <Typography id="migration-modal-title" variant="h6" component="h2">
-                <Trans>Select Zap Token</Trans>
-              </Typography>
-            </Box>
-            <Box />
-          </Box>
-        </DialogTitle>
-        <Box paddingX="36px" paddingBottom="36px" paddingTop="12px">
-          {isTokensLoading ? (
-            <Box display="flex" justifyItems="center" flexDirection="column" alignItems="center">
-              <CircularProgress />
-              <Box height={24} />
-              <Typography>
-                <Trans>Dialing Zapper...</Trans>
-              </Typography>
-            </Box>
-          ) : Object.entries(tokens).length == 0 ? (
-            <Box display="flex" justifyContent="center">
-              <Typography>
-                <Trans>Ser, you have no assets...</Trans>
-              </Typography>
-            </Box>
-          ) : (
-            <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}>
-              <List style={{ pt: 0 }}>
-                {Object.entries(tokens)
-                  .filter(token => !token[1].hide)
-                  .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-                  .map(token => (
-                    <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
-                      <ListItemAvatar>
-                        <Avatar src={token[1].tokenImageUrl} />
-                      </ListItemAvatar>
-                      <ListItemText primary={token[1].symbol} />
-                      <Box flexGrow={10} />
-                      <ListItemText
-                        style={{ primary: { justify: "center" } }}
-                        primary={`$${trim(token[1].balanceUSD, 2)}`}
-                        secondary={trim(token[1].balance, 4)}
-                      />
-                    </ListItem>
-                  ))}
-              </List>
-            </Paper>
-          )}
-          {zapperCredit}
-        </Box>
-      </Dialog>
+      {SelectTokenModal(handleClose, modalOpen, isTokensLoading, tokens, handleSelectZapToken, zapperCredit)}
+      {SlippageModal(handleSlippageModalClose, slippageModalOpen, setCustomSlippage, customSlippage, zapperCredit)}
     </>
   );
 }
