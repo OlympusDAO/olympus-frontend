@@ -37,6 +37,7 @@ export const getBalances = createAsyncThunk(
     let fgohmBalance = BigNumber.from(0);
     let fgOHMAsfsOHMBalance = BigNumber.from(0);
     let fiatDaowsohmBalance = BigNumber.from("0");
+
     try {
       const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmBalance = await gOhmContract.balanceOf(address);
@@ -250,7 +251,7 @@ export const loadAccountDetails = createAsyncThunk(
       const ohmV2Contract = IERC20__factory.connect(addresses[networkID].OHM_V2, provider);
       stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
     } catch (e) {
-      console.warn("failed contract calls in slice", e);
+      handleContractError(e);
     }
     await dispatch(getBalances({ address, networkID, provider }));
 
