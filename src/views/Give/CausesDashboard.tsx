@@ -130,14 +130,7 @@ export default function CausesDashboard() {
           ${isSmallScreen && "smaller"}`}
         >
           <Zoom in={true}>
-            <Paper className={`ohm-card secondary causes-container`}>
-              <div className="card-header">
-                <div>
-                  <Typography variant="h5">
-                    <Trans>Give</Trans>
-                  </Typography>
-                </div>
-              </div>
+            <Box className={`ohm-card secondary causes-container`}>
               {!isSupportedChain(networkId) ? (
                 <Typography variant="h6">
                   Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
@@ -149,7 +142,7 @@ export default function CausesDashboard() {
               <div className="causes-body">
                 <Box className="data-grid">{renderProjects}</Box>
               </div>
-              <div className="custom-recipient">
+              <div className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -167,7 +160,7 @@ export default function CausesDashboard() {
                 callbackFunc={handleCustomGiveModalSubmit}
                 cancelFunc={handleCustomGiveModalCancel}
               />
-            </Paper>
+            </Box>
           </Zoom>
           <Zoom in={true}>
             <GiveInfo />

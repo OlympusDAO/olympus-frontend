@@ -28,7 +28,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, redeemableBalance
       >
         <Button color="secondary">
           <Typography variant="h6">
-            <Trans>Projects</Trans>
+            <Trans>Give</Trans>
           </Typography>
         </Button>
       </Link>
