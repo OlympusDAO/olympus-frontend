@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/macro";
 import { Box, Button, Link, Typography } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { isSupportedChain } from "src/slices/GiveThunk";
 
 type GiveHeaderProps = {
@@ -12,13 +12,19 @@ type GiveHeaderProps = {
 };
 
 export function GiveHeader({ isSmallScreen, isVerySmallScreen, redeemableBalance, networkId }: GiveHeaderProps) {
+  const location = useLocation();
+
   return (
-    <Box className={`give-subnav ${isSmallScreen && "smaller"}`}>
+    <Box className={`give-subnav ${isSmallScreen ? "smaller" : ""}`}>
       <Link
         component={NavLink}
         id="give-sub-dash"
         to="/give"
-        className={`give-option ${location.pathname.replace("/", "") == "give" ? "give-active" : ""}`}
+        className={`give-option ${
+          location.pathname.replace("/", "") == "give" || location.pathname.replace("/", "").includes("give/projects")
+            ? "give-active"
+            : ""
+        }`}
       >
         <Button variant="contained" color="secondary">
           <Typography variant="h6">
@@ -43,7 +49,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, redeemableBalance
           component={NavLink}
           id="give-sub-redeem"
           to="/give/redeem"
-          className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "active" : ""}`}
+          className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "give-active" : ""}`}
         >
           <Button variant="contained" color="secondary">
             <Typography variant="h6">
