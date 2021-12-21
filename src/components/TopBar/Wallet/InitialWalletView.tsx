@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Component, ReactElement, useState } from "react";
 import {
   useTheme,
   makeStyles,
@@ -8,17 +8,15 @@ import {
   Typography,
   Box,
   Divider,
-  Link,
   IconButton,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
-import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
 import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
+import { ReactComponent as fraxTokenImg } from "src/assets/tokens/FRAX.svg";
 import { ReactComponent as daiTokenImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as ohmTokenImg } from "src/assets/tokens/token_OHM.svg";
-import { ReactComponent as abracadabraTokenImg } from "src/assets/tokens/MIM.svg";
+import { ReactComponent as wsOhmTokenImg } from "src/assets/tokens/token_wsOHM.svg";
 import { ReactComponent as arrowDown } from "src/assets/icons/arrow-down.svg";
 import { addresses, TOKEN_DECIMALS } from "src/constants";
 import { formatCurrency } from "src/helpers";
@@ -27,9 +25,19 @@ import useCurrentTheme from "src/hooks/useTheme";
 
 import { dai, frax } from "src/helpers/AllBonds";
 
-import { Tokens, useTokens } from "./Token";
+import { Tokens, useWallet } from "./Token";
 
-const Borrow = ({ Icon1, borrowableTokensIcons, borrowOn, totalAvailable, href }) => {
+const Borrow = ({
+  Icon1,
+  borrowableTokensIcons,
+  borrowOn,
+  href,
+}: {
+  Icon1: typeof Component;
+  borrowableTokensIcons: typeof Component[];
+  borrowOn: string;
+  href: string;
+}) => {
   const theme = useTheme();
   return (
     <ExternalLink href={href}>
@@ -40,7 +48,7 @@ const Borrow = ({ Icon1, borrowableTokensIcons, borrowOn, totalAvailable, href }
           ))}
           <SvgIcon
             component={arrowDown}
-            viewBox="-8 -12 48 48"
+            viewBox="-12 -12 48 48"
             style={{ height: "24px", width: "24px", transform: "rotate(270deg)" }}
           />
           <Icon1 style={{ height: "24px", width: "24px" }} />
@@ -50,11 +58,6 @@ const Borrow = ({ Icon1, borrowableTokensIcons, borrowOn, totalAvailable, href }
             <Typography align="left" style={{ maxWidth: "90px", whiteSpace: "break-spaces" }}>
               Borrow on {borrowOn}
             </Typography>
-            {totalAvailable && (
-              <Typography variant="body2" color="textSecondary">
-                {totalAvailable} Available
-              </Typography>
-            )}
           </Box>
         </Box>
       </Box>
@@ -62,46 +65,42 @@ const Borrow = ({ Icon1, borrowableTokensIcons, borrowOn, totalAvailable, href }
   );
 };
 
-const ExternalLinkStyledButton = withStyles(theme => ({
-  root: {
-    padding: theme.spacing(1),
-    maxHeight: "100%",
-    height: "100%",
-  },
-}))(Button);
-
-const ExternalLink = ({ href, children, color = "textSecondary" }) => {
+const ExternalLink = ({ href, children, color }: { href: string; children: ReactElement; color?: any }) => {
   const theme = useTheme();
   return (
-    <Link target="_blank" rel="noreferrer" href={href} style={{ width: "100%" }}>
-      <ExternalLinkStyledButton color={color} variant="outlined" fullWidth>
-        <Box
-          sx={{
-            position: "relative",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <Box sx={{ width: "100%" }}>{children}</Box>
-          <Box sx={{ display: "flex", alignSelf: "start" }}>
-            <SvgIcon
-              component={ArrowUpIcon}
-              htmlColor={color === "textSecondary" && theme.palette.text.secondary}
-              style={{
-                position: "absolute",
-                right: -2,
-                top: -2,
-                height: `18px`,
-                width: `18px`,
-                verticalAlign: "middle",
-              }}
-            />
-          </Box>
+    <Button
+      href={href}
+      color={color}
+      variant="outlined"
+      style={{ padding: theme.spacing(1), maxHeight: "100%", height: "100%" }}
+      fullWidth
+    >
+      <Box
+        sx={{
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        <Box sx={{ width: "100%" }}>{children}</Box>
+        <Box sx={{ display: "flex", alignSelf: "start" }}>
+          <SvgIcon
+            component={ArrowUpIcon}
+            htmlColor={color === "textSecondary" ? theme.palette.text.secondary : ""}
+            style={{
+              position: "absolute",
+              right: -2,
+              top: -2,
+              height: `18px`,
+              width: `18px`,
+              verticalAlign: "middle",
+            }}
+          />
         </Box>
-      </ExternalLinkStyledButton>
-    </Link>
+      </Box>
+    </Button>
   );
 };
 
@@ -114,34 +113,44 @@ const DisconnectButton = () => {
   );
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   totalValue: {
-    fontWeight: "700",
+    fontWeight: 700,
   },
   myWallet: {
     lineHeight: 1.1,
-    fontWeight: "600",
+    fontWeight: 600,
   },
-}));
+});
 
 const CloseButton = withStyles(theme => ({
   root: {
-    ...theme.overrides.MuiButton.containedSecondary,
+    ...theme.overrides?.MuiButton?.containedSecondary,
     width: "30px",
     height: "30px",
   },
 }))(IconButton);
 
 const WalletTotalValue = () => {
-  const tokens = useTokens();
+  const tokens = useWallet();
   const styles = useStyles();
-  const marketPrice = useAppSelector(s => s.app.marketPrice);
-  const [currency, setCurrency] = useState("USD");
+  const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
+  const marketPrice = useAppSelector(s => s.app.marketPrice || 0);
+  const [currency, setCurrency] = useState<"USD" | "OHM">("USD");
 
-  const walletValueUSD = tokens.reduce((totalValue, token) => totalValue + parseFloat(token.balance) * token.price, 0);
+  const walletNetworkValueUSD = Object.values(tokens).reduce(
+    (totalValue, token) => totalValue + parseFloat(token.balance) * token.price,
+    0,
+  );
+  const walletTotalValueUSD = Object.values(tokens).reduce((totalValue, token) => {
+    const allChainsBalance = !!token.crossChainBalances
+      ? Object.values(token.crossChainBalances).reduce((sum, b) => sum + parseFloat(b), 0)
+      : null;
+    return totalValue + (allChainsBalance || parseFloat(token.balance)) * token.price;
+  }, 0);
   const walletValue = {
-    USD: walletValueUSD,
-    OHM: walletValueUSD / marketPrice,
+    USD: walletTotalValueUSD,
+    OHM: walletTotalValueUSD / marketPrice,
   };
   return (
     <Box onClick={() => setCurrency(currency === "USD" ? "OHM" : "USD")}>
@@ -149,17 +158,13 @@ const WalletTotalValue = () => {
         MY WALLET
       </Typography>
       <Typography className={styles.totalValue} variant="h4">
-        {marketPrice && walletValueUSD ? (
-          formatCurrency(walletValue[currency], 2, currency)
-        ) : (
-          <Skeleton variant="text" width={100} />
-        )}
+        {!isLoading ? formatCurrency(walletValue[currency], 2, currency) : <Skeleton variant="text" width={100} />}
       </Typography>
     </Box>
   );
 };
 
-function InitialWalletView({ onClose }) {
+function InitialWalletView({ onClose }: { onClose: () => void }) {
   const theme = useTheme();
   const [currentTheme] = useCurrentTheme();
   const styles = useStyles();
@@ -171,12 +176,12 @@ function InitialWalletView({ onClose }) {
     <Box sx={{ padding: theme.spacing(0, 3), display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", padding: theme.spacing(2, 0) }}>
         <WalletTotalValue />
-        <CloseButton className={styles.closeButton} size="small" onClick={onClose} aria-label="close wallet">
+        <CloseButton size="small" onClick={onClose} aria-label="close wallet">
           <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", height: "15px" }} />
         </CloseButton>
       </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(1) }}>
+      <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1) }}>
         <Tokens />
       </Box>
 
@@ -189,8 +194,8 @@ function InitialWalletView({ onClose }) {
           display: "grid",
           gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
           gridTemplateRows: "min-content",
-          gap: theme.spacing(1.5),
         }}
+        style={{ gap: theme.spacing(1.5) }}
       >
         <ExternalLink
           color={currentTheme === "dark" ? "primary" : undefined}
@@ -209,25 +214,19 @@ function InitialWalletView({ onClose }) {
           <Typography align="left">Buy on Uniswap</Typography>
         </ExternalLink>
         <Borrow
-          href={`https://abracadabra.money/pool/10`}
-          borrowOn="Abracadabra"
-          borrowableTokensIcons={[wethTokenImg, daiTokenImg, abracadabraTokenImg]}
-          Icon1={ohmTokenImg}
-        />
-        <Borrow
           href={`https://app.rari.capital/fuse/pool/18`}
           borrowOn="Rari Capital"
-          borrowableTokensIcons={[wethTokenImg, wethTokenImg, wethTokenImg]}
-          Icon1={ohmTokenImg}
+          borrowableTokensIcons={[wethTokenImg, daiTokenImg, fraxTokenImg]}
+          Icon1={wsOhmTokenImg}
         />
-        <Box sx={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
+        <Box style={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
-            <Typography style={{ marginLeft: "18px" }}>Rusowsky's dashboard</Typography>
+            <Typography align="center">Rusowsky's dashboard</Typography>
           </ExternalLink>
         </Box>
-        <Box sx={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
+        <Box style={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           <ExternalLink href={`https://dune.xyz/shadow/Olympus-(OHM)`}>
-            <Typography style={{ marginLeft: "18px" }}>Shadow's dashboard</Typography>
+            <Typography align="center">Shadow's dashboard</Typography>
           </ExternalLink>
         </Box>
       </Box>
