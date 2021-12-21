@@ -277,7 +277,7 @@ function Stake() {
                 <Metric
                   className="stake-index"
                   label={t`Current Index`}
-                  metric={`${formattedCurrentIndex} OHM`}
+                  metric={`${formattedCurrentIndex} sOHM`}
                   isLoading={currentIndex ? false : true}
                 />
               </MetricCollection>
@@ -448,7 +448,7 @@ function Stake() {
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
                       {...{ isAppLoading }}
                     />
-                    <Accordion className="stake-accordion" square expanded={true}>
+                    <Accordion className="stake-accordion" square defaultExpanded>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
                         <StakeRow
                           title={t`Staked Balance`}
@@ -505,7 +505,7 @@ function Stake() {
                         {Number(fsohmBalance) > 0.00009 && (
                           <StakeRow
                             title={t`Staked Balance in Fuse`}
-                            balance={`${trim(Number(fsohmBalance), 4)} fsOHM (v1)`}
+                            balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
                             indented
                             {...{ isAppLoading }}
                           />
