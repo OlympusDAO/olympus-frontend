@@ -26,19 +26,25 @@ import {
   OlympusStakingv2__factory,
 } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
+import { NetworkID } from "src/lib/Bond";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 
 interface IUserBalances {
   balances: {
     gohm: string;
+    gOhmAsSohmBal: string;
     ohm: string;
+    ohmV1: string;
     sohm: string;
+    sohmV1: string;
     fsohm: string;
+    fgohm: string;
+    fgOHMAsfsOHM: string;
     wsohm: string;
     fiatDaowsohm: string;
-    pool: string;
     mockSohm: string;
+    pool: string;
   };
 }
 
@@ -63,11 +69,12 @@ interface IUserRecipientInfo {
 
 export const getBalances = createAsyncThunk(
   "account/getBalances",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserBalances> => {
     let gOhmBalance = BigNumber.from("0");
     let gOhmBalAsSohmBal = BigNumber.from("0");
     let ohmBalance = BigNumber.from("0");
     let sohmBalance = BigNumber.from("0");
+    let mockSohmBalance = BigNumber.from("0");
     let ohmV2Balance = BigNumber.from("0");
     let sohmV2Balance = BigNumber.from("0");
     let wsohmBalance = BigNumber.from("0");
@@ -170,7 +177,6 @@ export const getBalances = createAsyncThunk(
       Needed a sOHM contract on testnet that could easily 
       be manually rebased to test redeem features
     */
-    let mockSohmBalance = null;
     if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(
         addresses[networkID].MOCK_SOHM as string,
@@ -196,7 +202,7 @@ export const getBalances = createAsyncThunk(
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
         ohm: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmV2Balance, "gwei"),
-        ...(mockSohmBalance && { mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei") }),
+        mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei"),
       },
     };
   },

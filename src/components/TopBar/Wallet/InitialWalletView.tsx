@@ -1,0 +1,216 @@
+import { Component, ReactElement, useState } from "react";
+import {
+  useTheme,
+  makeStyles,
+  withStyles,
+  SvgIcon,
+  Button,
+  Typography,
+  Box,
+  Divider,
+  IconButton,
+} from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
+import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
+import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
+import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
+import { ReactComponent as fraxTokenImg } from "src/assets/tokens/FRAX.svg";
+import { ReactComponent as daiTokenImg } from "src/assets/tokens/DAI.svg";
+import { ReactComponent as wsOhmTokenImg } from "src/assets/tokens/token_wsOHM.svg";
+import { ReactComponent as arrowDown } from "src/assets/icons/arrow-down.svg";
+import { addresses, TOKEN_DECIMALS } from "src/constants";
+import { formatCurrency } from "src/helpers";
+import { useAppSelector, useWeb3Context } from "src/hooks";
+import useCurrentTheme from "src/hooks/useTheme";
+
+import { ohm_frax, ohm_dai } from "src/helpers/AllBonds";
+
+import { IToken, Token, Tokens, useWallet } from "./Token";
+import { NetworkID } from "src/lib/Bond";
+import { BigNumber } from "ethers";
+
+const Borrow = ({
+  Icon1,
+  borrowableTokensIcons,
+  borrowOn,
+  href,
+}: {
+  Icon1: typeof Component;
+  borrowableTokensIcons: typeof Component[];
+  borrowOn: string;
+  href: string;
+}) => {
+  const theme = useTheme();
+  return (
+    <ExternalLink href={href}>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row-reverse", justifyContent: "flex-end" }}>
+          {borrowableTokensIcons.map((Icon, i, arr) => (
+            <Icon style={{ height: "24px", width: "24px", ...(arr.length !== i + 1 && { marginLeft: "-8px" }) }} />
+          ))}
+          <SvgIcon
+            component={arrowDown}
+            viewBox="-12 -12 48 48"
+            style={{ height: "24px", width: "24px", transform: "rotate(270deg)" }}
+          />
+          <Icon1 style={{ height: "24px", width: "24px" }} />
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", marginTop: theme.spacing(1) }}>
+          <Box sx={{ display: "flex", flexDirection: "column", textAlign: "right", marginRight: theme.spacing(0.5) }}>
+            <Typography align="left" style={{ maxWidth: "90px", whiteSpace: "break-spaces" }}>
+              Borrow on {borrowOn}
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+    </ExternalLink>
+  );
+};
+
+const ExternalLink = ({ href, children, color }: { href: string; children: ReactElement; color?: any }) => {
+  const theme = useTheme();
+  return (
+    <Button
+      href={href}
+      color={color}
+      variant="outlined"
+      size="large"
+      style={{ padding: theme.spacing(1.5), maxHeight: "100%" }}
+      fullWidth
+      target={`_blank`}
+    >
+      <Box
+        sx={{
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        <Box sx={{ width: "100%" }}>{children}</Box>
+        <Box sx={{ display: "flex", alignSelf: "start" }}>
+          <SvgIcon
+            component={ArrowUpIcon}
+            htmlColor={color === "textSecondary" ? theme.palette.text.secondary : ""}
+            style={{
+              position: "absolute",
+              right: -2,
+              top: -2,
+              height: `18px`,
+              width: `18px`,
+              verticalAlign: "middle",
+            }}
+          />
+        </Box>
+      </Box>
+    </Button>
+  );
+};
+
+const DisconnectButton = () => {
+  const { disconnect } = useWeb3Context();
+  return (
+    <Button onClick={disconnect} variant="contained" size="large" color="secondary">
+      <Typography>Disconnect</Typography>
+    </Button>
+  );
+};
+
+const CloseButton = withStyles(theme => ({
+  root: {
+    ...theme.overrides?.MuiButton?.containedSecondary,
+    width: "30px",
+    height: "30px",
+  },
+}))(IconButton);
+
+const sumAllChainsTokenBalances = (token: IToken) =>
+  token.crossChainBalances?.balances &&
+  Object.values(token.crossChainBalances.balances).reduce((sum, b = "0.0") => sum + parseFloat(b), 0);
+
+const WalletTotalValue = () => {
+  const tokens = useWallet();
+  const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
+  const marketPrice = useAppSelector(s => s.app.marketPrice || 0);
+  const [currency, setCurrency] = useState<"USD" | "OHM">("USD");
+
+  const walletTotalValueUSD = Object.values(tokens).reduce((totalValue, token) => {
+    const allChainsBalance = sumAllChainsTokenBalances(token);
+    return totalValue + (allChainsBalance || parseFloat(token.balance)) * token.price;
+  }, 0);
+  const walletValue = {
+    USD: walletTotalValueUSD,
+    OHM: walletTotalValueUSD / marketPrice,
+  };
+  return (
+    <Box onClick={() => setCurrency(currency === "USD" ? "OHM" : "USD")}>
+      <Typography style={{ lineHeight: 1.1, fontWeight: 600 }} color="textSecondary">
+        MY WALLET
+      </Typography>
+      <Typography style={{ fontWeight: 700 }} variant="h4">
+        {!isLoading ? formatCurrency(walletValue[currency], 2, currency) : <Skeleton variant="text" width={100} />}
+      </Typography>
+    </Box>
+  );
+};
+
+function InitialWalletView({ onClose }: { onClose: () => void }) {
+  const theme = useTheme();
+  const [currentTheme] = useCurrentTheme();
+
+  return (
+    <Box sx={{ padding: theme.spacing(0, 3), display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", padding: theme.spacing(2, 0) }}>
+        <WalletTotalValue />
+        <CloseButton size="small" onClick={onClose} aria-label="close wallet">
+          <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", height: "15px" }} />
+        </CloseButton>
+      </Box>
+
+      <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1) }}>
+        <Tokens />
+      </Box>
+
+      <Box sx={{ margin: theme.spacing(2, -3) }}>
+        <Divider color="secondary" />
+      </Box>
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+          gridTemplateRows: "min-content",
+        }}
+        style={{ gap: theme.spacing(1.5) }}
+      >
+        <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
+          <Typography>Buy on Sushiswap</Typography>
+        </ExternalLink>
+        <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_frax.lpUrl}>
+          <Typography>Buy on Uniswap</Typography>
+        </ExternalLink>
+        <Borrow
+          href={`https://app.rari.capital/fuse/pool/18`}
+          borrowOn="Rari Capital"
+          borrowableTokensIcons={[wethTokenImg, daiTokenImg, fraxTokenImg]}
+          Icon1={wsOhmTokenImg}
+        />
+        <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1.5) }}>
+          <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
+            <Typography>Rusowsky's dashboard</Typography>
+          </ExternalLink>
+          <ExternalLink href={`https://dune.xyz/shadow/Olympus-(OHM)`}>
+            <Typography>Shadow's dashboard</Typography>
+          </ExternalLink>
+        </Box>
+      </Box>
+
+      <Box sx={{ marginTop: "auto", marginX: "auto", padding: theme.spacing(2) }}>
+        <DisconnectButton />
+      </Box>
+    </Box>
+  );
+}
+
+export default InitialWalletView;

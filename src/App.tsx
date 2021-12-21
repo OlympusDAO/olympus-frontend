@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -59,6 +60,8 @@ const DEBUG = false;
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
+
+const queryClient = new QueryClient();
 
 const drawerWidth = 280;
 const transitionDuration = 969;
@@ -309,120 +312,124 @@ function App() {
   const hasActiveV1Bonds = accountBonds.length > 0;
 
   return (
-    <ThemeProvider theme={themeMode}>
-      <CssBaseline />
-      {/* {isAppLoading && <LoadingSplash />} */}
-      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
-        <Messages />
-        <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-        <Announcement />
-        <nav className={classes.drawer}>
-          {isSmallerScreen ? (
-            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-          ) : (
-            <Sidebar />
-          )}
-        </nav>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={themeMode}>
+        <CssBaseline />
+        {/* {isAppLoading && <LoadingSplash />} */}
+        <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+          <Messages />
+          <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+          <Announcement />
+          <nav className={classes.drawer}>
+            {isSmallerScreen ? (
+              <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            ) : (
+              <Sidebar />
+            )}
+          </nav>
 
-        <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected &&
-            !hasActiveV1Bonds &&
-            trimmedPath.indexOf("dashboard") === -1 &&
-            oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+          <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+            {oldAssetsDetected &&
+              !hasActiveV1Bonds &&
+              trimmedPath.indexOf("dashboard") === -1 &&
+              oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
-          <Switch>
-            <Route exact path="/dashboard">
-              <TreasuryDashboard />
-            </Route>
+            <Switch>
+              <Route exact path="/dashboard">
+                <TreasuryDashboard />
+              </Route>
 
-            <Route exact path="/">
-              <Redirect to="/stake" />
-            </Route>
+              <Route exact path="/">
+                <Redirect to="/stake" />
+              </Route>
 
-            <Route path="/stake">
-              {/* if newAssets or 0 assets */}
-              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
-                <Stake />
-              ) : (
+              <Route path="/stake">
+                {/* if newAssets or 0 assets */}
+                {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
+                  <Stake />
+                ) : (
+                  <V1Stake
+                    hasActiveV1Bonds={hasActiveV1Bonds}
+                    oldAssetsDetected={oldAssetsDetected}
+                    setMigrationModalOpen={setMigrationModalOpen}
+                  />
+                )}
+              </Route>
+
+              <Route path="/v1-stake">
                 <V1Stake
                   hasActiveV1Bonds={hasActiveV1Bonds}
                   oldAssetsDetected={oldAssetsDetected}
                   setMigrationModalOpen={setMigrationModalOpen}
                 />
-              )}
-            </Route>
-
-            <Route path="/v1-stake">
-              <V1Stake
-                hasActiveV1Bonds={hasActiveV1Bonds}
-                oldAssetsDetected={oldAssetsDetected}
-                setMigrationModalOpen={setMigrationModalOpen}
-              />
-            </Route>
-
-            <Route exact path="/give">
-              <CausesDashboard />
-            </Route>
-            <Redirect from="/olympusgive" to="/give" />
-            <Redirect from="/tyche" to="/give" />
-            <Redirect from="/olygive" to="/give" />
-            <Redirect from="/olympusdaogive" to="/give" />
-            <Redirect from="/ohmgive" to="/give" />
-
-            <Route path="/give/projects">
-              {projects.map(project => {
-                return (
-                  <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
-                    <ProjectInfo project={project} />
-                  </Route>
-                );
-              })}
-            </Route>
-
-            <Route exact path="/give/donations">
-              <DepositYield />
-            </Route>
-
-            <Route exact path="/give/redeem">
-              <RedeemYield />
-            </Route>
-
-            <Route path="/zap">
-              <Route exact path={`/zap`}>
-                <Zap />
               </Route>
-            </Route>
 
-            <Route path="/wrap">
-              <Wrap />
-            </Route>
+              <Route exact path="/give">
+                <CausesDashboard />
+              </Route>
+              <Redirect from="/olympusgive" to="/give" />
+              <Redirect from="/tyche" to="/give" />
+              <Redirect from="/olygive" to="/give" />
+              <Redirect from="/olympusdaogive" to="/give" />
+              <Redirect from="/ohmgive" to="/give" />
 
-            {/* <Route path="/33-together">
+              <Route path="/give/projects">
+                {projects.map(project => {
+                  return (
+                    <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
+                      <ProjectInfo project={project} />
+                    </Route>
+                  );
+                })}
+              </Route>
+
+              <Route exact path="/give/donations">
+                <DepositYield />
+              </Route>
+
+              <Route exact path="/give/redeem">
+                <RedeemYield />
+              </Route>
+
+              <Route path="/wrap">
+                <Route exact path={`/wrap`}>
+                  <Wrap />
+                </Route>
+              </Route>
+
+              <Route path="/zap">
+                <Route exact path={`/zap`}>
+                  <Zap />
+                </Route>
+              </Route>
+
+              {/* <Route path="/33-together">
               <PoolTogether />
             </Route> */}
 
-            <Route path="/bonds">
-              {(bonds as IAllBondData[]).map(bond => {
-                return (
-                  <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
-                    <Bond bond={bond} />
-                  </Route>
-                );
-              })}
-              <ChooseBond />
-            </Route>
+              <Route path="/bonds">
+                {(bonds as IAllBondData[]).map(bond => {
+                  return (
+                    <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
+                      <Bond bond={bond} />
+                    </Route>
+                  );
+                })}
+                <ChooseBond />
+              </Route>
 
-            <Route path="/network">
-              <ChangeNetwork />
-            </Route>
+              <Route path="/network">
+                <ChangeNetwork />
+              </Route>
 
-            <Route component={NotFound} />
-          </Switch>
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+
+          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
         </div>
-
-        <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 
