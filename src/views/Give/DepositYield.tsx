@@ -52,7 +52,7 @@ export default function DepositYield() {
               <div className="card-header">
                 <div className="give-yield-title">
                   <Typography variant="h5">
-                    <Trans>Deposits Dashboard</Trans>
+                    <Trans>Donate Yield</Trans>
                   </Typography>
                   <InfoTooltip
                     message={t`Direct yield from your deposited sOHM to other recipients. Your sOHM is deposited in a vault, but you can withdraw it or change the deposited amount at any time.`}

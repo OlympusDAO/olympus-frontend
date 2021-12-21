@@ -450,10 +450,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Typography>
               </div>
               <Grid container direction="column" className="cause-misc-info">
-                <Grid item xs={3} sm={6}>
+                <Grid item xs={6}>
                   {renderGoalCompletion()}
                 </Grid>
-                <Grid item xs={4} sm={12} md={6} className="give-button-grid">
+                <Grid item xs={6} sm={12} md={6} className="give-button-grid">
                   <Button
                     variant="contained"
                     color="primary"
@@ -462,7 +462,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     disabled={!address || !isSupportedChain(networkId)}
                   >
                     <Typography variant="h6">
-                      <Trans>Give Yield</Trans>
+                      <Trans>Donate Yield</Trans>
                     </Typography>
                   </Button>
                 </Grid>
@@ -559,7 +559,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                 disabled={!address || !isSupportedChain(networkId)}
                               >
                                 <Typography variant="h6">
-                                  <Trans>Give Yield</Trans>
+                                  <Trans>Donate Yield</Trans>
                                 </Typography>
                               </Button>
                             </div>
