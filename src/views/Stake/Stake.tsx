@@ -44,6 +44,7 @@ import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
 import StakeRow from "./StakeRow";
 import { Metric, MetricCollection } from "../../components/Metric";
+import { ConfirmDialog } from "./ConfirmDialog";
 
 function a11yProps(index: number) {
   return {
@@ -62,10 +63,11 @@ function Stake() {
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
+  const [confirmation, setConfirmation] = useState(true);
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
-    return state.app.currentIndex;
+    return state.app.currentIndex ?? "1";
   });
   const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;
@@ -135,9 +137,9 @@ function Stake() {
   const setMax = () => {
     if (view === 0) {
       setQuantity(ohmBalance);
-    } else if (!checked) {
+    } else if (!confirmation) {
       setQuantity(sohmBalance);
-    } else if (checked) {
+    } else if (confirmation) {
       setQuantity(gOhmAsSohm.toString());
     }
   };
@@ -163,7 +165,7 @@ function Stake() {
       return dispatch(error(t`You cannot stake more than your OHM balance.`));
     }
 
-    if (checked === false && action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+    if (confirmation === false && action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
       return dispatch(
         error(
           t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please check the box.`,
@@ -177,7 +179,7 @@ function Stake() {
      */
     // const formQuant = checked && currentIndex && view === 1 ? quantity / Number(currentIndex) : quantity;
     const formQuant = async () => {
-      if (checked && currentIndex && view === 1) {
+      if (confirmation && currentIndex && view === 1) {
         return await getGohmBalFromSohm({ provider, networkID: networkId, sOHMbalance: quantity });
       } else {
         return quantity;
@@ -192,7 +194,7 @@ function Stake() {
         provider,
         networkID: networkId,
         version2: true,
-        rebase: !checked,
+        rebase: !confirmation,
       }),
     );
   };
@@ -245,58 +247,6 @@ function Stake() {
     minimumFractionDigits: 0,
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
-
-  const [checked, setChecked] = useState(true);
-
-  const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    setChecked(e.target.checked);
-  };
-
-  function ConfirmDialog() {
-    const gohmQuantity = () => {
-      if (quantity) {
-        return (Number(quantity) / Number(currentIndex)).toFixed(4);
-      } else {
-        return "";
-      }
-    };
-    const ohmQuantity = () => {
-      if (quantity) {
-        return Number(quantity).toFixed(4);
-      } else {
-        return "";
-      }
-    };
-
-    return (
-      <Paper
-        className="ohm-card confirm-dialog"
-        style={{ marginBottom: "0.8rem", width: "100%", padding: "12px 12px" }}
-      >
-        <Box className="dialog-container" display="flex" alignItems="center" justifyContent="center">
-          <Typography variant="body2">
-            <Grid component="label" container alignItems="center" spacing={1}>
-              <Grid item>{view === 0 ? "Stake to sOHM" : "Unstake from sOHM"}</Grid>
-              <Grid item>
-                <Switch
-                  checked={checked}
-                  onChange={handleCheck}
-                  color="primary"
-                  className="stake-to-ohm-checkbox"
-                  inputProps={{ "aria-label": "stake to gohm" }}
-                />
-              </Grid>
-              <Grid item>
-                {view === 0
-                  ? `Staking ${ohmQuantity()} OHM to ${gohmQuantity()} gOHM`
-                  : `Unstaking ${gohmQuantity()} gOHM to ${ohmQuantity()} OHM`}
-              </Grid>
-            </Grid>
-          </Typography>
-        </Box>
-      </Paper>
-    );
-  }
 
   return (
     <div id="stake-view">
@@ -371,8 +321,8 @@ function Stake() {
                       <Grid item xs={12} sm={8} className="stake-grid-item">
                         {address && !isAllowanceDataLoading ? (
                           (!hasAllowance("ohm") && view === 0) ||
-                          (!hasAllowance("sohm") && view === 1 && !checked) ||
-                          (!hasAllowance("gohm") && view === 1 && checked) ? (
+                          (!hasAllowance("sohm") && view === 1 && !confirmation) ||
+                          (!hasAllowance("gohm") && view === 1 && confirmation) ? (
                             <Box className="help-text">
                               <Typography variant="body1" className="stake-note" color="textSecondary">
                                 {view === 0 ? (
@@ -454,7 +404,8 @@ function Stake() {
                           <Box m={-2}>
                             {isAllowanceDataLoading ? (
                               <Skeleton />
-                            ) : (address && hasAllowance("sohm") && !checked) || (hasAllowance("gohm") && checked) ? (
+                            ) : (address && hasAllowance("sohm") && !confirmation) ||
+                              (hasAllowance("gohm") && confirmation) ? (
                               <Button
                                 className="stake-button"
                                 variant="contained"
@@ -473,7 +424,7 @@ function Stake() {
                                 color="primary"
                                 disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                                 onClick={() => {
-                                  onSeekApproval(checked ? "gohm" : "sohm");
+                                  onSeekApproval(confirmation ? "gohm" : "sohm");
                                 }}
                               >
                                 {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
@@ -484,7 +435,12 @@ function Stake() {
                       </Grid>
                     </Grid>
                   </Box>
-                  {ConfirmDialog()}
+                  <ConfirmDialog
+                    quantity={quantity}
+                    currentIndex={currentIndex}
+                    view={view}
+                    onConfirm={setConfirmation}
+                  />
                   <div className="stake-user-data">
                     <StakeRow
                       title={t`Unstaked Balance`}

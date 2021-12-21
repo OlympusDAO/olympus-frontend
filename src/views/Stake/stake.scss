@@ -12,7 +12,7 @@
   }
 
   .stake-to-ohm-checkbox {
-    svg{
+    svg {
       font-size: 0.8em;
     }
   }
@@ -43,6 +43,11 @@
   .ohm-card.secondary .card-header {
     min-height: 33px !important;
     height: 20px;
+  }
+  .confirm-dialog {
+    margin-bottom: 0.8rem;
+    width: 100%;
+    padding: 12px 12px;
   }
   .stake-note {
     text-align: center;
