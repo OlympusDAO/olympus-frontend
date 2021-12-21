@@ -491,6 +491,11 @@
   }
 }
 
+.ohm-modal.smaller {
+  top: 0%;
+  transform: translate(-50.048%, 0%);
+}
+
 .give-confirmation-details {
   .confirmation-sect-header {
     margin-bottom: 16px;
@@ -840,6 +845,7 @@
   }
 }
 
+
 .subnav-paper {
   max-width: 833px;
   margin-bottom: 10rem;
@@ -854,3 +860,5 @@
     line-height: 20px;
   }
 }
+
+
