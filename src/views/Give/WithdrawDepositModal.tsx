@@ -89,9 +89,9 @@ export function WithdrawDepositModal({
           </Typography>
         </div>
         <div className="give-education-graphics">
-          <VaultGraphic quantity={depositAmount.toString()} verb={t`withdrawn`} />
+          <VaultGraphic quantity={depositAmount.toFixed(4)} verb={t`withdrawn`} />
           <ArrowGraphic />
-          <WalletGraphic quantity={depositAmount.toString()} verb={t`deposited`} />
+          <WalletGraphic quantity={depositAmount.toFixed(4)} verb={t`deposited`} />
         </div>
 
         <Typography variant="body1">

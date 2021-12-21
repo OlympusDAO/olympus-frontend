@@ -38,6 +38,7 @@ import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import ConnectButton from "../../components/ConnectButton";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -64,7 +65,7 @@ export function RecipientModal({
 }: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
+  const { provider, address, connect } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
 
   const _initialDepositAmount = 0;
@@ -415,6 +416,14 @@ export function RecipientModal({
     );
   };
 
+  const handleConnect = () => {
+    // Close the modal first
+    cancelFunc();
+
+    // Then connect
+    connect();
+  };
+
   // TODO stop modal from moving when validation messages are shown
 
   // NOTE: the following warning is caused by the amount-input field:
@@ -579,7 +588,13 @@ export function RecipientModal({
           </>
         )}
         {isCreateMode() ? (
-          address && (hasAllowance() || isGiveLoading) && !isAmountSet ? (
+          !address ? (
+            <FormControl className="ohm-modal-submit">
+              <Button variant="contained" color="primary" className="connect-button" onClick={handleConnect}>
+                <Trans>Connect Wallet</Trans>
+              </Button>
+            </FormControl>
+          ) : address && (hasAllowance() || isGiveLoading) && !isAmountSet ? (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
                 <Trans>Continue</Trans>
