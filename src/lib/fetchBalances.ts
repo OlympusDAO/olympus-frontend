@@ -17,7 +17,7 @@ export type Token = {
 };
 
 const CovalentApi = "https://api.covalenthq.com/v1";
-const COVALENT_KEY = "ckey_74081065f7d44bcb827e380b39b"; //process.env.COVALENTHQ_API_KEY
+const COVALENT_KEY = process.env.REACT_APP_COVALENT;
 
 const fetchBalances = (addressOrENS: string, networkId: NetworkID, quoteCurrency = "usd") =>
   fetch(
