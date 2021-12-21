@@ -374,9 +374,7 @@ export function RecipientModal({
           <Typography variant="body1">
             <Trans>Recipient</Trans>
           </Typography>
-          <Typography variant="h6">
-            <Trans>{getRecipientTitle()}</Trans>
-          </Typography>
+          <Typography variant="h6">{getRecipientTitle()}</Typography>
         </>
       );
     }
