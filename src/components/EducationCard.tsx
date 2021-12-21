@@ -38,9 +38,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          <Trans>
-            {Number(quantity).toFixed(4)} sOHM {verb}
-          </Trans>
+          {Number(quantity).toFixed(4)} sOHM {verb}
         </Typography>
       </Box>
     </Box>
@@ -77,7 +75,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          <Trans>{message}</Trans>
+          {message}
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           <Trans>
@@ -115,7 +113,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          <Trans>{message}</Trans>
+          {message}
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           <Trans>
@@ -141,13 +139,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading }: Educat
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          {isLoading ? (
-            <Skeleton width={120} />
-          ) : (
-            <Trans>
-              {quantity} sOHM {verb}
-            </Trans>
-          )}
+          {isLoading ? <Skeleton width={120} /> : `${quantity} sOHM ${verb}`}
         </Typography>
       </Box>
     </Box>
@@ -190,7 +182,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          <Trans>{message}</Trans>
+          {message}
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           <Trans>
@@ -234,7 +226,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          <Trans>{message}</Trans>
+          {message}
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           <Trans>
@@ -268,7 +260,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          <Trans>Receives yield from {quantity} sOHM</Trans>
+          {`${t`Receives yield from`} ${quantity} sOHM`}
         </Typography>
       </Box>
     </Box>
@@ -296,7 +288,7 @@ export function RedeemGraphic({ quantity, isLoading }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          {isLoading ? <Skeleton width={120} /> : <Trans>Redeem {quantity} sOHM in yield</Trans>}
+          {isLoading ? <Skeleton width={120} /> : `${t`Redeem`} ${quantity} ${`sOHM in yield`}`}
         </Typography>
       </Box>
     </Box>
@@ -333,7 +325,7 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          <Trans>{message}</Trans>
+          {message}
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           <Trans>
@@ -371,7 +363,7 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
         <Typography variant="body1" align="left" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          <Trans>{message}</Trans>
+          {message}
         </Typography>
         <Typography variant="body2" align="left" className="education-message" style={{ lineHeight: "16px" }}>
           <Trans>
@@ -397,7 +389,7 @@ export function CurrPositionGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          <Trans>{quantity} sOHM</Trans>
+          {quantity} sOHM
         </Typography>
       </Box>
     </Box>
@@ -417,7 +409,7 @@ export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          <Trans>{quantity} sOHM</Trans>
+          {quantity} sOHM
         </Typography>
       </Box>
     </Box>
