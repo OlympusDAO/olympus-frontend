@@ -272,7 +272,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <SvgIcon component={CheckIcon} fill={svgFillColour} />
         </div>
         <div>
-          <Tooltip title={totalDebt + t` of ` + depositGoal + t` sOHM raised`} arrow>
+          <Tooltip
+            title={
+              !address
+                ? t`Connect your wallet to view the fundraising progress`
+                : `${totalDebt} of ${depositGoal} sOHM raised`
+            }
+            arrow
+          >
             <div>
               <div className="cause-info-main-text">
                 <Typography variant="body1">
@@ -453,16 +460,15 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Grid item xs={3} sm={6}>
                   {renderGoalCompletion()}
                 </Grid>
-                <Grid item xs={4} sm={12} md={6} className="give-button-grid">
+                <Grid item xs={6} sm={12} md={6} className="give-button-grid">
                   <Button
                     variant="contained"
                     color="primary"
                     className="cause-give-button"
                     onClick={() => handleGiveButtonClick()}
-                    disabled={!address || !isSupportedChain(networkId)}
                   >
                     <Typography variant="h6">
-                      <Trans>Give Yield</Trans>
+                      <Trans>Donate Yield</Trans>
                     </Typography>
                   </Button>
                 </Grid>
@@ -559,7 +565,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                 disabled={!address || !isSupportedChain(networkId)}
                               >
                                 <Typography variant="h6">
-                                  <Trans>Give Yield</Trans>
+                                  <Trans>Donate Yield</Trans>
                                 </Typography>
                               </Button>
                             </div>
@@ -610,7 +616,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                           <Trans>About</Trans>
                         </strong>
                       </Typography>
-                      <div dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                      <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
                     </Paper>
                   </Grid>
                 </Grid>

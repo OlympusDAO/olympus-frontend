@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Link, Typography } from "@material-ui/core";
+import { Box, Button, Link, Typography, useTheme } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import { NavLink, useLocation } from "react-router-dom";
 import { isSupportedChain } from "src/slices/GiveThunk";
@@ -13,6 +13,10 @@ type GiveHeaderProps = {
 
 export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networkId }: GiveHeaderProps) {
   const location = useLocation();
+  const theme = useTheme();
+  const isDonationsTabActive = location.pathname.replace("/", "") == "give/donations";
+  const isGiveTabActive =
+    location.pathname.replace("/", "") == "give" || location.pathname.replace("/", "").includes("give/projects");
 
   return (
     <Box className={`give-subnav ${isSmallScreen || isVerySmallScreen ? "smaller" : ""}`}>
@@ -20,11 +24,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networ
         component={NavLink}
         id="give-sub-dash"
         to="/give"
-        className={`give-option ${
-          location.pathname.replace("/", "") == "give" || location.pathname.replace("/", "").includes("give/projects")
-            ? "give-active"
-            : ""
-        }`}
+        className={`give-option ${isGiveTabActive ? "give-active" : ""}`}
       >
         <Button color="secondary">
           <Typography variant="h6">
@@ -36,7 +36,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networ
         component={NavLink}
         id="give-sub-donations"
         to="/give/donations"
-        className={`give-option ${location.pathname.replace("/", "") == "give/donations" ? "give-active" : ""}`}
+        className={`give-option ${isDonationsTabActive ? "give-active" : ""}`}
       >
         <Button color="secondary">
           <Typography variant="h6">

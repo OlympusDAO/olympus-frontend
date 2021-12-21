@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  margin-top: 10px;
 
   .ohm-card {
     overflow-y: scrollable;
@@ -47,6 +48,8 @@
   .card-header {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    vertical-align: middle;
 
     .give-education {
       display: flex;
@@ -63,7 +66,6 @@
     align-content: center;
     justify-content: center;
     width: 100%;
-    margin-top: 10px;
 
     .MuiGrid-root.MuiGrid-item {
       display: flex;
@@ -313,6 +315,12 @@
       padding-top: 0px;
       padding-left: 30px;
       width: 100%;
+
+      .cause-misc-info {
+        .MuiGrid-item {
+          justify-content: flex-start;
+        }
+      }
     }
 
     .cause-image {
@@ -341,11 +349,6 @@
 
   .give-option.give-active {
     text-decoration: underline;
-    text-decoration-color: #f4d092;
-
-    .MuiTypography-h6 {
-      color: #f4d092;
-    }
   }
 
   #give-sub-dash {
@@ -525,12 +528,6 @@
   .MuiDivider-root {
     background-color: #f4d092;
   }
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  vertical-align: middle;
 }
 
 .give-info {
@@ -854,6 +851,13 @@
   margin-bottom: 10rem;
   &.mobile {
     width: 100%;
+  }
+}
+
+.project-content {
+  li {
+    // Same as standard
+    line-height: 20px;
   }
 }
 
