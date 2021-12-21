@@ -272,7 +272,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <SvgIcon component={CheckIcon} fill={svgFillColour} />
         </div>
         <div>
-          <Tooltip title={totalDebt + t` of ` + depositGoal + t` sOHM raised`} arrow>
+          <Tooltip
+            title={
+              !address
+                ? t`Connect your wallet to view the fundraising progress`
+                : `${totalDebt} of ${depositGoal} sOHM raised`
+            }
+            arrow
+          >
             <div>
               <div className="cause-info-main-text">
                 <Typography variant="body1">
