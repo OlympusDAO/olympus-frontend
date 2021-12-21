@@ -616,7 +616,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                           <Trans>About</Trans>
                         </strong>
                       </Typography>
-                      <div dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                      <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
                     </Paper>
                   </Grid>
                 </Grid>
