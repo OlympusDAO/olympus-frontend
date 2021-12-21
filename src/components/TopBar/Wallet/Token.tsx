@@ -35,7 +35,9 @@ import { BigNumber } from "ethers";
 
 const Accordion = withStyles({
   root: {
-    backgroundColor: "transparent",
+    backgroundColor: "inherit",
+    backdropFilter: "none",
+    "-webkit-backdrop-filter": "none",
     boxShadow: "none",
     "&:before": {
       display: "none",
@@ -106,20 +108,23 @@ interface TokenProps extends IToken {
   expanded: boolean;
   onChangeExpanded: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void;
   onAddTokenToWallet: () => void;
+  tDecimals: number;
 }
 
 const BalanceValue = ({
   balance,
   balanceValueUSD,
   isLoading = false,
+  sigFigs,
 }: {
   balance: string;
   balanceValueUSD: number;
   isLoading?: boolean;
+  sigFigs: number;
 }) => (
   <Box sx={{ textAlign: "right", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
     <Typography variant="body2" style={{ fontWeight: 600 }}>
-      {!isLoading ? balance.substring(0, 5) : <Skeleton variant="text" width={50} />}
+      {!isLoading ? balance.substring(0, sigFigs) : <Skeleton variant="text" width={50} />}
     </Typography>
     <Typography variant="body2" color="textSecondary">
       {!isLoading ? formatCurrency(balanceValueUSD, 2) : <Skeleton variant="text" width={50} />}
@@ -135,6 +140,7 @@ const sumAllChainsBalances = (crossChainBalances: IToken["crossChainBalances"]) 
 
 export const Token = ({
   symbol,
+  tDecimals,
   icon,
   balance = "0.0",
   price = 0,
@@ -148,6 +154,9 @@ export const Token = ({
   const allChainsBalance = sumAllChainsBalances(crossChainBalances);
   const totalBalance = allChainsBalance || balance;
   const balanceValue = parseFloat(totalBalance) * price;
+  // cleanedDecimals provides up to 7 sigFigs on an 18 decimal token (gOHM) & 5 sigFigs on 9 decimal Token
+  const sigFigs = tDecimals === 18 ? 7 : 5;
+
   return (
     <Accordion expanded={expanded} onChange={onChangeExpanded}>
       <AccordionSummary expandIcon={<SvgIcon component={MoreIcon} color="disabled" />}>
@@ -157,6 +166,7 @@ export const Token = ({
         </Box>
         <BalanceValue
           balance={totalBalance}
+          sigFigs={sigFigs}
           balanceValueUSD={balanceValue}
           isLoading={isLoading || crossChainBalances?.isLoading}
         />
@@ -175,7 +185,7 @@ export const Token = ({
                       {NETWORKS[networkId as any].chainName}:
                     </Typography>
                     <Typography color="textSecondary" key={`${symbol}-${networkId}-balance`}>
-                      <BalanceValue balance={balance} balanceValueUSD={parseFloat(balance) * price} />
+                      <BalanceValue balance={balance} sigFigs={sigFigs} balanceValueUSD={parseFloat(balance) * price} />
                     </Typography>
                   </Box>
                 ),
@@ -331,11 +341,14 @@ export const Tokens = () => {
   return (
     <>
       {alwaysShowTokens.map(token => (
-        <Token key={token.symbol} {...tokenProps(token)} />
+        <Token key={token.symbol} tDecimals={token.decimals} {...tokenProps(token)} />
       ))}
       {!isLoading &&
         onlyShowWhenBalanceTokens.map(
-          token => parseFloat(token.balance) > 0.01 && <Token key={token.symbol} {...tokenProps(token)} />,
+          token =>
+            parseFloat(token.balance) > 0.01 && (
+              <Token key={token.symbol} tDecimals={token.decimals} {...tokenProps(token)} />
+            ),
         )}
       {!isLoading &&
         v1Tokens.map(token => parseFloat(token.balance) > 0.01 && <MigrateToken {...token} key={token.symbol} />)}
