@@ -134,7 +134,7 @@ export const frax = new StableBond({
   bondContractABI: FraxBondContract,
   isBondable: {
     [NetworkID.Mainnet]: true,
-    [NetworkID.Testnet]: true,
+    [NetworkID.Testnet]: false,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
@@ -227,7 +227,7 @@ export const eth = new CustomBond({
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   isBondable: {
     [NetworkID.Mainnet]: false,
-    [NetworkID.Testnet]: false,
+    [NetworkID.Testnet]: true,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
@@ -492,7 +492,7 @@ export const ohm_frax = new LPBond({
   reserveContract: ReserveOhmFraxContract,
   isBondable: {
     [NetworkID.Mainnet]: true,
-    [NetworkID.Testnet]: true,
+    [NetworkID.Testnet]: false,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
