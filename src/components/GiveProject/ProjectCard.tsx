@@ -109,6 +109,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
 
+  useEffect(() => {
+    let items = document.getElementsByClassName("project-container");
+    if (items.length > 0) {
+      items[0].scrollIntoView();
+    }
+  }, [location.pathname]);
+
   // When the user's wallet is connected, we perform these actions
   useEffect(() => {
     if (!connected) return;
