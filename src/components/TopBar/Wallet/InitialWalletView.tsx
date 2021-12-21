@@ -25,7 +25,9 @@ import useCurrentTheme from "src/hooks/useTheme";
 
 import { ohm_frax, ohm_dai } from "src/helpers/AllBonds";
 
-import { Tokens, useWallet } from "./Token";
+import { IToken, Token, Tokens, useWallet } from "./Token";
+import { NetworkID } from "src/lib/Bond";
+import { BigNumber } from "ethers";
 
 const Borrow = ({
   Icon1,
@@ -41,7 +43,7 @@ const Borrow = ({
   const theme = useTheme();
   return (
     <ExternalLink href={href}>
-      <Box sx={{ display: "flex", flexDirection: "column", padding: theme.spacing(1, 0) }}>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row-reverse", justifyContent: "flex-end" }}>
           {borrowableTokensIcons.map((Icon, i, arr) => (
             <Icon style={{ height: "24px", width: "24px", ...(arr.length !== i + 1 && { marginLeft: "-8px" }) }} />
@@ -72,7 +74,8 @@ const ExternalLink = ({ href, children, color }: { href: string; children: React
       href={href}
       color={color}
       variant="outlined"
-      style={{ padding: theme.spacing(1), maxHeight: "100%", height: "100%" }}
+      size="large"
+      style={{ padding: theme.spacing(1.5), maxHeight: "100%" }}
       fullWidth
       target={`_blank`}
     >
@@ -114,16 +117,6 @@ const DisconnectButton = () => {
   );
 };
 
-const useStyles = makeStyles({
-  totalValue: {
-    fontWeight: 700,
-  },
-  myWallet: {
-    lineHeight: 1.1,
-    fontWeight: 600,
-  },
-});
-
 const CloseButton = withStyles(theme => ({
   root: {
     ...theme.overrides?.MuiButton?.containedSecondary,
@@ -132,21 +125,18 @@ const CloseButton = withStyles(theme => ({
   },
 }))(IconButton);
 
+const sumAllChainsTokenBalances = (token: IToken) =>
+  token.crossChainBalances?.balances &&
+  Object.values(token.crossChainBalances.balances).reduce((sum, b = "0.0") => sum + parseFloat(b), 0);
+
 const WalletTotalValue = () => {
   const tokens = useWallet();
-  const styles = useStyles();
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const marketPrice = useAppSelector(s => s.app.marketPrice || 0);
   const [currency, setCurrency] = useState<"USD" | "OHM">("USD");
 
-  const walletNetworkValueUSD = Object.values(tokens).reduce(
-    (totalValue, token) => totalValue + parseFloat(token.balance) * token.price,
-    0,
-  );
   const walletTotalValueUSD = Object.values(tokens).reduce((totalValue, token) => {
-    const allChainsBalance = !!token.crossChainBalances
-      ? Object.values(token.crossChainBalances).reduce((sum, b) => sum + parseFloat(b), 0)
-      : null;
+    const allChainsBalance = sumAllChainsTokenBalances(token);
     return totalValue + (allChainsBalance || parseFloat(token.balance)) * token.price;
   }, 0);
   const walletValue = {
@@ -155,10 +145,10 @@ const WalletTotalValue = () => {
   };
   return (
     <Box onClick={() => setCurrency(currency === "USD" ? "OHM" : "USD")}>
-      <Typography className={styles.myWallet} color="textSecondary">
+      <Typography style={{ lineHeight: 1.1, fontWeight: 600 }} color="textSecondary">
         MY WALLET
       </Typography>
-      <Typography className={styles.totalValue} variant="h4">
+      <Typography style={{ fontWeight: 700 }} variant="h4">
         {!isLoading ? formatCurrency(walletValue[currency], 2, currency) : <Skeleton variant="text" width={100} />}
       </Typography>
     </Box>
@@ -168,10 +158,6 @@ const WalletTotalValue = () => {
 function InitialWalletView({ onClose }: { onClose: () => void }) {
   const theme = useTheme();
   const [currentTheme] = useCurrentTheme();
-  const styles = useStyles();
-
-  // we can check if network has been initialized but I think just defaulting to mainnet while it's not initialized is fine
-  const networkId = useAppSelector(({ network: { networkId, initialized } }) => (initialized ? networkId : 1));
 
   return (
     <Box sx={{ padding: theme.spacing(0, 3), display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -199,10 +185,10 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
         style={{ gap: theme.spacing(1.5) }}
       >
         <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
-          <Typography align="left">Buy on Sushiswap</Typography>
+          <Typography>Buy on Sushiswap</Typography>
         </ExternalLink>
         <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_frax.lpUrl}>
-          <Typography align="left">Buy on Uniswap</Typography>
+          <Typography>Buy on Uniswap</Typography>
         </ExternalLink>
         <Borrow
           href={`https://app.rari.capital/fuse/pool/18`}
@@ -210,14 +196,12 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
           borrowableTokensIcons={[wethTokenImg, daiTokenImg, fraxTokenImg]}
           Icon1={wsOhmTokenImg}
         />
-        <Box style={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1.5) }}>
           <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
-            <Typography align="center">Rusowsky's dashboard</Typography>
+            <Typography>Rusowsky's dashboard</Typography>
           </ExternalLink>
-        </Box>
-        <Box style={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
           <ExternalLink href={`https://dune.xyz/shadow/Olympus-(OHM)`}>
-            <Typography align="center">Shadow's dashboard</Typography>
+            <Typography>Shadow's dashboard</Typography>
           </ExternalLink>
         </Box>
       </Box>
