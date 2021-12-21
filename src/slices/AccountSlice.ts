@@ -23,10 +23,9 @@ import {
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 import { NetworkID } from "src/lib/Bond";
 
-type MultiChainBalance = { [networkId in NetworkID]?: string };
 interface IUserBalances {
   balances: {
-    gohm: MultiChainBalance;
+    gohm: string;
     gOhmAsSohmBal: string;
     ohm: string;
     ohmV1: string;
@@ -35,7 +34,7 @@ interface IUserBalances {
     fsohm: string;
     fgohm: string;
     fgOHMAsfsOHM: string;
-    wsohm: MultiChainBalance;
+    wsohm: string;
     fiatDaowsohm: string;
     // wsohmAsSohm: string;
     pool: string;
@@ -150,18 +149,14 @@ export const getBalances = createAsyncThunk(
 
     return {
       balances: {
-        gohm: {
-          [NetworkID.Mainnet]: ethers.utils.formatEther(gOhmBalance),
-        },
+        gohm: ethers.utils.formatEther(gOhmBalance),
         gOhmAsSohmBal: ethers.utils.formatUnits(gOhmBalAsSohmBal, "gwei"),
         ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
         fgohm: ethers.utils.formatEther(fgohmBalance),
         fgOHMAsfsOHM: ethers.utils.formatUnits(fgOHMAsfsOHMBalance, "gwei"),
-        wsohm: {
-          [NetworkID.Mainnet]: ethers.utils.formatEther(wsohmBalance),
-        },
+        wsohm: ethers.utils.formatEther(wsohmBalance),
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
         ohm: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
@@ -355,7 +350,7 @@ export const calculateUserBondDetails = createAsyncThunk(
 interface IAccountSlice extends IUserAccountDetails {
   bonds: { [key: string]: IUserBondDetails };
   balances: {
-    gohm: MultiChainBalance;
+    gohm: string;
     gOhmAsSohmBal: string;
     ohmV1: string;
     ohm: string;
@@ -366,7 +361,7 @@ interface IAccountSlice extends IUserAccountDetails {
     fsohm: string;
     fgohm: string;
     fgOHMAsfsOHM: string;
-    wsohm: MultiChainBalance;
+    wsohm: string;
     fiatDaowsohm: string;
     pool: string;
   };
@@ -393,7 +388,7 @@ const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
   balances: {
-    gohm: {},
+    gohm: "",
     gOhmAsSohmBal: "",
     ohmV1: "",
     ohm: "",
@@ -404,7 +399,7 @@ const initialState: IAccountSlice = {
     fsohm: "",
     fgohm: "",
     fgOHMAsfsOHM: "",
-    wsohm: {},
+    wsohm: "",
     fiatDaowsohm: "",
     pool: "",
   },
