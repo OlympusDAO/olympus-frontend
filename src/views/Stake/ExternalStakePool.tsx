@@ -8,7 +8,6 @@ import { ReactComponent as avaxImage } from "src/assets/tokens/AVAX.svg";
 import { ReactComponent as gOhmImage } from "src/assets/tokens/token_wsOHM.svg";
 import { ReactComponent as wEthImage } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { getLusdData } from "../../slices/LusdSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { useAppSelector } from "../../hooks";
 
@@ -100,7 +99,7 @@ export default function ExternalStakePool() {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (walletChecked && networkId !== -1) {
-      dispatch(getLusdData({ address, provider, networkID: networkId }));
+      // view specific redux actions can be dispatched here
     }
   }, [walletChecked, networkId, address, provider]);
 

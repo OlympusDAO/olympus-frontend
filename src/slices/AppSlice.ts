@@ -7,7 +7,7 @@ import apollo from "../lib/apolloClient";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAsyncThunk } from "./interfaces";
-import { OlympusStakingv2, OlympusStakingv2__factory, SOhmv2 } from "../typechain";
+import { OlympusStakingv2__factory, OlympusStaking__factory, SOhmv2 } from "../typechain";
 
 interface IProtocolMetrics {
   readonly timestamp: string;
@@ -93,6 +93,7 @@ export const loadAppDetails = createAsyncThunk(
     const currentBlock = await provider.getBlockNumber();
 
     const stakingContract = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, provider);
+    const stakingContractV1 = OlympusStaking__factory.connect(addresses[networkID].STAKING_ADDRESS, provider);
 
     const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, sOHMv2, provider) as SOhmv2;
 
@@ -107,8 +108,10 @@ export const loadAppDetails = createAsyncThunk(
 
     // Current index
     const currentIndex = await stakingContract.index();
+    const currentIndexV1 = await stakingContractV1.index();
     return {
       currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
+      currentIndexV1: ethers.utils.formatUnits(currentIndexV1, "gwei"),
       currentBlock,
       fiveDayRate,
       stakingAPY,
@@ -172,18 +175,18 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
   let marketPrice: number;
   try {
     // only get marketPrice from eth mainnet
-    marketPrice = await getMarketPrice({ networkID, provider });
-    // let mainnetProvider = (marketPrice = await getMarketPrice({ 1: NetworkID, provider }));
-    marketPrice = marketPrice / Math.pow(10, 9);
+    marketPrice = await getMarketPrice();
+    // v1MarketPrice = await getV1MarketPrice();
   } catch (e) {
     marketPrice = await getTokenPrice("olympus");
   }
   return { marketPrice };
 });
 
-interface IAppData {
+export interface IAppData {
   readonly circSupply?: number;
   readonly currentIndex?: string;
+  readonly currentIndexV1?: string;
   readonly currentBlock?: number;
   readonly fiveDayRate?: number;
   readonly loading: boolean;

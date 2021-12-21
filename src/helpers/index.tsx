@@ -8,20 +8,53 @@ import { SvgIcon } from "@material-ui/core";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 
-import { ohm_dai } from "./AllBonds";
+import { ohm_dai, ohm_weth, ohm_daiOld } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { PairContract, RedeemHelper } from "../typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
 import { EnvHelper } from "../helpers/Environment";
+import { NodeHelper } from "../helpers/NodeHelper";
 
-export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
-  const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
-  const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, provider) as PairContract;
+/**
+ * gets marketPrice from Ohm-DAI v2
+ * @returns Number like 333.33
+ */
+export async function getMarketPrice() {
+  const mainnetProvider = NodeHelper.getMainnetStaticProvider();
+  // v2 price
+  const ohm_dai_address = ohm_dai.getAddressForReserve(1);
+  const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
   const reserves = await pairContract.getReserves();
-  const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString());
 
+  const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
+
+  return marketPrice;
+}
+
+export async function getMarketPriceFromWeth() {
+  const mainnetProvider = NodeHelper.getMainnetStaticProvider();
+  // v2 price
+  const ohm_weth_address = ohm_weth.getAddressForReserve(1);
+  const wethBondContract = ohm_weth.getContractForBond(1, mainnetProvider);
+  const pairContract = new ethers.Contract(ohm_weth_address || "", PairContractABI, mainnetProvider) as PairContract;
+  const reserves = await pairContract.getReserves();
+
+  // since we're using OHM/WETH... also need to multiply by weth price;
+  const wethPriceBN: BigNumber = await wethBondContract.assetPrice();
+  const wethPrice = Number(wethPriceBN.toString()) / Math.pow(10, 8);
+  const marketPrice = (Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9) * wethPrice;
+  return marketPrice;
+}
+
+export async function getV1MarketPrice() {
+  const mainnetProvider = NodeHelper.getMainnetStaticProvider();
+  // v1 price
+  const ohm_dai_address = ohm_daiOld.getAddressForReserve(1);
+  const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
+  const reserves = await pairContract.getReserves();
+  const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
   return marketPrice;
 }
 
@@ -45,10 +78,15 @@ export function shorten(str: string) {
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
 }
 
-export function formatCurrency(c: number, precision = 0) {
+export function shortenString(str: string, length: number) {
+  return str.length > length ? str.substring(0, length) + "..." : str;
+}
+
+export function formatCurrency(c: number, precision = 0, currency = "USD") {
+  if (currency === "OHM") return `${trim(c, precision)} Ω`;
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency,
     maximumFractionDigits: precision,
     minimumFractionDigits: precision,
   }).format(c);
