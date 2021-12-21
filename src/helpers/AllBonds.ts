@@ -44,7 +44,7 @@ export const dai = new StableBond({
   bondContractABI: DaiBondContract,
   isBondable: {
     [NetworkID.Mainnet]: false,
-    [NetworkID.Testnet]: true,
+    [NetworkID.Testnet]: false,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
@@ -159,7 +159,6 @@ export const frax = new StableBond({
   },
   networkAddrs: {
     [NetworkID.Mainnet]: {
-      // bond addy that was improperly initialized 0xE04925C19A6c53f388d568c02A1833eFB6E10dC3
       bondAddress: "0xc60a6656e08b62DD2644DC703d7855301363Cc38",
       reserveAddress: "0x853d955acef822db058eb8505911ed77f175b99e",
     },
@@ -180,7 +179,7 @@ export const lusd = new StableBond({
   bondContractABI: LusdBondContract,
   isBondable: {
     [NetworkID.Mainnet]: false,
-    [NetworkID.Testnet]: true,
+    [NetworkID.Testnet]: false,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
@@ -228,7 +227,7 @@ export const eth = new CustomBond({
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   isBondable: {
     [NetworkID.Mainnet]: false,
-    [NetworkID.Testnet]: true,
+    [NetworkID.Testnet]: false,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
@@ -638,7 +637,7 @@ export const ohm_weth = new CustomBond({
   reserveContract: ReserveOhmEthContract,
   isBondable: {
     [NetworkID.Mainnet]: false,
-    [NetworkID.Testnet]: true,
+    [NetworkID.Testnet]: false,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
@@ -716,7 +715,7 @@ export const ohm_wethOld = new CustomBond({
   reserveContract: ReserveOhmEthContract,
   isBondable: {
     [NetworkID.Mainnet]: false,
-    [NetworkID.Testnet]: true,
+    [NetworkID.Testnet]: false,
     [NetworkID.Arbitrum]: false,
     [NetworkID.ArbitrumTestnet]: false,
     [NetworkID.Avalanche]: false,
