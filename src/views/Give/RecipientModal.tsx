@@ -430,7 +430,14 @@ export function RecipientModal({
   return (
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
+      <Paper
+        className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`}
+        onClick={handleModalInsideClick}
+        style={{
+          top: hasAllowance() ? "0%" : "50%",
+          transform: hasAllowance() ? "translate(-50.048%, 0%)" : "translate(-50.048%, -50.048%)",
+        }}
+      >
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />

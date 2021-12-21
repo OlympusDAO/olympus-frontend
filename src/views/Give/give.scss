@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  margin-top: 10px;
 
   .ohm-card {
     overflow-y: scrollable;
@@ -47,6 +48,8 @@
   .card-header {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    vertical-align: middle;
 
     .give-education {
       display: flex;
@@ -63,7 +66,6 @@
     align-content: center;
     justify-content: center;
     width: 100%;
-    margin-top: 10px;
 
     .MuiGrid-root.MuiGrid-item {
       display: flex;
@@ -313,6 +315,12 @@
       padding-top: 0px;
       padding-left: 30px;
       width: 100%;
+
+      .cause-misc-info {
+        .MuiGrid-item {
+          justify-content: flex-start;
+        }
+      }
     }
 
     .cause-image {
@@ -488,11 +496,6 @@
   }
 }
 
-.ohm-modal.smaller {
-  top: 0%;
-  transform: translate(-50.048%, 0%);
-}
-
 .give-confirmation-details {
   .confirmation-sect-header {
     margin-bottom: 16px;
@@ -525,12 +528,6 @@
   .MuiDivider-root {
     background-color: #f4d092;
   }
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  vertical-align: middle;
 }
 
 .give-info {
