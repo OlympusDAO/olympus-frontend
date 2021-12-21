@@ -23,7 +23,7 @@ import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import useCurrentTheme from "src/hooks/useTheme";
 
-import { dai, frax } from "src/helpers/AllBonds";
+import { ohm_frax, ohm_dai } from "src/helpers/AllBonds";
 
 import { Tokens, useWallet } from "./Token";
 
@@ -74,6 +74,7 @@ const ExternalLink = ({ href, children, color }: { href: string; children: React
       variant="outlined"
       style={{ padding: theme.spacing(1), maxHeight: "100%", height: "100%" }}
       fullWidth
+      target={`_blank`}
     >
       <Box
         sx={{
@@ -197,20 +198,10 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
         }}
         style={{ gap: theme.spacing(1.5) }}
       >
-        <ExternalLink
-          color={currentTheme === "dark" ? "primary" : undefined}
-          href={`https://app.sushi.com/swap?inputCurrency=${dai.getAddressForReserve(networkId)}&outputCurrency=${
-            addresses[networkId].OHM_ADDRESS
-          }`}
-        >
+        <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
           <Typography align="left">Buy on Sushiswap</Typography>
         </ExternalLink>
-        <ExternalLink
-          color={currentTheme === "dark" ? "primary" : undefined}
-          href={`https://app.uniswap.org/#/swap?inputCurrency=${frax.getAddressForReserve(networkId)}&outputCurrency=${
-            addresses[networkId].OHM_ADDRESS
-          }`}
-        >
+        <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_frax.lpUrl}>
           <Typography align="left">Buy on Uniswap</Typography>
         </ExternalLink>
         <Borrow
