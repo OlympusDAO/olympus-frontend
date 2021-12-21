@@ -178,19 +178,19 @@ function ZapStakeAction(props) {
 
   const zapperCredit = (
     <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px" width="100%">
-      <SvgIcon component={ZapperIcon} viewBox="80 -20 100 80" style={{ width: "200px", height: "40px" }} />
+      <SvgIcon component={ZapperIcon} viewBox="85 0 100 80" style={{ width: "200px", height: "40px" }} />
     </Box>
   );
 
   const [isCustomSlippage, setUseCustomSlippage] = useState(false);
-  const [customSlippage, setCustomSlippage] = useState("0.01");
+  const [customSlippage, setCustomSlippage] = useState("1.0");
 
   const onZap = async () =>
     dispatch(
       executeZap({
         address,
         provider,
-        slippage: customSlippage,
+        slippage: Number(customSlippage) / 100,
         sellAmount: ethers.utils.parseUnits(inputQuantity.toString(), tokens[zapToken]?.decimals),
         tokenAddress: tokens[zapToken]?.address,
         networkID: networkId,
@@ -352,7 +352,7 @@ function ZapStakeAction(props) {
           </FormControl>
         ) : (
           <Box display="flex" alignItems="center">
-            <Typography>1.0%</Typography>
+            <Typography>{customSlippage}%</Typography>
             <Box width="8px" />
             <IconButton style={{ margin: 0, padding: 0 }} onClick={handleSlippageModalOpen}>
               <SvgIcon color="primary" component={SettingsIcon} />
@@ -456,7 +456,7 @@ function ZapStakeAction(props) {
       )}
       {zapperCredit}
       {SelectTokenModal(handleClose, modalOpen, isTokensLoading, tokens, handleSelectZapToken, zapperCredit)}
-      {SlippageModal(handleSlippageModalClose, slippageModalOpen, setCustomSlippage, customSlippage, zapperCredit)}
+      {SlippageModal(handleSlippageModalClose, slippageModalOpen, customSlippage, setCustomSlippage, zapperCredit)}
     </>
   );
 }
