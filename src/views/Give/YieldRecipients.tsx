@@ -173,7 +173,7 @@ export default function YieldRecipients() {
           </Grid>
           <Grid item xs={4}>
             <Button component={NavLink} to="/give" variant="contained" color="primary" style={{ marginTop: "1rem" }}>
-              <Trans>Give Yield</Trans>
+              <Trans>Donate Yield</Trans>
             </Button>
           </Grid>
         </Grid>
