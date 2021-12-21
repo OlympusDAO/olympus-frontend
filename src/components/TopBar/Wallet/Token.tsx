@@ -170,10 +170,14 @@ export const Token = ({
             Object.entries(crossChainBalances.balances).map(
               ([networkId, balance]) =>
                 parseFloat(balance) > 0.01 && (
-                  <Typography key={networkId}>
-                    {NETWORKS[networkId as any].chainName}:
-                    <BalanceValue balance={balance} balanceValueUSD={parseFloat(balance) * price} />
-                  </Typography>
+                  <Box display="flex" flexDirection="row" justifyContent="space-between">
+                    <Typography color="textSecondary" key={`${symbol}-${networkId}-chain`}>
+                      {NETWORKS[networkId as any].chainName}:
+                    </Typography>
+                    <Typography color="textSecondary" key={`${symbol}-${networkId}-balance`}>
+                      <BalanceValue balance={balance} balanceValueUSD={parseFloat(balance) * price} />
+                    </Typography>
+                  </Box>
                 ),
             )}
           <Box className="ohm-pairs" style={{ width: "100%" }}>

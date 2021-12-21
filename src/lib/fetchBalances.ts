@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 
 import { addresses } from "src/constants";
+import { EnvHelper } from "src/helpers/Environment";
 import { NetworkID } from "src/lib/Bond";
 
 export type Token = {
@@ -17,7 +18,7 @@ export type Token = {
 };
 
 const CovalentApi = "https://api.covalenthq.com/v1";
-const COVALENT_KEY = process.env.REACT_APP_COVALENT;
+const COVALENT_KEY = EnvHelper.getCovalentKey();
 
 const fetchBalances = (addressOrENS: string, networkId: NetworkID, quoteCurrency = "usd") =>
   fetch(
@@ -52,17 +53,19 @@ const Networks = [
   // ...(process.env.NODE_ENV === "development" ? [NetworkID.AvalancheTestnet, NetworkID.ArbitrumTestnet] : []),
 ];
 
-const balanceByContractAddress = (balances: Token[], address: string) =>
-  balances.find(token => token.contractAddress === address)?.balance;
+const balanceByContractAddress = (balances: Token[], address: string) => {
+  return balances.find(token => token.contractAddress.toLowerCase() === address.toLowerCase())?.balance;
+};
 
-const addressBalancesByNetwork = (Networks: NetworkID[], balances: Token[], contractAddressKey: string) =>
-  Networks.reduce(
+const addressBalancesByNetwork = (Networks: NetworkID[], balances: Token[], contractAddressKey: string) => {
+  return Networks.reduce(
     (networksBalances, networkId) => ({
       ...networksBalances,
       [networkId]: balanceByContractAddress(balances, addresses[networkId][contractAddressKey]),
     }),
     {},
   ) as Record<NetworkID, string>;
+};
 
 export const fetchCrossChainBalances = async (address: string) => {
   const balances = await Promise.all(

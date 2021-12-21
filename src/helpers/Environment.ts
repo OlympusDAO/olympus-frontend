@@ -29,6 +29,17 @@ export class EnvHelper {
     return EnvHelper.env.REACT_APP_GA_API_KEY;
   }
 
+  static getCovalentKey() {
+    let CKEYS: string[] = [];
+    if (EnvHelper.env.REACT_APP_COVALENT && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_COVALENT)) {
+      CKEYS = EnvHelper.env.REACT_APP_COVALENT.split(EnvHelper.whitespaceRegex);
+    } else {
+      console.warn("you must set at least 1 REACT_APP_COVALENT key in your ENV");
+    }
+    const randomIndex = Math.floor(Math.random() * CKEYS.length);
+    return CKEYS[randomIndex];
+  }
+
   static isNotEmpty(envVariable: string) {
     if (envVariable.length > 10) {
       return true;
