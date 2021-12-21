@@ -48,10 +48,10 @@ const StakePool = ({ poolName, icons, stakeOn, href }: StakePoolProps) => {
     >
       <Box sx={{ display: "flex", alignItems: "center", flexBasis: "300px", flexGrow: 2 }}>
         <MultiLogo icons={icons} />
-        {/* <Box width="16px" /> */}
-        {/* <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {poolName} <br /> <span style={{ color: theme.palette.text.secondary }}>APY: {apy}</span>
-        </Typography> */}
+        <Box width="16px" />
+        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+          {poolName} {/*<br /> <span style={{ color: theme.palette.text.secondary }}>APY: {apy}</span>*/}
+        </Typography>
       </Box>
       <Box sx={{ display: "flex", flexBasis: "200px", flexGrow: 1, maxWidth: "500px" }}>
         <StakeOnButton variant="outlined" color="secondary" href={href} fullWidth>
