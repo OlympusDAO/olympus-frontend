@@ -443,8 +443,8 @@ export function RecipientModal({
         className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`}
         onClick={handleModalInsideClick}
         style={{
-          top: hasAllowance() ? "0%" : "50%",
-          transform: hasAllowance() ? "translate(-50.048%, 0%)" : "translate(-50.048%, -50.048%)",
+          top: hasAllowance() && isSmallScreen ? "0%" : "50%",
+          transform: hasAllowance() && isSmallScreen ? "translate(-50.048%, 0%)" : "translate(-50.048%, -50.048%)",
         }}
       >
         <div className="yield-header">
