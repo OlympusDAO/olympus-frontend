@@ -35,6 +35,7 @@ import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import { initializeNetwork } from "./slices/NetworkSlice";
 import { useAppSelector } from "./hooks";
 import Announcement from "./components/Announcement/Announcement";
+import { JsonRpcProvider } from "@ethersproject/providers";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -135,9 +136,12 @@ function App() {
     }
   }
 
-  const initNetwork = useCallback(loadProvider => {
-    dispatch(initializeNetwork({ provider: loadProvider }));
-  }, []);
+  const initNetwork = useCallback(
+    loadProvider => {
+      dispatch(initializeNetwork({ provider: loadProvider }));
+    },
+    [connected, networkId],
+  );
 
   const loadApp = useCallback(
     loadProvider => {
@@ -243,6 +247,9 @@ function App() {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
       loadDetails("network").then(() => {
+        // NOTE (appleseed): this loadDetails call returns BEFORE it's actually finished...
+        // ... since it's using dispatch
+        // ^^^ this call / state management should be refactored into web3Context
         if (networkId !== -1) {
           loadDetails("account");
           loadDetails("app");
