@@ -466,7 +466,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     color="primary"
                     className="cause-give-button"
                     onClick={() => handleGiveButtonClick()}
-                    disabled={!address || !isSupportedChain(networkId)}
                   >
                     <Typography variant="h6">
                       <Trans>Give Yield</Trans>
