@@ -275,6 +275,7 @@ function App() {
     // don't load ANY details until wallet is Connected
     if (connected && networkId !== -1) {
       loadDetails("account");
+      initNetwork(provider);
     }
   }, [connected, networkId]);
 

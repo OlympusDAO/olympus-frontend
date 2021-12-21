@@ -432,7 +432,7 @@ export function RecipientModal({
   return (
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper className="ohm-card ohm-modal" onClick={handleModalInsideClick}>
+      <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />
@@ -456,9 +456,9 @@ export function RecipientModal({
           <Box className="help-text">
             <Typography variant="body1" className="stream-note" color="textSecondary">
               <Trans>
-                First time giving <b>sOHM</b>?
+                First time donating <b>sOHM</b>?
                 <br />
-                Please approve Olympus DAO to use your <b>sOHM</b> for giving.
+                Please approve Olympus DAO to use your <b>sOHM</b> for donating.
               </Trans>
             </Typography>
           </Box>

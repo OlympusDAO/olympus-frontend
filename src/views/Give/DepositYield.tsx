@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useLocation } from "react-router-dom";
-import { Paper, Typography, Zoom, Container } from "@material-ui/core";
+import { Paper, Typography, Zoom, Container, Box } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
@@ -24,10 +24,10 @@ export default function DepositYield() {
   const networkId = useAppSelector(state => state.network.networkId);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const redeemableBalance = useSelector((state: State) => {
+  const totalDebt = useSelector((state: State) => {
     return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
-      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
+      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
+      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
 
   return (
@@ -39,11 +39,11 @@ export default function DepositYield() {
         justifyContent: "center",
       }}
     >
-      <Paper className="subnav-paper" style={{ width: "100%" }}>
+      <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"} style={{ width: "100%" }}>
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}
-          redeemableBalance={new BigNumber(redeemableBalance)}
+          totalDebt={new BigNumber(totalDebt)}
           networkId={networkId}
         />
         <div id="give-view">
@@ -64,7 +64,7 @@ export default function DepositYield() {
             </Paper>
           </Zoom>
         </div>
-      </Paper>
+      </Box>
     </Container>
   );
 }

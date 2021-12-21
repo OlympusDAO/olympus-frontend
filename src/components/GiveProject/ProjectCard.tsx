@@ -96,10 +96,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const redeemableBalance = useSelector((state: State) => {
+  const userTotalDebt = useSelector((state: State) => {
     return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
-      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
+      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
+      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
 
   const theme = useTheme();
@@ -108,6 +108,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const dispatch = useAppDispatch();
 
   const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
+
+  useEffect(() => {
+    let items = document.getElementsByClassName("project-container");
+    if (items.length > 0) {
+      items[0].scrollIntoView();
+    }
+  }, [location.pathname]);
 
   // When the user's wallet is connected, we perform these actions
   useEffect(() => {
@@ -121,10 +128,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       networkID: networkId,
       provider: provider,
       address: wallet,
-    }).then(resultAction => {
-      setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
-      setRecipientInfoIsLoading(false);
-    });
+    })
+      .then(resultAction => {
+        setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
+        setRecipientInfoIsLoading(false);
+      })
+      .catch(e => console.log(e));
 
     getDonorNumbers({
       networkID: networkId,
@@ -135,7 +144,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         setDonorCount(!resultAction ? 0 : resultAction.length);
         setDonorCountIsLoading(false);
       })
-      .catch(e => console.error(e));
+      .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen]);
 
   // The JSON file returns a string, so we convert it
@@ -183,6 +192,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       </>
     );
   };
+
+  // Removed for now. Will leave this function in for when we re-add this feature
   const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
@@ -264,11 +275,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Tooltip title={totalDebt + t` of ` + depositGoal + t` sOHM raised`} arrow>
             <div>
               <div className="cause-info-main-text">
-                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}%</strong>
+                <Typography variant="body1">
+                  <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}% </strong>
+                  of goal
+                </Typography>
               </div>
-              <span className="cause-info-bottom-text">
-                <Trans>of goal</Trans>
-              </span>
             </div>
           </Tooltip>
         </div>
@@ -407,8 +418,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getCardContent = () => {
     return (
       <>
-        <Paper style={{ backdropFilter: "none", backgroundColor: "transparent", width: "100%" }}>
-          <Grid item className="cause-card" key={title}>
+        <Paper style={{ width: "100%", borderRadius: "10px" }}>
+          <Grid item className={isVerySmallScreen ? "cause-card very-small" : "cause-card"} key={title}>
             {getProjectImage()}
             <div className="cause-content">
               <Grid container className="cause-header">
@@ -439,10 +450,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Typography>
               </div>
               <Grid container direction="column" className="cause-misc-info">
-                <Grid item xs={3} sm={6} md={3}>
-                  {finishDateObject ? <Countdown date={finishDateObject} renderer={countdownRenderer} /> : <></>}
-                </Grid>
-                <Grid item xs={3} sm={6} md={3}>
+                <Grid item xs={3} sm={6}>
                   {renderGoalCompletion()}
                 </Grid>
                 <Grid item xs={4} sm={12} md={6} className="give-button-grid">
@@ -499,11 +507,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           }}
           className="project-container"
         >
-          <Paper className="subnav-paper">
+          <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"}>
             <GiveHeader
               isSmallScreen={isSmallScreen}
               isVerySmallScreen={isVerySmallScreen}
-              redeemableBalance={new BigNumber(redeemableBalance)}
+              totalDebt={new BigNumber(userTotalDebt)}
               networkId={networkId}
             />
             <div
@@ -608,7 +616,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Grid>
               </Box>
             </div>
-          </Paper>
+          </Box>
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}

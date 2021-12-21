@@ -6,6 +6,7 @@
   overflow: hidden;
 
   .ohm-card {
+    overflow-y: scrollable;
     .cell-align-end {
       display: flex;
       justify-content: flex-end;
@@ -37,6 +38,10 @@
         }
       }
     }
+  }
+
+  .causes-container {
+    padding: 0px 10px 30px 10px;
   }
 
   .card-header {
@@ -73,13 +78,16 @@
 
     .cause-card {
       height: auto;
+      &.very-small {
+        min-width: 200px;
+      }
       min-width: 333px;
-      max-width: 773px;
+      // max-width: 773px;
       width: auto;
-      box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.03);
-      background-color: #ffffff0e;
-      backdrop-filter: blur(60px);
-      -webkit-backdrop-filter: blur(60px);
+      // box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.03);
+      // background-color: #ffffff0e;
+      // backdrop-filter: blur(60px);
+      // -webkit-backdrop-filter: blur(60px);
       border-radius: 10px !important;
       display: flex;
       flex-direction: row;
@@ -177,6 +185,10 @@
 
         .cause-info-main-text {
           font-size: 1rem;
+
+          .MuiTypography-body1 {
+            margin-bottom: 0rem;
+          }
         }
 
         .cause-info-bottom-text {
@@ -188,8 +200,8 @@
       .cause-misc-info .MuiGrid-item {
         height: 40px;
         padding-left: 0px;
-        align-items: flex-end;
-        justify-content: center;
+        align-items: center;
+        justify-content: flex-end;
       }
 
       .cause-info-icon {
@@ -286,6 +298,12 @@
 }
 
 #give-view.smaller {
+  .causes-container {
+    padding: 5px 0px 30px 0px;
+    .card-header {
+      padding: 0px 0px 0px 30px;
+    }
+  }
   .causes-body {
     .cause-card {
       flex-direction: column;
@@ -352,6 +370,10 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  &.smaller {
+    padding: 0px 20px 5px 0px;
+  }
+  padding: 0px 30px 5px 0px;
 
   .custom-give-button {
     height: 40px;
@@ -466,6 +488,11 @@
   }
 }
 
+.ohm-modal.smaller {
+  top: 0%;
+  transform: translate(-50.048%, 0%);
+}
+
 .give-confirmation-details {
   .confirmation-sect-header {
     margin-bottom: 16px;
@@ -558,6 +585,7 @@
 }
 
 .project {
+  margin-top: 10px;
   // TODO look at whether we can make this less flakey by using rem instead of px
   .project-sidebar {
     padding-left: 30px;
@@ -792,6 +820,7 @@
     background: rgba(100, 100, 100, 0.1) !important;
     backdrop-filter: blur(33px) !important;
     -webkit-backdrop-filter: blur(33px) !important;
+    overflow-y: scroll;
     .ohm-card {
       opacity: 1 !important;
       height: auto;
@@ -807,6 +836,7 @@
 @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
   .modal-container {
     background: rgba(100, 100, 100, 0.95);
+    overflow-y: scroll;
     .ohm-card {
       height: auto;
     }
@@ -818,7 +848,13 @@
   }
 }
 
+
 .subnav-paper {
   max-width: 833px;
   margin-bottom: 10rem;
+  &.mobile {
+    width: 100%;
+  }
 }
+
+

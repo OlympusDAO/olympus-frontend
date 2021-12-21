@@ -11,6 +11,7 @@ import {
   TableRow,
   TableContainer,
   Container,
+  Box,
 } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -58,6 +59,12 @@ export default function RedeemYield() {
     return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
       : state.account.redeeming && state.account.redeeming.sohmRedeemable;
+  });
+
+  const totalDebt = useSelector((state: State) => {
+    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
+      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
 
   const stakingAPY = useSelector((state: State) => {
@@ -166,11 +173,11 @@ export default function RedeemYield() {
         justifyContent: "center",
       }}
     >
-      <Paper className="subnav-paper" style={{ width: "100%" }}>
+      <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"} style={{ width: "100%" }}>
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}
-          redeemableBalance={new BigNumber(redeemableBalance)}
+          totalDebt={new BigNumber(totalDebt)}
           networkId={networkId}
         />
         <div id="give-view">
@@ -275,7 +282,7 @@ export default function RedeemYield() {
             </Paper>
           </Zoom>
         </div>
-      </Paper>
+      </Box>
     </Container>
   );
 }

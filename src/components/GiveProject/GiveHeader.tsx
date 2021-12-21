@@ -7,11 +7,11 @@ import { isSupportedChain } from "src/slices/GiveThunk";
 type GiveHeaderProps = {
   isSmallScreen: boolean;
   isVerySmallScreen: boolean;
-  redeemableBalance: BigNumber;
+  totalDebt: BigNumber;
   networkId: number;
 };
 
-export function GiveHeader({ isSmallScreen, isVerySmallScreen, redeemableBalance, networkId }: GiveHeaderProps) {
+export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networkId }: GiveHeaderProps) {
   const location = useLocation();
 
   return (
@@ -28,7 +28,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, redeemableBalance
       >
         <Button color="secondary">
           <Typography variant="h6">
-            <Trans>Projects</Trans>
+            <Trans>Give</Trans>
           </Typography>
         </Button>
       </Link>
@@ -44,7 +44,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, redeemableBalance
           </Typography>
         </Button>
       </Link>
-      {new BigNumber(redeemableBalance).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
+      {new BigNumber(totalDebt).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
         <Link
           component={NavLink}
           id="give-sub-redeem"

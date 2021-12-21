@@ -38,10 +38,10 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
         "gwei",
       );
     } catch (e: unknown) {
-      console.error(e);
+      console.log(e);
     }
   } else {
-    console.error("Unable to find MOCK_SOHM contract on chain ID " + networkID);
+    console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
   }
 
   return {
@@ -79,10 +79,10 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
         "gwei",
       );
     } catch (e: unknown) {
-      console.error(e);
+      console.log(e);
     }
   } else {
-    console.error("Unable to find MOCK_GIVING_ADDRESS contract on chain ID " + networkID);
+    console.log("Unable to find MOCK_GIVING_ADDRESS contract on chain ID " + networkID);
   }
 
   return {

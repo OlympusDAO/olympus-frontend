@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import "./give.scss";
 import { useLocation } from "react-router-dom";
-import { Button, Paper, Typography, Zoom, Grid, Container } from "@material-ui/core";
+import { Button, Paper, Typography, Zoom, Grid, Container, Box } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
@@ -47,10 +47,10 @@ export default function CausesDashboard() {
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const redeemableBalance = useSelector((state: State) => {
+  const totalDebt = useSelector((state: State) => {
     return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
-      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
+      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
+      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
 
   const renderProjects = useMemo(() => {
@@ -117,11 +117,11 @@ export default function CausesDashboard() {
         justifyContent: "center",
       }}
     >
-      <Paper className="subnav-paper">
+      <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"}>
         <GiveHeader
           isSmallScreen={isSmallScreen}
           isVerySmallScreen={false}
-          redeemableBalance={new BigNumber(redeemableBalance)}
+          totalDebt={new BigNumber(totalDebt)}
           networkId={networkId}
         />
         <div
@@ -130,14 +130,7 @@ export default function CausesDashboard() {
           ${isSmallScreen && "smaller"}`}
         >
           <Zoom in={true}>
-            <Paper className={`ohm-card secondary`}>
-              <div className="card-header">
-                <div>
-                  <Typography variant="h5">
-                    <Trans>Give</Trans>
-                  </Typography>
-                </div>
-              </div>
+            <Box className={`ohm-card secondary causes-container`}>
               {!isSupportedChain(networkId) ? (
                 <Typography variant="h6">
                   Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
@@ -147,11 +140,9 @@ export default function CausesDashboard() {
                 <></>
               )}
               <div className="causes-body">
-                <Grid container className="data-grid">
-                  {renderProjects}
-                </Grid>
+                <Box className="data-grid">{renderProjects}</Box>
               </div>
-              <div className="custom-recipient">
+              <div className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -169,13 +160,13 @@ export default function CausesDashboard() {
                 callbackFunc={handleCustomGiveModalSubmit}
                 cancelFunc={handleCustomGiveModalCancel}
               />
-            </Paper>
+            </Box>
           </Zoom>
           <Zoom in={true}>
             <GiveInfo />
           </Zoom>
         </div>
-      </Paper>
+      </Box>
     </Container>
   );
 }
