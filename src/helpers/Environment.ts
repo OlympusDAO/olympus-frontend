@@ -195,4 +195,44 @@ export class EnvHelper {
     }
     return zapPool;
   }
+
+  /**
+   * Indicates whether the give feature is enabled.
+   *
+   * The feature is enabled when:
+   * - REACT_APP_GIVE_ENABLED is true
+   * - give_enabled parameter is present
+   *
+   * @param url
+   * @returns
+   */
+  static isGiveEnabled(url: string): boolean {
+    const giveEnabled = EnvHelper.env.REACT_APP_GIVE_ENABLED;
+    const giveEnabledParameter = url && url.includes("give_enabled");
+
+    if (giveEnabled || giveEnabledParameter) return true;
+
+    return false;
+  }
+
+  /**
+   * Indicates whether mockSohm is enabled.
+   * This is needed for easily manually testing rebases
+   * for Give on testnet
+   *
+   * The feature is enabled when:
+   * - REACT_APP_MOCK_SOHM_ENABLED is true
+   * - mock_sohm parameter is present
+   *
+   * @param url
+   * @returns
+   */
+  static isMockSohmEnabled(url: string): boolean {
+    const mockSohmEnabled = EnvHelper.env.REACT_APP_MOCK_SOHM_ENABLED;
+    const mockSohmEnabledParameter = url && url.includes("mock_sohm");
+
+    if (mockSohmEnabled || mockSohmEnabledParameter) return true;
+
+    return false;
+  }
 }
