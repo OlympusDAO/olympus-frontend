@@ -16,6 +16,7 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
+  InputAdornment,
 } from "@material-ui/core";
 import { useState } from "react";
 import { trim } from "src/helpers";
@@ -45,12 +46,24 @@ function SlippageModal(handleClose, modalOpen, currentSlippage, setCustomSlippag
           <OutlinedInput
             id="zap-amount-input"
             type="number"
-            placeholder="Enter Amount"
+            placeholder="Enter Slippage Tolerance"
             className="zap-input"
             value={proposedSlippage}
             onChange={e => setProposedSlippage(e.target.value)}
+            endAdornment={<InputAdornment position="end">%</InputAdornment>}
           />
         </FormControl>
+        <Box display="flex" flexDirection="row" justifyContent="space-between">
+          <Button variant="outlined" onClick={() => setProposedSlippage("2.0")}>
+            2.0%
+          </Button>
+          <Button variant="outlined" onClick={() => setProposedSlippage("3.0")}>
+            3.0%
+          </Button>
+          <Button variant="outlined" onClick={() => setProposedSlippage("4.0")}>
+            4.0%
+          </Button>
+        </Box>
         {/* </Paper> */}
         {zapperCredit}
       </Box>
