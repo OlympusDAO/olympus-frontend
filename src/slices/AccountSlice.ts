@@ -179,7 +179,7 @@ export const getBalances = createAsyncThunk(
       ) as IERC20;
       mockSohmBalance = await mockSohmContract.balanceOf(address);
     } else {
-      console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
+      console.debug("Unable to find MOCK_SOHM contract on chain ID " + networkID);
     }
 
     return {
@@ -230,6 +230,9 @@ export const getDonationBalances = createAsyncThunk(
           donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
         }
       } catch (e: unknown) {
+        console.log(
+          "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
+        );
         console.log(e);
       }
     } else {
@@ -277,10 +280,13 @@ export const getMockDonationBalances = createAsyncThunk(
           }
         }
       } catch (e: unknown) {
+        console.log(
+          "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
+        );
         console.log(e);
       }
     } else {
-      console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
+      console.debug("Unable to find MOCK_SOHM contract on chain ID " + networkID);
     }
 
     return {
