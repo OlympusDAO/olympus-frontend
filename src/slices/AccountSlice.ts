@@ -179,7 +179,7 @@ export const getBalances = createAsyncThunk(
       ) as IERC20;
       mockSohmBalance = await mockSohmContract.balanceOf(address);
     } else {
-      console.error("Unable to find MOCK_SOHM contract on chain ID " + networkID);
+      console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
     }
 
     return {

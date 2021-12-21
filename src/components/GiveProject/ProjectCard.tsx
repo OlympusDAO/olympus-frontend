@@ -121,10 +121,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       networkID: networkId,
       provider: provider,
       address: wallet,
-    }).then(resultAction => {
-      setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
-      setRecipientInfoIsLoading(false);
-    });
+    })
+      .then(resultAction => {
+        setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
+        setRecipientInfoIsLoading(false);
+      })
+      .catch(e => console.log(e));
 
     getDonorNumbers({
       networkID: networkId,
@@ -135,7 +137,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         setDonorCount(!resultAction ? 0 : resultAction.length);
         setDonorCountIsLoading(false);
       })
-      .catch(e => console.error(e));
+      .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen]);
 
   // The JSON file returns a string, so we convert it
