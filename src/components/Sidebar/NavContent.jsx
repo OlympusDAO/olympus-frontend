@@ -16,6 +16,7 @@ import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
 import { useAddress } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
+import useENS from "../../hooks/useENS";
 import { Paper, Link, Box, Typography, SvgIcon, Divider } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
@@ -26,6 +27,7 @@ function NavContent() {
   const address = useAddress();
   const networkId = useSelector(state => state.network.networkId);
   const { bonds } = useBonds(networkId);
+  const { ensName } = useENS(address);
 
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
@@ -70,7 +72,7 @@ function NavContent() {
             {address && (
               <div className="wallet-link">
                 <Link href={`https://etherscan.io/address/${address}`} target="_blank">
-                  {shorten(address)}
+                  {ensName || shorten(address)}
                 </Link>
               </div>
             )}

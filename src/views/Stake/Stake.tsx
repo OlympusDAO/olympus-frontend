@@ -43,7 +43,7 @@ import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
 import StakeRow from "./StakeRow";
-import Metric from "../../components/Metric/Metric";
+import { Metric, MetricCollection } from "../../components/Metric";
 
 function a11yProps(index: number) {
   return {
@@ -246,13 +246,28 @@ function Stake() {
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
   };
 
   function ConfirmDialog() {
+    const gohmQuantity = () => {
+      if (quantity) {
+        return (Number(quantity) / Number(currentIndex)).toFixed(4);
+      } else {
+        return "";
+      }
+    };
+    const ohmQuantity = () => {
+      if (quantity) {
+        return Number(quantity).toFixed(4);
+      } else {
+        return "";
+      }
+    };
+
     return (
       <Paper
         className="ohm-card confirm-dialog"
@@ -273,12 +288,8 @@ function Stake() {
               </Grid>
               <Grid item>
                 {view === 0
-                  ? `Staking ${Number(Number(quantity).toFixed(4))} OHM to ${Number(
-                      (Number(quantity) / Number(currentIndex)).toFixed(4),
-                    )} gOHM`
-                  : `Unstaking ${Number((Number(quantity) / Number(currentIndex)).toFixed(4))} gOHM to ${Number(
-                      Number(quantity).toFixed(4),
-                    )} OHM`}
+                  ? `Staking ${ohmQuantity()} OHM to ${gohmQuantity()} gOHM`
+                  : `Unstaking ${gohmQuantity()} gOHM to ${ohmQuantity()} OHM`}
               </Grid>
             </Grid>
           </Typography>
@@ -300,36 +311,26 @@ function Stake() {
             </Grid>
 
             <Grid item>
-              <div className="stake-top-metrics">
-                <Grid container spacing={2} alignItems="flex-end">
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-apy"
-                      label={t`APY`}
-                      metric={`${formattedTrimmedStakingAPY}%`}
-                      isLoading={stakingAPY ? false : true}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-tvl"
-                      label={t`Total Value Deposited`}
-                      metric={formattedStakingTVL}
-                      isLoading={stakingTVL ? false : true}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-index"
-                      label={t`Current Index`}
-                      metric={`${formattedCurrentIndex} OHM`}
-                      isLoading={currentIndex ? false : true}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
+              <MetricCollection>
+                <Metric
+                  className="stake-apy"
+                  label={t`APY`}
+                  metric={`${formattedTrimmedStakingAPY}%`}
+                  isLoading={stakingAPY ? false : true}
+                />
+                <Metric
+                  className="stake-tvl"
+                  label={t`Total Value Deposited`}
+                  metric={formattedStakingTVL}
+                  isLoading={stakingTVL ? false : true}
+                />
+                <Metric
+                  className="stake-index"
+                  label={t`Current Index`}
+                  metric={`${formattedCurrentIndex} OHM`}
+                  isLoading={currentIndex ? false : true}
+                />
+              </MetricCollection>
             </Grid>
 
             <div className="staking-area">
@@ -491,7 +492,7 @@ function Stake() {
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
                       {...{ isAppLoading }}
                     />
-                    <Accordion className="stake-accordion" square>
+                    <Accordion className="stake-accordion" square expanded={true}>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
                         <StakeRow
                           title={t`Staked Balance`}
@@ -513,36 +514,46 @@ function Stake() {
                           indented
                           {...{ isAppLoading }}
                         />
-                        <StakeRow
-                          title={`${t`Wrapped Balance in Fuse`}`}
-                          balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
-                        <StakeRow
-                          title={t`Single Staking (v1)`}
-                          balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
-                        <StakeRow
-                          title={t`Wrapped Balance (v1)`}
-                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
-                          {...{ isAppLoading }}
-                          indented
-                        />
-                        <StakeRow
-                          title={t`Wrapped Balance in FiatDAO`}
-                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
-                          {...{ isAppLoading }}
-                          indented
-                        />
-                        <StakeRow
-                          title={t`Staked Balance in Fuse`}
-                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM (v1)`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
+                        {Number(fgohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Wrapped Balance in Fuse`}`}
+                            balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(sohmV1Balance) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Single Staking`} (v1)`}
+                            balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(wsohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Wrapped Balance`} (v1)`}
+                            balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
+                            {...{ isAppLoading }}
+                            indented
+                          />
+                        )}
+                        {Number(fiatDaowsohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={t`Wrapped Balance in FiatDAO`}
+                            balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
+                            {...{ isAppLoading }}
+                            indented
+                          />
+                        )}
+                        {Number(fsohmBalance) > 0.00009 && (
+                          <StakeRow
+                            title={t`Staked Balance in Fuse`}
+                            balance={`${trim(Number(fsohmBalance), 4)} fsOHM (v1)`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
