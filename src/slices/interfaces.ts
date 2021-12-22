@@ -49,6 +49,10 @@ export interface IBaseAddressAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
 }
 
+export interface IActionValueRecipientAsyncThunk extends IActionValueAsyncThunk {
+  readonly recipient: string;
+}
+
 export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
   readonly tokenAddress: string;
   readonly sellAmount: number;

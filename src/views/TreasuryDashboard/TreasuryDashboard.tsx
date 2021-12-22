@@ -1,6 +1,5 @@
 import { memo } from "react";
 import "./treasury-dashboard.scss";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
@@ -120,12 +119,4 @@ const TreasuryDashboard = memo(() => {
   );
 });
 
-const queryClient = new QueryClient();
-
-// Normally this would be done
-// much higher up in our App.
-export default () => (
-  <QueryClientProvider client={queryClient}>
-    <TreasuryDashboard />
-  </QueryClientProvider>
-);
+export default TreasuryDashboard;
