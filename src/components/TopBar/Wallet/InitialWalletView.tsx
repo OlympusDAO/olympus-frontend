@@ -188,7 +188,6 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
           }}
           style={{ gap: theme.spacing(1.5) }}
         >
-          {/* <Box display="flex" flexDirection={"column"} style={{ gap: theme.spacing(1.5) }}> */}
           <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
             <Typography>Buy on Sushiswap</Typography>
           </ExternalLink>
