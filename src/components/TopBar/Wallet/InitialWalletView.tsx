@@ -75,7 +75,7 @@ const ExternalLink = ({ href, children, color }: { href: string; children: React
       color={color}
       variant="outlined"
       size="large"
-      style={{ padding: theme.spacing(1.5), maxHeight: "unset" }}
+      style={{ padding: theme.spacing(1.5), maxHeight: "unset", height: "auto" }}
       fullWidth
       target={`_blank`}
     >
