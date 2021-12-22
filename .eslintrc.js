@@ -42,4 +42,8 @@ module.exports = {
     "no-undef": "error",
   },
   ignorePatterns: ["build", "node_modules"],
+  globals: {
+    React: true,
+    JSX: true,
+  },
 };
