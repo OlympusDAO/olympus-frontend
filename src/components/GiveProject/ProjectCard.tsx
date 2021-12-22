@@ -418,7 +418,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const getRenderedDetails = (shorten: boolean) => {
     return {
-      __html: MarkdownIt({ html: true }).render(shorten ? t`${shortDescription}` : t`${details}`),
+      __html: MarkdownIt({ html: true }).render(shorten ? `${shortDescription}` : `${details}`),
     };
   };
 
