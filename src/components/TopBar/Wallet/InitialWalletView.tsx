@@ -182,12 +182,13 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
 
         <Box
           sx={{
-            display: "grid",
-            gridTemplateColumns: `${isSmallScreen ? "repeat(1, minmax(0, 1fr))" : "repeat(2, minmax(0, 1fr))"}`,
-            gridTemplateRows: "min-content",
+            ...(isSmallScreen
+              ? { display: "flex", flexDirection: "column" }
+              : { display: "grid", gridTemplateRows: "min-content", gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }),
           }}
           style={{ gap: theme.spacing(1.5) }}
         >
+          {/* <Box display="flex" flexDirection={"column"} style={{ gap: theme.spacing(1.5) }}> */}
           <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
             <Typography>Buy on Sushiswap</Typography>
           </ExternalLink>
