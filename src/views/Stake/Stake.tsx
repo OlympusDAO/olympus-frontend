@@ -54,8 +54,7 @@ function a11yProps(index: number) {
 function Stake() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { provider, address, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, connect, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "stake", networkID: networkId, history });
 
   const [zoomed, setZoomed] = useState(false);

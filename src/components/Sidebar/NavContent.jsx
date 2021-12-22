@@ -16,7 +16,7 @@ import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as ProIcon } from "../../assets/Olympus Logo.svg";
 import { Trans } from "@lingui/macro";
 import { trim, shorten } from "../../helpers";
-import { useAddress } from "src/hooks/web3Context";
+import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
 import useENS from "../../hooks/useENS";
 import {
@@ -38,8 +38,7 @@ import { ExpandMore } from "@material-ui/icons";
 
 function NavContent() {
   const [isActive] = useState();
-  const address = useAddress();
-  const networkId = useSelector(state => state.network.networkId);
+  const { address, networkId } = useWeb3Context();
   const { bonds } = useBonds(networkId);
   const { ensName } = useENS(address);
   const location = useLocation();

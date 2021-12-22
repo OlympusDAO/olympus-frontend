@@ -35,8 +35,7 @@ type State = {
 export default function YieldRecipients() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
   const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState("");
   const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

@@ -41,8 +41,7 @@ const PoolTogether = () => {
 
   // NOTE (appleseed): these calcs were previously in PoolInfo, however would be need in PoolPrize, too, if...
   // ... we ever were to implement other types of awards
-  const { connect, address, provider, hasCachedProvider } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { connect, address, provider, hasCachedProvider, networkId } = useWeb3Context();
   const dispatch = useDispatch();
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[1]);
   const [poolData, setPoolData] = useState(null);

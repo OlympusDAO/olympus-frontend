@@ -233,9 +233,9 @@ export const MigrateToken = ({ symbol, icon, balance = "0.0", price = 0 }: IToke
   );
 };
 
-const tokensSelector = (state: RootState) => {
+const tokensSelector = (chainId: number, providerInitialized: Boolean, state: RootState) => {
   // default to mainnet while not initialized
-  const networkId = state.network.initialized ? state.network.networkId : NetworkID.Mainnet;
+  const networkId = providerInitialized ? chainId : NetworkID.Mainnet;
   return {
     ohmV1: {
       symbol: "OHM V1",
@@ -296,9 +296,8 @@ const tokensSelector = (state: RootState) => {
   };
 };
 
-export const useWallet = () => {
-  const { address: userAddress } = useWeb3Context();
-  const tokens = useAppSelector(tokensSelector);
+export const useWallet = (userAddress: string, networkId: number, providerInitialized: Boolean) => {
+  const tokens = useAppSelector(state => tokensSelector(networkId, providerInitialized, state));
   const { gohm, wsohm, isLoading } = useCrossChainBalances(userAddress);
   return {
     ...tokens,
@@ -322,8 +321,8 @@ export const useCrossChainBalances = (address: string) => {
 };
 
 export const Tokens = () => {
-  const { address: userAddress } = useWeb3Context();
-  const tokens = useWallet();
+  const { address: userAddress, networkId, providerInitialized } = useWeb3Context();
+  const tokens = useWallet(userAddress, networkId, providerInitialized);
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const [expanded, setExpanded] = useState<string | null>(null);
 
