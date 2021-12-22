@@ -1,7 +1,7 @@
 import { useEffect, useState, ElementType } from "react";
 import { useDispatch } from "react-redux";
-import { Box, Button, Paper, SvgIcon, withStyles, Typography, Zoom, useTheme } from "@material-ui/core";
-import { Trans } from "@lingui/macro";
+import { Box, Button, Paper, SvgIcon, withStyles, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as avaxImage } from "src/assets/tokens/AVAX.svg";
@@ -27,8 +27,8 @@ const MultiLogo = ({ icons, size = 35 }: { icons: ElementType[]; size?: number }
   </>
 );
 
-const StakeOnButton = withStyles(theme => ({
-  root: {
+const useStyles = makeStyles(theme => ({
+  stakeOnButton: {
     padding: theme.spacing(1),
     maxHeight: "100%",
     height: "100%",
@@ -37,10 +37,11 @@ const StakeOnButton = withStyles(theme => ({
     alignItems: "center",
     justifyContent: "center",
   },
-}))(Button);
+}));
 
 const StakePool = ({ poolName, icons, stakeOn, href }: StakePoolProps) => {
   const theme = useTheme();
+  const styles = useStyles();
   return (
     <Box
       sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}
@@ -54,10 +55,15 @@ const StakePool = ({ poolName, icons, stakeOn, href }: StakePoolProps) => {
         </Typography>
       </Box>
       <Box sx={{ display: "flex", flexBasis: "200px", flexGrow: 1, maxWidth: "500px" }}>
-        <StakeOnButton variant="outlined" color="secondary" href={href} fullWidth>
-          <Typography variant="body1">
-            <Trans>Stake on {stakeOn}</Trans>
-          </Typography>
+        <Button
+          className={styles.stakeOnButton}
+          variant="outlined"
+          color="secondary"
+          target="_blank"
+          href={href}
+          fullWidth
+        >
+          <Typography variant="body1">{`${t`Stake on`} ${stakeOn}`}</Typography>
           <SvgIcon
             component={ArrowUp}
             style={{
@@ -68,7 +74,7 @@ const StakePool = ({ poolName, icons, stakeOn, href }: StakePoolProps) => {
               verticalAlign: "middle",
             }}
           />
-        </StakeOnButton>
+        </Button>
       </Box>
     </Box>
   );
