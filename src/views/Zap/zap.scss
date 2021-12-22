@@ -6,6 +6,12 @@
   overflow: hidden;
 }
 
+.zap-card {
+  .MuiPaper-root {
+    border-radius: 10px;
+  }
+}
+
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
   .MuiBackdrop-root {
     background: rgba(100, 100, 100, 0.33) !important;

@@ -19,7 +19,15 @@ import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
 function SelectTokenModal(handleClose, modalOpen, isTokensLoading, tokens, handleSelectZapToken, zapperCredit) {
   return (
-    <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs" id="zap-select-token-modal">
+    <Dialog
+      onClose={handleClose}
+      open={modalOpen}
+      keepMounted
+      fullWidth
+      maxWidth="xs"
+      id="zap-select-token-modal"
+      className="zap-card"
+    >
       <DialogTitle>
         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
           <Button onClick={handleClose}>

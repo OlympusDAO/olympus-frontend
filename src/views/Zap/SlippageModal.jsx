@@ -46,7 +46,14 @@ function SlippageModal(handleClose, modalOpen, currentSlippage, setCustomSlippag
   useEffect(() => handleChangeProposedSlippage(currentSlippage), [modalOpen]);
   const presetSlippageOptions = ["2.0", "3.0", "4.0"];
   return (
-    <Dialog onClose={handleClose} open={modalOpen} fullWidth maxWidth="xs" id="zap-select-token-modal">
+    <Dialog
+      onClose={handleClose}
+      open={modalOpen}
+      fullWidth
+      maxWidth="xs"
+      id="zap-select-token-modal"
+      className="zap-card"
+    >
       <DialogTitle>
         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
           <Button onClick={handleClose}>
