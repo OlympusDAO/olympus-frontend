@@ -31,7 +31,7 @@ import { Trans } from "@lingui/macro";
 import SelectTokenModal from "./SelectTokenModal";
 import SlippageModal from "./SlippageModal";
 
-const DISABLE_ZAPS = true;
+const DISABLE_ZAPS = false;
 
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
 const viewBox = "-8 -12 48 48";
