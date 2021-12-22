@@ -1,37 +1,32 @@
-import { useState } from "react";
+import { t } from "@lingui/macro";
 import {
-  SvgIcon,
-  Button,
-  Typography,
-  Box,
   Accordion as MuiAccordion,
-  AccordionSummary as MuiAccordionSummary,
   AccordionDetails,
-  withStyles,
+  AccordionSummary as MuiAccordionSummary,
+  Box,
+  Button,
+  SvgIcon,
+  Typography,
   useTheme,
+  withStyles,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-
-import { useAppSelector } from "src/hooks";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { addresses, NETWORKS } from "src/constants";
-import { formatCurrency } from "src/helpers";
-import { RootState } from "src/store";
-import { NetworkID } from "src/lib/Bond";
-
+import { useState } from "react";
+import { useQuery } from "react-query";
 import { ReactComponent as MoreIcon } from "src/assets/icons/more.svg";
+import GOhmImg from "src/assets/tokens/gohm.png";
+import Token33tImg from "src/assets/tokens/token_33T.svg";
 import OhmImg from "src/assets/tokens/token_OHM.svg";
 import SOhmImg from "src/assets/tokens/token_sOHM.svg";
 import WsOhmImg from "src/assets/tokens/token_wsOHM.svg";
-import Token33tImg from "src/assets/tokens/token_33T.svg";
-import GOhmImg from "src/assets/tokens/gohm.png";
-
+import { addresses, NETWORKS } from "src/constants";
+import { formatCurrency } from "src/helpers";
 import { segmentUA } from "src/helpers/userAnalyticHelpers";
-import { t } from "@lingui/macro";
-
-import { useQuery } from "react-query";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { NetworkID } from "src/lib/Bond";
 import { fetchCrossChainBalances } from "src/lib/fetchBalances";
-import { BigNumber } from "ethers";
+import { RootState } from "src/store";
 
 const Accordion = withStyles({
   root: {
@@ -106,7 +101,7 @@ const addTokenToWallet = async (token: IToken, userAddress: string) => {
 
 interface TokenProps extends IToken {
   expanded: boolean;
-  onChangeExpanded: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void;
+  onChangeExpanded: (event: React.ChangeEvent<any>, isExpanded: boolean) => void;
   onAddTokenToWallet: () => void;
   tDecimals: number;
 }

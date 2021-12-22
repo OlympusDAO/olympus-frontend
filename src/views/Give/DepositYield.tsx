@@ -1,17 +1,18 @@
-import { useSelector } from "react-redux";
-import { useAppSelector } from "src/hooks";
-import { useLocation } from "react-router-dom";
-import { Paper, Typography, Zoom, Container, Box } from "@material-ui/core";
-import { BigNumber } from "bignumber.js";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
-import YieldRecipients from "./YieldRecipients";
 import { t, Trans } from "@lingui/macro";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
-import { IAppData } from "src/slices/AppSlice";
-import { EnvHelper } from "src/helpers/Environment";
+import { Box, Container, Paper, Typography, Zoom } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { BigNumber } from "bignumber.js";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { EnvHelper } from "src/helpers/Environment";
+import { useAppSelector } from "src/hooks";
+import { IAccountSlice } from "src/slices/AccountSlice";
+import { IAppData } from "src/slices/AppSlice";
+import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+
+import YieldRecipients from "./YieldRecipients";
 
 type State = {
   account: IAccountSlice;

@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { ReactComponent as Info } from "../../assets/icons/info.svg";
-import { SvgIcon, Paper, Typography, Box, Popper } from "@material-ui/core";
 import "./infotooltip.scss";
+
+import { Box, Paper, Popper, SvgIcon, Typography } from "@material-ui/core";
+import { useState } from "react";
+
+import { ReactComponent as Info } from "../../assets/icons/info.svg";
 
 /**
  * InfoTooltipMulti allows passing an ARRAY of message strings w each Array Element on a new line

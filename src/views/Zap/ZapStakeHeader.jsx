@@ -1,8 +1,9 @@
+import { t, Trans } from "@lingui/macro";
 import { Box, Grid, Typography, useMediaQuery } from "@material-ui/core";
-import MultiLogo from "../../components/MultiLogo";
+
 import { ReactComponent as MoreIcon } from "../../assets/icons/circle-more.svg";
 import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.svg";
-import { t, Trans } from "@lingui/macro";
+import MultiLogo from "../../components/MultiLogo";
 
 export default function ZapStakeHeader({ images }) {
   const isSmallScreen = useMediaQuery("(max-width: 680px)");

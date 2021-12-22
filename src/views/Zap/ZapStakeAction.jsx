@@ -1,44 +1,41 @@
+import { Trans } from "@lingui/macro";
 import {
+  Avatar,
   Box,
   Button,
-  FormControl,
-  Grid,
-  Icon,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Avatar,
-  Typography,
+  ButtonBase,
+  CircularProgress,
   Dialog,
   DialogTitle,
+  FormControl,
+  Grid,
+  InputAdornment,
+  InputLabel,
   List,
   ListItem,
   ListItemAvatar,
-  ButtonBase,
-  IconButton,
-  CardHeader,
   ListItemText,
-  SvgIcon,
-  CircularProgress,
+  OutlinedInput,
   Paper,
+  SvgIcon,
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { changeZapTokenAllowance, executeZap, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
+import { ethers } from "ethers";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import ZapStakeHeader from "./ZapStakeHeader";
+import { trim } from "src/helpers";
+import { useAppSelector, useWeb3Context } from "src/hooks";
+import { changeZapTokenAllowance, executeZap, getZapTokenAllowance } from "src/slices/ZapSlice";
+
 import { ReactComponent as DownIcon } from "../../assets/icons/arrow-down.svg";
+import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapper.svg";
 import { ReactComponent as FirstStepIcon } from "../../assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
-import { useAppSelector, useWeb3Context } from "src/hooks";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapper.svg";
-import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
-import { ethers } from "ethers";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
-import { trim } from "src/helpers";
-import { Trans } from "@lingui/macro";
+import ZapStakeHeader from "./ZapStakeHeader";
 
 const DISABLE_ZAPS = true;
 

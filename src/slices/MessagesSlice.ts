@@ -16,7 +16,7 @@ interface MessagesState {
 }
 // Adds a message to the store
 const createMessage = function (state: MessagesState, severity: string, title: string, text: string) {
-  let message: Message = {
+  const message: Message = {
     id: nb_messages++,
     severity,
     title,
@@ -50,7 +50,7 @@ const messagesSlice = createSlice({
     },
     // Finds and removes obsolete messages
     handle_obsolete(state) {
-      let activeMessages = state.items.filter(message => {
+      const activeMessages = state.items.filter(message => {
         return Date.now() - message.created < MESSAGES_MAX_DISPLAY_DURATION;
       });
       if (state.items.length != activeMessages.length) {

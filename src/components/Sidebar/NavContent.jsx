@@ -1,40 +1,41 @@
-import { useCallback, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import Social from "./Social";
-import externalUrls from "./externalUrls";
-import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
-import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
-import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
-import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
-import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
-import { ReactComponent as GiveIcon } from "../../assets/icons/give.svg";
-import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
-import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
-import { ReactComponent as WrapIcon } from "../../assets/icons/wrap.svg";
-import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
-import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
-import { ReactComponent as ProIcon } from "../../assets/Olympus Logo.svg";
+import "./sidebar.scss";
+
 import { Trans } from "@lingui/macro";
-import { trim, shorten } from "../../helpers";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Divider,
+  Link,
+  Paper,
+  SvgIcon,
+  Typography,
+} from "@material-ui/core";
+import { ExpandMore } from "@material-ui/icons";
+import { Skeleton } from "@material-ui/lab";
+import { useCallback, useState } from "react";
+import { useSelector } from "react-redux";
+import { NavLink, useLocation } from "react-router-dom";
+import { EnvHelper } from "src/helpers/Environment";
 import { useAddress } from "src/hooks/web3Context";
+
+import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
+import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
+import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
+import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
+import { ReactComponent as GiveIcon } from "../../assets/icons/give.svg";
+import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
+import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
+import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
+import { ReactComponent as WrapIcon } from "../../assets/icons/wrap.svg";
+import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
+import { ReactComponent as ProIcon } from "../../assets/Olympus Logo.svg";
+import { shorten, trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import useENS from "../../hooks/useENS";
-import {
-  Paper,
-  Link,
-  Box,
-  Typography,
-  SvgIcon,
-  Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import "./sidebar.scss";
-import { useSelector } from "react-redux";
-import { EnvHelper } from "src/helpers/Environment";
-import { ExpandMore } from "@material-ui/icons";
+import externalUrls from "./externalUrls";
+import Social from "./Social";
 
 function NavContent() {
   const [isActive] = useState();

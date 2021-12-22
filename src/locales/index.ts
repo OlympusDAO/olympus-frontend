@@ -1,5 +1,5 @@
 import { i18n } from "@lingui/core";
-import { en, fr, ko, tr, zh, ar, es, vi } from "make-plural/plurals";
+import { ar, en, es, fr, ko, tr, vi, zh } from "make-plural/plurals";
 
 // Declare locales
 interface ILocale {
@@ -26,11 +26,11 @@ translations_style_dom.type = "text/css";
 document.getElementsByTagName("head")[0].appendChild(translations_style_dom);
 
 // Load locale data
-for (var [key, locale] of Object.entries(locales)) {
+for (const [key, locale] of Object.entries(locales)) {
   i18n.loadLocaleData(key, { plurals: locale.plurals });
 }
 
-async function fetchLocale(locale: string = "en") {
+async function fetchLocale(locale = "en") {
   const { messages } = await import(
     /* webpackChunkName: "[request]" */ `../locales/translations/olympus-frontend/${locale}/messages`
   );
@@ -43,7 +43,7 @@ export function selectLocale(locale: string) {
   return fetchLocale(locale);
 }
 export function initLocale() {
-  var locale = window.localStorage.getItem("locale") as string;
+  let locale = window.localStorage.getItem("locale") as string;
   if (!Object.keys(locales).includes(locale)) locale = "en";
   fetchLocale(locale);
 }

@@ -1,6 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -11,16 +9,19 @@ import {
   Typography,
   useMediaQuery,
 } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
-import ConnectButton from "../../components/ConnectButton.jsx";
-import { useWeb3Context } from "../../hooks";
-import { getTokenImage } from "src/helpers/index";
+import { Skeleton } from "@material-ui/lab";
+import PropTypes from "prop-types";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { trim } from "src/helpers";
+import { getTokenImage } from "src/helpers/index";
+
+import ConnectButton from "../../components/ConnectButton.jsx";
 import { calculateOdds } from "../../helpers/33Together";
+import { useWeb3Context } from "../../hooks";
+import { error } from "../../slices/MessagesSlice";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { changeApproval, poolDeposit } from "../../slices/PoolThunk";
-import { Skeleton } from "@material-ui/lab";
-import { error } from "../../slices/MessagesSlice";
 import { ConfirmationModal } from "./ConfirmationModal.jsx";
 
 const sohmImg = getTokenImage("sohm");

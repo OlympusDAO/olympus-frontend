@@ -65,7 +65,7 @@ query {
  * @returns string
  */
 export const yourAwardsQuery = (poolAddress: string, userAddress: string, tokenAddress: string) => {
-  let query = `
+  const query = `
   query {
       prizePool(id: "${poolAddress.toLowerCase()}") {
         prizes (where:{

@@ -1,14 +1,15 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { t, Trans } from "@lingui/macro";
-import { shorten, trim, prettyVestingPeriod } from "../../helpers";
-import { redeemBond } from "../../slices/BondSlice";
-import BondLogo from "../../components/BondLogo";
-import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import "./choosebond.scss";
+
+import { t } from "@lingui/macro";
+import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { useDispatch, useSelector } from "react-redux";
 import { useBonds, useWeb3Context } from "src/hooks";
 import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
+
+import BondLogo from "../../components/BondLogo";
+import { prettyVestingPeriod, trim } from "../../helpers";
+import { redeemBond } from "../../slices/BondSlice";
 
 export function ClaimBondTableData({ userBond }) {
   const dispatch = useDispatch();

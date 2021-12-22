@@ -1,5 +1,6 @@
+import { Box, Grid, GridSize } from "@material-ui/core";
 import { Children } from "react";
-import { Grid, Box, GridSize } from "@material-ui/core";
+
 import Metric from "./Metric";
 
 /**

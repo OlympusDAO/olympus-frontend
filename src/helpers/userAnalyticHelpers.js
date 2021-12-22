@@ -1,5 +1,3 @@
-import { EnvHelper } from "./Environment";
-
 // Pushing data to segment analytics
 export function segmentUA(data) {
   const analytics = (window.analytics = window.analytics);

@@ -1,12 +1,13 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
-import { NetworkID } from "src/lib/Bond";
-import { ohm_lusd, lusd } from "../helpers/AllBonds";
+import { BigNumber, ethers } from "ethers";
 import { abi as OhmLusdCrucibleABI } from "src/abi/OhmLusdCrucible.json";
 import { abi as UniswapIERC20ABI } from "src/abi/UniswapIERC20.json";
-import { BigNumber, ethers } from "ethers";
 import { addresses } from "src/constants";
-import { getTokenPrice } from "../helpers";
+import { NetworkID } from "src/lib/Bond";
 import { OhmLusdCrucible, UniswapIERC20 } from "src/typechain";
+
+import { getTokenPrice } from "../helpers";
+import { lusd, ohm_lusd } from "../helpers/AllBonds";
 
 export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJsonRpcProvider) => {
   const crucibleAddress = addresses[networkID].CRUCIBLE_OHM_LUSD;
@@ -17,26 +18,26 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   ) as OhmLusdCrucible;
   const aludelData = await aludelContract.getAludelData();
   // getting contractAddresses & Pricing for calculations below
-  let ohmPrice = await getTokenPrice("olympus");
-  let ohmContractAddress = addresses[networkID].OHM_ADDRESS.toLowerCase();
+  const ohmPrice = await getTokenPrice("olympus");
+  const ohmContractAddress = addresses[networkID].OHM_ADDRESS.toLowerCase();
 
-  let lusdPrice = await getTokenPrice("liquity-usd");
-  let lusdContractAddress = lusd.getAddressForReserve(networkID)?.toLowerCase();
+  const lusdPrice = await getTokenPrice("liquity-usd");
+  const lusdContractAddress = lusd.getAddressForReserve(networkID)?.toLowerCase();
 
-  let ohmLusdPrice = await ohm_lusd.getBondReservePrice(networkID, provider);
-  let ohmLusdContractAddress = ohm_lusd.getAddressForReserve(networkID)?.toLowerCase();
+  const ohmLusdPrice = await ohm_lusd.getBondReservePrice(networkID, provider);
+  const ohmLusdContractAddress = ohm_lusd.getAddressForReserve(networkID)?.toLowerCase();
 
   // If this is unavailable on the current network
   if (!lusdContractAddress || !ohmLusdContractAddress) return;
 
-  let lqtyPrice = await getTokenPrice("liquity");
-  let lqtyContractAddress = addresses[networkID].LQTY.toLowerCase();
+  const lqtyPrice = await getTokenPrice("liquity");
+  const lqtyContractAddress = addresses[networkID].LQTY.toLowerCase();
 
-  let mistPrice = await getTokenPrice("alchemist");
-  let mistContractAddress = addresses[networkID].MIST.toLowerCase();
+  const mistPrice = await getTokenPrice("alchemist");
+  const mistContractAddress = addresses[networkID].MIST.toLowerCase();
 
   // set addresses & pricing in dictionary
-  let usdValues: { [key: string]: number } = {};
+  const usdValues: { [key: string]: number } = {};
   usdValues[ohmContractAddress] = ohmPrice;
   usdValues[ohmLusdContractAddress] = Number(ohmLusdPrice.toString());
   usdValues[lqtyContractAddress] = lqtyPrice;
@@ -44,15 +45,15 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
 
   // console.log("usdValues", usdValues);
   let totalRemainingRewards = 0;
-  let remainingDurations: number[] = [];
-  let pastDurations: number[] = [];
-  let dt_now = Date.now() / 1000;
+  const remainingDurations: number[] = [];
+  const pastDurations: number[] = [];
+  const dt_now = Date.now() / 1000;
 
   // console.log("aludelData", aludelData);
   // map through all fund() calls
   aludelData.rewardSchedules.map((rs: { start: BigNumber; duration: BigNumber; shares: BigNumber }) => {
-    let rewardStart: number = parseFloat(rs.start.toString());
-    let rewardDuration: number = parseFloat(rs.duration.toString());
+    const rewardStart: number = parseFloat(rs.start.toString());
+    const rewardDuration: number = parseFloat(rs.duration.toString());
 
     // if the reward has already ended, skip it
     if (rewardStart + rewardDuration > parseFloat(dt_now.toString())) {
@@ -71,10 +72,10 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   });
 
   // average duration in seconds for future releases
-  let avgRemainingDuration = remainingDurations.reduce((a, b) => a + b, 0) / remainingDurations.length;
+  const avgRemainingDuration = remainingDurations.reduce((a, b) => a + b, 0) / remainingDurations.length;
 
   // furthest start date for past funds
-  let oldestDepositDate = Math.max.apply(null, pastDurations);
+  const oldestDepositDate = Math.max.apply(null, pastDurations);
 
   // rewardToken is OHM for this Crucible
   const rewardTokenContract = new ethers.Contract(
@@ -83,18 +84,18 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
     provider,
   ) as UniswapIERC20;
 
-  let rewardTokenDecimals = await rewardTokenContract.decimals();
+  const rewardTokenDecimals = await rewardTokenContract.decimals();
   // let rewardTokenDecimals = 9;
 
-  let rewardPoolBalance = await rewardTokenContract.balanceOf(aludelData.rewardPool);
+  const rewardPoolBalance = await rewardTokenContract.balanceOf(aludelData.rewardPool);
   // balance of rewardToken in pool
-  let rewardTokenQuantity = Number(rewardPoolBalance.toString()) / 10 ** rewardTokenDecimals;
+  const rewardTokenQuantity = Number(rewardPoolBalance.toString()) / 10 ** rewardTokenDecimals;
 
   // amount of bonus tokens in program
   const bonusTokensLength = (await aludelContract.getBonusTokenSetLength()) as BigNumber;
   const bonusTokensLengthNumber = Number(bonusTokensLength.toString());
 
-  let bonusTokenUsdValues: number[] = [];
+  const bonusTokenUsdValues: number[] = [];
 
   // get bonus tokens and their USD value
   await Promise.all(
@@ -113,51 +114,55 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
   );
 
   // calculate total USD value of bonus tokens
-  let totalUsdValueOfBonusTokens = bonusTokenUsdValues.reduce((a, b) => a + b, 0);
+  const totalUsdValueOfBonusTokens = bonusTokenUsdValues.reduce((a, b) => a + b, 0);
 
   // scale shares to token decimals + base share (10 ** 6)
-  let rewardsRemainingValue = totalRemainingRewards / 10 ** (rewardTokenDecimals + 6);
+  const rewardsRemainingValue = totalRemainingRewards / 10 ** (rewardTokenDecimals + 6);
 
   // usd value of rewardToken
-  let rewardTokenUsdValue = usdValues[aludelData.rewardToken.toLowerCase()];
+  const rewardTokenUsdValue = usdValues[aludelData.rewardToken.toLowerCase()];
 
   // usd value of rewardToken to be released
-  let rewardsRemainingValueUsd = rewardsRemainingValue * rewardTokenUsdValue;
+  const rewardsRemainingValueUsd = rewardsRemainingValue * rewardTokenUsdValue;
 
   // amount of rewardToken that are released
-  let rewardsPreviouslyReleased = rewardTokenQuantity - rewardsRemainingValue;
+  const rewardsPreviouslyReleased = rewardTokenQuantity - rewardsRemainingValue;
 
   // percentage of rewardToken that are released
-  let rewardsReleasedPercentage = rewardsPreviouslyReleased / rewardTokenQuantity;
+  const rewardsReleasedPercentage = rewardsPreviouslyReleased / rewardTokenQuantity;
 
   // usd value of rewardToken that are released
-  let rewardsPreviouslyReleasedUsdValue = rewardsPreviouslyReleased * rewardTokenUsdValue;
+  const rewardsPreviouslyReleasedUsdValue = rewardsPreviouslyReleased * rewardTokenUsdValue;
 
-  let lusdContract = new ethers.Contract(lusdContractAddress, UniswapIERC20ABI, provider) as UniswapIERC20;
+  const lusdContract = new ethers.Contract(lusdContractAddress, UniswapIERC20ABI, provider) as UniswapIERC20;
 
-  let stakedOhm =
+  const stakedOhm =
     Number((await rewardTokenContract.balanceOf(aludelData.stakingToken)).toString()) / 10 ** rewardTokenDecimals;
   // 18 decimals for LUSD
-  let stakedLusd = Number((await lusdContract.balanceOf(aludelData.stakingToken)).toString()) / 10 ** 18;
+  const stakedLusd = Number((await lusdContract.balanceOf(aludelData.stakingToken)).toString()) / 10 ** 18;
 
-  let totalStakedTokensUsd = stakedOhm * ohmPrice + stakedLusd * lusdPrice;
+  const totalStakedTokensUsd = stakedOhm * ohmPrice + stakedLusd * lusdPrice;
 
-  let stakingTokenContract = new ethers.Contract(aludelData.stakingToken, UniswapIERC20ABI, provider) as UniswapIERC20;
-  let sushiTokenSupply = Number((await stakingTokenContract.totalSupply()).toString()) / 10 ** 18;
+  const stakingTokenContract = new ethers.Contract(
+    aludelData.stakingToken,
+    UniswapIERC20ABI,
+    provider,
+  ) as UniswapIERC20;
+  const sushiTokenSupply = Number((await stakingTokenContract.totalSupply()).toString()) / 10 ** 18;
   // total stake of stakingToken with 18 decimals
-  let aludelTotalStakedTokens = Number(aludelData.totalStake.toString()) / 10 ** 18;
+  const aludelTotalStakedTokens = Number(aludelData.totalStake.toString()) / 10 ** 18;
   // total usd value of staked stakingToken is the percent of aludel-staked over sushi-staked times sushi staked USD
-  let aludelTotalStakedTokensUsd = (aludelTotalStakedTokens / sushiTokenSupply) * totalStakedTokensUsd;
+  const aludelTotalStakedTokensUsd = (aludelTotalStakedTokens / sushiTokenSupply) * totalStakedTokensUsd;
 
-  let secs_in_year = 365 * 24 * 60 * 60;
+  const secs_in_year = 365 * 24 * 60 * 60;
 
   // future rewards multiplier based on avg future rewards duration
-  let remainingTime = secs_in_year / avgRemainingDuration || 0;
+  const remainingTime = secs_in_year / avgRemainingDuration || 0;
 
   // past rewards multiplier based on ealiest rewardShedule start date
-  let pastTime = secs_in_year / oldestDepositDate || 1;
+  const pastTime = secs_in_year / oldestDepositDate || 1;
 
-  let numerator =
+  const numerator =
     // calculate apy from released rewardToken
     rewardsPreviouslyReleasedUsdValue * pastTime +
     // calculate apy from released bonus tokens based on rewardToken released percentage
@@ -168,7 +173,7 @@ export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJson
     totalUsdValueOfBonusTokens * (1 - rewardsReleasedPercentage) * remainingTime;
 
   // divide apy based on value of staked stakingToken
-  let averageApy = (numerator / aludelTotalStakedTokensUsd) * 100;
+  const averageApy = (numerator / aludelTotalStakedTokensUsd) * 100;
 
   return {
     averageApy: averageApy,

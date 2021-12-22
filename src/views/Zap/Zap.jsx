@@ -1,14 +1,15 @@
-import { useState, useRef, useEffect, useMemo } from "react";
-import { Box, Button, Fade, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
-import TabPanel from "../../components/TabPanel";
 import "./zap.scss";
-import { useWeb3Context } from "src/hooks/web3Context";
-import ZapStakeAction from "./ZapStakeAction";
-import ZapInfo from "./ZapInfo";
-import { useAppSelector } from "src/hooks";
+
 import { Trans } from "@lingui/macro";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { Box, Button, Paper, Typography, Zoom } from "@material-ui/core";
+import { useMemo } from "react";
 import { useHistory } from "react-router";
+import { useAppSelector } from "src/hooks";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useWeb3Context } from "src/hooks/web3Context";
+
+import ZapInfo from "./ZapInfo";
+import ZapStakeAction from "./ZapStakeAction";
 
 function Zap() {
   const { address, connect } = useWeb3Context();

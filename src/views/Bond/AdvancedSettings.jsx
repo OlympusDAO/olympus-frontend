@@ -1,18 +1,20 @@
+import "./bondSettings.scss";
+
+import { Trans } from "@lingui/macro";
 import {
-  Typography,
   Box,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
   Modal,
+  OutlinedInput,
   Paper,
   SvgIcon,
-  IconButton,
-  FormControl,
-  OutlinedInput,
-  InputLabel,
-  InputAdornment,
+  Typography,
 } from "@material-ui/core";
+
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { t, Trans } from "@lingui/macro";
-import "./bondSettings.scss";
 
 function AdvancedSettings({
   open,

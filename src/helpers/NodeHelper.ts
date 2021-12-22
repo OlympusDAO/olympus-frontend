@@ -1,7 +1,8 @@
-import { minutesAgo } from "./index";
-import { EnvHelper } from "./Environment";
-import { ethers } from "ethers";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import { ethers } from "ethers";
+
+import { EnvHelper } from "./Environment";
+import { minutesAgo } from "./index";
 
 interface ICurrentStats {
   failedConnectionCount: number;
@@ -67,7 +68,7 @@ export class NodeHelper {
   static _removeNodeFromProviders(providerKey: string, providerUrl: string, networkId: number) {
     // get Object of current removed Nodes
     // key = providerUrl, value = removedAt Timestamp
-    let currentRemovedNodesObj = NodeHelper.currentRemovedNodes;
+    const currentRemovedNodesObj = NodeHelper.currentRemovedNodes;
     if (Object.keys(currentRemovedNodesObj).includes(providerUrl)) {
       // already on the removed nodes list
     } else {
@@ -132,7 +133,7 @@ export class NodeHelper {
    */
   static getNodesUris = (networkId: number) => {
     let allURIs = EnvHelper.getAPIUris(networkId);
-    let invalidNodes = NodeHelper.currentRemovedNodesURIs;
+    const invalidNodes = NodeHelper.currentRemovedNodesURIs;
     // filter invalidNodes out of allURIs
     // this allows duplicates in allURIs, removes both if invalid, & allows both if valid
     allURIs = allURIs.filter(item => !invalidNodes.includes(item));
@@ -171,7 +172,7 @@ export class NodeHelper {
   static checkAllNodesStatus = async (networkId: number) => {
     return await Promise.all(
       NodeHelper.getNodesUris(networkId).map(async URI => {
-        let workingUrl = await NodeHelper.checkNodeStatus(URI, networkId);
+        const workingUrl = await NodeHelper.checkNodeStatus(URI, networkId);
         return workingUrl;
       }),
     );
@@ -215,7 +216,7 @@ export class NodeHelper {
   }) => {
     let liveURL: boolean | string;
     try {
-      let resp = await fetch(url, {
+      const resp = await fetch(url, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -227,7 +228,7 @@ export class NodeHelper {
         throw Error("failed node connection");
       } else {
         // response came back but is it healthy?
-        let jsonResponse = await resp.json();
+        const jsonResponse = await resp.json();
         if (NodeHelper.validityCheck({ nodeMethod, resultVal: jsonResponse.result })) {
           liveURL = url;
         } else {

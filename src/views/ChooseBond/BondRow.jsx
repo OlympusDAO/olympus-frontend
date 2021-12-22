@@ -1,13 +1,15 @@
-import BondLogo from "../../components/BondLogo";
-import { DisplayBondPrice, DisplayBondDiscount } from "../Bond/Bond";
-import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
+
 import { t, Trans } from "@lingui/macro";
+import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import useBonds from "src/hooks/Bonds";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import useBonds from "src/hooks/Bonds";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import BondLogo from "../../components/BondLogo";
+import { DisplayBondDiscount, DisplayBondPrice } from "../Bond/Bond";
 
 export function BondDataCard({ bond }) {
   const networkId = useSelector(state => state.network.networkId);

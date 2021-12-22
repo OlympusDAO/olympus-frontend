@@ -1,36 +1,31 @@
-import { StableBond, LPBond, NetworkID, CustomBond, BondType } from "src/lib/Bond";
-import { addresses } from "src/constants";
-
+import { BigNumberish } from "ethers";
+import { abi as CvxBondContract } from "src/abi/bonds/CvxContract.json";
+import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
+import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
+import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
+import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
+import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
+import { abi as BondOhmEthContract } from "src/abi/bonds/OhmEthContract.json";
+import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
+import { abi as BondOhmLusdContract } from "src/abi/bonds/OhmLusdContract.json";
+import { abi as ierc20Abi } from "src/abi/IERC20.json";
+import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
+import { abi as ReserveOhmEthContract } from "src/abi/reserves/OhmEth.json";
+import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
+import { abi as ReserveOhmLusdContract } from "src/abi/reserves/OhmLusd.json";
+import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
 import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
 import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
+import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
+import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
 import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
 import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
 import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
 import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
-import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
-import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
-
-import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
-import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
-import { abi as BondOhmLusdContract } from "src/abi/bonds/OhmLusdContract.json";
-import { abi as BondOhmEthContract } from "src/abi/bonds/OhmEthContract.json";
-
-import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
-import { abi as ReserveOhmLusdContract } from "src/abi/reserves/OhmLusd.json";
-import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
-import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
-import { abi as ReserveOhmEthContract } from "src/abi/reserves/OhmEth.json";
-
-import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
-import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
-import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
-import { abi as CvxBondContract } from "src/abi/bonds/CvxContract.json";
-
-import { abi as ierc20Abi } from "src/abi/IERC20.json";
-import { getBondCalculator } from "src/helpers/BondCalculator";
-import { BigNumberish } from "ethers";
+import { addresses } from "src/constants";
 import { getTokenPrice } from "src/helpers";
+import { getBondCalculator } from "src/helpers/BondCalculator";
+import { BondType, CustomBond, LPBond, NetworkID, StableBond } from "src/lib/Bond";
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
@@ -319,7 +314,7 @@ export const cvx = new CustomBond({
     },
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
-    let cvxPrice: number = await getTokenPrice("convex-finance");
+    const cvxPrice: number = await getTokenPrice("convex-finance");
     const token = this.getContractForReserve(networkID, provider);
     let cvxAmount: BigNumberish = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
     cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
@@ -376,7 +371,7 @@ export const cvx_expired = new CustomBond({
     },
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
-    let cvxPrice: number = await getTokenPrice("convex-finance");
+    const cvxPrice: number = await getTokenPrice("convex-finance");
     const token = this.getContractForReserve(networkID, provider);
     let cvxAmount: BigNumberish = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
     cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
@@ -686,7 +681,7 @@ export const ohm_weth = new CustomBond({
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_V2);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
-      let tokenUSD =
+      const tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD * Number(ethPrice.toString());
     } else {
@@ -697,7 +692,7 @@ export const ohm_weth = new CustomBond({
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
-      let tokenUSD =
+      const tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD;
     }
@@ -763,7 +758,7 @@ export const ohm_wethOld = new CustomBond({
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
-      let tokenUSD =
+      const tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD * Number(ethPrice.toString());
     } else {
@@ -774,7 +769,7 @@ export const ohm_wethOld = new CustomBond({
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
-      let tokenUSD =
+      const tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD;
     }

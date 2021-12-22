@@ -1,25 +1,26 @@
-import { ethers, BigNumber } from "ethers";
-import { addresses } from "../constants";
-import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
-import { abi as AwardPool } from "../abi/33-together/AwardAbi2.json";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
-import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
-import { fetchAccountSuccess, getBalances } from "./AccountSlice";
-import { getCreditMaturationDaysAndLimitPercentage } from "../helpers/33Together";
-import { setAll } from "../helpers";
-import { error, info } from "./MessagesSlice";
+import { BigNumber, ethers } from "ethers";
 import { RootState } from "src/store";
+import { AwardAbi2, PrizePoolAbi, PrizePoolAbi2, SOHM } from "src/typechain";
+
+import { abi as AwardPool } from "../abi/33-together/AwardAbi2.json";
+import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
+import { abi as ierc20Abi } from "../abi/IERC20.json";
+import { addresses } from "../constants";
+import { setAll } from "../helpers";
+import { getCreditMaturationDaysAndLimitPercentage } from "../helpers/33Together";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import {
-  IValueAsyncThunk,
+  IActionAsyncThunk,
+  IActionValueAsyncThunk,
   IBaseAsyncThunk,
   IChangeApprovalAsyncThunk,
-  IActionValueAsyncThunk,
-  IActionAsyncThunk,
   IJsonRPCError,
+  IValueAsyncThunk,
 } from "./interfaces";
-import { AwardAbi2, PrizePoolAbi, PrizePoolAbi2, SOHM } from "src/typechain";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { error, info } from "./MessagesSlice";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 
 export const getPoolValues = createAsyncThunk(
   "pool/getPoolValues",
@@ -145,7 +146,7 @@ export const poolDeposit = createAsyncThunk(
       signer,
     ) as PrizePoolAbi;
     let poolTx;
-    let uaData = {
+    const uaData = {
       address: address,
       value: value,
       type: "33t Deposit",
@@ -242,7 +243,7 @@ export const poolWithdraw = createAsyncThunk(
     ) as PrizePoolAbi2;
 
     let poolTx;
-    let uaData = {
+    const uaData = {
       address: address,
       value: value,
       type: "Withdraw",

@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import allBonds, { allExpiredBonds } from "src/helpers/AllBonds";
-import { IUserBondDetails } from "src/slices/AccountSlice";
 import { Bond } from "src/lib/Bond";
+import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IBondDetails } from "src/slices/BondSlice";
 
 interface IBondingStateView {
@@ -12,7 +12,7 @@ interface IBondingStateView {
     };
   };
   bonding: {
-    loading: Boolean;
+    loading: boolean;
     [key: string]: any;
   };
 }
@@ -31,8 +31,7 @@ function useBonds(networkId: number) {
   const [expiredBonds, setExpiredBonds] = useState<Bond[] | IAllBondData[]>(initialExpiredArray);
 
   useEffect(() => {
-    let bondDetails: IAllBondData[];
-    bondDetails = allBonds
+    const bondDetails: IAllBondData[] = allBonds
       .flatMap(bond => {
         if (bondState[bond.name] && bondState[bond.name].bondDiscount) {
           return Object.assign(bond, bondState[bond.name]); // Keeps the object type
@@ -56,8 +55,7 @@ function useBonds(networkId: number) {
     // setBonds(bondDetails);
 
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    let expiredDetails: IAllBondData[];
-    expiredDetails = allExpiredBonds
+    const expiredDetails: IAllBondData[] = allExpiredBonds
       .flatMap(bond => {
         if (bondState[bond.name] && bondState[bond.name].bondDiscount) {
           return Object.assign(bond, bondState[bond.name]); // Keeps the object type

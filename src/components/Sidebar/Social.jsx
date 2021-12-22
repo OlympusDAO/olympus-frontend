@@ -1,8 +1,9 @@
-import { SvgIcon, Link } from "@material-ui/core";
+import { Link, SvgIcon } from "@material-ui/core";
+
+import { ReactComponent as Discord } from "../../assets/icons/discord.svg";
 import { ReactComponent as GitHub } from "../../assets/icons/github.svg";
 import { ReactComponent as Medium } from "../../assets/icons/medium.svg";
 import { ReactComponent as Twitter } from "../../assets/icons/twitter.svg";
-import { ReactComponent as Discord } from "../../assets/icons/discord.svg";
 
 export default function Social() {
   return (

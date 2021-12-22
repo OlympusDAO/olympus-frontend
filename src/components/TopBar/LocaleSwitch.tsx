@@ -1,13 +1,13 @@
-import { t } from "@lingui/macro";
+import "./localesmenu.scss";
+
 import { i18n } from "@lingui/core";
+import { t } from "@lingui/macro";
+import { Box, Button, Fade, Paper, Popper, Typography } from "@material-ui/core";
 import { ReferenceObject } from "popper.js";
-import { useState, MouseEvent } from "react";
-import { Popper, Button, Paper, Typography, Box, Fade } from "@material-ui/core";
+import { MouseEvent, useState } from "react";
 
 import FlagIcon from "../../helpers/flagicon.js";
 import { locales, selectLocale } from "../../locales";
-
-import "./localesmenu.scss";
 
 function getLocaleFlag(locale: string) {
   return locales[locale].flag;

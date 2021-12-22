@@ -1,11 +1,10 @@
-import React, { ReactElement, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import Web3Modal from "web3modal";
-import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import WalletConnectProvider from "@walletconnect/web3-provider";
+import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
-import { EnvHelper } from "../helpers/Environment";
-import store from "../store";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import React, { ReactElement, useCallback, useContext, useMemo, useState } from "react";
 import { NodeHelper } from "src/helpers/NodeHelper";
+import Web3Modal from "web3modal";
+
 import { NETWORKS } from "../constants";
 
 /**
@@ -26,7 +25,7 @@ type onChainProvider = {
   connected: boolean;
   provider: JsonRpcProvider;
   web3Modal: Web3Modal;
-  chainChanged: Boolean;
+  chainChanged: boolean;
   onChainChangeComplete: () => void;
 };
 

@@ -1,20 +1,16 @@
-import { ethers, BigNumber } from "ethers";
-import { addresses } from "../constants";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { BigNumber, ethers } from "ethers";
+import ReactGA from "react-ga";
+import { IERC20, OlympusStaking__factory, OlympusStakingv2__factory, StakingHelper } from "src/typechain";
+
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { abi as StakingHelperABI } from "../abi/StakingHelper.json";
-import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchAccountSuccess, getBalances } from "./AccountSlice";
-import { error, info } from "../slices/MessagesSlice";
-import {
-  IActionValueAsyncThunk,
-  IChangeApprovalAsyncThunk,
-  IChangeApprovalWithVersionAsyncThunk,
-  IJsonRPCError,
-} from "./interfaces";
+import { addresses } from "../constants";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, OlympusStakingv2__factory, OlympusStaking__factory, StakingHelper } from "src/typechain";
-import ReactGA from "react-ga";
+import { error, info } from "../slices/MessagesSlice";
+import { fetchAccountSuccess, getBalances } from "./AccountSlice";
+import { IActionValueAsyncThunk, IChangeApprovalWithVersionAsyncThunk, IJsonRPCError } from "./interfaces";
+import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 
 interface IUAData {
   address: string;
@@ -33,7 +29,7 @@ function alreadyApprovedToken(
   version2: boolean,
 ) {
   // set defaults
-  let bigZero = BigNumber.from("0");
+  const bigZero = BigNumber.from("0");
   let applicableAllowance = bigZero;
   // determine which allowance to check
   if (token === "ohm" && version2) {
@@ -167,7 +163,7 @@ export const changeStake = createAsyncThunk(
     const stakingV2 = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, signer);
 
     let stakeTx;
-    let uaData: IUAData = {
+    const uaData: IUAData = {
       address: address,
       value: value,
       approved: true,
@@ -176,7 +172,7 @@ export const changeStake = createAsyncThunk(
     };
     try {
       if (version2) {
-        let rebasing = true; // when true stake into sOHM
+        const rebasing = true; // when true stake into sOHM
         if (action === "stake") {
           uaData.type = "stake";
           // 3rd arg is rebase

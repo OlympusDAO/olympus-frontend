@@ -1,35 +1,31 @@
-import { Component, ReactElement, useState } from "react";
+import { Trans } from "@lingui/macro";
 import {
-  useTheme,
-  useMediaQuery,
-  withStyles,
-  SvgIcon,
-  Button,
-  Typography,
   Box,
+  Button,
   Divider,
   IconButton,
   Paper,
+  SvgIcon,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  withStyles,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
-import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
-import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
-import { ReactComponent as fraxTokenImg } from "src/assets/tokens/FRAX.svg";
-import { ReactComponent as daiTokenImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as wsOhmTokenImg } from "src/assets/tokens/token_wsOHM.svg";
+import { Component, ReactElement, useState } from "react";
 import { ReactComponent as arrowDown } from "src/assets/icons/arrow-down.svg";
-import { addresses, TOKEN_DECIMALS } from "src/constants";
+import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
+import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
+import { ReactComponent as daiTokenImg } from "src/assets/tokens/DAI.svg";
+import { ReactComponent as fraxTokenImg } from "src/assets/tokens/FRAX.svg";
+import { ReactComponent as wsOhmTokenImg } from "src/assets/tokens/token_wsOHM.svg";
+import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
 import { formatCurrency } from "src/helpers";
+import { ohm_dai, ohm_frax } from "src/helpers/AllBonds";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import useCurrentTheme from "src/hooks/useTheme";
 
-import { ohm_frax, ohm_dai } from "src/helpers/AllBonds";
-
-import { IToken, Token, Tokens, useWallet } from "./Token";
-import { NetworkID } from "src/lib/Bond";
-import { BigNumber } from "ethers";
-import { t, Trans } from "@lingui/macro";
+import { IToken, Tokens, useWallet } from "./Token";
 
 const Borrow = ({
   Icon1,

@@ -1,4 +1,6 @@
-import { useSelector } from "react-redux";
+import "./choosebond.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Grid,
@@ -12,21 +14,19 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
-import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { formatCurrency } from "../../helpers";
-import useBonds from "../../hooks/Bonds";
-import { useHistory } from "react-router";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import "./choosebond.scss";
-import { Skeleton } from "@material-ui/lab";
-import ClaimBonds from "./ClaimBonds";
 import isEmpty from "lodash/isEmpty";
+import { useHistory } from "react-router";
+import { Metric, MetricCollection } from "src/components/Metric";
 import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector } from "src/hooks";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { Metric, MetricCollection } from "src/components/Metric";
+
+import { formatCurrency } from "../../helpers";
+import useBonds from "../../hooks/Bonds";
+import { BondDataCard, BondTableData } from "./BondRow";
+import ClaimBonds from "./ClaimBonds";
 
 function ChooseBond() {
   const networkId = useAppSelector(state => state.network.networkId);

@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import "./33together.scss";
+
 import { t } from "@lingui/macro";
-import { Paper, Tab, Tabs, Box } from "@material-ui/core";
-import InfoTooltipMulti from "../../components/InfoTooltip/InfoTooltipMulti";
+import { Box, Paper, Tab, Tabs } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addresses, POOL_GRAPH_URLS } from "src/constants";
+import { calculateOdds, trimOdds } from "src/helpers/33Together";
+import { useAppSelector, useWeb3Context } from "src/hooks";
+import { apolloExt } from "src/lib/apolloClient";
+import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
 import { Prize, PrizePool } from "src/typechain/pooltogether";
-import TabPanel from "../../components/TabPanel";
+
 import CardHeader from "../../components/CardHeader/CardHeader";
-import { PoolDeposit } from "./PoolDeposit";
-import { PoolWithdraw } from "./PoolWithdraw";
+import InfoTooltipMulti from "../../components/InfoTooltip/InfoTooltipMulti";
+import TabPanel from "../../components/TabPanel";
+import { poolDataQuery, yourAwardsQuery } from "./poolData";
 import { PoolInfo } from "./PoolInfo";
 import { PoolPrize } from "./PoolPrize";
-import "./33together.scss";
-import { addresses, POOL_GRAPH_URLS } from "src/constants";
-import { useWeb3Context, useAppSelector } from "src/hooks";
-import { apolloExt } from "src/lib/apolloClient";
-import { poolDataQuery, yourAwardsQuery } from "./poolData";
-import { calculateOdds, trimOdds } from "src/helpers/33Together";
-import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
+import { PoolWithdraw } from "./PoolWithdraw";
 
 function a11yProps(index: number) {
   return {
@@ -35,7 +36,7 @@ const PoolTogether = () => {
   const [view, setView] = useState(0);
   const [zoomed, setZoomed] = useState(false);
 
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: React.ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 

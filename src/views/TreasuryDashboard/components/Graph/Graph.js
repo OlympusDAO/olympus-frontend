@@ -1,8 +1,9 @@
-import Chart from "src/components/Chart/Chart.jsx";
 import { useTheme } from "@material-ui/core/styles";
-import { trim, formatCurrency } from "../../../../helpers";
+import Chart from "src/components/Chart/Chart.jsx";
+
+import { formatCurrency, trim } from "../../../../helpers";
 import { useTreasuryMetrics } from "../../hooks/useTreasuryMetrics";
-import { bulletpoints, tooltipItems, tooltipInfoMessages, itemType } from "../../treasuryData";
+import { bulletpoints, itemType, tooltipInfoMessages, tooltipItems } from "../../treasuryData";
 
 export const Graph = ({ children }) => <>{children}</>;
 

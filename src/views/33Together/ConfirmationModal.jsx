@@ -1,8 +1,9 @@
-import { Modal, Backdrop, Paper, SvgIcon, Box, Typography, Button, Fade, useTheme } from "@material-ui/core";
-import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
-import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
+import { Backdrop, Box, Button, Fade, Modal, Paper, SvgIcon, Typography, useTheme } from "@material-ui/core";
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
+
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
+import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
 
 export const ConfirmationModal = props => {
   const theme = useTheme();

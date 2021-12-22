@@ -1,5 +1,6 @@
-import { Box, Paper, Typography } from "@material-ui/core";
 import "./customtooltip.scss";
+
+import { Box, Paper, Typography } from "@material-ui/core";
 
 const renderDate = (index, payload, item) => {
   return index === payload.length - 1 ? (

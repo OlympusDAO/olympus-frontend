@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 import accountReducer from "./slices/AccountSlice";
-import networkReducer from "./slices/NetworkSlice";
-import bondingReducer from "./slices/BondSlice";
 import appReducer from "./slices/AppSlice";
+import bondingReducer from "./slices/BondSlice";
+import messagesReducer from "./slices/MessagesSlice";
+import networkReducer from "./slices/NetworkSlice";
 import pendingTransactionsReducer from "./slices/PendingTxnsSlice";
 import poolDataReducer from "./slices/PoolThunk";
-import messagesReducer from "./slices/MessagesSlice";
 import zapReducer from "./slices/ZapSlice";
 // reducers are named automatically based on the name field in the slice
 // exported in slice files by default as nameOfSlice.reducer

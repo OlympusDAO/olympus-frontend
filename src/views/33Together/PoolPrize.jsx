@@ -1,13 +1,12 @@
-import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { t, Trans } from "@lingui/macro";
-import { useWeb3Context } from "../../hooks";
-import { awardProcess, getRNGStatus, getPoolValues } from "../../slices/PoolThunk";
-
-import { Paper, Box, Typography, Button } from "@material-ui/core";
+import { Trans } from "@lingui/macro";
+import { Box, Paper, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { subtractDates, trim } from "src/helpers";
 
-import { trim, subtractDates } from "src/helpers";
+import { useWeb3Context } from "../../hooks";
+import { awardProcess, getPoolValues, getRNGStatus } from "../../slices/PoolThunk";
 
 export const PoolPrize = () => {
   const { provider } = useWeb3Context();

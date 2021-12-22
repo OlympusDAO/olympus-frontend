@@ -1,12 +1,13 @@
-import { Box, Button, Paper, Typography, Grid, SvgIcon } from "@material-ui/core";
 import "./zap.scss";
-import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.svg";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import MultiLogo from "../../components/MultiLogo";
-import { makeStyles } from "@material-ui/core/styles";
-import { segmentUA } from "../../helpers/userAnalyticHelpers";
-import { useState } from "react";
+
 import { Trans } from "@lingui/macro";
+import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.svg";
+import MultiLogo from "../../components/MultiLogo";
+import { segmentUA } from "../../helpers/userAnalyticHelpers";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {

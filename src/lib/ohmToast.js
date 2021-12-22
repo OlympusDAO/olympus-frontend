@@ -1,7 +1,8 @@
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 import Slide from "@material-ui/core/Slide";
+import Snackbar from "@material-ui/core/Snackbar";
 import { makeStyles } from "@material-ui/core/styles";
+import MuiAlert from "@material-ui/lab/Alert";
+import { useState } from "react";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="outlined" {...props} />;

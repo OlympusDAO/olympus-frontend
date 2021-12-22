@@ -1,11 +1,13 @@
-import { AppBar, Toolbar, Box, Button, SvgIcon } from "@material-ui/core";
+import "./topbar.scss";
+
+import { AppBar, Box, Button, SvgIcon, Toolbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
+import LocaleSwitcher from "./LocaleSwitch.tsx";
 // import OhmMenu from "./OhmMenu.jsx";
 import ThemeSwitcher from "./ThemeSwitch.jsx";
-import LocaleSwitcher from "./LocaleSwitch.tsx";
-import "./topbar.scss";
 import Wallet from "./Wallet";
 
 const useStyles = makeStyles(theme => ({

@@ -1,16 +1,17 @@
-import { useState } from "react";
 import "./give.scss";
+
+import { Trans } from "@lingui/macro";
+import { Button, Paper, Typography, Zoom } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useWeb3Context } from "src/hooks/web3Context";
+
 import DepositYield from "./DepositYield";
 import RedeemYield from "./RedeemYield";
-import { Button, Paper, Typography, Zoom } from "@material-ui/core";
-import { useWeb3Context } from "src/hooks/web3Context";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { t, Trans } from "@lingui/macro";
 
 function Give() {
   const { address, connect } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
-  let connectButton = [];
+  const connectButton = [];
   connectButton.push(
     <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
       <Trans>Connect Wallet</Trans>

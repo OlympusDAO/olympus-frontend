@@ -1,9 +1,11 @@
-import { Button, Typography } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
-import React, { useEffect, useState } from "react";
 import "./networkmenu.scss";
+
+import { Button, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+
 import { NETWORKS } from "../../constants";
 
 function NetworkMenu() {

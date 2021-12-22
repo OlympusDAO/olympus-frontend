@@ -1,13 +1,12 @@
-import { Box, Button, Container, Grid, Icon, Paper, SvgIcon, Typography } from "@material-ui/core";
-import { ReactComponent as sOhmTokenImg } from "../assets/tokens/token_sOHM.svg";
-import { ReactComponent as yieldImg } from "../assets/icons/yield.svg";
-import { ReactComponent as vaultLockImg } from "../assets/icons/vault-lock.svg";
-import { ReactComponent as arrowRightImg } from "../assets/icons/arrow-right.svg";
-import { shorten } from "src/helpers";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { t, Trans } from "@lingui/macro";
+import { Box, SvgIcon, Typography } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
+
+import { ReactComponent as arrowRightImg } from "../assets/icons/arrow-right.svg";
+import { ReactComponent as vaultLockImg } from "../assets/icons/vault-lock.svg";
+import { ReactComponent as yieldImg } from "../assets/icons/yield.svg";
+import { ReactComponent as sOhmTokenImg } from "../assets/tokens/token_sOHM.svg";
 
 const viewBox = "0 0 100 100";
 // The sOHM SVG is 100x100px, whereas the others are 50x50px

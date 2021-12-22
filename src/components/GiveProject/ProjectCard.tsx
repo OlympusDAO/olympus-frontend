@@ -1,47 +1,48 @@
+import { t, Trans } from "@lingui/macro";
 import {
-  Button,
-  Typography,
-  Grid,
-  Paper,
-  Tooltip,
-  Link,
-  LinearProgress,
-  useMediaQuery,
-  Container,
   Box,
+  Button,
+  Container,
+  Grid,
+  LinearProgress,
+  Link,
+  Paper,
   SvgIcon,
+  Tooltip,
+  Typography,
+  useMediaQuery,
 } from "@material-ui/core";
-import Countdown from "react-countdown";
-import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
-import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
-import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
-import { ReactComponent as DonorsIcon } from "../../assets/icons/donors.svg";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useTheme } from "@material-ui/core/styles";
-import { useAppDispatch } from "src/hooks";
-import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
-import { RecipientModal } from "src/views/Give/RecipientModal";
-import { SubmitCallback, CancelCallback } from "src/views/Give/Interfaces";
-import { changeGive, changeMockGive, ACTION_GIVE, isSupportedChain } from "src/slices/GiveThunk";
-import { error } from "../../slices/MessagesSlice";
-import { Project } from "./project.type";
-import { countDecimals, roundToDecimal, toInteger } from "./utils";
-import { ReactComponent as WebsiteIcon } from "../../assets/icons/website.svg";
-import { ReactComponent as DonatedIcon } from "../../assets/icons/donated.svg";
-import { ReactComponent as GoalIcon } from "../../assets/icons/goal.svg";
 import MarkdownIt from "markdown-it";
-import { t, Trans } from "@lingui/macro";
-import { useAppSelector } from "src/hooks";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
-import { IAppData } from "src/slices/AppSlice";
+import { useEffect, useState } from "react";
+import Countdown from "react-countdown";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { useAppDispatch } from "src/hooks";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { IAccountSlice } from "src/slices/AccountSlice";
+import { IAppData } from "src/slices/AppSlice";
+import { ACTION_GIVE, changeGive, changeMockGive, isSupportedChain } from "src/slices/GiveThunk";
+import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
+import { RecipientModal } from "src/views/Give/RecipientModal";
+
+import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
+import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
+import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
+import { ReactComponent as DonatedIcon } from "../../assets/icons/donated.svg";
+import { ReactComponent as DonorsIcon } from "../../assets/icons/donors.svg";
+import { ReactComponent as GoalIcon } from "../../assets/icons/goal.svg";
+import { ReactComponent as WebsiteIcon } from "../../assets/icons/website.svg";
+import { error } from "../../slices/MessagesSlice";
 import { GiveHeader } from "./GiveHeader";
+import { Project } from "./project.type";
+import { countDecimals, roundToDecimal, toInteger } from "./utils";
 
 type CountdownProps = {
   total: number;
@@ -110,7 +111,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
 
   useEffect(() => {
-    let items = document.getElementsByClassName("project-container");
+    const items = document.getElementsByClassName("project-container");
     if (items.length > 0) {
       items[0].scrollIntoView();
     }

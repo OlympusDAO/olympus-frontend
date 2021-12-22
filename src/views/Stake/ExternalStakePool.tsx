@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { Trans } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -13,14 +12,15 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
-import { Trans } from "@lingui/macro";
-
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import avaxImage from "src/assets/tokens/avax.png";
 import gOhmImage from "src/assets/tokens/gohm.png";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { useWeb3Context } from "src/hooks/web3Context";
 import MultiLogo from "src/components/MultiLogo";
+import { useWeb3Context } from "src/hooks/web3Context";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useAppSelector } from "../../hooks";
 
 const avatarStyle = { height: "35px", width: "35px", marginInline: "-4px", marginTop: "16px" };

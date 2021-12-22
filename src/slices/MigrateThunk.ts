@@ -1,7 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import { addresses } from "src/constants";
+import { NetworkID } from "src/lib/Bond";
 import { CrossChainMigrator__factory, IERC20, IERC20__factory } from "src/typechain";
+import { OlympusTokenMigrator__factory } from "src/typechain";
+
+import { error, info } from "../slices/MessagesSlice";
+import { fetchAccountSuccess, getBalances, getMigrationAllowances } from "./AccountSlice";
 import {
   IActionValueAsyncThunk,
   IBaseAddressAsyncThunk,
@@ -9,11 +14,7 @@ import {
   IJsonRPCError,
   IValueAsyncThunk,
 } from "./interfaces";
-import { fetchAccountSuccess, getBalances, getMigrationAllowances, loadAccountDetails } from "./AccountSlice";
-import { error, info } from "../slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
-import { OlympusTokenMigrator__factory } from "src/typechain";
-import { NetworkID } from "src/lib/Bond";
 
 enum TokenType {
   UNSTAKED,
@@ -92,7 +93,7 @@ export const changeMigrationApproval = createAsyncThunk(
 );
 
 interface IMigrationWithType extends IActionValueAsyncThunk {
-  type: String;
+  type: string;
 }
 
 export const bridgeBack = createAsyncThunk(

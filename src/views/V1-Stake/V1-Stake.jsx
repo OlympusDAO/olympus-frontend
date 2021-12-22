@@ -1,45 +1,43 @@
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import "../Stake/stake.scss";
+import "./v1stake.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
+  Divider,
   FormControl,
   Grid,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
   Paper,
   Tab,
   Tabs,
   Typography,
   Zoom,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Divider,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-import { t, Trans } from "@lingui/macro";
-import NewReleases from "@material-ui/icons/NewReleases";
-import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
-import TabPanel from "../../components/TabPanel";
-import { MigrateButton, LearnMoreButton } from "src/components/CallToAction/CallToAction";
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
-import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "../Stake/stake.scss";
-import "./v1stake.scss";
-import StakeRow from "../Stake/StakeRow";
+import { Skeleton } from "@material-ui/lab";
+import { ethers } from "ethers";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
+import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { Skeleton } from "@material-ui/lab";
-import ExternalStakePool from "../Stake/ExternalStakePool";
+
+import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
+import TabPanel from "../../components/TabPanel";
+import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
-import { ethers } from "ethers";
-import { getMigrationAllowances } from "src/slices/AccountSlice";
-import { useAppSelector } from "src/hooks";
-import { useHistory } from "react-router-dom";
+import { changeApproval, changeStake } from "../../slices/StakeThunk";
+import ExternalStakePool from "../Stake/ExternalStakePool";
+import StakeRow from "../Stake/StakeRow";
 
 function a11yProps(index) {
   return {

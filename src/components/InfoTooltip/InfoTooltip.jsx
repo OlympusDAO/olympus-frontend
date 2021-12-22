@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { ReactComponent as Info } from "../../assets/icons/info.svg";
-import { Box, Paper, Popper, SvgIcon, Typography } from "@material-ui/core";
 import "./infotooltip.scss";
+
+import { Box, Paper, Popper, SvgIcon, Typography } from "@material-ui/core";
+import { useState } from "react";
+
+import { ReactComponent as Info } from "../../assets/icons/info.svg";
 
 function InfoTooltip({ message, children }) {
   const [anchorEl, setAnchorEl] = useState(null);

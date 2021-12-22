@@ -1,5 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
 import { SwipeableDrawer } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
 import NavContent from "./NavContent.jsx";
 
 const drawerWidth = 280;

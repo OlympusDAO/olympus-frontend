@@ -1,11 +1,12 @@
-import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { error } from "./MessagesSlice";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+
+import { NETWORKS } from "../constants";
 import { setAll } from "../helpers";
 import { EnvHelper } from "../helpers/Environment";
 import { NodeHelper } from "../helpers/NodeHelper";
-import { NETWORKS } from "../constants";
 import { RootState } from "../store";
+import { error } from "./MessagesSlice";
 
 interface IGetCurrentNetwork {
   provider: StaticJsonRpcProvider | JsonRpcProvider;
@@ -17,7 +18,7 @@ export const initializeNetwork = createAsyncThunk(
     try {
       let networkName: string;
       let uri: string;
-      let supported: boolean = true;
+      let supported = true;
       const id: number = await provider.getNetwork().then(network => network.chainId);
 
       switch (id) {

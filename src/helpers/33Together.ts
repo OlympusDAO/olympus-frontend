@@ -1,6 +1,7 @@
 import { BigNumber, ethers } from "ethers";
-import { addresses } from "../constants";
 import { trim } from "src/helpers";
+
+import { addresses } from "../constants";
 
 /**
  * Calculates user's odds of winning based on their pool balance
@@ -84,5 +85,5 @@ export const poolTogetherUILinks = (networkId: number): Array<string> => {
  * @param odds current odds as number or a string representing 0 odds
  * @param precision the amount of decimal places to display, defaults to 4
  */
-export const trimOdds = (odds: number | string, precision: number = 4) =>
+export const trimOdds = (odds: number | string, precision = 4) =>
   typeof odds === "string" ? odds : trim(odds, precision);

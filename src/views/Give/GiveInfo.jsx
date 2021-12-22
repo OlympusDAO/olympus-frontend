@@ -1,7 +1,8 @@
-import { Paper, Grid, Box, Button, Typography, SvgIcon } from "@material-ui/core";
-import { DepositSohm, LockInVault, ReceivesYield, ArrowGraphic } from "../../components/EducationCard";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { t, Trans } from "@lingui/macro";
+import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { DepositSohm, LockInVault, ReceivesYield } from "../../components/EducationCard";
 
 export function GiveInfo() {
   return (

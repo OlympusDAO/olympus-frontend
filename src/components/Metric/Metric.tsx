@@ -1,8 +1,8 @@
-import { Typography, TypographyTypeMap, Box } from "@material-ui/core";
+import "./Metric.scss";
+
+import { Box, Typography, TypographyTypeMap } from "@material-ui/core";
 import { Skeleton, SkeletonTypeMap } from "@material-ui/lab";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
-
-import "./Metric.scss";
 
 interface MetricProps {
   className?: string;

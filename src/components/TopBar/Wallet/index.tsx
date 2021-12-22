@@ -1,10 +1,10 @@
+import { t } from "@lingui/macro";
+import { Button, SvgIcon, SwipeableDrawer, Typography, useTheme, withStyles } from "@material-ui/core";
 import { useState } from "react";
-
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
+
 import InitialWalletView from "./InitialWalletView";
-import { SwipeableDrawer, SvgIcon, Button, Typography, useTheme, withStyles } from "@material-ui/core";
-import { t } from "@lingui/macro";
 
 const WalletButton = ({ openWallet }: { openWallet: () => void }) => {
   const { connect, connected } = useWeb3Context();

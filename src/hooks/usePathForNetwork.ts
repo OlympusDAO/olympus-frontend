@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import { History } from "history";
+import { useEffect } from "react";
 import { VIEWS_FOR_NETWORK } from "src/constants";
 
 /**

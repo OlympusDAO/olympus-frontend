@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
+import "./choosebond.scss";
+
 import { t, Trans } from "@lingui/macro";
-import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
-import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { redeemAllBonds } from "src/slices/BondSlice";
-import CardHeader from "../../components/CardHeader/CardHeader";
-import { useWeb3Context } from "src/hooks/web3Context";
-import useBonds from "src/hooks/Bonds";
 import {
   Box,
   Button,
@@ -19,8 +14,15 @@ import {
   Zoom,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "./choosebond.scss";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import useBonds from "src/hooks/Bonds";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { redeemAllBonds } from "src/slices/BondSlice";
+import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
+
+import CardHeader from "../../components/CardHeader/CardHeader";
+import { ClaimBondCardData, ClaimBondTableData } from "./ClaimRow";
 
 function ClaimBonds({ activeBonds }) {
   const dispatch = useDispatch();

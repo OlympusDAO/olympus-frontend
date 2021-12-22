@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -14,16 +12,19 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { t, Trans } from "@lingui/macro";
-import ConnectButton from "../../components/ConnectButton.jsx";
-import { useWeb3Context } from "../../hooks";
-import { getTokenImage } from "src/helpers/index";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { trim } from "src/helpers";
+import { getTokenImage } from "src/helpers/index";
+
+import ConnectButton from "../../components/ConnectButton.jsx";
+import { calculateOdds } from "../../helpers/33Together";
+import { useWeb3Context } from "../../hooks";
+import { error } from "../../slices/MessagesSlice";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getEarlyExitFee, poolWithdraw } from "../../slices/PoolThunk";
-import { calculateOdds } from "../../helpers/33Together";
-import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
-import { error } from "../../slices/MessagesSlice";
 
 const sohmImg = getTokenImage("sohm");
 

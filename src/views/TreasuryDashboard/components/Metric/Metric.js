@@ -1,7 +1,8 @@
-import { useSelector } from "react-redux";
-import { trim, formatCurrency } from "../../../../helpers";
-import { Metric } from "src/components/Metric";
 import { t } from "@lingui/macro";
+import { useSelector } from "react-redux";
+import { Metric } from "src/components/Metric";
+
+import { formatCurrency, trim } from "../../../../helpers";
 
 const sharedProps = {
   labelVariant: "h6",

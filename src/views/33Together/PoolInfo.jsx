@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { Trans } from "@lingui/macro";
 import { Box, Button, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { Skeleton } from "@material-ui/lab";
-import { t, Trans } from "@lingui/macro";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { useWeb3Context } from "../../hooks";
 import { poolTogetherUILinks } from "../../helpers/33Together";
+import { useWeb3Context } from "../../hooks";
 
 export const PoolInfo = props => {
   const [poolLoadedCount, setPoolLoadedCount] = useState(0);

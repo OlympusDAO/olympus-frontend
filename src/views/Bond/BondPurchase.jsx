@@ -1,5 +1,3 @@
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
@@ -11,15 +9,18 @@ import {
   Slide,
   Typography,
 } from "@material-ui/core";
-import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
-import { bondAsset, calcBondDetails, changeApproval } from "../../slices/BondSlice";
+import { Skeleton } from "@material-ui/lab";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { Skeleton } from "@material-ui/lab";
+
+import ConnectButton from "../../components/ConnectButton";
+import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
 import useDebounce from "../../hooks/Debounce";
+import { bondAsset, calcBondDetails, changeApproval } from "../../slices/BondSlice";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./Bond";
-import ConnectButton from "../../components/ConnectButton";
 
 function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;

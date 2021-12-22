@@ -1,5 +1,3 @@
-import { NetworkID } from "src/lib/Bond";
-
 /**
  * Access `process.env` in an environment helper
  * Usage: `EnvHelper.env`
@@ -191,7 +189,7 @@ export class EnvHelper {
 
   static getZapperAPIKey() {
     // EnvHelper.env.REACT_APP_ZAPPER_API
-    let apiKey = EnvHelper.env.REACT_APP_ZAPPER_API;
+    const apiKey = EnvHelper.env.REACT_APP_ZAPPER_API;
     if (!apiKey) {
       console.warn("zaps won't work without REACT_APP_ZAPPER_API key");
     }
@@ -200,7 +198,7 @@ export class EnvHelper {
 
   static getZapperPoolAddress() {
     // EnvHelper.env.REACT_APP_ZAPPER_POOL
-    let zapPool = EnvHelper.env.REACT_APP_ZAPPER_POOL;
+    const zapPool = EnvHelper.env.REACT_APP_ZAPPER_POOL;
     if (!zapPool) {
       console.warn("zaps won't work without REACT_APP_ZAPPER_POOL address");
     }

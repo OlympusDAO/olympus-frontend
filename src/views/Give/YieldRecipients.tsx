@@ -1,29 +1,28 @@
+import { t, Trans } from "@lingui/macro";
+import { Button, Divider, Grid, Typography } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Skeleton } from "@material-ui/lab";
+import { BigNumber } from "bignumber.js";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { Typography, Button, Grid, Divider } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
-
-import { Skeleton } from "@material-ui/lab";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
+import { useLocation } from "react-router-dom";
+import { Project } from "src/components/GiveProject/project.type";
 import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
-import { RecipientModal } from "src/views/Give/RecipientModal";
-import { SubmitCallback } from "src/views/Give/Interfaces";
-import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
 import { shorten } from "src/helpers";
-import { BigNumber } from "bignumber.js";
+import { EnvHelper } from "src/helpers/Environment";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { SubmitCallback } from "src/views/Give/Interfaces";
+import { RecipientModal } from "src/views/Give/RecipientModal";
+
+import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import data from "./projects.json";
-import { Project } from "src/components/GiveProject/project.type";
-import { useAppSelector } from "src/hooks";
-import { t, Trans } from "@lingui/macro";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useLocation } from "react-router-dom";
-import { EnvHelper } from "src/helpers/Environment";
+import { WithdrawCancelCallback, WithdrawDepositModal, WithdrawSubmitCallback } from "./WithdrawDepositModal";
 
 // TODO consider shifting this into interfaces.ts
 type State = {

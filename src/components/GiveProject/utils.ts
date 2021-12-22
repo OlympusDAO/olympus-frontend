@@ -1,5 +1,5 @@
 export const countDecimals = (value: string): number => {
-  let number = Number(value);
+  const number = Number(value);
   if (Math.floor(number) !== number) {
     return value.split(".")[1].length || 0;
   }

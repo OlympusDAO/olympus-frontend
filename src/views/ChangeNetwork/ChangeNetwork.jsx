@@ -1,14 +1,16 @@
-import { Backdrop, Fade, Grid, Link, Paper, SvgIcon, Typography } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import "./changenetwork.scss";
-import useEscape from "../../hooks/useEscape";
+
+import { Backdrop, Fade, Grid, Link, Paper, SvgIcon, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { useWeb3Context } from "../../hooks/web3Context";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { switchNetwork } from "../../slices/NetworkSlice";
+import { useHistory } from "react-router-dom";
+
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { NETWORKS, USER_SELECTABLE_NETWORKS } from "../../constants";
+import useEscape from "../../hooks/useEscape";
+import { useWeb3Context } from "../../hooks/web3Context";
+import { switchNetwork } from "../../slices/NetworkSlice";
 
 function ChangeNetwork() {
   const dispatch = useDispatch();

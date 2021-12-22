@@ -1,10 +1,11 @@
-import { Box, Button, Paper, Typography, Grid, SvgIcon, Link } from "@material-ui/core";
 import "./zap.scss";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import MultiLogo from "../../components/MultiLogo";
-import { NavLink } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+
 import { Trans } from "@lingui/macro";
+import { Box, Button, Grid, Link, Paper, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { NavLink } from "react-router-dom";
+
+import MultiLogo from "../../components/MultiLogo";
 
 const useStyles = makeStyles(theme => ({
   subHeader: {

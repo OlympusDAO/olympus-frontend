@@ -1,48 +1,48 @@
-import { useCallback, useState, useEffect, ChangeEvent, ChangeEventHandler } from "react";
-import { useDispatch } from "react-redux";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { useHistory } from "react-router";
+import "./stake.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
+  Checkbox,
+  Divider,
   FormControl,
   Grid,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
   Paper,
   Tab,
   Tabs,
   Typography,
   Zoom,
-  Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Checkbox,
 } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
+import { ExpandMore } from "@material-ui/icons";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import { Skeleton } from "@material-ui/lab";
+import { ethers } from "ethers";
+import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import { useAppSelector } from "src/hooks";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
+import { Metric, MetricCollection } from "../../components/Metric";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { getGohmBalFromSohm, trim } from "../../helpers";
+import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
-import "./stake.scss";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { Skeleton } from "@material-ui/lab";
-import ExternalStakePool from "./ExternalStakePool";
-import { error } from "../../slices/MessagesSlice";
-import { ethers } from "ethers";
 import ZapCta from "../Zap/ZapCta";
-import { useAppSelector } from "src/hooks";
-import { ExpandMore } from "@material-ui/icons";
+import ExternalStakePool from "./ExternalStakePool";
 import StakeRow from "./StakeRow";
-import { Metric, MetricCollection } from "../../components/Metric";
 
 function a11yProps(index: number) {
   return {
@@ -158,7 +158,7 @@ function Stake() {
     }
 
     // 1st catch if quantity > balance
-    let gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
+    const gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
     if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
       return dispatch(error(t`You cannot stake more than your OHM balance.`));
     }
@@ -209,7 +209,7 @@ function Stake() {
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
-  let modalButton = [];
+  const modalButton = [];
 
   modalButton.push(
     <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
@@ -217,7 +217,7 @@ function Stake() {
     </Button>,
   );
 
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: React.ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 

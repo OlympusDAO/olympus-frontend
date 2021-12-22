@@ -1,36 +1,35 @@
+import "./migration-modal.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
   Backdrop,
   Box,
   Button,
-  ButtonBase,
   Fade,
   Modal,
+  Paper,
   SvgIcon,
   Table,
+  TableBody,
   TableCell,
   TableHead,
   TableRow,
-  TableBody,
   Typography,
-  Paper,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { trim } from "src/helpers";
+import { useWeb3Context } from "src/hooks";
+import { useAppSelector } from "src/hooks";
+import { info } from "src/slices/MessagesSlice";
+import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 // import ButtonUnstyled from "@mui/core/ButtonUnstyled";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
-import { BigNumber } from "ethers";
-import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
-import { useWeb3Context } from "src/hooks";
-import { useEffect, useMemo } from "react";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { info } from "src/slices/MessagesSlice";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
-import "./migration-modal.scss";
-import { useAppSelector } from "src/hooks";
-import { trim } from "src/helpers";
-import { t, Trans } from "@lingui/macro";
 const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -83,7 +82,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   });
 
   let rows = [];
-  let isMigrationComplete = useAppSelector(state => state.account.isMigrationComplete);
+  const isMigrationComplete = useAppSelector(state => state.account.isMigrationComplete);
 
   const onSeekApproval = (token: string) => {
     dispatch(

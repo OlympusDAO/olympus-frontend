@@ -1,18 +1,20 @@
-import { ChangeEvent, Fragment, ReactNode, ReactElement, useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { t, Trans } from "@lingui/macro";
-import { formatCurrency, trim } from "../../helpers";
-import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
-import TabPanel from "../../components/TabPanel";
-import BondHeader from "./BondHeader";
-import BondRedeem from "./BondRedeem";
-import BondPurchase from "./BondPurchase";
 import "./bond.scss";
-import { useWeb3Context } from "src/hooks/web3Context";
+
+import { t, Trans } from "@lingui/macro";
+import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { ChangeEvent, Fragment, ReactElement, ReactNode, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useWeb3Context } from "src/hooks/web3Context";
+
+import TabPanel from "../../components/TabPanel";
+import { formatCurrency, trim } from "../../helpers";
+import BondHeader from "./BondHeader";
+import BondPurchase from "./BondPurchase";
+import BondRedeem from "./BondRedeem";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -35,7 +37,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   const [view, setView] = useState<number>(0);
   const [quantity, setQuantity] = useState<number | undefined>();
 
-  const isBondLoading = useAppSelector<boolean>(state => state.bonding.loading ?? true);
+  const isBondLoading = useAppSelector<boolean>(state => state.bonding?.loading ?? true);
 
   const onRecipientAddressChange = (e: InputEvent): void => {
     return setRecipientAddress(e.target.value);
@@ -56,7 +58,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
-  const changeView = (event: ChangeEvent<{}>, value: string | number): void => {
+  const changeView = (event: ChangeEvent<any>, value: string | number): void => {
     setView(Number(value));
   };
 

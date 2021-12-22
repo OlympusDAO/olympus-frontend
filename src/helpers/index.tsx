@@ -1,21 +1,19 @@
-import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses } from "../constants";
-import { BigNumber, ethers } from "ethers";
-import axios from "axios";
-import { abi as PairContractABI } from "../abi/PairContract.json";
-import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
-
-import { SvgIcon } from "@material-ui/core";
-import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
-import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
-
-import { ohm_dai, ohm_weth, ohm_daiOld } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { SvgIcon } from "@material-ui/core";
+import axios from "axios";
+import { BigNumber, ethers } from "ethers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
-import { PairContract, RedeemHelper } from "../typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
+import { abi as PairContractABI } from "../abi/PairContract.json";
+import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
+import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
+import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
+import { addresses, BLOCK_RATE_SECONDS, EPOCH_INTERVAL } from "../constants";
 import { EnvHelper } from "../helpers/Environment";
 import { NodeHelper } from "../helpers/NodeHelper";
+import { PairContract, RedeemHelper } from "../typechain";
+import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
 
 /**
  * gets marketPrice from Ohm-DAI v2
@@ -226,30 +224,30 @@ export const minutesAgo = (x: number) => {
  * ... Math.trunc which accomplishes the same result as parseInt.
  */
 export const subtractDates = (dateA: Date, dateB: Date) => {
-  let msA: number = dateA.getTime();
-  let msB: number = dateB.getTime();
+  const msA: number = dateA.getTime();
+  const msB: number = dateB.getTime();
 
   let diff: number = msA - msB;
 
-  let days: number = 0;
+  let days = 0;
   if (diff >= 86400000) {
     days = Math.trunc(diff / 86400000);
     diff -= days * 86400000;
   }
 
-  let hours: number = 0;
+  let hours = 0;
   if (days || diff >= 3600000) {
     hours = Math.trunc(diff / 3600000);
     diff -= hours * 3600000;
   }
 
-  let minutes: number = 0;
+  let minutes = 0;
   if (hours || diff >= 60000) {
     minutes = Math.trunc(diff / 60000);
     diff -= minutes * 60000;
   }
 
-  let seconds: number = 0;
+  let seconds = 0;
   if (minutes || diff >= 1000) {
     seconds = Math.trunc(diff / 1000);
   }

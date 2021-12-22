@@ -1,57 +1,54 @@
-import { ThemeProvider } from "@material-ui/core/styles";
-import { useEffect, useState, useCallback } from "react";
-import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import "./style.scss";
+
 import { useMediaQuery } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import useTheme from "./hooks/useTheme";
-import useBonds, { IAllBondData } from "./hooks/Bonds";
-import { useAddress, useWeb3Context } from "./hooks/web3Context";
-import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
-import { segmentUA } from "./helpers/userAnalyticHelpers";
-import { shouldTriggerSafetyCheck } from "./helpers";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
+import { useCallback, useEffect, useState } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { useDispatch } from "react-redux";
+import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+import MigrationModal from "src/components/Migration/MigrationModal";
+import projectData from "src/views/Give/projects.json";
 
-import { calcBondDetails } from "./slices/BondSlice";
-import { loadAppDetails } from "./slices/AppSlice";
-import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
-import { getZapTokenBalances } from "./slices/ZapSlice";
-import { info } from "./slices/MessagesSlice";
-
-import {
-  Stake,
-  ChooseBond,
-  Bond,
-  TreasuryDashboard,
-  PoolTogether,
-  Zap,
-  Wrap,
-  V1Stake,
-  CausesDashboard,
-  DepositYield,
-  RedeemYield,
-} from "./views";
+import Announcement from "./components/Announcement/Announcement";
+import CallToAction from "./components/CallToAction/CallToAction";
+import Messages from "./components/Messages/Messages";
+import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
-import CallToAction from "./components/CallToAction/CallToAction";
-import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
-import Messages from "./components/Messages/Messages";
-import NotFound from "./views/404/NotFound";
-import MigrationModal from "src/components/Migration/MigrationModal";
-import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
-import { dark as darkTheme } from "./themes/dark.js";
-import { light as lightTheme } from "./themes/light.js";
-import { girth as gTheme } from "./themes/girth.js";
-import { v4 as uuidv4 } from "uuid";
-import "./style.scss";
-import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import { initializeNetwork } from "./slices/NetworkSlice";
+import { shouldTriggerSafetyCheck } from "./helpers";
+import { segmentUA } from "./helpers/userAnalyticHelpers";
 import { useAppSelector } from "./hooks";
-import { Project } from "src/components/GiveProject/project.type";
+import useBonds, { IAllBondData } from "./hooks/Bonds";
+import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
+import useTheme from "./hooks/useTheme";
+import { useAddress, useWeb3Context } from "./hooks/web3Context";
+import { calculateUserBondDetails, getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
+import { loadAppDetails } from "./slices/AppSlice";
+import { calcBondDetails } from "./slices/BondSlice";
+import { info } from "./slices/MessagesSlice";
+import { initializeNetwork } from "./slices/NetworkSlice";
+import { getZapTokenBalances } from "./slices/ZapSlice";
+import { dark as darkTheme } from "./themes/dark.js";
+import { girth as gTheme } from "./themes/girth.js";
+import { light as lightTheme } from "./themes/light.js";
+import {
+  Bond,
+  CausesDashboard,
+  ChooseBond,
+  DepositYield,
+  RedeemYield,
+  Stake,
+  TreasuryDashboard,
+  V1Stake,
+  Wrap,
+  Zap,
+} from "./views";
+import NotFound from "./views/404/NotFound";
+import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import ProjectInfo from "./views/Give/ProjectInfo";
-import projectData from "src/views/Give/projects.json";
-import Announcement from "./components/Announcement/Announcement";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -140,7 +137,7 @@ function App() {
     // address lookup on the wrong chain which then throws the error. To properly resolve this,
     // we shouldn't be initializing to networkID=1 in web3Context without first listening for the
     // network. To actually test rinkeby, change setnetworkID equal to 4 before testing.
-    let loadProvider = provider;
+    const loadProvider = provider;
 
     if (whichDetails === "app") {
       loadApp(loadProvider);
