@@ -19,7 +19,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import avaxImage from "src/assets/tokens/avax.png";
 import gOhmImage from "src/assets/tokens/gohm.png";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { getLusdData } from "../../slices/LusdSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import MultiLogo from "src/components/MultiLogo";
 import { useAppSelector } from "../../hooks";
@@ -50,7 +49,7 @@ export default function ExternalStakePool() {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (walletChecked && networkId !== -1) {
-      dispatch(getLusdData({ address, provider, networkID: networkId }));
+      // view specific redux actions can be dispatched here
     }
   }, [walletChecked, networkId, address, provider]);
 
