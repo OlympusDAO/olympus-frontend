@@ -36,7 +36,7 @@ import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import { useAppSelector } from "src/hooks";
 import { useHistory } from "react-router-dom";
-import ButtonComponent from "src/components/Button";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 function a11yProps(index) {
   return {
@@ -164,9 +164,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   let modalButton = [];
 
   modalButton.push(
-    <ButtonComponent onClick={connect} key={1} size="large">
+    <PrimaryButton onClick={connect} key={1} size="large">
       Connect Wallet
-    </ButtonComponent>,
+    </PrimaryButton>,
   );
 
   const changeView = (event, newView) => {
@@ -352,14 +352,14 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                             <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Migrate`} />
                           )
                         ) : (
-                          <ButtonComponent
+                          <PrimaryButton
                             onClick={() => {
                               hasActiveV1Bonds ? goToBonds() : goToV2Stake();
                             }}
                             fullWidth
                           >
                             {hasActiveV1Bonds ? t`Go to Bonds` : t`Go to Stake V2`}
-                          </ButtonComponent>
+                          </PrimaryButton>
                         )}
                       </TabPanel>
 
@@ -367,7 +367,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                         {isAllowanceDataLoading ? (
                           <Skeleton />
                         ) : address && hasAllowance("sohm") ? (
-                          <ButtonComponent
+                          <PrimaryButton
                             disabled={isPendingTxn(pendingTransactions, "unstaking")}
                             onClick={() => {
                               onChangeStake("unstake");
@@ -375,9 +375,9 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                             fullWidth
                           >
                             {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
-                          </ButtonComponent>
+                          </PrimaryButton>
                         ) : (
-                          <ButtonComponent
+                          <PrimaryButton
                             disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                             onClick={() => {
                               onSeekApproval("sohm");
@@ -385,7 +385,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                             fullWidth
                           >
                             {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
-                          </ButtonComponent>
+                          </PrimaryButton>
                         )}
                       </TabPanel>
                     </Box>

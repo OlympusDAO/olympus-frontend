@@ -5,7 +5,7 @@ import MultiLogo from "../../components/MultiLogo";
 import { makeStyles } from "@material-ui/core/styles";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { Trans } from "@lingui/macro";
-import ButtonComponent from "src/components/Button";
+import { SecondaryButton } from "@olympusdao/component-library";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {
@@ -137,15 +137,14 @@ function ZapInfo({ tokens, address }) {
           </Grid>
         </Grid>
         <Box className="button-box">
-          <ButtonComponent
-            template="secondary"
+          <SecondaryButton
             href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
             onClick={() => {
               trackClick(address);
             }}
           >
             Learn More
-          </ButtonComponent>
+          </SecondaryButton>
         </Box>
       </Paper>
     </>

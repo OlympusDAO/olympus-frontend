@@ -34,7 +34,7 @@ import { NETWORKS } from "../../constants";
 import "../Stake/stake.scss";
 import { useAppSelector } from "src/hooks/index";
 import { getBalances, loadAccountDetails } from "src/slices/AccountSlice";
-import ButtonComponent from "src/components/Button";
+import { PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 
 function WrapCrossChain() {
   const dispatch = useDispatch();
@@ -95,9 +95,9 @@ function WrapCrossChain() {
   let modalButton = [];
 
   modalButton.push(
-    <ButtonComponent size="large" onClick={connect} key={1}>
+    <PrimaryButton size="large" onClick={connect} key={1}>
       Connect Wallet
-    </ButtonComponent>,
+    </PrimaryButton>,
   );
 
   const migrateToGohm = () =>
@@ -161,7 +161,7 @@ function WrapCrossChain() {
     if (!address) return "";
     if (!hasCorrectAllowance())
       return (
-        <ButtonComponent
+        <PrimaryButton
           disabled={
             isPendingTxn(pendingTransactions, "approve_wrapping") ||
             isPendingTxn(pendingTransactions, "approve_migration")
@@ -169,17 +169,17 @@ function WrapCrossChain() {
           onClick={approveWrap}
         >
           {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
-        </ButtonComponent>
+        </PrimaryButton>
       );
 
     if (hasCorrectAllowance())
       return (
-        <ButtonComponent
+        <PrimaryButton
           disabled={isPendingTxn(pendingTransactions, "wrapping") || isPendingTxn(pendingTransactions, "migrate")}
           onClick={migrateToGohm}
         >
           {txnButtonTextMultiType(pendingTransactions, ["wrapping", "migrate"], wrapButtonText)}
-        </ButtonComponent>
+        </PrimaryButton>
       );
   };
 
@@ -288,10 +288,10 @@ function WrapCrossChain() {
                       <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
                         Back to Ethereum Mainnet
                       </Typography>
-                      <ButtonComponent onClick={handleSwitchChain(1)} template="secondary" size="small">
+                      <SecondaryButton onClick={handleSwitchChain(1)} size="small">
                         <img height="28px" width="28px" src={String(ethereum.image)} alt={ethereum.imageAltText} />
                         <Box ml={1}>{ethereum.chainName}</Box>
-                      </ButtonComponent>
+                      </SecondaryButton>
                     </Box>
                   </div>
                 </>

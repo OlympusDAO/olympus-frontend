@@ -4,7 +4,7 @@ import MultiLogo from "../../components/MultiLogo";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Trans } from "@lingui/macro";
-import ButtonComponent from "src/components/Button";
+import { SecondaryButton } from "@olympusdao/component-library";
 
 const useStyles = makeStyles(theme => ({
   subHeader: {
@@ -53,9 +53,9 @@ function ZapCta() {
           </Grid>
           <Grid item xs={12} sm={4} className="button-box" classes={{ root: classes.buttonBox }}>
             <Link component={NavLink} to="/zap">
-              <ButtonComponent template="secondary" size="small">
+              <SecondaryButton size="small">
                 <Trans>Swap into sOHM</Trans>
-              </ButtonComponent>
+              </SecondaryButton>
             </Link>
           </Grid>
         </Grid>

@@ -39,7 +39,7 @@ import { ethers } from "ethers";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { trim } from "src/helpers";
 import { Trans } from "@lingui/macro";
-import ButtonComponent from "src/components/Button";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 const DISABLE_ZAPS = true;
 
@@ -384,7 +384,7 @@ function ZapStakeAction(props) {
         <Typography>{trim(Number(outputQuantity) * 0.98, 2)} sOHM</Typography>
       </Box>
       {!initialTokenAllowance ? (
-        <ButtonComponent
+        <PrimaryButton
           fullWidth
           disabled={zapToken == null || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
           onClick={onZap}
@@ -396,11 +396,11 @@ function ZapStakeAction(props) {
           ) : (
             <Trans>Zap-Stake</Trans>
           )}
-        </ButtonComponent>
+        </PrimaryButton>
       ) : (
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <ButtonComponent
+            <PrimaryButton
               fullWidth
               disabled={
                 zapToken == null || isTokensLoading || isAllowanceTxSuccess || isChangeAllowanceLoading || DISABLE_ZAPS
@@ -424,10 +424,10 @@ function ZapStakeAction(props) {
                   </>
                 )}
               </Box>
-            </ButtonComponent>
+            </PrimaryButton>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <ButtonComponent
+            <PrimaryButton
               fullWidth
               disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
@@ -438,7 +438,7 @@ function ZapStakeAction(props) {
                 <SvgIcon component={SecondStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
                 {outputQuantity === "" ? <Trans>Enter Amount</Trans> : <Trans>Zap-Stake</Trans>}
               </Box>
-            </ButtonComponent>
+            </PrimaryButton>
           </Grid>
         </Grid>
       )}

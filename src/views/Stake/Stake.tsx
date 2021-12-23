@@ -43,7 +43,7 @@ import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
 import StakeRow from "./StakeRow";
 import { Metric, MetricCollection } from "../../components/Metric";
-import ButtonComponent from "../../components/Button";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 function a11yProps(index: number) {
   return {
@@ -213,9 +213,9 @@ function Stake() {
   let modalButton = [];
 
   modalButton.push(
-    <ButtonComponent size="large" onClick={connect} key={1}>
+    <PrimaryButton size="large" onClick={connect} key={1}>
       <Trans>Connect Wallet</Trans>
-    </ButtonComponent>,
+    </PrimaryButton>,
   );
 
   const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
@@ -424,7 +424,7 @@ function Stake() {
                             {isAllowanceDataLoading ? (
                               <Skeleton />
                             ) : address && hasAllowance("ohm") ? (
-                              <ButtonComponent
+                              <PrimaryButton
                                 disabled={isPendingTxn(pendingTransactions, "staking")}
                                 onClick={() => {
                                   onChangeStake("stake");
@@ -432,9 +432,9 @@ function Stake() {
                                 fullWidth
                               >
                                 {txnButtonText(pendingTransactions, "staking", t`Stake OHM`)}
-                              </ButtonComponent>
+                              </PrimaryButton>
                             ) : (
-                              <ButtonComponent
+                              <PrimaryButton
                                 disabled={isPendingTxn(pendingTransactions, "approve_staking")}
                                 onClick={() => {
                                   onSeekApproval("ohm");
@@ -442,7 +442,7 @@ function Stake() {
                                 fullWidth
                               >
                                 {txnButtonText(pendingTransactions, "approve_staking", t`Approve`)}
-                              </ButtonComponent>
+                              </PrimaryButton>
                             )}
                           </Box>
                         </TabPanel>
@@ -452,7 +452,7 @@ function Stake() {
                             {isAllowanceDataLoading ? (
                               <Skeleton />
                             ) : (address && hasAllowance("sohm") && !checked) || (hasAllowance("gohm") && checked) ? (
-                              <ButtonComponent
+                              <PrimaryButton
                                 disabled={isPendingTxn(pendingTransactions, "unstaking")}
                                 onClick={() => {
                                   onChangeStake("unstake");
@@ -460,9 +460,9 @@ function Stake() {
                                 fullWidth
                               >
                                 {txnButtonText(pendingTransactions, "unstaking", t`Unstake`)}
-                              </ButtonComponent>
+                              </PrimaryButton>
                             ) : (
-                              <ButtonComponent
+                              <PrimaryButton
                                 disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                                 onClick={() => {
                                   onSeekApproval(checked ? "gohm" : "sohm");
@@ -470,7 +470,7 @@ function Stake() {
                                 fullWidth
                               >
                                 {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
-                              </ButtonComponent>
+                              </PrimaryButton>
                             )}
                           </Box>
                         </TabPanel>

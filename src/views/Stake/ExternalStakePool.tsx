@@ -18,11 +18,10 @@ import { Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import avaxImage from "src/assets/tokens/avax.png";
 import gOhmImage from "src/assets/tokens/gohm.png";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 import MultiLogo from "src/components/MultiLogo";
 import { useAppSelector } from "../../hooks";
-import ButtonComponent from "src/components/Button";
+import { SecondaryButton } from "@olympusdao/component-library";
 
 const avatarStyle = { height: "35px", width: "35px", marginInline: "-4px", marginTop: "16px" };
 
@@ -76,13 +75,12 @@ export default function ExternalStakePool() {
                       </Box>
                     </TableCell>
                     <TableCell align="center">
-                      <ButtonComponent
-                        template="secondary"
+                      <SecondaryButton
                         href="https://traderjoexyz.com/#/pool/0x321e7092a180bb43555132ec53aaa65a5bf84251/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
                         size="large"
                       >
                         Stake on Trader Joe
-                      </ButtonComponent>
+                      </SecondaryButton>
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -98,13 +96,12 @@ export default function ExternalStakePool() {
                 </Box>
               </div>
               <div className="pool-data">
-                <ButtonComponent
-                  template="secondary"
+                <SecondaryButton
                   href="https://traderjoexyz.com/#/pool/0x321e7092a180bb43555132ec53aaa65a5bf84251/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
                   fullWidth
                 >
                   <Trans>Stake on Trader Joe</Trans>
-                </ButtonComponent>
+                </SecondaryButton>
               </div>
             </div>
           )}

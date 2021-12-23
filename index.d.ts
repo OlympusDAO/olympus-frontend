@@ -1,4 +1,4 @@
 declare module "*.jpg";
 declare module "*.png";
 declare module "*.svg";
-declare module "@olympus/component-library";
+declare module "@olympusdao/component-library";

@@ -9,7 +9,7 @@ import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import { useBonds, useWeb3Context } from "src/hooks";
 import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import ButtonComponent from "src/components/Button";
+import { SecondaryButton } from "@olympusdao/component-library";
 
 export function ClaimBondTableData({ userBond }) {
   const dispatch = useDispatch();
@@ -58,13 +58,12 @@ export function ClaimBondTableData({ userBond }) {
         {isAppLoading ? <Skeleton /> : vestingPeriod()}
       </TableCell>
       <TableCell align="right">
-        <ButtonComponent
-          template="secondary"
+        <SecondaryButton
           disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
           onClick={() => onRedeem({ autostake: false })}
         >
           {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
-        </ButtonComponent>
+        </SecondaryButton>
       </TableCell>
     </TableRow>
   );
@@ -121,20 +120,19 @@ export function ClaimBondCardData({ userBond }) {
         <Typography>{vestingPeriod()}</Typography>
       </div>
       <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
-        <ButtonComponent
-          template="secondary"
+        <SecondaryButton
           disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
           onClick={() => onRedeem({ autostake: false })}
         >
           {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, t`Claim`)}
-        </ButtonComponent>
-        <ButtonComponent onClick={() => onRedeem({ autostake: true })}>
+        </SecondaryButton>
+        <SecondaryButton onClick={() => onRedeem({ autostake: true })}>
           {txnButtonTextGeneralPending(
             pendingTransactions,
             "redeem_bond_" + bondName + "_autostake",
             t`Claim and Stake`,
           )}
-        </ButtonComponent>
+        </SecondaryButton>
       </Box>
     </Box>
   );

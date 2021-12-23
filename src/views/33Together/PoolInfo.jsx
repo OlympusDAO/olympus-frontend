@@ -4,9 +4,7 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Skeleton } from "@material-ui/lab";
 import { t, Trans } from "@lingui/macro";
-import ButtonComponent from "src/components/Button";
-
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { SecondaryButton } from "@olympusdao/component-library";
 import { useWeb3Context } from "../../hooks";
 import { poolTogetherUILinks } from "../../helpers/33Together";
 
@@ -146,14 +144,14 @@ export const PoolInfo = props => {
         </div>
         <div className="data-row-centered">
           <div className="marginedBtn">
-            <ButtonComponent template="secondary" href={poolTogetherUILinks(networkId)[0]} size="small">
+            <SecondaryButton href={poolTogetherUILinks(networkId)[0]} size="small">
               <Trans>sOHM Prize Pool</Trans>
-            </ButtonComponent>
+            </SecondaryButton>
           </div>
           <div className="marginedBtn">
-            <ButtonComponent template="secondary" href={poolTogetherUILinks(networkId)[1]} size="small">
+            <SecondaryButton href={poolTogetherUILinks(networkId)[1]} size="small">
               <Trans>sOHM Pool Details</Trans>
-            </ButtonComponent>
+            </SecondaryButton>
           </div>
         </div>
       </Paper>

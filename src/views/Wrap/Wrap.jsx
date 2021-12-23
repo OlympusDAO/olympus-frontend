@@ -39,7 +39,7 @@ import { t } from "@lingui/macro";
 import { useAppSelector } from "src/hooks/index.ts";
 import WrapCrossChain from "./WrapCrossChain.tsx";
 import { loadAccountDetails } from "src/slices/AccountSlice";
-import ButtonComponent from "src/components/Button";
+import { PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -143,9 +143,9 @@ function Wrap() {
   let modalButton = [];
 
   modalButton.push(
-    <ButtonComponent size="large" onClick={connect} key={1}>
+    <PrimaryButton size="large" onClick={connect} key={1}>
       Connect Wallet
-    </ButtonComponent>,
+    </PrimaryButton>,
   );
 
   const changeAssetFrom = event => {
@@ -228,7 +228,7 @@ function Wrap() {
     if (assetFrom === assetTo) return "";
     if (!hasCorrectAllowance())
       return (
-        <ButtonComponent
+        <PrimaryButton
           disabled={
             isPendingTxn(pendingTransactions, "approve_wrapping") ||
             isPendingTxn(pendingTransactions, "approve_migration")
@@ -236,17 +236,17 @@ function Wrap() {
           onClick={approveCorrectToken}
         >
           {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
-        </ButtonComponent>
+        </PrimaryButton>
       );
 
     if (hasCorrectAllowance())
       return (
-        <ButtonComponent
+        <PrimaryButton
           disabled={isPendingTxn(pendingTransactions, "wrapping") || isPendingTxn(pendingTransactions, "migrate")}
           onClick={chooseCorrectWrappingFunction}
         >
           {txnButtonTextMultiType(pendingTransactions, ["wrapping", "migrate"], wrapButtonText)}
-        </ButtonComponent>
+        </PrimaryButton>
       );
   };
 
@@ -387,24 +387,14 @@ function Wrap() {
                             Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
                             bridge required!)
                           </Typography>
-                          <ButtonComponent
-                            onClick={handleSwitchChain(43114)}
-                            template="secondary"
-                            style={{ margin: "0.3rem" }}
-                            size="small"
-                          >
+                          <SecondaryButton onClick={handleSwitchChain(43114)} style={{ margin: "0.3rem" }} size="small">
                             <img height="28px" width="28px" src={avax.image} alt={avax.imageAltText} />
                             <Typography style={{ marginLeft: "8px" }}>{avax.chainName}</Typography>
-                          </ButtonComponent>
-                          <ButtonComponent
-                            onClick={handleSwitchChain(42161)}
-                            template="secondary"
-                            style={{ margin: "0.3rem" }}
-                            size="small"
-                          >
+                          </SecondaryButton>
+                          <SecondaryButton onClick={handleSwitchChain(42161)} style={{ margin: "0.3rem" }} size="small">
                             <img height="28px" width="28px" src={arbitrum.image} alt={arbitrum.imageAltText} />
                             <Typography style={{ marginLeft: "8px" }}>{arbitrum.chainName}</Typography>
-                          </ButtonComponent>
+                          </SecondaryButton>
                         </Box>
                       </>
                     </div>

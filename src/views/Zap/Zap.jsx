@@ -9,7 +9,7 @@ import { useAppSelector } from "src/hooks";
 import { Trans } from "@lingui/macro";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useHistory } from "react-router";
-import ButtonComponent from "src/components/Button";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 function Zap() {
   const { address, connect } = useWeb3Context();
@@ -35,9 +35,9 @@ function Zap() {
             {!address ? (
               <div className="stake-wallet-notification">
                 <div className="wallet-menu" id="wallet-menu">
-                  <ButtonComponent size="large" onClick={connect} key={1}>
+                  <PrimaryButton size="large" onClick={connect} key={1}>
                     <Trans>Connect Wallet</Trans>
-                  </ButtonComponent>
+                  </PrimaryButton>
                 </div>
                 <Typography variant="h6">
                   <Trans>Connect your wallet to use Zap</Trans>

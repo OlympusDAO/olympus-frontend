@@ -20,7 +20,7 @@ import useDebounce from "../../hooks/Debounce";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./Bond";
 import ConnectButton from "../../components/ConnectButton";
-import ButtonComponent from "src/components/Button";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
@@ -175,23 +175,23 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     />
                   </FormControl>
                 )}
-                {!bond.isBondable[networkId] ? (
-                  <ButtonComponent disabled={true}>
+                {bond.isBondable[networkId] ? (
+                  <PrimaryButton disabled={true}>
                     {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
                     {/* <Trans>Sold Out</Trans> */}
                     {bond.LOLmessage}
-                  </ButtonComponent>
+                  </PrimaryButton>
                 ) : hasAllowance() ? (
-                  <ButtonComponent disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)} onClick={onBond}>
+                  <PrimaryButton disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)} onClick={onBond}>
                     {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
-                  </ButtonComponent>
+                  </PrimaryButton>
                 ) : (
-                  <ButtonComponent
+                  <PrimaryButton
                     disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
                     onClick={onSeekApproval}
                   >
                     {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
-                  </ButtonComponent>
+                  </PrimaryButton>
                 )}
               </>
             )}{" "}

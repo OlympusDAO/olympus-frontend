@@ -6,7 +6,7 @@ import { redeemAllBonds } from "src/slices/BondSlice";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "src/hooks/Bonds";
-import ButtonComponent from "src/components/Button";
+import { PrimaryButton } from "@olympusdao/component-library";
 import {
   Box,
   Button,
@@ -107,7 +107,7 @@ function ClaimBonds({ activeBonds }) {
                 {numberOfBonds > 1 && (
                   <>
                     <Box mr={2}>
-                      <ButtonComponent
+                      <PrimaryButton
                         fullWidth
                         disabled={pendingClaim()}
                         onClick={() => {
@@ -115,9 +115,9 @@ function ClaimBonds({ activeBonds }) {
                         }}
                       >
                         {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
-                      </ButtonComponent>
+                      </PrimaryButton>
                     </Box>
-                    <ButtonComponent
+                    <PrimaryButton
                       disabled={pendingClaim()}
                       onClick={() => {
                         onRedeemAll({ autostake: true });
@@ -128,7 +128,7 @@ function ClaimBonds({ activeBonds }) {
                         "redeem_all_bonds_autostake",
                         t`Claim all and Stake`,
                       )}
-                    </ButtonComponent>
+                    </PrimaryButton>
                   </>
                 )}
               </Box>

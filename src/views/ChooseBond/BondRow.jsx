@@ -8,8 +8,7 @@ import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 import useBonds from "src/hooks/Bonds";
 import { useSelector } from "react-redux";
-import ButtonComponent from "src/components/Button";
-
+import { TertiaryButton } from "@olympusdao/component-library";
 export function BondDataCard({ bond }) {
   const networkId = useSelector(state => state.network.networkId);
   const { loading } = useBonds(networkId);
@@ -69,11 +68,11 @@ export function BondDataCard({ bond }) {
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <ButtonComponent template="tertiary" fullWidth disabled={!bond.isBondable[networkId]}>
+          <TertiaryButton fullWidth disabled={!bond.isBondable[networkId]}>
             {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
             {/* {!bond.isBondable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`} */}
             {bond.isLOLable[networkId] ? bond.LOLmessage : t`Bond ${bond.displayName}`}
-          </ButtonComponent>
+          </TertiaryButton>
         </Link>
       </Paper>
     </Slide>
@@ -125,11 +124,11 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <ButtonComponent template="tertiary" disabled={!bond.isBondable[networkId]}>
+          <TertiaryButton disabled={!bond.isBondable[networkId]}>
             {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
             {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
             {bond.isLOLable[networkId] ? bond.LOLmessage : t`do_bond`}
-          </ButtonComponent>
+          </TertiaryButton>
         </Link>
       </TableCell>
     </TableRow>

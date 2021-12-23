@@ -9,7 +9,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import { DisplayBondDiscount } from "./Bond";
 import ConnectButton from "../../components/ConnectButton";
-import ButtonComponent from "src/components/Button/ButtonComponent";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 function BondRedeem({ bond }) {
   // const { bond: bondName } = bond;
@@ -60,17 +60,17 @@ function BondRedeem({ bond }) {
         ) : (
           <>
             <Box mr={2}>
-              <ButtonComponent
+              <PrimaryButton
                 disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name) || bond.pendingPayout == 0.0}
                 onClick={() => {
                   onRedeem({ autostake: false });
                 }}
               >
                 {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name, t`Claim`)}
-              </ButtonComponent>
+              </PrimaryButton>
             </Box>
             <Box>
-              <ButtonComponent
+              <PrimaryButton
                 disabled={
                   isPendingTxn(pendingTransactions, "redeem_bond_" + bond.name + "_autostake") ||
                   bond.pendingPayout == 0.0
@@ -80,7 +80,7 @@ function BondRedeem({ bond }) {
                 }}
               >
                 {txnButtonText(pendingTransactions, "redeem_bond_" + bond.name + "_autostake", t`Claim and Autostake`)}
-              </ButtonComponent>
+              </PrimaryButton>
             </Box>
           </>
         )}
