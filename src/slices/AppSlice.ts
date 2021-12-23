@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { addresses } from "../constants";
+import { addresses, NetworkId } from "../constants";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
 import { NodeHelper } from "src/helpers/NodeHelper";
@@ -47,9 +47,9 @@ export const loadAppDetails = createAsyncThunk(
       }
     `;
 
-    if (networkID !== 1) {
+    if (networkID !== NetworkId.MAINNET) {
       provider = NodeHelper.getMainnetStaticProvider();
-      networkID = 1;
+      networkID = NetworkId.MAINNET;
     }
     const graphData = await apollo<{ protocolMetrics: IProtocolMetrics[] }>(protocolMetricsQuery);
 

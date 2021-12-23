@@ -233,7 +233,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://etherscan.io/#/"],
     image: ethereum,
     imageAltText: "Ethereum Logo",
-    uri: () => NodeHelper.getMainnetURI(1),
+    uri: () => NodeHelper.getMainnetURI(NetworkId.MAINNET),
   },
   [NetworkId.TESTNET_RINKEBY]: {
     chainName: "Rinkeby Testnet",
@@ -247,7 +247,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://rinkeby.etherscan.io/#/"],
     image: ethereum,
     imageAltText: "Ethereum Logo",
-    uri: () => NodeHelper.getMainnetURI(4),
+    uri: () => NodeHelper.getMainnetURI(NetworkId.TESTNET_RINKEBY),
   },
   [NetworkId.ARBITRUM]: {
     chainName: "Arbitrum",
@@ -261,7 +261,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://explorer.arbitrum.io/#/"],
     image: arbitrum,
     imageAltText: "Arbitrum Logo",
-    uri: () => NodeHelper.getMainnetURI(42161),
+    uri: () => NodeHelper.getMainnetURI(NetworkId.ARBITRUM),
   },
   [NetworkId.ARBITRUM_TESTNET]: {
     chainName: "Arbitrum Testnet",
@@ -303,7 +303,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://cchain.explorer.avax.network/"],
     image: avalanche,
     imageAltText: "Avalanche Logo",
-    uri: () => NodeHelper.getMainnetURI(43114),
+    uri: () => NodeHelper.getMainnetURI(NetworkId.AVALANCHE),
   },
   [NetworkId.POLYGON]: {
     chainName: "Polygon",
@@ -317,7 +317,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://polygonscan.com/"],
     image: polygon,
     imageAltText: "Polygon Logo",
-    uri: () => NodeHelper.getMainnetURI(137),
+    uri: () => NodeHelper.getMainnetURI(NetworkId.POLYGON),
   },
   [NetworkId.POLYGON_TESTNET]: {
     chainName: "Polygon Mumbai Testnet",
@@ -331,7 +331,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
     image: polygon,
     imageAltText: "Polygon Logo",
-    uri: () => NodeHelper.getMainnetURI(80001),
+    uri: () => "", // NodeHelper.getMainnetURI(NetworkId.POLYGON_TESTNET),
   },
 };
 

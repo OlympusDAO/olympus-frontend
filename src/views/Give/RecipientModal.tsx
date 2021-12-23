@@ -39,6 +39,7 @@ import { EnvHelper } from "src/helpers/Environment";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ConnectButton from "../../components/ConnectButton";
+import { NetworkId } from "src/constants";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -120,13 +121,13 @@ export function RecipientModal({
    * TODO consider extracting this into a helper file
    */
   const sohmBalance: string = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.balances && state.account.balances.mockSohm
       : state.account.balances && state.account.balances.sohm;
   });
 
   const giveAllowance: number = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.sohmGive
       : state.account.giving && state.account.giving.sohmGive;
   });
@@ -136,7 +137,7 @@ export function RecipientModal({
   });
 
   const isGiveLoading: boolean = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving.loading
       : state.account.giving.loading;
   });
@@ -146,7 +147,7 @@ export function RecipientModal({
   });
 
   const onSeekApproval = async () => {
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
     } else {
       await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));

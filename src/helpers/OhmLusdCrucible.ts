@@ -1,14 +1,13 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
-import { NetworkID } from "src/lib/Bond";
 import { ohm_lusd, lusd } from "../helpers/AllBonds";
 import { abi as OhmLusdCrucibleABI } from "src/abi/OhmLusdCrucible.json";
 import { abi as UniswapIERC20ABI } from "src/abi/UniswapIERC20.json";
 import { BigNumber, ethers } from "ethers";
-import { addresses } from "src/constants";
+import { addresses, NetworkId } from "src/constants";
 import { getTokenPrice } from "../helpers";
 import { OhmLusdCrucible, UniswapIERC20 } from "src/typechain";
 
-export const calcAludelDetes = async (networkID: NetworkID, provider: StaticJsonRpcProvider) => {
+export const calcAludelDetes = async (networkID: NetworkId, provider: StaticJsonRpcProvider) => {
   const crucibleAddress = addresses[networkID].CRUCIBLE_OHM_LUSD;
   const aludelContract = new ethers.Contract(
     crucibleAddress as string,

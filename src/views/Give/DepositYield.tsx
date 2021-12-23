@@ -12,6 +12,7 @@ import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import { NetworkId } from "src/constants";
 
 type State = {
   account: IAccountSlice;
@@ -25,7 +26,7 @@ export default function DepositYield() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const totalDebt = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });

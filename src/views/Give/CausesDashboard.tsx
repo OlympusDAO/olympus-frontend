@@ -21,6 +21,7 @@ import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import { NetworkId } from "src/constants";
 
 type State = {
   account: IAccountSlice;
@@ -42,13 +43,13 @@ export default function CausesDashboard() {
   const seed = useUIDSeed();
 
   const donationInfo = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
   const totalDebt = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
@@ -73,7 +74,7 @@ export default function CausesDashboard() {
     }
 
     // If reducing the amount of deposit, withdraw
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE,

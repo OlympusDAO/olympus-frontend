@@ -52,6 +52,7 @@ import { Project } from "src/components/GiveProject/project.type";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
 import Announcement from "./components/Announcement/Announcement";
+import { NetworkId } from "./constants";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -126,7 +127,7 @@ function App() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const [walletChecked, setWalletChecked] = useState(false);
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { networkId, initialized } = useAppSelector(state => state.network);
 
   const { projects } = projectData;
 
@@ -162,12 +163,12 @@ function App() {
 
   const loadApp = useCallback(
     loadProvider => {
-      if (networkId == -1) {
+      if (!initialized) {
         return;
       }
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       // NOTE (appleseed) - tech debt - better network filtering for active bonds
-      if (networkId === 1 || networkId === 4) {
+      if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
         bonds.map(bond => {
           dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
         });
@@ -178,7 +179,7 @@ function App() {
 
   const loadAccount = useCallback(
     loadProvider => {
-      if (networkId == -1) {
+      if (!initialized) {
         return;
       }
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
@@ -200,7 +201,7 @@ function App() {
   );
 
   const oldAssetsDetected = useAppSelector(state => {
-    if (networkId && (networkId === 1 || networkId === 4)) {
+    if (networkId && (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY)) {
       return (
         state.account.balances &&
         (Number(state.account.balances.sohmV1) ||
@@ -264,7 +265,7 @@ function App() {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
       loadDetails("network").then(() => {
-        if (networkId !== -1) {
+        if (initialized) {
           loadDetails("account");
           loadDetails("app");
         }
@@ -276,7 +277,7 @@ function App() {
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected && networkId !== -1) {
+    if (connected && initialized) {
       loadDetails("account");
       initNetwork(provider);
     }

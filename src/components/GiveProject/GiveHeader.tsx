@@ -2,13 +2,14 @@ import { Trans } from "@lingui/macro";
 import { Box, Button, Link, Typography, useTheme } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import { NavLink, useLocation } from "react-router-dom";
+import { NetworkId } from "src/constants";
 import { isSupportedChain } from "src/slices/GiveThunk";
 
 type GiveHeaderProps = {
   isSmallScreen: boolean;
   isVerySmallScreen: boolean;
   totalDebt: BigNumber;
-  networkId: number;
+  networkId: NetworkId;
 };
 
 export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networkId }: GiveHeaderProps) {

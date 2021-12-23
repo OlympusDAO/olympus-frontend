@@ -24,6 +24,7 @@ import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { NetworkId } from "src/constants";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -46,7 +47,7 @@ export default function YieldRecipients() {
   // TODO fix typing of state.app.loading
   const isAppLoading = useSelector((state: any) => state.app.loading);
   const donationInfo = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
@@ -68,7 +69,7 @@ export default function YieldRecipients() {
     if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
     // If reducing the amount of deposit, withdraw
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_EDIT,
@@ -111,7 +112,7 @@ export default function YieldRecipients() {
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
     // Issue withdrawal from smart contract
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,

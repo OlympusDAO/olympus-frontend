@@ -4,7 +4,7 @@ import { error } from "./MessagesSlice";
 import { setAll } from "../helpers";
 import { EnvHelper } from "../helpers/Environment";
 import { NodeHelper } from "../helpers/NodeHelper";
-import { NETWORKS } from "../constants";
+import { NetworkId, NETWORKS } from "../constants";
 import { RootState } from "../store";
 
 interface IGetCurrentNetwork {
@@ -18,30 +18,30 @@ export const initializeNetwork = createAsyncThunk(
       let networkName: string;
       let uri: string;
       let supported: boolean = true;
-      const id: number = await provider.getNetwork().then(network => network.chainId);
+      const id = (await provider.getNetwork().then(network => network.chainId)) as NetworkId;
 
       switch (id) {
-        case 1:
+        case NetworkId.MAINNET:
           networkName = "Ethereum";
           uri = NodeHelper.getMainnetURI(id);
           break;
-        case 4:
+        case NetworkId.TESTNET_RINKEBY:
           networkName = "Rinkeby Testnet";
           uri = NodeHelper.getMainnetURI(id);
           break;
-        case 42161:
+        case NetworkId.ARBITRUM:
           networkName = "Arbitrum";
           uri = NodeHelper.getMainnetURI(id);
           break;
-        case 421611:
+        case NetworkId.ARBITRUM_TESTNET:
           networkName = "Arbitrum Testnet";
           uri = EnvHelper.alchemyArbitrumTestnetURI;
           break;
-        case 43113:
+        case NetworkId.AVALANCHE_TESTNET:
           networkName = "Avalanche Fuji Testnet";
           uri = EnvHelper.alchemyAvalancheTestnetURI;
           break;
-        case 43114:
+        case NetworkId.AVALANCHE:
           networkName = "Avalanche";
           uri = NodeHelper.getMainnetURI(id);
           break;
@@ -63,7 +63,7 @@ export const initializeNetwork = createAsyncThunk(
       console.log(e);
       dispatch(error("Error connecting to wallet!"));
       return {
-        networkId: -1,
+        networkId: NetworkId.MAINNET,
         networkName: "",
         uri: "",
         initialized: false,
@@ -116,14 +116,14 @@ const idToHexString = (id: number) => {
 };
 
 interface INetworkSlice {
-  networkId: number;
+  networkId: NetworkId;
   networkName: string;
   uri: string;
   initialized: boolean;
 }
 
 const initialState: INetworkSlice = {
-  networkId: -1,
+  networkId: NetworkId.MAINNET,
   networkName: "",
   uri: "",
   initialized: false,

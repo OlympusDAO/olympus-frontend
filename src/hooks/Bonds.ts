@@ -4,6 +4,7 @@ import allBonds, { allExpiredBonds } from "src/helpers/AllBonds";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { Bond } from "src/lib/Bond";
 import { IBondDetails } from "src/slices/BondSlice";
+import { NetworkId } from "src/constants";
 
 interface IBondingStateView {
   account: {
@@ -23,7 +24,7 @@ export interface IAllBondData extends Bond, IBondDetails, IUserBondDetails {}
 const initialBondArray = allBonds;
 const initialExpiredArray = allExpiredBonds;
 // Slaps together bond data within the account & bonding states
-function useBonds(networkId: number) {
+function useBonds(networkId: NetworkId) {
   const bondLoading = useSelector((state: IBondingStateView) => !state.bonding.loading);
   const bondState = useSelector((state: IBondingStateView) => state.bonding);
   const accountBondsState = useSelector((state: IBondingStateView) => state.account.bonds);
