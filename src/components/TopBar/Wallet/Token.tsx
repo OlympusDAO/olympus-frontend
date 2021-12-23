@@ -17,7 +17,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { addresses, NETWORKS } from "src/constants";
 import { formatCurrency } from "src/helpers";
 import { RootState } from "src/store";
-import { NetworkID } from "src/lib/Bond";
+import { NetworkId } from "src/constants";
 
 import { ReactComponent as MoreIcon } from "src/assets/icons/more.svg";
 import OhmImg from "src/assets/tokens/token_OHM.svg";
@@ -75,7 +75,7 @@ export interface IToken {
   icon: string;
   balance: string;
   price: number;
-  crossChainBalances?: { balances: Record<NetworkID, string>; isLoading: boolean };
+  crossChainBalances?: { balances: Record<NetworkId, string>; isLoading: boolean };
 }
 
 const addTokenToWallet = async (token: IToken, userAddress: string) => {
@@ -127,7 +127,11 @@ const BalanceValue = ({
       {!isLoading ? balance.substring(0, sigFigs) : <Skeleton variant="text" width={50} />}
     </Typography>
     <Typography variant="body2" color="textSecondary">
-      {!isLoading ? formatCurrency(balanceValueUSD, 2) : <Skeleton variant="text" width={50} />}
+      {!isLoading ? (
+        formatCurrency(balanceValueUSD === NaN ? 0 : balanceValueUSD, 2)
+      ) : (
+        <Skeleton variant="text" width={50} />
+      )}
     </Typography>
   </Box>
 );
@@ -135,12 +139,12 @@ const BalanceValue = ({
 const sumAllChainsBalances = (crossChainBalances: IToken["crossChainBalances"]) =>
   crossChainBalances?.balances &&
   Object.values(crossChainBalances.balances)
-    .reduce((sum, b = "0") => sum + parseFloat(b), 0)
+    .reduce((sum, b = "0.0") => sum + parseFloat(b), 0)
     .toString();
 
 export const Token = ({
   symbol,
-  tDecimals,
+  decimals,
   icon,
   balance = "0.0",
   price = 0,
@@ -152,10 +156,11 @@ export const Token = ({
   const theme = useTheme();
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const allChainsBalance = sumAllChainsBalances(crossChainBalances);
-  const totalBalance = allChainsBalance || balance;
+  const totalBalance = allChainsBalance || balance || "0.0";
   const balanceValue = parseFloat(totalBalance) * price;
+
   // cleanedDecimals provides up to 7 sigFigs on an 18 decimal token (gOHM) & 5 sigFigs on 9 decimal Token
-  const sigFigs = tDecimals === 18 ? 7 : 5;
+  const sigFigs = decimals === 18 ? 7 : 5;
 
   return (
     <Accordion expanded={expanded} onChange={onChangeExpanded}>
@@ -235,7 +240,7 @@ export const MigrateToken = ({ symbol, icon, balance = "0.0", price = 0 }: IToke
 
 const tokensSelector = (state: RootState) => {
   // default to mainnet while not initialized
-  const networkId = state.network.initialized ? state.network.networkId : NetworkID.Mainnet;
+  const networkId = state.network.initialized ? state.network.networkId : NetworkId.MAINNET;
   return {
     ohmV1: {
       symbol: "OHM V1",
@@ -273,7 +278,7 @@ const tokensSelector = (state: RootState) => {
       symbol: "wsOHM",
       address: addresses[networkId].WSOHM_ADDRESS,
       balance: state.account.balances.wsohm,
-      price: (state.app.marketPrice || 0) * Number(state.app.currentIndex),
+      price: (state.app.marketPrice || 0) * parseFloat(state.app.currentIndex || "0.0"),
       icon: WsOhmImg,
       decimals: 18,
     },
@@ -289,7 +294,7 @@ const tokensSelector = (state: RootState) => {
       symbol: "gOHM",
       address: addresses[networkId].GOHM_ADDRESS,
       balance: state.account.balances.gohm,
-      price: (state.app.marketPrice || 0) * Number(state.app.currentIndex),
+      price: (state.app.marketPrice || 0) * parseFloat(state.app.currentIndex || "0.0"),
       icon: GOhmImg,
       decimals: 18,
     },
