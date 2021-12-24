@@ -4,7 +4,7 @@ import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import { redeemBond } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { trim, secondsUntilBlock, prettifySeconds, prettyVestingPeriod } from "../../helpers";
+import { prettifySeconds, prettyVestingPeriod, secondsUntilBlock, trim } from "../../helpers";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import { DisplayBondDiscount } from "./Bond";
@@ -14,7 +14,8 @@ import { useAppSelector } from "src/hooks";
 
 function BondRedeem({ bond }: { bond: IAllBondData }) {
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
 
   const isBondLoading = useAppSelector(state => state.bonding.loading ?? true);
 
@@ -32,7 +33,7 @@ function BondRedeem({ bond }: { bond: IAllBondData }) {
   });
 
   async function onRedeem({ autostake }: { autostake: boolean }) {
-    await dispatch(redeemBond({ address, bond, networkID: chainID, provider, autostake }));
+    await dispatch(redeemBond({ address, bond, networkID: networkId, provider, autostake }));
   }
 
   const vestingTime = () => {
@@ -45,12 +46,11 @@ function BondRedeem({ bond }: { bond: IAllBondData }) {
     return prettifySeconds(seconds, "day");
   };
 
-  // 0xdavinchee: is this intentional?
-  useEffect(() => {
-    console.log(bond);
-    console.log(bondingState);
-    console.log(bondDetails);
-  }, []);
+  // useEffect(() => {
+  //   console.log(bond);
+  //   console.log(bondingState);
+  //   console.log(bondDetails);
+  // }, []);
 
   return (
     <Box display="flex" flexDirection="column">

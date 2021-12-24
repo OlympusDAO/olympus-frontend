@@ -1,4 +1,5 @@
-#stake-view {
+#stake-view,
+#v1-stake-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,6 +9,12 @@
   .rebase-timer {
     margin: 0 !important;
     line-height: 110% !important;
+  }
+
+  .stake-to-ohm-checkbox {
+    svg{
+      font-size: 0.8em;
+    }
   }
 
   .stake-tab-buttons {
@@ -26,13 +33,6 @@
     padding-bottom: 16px;
     width: 100%;
   }
-  .mobile .stake-tab-panel,
-  .mobile .stake-tab-panel > div.MuiBox-root {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    justify-items: center;
-  }
 
   .ohm-card .card-header {
     position: relative;
@@ -47,6 +47,52 @@
   .stake-note {
     text-align: center;
     font-style: italic;
+  }
+
+  .stake-accordion {
+    backdrop-filter: none;
+    background-color: inherit;
+    margin: 12px 0;
+
+    &:before {
+      display: none;
+    }
+
+    .MuiAccordionSummary-root {
+      padding: 0;
+      justify-content: space-between;
+      min-height: auto;
+    }
+
+    .MuiAccordionSummary-content {
+      display: block;
+      margin: 0;
+
+      .data-row {
+        margin: 0;
+      }
+    }
+
+    .MuiAccordionSummary-expandIcon {
+      color: inherit;
+      height: inherit;
+      padding-top: 0;
+      padding-bottom: 0;
+      position: absolute;
+      left: 100px;
+      top: -3px;
+      transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, top 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      &.Mui-expanded {
+        left: 104px;
+        top: 1px;
+      }
+    }
+
+    .MuiAccordionDetails-root {
+      padding: 0;
+      display: block;
+    }
   }
 }
 
@@ -100,6 +146,7 @@
   .stake-index {
     align-items: flex-start;
   }
+  text-align: left;
 }
 
 .ohm-logo-tiny {
@@ -149,7 +196,7 @@
 .stake-action-row [role="tabpanel"] {
   width: 100%;
   min-width: 162px;
-  max-width: 220px;
+  max-width: initial;
   margin: 5px;
 }
 
@@ -164,7 +211,7 @@
 .ohm-input {
   max-width: 542px;
   width: 100%;
-  margin: 5px !important;
+  margin: 4px !important;
 }
 
 .stake-button {
@@ -174,7 +221,7 @@
   max-width: 542px !important;
   height: 43px !important;
   &.wrap-page {
-    margin-left: 2%;
+    // margin-left: 2%;
     width: 40%;
   }
 }
@@ -182,15 +229,19 @@
 .no-input-visible {
   width: 100%;
   line-height: 1.2em;
+  padding: 5px 0;
 }
 
-.v2-migration-link{
- color: inherit; 
+.v2-migration-link {
+  color: inherit;
 }
 
-// #asset-select {
-//   color: #f8cc82;
-// }
+#asset-select {
+  // color: #f8cc82;
+  input {
+    height: 33px !important;
+  }
+}
 
 .Muilnput-underline {
   display: none !important;
@@ -276,4 +327,23 @@
       margin-bottom: 15px;
     }
   }
+}
+.MuiSelect-select.MuiSelect-select {
+  padding-right: 10px !important;
+}
+
+.asset-select-label + .MuiInput-root.MuiInputBase-formControl {
+  margin-right: 3px;
+}
+
+.mobile .stake-tab-panel,
+.mobile .stake-tab-panel > div.MuiBox-root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+}
+
+.mobile .stake-tab-panel.wrap-page {
+  align-items: center;
 }

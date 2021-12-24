@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import {
   Box,
   Grid,
@@ -16,8 +17,8 @@ import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { formatCurrency } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
-import { useWeb3Context } from "src/hooks/web3Context";
-
+import { useHistory } from "react-router";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import ClaimBonds from "./ClaimBonds";
@@ -25,10 +26,13 @@ import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
+import { Metric, MetricCollection } from "src/components/Metric";
 
 function ChooseBond() {
-  const { chainID } = useWeb3Context();
-  const { bonds } = useBonds(chainID);
+  const networkId = useAppSelector(state => state.network.networkId);
+  const history = useHistory();
+  const { bonds } = useBonds(networkId);
+  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
@@ -61,6 +65,13 @@ function ChooseBond() {
     }
   });
 
+  const formattedTreasuryBalance = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(Number(treasuryBalance));
+
   return (
     <div id="choose-bond-view">
       {!isAccountLoading && !isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
@@ -73,40 +84,18 @@ function ChooseBond() {
             </Typography>
           </Box>
 
-          <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
-            <Grid item xs={6}>
-              <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
-                <Typography variant="h5" color="textSecondary">
-                  <Trans>Treasury Balance</Trans>
-                </Typography>
-                <Box>
-                  {isAppLoading ? (
-                    <Skeleton width="180px" data-testid="treasury-balance-loading" />
-                  ) : (
-                    <Typography variant="h4" data-testid="treasury-balance">
-                      {new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0,
-                      }).format(Number(treasuryBalance))}
-                    </Typography>
-                  )}
-                </Box>
-              </Box>
-            </Grid>
-
-            <Grid item xs={6} className={`ohm-price`}>
-              <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
-                <Typography variant="h5" color="textSecondary">
-                  <Trans>OHM Price</Trans>
-                </Typography>
-                <Typography variant="h4">
-                  {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(Number(marketPrice), 2)}
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
+          <MetricCollection>
+            <Metric
+              label={t`Treasury Balance`}
+              metric={formattedTreasuryBalance}
+              isLoading={!!treasuryBalance ? false : true}
+            />
+            <Metric
+              label={t`OHM Price`}
+              metric={formatCurrency(Number(marketPrice), 2)}
+              isLoading={marketPrice ? false : true}
+            />
+          </MetricCollection>
 
           {!isSmallScreen && (
             <Grid container item>
@@ -130,9 +119,13 @@ function ChooseBond() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {bonds.map(bond => (
-                      <BondTableData key={bond.name} bond={bond} />
-                    ))}
+                    {bonds.map(bond => {
+                      // NOTE (appleseed): temporary for ONHOLD MIGRATION
+                      // if (bond.getBondability(networkId)) {
+                      if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
+                        return <BondTableData key={bond.name} bond={bond} />;
+                      }
+                    })}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -144,11 +137,17 @@ function ChooseBond() {
       {isSmallScreen && (
         <Box className="ohm-card-container">
           <Grid container item spacing={2}>
-            {bonds.map(bond => (
-              <Grid item xs={12} key={bond.name}>
-                <BondDataCard key={bond.name} bond={bond} />
-              </Grid>
-            ))}
+            {bonds.map(bond => {
+              // NOTE (appleseed): temporary for ONHOLD MIGRATION
+              // if (bond.getBondability(networkId)) {
+              if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
+                return (
+                  <Grid item xs={12} key={bond.name}>
+                    <BondDataCard key={bond.name} bond={bond} />
+                  </Grid>
+                );
+              }
+            })}
           </Grid>
         </Box>
       )}

@@ -3,7 +3,7 @@ import { t } from "@lingui/macro";
 import { trim, prettyVestingPeriod } from "../../helpers";
 import { redeemBond } from "../../slices/BondSlice";
 import BondLogo from "../../components/BondLogo";
-import { Box, Button, Typography, TableRow, TableCell } from "@material-ui/core";
+import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context, useBonds, useAppSelector } from "src/hooks";
@@ -12,8 +12,9 @@ import { IUserBondDetails } from "src/slices/AccountSlice";
 
 export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondDetails] }) {
   const dispatch = useDispatch();
-  const { address, chainID, provider } = useWeb3Context();
-  const { bonds, expiredBonds } = useBonds(chainID);
+  const { address, provider } = useWeb3Context();
+  const networkID = useAppSelector(state => state.network.networkId);
+  const { bonds, expiredBonds } = useBonds(networkId);
 
   const bond = userBond[1];
   const bondName = bond.bond;
@@ -35,9 +36,8 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
   async function onRedeem({ autostake }: { autostake: boolean }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
     let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    await dispatch(redeemBond({ address, bond: currentBond!, networkID: chainID, provider, autostake }));
+    await dispatch(redeemBond({ address, bond: currentBond!, networkID, provider, autostake }));
   }
-  console.log("bond.displayName", bond.displayName);
 
   return (
     <TableRow id={`${bondName}--claim`}>
@@ -75,8 +75,9 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
 
 export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDetails] }) {
   const dispatch = useDispatch();
-  const { address, chainID, provider } = useWeb3Context();
-  const { bonds, expiredBonds } = useBonds(chainID);
+  const { address, provider } = useWeb3Context();
+  const networkID = useAppSelector(state => state.network.networkId);
+  const { bonds, expiredBonds } = useBonds(networkId);
 
   const bond = userBond[1];
   const bondName = bond.bond;
@@ -96,7 +97,7 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
   async function onRedeem({ autostake }: { autostake: boolean }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
     let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    await dispatch(redeemBond({ address, bond: currentBond!, networkID: chainID, provider, autostake }));
+    await dispatch(redeemBond({ address, bond: currentBond!, networkID, provider, autostake }));
   }
 
   return (

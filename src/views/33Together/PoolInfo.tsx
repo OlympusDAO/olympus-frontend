@@ -20,8 +20,9 @@ interface PoolInfoProps {
 
 export const PoolInfo = (props: PoolInfoProps) => {
   const [poolLoadedCount, setPoolLoadedCount] = useState(0);
-  const { address, chainID } = useWeb3Context();
+  const { address} = useWeb3Context();
   const isPoolLoading = useAppSelector(state => state.poolData.loading ?? true);
+  const networkId = useAppSelector(state => state.network.networkId);
 
   const creditMaturationInDays = useAppSelector(state => {
     return state.poolData && state.poolData.creditMaturationInDays;
@@ -153,7 +154,7 @@ export const PoolInfo = (props: PoolInfoProps) => {
         </div>
         <div className="data-row-centered">
           <div className="marginedBtn">
-            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(chainID)[0]} target="_blank">
+            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(networkId)[0]} target="_blank">
               <Typography variant="body1">
                 <Trans>sOHM Prize Pool</Trans>&nbsp;
               </Typography>
@@ -161,7 +162,7 @@ export const PoolInfo = (props: PoolInfoProps) => {
             </Button>
           </div>
           <div className="marginedBtn">
-            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(chainID)[1]} target="_blank">
+            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(networkId)[1]} target="_blank">
               <Typography variant="body1">
                 <Trans>sOHM Pool Details</Trans>&nbsp;
               </Typography>

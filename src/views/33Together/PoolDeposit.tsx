@@ -31,15 +31,15 @@ interface PoolDepositProps {
 
 export const PoolDeposit = (props: PoolDepositProps) => {
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
+  const [networkID, isAppLoading] = useAppSelector(state => [state.network.networkId, state.app.loading]);
   const [quantity, setQuantity] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
   const [isDepositing, setDepositing] = useState(false);
-  const isAppLoading = useAppSelector(state => state.app.loading);
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const sohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+    return state.account.balances && state.account.balances.sohmV1;
   });
 
   const poolBalance = useAppSelector(state => {
@@ -58,7 +58,9 @@ export const PoolDeposit = (props: PoolDepositProps) => {
     return state.poolData && state.poolData.isRngRequested;
   });
 
-  const onSeekApproval = (token: string) => dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+  const onSeekApproval = async (token: string) => {
+    await dispatch(changeApproval({ address, token, provider, networkID}));
+  };
 
   const onDeposit = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
@@ -71,7 +73,7 @@ export const PoolDeposit = (props: PoolDepositProps) => {
   };
 
   const onSubmitDeposit = async (action: string) => {
-    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID}));
   };
 
   const hasAllowance = useCallback(() => {

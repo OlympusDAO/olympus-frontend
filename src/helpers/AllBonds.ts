@@ -38,9 +38,35 @@ export const dai = new StableBond({
   name: "dai",
   displayName: "DAI",
   bondToken: "DAI",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: DaiImg,
   bondContractABI: DaiBondContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "Sold Out",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x575409F8d77c12B05feD8B455815f0e54797381c",
@@ -53,16 +79,87 @@ export const dai = new StableBond({
   },
 });
 
+export const fraxOld = new StableBond({
+  name: "frax-old",
+  displayName: "FRAX OLD",
+  bondToken: "FRAX",
+  payoutToken: "OHM",
+  v2Bond: false,
+  bondIconSvg: FraxImg,
+  bondContractABI: FraxBondContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "Gone Fishin'",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      bondAddress: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514",
+      reserveAddress: "0x853d955acef822db058eb8505911ed77f175b99e",
+    },
+    [NetworkID.Testnet]: {
+      bondAddress: "0xF651283543fB9D61A91f318b78385d187D300738",
+      reserveAddress: "0x2F7249cb599139e560f0c81c269Ab9b04799E453",
+    },
+  },
+});
+
 export const frax = new StableBond({
   name: "frax",
   displayName: "FRAX",
   bondToken: "FRAX",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
+  v2Bond: true,
   bondIconSvg: FraxImg,
   bondContractABI: FraxBondContract,
+  isBondable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
-      bondAddress: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514",
+      bondAddress: "0xc60a6656e08b62DD2644DC703d7855301363Cc38",
       reserveAddress: "0x853d955acef822db058eb8505911ed77f175b99e",
     },
     [NetworkID.Testnet]: {
@@ -76,9 +173,35 @@ export const lusd = new StableBond({
   name: "lusd",
   displayName: "LUSD",
   bondToken: "LUSD",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: LusdImg,
   bondContractABI: LusdBondContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x10C0f93f64e3C8D0a1b0f4B87d6155fd9e89D08D",
@@ -97,10 +220,36 @@ export const eth = new CustomBond({
   lpUrl: "",
   bondType: BondType.StableAsset,
   bondToken: "wETH",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: wETHImg,
   bondContractABI: EthBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "Taking a Spa Day",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xE6295201CD1ff13CeD5f063a5421c39A1D236F1c",
@@ -128,10 +277,36 @@ export const cvx = new CustomBond({
   lpUrl: "",
   bondType: BondType.StableAsset,
   bondToken: "CVX",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: CvxImg,
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x767e3459A35419122e5F6274fB1223d75881E0a9",
@@ -159,10 +334,36 @@ export const cvx_expired = new CustomBond({
   lpUrl: "",
   bondType: BondType.StableAsset,
   bondToken: "CVX",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: CvxImg,
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x6754c69fe02178f54ADa19Ebf1C5569826021920",
@@ -187,10 +388,85 @@ export const ohm_dai = new LPBond({
   name: "ohm_dai_lp",
   displayName: "OHM-DAI LP",
   bondToken: "DAI",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
+  v2Bond: true,
   bondIconSvg: OhmDaiImg,
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      // TODO: add correct bond address when it's created
+      bondAddress: "0x956c43998316b6a2F21f89a1539f73fB5B78c151",
+      reserveAddress: "0x055475920a8c93CfFb64d039A8205F7AcC7722d3",
+    },
+    [NetworkID.Testnet]: {
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
+  },
+  lpUrl:
+    "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
+});
+
+export const ohm_daiOld = new LPBond({
+  name: "ohm_dai_lp_old",
+  displayName: "OHM-DAI LP OLD",
+  bondToken: "DAI",
+  payoutToken: "OHM",
+  v2Bond: false,
+  bondIconSvg: OhmDaiImg,
+  bondContractABI: BondOhmDaiContract,
+  reserveContract: ReserveOhmDaiContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0x956c43998316b6a2F21f89a1539f73fB5B78c151",
@@ -209,10 +485,84 @@ export const ohm_frax = new LPBond({
   name: "ohm_frax_lp",
   displayName: "OHM-FRAX LP",
   bondToken: "FRAX",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
+  v2Bond: true,
   bondIconSvg: OhmFraxImg,
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
+  isBondable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "Out of Office",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      bondAddress: "0x99E9b0a9dC965361C2CBc07525EA591761aEaA53",
+      reserveAddress: "0xB612c37688861f1f90761DC7F382C2aF3a50Cc39",
+    },
+    [NetworkID.Testnet]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
+    },
+  },
+  lpUrl:
+    "https://app.uniswap.org/#/add/v2/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x853d955acef822db058eb8505911ed77f175b99e",
+});
+
+export const ohm_fraxOld = new LPBond({
+  name: "ohm_frax_lp_old",
+  displayName: "OHM-FRAX LP OLD",
+  bondToken: "FRAX",
+  payoutToken: "OHM",
+  v2Bond: false,
+  bondIconSvg: OhmFraxImg,
+  bondContractABI: FraxOhmBondContract,
+  reserveContract: ReserveOhmFraxContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "Out of Office",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xc20CffF07076858a7e642E396180EC390E5A02f7",
@@ -231,10 +581,36 @@ export const ohm_lusd = new LPBond({
   name: "ohm_lusd_lp",
   displayName: "OHM-LUSD LP",
   bondToken: "LUSD",
-  isAvailable: { [NetworkID.Mainnet]: false, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
+  v2Bond: false,
   bondIconSvg: OhmLusdImg,
   bondContractABI: BondOhmLusdContract,
   reserveContract: ReserveOhmLusdContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xFB1776299E7804DD8016303Df9c07a65c80F67b6",
@@ -252,12 +628,116 @@ export const ohm_lusd = new LPBond({
 
 export const ohm_weth = new CustomBond({
   name: "ohm_weth_lp",
-  displayName: "OHM-WETH LP",
+  displayName: "OHM-WETH SLP",
   bondToken: "WETH",
-  isAvailable: { [NetworkID.Mainnet]: true, [NetworkID.Testnet]: true },
+  payoutToken: "OHM",
+  v2Bond: true,
   bondIconSvg: OhmEthImg,
   bondContractABI: BondOhmEthContract,
   reserveContract: ReserveOhmEthContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "Maternity Leave",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      // TODO (appleseed): need new bond address
+      bondAddress: "0xB6C9dc843dEc44Aa305217c2BbC58B44438B6E16",
+      reserveAddress: "0x69b81152c5A8d35A67B32A4D3772795d96CaE4da",
+    },
+    [NetworkID.Testnet]: {
+      // NOTE (unbanksy): using ohm-dai rinkeby contracts
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
+  },
+  bondType: BondType.LP,
+  lpUrl:
+    "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  customTreasuryBalanceFunc: async function (this: CustomBond, networkID, provider) {
+    if (networkID === NetworkID.Mainnet) {
+      const ethBondContract = this.getContractForBond(networkID, provider);
+      let ethPrice: BigNumberish = await ethBondContract.assetPrice();
+      ethPrice = Number(ethPrice.toString()) / Math.pow(10, 8);
+      const token = this.getContractForReserve(networkID, provider);
+      const tokenAddress = this.getAddressForReserve(networkID);
+      const bondCalculator = getBondCalculator(networkID, provider, true);
+      const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_V2);
+      const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
+      const markdown = await bondCalculator.markdown(tokenAddress || "");
+      let tokenUSD =
+        (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
+      return tokenUSD * Number(ethPrice.toString());
+    } else {
+      // NOTE (appleseed): using OHM-DAI on rinkeby
+      const token = this.getContractForReserve(networkID, provider);
+      const tokenAddress = this.getAddressForReserve(networkID);
+      const bondCalculator = getBondCalculator(networkID, provider, false);
+      const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+      const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
+      const markdown = await bondCalculator.markdown(tokenAddress || "");
+      let tokenUSD =
+        (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
+      return tokenUSD;
+    }
+  },
+});
+
+export const ohm_wethOld = new CustomBond({
+  name: "ohm_weth_lp_old",
+  displayName: "OHM-WETH SLP OLD",
+  bondToken: "WETH",
+  payoutToken: "OHM",
+  v2Bond: false,
+  bondIconSvg: OhmEthImg,
+  bondContractABI: BondOhmEthContract,
+  reserveContract: ReserveOhmEthContract,
+  isBondable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  isLOLable: {
+    [NetworkID.Mainnet]: false,
+    [NetworkID.Testnet]: false,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
+  LOLmessage: "Maternity Leave",
+  isClaimable: {
+    [NetworkID.Mainnet]: true,
+    [NetworkID.Testnet]: true,
+    [NetworkID.Arbitrum]: false,
+    [NetworkID.ArbitrumTestnet]: false,
+    [NetworkID.Avalanche]: false,
+    [NetworkID.AvalancheTestnet]: false,
+  },
   networkAddrs: {
     [NetworkID.Mainnet]: {
       bondAddress: "0xB6C9dc843dEc44Aa305217c2BbC58B44438B6E16",
@@ -279,10 +759,10 @@ export const ohm_weth = new CustomBond({
       ethPrice = Number(ethPrice.toString()) / Math.pow(10, 8);
       const token = this.getContractForReserve(networkID, provider);
       const tokenAddress = this.getAddressForReserve(networkID);
-      const bondCalculator = getBondCalculator(networkID, provider);
+      const bondCalculator = getBondCalculator(networkID, provider, false);
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-      const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
-      const markdown = await bondCalculator.markdown(tokenAddress);
+      const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
+      const markdown = await bondCalculator.markdown(tokenAddress || "");
       let tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD * Number(ethPrice.toString());
@@ -290,10 +770,10 @@ export const ohm_weth = new CustomBond({
       // NOTE (appleseed): using OHM-DAI on rinkeby
       const token = this.getContractForReserve(networkID, provider);
       const tokenAddress = this.getAddressForReserve(networkID);
-      const bondCalculator = getBondCalculator(networkID, provider);
+      const bondCalculator = getBondCalculator(networkID, provider, false);
       const tokenAmount = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-      const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
-      const markdown = await bondCalculator.markdown(tokenAddress);
+      const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
+      const markdown = await bondCalculator.markdown(tokenAddress || "");
       let tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD;
@@ -305,9 +785,22 @@ export const ohm_weth = new CustomBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, cvx, ohm_dai, ohm_frax, lusd, ohm_lusd, ohm_weth];
+export const allBonds = [
+  dai,
+  frax,
+  eth,
+  cvx,
+  ohm_dai,
+  ohm_daiOld,
+  ohm_frax,
+  ohm_fraxOld,
+  lusd,
+  ohm_lusd,
+  ohm_weth,
+  ohm_wethOld,
+];
 // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-export const allExpiredBonds = [cvx_expired];
+export const allExpiredBonds = [cvx_expired, fraxOld];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});

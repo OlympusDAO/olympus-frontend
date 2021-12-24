@@ -34,10 +34,13 @@ import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-comp
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapper.svg";
+import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
 import { ethers } from "ethers";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import { trim } from "src/helpers";
 import { Trans } from "@lingui/macro";
+
+const DISABLE_ZAPS = true;
 
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
 const viewBox = "-8 -12 48 48";
@@ -53,10 +56,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ZapStakeAction(props) {
-  const { address, connect, chainID, provider } = useWeb3Context();
+  const { address, provider } = useWeb3Context();
 
   const dispatch = useDispatch();
   const classes = useStyles();
+  const networkId = useAppSelector(state => state.network.networkId);
   const tokens = useAppSelector(state => state.zap.balances);
   const isTokensLoading = useAppSelector(state => state.zap.balancesLoading);
   const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
@@ -137,7 +141,8 @@ function ZapStakeAction(props) {
     () =>
       Object.entries(tokens)
         .filter(token => token[0] !== "sohm" && !token[1].hide)
-        .map(token => token[1].img)
+        .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
+        .map(token => token[1].tokenImageUrl)
         .slice(0, 3),
     [tokens],
   );
@@ -174,18 +179,6 @@ function ZapStakeAction(props) {
     );
   };
 
-  const onZap = async () =>
-    dispatch(
-      executeZap({
-        address,
-        provider,
-        slippage: 0.02,
-        sellAmount: ethers.utils.parseUnits(inputQuantity.toString(), tokens[zapToken]?.decimals),
-        tokenAddress: tokens[zapToken]?.address,
-        networkID: chainID,
-      }),
-    );
-
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
 
   const zapperCredit = (
@@ -194,10 +187,27 @@ function ZapStakeAction(props) {
     </Box>
   );
 
+  const [isCustomSlippage, setUseCustomSlippage] = useState(false);
+  const [customSlippage, setCustomSlippage] = useState("0.01");
+
+  const onZap = async () =>
+    dispatch(
+      executeZap({
+        address,
+        provider,
+        slippage: customSlippage,
+        sellAmount: ethers.utils.parseUnits(inputQuantity.toString(), tokens[zapToken]?.decimals),
+        tokenAddress: tokens[zapToken]?.address,
+        networkID: networkId,
+      }),
+    );
+
   return (
     <>
       <div className="card-header">
-        <Typography variant="h5">OlyZaps</Typography>
+        <Typography variant="h5">
+          OlyZaps <b>(Currently disabled for upcoming migration)</b>
+        </Typography>
       </div>
 
       <ZapStakeHeader images={inputTokenImages} />
@@ -241,7 +251,7 @@ function ZapStakeAction(props) {
                     <Box flexDirection="column" display="flex">
                       <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
                         <ButtonBase onClick={handleOpen}>
-                          <Avatar src={tokens[zapToken]?.img} style={{ height: "30px", width: "30px" }} />
+                          <Avatar src={tokens[zapToken]?.tokenImageUrl} style={{ height: "30px", width: "30px" }} />
                           <Box width="10px" />
                           <Typography>{tokens[zapToken]?.symbol}</Typography>
                           {downIcon}
@@ -323,11 +333,33 @@ function ZapStakeAction(props) {
           }
         />
       </FormControl>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="12px">
+      <Box
+        justifyContent="space-between"
+        flexDirection="row"
+        display="flex"
+        width="100%"
+        marginY="12px"
+        alignItems="center"
+      >
         <Typography>
-          <Trans>Max Slippage</Trans>
+          <Trans>Slippage Tolerance</Trans>
         </Typography>
-        <Typography>2.0%</Typography>
+        {isCustomSlippage ? (
+          <FormControl variant="outlined" color="primary">
+            <InputLabel htmlFor="amount-input"></InputLabel>
+            <OutlinedInput
+              id="zap-amount-output"
+              type="number"
+              placeholder="Enter Slippage"
+              value={customSlippage}
+              onChange={e => setCustomSlippage(e.target.value)}
+            />
+          </FormControl>
+        ) : (
+          <Box display="flex" alignItems="center">
+            <Typography>1.0%</Typography>
+          </Box>
+        )}
       </Box>
       <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="12px">
         <Typography>
@@ -356,7 +388,7 @@ function ZapStakeAction(props) {
           className="zap-stake-button"
           variant="contained"
           color="primary"
-          disabled={zapToken == null || isExecuteZapLoading || outputQuantity === ""}
+          disabled={zapToken == null || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
           onClick={onZap}
         >
           {isExecuteZapLoading ? (
@@ -375,7 +407,9 @@ function ZapStakeAction(props) {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={zapToken == null || isTokensLoading || isAllowanceTxSuccess || isChangeAllowanceLoading}
+              disabled={
+                zapToken == null || isTokensLoading || isAllowanceTxSuccess || isChangeAllowanceLoading || DISABLE_ZAPS
+              }
               onClick={onSeekApproval}
               classes={isAllowanceTxSuccess ? { disabled: classes.ApprovedButton } : {}}
             >
@@ -405,7 +439,7 @@ function ZapStakeAction(props) {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === ""}
+              disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
               // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
               onClick={onZap}
             >
@@ -460,7 +494,7 @@ function ZapStakeAction(props) {
                   .map(token => (
                     <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
                       <ListItemAvatar>
-                        <Avatar src={token[1].img} />
+                        <Avatar src={token[1].tokenImageUrl} />
                       </ListItemAvatar>
                       <ListItemText primary={token[1].symbol} />
                       <Box flexGrow={10} />

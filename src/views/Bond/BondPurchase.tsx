@@ -33,7 +33,8 @@ interface IBondPurchaseProps {
 function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const { provider, address } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
 
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
@@ -70,7 +71,7 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
             value: quantity,
             slippage: Number(slippage),
             bond,
-            networkID: chainID,
+            networkID: networkId,
             provider,
             address: recipientAddress || address,
           }),
@@ -82,7 +83,7 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
           value: quantity,
           slippage: Number(slippage),
           bond,
-          networkID: chainID,
+          networkID: networkId,
           provider,
           address: recipientAddress || address,
         }),
@@ -113,7 +114,7 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
   const bondDetailsDebounce = useDebounce(quantity, 1000);
 
   useEffect(() => {
-    dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
+    dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: networkId }));
   }, [bondDetailsDebounce]);
 
   useEffect(() => {
@@ -123,15 +124,17 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
         setSecondsToRefresh(secondsToRefresh => secondsToRefresh - 1);
       }, 1000);
     } else {
-      clearInterval(interval);
-      dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
-      setSecondsToRefresh(SECONDS_TO_REFRESH);
+      if (bond.getBondability(networkId)) {
+        clearInterval(interval);
+        dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: networkId }));
+        setSecondsToRefresh(SECONDS_TO_REFRESH);
+      }
     }
     return () => clearInterval(interval);
   }, [secondsToRefresh, quantity]);
 
   const onSeekApproval = async () => {
-    dispatch(changeApproval({ address, bond, provider, networkID: chainID }));
+    dispatch(changeApproval({ address, bond, provider, networkID: networkId }));
   };
 
   const displayUnits = bond.displayUnits;
@@ -181,7 +184,7 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
                     />
                   </FormControl>
                 )}
-                {!bond.isAvailable[chainID as NetworkID] ? (
+                {!bond.isBondable[networkId as NetworkID] ? (
                   <Button
                     variant="contained"
                     color="primary"
@@ -189,7 +192,9 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
                     className="transaction-button"
                     disabled={true}
                   >
-                    <Trans>Sold Out</Trans>
+                    {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
+                    {/* <Trans>Sold Out</Trans> */}
+                    {bond.LOLmessage}
                   </Button>
                 ) : hasAllowance() ? (
                   <Button
@@ -242,7 +247,11 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
               <Trans>You Will Get</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4) || "0"} OHM`}
+              {isBondLoading ? (
+                <Skeleton width="100px" />
+              ) : (
+                `${trim(bond.bondQuote, 4) || "0"} ` + `${bond.payoutToken}`
+              )}
             </Typography>
           </div>
 
@@ -251,7 +260,11 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
               <Trans>Max You Can Buy</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice, 4) || "0"} OHM`}
+              {isBondLoading ? (
+                <Skeleton width="100px" />
+              ) : (
+                `${trim(bond.maxBondPrice, 4) || "0"} ` + `${bond.payoutToken}`
+              )}
             </Typography>
           </div>
 

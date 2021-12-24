@@ -9,12 +9,14 @@ import { Skeleton } from "@material-ui/lab";
 import { IAllBondData } from "src/hooks/Bonds";
 import { useWeb3Context } from "../../hooks/web3Context";
 import { Bond, CustomBond, LPBond, NetworkID } from "src/lib/Bond";
+import useBonds from "src/hooks/Bonds";
+import {useAppSelector} from "../../hooks";
 
 type BondUnion = CustomBond | LPBond;
 type OnChainProvider = ReturnType<typeof useWeb3Context>;
 
 export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
-  const { chainID }: OnChainProvider = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
   // Type assertion for union undefined properties
   const uBond: BondUnion | undefined = bond.isLP ? (bond as BondUnion) : undefined;
   const allBondData: IAllBondData | undefined = !(bond instanceof Bond) ? (bond as IAllBondData) : undefined;
@@ -32,7 +34,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
               <div>
                 <Link href={uBond?.lpUrl} target="_blank">
                   <Typography variant="body1">
-                    <Trans>View Contract</Trans>
+                    <Trans>Deposit LP</Trans>
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
                   </Typography>
                 </Link>
@@ -85,9 +87,11 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isAvailable[chainID as NetworkID]}>
+          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isBondable[networkId]}>
             <Typography variant="h5">
-              {!bond.isAvailable[chainID as NetworkID] ? t`Sold Out` : t`Bond ${bond.displayName}`}
+              {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
+              {/* {!bond.isBondable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`} */}
+              {bond.isLOLable[networkId] ? bond.LOLmessage : t`Bond ${bond.displayName}`}
             </Typography>
           </Button>
         </Link>
@@ -96,8 +100,8 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
   );
 }
 
-export function BondTableData({ bond }: { bond: IAllBondData | Bond }) {
-  const { chainID }: OnChainProvider = useWeb3Context();
+export function BondTableData({ bond }) {
+  const networkId = useAppSelector(state => state.network.networkId);
   // Type assertion for union undefined properties
   const uBond = bond as BondUnion;
   const allBondData = bond as IAllBondData;
@@ -114,7 +118,7 @@ export function BondTableData({ bond }: { bond: IAllBondData | Bond }) {
           {bond.isLP && (
             <Link color="primary" href={uBond.lpUrl} target="_blank">
               <Typography variant="body1">
-                <Trans>View Contract</Trans>
+                <Trans>Deposit LP</Trans>
                 <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
               </Typography>
             </Link>
@@ -144,8 +148,10 @@ export function BondTableData({ bond }: { bond: IAllBondData | Bond }) {
       </TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" disabled={!bond.isAvailable[chainID as NetworkID]}>
-            <Typography variant="h6">{!bond.isAvailable[chainID as NetworkID] ? t`Sold Out` : t`do_bond`}</Typography>
+          <Button variant="outlined" color="primary" disabled={!bond.isBondable[networkId]} style={{ width: "100%" }}>
+            {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
+            {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
+            <Typography variant="h6">{bond.isLOLable[networkId] ? bond.LOLmessage : t`do_bond`}</Typography>
           </Button>
         </Link>
       </TableCell>

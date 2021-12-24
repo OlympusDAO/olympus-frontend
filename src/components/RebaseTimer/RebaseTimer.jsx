@@ -10,7 +10,8 @@ import { Trans } from "@lingui/macro";
 
 function RebaseTimer() {
   const dispatch = useDispatch();
-  const { provider, chainID } = useWeb3Context();
+  const { provider } = useWeb3Context();
+  const networkId = useSelector(state => state.network.networkId);
 
   const SECONDS_TO_REFRESH = 60;
   const [secondsToRebase, setSecondsToRebase] = useState(0);
@@ -20,21 +21,24 @@ function RebaseTimer() {
   const currentBlock = useSelector(state => {
     return state.app.currentBlock;
   });
+  const secondsToEpoch = useSelector(state => {
+    return state.app.secondsToEpoch;
+  });
 
   function initializeTimer() {
     const rebaseBlock = getRebaseBlock(currentBlock);
     const seconds = secondsUntilBlock(currentBlock, rebaseBlock);
-    setSecondsToRebase(seconds);
-    const prettified = prettifySeconds(seconds);
+    setSecondsToRebase(secondsToEpoch);
+    const prettified = prettifySeconds(secondsToEpoch);
     setRebaseString(prettified !== "" ? prettified : <Trans>Less than a minute</Trans>);
   }
 
   // This initializes secondsToRebase as soon as currentBlock becomes available
   useMemo(() => {
-    if (currentBlock) {
+    if (secondsToEpoch) {
       initializeTimer();
     }
-  }, [currentBlock]);
+  }, [secondsToEpoch]);
 
   // After every period SECONDS_TO_REFRESH, decrement secondsToRebase by SECONDS_TO_REFRESH,
   // keeping the display up to date without requiring an on chain request to update currentBlock.
@@ -48,7 +52,7 @@ function RebaseTimer() {
       // When the countdown goes negative, reload the app details and reinitialize the timer
       if (secondsToRebase < 0) {
         async function reload() {
-          await dispatch(loadAppDetails({ networkID: chainID, provider: provider }));
+          await dispatch(loadAppDetails({ networkID: networkId, provider: provider }));
         }
         reload();
         setRebaseString("");

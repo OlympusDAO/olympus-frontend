@@ -20,7 +20,7 @@ const darkTheme = {
     radial-gradient(circle at 10% 0%, rgba(187, 211, 204, 0.33), rgba(187,211,204,0) 35%),
     radial-gradient(circle at 11% 100%, rgba(131, 165, 203, 0.3), rgba(131, 165, 203, 0) 30%)
     `,
-  paperBg: "rgba(54, 56, 64, 0.4)",
+  paperBg: "rgba(54, 56, 64, 0.6)",
   modalBg: "#24242699",
   popoverBg: "rgba(54, 56, 64, 0.99)",
   menuBg: handleBackdropFilter("rgba(54, 56, 64, 0.5)"),
@@ -39,6 +39,8 @@ const darkTheme = {
   outlinedSecondaryButtonHoverColor: "#F8CC82", //gold
   containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
   graphStrokeColor: "rgba(255, 255, 255, .1)",
+  gridButtonHoverBackground: "rgba(255, 255, 255, 0.6)",
+  gridButtonActiveBackground: "#00000038",
 };
 
 export const dark = responsiveFontSizes(
@@ -84,6 +86,9 @@ export const dark = responsiveFontSizes(
           paper: {
             backgroundColor: darkTheme.paperBg,
             zIndex: 7,
+            "@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none))": {
+              backgroundColor: "rgba(54, 56, 64, 0.98)",
+            },
           },
         },
         MuiSelect: {
@@ -107,7 +112,7 @@ export const dark = responsiveFontSizes(
             "&.ohm-popover": {
               backgroundColor: darkTheme.popoverBg,
               color: darkTheme.color,
-              backdropFilter: "blur(15px)",
+              // backdropFilter: "blur(15px)",
             },
           },
         },
@@ -268,6 +273,39 @@ export const dark = responsiveFontSizes(
             color: darkTheme.color,
             "&:hover": {
               color: darkTheme.textHighlightColor,
+            },
+          },
+          "&.grid-button-text": {
+            color: "#FFFFFF",
+          },
+        },
+        MuiTypography: {
+          root: {
+            "&.grid-message-typography": {
+              color: "#A3A3A3",
+            },
+            "&.chain-highlight": {
+              color: "#DADADA",
+            },
+            "&.current": {
+              color: darkTheme.gold,
+            },
+          },
+        },
+        MuiGrid: {
+          root: {
+            "&.grid-button": {
+              borderColor: `#FFFFFF !important`,
+              "&:hover": {
+                backgroundColor: darkTheme.gridButtonHoverBackground,
+              },
+              "&.current": {
+                borderColor: `${darkTheme.gold} !important`,
+                backgroundColor: darkTheme.gridButtonActiveBackground,
+                "&:hover": {
+                  backgroundColor: darkTheme.gridButtonHoverBackground,
+                },
+              },
             },
           },
         },

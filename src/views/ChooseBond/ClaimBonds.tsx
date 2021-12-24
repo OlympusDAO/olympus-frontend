@@ -7,15 +7,15 @@ import CardHeader from "../../components/CardHeader/CardHeader";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "src/hooks/Bonds";
 import {
-  Button,
   Box,
+  Button,
   Paper,
+  Table,
+  TableBody,
+  TableCell,
   TableContainer,
   TableHead,
-  TableBody,
   TableRow,
-  TableCell,
-  Table,
   Zoom,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -26,8 +26,9 @@ import { useAppSelector } from "src/hooks";
 
 function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
-  const { bonds } = useBonds(chainID);
+  const { provider, address } = useWeb3Context();
+  const networkId = useAppSelector(state => state.network.networkId);
+  const { bonds } = useBonds(networkId);
 
   const [numberOfBonds, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
@@ -50,7 +51,7 @@ function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
   const onRedeemAll = async ({ autostake }: { autostake: boolean }) => {
     console.log("redeeming all bonds");
 
-    await dispatch(redeemAllBonds({ address, bonds, networkID: chainID, provider, autostake }));
+    await dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
 
     console.log("redeem all complete");
   };
