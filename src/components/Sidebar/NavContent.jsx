@@ -35,6 +35,7 @@ import "./sidebar.scss";
 import { useSelector } from "react-redux";
 import { EnvHelper } from "src/helpers/Environment";
 import { ExpandMore } from "@material-ui/icons";
+import Davatar from "@davatar/react";
 
 function NavContent() {
   const [isActive] = useState();
@@ -95,6 +96,7 @@ function NavContent() {
 
             {address && (
               <div className="wallet-link">
+                <Davatar size={20} address={address} style={{ marginRight: 8 }} />
                 <Link href={`https://etherscan.io/address/${address}`} target="_blank">
                   {ensName || shorten(address)}
                 </Link>

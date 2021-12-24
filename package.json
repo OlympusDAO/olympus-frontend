@@ -16,6 +16,7 @@
   "dependencies": {
     "@apollo/client": "^3.4.17",
     "@apollo/react-hooks": "^4.0.0",
+    "@davatar/react": "^1.8.1",
     "@ethersproject/address": "^5.0.5",
     "@ethersproject/bignumber": "^5.4.0",
     "@ethersproject/bytes": "^5.0.5",
