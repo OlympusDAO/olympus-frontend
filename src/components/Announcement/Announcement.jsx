@@ -4,6 +4,7 @@ import { Box, IconButton, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { NETWORKS, NEWEST_NETWORK_ID } from "src/constants";
 import Pill from "../Pill/Pill";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import "./Announcement.scss";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Trans } from "@lingui/macro";
@@ -24,7 +25,7 @@ function Announcement() {
             <Box style={{ width: "2%" }}></Box>
             <Box display="flex" alignItems="center">
               <Box className="new-network-box" style={{ marginRight: "10px" }}>
-                <Pill message="Info" style={{ color: "#F8CC82" }} />
+                <SvgIcon component={InfoIcon} />
               </Box>
 
               <Box className="new-network-box">
