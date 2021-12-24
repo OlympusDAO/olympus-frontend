@@ -54,7 +54,7 @@ export const PoolPrize = () => {
   // handleAward not used yet
   const handleAward = (action: string) => {
     console.log(`run ${action} on pool`);
-    dispatch(awardProcess({ action, provider, networkID}));
+    //dispatch(awardProcess({ action, provider, networkID}));
   };
 
   const rngQueryFunc = () => {

@@ -147,7 +147,7 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement
   );
 };
 
-export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
+export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }) => {
   const networkId = useAppSelector(state => state.network.networkId);
 
   if (typeof bond.bondDiscount === undefined || !bond.getBondability(networkId)) {

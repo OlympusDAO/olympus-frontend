@@ -13,7 +13,7 @@ import {
 import { t, Trans } from "@lingui/macro";
 import ConnectButton from "../../components/ConnectButton";
 import { useAppSelector, useWeb3Context } from "../../hooks";
-import { getTokenImage } from "src/helpers/index";
+import { getTokenImage } from "src/helpers";
 import { calculateOdds, trimOdds } from "src/helpers/33Together";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, poolDeposit } from "src/slices/PoolThunk";
@@ -59,7 +59,7 @@ export const PoolDeposit = (props: PoolDepositProps) => {
   });
 
   const onSeekApproval = async (token: string) => {
-    await dispatch(changeApproval({ address, token, provider, networkID}));
+    await dispatch(changeApproval({ address, token, provider, networkID }));
   };
 
   const onDeposit = async (action: string) => {
@@ -73,7 +73,17 @@ export const PoolDeposit = (props: PoolDepositProps) => {
   };
 
   const onSubmitDeposit = async (action: string) => {
-    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID}));
+    await dispatch(
+      poolDeposit({
+        rebase: false,
+        version2: false,
+        address,
+        action,
+        value: quantity.toString(),
+        provider,
+        networkID,
+      }),
+    );
   };
 
   const hasAllowance = useCallback(() => {

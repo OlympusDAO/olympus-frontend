@@ -24,7 +24,7 @@ import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
-import { changeApproval, changeWrap, changeWrapV2 } from "../../slices/WrapThunk";
+import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import { migrateWithType, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
 import { switchNetwork } from "../../slices/NetworkSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -36,11 +36,11 @@ import { ethers } from "ethers";
 import "../Stake/stake.scss";
 import { Metric, MetricCollection } from "src/components/Metric";
 import { t } from "@lingui/macro";
-import { useAppSelector } from "src/hooks/index.ts";
-import WrapCrossChain from "./WrapCrossChain.tsx";
-import { loadAccountDetails } from "src/slices/AccountSlice";
-
 import { useAppSelector } from "src/hooks";
+import WrapCrossChain from "./WrapCrossChain";
+import { loadAccountDetails } from "src/slices/AccountSlice";
+import { Network } from "@ethersproject/providers";
+import { NetworkID } from "../../lib/Bond";
 
 function a11yProps(index: number) {
   return {
@@ -51,6 +51,7 @@ function a11yProps(index: number) {
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
+    // @ts-ignore
     color: theme.palette.highlight,
   },
 }));
@@ -58,8 +59,8 @@ const useStyles = makeStyles(theme => ({
 function Wrap() {
   const dispatch = useDispatch();
   const { provider, address, connect } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
-  const networkName = useSelector(state => state.network.networkName);
+  const networkID = useAppSelector(state => state.network.networkId);
+  const networkName = useAppSelector(state => state.network.networkName);
 
   const [zoomed, setZoomed] = useState(false);
   const [assetFrom, setAssetFrom] = useState("sOHM");
@@ -83,19 +84,24 @@ function Wrap() {
 
   const sOhmPrice = useAppSelector(state => {
     return state.app.marketPrice;
-  });
+  }) as number;
 
   const gOhmPrice = useSelector(state => {
+    // @ts-ignore
     return Number(state.app.marketPrice) * Number(state.app.currentIndex);
-  });
+  }) as number;
 
-  const sohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
-  });
+  const sohmBalance = Number(
+    useAppSelector(state => {
+      return state.account.balances && state.account.balances.sohm;
+    }),
+  ) as number;
 
-  const gohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gohm;
-  });
+  const gohmBalance = Number(
+    useAppSelector(state => {
+      return state.account.balances && state.account.balances.gohm;
+    }),
+  );
 
   const unwrapGohmAllowance = useAppSelector(state => {
     return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
@@ -106,24 +112,26 @@ function Wrap() {
   });
 
   const pendingTransactions = useSelector(state => {
+    //TODO: (aphex) add to state interface
+    //@ts-ignore
     return state.pendingTransactions;
   });
 
   const avax = NETWORKS[43114];
   const arbitrum = NETWORKS[42161];
 
-  const isAvax = useMemo(() => networkId != 1 && networkId != 4 && networkId != -1, [networkId]);
+  const isAvax = useMemo(() => networkID != 1 && networkID != 4 && networkID != -1, [networkID]);
 
   const wrapButtonText =
     assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap") + " to gOHM" : `${currentAction} ${assetFrom}`;
 
   const setMax = () => {
-    if (assetFrom === "sOHM") setQuantity(sohmBalance);
-    if (assetFrom === "gOHM") setQuantity(gohmBalance);
+    if (assetFrom === "sOHM") setQuantity(sohmBalance.toString());
+    if (assetFrom === "gOHM") setQuantity(gohmBalance.toString());
   };
 
-  const handleSwitchChain = id => {
-    return () => {
+  const handleSwitchChain = (id: NetworkID) => {
+    return (_e: React.ChangeEvent<unknown>) => {
       dispatch(switchNetwork({ provider: provider, networkId: id }));
       dispatch(loadAccountDetails({ address, provider, networkID: id }));
     };
@@ -136,13 +144,15 @@ function Wrap() {
     return 0;
   }, [unwrapGohmAllowance, wrapSohmAllowance, assetTo, assetFrom, sohmBalance, gohmBalance]);
 
+  //the following is possibly always false, do we need it?
+  //@ts-ignore
   const isAllowanceDataLoading = currentAction === "Unwrap";
   // const convertedQuantity = 0;
   const convertedQuantity = useMemo(() => {
     if (assetFrom === "sOHM") {
-      return quantity / currentIndex;
+      return Number(quantity) / Number(currentIndex);
     } else if (assetTo === "sOHM") {
-      return quantity * currentIndex;
+      return Number(quantity) * Number(currentIndex);
     } else {
       return quantity;
     }
@@ -156,26 +166,48 @@ function Wrap() {
     </Button>,
   );
 
-  const changeAssetFrom = event => {
+  const changeAssetFrom = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => {
     setQuantity("");
-    setAssetFrom(event.target.value);
+    //TODO: (aphex): improve this
+    setAssetFrom(String(event.target.value));
   };
 
-  const changeAssetTo = event => {
+  const changeAssetTo = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => {
     setQuantity("");
-    setAssetTo(event.target.value);
+    //TODO: (aphex): improve this
+    setAssetTo(String(event.target.value));
   };
 
-  const approveWrap = token => {
-    dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
+  const approveWrap = (token: string) => {
+    dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkID }));
   };
 
   const unwrapGohm = () => {
-    dispatch(changeWrapV2({ action: "unwrap", value: quantity, provider, address, networkID: networkId }));
+    dispatch(
+      changeWrapV2({
+        rebase: false,
+        version2: true, //TODO: (aphex) CHECK THIS!
+        action: "unwrap",
+        value: quantity,
+        provider,
+        address,
+        networkID: networkID,
+      }),
+    );
   };
 
   const wrapSohm = () => {
-    dispatch(changeWrapV2({ action: "wrap", value: quantity, provider, address, networkID: networkId }));
+    dispatch(
+      changeWrapV2({
+        rebase: false,
+        version2: false,
+        action: "wrap",
+        value: quantity,
+        provider,
+        address,
+        networkID: networkID,
+      }),
+    );
   };
 
   const approveCorrectToken = () => {
@@ -265,6 +297,8 @@ function Wrap() {
   };
 
   if (!isAvax) {
+    // @ts-ignore
+    // @ts-ignore
     return (
       <div id="stake-view" className="wrapper">
         <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -293,17 +327,17 @@ function Wrap() {
                 <MetricCollection>
                   <Metric
                     label={`sOHM ${t`Price`}`}
-                    metric={formatCurrency(sOhmPrice, 2)}
+                    metric={formatCurrency(Number(sOhmPrice), 2)}
                     isLoading={sOhmPrice ? false : true}
                   />
                   <Metric
                     label={t`Current Index`}
-                    metric={trim(currentIndex, 1)}
+                    metric={trim(Number(currentIndex), 1)}
                     isLoading={currentIndex ? false : true}
                   />
                   <Metric
                     label={`${assetTo} ${t`Price`}`}
-                    metric={formatCurrency(gOhmPrice, 2)}
+                    metric={formatCurrency(Number(gOhmPrice), 2)}
                     isLoading={gOhmPrice ? false : true}
                     tooltip={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
                   />
@@ -396,29 +430,19 @@ function Wrap() {
                         </div>
 
                         <Divider />
-                        <Box width="100%" align="center" p={1}>
+                        <Box width="100%" p={1}>
                           <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
                             Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
                             bridge required!)
                           </Typography>
-                          <Button
-                            onClick={handleSwitchChain(43114)}
-                            variant="outlined"
-                            p={1}
-                            style={{ margin: "0.3rem" }}
-                          >
-                            <img height="28px" width="28px" src={avax.image} alt={avax.imageAltText} />
+                          <Button onClick={handleSwitchChain(43114)} variant="outlined" style={{ margin: "0.3rem" }}>
+                            <img height="28px" width="28px" src={String(avax.image)} alt={avax.imageAltText} />
                             <Typography variant="h6" style={{ marginLeft: "8px" }}>
                               {avax.chainName}
                             </Typography>
                           </Button>
-                          <Button
-                            onClick={handleSwitchChain(42161)}
-                            variant="outlined"
-                            p={1}
-                            style={{ margin: "0.3rem" }}
-                          >
-                            <img height="28px" width="28px" src={arbitrum.image} alt={arbitrum.imageAltText} />
+                          <Button onClick={handleSwitchChain(42161)} variant="outlined" style={{ margin: "0.3rem" }}>
+                            <img height="28px" width="28px" src={String(arbitrum.image)} alt={arbitrum.imageAltText} />
                             <Typography variant="h6" style={{ marginLeft: "8px" }}>
                               {arbitrum.chainName}
                             </Typography>

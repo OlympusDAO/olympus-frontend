@@ -14,12 +14,12 @@ export const getLusdData = createAsyncThunk(
     } else {
       // calcing APY & tvl
       const crucibleDetes = await calcAludelDetes(networkID, provider);
-      let avgApy = crucibleDetes.averageApy;
-      if (isNaN(avgApy)) avgApy = 0;
+      let avgApy = crucibleDetes?.averageApy;
+      if (isNaN(<number>avgApy)) avgApy = 0;
 
       return {
         apy: avgApy,
-        tvl: crucibleDetes.tvlUsd,
+        tvl: crucibleDetes?.tvlUsd,
         // NOTE (appleseed): balance is in accountSlice for the bond
         // balance: ethers.utils.formatUnits(sushiOhmLusdBalance, "gwei"),
       };

@@ -152,11 +152,10 @@ export const migrateWithType = createAsyncThunk(
       const text = `Migrate ${type} Tokens`;
       const pendingTxnType = `migrate`;
 
-      if(migrateTx){
-
-      dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
-      await migrateTx.wait();
-      dispatch(info(action));
+      if (migrateTx) {
+        dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
+        await migrateTx.wait();
+        dispatch(info(action));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));

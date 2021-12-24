@@ -7,7 +7,7 @@ import {
   Paper,
   SvgIcon,
   Table,
-    TableHead,
+  TableHead,
   TableBody,
   TableCell,
   TableContainer,
@@ -33,20 +33,19 @@ import gOhmImage from "src/assets/tokens/gohm.png";
 import MultiLogo from "src/components/MultiLogo";
 const avatarStyle = { height: "35px", width: "35px", marginInline: "-4px", marginTop: "16px" };
 
-
-
-
-
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connect} = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, hasCachedProvider, address, connect } = useWeb3Context();
+  const networkID = useAppSelector(state => state.network.networkId);
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
-  const isLusdLoading = useAppSelector(state => state.lusdData.loading);
-  const lusdData = useAppSelector(state => {
+  //TODO: (aphex) is this being used?
+  // @ts-ignore
+  //const isLusdLoading = useAppSelector(state => state.lusdData.loading);
+  /*const lusdData = useAppSelector(state => {
+    // @ts-ignore
     return state.lusdData;
   });
 
@@ -55,9 +54,9 @@ export default function ExternalStakePool() {
   });
 
   const loadLusdData = async () => {
-    await dispatch(getLusdData({ address: address, provider: provider, networkID: chainID }));
+    await dispatch(getLusdData({ address: address, provider: provider, networkID }));
   };
-
+*/
   useEffect(() => {
     if (hasCachedProvider()) {
       // then user DOES have a wallet
@@ -73,12 +72,12 @@ export default function ExternalStakePool() {
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
   useEffect(() => {
     // don't load ANY details until wallet is Checked
-    if (walletChecked && networkId !== -1) {
+    if (walletChecked && networkID !== -1) {
       // view specific redux actions can be dispatched here
       //TODO: (aphex) this useEffect is doing nothing after migration
       //loadLusdData();
     }
-  }, [walletChecked, networkId, address, provider]);
+  }, [walletChecked, networkID, address, provider]);
 
   return (
     <Zoom in={true}>

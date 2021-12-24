@@ -20,7 +20,7 @@ interface PoolInfoProps {
 
 export const PoolInfo = (props: PoolInfoProps) => {
   const [poolLoadedCount, setPoolLoadedCount] = useState(0);
-  const { address} = useWeb3Context();
+  const { address } = useWeb3Context();
   const isPoolLoading = useAppSelector(state => state.poolData.loading ?? true);
   const networkId = useAppSelector(state => state.network.networkId);
 

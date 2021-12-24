@@ -14,7 +14,7 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
   const dispatch = useDispatch();
   const { address, provider } = useWeb3Context();
   const networkID = useAppSelector(state => state.network.networkId);
-  const { bonds, expiredBonds } = useBonds(networkId);
+  const { bonds, expiredBonds } = useBonds(networkID);
 
   const bond = userBond[1];
   const bondName = bond.bond;
@@ -77,7 +77,7 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
   const dispatch = useDispatch();
   const { address, provider } = useWeb3Context();
   const networkID = useAppSelector(state => state.network.networkId);
-  const { bonds, expiredBonds } = useBonds(networkId);
+  const { bonds, expiredBonds } = useBonds(networkID);
 
   const bond = userBond[1];
   const bondName = bond.bond;

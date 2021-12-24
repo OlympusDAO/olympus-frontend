@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import {
   Box,
   Button,
@@ -16,7 +15,7 @@ import { Skeleton } from "@material-ui/lab";
 import { t, Trans } from "@lingui/macro";
 import ConnectButton from "../../components/ConnectButton";
 import { useAppDispatch, useAppSelector, useWeb3Context } from "../../hooks";
-import { getTokenImage } from "src/helpers/index";
+import { getTokenImage } from "src/helpers";
 import { trim } from "src/helpers";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getEarlyExitFee, IEarlyExitFeePayload, poolWithdraw } from "../../slices/PoolThunk";
@@ -34,10 +33,10 @@ interface IPoolWithdrawProps {
 
 export const PoolWithdraw = (props: IPoolWithdrawProps) => {
   const dispatch = useAppDispatch();
-  const { provider, address} = useWeb3Context();
+  const { provider, address } = useWeb3Context();
   const [quantity, setQuantity] = useState(0);
-  const networkID = useAppSelector(state => state.network.networkId):
-const [exitFee, setExitFee] = useState(0);
+  const networkID = useAppSelector(state => state.network.networkId);
+  const [exitFee, setExitFee] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
   const isPoolLoading = useAppSelector(state => state.poolData.loading);
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -64,15 +63,23 @@ const [exitFee, setExitFee] = useState(0);
       // eslint-disable-next-line no-alert
       dispatch(error(t`Please enter a value!`));
     } else {
-      await dispatch(poolWithdraw({ action, value: quantity.toString(), provider, address, networkID: networkId }));
+      await dispatch(
+        poolWithdraw({
+          rebase: false,
+          version2: false,
+          action,
+          value: quantity.toString(),
+          provider,
+          address,
+          networkID,
+        }),
+      );
     }
   };
 
   // go fetch the Exit Fee from the contract
   const calcEarlyExitFee = async () => {
-    const result = await dispatch(
-      getEarlyExitFee({ value: quantity.toString(), provider, address, networkID: networkId }),
-    );
+    const result = await dispatch(getEarlyExitFee({ value: quantity.toString(), provider, address, networkID }));
     if (result.payload) {
       let userBalanceAfterWithdraw = poolBalance - quantity;
       let userOdds = calculateOdds(userBalanceAfterWithdraw.toString(), props.totalPoolDeposits, Number(props.winners));
