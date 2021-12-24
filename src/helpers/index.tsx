@@ -273,6 +273,16 @@ export const handleContractError = (e: any) => {
   if (EnvHelper.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
 };
 
+/**
+ * Converts a supported networkId to its hexadecimal value as a string
+ */
+export const networkIdToHexString = (id: NetworkId) => "0x" + id.toString(16);
+
+/**
+ * Determines if app is viewed within an <iframe></iframe>
+ */
+export const isIFrame = () => window.location !== window.parent.location;
+
 interface ICheckBalance extends IBaseAsyncThunk {
   readonly sOHMbalance: string;
 }
