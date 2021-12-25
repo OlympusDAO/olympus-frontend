@@ -1,4 +1,4 @@
-name: Lighthouse PWA CI
+name: Lighthouse PWA Test
 
 on:
   # local lighthouse test can run on PR and push
