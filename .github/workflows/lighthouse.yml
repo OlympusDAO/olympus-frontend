@@ -16,6 +16,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build PWA distribution for production
       run: |
+          yarn install --frozen-lockfile
           yarn build
       env:
           CI: true
