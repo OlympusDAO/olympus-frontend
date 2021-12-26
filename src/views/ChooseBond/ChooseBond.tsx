@@ -26,7 +26,7 @@ import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { Metric, MetricCollection } from "src/components/Metric";
+import { Metric, MetricCollection } from "@olympusdao/component-library";
 
 function ChooseBond() {
   const networkId = useAppSelector(state => state.network.networkId);
