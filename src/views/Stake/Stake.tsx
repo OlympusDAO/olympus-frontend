@@ -42,9 +42,7 @@ import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
 import StakeRow from "./StakeRow";
-import { Metric, MetricCollection } from "../../components/Metric";
-import { PrimaryButton } from "@olympusdao/component-library";
-
+import { Metric, MetricCollection, PrimaryButton } from "@olympusdao/component-library";
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
