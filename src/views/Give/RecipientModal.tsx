@@ -31,7 +31,7 @@ import { IAccountSlice } from "../../slices/AccountSlice";
 import { Project } from "src/components/GiveProject/project.type";
 const sOhmImg = getTokenImage("sohm");
 import { shorten } from "src/helpers";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";

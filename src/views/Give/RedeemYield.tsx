@@ -23,7 +23,7 @@ import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxns
 import { IAppData } from "src/slices/AppSlice";
 import { BigNumber } from "bignumber.js";
 import { t, Trans } from "@lingui/macro";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 import { useAppSelector } from "src/hooks";
