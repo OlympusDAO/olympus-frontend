@@ -21,7 +21,7 @@ function Announcement() {
     <div className="announcement-banner ohm-card">
       {newNetworkVisible && (
         <>
-          <Paper className="new-network" style={isMobileScreen ? {} : { width: "100%" }}>
+          <Paper className="new-network" style={isMobileScreen ? { borderRadius: 0 } : { width: "100%" }}>
             <Box style={{ width: "2%" }}></Box>
             <Box display="flex" alignItems="center">
               <Box className="new-network-box" style={{ marginRight: "10px" }}>

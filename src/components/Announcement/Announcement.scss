@@ -23,11 +23,9 @@
 .mobile .announcement-banner {
   top: unset;
   bottom: 0 !important;
+  margin: 0;
   left: 0;
   right: 0;
-  max-width: 80%;
+  max-width: 100%;
   position: fixed;
-  .MuiPaper-root {
-    border-radius: 10px;
-  }
 }
