@@ -145,9 +145,24 @@ function Stake() {
 
   const onSeekApproval = async (token: string) => {
     if (token === "gohm") {
-      await dispatch(changeGohmApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
+      await dispatch(
+        changeGohmApproval({
+          address,
+          token: token.toLowerCase(),
+          provider,
+          networkID: networkId,
+        }),
+      );
     } else {
-      await dispatch(changeApproval({ address, token, provider, networkID: networkId, version2: true }));
+      await dispatch(
+        changeApproval({
+          address,
+          token,
+          provider,
+          networkID: networkId,
+          version2: true,
+        }),
+      );
     }
   };
 
@@ -179,7 +194,11 @@ function Stake() {
     // const formQuant = checked && currentIndex && view === 1 ? quantity / Number(currentIndex) : quantity;
     const formQuant = async () => {
       if (confirmation && currentIndex && view === 1) {
-        return await getGohmBalFromSohm({ provider, networkID: networkId, sOHMbalance: quantity });
+        return await getGohmBalFromSohm({
+          provider,
+          networkID: networkId,
+          sOHMbalance: quantity,
+        });
       } else {
         return quantity;
       }
@@ -249,7 +268,7 @@ function Stake() {
 
   return (
     <div id="stake-view">
-      <Paper headerText={`${t`Single Stake`} (3, 3)`} headerContent={<RebaseTimer />}>
+      <Paper headerText={`${t`Single Stake`}} (3,3)`} headerContent={<RebaseTimer />}>
         <Grid item>
           <MetricCollection>
             <Metric
@@ -267,7 +286,7 @@ function Stake() {
             <Metric
               className="stake-index"
               label={t`Current Index`}
-              metric={`${formattedCurrentIndex} OHM`}
+              metric={`${formattedCurrentIndex} sOHM`}
               isLoading={currentIndex ? false : true}
             />
           </MetricCollection>
@@ -317,7 +336,8 @@ function Stake() {
                           <Typography variant="body1" className="stake-note" color="textSecondary">
                             {view === 0 ? (
                               <>
-                                <Trans>First time staking</Trans> <b>OHM</b>?
+                                <Trans>First time staking</Trans> <b>OHM</b>
+                                ?
                                 <br />
                                 <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b>{" "}
                                 <Trans>for staking</Trans>.
@@ -425,7 +445,7 @@ function Stake() {
                   balance={`${trim(Number(ohmBalance), 4)} OHM`}
                   {...{ isAppLoading }}
                 />
-                <Accordion className="stake-accordion" square defaultExpanded={true}>
+                <Accordion className="stake-accordion" square defaultExpanded>
                   <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
                     <StakeRow
                       title={t`Staked Balance`}
@@ -482,7 +502,7 @@ function Stake() {
                     {Number(fsohmBalance) > 0.00009 && (
                       <StakeRow
                         title={t`Staked Balance in Fuse`}
-                        balance={`${trim(Number(fsohmBalance), 4)} fsOHM (v1)`}
+                        balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
                         indented
                         {...{ isAppLoading }}
                       />
