@@ -1,8 +1,9 @@
 import { memo } from "react";
 import "./treasury-dashboard.scss";
-import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography } from "@material-ui/core";
+import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography, SvgIcon } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
+import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 
 import {
   TotalValueDepositedGraph,
@@ -45,8 +46,14 @@ const TreasuryDashboard = memo(() => {
             // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
             style={{ wordBreak: "break-word" }}
           >
-            Olympus is currently migrating to improved contracts. Please note that during this time, frontend metrics
-            may be inaccurate.
+            <Box alignItems={"center"} display={"flex"}>
+              <SvgIcon component={InfoIcon} />
+              <Box width={10} />
+              <Typography>
+                Olympus is currently migrating to improved contracts. Please note that during this time, frontend
+                metrics may be inaccurate.
+              </Typography>
+            </Box>
           </Alert>
         </Box>
 
