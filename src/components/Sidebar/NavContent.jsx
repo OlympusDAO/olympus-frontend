@@ -95,7 +95,7 @@ function NavContent() {
 
             {address && (
               <div className="wallet-link">
-                <img className="avatar" src={ensAvatar} />
+                {ensAvatar && <img className="avatar" src={ensAvatar} />}
                 <Link href={`https://etherscan.io/address/${address}`} target="_blank">
                   {ensName || shorten(address)}
                 </Link>
