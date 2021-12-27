@@ -16,7 +16,7 @@ interface StakePoolProps {
   icons: ElementType[];
   stakeOn: string;
   href: string;
-  // apy: string;
+  apy: string;
 }
 
 const MultiLogo = ({ icons, size = 35 }: { icons: ElementType[]; size?: number }) => (
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const StakePool = ({ poolName, icons, stakeOn, href }: StakePoolProps) => {
+const StakePool = ({ poolName, icons, stakeOn, href, apy }: StakePoolProps) => {
   const theme = useTheme();
   const styles = useStyles();
   return (
@@ -48,11 +48,23 @@ const StakePool = ({ poolName, icons, stakeOn, href }: StakePoolProps) => {
       style={{ gap: theme.spacing(1.5) }}
     >
       <Box sx={{ display: "flex", alignItems: "center", flexBasis: "300px", flexGrow: 2 }}>
-        <MultiLogo icons={icons} />
-        <Box width="16px" />
-        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {poolName} {/*<br /> <span style={{ color: theme.palette.text.secondary }}>APY: {apy}</span>*/}
-        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <MultiLogo icons={icons} />
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "0.2rem" }}>
+            {poolName}
+          </Typography>
+        </Box>
+        <Box width="16px" sx={{ display: "flex", justifyContent: "space-around", flexGrow: 1 }}>
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+            {apy}
+          </Typography>
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+            $624,829
+          </Typography>
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+            10.0LP
+          </Typography>
+        </Box>
       </Box>
       <Box sx={{ display: "flex", flexBasis: "200px", flexGrow: 1, maxWidth: "500px" }}>
         <Button
@@ -125,28 +137,28 @@ export default function ExternalStakePool() {
             poolName="gOHM-AVAX"
             icons={[gOhmImage, avaxImage]}
             stakeOn="Trader Joe"
-            // apy={"11.08% + 28.51%"}
+            apy={"11.08%"}
             href="https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
           />
           <StakePool
             poolName="gOHM-AVAX"
             icons={[gOhmImage, avaxImage]}
             stakeOn="Pangolin"
-            // apy={"18.00% + 68.00%"}
+            apy={"68.00%"}
             href="https://app.pangolin.exchange/#/png/0x321E7092a180BB43555132ec53AaA65a5bF84251/AVAX/2"
           />
           <StakePool
             poolName="gOHM-wETH"
             icons={[gOhmImage, wEthImage]}
             stakeOn="Sushi (Arbitrum)"
-            // apy={"43.99% + 4.65%"}
+            apy={"43.99%"}
             href="https://app.sushi.com/farm?filter=2x"
           />
           <StakePool
             poolName="gOHM-wETH"
             icons={[gOhmImage, wEthImage]}
             stakeOn="Sushi (Polygon)"
-            // apy={"62.98% + 10.90%"}
+            apy={"10.90%"}
             href="https://app.sushi.com/farm?filter=2x"
           />
           {/* <StakePool
