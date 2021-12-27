@@ -58,7 +58,7 @@
     "lodash": "^4.17.21",
     "markdown-it": "^12.3.0",
     "material-ui": "^0.20.2",
-    "node-sass": "^7.0.0",
+    "node-sass": "^6.0.1",
     "node-watch": "^0.7.1",
     "postcss": "^8.3.5",
     "qrcode.react": "^1.0.0",
@@ -75,7 +75,7 @@
     "react-query": "^3.32.3",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^5.0.0",
+    "react-scripts": "^4.0.3",
     "react-uid": "^2.3.1",
     "recharts": "^2.0.10",
     "redux": "^4.1.0",
@@ -159,6 +159,8 @@
     "**/browserslist": "4.16.5",
     "**/node-fetch": "2.6.1",
     "**/nth-check": "2.0.1",
-    "**/ansi-regex": "5.0.1"
+    "**/ansi-regex": "5.0.1",
+    "**/prompts": "2.4.2",
+    "**/shell-quote": "1.7.3"
   }
 }
