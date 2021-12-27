@@ -31,7 +31,8 @@ function Announcement() {
               <Box className="new-network-box">
                 <Typography variant="body2">
                   <Trans>
-                    Treasury Stats are inaccurate during the migration. Please check discord if you have any questions.
+                    Treasury stats may be inaccurate during the migration. Please check discord if you have any
+                    questions.
                   </Trans>
                 </Typography>
               </Box>
