@@ -96,7 +96,9 @@ function NavContent() {
 
             {address && (
               <div className="wallet-link">
-                <Davatar size={20} address={address} style={{ marginRight: 8 }} generatedAvatarType="jazzicon" />
+                <div className="davatar">
+                  <Davatar size={20} address={address} generatedAvatarType="jazzicon" />
+                </div>
                 <Link href={`https://etherscan.io/address/${address}`} target="_blank">
                   {ensName || shorten(address)}
                 </Link>
