@@ -1,7 +1,7 @@
 import { Component, ReactElement, useState } from "react";
 import {
   useTheme,
-  makeStyles,
+  useMediaQuery,
   withStyles,
   SvgIcon,
   Button,
@@ -9,6 +9,7 @@ import {
   Box,
   Divider,
   IconButton,
+  Paper,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
@@ -28,6 +29,7 @@ import { ohm_frax, ohm_dai } from "src/helpers/AllBonds";
 import { IToken, Token, Tokens, useWallet } from "./Token";
 import { NetworkID } from "src/lib/Bond";
 import { BigNumber } from "ethers";
+import { t, Trans } from "@lingui/macro";
 
 const Borrow = ({
   Icon1,
@@ -112,7 +114,7 @@ const DisconnectButton = () => {
   const { disconnect } = useWeb3Context();
   return (
     <Button onClick={disconnect} variant="contained" size="large" color="secondary">
-      <Typography>Disconnect</Typography>
+      <Trans>Disconnect</Trans>
     </Button>
   );
 };
@@ -125,30 +127,26 @@ const CloseButton = withStyles(theme => ({
   },
 }))(IconButton);
 
-const sumAllChainsTokenBalances = (token: IToken) =>
-  token.crossChainBalances?.balances &&
-  Object.values(token.crossChainBalances.balances).reduce((sum, b = "0.0") => sum + parseFloat(b), 0);
-
 const WalletTotalValue = () => {
   const tokens = useWallet();
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const marketPrice = useAppSelector(s => s.app.marketPrice || 0);
   const [currency, setCurrency] = useState<"USD" | "OHM">("USD");
 
-  const walletTotalValueUSD = Object.values(tokens).reduce((totalValue, token) => {
-    const allChainsBalance = sumAllChainsTokenBalances(token);
-    return totalValue + (allChainsBalance || parseFloat(token.balance)) * token.price;
-  }, 0);
+  const walletTotalValueUSD = Object.values(tokens).reduce(
+    (totalValue, token) => totalValue + parseFloat(token.totalBalance) * token.price,
+    0,
+  );
   const walletValue = {
     USD: walletTotalValueUSD,
     OHM: walletTotalValueUSD / marketPrice,
   };
   return (
     <Box onClick={() => setCurrency(currency === "USD" ? "OHM" : "USD")}>
-      <Typography style={{ lineHeight: 1.1, fontWeight: 600 }} color="textSecondary">
+      <Typography style={{ lineHeight: 1.1, fontWeight: 600, fontSize: "0.975rem" }} color="textSecondary">
         MY WALLET
       </Typography>
-      <Typography style={{ fontWeight: 700 }} variant="h4">
+      <Typography style={{ fontWeight: 700 }} variant="h3">
         {!isLoading ? formatCurrency(walletValue[currency], 2, currency) : <Skeleton variant="text" width={100} />}
       </Typography>
     </Box>
@@ -158,58 +156,61 @@ const WalletTotalValue = () => {
 function InitialWalletView({ onClose }: { onClose: () => void }) {
   const theme = useTheme();
   const [currentTheme] = useCurrentTheme();
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   return (
-    <Box sx={{ padding: theme.spacing(0, 3), display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", padding: theme.spacing(2, 0) }}>
-        <WalletTotalValue />
-        <CloseButton size="small" onClick={onClose} aria-label="close wallet">
-          <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", height: "15px" }} />
-        </CloseButton>
-      </Box>
+    <Paper>
+      <Box sx={{ padding: theme.spacing(0, 3), display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", padding: theme.spacing(3, 0) }}>
+          <WalletTotalValue />
+          <CloseButton size="small" onClick={onClose} aria-label="close wallet">
+            <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", height: "15px" }} />
+          </CloseButton>
+        </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1) }}>
-        <Tokens />
-      </Box>
+        <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1) }}>
+          <Tokens />
+        </Box>
 
-      <Box sx={{ margin: theme.spacing(2, -3) }}>
-        <Divider color="secondary" />
-      </Box>
+        <Box sx={{ margin: theme.spacing(2, -3) }}>
+          <Divider color="secondary" />
+        </Box>
 
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-          gridTemplateRows: "min-content",
-        }}
-        style={{ gap: theme.spacing(1.5) }}
-      >
-        <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
-          <Typography>Buy on Sushiswap</Typography>
-        </ExternalLink>
-        <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_frax.lpUrl}>
-          <Typography>Buy on Uniswap</Typography>
-        </ExternalLink>
-        <Borrow
-          href={`https://app.rari.capital/fuse/pool/18`}
-          borrowOn="Rari Capital"
-          borrowableTokensIcons={[wethTokenImg, daiTokenImg, fraxTokenImg]}
-          Icon1={wsOhmTokenImg}
-        />
-        <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1.5) }}>
-          <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
-            <Typography>Rusowsky's dashboard</Typography>
+        <Box
+          sx={{
+            ...(isSmallScreen
+              ? { display: "flex", flexDirection: "column" }
+              : { display: "grid", gridTemplateRows: "min-content", gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }),
+          }}
+          style={{ gap: theme.spacing(1.5) }}
+        >
+          <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
+            <Typography>Buy on Sushiswap</Typography>
           </ExternalLink>
-          <ExternalLink href={`https://dune.xyz/shadow/Olympus-(OHM)`}>
-            <Typography>Shadow's dashboard</Typography>
+          <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_frax.lpUrl}>
+            <Typography>Buy on Uniswap</Typography>
           </ExternalLink>
+          <Borrow
+            href={`https://app.rari.capital/fuse/pool/18`}
+            borrowOn="Rari Capital"
+            borrowableTokensIcons={[wethTokenImg, daiTokenImg, fraxTokenImg]}
+            Icon1={wsOhmTokenImg}
+          />
+          <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1.5) }}>
+            <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
+              <Typography>Rusowsky's dashboard</Typography>
+            </ExternalLink>
+            <ExternalLink href={`https://dune.xyz/shadow/Olympus-(OHM)`}>
+              <Typography>Shadow's dashboard</Typography>
+            </ExternalLink>
+          </Box>
+        </Box>
+
+        <Box sx={{ marginTop: "auto", marginX: "auto", padding: theme.spacing(2) }}>
+          <DisconnectButton />
         </Box>
       </Box>
-
-      <Box sx={{ marginTop: "auto", marginX: "auto", padding: theme.spacing(2) }}>
-        <DisconnectButton />
-      </Box>
-    </Box>
+    </Paper>
   );
 }
 
