@@ -8,7 +8,6 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Paper,
   Tab,
   Tabs,
   Typography,
@@ -36,7 +35,7 @@ import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import { useAppSelector } from "src/hooks";
 import { useHistory } from "react-router-dom";
-import { PrimaryButton } from "@olympusdao/component-library";
+import { PrimaryButton, Paper, Metric, MetricCollection } from "@olympusdao/component-library";
 
 function a11yProps(index) {
   return {
@@ -181,9 +180,16 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
       .toFixed(4),
   );
   const trimmedStakingAPY = trim(stakingAPY * 100, 1);
+  const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
-
+  const formattedStakingTVL = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(stakingTVL);
+  const formattedCurrentIndex = trim(currentIndex, 1);
   const goToV2Stake = () => {
     history.push("/stake");
   };
@@ -194,283 +200,234 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
 
   return (
     <div id="v1-stake-view">
-      <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper className={`ohm-card`}>
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <div className="card-header">
-                <Typography variant="h5">
-                  <Trans>Single Stake</Trans> (3, 3)
-                </Typography>
-                <RebaseTimer />
+      <Paper headerText={`${t`Single Stake`} (3, 3)`} headerContent={<RebaseTimer />}>
+        <MetricCollection>
+          <Metric
+            className="stake-apy"
+            label={`${t`APY`} (v1)`}
+            metric={`${formattedTrimmedStakingAPY}%`}
+            isLoading={stakingAPY ? false : true}
+          />
+          <Metric
+            className="stake-tvl"
+            label={`${t`TVL`} (v1)`}
+            metric={formattedStakingTVL}
+            isLoading={stakingTVL ? false : true}
+          />
+          <Metric
+            className="stake-index"
+            label={`${t`Current Index`} (v1)`}
+            metric={`${formattedCurrentIndex} OHM`}
+            isLoading={currentIndex ? false : true}
+          />
+        </MetricCollection>
+
+        <div className="staking-area">
+          {!address ? (
+            <div className="stake-wallet-notification">
+              <div className="wallet-menu" id="wallet-menu">
+                {modalButton}
               </div>
-            </Grid>
-
-            <Grid item>
-              <div className="stake-top-metrics">
-                <Grid container spacing={2} alignItems="flex-end">
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-apy">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>APY</Trans> (v1)
-                      </Typography>
-                      <Typography variant="h4">
-                        {stakingAPY ? (
-                          <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
-                        ) : (
-                          <Skeleton width="150px" />
-                        )}
-                      </Typography>
-                    </div>
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-tvl">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>TVL</Trans> (v1)
-                      </Typography>
-                      <Typography variant="h4">
-                        {stakingTVL ? (
-                          new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            maximumFractionDigits: 0,
-                            minimumFractionDigits: 0,
-                          }).format(stakingTVL)
-                        ) : (
-                          <Skeleton width="150px" />
-                        )}
-                      </Typography>
-                    </div>
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-index">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>Current Index</Trans> (v1)
-                      </Typography>
-                      <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
-                      </Typography>
-                    </div>
-                  </Grid>
-                </Grid>
-              </div>
-            </Grid>
-
-            <div className="staking-area">
-              {!address ? (
-                <div className="stake-wallet-notification">
-                  <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
-                  </div>
-                  <Typography variant="h6">
-                    <Trans>Connect your wallet to stake OHM</Trans>
-                  </Typography>
-                </div>
-              ) : (
-                <>
-                  <Box className="stake-action-area">
-                    <Tabs
-                      key={String(zoomed)}
-                      centered
-                      value={view}
-                      textColor="primary"
-                      indicatorColor="primary"
-                      className="stake-tab-buttons"
-                      onChange={changeView}
-                      aria-label="stake tabs"
-                    >
-                      <Tab label={t`Stake`} {...a11yProps(0)} />
-                      <Tab label={t`Unstake`} {...a11yProps(1)} />
-                    </Tabs>
-
-                    <Box className="help-text">
-                      <Typography variant="body1" className="stake-note" color="textSecondary">
-                        {view === 0 ? (
-                          <>
-                            {hasActiveV1Bonds
-                              ? t`Once your current bonds have been claimed, you can migrate your assets to stake more OHM`
-                              : !oldAssetsDetected
-                              ? t`All your assets are migrated`
-                              : t`You must complete the migration of your assets to stake additional OHM`}
-                          </>
-                        ) : (
-                          <br />
-                        )}
-                      </Typography>
-                    </Box>
-
-                    <Box className="stake-action-row v1-row " display="flex" alignItems="center">
-                      {address && !isAllowanceDataLoading ? (
-                        !hasAllowance("sohm") && view === 1 ? (
-                          <Box className="help-text">
-                            <Typography variant="body1" className="stake-note" color="textSecondary">
-                              <>
-                                <Trans>First time unstaking</Trans> <b>sOHM</b>?
-                                <br />
-                                <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM </b>
-                                <Trans> for unstaking</Trans>.
-                              </>
-                            </Typography>
-                          </Box>
-                        ) : (
-                          <>
-                            {view === 1 && (
-                              <FormControl className="ohm-input" variant="outlined" color="primary">
-                                <InputLabel htmlFor="amount-input"></InputLabel>
-                                <OutlinedInput
-                                  id="amount-input"
-                                  type="number"
-                                  placeholder="Enter an amount"
-                                  className="stake-input"
-                                  value={quantity}
-                                  onChange={e => setQuantity(e.target.value)}
-                                  labelWidth={0}
-                                  endAdornment={
-                                    <InputAdornment position="end">
-                                      <Button variant="text" onClick={setMax} color="inherit">
-                                        Max
-                                      </Button>
-                                    </InputAdornment>
-                                  }
-                                />
-                              </FormControl>
-                            )}
-
-                            {view === 0 && <LearnMoreButton />}
-                          </>
-                        )
-                      ) : (
-                        <Skeleton width="150px" />
-                      )}
-                      <TabPanel value={view} index={0} className="stake-tab-panel">
-                        {!hasActiveV1Bonds && oldAssetsDetected ? (
-                          isAllowanceDataLoading ? (
-                            <Skeleton />
-                          ) : (
-                            <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Migrate`} />
-                          )
-                        ) : (
-                          <PrimaryButton
-                            onClick={() => {
-                              hasActiveV1Bonds ? goToBonds() : goToV2Stake();
-                            }}
-                            fullWidth
-                          >
-                            {hasActiveV1Bonds ? t`Go to Bonds` : t`Go to Stake V2`}
-                          </PrimaryButton>
-                        )}
-                      </TabPanel>
-
-                      <TabPanel value={view} index={1} className="stake-tab-panel">
-                        {isAllowanceDataLoading ? (
-                          <Skeleton />
-                        ) : address && hasAllowance("sohm") ? (
-                          <PrimaryButton
-                            disabled={isPendingTxn(pendingTransactions, "unstaking")}
-                            onClick={() => {
-                              onChangeStake("unstake");
-                            }}
-                            fullWidth
-                          >
-                            {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
-                          </PrimaryButton>
-                        ) : (
-                          <PrimaryButton
-                            disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
-                            onClick={() => {
-                              onSeekApproval("sohm");
-                            }}
-                            fullWidth
-                          >
-                            {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
-                          </PrimaryButton>
-                        )}
-                      </TabPanel>
-                    </Box>
-                  </Box>
-                  <div className="stake-user-data">
-                    <StakeRow
-                      title={`${t`Unstaked Balance`} (v1)`}
-                      id="user-balance"
-                      balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      {...{ isAppLoading }}
-                    />
-                    <Accordion className="stake-accordion" square>
-                      <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-                        <StakeRow
-                          title={t`Staked Balance`}
-                          id="user-staked-balance"
-                          balance={`${trimmedBalance} sOHM`}
-                          {...{ isAppLoading }}
-                        />
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <StakeRow
-                          title={`${t`Single Staking`} (v1)`}
-                          balance={`${trim(Number(sohmBalance), 4)} sOHM`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
-                        {Number(fsohmBalance) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Staked Balance in Fuse`} (v2)`}
-                            balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
-                            indented
-                            {...{ isAppLoading }}
-                          />
-                        )}
-                        {Number(wsohmBalance) > 0.0 && (
-                          <StakeRow
-                            title={`${t`Wrapped Balance`} (v1)`}
-                            balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                            {...{ isAppLoading }}
-                            indented
-                          />
-                        )}
-                        {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Wrapped Balance in FiatDAO`} (v1)`}
-                            balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
-                            {...{ isAppLoading }}
-                            indented
-                          />
-                        )}
-                        <StakeRow
-                          title={`${t`Single Staking`} (v2)`}
-                          balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
-                        <StakeRow
-                          title={`${t`Wrapped Balance`} (v2)`}
-                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
-                      </AccordionDetails>
-                    </Accordion>
-                    <Divider color="secondary" />
-                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
-                    <StakeRow
-                      title={t`Next Reward Yield`}
-                      balance={`${stakingRebasePercentage}%`}
-                      {...{ isAppLoading }}
-                    />
-                    <StakeRow
-                      title={t`ROI (5-Day Rate)`}
-                      balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      {...{ isAppLoading }}
-                    />
-                  </div>
-                </>
-              )}
+              <Typography variant="h6">
+                <Trans>Connect your wallet to stake OHM</Trans>
+              </Typography>
             </div>
-          </Grid>
-        </Paper>
-      </Zoom>
+          ) : (
+            <>
+              <Box className="stake-action-area">
+                <Tabs
+                  key={String(zoomed)}
+                  centered
+                  value={view}
+                  textColor="primary"
+                  indicatorColor="primary"
+                  className="stake-tab-buttons"
+                  onChange={changeView}
+                  aria-label="stake tabs"
+                >
+                  <Tab label={t`Stake`} {...a11yProps(0)} />
+                  <Tab label={t`Unstake`} {...a11yProps(1)} />
+                </Tabs>
 
+                <Box className="help-text">
+                  <Typography variant="body1" className="stake-note" color="textSecondary">
+                    {view === 0 ? (
+                      <>
+                        {hasActiveV1Bonds
+                          ? t`Once your current bonds have been claimed, you can migrate your assets to stake more OHM`
+                          : !oldAssetsDetected
+                          ? t`All your assets are migrated`
+                          : t`You must complete the migration of your assets to stake additional OHM`}
+                      </>
+                    ) : (
+                      <br />
+                    )}
+                  </Typography>
+                </Box>
+
+                <Box className="stake-action-row v1-row " display="flex" alignItems="center">
+                  {address && !isAllowanceDataLoading ? (
+                    !hasAllowance("sohm") && view === 1 ? (
+                      <Box className="help-text">
+                        <Typography variant="body1" className="stake-note" color="textSecondary">
+                          <>
+                            <Trans>First time unstaking</Trans> <b>sOHM</b>?
+                            <br />
+                            <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM </b>
+                            <Trans> for unstaking</Trans>.
+                          </>
+                        </Typography>
+                      </Box>
+                    ) : (
+                      <>
+                        {view === 1 && (
+                          <FormControl className="ohm-input" variant="outlined" color="primary">
+                            <InputLabel htmlFor="amount-input"></InputLabel>
+                            <OutlinedInput
+                              id="amount-input"
+                              type="number"
+                              placeholder="Enter an amount"
+                              className="stake-input"
+                              value={quantity}
+                              onChange={e => setQuantity(e.target.value)}
+                              labelWidth={0}
+                              endAdornment={
+                                <InputAdornment position="end">
+                                  <Button variant="text" onClick={setMax} color="inherit">
+                                    Max
+                                  </Button>
+                                </InputAdornment>
+                              }
+                            />
+                          </FormControl>
+                        )}
+
+                        {view === 0 && <LearnMoreButton />}
+                      </>
+                    )
+                  ) : (
+                    <Skeleton width="150px" />
+                  )}
+                  <TabPanel value={view} index={0} className="stake-tab-panel">
+                    {!hasActiveV1Bonds && oldAssetsDetected ? (
+                      isAllowanceDataLoading ? (
+                        <Skeleton />
+                      ) : (
+                        <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Migrate`} />
+                      )
+                    ) : (
+                      <PrimaryButton
+                        onClick={() => {
+                          hasActiveV1Bonds ? goToBonds() : goToV2Stake();
+                        }}
+                        fullWidth
+                      >
+                        {hasActiveV1Bonds ? t`Go to Bonds` : t`Go to Stake V2`}
+                      </PrimaryButton>
+                    )}
+                  </TabPanel>
+
+                  <TabPanel value={view} index={1} className="stake-tab-panel">
+                    {isAllowanceDataLoading ? (
+                      <Skeleton />
+                    ) : address && hasAllowance("sohm") ? (
+                      <PrimaryButton
+                        disabled={isPendingTxn(pendingTransactions, "unstaking")}
+                        onClick={() => {
+                          onChangeStake("unstake");
+                        }}
+                        fullWidth
+                      >
+                        {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
+                      </PrimaryButton>
+                    ) : (
+                      <PrimaryButton
+                        disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
+                        onClick={() => {
+                          onSeekApproval("sohm");
+                        }}
+                        fullWidth
+                      >
+                        {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
+                      </PrimaryButton>
+                    )}
+                  </TabPanel>
+                </Box>
+              </Box>
+              <div className="stake-user-data">
+                <StakeRow
+                  title={`${t`Unstaked Balance`} (v1)`}
+                  id="user-balance"
+                  balance={`${trim(Number(ohmBalance), 4)} OHM`}
+                  {...{ isAppLoading }}
+                />
+                <Accordion className="stake-accordion" square>
+                  <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
+                    <StakeRow
+                      title={t`Staked Balance`}
+                      id="user-staked-balance"
+                      balance={`${trimmedBalance} sOHM`}
+                      {...{ isAppLoading }}
+                    />
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <StakeRow
+                      title={`${t`Single Staking`} (v1)`}
+                      balance={`${trim(Number(sohmBalance), 4)} sOHM`}
+                      indented
+                      {...{ isAppLoading }}
+                    />
+                    {Number(fsohmBalance) > 0.00009 && (
+                      <StakeRow
+                        title={`${t`Staked Balance in Fuse`} (v2)`}
+                        balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                        indented
+                        {...{ isAppLoading }}
+                      />
+                    )}
+                    {Number(wsohmBalance) > 0.0 && (
+                      <StakeRow
+                        title={`${t`Wrapped Balance`} (v1)`}
+                        balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
+                        {...{ isAppLoading }}
+                        indented
+                      />
+                    )}
+                    {Number(fiatDaowsohmBalance) > 0.00009 && (
+                      <StakeRow
+                        title={`${t`Wrapped Balance in FiatDAO`} (v1)`}
+                        balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
+                        {...{ isAppLoading }}
+                        indented
+                      />
+                    )}
+                    <StakeRow
+                      title={`${t`Single Staking`} (v2)`}
+                      balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
+                      indented
+                      {...{ isAppLoading }}
+                    />
+                    <StakeRow
+                      title={`${t`Wrapped Balance`} (v2)`}
+                      balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                      indented
+                      {...{ isAppLoading }}
+                    />
+                  </AccordionDetails>
+                </Accordion>
+                <Divider color="secondary" />
+                <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
+                <StakeRow title={t`Next Reward Yield`} balance={`${stakingRebasePercentage}%`} {...{ isAppLoading }} />
+                <StakeRow
+                  title={t`ROI (5-Day Rate)`}
+                  balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
+                  {...{ isAppLoading }}
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </Paper>
       <ExternalStakePool />
     </div>
   );

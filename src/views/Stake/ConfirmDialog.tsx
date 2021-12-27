@@ -1,6 +1,6 @@
 import { Box, Grid, Switch, Typography, Paper } from "@material-ui/core";
 import { ChangeEvent, useMemo, useState } from "react";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { InfoTooltip } from "@olympusdao/component-library";
 
 export interface ConfirmDialogProps {
   quantity: string;
@@ -41,7 +41,6 @@ export function ConfirmDialog({ quantity, currentIndex, view, onConfirm }: Confi
               gOHM
               <InfoTooltip
                 message={`Toggle to switch between ${view === 0 ? "staking to" : "unstaking from"} sOHM or gOHM`}
-                children={undefined}
               />
             </Grid>
           </Grid>

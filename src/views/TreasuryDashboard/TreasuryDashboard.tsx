@@ -1,10 +1,10 @@
 import { memo } from "react";
 import "./treasury-dashboard.scss";
-import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography, SvgIcon } from "@material-ui/core";
+import { Grid, Box, Zoom, Container, useMediaQuery, Typography, SvgIcon } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
+import { Paper, MetricCollection } from "@olympusdao/component-library";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
-
 import {
   TotalValueDepositedGraph,
   MarketValueGraph,
@@ -13,7 +13,6 @@ import {
   OHMStakedGraph,
   RunwayAvailableGraph,
 } from "./components/Graph/Graph";
-import { MetricCollection } from "@olympusdao/component-library";
 const TreasuryDashboard = memo(() => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
@@ -27,7 +26,7 @@ const TreasuryDashboard = memo(() => {
         }}
       >
         <Box className="hero-metrics">
-          <Paper className="ohm-card">
+          <Paper fullWidth>
             <MetricCollection>
               <MarketCap />
               <OHMPrice />
@@ -109,7 +108,7 @@ const TreasuryDashboard = memo(() => {
             </Grid> */}
 
             <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card ohm-chart-card">
+              <Paper fullWidth>
                 <OHMStakedGraph />
               </Paper>
             </Grid>
