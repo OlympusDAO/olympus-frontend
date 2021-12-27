@@ -295,7 +295,7 @@ function Stake() {
 
   return (
     <div id="stake-view">
-      <Paper headerText="Single Stake (3, 3)" headerContent={<RebaseTimer />}>
+      <Paper headerText={`${t`Single Stake`} (3, 3)`} headerContent={<RebaseTimer />}>
         <Grid item>
           <MetricCollection>
             <Metric

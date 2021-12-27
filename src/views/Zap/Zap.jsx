@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from "react";
-import { Box, Fade, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
+import { Box, Fade, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import "./zap.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -9,7 +9,7 @@ import { useAppSelector } from "src/hooks";
 import { Trans } from "@lingui/macro";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useHistory } from "react-router";
-import { PrimaryButton } from "@olympusdao/component-library";
+import { PrimaryButton, Paper } from "@olympusdao/component-library";
 
 function Zap() {
   const { address, connect } = useWeb3Context();
@@ -29,31 +29,29 @@ function Zap() {
 
   return (
     <div id="zap-view">
-      <Zoom in={true}>
-        <Paper className="ohm-card">
-          <div className="staking-area">
-            {!address ? (
-              <div className="stake-wallet-notification">
-                <div className="wallet-menu" id="wallet-menu">
-                  <PrimaryButton size="large" onClick={connect} key={1}>
-                    <Trans>Connect Wallet</Trans>
-                  </PrimaryButton>
-                </div>
-                <Typography variant="h6">
-                  <Trans>Connect your wallet to use Zap</Trans>
-                </Typography>
+      <Paper>
+        <div className="staking-area">
+          {!address ? (
+            <div className="stake-wallet-notification">
+              <div className="wallet-menu" id="wallet-menu">
+                <PrimaryButton size="large" onClick={connect} key={1}>
+                  <Trans>Connect Wallet</Trans>
+                </PrimaryButton>
               </div>
-            ) : (
-              <>
-                <Box className="stake-action-area">
-                  <Box alignSelf="center" minWidth="420px" width="80%"></Box>
-                  <ZapStakeAction />
-                </Box>
-              </>
-            )}
-          </div>
-        </Paper>
-      </Zoom>
+              <Typography variant="h6">
+                <Trans>Connect your wallet to use Zap</Trans>
+              </Typography>
+            </div>
+          ) : (
+            <>
+              <Box className="stake-action-area">
+                <Box alignSelf="center" minWidth="420px" width="80%"></Box>
+                <ZapStakeAction />
+              </Box>
+            </>
+          )}
+        </div>
+      </Paper>
       <Zoom in={true}>
         <ZapInfo tokens={inputTokenImages} address={address} />
       </Zoom>

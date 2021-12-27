@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useLocation } from "react-router-dom";
-import { Paper, Typography, Zoom, Container, Box } from "@material-ui/core";
+import { Typography, Zoom, Container, Box } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { InfoTooltip } from "@olympusdao/component-library";
 import YieldRecipients from "./YieldRecipients";
 import { t, Trans } from "@lingui/macro";
 import { IAccountSlice } from "src/slices/AccountSlice";
@@ -12,6 +11,7 @@ import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import { Paper } from "@olympusdao/component-library";
 
 type State = {
   account: IAccountSlice;
@@ -48,18 +48,11 @@ export default function DepositYield() {
         />
         <div id="give-view">
           <Zoom in={true}>
-            <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-              <div className="card-header">
-                <div className="give-yield-title">
-                  <Typography variant="h5">
-                    <Trans>My Donations</Trans>
-                  </Typography>
-                  <InfoTooltip
-                    message={t`Direct yield from your deposited sOHM to other recipients. Your sOHM is deposited in a vault, but you can withdraw it or change the deposited amount at any time.`}
-                    children={null}
-                  />
-                </div>
-              </div>
+            <Paper
+              headerText={t`My Donations`}
+              tooltip={t`Direct yield from your deposited sOHM to other recipients. Your sOHM is deposited in a vault, but you can withdraw it or change the deposited amount at any time.`}
+              className={`ohm-card secondary ${isSmallScreen && "mobile"}`}
+            >
               <YieldRecipients />
             </Paper>
           </Zoom>

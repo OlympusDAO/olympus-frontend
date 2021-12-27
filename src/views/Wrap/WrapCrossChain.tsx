@@ -10,7 +10,6 @@ import {
   InputLabel,
   Link,
   OutlinedInput,
-  Paper,
   Tab,
   Tabs,
   Typography,
@@ -34,7 +33,8 @@ import { NETWORKS } from "../../constants";
 import "../Stake/stake.scss";
 import { useAppSelector } from "src/hooks/index";
 import { getBalances, loadAccountDetails } from "src/slices/AccountSlice";
-import { PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
+import { PrimaryButton, SecondaryButton, Paper } from "@olympusdao/component-library";
+import { t } from "@lingui/macro";
 
 function WrapCrossChain() {
   const dispatch = useDispatch();
@@ -182,124 +182,115 @@ function WrapCrossChain() {
         </PrimaryButton>
       );
   };
-
+  const paperLink = (
+    <Link
+      className="migrate-sohm-button"
+      style={{ textDecoration: "none" }}
+      href={"https://docs.olympusdao.finance/main/contracts/tokens#gohm"}
+      aria-label="wsohm-wut"
+      target="_blank"
+    >
+      <Typography>gOHM</Typography>{" "}
+      <SvgIcon component={ArrowUp} color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
+    </Link>
+  );
   return (
     <div id="stake-view" className="wrapper">
-      <Zoom in={true}>
-        <Paper className={`ohm-card`}>
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <div className="card-header">
-                <Typography variant="h5">Wrap / Unwrap</Typography>
-                <Link
-                  className="migrate-sohm-button"
-                  style={{ textDecoration: "none" }}
-                  href={"https://docs.olympusdao.finance/main/contracts/tokens#gohm"}
-                  aria-label="wsohm-wut"
-                  target="_blank"
-                >
-                  <Typography>gOHM</Typography>{" "}
-                  <SvgIcon component={ArrowUp} color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
-                </Link>
-              </div>
-            </Grid>
-
-            <Grid item>
-              <div className="stake-top-metrics">
-                <Grid container spacing={2} alignItems="flex-end">
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="wrap-sOHM">
-                      <Typography variant="h5" color="textSecondary">
-                        sOHM Price
-                      </Typography>
-                      <Typography variant="h4">
-                        {sOhmPrice ? formatCurrency(sOhmPrice, 2) : <Skeleton width="150px" />}
-                      </Typography>
-                    </div>
-                  </Grid>
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="wrap-index">
-                      <Typography variant="h5" color="textSecondary">
-                        Current Index
-                      </Typography>
-                      <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
-                      </Typography>
-                    </div>
-                  </Grid>
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="wrap-wsOHM">
-                      <Typography variant="h5" color="textSecondary">
-                        {`${assetTo} Price`}
-                        <InfoTooltip
-                          message={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
-                          children={undefined}
-                        />
-                      </Typography>
-                      <Typography variant="h4">
-                        {gOhmPrice ? formatCurrency(gOhmPrice, 2) : <Skeleton width="150px" />}
-                      </Typography>
-                    </div>
-                  </Grid>
-                </Grid>
-              </div>
-            </Grid>
-
-            <div className="staking-area">
-              {!address ? (
-                <div className="stake-wallet-notification">
-                  <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
-                  </div>
-                  <Typography variant="h6">Connect your wallet</Typography>
+      <Paper headerText={t`Wrap / Unwrap`} topRight={paperLink}>
+        <Grid item>
+          <div className="stake-top-metrics">
+            <Grid container spacing={2} alignItems="flex-end">
+              <Grid item xs={12} sm={4} md={4} lg={4}>
+                <div className="wrap-sOHM">
+                  <Typography variant="h5" color="textSecondary">
+                    sOHM Price
+                  </Typography>
+                  <Typography variant="h4">
+                    {sOhmPrice ? formatCurrency(sOhmPrice, 2) : <Skeleton width="150px" />}
+                  </Typography>
                 </div>
-              ) : (
-                <>
-                  <Box className="stake-action-area">
-                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                      <Box height="32px">
-                        <Typography>
-                          Transform <b>wsOHM</b> to <b>gOHM</b>
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
-                      <div className="stake-tab-panel wrap-page">
-                        {chooseInputArea()}
-                        {chooseButtonArea()}
-                      </div>
-                    </Box>
-                  </Box>
-                  <div className={`stake-user-data`}>
-                    <div className="data-row">
-                      <Typography variant="body1">wsOHM Balance ({networkName})</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsOhmBalance, 4) + " wsOHM"}</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row">
-                      <Typography variant="body1">gOHM Balance ({networkName})</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4) + " gOHM"}</>}
-                      </Typography>
-                    </div>
-                    <Divider />
-                    <Box width="100%" alignItems={"center"} display="flex" flexDirection="column" p={1}>
-                      <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
-                        Back to Ethereum Mainnet
-                      </Typography>
-                      <SecondaryButton onClick={handleSwitchChain(1)} size="small">
-                        <img height="28px" width="28px" src={String(ethereum.image)} alt={ethereum.imageAltText} />
-                        <Box ml={1}>{ethereum.chainName}</Box>
-                      </SecondaryButton>
-                    </Box>
-                  </div>
-                </>
-              )}
+              </Grid>
+              <Grid item xs={12} sm={4} md={4} lg={4}>
+                <div className="wrap-index">
+                  <Typography variant="h5" color="textSecondary">
+                    Current Index
+                  </Typography>
+                  <Typography variant="h4">
+                    {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
+                  </Typography>
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={4} md={4} lg={4}>
+                <div className="wrap-wsOHM">
+                  <Typography variant="h5" color="textSecondary">
+                    {`${assetTo} Price`}
+                    <InfoTooltip
+                      message={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
+                      children={undefined}
+                    />
+                  </Typography>
+                  <Typography variant="h4">
+                    {gOhmPrice ? formatCurrency(gOhmPrice, 2) : <Skeleton width="150px" />}
+                  </Typography>
+                </div>
+              </Grid>
+            </Grid>
+          </div>
+        </Grid>
+
+        <div className="staking-area">
+          {!address ? (
+            <div className="stake-wallet-notification">
+              <div className="wallet-menu" id="wallet-menu">
+                {modalButton}
+              </div>
+              <Typography variant="h6">Connect your wallet</Typography>
             </div>
-          </Grid>
-        </Paper>
-      </Zoom>
+          ) : (
+            <>
+              <Box className="stake-action-area">
+                <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                  <Box height="32px">
+                    <Typography>
+                      Transform <b>wsOHM</b> to <b>gOHM</b>
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
+                  <div className="stake-tab-panel wrap-page">
+                    {chooseInputArea()}
+                    {chooseButtonArea()}
+                  </div>
+                </Box>
+              </Box>
+              <div className={`stake-user-data`}>
+                <div className="data-row">
+                  <Typography variant="body1">wsOHM Balance ({networkName})</Typography>
+                  <Typography variant="body1">
+                    {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsOhmBalance, 4) + " wsOHM"}</>}
+                  </Typography>
+                </div>
+                <div className="data-row">
+                  <Typography variant="body1">gOHM Balance ({networkName})</Typography>
+                  <Typography variant="body1">
+                    {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4) + " gOHM"}</>}
+                  </Typography>
+                </div>
+                <Divider />
+                <Box width="100%" alignItems={"center"} display="flex" flexDirection="column" p={1}>
+                  <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
+                    Back to Ethereum Mainnet
+                  </Typography>
+                  <SecondaryButton onClick={handleSwitchChain(1)} size="small">
+                    <img height="28px" width="28px" src={String(ethereum.image)} alt={ethereum.imageAltText} />
+                    <Box ml={1}>{ethereum.chainName}</Box>
+                  </SecondaryButton>
+                </Box>
+              </div>
+            </>
+          )}
+        </div>
+      </Paper>
     </div>
   );
 }

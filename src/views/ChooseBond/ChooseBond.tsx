@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import {
   Box,
   Grid,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -26,7 +25,7 @@ import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { Metric, MetricCollection } from "@olympusdao/component-library";
+import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 
 function ChooseBond() {
   const networkId = useAppSelector(state => state.network.networkId);
@@ -77,13 +76,7 @@ function ChooseBond() {
       {!isAccountLoading && !isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
 
       <Zoom in={true}>
-        <Paper className="ohm-card">
-          <Box className="card-header">
-            <Typography variant="h5" data-testid="t">
-              <Trans>Bond</Trans> (1,1)
-            </Typography>
-          </Box>
-
+        <Paper headerText={`${`Bond`} (1,1)`}>
           <MetricCollection>
             <Metric
               label={t`Treasury Balance`}
