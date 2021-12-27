@@ -35,14 +35,13 @@ import "./sidebar.scss";
 import { useSelector } from "react-redux";
 import { EnvHelper } from "src/helpers/Environment";
 import { ExpandMore } from "@material-ui/icons";
-import Davatar from "@davatar/react";
 
 function NavContent() {
   const [isActive] = useState();
   const address = useAddress();
   const networkId = useSelector(state => state.network.networkId);
   const { bonds } = useBonds(networkId);
-  const { ensName } = useENS(address);
+  const { ensName, ensAvatar } = useENS(address);
   const location = useLocation();
 
   const checkPage = useCallback((match, location, page) => {
@@ -96,9 +95,7 @@ function NavContent() {
 
             {address && (
               <div className="wallet-link">
-                <div className="davatar">
-                  <Davatar size={20} address={address} generatedAvatarType="jazzicon" />
-                </div>
+                <img className="avatar" src={ensAvatar} />
                 <Link href={`https://etherscan.io/address/${address}`} target="_blank">
                   {ensName || shorten(address)}
                 </Link>
