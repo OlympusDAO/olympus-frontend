@@ -9,6 +9,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
 import { DisplayBondDiscount } from "./Bond";
 import ConnectButton from "../../components/ConnectButton";
+import { DataRow } from "@olympusdao/component-library";
 
 function BondRedeem({ bond }) {
   // const { bond: bondName } = bond;
@@ -92,53 +93,20 @@ function BondRedeem({ bond }) {
       </Box>
       <Slide direction="right" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
-          <div className="data-row">
-            <Typography>
-              <Trans>Pending Rewards</Trans>
-            </Typography>
-            <Typography className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.interestDue, 4)} OHM`}
-            </Typography>
-          </div>
-          <div className="data-row">
-            <Typography>
-              <Trans>Claimable Rewards</Trans>
-            </Typography>
-            <Typography id="claimable" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.pendingPayout, 4)} OHM`}
-            </Typography>
-          </div>
-          <div className="data-row">
-            <Typography>
-              <Trans>Time until fully vested</Trans>
-            </Typography>
-            <Typography className="price-data">{isBondLoading ? <Skeleton width="100px" /> : vestingTime()}</Typography>
-          </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>ROI</Trans>
-            </Typography>
-            <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
-            </Typography>
-          </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>Debt Ratio</Trans>
-            </Typography>
-            <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.debtRatio / 10000000, 2)}%`}
-            </Typography>
-          </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>Vesting Term</Trans>
-            </Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : vestingPeriod()}</Typography>
-          </div>
+          <DataRow title={t`Pending Rewards`} balance={`${trim(bond.interestDue, 4)} OHM`} isLoading={isBondLoading} />
+          <DataRow
+            title={t`Claimable Rewards`}
+            balance={`${trim(bond.pendingPayout, 4)} OHM`}
+            isLoading={isBondLoading}
+          />
+          <DataRow title={t`Time until fully vested`} balance={vestingTime()} isLoading={isBondLoading} />
+          <DataRow
+            title={t`ROI`}
+            balance={<DisplayBondDiscount key={bond.name} bond={bond} />}
+            isLoading={isBondLoading}
+          />
+          <DataRow title={t`Debt Ratio`} balance={`${trim(bond.debtRatio / 10000000, 2)}%`} isLoading={isBondLoading} />
+          <DataRow title={t`Vesting Term`} balance={vestingPeriod()} isLoading={isBondLoading} />
         </Box>
       </Slide>
     </Box>
