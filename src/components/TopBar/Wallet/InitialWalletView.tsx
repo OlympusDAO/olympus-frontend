@@ -127,20 +127,16 @@ const CloseButton = withStyles(theme => ({
   },
 }))(IconButton);
 
-const sumAllChainsTokenBalances = (token: IToken) =>
-  token.crossChainBalances?.balances &&
-  Object.values(token.crossChainBalances.balances).reduce((sum, b = "0.0") => sum + parseFloat(b), 0);
-
 const WalletTotalValue = () => {
   const tokens = useWallet();
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const marketPrice = useAppSelector(s => s.app.marketPrice || 0);
   const [currency, setCurrency] = useState<"USD" | "OHM">("USD");
 
-  const walletTotalValueUSD = Object.values(tokens).reduce((totalValue, token) => {
-    const allChainsBalance = sumAllChainsTokenBalances(token);
-    return totalValue + (allChainsBalance || parseFloat(token.balance)) * token.price;
-  }, 0);
+  const walletTotalValueUSD = Object.values(tokens).reduce(
+    (totalValue, token) => totalValue + parseFloat(token.totalBalance) * token.price,
+    0,
+  );
   const walletValue = {
     USD: walletTotalValueUSD,
     OHM: walletTotalValueUSD / marketPrice,
