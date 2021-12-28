@@ -22,6 +22,7 @@ import { changeApproval, poolDeposit } from "../../slices/PoolThunk";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
 import { ConfirmationModal } from "./ConfirmationModal.jsx";
+import { DataRow } from "@olympusdao/component-library";
 
 const sohmImg = getTokenImage("sohm");
 
@@ -188,18 +189,11 @@ export const PoolDeposit = props => {
           )}
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
-            <div className="data-row">
-              <Typography variant="body1" align="left">
-                <Trans>Your Staked Balance (Depositable)</Trans>
-              </Typography>
-              <Typography variant="body1" align="right">
-                {isAppLoading ? (
-                  <Skeleton width="80px" />
-                ) : (
-                  <>{new Intl.NumberFormat("en-US").format(sohmBalance)} sOHM</>
-                )}
-              </Typography>
-            </div>
+            <DataRow
+              title={t`Your Staked Balance (Depositable)`}
+              balance={`${new Intl.NumberFormat("en-US").format(sohmBalance)} sOHM`}
+              isLoading={isAppLoading}
+            />
           </div>
         </Box>
       )}
