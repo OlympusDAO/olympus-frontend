@@ -39,6 +39,7 @@ import { t } from "@lingui/macro";
 import { useAppSelector } from "src/hooks/index.ts";
 import WrapCrossChain from "./WrapCrossChain.tsx";
 import { loadAccountDetails } from "src/slices/AccountSlice";
+import { DataRow } from "@olympusdao/component-library";
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -373,19 +374,16 @@ function Wrap() {
                     </Box>
                     <div className={`stake-user-data`}>
                       <>
-                        <div className="data-row">
-                          <Typography variant="body1">sOHM Balance</Typography>
-                          <Typography variant="body1">
-                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
-                          </Typography>
-                        </div>
-                        <div className="data-row">
-                          <Typography variant="body1">gOHM Balance</Typography>
-                          <Typography variant="body1">
-                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
-                          </Typography>
-                        </div>
-
+                        <DataRow
+                          title={t`sOHM Balance`}
+                          balance={`${trim(sohmBalance, 4)} sOHM`}
+                          isLoading={isAppLoading}
+                        />
+                        <DataRow
+                          title={t`gOHM Balance`}
+                          balance={`${trim(gohmBalance, 4)} gOHM`}
+                          isLoading={isAppLoading}
+                        />
                         <Divider />
                         <Box width="100%" align="center" p={1}>
                           <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
