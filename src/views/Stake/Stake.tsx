@@ -446,7 +446,7 @@ function Stake() {
                       title={t`Unstaked Balance`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                     <Accordion className="stake-accordion" square defaultExpanded>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
@@ -454,7 +454,7 @@ function Stake() {
                           title={t`Staked Balance`}
                           id="user-staked-balance"
                           balance={`${trimmedBalance} sOHM`}
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                       </AccordionSummary>
                       <AccordionDetails>
@@ -462,20 +462,20 @@ function Stake() {
                           title={t`Single Staking`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                         <DataRow
                           title={`${t`Wrapped Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                         {Number(fgohmBalance) > 0.00009 && (
                           <DataRow
                             title={`${t`Wrapped Balance in Fuse`}`}
                             balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(sohmV1Balance) > 0.00009 && (
@@ -483,14 +483,14 @@ function Stake() {
                             title={`${t`Single Staking`} (v1)`}
                             balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(wsohmBalance) > 0.00009 && (
                           <DataRow
                             title={`${t`Wrapped Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
@@ -498,7 +498,7 @@ function Stake() {
                           <DataRow
                             title={t`Wrapped Balance in FiatDAO`}
                             balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
@@ -507,22 +507,26 @@ function Stake() {
                             title={t`Staked Balance in Fuse`}
                             balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
-                    <DataRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
+                    <DataRow
+                      title={t`Next Reward Amount`}
+                      balance={`${nextRewardValue} sOHM`}
+                      isLoading={isAppLoading}
+                    />
                     <DataRow
                       title={t`Next Reward Yield`}
                       balance={`${stakingRebasePercentage}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                     <DataRow
                       title={t`ROI (5-Day Rate)`}
                       balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                   </div>
                 </>

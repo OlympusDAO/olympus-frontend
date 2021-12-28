@@ -420,7 +420,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       title={`${t`Unstaked Balance`} (v1)`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                     <Accordion className="stake-accordion" square>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
@@ -428,7 +428,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           title={t`Staked Balance`}
                           id="user-staked-balance"
                           balance={`${trimmedBalance} sOHM`}
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                       </AccordionSummary>
                       <AccordionDetails>
@@ -436,21 +436,21 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           title={`${t`Single Staking`} (v1)`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                         {Number(fsohmBalance) > 0.00009 && (
                           <DataRow
                             title={`${t`Staked Balance in Fuse`} (v2)`}
                             balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(wsohmBalance) > 0.0 && (
                           <DataRow
                             title={`${t`Wrapped Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
@@ -458,7 +458,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           <DataRow
                             title={`${t`Wrapped Balance in FiatDAO`} (v1)`}
                             balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
@@ -466,27 +466,31 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           title={`${t`Single Staking`} (v2)`}
                           balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                         <DataRow
                           title={`${t`Wrapped Balance`} (v2)`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
-                    <DataRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
+                    <DataRow
+                      title={t`Next Reward Amount`}
+                      balance={`${nextRewardValue} sOHM`}
+                      isLoading={isAppLoading}
+                    />
                     <DataRow
                       title={t`Next Reward Yield`}
                       balance={`${stakingRebasePercentage}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                     <DataRow
                       title={t`ROI (5-Day Rate)`}
                       balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                   </div>
                 </>
