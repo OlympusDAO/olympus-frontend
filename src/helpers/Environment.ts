@@ -29,6 +29,17 @@ export class EnvHelper {
     return EnvHelper.env.REACT_APP_GA_API_KEY;
   }
 
+  static getCovalentKey() {
+    let CKEYS: string[] = [];
+    if (EnvHelper.env.REACT_APP_COVALENT && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_COVALENT)) {
+      CKEYS = EnvHelper.env.REACT_APP_COVALENT.split(EnvHelper.whitespaceRegex);
+    } else {
+      console.warn("you must set at least 1 REACT_APP_COVALENT key in your ENV");
+    }
+    const randomIndex = Math.floor(Math.random() * CKEYS.length);
+    return CKEYS[randomIndex];
+  }
+
   static isNotEmpty(envVariable: string) {
     if (envVariable.length > 10) {
       return true;
@@ -194,5 +205,45 @@ export class EnvHelper {
       console.warn("zaps won't work without REACT_APP_ZAPPER_POOL address");
     }
     return zapPool;
+  }
+
+  /**
+   * Indicates whether the give feature is enabled.
+   *
+   * The feature is enabled when:
+   * - REACT_APP_GIVE_ENABLED is true
+   * - give_enabled parameter is present
+   *
+   * @param url
+   * @returns
+   */
+  static isGiveEnabled(url: string): boolean {
+    const giveEnabled = EnvHelper.env.REACT_APP_GIVE_ENABLED;
+    const giveEnabledParameter = url && url.includes("give_enabled");
+
+    if (giveEnabled || giveEnabledParameter) return true;
+
+    return false;
+  }
+
+  /**
+   * Indicates whether mockSohm is enabled.
+   * This is needed for easily manually testing rebases
+   * for Give on testnet
+   *
+   * The feature is enabled when:
+   * - REACT_APP_MOCK_SOHM_ENABLED is true
+   * - mock_sohm parameter is present
+   *
+   * @param url
+   * @returns
+   */
+  static isMockSohmEnabled(url: string): boolean {
+    const mockSohmEnabled = EnvHelper.env.REACT_APP_MOCK_SOHM_ENABLED;
+    const mockSohmEnabledParameter = url && url.includes("mock_sohm");
+
+    if (mockSohmEnabled || mockSohmEnabledParameter) return true;
+
+    return false;
   }
 }
