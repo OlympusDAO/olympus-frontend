@@ -42,9 +42,9 @@ import { ethers } from "ethers";
 import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
-import StakeRow from "./StakeRow";
 import { Metric, MetricCollection } from "../../components/Metric";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { DataRow } from "@olympusdao/component-library";
 
 function a11yProps(index: number) {
   return {
@@ -442,7 +442,7 @@ function Stake() {
                     onConfirm={setConfirmation}
                   />
                   <div className="stake-user-data">
-                    <StakeRow
+                    <DataRow
                       title={t`Unstaked Balance`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
@@ -450,7 +450,7 @@ function Stake() {
                     />
                     <Accordion className="stake-accordion" square defaultExpanded>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-                        <StakeRow
+                        <DataRow
                           title={t`Staked Balance`}
                           id="user-staked-balance"
                           balance={`${trimmedBalance} sOHM`}
@@ -458,20 +458,20 @@ function Stake() {
                         />
                       </AccordionSummary>
                       <AccordionDetails>
-                        <StakeRow
+                        <DataRow
                           title={t`Single Staking`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
-                        <StakeRow
+                        <DataRow
                           title={`${t`Wrapped Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
                         {Number(fgohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`Wrapped Balance in Fuse`}`}
                             balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
                             indented
@@ -479,7 +479,7 @@ function Stake() {
                           />
                         )}
                         {Number(sohmV1Balance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`Single Staking`} (v1)`}
                             balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
                             indented
@@ -487,7 +487,7 @@ function Stake() {
                           />
                         )}
                         {Number(wsohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`Wrapped Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
                             {...{ isAppLoading }}
@@ -495,7 +495,7 @@ function Stake() {
                           />
                         )}
                         {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={t`Wrapped Balance in FiatDAO`}
                             balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
                             {...{ isAppLoading }}
@@ -503,7 +503,7 @@ function Stake() {
                           />
                         )}
                         {Number(fsohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={t`Staked Balance in Fuse`}
                             balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
                             indented
@@ -513,13 +513,13 @@ function Stake() {
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
-                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
-                    <StakeRow
+                    <DataRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
+                    <DataRow
                       title={t`Next Reward Yield`}
                       balance={`${stakingRebasePercentage}%`}
                       {...{ isAppLoading }}
                     />
-                    <StakeRow
+                    <DataRow
                       title={t`ROI (5-Day Rate)`}
                       balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
                       {...{ isAppLoading }}

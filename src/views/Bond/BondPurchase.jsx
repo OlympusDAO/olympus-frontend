@@ -20,6 +20,7 @@ import useDebounce from "../../hooks/Debounce";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./Bond";
 import ConnectButton from "../../components/ConnectButton";
+import { DataRow } from "@olympusdao/component-library";
 
 function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
@@ -217,79 +218,30 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
 
       <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
-          <div className="data-row">
-            <Typography>
-              <Trans>Your Balance</Trans>
-            </Typography>{" "}
-            <Typography id="bond-balance">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                <>
-                  {trim(bond.balance, 4)} {displayUnits}
-                </>
-              )}
-            </Typography>
-          </div>
-
-          <div className={`data-row`}>
-            <Typography>
-              <Trans>You Will Get</Trans>
-            </Typography>
-            <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(bond.bondQuote, 4) || "0"} ` + `${bond.payoutToken}`
-              )}
-            </Typography>
-          </div>
-
-          <div className={`data-row`}>
-            <Typography>
-              <Trans>Max You Can Buy</Trans>
-            </Typography>
-            <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(bond.maxBondPrice, 4) || "0"} ` + `${bond.payoutToken}`
-              )}
-            </Typography>
-          </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>ROI</Trans>
-            </Typography>
-            <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
-            </Typography>
-          </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>Debt Ratio</Trans>
-            </Typography>
-            <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.debtRatio / 10000000, 2)}%`}
-            </Typography>
-          </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>Vesting Term</Trans>
-            </Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : vestingPeriod()}</Typography>
-          </div>
-
+          <DataRow
+            title={t`Your Balance`}
+            balance={`${trim(bond.balance, 4)} ${displayUnits}`}
+            isLoading={isBondLoading}
+          />
+          <DataRow
+            title={t`You Will Get`}
+            balance={`${trim(bond.bondQuote, 4) || "0"} ` + `${bond.payoutToken}`}
+            isLoading={isBondLoading}
+          />
+          <DataRow
+            title={t`Max You Can Buy`}
+            balance={`${trim(bond.maxBondPrice, 4) || "0"} ` + `${bond.payoutToken}`}
+            isLoading={isBondLoading}
+          />
+          <DataRow
+            title={t`ROI`}
+            balance={<DisplayBondDiscount key={bond.name} bond={bond} />}
+            isLoading={isBondLoading}
+          />
+          <DataRow title={t`Debt Ratio`} balance={`${trim(bond.debtRatio / 10000000, 2)}%`} isLoading={isBondLoading} />
+          <DataRow title={t`Vesting Term`} balance={vestingPeriod()} isLoading={isBondLoading} />
           {recipientAddress !== address && (
-            <div className="data-row">
-              <Typography>
-                <Trans>Recipient</Trans>{" "}
-              </Typography>
-              <Typography>{isBondLoading ? <Skeleton width="100px" /> : shorten(recipientAddress)}</Typography>
-            </div>
+            <DataRow title={t`Recipient`} balance={shorten(recipientAddress)} isLoading={isBondLoading} />
           )}
         </Box>
       </Slide>

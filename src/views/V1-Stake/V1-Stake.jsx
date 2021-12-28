@@ -30,7 +30,6 @@ import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "../Stake/stake.scss";
 import "./v1stake.scss";
-import StakeRow from "../Stake/StakeRow";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
@@ -40,6 +39,7 @@ import { ethers } from "ethers";
 import { getMigrationAllowances } from "src/slices/AccountSlice";
 import { useAppSelector } from "src/hooks";
 import { useHistory } from "react-router-dom";
+import { DataRow } from "@olympusdao/component-library";
 
 function a11yProps(index) {
   return {
@@ -416,7 +416,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                     </Box>
                   </Box>
                   <div className="stake-user-data">
-                    <StakeRow
+                    <DataRow
                       title={`${t`Unstaked Balance`} (v1)`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
@@ -424,7 +424,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                     />
                     <Accordion className="stake-accordion" square>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-                        <StakeRow
+                        <DataRow
                           title={t`Staked Balance`}
                           id="user-staked-balance"
                           balance={`${trimmedBalance} sOHM`}
@@ -432,14 +432,14 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                         />
                       </AccordionSummary>
                       <AccordionDetails>
-                        <StakeRow
+                        <DataRow
                           title={`${t`Single Staking`} (v1)`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
                         {Number(fsohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`Staked Balance in Fuse`} (v2)`}
                             balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
                             indented
@@ -447,7 +447,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           />
                         )}
                         {Number(wsohmBalance) > 0.0 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`Wrapped Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
                             {...{ isAppLoading }}
@@ -455,20 +455,20 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           />
                         )}
                         {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`Wrapped Balance in FiatDAO`} (v1)`}
                             balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
                             {...{ isAppLoading }}
                             indented
                           />
                         )}
-                        <StakeRow
+                        <DataRow
                           title={`${t`Single Staking`} (v2)`}
                           balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
-                        <StakeRow
+                        <DataRow
                           title={`${t`Wrapped Balance`} (v2)`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
@@ -477,13 +477,13 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
-                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
-                    <StakeRow
+                    <DataRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
+                    <DataRow
                       title={t`Next Reward Yield`}
                       balance={`${stakingRebasePercentage}%`}
                       {...{ isAppLoading }}
                     />
-                    <StakeRow
+                    <DataRow
                       title={t`ROI (5-Day Rate)`}
                       balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
                       {...{ isAppLoading }}
