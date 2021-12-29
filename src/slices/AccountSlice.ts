@@ -29,6 +29,7 @@ import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 import { NetworkID } from "src/lib/Bond";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { IUserNote } from "./BondSliceV2";
 
 interface IUserBalances {
   balances: {
@@ -516,6 +517,7 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   mockGiving: { sohmGive: number; donationInfo: IUserDonationInfo; loading: boolean };
   redeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   mockRedeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
+  notes: IUserNote[];
   bonds: { [key: string]: IUserBondDetails };
   balances: {
     gohm: string;
@@ -575,6 +577,7 @@ const initialState: IAccountSlice = {
   },
   giving: { sohmGive: 0, donationInfo: {}, loading: true },
   mockGiving: { sohmGive: 0, donationInfo: {}, loading: true },
+  notes: [],
   redeeming: {
     sohmRedeemable: "",
     recipientInfo: {
