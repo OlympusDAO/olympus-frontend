@@ -51,7 +51,7 @@
     "dotenv": "^10.0.0",
     "eth-hooks": "^1.1.2",
     "ethers": "^5.4.0",
-    "graphiql": "^1.0.5",
+    "graphiql": "^1.4.7",
     "graphql": "^15.3.0",
     "intl": "^1.2.5",
     "isomorphic-fetch": "^3.0.0",
@@ -159,6 +159,8 @@
     "**/browserslist": "4.16.5",
     "**/node-fetch": "2.6.1",
     "**/nth-check": "2.0.1",
-    "**/ansi-regex": "5.0.1"
+    "**/ansi-regex": "5.0.1",
+    "**/prompts": "2.4.2",
+    "**/shell-quote": "1.7.3"
   }
 }
