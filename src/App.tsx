@@ -51,6 +51,7 @@ import { Project } from "src/components/GiveProject/project.type";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
 import Announcement from "./components/Announcement/Announcement";
+import { NetworkId } from "./constants";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -110,7 +111,7 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { address, connect, hasCachedProvider, provider, connected, networkId } = useWeb3Context();
+  const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalOpen = () => {
@@ -152,23 +153,23 @@ function App() {
 
   const loadApp = useCallback(
     loadProvider => {
-      if (networkId == -1) {
+      if (!providerInitialized) {
         return;
       }
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       // NOTE (appleseed) - tech debt - better network filtering for active bonds
-      if (networkId === 1 || networkId === 4) {
+      if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
         bonds.map(bond => {
           dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
         });
       }
     },
-    [networkId],
+    [networkId, providerInitialized],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      if (networkId == -1) {
+      if (!providerInitialized) {
         return;
       }
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
@@ -186,11 +187,11 @@ function App() {
         }
       });
     },
-    [networkId, address],
+    [networkId, address, providerInitialized],
   );
 
   const oldAssetsDetected = useAppSelector(state => {
-    if (networkId && (networkId === 1 || networkId === 4)) {
+    if (networkId && (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY)) {
       return (
         state.account.balances &&
         (Number(state.account.balances.sohmV1) ||
@@ -263,10 +264,10 @@ function App() {
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected && networkId !== -1) {
+    if (connected && providerInitialized) {
       loadDetails("account");
     }
-  }, [connected, networkId]);
+  }, [connected, networkId, providerInitialized]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
