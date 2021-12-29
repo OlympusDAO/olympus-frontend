@@ -302,6 +302,7 @@ interface IViewsForNetwork {
   threeTogether: boolean;
   bonds: boolean;
   network: boolean;
+  bondsV2: boolean;
 }
 
 export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
@@ -313,6 +314,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: true,
     bonds: true,
     network: true,
+    bondsV2: true,
   },
   4: {
     dashboard: true,
@@ -322,6 +324,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: true,
     bonds: true,
     network: true,
+    bondsV2: true,
   },
   42161: {
     dashboard: true,
@@ -331,6 +334,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
   421611: {
     dashboard: true,
@@ -340,6 +344,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
   43114: {
     dashboard: true,
@@ -349,6 +354,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
   43113: {
     dashboard: true,
@@ -358,5 +364,6 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
 };

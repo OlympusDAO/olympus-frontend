@@ -1,0 +1,29 @@
+#hades {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  background-color: #55555555;
+  .ohm-popover {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    h3 {
+      align-self: center;
+      justify-self: center;
+      width: 75%;
+      text-align: center;
+    }
+    label {
+      margin: 33px 0 10px;
+    }
+    .help-text {
+      margin: 10px;
+    }
+  }
+  .mobile .ohm-popover {
+    max-width: 400px;
+  }
+}

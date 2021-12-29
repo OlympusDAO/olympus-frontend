@@ -1,0 +1,127 @@
+#bond-view {
+  position: absolute !important;
+  width: 100%;
+  height: 100%;
+  z-index: 69;
+
+  @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    .MuiBackdrop-root {
+      background: rgba(100, 100, 100, 0.1) !important;
+      backdrop-filter: blur(33px) !important;
+      -webkit-backdrop-filter: blur(33px) !important;
+      .ohm-card {
+        opacity: 1 !important;
+        height: auto;
+      }
+    }
+    .ohm-modal {
+      max-width: 688px;
+      min-height: 605px;
+    }
+  }
+
+  /* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+  @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .MuiBackdrop-root {
+      background: rgba(100, 100, 100, 0.95);
+      .ohm-card {
+        height: auto;
+      }
+    }
+    .ohm-modal {
+      max-width: 688px;
+      min-height: 605px;
+      opacity: 0.9;
+    }
+  }
+
+  .ohm-card {
+    max-width: 803px;
+  }
+
+  .bond-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .ohm-pair-img,
+    .reserve-pair-img {
+      height: 38px;
+      width: 38px;
+    }
+    .bond-header-logo {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      display: flex;
+      flex-direction: row;
+      .bond-header-name {
+        text-align: center;
+        margin-left: 0.33em;
+      }
+    }
+  }
+
+  .bond-data {
+    margin: 10px 0 0 0;
+  }
+
+  .bond-price-data-row {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin: 23px;
+    h4 {
+      margin-bottom: 0;
+    }
+    h3.price {
+      font-weight: 600 !important;
+    }
+  }
+
+  .ohm-input {
+    min-width: 50%;
+    max-width: 408px;
+    margin: 5px;
+  }
+}
+
+.transaction-button {
+  min-width: 185px !important;
+  max-width: 408px;
+  width: 100%;
+  margin: 5px !important;
+}
+
+.mobile #bond-view {
+  .ohm-card {
+    .card-content {
+      justify-content: space-evenly !important;
+      .bond-toggle-row {
+        justify-content: space-evenly !important;
+      }
+      .input-row {
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        .input-group.ohm-input-group {
+          margin: 10px !important;
+          width: 75%;
+          height: 50px;
+        }
+        div.stake-button {
+          width: 75%;
+          margin-left: 0;
+          margin-top: 15px;
+          height: 50px;
+          font-size: 1.3em !important;
+        }
+      }
+    }
+  }
+}
+
+.web3modal-modal-lightbox {
+  z-index: 70 !important;
+}

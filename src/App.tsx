@@ -31,6 +31,8 @@ import {
   CausesDashboard,
   DepositYield,
   RedeemYield,
+  BondV2,
+  ChooseBondV2,
 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
@@ -134,6 +136,8 @@ function App() {
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
   const { bonds, expiredBonds } = useBonds(networkId);
+
+  const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -421,6 +425,17 @@ function App() {
                   );
                 })}
                 <ChooseBond />
+              </Route>
+
+              <Route path="/bonds-v2">
+                {bondIndexes.map(index => {
+                  return (
+                    <Route exact key={index} path={`/bonds-v2/${index}`}>
+                      <BondV2 index={index} />
+                    </Route>
+                  );
+                })}
+                <ChooseBondV2 />
               </Route>
 
               <Route path="/network">

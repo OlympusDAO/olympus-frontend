@@ -16,6 +16,7 @@ import { BondDepository__factory } from "src/typechain";
 import { addresses } from "src/constants";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { NetworkID } from "src/lib/Bond";
+import { getTokenIdByContract, getTokenPrice } from "src/helpers";
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
@@ -31,6 +32,8 @@ export interface IBondV2 {
   purchased: BigNumber;
   sold: BigNumber;
   index: number;
+  displayName: string;
+  price: number;
 }
 
 export interface IUserNote {
@@ -53,10 +56,15 @@ export const getAllBonds = createAsyncThunk("bondsV2/getAll", async ({ provider,
   const liveBondIndexes = await depositoryContract.liveMarkets();
   const liveBondPromises = liveBondIndexes.map(async index => await depositoryContract.markets(index));
   let liveBonds: IBondV2[] = [];
+
   for (let i = 0; i < liveBondPromises.length; i++) {
     const bond = await liveBondPromises[i];
-    console.log(bond);
-    liveBonds.push({ ...bond, index: i });
+    liveBonds.push({
+      ...bond,
+      index: +liveBondIndexes[i],
+      displayName: `${+liveBondIndexes[i]}`,
+      price: Number(await getTokenPrice(await getTokenIdByContract(bond.quoteToken))),
+    });
   }
   return liveBonds;
 });
@@ -80,11 +88,13 @@ export const getUserNotes = createAsyncThunk(
 // Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   loading: boolean;
+  indexes: number[];
   [key: string]: any;
 }
 
 const initialState: IBondSlice = {
   loading: false,
+  indexes: [],
 };
 
 const bondingSliceV2 = createSlice({
@@ -102,7 +112,11 @@ const bondingSliceV2 = createSlice({
         state.loading = true;
       })
       .addCase(getAllBonds.fulfilled, (state, action) => {
-        action.payload.forEach(bond => (state[bond.index] = bond));
+        state.indexes = [];
+        action.payload.forEach(bond => {
+          state[bond.index] = bond;
+          state.indexes.push(bond.index);
+        });
         state.loading = false;
       })
       .addCase(getAllBonds.rejected, (state, { error }) => {
