@@ -16,6 +16,15 @@ export interface IChangeApprovalAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
 }
 
+export interface IChangeApprovalWithVersionAsyncThunk extends IChangeApprovalAsyncThunk {
+  readonly version2: boolean;
+}
+
+export interface IChangeApprovalWithDisplayNameAsyncThunk extends IChangeApprovalAsyncThunk {
+  readonly displayName: string;
+  readonly insertName: boolean;
+}
+
 export interface IActionAsyncThunk extends IBaseAsyncThunk {
   readonly action: string;
   readonly address: string;
@@ -28,10 +37,26 @@ export interface IValueAsyncThunk extends IBaseAsyncThunk {
 
 export interface IActionValueAsyncThunk extends IValueAsyncThunk {
   readonly action: string;
+  readonly version2: boolean;
+  readonly rebase: boolean;
+}
+
+export interface IActionValueGasAsyncThunk extends IActionValueAsyncThunk {
+  readonly gas: number;
 }
 
 export interface IBaseAddressAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
+}
+
+export interface IActionValueRecipientAsyncThunk extends IActionValueAsyncThunk {
+  readonly recipient: string;
+}
+
+export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
+  readonly tokenAddress: string;
+  readonly sellAmount: number;
+  readonly slippage: string;
 }
 
 // Account Slice

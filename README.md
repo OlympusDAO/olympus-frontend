@@ -1,8 +1,14 @@
+[![Lighthouse PWA Test](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+
+
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
-This is the front-end repo for Olympus that allows users be part of the future of Greece.
+This is the front-end repo for Olympus that allows users be part of the future of _Meta Greece_.
 
-**_ Note We're currently in the process of switching to TypeScript. Please read this guide on how to use TypeScript for this repository. https://github.com/OlympusDAO/olympus-frontend/wiki/TypeScript-Refactor-General-Guidelines _**
+We are moving at web3 speed and we are looking for talented contributors to boost this rocket. Take a look at our [CONTRIBUTING GUIDE](CONTRIBUTING.md) if you are considering joining a world class DAO.
+
+**_ Note We're currently in the process of switching to TypeScript. Please read this guide on how to use TypeScript for this repository. <https://github.com/OlympusDAO/olympus-frontend/wiki/TypeScript-Refactor-General-Guidelines> _**
 
 ## 🔧 Setting up Local Development
 
@@ -22,12 +28,13 @@ $ cp .env.example .env
 
 # fill in your own values in .env, then =>
 $ yarn
-$ yarn lingui:compile
 $ yarn start
 ```
 
 The site is now running at `http://localhost:3000`!
 Open the source code and start editing!
+
+If you would like to run the frontend in a Docker image (e.g. to isolate dependencies and the nodejs version), run `yarn docker-start`.
 
 ## Rinkeby Testing
 
@@ -54,6 +61,11 @@ To run the tests:
 2. then copy the rinkeby `reserveAddress` for the applicable bond & navigate to that contract on rinkeby etherscan.
 3. On Rinkeby etherscan use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
+## Avax Fuji Testnet
+
+1. [avax faucet](https://faucet.avax-test.network/)
+2. [explorer](https://explorer.avax-test.network/)
+
 ## Architecture/Layout
 
 The app is written in [React](https://reactjs.org/) using [Redux](https://redux.js.org/) as the state container.
@@ -75,6 +87,32 @@ The files/folder structure are a **WIP** and may contain some unused files. The 
 └── views/        // Individual Views
 ```
 
+## Theme Support
+
+Themes are available, but it can be difficult to access the theme's colors.
+
+Material UI components, such as `Button`, can use the current theme's color scheme through the `color` property. For example:
+
+```JSX
+ <Button variant="contained" color="primary" className="cause-give-button">
+  Give Yield
+ </Button>
+```
+
+If you wish to use a theme's color scheme manually, follow these steps:
+
+1. Import `useTheme`: `import { useTheme } from "@material-ui/core/styles";`
+1. Instantiate the theme: `const theme = useTheme();`
+1. Add a style property to the component, for example:
+
+```JSX
+ <Grid item className="cause-category" style={{ backgroundColor: theme.palette.background.default }}>
+ {category}
+ </Grid>
+```
+
+For the available theme properties, take a look at the themes in `src/themes`.
+
 ## Application translation
 
 Olympus uses [linguijs](https://github.com/lingui/js-lingui) to manage translation.
@@ -85,8 +123,38 @@ In order to mark text for translation you can use:
 
 - The <Trans> component in jsx templates eg. `<Trans>Translate me!</Trans>`
 - The t function in javascript code and jsx templates. `` t`Translate me` ``
+  You can also add comments for the translators. eg.
+
+```
+t({
+ id: "do_bond",
+ comment: "The action of bonding (verb)",
+})
+```
 
 When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.
+
+### Resolving merge conflicts with translations
+
+```bash
+$ git diff
+# shows two commits in conflict below (fbdd867,e6e0919)
+diff --cc src/locales/translations
+index fbdd867,e6e0919..0000000
+--- a/src/locales/translations
++++ b/src/locales/translations
+
+cd src/locales/translations
+# first commit
+git checkout fbdd867
+# merge in second commit
+git merge e6e0919
+git commit
+
+cd ../../..
+git add src/locales/translations
+git commit
+```
 
 ## 🚀 Deployment
 
@@ -99,11 +167,15 @@ _**TODO**: TheGraph implementation/how/why we use it._
 Commits to the follow branches are automatically deployed to their respective URLs.
 | Branch | URL |
 | --- | --- |
-| master | https://app.olympusdao.finance |
-| deploy | https://staging.olympusdao.finance |
+| master | <https://app.olympusdao.finance> |
+| deploy | <https://staging.olympusdao.finance> |
 
 **Pull Requests**:
 Each PR into master will get its own custom URL that is visible on the PR page. QA & validate changes on that URL before merging into the deploy branch.
+
+### Feature Flags
+
+- Give: by default it is disabled. It can be enabled by setting the `REACT_APP_GIVE_ENABLED` environment variable to "true", or appending `give_enabled` as a URL parameter.
 
 ## 👏🏽 Contributing Guidelines
 

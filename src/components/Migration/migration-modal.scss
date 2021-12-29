@@ -1,0 +1,69 @@
+.tooltip {
+  z-index: 2000;
+}
+
+.docs-link {
+  text-decoration: inherit;
+  font: inherit;
+  color: inherit;
+}
+
+.mig-modal-full {
+  backdrop-filter: blur(33px);
+}
+
+#migration-modal-description {
+  line-height: 1.5em;
+  font-size: 1rem;
+  padding: 0px 5px;
+}
+
+@media (max-width: 500px) {
+  .mig-modal-full .MuiBox-root .MuiBox-root,
+  .mig-modal-full .MuiBox-root .MuiTable-root {
+    max-width: 100vw;
+    margin: 0 auto;
+    // padding: 2% 10%;
+  }
+  .modal-inner {
+    width: 250px;
+    overflow: scroll;
+  }
+}
+
+.migration-card {
+  @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    .MuiBackdrop-root {
+      background: rgba(100, 100, 100, 0.33) !important;
+      backdrop-filter: blur(33px) !important;
+      -webkit-backdrop-filter: blur(33px) !important;
+      .ohm-card {
+        opacity: 1 !important;
+        height: auto;
+      }
+    }
+    .ohm-modal {
+      max-width: 688px;
+      min-height: 605px;
+    }
+  }
+
+  /* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+  @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .MuiBackdrop-root {
+      background: rgba(100, 100, 100, 0.95);
+      .ohm-card {
+        height: auto;
+      }
+    }
+    .ohm-modal {
+      max-width: 688px;
+      min-height: 605px;
+      opacity: 0.9;
+    }
+  }
+}
+
+// .mig-modal-full .MuiBox-root .MuiTable-root {
+//   padding: 5% 30%;
+// }

@@ -1,0 +1,427 @@
+# Pooltogether Graphql Schema, used by graphql-codegen to generate TS type definitions for PoolTogether
+# source: https://github.com/pooltogether/pooltogether-subgraph-v3/blob/master/schema.graphql
+
+scalar Bytes
+scalar BigInt 
+
+enum PrizePoolState {
+  Opened
+  Started
+  Awarded
+}
+
+enum PrizePoolType {
+  Compound
+  yVault
+  Stake
+  YieldSource
+}
+
+
+# ID: `${comptroller.address}`
+type Comptroller @entity {
+  id: ID!
+  owner: Bytes!
+
+  players: [DripTokenPlayer!]! @derivedFrom(field: "comptroller")
+  balanceDrips: [BalanceDrip!]! @derivedFrom(field: "comptroller")
+  volumeDrips: [VolumeDrip!]! @derivedFrom(field: "comptroller")
+}
+
+# id `streamId`
+type SablierStream @entity {
+  id: ID!
+  prizePool: PrizePool!
+}
+
+# ID: `${prizePool.address}`
+type PrizePool @entity {
+  id: ID!
+  deactivated: Boolean!
+
+  owner: Bytes
+  reserveRegistry: Bytes
+
+  prizeStrategy: PrizeStrategy
+  prizePoolType: PrizePoolType
+
+  compoundPrizePool: CompoundPrizePool
+  stakePrizePool: StakePrizePool
+  yieldSourcePrizePool: YieldSourcePrizePool
+
+  reserveFeeControlledToken: Bytes!
+
+  sablierStream: SablierStream @derivedFrom(field: "prizePool")
+
+  underlyingCollateralToken: Bytes
+  underlyingCollateralDecimals: BigInt
+  underlyingCollateralName: String
+  underlyingCollateralSymbol: String
+
+  maxExitFeeMantissa: BigInt!
+  liquidityCap: BigInt!
+
+  cumulativePrizeGross: BigInt!
+  cumulativePrizeReserveFee: BigInt!
+  cumulativePrizeNet: BigInt!
+
+  currentPrizeId: BigInt!
+  currentState: PrizePoolState!
+  
+  prizes: [Prize!]! @derivedFrom(field: "prizePool")
+  tokenCreditRates: [CreditRate!]! @derivedFrom(field: "prizePool")
+  tokenCreditBalances: [CreditBalance!]! @derivedFrom(field: "prizePool")
+
+
+  prizePoolAccounts: [PrizePoolAccount!]! @derivedFrom(field: "prizePool")
+
+  controlledTokens: [ControlledToken!]! @derivedFrom(field: "controller") # controlled tokens may not exist until transfer is called
+}
+
+
+
+# ID: `${compoundPrizePool.address}`
+type CompoundPrizePool @entity {
+  id: ID!
+  cToken: Bytes
+}
+
+
+# ID: `${stakePrizePool.address}`
+type StakePrizePool @entity {
+  id: ID!
+  stakeToken: Bytes # ! ?
+}
+
+# ID: `${yieldSourcePrizePool.address}`
+type YieldSourcePrizePool @entity {
+  id: ID!
+  yieldSource: Bytes # ! ?
+}
+
+# ID: `${prizeStrategy.address}`
+type PrizeStrategy @entity {
+  id: ID!
+  singleRandomWinner: SingleRandomWinnerPrizeStrategy
+  multipleWinners: MultipleWinnersPrizeStrategy
+}
+
+# ID: `${singleRandomWinner.address}`   (will be same address as PrizeStrategy)
+type SingleRandomWinnerPrizeStrategy @entity {
+  id: ID!
+
+  owner: Bytes
+
+  tokenListener: Comptroller
+  prizePool: PrizePool
+  rng: Bytes
+  ticket: ControlledToken
+  sponsorship: ControlledToken
+
+  prizePeriodSeconds: BigInt!
+  prizePeriodStartedAt: BigInt!
+  prizePeriodEndAt: BigInt!
+
+  externalErc20Awards: [SingleRandomWinnerExternalErc20Award!]! @derivedFrom(field: "prizeStrategy")
+  externalErc721Awards: [SingleRandomWinnerExternalErc721Award!]! @derivedFrom(field: "prizeStrategy")
+}
+
+# ID: `${prizePool.address}-${prizeCount}`
+# dynamically generated type, not mapped to a specific contract
+type Prize @entity {
+  id: ID!
+  prizePool: PrizePool!
+
+  awardStartOperator: Bytes
+  awardedOperator: Bytes
+
+  prizePeriodStartedTimestamp: BigInt
+  lockBlock: BigInt
+
+  awardedBlock: BigInt
+  awardedTimestamp: BigInt
+
+  rngRequestId: BigInt
+  randomNumber: BigInt
+
+  numberOfSubWinners: BigInt
+  numberOfExternalAwardedErc20Winners: BigInt
+
+  totalTicketSupply: BigInt # cache of num tickets sold when this prize was awarded
+
+  awardedControlledTokens: [AwardedControlledToken!]! @derivedFrom(field: "prize")
+  awardedExternalErc20Tokens: [AwardedExternalErc20Token!]! @derivedFrom(field: "prize")
+  awardedExternalErc721Nfts: [AwardedExternalErc721Nft!]! @derivedFrom(field: "prize")
+}
+
+# ID: `${prizePool.id}-${winner}`
+type AwardedControlledToken @entity {
+  id: ID!
+  winner: Bytes!
+  amount: BigInt!
+  token: ControlledToken!
+  prize: Prize!
+}
+
+
+# ID: `${prize.id}-${token.address} -${winnerAddress} -{Prize::winnerIndex}`
+# dynamically generated type, not mapped to a specific contract
+type AwardedExternalErc20Token @entity {
+  id: ID!
+
+  address: Bytes!
+  
+  name: String
+  symbol: String
+  decimals: BigInt
+  
+  balanceAwarded: BigInt
+  prize: Prize!
+  winner: Bytes
+}
+
+# ID: `${prize.id}-${token.address}`
+# dynamically generated type, not mapped to a specific contract
+type AwardedExternalErc721Nft @entity {
+  id: ID!
+
+  address: Bytes!
+  tokenIds: [BigInt!]
+  prize: Prize
+  
+  winner: Bytes
+}
+
+
+
+# ID: `${controlledToken.address}`
+type ControlledToken @entity {
+  id: ID!
+
+  name: String!
+  symbol: String!
+  decimals: BigInt
+
+  controller: PrizePool 
+
+  totalSupply: BigInt!
+
+  numberOfHolders: BigInt!
+
+  balances: [ControlledTokenBalance!]! @derivedFrom(field:"controlledToken")
+}
+
+type ControlledTokenBalance @entity {
+  id: ID! # composite key of (address, controlledToken)
+  account: Account!
+  controlledToken: ControlledToken!
+  balance: BigInt
+}
+
+# ID: `${prizeStrategy.address}-${token.address}`
+# dynamically generated type, not mapped to a specific contract
+type SingleRandomWinnerExternalErc20Award @entity {
+  id: ID!
+
+  address: Bytes!
+  name: String
+  symbol: String
+  decimals: BigInt
+  
+  prizeStrategy: SingleRandomWinnerPrizeStrategy
+}
+
+# ID: `${prizeStrategy.address}-${token.address}`
+# dynamically generated type, not mapped to a specific contract
+type SingleRandomWinnerExternalErc721Award @entity {
+  id: ID!
+  address: Bytes!
+  tokenIds: [BigInt!]
+  prizeStrategy: SingleRandomWinnerPrizeStrategy
+}
+
+# join table 
+type PrizePoolAccount @entity{
+  id: ID! #composite prizerpool id - accountid
+
+  prizePool: PrizePool! 
+  account: Account!
+}
+
+# id address
+type Account @entity {
+  id: ID!
+
+  prizePoolAccounts: [PrizePoolAccount!]! @derivedFrom(field: "account")
+  controlledTokenBalances: [ControlledTokenBalance!] @derivedFrom(field: "account")
+}
+
+
+
+# ID: `${prizePool.address}-${controlledToken.address}`
+# dynamically generated type, not mapped to a specific contract
+type CreditRate @entity {
+  id: ID!
+  prizePool: PrizePool!
+
+  creditLimitMantissa: BigInt!
+  creditRateMantissa: BigInt!
+}
+
+# ID: `${prizePool.address}-${controlledToken.address}`
+# dynamically generated type, not mapped to a specific contract
+type CreditBalance @entity {
+  id: ID!
+  prizePool: PrizePool!
+
+  balance: BigInt
+  timestamp: BigInt
+  initialized: Boolean
+}
+
+# ID: `${comptroller.address}-${dripToken.address}-${player.address}`
+# dynamically generated type, not mapped to a specific contract
+type DripTokenPlayer @entity {
+  id: ID!
+  comptroller: Comptroller!
+  dripToken: Bytes!
+  address: Bytes!
+
+  # claimable balance
+  balance: BigInt!
+}
+
+# ID: `${balanceDripId}-${player.address}`
+# dynamically generated type, not mapped to a specific contract
+type BalanceDripPlayer @entity {
+  id: ID!
+  balanceDrip: BalanceDrip!
+  address: Bytes!
+}
+
+# ID: `${comptroller.address}-${sourceToken.address}-${measureToken.address}-${dripToken.address}`
+# dynamically generated type, not mapped to a specific contract
+type BalanceDrip @entity {
+  id: ID!
+
+  comptroller: Comptroller!
+
+  sourceAddress: Bytes!
+  measureToken: Bytes!
+  dripToken: Bytes!
+
+  dripRatePerSecond: BigInt
+  exchangeRateMantissa: BigInt
+  timestamp: BigInt
+
+  players: [BalanceDripPlayer!]! @derivedFrom(field: "balanceDrip")
+
+  deactivated: Boolean!
+}
+
+
+# ID: `${volumeDripId}-${player.address}`
+# dynamically generated type, not mapped to a specific contract
+type VolumeDripPlayer @entity {
+  id: ID!
+  volumeDrip: VolumeDrip!
+  address: Bytes!
+
+  periodIndex: BigInt!
+  balance: BigInt!
+}
+
+# ID: `${volumeDripId}-${periodIndex}`
+# dynamically generated type, not mapped to a specific contract
+type VolumeDripPeriod @entity {
+  id: ID!
+  volumeDrip: VolumeDrip!
+  periodIndex: BigInt!
+
+  totalSupply: BigInt
+  dripAmount: BigInt
+  endTime: BigInt
+
+  isDripping: Boolean!
+}
+
+# ID: `${comptroller.address}-${sourceToken.address}-${measureToken.address}-${dripToken.address}-${isReferral}`
+# dynamically generated type, not mapped to a specific contract
+type VolumeDrip @entity {
+  id: ID!
+
+  comptroller: Comptroller!
+
+  sourceAddress: Bytes!
+  measureToken: Bytes!
+  dripToken: Bytes!
+  referral: Boolean!
+
+  periodSeconds: BigInt
+  dripAmount: BigInt
+  periodCount: BigInt
+
+  deposits: [VolumeDripPlayer!]! @derivedFrom(field: "volumeDrip")
+  periods: [VolumeDripPeriod!]! @derivedFrom(field: "volumeDrip")
+
+  deactivated: Boolean!
+}
+
+# id address of prizeStrategy
+type MultipleWinnersPrizeStrategy @entity {
+  id: ID!
+  owner: Bytes
+  
+  numberOfWinners: BigInt
+  splitExternalERC20Awards: Boolean 
+
+
+  tokenListener: Bytes 
+  prizePool: PrizePool 
+  rng: Bytes
+  
+  ticket: ControlledToken  
+  sponsorship: ControlledToken
+  
+  prizePeriodSeconds: BigInt! 
+  prizePeriodStartedAt: BigInt! 
+  prizePeriodEndAt: BigInt! 
+
+  prizeSplits: [PrizeSplit!] @derivedFrom(field: "prizeStrategy")
+  blockListedAddresses: [Bytes!]
+  
+  externalErc20Awards: [MultipleWinnersExternalErc20Award!]! @derivedFrom(field: "prizeStrategy") 
+  externalErc721Awards: [MultipleWinnersExternalErc721Award!]! @derivedFrom(field: "prizeStrategy")
+}
+
+# ID: prizeStrategy.address-index
+type PrizeSplit @entity{
+  id: ID!
+  percentage: BigInt!
+  target: Bytes!
+  tokenType: BigInt! # 0 or 1 (sponsorship or ticket)
+  prizeStrategy: MultipleWinnersPrizeStrategy
+}
+
+# ID: `${prizeStrategy.address}-${token.address}`
+# dynamically generated type, not mapped to a specific contract
+type MultipleWinnersExternalErc20Award @entity {
+  id: ID!
+
+  address: Bytes!
+  name: String
+  symbol: String
+  decimals: BigInt
+  
+  balanceAwarded: BigInt
+  prizeStrategy: MultipleWinnersPrizeStrategy
+}
+
+# ID: `${prizeStrategy.address}-${token.address}`
+# dynamically generated type, not mapped to a specific contract
+type MultipleWinnersExternalErc721Award @entity {
+  id: ID!
+  address: Bytes!
+  tokenIds: [BigInt!]
+  prizeStrategy: MultipleWinnersPrizeStrategy
+}
