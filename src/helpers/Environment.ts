@@ -177,13 +177,4 @@ export class EnvHelper {
     const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getInfuraIdList()];
     return ALL_URIs;
   }
-
-  static getZapperAPIKey() {
-    // below is public key from Zapper, per: https://docs.zapper.fi/zapper-api/endpoints
-    let apiKey = "96e0cc51-a62e-42ca-acee-910ea7d2a241";
-    if (!apiKey) {
-      console.warn("zaps won't work without REACT_APP_ZAPPER_API key");
-    }
-    return apiKey;
-  }
 }
