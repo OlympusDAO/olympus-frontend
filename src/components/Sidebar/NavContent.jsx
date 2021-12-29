@@ -41,7 +41,7 @@ function NavContent() {
   const address = useAddress();
   const networkId = useSelector(state => state.network.networkId);
   const { bonds } = useBonds(networkId);
-  const { ensName } = useENS(address);
+  const { ensName, ensAvatar } = useENS(address);
   const location = useLocation();
 
   const checkPage = useCallback((match, location, page) => {
@@ -95,6 +95,7 @@ function NavContent() {
 
             {address && (
               <div className="wallet-link">
+                {ensAvatar && <img className="avatar" src={ensAvatar} alt={address} />}
                 <Link href={`https://etherscan.io/address/${address}`} target="_blank">
                   {ensName || shorten(address)}
                 </Link>
