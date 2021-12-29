@@ -65,8 +65,7 @@ export function RecipientModal({
 }: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, connect, networkId } = useWeb3Context();
 
   const _initialDepositAmount = 0;
   const _initialWalletAddress = "";

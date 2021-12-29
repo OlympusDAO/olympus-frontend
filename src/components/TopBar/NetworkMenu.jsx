@@ -3,12 +3,11 @@ import { NavLink } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import "./networkmenu.scss";
 import Grid from "@material-ui/core/Grid";
-import { useSelector } from "react-redux";
+import { useWeb3Context } from "src/hooks/web3Context";
 import { NETWORKS } from "../../constants";
 
 function NetworkMenu() {
-  const networkId = useSelector(state => state.network.networkId);
-  const networkName = useSelector(state => state.network.networkName);
+  const { networkId, networkName } = useWeb3Context();
   const [image, setImage] = useState();
 
   useEffect(() => {

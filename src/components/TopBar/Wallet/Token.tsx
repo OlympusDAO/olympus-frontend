@@ -258,11 +258,15 @@ export const MigrateToken = ({ symbol, icon, balance = "0.0", price = 0 }: IToke
 const sumObjValues = (obj: Record<string, string> = {}) =>
   Object.values(obj).reduce((sum, b = "0.0") => sum + (parseFloat(b) || 0), 0);
 
-export const useWallet = (): Record<string, IToken> => {
-  const { address: userAddress } = useWeb3Context();
-
+export const useWallet = (
+  userAddress: string,
+  chainId: NetworkID,
+  providerInitialized: Boolean,
+): Record<string, IToken> => {
+  // const { address: userAddress, networkId: chainId, providerInitialized } = useWeb3Context();
   // default to mainnet while not initialized
-  const networkId = useAppSelector(s => (s.network.initialized ? s.network.networkId : NetworkID.Mainnet));
+  const networkId = providerInitialized ? chainId : NetworkID.Mainnet;
+  // const networkId = useAppSelector(s => (s.network.initialized ? s.network.networkId : NetworkID.Mainnet));
 
   const connectedChainBalances = useAppSelector(s => s.account.balances);
   const ohmPrice = useAppSelector(s => s.app.marketPrice);
@@ -359,8 +363,8 @@ export const useCrossChainBalances = (address: string) => {
 };
 
 export const Tokens = () => {
-  const { address: userAddress } = useWeb3Context();
-  const tokens = useWallet();
+  const { address: userAddress, networkId, providerInitialized } = useWeb3Context();
+  const tokens = useWallet(userAddress, networkId, providerInitialized);
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const [expanded, setExpanded] = useState<string | null>(null);
 

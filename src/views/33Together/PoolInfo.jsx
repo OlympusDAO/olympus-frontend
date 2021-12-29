@@ -11,8 +11,7 @@ import { poolTogetherUILinks } from "../../helpers/33Together";
 
 export const PoolInfo = props => {
   const [poolLoadedCount, setPoolLoadedCount] = useState(0);
-  const { address } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { address, networkId } = useWeb3Context();
   const isPoolLoading = useSelector(state => state.poolData.loading ?? true);
 
   const creditMaturationInDays = useSelector(state => {

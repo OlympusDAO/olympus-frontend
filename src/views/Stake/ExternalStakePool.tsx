@@ -82,8 +82,7 @@ const StakePool = ({ poolName, icons, stakeOn, href }: StakePoolProps) => {
 
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, hasCachedProvider, address, connect, networkId } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   // const isMobileScreen = useMediaQuery("(max-width: 513px)");

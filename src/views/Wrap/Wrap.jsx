@@ -26,7 +26,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrap, changeWrapV2 } from "../../slices/WrapThunk";
 import { migrateWithType, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
-import { switchNetwork } from "../../slices/NetworkSlice";
+import { switchNetwork } from "../../helpers/NetworkHelper";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
@@ -48,9 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 function Wrap() {
   const dispatch = useDispatch();
-  const { provider, address, connect } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
-  const networkName = useSelector(state => state.network.networkName);
+  const { provider, address, connect, networkId } = useWeb3Context();
 
   const [zoomed, setZoomed] = useState(false);
   const [assetFrom, setAssetFrom] = useState("sOHM");
@@ -115,8 +113,7 @@ function Wrap() {
 
   const handleSwitchChain = id => {
     return () => {
-      dispatch(switchNetwork({ provider: provider, networkId: id }));
-      dispatch(loadAccountDetails({ address, provider, networkID: id }));
+      switchNetwork({ provider: provider, networkId: id });
     };
   };
 

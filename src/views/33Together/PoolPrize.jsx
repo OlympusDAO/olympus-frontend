@@ -10,8 +10,7 @@ import { Skeleton } from "@material-ui/lab";
 import { trim, subtractDates } from "src/helpers";
 
 export const PoolPrize = () => {
-  const { provider } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { provider, networkId } = useWeb3Context();
   const dispatch = useDispatch();
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState(null);
