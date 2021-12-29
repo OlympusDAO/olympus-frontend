@@ -185,10 +185,10 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
           style={{ gap: theme.spacing(1.5) }}
         >
           <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
-            <Typography>Buy on Sushiswap</Typography>
+            <Typography>Get on Sushiswap</Typography>
           </ExternalLink>
           <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_frax.lpUrl}>
-            <Typography>Buy on Uniswap</Typography>
+            <Typography>Get on Uniswap</Typography>
           </ExternalLink>
           <Borrow
             href={`https://app.rari.capital/fuse/pool/18`}
