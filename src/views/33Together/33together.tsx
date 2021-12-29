@@ -41,8 +41,7 @@ const PoolTogether = () => {
 
   // NOTE (appleseed): these calcs were previously in PoolInfo, however would be need in PoolPrize, too, if...
   // ... we ever were to implement other types of awards
-  const { connect, address, provider, hasCachedProvider } = useWeb3Context();
-  const { networkId, initialized } = useAppSelector(state => state.network);
+  const { connect, address, provider, hasCachedProvider, networkId, providerInitialized } = useWeb3Context();
   const dispatch = useDispatch();
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[1]);
   const [poolData, setPoolData] = useState(null);
@@ -71,7 +70,7 @@ const PoolTogether = () => {
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
-    if (!initialized) {
+    if (!providerInitialized) {
       setGraphUrl(POOL_GRAPH_URLS[1]);
     } else {
       setGraphUrl(POOL_GRAPH_URLS[networkId]);
@@ -81,7 +80,7 @@ const PoolTogether = () => {
   useEffect(() => {
     console.log("apollo", networkId);
     let apolloUrl: string;
-    if (!initialized) {
+    if (!providerInitialized) {
       apolloUrl = poolDataQuery(addresses[1].PT_PRIZE_POOL_ADDRESS);
     } else {
       apolloUrl = poolDataQuery(addresses[networkId].PT_PRIZE_POOL_ADDRESS);

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useAppSelector } from "src/hooks";
+import { useAppSelector, useWeb3Context } from "src/hooks";
 import { useLocation } from "react-router-dom";
 import { Paper, Typography, Zoom, Container, Box } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
@@ -22,7 +22,7 @@ type State = {
 
 export default function DepositYield() {
   const location = useLocation();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const totalDebt = useSelector((state: State) => {

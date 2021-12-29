@@ -81,8 +81,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
   const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
-  const { provider, address, connected, connect } = useWeb3Context();
-  const { networkId, initialized } = useAppSelector(state => state.network);
+  const { provider, address, connected, networkId, providerInitialized } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
@@ -119,7 +118,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   // When the user's wallet is connected, we perform these actions
   useEffect(() => {
-    if (!connected || !initialized) return;
+    if (!connected || !providerInitialized) return;
 
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
     // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc

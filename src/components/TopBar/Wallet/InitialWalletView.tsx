@@ -27,6 +27,7 @@ import { ohm_frax, ohm_dai } from "src/helpers/AllBonds";
 
 import { IToken, Tokens, useWallet } from "./Token";
 import { Trans } from "@lingui/macro";
+import WalletAddressEns from "./WalletAddressEns";
 
 const Borrow = ({
   Icon1,
@@ -74,7 +75,7 @@ const ExternalLink = ({ href, children, color }: { href: string; children: React
       color={color}
       variant="outlined"
       size="large"
-      style={{ padding: theme.spacing(1.5), maxHeight: "100%" }}
+      style={{ padding: theme.spacing(1.5), maxHeight: "unset", height: "auto" }}
       fullWidth
       target={`_blank`}
     >
@@ -124,20 +125,17 @@ const CloseButton = withStyles(theme => ({
   },
 }))(IconButton);
 
-const sumAllChainsTokenBalances = (token: IToken) =>
-  token.crossChainBalances?.balances &&
-  Object.values(token.crossChainBalances.balances).reduce((sum, b = "0.0") => sum + parseFloat(b), 0);
-
 const WalletTotalValue = () => {
-  const tokens = useWallet();
+  const { address: userAddress, networkId, providerInitialized } = useWeb3Context();
+  const tokens = useWallet(userAddress, networkId, providerInitialized);
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const marketPrice = useAppSelector(s => s.app.marketPrice || 0);
   const [currency, setCurrency] = useState<"USD" | "OHM">("USD");
 
-  const walletTotalValueUSD = Object.values(tokens).reduce((totalValue, token) => {
-    const allChainsBalance = sumAllChainsTokenBalances(token);
-    return totalValue + (allChainsBalance || parseFloat(token.balance)) * token.price;
-  }, 0);
+  const walletTotalValueUSD = Object.values(tokens).reduce(
+    (totalValue, token) => totalValue + parseFloat(token.totalBalance) * token.price,
+    0,
+  );
   const walletValue = {
     USD: walletTotalValueUSD,
     OHM: walletTotalValueUSD / marketPrice,
@@ -150,6 +148,7 @@ const WalletTotalValue = () => {
       <Typography style={{ fontWeight: 700 }} variant="h3">
         {!isLoading ? formatCurrency(walletValue[currency], 2, currency) : <Skeleton variant="text" width={100} />}
       </Typography>
+      <WalletAddressEns />
     </Box>
   );
 };
@@ -186,10 +185,10 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
           style={{ gap: theme.spacing(1.5) }}
         >
           <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
-            <Typography>Buy on Sushiswap</Typography>
+            <Typography>Get on Sushiswap</Typography>
           </ExternalLink>
           <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_frax.lpUrl}>
-            <Typography>Buy on Uniswap</Typography>
+            <Typography>Get on Uniswap</Typography>
           </ExternalLink>
           <Borrow
             href={`https://app.rari.capital/fuse/pool/18`}

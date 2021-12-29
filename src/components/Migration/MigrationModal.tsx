@@ -64,9 +64,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const dispatch = useDispatch();
   const classes = useStyles();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
-  const { provider, address, connect } = useWeb3Context();
-
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
 
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;

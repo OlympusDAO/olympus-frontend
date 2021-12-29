@@ -41,8 +41,7 @@ type State = {
 export default function RedeemYield() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connected, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, hasCachedProvider, address, connected, connect, networkId } = useWeb3Context();
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");

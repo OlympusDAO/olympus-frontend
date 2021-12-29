@@ -41,6 +41,7 @@ const darkTheme = {
   graphStrokeColor: "rgba(255, 255, 255, .1)",
   gridButtonHoverBackground: "rgba(255, 255, 255, 0.6)",
   gridButtonActiveBackground: "#00000038",
+  switchBg: "#333333",
 };
 
 export const dark = responsiveFontSizes(
@@ -74,6 +75,22 @@ export const dark = responsiveFontSizes(
         fontFamily: "Square",
       },
       overrides: {
+        MuiSwitch: {
+          colorPrimary: {
+            color: darkTheme.color,
+            "&$checked": {
+              color: darkTheme.switchBg,
+              "& + $track": {
+                backgroundColor: darkTheme.color,
+                borderColor: darkTheme.color,
+              },
+            },
+          },
+          track: {
+            border: `1px solid ${darkTheme.color}`,
+            backgroundColor: darkTheme.switchBg,
+          },
+        },
         MuiCssBaseline: {
           "@global": {
             "@font-face": fonts,

@@ -54,7 +54,11 @@ const Networks = [
 ];
 
 const balanceByContractAddress = (balances: Token[], address: string) => {
-  return balances.find(token => token.contractAddress.toLowerCase() === address.toLowerCase())?.balance;
+  if (address) {
+    return balances.find(token => token.contractAddress.toLowerCase() === address?.toLowerCase())?.balance;
+  } else {
+    return;
+  }
 };
 
 const addressBalancesByNetwork = (Networks: NetworkId[], balances: Token[], contractAddressKey: string) => {
