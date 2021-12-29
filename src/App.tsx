@@ -164,7 +164,7 @@ function App() {
         });
       }
     },
-    [networkId],
+    [networkId, providerInitialized],
   );
 
   const loadAccount = useCallback(
@@ -187,7 +187,7 @@ function App() {
         }
       });
     },
-    [networkId, address],
+    [networkId, address, providerInitialized],
   );
 
   const oldAssetsDetected = useAppSelector(state => {
