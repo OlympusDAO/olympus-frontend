@@ -42,6 +42,13 @@
   }
   .wallet-link {
     margin: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .avatar {
+    margin-right: 8px;
+    height: 20px;
+    border-radius: 100px;
   }
 }
 
@@ -124,7 +131,6 @@
   color: #999999;
   padding-left: 33px;
   margin-top: 8px;
-
 
   .discounts-accordion {
     backdrop-filter: none;
