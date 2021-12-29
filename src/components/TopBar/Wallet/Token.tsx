@@ -137,12 +137,6 @@ const BalanceValue = ({
   </Box>
 );
 
-// const sumAllChainsBalances = (crossChainBalances: IToken["crossChainBalances"]) =>
-//   crossChainBalances?.balances &&
-//   Object.values(crossChainBalances.balances)
-//     .reduce((sum, b = "0.0") => sum + parseFloat(b), 0)
-//     .toString();
-
 const TokenBalance = ({
   balanceLabel,
   balance,
@@ -166,7 +160,6 @@ export const Token = ({
   symbol,
   decimals,
   icon,
-  // balance = "0.0",
   price = 0,
   crossChainBalances,
   vaultBalances,
@@ -177,8 +170,6 @@ export const Token = ({
 }: TokenProps) => {
   const theme = useTheme();
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
-  // const allChainsBalance = sumAllChainsBalances(crossChainBalances);
-  // const totalBalance = allChainsBalance || balance || "0.0";
   const balanceValue = parseFloat(totalBalance) * price;
 
   // cleanedDecimals provides up to 7 sigFigs on an 18 decimal token (gOHM) & 5 sigFigs on 9 decimal Token
