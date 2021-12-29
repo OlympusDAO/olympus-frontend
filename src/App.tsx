@@ -267,7 +267,7 @@ function App() {
     if (connected && providerInitialized) {
       loadDetails("account");
     }
-  }, [connected, networkId]);
+  }, [connected, networkId, providerInitialized]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
