@@ -170,6 +170,8 @@ Each PR into master will get its own custom URL that is visible on the PR page. 
 
 ## 👏🏽 Contributing Guidelines
 
+First, take a look at our [CONTRIBUTING GUIDE](CONTRIBUTING.md) .
+
 We keep an updated list of bugs/feature requests in [Github Issues](https://github.com/OlympusDAO/olympusdao/issues).
 
 ![GitHub issues](https://img.shields.io/github/issues/olympusdao/olympusdao?style=flat-square)
