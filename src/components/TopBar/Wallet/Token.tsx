@@ -329,7 +329,7 @@ export const useWallet = (
       symbol: "wsOHM",
       address: addresses[networkId].WSOHM_ADDRESS,
       balance: connectedChainBalances.wsohm,
-      price: (ohmPrice || 0) * Number(currentIndex),
+      price: (ohmPrice || 0) * Number(currentIndex || 0),
       crossChainBalances: { balances: wsohm, isLoading },
       icon: WsOhmImg,
       decimals: 18,
@@ -346,7 +346,7 @@ export const useWallet = (
       symbol: "gOHM",
       address: addresses[networkId].GOHM_ADDRESS,
       balance: connectedChainBalances.gohm,
-      price: (ohmPrice || 0) * Number(currentIndex),
+      price: (ohmPrice || 0) * Number(currentIndex || 0),
       crossChainBalances: { balances: gohm, isLoading },
       vaultBalances: {
         "Fuse Olympus Pool Party": connectedChainBalances.fgohm,
