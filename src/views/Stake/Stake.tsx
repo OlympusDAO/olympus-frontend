@@ -282,7 +282,6 @@ function Stake() {
                 />
               </MetricCollection>
             </Grid>
-
             <div className="staking-area">
               {!address ? (
                 <div className="stake-wallet-notification">
