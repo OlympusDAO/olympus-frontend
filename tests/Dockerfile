@@ -16,6 +16,7 @@ COPY scripts .
 COPY gulpfile.js .
 COPY package.json .
 COPY yarn.lock .
+# This image is not pushed to a registry, so there shouldn't be an issue with this
 COPY .env* .
 COPY index.d.ts .
 
@@ -23,7 +24,7 @@ COPY index.d.ts .
 COPY src src
 
 # Yarn would timeout with the material-ui package(s), so we override the timeout
-RUN yarn --network-timeout 1000000
+RUN yarn install --network-timeout 1000000
 
 EXPOSE 3000
 

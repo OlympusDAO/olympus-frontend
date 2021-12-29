@@ -2,28 +2,24 @@ version: "3.2"
 services:
   # Runs the Hardhat node on an ongoing basis
   contract_node:
-    image: 0xjem/olympus-contracts:Version-1.1-docker
-    network_mode: host
+    image: 0xjem/olympus-contracts:docker
+    entrypoint: npm run start
     ports:
       - 8545:8545
-  # Deploys the contracts against the node and exits
-  # We use network_mode: host so that contract_deploy can communicate with contract_node using the localhost hostname
-  contract_deploy:
-    image: 0xjem/olympus-contracts:Version-1.1-docker
-    network_mode: host
-    entrypoint: npm run deploy
-    depends_on:
-      - contract_node
+    # When running using CI, we are likely to define these values through environment variables
+    environment:
+      - PRIVATE_KEY=${CONTRACT_NODE_PRIVATE_KEY}
+      - ALCHEMY_API_KEY=${CONTRACT_NODE_ALCHEMY_API_KEY}
+    # But the .env file is more likely for local development
+    env_file:
+      - .env
   frontend:
-    build: 
-      context: ../
-      dockerfile: Dockerfile
-    network_mode: host
+    build:
+      context: ..
+      dockerfile: tests/Dockerfile
     ports:
       - 3000:3000
     depends_on:
       - contract_node
-      - contract_deploy
     volumes:
-      - ../src:/usr/src/app/src
       - ../public:/usr/src/app/public
