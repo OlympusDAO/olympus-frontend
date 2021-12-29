@@ -37,36 +37,39 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  stakePoolsWrapper: {
+    display: "grid",
+    gridTemplateColumns: `1.5fr 0.5fr 0.5fr 0.5fr 1.5fr auto`,
+    gridTemplateRows: "auto",
+    alignItems: "center",
+  },
+  stakePoolHeaderText: {
+    color: theme.palette.text.secondary,
+    lineHeight: 1.4,
+  },
 }));
 
 const StakePool = ({ poolName, icons, stakeOn, href, apy }: StakePoolProps) => {
   const theme = useTheme();
   const styles = useStyles();
   return (
-    <Box
-      sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap" }}
-      style={{ gap: theme.spacing(1.5) }}
-    >
-      <Box sx={{ display: "flex", alignItems: "center", flexBasis: "300px", flexGrow: 2 }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <MultiLogo icons={icons} />
-          <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "0.2rem" }}>
-            {poolName}
-          </Typography>
-        </Box>
-        <Box width="16px" sx={{ display: "flex", justifyContent: "space-around", flexGrow: 1 }}>
-          <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-            {apy}
-          </Typography>
-          <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-            $624,829
-          </Typography>
-          <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-            10.0LP
-          </Typography>
-        </Box>
+    <Box style={{ gap: theme.spacing(1.5) }} className={styles.stakePoolsWrapper}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <MultiLogo icons={icons} />
+        <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "0.2rem" }}>
+          {poolName}
+        </Typography>
       </Box>
-      <Box sx={{ display: "flex", flexBasis: "200px", flexGrow: 1, maxWidth: "500px" }}>
+      <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+        {apy}
+      </Typography>
+      <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+        $624,829
+      </Typography>
+      <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+        10.0LP
+      </Typography>
+      <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
         <Button
           className={styles.stakeOnButton}
           variant="outlined"
@@ -100,6 +103,7 @@ export default function ExternalStakePool() {
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   // const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const theme = useTheme();
+  const styles = useStyles();
 
   useEffect(() => {
     if (hasCachedProvider()) {
@@ -129,6 +133,20 @@ export default function ExternalStakePool() {
             <Trans>Farm Pool</Trans>
           </Typography>
         </div>
+        <Box className={styles.stakePoolsWrapper} style={{ marginBottom: "0.5rem" }}>
+          <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
+            Asset
+          </Typography>
+          <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
+            APY
+          </Typography>
+          <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
+            TVD
+          </Typography>
+          <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
+            Balance
+          </Typography>
+        </Box>
         <Box
           sx={{ display: "flex", flexDirection: "column" }}
           style={{ gap: theme.spacing(4) /* material says 'gap' does not exist 😡 */ }}
