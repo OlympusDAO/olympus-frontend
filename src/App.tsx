@@ -82,6 +82,7 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     overflow: "auto",
     marginLeft: drawerWidth,
+    paddingBottom: "10rem",
   },
   contentShift: {
     transition: theme.transitions.create("margin", {
@@ -304,7 +305,7 @@ function App() {
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
           <Messages />
           <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-          <Announcement />
+
           <nav className={classes.drawer}>
             {isSmallerScreen ? (
               <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
@@ -318,6 +319,7 @@ function App() {
               !hasActiveV1Bonds &&
               trimmedPath.indexOf("dashboard") === -1 &&
               oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+            {trimmedPath.indexOf("dashboard") === -1 && <Announcement />}
 
             <Switch>
               <Route exact path="/dashboard">
