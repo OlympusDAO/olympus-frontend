@@ -152,9 +152,6 @@ function App() {
 
   const loadApp = useCallback(
     loadProvider => {
-      if (!providerInitialized) {
-        return;
-      }
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       // NOTE (appleseed) - tech debt - better network filtering for active bonds
       if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
@@ -163,7 +160,7 @@ function App() {
         });
       }
     },
-    [networkId, providerInitialized],
+    [networkId],
   );
 
   const loadAccount = useCallback(
