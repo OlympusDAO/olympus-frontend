@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { setAll } from "src/helpers";
 import { ZapHelper } from "src/helpers/ZapHelper";
 import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
+import { NetworkID } from "src/lib/Bond";
 import { error, info } from "./MessagesSlice";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { ethers } from "ethers";
@@ -31,6 +32,13 @@ export const getZapTokenAllowance = createAsyncThunk(
       dispatch(error("An error has occurred when fetching token allowance."));
       throw e;
     }
+  },
+);
+
+export const zapNetworkCheck = createAsyncThunk(
+  "zap/zapNetworkCheck",
+  async ({ networkID }: { networkID: NetworkID }, { dispatch }) => {
+    zapNetworkAvailable(networkID, dispatch);
   },
 );
 
@@ -96,6 +104,7 @@ export const getZapTokenBalances = createAsyncThunk(
 export const executeZap = createAsyncThunk(
   "zap/executeZap",
   async ({ provider, address, sellAmount, slippage, tokenAddress, networkID }: IZapAsyncThunk, { dispatch }) => {
+    if (!zapNetworkAvailable(networkID, dispatch)) return;
     try {
       const gasPrice = await provider.getGasPrice();
       const rawTransactionData = await ZapHelper.executeZapHelper(
@@ -104,6 +113,7 @@ export const executeZap = createAsyncThunk(
         tokenAddress,
         slippage,
         +gasPrice,
+        networkID,
       );
       const transactionData = {
         data: rawTransactionData.data,
@@ -145,6 +155,15 @@ export const executeZap = createAsyncThunk(
     dispatch(getZapTokenBalances({ address, provider, networkID }));
   },
 );
+
+const zapNetworkAvailable = (networkID: NetworkID, dispatch: ThunkDispatch<unknown, unknown, AnyAction>) => {
+  if (Number(networkID) === 1) {
+    return true;
+  } else {
+    dispatch(info("Zaps are only available on Mainnet"));
+    return false;
+  }
+};
 
 export interface IZapSlice {
   balances: { [key: string]: any };
