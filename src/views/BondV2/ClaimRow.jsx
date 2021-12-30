@@ -12,11 +12,10 @@ import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxn
 
 export function ClaimBondTableData({ userBond }) {
   const dispatch = useDispatch();
-  const { address, provider } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { address, provider, networkId } = useWeb3Context();
   const { bonds, expiredBonds } = useBonds(networkId);
 
-  const bond = userBond[1];
+  const bond = userBond;
   const bondName = bond.bond;
 
   const isAppLoading = useSelector(state => state.app.loading ?? true);
@@ -50,23 +49,25 @@ export function ClaimBondTableData({ userBond }) {
         </div>
       </TableCell>
       <TableCell align="center">
-        {bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />}
-      </TableCell>
-      <TableCell align="center">{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</TableCell>
-      <TableCell align="right" style={{ whiteSpace: "nowrap" }}>
         {isAppLoading ? <Skeleton /> : vestingPeriod()}
+        {/* {bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />} */}
+      </TableCell>
+      <TableCell align="center">
+        {bond.interestDue ? trim(bond.interestDue, 4) + " sOHM" : <Skeleton width={100} />}
       </TableCell>
       <TableCell align="right">
-        <Button
-          variant="outlined"
-          color="primary"
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
-          onClick={() => onRedeem({ autostake: false })}
-        >
-          <Typography variant="h6">
-            {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
-          </Typography>
-        </Button>
+        {vestingPeriod() === "Fully Vested" && (
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
+            onClick={() => onRedeem({ autostake: false })}
+          >
+            <Typography variant="h6">
+              {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
+            </Typography>
+          </Button>
+        )}
       </TableCell>
     </TableRow>
   );
@@ -74,11 +75,10 @@ export function ClaimBondTableData({ userBond }) {
 
 export function ClaimBondCardData({ userBond }) {
   const dispatch = useDispatch();
-  const { address, provider } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { address, provider, networkId } = useWeb3Context();
   const { bonds, expiredBonds } = useBonds(networkId);
 
-  const bond = userBond[1];
+  const bond = userBond;
   const bondName = bond.bond;
 
   const currentBlock = useSelector(state => {
