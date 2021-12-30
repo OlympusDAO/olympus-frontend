@@ -74,6 +74,10 @@ export interface IBaseBondAsyncThunk extends IBaseAsyncThunk {
   readonly bond: Bond;
 }
 
+export interface IBondV2AysncThunk extends IBaseAddressAsyncThunk {
+  readonly bondIndex: number;
+}
+
 export interface IApproveBondAsyncThunk extends IBaseBondAsyncThunk {
   readonly address: string;
 }

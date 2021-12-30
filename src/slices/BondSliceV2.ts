@@ -1,8 +1,8 @@
 import { ethers, BigNumber } from "ethers";
-import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
-import { IApproveBondAsyncThunk, IBaseAsyncThunk, IBaseAddressAsyncThunk } from "./interfaces";
-import { BondDepository__factory } from "src/typechain";
+import { IApproveBondAsyncThunk, IBaseAsyncThunk, IBaseAddressAsyncThunk, IBondV2AysncThunk } from "./interfaces";
+import { BondDepository__factory, IERC20__factory } from "src/typechain";
 import { addresses } from "src/constants";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { NetworkID } from "src/lib/Bond";
@@ -11,10 +11,30 @@ import { findOrLoadMarketPrice } from "./AppSlice";
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
-  async ({ address, bond, provider, networkID }: IApproveBondAsyncThunk, { dispatch }) => {},
+  async ({ bondIndex, provider, networkID }: IBondV2AysncThunk, { getState }) => {
+    checkNetwork(networkID);
+    const signer = provider.getSigner();
+    const bondState = (getState() as any).bondingV2[bondIndex];
+    const tokenContractAddress: string = bondState.quoteToken;
+    const tokenDecimals: number = bondState.quoteDecimals;
+    const tokenContract = IERC20__factory.connect(tokenContractAddress, signer);
+    await tokenContract.approve(
+      addresses[networkID].BOND_DEPOSITORY,
+      ethers.utils.parseUnits("10000000000000", tokenDecimals),
+    );
+  },
 );
 
-export interface IBondV2 {
+export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
+  index: number;
+  displayName: string;
+  price: number;
+  discount: number;
+  days: string;
+  //   allowance: ethers.BigNumber;
+}
+
+interface IBondV2Core {
   quoteToken: string;
   capacityInQuote: boolean;
   capacity: BigNumber;
@@ -22,10 +42,9 @@ export interface IBondV2 {
   maxPayout: BigNumber;
   purchased: BigNumber;
   sold: BigNumber;
-  index: number;
-  displayName: string;
-  price: number;
-  discount: number;
+}
+
+interface IBondV2Meta {
   lastTune: number;
   lastDecay: number;
   length: number;
@@ -33,12 +52,14 @@ export interface IBondV2 {
   tuneInterval: number;
   baseDecimals: number;
   quoteDecimals: number;
+}
+
+interface IBondV2Terms {
   fixedTerm: boolean;
   controlVariable: ethers.BigNumber;
   vesting: number;
   conclusion: number;
   maxDebt: ethers.BigNumber;
-  days: string;
 }
 
 export interface IUserNote {
@@ -55,11 +76,62 @@ function checkNetwork(networkID: NetworkID) {
   }
 }
 
+export const getSingleBond = createAsyncThunk(
+  "bondsV2/getSingle",
+  async ({ provider, networkID, address, bondIndex }: IBondV2AysncThunk, { dispatch }): Promise<IBondV2> => {
+    checkNetwork(networkID);
+    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+    const bond = await depositoryContract.markets(bondIndex);
+    const bondMetadata = await depositoryContract.metadata(bondIndex);
+    const bondTerms = await depositoryContract.terms(bondIndex);
+    return processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+  },
+);
+
+async function processBond(
+  bond: IBondV2Core,
+  metadata: IBondV2Meta,
+  terms: IBondV2Terms,
+  index: number,
+  provider: ethers.providers.JsonRpcProvider,
+  networkID: NetworkID,
+  dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
+): Promise<IBondV2> {
+  const currentBlock = await provider.getBlockNumber();
+  const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+  const quoteTokenPrice = Number(await getTokenPrice((await getTokenIdByContract(bond.quoteToken)) ?? "dai"));
+
+  const bondPrice = (quoteTokenPrice * +(await depositoryContract.marketPrice(index))) / Math.pow(10, 9);
+  const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
+  const bondDiscount = (100 * Math.max(ohmPrice - bondPrice, ohmPrice)) / ohmPrice;
+
+  let days = "";
+  if (!terms.fixedTerm) {
+    const vestingBlock = currentBlock + terms.vesting;
+    const seconds = secondsUntilBlock(currentBlock, vestingBlock);
+    days = prettifySeconds(seconds, "day");
+  } else {
+    const conclusionBlock = terms.conclusion;
+    const seconds = secondsUntilBlock(currentBlock, conclusionBlock);
+    days = prettifySeconds(seconds, "day");
+  }
+
+  return {
+    ...bond,
+    ...metadata,
+    ...terms,
+    index: index,
+    displayName: `${index}`,
+    price: bondPrice,
+    discount: bondDiscount,
+    days,
+  };
+}
+
 export const getAllBonds = createAsyncThunk(
   "bondsV2/getAll",
   async ({ provider, networkID }: IBaseAsyncThunk, { dispatch, getState }) => {
     checkNetwork(networkID);
-    const currentBlock = await provider.getBlockNumber();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const liveBondIndexes = await depositoryContract.liveMarkets();
     const liveBondPromises = liveBondIndexes.map(async index => await depositoryContract.markets(index));
@@ -67,38 +139,13 @@ export const getAllBonds = createAsyncThunk(
     const liveBondTermsPromises = liveBondIndexes.map(async index => await depositoryContract.terms(index));
     let liveBonds: IBondV2[] = [];
 
-    const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
-
     for (let i = 0; i < liveBondPromises.length && i < liveBondMetadataPromises.length; i++) {
       const bondIndex = +liveBondIndexes[i];
-      const bond = await liveBondPromises[i];
-      const bondMetadata = await liveBondMetadataPromises[i];
-      const bondTerms = await liveBondTermsPromises[i];
-      const quoteTokenPrice = Number(await getTokenPrice((await getTokenIdByContract(bond.quoteToken)) ?? "dai"));
-      const bondPrice = (quoteTokenPrice * +(await depositoryContract.marketPrice(bondIndex))) / Math.pow(10, 9);
-      const bondDiscount = (100 * Math.max(ohmPrice - bondPrice, ohmPrice)) / ohmPrice;
-
-      let days = "";
-      if (!bondTerms.fixedTerm) {
-        const vestingBlock = currentBlock + bondTerms.vesting;
-        const seconds = secondsUntilBlock(currentBlock, vestingBlock);
-        days = prettifySeconds(seconds, "day");
-      } else {
-        const conclusionBlock = bondTerms.conclusion;
-        const seconds = secondsUntilBlock(currentBlock, conclusionBlock);
-        days = prettifySeconds(seconds, "day");
-      }
-
-      liveBonds.push({
-        ...bond,
-        ...bondMetadata,
-        ...bondTerms,
-        index: bondIndex,
-        displayName: `${bondIndex}`,
-        price: bondPrice,
-        discount: bondDiscount,
-        days,
-      });
+      const bond: IBondV2Core = await liveBondPromises[i];
+      const bondMetadata: IBondV2Meta = await liveBondMetadataPromises[i];
+      const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
+      const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+      liveBonds.push(finalBond);
     }
     return liveBonds;
   },
