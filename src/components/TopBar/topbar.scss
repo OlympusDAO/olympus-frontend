@@ -6,6 +6,12 @@
     overflow: hidden !important;
     margin: 6px !important;
     min-width: fit-content !important;
+    background: #151521;
+    color: #ffffff;
+    border: 1px solid #5bf0d0;
+    box-shadow: 0px 0px 5px rgba(96, 213, 220, 0.2), 0px 0px 10px rgba(96, 213, 220, 0.2),
+      0px 0px 15px rgba(96, 213, 220, 0.2), 0px 0px 20px rgba(96, 213, 220, 0.2);
+    border-radius: 10px;
     &#hamburger {
       padding: 11px !important;
     }

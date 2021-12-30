@@ -40,7 +40,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
           edge="start"
           size="large"
           variant="contained"
-          color="secondary"
+          color="secondar"
           onClick={handleDrawerToggle}
           className={classes.menuButton}
         >
