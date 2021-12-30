@@ -348,22 +348,16 @@ export const useWallet = (
   return Object.entries(tokens).reduce((wallet, [key, token]) => {
     const crossChainBalances = sumObjValues(token.crossChainBalances?.balances);
     const vaultBalances = sumObjValues(token.vaultBalances);
-    let totalBalance: string;
-    if (crossChainBalances + vaultBalances > 0.0) {
-      totalBalance = (crossChainBalances + vaultBalances).toString();
-    } else {
-      totalBalance = (parseFloat(token.balance) + vaultBalances).toString();
-    }
+    const balance = crossChainBalances || parseFloat(token.balance) || 0;
     return {
       ...wallet,
       [key]: {
         ...token,
-        totalBalance: totalBalance,
+        totalBalance: (balance + vaultBalances).toString(),
       } as IToken,
     };
   }, {});
 };
-
 export const useCrossChainBalances = (address: string) => {
   const { isLoading, data } = useQuery(["crossChainBalances", address], () => fetchCrossChainBalances(address), {
     refetchOnWindowFocus: false,
