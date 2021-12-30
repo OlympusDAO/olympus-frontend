@@ -1,22 +1,12 @@
-import { ethers, BigNumber, BigNumberish } from "ethers";
-import { error, info } from "./MessagesSlice";
-import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
+import { ethers, BigNumber } from "ethers";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
-import {
-  IApproveBondAsyncThunk,
-  IJsonRPCError,
-  IBaseAsyncThunk,
-  IValueOnlyAsyncThunk,
-  IBaseAddressAsyncThunk,
-} from "./interfaces";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import ReactGA from "react-ga";
+import { IApproveBondAsyncThunk, IBaseAsyncThunk, IBaseAddressAsyncThunk } from "./interfaces";
 import { BondDepository__factory } from "src/typechain";
 import { addresses } from "src/constants";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { NetworkID } from "src/lib/Bond";
-import { getTokenIdByContract, getTokenPrice } from "src/helpers";
+import { getTokenIdByContract, getTokenPrice, prettifySeconds, secondsUntilBlock } from "src/helpers";
 import { findOrLoadMarketPrice } from "./AppSlice";
 
 export const changeApproval = createAsyncThunk(
@@ -43,6 +33,12 @@ export interface IBondV2 {
   tuneInterval: number;
   baseDecimals: number;
   quoteDecimals: number;
+  fixedTerm: boolean;
+  controlVariable: ethers.BigNumber;
+  vesting: number;
+  conclusion: number;
+  maxDebt: ethers.BigNumber;
+  days: string;
 }
 
 export interface IUserNote {
@@ -61,12 +57,14 @@ function checkNetwork(networkID: NetworkID) {
 
 export const getAllBonds = createAsyncThunk(
   "bondsV2/getAll",
-  async ({ provider, networkID }: IBaseAsyncThunk, { dispatch }) => {
+  async ({ provider, networkID }: IBaseAsyncThunk, { dispatch, getState }) => {
     checkNetwork(networkID);
+    const currentBlock = await provider.getBlockNumber();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const liveBondIndexes = await depositoryContract.liveMarkets();
     const liveBondPromises = liveBondIndexes.map(async index => await depositoryContract.markets(index));
     const liveBondMetadataPromises = liveBondIndexes.map(async index => await depositoryContract.metadata(index));
+    const liveBondTermsPromises = liveBondIndexes.map(async index => await depositoryContract.terms(index));
     let liveBonds: IBondV2[] = [];
 
     const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
@@ -75,22 +73,31 @@ export const getAllBonds = createAsyncThunk(
       const bondIndex = +liveBondIndexes[i];
       const bond = await liveBondPromises[i];
       const bondMetadata = await liveBondMetadataPromises[i];
+      const bondTerms = await liveBondTermsPromises[i];
       const quoteTokenPrice = Number(await getTokenPrice((await getTokenIdByContract(bond.quoteToken)) ?? "dai"));
-      const quoteTokenDecimals = bondMetadata.quoteDecimals;
-      const payoutAmount = await depositoryContract.payoutFor(
-        ethers.utils.parseUnits("1", quoteTokenDecimals),
-        bondIndex,
-      );
-      const baseTokenDecimals = bondMetadata.baseDecimals;
-      const bondPrice = quoteTokenPrice / (payoutAmount.toNumber() / Math.pow(10, baseTokenDecimals));
-      const bondDiscount = (100 * (ohmPrice - bondPrice)) / ohmPrice;
+      const bondPrice = (quoteTokenPrice * +(await depositoryContract.marketPrice(bondIndex))) / Math.pow(10, 9);
+      const bondDiscount = (100 * Math.max(ohmPrice - bondPrice, ohmPrice)) / ohmPrice;
+
+      let days = "";
+      if (!bondTerms.fixedTerm) {
+        const vestingBlock = currentBlock + bondTerms.vesting;
+        const seconds = secondsUntilBlock(currentBlock, vestingBlock);
+        days = prettifySeconds(seconds, "day");
+      } else {
+        const conclusionBlock = bondTerms.conclusion;
+        const seconds = secondsUntilBlock(currentBlock, conclusionBlock);
+        days = prettifySeconds(seconds, "day");
+      }
+
       liveBonds.push({
         ...bond,
         ...bondMetadata,
+        ...bondTerms,
         index: bondIndex,
         displayName: `${bondIndex}`,
         price: bondPrice,
         discount: bondDiscount,
+        days,
       });
     }
     return liveBonds;
