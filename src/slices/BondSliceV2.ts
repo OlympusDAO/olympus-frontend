@@ -51,12 +51,14 @@ interface IBondV2Meta {
   tuneInterval: number;
   baseDecimals: number;
   quoteDecimals: number;
+}
+
+interface IBondV2Terms {
   fixedTerm: boolean;
   controlVariable: ethers.BigNumber;
   vesting: number;
   conclusion: number;
   maxDebt: ethers.BigNumber;
-  days: string;
 }
 
 interface IBondV2Terms {
@@ -225,7 +227,6 @@ export const getAllBonds = createAsyncThunk(
   "bondsV2/getAll",
   async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch }) => {
     checkNetwork(networkID);
-    const currentBlock = await provider.getBlockNumber();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const liveBondIndexes = await depositoryContract.liveMarkets();
     const liveBondPromises = liveBondIndexes.map(async index => await depositoryContract.markets(index));
