@@ -3,7 +3,7 @@ import { setAll } from "src/helpers";
 import { ZapHelper } from "src/helpers/ZapHelper";
 import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
-import { NetworkID } from "src/lib/Bond";
+import { NetworkId } from "src/constants";
 import { error, info } from "./MessagesSlice";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { ethers } from "ethers";
@@ -37,7 +37,7 @@ export const getZapTokenAllowance = createAsyncThunk(
 
 export const zapNetworkCheck = createAsyncThunk(
   "zap/zapNetworkCheck",
-  async ({ networkID }: { networkID: NetworkID }, { dispatch }) => {
+  async ({ networkID }: { networkID: NetworkId }, { dispatch }) => {
     zapNetworkAvailable(networkID, dispatch);
   },
 );
@@ -156,7 +156,7 @@ export const executeZap = createAsyncThunk(
   },
 );
 
-const zapNetworkAvailable = (networkID: NetworkID, dispatch: ThunkDispatch<unknown, unknown, AnyAction>) => {
+const zapNetworkAvailable = (networkID: NetworkId, dispatch: ThunkDispatch<unknown, unknown, AnyAction>) => {
   if (Number(networkID) === 1) {
     return true;
   } else {
