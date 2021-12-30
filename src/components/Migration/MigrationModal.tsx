@@ -97,7 +97,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   };
 
   const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId }));
-  const currentIndex = useAppSelector(state => Number(state.app.currentIndex!));
+  const currentIndex = useAppSelector(state => Number(state.app.currentIndexV1!));
 
   const currentOhmBalance = useAppSelector(state => Number(state.account.balances.ohmV1));
   const currentSOhmBalance = useAppSelector(state => Number(state.account.balances.sohmV1));
