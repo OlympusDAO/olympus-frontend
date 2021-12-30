@@ -358,6 +358,7 @@ export const useWallet = (
     };
   }, {});
 };
+
 export const useCrossChainBalances = (address: string) => {
   const { isLoading, data } = useQuery(["crossChainBalances", address], () => fetchCrossChainBalances(address), {
     refetchOnWindowFocus: false,
