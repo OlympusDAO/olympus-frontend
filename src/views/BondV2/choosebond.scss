@@ -30,6 +30,20 @@
         width: 90%;
       }
     }
+
+    .accordion-root {
+      background-color: transparent;
+      backdrop-filter: none;
+      .MuiAccordionSummary-root {
+        justify-content: flex-start;
+        .MuiAccordionSummary-content {
+          flex-grow: 0;
+        }
+      }
+      .MuiAccordionDetails-root {
+        padding: 0px 16px 16px;
+      }
+    }
   }
 
   .bond-data-card {
@@ -81,7 +95,7 @@
   }
 
   .MuiTable-root {
-    margin: 10px 0px;
+    margin: 0px;
   }
 
   .claim-bond-card-buttons {
