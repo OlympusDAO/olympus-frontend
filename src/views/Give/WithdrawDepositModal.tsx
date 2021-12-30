@@ -1,4 +1,4 @@
-import { Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
+import { Modal, Paper, Typography, SvgIcon, Link } from "@material-ui/core";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { FormControl } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -12,6 +12,7 @@ import { Project } from "src/components/GiveProject/project.type";
 import { hasPendingGiveTxn, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 import { t, Trans } from "@lingui/macro";
 import { shorten } from "src/helpers";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 export interface WithdrawSubmitCallback {
   (walletAddress: string, depositAmount: BigNumber): void;
@@ -98,9 +99,9 @@ export function WithdrawDepositModal({
           <Trans>Any remaining yield will still be redeemable by the recipient ({getRecipientTitle()}).</Trans>
         </Typography>
         <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => handleSubmit()}>
+          <PrimaryButton disabled={!canSubmit()} onClick={() => handleSubmit()}>
             {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
-          </Button>
+          </PrimaryButton>
         </FormControl>
       </Paper>
     </Modal>

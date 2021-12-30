@@ -42,6 +42,8 @@ import { IAppData } from "src/slices/AppSlice";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "./GiveHeader";
+import { NetworkId } from "src/constants";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 type CountdownProps = {
   total: number;
@@ -80,8 +82,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
   const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
-  const { provider, address, connected, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, connected, networkId, providerInitialized } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
@@ -91,13 +92,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
 
   const donationInfo = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
   const userTotalDebt = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
@@ -118,8 +119,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   // When the user's wallet is connected, we perform these actions
   useEffect(() => {
-    if (!connected) return;
-    if (networkId == -1) return;
+    if (!connected || !providerInitialized) return;
 
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
     // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
@@ -375,7 +375,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     }
 
     // If reducing the amount of deposit, withdraw
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE,
@@ -461,16 +461,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   {renderGoalCompletion()}
                 </Grid>
                 <Grid item xs={6} sm={12} md={6} className="give-button-grid">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className="cause-give-button"
-                    onClick={() => handleGiveButtonClick()}
-                  >
-                    <Typography variant="h6">
-                      <Trans>Donate Yield</Trans>
-                    </Typography>
-                  </Button>
+                  <PrimaryButton onClick={() => handleGiveButtonClick()}>Donate Yield</PrimaryButton>
                 </Grid>
               </Grid>
             </div>
@@ -558,16 +549,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             {renderCountdownDetailed()}
 
                             <div className="project-give-button">
-                              <Button
-                                variant="contained"
-                                color="primary"
+                              <PrimaryButton
+                                fullWidth
                                 onClick={() => handleGiveButtonClick()}
                                 disabled={!address || !isSupportedChain(networkId)}
                               >
-                                <Typography variant="h6">
-                                  <Trans>Donate Yield</Trans>
-                                </Typography>
-                              </Button>
+                                <Trans>Donate Yield</Trans>
+                              </PrimaryButton>
                             </div>
                           </div>
                         </Grid>

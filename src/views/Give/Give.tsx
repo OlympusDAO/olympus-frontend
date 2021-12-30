@@ -6,15 +6,16 @@ import { Button, Paper, Typography, Zoom } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { t, Trans } from "@lingui/macro";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 function Give() {
   const { address, connect } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   let connectButton = [];
   connectButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+    <PrimaryButton className="connect-button" onClick={connect} key={1}>
       <Trans>Connect Wallet</Trans>
-    </Button>,
+    </PrimaryButton>,
   );
 
   return (

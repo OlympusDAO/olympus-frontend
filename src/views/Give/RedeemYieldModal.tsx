@@ -1,4 +1,4 @@
-import { Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
+import { Modal, Paper, Typography, SvgIcon, Link } from "@material-ui/core";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { FormControl } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -10,6 +10,7 @@ import { IPendingTxn, isPendingTxn } from "../../slices/PendingTxnsSlice";
 import { BigNumber } from "bignumber.js";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 export interface RedeemSubmitCallback {
   (): void;
@@ -88,9 +89,9 @@ export function RedeemYieldModal({
           <Trans>Any sOHM directed towards you will continue to rebase and earn additional yield on your behalf.</Trans>
         </Typography>
         <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => handleSubmit()}>
+          <PrimaryButton disabled={!canSubmit()} onClick={() => handleSubmit()}>
             {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
-          </Button>
+          </PrimaryButton>
         </FormControl>
       </Paper>
     </Modal>

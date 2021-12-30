@@ -39,6 +39,8 @@ import { EnvHelper } from "src/helpers/Environment";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ConnectButton from "../../components/ConnectButton";
+import { NetworkId } from "src/constants";
+import { PrimaryButton } from "@olympusdao/component-library";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -65,8 +67,7 @@ export function RecipientModal({
 }: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, connect, networkId } = useWeb3Context();
 
   const _initialDepositAmount = 0;
   const _initialWalletAddress = "";
@@ -120,13 +121,13 @@ export function RecipientModal({
    * TODO consider extracting this into a helper file
    */
   const sohmBalance: string = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.balances && state.account.balances.mockSohm
       : state.account.balances && state.account.balances.sohm;
   });
 
   const giveAllowance: number = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.sohmGive
       : state.account.giving && state.account.giving.sohmGive;
   });
@@ -136,7 +137,7 @@ export function RecipientModal({
   });
 
   const isGiveLoading: boolean = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving.loading
       : state.account.giving.loading;
   });
@@ -146,7 +147,7 @@ export function RecipientModal({
   });
 
   const onSeekApproval = async () => {
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
     } else {
       await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
@@ -590,68 +591,57 @@ export function RecipientModal({
         {isCreateMode() ? (
           !address ? (
             <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" className="connect-button" onClick={handleConnect}>
+              <PrimaryButton size="large" onClick={handleConnect}>
                 <Trans>Connect Wallet</Trans>
-              </Button>
+              </PrimaryButton>
             </FormControl>
           ) : address && (hasAllowance() || isGiveLoading) && !isAmountSet ? (
             <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
+              <PrimaryButton size="large" disabled={!canSubmit()} onClick={handleContinue}>
                 <Trans>Continue</Trans>
-              </Button>
+              </PrimaryButton>
             </FormControl>
           ) : isAmountSet ? (
             <>
               <FormControl className="ohm-modal-submit">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  disabled={hasPendingGiveTxn(pendingTransactions)}
-                  onClick={handleGoBack}
-                >
+                <PrimaryButton size="large" disabled={hasPendingGiveTxn(pendingTransactions)} onClick={handleGoBack}>
                   {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Go Back`)}
-                </Button>
+                </PrimaryButton>
               </FormControl>
               <FormControl className="ohm-modal-submit">
-                <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
+                <PrimaryButton size="large" disabled={!canSubmit()} onClick={handleSubmit}>
                   {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Confirm sOHM`)}
-                </Button>
+                </PrimaryButton>
               </FormControl>
             </>
           ) : (
             <FormControl className="ohm-modal-submit">
-              <Button
-                variant="contained"
-                color="primary"
+              <PrimaryButton
+                size="large"
                 disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading}
                 onClick={onSeekApproval}
               >
                 {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
-              </Button>
+              </PrimaryButton>
             </FormControl>
           )
         ) : !isAmountSet ? (
           <FormControl className="ohm-modal-submit">
-            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
+            <PrimaryButton size="large" disabled={!canSubmit()} onClick={handleContinue}>
               <Trans>Continue</Trans>
-            </Button>
+            </PrimaryButton>
           </FormControl>
         ) : (
           <>
             <FormControl className="ohm-modal-submit">
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={hasPendingGiveTxn(pendingTransactions)}
-                onClick={handleGoBack}
-              >
+              <PrimaryButton disabled={hasPendingGiveTxn(pendingTransactions)} onClick={handleGoBack}>
                 {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Go Back`)}
-              </Button>
+              </PrimaryButton>
             </FormControl>
             <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
+              <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit}>
                 {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Edit Give Amount`)}
-              </Button>
+              </PrimaryButton>
             </FormControl>
           </>
         )}

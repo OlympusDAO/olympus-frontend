@@ -2,6 +2,7 @@ import { Paper, Grid, Box, Button, Typography, SvgIcon } from "@material-ui/core
 import { DepositSohm, LockInVault, ReceivesYield, ArrowGraphic } from "../../components/EducationCard";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { t, Trans } from "@lingui/macro";
+import { SecondaryButton } from "@olympusdao/component-library";
 
 export function GiveInfo() {
   return (
@@ -19,18 +20,9 @@ export function GiveInfo() {
           </Grid>
         </Grid>
         <Box className="button-box">
-          <Button
-            variant="outlined"
-            color="secondary"
-            href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
-            target="_blank"
-            className="learn-more-button"
-          >
-            <Typography variant="body1">
-              <Trans>Learn More</Trans>
-            </Typography>
-            <SvgIcon component={ArrowUp} color="primary" />
-          </Button>
+          <SecondaryButton size="small" href="https://docs.olympusdao.finance/main/basics/basics/olympusgive">
+            <Trans>Learn More</Trans>
+          </SecondaryButton>
         </Box>
       </Paper>
     </>

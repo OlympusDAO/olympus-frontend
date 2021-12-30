@@ -1,8 +1,7 @@
 import { ethers } from "ethers";
 
-import { addresses } from "src/constants";
+import { addresses, NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
-import { NetworkID } from "src/lib/Bond";
 
 export type Token = {
   contractAddress: string;
@@ -20,13 +19,13 @@ export type Token = {
 const CovalentApi = "https://api.covalenthq.com/v1";
 const COVALENT_KEY = EnvHelper.getCovalentKey();
 
-const fetchBalances = (addressOrENS: string, networkId: NetworkID, quoteCurrency = "usd") =>
+const fetchBalances = (addressOrENS: string, NetworkId: NetworkId, quoteCurrency = "usd") =>
   fetch(
-    `${CovalentApi}/${networkId}/address/${addressOrENS}/balances_v2/?quote-currency=${quoteCurrency}&key=${COVALENT_KEY}`,
+    `${CovalentApi}/${NetworkId}/address/${addressOrENS}/balances_v2/?quote-currency=${quoteCurrency}&key=${COVALENT_KEY}`,
   ).then(d => d.json());
 
-export const balancesOf = async (address: string, networkId: NetworkID): Promise<Token[]> => {
-  const { data, error_message } = await fetchBalances(address, networkId);
+export const balancesOf = async (address: string, NetworkId: NetworkId): Promise<Token[]> => {
+  const { data, error_message } = await fetchBalances(address, NetworkId);
   if (error_message) throw new Error(error_message);
   return data.items.map((token: any) => {
     const priceUSD = token.quote_rate;
@@ -46,40 +45,40 @@ export const balancesOf = async (address: string, networkId: NetworkID): Promise
 };
 
 const Networks = [
-  NetworkID.Mainnet,
-  NetworkID.Avalanche,
-  NetworkID.Arbitrum,
+  NetworkId.MAINNET,
+  NetworkId.AVALANCHE,
+  NetworkId.ARBITRUM,
+  NetworkId.POLYGON,
   // covalent does not support rinkeby
-  // ...(process.env.NODE_ENV === "development" ? [NetworkID.AvalancheTestnet, NetworkID.ArbitrumTestnet] : []),
+  // ...(process.env.NODE_ENV === "development" ? [NetworkId.AvalancheTestnet, NetworkId.ArbitrumTestnet] : []),
 ];
 
 const balanceByContractAddress = (balances: Token[], address: string) => {
-  return balances.find(token => token.contractAddress.toLowerCase() === address.toLowerCase())?.balance;
+  if (address) {
+    return balances.find(token => token.contractAddress.toLowerCase() === address?.toLowerCase())?.balance;
+  } else {
+    return;
+  }
 };
 
-const addressBalancesByNetwork = (Networks: NetworkID[], balances: Token[], contractAddressKey: string) => {
+const addressBalancesByNetwork = (Networks: NetworkId[], balances: Token[], contractAddressKey: string) => {
   return Networks.reduce(
     (networksBalances, networkId) => ({
       ...networksBalances,
       [networkId]: balanceByContractAddress(balances, addresses[networkId][contractAddressKey]),
     }),
     {},
-  ) as Record<NetworkID, string>;
+  ) as Record<NetworkId, string>;
 };
 
 export const fetchCrossChainBalances = async (address: string) => {
   const balances = await Promise.all(
-    Networks.map(networkId => balancesOf(address, networkId)),
+    Networks.map(NetworkId => balancesOf(address, NetworkId)),
     // tokens with same addrs between chains (?)
   ).then(arr => arr.reduce((acc, networkBalances) => [...acc, ...networkBalances], []));
 
   return {
     gohm: addressBalancesByNetwork(Networks, balances, "GOHM_ADDRESS"),
     wsohm: addressBalancesByNetwork(Networks, balances, "WSOHM_ADDRESS"),
-    // ohmV1: balanceByAddress(balances, addresses[NetworkID.Mainnet].OHM_ADDRESS),
-    // sohmV1: balanceByAddress(balances, addresses[NetworkID.Mainnet].SOHM_ADDRESS),
-    // pool: balanceByAddress(balances, addresses[NetworkID.Mainnet].PT_TOKEN_ADDRESS),
-    // ohm: balanceByAddress(balances, addresses[NetworkID.Mainnet].OHM_V2),
-    // sohm: balanceByAddress(balances, addresses[NetworkID.Mainnet].SOHM_V2),
   };
 };

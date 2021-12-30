@@ -9,8 +9,10 @@ import { Skeleton } from "@material-ui/lab";
 import useBonds from "src/hooks/Bonds";
 import { useSelector } from "react-redux";
 import { TertiaryButton } from "@olympusdao/component-library";
+import { useWeb3Context } from "src/hooks/web3Context";
+
 export function BondDataCard({ bond }) {
-  const networkId = useSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
   const { loading } = useBonds(networkId);
   const isBondLoading = !bond.bondPrice ?? true;
 
@@ -80,7 +82,7 @@ export function BondDataCard({ bond }) {
 }
 
 export function BondTableData({ bond }) {
-  const networkId = useSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.bondPrice ?? true;
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Paper,
   Typography,
-  Button,
   Zoom,
   TableCell,
   TableBody,
@@ -29,6 +28,8 @@ import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 import { useAppSelector } from "src/hooks";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import { NetworkId } from "src/constants";
+import { SecondaryButton } from "@olympusdao/component-library";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -40,8 +41,7 @@ type State = {
 export default function RedeemYield() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connected, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, hasCachedProvider, address, connected, connect, networkId } = useWeb3Context();
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
@@ -50,19 +50,19 @@ export default function RedeemYield() {
   const isAppLoading = useSelector((state: any) => state.app.loading);
 
   const donationInfo = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
   const redeemableBalance = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
       : state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
 
   const totalDebt = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
@@ -152,7 +152,7 @@ export default function RedeemYield() {
   };
 
   const handleRedeemYieldModalSubmit = async () => {
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(redeemMockBalance({ address, provider, networkID: networkId }));
     } else {
       await dispatch(redeemBalance({ address, provider, networkID: networkId }));
@@ -258,15 +258,9 @@ export default function RedeemYield() {
                       <TableCell></TableCell>
                       <TableCell align="left" className="cell-align-end">
                         {" "}
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          className="redeem-button"
-                          onClick={() => handleRedeemButtonClick()}
-                          disabled={!canRedeem()}
-                        >
+                        <SecondaryButton onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()}>
                           {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
-                        </Button>
+                        </SecondaryButton>
                       </TableCell>
                     </TableRow>
                   </TableBody>

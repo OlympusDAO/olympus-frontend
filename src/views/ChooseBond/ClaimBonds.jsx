@@ -25,8 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 function ClaimBonds({ activeBonds }) {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
   const { bonds } = useBonds(networkId);
 
   const [numberOfBonds, setNumberOfBonds] = useState(0);

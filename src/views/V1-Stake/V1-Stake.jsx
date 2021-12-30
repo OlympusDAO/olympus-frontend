@@ -51,9 +51,7 @@ const ohmImg = getOhmTokenImage(16, 16);
 function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds }) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { provider, address, connect } = useWeb3Context();
-
-  const chainID = useAppSelector(state => state.network.networkId);
+  const { provider, address, connect, networkId } = useWeb3Context();
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
@@ -125,7 +123,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   };
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID, version2: false }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId, version2: false }));
   };
 
   const onChangeStake = async action => {
@@ -146,7 +144,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     }
 
     await dispatch(
-      changeStake({ address, action, value: quantity.toString(), provider, networkID: chainID, version2: false }),
+      changeStake({ address, action, value: quantity.toString(), provider, networkID: networkId, version2: false }),
     );
   };
 

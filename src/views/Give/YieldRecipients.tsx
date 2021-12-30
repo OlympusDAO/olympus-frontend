@@ -24,6 +24,8 @@ import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { NetworkId } from "src/constants";
+import { PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -35,8 +37,7 @@ type State = {
 export default function YieldRecipients() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
   const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState("");
   const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -46,7 +47,7 @@ export default function YieldRecipients() {
   // TODO fix typing of state.app.loading
   const isAppLoading = useSelector((state: any) => state.app.loading);
   const donationInfo = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
@@ -68,7 +69,7 @@ export default function YieldRecipients() {
     if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
     // If reducing the amount of deposit, withdraw
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_EDIT,
@@ -111,7 +112,7 @@ export default function YieldRecipients() {
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
     // Issue withdrawal from smart contract
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,
@@ -172,9 +173,9 @@ export default function YieldRecipients() {
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Button component={NavLink} to="/give" variant="contained" color="primary" style={{ marginTop: "1rem" }}>
+            <PrimaryButton component={NavLink} to="/give" fullWidth>
               <Trans>Donate Yield</Trans>
-            </Button>
+            </PrimaryButton>
           </Grid>
         </Grid>
       </>
@@ -208,26 +209,21 @@ export default function YieldRecipients() {
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} className="donation-buttons">
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    className="donation-lp-button"
+                  <SecondaryButton
+                    size="small"
                     onClick={() => handleEditButtonClick(recipient)}
                     disabled={!address}
                     key={"edit-" + recipient}
                   >
                     <Trans>Edit</Trans>
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    className="donation-lp-button"
+                  </SecondaryButton>
+                  <SecondaryButton
                     onClick={() => handleWithdrawButtonClick(recipient)}
                     disabled={!address}
                     key={"withdraw-" + recipient}
                   >
                     <Trans>Withdraw</Trans>
-                  </Button>
+                  </SecondaryButton>
                 </Grid>
                 <Grid item xs={12} className="recipient-divider">
                   <Divider />

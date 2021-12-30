@@ -28,16 +28,6 @@
     .button-box {
       display: flex;
       justify-content: center;
-
-      .learn-more-button {
-        p {
-          margin-bottom: 0px;
-        }
-
-        svg {
-          margin-left: 4px;
-        }
-      }
     }
   }
 
@@ -480,15 +470,9 @@
     display: flex;
     align-items: center;
     width: 60%;
-    height: 43px !important;
     margin-top: 1rem;
     margin-left: auto;
     margin-right: auto;
-
-    button {
-      height: 40px;
-      width: 100%;
-    }
   }
 }
 
@@ -713,14 +697,6 @@
     padding-bottom: 1.5rem;
   }
 
-  .project-give-button {
-    padding-top: 1.5rem;
-
-    button {
-      width: 100%;
-    }
-  }
-
   .MuiPaper-root {
     border-radius: 10px;
   }
@@ -846,7 +822,6 @@
   }
 }
 
-
 .subnav-paper {
   max-width: 833px;
   margin-bottom: 10rem;
@@ -861,5 +836,3 @@
     line-height: 20px;
   }
 }
-
-
