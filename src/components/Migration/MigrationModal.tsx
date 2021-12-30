@@ -31,6 +31,7 @@ import "./migration-modal.scss";
 import { useAppSelector } from "src/hooks";
 import { trim } from "src/helpers";
 import { t, Trans } from "@lingui/macro";
+import { NetworkId } from "src/constants";
 const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -122,7 +123,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   useEffect(() => {
     if (
       networkId &&
-      (networkId === 1 || networkId === 4) &&
+      (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) &&
       isAllApproved &&
       (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
     ) {
