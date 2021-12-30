@@ -34,7 +34,7 @@ import { error } from "../../slices/MessagesSlice";
 import { NETWORKS } from "../../constants";
 import { ethers } from "ethers";
 import "../Stake/stake.scss";
-import { Metric, MetricCollection } from "src/components/Metric";
+import { Metric, MetricCollection } from "@olympusdao/component-library";
 import { t } from "@lingui/macro";
 import { useAppSelector } from "src/hooks/index.ts";
 import WrapCrossChain from "./WrapCrossChain.tsx";
