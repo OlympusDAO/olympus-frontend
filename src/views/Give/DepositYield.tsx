@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Paper, Typography, Zoom, Container, Box } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { InfoTooltip } from "@olympusdao/component-library";
 import YieldRecipients from "./YieldRecipients";
 import { t, Trans } from "@lingui/macro";
 import { IAccountSlice } from "src/slices/AccountSlice";

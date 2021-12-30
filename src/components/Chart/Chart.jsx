@@ -1,5 +1,5 @@
 import CustomTooltip from "./CustomTooltip";
-import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import { InfoTooltip } from "@olympusdao/component-library";
 import ExpandedChart from "./ExpandedChart";
 import { useEffect, useState } from "react";
 import { ReactComponent as Fullscreen } from "../../assets/icons/fullscreen.svg";

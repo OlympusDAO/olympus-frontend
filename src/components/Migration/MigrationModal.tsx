@@ -26,7 +26,7 @@ import { useWeb3Context } from "src/hooks";
 import { useEffect, useMemo } from "react";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { info } from "src/slices/MessagesSlice";
-import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import { InfoTooltip } from "@olympusdao/component-library";
 import "./migration-modal.scss";
 import { useAppSelector } from "src/hooks";
 import { trim } from "src/helpers";

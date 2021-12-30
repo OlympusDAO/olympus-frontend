@@ -20,7 +20,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
