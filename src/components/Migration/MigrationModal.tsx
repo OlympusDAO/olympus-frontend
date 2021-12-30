@@ -104,7 +104,11 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const currentSOhmBalance = useAppSelector(state => Number(state.account.balances.sohmV1));
   const currentWSOhmBalance = useAppSelector(state => Number(state.account.balances.wsohm));
   const wsOhmPrice = useAppSelector(state => state.app.marketPrice! * Number(state.app.currentIndex!));
+  const gOHMPrice = wsOhmPrice;
 
+  /**
+   * V2!!! market price
+   */
   const marketPrice = useAppSelector(state => {
     return state.app.marketPrice;
   });
@@ -116,8 +120,11 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  const ohmInUSD = formatCurrency(marketPrice! * currentOhmBalance);
-  const sOhmInUSD = formatCurrency(marketPrice! * currentSOhmBalance);
+  const ohmAsgOHM = currentOhmBalance / currentIndex;
+  const sOHMAsgOHM = currentSOhmBalance / currentIndex;
+
+  const ohmInUSD = formatCurrency(gOHMPrice! * ohmAsgOHM);
+  const sOhmInUSD = formatCurrency(gOHMPrice! * sOHMAsgOHM);
   const wsOhmInUSD = formatCurrency(wsOhmPrice * currentWSOhmBalance);
 
   useEffect(() => {
@@ -136,7 +143,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       initialAsset: "OHM",
       initialBalance: currentOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: currentOhmBalance / currentIndex,
+      targetBalance: ohmAsgOHM,
       fullApproval: ohmFullApproval,
       usdBalance: ohmInUSD,
     },
@@ -144,7 +151,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       initialAsset: "sOHM",
       initialBalance: currentSOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: currentSOhmBalance / currentIndex,
+      targetBalance: sOHMAsgOHM,
       fullApproval: sOhmFullApproval,
       usdBalance: sOhmInUSD,
     },

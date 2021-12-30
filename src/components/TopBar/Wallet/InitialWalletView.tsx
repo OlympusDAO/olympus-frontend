@@ -23,11 +23,12 @@ import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import useCurrentTheme from "src/hooks/useTheme";
 
-import { ohm_frax, ohm_dai } from "src/helpers/AllBonds";
+import { dai, frax } from "src/helpers/AllBonds";
 
 import { IToken, Tokens, useWallet } from "./Token";
 import { Trans } from "@lingui/macro";
 import WalletAddressEns from "./WalletAddressEns";
+import { addresses } from "src/constants";
 
 const Borrow = ({
   Icon1,
@@ -156,6 +157,7 @@ const WalletTotalValue = () => {
 function InitialWalletView({ onClose }: { onClose: () => void }) {
   const theme = useTheme();
   const [currentTheme] = useCurrentTheme();
+  const { networkId } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   return (
@@ -184,10 +186,20 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
           }}
           style={{ gap: theme.spacing(1.5) }}
         >
-          <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
+          <ExternalLink
+            color={currentTheme === "dark" ? "primary" : undefined}
+            href={`https://app.sushi.com/swap?inputCurrency=${dai.getAddressForReserve(networkId)}&outputCurrency=${
+              addresses[networkId].OHM_V2
+            }`}
+          >
             <Typography>Get on Sushiswap</Typography>
           </ExternalLink>
-          <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_frax.lpUrl}>
+          <ExternalLink
+            color={currentTheme === "dark" ? "primary" : undefined}
+            href={`https://app.uniswap.org/#/swap?inputCurrency=${frax.getAddressForReserve(
+              networkId,
+            )}&outputCurrency=${addresses[networkId].OHM_V2}`}
+          >
             <Typography>Get on Uniswap</Typography>
           </ExternalLink>
           <Borrow
