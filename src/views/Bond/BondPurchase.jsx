@@ -25,8 +25,7 @@ import { DataRow } from "@olympusdao/component-library";
 function BondPurchase({ bond, slippage, recipientAddress }) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
 
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);

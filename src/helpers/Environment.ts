@@ -1,4 +1,4 @@
-import { NetworkID } from "src/lib/Bond";
+import { NetworkId } from "src/constants";
 
 /**
  * Access `process.env` in an environment helper
@@ -52,13 +52,13 @@ export class EnvHelper {
    * in development environment will return the `ethers` community api key so that devs don't need to add elements to their .env
    * @returns Array of Alchemy API URIs or empty set
    */
-  static getAlchemyAPIKeyList(networkId: number): string[] {
+  static getAlchemyAPIKeyList(networkId: NetworkId): string[] {
     let ALCHEMY_ID_LIST: string[] = [];
     let uriPath: string;
 
     // If in production, split the provided API keys on whitespace. Otherwise use default.
     switch (networkId) {
-      case 1:
+      case NetworkId.MAINNET:
         if (
           EnvHelper.env.NODE_ENV !== "development" &&
           EnvHelper.env.REACT_APP_ETHEREUM_ALCHEMY_IDS &&
@@ -70,7 +70,7 @@ export class EnvHelper {
         }
         uriPath = "https://eth-mainnet.alchemyapi.io/v2/";
         break;
-      case 4:
+      case NetworkId.TESTNET_RINKEBY:
         if (
           EnvHelper.env.REACT_APP_ETHEREUM_TESTNET_ALCHEMY &&
           EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ETHEREUM_TESTNET_ALCHEMY)
@@ -81,7 +81,7 @@ export class EnvHelper {
         }
         uriPath = "https://eth-rinkeby.alchemyapi.io/v2/";
         break;
-      case 42161:
+      case NetworkId.ARBITRUM:
         if (
           EnvHelper.env.NODE_ENV !== "development" &&
           EnvHelper.env.REACT_APP_ARBITRUM_ALCHEMY_IDS &&
@@ -93,7 +93,7 @@ export class EnvHelper {
         }
         uriPath = "https://arb-mainnet.alchemyapi.io/v2/";
         break;
-      case 43114:
+      case NetworkId.AVALANCHE:
         if (
           EnvHelper.env.NODE_ENV !== "development" &&
           EnvHelper.env.REACT_APP_AVALANCHE_ALCHEMY_IDS &&
@@ -139,10 +139,10 @@ export class EnvHelper {
    * - functionality for Websocket addresses has been deprecated due to issues with WalletConnect
    *     - WalletConnect Issue: https://github.com/WalletConnect/walletconnect-monorepo/issues/193
    */
-  static getSelfHostedNode(networkId: number) {
+  static getSelfHostedNode(networkId: NetworkId) {
     let URI_LIST: string[] = [];
     switch (networkId) {
-      case 1:
+      case NetworkId.MAINNET:
         if (
           EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_NODE &&
           EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_NODE)
@@ -150,7 +150,7 @@ export class EnvHelper {
           URI_LIST = EnvHelper.env.REACT_APP_ETHEREUM_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
         }
         break;
-      case 42161:
+      case NetworkId.ARBITRUM:
         if (
           EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_NODE &&
           EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_NODE)
@@ -158,7 +158,7 @@ export class EnvHelper {
           URI_LIST = EnvHelper.env.REACT_APP_ARBITRUM_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
         }
         break;
-      case 43114:
+      case NetworkId.AVALANCHE:
         if (
           EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_NODE &&
           EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_NODE)
@@ -175,7 +175,7 @@ export class EnvHelper {
    * in prod if .env is blank API connections will fail
    * @returns array of API urls
    */
-  static getAPIUris(networkId: number) {
+  static getAPIUris(networkId: NetworkId) {
     let ALL_URIs = EnvHelper.getSelfHostedNode(networkId);
     if (ALL_URIs.length === 0) {
       console.warn("API keys must be set in the .env, reverting to fallbacks");
@@ -184,7 +184,7 @@ export class EnvHelper {
     return ALL_URIs;
   }
 
-  static getFallbackURIs(networkId: number) {
+  static getFallbackURIs(networkId: NetworkId) {
     const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getInfuraIdList()];
     return ALL_URIs;
   }

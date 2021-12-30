@@ -15,10 +15,11 @@ import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as ProIcon } from "../../assets/Olympus Logo.svg";
 import { Trans } from "@lingui/macro";
-import { trim, shorten } from "../../helpers";
-import { useAddress } from "src/hooks/web3Context";
+import { trim } from "../../helpers";
+import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
-import useENS from "../../hooks/useENS";
+import { EnvHelper } from "src/helpers/Environment";
+import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 import {
   Paper,
   Link,
@@ -33,15 +34,12 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
 import { useSelector } from "react-redux";
-import { EnvHelper } from "src/helpers/Environment";
 import { ExpandMore } from "@material-ui/icons";
 
 function NavContent() {
   const [isActive] = useState();
-  const address = useAddress();
-  const networkId = useSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
   const { bonds } = useBonds(networkId);
-  const { ensName, ensAvatar } = useENS(address);
   const location = useLocation();
 
   const checkPage = useCallback((match, location, page) => {
@@ -93,14 +91,7 @@ function NavContent() {
               />
             </Link>
 
-            {address && (
-              <div className="wallet-link">
-                {ensAvatar && <img className="avatar" src={ensAvatar} alt={address} />}
-                <Link href={`https://etherscan.io/address/${address}`} target="_blank">
-                  {ensName || shorten(address)}
-                </Link>
-              </div>
-            )}
+            <WalletAddressEns />
           </Box>
 
           <div className="dapp-menu-links">
