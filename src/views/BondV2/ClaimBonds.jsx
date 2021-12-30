@@ -4,6 +4,7 @@ import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
 import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 import { redeemAllBonds } from "src/slices/BondSlice";
 import CardHeader from "../../components/CardHeader/CardHeader";
+import AccordionSection from "./AccordionSection";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "src/hooks/Bonds";
 import {
@@ -21,6 +22,7 @@ import {
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./choosebond.scss";
 import { useDispatch, useSelector } from "react-redux";
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 function ClaimBonds({ activeBonds }) {
   const dispatch = useDispatch();
@@ -59,6 +61,13 @@ function ClaimBonds({ activeBonds }) {
     setNumberOfBonds(bondCount);
   }, [activeBonds]);
 
+  const currentBlock = useSelector(state => {
+    return state.app.currentBlock;
+  });
+
+  const fullyVestedBonds = activeBonds.filter(bond => bond.bondMaturationBlock <= currentBlock);
+  const vestingBonds = activeBonds.filter(bond => bond.bondMaturationBlock >= currentBlock);
+
   return (
     <>
       {numberOfBonds > 0 && (
@@ -69,27 +78,11 @@ function ClaimBonds({ activeBonds }) {
               {!isSmallScreen && (
                 <TableContainer>
                   <Table aria-label="Claimable bonds">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center">
-                          <Trans>Bond</Trans>
-                        </TableCell>
-                        <TableCell align="center">
-                          <Trans>Claimable</Trans>
-                        </TableCell>
-                        <TableCell align="center">
-                          <Trans>Pending</Trans>
-                        </TableCell>
-                        <TableCell align="right">
-                          <Trans>Fully Vested</Trans>
-                        </TableCell>
-                        <TableCell align="right"></TableCell>
-                      </TableRow>
-                    </TableHead>
                     <TableBody>
-                      {Object.entries(activeBonds).map((bond, i) => (
-                        <ClaimBondTableData key={i} userBond={bond} />
-                      ))}
+                      {fullyVestedBonds.length > 0 && (
+                        <AccordionSection bonds={fullyVestedBonds} title="Fully Vested Bonds" />
+                      )}
+                      {vestingBonds.length > 0 && <AccordionSection bonds={vestingBonds} title="Vesting Bonds" />}
                     </TableBody>
                   </Table>
                 </TableContainer>
