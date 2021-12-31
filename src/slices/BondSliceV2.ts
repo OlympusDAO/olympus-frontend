@@ -139,7 +139,7 @@ async function processBond(
 
   const bondPrice = (quoteTokenPrice * +(await depositoryContract.marketPrice(index))) / Math.pow(10, 9);
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
-  const bondDiscount = (100 * ohmPrice - bondPrice) / ohmPrice;
+  const bondDiscount = (ohmPrice - bondPrice) / ohmPrice;
 
   let days = "";
   if (!terms.fixedTerm) {
