@@ -174,6 +174,17 @@ export const getTokenBalance = createAsyncThunk(
   },
 );
 
+export const getTokenBalance = createAsyncThunk(
+  "bondsV2/getBalance",
+  async ({ provider, networkID, address, value }: IValueAsyncThunk, {}): Promise<IBondV2Balance> => {
+    checkNetwork(networkID);
+    const tokenContract = IERC20__factory.connect(value, provider);
+    const balance = await tokenContract.balanceOf(address);
+    const allowance = await tokenContract.allowance(address, addresses[networkID].BOND_DEPOSITORY);
+    return { balance, allowance, tokenAddress: value };
+  },
+);
+
 async function processBond(
   bond: IBondV2Core,
   metadata: IBondV2Meta,

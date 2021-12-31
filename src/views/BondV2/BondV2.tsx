@@ -131,6 +131,7 @@ export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
   if (typeof bond.priceUSD === undefined) {
     return <Fragment>--</Fragment>;
   }
+  console.log(bond.price);
 
   return (
     <Fragment>

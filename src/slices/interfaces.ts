@@ -93,6 +93,8 @@ export interface IBondV2PurchaseAsyncThunk extends IBaseAddressAsyncThunk {
   readonly amount: BigNumberish;
 }
 
+export interface IBondV2PurchaseAsyncThunk extends IBondV2AysncThunk, IActionValueAsyncThunk {}
+
 export interface IApproveBondAsyncThunk extends IBaseBondAsyncThunk {
   readonly address: string;
 }

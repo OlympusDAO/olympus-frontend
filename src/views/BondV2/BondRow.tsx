@@ -111,6 +111,26 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
       <TableCell align="left">{isBondLoading ? <Skeleton /> : bond.duration}</TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds-v2/${bond.index}`}>
+      </TableCell>
+      <TableCell align="left">
+        {" "}
+        {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}
+      </TableCell>
+      {/* <TableCell align="right">
+        {isBondLoading ? (
+          <Skeleton />
+        ) : (
+          // new Intl.NumberFormat("en-US", {
+          //   style: "currency",
+          //   currency: "USD",
+          //   maximumFractionDigits: 0,
+          //   minimumFractionDigits: 0,
+          // }).format(bond.purchased)
+          "432,198"
+        )}
+      </TableCell> */}
+      <TableCell>
+        <Link component={NavLink} to={`/bonds-v2/${bond.displayName}`}>
           <Button variant="outlined" color="primary" style={{ width: "100%" }}>
             {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
             {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
