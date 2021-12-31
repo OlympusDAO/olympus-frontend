@@ -22,7 +22,6 @@ import {
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./choosebond.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { ContactSupportOutlined } from "@material-ui/icons";
 
 function ClaimBonds({ activeBonds }) {
   const dispatch = useDispatch();
@@ -66,8 +65,7 @@ function ClaimBonds({ activeBonds }) {
   });
 
   const fullyVestedBonds = activeBonds.filter(bond => bond.bondMaturationBlock <= currentBlock);
-  const vestingBonds = activeBonds.filter(bond => bond.bondMaturationBlock >= currentBlock);
-
+  const vestingBonds = activeBonds.filter(bond => bond.bondMaturationBlock > currentBlock);
   return (
     <>
       {numberOfBonds > 0 && (

@@ -25,8 +25,7 @@ function a11yProps(index: number) {
 
 const BondV2 = ({ index }: { index: number }) => {
   const history = useHistory();
-  console.log("hi");
-  const bond = useAppSelector(state => state.bondingV2[index]);
+  const bond: IAllBondData = useAppSelector(state => state.bondingV2[index]);
   console.log(bond);
   const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
