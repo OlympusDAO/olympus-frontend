@@ -18,6 +18,7 @@ import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import ReactGA from "react-ga";
 
 interface IUAData {
   address: string;
@@ -203,6 +204,15 @@ export const changeGive = createAsyncThunk(
     } finally {
       if (giveTx) {
         segmentUA(uaData);
+
+        ReactGA.event({
+          category: "Olympus Give",
+          action: uaData.type ?? "unknown",
+          value: parseFloat(uaData.value),
+          label: uaData.txHash ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
+        });
 
         dispatch(clearPendingTxn(giveTx.hash));
       }
