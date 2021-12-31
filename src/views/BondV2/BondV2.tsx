@@ -13,6 +13,8 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
+import { IBondV2 } from "src/slices/BondSliceV2";
+import { ContactsOutlined } from "@material-ui/icons";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -25,8 +27,7 @@ function a11yProps(index: number) {
 
 const BondV2 = ({ index }: { index: number }) => {
   const history = useHistory();
-  const bond: IAllBondData = useAppSelector(state => state.bondingV2[index]);
-  console.log(bond);
+  const bond = useAppSelector(state => state.bondingV2.bonds[index]);
   const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
@@ -82,7 +83,13 @@ const BondV2 = ({ index }: { index: number }) => {
                     <Trans>Bond Price</Trans>
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
+                    <>
+                      {isBondLoading ? (
+                        <Skeleton width="50px" />
+                      ) : (
+                        <DisplayBondPrice key={bond.displayName} bond={bond} />
+                      )}
+                    </>
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -90,7 +97,7 @@ const BondV2 = ({ index }: { index: number }) => {
                     <Trans>Market Price</Trans>
                   </Typography>
                   <Typography variant="h3" color="primary" className="price">
-                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2)}
+                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.priceUSD, 2)}
                   </Typography>
                 </div>
               </Box>
@@ -129,10 +136,10 @@ const BondV2 = ({ index }: { index: number }) => {
   );
 };
 
-export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement => {
+export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
   const networkId = useAppSelector(state => state.network.networkId);
 
-  if (typeof bond.bondPrice === undefined || !bond.getBondability(networkId)) {
+  if (typeof bond.priceUSD === undefined) {
     return <Fragment>--</Fragment>;
   }
 
@@ -143,18 +150,18 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement
         currency: "USD",
         maximumFractionDigits: 2,
         minimumFractionDigits: 2,
-      }).format(bond.bondPrice)}
+      }).format(bond.priceUSD)}
     </Fragment>
   );
 };
 
-export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
+export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement => {
   const networkId = useAppSelector(state => state.network.networkId);
 
-  if (typeof bond.bondDiscount === undefined || !bond.getBondability(networkId)) {
+  if (typeof bond.discount === undefined) {
     return <Fragment>--</Fragment>;
   }
 
-  return <Fragment>{bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%</Fragment>;
+  return <Fragment>{bond.discount && trim(bond.discount * 100, 2)}%</Fragment>;
 };
 export default BondV2;

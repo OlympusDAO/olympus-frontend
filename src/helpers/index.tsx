@@ -80,6 +80,7 @@ export async function getTokenIdByContract(contractAddress: string) {
     return resp.data.id;
   } catch (e) {
     // console.log("coingecko api error: ", e);
+    return null;
   }
 }
 
@@ -118,7 +119,7 @@ export function getRebaseBlock(currentBlock: number) {
   return currentBlock + EPOCH_INTERVAL - (currentBlock % EPOCH_INTERVAL);
 }
 
-export function secondsUntilBlock(startBlock: number, endBlock: number) {
+export function secondsUntilBlock(startBlock: number, endBlock: number): number {
   const blocksAway = endBlock - startBlock;
   const secondsAway = blocksAway * BLOCK_RATE_SECONDS;
 

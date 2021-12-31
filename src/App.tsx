@@ -165,7 +165,7 @@ function App() {
         bonds.map(bond => {
           dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
         });
-        dispatch(getAllBonds({ provider: loadProvider, networkID: networkId }));
+        // dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address: "" }));
       }
     },
     [networkId, providerInitialized],
@@ -176,6 +176,7 @@ function App() {
       if (!providerInitialized) {
         return;
       }
+      dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       dispatch(getUserNotes({ networkID: networkId, address, provider: loadProvider }));
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));

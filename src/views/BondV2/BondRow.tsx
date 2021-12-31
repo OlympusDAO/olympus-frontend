@@ -1,5 +1,5 @@
 import BondLogo from "../../components/BondLogo";
-import { DisplayBondPrice, DisplayBondDiscount } from "../Bond/Bond";
+import { DisplayBondPrice, DisplayBondDiscount } from "./BondV2";
 import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
@@ -7,16 +7,15 @@ import "./choosebond.scss";
 import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 import useBonds from "src/hooks/Bonds";
-import { useSelector } from "react-redux";
+import { IBondV2 } from "src/slices/BondSliceV2";
+import { useAppSelector } from "src/hooks";
 
-export function BondDataCard({ bond }) {
-  const networkId = useSelector(state => state.network.networkId);
-  const { loading } = useBonds(networkId);
-  const isBondLoading = !bond.bondPrice ?? true;
+export function BondDataCard({ bond }: { bond: IBondV2 }) {
+  const isBondLoading = useAppSelector(state => state.bondingV2.loading);
 
   return (
     <Slide direction="up" in={true}>
-      <Paper id={`${bond.name}--bond`} className="bond-data-card ohm-card">
+      <Paper id={`${bond.displayName}--bond`} className="bond-data-card ohm-card">
         <div className="bond-pair">
           <BondLogo bond={bond} />
           <div className="bond-name">
@@ -38,7 +37,7 @@ export function BondDataCard({ bond }) {
             <Trans>Price</Trans>
           </Typography>
           <Typography className="bond-price">
-            <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
+            <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.displayName} bond={bond} />}</>
           </Typography>
         </div>
         <div className="data-row">
@@ -46,11 +45,11 @@ export function BondDataCard({ bond }) {
             <Trans>ROI</Trans>
           </Typography>
           <Typography>
-            {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
+            {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}
           </Typography>
         </div>
 
-        <div className="data-row">
+        {/* <div className="data-row">
           <Typography>
             <Trans>Purchased</Trans>
           </Typography>
@@ -66,8 +65,8 @@ export function BondDataCard({ bond }) {
               }).format(bond.purchased)
             )}
           </Typography>
-        </div>
-        <Link component={NavLink} to={`/bonds/${bond.name}`}>
+        </div> */}
+        <Link component={NavLink} to={`/bondsV2/${bond.displayName}`}>
           <Button variant="outlined" color="primary" fullWidth>
             <Typography variant="h5">
               {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
@@ -81,14 +80,13 @@ export function BondDataCard({ bond }) {
   );
 }
 
-export function BondTableData({ bond }) {
-  const networkId = useSelector(state => state.network.networkId);
+export function BondTableData({ bond }: { bond: IBondV2 }) {
   // Use BondPrice as indicator of loading.
-  const isBondLoading = !bond.price ?? true;
+  const isBondLoading = !bond.priceUSD ?? true;
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
 
   return (
-    <TableRow id={`${bond.name}--bond`}>
+    <TableRow id={`${bond.displayName}--bond`}>
       <TableCell align="left" className="bond-name-cell">
         <BondLogo bond={bond} />
         <div className="bond-name">
@@ -114,7 +112,7 @@ export function BondTableData({ bond }) {
         {/* {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />} */}
         6.08%
       </TableCell>
-      <TableCell align="right">
+      {/* <TableCell align="right">
         {isBondLoading ? (
           <Skeleton />
         ) : (
@@ -126,9 +124,9 @@ export function BondTableData({ bond }) {
           // }).format(bond.purchased)
           "432,198"
         )}
-      </TableCell>
+      </TableCell> */}
       <TableCell>
-        <Link component={NavLink} to={`/bonds/${bond.name}`}>
+        <Link component={NavLink} to={`/bonds-v2/${bond.displayName}`}>
           <Button variant="outlined" color="primary" style={{ width: "100%" }}>
             {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
             {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}

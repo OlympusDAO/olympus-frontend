@@ -35,7 +35,7 @@ function ChooseBondV2() {
   usePathForNetwork({ pathName: "bonds-v2", networkID: networkId, history });
 
   const bondsV2 = useAppSelector(state => {
-    return state.bondingV2.indexes.map(index => state.bondingV2[index] as IBondV2);
+    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
