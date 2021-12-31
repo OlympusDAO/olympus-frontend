@@ -22,7 +22,7 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   displayName: string;
   price: number;
   discount: number;
-  days: string;
+  duration: string;
   isLP: boolean;
   lpUrl: string;
 }
@@ -133,7 +133,7 @@ async function processBond(
   networkID: NetworkID,
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
 ): Promise<IBondV2> {
-  const currentBlock = await provider.getBlockNumber();
+  const currentTime = Date.now() / 1000;
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
   const quoteTokenPrice = Number(await getTokenPrice((await getTokenIdByContract(bond.quoteToken)) ?? "dai"));
 
@@ -141,15 +141,23 @@ async function processBond(
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPrice) / ohmPrice;
 
-  let days = "";
-  if (!terms.fixedTerm) {
-    const vestingBlock = currentBlock + terms.vesting;
-    const seconds = secondsUntilBlock(currentBlock, vestingBlock);
-    days = prettifySeconds(seconds, "day");
+  let seconds = 0;
+  if (terms.fixedTerm) {
+    const vestingTime = currentTime + terms.vesting;
+    seconds = vestingTime - currentTime;
   } else {
-    const conclusionBlock = terms.conclusion;
-    const seconds = secondsUntilBlock(currentBlock, conclusionBlock);
-    days = prettifySeconds(seconds, "day");
+    console.log("HIIII");
+    const conclusionTime = terms.conclusion;
+    console.log(currentTime);
+    console.log(conclusionTime);
+    console.log(conclusionTime - currentTime);
+    seconds = conclusionTime - currentTime;
+  }
+  let duration = "";
+  if (seconds > 86400) {
+    duration = prettifySeconds(seconds, "day");
+  } else {
+    duration = prettifySeconds(seconds);
   }
 
   return {
@@ -160,7 +168,7 @@ async function processBond(
     displayName: `${index}`,
     price: bondPrice,
     discount: bondDiscount,
-    days,
+    duration,
     isLP: false,
     lpUrl: "",
   };

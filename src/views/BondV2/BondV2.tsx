@@ -27,9 +27,7 @@ function a11yProps(index: number) {
 
 const BondV2 = ({ index }: { index: number }) => {
   const history = useHistory();
-  console.log("hi");
   const bond = useAppSelector(state => state.bondingV2.bonds[index]);
-  console.log(bond);
   const { provider, address } = useWeb3Context();
   const networkId = useAppSelector(state => state.network.networkId);
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
@@ -144,7 +142,6 @@ export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
   if (typeof bond.price === undefined) {
     return <Fragment>--</Fragment>;
   }
-  console.log(bond.price);
 
   return (
     <Fragment>
