@@ -82,7 +82,7 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
 
 export function BondTableData({ bond }: { bond: IBondV2 }) {
   // Use BondPrice as indicator of loading.
-  const isBondLoading = !bond.price ?? true;
+  const isBondLoading = !bond.priceUSD ?? true;
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
 
   return (

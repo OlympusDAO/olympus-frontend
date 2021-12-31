@@ -97,7 +97,7 @@ const BondV2 = ({ index }: { index: number }) => {
                     <Trans>Market Price</Trans>
                   </Typography>
                   <Typography variant="h3" color="primary" className="price">
-                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.price, 2)}
+                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.priceUSD, 2)}
                   </Typography>
                 </div>
               </Box>
@@ -139,7 +139,7 @@ const BondV2 = ({ index }: { index: number }) => {
 export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
   const networkId = useAppSelector(state => state.network.networkId);
 
-  if (typeof bond.price === undefined) {
+  if (typeof bond.priceUSD === undefined) {
     return <Fragment>--</Fragment>;
   }
 
@@ -150,7 +150,7 @@ export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
         currency: "USD",
         maximumFractionDigits: 2,
         minimumFractionDigits: 2,
-      }).format(bond.price)}
+      }).format(bond.priceUSD)}
     </Fragment>
   );
 };

@@ -20,7 +20,8 @@ import { isAddress } from "@ethersproject/address";
 export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   index: number;
   displayName: string;
-  price: number;
+  priceUSD: number;
+  priceToken: BigNumber;
   discount: number;
   duration: string;
   isLP: boolean;
@@ -136,10 +137,10 @@ async function processBond(
   const currentTime = Date.now() / 1000;
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
   const quoteTokenPrice = Number(await getTokenPrice((await getTokenIdByContract(bond.quoteToken)) ?? "dai"));
-
-  const bondPrice = (quoteTokenPrice * +(await depositoryContract.marketPrice(index))) / Math.pow(10, 9);
+  const bondPrice = await depositoryContract.marketPrice(index);
+  const bondPriceUSD = (quoteTokenPrice * +bondPrice) / Math.pow(10, 9);
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
-  const bondDiscount = (ohmPrice - bondPrice) / ohmPrice;
+  const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
 
   let seconds = 0;
   if (terms.fixedTerm) {
@@ -166,7 +167,8 @@ async function processBond(
     ...terms,
     index: index,
     displayName: `${index}`,
-    price: bondPrice,
+    priceUSD: bondPriceUSD,
+    priceToken: bondPrice,
     discount: bondDiscount,
     duration,
     isLP: false,
