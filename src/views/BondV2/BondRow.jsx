@@ -84,7 +84,7 @@ export function BondDataCard({ bond }) {
 export function BondTableData({ bond }) {
   const networkId = useSelector(state => state.network.networkId);
   // Use BondPrice as indicator of loading.
-  const isBondLoading = !bond.bondPrice ?? true;
+  const isBondLoading = !bond.price ?? true;
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
 
   return (
