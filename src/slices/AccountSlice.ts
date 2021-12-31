@@ -517,7 +517,6 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   mockGiving: { sohmGive: number; donationInfo: IUserDonationInfo; loading: boolean };
   redeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   mockRedeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
-  notes: IUserNote[];
   bonds: { [key: string]: IUserBondDetails };
   balances: {
     gohm: string;
@@ -577,7 +576,6 @@ const initialState: IAccountSlice = {
   },
   giving: { sohmGive: 0, donationInfo: {}, loading: true },
   mockGiving: { sohmGive: 0, donationInfo: {}, loading: true },
-  notes: [],
   redeeming: {
     sohmRedeemable: "",
     recipientInfo: {

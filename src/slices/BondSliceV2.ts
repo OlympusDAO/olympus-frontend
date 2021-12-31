@@ -1,29 +1,21 @@
 import { ethers, BigNumber } from "ethers";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
-import { IApproveBondAsyncThunk, IBaseAsyncThunk, IBaseAddressAsyncThunk, IBondV2AysncThunk } from "./interfaces";
+import {
+  IApproveBondAsyncThunk,
+  IBaseAsyncThunk,
+  IBaseAddressAsyncThunk,
+  IBondV2AysncThunk,
+  IValueAsyncThunk,
+  IBondV2PurchaseAsyncThunk,
+} from "./interfaces";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
 import { addresses } from "src/constants";
 import { fetchAccountSuccess } from "./AccountSlice";
 import { NetworkID } from "src/lib/Bond";
 import { getTokenIdByContract, getTokenPrice, prettifySeconds, secondsUntilBlock } from "src/helpers";
 import { findOrLoadMarketPrice } from "./AppSlice";
-
-export const changeApproval = createAsyncThunk(
-  "bonding/changeApproval",
-  async ({ bondIndex, provider, networkID }: IBondV2AysncThunk, { getState }) => {
-    checkNetwork(networkID);
-    const signer = provider.getSigner();
-    const bondState = (getState() as any).bondingV2[bondIndex];
-    const tokenContractAddress: string = bondState.quoteToken;
-    const tokenDecimals: number = bondState.quoteDecimals;
-    const tokenContract = IERC20__factory.connect(tokenContractAddress, signer);
-    await tokenContract.approve(
-      addresses[networkID].BOND_DEPOSITORY,
-      ethers.utils.parseUnits("10000000000000", tokenDecimals),
-    );
-  },
-);
+import { isAddress } from "@ethersproject/address";
 
 export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   index: number;
@@ -31,7 +23,14 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   price: number;
   discount: number;
   days: string;
-  //   allowance: ethers.BigNumber;
+  isLP: boolean;
+  lpUrl: string;
+}
+
+interface IBondV2Balance {
+  allowance: BigNumber;
+  balance: BigNumber;
+  tokenAddress: string;
 }
 
 interface IBondV2Core {
@@ -76,6 +75,32 @@ function checkNetwork(networkID: NetworkID) {
   }
 }
 
+export const changeApproval = createAsyncThunk(
+  "bondsV2/changeApproval",
+  async ({ bondIndex, provider, networkID }: IBondV2AysncThunk, { getState }) => {
+    checkNetwork(networkID);
+    const signer = provider.getSigner();
+    const bondState = (getState() as any).bondingV2[bondIndex];
+    const tokenContractAddress: string = bondState.quoteToken;
+    const tokenDecimals: number = bondState.quoteDecimals;
+    const tokenContract = IERC20__factory.connect(tokenContractAddress, signer);
+    await tokenContract.approve(
+      addresses[networkID].BOND_DEPOSITORY,
+      ethers.utils.parseUnits("10000000000000", tokenDecimals),
+    );
+  },
+);
+
+export const purchaseBond = createAsyncThunk(
+  "bondsV2/purchase",
+  async ({ value, provider, address, bondIndex, networkID, action }: IBondV2PurchaseAsyncThunk, { dispatch }) => {
+    checkNetwork(networkID);
+    const signer = provider.getSigner();
+    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
+    await depositoryContract.deposit(bondIndex, value, action, address, address);
+  },
+);
+
 export const getSingleBond = createAsyncThunk(
   "bondsV2/getSingle",
   async ({ provider, networkID, address, bondIndex }: IBondV2AysncThunk, { dispatch }): Promise<IBondV2> => {
@@ -85,6 +110,17 @@ export const getSingleBond = createAsyncThunk(
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
     return processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+  },
+);
+
+export const getTokenBalance = createAsyncThunk(
+  "bondsV2/getBalance",
+  async ({ provider, networkID, address, value }: IValueAsyncThunk, {}): Promise<IBondV2Balance> => {
+    checkNetwork(networkID);
+    const tokenContract = IERC20__factory.connect(value, provider);
+    const balance = await tokenContract.balanceOf(address);
+    const allowance = await tokenContract.allowance(address, addresses[networkID].BOND_DEPOSITORY);
+    return { balance, allowance, tokenAddress: value };
   },
 );
 
@@ -103,7 +139,7 @@ async function processBond(
 
   const bondPrice = (quoteTokenPrice * +(await depositoryContract.marketPrice(index))) / Math.pow(10, 9);
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
-  const bondDiscount = (100 * Math.max(ohmPrice - bondPrice, ohmPrice)) / ohmPrice;
+  const bondDiscount = (100 * ohmPrice - bondPrice) / ohmPrice;
 
   let days = "";
   if (!terms.fixedTerm) {
@@ -125,12 +161,14 @@ async function processBond(
     price: bondPrice,
     discount: bondDiscount,
     days,
+    isLP: false,
+    lpUrl: "",
   };
 }
 
 export const getAllBonds = createAsyncThunk(
   "bondsV2/getAll",
-  async ({ provider, networkID }: IBaseAsyncThunk, { dispatch, getState }) => {
+  async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch }) => {
     checkNetwork(networkID);
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const liveBondIndexes = await depositoryContract.liveMarkets();
@@ -146,14 +184,18 @@ export const getAllBonds = createAsyncThunk(
       const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
       const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
       liveBonds.push(finalBond);
+
+      if (address) {
+        dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
+      }
     }
     return liveBonds;
   },
 );
 
 export const getUserNotes = createAsyncThunk(
-  "bondsV2/getUser",
-  async ({ provider, networkID, address }: IBaseAddressAsyncThunk, {}) => {
+  "bondsV2/notes",
+  async ({ provider, networkID, address }: IBaseAddressAsyncThunk, {}): Promise<IUserNote[]> => {
     checkNetwork(networkID);
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const userNoteIndexes = await depositoryContract.indexesFor(address);
@@ -163,20 +205,29 @@ export const getUserNotes = createAsyncThunk(
       const note = await userNotes[i];
       notes.push(note);
     }
-    fetchAccountSuccess({ notes });
+    return notes;
   },
 );
 
 // Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   loading: boolean;
+  balanceLoading: boolean;
+  notesLoading: boolean;
   indexes: number[];
-  [key: string]: any;
+  balances: { [key: string]: IBondV2Balance };
+  bonds: { [key: string]: IBondV2 };
+  notes: IUserNote[];
 }
 
 const initialState: IBondSlice = {
   loading: false,
+  balanceLoading: false,
+  notesLoading: false,
   indexes: [],
+  balances: {},
+  bonds: {},
+  notes: [],
 };
 
 const bondingSliceV2 = createSlice({
@@ -184,7 +235,7 @@ const bondingSliceV2 = createSlice({
   initialState,
   reducers: {
     fetchBondSuccessV2(state, action) {
-      state[action.payload.bond] = action.payload;
+      state.bonds[action.payload.bond] = action.payload;
     },
   },
 
@@ -196,13 +247,35 @@ const bondingSliceV2 = createSlice({
       .addCase(getAllBonds.fulfilled, (state, action) => {
         state.indexes = [];
         action.payload.forEach(bond => {
-          state[bond.index] = bond;
+          state.bonds[bond.index] = bond;
           state.indexes.push(bond.index);
         });
         state.loading = false;
       })
       .addCase(getAllBonds.rejected, (state, { error }) => {
         state.loading = false;
+        console.error(error.message);
+      })
+      .addCase(getTokenBalance.pending, state => {
+        state.balanceLoading = true;
+      })
+      .addCase(getTokenBalance.fulfilled, (state, action) => {
+        state.balances[action.payload.tokenAddress] = action.payload;
+        state.balanceLoading = false;
+      })
+      .addCase(getTokenBalance.rejected, (state, { error }) => {
+        state.balanceLoading = false;
+        console.error(error.message);
+      })
+      .addCase(getUserNotes.pending, state => {
+        state.notesLoading = true;
+      })
+      .addCase(getUserNotes.fulfilled, (state, action) => {
+        state.notes = action.payload;
+        state.notesLoading = false;
+      })
+      .addCase(getUserNotes.rejected, (state, { error }) => {
+        state.notesLoading = false;
         console.error(error.message);
       });
   },

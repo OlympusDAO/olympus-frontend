@@ -80,6 +80,7 @@ export async function getTokenIdByContract(contractAddress: string) {
     return resp.data.id;
   } catch (e) {
     // console.log("coingecko api error: ", e);
+    return null;
   }
 }
 
