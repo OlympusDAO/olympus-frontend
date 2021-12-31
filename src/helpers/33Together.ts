@@ -1,5 +1,5 @@
 import { BigNumber, ethers } from "ethers";
-import { addresses } from "../constants";
+import { addresses, NetworkId } from "../constants";
 import { trim } from "src/helpers";
 
 /**
@@ -61,11 +61,11 @@ export const secondsToDaysForInput = (seconds: number) => {
  * @param networkId
  * @returns [PrizePoolURI, PoolDetailsURI]
  */
-export const poolTogetherUILinks = (networkId: number): Array<string> => {
-  if (networkId === -1) networkId = 1;
+export const poolTogetherUILinks = (networkId: NetworkId): Array<string> => {
+  // if (networkId === -1) networkId = 1;
   const contractAddress = addresses[networkId].PT_PRIZE_POOL_ADDRESS;
 
-  if (networkId === 4) {
+  if (networkId === NetworkId.TESTNET_RINKEBY) {
     return [
       `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/home`,
       `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/manage#stats`,

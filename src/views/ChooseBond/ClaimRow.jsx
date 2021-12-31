@@ -12,8 +12,7 @@ import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxn
 
 export function ClaimBondTableData({ userBond }) {
   const dispatch = useDispatch();
-  const { address, provider } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { address, provider, networkId } = useWeb3Context();
   const { bonds, expiredBonds } = useBonds(networkId);
 
   const bond = userBond[1];
@@ -74,8 +73,7 @@ export function ClaimBondTableData({ userBond }) {
 
 export function ClaimBondCardData({ userBond }) {
   const dispatch = useDispatch();
-  const { address, provider } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { address, provider, networkId } = useWeb3Context();
   const { bonds, expiredBonds } = useBonds(networkId);
 
   const bond = userBond[1];
