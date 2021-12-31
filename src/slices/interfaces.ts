@@ -1,6 +1,7 @@
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { BigNumber } from "ethers";
-import { Bond, NetworkID } from "src/lib/Bond";
+import { Bond } from "src/lib/Bond";
+import { NetworkId } from "src/constants";
 
 export interface IJsonRPCError {
   readonly message: string;
@@ -8,7 +9,7 @@ export interface IJsonRPCError {
 }
 
 export interface IBaseAsyncThunk {
-  readonly networkID: NetworkID;
+  readonly networkID: NetworkId;
   readonly provider: StaticJsonRpcProvider | JsonRpcProvider;
 }
 

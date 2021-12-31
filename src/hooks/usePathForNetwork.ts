@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { History } from "history";
-import { VIEWS_FOR_NETWORK } from "src/constants";
+import { NetworkId, VIEWS_FOR_NETWORK } from "src/constants";
 
 /**
  * will redirect from paths that aren't active on a given network yet.
@@ -11,12 +11,12 @@ export function usePathForNetwork({
   history,
 }: {
   pathName: string;
-  networkID: number;
+  networkID: NetworkId;
   history: History;
 }) {
   const handlePathForNetwork = () => {
     // do nothing if networkID is -1 since that's a default state
-    if (networkID === -1) return;
+    // if (networkID === -1) return;
 
     switch (pathName) {
       case "stake":

@@ -10,8 +10,7 @@ import { Trans } from "@lingui/macro";
 
 function RebaseTimer() {
   const dispatch = useDispatch();
-  const { provider } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { provider, networkId } = useWeb3Context();
 
   const SECONDS_TO_REFRESH = 60;
   const [secondsToRebase, setSecondsToRebase] = useState(0);

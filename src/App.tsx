@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds, { IAllBondData } from "./hooks/Bonds";
-import { useAddress, useWeb3Context } from "./hooks/web3Context";
+import { useWeb3Context } from "./hooks/web3Context";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
 import { shouldTriggerSafetyCheck } from "./helpers";
@@ -48,7 +48,6 @@ import { girth as gTheme } from "./themes/girth.js";
 import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import { initializeNetwork } from "./slices/NetworkSlice";
 import { useAppSelector } from "./hooks";
 import { Project } from "src/components/GiveProject/project.type";
 import ProjectInfo from "./views/Give/ProjectInfo";
@@ -86,7 +85,6 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     overflow: "auto",
     marginLeft: drawerWidth,
-    paddingBottom: "10rem",
   },
   contentShift: {
     transition: theme.transitions.create("margin", {
@@ -114,8 +112,7 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { connect, hasCachedProvider, provider, connected, chainChanged, onChainChangeComplete } = useWeb3Context();
-  const address = useAddress();
+  const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalOpen = () => {
@@ -130,7 +127,6 @@ function App() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const [walletChecked, setWalletChecked] = useState(false);
-  const networkId = useAppSelector(state => state.network.networkId);
 
   const { projects } = projectData;
 
@@ -152,40 +148,32 @@ function App() {
       loadApp(loadProvider);
     }
 
-    if (whichDetails === "network") {
-      initNetwork(loadProvider);
-    }
-
     // don't run unless provider is a Wallet...
     if (whichDetails === "account" && address && connected) {
       loadAccount(loadProvider);
     }
   }
 
-  const initNetwork = useCallback(loadProvider => {
-    dispatch(initializeNetwork({ provider: loadProvider }));
-  }, []);
-
   const loadApp = useCallback(
     loadProvider => {
-      if (networkId == -1) {
+      if (!providerInitialized) {
         return;
       }
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       // NOTE (appleseed) - tech debt - better network filtering for active bonds
-      if (networkId === 1 || networkId === 4) {
+      if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
         bonds.map(bond => {
           dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
         });
         dispatch(getAllBonds({ provider: loadProvider, networkID: networkId }));
       }
     },
-    [networkId],
+    [networkId, providerInitialized],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      if (networkId == -1) {
+      if (!providerInitialized) {
         return;
       }
       dispatch(getUserNotes({ networkID: networkId, address, provider: loadProvider }));
@@ -204,11 +192,11 @@ function App() {
         }
       });
     },
-    [networkId, address],
+    [networkId, address, providerInitialized],
   );
 
   const oldAssetsDetected = useAppSelector(state => {
-    if (networkId && (networkId === 1 || networkId === 4)) {
+    if (networkId && (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY)) {
       return (
         state.account.balances &&
         (Number(state.account.balances.sohmV1) ||
@@ -271,24 +259,20 @@ function App() {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
-      loadDetails("network").then(() => {
-        if (networkId !== -1) {
-          loadDetails("account");
-          loadDetails("app");
-        }
-      });
-      onChainChangeComplete();
+      if (networkId !== -1) {
+        loadDetails("account");
+        loadDetails("app");
+      }
     }
-  }, [walletChecked, chainChanged, networkId]);
+  }, [walletChecked, networkId]);
 
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected && networkId !== -1) {
+    if (connected && providerInitialized) {
       loadDetails("account");
-      initNetwork(provider);
     }
-  }, [connected, networkId]);
+  }, [connected, networkId, providerInitialized]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

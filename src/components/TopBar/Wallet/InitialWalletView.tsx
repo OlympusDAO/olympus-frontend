@@ -19,17 +19,15 @@ import { ReactComponent as fraxTokenImg } from "src/assets/tokens/FRAX.svg";
 import { ReactComponent as daiTokenImg } from "src/assets/tokens/DAI.svg";
 import { ReactComponent as wsOhmTokenImg } from "src/assets/tokens/token_wsOHM.svg";
 import { ReactComponent as arrowDown } from "src/assets/icons/arrow-down.svg";
-import { addresses, TOKEN_DECIMALS } from "src/constants";
 import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import useCurrentTheme from "src/hooks/useTheme";
 
 import { ohm_frax, ohm_dai } from "src/helpers/AllBonds";
 
-import { IToken, Token, Tokens, useWallet } from "./Token";
-import { NetworkID } from "src/lib/Bond";
-import { BigNumber } from "ethers";
-import { t, Trans } from "@lingui/macro";
+import { IToken, Tokens, useWallet } from "./Token";
+import { Trans } from "@lingui/macro";
+import WalletAddressEns from "./WalletAddressEns";
 
 const Borrow = ({
   Icon1,
@@ -128,7 +126,8 @@ const CloseButton = withStyles(theme => ({
 }))(IconButton);
 
 const WalletTotalValue = () => {
-  const tokens = useWallet();
+  const { address: userAddress, networkId, providerInitialized } = useWeb3Context();
+  const tokens = useWallet(userAddress, networkId, providerInitialized);
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const marketPrice = useAppSelector(s => s.app.marketPrice || 0);
   const [currency, setCurrency] = useState<"USD" | "OHM">("USD");
@@ -149,6 +148,7 @@ const WalletTotalValue = () => {
       <Typography style={{ fontWeight: 700 }} variant="h3">
         {!isLoading ? formatCurrency(walletValue[currency], 2, currency) : <Skeleton variant="text" width={100} />}
       </Typography>
+      <WalletAddressEns />
     </Box>
   );
 };
@@ -185,10 +185,10 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
           style={{ gap: theme.spacing(1.5) }}
         >
           <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_dai.lpUrl}>
-            <Typography>Buy on Sushiswap</Typography>
+            <Typography>Get on Sushiswap</Typography>
           </ExternalLink>
           <ExternalLink color={currentTheme === "dark" ? "primary" : undefined} href={ohm_frax.lpUrl}>
-            <Typography>Buy on Uniswap</Typography>
+            <Typography>Get on Uniswap</Typography>
           </ExternalLink>
           <Borrow
             href={`https://app.rari.capital/fuse/pool/18`}
