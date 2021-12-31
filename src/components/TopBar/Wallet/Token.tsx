@@ -269,10 +269,8 @@ export const useWallet = (
   chainId: NetworkId,
   providerInitialized: Boolean,
 ): Record<string, IToken> => {
-  // const { address: userAddress, networkId: chainId, providerInitialized } = useWeb3Context();
   // default to mainnet while not initialized
   const networkId = providerInitialized ? chainId : NetworkId.MAINNET;
-  // const networkId = useAppSelector(s => (s.network.initialized ? s.network.networkId : NetworkID.Mainnet));
 
   const connectedChainBalances = useAppSelector(s => s.account.balances);
   const ohmPrice = useAppSelector(s => s.app.marketPrice);
@@ -350,11 +348,12 @@ export const useWallet = (
   return Object.entries(tokens).reduce((wallet, [key, token]) => {
     const crossChainBalances = sumObjValues(token.crossChainBalances?.balances);
     const vaultBalances = sumObjValues(token.vaultBalances);
+    const balance = crossChainBalances || parseFloat(token.balance) || 0;
     return {
       ...wallet,
       [key]: {
         ...token,
-        totalBalance: (crossChainBalances + vaultBalances).toString() || parseFloat(token.balance) + vaultBalances,
+        totalBalance: (balance + vaultBalances).toString(),
       } as IToken,
     };
   }, {});
