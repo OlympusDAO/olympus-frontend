@@ -54,6 +54,7 @@ import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
 import Announcement from "./components/Announcement/Announcement";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
+import { NetworkId } from "./constants";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -165,7 +166,7 @@ function App() {
         bonds.map(bond => {
           dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
         });
-        // dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address: "" }));
+        dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       }
     },
     [networkId, providerInitialized],
@@ -176,7 +177,6 @@ function App() {
       if (!providerInitialized) {
         return;
       }
-      dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       dispatch(getUserNotes({ networkID: networkId, address, provider: loadProvider }));
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
