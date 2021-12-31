@@ -12,7 +12,6 @@ import { useAppSelector } from "src/hooks";
 
 export function BondDataCard({ bond }: { bond: IBondV2 }) {
   const isBondLoading = useAppSelector(state => state.bondingV2.loading);
-  console.log(bond);
 
   return (
     <Slide direction="up" in={true}>
