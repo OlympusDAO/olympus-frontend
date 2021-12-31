@@ -82,7 +82,6 @@ export function BondDataCard({ bond }) {
 }
 
 export function BondTableData({ bond }) {
-  console.log("-=-=-=-=-=-=-=-=-=", bond);
   const networkId = useSelector(state => state.network.networkId);
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.price ?? true;
@@ -107,22 +106,25 @@ export function BondTableData({ bond }) {
       <TableCell align="left">
         <Typography>
           {/* <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</> */}
+          $322
         </Typography>
       </TableCell>
       <TableCell align="left">
         {" "}
         {/* {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />} */}
+        6.08%
       </TableCell>
       <TableCell align="right">
         {isBondLoading ? (
           <Skeleton />
         ) : (
-          new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            maximumFractionDigits: 0,
-            minimumFractionDigits: 0,
-          }).format(bond.purchased)
+          // new Intl.NumberFormat("en-US", {
+          //   style: "currency",
+          //   currency: "USD",
+          //   maximumFractionDigits: 0,
+          //   minimumFractionDigits: 0,
+          // }).format(bond.purchased)
+          "432,198"
         )}
       </TableCell>
       <TableCell>
