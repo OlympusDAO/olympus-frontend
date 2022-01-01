@@ -3245,10 +3245,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@olympusdao/component-library@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.0.11.tgz#4b2f3f6f4c4d4de82eeeba418447365a0f01b27a"
-  integrity sha512-A/ZXs1j/4Yyle175JWnIF2EKzBB86HS/d9ZxKHetPjAeoVYJMTmTX4Ryxfgg9cGqaIoKwDiytcXhhxC058e61w==
+"@olympusdao/component-library@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.1.0.tgz#44992fbb76f8785c6be9dfc75ff75afeaa9e2c38"
+  integrity sha512-C8DqSj36QJd0BmRhnvGAvH55o/UxPuA7th389gLvVYFRv0UNgMN36FyGAhlv78c2zg15YEOHtJ9IdzP35c6j5w==
 
 "@pmmmwh/react-refresh-webpack-plugin@0.4.3":
   version "0.4.3"
