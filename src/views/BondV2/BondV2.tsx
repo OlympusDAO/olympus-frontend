@@ -80,13 +80,7 @@ const BondV2 = ({ index }: { index: number }) => {
                     <Trans>Bond Price</Trans>
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    <>
-                      {isBondLoading ? (
-                        <Skeleton width="50px" />
-                      ) : (
-                        <DisplayBondPrice key={bond.displayName} bond={bond} />
-                      )}
-                    </>
+                    <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.index} bond={bond} />}</>
                   </Typography>
                 </div>
                 <div className="bond-price-data">
