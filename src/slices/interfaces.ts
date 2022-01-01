@@ -2,6 +2,7 @@ import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers
 import { BigNumber } from "ethers";
 import { Bond } from "src/lib/Bond";
 import { NetworkId } from "src/constants";
+import { IBondV2 } from "./BondSliceV2";
 
 export interface IJsonRPCError {
   readonly message: string;
@@ -43,12 +44,17 @@ export interface IValueAsyncThunk extends IBaseAsyncThunk {
 
 export interface IActionValueAsyncThunk extends IValueAsyncThunk {
   readonly action: string;
+}
+
+export interface IStakeAsyncThunk extends IActionValueAsyncThunk {
   readonly version2: boolean;
   readonly rebase: boolean;
 }
 
 export interface IActionValueGasAsyncThunk extends IActionValueAsyncThunk {
   readonly gas: number;
+  readonly version2: boolean;
+  readonly rebase: boolean;
 }
 
 export interface IBaseAddressAsyncThunk extends IBaseAsyncThunk {
@@ -57,6 +63,8 @@ export interface IBaseAddressAsyncThunk extends IBaseAsyncThunk {
 
 export interface IActionValueRecipientAsyncThunk extends IActionValueAsyncThunk {
   readonly recipient: string;
+  readonly version2: boolean;
+  readonly rebase: boolean;
 }
 
 export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
@@ -76,10 +84,14 @@ export interface IBaseBondAsyncThunk extends IBaseAsyncThunk {
 }
 
 export interface IBondV2AysncThunk extends IBaseAddressAsyncThunk {
-  readonly bondIndex: number;
+  readonly bond: IBondV2;
 }
 
-export interface IBondV2PurchaseAsyncThunk extends IBondV2AysncThunk, IActionValueAsyncThunk {}
+export interface IBondV2PurchaseAsyncThunk extends IBaseAddressAsyncThunk {
+  readonly bond: IBondV2;
+  readonly maxPrice: number;
+  readonly amount: number;
+}
 
 export interface IApproveBondAsyncThunk extends IBaseBondAsyncThunk {
   readonly address: string;

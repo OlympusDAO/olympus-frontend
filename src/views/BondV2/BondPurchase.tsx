@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
@@ -12,7 +12,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
-import { bondAsset, calcBondDetails, changeApproval } from "../../slices/BondSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
@@ -20,61 +19,44 @@ import useDebounce from "../../hooks/Debounce";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./BondV2";
 import ConnectButton from "../../components/ConnectButton";
+import { useAppSelector } from "src/hooks";
+import { changeApproval, getSingleBond, IBondV2, purchaseBond } from "src/slices/BondSliceV2";
 
-function BondPurchase({ bond, slippage, recipientAddress }) {
+function BondPurchase({
+  bond,
+  slippage,
+  recipientAddress,
+}: {
+  bond: IBondV2;
+  slippage: number;
+  recipientAddress: string;
+}) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
 
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
-  });
+  const isBondLoading = useAppSelector(state => state.bondingV2.loading ?? true);
 
-  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
+  const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
-
-  const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(bond.vestingTerm);
-    const seconds = secondsUntilBlock(currentBlock, vestingBlock);
-    return prettifySeconds(seconds, "day");
-  };
 
   async function onBond() {
     if (quantity === "") {
       dispatch(error(t`Please enter a value!`));
-    } else if (isNaN(quantity)) {
-      dispatch(error(t`Please enter a valid value!`));
-    } else if (bond.interestDue > 0 || bond.pendingPayout > 0) {
-      const shouldProceed = window.confirm(
-        t`You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?`,
-      );
-      if (shouldProceed) {
-        await dispatch(
-          bondAsset({
-            value: quantity,
-            slippage,
-            bond,
-            networkID: networkId,
-            provider,
-            address: recipientAddress || address,
-          }),
-        );
-      }
     } else {
       await dispatch(
-        bondAsset({
-          value: quantity,
-          slippage,
-          bond,
+        purchaseBond({
+          amount: Number(quantity),
           networkID: networkId,
           provider,
+          bond,
+          maxPrice: 0,
           address: recipientAddress || address,
         }),
       );
@@ -83,53 +65,45 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   }
 
   const clearInput = () => {
-    setQuantity(0);
+    setQuantity("");
   };
 
   const hasAllowance = useCallback(() => {
-    return bond.allowance > 0;
-  }, [bond.allowance]);
+    return +balance.allowance > 0;
+  }, [balance]);
 
   const setMax = () => {
     let maxQ;
-    if (bond.maxBondPrice * bond.bondPrice < Number(bond.balance)) {
-      // there is precision loss here on Number(bond.balance)
-      maxQ = bond.maxBondPrice * bond.bondPrice.toString();
-    } else {
-      maxQ = bond.balance;
-    }
-    setQuantity(maxQ);
+    // if (bond.maxBondPrice * bond.bondPrice < Number(bond.capacity)) {
+    //   // there is precision loss here on Number(bond.balance)
+    //   maxQ = bond.maxBondPrice * bond.bondPrice.toString();
+    // } else {
+    maxQ = balance.balance;
+    // }
+    setQuantity(maxQ.toString());
   };
 
-  const bondDetailsDebounce = useDebounce(quantity, 1000);
-
   useEffect(() => {
-    dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: networkId }));
-  }, [bondDetailsDebounce]);
-
-  useEffect(() => {
-    let interval = null;
+    let interval: NodeJS.Timer | undefined;
     if (secondsToRefresh > 0) {
       interval = setInterval(() => {
         setSecondsToRefresh(secondsToRefresh => secondsToRefresh - 1);
       }, 1000);
-    } else {
-      if (bond.getBondability(networkId)) {
-        clearInterval(interval);
-        dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: networkId }));
-        setSecondsToRefresh(SECONDS_TO_REFRESH);
-      }
+    } else if (interval) {
+      clearInterval(interval);
+      dispatch(getSingleBond({ bond, address, networkID: networkId, provider }));
+      setSecondsToRefresh(SECONDS_TO_REFRESH);
     }
-    return () => clearInterval(interval);
+    return () => clearInterval(interval!);
   }, [secondsToRefresh, quantity]);
 
   const onSeekApproval = async () => {
-    dispatch(changeApproval({ address, bond, provider, networkID: networkId }));
+    dispatch(changeApproval({ address, provider, networkID: networkId, bond }));
   };
 
-  const displayUnits = bond.displayUnits;
+  // const displayUnits = bond.displayUnits;
 
-  const isAllowanceDataLoading = bond.allowance == null;
+  const isAllowanceDataLoading = useAppSelector(state => state.bondingV2.balanceLoading);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -174,28 +148,16 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     />
                   </FormControl>
                 )}
-                {!bond.isBondable[networkId] ? (
+                {hasAllowance() ? (
                   <Button
                     variant="contained"
                     color="primary"
                     id="bond-btn"
                     className="transaction-button"
-                    disabled={true}
-                  >
-                    {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
-                    {/* <Trans>Sold Out</Trans> */}
-                    {bond.LOLmessage}
-                  </Button>
-                ) : hasAllowance() ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-btn"
-                    className="transaction-button"
-                    disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
+                    disabled={isPendingTxn(pendingTransactions, "bond_" + bond.displayName)}
                     onClick={onBond}
                   >
-                    {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
+                    {txnButtonText(pendingTransactions, "bond_" + bond.displayName, "Bond")}
                   </Button>
                 ) : (
                   <Button
@@ -203,10 +165,10 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     color="primary"
                     id="bond-approve-btn"
                     className="transaction-button"
-                    disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
+                    disabled={isPendingTxn(pendingTransactions, "approve_" + bond.displayName)}
                     onClick={onSeekApproval}
                   >
-                    {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
+                    {txnButtonText(pendingTransactions, "approve_" + bond.displayName, "Approve")}
                   </Button>
                 )}
               </>
@@ -222,17 +184,11 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
               <Trans>Your Balance</Trans>
             </Typography>{" "}
             <Typography id="bond-balance">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                <>
-                  {trim(bond.balance, 4)} {displayUnits}
-                </>
-              )}
+              {isBondLoading ? <Skeleton width="100px" /> : <>{trim(+balance?.balance, 4)}</>}
             </Typography>
           </div>
 
-          <div className={`data-row`}>
+          {/* <div className={`data-row`}>
             <Typography>
               <Trans>You Will Get</Trans>
             </Typography>
@@ -243,9 +199,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                 `${trim(bond.bondQuote, 4) || "0"} ` + `${bond.payoutToken}`
               )}
             </Typography>
-          </div>
+          </div> */}
 
-          <div className={`data-row`}>
+          {/* <div className={`data-row`}>
             <Typography>
               <Trans>Max You Can Buy</Trans>
             </Typography>
@@ -256,23 +212,14 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                 `${trim(bond.maxBondPrice, 4) || "0"} ` + `${bond.payoutToken}`
               )}
             </Typography>
-          </div>
+          </div> */}
 
           <div className="data-row">
             <Typography>
               <Trans>ROI</Trans>
             </Typography>
             <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
-            </Typography>
-          </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>Debt Ratio</Trans>
-            </Typography>
-            <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.debtRatio / 10000000, 2)}%`}
+              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}
             </Typography>
           </div>
 
@@ -280,7 +227,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
             <Typography>
               <Trans>Vesting Term</Trans>
             </Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : vestingPeriod()}</Typography>
+            <Typography>{isBondLoading ? <Skeleton width="100px" /> : bond.duration}</Typography>
           </div>
 
           {recipientAddress !== address && (

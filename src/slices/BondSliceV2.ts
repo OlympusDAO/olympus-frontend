@@ -8,6 +8,7 @@ import {
   IBondV2AysncThunk,
   IValueAsyncThunk,
   IBondV2PurchaseAsyncThunk,
+  IJsonRPCError,
 } from "./interfaces";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
 import { addresses, NetworkId } from "src/constants";
@@ -15,6 +16,8 @@ import { fetchAccountSuccess } from "./AccountSlice";
 import { getTokenIdByContract, getTokenPrice, prettifySeconds, secondsUntilBlock } from "src/helpers";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import { isAddress } from "@ethersproject/address";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
+import { error } from "./MessagesSlice";
 
 export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   index: number;
@@ -77,39 +80,57 @@ function checkNetwork(networkID: NetworkId) {
 
 export const changeApproval = createAsyncThunk(
   "bondsV2/changeApproval",
-  async ({ bondIndex, provider, networkID }: IBondV2AysncThunk, { getState }) => {
+  async ({ bond, provider, networkID }: IBondV2AysncThunk, { dispatch, getState }) => {
     checkNetwork(networkID);
     const signer = provider.getSigner();
-    const bondState = (getState() as any).bondingV2[bondIndex];
+    const bondState: IBondV2 = (getState() as RootState).bondingV2.bonds[bond.index];
     const tokenContractAddress: string = bondState.quoteToken;
     const tokenDecimals: number = bondState.quoteDecimals;
     const tokenContract = IERC20__factory.connect(tokenContractAddress, signer);
-    await tokenContract.approve(
-      addresses[networkID].BOND_DEPOSITORY,
-      ethers.utils.parseUnits("10000000000000", tokenDecimals),
-    );
+    let approveTx: ethers.ContractTransaction | undefined;
+    try {
+      approveTx = await tokenContract.approve(
+        addresses[networkID].BOND_DEPOSITORY,
+        ethers.utils.parseUnits("10000000000000", tokenDecimals),
+      );
+      const text = `Approve ${bond.displayName} Bonding`;
+      const pendingTxnType = `approve_${bond.displayName}_bonding`;
+      if (approveTx) {
+        dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
+
+        await approveTx.wait();
+      }
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
+      return;
+    } finally {
+      if (approveTx) {
+        dispatch(clearPendingTxn(approveTx.hash));
+      }
+    }
   },
 );
 
 export const purchaseBond = createAsyncThunk(
   "bondsV2/purchase",
-  async ({ value, provider, address, bondIndex, networkID, action }: IBondV2PurchaseAsyncThunk, { dispatch }) => {
+  async ({ provider, address, bond, networkID, amount, maxPrice }: IBondV2PurchaseAsyncThunk, { dispatch }) => {
     checkNetwork(networkID);
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
-    await depositoryContract.deposit(bondIndex, value, action, address, address);
+    await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
   },
 );
 
 export const getSingleBond = createAsyncThunk(
   "bondsV2/getSingle",
-  async ({ provider, networkID, address, bondIndex }: IBondV2AysncThunk, { dispatch }): Promise<IBondV2> => {
+  async ({ provider, networkID, address, bond }: IBondV2AysncThunk, { dispatch }): Promise<IBondV2> => {
     checkNetwork(networkID);
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
-    const bond = await depositoryContract.markets(bondIndex);
+    const bondIndex = bond.index;
+    const bondCore = await depositoryContract.markets(bondIndex);
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
-    return processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+    return processBond(bondCore, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
   },
 );
 
@@ -146,11 +167,7 @@ async function processBond(
     const vestingTime = currentTime + terms.vesting;
     seconds = vestingTime - currentTime;
   } else {
-    console.log("HIIII");
     const conclusionTime = terms.conclusion;
-    console.log(currentTime);
-    console.log(conclusionTime);
-    console.log(conclusionTime - currentTime);
     seconds = conclusionTime - currentTime;
   }
   let duration = "";
