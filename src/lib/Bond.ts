@@ -5,17 +5,8 @@ import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { getTokenPrice } from "src/helpers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { EthContract, PairContract } from "src/typechain";
-import { addresses } from "src/constants";
+import { addresses, NetworkId } from "src/constants";
 import React from "react";
-
-export enum NetworkID {
-  Mainnet = 1,
-  Testnet = 4,
-  Arbitrum = 42161,
-  ArbitrumTestnet = 421611,
-  AvalancheTestnet = 43113,
-  Avalanche = 43114,
-}
 
 export enum BondType {
   StableAsset,
@@ -27,23 +18,8 @@ export interface BondAddresses {
   bondAddress: string;
 }
 
-export interface NetworkAddresses {
-  [NetworkID.Mainnet]?: BondAddresses;
-  [NetworkID.Testnet]?: BondAddresses;
-  [NetworkID.Arbitrum]?: BondAddresses;
-  [NetworkID.ArbitrumTestnet]?: BondAddresses;
-  [NetworkID.Avalanche]?: BondAddresses;
-  [NetworkID.AvalancheTestnet]?: BondAddresses;
-}
-
-export interface Available {
-  [NetworkID.Mainnet]: boolean;
-  [NetworkID.Testnet]: boolean;
-  [NetworkID.Arbitrum]: boolean;
-  [NetworkID.ArbitrumTestnet]: boolean;
-  [NetworkID.Avalanche]: boolean;
-  [NetworkID.AvalancheTestnet]: boolean;
-}
+export type NetworkAddresses = { [key in NetworkId]?: BondAddresses };
+export type Available = { [key in NetworkId]?: boolean };
 
 interface BondOpts {
   name: string; // Internal name used for references
@@ -57,7 +33,7 @@ interface BondOpts {
   bondContractABI: ethers.ContractInterface; // ABI for contract
   networkAddrs: NetworkAddresses; // Mapping of network --> Addresses
   bondToken: string; // Unused, but native token to buy the bond.
-  payoutToken: string; // Token the user will receive - currently OHM on ethereum, wsOHM on arbitrum
+  payoutToken: string; // Token the user will receive - currently OHM on ethereum, wsOHM on ARBITRUM
   v2Bond: boolean; // if v2Bond use v2BondingCalculator
 }
 
@@ -85,7 +61,7 @@ export abstract class Bond {
   abstract displayUnits: string;
 
   // Async method that returns a Promise
-  abstract getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider): Promise<number>;
+  abstract getTreasuryBalance(NetworkId: NetworkId, provider: StaticJsonRpcProvider): Promise<number>;
 
   constructor(type: BondType, bondOpts: BondOpts) {
     this.name = bondOpts.name;
@@ -106,42 +82,42 @@ export abstract class Bond {
 
   /**
    * makes isBondable accessible within Bonds.ts
-   * @param networkID
+   * @param NetworkId
    * @returns boolean
    */
-  getBondability(networkID: NetworkID) {
-    return this.isBondable[networkID];
+  getBondability(NetworkId: NetworkId) {
+    return this.isBondable[NetworkId];
   }
-  getClaimability(networkID: NetworkID) {
-    return this.isClaimable[networkID];
+  getClaimability(NetworkId: NetworkId) {
+    return this.isClaimable[NetworkId];
   }
   // NOTE (appleseed): temporary for ONHOLD MIGRATION
-  getLOLability(networkID: NetworkID) {
-    return this.isLOLable[networkID];
+  getLOLability(NetworkId: NetworkId) {
+    return this.isLOLable[NetworkId];
   }
 
-  getAddressForBond(networkID: NetworkID) {
-    return this.networkAddrs[networkID]?.bondAddress;
+  getAddressForBond(NetworkId: NetworkId) {
+    return this.networkAddrs[NetworkId]?.bondAddress;
   }
 
-  getContractForBond(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
-    const bondAddress = this.getAddressForBond(networkID) || "";
+  getContractForBond(NetworkId: NetworkId, provider: StaticJsonRpcProvider | JsonRpcSigner) {
+    const bondAddress = this.getAddressForBond(NetworkId) || "";
     return new ethers.Contract(bondAddress, this.bondContractABI, provider) as EthContract;
   }
 
-  getAddressForReserve(networkID: NetworkID) {
-    return this.networkAddrs[networkID]?.reserveAddress;
+  getAddressForReserve(NetworkId: NetworkId) {
+    return this.networkAddrs[NetworkId]?.reserveAddress;
   }
-  getContractForReserve(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
-    const bondAddress = this.getAddressForReserve(networkID) || "";
+  getContractForReserve(NetworkId: NetworkId, provider: StaticJsonRpcProvider | JsonRpcSigner) {
+    const bondAddress = this.getAddressForReserve(NetworkId) || "";
     return new ethers.Contract(bondAddress, this.reserveContract, provider) as PairContract;
   }
 
   // TODO (appleseed): improve this logic
-  async getBondReservePrice(networkID: NetworkID, provider: StaticJsonRpcProvider | JsonRpcSigner) {
+  async getBondReservePrice(NetworkId: NetworkId, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     let marketPrice: number;
     if (this.isLP) {
-      const pairContract = this.getContractForReserve(networkID, provider);
+      const pairContract = this.getContractForReserve(NetworkId, provider);
       const reserves = await pairContract.getReserves();
       marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
     } else {
@@ -170,12 +146,12 @@ export class LPBond extends Bond {
     this.reserveContract = lpBondOpts.reserveContract;
     this.displayUnits = "LP";
   }
-  async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
-    const token = this.getContractForReserve(networkID, provider);
-    const tokenAddress = this.getAddressForReserve(networkID);
-    const bondCalculator = getBondCalculator(networkID, provider, this.v2Bond);
-    const tokenAmountV1 = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
-    const tokenAmountV2 = await token.balanceOf(addresses[networkID].TREASURY_V2);
+  async getTreasuryBalance(NetworkId: NetworkId, provider: StaticJsonRpcProvider) {
+    const token = this.getContractForReserve(NetworkId, provider);
+    const tokenAddress = this.getAddressForReserve(NetworkId);
+    const bondCalculator = getBondCalculator(NetworkId, provider, this.v2Bond);
+    const tokenAmountV1 = await token.balanceOf(addresses[NetworkId].TREASURY_ADDRESS);
+    const tokenAmountV2 = await token.balanceOf(addresses[NetworkId].TREASURY_V2);
     const tokenAmount = tokenAmountV1.add(tokenAmountV2);
     const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
     const markdown = await bondCalculator.markdown(tokenAddress || "");
@@ -199,12 +175,12 @@ export class StableBond extends Bond {
     this.reserveContract = ierc20Abi; // The Standard ierc20Abi since they're normal tokens
   }
 
-  async getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider) {
-    let token = this.getContractForReserve(networkID, provider);
-    let tokenAmountV1 = await token.balanceOf(addresses[networkID].TREASURY_ADDRESS);
+  async getTreasuryBalance(NetworkId: NetworkId, provider: StaticJsonRpcProvider) {
+    let token = this.getContractForReserve(NetworkId, provider);
+    let tokenAmountV1 = await token.balanceOf(addresses[NetworkId].TREASURY_ADDRESS);
     let tokenAmountV2 = BigNumber.from("0");
     try {
-      tokenAmountV2 = await token.balanceOf(addresses[networkID].TREASURY_V2);
+      tokenAmountV2 = await token.balanceOf(addresses[NetworkId].TREASURY_V2);
     } catch (e) {
       console.log("balance e", e);
       tokenAmountV2 = BigNumber.from("0");
@@ -221,13 +197,13 @@ export interface CustomBondOpts extends BondOpts {
   lpUrl: string;
   customTreasuryBalanceFunc: (
     this: CustomBond,
-    networkID: NetworkID,
+    NetworkId: NetworkId,
     provider: StaticJsonRpcProvider,
   ) => Promise<number>;
 }
 export class CustomBond extends Bond {
   readonly isLP: Boolean;
-  getTreasuryBalance(networkID: NetworkID, provider: StaticJsonRpcProvider): Promise<number> {
+  getTreasuryBalance(NetworkId: NetworkId, provider: StaticJsonRpcProvider): Promise<number> {
     throw new Error("Method not implemented.");
   }
   readonly reserveContract: ethers.ContractInterface;
