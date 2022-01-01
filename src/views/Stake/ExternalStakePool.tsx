@@ -205,8 +205,7 @@ const StakePool = ({ pool }: { pool: StakePoolProps }) => {
 
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, hasCachedProvider, address, connect, networkId, providerInitialized } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   // const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -228,10 +227,10 @@ export default function ExternalStakePool() {
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
   useEffect(() => {
     // don't load ANY details until wallet is Checked
-    if (walletChecked && networkId !== -1) {
+    if (walletChecked && providerInitialized) {
       // view specific redux actions can be dispatched here
     }
-  }, [walletChecked, networkId, address, provider]);
+  }, [walletChecked, networkId, providerInitialized, address, provider]);
 
   return (
     <Zoom in={true}>

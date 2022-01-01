@@ -56,8 +56,7 @@ function a11yProps(index: number) {
 function Stake() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { provider, address, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, connect, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "stake", networkID: networkId, history });
 
   const [zoomed, setZoomed] = useState(false);
@@ -168,7 +167,7 @@ function Stake() {
     if (confirmation === false && action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
       return dispatch(
         error(
-          t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please check the box.`,
+          t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please toggle the sohm-gohm switch.`,
         ),
       );
     }

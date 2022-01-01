@@ -29,8 +29,7 @@ const sohmImg = getTokenImage("sohm");
 
 export const PoolWithdraw = props => {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
   const [quantity, setQuantity] = useState(0);
   const [exitFee, setExitFee] = useState(0);
   const [newOdds, setNewOdds] = useState(0);

@@ -27,7 +27,6 @@ function NavDrawer({ mobileOpen, handleDrawerToggle }) {
       anchor={"left"}
       open={mobileOpen}
       onClose={handleDrawerToggle}
-      onClick={handleDrawerToggle}
       classes={{
         paper: classes.drawerPaper,
       }}
@@ -37,7 +36,7 @@ function NavDrawer({ mobileOpen, handleDrawerToggle }) {
       disableBackdropTransition={!isIOS}
       disableDiscovery={isIOS}
     >
-      <NavContent />
+      <NavContent handleDrawerToggle={handleDrawerToggle} />
     </SwipeableDrawer>
   );
 }

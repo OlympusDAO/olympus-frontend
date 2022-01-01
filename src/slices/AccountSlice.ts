@@ -1,5 +1,5 @@
 import { BigNumber, BigNumberish, ethers } from "ethers";
-import { addresses } from "../constants";
+import { addresses, NetworkId } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
@@ -26,7 +26,7 @@ import {
   OlympusStakingv2__factory,
 } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
-import { NetworkID } from "src/lib/Bond";
+
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 
@@ -430,7 +430,7 @@ export const loadAccountDetails = createAsyncThunk(
     await dispatch(getBalances({ address, networkID, provider }));
     await dispatch(getDonationBalances({ address, networkID, provider }));
     await dispatch(getRedemptionBalances({ address, networkID, provider }));
-    if (networkID === 4) {
+    if (networkID === NetworkId.TESTNET_RINKEBY) {
       await dispatch(getMockDonationBalances({ address, networkID, provider }));
       await dispatch(getMockRedemptionBalances({ address, networkID, provider }));
     } else {

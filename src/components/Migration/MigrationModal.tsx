@@ -31,6 +31,7 @@ import "./migration-modal.scss";
 import { useAppSelector } from "src/hooks";
 import { trim } from "src/helpers";
 import { t, Trans } from "@lingui/macro";
+import { NetworkId } from "src/constants";
 const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -63,9 +64,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const dispatch = useDispatch();
   const classes = useStyles();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
-  const { provider, address, connect } = useWeb3Context();
-
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
 
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
@@ -105,7 +104,11 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const currentSOhmBalance = useAppSelector(state => Number(state.account.balances.sohmV1));
   const currentWSOhmBalance = useAppSelector(state => Number(state.account.balances.wsohm));
   const wsOhmPrice = useAppSelector(state => state.app.marketPrice! * Number(state.app.currentIndex!));
+  const gOHMPrice = wsOhmPrice;
 
+  /**
+   * V2!!! market price
+   */
   const marketPrice = useAppSelector(state => {
     return state.app.marketPrice;
   });
@@ -117,14 +120,17 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  const ohmInUSD = formatCurrency(marketPrice! * currentOhmBalance);
-  const sOhmInUSD = formatCurrency(marketPrice! * currentSOhmBalance);
+  const ohmAsgOHM = currentOhmBalance / currentIndex;
+  const sOHMAsgOHM = currentSOhmBalance / currentIndex;
+
+  const ohmInUSD = formatCurrency(gOHMPrice! * ohmAsgOHM);
+  const sOhmInUSD = formatCurrency(gOHMPrice! * sOHMAsgOHM);
   const wsOhmInUSD = formatCurrency(wsOhmPrice * currentWSOhmBalance);
 
   useEffect(() => {
     if (
       networkId &&
-      (networkId === 1 || networkId === 4) &&
+      (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) &&
       isAllApproved &&
       (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
     ) {
@@ -137,7 +143,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       initialAsset: "OHM",
       initialBalance: currentOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: currentOhmBalance / currentIndex,
+      targetBalance: ohmAsgOHM,
       fullApproval: ohmFullApproval,
       usdBalance: ohmInUSD,
     },
@@ -145,7 +151,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       initialAsset: "sOHM",
       initialBalance: currentSOhmBalance,
       targetAsset: "gOHM",
-      targetBalance: currentSOhmBalance / currentIndex,
+      targetBalance: sOHMAsgOHM,
       fullApproval: sOhmFullApproval,
       usdBalance: sOhmInUSD,
     },
