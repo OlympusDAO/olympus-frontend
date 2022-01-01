@@ -1,7 +1,6 @@
 [![Lighthouse PWA Test](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 
-
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
 This is the front-end repo for Olympus that allows users be part of the future of _Meta Greece_.

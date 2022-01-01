@@ -23,7 +23,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { changeZapTokenAllowance, executeZap, getTokenBalances, getZapTokenAllowance } from "src/slices/ZapSlice";
+import { changeZapTokenAllowance, executeZap, getZapTokenAllowance, zapNetworkCheck } from "src/slices/ZapSlice";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import ZapStakeHeader from "./ZapStakeHeader";
@@ -82,6 +82,10 @@ function ZapStakeAction(props) {
       setZapToken(null);
     }
   }, [zapToken]);
+
+  useEffect(() => {
+    dispatch(zapNetworkCheck({ networkID: networkId }));
+  }, []);
 
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => {

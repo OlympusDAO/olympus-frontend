@@ -13,7 +13,6 @@ export const initNetworkFunc = async ({ provider }: IGetCurrentNetwork) => {
     let uri: string;
     let supported: boolean = true;
     const id: number = await provider.getNetwork().then(network => network.chainId);
-    console.log("initNetwork", id);
     switch (id) {
       case 1:
         networkName = "Ethereum";
@@ -68,11 +67,9 @@ interface ISwitchNetwork {
   networkId: number;
 }
 
-// TODO (appleseed): switchNetwork updates
 export const switchNetwork = async ({ provider, networkId }: ISwitchNetwork) => {
   try {
     await provider.send("wallet_switchEthereumChain", [{ chainId: idToHexString(networkId) }]);
-    await initNetworkFunc({ provider: provider });
   } catch (e) {
     // If the chain has not been added to the user's wallet
     // @ts-ignore
@@ -90,7 +87,6 @@ export const switchNetwork = async ({ provider, networkId }: ISwitchNetwork) => 
 
       try {
         await provider.send("wallet_addEthereumChain", params);
-        await initNetworkFunc({ provider: provider });
       } catch (e) {
         console.log(e);
         // dispatch(error("Error switching network!"));
@@ -102,4 +98,8 @@ export const switchNetwork = async ({ provider, networkId }: ISwitchNetwork) => 
 
 const idToHexString = (id: number) => {
   return "0x" + id.toString(16);
+};
+
+export const idFromHexString = (hexString: string) => {
+  return parseInt(hexString, 16);
 };
