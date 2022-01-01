@@ -165,10 +165,10 @@ function BondPurchase({
                     color="primary"
                     id="bond-approve-btn"
                     className="transaction-button"
-                    disabled={isPendingTxn(pendingTransactions, "approve_" + bond.displayName)}
+                    disabled={isPendingTxn(pendingTransactions, `approve_${bond.displayName}_bonding`)}
                     onClick={onSeekApproval}
                   >
-                    {txnButtonText(pendingTransactions, "approve_" + bond.displayName, "Approve")}
+                    {txnButtonText(pendingTransactions, `approve_${bond.displayName}_bonding`, "Approve")}
                   </Button>
                 )}
               </>
