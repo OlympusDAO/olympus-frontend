@@ -2,23 +2,11 @@ import { useEffect, useState, ElementType } from "react";
 import { useDispatch } from "react-redux";
 import { Box, Button, Paper, SvgIcon, withStyles, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
-
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ReactComponent as avaxImage } from "src/assets/tokens/AVAX.svg";
-import { ReactComponent as gOhmImage } from "src/assets/tokens/token_wsOHM.svg";
-import { ReactComponent as wEthImage } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { useAppSelector } from "../../hooks";
-import { zIndex } from "material-ui/styles";
-
-interface StakePoolProps {
-  poolName: string;
-  icons: ElementType[];
-  stakeOn: string;
-  href: string;
-  apy: string;
-}
+import allPools from "src/helpers/AllExternalPools";
+import { ExternalPool } from "src/lib/ExternalPool";
 
 const MultiLogo = ({ icons, size = 35 }: { icons: ElementType[]; size?: number }) => (
   <>
@@ -33,37 +21,6 @@ const MultiLogo = ({ icons, size = 35 }: { icons: ElementType[]; size?: number }
     ))}
   </>
 );
-
-const externalPools = [
-  {
-    poolName: "gOHM-AVAX",
-    icons: [gOhmImage, avaxImage],
-    stakeOn: "Trader Joe",
-    apy: "11.08%",
-    href: "https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00",
-  },
-  {
-    poolName: "gOHM-AVAX",
-    icons: [gOhmImage, avaxImage],
-    stakeOn: "Pangolin",
-    apy: "11.08%",
-    href: "https://app.pangolin.exchange/#/png/0x321E7092a180BB43555132ec53AaA65a5bF84251/AVAX/2",
-  },
-  {
-    poolName: "gOHM-wETH",
-    icons: [gOhmImage, wEthImage],
-    stakeOn: "Sushi (Arbitrum)",
-    apy: "11.08%",
-    href: "https://app.sushi.com/farm?filter=2x",
-  },
-  {
-    poolName: "gOHM-wETH",
-    icons: [gOhmImage, wEthImage],
-    stakeOn: "Sushi (Polygon)",
-    apy: "11.08%",
-    href: "https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00",
-  },
-];
 
 const useStyles = makeStyles(theme => ({
   stakeOnButton: {
@@ -96,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MobileStakePool = ({ pool }: { pool: StakePoolProps }) => {
+const MobileStakePool = ({ pool }: { pool: ExternalPool }) => {
   const styles = useStyles();
   return (
     <Paper id={`${pool.poolName}--pool`} className="bond-data-card ohm-card">
@@ -157,7 +114,7 @@ const MobileStakePool = ({ pool }: { pool: StakePoolProps }) => {
   );
 };
 
-const StakePool = ({ pool }: { pool: StakePoolProps }) => {
+const StakePool = ({ pool }: { pool: ExternalPool }) => {
   const theme = useTheme();
   const styles = useStyles();
   return (
@@ -236,7 +193,7 @@ export default function ExternalStakePool() {
     <Zoom in={true}>
       {isSmallScreen ? (
         <>
-          {externalPools.map(pool => (
+          {allPools.map(pool => (
             <MobileStakePool pool={pool} />
           ))}
         </>
@@ -262,23 +219,9 @@ export default function ExternalStakePool() {
             </Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(4), padding: "16px" }}>
-            {externalPools.map(pool => (
+            {allPools.map(pool => (
               <StakePool pool={pool} />
             ))}
-            {/* <StakePool
-              poolName="gOHM-AVAX"
-              icons={[gOhmImage, avaxImage]}
-              stakeOn="Trader Joe"
-              apy={"11.08%"}
-              href="https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
-            /> */}
-            {/* <StakePool
-              poolName="gOHM-FTM"
-              icons={[gOhmImage, ftmImage]}
-              stakeOn="SpiritSwap"
-              apy={"10031"}
-              href="https://swap.spiritswap.finance/#/exchange/swap/0x91fa20244Fb509e8289CA630E5db3E9166233FDc"
-            /> */}
           </Box>
         </Paper>
       )}
