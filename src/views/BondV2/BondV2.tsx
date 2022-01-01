@@ -28,9 +28,8 @@ function a11yProps(index: number) {
 const BondV2 = ({ index }: { index: number }) => {
   const history = useHistory();
   const bond = useAppSelector(state => state.bondingV2.bonds[index]);
-  const { provider, address } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
-  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
+  const { provider, address, networkId } = useWeb3Context();
+  usePathForNetwork({ pathName: "bonds-v2", networkID: networkId, history });
 
   const [slippage, setSlippage] = useState<number>(0.5);
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
@@ -137,8 +136,6 @@ const BondV2 = ({ index }: { index: number }) => {
 };
 
 export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
-  const networkId = useAppSelector(state => state.network.networkId);
-
   if (typeof bond.priceUSD === undefined) {
     return <Fragment>--</Fragment>;
   }
@@ -156,8 +153,6 @@ export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
 };
 
 export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement => {
-  const networkId = useAppSelector(state => state.network.networkId);
-
   if (typeof bond.discount === undefined) {
     return <Fragment>--</Fragment>;
   }

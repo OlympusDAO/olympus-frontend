@@ -24,13 +24,13 @@ import { Skeleton } from "@material-ui/lab";
 import ClaimBonds from "./ClaimBonds";
 import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
-import { useAppSelector } from "src/hooks";
+import { useAppSelector, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { Metric, MetricCollection } from "src/components/Metric";
 import { IBondV2 } from "src/slices/BondSliceV2";
 
 function ChooseBondV2() {
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
   const history = useHistory();
   usePathForNetwork({ pathName: "bonds-v2", networkID: networkId, history });
 
