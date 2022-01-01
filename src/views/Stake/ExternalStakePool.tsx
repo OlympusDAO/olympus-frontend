@@ -10,6 +10,7 @@ import { ReactComponent as wEthImage } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { useAppSelector } from "../../hooks";
+import { zIndex } from "material-ui/styles";
 
 interface StakePoolProps {
   poolName: string;
@@ -22,10 +23,47 @@ interface StakePoolProps {
 const MultiLogo = ({ icons, size = 35 }: { icons: ElementType[]; size?: number }) => (
   <>
     {icons.map((Icon, i) => (
-      <Icon style={{ height: size, width: size, ...(i !== 0 && { marginLeft: -(size / 3) }) }} />
+      <Icon
+        style={{
+          height: size,
+          width: size,
+          ...(i !== 0 ? { marginLeft: -(size / 5), zIndex: 1 } : { zIndex: 2 }),
+        }}
+      />
     ))}
   </>
 );
+
+const externalPools = [
+  {
+    poolName: "gOHM-AVAX",
+    icons: [gOhmImage, avaxImage],
+    stakeOn: "Trader Joe",
+    apy: "11.08%",
+    href: "https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00",
+  },
+  {
+    poolName: "gOHM-AVAX",
+    icons: [gOhmImage, avaxImage],
+    stakeOn: "Pangolin",
+    apy: "11.08%",
+    href: "https://app.pangolin.exchange/#/png/0x321E7092a180BB43555132ec53AaA65a5bF84251/AVAX/2",
+  },
+  {
+    poolName: "gOHM-wETH",
+    icons: [gOhmImage, wEthImage],
+    stakeOn: "Sushi (Arbitrum)",
+    apy: "11.08%",
+    href: "https://app.sushi.com/farm?filter=2x",
+  },
+  {
+    poolName: "gOHM-wETH",
+    icons: [gOhmImage, wEthImage],
+    stakeOn: "Sushi (Polygon)",
+    apy: "11.08%",
+    href: "https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00",
+  },
+];
 
 const useStyles = makeStyles(theme => ({
   stakeOnButton: {
@@ -47,21 +85,91 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     lineHeight: 1.4,
   },
+  poolPair: {
+    display: "flex !important",
+    alignItems: "center",
+    justifyContent: "left",
+    marginBottom: "15px",
+  },
+  poolName: {
+    marginLeft: "10px",
+  },
 }));
 
-const StakePool = ({ poolName, icons, stakeOn, href, apy }: StakePoolProps) => {
+const MobileStakePool = ({ pool }: { pool: StakePoolProps }) => {
+  const styles = useStyles();
+  return (
+    <Paper id={`${pool.poolName}--pool`} className="bond-data-card ohm-card">
+      <div className={styles.poolPair}>
+        <MultiLogo icons={pool.icons} />
+        <div className={styles.poolName}>
+          <Typography>{pool.poolName}</Typography>
+        </div>
+      </div>
+      <div className="data-row">
+        <Typography>
+          <Trans>APY</Trans>
+        </Typography>
+        <Typography className="bond-price">
+          <>{pool.apy}</>
+        </Typography>
+      </div>
+      <div className="data-row">
+        <Typography>
+          <Trans>TVL</Trans>
+        </Typography>
+        <Typography>
+          <>TVL amount in Dollars</>
+        </Typography>
+      </div>
+      <div className="data-row">
+        <Typography>
+          <Trans>Balance</Trans>
+        </Typography>
+        <Typography>
+          <>10.0LP</>
+        </Typography>
+      </div>
+      {/* Pool Staking Linkouts */}
+      <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
+        <Button
+          className={styles.stakeOnButton}
+          variant="outlined"
+          color="secondary"
+          target="_blank"
+          href={pool.href}
+          fullWidth
+        >
+          <Typography variant="body1">{`${t`Stake on`} ${pool.stakeOn}`}</Typography>
+          <SvgIcon
+            component={ArrowUp}
+            style={{
+              position: "absolute",
+              right: 5,
+              height: `20px`,
+              width: `20px`,
+              verticalAlign: "middle",
+            }}
+          />
+        </Button>
+      </Box>
+    </Paper>
+  );
+};
+
+const StakePool = ({ pool }: { pool: StakePoolProps }) => {
   const theme = useTheme();
   const styles = useStyles();
   return (
     <Box style={{ gap: theme.spacing(1.5) }} className={styles.stakePoolsWrapper}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <MultiLogo icons={icons} />
-        <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "0.2rem" }}>
-          {poolName}
+        <MultiLogo icons={pool.icons} />
+        <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px" }}>
+          {pool.poolName}
         </Typography>
       </Box>
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-        {apy}
+        {pool.apy}
       </Typography>
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
         $624,829
@@ -75,10 +183,10 @@ const StakePool = ({ poolName, icons, stakeOn, href, apy }: StakePoolProps) => {
           variant="outlined"
           color="secondary"
           target="_blank"
-          href={href}
+          href={pool.href}
           fullWidth
         >
-          <Typography variant="body1">{`${t`Stake on`} ${stakeOn}`}</Typography>
+          <Typography variant="body1">{`${t`Stake on`} ${pool.stakeOn}`}</Typography>
           <SvgIcon
             component={ArrowUp}
             style={{
@@ -127,67 +235,54 @@ export default function ExternalStakePool() {
 
   return (
     <Zoom in={true}>
-      <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-        <div className="card-header">
-          <Typography variant="h5">
-            <Trans>Farm Pool</Trans>
-          </Typography>
-        </div>
-        <Box className={styles.stakePoolsWrapper} style={{ marginBottom: "0.5rem" }}>
-          <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
-            Asset
-          </Typography>
-          <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
-            APY
-          </Typography>
-          <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
-            TVD
-          </Typography>
-          <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
-            Balance
-          </Typography>
-        </Box>
-        <Box
-          sx={{ display: "flex", flexDirection: "column" }}
-          style={{ gap: theme.spacing(4) /* material says 'gap' does not exist 😡 */ }}
-        >
-          <StakePool
-            poolName="gOHM-AVAX"
-            icons={[gOhmImage, avaxImage]}
-            stakeOn="Trader Joe"
-            apy={"11.08%"}
-            href="https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
-          />
-          <StakePool
-            poolName="gOHM-AVAX"
-            icons={[gOhmImage, avaxImage]}
-            stakeOn="Pangolin"
-            apy={"68.00%"}
-            href="https://app.pangolin.exchange/#/png/0x321E7092a180BB43555132ec53AaA65a5bF84251/AVAX/2"
-          />
-          <StakePool
-            poolName="gOHM-wETH"
-            icons={[gOhmImage, wEthImage]}
-            stakeOn="Sushi (Arbitrum)"
-            apy={"43.99%"}
-            href="https://app.sushi.com/farm?filter=2x"
-          />
-          <StakePool
-            poolName="gOHM-wETH"
-            icons={[gOhmImage, wEthImage]}
-            stakeOn="Sushi (Polygon)"
-            apy={"10.90%"}
-            href="https://app.sushi.com/farm?filter=2x"
-          />
-          {/* <StakePool
-            poolName="gOHM-FTM"
-            icons={[gOhmImage, ftmImage]}
-            stakeOn="SpiritSwap"
-            apy={"10031"}
-            href="https://swap.spiritswap.finance/#/exchange/swap/0x91fa20244Fb509e8289CA630E5db3E9166233FDc"
-          /> */}
-        </Box>
-      </Paper>
+      {isSmallScreen ? (
+        <>
+          {externalPools.map(pool => (
+            <MobileStakePool pool={pool} />
+          ))}
+        </>
+      ) : (
+        <Paper className={`ohm-card secondary`}>
+          <div className="card-header">
+            <Typography variant="h5">
+              <Trans>Farm Pool</Trans>
+            </Typography>
+          </div>
+          <Box className={styles.stakePoolsWrapper} style={{ marginBottom: "0.5rem" }}>
+            <Typography gutterBottom={false} className={styles.stakePoolHeaderText} style={{ marginLeft: "93px" }}>
+              Asset
+            </Typography>
+            <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
+              APY
+            </Typography>
+            <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
+              TVD
+            </Typography>
+            <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
+              Balance
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(4), padding: "16px" }}>
+            {externalPools.map(pool => (
+              <StakePool pool={pool} />
+            ))}
+            {/* <StakePool
+              poolName="gOHM-AVAX"
+              icons={[gOhmImage, avaxImage]}
+              stakeOn="Trader Joe"
+              apy={"11.08%"}
+              href="https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
+            /> */}
+            {/* <StakePool
+              poolName="gOHM-FTM"
+              icons={[gOhmImage, ftmImage]}
+              stakeOn="SpiritSwap"
+              apy={"10031"}
+              href="https://swap.spiritswap.finance/#/exchange/swap/0x91fa20244Fb509e8289CA630E5db3E9166233FDc"
+            /> */}
+          </Box>
+        </Paper>
+      )}
     </Zoom>
   );
 }
