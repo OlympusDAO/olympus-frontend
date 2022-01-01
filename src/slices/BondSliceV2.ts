@@ -10,9 +10,8 @@ import {
   IBondV2PurchaseAsyncThunk,
 } from "./interfaces";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
-import { addresses } from "src/constants";
+import { addresses, NetworkId } from "src/constants";
 import { fetchAccountSuccess } from "./AccountSlice";
-import { NetworkID } from "src/lib/Bond";
 import { getTokenIdByContract, getTokenPrice, prettifySeconds, secondsUntilBlock } from "src/helpers";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import { isAddress } from "@ethersproject/address";
@@ -70,7 +69,7 @@ export interface IUserNote {
   marketID: number;
 }
 
-function checkNetwork(networkID: NetworkID) {
+function checkNetwork(networkID: NetworkId) {
   if (networkID !== 1 && networkID !== 4) {
     throw Error("Network is not supported for V2 bonds");
   }
@@ -131,7 +130,7 @@ async function processBond(
   terms: IBondV2Terms,
   index: number,
   provider: ethers.providers.JsonRpcProvider,
-  networkID: NetworkID,
+  networkID: NetworkId,
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
 ): Promise<IBondV2> {
   const currentTime = Date.now() / 1000;

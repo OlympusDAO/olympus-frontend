@@ -12,9 +12,7 @@ import "./bond.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
-import { IAllBondData } from "src/hooks/Bonds";
 import { IBondV2 } from "src/slices/BondSliceV2";
-import { ContactsOutlined } from "@material-ui/icons";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 

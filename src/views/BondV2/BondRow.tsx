@@ -6,7 +6,6 @@ import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
 import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
-import useBonds from "src/hooks/Bonds";
 import { IBondV2 } from "src/slices/BondSliceV2";
 import { useAppSelector } from "src/hooks";
 
