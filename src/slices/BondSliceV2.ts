@@ -23,7 +23,7 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   index: number;
   displayName: string;
   priceUSD: number;
-  priceToken: BigNumber;
+  priceToken: number;
   discount: number;
   duration: string;
   isLP: boolean;
@@ -157,7 +157,7 @@ async function processBond(
   const currentTime = Date.now() / 1000;
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
   const quoteTokenPrice = Number(await getTokenPrice((await getTokenIdByContract(bond.quoteToken)) ?? "dai"));
-  const bondPrice = await depositoryContract.marketPrice(index);
+  const bondPrice = +(await depositoryContract.marketPrice(index)) / Math.pow(10, metadata.quoteDecimals);
   const bondPriceUSD = (quoteTokenPrice * +bondPrice) / Math.pow(10, 9);
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;

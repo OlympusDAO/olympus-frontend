@@ -81,7 +81,7 @@ function ChooseBond() {
         <Paper className="ohm-card">
           <Box className="card-header">
             <Typography variant="h5" data-testid="t">
-              <Trans>Bond</Trans> (1,1)
+              <Trans>V1 Bond</Trans> (1,1)
             </Typography>
           </Box>
 
