@@ -42,6 +42,13 @@
   }
   .wallet-link {
     margin: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .avatar {
+    margin-right: 8px;
+    height: 20px;
+    border-radius: 100px;
   }
 }
 
@@ -105,17 +112,16 @@
 }
 
 .external-site-link {
-  .external-site-link-icon {
-    width: 20px;
-    height: 20px;
-    margin-left: 12px;
-    opacity: 0%;
+  &:hover {
+    .external-site-link-icon {
+      opacity: 100%;
+      width: 20px;
+      height: 20px;
+      margin-left: 12px;
+    }
   }
-}
-
-.external-site-link:hover {
   .external-site-link-icon {
-    opacity: 100%;
+    opacity: 0%;
   }
 }
 
@@ -124,7 +130,6 @@
   color: #999999;
   padding-left: 33px;
   margin-top: 8px;
-
 
   .discounts-accordion {
     backdrop-filter: none;

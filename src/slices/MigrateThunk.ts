@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import { addresses } from "src/constants";
+import { addresses, NetworkId } from "src/constants";
 import { CrossChainMigrator__factory, IERC20, IERC20__factory } from "src/typechain";
 import {
   IActionValueAsyncThunk,
@@ -13,7 +13,6 @@ import { fetchAccountSuccess, getBalances, getMigrationAllowances, loadAccountDe
 import { error, info } from "../slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { OlympusTokenMigrator__factory } from "src/typechain";
-import { NetworkID } from "src/lib/Bond";
 
 enum TokenType {
   UNSTAKED,
@@ -21,7 +20,7 @@ enum TokenType {
   WRAPPED,
 }
 
-const chooseContract = (token: string, networkID: NetworkID, signer: ethers.providers.JsonRpcSigner): IERC20 => {
+const chooseContract = (token: string, networkID: NetworkId, signer: ethers.providers.JsonRpcSigner): IERC20 => {
   let address: string;
   if (token === "ohm") {
     address = addresses[networkID].OHM_ADDRESS;

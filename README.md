@@ -1,6 +1,11 @@
+[![Lighthouse PWA Test](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
-This is the front-end repo for Olympus that allows users be part of the future of Greece.
+This is the front-end repo for Olympus that allows users be part of the future of _Meta Greece_.
+
+We are moving at web3 speed and we are looking for talented contributors to boost this rocket. Take a look at our [CONTRIBUTING GUIDE](CONTRIBUTING.md) if you are considering joining a world class DAO.
 
 **_ Note We're currently in the process of switching to TypeScript. Please read this guide on how to use TypeScript for this repository. <https://github.com/OlympusDAO/olympus-frontend/wiki/TypeScript-Refactor-General-Guidelines> _**
 
@@ -163,6 +168,8 @@ Each PR into master will get its own custom URL that is visible on the PR page. 
 - Give: by default it is disabled. It can be enabled by setting the `REACT_APP_GIVE_ENABLED` environment variable to "true", or appending `give_enabled` as a URL parameter.
 
 ## 👏🏽 Contributing Guidelines
+
+First, take a look at our [CONTRIBUTING GUIDE](CONTRIBUTING.md) .
 
 We keep an updated list of bugs/feature requests in [Github Issues](https://github.com/OlympusDAO/olympusdao/issues).
 

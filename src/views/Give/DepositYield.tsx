@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useAppSelector } from "src/hooks";
+import { useAppSelector, useWeb3Context } from "src/hooks";
 import { useLocation } from "react-router-dom";
 import { Paper, Typography, Zoom, Container, Box } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
@@ -12,6 +12,7 @@ import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import { NetworkId } from "src/constants";
 
 type State = {
   account: IAccountSlice;
@@ -21,11 +22,11 @@ type State = {
 
 export default function DepositYield() {
   const location = useLocation();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const totalDebt = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });

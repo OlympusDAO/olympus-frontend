@@ -25,11 +25,12 @@ import ClaimBonds from "./ClaimBonds";
 import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { Metric, MetricCollection } from "src/components/Metric";
 
 function ChooseBond() {
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
   const history = useHistory();
   const { bonds } = useBonds(networkId);
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });

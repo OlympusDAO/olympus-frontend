@@ -11,9 +11,8 @@ import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useHistory } from "react-router";
 
 function Zap() {
-  const { address, connect } = useWeb3Context();
+  const { address, connect, networkId } = useWeb3Context();
   const history = useHistory();
-  const networkId = useAppSelector(state => state.network.networkId);
   usePathForNetwork({ pathName: "zap", networkID: networkId, history });
 
   const tokens = useAppSelector(state => state.zap.balances);
