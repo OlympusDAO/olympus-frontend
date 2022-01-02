@@ -93,6 +93,17 @@ export class EnvHelper {
         }
         uriPath = "https://arb-mainnet.alchemyapi.io/v2/";
         break;
+      case NetworkId.POLYGON:
+        if (
+          EnvHelper.env.REACT_APP_POLYGON_ALCHEMY_IDS &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_POLYGON_ALCHEMY_IDS)
+        ) {
+          ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_POLYGON_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
+        } else {
+          ALCHEMY_ID_LIST = [];
+        }
+        uriPath = "https://polygon-mainnet.g.alchemy.com/v2";
+        break;
       case NetworkId.AVALANCHE:
         if (
           EnvHelper.env.NODE_ENV !== "development" &&
@@ -166,6 +177,22 @@ export class EnvHelper {
           URI_LIST = EnvHelper.env.REACT_APP_AVALANCHE_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
         }
         break;
+      case NetworkId.POLYGON:
+        if (
+          EnvHelper.env.REACT_APP_POLYGON_SELF_HOSTED_NODE &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_POLYGON_SELF_HOSTED_NODE)
+        ) {
+          URI_LIST = EnvHelper.env.REACT_APP_POLYGON_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
+        }
+        break;
+      case NetworkId.FANTOM:
+        if (
+          EnvHelper.env.REACT_APP_FANTOM_SELF_HOSTED_NODE &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_FANTOM_SELF_HOSTED_NODE)
+        ) {
+          URI_LIST = EnvHelper.env.REACT_APP_FANTOM_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
+        }
+        break;
     }
     return URI_LIST;
   }
@@ -187,24 +214,6 @@ export class EnvHelper {
   static getFallbackURIs(networkId: NetworkId) {
     const ALL_URIs = [...EnvHelper.getAlchemyAPIKeyList(networkId), ...EnvHelper.getInfuraIdList()];
     return ALL_URIs;
-  }
-
-  static getZapperAPIKey() {
-    // EnvHelper.env.REACT_APP_ZAPPER_API
-    let apiKey = EnvHelper.env.REACT_APP_ZAPPER_API;
-    if (!apiKey) {
-      console.warn("zaps won't work without REACT_APP_ZAPPER_API key");
-    }
-    return apiKey;
-  }
-
-  static getZapperPoolAddress() {
-    // EnvHelper.env.REACT_APP_ZAPPER_POOL
-    let zapPool = EnvHelper.env.REACT_APP_ZAPPER_POOL;
-    if (!zapPool) {
-      console.warn("zaps won't work without REACT_APP_ZAPPER_POOL address");
-    }
-    return zapPool;
   }
 
   /**

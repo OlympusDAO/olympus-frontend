@@ -20,8 +20,6 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Checkbox,
-  Switch,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
@@ -63,7 +61,7 @@ function Stake() {
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
-  const [confirmation, setConfirmation] = useState(true);
+  const [confirmation, setConfirmation] = useState(false);
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
@@ -103,10 +101,38 @@ function Stake() {
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
-
   const gOhmAsSohm = useAppSelector(state => {
     return state.account.balances && state.account.balances.gOhmAsSohmBal;
   });
+
+  const gOhmOnArbitrum = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnArbitrum;
+  });
+  const gOhmOnArbAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnArbAsSohm;
+  });
+
+  const gOhmOnAvax = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnAvax;
+  });
+  const gOhmOnAvaxAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnAvaxAsSohm;
+  });
+
+  const gOhmOnPolygon = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnPolygon;
+  });
+  const gOhmOnPolygonAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnPolygonAsSohm;
+  });
+
+  const gOhmOnFantom = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnFantom;
+  });
+  const gOhmOnFantomAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnFantomAsSohm;
+  });
+
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const stakeAllowance = useAppSelector(state => {
@@ -168,7 +194,7 @@ function Stake() {
     if (confirmation === false && action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
       return dispatch(
         error(
-          t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please check the box.`,
+          t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please toggle the sohm-gohm switch.`,
         ),
       );
     }
@@ -228,7 +254,19 @@ function Stake() {
   }, []);
 
   const trimmedBalance = Number(
-    [sohmBalance, gOhmAsSohm, sohmV1Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance, fgOHMAsfsOHMBalance]
+    [
+      sohmBalance,
+      gOhmAsSohm,
+      gOhmOnArbAsSohm,
+      gOhmOnAvaxAsSohm,
+      gOhmOnPolygonAsSohm,
+      gOhmOnFantomAsSohm,
+      sohmV1Balance,
+      wsohmAsSohm,
+      fiatDaoAsSohm,
+      fsohmBalance,
+      fgOHMAsfsOHMBalance,
+    ]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -462,6 +500,38 @@ function Stake() {
                           indented
                           {...{ isAppLoading }}
                         />
+                        {Number(gOhmOnArbitrum) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Wrapped (Arbitrum)`}`}
+                            balance={`${trim(Number(gOhmOnArbitrum), 4)} gOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(gOhmOnAvax) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Wrapped (Avalanche)`}`}
+                            balance={`${trim(Number(gOhmOnAvax), 4)} gOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(gOhmOnPolygon) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Wrapped (Polygon)`}`}
+                            balance={`${trim(Number(gOhmOnPolygon), 4)} gOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(gOhmOnFantom) > 0.00009 && (
+                          <StakeRow
+                            title={`${t`Wrapped (Fantom)`}`}
+                            balance={`${trim(Number(gOhmOnFantom), 4)} gOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
                         {Number(fgohmBalance) > 0.00009 && (
                           <StakeRow
                             title={`${t`Wrapped Balance in Fuse`}`}

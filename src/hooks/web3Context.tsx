@@ -5,7 +5,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { NodeHelper } from "src/helpers/NodeHelper";
 import { NETWORKS } from "../constants";
-import { initNetworkFunc } from "src/helpers/NetworkHelper";
+import { initNetworkFunc, idFromHexString } from "src/helpers/NetworkHelper";
 
 /**
  * determine if in IFrame for Ledger Live
@@ -105,9 +105,15 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
         setTimeout(() => window.location.reload(), 1);
       });
 
-      rawProvider.on("chainChanged", async () => {
+      rawProvider.on("chainChanged", async (_chainId: string) => {
+        const newChainId = idFromHexString(_chainId);
         const networkHash = await initNetworkFunc({ provider });
-        setNetworkId(networkHash.networkId);
+        if (newChainId !== networkHash.networkId) {
+          // then provider is out of sync, reload per metamask recommendation
+          setTimeout(() => window.location.reload(), 1);
+        } else {
+          setNetworkId(networkHash.networkId);
+        }
       });
     },
     [provider],
