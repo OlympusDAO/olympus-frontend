@@ -2,14 +2,11 @@ import { ExternalPool } from "src/lib/ExternalPool";
 import { ReactComponent as avaxImage } from "src/assets/tokens/AVAX.svg";
 import { ReactComponent as gOhmImage } from "src/assets/tokens/token_wsOHM.svg";
 import { ReactComponent as wEthImage } from "src/assets/tokens/wETH.svg";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { addresses, NetworkId } from "src/constants";
 import { NodeHelper } from "./NodeHelper";
 import { BigNumber, ethers } from "ethers";
 import { abi as PairContractABI } from "src/abi/PairContract.json";
-import { abi as Ierc20ABI } from "src/abi/UniswapIERC20.json";
-import { OlympusStakingv2__factory, PairContract, UniswapIERC20 } from "src/typechain";
-import { useAppSelector } from "src/hooks";
+import { OlympusStakingv2__factory, PairContract } from "src/typechain";
 import { formatCurrency, getMarketPrice, getTokenPrice } from "src/helpers";
 
 export const tj_gohm_wavax = new ExternalPool({
@@ -68,15 +65,16 @@ export const fetchPoolData = async (address: string) => {
     const results = allPools.map(async pool => {
       const provider = NodeHelper.getAnynetStaticProvider(pool.networkID);
       const poolContract = new ethers.Contract(pool.address as string, PairContractABI, provider) as PairContract;
-      let userBalance = await poolContract.balanceOf(address);
+      let userBalance = BigNumber.from("0");
+      if (address) {
+        userBalance = await poolContract.balanceOf(address);
+      }
       let stakedBalanceAsLp = Number((await poolContract.balanceOf(pool.masterchef)).toString()) / 10 ** 18;
       let poolTokenSupply = Number((await poolContract.totalSupply()).toString()) / 10 ** 18;
-      console.log("userBal", userBalance);
       const { reserve0, reserve1 } = await poolContract.getReserves();
       let reserve0Price = 0;
       let reserve1Price = 0;
       const token0 = await poolContract.token0();
-      console.log("after");
       const ohmPrice = await getMarketPrice();
       const mainnetProvider = NodeHelper.getMainnetStaticProvider();
       const stakingContract = OlympusStakingv2__factory.connect(
@@ -86,7 +84,6 @@ export const fetchPoolData = async (address: string) => {
       const currentIndex = await stakingContract.index();
       const gOhmPrice = ohmPrice * Number(ethers.utils.formatUnits(currentIndex, "gwei"));
       let token2Price: number = await getTokenPrice(pool.pairGecko);
-      console.log("before", gOhmPrice, token2Price);
       if (token0.toLowerCase() === addresses[pool.networkID].GOHM_ADDRESS.toLowerCase()) {
         reserve0Price = gOhmPrice;
         reserve1Price = token2Price;
@@ -98,7 +95,6 @@ export const fetchPoolData = async (address: string) => {
         Number(ethers.utils.formatEther(reserve0)) * reserve0Price +
         Number(ethers.utils.formatEther(reserve1)) * reserve1Price;
       const tvl = (totalLpAsUSD * stakedBalanceAsLp) / poolTokenSupply;
-      console.log("tvl", tvl);
       return {
         ...pool,
         userBalance: ethers.utils.formatEther(userBalance),

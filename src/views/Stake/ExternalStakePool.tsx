@@ -7,7 +7,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
-import { ExternalPool, ExternalPoolwBalance } from "src/lib/ExternalPool";
+import { ExternalPoolwBalance } from "src/lib/ExternalPool";
+import { Skeleton } from "@material-ui/lab";
 
 export const useExternalPools = (address: string) => {
   const { isLoading, data } = useQuery(["externalPools", address], () => fetchPoolData(address), {
@@ -85,7 +86,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
           <Trans>TVL</Trans>
         </Typography>
         <Typography>
-          <>{pool.tvl}</>
+          <>{!pool.tvl ? <Skeleton width={30} /> : pool.tvl}</>
         </Typography>
       </div>
       {connected && pool.userBalance && (
@@ -94,7 +95,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
             <Trans>Balance</Trans>
           </Typography>
           <Typography>
-            <>{pool.userBalance} LP</>
+            <>{isLoading ? <Skeleton width={30} /> : `${pool.userBalance} LP`}</>
           </Typography>
         </div>
       )}
@@ -141,10 +142,10 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
         {/* {pool.apy} */}
       </Typography>
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-        {pool.tvl}
+        {!pool.tvl ? <Skeleton width={30} /> : pool.tvl}
       </Typography>
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-        {connected && pool.userBalance && `${pool.userBalance} LP`}
+        {isLoading ? <Skeleton width={30} /> : connected && pool.userBalance ? `${pool.userBalance} LP` : ""}
       </Typography>
       <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
         <Button
