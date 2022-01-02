@@ -93,6 +93,17 @@ export class EnvHelper {
         }
         uriPath = "https://arb-mainnet.alchemyapi.io/v2/";
         break;
+      case NetworkId.POLYGON:
+        if (
+          EnvHelper.env.REACT_APP_POLYGON_ALCHEMY_IDS &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_POLYGON_ALCHEMY_IDS)
+        ) {
+          ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_POLYGON_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
+        } else {
+          ALCHEMY_ID_LIST = [];
+        }
+        uriPath = "https://polygon-mainnet.g.alchemy.com/v2";
+        break;
       case NetworkId.AVALANCHE:
         if (
           EnvHelper.env.NODE_ENV !== "development" &&
