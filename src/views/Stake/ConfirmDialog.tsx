@@ -10,7 +10,7 @@ export interface ConfirmDialogProps {
 }
 
 export function ConfirmDialog({ quantity, currentIndex, view, onConfirm }: ConfirmDialogProps) {
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.checked;
     setChecked(value);

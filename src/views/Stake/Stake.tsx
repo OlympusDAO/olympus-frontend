@@ -62,7 +62,7 @@ function Stake() {
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
-  const [confirmation, setConfirmation] = useState(true);
+  const [confirmation, setConfirmation] = useState(false);
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
