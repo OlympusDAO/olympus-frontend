@@ -28,7 +28,7 @@ const modal = new Web3Modal({
 
 type Web3State =
   | { isConnected: true; provider: Web3Provider }
-  | { isConnected: false; provider: StaticJsonRpcProvider };
+  | { isConnected: false; provider: typeof defaultProvider };
 
 type Web3Context = Web3State & {
   hasCachedProvider: boolean;
@@ -60,9 +60,11 @@ const reducer = (_: Web3State, { type, payload }: Action): Web3State => {
   }
 };
 
+const defaultProvider = NodeHelper.getMainnetStaticProvider();
+
 const defaultState: Web3State = {
   isConnected: false,
-  provider: NodeHelper.getMainnetStaticProvider(),
+  provider: defaultProvider,
 };
 
 export const Web3ContextProvider: React.FC = props => {
