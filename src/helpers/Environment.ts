@@ -217,22 +217,22 @@ export class EnvHelper {
   }
 
   /**
-   * Indicates whether the give feature is enabled.
+   * Indicates whether the give feature is enabled (default: true).
    *
-   * The feature is enabled when:
-   * - REACT_APP_GIVE_ENABLED is true
-   * - give_enabled parameter is present
+   * The feature is disabled when:
+   * - REACT_APP_GIVE_ENABLED is false
    *
    * @param url
    * @returns
    */
   static isGiveEnabled(url: string): boolean {
     const giveEnabled = EnvHelper.env.REACT_APP_GIVE_ENABLED;
-    const giveEnabledParameter = url && url.includes("give_enabled");
 
-    if (giveEnabled || giveEnabledParameter) return true;
+    // If the variable isn't set, we default to true.
+    // We also want to be case-insensitive.
+    if (giveEnabled !== undefined && giveEnabled.toLowerCase() === "false") return false;
 
-    return false;
+    return true;
   }
 
   /**
