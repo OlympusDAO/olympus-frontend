@@ -34,6 +34,9 @@ export enum NetworkId {
 
   POLYGON = 137,
   POLYGON_TESTNET = 80001,
+
+  FANTOM = 250,
+  FANTOM_TESTNET = 4002,
 }
 
 interface IAddresses {
@@ -189,6 +192,9 @@ export const addresses: IAddresses = {
   }, // TODO: Avalanche Mainnet addresses
   [NetworkId.POLYGON]: {
     GOHM_ADDRESS: "0xd8cA34fd379d9ca3C6Ee3b3905678320F5b45195",
+  },
+  [NetworkId.FANTOM]: {
+    GOHM_ADDRESS: "0x91fa20244fb509e8289ca630e5db3e9166233fdc",
   },
 };
 
