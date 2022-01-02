@@ -138,7 +138,7 @@
     "theme": "npx gulp less",
     "watch": "node ./scripts/watch.js",
     "predocker-start": "docker build -t olympus-frontend -f Dockerfile .",
-    "docker-start": "docker run -it --rm -v `pwd`/src:/usr/src/app/src -v `pwd`/public:/usr/src/app/public -p 3000:3000 olympus-frontend",
+    "docker-start": "yarn run postinstall && docker run -it --rm -v `pwd`/src:/usr/src/app/src -v `pwd`/public:/usr/src/app/public -p 3000:3000 olympus-frontend",
     "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
     "graph-types": "graphql-codegen --config ./graph-types.codegen.yaml",
     "lingui:extract": "lingui extract",
