@@ -20,8 +20,6 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Checkbox,
-  Switch,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
