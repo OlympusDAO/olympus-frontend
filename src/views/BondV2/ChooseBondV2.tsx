@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import {
   Box,
+  ButtonBase,
   Grid,
   Paper,
   Table,
@@ -87,6 +88,14 @@ function ChooseBondV2() {
             <Typography variant="h5" data-testid="t">
               <Trans>Bond</Trans> (1,1)
             </Typography>
+
+            <ButtonBase>
+              <Typography>
+                <b>
+                  <Trans>V1 Bonds available</Trans>
+                </b>
+              </Typography>
+            </ButtonBase>
           </Box>
 
           <MetricCollection>
