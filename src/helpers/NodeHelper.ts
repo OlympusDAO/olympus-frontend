@@ -129,6 +129,16 @@ export class NodeHelper {
   };
 
   /**
+   * this is a static mainnet only RPC Provider
+   * should be used when querying AppSlice from other chains
+   * because we don't need tvl, apy, marketcap, supply, treasuryMarketVal for anything but mainnet
+   * @returns StaticJsonRpcProvider for querying
+   */
+  static getAnynetStaticProvider = (chainId: NetworkId) => {
+    return new StaticJsonRpcProvider(NodeHelper.getMainnetURI(chainId));
+  };
+
+  /**
    * returns Array of APIURIs where NOT on invalidNodes list
    */
   static getNodesUris = (networkId: NetworkId) => {
