@@ -1,3 +1,4 @@
+import { isAddress } from "@ethersproject/address";
 import { useQuery } from "react-query";
 import { useWeb3Context } from "./useWeb3Context";
 
@@ -8,8 +9,12 @@ export const useAddress = () => {
 
   return useQuery<string, Error>(
     useAddressKey(),
-    () => {
-      return provider.getSigner().getAddress();
+    async () => {
+      const address = await provider.getSigner().getAddress();
+
+      if (!isAddress(address)) throw new Error("Invalid address");
+
+      return address;
     },
     { enabled: isConnected },
   );

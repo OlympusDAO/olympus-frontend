@@ -15,10 +15,6 @@ export const useENS = () => {
     async () => {
       queryAssertion(address, useENSKey(address));
 
-      // (sam-potter)
-      // @TODO Possibly make this an invariant of the useAddress query
-      if (!ethers.utils.isAddress(address)) throw new Error("Invalid address");
-
       const name = (await provider.lookupAddress(address)) ?? undefined;
 
       let avatar: string | undefined;
