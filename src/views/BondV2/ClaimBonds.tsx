@@ -93,7 +93,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                 justifyContent="center"
                 className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
               >
-                {numberOfBonds > 1 && (
+                {numberOfBonds >= 1 && (
                   <>
                     <Button
                       variant="contained"
@@ -104,22 +104,6 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                       onClick={onRedeemAll}
                     >
                       {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
-                    </Button>
-
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      id="claim-all-and-stake-btn"
-                      className="transaction-button"
-                      fullWidth
-                      disabled={pendingClaim()}
-                      onClick={onRedeemAll}
-                    >
-                      {txnButtonTextGeneralPending(
-                        pendingTransactions,
-                        "redeem_all_bonds_autostake",
-                        t`Claim all and Stake`,
-                      )}
                     </Button>
                   </>
                 )}

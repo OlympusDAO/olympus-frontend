@@ -42,16 +42,16 @@ export function ClaimBondTableData({ userNote }: { userNote: IUserNote }) {
       <TableCell align="left" className="bond-name-cell">
         <BondLogo bond={bond} />
         <div className="bond-name">
-          {/* <Typography variant="body1">
-            {bond.displayName ? trim(bondName, 4) : <Skeleton width={100} />}
-          </Typography> */}
+          <Typography variant="body1">{bond.displayName ? bond.displayName : <Skeleton width={100} />}</Typography>
         </div>
       </TableCell>
       <TableCell align="center">
         {isAppLoading ? <Skeleton /> : vestingPeriod()}
         {/* {bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />} */}
       </TableCell>
-      <TableCell align="center">{bond.payout ? trim(bond.payout, 4) + " sOHM" : <Skeleton width={100} />}</TableCell>
+      <TableCell align="center">
+        {bond.payout !== null ? trim(bond.payout, 4) + " sOHM" : <Skeleton width={100} />}
+      </TableCell>
       <TableCell align="right">
         {vestingPeriod() === "Fully Vested" && (
           <Button
@@ -126,15 +126,6 @@ export function ClaimBondCardData({ userNote }: { userNote: IUserNote }) {
         >
           <Typography variant="h5">
             {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, t`Claim`)}
-          </Typography>
-        </Button>
-        <Button variant="outlined" color="primary" onClick={onRedeem}>
-          <Typography variant="h5">
-            {txnButtonTextGeneralPending(
-              pendingTransactions,
-              "redeem_bond_" + bondName + "_autostake",
-              t`Claim and Stake`,
-            )}
           </Typography>
         </Button>
       </Box>

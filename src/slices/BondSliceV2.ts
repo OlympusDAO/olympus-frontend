@@ -248,24 +248,19 @@ export const getUserNotes = createAsyncThunk(
         marketID: number;
       } = await userNotes[i];
       const bond: IBondV2 = (getState() as RootState).bondingV2.bonds[rawNote.marketID];
-      let seconds = 0;
-      if (bond.fixedTerm) {
-        const vestingTime = currentTime + bond.vesting;
-        seconds = vestingTime - currentTime;
-      } else {
-        const conclusionTime = bond.conclusion;
-        seconds = conclusionTime - currentTime;
-      }
+      let seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
       if (seconds > 86400) {
         duration = prettifySeconds(seconds, "day");
-      } else {
+      } else if (seconds > 0) {
         duration = prettifySeconds(seconds);
+      } else {
+        duration = "Fully Vested";
       }
       const note: IUserNote = {
         ...rawNote,
-        payout: +rawNote.payout,
-        fullyMatured: rawNote.matured === rawNote.payout.toNumber() / Math.pow(10, bond.baseDecimals),
+        payout: +rawNote.payout / Math.pow(10, bond.baseDecimals),
+        fullyMatured: seconds === 0,
         claimed: rawNote.matured === rawNote.redeemed,
         timeLeft: duration,
         displayName: bond.displayName,
