@@ -311,7 +311,7 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
       symbol: "wsOHM",
       address: addresses[networkId].WSOHM_ADDRESS,
       balances: {
-        [NetworkId.MAINNET]: connectedChainBalances.wsohm,
+        [NetworkId.MAINNET]: connectedChainBalances.wsohmOnEthereum,
         [NetworkId.ARBITRUM]: connectedChainBalances.wsohmOnArbitrum,
         [NetworkId.AVALANCHE]: connectedChainBalances.wsohmOnAvax,
       },
@@ -333,7 +333,7 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
       symbol: "gOHM",
       address: addresses[networkId].GOHM_ADDRESS,
       balances: {
-        [NetworkId.MAINNET]: connectedChainBalances.gohm,
+        [NetworkId.MAINNET]: connectedChainBalances.gOhmOnEthereum,
         [NetworkId.ARBITRUM]: connectedChainBalances.gOhmOnArbitrum,
         [NetworkId.AVALANCHE]: connectedChainBalances.gOhmOnAvax,
         [NetworkId.FANTOM]: connectedChainBalances.gOhmOnFantom,

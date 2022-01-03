@@ -34,6 +34,8 @@ interface IUserBalances {
   balances: {
     gohm: string;
     gOhmAsSohmBal: string;
+    gOhmOnEthereum: string;
+    gOhmOnEthAsSohm: string;
     gOhmOnArbitrum: string;
     gOhmOnArbAsSohm: string;
     gOhmOnAvax: string;
@@ -50,6 +52,7 @@ interface IUserBalances {
     fgohm: string;
     fgOHMAsfsOHM: string;
     wsohm: string;
+    wsohmOnEthereum: string;
     wsohmOnAvax: string;
     wsohmOnArbitrum: string;
     fiatDaowsohm: string;
@@ -82,6 +85,8 @@ export const getBalances = createAsyncThunk(
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserBalances> => {
     let gOhmBalance = BigNumber.from("0");
     let gOhmBalAsSohmBal = BigNumber.from("0");
+    let gOhmOnEthereum = BigNumber.from("0");
+    let gOhmOnEthAsSohm = BigNumber.from("0");
     let gOhmOnArbitrum = BigNumber.from("0");
     let gOhmOnArbAsSohm = BigNumber.from("0");
     let gOhmOnAvax = BigNumber.from("0");
@@ -96,6 +101,7 @@ export const getBalances = createAsyncThunk(
     let ohmV2Balance = BigNumber.from("0");
     let sohmV2Balance = BigNumber.from("0");
     let wsohmBalance = BigNumber.from("0");
+    let wsohmOnEthereum = BigNumber.from("0");
     let wsohmOnAvax = BigNumber.from("0");
     let wsohmOnArbitrum = BigNumber.from("0");
     let poolBalance = BigNumber.from("0");
@@ -104,10 +110,18 @@ export const getBalances = createAsyncThunk(
     let fgOHMAsfsOHMBalance = BigNumber.from(0);
     let fiatDaowsohmBalance = BigNumber.from("0");
 
+    const ethProvider = NodeHelper.getMainnetStaticProvider();
     const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
     try {
       gOhmBalance = await gOhmContract.balanceOf(address);
       gOhmBalAsSohmBal = await gOhmContract.balanceFrom(gOhmBalance.toString());
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
+      const gOhmEthContract = GOHM__factory.connect(addresses[NetworkId.MAINNET].GOHM_ADDRESS, ethProvider);
+      gOhmOnEthereum = await gOhmEthContract.balanceOf(address);
+      gOhmOnEthAsSohm = await gOhmEthContract.balanceFrom(gOhmOnEthereum.toString());
     } catch (e) {
       handleContractError(e);
     }
@@ -146,6 +160,12 @@ export const getBalances = createAsyncThunk(
     try {
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
       wsohmBalance = await wsohmContract.balanceOf(address);
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
+      const wsohmEthContract = GOHM__factory.connect(addresses[NetworkId.MAINNET].WSOHM_ADDRESS, ethProvider);
+      wsohmOnEthereum = await wsohmEthContract.balanceOf(address);
     } catch (e) {
       handleContractError(e);
     }
@@ -259,6 +279,8 @@ export const getBalances = createAsyncThunk(
       balances: {
         gohm: ethers.utils.formatEther(gOhmBalance),
         gOhmAsSohmBal: ethers.utils.formatUnits(gOhmBalAsSohmBal, "gwei"),
+        gOhmOnEthereum: ethers.utils.formatEther(gOhmOnEthereum),
+        gOhmOnEthAsSohm: ethers.utils.formatUnits(gOhmOnEthAsSohm, "gwei"),
         gOhmOnArbitrum: ethers.utils.formatEther(gOhmOnArbitrum),
         gOhmOnArbAsSohm: ethers.utils.formatUnits(gOhmOnArbAsSohm, "gwei"),
         gOhmOnAvax: ethers.utils.formatEther(gOhmOnAvax),
@@ -273,6 +295,7 @@ export const getBalances = createAsyncThunk(
         fgohm: ethers.utils.formatEther(fgohmBalance),
         fgOHMAsfsOHM: ethers.utils.formatUnits(fgOHMAsfsOHMBalance, "gwei"),
         wsohm: ethers.utils.formatEther(wsohmBalance),
+        wsohmOnEthereum: ethers.utils.formatEther(wsohmOnEthereum),
         wsohmOnAvax: ethers.utils.formatEther(wsohmOnAvax),
         wsohmOnArbitrum: ethers.utils.formatEther(wsohmOnArbitrum),
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
@@ -596,6 +619,8 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   balances: {
     gohm: string;
     gOhmAsSohmBal: string;
+    gOhmOnEthereum: string;
+    gOhmOnEthAsSohm: string;
     gOhmOnArbitrum: string;
     gOhmOnArbAsSohm: string;
     gOhmOnAvax: string;
@@ -614,6 +639,7 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     fgohm: string;
     fgOHMAsfsOHM: string;
     wsohm: string;
+    wsohmOnEthereum: string;
     wsohmOnAvax: string;
     wsohmOnArbitrum: string;
     fiatDaowsohm: string;
@@ -645,6 +671,8 @@ const initialState: IAccountSlice = {
   balances: {
     gohm: "",
     gOhmAsSohmBal: "",
+    gOhmOnEthereum: "",
+    gOhmOnEthAsSohm: "",
     gOhmOnArbitrum: "",
     gOhmOnArbAsSohm: "",
     gOhmOnAvax: "",
@@ -663,6 +691,7 @@ const initialState: IAccountSlice = {
     fgohm: "",
     fgOHMAsfsOHM: "",
     wsohm: "",
+    wsohmOnEthereum: "",
     wsohmOnAvax: "",
     wsohmOnArbitrum: "",
     fiatDaowsohm: "",
