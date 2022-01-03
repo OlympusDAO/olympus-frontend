@@ -28,7 +28,7 @@ import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { Metric, MetricCollection } from "src/components/Metric";
-import { IBondV2 } from "src/slices/BondSliceV2";
+import { IBondV2, IUserNote } from "src/slices/BondSliceV2";
 
 function ChooseBondV2() {
   const { networkId } = useWeb3Context();
@@ -45,15 +45,7 @@ function ChooseBondV2() {
   const isAppLoading: boolean = useAppSelector(state => state.app.loading);
   const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
 
-  const accountBonds: IUserBondDetails[] = useAppSelector(state => {
-    const withInterestDue = [];
-    for (const bond in state.account.bonds) {
-      if (state.account.bonds[bond].interestDue > 0) {
-        withInterestDue.push(state.account.bonds[bond]);
-      }
-    }
-    return withInterestDue;
-  });
+  const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
 
   const marketPrice: number | undefined = useAppSelector(state => {
     return state.app.marketPrice;
@@ -80,7 +72,7 @@ function ChooseBondV2() {
 
   return (
     <div id="choose-bond-view">
-      {!isAccountLoading && !isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
+      {!isAccountLoading && !isEmpty(accountNotes) && <ClaimBonds activeNotes={accountNotes} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">

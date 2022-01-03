@@ -1,5 +1,5 @@
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { BigNumber } from "ethers";
+import { BigNumber, BigNumberish } from "ethers";
 import { Bond } from "src/lib/Bond";
 import { NetworkId } from "src/constants";
 import { IBondV2 } from "./BondSliceV2";
@@ -89,8 +89,8 @@ export interface IBondV2AysncThunk extends IBaseAddressAsyncThunk {
 
 export interface IBondV2PurchaseAsyncThunk extends IBaseAddressAsyncThunk {
   readonly bond: IBondV2;
-  readonly maxPrice: number;
-  readonly amount: number;
+  readonly maxPrice: BigNumberish;
+  readonly amount: BigNumberish;
 }
 
 export interface IApproveBondAsyncThunk extends IBaseBondAsyncThunk {

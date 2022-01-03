@@ -24,13 +24,14 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   displayName: string;
   priceUSD: number;
   priceToken: number;
+  priceTokenBigNumber: BigNumber;
   discount: number;
   duration: string;
   isLP: boolean;
   lpUrl: string;
 }
 
-interface IBondV2Balance {
+export interface IBondV2Balance {
   allowance: BigNumber;
   balance: BigNumber;
   tokenAddress: string;
@@ -70,6 +71,9 @@ export interface IUserNote {
   matured: number;
   redeemed: number;
   marketID: number;
+  fullyMatured: boolean;
+  timeLeft: string;
+  claimed: boolean;
 }
 
 function checkNetwork(networkID: NetworkId) {
@@ -80,7 +84,7 @@ function checkNetwork(networkID: NetworkId) {
 
 export const changeApproval = createAsyncThunk(
   "bondsV2/changeApproval",
-  async ({ bond, provider, networkID }: IBondV2AysncThunk, { dispatch, getState }) => {
+  async ({ bond, provider, networkID, address }: IBondV2AysncThunk, { dispatch, getState }) => {
     checkNetwork(networkID);
     const signer = provider.getSigner();
     const bondState: IBondV2 = (getState() as RootState).bondingV2.bonds[bond.index];
@@ -105,6 +109,7 @@ export const changeApproval = createAsyncThunk(
       return;
     } finally {
       if (approveTx) {
+        dispatch(getTokenBalance({ provider, networkID, address, value: tokenContractAddress }));
         dispatch(clearPendingTxn(approveTx.hash));
       }
     }
@@ -117,6 +122,8 @@ export const purchaseBond = createAsyncThunk(
     checkNetwork(networkID);
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
+    console.log(amount);
+    console.log(maxPrice);
     await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
   },
 );
@@ -157,7 +164,8 @@ async function processBond(
   const currentTime = Date.now() / 1000;
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
   const quoteTokenPrice = Number(await getTokenPrice((await getTokenIdByContract(bond.quoteToken)) ?? "dai"));
-  const bondPrice = +(await depositoryContract.marketPrice(index)) / Math.pow(10, metadata.quoteDecimals);
+  const bondPriceBigNumber = await depositoryContract.marketPrice(index);
+  const bondPrice = +bondPriceBigNumber / Math.pow(10, metadata.quoteDecimals);
   const bondPriceUSD = (quoteTokenPrice * +bondPrice) / Math.pow(10, 9);
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
@@ -185,6 +193,7 @@ async function processBond(
     displayName: `${index}`,
     priceUSD: bondPriceUSD,
     priceToken: bondPrice,
+    priceTokenBigNumber: bondPriceBigNumber,
     discount: bondDiscount,
     duration,
     isLP: false,
@@ -221,14 +230,43 @@ export const getAllBonds = createAsyncThunk(
 
 export const getUserNotes = createAsyncThunk(
   "bondsV2/notes",
-  async ({ provider, networkID, address }: IBaseAddressAsyncThunk, {}): Promise<IUserNote[]> => {
+  async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }): Promise<IUserNote[]> => {
     checkNetwork(networkID);
+    await dispatch(getAllBonds({ address, provider, networkID }));
+    const currentTime = Date.now() / 1000;
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const userNoteIndexes = await depositoryContract.indexesFor(address);
     const userNotes = userNoteIndexes.map(async index => await depositoryContract.notes(address, index));
     const notes: IUserNote[] = [];
     for (let i = 0; i < userNotes.length; i++) {
-      const note = await userNotes[i];
+      const rawNote: {
+        payout: ethers.BigNumber;
+        created: number;
+        matured: number;
+        redeemed: number;
+        marketID: number;
+      } = await userNotes[i];
+      const bond: IBondV2 = (getState() as RootState).bondingV2.bonds[rawNote.marketID];
+      let seconds = 0;
+      if (bond.fixedTerm) {
+        const vestingTime = currentTime + bond.vesting;
+        seconds = vestingTime - currentTime;
+      } else {
+        const conclusionTime = bond.conclusion;
+        seconds = conclusionTime - currentTime;
+      }
+      let duration = "";
+      if (seconds > 86400) {
+        duration = prettifySeconds(seconds, "day");
+      } else {
+        duration = prettifySeconds(seconds);
+      }
+      const note: IUserNote = {
+        ...rawNote,
+        fullyMatured: rawNote.matured === rawNote.payout.toNumber() / Math.pow(10, bond.baseDecimals),
+        claimed: rawNote.matured === rawNote.redeemed,
+        timeLeft: duration,
+      };
       notes.push(note);
     }
     return notes;

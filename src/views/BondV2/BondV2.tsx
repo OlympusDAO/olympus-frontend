@@ -93,7 +93,7 @@ const BondV2 = ({ index }: { index: number }) => {
                 </div>
               </Box>
 
-              <Tabs
+              {/* <Tabs
                 centered
                 value={view}
                 textColor="primary"
@@ -110,15 +110,15 @@ const BondV2 = ({ index }: { index: number }) => {
                   {...a11yProps(0)}
                 />
                 <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
-              </Tabs>
+              </Tabs> */}
 
-              <TabPanel value={view} index={0}>
-                <BondPurchase bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
-              </TabPanel>
+              {/* <TabPanel value={view} index={0}> */}
+              <BondPurchase bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
+              {/* </TabPanel> */}
 
-              <TabPanel value={view} index={1}>
+              {/* <TabPanel value={view} index={1}>
                 <BondRedeem bond={bond} />
-              </TabPanel>
+              </TabPanel> */}
             </Paper>
           </Fade>
         </Backdrop>

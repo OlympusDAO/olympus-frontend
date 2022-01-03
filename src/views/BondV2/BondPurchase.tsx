@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import {
@@ -20,7 +20,8 @@ import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./BondV2";
 import ConnectButton from "../../components/ConnectButton";
 import { useAppSelector } from "src/hooks";
-import { changeApproval, getSingleBond, IBondV2, purchaseBond } from "src/slices/BondSliceV2";
+import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
+import { BigNumber, ethers } from "ethers";
 
 function BondPurchase({
   bond,
@@ -42,6 +43,8 @@ function BondPurchase({
 
   const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
 
+  const balanceNumber: number = useMemo(() => +balance.balance / Math.pow(10, bond.quoteDecimals), [balance]);
+
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
@@ -50,14 +53,14 @@ function BondPurchase({
     if (quantity === "") {
       dispatch(error(t`Please enter a value!`));
     } else {
-      await dispatch(
+      dispatch(
         purchaseBond({
-          amount: Number(quantity),
+          amount: ethers.utils.parseUnits(quantity, bond.quoteDecimals),
           networkID: networkId,
           provider,
           bond,
-          maxPrice: 0,
-          address: recipientAddress || address,
+          maxPrice: Math.round(Number(bond.priceTokenBigNumber.toString()) * (1 + slippage / 100)),
+          address: recipientAddress,
         }),
       );
       clearInput();
@@ -78,7 +81,7 @@ function BondPurchase({
     //   // there is precision loss here on Number(bond.balance)
     //   maxQ = bond.maxBondPrice * bond.bondPrice.toString();
     // } else {
-    maxQ = balance.balance;
+    maxQ = balanceNumber;
     // }
     setQuantity(maxQ.toString());
   };
@@ -184,11 +187,11 @@ function BondPurchase({
               <Trans>Your Balance</Trans>
             </Typography>{" "}
             <Typography id="bond-balance">
-              {isBondLoading ? <Skeleton width="100px" /> : <>{trim(+balance?.balance, 4)}</>}
+              {isBondLoading ? <Skeleton width="100px" /> : <>{trim(balanceNumber, 4)}</>}
             </Typography>
           </div>
 
-          {/* <div className={`data-row`}>
+          <div className={`data-row`}>
             <Typography>
               <Trans>You Will Get</Trans>
             </Typography>
@@ -196,27 +199,23 @@ function BondPurchase({
               {isBondLoading ? (
                 <Skeleton width="100px" />
               ) : (
-                `${trim(bond.bondQuote, 4) || "0"} ` + `${bond.payoutToken}`
+                `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` + `sOHM`
               )}
             </Typography>
-          </div> */}
+          </div>
 
-          {/* <div className={`data-row`}>
+          <div className={`data-row`}>
             <Typography>
               <Trans>Max You Can Buy</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(bond.maxBondPrice, 4) || "0"} ` + `${bond.payoutToken}`
-              )}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(+bond.capacity, 1) || "0"} ` + `OHM`}
             </Typography>
-          </div> */}
+          </div>
 
           <div className="data-row">
             <Typography>
-              <Trans>ROI</Trans>
+              <Trans>Discount</Trans>
             </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}
@@ -225,7 +224,7 @@ function BondPurchase({
 
           <div className="data-row">
             <Typography>
-              <Trans>Vesting Term</Trans>
+              <Trans>Duration</Trans>
             </Typography>
             <Typography>{isBondLoading ? <Skeleton width="100px" /> : bond.duration}</Typography>
           </div>

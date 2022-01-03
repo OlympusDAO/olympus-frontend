@@ -23,17 +23,17 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./choosebond.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { ContactSupportOutlined } from "@material-ui/icons";
+import { useAppSelector } from "src/hooks";
+import { IUserNote } from "src/slices/BondSliceV2";
 
-function ClaimBonds({ activeBonds }) {
+function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
-  const { bonds } = useBonds(networkId);
+  const { provider, address, networkId } = useWeb3Context();
 
   const [numberOfBonds, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
@@ -48,25 +48,23 @@ function ClaimBonds({ activeBonds }) {
     return false;
   };
 
-  const onRedeemAll = async ({ autostake }) => {
-    console.log("redeeming all bonds");
-
-    await dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
-
-    console.log("redeem all complete");
+  const onRedeemAll = () => {
+    // console.log("redeeming all bonds");
+    // dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
+    // console.log("redeem all complete");
   };
 
   useEffect(() => {
-    let bondCount = Object.keys(activeBonds).length;
+    let bondCount = Object.keys(activeNotes).length;
     setNumberOfBonds(bondCount);
-  }, [activeBonds]);
+  }, [activeNotes]);
 
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
+  const currentBlock = useAppSelector(state => {
+    return state.app.currentBlock!;
   });
 
-  const fullyVestedBonds = activeBonds.filter(bond => bond.bondMaturationBlock <= currentBlock);
-  const vestingBonds = activeBonds.filter(bond => bond.bondMaturationBlock >= currentBlock);
+  const fullyVestedBonds = activeNotes.filter(note => note.fullyMatured);
+  const vestingBonds = activeNotes.filter(note => !note.fullyMatured);
 
   return (
     <>
@@ -89,7 +87,7 @@ function ClaimBonds({ activeBonds }) {
               )}
 
               {isSmallScreen &&
-                Object.entries(activeBonds).map((bond, i) => <ClaimBondCardData key={i} userBond={bond} />)}
+                Object.entries(activeNotes).map((bond, i) => <ClaimBondCardData key={i} userBond={bond} />)}
 
               <Box
                 display="flex"
@@ -104,9 +102,7 @@ function ClaimBonds({ activeBonds }) {
                       className="transaction-button"
                       fullWidth
                       disabled={pendingClaim()}
-                      onClick={() => {
-                        onRedeemAll({ autostake: false });
-                      }}
+                      onClick={onRedeemAll}
                     >
                       {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
                     </Button>
@@ -118,9 +114,7 @@ function ClaimBonds({ activeBonds }) {
                       className="transaction-button"
                       fullWidth
                       disabled={pendingClaim()}
-                      onClick={() => {
-                        onRedeemAll({ autostake: true });
-                      }}
+                      onClick={onRedeemAll}
                     >
                       {txnButtonTextGeneralPending(
                         pendingTransactions,
