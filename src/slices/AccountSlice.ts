@@ -50,6 +50,8 @@ interface IUserBalances {
     fgohm: string;
     fgOHMAsfsOHM: string;
     wsohm: string;
+    wsohmOnAvax: string;
+    wsohmOnArbitrum: string;
     fiatDaowsohm: string;
     mockSohm: string;
     pool: string;
@@ -94,6 +96,8 @@ export const getBalances = createAsyncThunk(
     let ohmV2Balance = BigNumber.from("0");
     let sohmV2Balance = BigNumber.from("0");
     let wsohmBalance = BigNumber.from("0");
+    let wsohmOnAvax = BigNumber.from("0");
+    let wsohmOnArbitrum = BigNumber.from("0");
     let poolBalance = BigNumber.from("0");
     let fsohmBalance = BigNumber.from(0);
     let fgohmBalance = BigNumber.from(0);
@@ -142,6 +146,20 @@ export const getBalances = createAsyncThunk(
     try {
       const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
       wsohmBalance = await wsohmContract.balanceOf(address);
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
+      const avaxProvider = NodeHelper.getAnynetStaticProvider(NetworkId.AVALANCHE);
+      const wsohmAvaxContract = GOHM__factory.connect(addresses[NetworkId.AVALANCHE].WSOHM_ADDRESS, avaxProvider);
+      wsohmOnAvax = await wsohmAvaxContract.balanceOf(address);
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
+      const arbProvider = NodeHelper.getAnynetStaticProvider(NetworkId.ARBITRUM);
+      const wsohmArbContract = GOHM__factory.connect(addresses[NetworkId.ARBITRUM].WSOHM_ADDRESS, arbProvider);
+      wsohmOnArbitrum = await wsohmArbContract.balanceOf(address);
     } catch (e) {
       handleContractError(e);
     }
@@ -255,6 +273,8 @@ export const getBalances = createAsyncThunk(
         fgohm: ethers.utils.formatEther(fgohmBalance),
         fgOHMAsfsOHM: ethers.utils.formatUnits(fgOHMAsfsOHMBalance, "gwei"),
         wsohm: ethers.utils.formatEther(wsohmBalance),
+        wsohmOnAvax: ethers.utils.formatEther(wsohmOnAvax),
+        wsohmOnArbitrum: ethers.utils.formatEther(wsohmOnArbitrum),
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
         ohm: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
@@ -594,6 +614,8 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     fgohm: string;
     fgOHMAsfsOHM: string;
     wsohm: string;
+    wsohmOnAvax: string;
+    wsohmOnArbitrum: string;
     fiatDaowsohm: string;
     pool: string;
     mockSohm: string;
@@ -641,6 +663,8 @@ const initialState: IAccountSlice = {
     fgohm: "",
     fgOHMAsfsOHM: "",
     wsohm: "",
+    wsohmOnAvax: "",
+    wsohmOnArbitrum: "",
     fiatDaowsohm: "",
     pool: "",
     mockSohm: "",

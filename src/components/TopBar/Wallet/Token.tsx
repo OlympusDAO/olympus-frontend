@@ -29,9 +29,6 @@ import GOhmImg from "src/assets/tokens/gohm.png";
 import { segmentUA } from "src/helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
 
-import { useQuery } from "react-query";
-import { fetchCrossChainBalances } from "src/lib/fetchBalances";
-
 const Accordion = withStyles({
   root: {
     backgroundColor: "inherit",
@@ -72,9 +69,8 @@ export interface IToken {
   address: string;
   decimals: number;
   icon: string;
-  balance: string;
+  balances: { [networkId in NetworkId]?: string };
   price: number;
-  crossChainBalances?: { balances: Record<NetworkId, string>; isLoading: boolean };
   vaultBalances?: { [vaultName: string]: string };
   totalBalance: string;
 }
@@ -161,7 +157,7 @@ export const Token = ({
   decimals,
   icon,
   price = 0,
-  crossChainBalances,
+  balances,
   vaultBalances,
   totalBalance,
   onAddTokenToWallet,
@@ -182,30 +178,24 @@ export const Token = ({
           <img src={icon} style={{ height: "28px", width: "28px", marginRight: theme.spacing(1) }} />
           <Typography>{symbol}</Typography>
         </Box>
-        <BalanceValue
-          balance={totalBalance}
-          sigFigs={sigFigs}
-          balanceValueUSD={balanceValue}
-          isLoading={isLoading || crossChainBalances?.isLoading}
-        />
+        <BalanceValue balance={totalBalance} sigFigs={sigFigs} balanceValueUSD={balanceValue} isLoading={isLoading} />
       </AccordionSummary>
       <AccordionDetails style={{ margin: "auto", padding: theme.spacing(1, 0) }}>
         <Box
           sx={{ display: "flex", flexDirection: "column", flex: 1, mx: "32px", justifyContent: "center" }}
           style={{ gap: theme.spacing(1) }}
         >
-          {!!crossChainBalances?.balances &&
-            Object.entries(crossChainBalances.balances).map(
-              ([networkId, balance]) =>
-                parseFloat(balance) > 0.01 && (
-                  <TokenBalance
-                    balanceLabel={`${NETWORKS[networkId as any].chainName}:`}
-                    balance={balance}
-                    balanceValueUSD={parseFloat(balance) * price}
-                    sigFigs={sigFigs}
-                  />
-                ),
-            )}
+          {Object.entries(balances).map(
+            ([networkId, balance]) =>
+              parseFloat(balance) > 0.01 && (
+                <TokenBalance
+                  balanceLabel={`${NETWORKS[networkId as any].chainName}:`}
+                  balance={balance}
+                  balanceValueUSD={parseFloat(balance) * price}
+                  sigFigs={sigFigs}
+                />
+              ),
+          )}
           {!!vaultBalances &&
             Object.entries(vaultBalances).map(
               ([vaultName, balance]) =>
@@ -229,8 +219,9 @@ export const Token = ({
   );
 };
 
-export const MigrateToken = ({ symbol, icon, balance = "0.0", price = 0 }: IToken) => {
+export const MigrateToken = ({ symbol, icon, balances, price = 0 }: IToken) => {
   const theme = useTheme();
+  const balance = balances[NetworkId.MAINNET] || "0.0";
   const balanceValue = parseFloat(balance) * price;
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -264,11 +255,7 @@ export const MigrateToken = ({ symbol, icon, balance = "0.0", price = 0 }: IToke
 const sumObjValues = (obj: Record<string, string> = {}) =>
   Object.values(obj).reduce((sum, b = "0.0") => sum + (parseFloat(b) || 0), 0);
 
-export const useWallet = (
-  userAddress: string,
-  chainId: NetworkId,
-  providerInitialized: Boolean,
-): Record<string, IToken> => {
+export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Record<string, IToken> => {
   // default to mainnet while not initialized
   const networkId = providerInitialized ? chainId : NetworkId.MAINNET;
 
@@ -276,13 +263,13 @@ export const useWallet = (
   const ohmPrice = useAppSelector(s => s.app.marketPrice);
   const currentIndex = useAppSelector(s => s.app.currentIndex);
 
-  const { gohm, wsohm, isLoading } = useCrossChainBalances(userAddress);
-
   const tokens = {
     ohmV1: {
       symbol: "OHM V1",
       address: addresses[networkId].OHM_ADDRESS,
-      balance: connectedChainBalances.ohmV1,
+      balances: {
+        [NetworkId.MAINNET]: connectedChainBalances.ohmV1,
+      },
       price: ohmPrice || 0,
       icon: OhmImg,
       decimals: 9,
@@ -290,7 +277,9 @@ export const useWallet = (
     sohmV1: {
       symbol: "sOHM V1",
       address: addresses[networkId].SOHM_ADDRESS,
-      balance: connectedChainBalances.sohmV1,
+      balances: {
+        [NetworkId.MAINNET]: connectedChainBalances.sohmV1,
+      },
       price: ohmPrice || 0,
       icon: SOhmImg,
       decimals: 9,
@@ -298,7 +287,9 @@ export const useWallet = (
     ohm: {
       symbol: "OHM",
       address: addresses[networkId].OHM_V2,
-      balance: connectedChainBalances.ohm,
+      balances: {
+        [NetworkId.MAINNET]: connectedChainBalances.ohm,
+      },
       price: ohmPrice || 0,
       icon: OhmImg,
       decimals: 9,
@@ -306,7 +297,9 @@ export const useWallet = (
     sohm: {
       symbol: "sOHM",
       address: addresses[networkId].SOHM_V2,
-      balance: connectedChainBalances.sohm,
+      balances: {
+        [NetworkId.MAINNET]: connectedChainBalances.sohm,
+      },
       price: ohmPrice || 0,
       vaultBalances: {
         "Fuse Olympus Pool Party": connectedChainBalances.fsohm,
@@ -317,16 +310,21 @@ export const useWallet = (
     wsohm: {
       symbol: "wsOHM",
       address: addresses[networkId].WSOHM_ADDRESS,
-      balance: connectedChainBalances.wsohm,
+      balances: {
+        [NetworkId.MAINNET]: connectedChainBalances.wsohm,
+        [NetworkId.ARBITRUM]: connectedChainBalances.wsohmOnArbitrum,
+        [NetworkId.AVALANCHE]: connectedChainBalances.wsohmOnAvax,
+      },
       price: (ohmPrice || 0) * Number(currentIndex || 0),
-      crossChainBalances: { balances: wsohm, isLoading },
       icon: WsOhmImg,
       decimals: 18,
     },
     pool: {
       symbol: "33T",
       address: addresses[networkId].PT_TOKEN_ADDRESS,
-      balance: connectedChainBalances.pool,
+      balances: {
+        [NetworkId.MAINNET]: connectedChainBalances.pool,
+      },
       price: ohmPrice || 0,
       icon: Token33tImg,
       decimals: 9,
@@ -334,9 +332,14 @@ export const useWallet = (
     gohm: {
       symbol: "gOHM",
       address: addresses[networkId].GOHM_ADDRESS,
-      balance: connectedChainBalances.gohm,
+      balances: {
+        [NetworkId.MAINNET]: connectedChainBalances.gohm,
+        [NetworkId.ARBITRUM]: connectedChainBalances.gOhmOnArbitrum,
+        [NetworkId.AVALANCHE]: connectedChainBalances.gOhmOnAvax,
+        [NetworkId.FANTOM]: connectedChainBalances.gOhmOnFantom,
+        [NetworkId.POLYGON]: connectedChainBalances.gOhmOnPolygon,
+      },
       price: (ohmPrice || 0) * Number(currentIndex || 0),
-      crossChainBalances: { balances: gohm, isLoading },
       vaultBalances: {
         "Fuse Olympus Pool Party": connectedChainBalances.fgohm,
       },
@@ -346,30 +349,21 @@ export const useWallet = (
   } as Record<string, Omit<IToken, "totalBalance">>;
 
   return Object.entries(tokens).reduce((wallet, [key, token]) => {
-    const crossChainBalances = sumObjValues(token.crossChainBalances?.balances);
+    const balances = sumObjValues(token.balances);
     const vaultBalances = sumObjValues(token.vaultBalances);
-    const balance = crossChainBalances || parseFloat(token.balance) || 0;
     return {
       ...wallet,
       [key]: {
         ...token,
-        totalBalance: (balance + vaultBalances).toString(),
+        totalBalance: (balances + vaultBalances).toString(),
       } as IToken,
     };
   }, {});
 };
 
-export const useCrossChainBalances = (address: string) => {
-  const { isLoading, data } = useQuery(["crossChainBalances", address], () => fetchCrossChainBalances(address), {
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
-  return { isLoading, ...data };
-};
-
 export const Tokens = () => {
   const { address: userAddress, networkId, providerInitialized } = useWeb3Context();
-  const tokens = useWallet(userAddress, networkId, providerInitialized);
+  const tokens = useWallet(networkId, providerInitialized);
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const [expanded, setExpanded] = useState<string | null>(null);
 

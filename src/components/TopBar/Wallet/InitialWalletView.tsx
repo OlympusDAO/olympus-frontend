@@ -127,8 +127,8 @@ const CloseButton = withStyles(theme => ({
 }))(IconButton);
 
 const WalletTotalValue = () => {
-  const { address: userAddress, networkId, providerInitialized } = useWeb3Context();
-  const tokens = useWallet(userAddress, networkId, providerInitialized);
+  const { networkId, providerInitialized } = useWeb3Context();
+  const tokens = useWallet(networkId, providerInitialized);
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const marketPrice = useAppSelector(s => s.app.marketPrice || 0);
   const [currency, setCurrency] = useState<"USD" | "OHM">("USD");
