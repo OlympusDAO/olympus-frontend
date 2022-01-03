@@ -15,8 +15,9 @@ import {
 } from "@material-ui/core";
 
 import "./choosebond.scss";
+import { IUserNote } from "src/slices/BondSliceV2";
 
-const AccordionSection = ({ bonds, title }) => (
+const AccordionSection = ({ bonds, title }: { bonds: IUserNote[]; title: string }) => (
   <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
     <AccordionSummary expandIcon={<ExpandMore />} aria-controls={`${title}-content`} id={`${title}-header`}>
       <Typography>{title}</Typography>
@@ -39,7 +40,7 @@ const AccordionSection = ({ bonds, title }) => (
         </TableHead>
         <TableBody>
           {bonds.map((bond, i) => (
-            <ClaimBondTableData key={i} userBond={bond} />
+            <ClaimBondTableData key={i} userNote={bond} />
           ))}
         </TableBody>
       </Table>

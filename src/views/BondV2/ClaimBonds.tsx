@@ -86,8 +86,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                 </TableContainer>
               )}
 
-              {isSmallScreen &&
-                Object.entries(activeNotes).map((bond, i) => <ClaimBondCardData key={i} userBond={bond} />)}
+              {isSmallScreen && activeNotes.map((bond, i) => <ClaimBondCardData key={i} userNote={bond} />)}
 
               <Box
                 display="flex"

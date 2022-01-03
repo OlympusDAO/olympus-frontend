@@ -66,7 +66,7 @@ interface IBondV2Terms {
 }
 
 export interface IUserNote {
-  payout: ethers.BigNumber;
+  payout: number;
   created: number;
   matured: number;
   redeemed: number;
@@ -74,6 +74,7 @@ export interface IUserNote {
   fullyMatured: boolean;
   timeLeft: string;
   claimed: boolean;
+  displayName: string;
 }
 
 function checkNetwork(networkID: NetworkId) {
@@ -263,9 +264,11 @@ export const getUserNotes = createAsyncThunk(
       }
       const note: IUserNote = {
         ...rawNote,
+        payout: +rawNote.payout,
         fullyMatured: rawNote.matured === rawNote.payout.toNumber() / Math.pow(10, bond.baseDecimals),
         claimed: rawNote.matured === rawNote.redeemed,
         timeLeft: duration,
+        displayName: bond.displayName,
       };
       notes.push(note);
     }
