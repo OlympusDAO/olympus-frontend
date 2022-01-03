@@ -48,10 +48,19 @@ Puppeteer (with the Dappeteer addition) is used to do browser-based end-to-end t
 
 To run the tests:
 
+- Ensure that the values in the `tests/.env` file are defined (refer to `tests/.env.sample`) or set them through environment variables.
 - In a terminal, run the testnet node and frontend, using `yarn test:e2e-stack`. This will build/pull Docker images as necessary and launch the entire stack, without the need for configuration.
-- In another terminal, run the tests, using `yarn test:e2e`
+- In another terminal, run the tests, using `yarn test:e2e`.
+- In another terminal, run the tests, using `yarn test:e2e`.
 
-NOTE: due to the complexity of deploying the smart contracts (as of v1.1), the e2e stack currently does not work. Waiting on v2 deployment.
+To interact with the frontend:
+
+- Add the local testnet to Metamask:
+  - Name: (your choice)
+  - RPC URL: http://localhost:8545
+  - Chain ID: 1337
+  - Currency symbol: ETH
+- The `yarn test:e2e-stack` command will output the addresses and balances of a number of test wallets. You can use one of these wallets to interact with the frontend.
 
 **Rinkeby faucet for WETH:**
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
