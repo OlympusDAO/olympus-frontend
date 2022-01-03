@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { addresses } from "../constants";
+import { addresses, NetworkId } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
@@ -18,6 +18,7 @@ import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import ReactGA from "react-ga";
 
 interface IUAData {
   address: string;
@@ -37,9 +38,9 @@ export const ACTION_GIVE = "give";
 export const ACTION_GIVE_EDIT = "editGive";
 export const ACTION_GIVE_WITHDRAW = "endGive";
 
-export const isSupportedChain = (chainID: number): boolean => {
+export const isSupportedChain = (chainID: NetworkId): boolean => {
   // Give is only supported on Ethereum mainnet (1) and rinkeby (4) for the moment.
-  if (chainID === 1 || chainID === 4) return true;
+  if (chainID === NetworkId.MAINNET || chainID === NetworkId.TESTNET_RINKEBY) return true;
 
   return false;
 };
@@ -203,6 +204,15 @@ export const changeGive = createAsyncThunk(
     } finally {
       if (giveTx) {
         segmentUA(uaData);
+
+        ReactGA.event({
+          category: "Olympus Give",
+          action: uaData.type ?? "unknown",
+          value: parseFloat(uaData.value),
+          label: uaData.txHash ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
+        });
 
         dispatch(clearPendingTxn(giveTx.hash));
       }

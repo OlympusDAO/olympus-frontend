@@ -21,6 +21,7 @@ import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import { NetworkId } from "src/constants";
 
 type State = {
   account: IAccountSlice;
@@ -29,8 +30,7 @@ type State = {
 };
 export default function CausesDashboard() {
   const location = useLocation();
-  const { provider, address } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
@@ -42,13 +42,13 @@ export default function CausesDashboard() {
   const seed = useUIDSeed();
 
   const donationInfo = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
   const totalDebt = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
@@ -73,7 +73,7 @@ export default function CausesDashboard() {
     }
 
     // If reducing the amount of deposit, withdraw
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE,
