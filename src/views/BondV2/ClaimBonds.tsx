@@ -18,6 +18,9 @@ import {
   TableHead,
   TableRow,
   Zoom,
+  Typography,
+  Tabs,
+  Tab,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./choosebond.scss";
@@ -56,12 +59,71 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const fullyVestedBonds = activeNotes.filter(note => note.fullyMatured);
   const vestingBonds = activeNotes.filter(note => !note.fullyMatured);
 
+  const totalClaimable = fullyVestedBonds.reduce((a, b) => {
+    return a + b.payout;
+  }, 0);
+
+  const [view, setView] = useState(0);
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+    setView(newView);
+  };
   return (
     <>
-      {numberOfBonds > 0 && (
+      {numberOfBonds >= 1 && (
         <Zoom in={true}>
           <Paper className="ohm-card claim-bonds-card">
             <CardHeader title="Your Bonds (1,1)" />
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
+            >
+              <Typography variant="h4" align="center">
+                Payout Options{" "}
+              </Typography>
+              <Tabs
+                // key={String(zoomed)}
+                centered
+                value={view}
+                textColor="primary"
+                indicatorColor="primary"
+                className="stake-tab-buttons"
+                onChange={changeView}
+                aria-label="stake tabs"
+              >
+                <Tab label={t`sOHM`} {...a11yProps(0)} />
+
+                <Tab label={t`gOHM`} {...a11yProps(1)} />
+              </Tabs>
+
+              <Typography variant="h6" align="center">
+                Claimable Balance
+              </Typography>
+              <Typography variant="h4" align="center">
+                {totalClaimable} {view === 0 ? "sOHM" : "gOHM"}
+              </Typography>
+
+              <Button
+                variant="contained"
+                color="primary"
+                className="transaction-button"
+                fullWidth
+                disabled={
+                  isPendingTxn(pendingTransactions, "claim_all_bonds") ||
+                  !activeNotes.map(note => note.fullyMatured).reduce((prev, current, idx, arr) => prev || current)
+                }
+                onClick={onRedeemAll}
+              >
+                {txnButtonTextGeneralPending(pendingTransactions, "claim_all_bonds", t`Claim all`)}
+              </Button>
+            </Box>
             <Box>
               {!isSmallScreen && (
                 <TableContainer>
@@ -77,30 +139,6 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
               )}
 
               {isSmallScreen && activeNotes.map((bond, i) => <ClaimBondCardData key={i} userNote={bond} />)}
-
-              <Box
-                display="flex"
-                justifyContent="center"
-                className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
-              >
-                {numberOfBonds >= 1 && (
-                  <>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className="transaction-button"
-                      fullWidth
-                      disabled={
-                        isPendingTxn(pendingTransactions, "claim_all_bonds") ||
-                        !activeNotes.map(note => note.fullyMatured).reduce((prev, current, idx, arr) => prev || current)
-                      }
-                      onClick={onRedeemAll}
-                    >
-                      {txnButtonTextGeneralPending(pendingTransactions, "claim_all_bonds", t`Claim all`)}
-                    </Button>
-                  </>
-                )}
-              </Box>
             </Box>
           </Paper>
         </Zoom>
