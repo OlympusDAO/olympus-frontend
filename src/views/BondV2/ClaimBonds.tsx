@@ -85,28 +85,26 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
               alignItems="center"
               className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
             >
-              <Typography variant="h4" align="center">
+              <Typography variant="h4" align="center" className="payout-options-header">
                 Payout Options{" "}
               </Typography>
               <Tabs
-                // key={String(zoomed)}
                 centered
                 value={view}
                 textColor="primary"
                 indicatorColor="primary"
-                className="stake-tab-buttons"
                 onChange={changeView}
-                aria-label="stake tabs"
+                aria-label="payout token tabs"
               >
-                <Tab label={t`sOHM`} {...a11yProps(0)} />
+                <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tabs" />
 
-                <Tab label={t`gOHM`} {...a11yProps(1)} />
+                <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tabs" />
               </Tabs>
 
-              <Typography variant="h6" align="center">
+              <Typography variant="h5" align="center" className="claimable-balance">
                 Claimable Balance
               </Typography>
-              <Typography variant="h4" align="center">
+              <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
                 {totalClaimable} {view === 0 ? "sOHM" : "gOHM"}
               </Typography>
 
