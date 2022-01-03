@@ -17,7 +17,7 @@ import { getTokenIdByContract, getTokenPrice, prettifySeconds, secondsUntilBlock
 import { findOrLoadMarketPrice } from "./AppSlice";
 import { isAddress } from "@ethersproject/address";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
-import { error } from "./MessagesSlice";
+import { error, info } from "./MessagesSlice";
 
 export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   index: number;
@@ -123,9 +123,26 @@ export const purchaseBond = createAsyncThunk(
     checkNetwork(networkID);
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
-    console.log(amount);
-    console.log(maxPrice);
-    await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
+
+    let depositTx: ethers.ContractTransaction | undefined;
+    try {
+      const depositTx = await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
+      const text = `Purchase ${bond.displayName} Bond`;
+      const pendingTxnType = `purchase_${bond.displayName}_bond`;
+      if (depositTx) {
+        dispatch(fetchPendingTxns({ txnHash: depositTx.hash, text, type: pendingTxnType }));
+        await depositTx.wait();
+      }
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
+      return;
+    } finally {
+      if (depositTx) {
+        dispatch(info("Successfully purchased bond!"));
+        dispatch(getUserNotes({ provider, networkID, address }));
+        dispatch(clearPendingTxn(depositTx.hash));
+      }
+    }
   },
 );
 
