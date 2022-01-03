@@ -26,7 +26,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import { migrateWithType, migrateCrossChainWSOHM, changeMigrationApproval } from "../../slices/MigrateThunk";
-import { switchNetwork } from "../../slices/NetworkSlice";
+import { switchNetwork } from "../../helpers/NetworkHelper";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
@@ -37,9 +37,7 @@ import { getBalances, loadAccountDetails } from "src/slices/AccountSlice";
 
 function WrapCrossChain() {
   const dispatch = useDispatch();
-  const { provider, address, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
-  const networkName = useAppSelector(state => state.network.networkName);
+  const { provider, address, networkId, networkName, connect } = useWeb3Context();
   const [quantity, setQuantity] = useState("");
   const assetFrom = "wsOHM";
   const assetTo = "gOHM";
@@ -80,8 +78,7 @@ function WrapCrossChain() {
 
   const handleSwitchChain = (id: any) => {
     return () => {
-      dispatch(switchNetwork({ provider, networkId: id }));
-      dispatch(loadAccountDetails({ address, provider, networkID: id }));
+      switchNetwork({ provider: provider, networkId: id });
     };
   };
 

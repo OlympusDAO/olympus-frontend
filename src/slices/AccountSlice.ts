@@ -1,5 +1,5 @@
 import { BigNumber, BigNumberish, ethers } from "ethers";
-import { addresses } from "../constants";
+import { addresses, NetworkId } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
@@ -12,7 +12,7 @@ import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
 
 import { getRedemptionBalancesAsync, getMockRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
-
+import { NodeHelper } from "src/helpers/NodeHelper";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk, IJsonRPCError } from "./interfaces";
@@ -61,13 +61,70 @@ interface IUserRecipientInfo {
   indexAtLastChange: string;
 }
 
+import { useLocation } from "react-router-dom";
+import { EnvHelper } from "src/helpers/Environment";
+
+interface IUserBalances {
+  balances: {
+    gohm: string;
+    gOhmAsSohmBal: string;
+    gOhmOnArbitrum: string;
+    gOhmOnArbAsSohm: string;
+    gOhmOnAvax: string;
+    gOhmOnAvaxAsSohm: string;
+    gOhmOnPolygon: string;
+    gOhmOnPolygonAsSohm: string;
+    gOhmOnFantom: string;
+    gOhmOnFantomAsSohm: string;
+    ohm: string;
+    ohmV1: string;
+    sohm: string;
+    sohmV1: string;
+    fsohm: string;
+    fgohm: string;
+    fgOHMAsfsOHM: string;
+    wsohm: string;
+    fiatDaowsohm: string;
+    mockSohm: string;
+    pool: string;
+  };
+}
+
+/**
+ * Stores the user donation information in a map.
+ * - Key: recipient wallet address
+ * - Value: amount deposited by the sender
+ *
+ * We store the amount as a string, since numbers in Javascript are inaccurate.
+ * We later parse the string into BigNumber for performing arithmetic.
+ */
+interface IUserDonationInfo {
+  [key: string]: string;
+}
+
+interface IUserRecipientInfo {
+  totalDebt: string;
+  carry: string;
+  agnosticAmount: string;
+  indexAtLastChange: string;
+}
+
 export const getBalances = createAsyncThunk(
   "account/getBalances",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserBalances> => {
     let gOhmBalance = BigNumber.from("0");
     let gOhmBalAsSohmBal = BigNumber.from("0");
+    let gOhmOnArbitrum = BigNumber.from("0");
+    let gOhmOnArbAsSohm = BigNumber.from("0");
+    let gOhmOnAvax = BigNumber.from("0");
+    let gOhmOnAvaxAsSohm = BigNumber.from("0");
+    let gOhmOnPolygon = BigNumber.from("0");
+    let gOhmOnPolygonAsSohm = BigNumber.from("0");
+    let gOhmOnFantom = BigNumber.from("0");
+    let gOhmOnFantomAsSohm = BigNumber.from("0");
     let ohmBalance = BigNumber.from("0");
     let sohmBalance = BigNumber.from("0");
+    let mockSohmBalance = BigNumber.from("0");
     let ohmV2Balance = BigNumber.from("0");
     let sohmV2Balance = BigNumber.from("0");
     let wsohmBalance = BigNumber.from("0");
@@ -76,10 +133,43 @@ export const getBalances = createAsyncThunk(
     let fgohmBalance = BigNumber.from(0);
     let fgOHMAsfsOHMBalance = BigNumber.from(0);
     let fiatDaowsohmBalance = BigNumber.from("0");
+
+    const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
     try {
-      const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
       gOhmBalance = await gOhmContract.balanceOf(address);
       gOhmBalAsSohmBal = await gOhmContract.balanceFrom(gOhmBalance.toString());
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
+      const arbProvider = NodeHelper.getAnynetStaticProvider(NetworkId.ARBITRUM);
+      const gOhmArbContract = GOHM__factory.connect(addresses[NetworkId.ARBITRUM].GOHM_ADDRESS, arbProvider);
+      gOhmOnArbitrum = await gOhmArbContract.balanceOf(address);
+      gOhmOnArbAsSohm = await gOhmContract.balanceFrom(gOhmOnArbitrum.toString());
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
+      const avaxProvider = NodeHelper.getAnynetStaticProvider(NetworkId.AVALANCHE);
+      const gOhmAvaxContract = GOHM__factory.connect(addresses[NetworkId.AVALANCHE].GOHM_ADDRESS, avaxProvider);
+      gOhmOnAvax = await gOhmAvaxContract.balanceOf(address);
+      gOhmOnAvaxAsSohm = await gOhmContract.balanceFrom(gOhmOnAvax.toString());
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
+      const polygonProvider = NodeHelper.getAnynetStaticProvider(NetworkId.POLYGON);
+      const gOhmPolygonContract = GOHM__factory.connect(addresses[NetworkId.POLYGON].GOHM_ADDRESS, polygonProvider);
+      gOhmOnPolygon = await gOhmPolygonContract.balanceOf(address);
+      gOhmOnPolygonAsSohm = await gOhmContract.balanceFrom(gOhmOnPolygon.toString());
+    } catch (e) {
+      handleContractError(e);
+    }
+    try {
+      const fantomProvider = NodeHelper.getAnynetStaticProvider(NetworkId.FANTOM);
+      const gOhmFantomContract = GOHM__factory.connect(addresses[NetworkId.FANTOM].GOHM_ADDRESS, fantomProvider);
+      gOhmOnFantom = await gOhmFantomContract.balanceOf(address);
+      gOhmOnFantomAsSohm = await gOhmContract.balanceFrom(gOhmOnFantom.toString());
     } catch (e) {
       handleContractError(e);
     }
@@ -170,7 +260,6 @@ export const getBalances = createAsyncThunk(
       Needed a sOHM contract on testnet that could easily 
       be manually rebased to test redeem features
     */
-    let mockSohmBalance = null;
     if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(
         addresses[networkID].MOCK_SOHM as string,
@@ -186,6 +275,14 @@ export const getBalances = createAsyncThunk(
       balances: {
         gohm: ethers.utils.formatEther(gOhmBalance),
         gOhmAsSohmBal: ethers.utils.formatUnits(gOhmBalAsSohmBal, "gwei"),
+        gOhmOnArbitrum: ethers.utils.formatEther(gOhmOnArbitrum),
+        gOhmOnArbAsSohm: ethers.utils.formatUnits(gOhmOnArbAsSohm, "gwei"),
+        gOhmOnAvax: ethers.utils.formatEther(gOhmOnAvax),
+        gOhmOnAvaxAsSohm: ethers.utils.formatUnits(gOhmOnAvaxAsSohm, "gwei"),
+        gOhmOnPolygon: ethers.utils.formatEther(gOhmOnPolygon),
+        gOhmOnPolygonAsSohm: ethers.utils.formatUnits(gOhmOnPolygonAsSohm, "gwei"),
+        gOhmOnFantom: ethers.utils.formatEther(gOhmOnFantom),
+        gOhmOnFantomAsSohm: ethers.utils.formatUnits(gOhmOnFantomAsSohm, "gwei"),
         ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
@@ -196,7 +293,7 @@ export const getBalances = createAsyncThunk(
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
         ohm: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
         sohm: ethers.utils.formatUnits(sohmV2Balance, "gwei"),
-        ...(mockSohmBalance && { mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei") }),
+        mockSohm: ethers.utils.formatUnits(mockSohmBalance, "gwei"),
       },
     };
   },
@@ -418,12 +515,12 @@ export const loadAccountDetails = createAsyncThunk(
       const ohmV2Contract = IERC20__factory.connect(addresses[networkID].OHM_V2, provider);
       stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
     } catch (e) {
-      console.warn("failed contract calls in slice", e);
+      handleContractError(e);
     }
     await dispatch(getBalances({ address, networkID, provider }));
     await dispatch(getDonationBalances({ address, networkID, provider }));
     await dispatch(getRedemptionBalances({ address, networkID, provider }));
-    if (networkID === 4) {
+    if (networkID === NetworkId.TESTNET_RINKEBY) {
       await dispatch(getMockDonationBalances({ address, networkID, provider }));
       await dispatch(getMockRedemptionBalances({ address, networkID, provider }));
     } else {
@@ -513,6 +610,14 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   balances: {
     gohm: string;
     gOhmAsSohmBal: string;
+    gOhmOnArbitrum: string;
+    gOhmOnArbAsSohm: string;
+    gOhmOnAvax: string;
+    gOhmOnAvaxAsSohm: string;
+    gOhmOnPolygon: string;
+    gOhmOnPolygonAsSohm: string;
+    gOhmOnFantom: string;
+    gOhmOnFantomAsSohm: string;
     ohmV1: string;
     ohm: string;
     sohm: string;
@@ -552,6 +657,14 @@ const initialState: IAccountSlice = {
   balances: {
     gohm: "",
     gOhmAsSohmBal: "",
+    gOhmOnArbitrum: "",
+    gOhmOnArbAsSohm: "",
+    gOhmOnAvax: "",
+    gOhmOnAvaxAsSohm: "",
+    gOhmOnPolygon: "",
+    gOhmOnPolygonAsSohm: "",
+    gOhmOnFantom: "",
+    gOhmOnFantomAsSohm: "",
     ohmV1: "",
     ohm: "",
     sohm: "",

@@ -13,8 +13,7 @@ import ConnectButton from "../../components/ConnectButton";
 function BondRedeem({ bond }) {
   // const { bond: bondName } = bond;
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
 
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);
 
