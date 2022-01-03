@@ -63,6 +63,7 @@ interface IUserRecipientInfo {
 
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { IUserNote } from "./BondSliceV2";
 
 interface IUserBalances {
   balances: {

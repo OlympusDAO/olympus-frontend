@@ -69,6 +69,9 @@ function NavContent({ handleDrawerToggle }) {
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
       return true;
     }
+    if ((currentPath.indexOf("bonds-v2") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds-v2") {
+      return true;
+    }
     if (currentPath.indexOf("33-together") >= 0 && page === "33-together") {
       return true;
     }
@@ -118,9 +121,9 @@ function NavContent({ handleDrawerToggle }) {
                   <Link
                     component={NavLink}
                     id="bond-nav"
-                    to="/bonds"
+                    to="/bonds-v2"
                     isActive={(match, location) => {
-                      return checkPage(match, location, "bonds");
+                      return checkPage(match, location, "bonds-v2");
                     }}
                     className={`button-dapp-menu ${isActive ? "active" : ""}`}
                     onClick={handleDrawerToggle}

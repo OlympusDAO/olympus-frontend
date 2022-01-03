@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import {
   Box,
+  ButtonBase,
   Grid,
   Paper,
   Table,
@@ -24,31 +25,27 @@ import { Skeleton } from "@material-ui/lab";
 import ClaimBonds from "./ClaimBonds";
 import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
-import { useAppSelector } from "src/hooks";
-import { useWeb3Context } from "src/hooks/web3Context";
+import { useAppSelector, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { Metric, MetricCollection } from "src/components/Metric";
+import { IBondV2, IUserNote } from "src/slices/BondSliceV2";
 
-function ChooseBond() {
+function ChooseBondV2() {
   const { networkId } = useWeb3Context();
   const history = useHistory();
-  const { bonds } = useBonds(networkId);
-  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
+  usePathForNetwork({ pathName: "bonds-v2", networkID: networkId, history });
+
+  const bondsV2 = useAppSelector(state => {
+    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
+  });
+
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
 
   const isAppLoading: boolean = useAppSelector(state => state.app.loading);
   const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
 
-  const accountBonds: IUserBondDetails[] = useAppSelector(state => {
-    const withInterestDue = [];
-    for (const bond in state.account.bonds) {
-      if (state.account.bonds[bond].interestDue > 0) {
-        withInterestDue.push(state.account.bonds[bond]);
-      }
-    }
-    return withInterestDue;
-  });
+  const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
 
   const marketPrice: number | undefined = useAppSelector(state => {
     return state.app.marketPrice;
@@ -75,14 +72,22 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
-      {!isAccountLoading && !isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
+      {!isAccountLoading && !isEmpty(accountNotes) && <ClaimBonds activeNotes={accountNotes} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">
           <Box className="card-header">
             <Typography variant="h5" data-testid="t">
-              <Trans>V1 Bond</Trans> (1,1)
+              <Trans>Bond</Trans> (1,1)
             </Typography>
+
+            <ButtonBase>
+              <Typography>
+                <b>
+                  <Trans>V1 Bonds available</Trans>
+                </b>
+              </Typography>
+            </ButtonBase>
           </Box>
 
           <MetricCollection>
@@ -111,21 +116,16 @@ function ChooseBond() {
                         <Trans>Price</Trans>
                       </TableCell>
                       <TableCell align="left">
-                        <Trans>ROI</Trans>
+                        <Trans>Discount</Trans>
                       </TableCell>
-                      <TableCell align="right">
-                        <Trans>Purchased</Trans>
+                      <TableCell align="left">
+                        <Trans>Duration</Trans>
                       </TableCell>
-                      <TableCell align="right"></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {bonds.map(bond => {
-                      // NOTE (appleseed): temporary for ONHOLD MIGRATION
-                      // if (bond.getBondability(networkId)) {
-                      if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
-                        return <BondTableData key={bond.name} bond={bond} />;
-                      }
+                    {bondsV2.map(bond => {
+                      return <BondTableData key={bond.index} bond={bond} />;
                     })}
                   </TableBody>
                 </Table>
@@ -138,16 +138,12 @@ function ChooseBond() {
       {isSmallScreen && (
         <Box className="ohm-card-container">
           <Grid container item spacing={2}>
-            {bonds.map(bond => {
-              // NOTE (appleseed): temporary for ONHOLD MIGRATION
-              // if (bond.getBondability(networkId)) {
-              if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
-                return (
-                  <Grid item xs={12} key={bond.name}>
-                    <BondDataCard key={bond.name} bond={bond} />
-                  </Grid>
-                );
-              }
+            {bondsV2.map(bond => {
+              return (
+                <Grid item xs={12} key={bond.index}>
+                  <BondDataCard key={bond.index} bond={bond} />
+                </Grid>
+              );
             })}
           </Grid>
         </Box>
@@ -156,4 +152,4 @@ function ChooseBond() {
   );
 }
 
-export default ChooseBond;
+export default ChooseBondV2;

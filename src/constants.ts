@@ -71,6 +71,7 @@ export const addresses: IAddresses = {
     TREASURY_V2: "0x8dd0d811CEFb5CF41528C495E76638B2Ea39d2e6",
     SOHM_V2: "0xebED323CEbe4FfF65F7D7612Ea04313F718E5A75",
     STAKING_V2: "0x06984c3A9EB8e3A8df02A4C09770D5886185792D",
+    BOND_DEPOSITORY: "0x714Ab77DC91D41164A6976c87A6137410959d891",
   },
   [NetworkId.MAINNET]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
@@ -108,6 +109,7 @@ export const addresses: IAddresses = {
     STAKING_V2: "0xB63cac384247597756545b500253ff8E607a8020",
     FIATDAO_WSOHM_ADDRESS: "0xe98ae8cD25CDC06562c29231Db339d17D02Fd486",
     GIVING_ADDRESS: "0x2604170762A1dD22BB4F96C963043Cd4FC358f18",
+    BOND_DEPOSITORY: "",
   },
   [NetworkId.ARBITRUM]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
@@ -353,6 +355,7 @@ interface IViewsForNetwork {
   threeTogether: boolean;
   bonds: boolean;
   network: boolean;
+  bondsV2: boolean;
 }
 
 export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
@@ -364,6 +367,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: true,
     bonds: true,
     network: true,
+    bondsV2: true,
   },
   [NetworkId.TESTNET_RINKEBY]: {
     dashboard: true,
@@ -373,6 +377,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: true,
     bonds: true,
     network: true,
+    bondsV2: true,
   },
   [NetworkId.ARBITRUM]: {
     dashboard: true,
@@ -382,6 +387,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
   [NetworkId.ARBITRUM_TESTNET]: {
     dashboard: true,
@@ -391,6 +397,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
   [NetworkId.AVALANCHE]: {
     dashboard: true,
@@ -400,6 +407,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
   [NetworkId.AVALANCHE_TESTNET]: {
     dashboard: true,
@@ -409,5 +417,6 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
 };
