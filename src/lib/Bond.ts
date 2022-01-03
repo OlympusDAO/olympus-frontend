@@ -15,7 +15,7 @@ export enum NetworkID {
   ArbitrumTestnet = 421611,
   AvalancheTestnet = 43113,
   Avalanche = 43114,
-  Localhost = 8545,
+  Localhost = 1337,
 }
 
 export enum BondType {
