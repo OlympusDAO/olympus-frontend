@@ -128,8 +128,6 @@ function App() {
 
   const { projects } = projectData;
 
-  const { projects } = projectData;
-
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
   const { bonds, expiredBonds } = useBonds(networkId);
 
