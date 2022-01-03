@@ -24,7 +24,7 @@ import "./choosebond.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { ContactSupportOutlined } from "@material-ui/icons";
 import { useAppSelector } from "src/hooks";
-import { IUserNote } from "src/slices/BondSliceV2";
+import { claimAllNotes, IUserNote } from "src/slices/BondSliceV2";
 
 function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const dispatch = useDispatch();
@@ -37,20 +37,10 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
     return state.pendingTransactions;
   });
 
-  const pendingClaim = () => {
-    if (
-      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
-      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
-    ) {
-      return true;
-    }
-
-    return false;
-  };
-
   const onRedeemAll = () => {
     // console.log("redeeming all bonds");
     // dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
+    dispatch(claimAllNotes({ address, provider, networkID: networkId }));
     // console.log("redeem all complete");
   };
 
@@ -100,10 +90,13 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                       color="primary"
                       className="transaction-button"
                       fullWidth
-                      disabled={pendingClaim()}
+                      disabled={
+                        isPendingTxn(pendingTransactions, "claim_all_bonds") ||
+                        !activeNotes.map(note => note.fullyMatured).reduce((prev, current, idx, arr) => prev || current)
+                      }
                       onClick={onRedeemAll}
                     >
-                      {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
+                      {txnButtonTextGeneralPending(pendingTransactions, "claim_all_bonds", t`Claim all`)}
                     </Button>
                   </>
                 )}

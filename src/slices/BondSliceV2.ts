@@ -2,8 +2,6 @@ import { ethers, BigNumber } from "ethers";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
 import {
-  IApproveBondAsyncThunk,
-  IBaseAsyncThunk,
   IBaseAddressAsyncThunk,
   IBondV2AysncThunk,
   IValueAsyncThunk,
@@ -12,10 +10,8 @@ import {
 } from "./interfaces";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
 import { addresses, NetworkId } from "src/constants";
-import { fetchAccountSuccess } from "./AccountSlice";
-import { getTokenIdByContract, getTokenPrice, prettifySeconds, secondsUntilBlock } from "src/helpers";
+import { getTokenIdByContract, getTokenPrice, prettifySeconds } from "src/helpers";
 import { findOrLoadMarketPrice } from "./AppSlice";
-import { isAddress } from "@ethersproject/address";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { error, info } from "./MessagesSlice";
 
@@ -250,7 +246,11 @@ export const getUserNotes = createAsyncThunk(
   "bondsV2/notes",
   async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }): Promise<IUserNote[]> => {
     checkNetwork(networkID);
-    await dispatch(getAllBonds({ address, provider, networkID }));
+    let bonds = (getState() as RootState).bondingV2.bonds;
+    if (Object.keys(bonds).length == 0) {
+      await dispatch(getAllBonds({ address, provider, networkID }));
+      bonds = (getState() as RootState).bondingV2.bonds;
+    }
     const currentTime = Date.now() / 1000;
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const userNoteIndexes = await depositoryContract.indexesFor(address);
@@ -264,7 +264,7 @@ export const getUserNotes = createAsyncThunk(
         redeemed: number;
         marketID: number;
       } = await userNotes[i];
-      const bond: IBondV2 = (getState() as RootState).bondingV2.bonds[rawNote.marketID];
+      const bond: IBondV2 = bonds[rawNote.marketID];
       let seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
       if (seconds > 86400) {
@@ -277,14 +277,42 @@ export const getUserNotes = createAsyncThunk(
       const note: IUserNote = {
         ...rawNote,
         payout: +rawNote.payout / Math.pow(10, bond.baseDecimals),
-        fullyMatured: seconds === 0,
-        claimed: rawNote.matured === rawNote.redeemed,
+        fullyMatured: seconds == 0,
+        claimed: rawNote.matured == rawNote.redeemed,
         timeLeft: duration,
         displayName: bond.displayName,
       };
       notes.push(note);
     }
     return notes;
+  },
+);
+
+export const claimAllNotes = createAsyncThunk(
+  "bondsV2/claimAll",
+  async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }) => {
+    const signer = provider.getSigner();
+    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
+
+    let claimTx: ethers.ContractTransaction | undefined;
+    try {
+      claimTx = await depositoryContract.redeemAll(address, false);
+      const text = `Claim All Bonds`;
+      const pendingTxnType = `claim_all_bonds`;
+      if (claimTx) {
+        dispatch(fetchPendingTxns({ txnHash: claimTx.hash, text, type: pendingTxnType }));
+
+        await claimTx.wait();
+      }
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
+      return;
+    } finally {
+      if (claimTx) {
+        dispatch(clearPendingTxn(claimTx.hash));
+        dispatch(getUserNotes({ address, provider, networkID }));
+      }
+    }
   },
 );
 
