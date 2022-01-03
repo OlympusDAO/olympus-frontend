@@ -5,8 +5,6 @@ import { getDocument, queries } from "pptr-testing-library";
 import { ChildProcess } from "child_process";
 import { exec } from "shelljs";
 
-const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
-
 export const setupLogging = (page: Page) => {
   page
     .on("console", message => console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
@@ -22,22 +20,25 @@ export const clickElement = async (page: Page, selector: string) => {
   await element.click();
 };
 
-const getMetamaskSeedPhrase = (): string => {
-  if (!process.env.REACT_APP_SEED_PHRASE)
-    throw new Error("Unable to find seed phrase for Metamask. Please set the " + REACT_APP_SEED_PHRASE + " variable");
+const getMetamaskSeedPhrase = (): string | null => {
+  if (!process.env.REACT_APP_SEED_PHRASE) return null;
 
   return process.env.REACT_APP_SEED_PHRASE;
 };
 
-export const setupMetamask = async (
-  browser: Browser,
-  options: { network?: string; privateKey?: string },
-): Promise<Dappeteer> => {
-  const seedPhrase = getMetamaskSeedPhrase();
+const getMetamaskPrivateKey = (): string | null => {
+  if (!process.env.REACT_APP_PRIVATE_KEY) return null;
 
-  const metamask = await dappeteer.setupMetamask(browser, { seed: seedPhrase });
+  return process.env.REACT_APP_PRIVATE_KEY;
+};
+
+export const setupMetamask = async (browser: Browser, options: { network?: string }): Promise<Dappeteer> => {
+  const seedPhrase = getMetamaskSeedPhrase();
+  const privateKey = getMetamaskPrivateKey();
+
+  const metamask = await dappeteer.setupMetamask(browser, seedPhrase ? { seed: seedPhrase } : {});
   await metamask.switchNetwork(options.network ?? "rinkeby");
-  if (options.privateKey) await metamask.importPK(options.privateKey);
+  if (privateKey) await metamask.importPK(privateKey);
 
   return metamask;
 };
