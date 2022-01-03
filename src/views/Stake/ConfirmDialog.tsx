@@ -25,27 +25,27 @@ export function ConfirmDialog({ quantity, currentIndex, view, onConfirm }: Confi
   return (
     <Paper className="ohm-card confirm-dialog">
       <Box className="dialog-container" display="flex" alignItems="center" justifyContent="space-between">
-        <Typography variant="body2">
-          <Grid component="label" container alignItems="center" spacing={1}>
-            <Grid item>sOHM</Grid>
-            <Grid item>
-              <Switch
-                checked={checked}
-                onChange={handleCheck}
-                color="primary"
-                className="stake-to-ohm-checkbox"
-                inputProps={{ "aria-label": "stake to gohm" }}
-              />
-            </Grid>
-            <Grid item>
-              gOHM
-              <InfoTooltip
-                message={`Toggle to switch between ${view === 0 ? "staking to" : "unstaking from"} sOHM or gOHM`}
-                children={undefined}
-              />
-            </Grid>
+        {/* <Typography variant="body2"> */}
+        <Grid component="label" container alignItems="center" spacing={1} wrap="nowrap">
+          <Grid item>sOHM</Grid>
+          <Grid item>
+            <Switch
+              checked={checked}
+              onChange={handleCheck}
+              color="primary"
+              className="stake-to-ohm-checkbox"
+              inputProps={{ "aria-label": "stake to gohm" }}
+            />
           </Grid>
-        </Typography>
+          <Grid item>
+            gOHM
+            <InfoTooltip
+              message={`Toggle to switch between ${view === 0 ? "staking to" : "unstaking from"} sOHM or gOHM`}
+              children={undefined}
+            />
+          </Grid>
+        </Grid>
+        {/* </Typography> */}
         {checked && Number(quantity) ? (
           <Typography variant="body2">
             {view === 0
