@@ -53,17 +53,17 @@ export const useProtocolMetrics = <TSelectData = unknown>(select?: (data: Protoc
 };
 
 export const useMarketCap = () => {
-  return useProtocolMetrics<ProtocolMetrics["marketCap"]>(metrics => metrics.marketCap);
+  return useProtocolMetrics<number>(metrics => parseFloat(metrics.marketCap));
 };
 
 export const useTotalSupply = () => {
-  return useProtocolMetrics<ProtocolMetrics["totalSupply"]>(metrics => metrics.totalSupply);
+  return useProtocolMetrics<number>(metrics => parseFloat(metrics.totalSupply));
 };
 
 export const useTreasuryMarketValue = () => {
-  return useProtocolMetrics<ProtocolMetrics["treasuryMarketValue"]>(metrics => metrics.treasuryMarketValue);
+  return useProtocolMetrics<number>(metrics => parseFloat(metrics.treasuryMarketValue));
 };
 
 export const useOhmCirculatingSupply = () => {
-  return useProtocolMetrics<ProtocolMetrics["ohmCirculatingSupply"]>(metrics => metrics.ohmCirculatingSupply);
+  return useProtocolMetrics<number>(metrics => parseFloat(metrics.ohmCirculatingSupply));
 };
