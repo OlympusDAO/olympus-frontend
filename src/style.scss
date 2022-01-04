@@ -88,3 +88,7 @@ input[type="number"] {
 a:hover svg {
   color: inherit;
 }
+
+.tooltip {
+  z-index: 9999999;
+}

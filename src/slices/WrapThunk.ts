@@ -1,14 +1,14 @@
 import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20ABI } from "../abi/IERC20.json";
-import { abi as wsOHM } from "../abi/wsOHM.json";
+import { abi as v2sOHM } from "../abi/v2sOhmNew.json";
 import { clearPendingTxn, fetchPendingTxns, getWrappingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { IERC20, WsOHM } from "src/typechain";
+import { IERC20, OlympusStakingv2__factory } from "src/typechain";
 
 interface IUAData {
   address: string;
@@ -16,24 +16,6 @@ interface IUAData {
   approved: boolean;
   txHash: string | null;
   type: string | null;
-}
-
-function alreadyApprovedToken(token: string, wrapAllowance: BigNumber, unwrapAllowance: BigNumber) {
-  // set defaults
-  let bigZero = BigNumber.from("0");
-  let applicableAllowance = bigZero;
-
-  // determine which allowance to check
-  if (token === "sohm") {
-    applicableAllowance = wrapAllowance;
-  } else if (token === "wsohm") {
-    applicableAllowance = unwrapAllowance;
-  }
-
-  // check if allowance exists
-  if (applicableAllowance.gt(bigZero)) return true;
-
-  return false;
 }
 
 export const changeApproval = createAsyncThunk(
@@ -45,40 +27,23 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
-    const wsohmContract = new ethers.Contract(
-      addresses[networkID].WSOHM_ADDRESS as string,
-      ierc20ABI,
-      signer,
-    ) as IERC20;
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20ABI, signer) as IERC20;
+    const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
     let approveTx;
-    let wrapAllowance = await sohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
-    let unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
-
-    // return early if approval has already happened
-    if (alreadyApprovedToken(token, wrapAllowance, unwrapAllowance)) {
-      dispatch(info("Approval completed."));
-      return dispatch(
-        fetchAccountSuccess({
-          wrapping: {
-            ohmWrap: +wrapAllowance,
-            ohmUnwrap: +unwrapAllowance,
-          },
-        }),
-      );
-    }
+    let wrapAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_V2);
+    let unwrapAllowance = await gohmContract.allowance(address, addresses[networkID].STAKING_V2);
 
     try {
       if (token === "sohm") {
         // won't run if wrapAllowance > 0
         approveTx = await sohmContract.approve(
-          addresses[networkID].WSOHM_ADDRESS,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+          addresses[networkID].STAKING_V2,
+          ethers.utils.parseUnits("1000000000", "gwei"),
         );
-      } else if (token === "wsohm") {
-        approveTx = await wsohmContract.approve(
-          addresses[networkID].WSOHM_ADDRESS,
-          ethers.utils.parseUnits("1000000000", "gwei").toString(),
+      } else if (token === "gohm") {
+        approveTx = await gohmContract.approve(
+          addresses[networkID].STAKING_V2,
+          ethers.utils.parseUnits("1000000000", "ether"),
         );
       }
 
@@ -86,8 +51,8 @@ export const changeApproval = createAsyncThunk(
       const pendingTxnType = token === "sohm" ? "approve_wrapping" : "approve_unwrapping";
       if (approveTx) {
         dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
-
         await approveTx.wait();
+        dispatch(info("Successfully Approved!"));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
@@ -99,22 +64,22 @@ export const changeApproval = createAsyncThunk(
     }
 
     // go get fresh allowances
-    wrapAllowance = await sohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
-    unwrapAllowance = await wsohmContract.allowance(address, addresses[networkID].WSOHM_ADDRESS);
+    wrapAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_V2);
+    unwrapAllowance = await gohmContract.allowance(address, addresses[networkID].STAKING_V2);
 
     return dispatch(
       fetchAccountSuccess({
         wrapping: {
-          ohmWrap: +wrapAllowance,
-          ohmUnwrap: +unwrapAllowance,
+          sohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
+          gOhmUnwrap: Number(ethers.utils.formatUnits(unwrapAllowance, "ether")),
         },
       }),
     );
   },
 );
 
-export const changeWrap = createAsyncThunk(
-  "wrap/changeWrap",
+export const changeWrapV2 = createAsyncThunk(
+  "wrap/changeWrapV2",
   async ({ action, value, provider, address, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
@@ -122,7 +87,8 @@ export const changeWrap = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, signer) as WsOHM;
+
+    const stakingContract = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, signer);
 
     let wrapTx;
     let uaData: IUAData = {
@@ -132,18 +98,19 @@ export const changeWrap = createAsyncThunk(
       txHash: null,
       type: null,
     };
+
     try {
       if (action === "wrap") {
+        const formattedValue = ethers.utils.parseUnits(value, "gwei");
         uaData.type = "wrap";
-        wrapTx = await wsohmContract.wrap(ethers.utils.parseUnits(value, "gwei"));
-      } else {
+        wrapTx = await stakingContract.wrap(address, formattedValue);
+        dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: "wrapping" }));
+      } else if (action === "unwrap") {
+        const formattedValue = ethers.utils.parseUnits(value, "ether");
         uaData.type = "unwrap";
-        wrapTx = await wsohmContract.unwrap(ethers.utils.parseUnits(value));
+        wrapTx = await stakingContract.unwrap(address, formattedValue);
+        dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: "wrapping" }));
       }
-      const pendingTxnType = action === "wrap" ? "wrapping" : "unwrapping";
-      uaData.txHash = wrapTx.hash;
-      dispatch(fetchPendingTxns({ txnHash: wrapTx.hash, text: getWrappingTypeText(action), type: pendingTxnType }));
-      await wrapTx.wait();
     } catch (e: unknown) {
       uaData.approved = false;
       const rpcError = e as IJsonRPCError;
@@ -157,11 +124,13 @@ export const changeWrap = createAsyncThunk(
       return;
     } finally {
       if (wrapTx) {
+        uaData.txHash = wrapTx.hash;
+        await wrapTx.wait();
         segmentUA(uaData);
-
+        console.log("getBalances");
+        dispatch(getBalances({ address, networkID, provider }));
         dispatch(clearPendingTxn(wrapTx.hash));
       }
     }
-    dispatch(getBalances({ address, networkID, provider }));
   },
 );

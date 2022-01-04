@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Drawer } from "@material-ui/core";
+import { SwipeableDrawer } from "@material-ui/core";
 import NavContent from "./NavContent.jsx";
 
 const drawerWidth = 280;
@@ -19,23 +19,25 @@ const useStyles = makeStyles(theme => ({
 
 function NavDrawer({ mobileOpen, handleDrawerToggle }) {
   const classes = useStyles();
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   return (
-    <Drawer
+    <SwipeableDrawer
       variant="temporary"
       anchor={"left"}
       open={mobileOpen}
       onClose={handleDrawerToggle}
-      onClick={handleDrawerToggle}
       classes={{
         paper: classes.drawerPaper,
       }}
       ModalProps={{
         keepMounted: true, // Better open performance on mobile.
       }}
+      disableBackdropTransition={!isIOS}
+      disableDiscovery={isIOS}
     >
-      <NavContent />
-    </Drawer>
+      <NavContent handleDrawerToggle={handleDrawerToggle} />
+    </SwipeableDrawer>
   );
 }
 

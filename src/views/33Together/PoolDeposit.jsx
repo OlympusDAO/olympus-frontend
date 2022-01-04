@@ -27,7 +27,7 @@ const sohmImg = getTokenImage("sohm");
 
 export const PoolDeposit = props => {
   const dispatch = useDispatch();
-  const { provider, address, chainID } = useWeb3Context();
+  const { provider, address, networkId } = useWeb3Context();
   const [quantity, setQuantity] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
   const [rngCompleted, setRngCompleted] = useState(false);
@@ -36,7 +36,7 @@ export const PoolDeposit = props => {
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const sohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
+    return state.account.balances && state.account.balances.sohmV1;
   });
 
   const poolBalance = useSelector(state => {
@@ -56,7 +56,7 @@ export const PoolDeposit = props => {
   });
 
   const onSeekApproval = async token => {
-    await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
   const onDeposit = async action => {
@@ -70,7 +70,7 @@ export const PoolDeposit = props => {
   };
 
   const onSubmitDeposit = async action => {
-    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: networkId }));
   };
 
   const hasAllowance = useCallback(() => {
@@ -158,6 +158,7 @@ export const PoolDeposit = props => {
                 disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
                 onClick={() => onDeposit("deposit")}
                 fullWidth
+                style={{ margin: "5px" }}
               >
                 {txnButtonText(pendingTransactions, "pool_deposit", t`Deposit sOHM`)}
               </Button>
@@ -168,6 +169,7 @@ export const PoolDeposit = props => {
                 color="primary"
                 disabled={isPendingTxn(pendingTransactions, "approve_pool_together")}
                 onClick={() => onSeekApproval("sohm")}
+                style={{ margin: "5px" }}
               >
                 {txnButtonText(pendingTransactions, "approve_pool_together", t`Approve`)}
               </Button>

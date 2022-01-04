@@ -71,6 +71,32 @@ const commonSettings = {
     },
   },
   overrides: {
+    MuiSwitch: {
+      root: {
+        width: 28,
+        height: 16,
+        padding: 0,
+        display: "flex",
+      },
+      switchBase: {
+        padding: 2,
+        "&$checked": {
+          transform: "translateX(12px)",
+          "& + $track": {
+            opacity: 1,
+          },
+        },
+      },
+      track: {
+        borderRadius: 16 / 2,
+        opacity: 1,
+      },
+      thumb: {
+        width: 12,
+        height: 12,
+        boxShadow: "none",
+      },
+    },
     MuiCssBaseline: {
       "@global": {
         "@font-face": fonts,
@@ -95,7 +121,6 @@ const commonSettings = {
           maxWidth: "833px",
           width: "97%",
           marginBottom: "1.8rem",
-          borderRadius: "10px",
           overflow: "hidden",
         },
         "&.ohm-menu": {
@@ -157,7 +182,7 @@ const commonSettings = {
     },
     MuiBackdrop: {
       root: {
-        backdropFilter: "blur(15px)",
+        // backdropFilter: "blur(15px)",
         zIndex: 0,
       },
     },
@@ -237,7 +262,6 @@ const commonSettings = {
     MuiTab: {
       root: {
         minWidth: "min-content !important",
-        width: "min-content",
         padding: "0px",
         margin: "0px 10px",
         fontWeight: 400,

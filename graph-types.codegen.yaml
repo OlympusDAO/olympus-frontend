@@ -1,0 +1,10 @@
+# Usage: yarn graphql-codegen --config=./graph-types.codegen.yaml
+# generates .d.ts files using graphql schemas
+# https://www.graphql-code-generator.com/docs/getting-started/codegen-config
+
+schema: https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3_4_3
+generates:
+  ./src/typechain/PoolTogether.d.ts:
+    documents: ./src/**/poolTogether*.graphql
+    plugins:
+      - typescript
