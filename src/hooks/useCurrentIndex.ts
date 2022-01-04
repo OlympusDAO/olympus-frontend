@@ -7,13 +7,9 @@ export const useCurrentIndexKey = () => ["useCurrentIndex"];
 export const useCurrentIndex = () => {
   const stakingContract = useStakingContract();
 
-  return useQuery<number, Error>(
-    useCurrentIndexKey(),
-    async () => {
-      const currentIndex = await stakingContract.index();
+  return useQuery<number, Error>(useCurrentIndexKey(), async () => {
+    const currentIndex = await stakingContract.index();
 
-      return parseFloat(formatUnits(currentIndex, "gwei"));
-    },
-    { enabled: !!stakingContract },
-  );
+    return parseFloat(formatUnits(currentIndex, "gwei"));
+  });
 };

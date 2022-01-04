@@ -1,7 +1,14 @@
-import { useSelector } from "react-redux";
-import { trim, formatCurrency } from "../../../../helpers";
+import { formatCurrency } from "../../../../helpers";
 import { Metric } from "src/components/Metric";
 import { t } from "@lingui/macro";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { useMarketPrice } from "src/hooks/useMarketPrice";
+import {
+  useMarketCap,
+  useOhmCirculatingSupply,
+  useTotalSupply,
+  useTreasuryMarketValue,
+} from "src/hooks/useProtocolMetrics";
 
 const sharedProps = {
   labelVariant: "h6",
@@ -9,77 +16,92 @@ const sharedProps = {
 };
 
 export const MarketCap = () => {
-  const marketCap = useSelector(state => state.app.marketCap || 0);
+  const marketCapQuery = useMarketCap();
+
   return (
     <Metric
-      label={t`Market Cap`}
-      metric={formatCurrency(marketCap, 0)}
-      isLoading={marketCap ? false : true}
       {...sharedProps}
+      label={t`Market Cap`}
+      isLoading={marketCapQuery.isLoading}
+      metric={formatCurrency(marketCapQuery.data, 0)}
     />
   );
 };
 
 export const OHMPrice = () => {
-  const marketPrice = useSelector(state => state.app.marketPrice);
+  const marketPriceQuery = useMarketPrice();
+
   return (
     <Metric
-      label={t`OHM Price`}
-      metric={marketPrice && formatCurrency(marketPrice, 2)}
-      isLoading={marketPrice ? false : true}
       {...sharedProps}
+      label={t`OHM Price`}
+      isLoading={marketPriceQuery.isLoading}
+      metric={marketPriceQuery.data && formatCurrency(marketPriceQuery.data, 2)}
     />
   );
 };
 
 export const CircSupply = () => {
-  const circSupply = useSelector(state => state.app.circSupply);
-  const totalSupply = useSelector(state => state.app.totalSupply);
-  const isDataLoaded = circSupply && totalSupply;
+  const totalSupplyQuery = useTotalSupply();
+  const ohmCirculatingSupplyQuery = useOhmCirculatingSupply();
+
+  const isLoading = totalSupplyQuery.isLoading || ohmCirculatingSupplyQuery.isLoading;
+
   return (
     <Metric
-      label={t`Circulating Supply (total)`}
-      metric={isDataLoaded && parseInt(circSupply) + " / " + parseInt(totalSupply)}
-      isLoading={isDataLoaded ? false : true}
       {...sharedProps}
+      isLoading={isLoading}
+      label={t`Circulating Supply (total)`}
+      metric={`${parseInt(ohmCirculatingSupplyQuery.data)} / ${parseInt(totalSupplyQuery.data)}`}
     />
   );
 };
 
 export const BackingPerOHM = () => {
-  const backingPerOhm = useSelector(state => state.app.treasuryMarketValue / state.app.circSupply);
+  const treasuryMarketValueQuery = useTreasuryMarketValue();
+  const ohmCirculatingSupplyQuery = useOhmCirculatingSupply();
+
+  const isLoading = treasuryMarketValueQuery.isLoading || ohmCirculatingSupplyQuery.isLoading;
+  const backingPerOhm = treasuryMarketValueQuery.data / ohmCirculatingSupplyQuery.data;
+
   return (
     <Metric
-      label={t`Backing per OHM`}
-      metric={!isNaN(backingPerOhm) && formatCurrency(backingPerOhm, 2)}
-      isLoading={backingPerOhm ? false : true}
       {...sharedProps}
+      isLoading={isLoading}
+      label={t`Backing per OHM`}
+      metric={backingPerOhm && formatCurrency(backingPerOhm, 2)}
     />
   );
 };
 
 export const CurrentIndex = () => {
-  const currentIndex = useSelector(state => state.app.currentIndex);
+  const currentIndexQuery = useCurrentIndex();
+
   return (
     <Metric
-      label={t`Current Index`}
-      metric={currentIndex && trim(currentIndex, 2) + " sOHM"}
-      isLoading={currentIndex ? false : true}
       {...sharedProps}
+      label={t`Current Index`}
+      isLoading={currentIndexQuery.isLoading}
+      metric={`${currentIndexQuery.data?.toFixed(2)} sOHM`}
       tooltip="The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held a single OHM from day 1."
     />
   );
 };
 
 export const GOHMPrice = () => {
-  const gOhmPrice = useSelector(state => state.app.marketPrice * state.app.currentIndex);
+  const marketPriceQuery = useMarketPrice();
+  const currentIndexQuery = useCurrentIndex();
+
+  const isLoading = marketPriceQuery.isLoading || currentIndexQuery.isLoading;
+  const gOhmPrice = marketPriceQuery.data * currentIndexQuery.data;
+
   return (
     <Metric
-      className="metric wsoprice"
-      label={t`gOHM Price`}
-      metric={gOhmPrice && formatCurrency(gOhmPrice, 2)}
-      isLoading={gOhmPrice ? false : true}
       {...sharedProps}
+      className="wsoprice"
+      label={t`gOHM Price`}
+      isLoading={isLoading}
+      metric={gOhmPrice && formatCurrency(gOhmPrice, 2)}
       tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of OHM multiplied by the current index`}
     />
   );

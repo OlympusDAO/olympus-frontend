@@ -293,6 +293,13 @@ export function queryAssertion(value: unknown, queryKey: any = "not specified"):
   if (!value) throw new Error(`Failed react-query assertion for key: ${queryKey}`);
 }
 
+/**
+ * Assertion function
+ */
+export function assert(value: unknown, message: string | Error): asserts value {
+  if (!value) throw message instanceof Error ? message : new Error(message);
+}
+
 interface ICheckBalance extends IBaseAsyncThunk {
   readonly sOHMbalance: string;
 }
