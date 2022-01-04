@@ -25,6 +25,7 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   duration: string;
   isLP: boolean;
   lpUrl: string;
+  marketPrice: number;
 }
 
 export interface IBondV2Balance {
@@ -51,6 +52,14 @@ interface IBondV2Meta {
   tuneInterval: number;
   baseDecimals: number;
   quoteDecimals: number;
+}
+
+interface IBondV2Terms {
+  fixedTerm: boolean;
+  controlVariable: ethers.BigNumber;
+  vesting: number;
+  conclusion: number;
+  maxDebt: ethers.BigNumber;
 }
 
 interface IBondV2Terms {
@@ -180,7 +189,7 @@ async function processBond(
   const quoteTokenPrice = Number(await getTokenPrice((await getTokenIdByContract(bond.quoteToken)) ?? "dai"));
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
   const bondPrice = +bondPriceBigNumber / Math.pow(10, metadata.quoteDecimals);
-  const bondPriceUSD = (quoteTokenPrice * +bondPrice) / Math.pow(10, 9);
+  const bondPriceUSD = quoteTokenPrice * +bondPrice * Math.pow(10, 9);
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
 
@@ -212,6 +221,7 @@ async function processBond(
     duration,
     isLP: false,
     lpUrl: "",
+    marketPrice: ohmPrice,
   };
 }
 
@@ -221,6 +231,7 @@ export const getAllBonds = createAsyncThunk(
     checkNetwork(networkID);
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const liveBondIndexes = await depositoryContract.liveMarkets();
+    // `markets()` returns quote/price data
     const liveBondPromises = liveBondIndexes.map(async index => await depositoryContract.markets(index));
     const liveBondMetadataPromises = liveBondIndexes.map(async index => await depositoryContract.metadata(index));
     const liveBondTermsPromises = liveBondIndexes.map(async index => await depositoryContract.terms(index));

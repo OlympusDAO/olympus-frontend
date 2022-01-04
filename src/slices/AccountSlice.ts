@@ -30,13 +30,6 @@ import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { IUserNote } from "./BondSliceV2";
 
-interface IUserRecipientInfo {
-  totalDebt: string;
-  carry: string;
-  agnosticAmount: string;
-  indexAtLastChange: string;
-}
-
 interface IUserBalances {
   balances: {
     gohm: string;
