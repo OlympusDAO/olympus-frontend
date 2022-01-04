@@ -28,31 +28,7 @@ import {
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
-
-interface IUserBalances {
-  balances: {
-    gohm: string;
-    ohm: string;
-    sohm: string;
-    fsohm: string;
-    wsohm: string;
-    fiatDaowsohm: string;
-    pool: string;
-    mockSohm: string;
-  };
-}
-
-/**
- * Stores the user donation information in a map.
- * - Key: recipient wallet address
- * - Value: amount deposited by the sender
- *
- * We store the amount as a string, since numbers in Javascript are inaccurate.
- * We later parse the string into BigNumber for performing arithmetic.
- */
-interface IUserDonationInfo {
-  [key: string]: string;
-}
+import { IUserNote } from "./BondSliceV2";
 
 interface IUserRecipientInfo {
   totalDebt: string;
@@ -60,10 +36,6 @@ interface IUserRecipientInfo {
   agnosticAmount: string;
   indexAtLastChange: string;
 }
-
-import { useLocation } from "react-router-dom";
-import { EnvHelper } from "src/helpers/Environment";
-import { IUserNote } from "./BondSliceV2";
 
 interface IUserBalances {
   balances: {
