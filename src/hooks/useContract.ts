@@ -5,11 +5,17 @@ import OLYMPUS_STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { AddressMap, STAKING_ADDRESSES } from "src/constants/addresses";
 import { OlympusStaking } from "src/typechain";
 import { useMemo } from "react";
+import { NetworkId } from "src/constants";
 
-export const useContract = <TContract extends Contract = Contract>(
+export function useContract<TContract extends Contract = Contract>(addressOrAddressMap: string, ABI: any): TContract;
+export function useContract<TContract extends Contract = Contract>(
+  addressOrAddressMap: AddressMap,
+  ABI: any,
+): TContract | null;
+export function useContract<TContract extends Contract = Contract>(
   addressOrAddressMap: string | AddressMap,
   ABI: any,
-): TContract | null => {
+): TContract | null {
   const { provider } = useWeb3Context();
   const { data: networkId } = useNetwork();
 
@@ -24,6 +30,8 @@ export const useContract = <TContract extends Contract = Contract>(
       return null;
     }
   }, [addressOrAddressMap, ABI, provider, networkId]);
-};
+}
 
-export const useStakingContract = () => useContract<OlympusStaking>(STAKING_ADDRESSES, OLYMPUS_STAKING_ABI);
+export const useStakingContract = () => {
+  return useContract<OlympusStaking>(STAKING_ADDRESSES[NetworkId.MAINNET]!, OLYMPUS_STAKING_ABI);
+};
