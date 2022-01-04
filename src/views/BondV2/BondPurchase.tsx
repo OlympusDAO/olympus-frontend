@@ -108,6 +108,22 @@ function BondPurchase({
 
   const isAllowanceDataLoading = useAppSelector(state => state.bondingV2.balanceLoading);
 
+  // price token is a number with e-7 (exponent of -7) so this
+  // function gets the number e-7 then muliplyies by e9 to get
+  // the token price. its the same as bond.priceUSD
+  //
+  // instead of muliplying bu e-7 then e9 i just multiply by 100
+  // still not sure if its always gonna be e-7 but might not matter
+  // bc i dont think we need this function
+  const priceTokenFull =
+    Number(
+      bond.priceToken
+        .toString()
+        .split("")
+        .slice(0, bond.priceToken.toString().length - 3)
+        .join(""),
+    ) * 100;
+  console.log("priceTokenFull", priceTokenFull);
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" justifyContent="space-around" flexWrap="wrap">
@@ -199,8 +215,11 @@ function BondPurchase({
               {isBondLoading ? (
                 <Skeleton width="100px" />
               ) : (
-                `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` + `sOHM`
+                // we could use bond.priceUSD instead of priceTokenFull here i think. its the same number
+                // we need to do (quantity * token price) / discounted ohm price but idk where to find token price
+                `${trim(Number(quantity) / priceTokenFull, 4) || "0"} ` + `sOHM`
               )}
+              {console.log(quantity, bond)}
             </Typography>
           </div>
 

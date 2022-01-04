@@ -241,6 +241,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
               ) : (
                 `${trim(bond.bondQuote, 4) || "0"} ` + `${bond.payoutToken}`
               )}
+              {console.log(bond)}
             </Typography>
           </div>
 
