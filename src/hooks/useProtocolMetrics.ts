@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, UseQueryResult } from "react-query";
 import apollo from "src/lib/apolloClient";
 
 const query = `
@@ -36,8 +36,8 @@ interface ProtocolMetrics {
 
 export const useProtocolMetricsKey = () => ["useProtocolMetrics"];
 
-export const useProtocolMetrics = (select?: (data: ProtocolMetrics) => unknown) => {
-  return useQuery<ProtocolMetrics, Error, unknown>(
+export const useProtocolMetrics = <TSelectData = unknown>(select?: (data: ProtocolMetrics) => TSelectData) => {
+  return useQuery<ProtocolMetrics, Error, TSelectData>(
     useProtocolMetricsKey(),
     async () => {
       const response = await apollo<{ protocolMetrics: ProtocolMetrics[] }>(query);
@@ -52,7 +52,18 @@ export const useProtocolMetrics = (select?: (data: ProtocolMetrics) => unknown) 
   );
 };
 
-export const useMarketCap = () => useProtocolMetrics(metrics => metrics.marketCap);
-export const useTotalSupply = () => useProtocolMetrics(metrics => metrics.totalSupply);
-export const useTreasuryMarketValue = () => useProtocolMetrics(metrics => metrics.treasuryMarketValue);
-export const useOhmCirculatingSupply = () => useProtocolMetrics(metrics => metrics.ohmCirculatingSupply);
+export const useMarketCap = () => {
+  return useProtocolMetrics<ProtocolMetrics["marketCap"]>(metrics => metrics.marketCap);
+};
+
+export const useTotalSupply = () => {
+  return useProtocolMetrics<ProtocolMetrics["totalSupply"]>(metrics => metrics.totalSupply);
+};
+
+export const useTreasuryMarketValue = () => {
+  return useProtocolMetrics<ProtocolMetrics["treasuryMarketValue"]>(metrics => metrics.treasuryMarketValue);
+};
+
+export const useOhmCirculatingSupply = () => {
+  return useProtocolMetrics<ProtocolMetrics["ohmCirculatingSupply"]>(metrics => metrics.ohmCirculatingSupply);
+};

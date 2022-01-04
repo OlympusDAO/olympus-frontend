@@ -23,7 +23,7 @@ export const MarketCap = () => {
       {...sharedProps}
       label={t`Market Cap`}
       isLoading={marketCapQuery.isLoading}
-      metric={formatCurrency(marketCapQuery.data, 0)}
+      metric={marketCapQuery.data && formatCurrency(marketCapQuery.data, 0)}
     />
   );
 };
