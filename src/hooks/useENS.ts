@@ -1,4 +1,3 @@
-import { ethers } from "ethers";
 import { useQuery } from "react-query";
 import { queryAssertion } from "src/helpers";
 import { useAddress } from "./useAddress";
@@ -10,15 +9,13 @@ export const useENS = () => {
   const { provider } = useWeb3Context();
   const { data: address } = useAddress();
 
-  return useQuery<{ name?: string; avatar?: string }, Error>(
+  return useQuery<{ name: string | null; avatar: string | null }, Error>(
     useENSKey(address),
     async () => {
       queryAssertion(address, useENSKey(address));
 
-      const name = (await provider.lookupAddress(address)) ?? undefined;
-
-      let avatar: string | undefined;
-      if (name) avatar = (await provider.getAvatar(name)) ?? undefined;
+      const name = await provider.lookupAddress(address);
+      const avatar = name ? await provider.getAvatar(name) : null;
 
       return { name, avatar };
     },

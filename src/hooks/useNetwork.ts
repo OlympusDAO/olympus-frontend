@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { useWeb3Context } from "./useWeb3Context";
 
-export const useNetworkKey = () => ["useNetwork"];
+export const useNetworkKey = (isConnected: boolean) => ["useNetwork", isConnected];
 
 /**
  * Returns the wallets currently active network.
@@ -10,12 +10,12 @@ export const useNetworkKey = () => ["useNetwork"];
  * @default NetworkId.MAINNET
  */
 export const useNetwork = () => {
-  const web3Context = useWeb3Context();
+  const { provider, isConnected } = useWeb3Context();
 
   return useQuery<NetworkId, Error>(
-    useNetworkKey(),
+    useNetworkKey(isConnected),
     async () => {
-      const { chainId } = await web3Context.provider.getNetwork();
+      const { chainId } = await provider.getNetwork();
 
       const isSupportedNetwork = Object.values(NetworkId).includes(chainId);
       if (!isSupportedNetwork) throw new Error("Unsupported network");

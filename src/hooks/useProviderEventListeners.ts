@@ -6,15 +6,15 @@ import { useNetworkKey } from "./useNetwork";
 
 export const useProviderEventListeners = () => {
   const client = useQueryClient();
-  const { provider } = useWeb3Context();
+  const { provider, isConnected } = useWeb3Context();
 
   const handleAccountChanged = useCallback(() => {
     client.refetchQueries(useAddressKey());
   }, [client]);
 
   const handleChainChanged = useCallback(() => {
-    client.refetchQueries(useNetworkKey());
-  }, [client]);
+    client.refetchQueries(useNetworkKey(isConnected));
+  }, [client, isConnected]);
 
   useEffect(() => {
     provider.on("chainChanged", handleChainChanged);
