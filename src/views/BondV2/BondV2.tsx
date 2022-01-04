@@ -88,7 +88,7 @@ const BondV2 = ({ index }: { index: number }) => {
                     <Trans>Market Price</Trans>
                   </Typography>
                   <Typography variant="h3" color="primary" className="price">
-                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.priceToken, 2)}
+                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2)}
                   </Typography>
                 </div>
               </Box>
