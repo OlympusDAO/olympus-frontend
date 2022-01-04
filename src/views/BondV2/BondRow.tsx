@@ -111,6 +111,12 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
       <TableCell align="left">{isBondLoading ? <Skeleton /> : bond.duration}</TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds-v2/${bond.index}`}>
+          <Button variant="outlined" color="primary" style={{ width: "100%" }}>
+            {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
+            {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
+            <Typography variant="h6">{t`do_bond`}</Typography>
+          </Button>
+        </Link>
       </TableCell>
       <TableCell align="left">
         {" "}
