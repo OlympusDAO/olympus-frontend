@@ -16,7 +16,7 @@ services:
   frontend:
     build:
       context: ..
-      dockerfile: tests/Dockerfile
+      dockerfile: tests/Dockerfile-frontend
     ports:
       - 3000:3000
     depends_on:
