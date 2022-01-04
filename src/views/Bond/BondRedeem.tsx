@@ -14,8 +14,7 @@ import { useAppSelector } from "src/hooks";
 
 function BondRedeem({ bond }: { bond: IAllBondData }) {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
 
   const isBondLoading = useAppSelector(state => state.bonding.loading ?? true);
 

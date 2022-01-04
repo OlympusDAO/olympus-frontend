@@ -1,62 +1,188 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ElementType } from "react";
 import { useDispatch } from "react-redux";
-
-import {
-  Box,
-  Button,
-  Paper,
-  SvgIcon,
-  Table,
-  TableHead,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Typography,
-  Zoom,
-} from "@material-ui/core";
+import { useQuery } from "react-query";
+import { Box, Button, Paper, SvgIcon, withStyles, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
-
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import BondLogo from "../../components/BondLogo";
-import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { getLusdData } from "../../slices/LusdSlice";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { trim } from "../../helpers";
-import { useAppSelector } from "src/hooks";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
+import { ExternalPoolwBalance } from "src/lib/ExternalPool";
+import { Skeleton } from "@material-ui/lab";
 
-import avaxImage from "src/assets/tokens/avax.png";
+export const useExternalPools = (address: string) => {
+  const { isLoading, data } = useQuery(["externalPools", address], () => fetchPoolData(address), {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    initialData: allPools,
+  });
+  return { isLoading, pools: data };
+};
 
-import gOhmImage from "src/assets/tokens/gohm.png";
-import MultiLogo from "src/components/MultiLogo";
-const avatarStyle = { height: "35px", width: "35px", marginInline: "-4px", marginTop: "16px" };
+const MultiLogo = ({ icons, size = 35 }: { icons: ElementType[]; size?: number }) => (
+  <>
+    {icons.map((Icon, i) => (
+      <Icon
+        style={{
+          height: size,
+          width: size,
+          ...(i !== 0 ? { marginLeft: -(size / 5), zIndex: 1 } : { zIndex: 2 }),
+        }}
+      />
+    ))}
+  </>
+);
+
+const useStyles = makeStyles(theme => ({
+  stakeOnButton: {
+    padding: theme.spacing(1),
+    maxHeight: "100%",
+    height: "100%",
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  stakePoolsWrapper: {
+    display: "grid",
+    gridTemplateColumns: `1.5fr 0.2fr 1.0fr 0.3fr 1.5fr auto`,
+    gridTemplateRows: "auto",
+    alignItems: "center",
+  },
+  stakePoolHeaderText: {
+    color: theme.palette.text.secondary,
+    lineHeight: 1.4,
+  },
+  poolPair: {
+    display: "flex !important",
+    alignItems: "center",
+    justifyContent: "left",
+    marginBottom: "15px",
+  },
+  poolName: {
+    marginLeft: "10px",
+  },
+}));
+
+const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading: Boolean }) => {
+  const styles = useStyles();
+  const { connected } = useWeb3Context();
+  return (
+    <Paper id={`${pool.poolName}--pool`} className="bond-data-card ohm-card">
+      <div className={styles.poolPair}>
+        <MultiLogo icons={pool.icons} />
+        <div className={styles.poolName}>
+          <Typography>{pool.poolName}</Typography>
+        </div>
+      </div>
+      <div className="data-row">
+        <Typography>{/* <Trans>APY</Trans> */}</Typography>
+        <Typography className="bond-price">
+          <>{/*pool.apy*/}</>
+        </Typography>
+      </div>
+      <div className="data-row">
+        <Typography>
+          <Trans>TVL</Trans>
+        </Typography>
+        <Typography>
+          <>{!pool.tvl ? <Skeleton width={30} /> : pool.tvl}</>
+        </Typography>
+      </div>
+      {connected && pool.userBalance && (
+        <div className="data-row">
+          <Typography>
+            <Trans>Balance</Trans>
+          </Typography>
+          <Typography>
+            <>{isLoading ? <Skeleton width={30} /> : `${pool.userBalance} LP`}</>
+          </Typography>
+        </div>
+      )}
+      {/* Pool Staking Linkouts */}
+      <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
+        <Button
+          className={styles.stakeOnButton}
+          variant="outlined"
+          color="secondary"
+          target="_blank"
+          href={pool.href}
+          fullWidth
+        >
+          <Typography variant="body1">{`${t`Stake on`} ${pool.stakeOn}`}</Typography>
+          <SvgIcon
+            component={ArrowUp}
+            style={{
+              position: "absolute",
+              right: 5,
+              height: `20px`,
+              width: `20px`,
+              verticalAlign: "middle",
+            }}
+          />
+        </Button>
+      </Box>
+    </Paper>
+  );
+};
+
+const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading: Boolean }) => {
+  const theme = useTheme();
+  const styles = useStyles();
+  const { connected } = useWeb3Context();
+  return (
+    <Box style={{ gap: theme.spacing(1.5) }} className={styles.stakePoolsWrapper}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <MultiLogo icons={pool.icons} />
+        <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px" }}>
+          {pool.poolName}
+        </Typography>
+      </Box>
+      <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+        {/* {pool.apy} */}
+      </Typography>
+      <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+        {!pool.tvl ? <Skeleton width={30} /> : pool.tvl}
+      </Typography>
+      <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+        {isLoading ? <Skeleton width={30} /> : connected && pool.userBalance ? `${pool.userBalance} LP` : ""}
+      </Typography>
+      <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
+        <Button
+          className={styles.stakeOnButton}
+          variant="outlined"
+          color="secondary"
+          target="_blank"
+          href={pool.href}
+          fullWidth
+        >
+          <Typography variant="body1">{`${t`Stake on`} ${pool.stakeOn}`}</Typography>
+          <SvgIcon
+            component={ArrowUp}
+            style={{
+              position: "absolute",
+              right: 5,
+              height: `20px`,
+              width: `20px`,
+              verticalAlign: "middle",
+            }}
+          />
+        </Button>
+      </Box>
+    </Box>
+  );
+};
 
 export default function ExternalStakePool() {
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connect } = useWeb3Context();
-  const networkID = useAppSelector(state => state.network.networkId);
+  const { provider, hasCachedProvider, address, connect, connected, networkId, providerInitialized } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
-  const isMobileScreen = useMediaQuery("(max-width: 513px)");
+  // const isMobileScreen = useMediaQuery("(max-width: 513px)");
+  const theme = useTheme();
+  const styles = useStyles();
+  const allStakePools = useExternalPools(address);
 
-  //TODO: (aphex) is this being used?
-  // @ts-ignore
-  //const isLusdLoading = useAppSelector(state => state.lusdData.loading);
-  /*const lusdData = useAppSelector(state => {
-    // @ts-ignore
-    return state.lusdData;
-  });
-
-  const ohmLusdReserveBalance = useAppSelector(state => {
-    return state.account && state.account.bonds?.ohm_lusd_lp?.balance;
-  });
-
-  const loadLusdData = async () => {
-    await dispatch(getLusdData({ address: address, provider: provider, networkID }));
-  };
-*/
   useEffect(() => {
     if (hasCachedProvider()) {
       // then user DOES have a wallet
@@ -72,101 +198,47 @@ export default function ExternalStakePool() {
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
   useEffect(() => {
     // don't load ANY details until wallet is Checked
-    if (walletChecked && networkID !== -1) {
+    if (walletChecked && providerInitialized) {
       // view specific redux actions can be dispatched here
-      //TODO: (aphex) this useEffect is doing nothing after migration
-      //loadLusdData();
     }
-  }, [walletChecked, networkID, address, provider]);
+  }, [walletChecked, networkId, providerInitialized, address, provider]);
 
   return (
     <Zoom in={true}>
-      <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-        <div className="card-header">
-          <Typography variant="h5">
-            <Trans>Farm Pool</Trans>
-          </Typography>
-        </div>
-        <div className="card-content">
-          {!isSmallScreen ? (
-            <TableContainer className="stake-table">
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>
-                      <Trans>Asset</Trans>
-                    </TableCell>
-                    <TableCell align="left">
-                      <Trans>APY</Trans>
-                    </TableCell>
-                    <TableCell align="left">
-                      <Trans>TVD</Trans>
-                      <InfoTooltip message="">
-                        <Trans>Total Value Deposited</Trans>
-                      </InfoTooltip>
-                    </TableCell>
-                    <TableCell align="left">
-                      <Trans>Balance</Trans>
-                    </TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-
-                <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <Box className="ohm-pairs">
-                        <MultiLogo images={[gOhmImage, avaxImage]} avatarStyleOverride={avatarStyle} />
-                        <Box width="16px" />
-                        <Typography>gOHM-AVAX</Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Button
-                        variant="outlined"
-                        color="secondary"
-                        href="https://traderjoexyz.com/#/pool/0x321e7092a180bb43555132ec53aaa65a5bf84251/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
-                        target="_blank"
-                        className="stake-lp-button"
-                      >
-                        <Typography variant="body1">
-                          <Trans>Stake on Trader Joe</Trans>
-                        </Typography>
-                        <SvgIcon component={ArrowUp} color="primary" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <div className="stake-pool">
-              <div className={`pool-card-top-row ${isMobileScreen && "small"}`}>
-                <Box className="ohm-pairs">
-                  <MultiLogo images={[gOhmImage, avaxImage]} avatarStyleOverride={avatarStyle} />
-                  <Box width="16px" />
-                  <Typography gutterBottom={false}>gOHM-AVAX</Typography>
-                </Box>
-              </div>
-              <div className="pool-data">
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  href="https://traderjoexyz.com/#/pool/0x321e7092a180bb43555132ec53aaa65a5bf84251/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
-                  target="_blank"
-                  className="stake-lp-button"
-                  fullWidth
-                >
-                  <Typography variant="body1">
-                    <Trans>Stake on Trader Joe</Trans>
-                  </Typography>
-                  <SvgIcon component={ArrowUp} color="primary" />
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
-      </Paper>
+      {isSmallScreen ? (
+        <>
+          {allStakePools?.pools?.map(pool => (
+            <MobileStakePool pool={pool} isLoading={allStakePools?.isLoading} />
+          ))}
+        </>
+      ) : (
+        <Paper className={`ohm-card secondary`}>
+          <div className="card-header">
+            <Typography variant="h5">
+              <Trans>Farm Pool</Trans>
+            </Typography>
+          </div>
+          <Box className={styles.stakePoolsWrapper} style={{ gap: theme.spacing(1.5), marginBottom: "0.5rem" }}>
+            <Typography gutterBottom={false} className={styles.stakePoolHeaderText} style={{ marginLeft: "93px" }}>
+              Asset
+            </Typography>
+            <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
+              {/* APY */}
+            </Typography>
+            <Typography gutterBottom={false} className={styles.stakePoolHeaderText} style={{ paddingLeft: "3px" }}>
+              TVL
+            </Typography>
+            <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
+              {connected && `Balance`}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(4), padding: "16px 0px" }}>
+            {allStakePools?.pools?.map(pool => (
+              <StakePool pool={pool} isLoading={allStakePools?.isLoading} />
+            ))}
+          </Box>
+        </Paper>
+      )}
     </Zoom>
   );
 }

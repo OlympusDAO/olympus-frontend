@@ -31,8 +31,8 @@ interface PoolDepositProps {
 
 export const PoolDeposit = (props: PoolDepositProps) => {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const [networkID, isAppLoading] = useAppSelector(state => [state.network.networkId, state.app.loading]);
+  const { provider, address, networkId } = useWeb3Context();
+  const isAppLoading = useAppSelector(state => state.app.loading);
   const [quantity, setQuantity] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
   const [isDepositing, setDepositing] = useState(false);
@@ -59,7 +59,7 @@ export const PoolDeposit = (props: PoolDepositProps) => {
   });
 
   const onSeekApproval = async (token: string) => {
-    await dispatch(changeApproval({ address, token, provider, networkID }));
+    await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
   const onDeposit = async (action: string) => {
@@ -81,7 +81,7 @@ export const PoolDeposit = (props: PoolDepositProps) => {
         action,
         value: quantity.toString(),
         provider,
-        networkID,
+        networkID: networkId,
       }),
     );
   };

@@ -16,8 +16,7 @@ export interface Timer {
 }
 
 export const PoolPrize = () => {
-  const { provider } = useWeb3Context();
-  const networkID = useAppSelector(state => state.network.networkId);
+  const { provider, networkId } = useWeb3Context();
   const dispatch = useDispatch();
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState<Timer | null>(null);
@@ -58,8 +57,8 @@ export const PoolPrize = () => {
   };
 
   const rngQueryFunc = () => {
-    dispatch(getRNGStatus({ networkID, provider: provider }));
-    if (poolIsLocked) dispatch(getPoolValues({ networkID, provider: provider }));
+    dispatch(getRNGStatus({ networkID: networkId, provider: provider }));
+    if (poolIsLocked) dispatch(getPoolValues({ networkID: networkId, provider: provider }));
   };
 
   const decreaseNum = () => {

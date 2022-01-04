@@ -33,9 +33,8 @@ interface IPoolWithdrawProps {
 
 export const PoolWithdraw = (props: IPoolWithdrawProps) => {
   const dispatch = useAppDispatch();
-  const { provider, address } = useWeb3Context();
+  const { provider, address, networkId } = useWeb3Context();
   const [quantity, setQuantity] = useState(0);
-  const networkID = useAppSelector(state => state.network.networkId);
   const [exitFee, setExitFee] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
   const isPoolLoading = useAppSelector(state => state.poolData.loading);
@@ -71,7 +70,7 @@ export const PoolWithdraw = (props: IPoolWithdrawProps) => {
           value: quantity.toString(),
           provider,
           address,
-          networkID,
+          networkID: networkId,
         }),
       );
     }
@@ -79,7 +78,9 @@ export const PoolWithdraw = (props: IPoolWithdrawProps) => {
 
   // go fetch the Exit Fee from the contract
   const calcEarlyExitFee = async () => {
-    const result = await dispatch(getEarlyExitFee({ value: quantity.toString(), provider, address, networkID }));
+    const result = await dispatch(
+      getEarlyExitFee({ value: quantity.toString(), provider, address, networkID: networkId }),
+    );
     if (result.payload) {
       let userBalanceAfterWithdraw = poolBalance - quantity;
       let userOdds = calculateOdds(userBalanceAfterWithdraw.toString(), props.totalPoolDeposits, Number(props.winners));

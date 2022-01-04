@@ -26,7 +26,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import { migrateWithType, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
-import { switchNetwork } from "../../slices/NetworkSlice";
+import { switchNetwork } from "../../helpers/NetworkHelper";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
@@ -39,28 +39,10 @@ import { t } from "@lingui/macro";
 import { useAppSelector } from "src/hooks";
 import WrapCrossChain from "./WrapCrossChain";
 import { loadAccountDetails } from "src/slices/AccountSlice";
-import { Network } from "@ethersproject/providers";
-import { NetworkID } from "../../lib/Bond";
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const useStyles = makeStyles(theme => ({
-  textHighlight: {
-    // @ts-ignore
-    color: theme.palette.highlight,
-  },
-}));
 
 function Wrap() {
   const dispatch = useDispatch();
-  const { provider, address, connect } = useWeb3Context();
-  const networkID = useAppSelector(state => state.network.networkId);
-  const networkName = useAppSelector(state => state.network.networkName);
+  const { provider, address, connect, networkId } = useWeb3Context();
 
   const [zoomed, setZoomed] = useState(false);
   const [assetFrom, setAssetFrom] = useState("sOHM");
@@ -74,34 +56,27 @@ function Wrap() {
   };
   const currentAction = chooseCurrentAction();
 
-  const classes = useStyles();
-
-  const isAppLoading = useAppSelector(state => state.app.loading);
-  const isAccountLoading = useAppSelector(state => state.account.loading);
-  const currentIndex = useAppSelector(state => {
+  const isAppLoading = useSelector(state => state.app.loading);
+  const isAccountLoading = useSelector(state => state.account.loading);
+  const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
 
-  const sOhmPrice = useAppSelector(state => {
+  const sOhmPrice = useSelector(state => {
     return state.app.marketPrice;
-  }) as number;
+  });
 
   const gOhmPrice = useSelector(state => {
-    // @ts-ignore
-    return Number(state.app.marketPrice) * Number(state.app.currentIndex);
-  }) as number;
+    return state.app.marketPrice * state.app.currentIndex;
+  });
 
-  const sohmBalance = Number(
-    useAppSelector(state => {
-      return state.account.balances && state.account.balances.sohm;
-    }),
-  ) as number;
+  const sohmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.sohm;
+  });
 
-  const gohmBalance = Number(
-    useAppSelector(state => {
-      return state.account.balances && state.account.balances.gohm;
-    }),
-  );
+  const gohmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gohm;
+  });
 
   const unwrapGohmAllowance = useAppSelector(state => {
     return state.account.wrapping && state.account.wrapping.gOhmUnwrap;
@@ -112,28 +87,25 @@ function Wrap() {
   });
 
   const pendingTransactions = useSelector(state => {
-    //TODO: (aphex) add to state interface
-    //@ts-ignore
     return state.pendingTransactions;
   });
 
   const avax = NETWORKS[43114];
   const arbitrum = NETWORKS[42161];
 
-  const isAvax = useMemo(() => networkID != 1 && networkID != 4 && networkID != -1, [networkID]);
+  const isAvax = useMemo(() => networkId != 1 && networkId != 4 && networkId != -1, [networkId]);
 
   const wrapButtonText =
     assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap") + " to gOHM" : `${currentAction} ${assetFrom}`;
 
   const setMax = () => {
-    if (assetFrom === "sOHM") setQuantity(sohmBalance.toString());
-    if (assetFrom === "gOHM") setQuantity(gohmBalance.toString());
+    if (assetFrom === "sOHM") setQuantity(sohmBalance);
+    if (assetFrom === "gOHM") setQuantity(gohmBalance);
   };
 
-  const handleSwitchChain = (id: NetworkID) => {
-    return (_e: React.ChangeEvent<unknown>) => {
-      dispatch(switchNetwork({ provider: provider, networkId: id }));
-      dispatch(loadAccountDetails({ address, provider, networkID: id }));
+  const handleSwitchChain = id => {
+    return () => {
+      switchNetwork({ provider: provider, networkId: id });
     };
   };
 
@@ -144,15 +116,13 @@ function Wrap() {
     return 0;
   }, [unwrapGohmAllowance, wrapSohmAllowance, assetTo, assetFrom, sohmBalance, gohmBalance]);
 
-  //the following is possibly always false, do we need it?
-  //@ts-ignore
   const isAllowanceDataLoading = currentAction === "Unwrap";
   // const convertedQuantity = 0;
   const convertedQuantity = useMemo(() => {
     if (assetFrom === "sOHM") {
-      return Number(quantity) / Number(currentIndex);
+      return quantity / currentIndex;
     } else if (assetTo === "sOHM") {
-      return Number(quantity) * Number(currentIndex);
+      return quantity * currentIndex;
     } else {
       return quantity;
     }
@@ -166,48 +136,26 @@ function Wrap() {
     </Button>,
   );
 
-  const changeAssetFrom = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => {
+  const changeAssetFrom = event => {
     setQuantity("");
-    //TODO: (aphex): improve this
-    setAssetFrom(String(event.target.value));
+    setAssetFrom(event.target.value);
   };
 
-  const changeAssetTo = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => {
+  const changeAssetTo = event => {
     setQuantity("");
-    //TODO: (aphex): improve this
-    setAssetTo(String(event.target.value));
+    setAssetTo(event.target.value);
   };
 
-  const approveWrap = (token: string) => {
-    dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkID }));
+  const approveWrap = token => {
+    dispatch(changeApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
   };
 
   const unwrapGohm = () => {
-    dispatch(
-      changeWrapV2({
-        rebase: false,
-        version2: true, //TODO: (aphex) CHECK THIS!
-        action: "unwrap",
-        value: quantity,
-        provider,
-        address,
-        networkID: networkID,
-      }),
-    );
+    dispatch(changeWrapV2({ action: "unwrap", value: quantity, provider, address, networkID: networkId }));
   };
 
   const wrapSohm = () => {
-    dispatch(
-      changeWrapV2({
-        rebase: false,
-        version2: false,
-        action: "wrap",
-        value: quantity,
-        provider,
-        address,
-        networkID: networkID,
-      }),
-    );
+    dispatch(changeWrapV2({ action: "wrap", value: quantity, provider, address, networkID: networkId }));
   };
 
   const approveCorrectToken = () => {
@@ -297,8 +245,6 @@ function Wrap() {
   };
 
   if (!isAvax) {
-    // @ts-ignore
-    // @ts-ignore
     return (
       <div id="stake-view" className="wrapper">
         <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -327,19 +273,19 @@ function Wrap() {
                 <MetricCollection>
                   <Metric
                     label={`sOHM ${t`Price`}`}
-                    metric={formatCurrency(Number(sOhmPrice), 2)}
+                    metric={formatCurrency(sOhmPrice, 2)}
                     isLoading={sOhmPrice ? false : true}
                   />
                   <Metric
                     label={t`Current Index`}
-                    metric={trim(Number(currentIndex), 1)}
+                    metric={trim(currentIndex, 1)}
                     isLoading={currentIndex ? false : true}
                   />
                   <Metric
-                    label={`${assetTo} ${t`Price`}`}
-                    metric={formatCurrency(Number(gOhmPrice), 2)}
+                    label={`gOHM ${t`Price`}`}
+                    metric={formatCurrency(gOhmPrice, 2)}
                     isLoading={gOhmPrice ? false : true}
-                    tooltip={`${assetTo} = sOHM * index\n\nThe price of ${assetTo} is equal to the price of OHM multiplied by the current index`}
+                    tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of sOHM multiplied by the current index`}
                   />
                 </MetricCollection>
               </Grid>
@@ -430,19 +376,29 @@ function Wrap() {
                         </div>
 
                         <Divider />
-                        <Box width="100%" p={1}>
+                        <Box width="100%" align="center" p={1}>
                           <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
                             Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
                             bridge required!)
                           </Typography>
-                          <Button onClick={handleSwitchChain(43114)} variant="outlined" style={{ margin: "0.3rem" }}>
-                            <img height="28px" width="28px" src={String(avax.image)} alt={avax.imageAltText} />
+                          <Button
+                            onClick={handleSwitchChain(43114)}
+                            variant="outlined"
+                            p={1}
+                            style={{ margin: "0.3rem" }}
+                          >
+                            <img height="28px" width="28px" src={avax.image} alt={avax.imageAltText} />
                             <Typography variant="h6" style={{ marginLeft: "8px" }}>
                               {avax.chainName}
                             </Typography>
                           </Button>
-                          <Button onClick={handleSwitchChain(42161)} variant="outlined" style={{ margin: "0.3rem" }}>
-                            <img height="28px" width="28px" src={String(arbitrum.image)} alt={arbitrum.imageAltText} />
+                          <Button
+                            onClick={handleSwitchChain(42161)}
+                            variant="outlined"
+                            p={1}
+                            style={{ margin: "0.3rem" }}
+                          >
+                            <img height="28px" width="28px" src={arbitrum.image} alt={arbitrum.imageAltText} />
                             <Typography variant="h6" style={{ marginLeft: "8px" }}>
                               {arbitrum.chainName}
                             </Typography>

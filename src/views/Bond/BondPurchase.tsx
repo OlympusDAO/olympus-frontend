@@ -22,7 +22,7 @@ import { DisplayBondDiscount } from "./Bond";
 import ConnectButton from "../../components/ConnectButton";
 import { IAllBondData } from "src/hooks/Bonds";
 import { useAppSelector } from "src/hooks";
-import { NetworkID } from "src/lib/Bond";
+import { NetworkId } from "src/constants";
 
 interface IBondPurchaseProps {
   readonly bond: IAllBondData;
@@ -33,8 +33,7 @@ interface IBondPurchaseProps {
 function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
 
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
@@ -184,7 +183,7 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
                     />
                   </FormControl>
                 )}
-                {!bond.isBondable[networkId as NetworkID] ? (
+                {!bond.isBondable[networkId as NetworkId] ? (
                   <Button
                     variant="contained"
                     color="primary"

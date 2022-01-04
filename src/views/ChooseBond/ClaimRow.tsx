@@ -12,9 +12,8 @@ import { IUserBondDetails } from "src/slices/AccountSlice";
 
 export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondDetails] }) {
   const dispatch = useDispatch();
-  const { address, provider } = useWeb3Context();
-  const networkID = useAppSelector(state => state.network.networkId);
-  const { bonds, expiredBonds } = useBonds(networkID);
+  const { address, provider, networkId } = useWeb3Context();
+  const { bonds, expiredBonds } = useBonds(networkId);
 
   const bond = userBond[1];
   const bondName = bond.bond;
@@ -36,7 +35,7 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
   async function onRedeem({ autostake }: { autostake: boolean }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
     let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    await dispatch(redeemBond({ address, bond: currentBond!, networkID, provider, autostake }));
+    await dispatch(redeemBond({ address, bond: currentBond!, networkID: networkId, provider, autostake }));
   }
 
   return (
@@ -75,9 +74,8 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
 
 export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDetails] }) {
   const dispatch = useDispatch();
-  const { address, provider } = useWeb3Context();
-  const networkID = useAppSelector(state => state.network.networkId);
-  const { bonds, expiredBonds } = useBonds(networkID);
+  const { address, provider, networkId } = useWeb3Context();
+  const { bonds, expiredBonds } = useBonds(networkId);
 
   const bond = userBond[1];
   const bondName = bond.bond;
@@ -97,7 +95,7 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
   async function onRedeem({ autostake }: { autostake: boolean }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
     let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    await dispatch(redeemBond({ address, bond: currentBond!, networkID, provider, autostake }));
+    await dispatch(redeemBond({ address, bond: currentBond!, networkID: networkId, provider, autostake }));
   }
 
   return (

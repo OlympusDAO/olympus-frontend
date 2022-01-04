@@ -8,15 +8,16 @@ import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 import { IAllBondData } from "src/hooks/Bonds";
 import { useWeb3Context } from "../../hooks/web3Context";
-import { Bond, CustomBond, LPBond, NetworkID } from "src/lib/Bond";
+import { Bond, CustomBond, LPBond } from "src/lib/Bond";
 import useBonds from "src/hooks/Bonds";
 import { useAppSelector } from "../../hooks";
+import { NetworkId } from "src/constants";
 
 type BondUnion = CustomBond | LPBond;
 type OnChainProvider = ReturnType<typeof useWeb3Context>;
 
 export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
   // Type assertion for union undefined properties
   const uBond: BondUnion | undefined = bond.isLP ? (bond as BondUnion) : undefined;
   const allBondData: IAllBondData | undefined = !(bond instanceof Bond) ? (bond as IAllBondData) : undefined;
@@ -87,11 +88,11 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
           </Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isBondable[networkId as NetworkID]}>
+          <Button variant="outlined" color="primary" fullWidth disabled={!bond.isBondable[networkId as NetworkId]}>
             <Typography variant="h5">
               {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
               {/* {!bond.isBondable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`} */}
-              {bond.isLOLable[networkId as NetworkID] ? bond.LOLmessage : t`Bond ${bond.displayName}`}
+              {bond.isLOLable[networkId as NetworkId] ? bond.LOLmessage : t`Bond ${bond.displayName}`}
             </Typography>
           </Button>
         </Link>
@@ -101,10 +102,9 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
 }
 
 export function BondTableData({ bond }: { bond: Bond }) {
-  const networkId = useAppSelector(state => state.network.networkId);
-  // Type assertion for union undefined properties
   const uBond = bond as BondUnion;
   const allBondData = bond as IAllBondData;
+  const { networkId } = useWeb3Context();
   // Use BondPrice as indicator of loading.
   const isBondLoading = !allBondData.bondPrice ?? true;
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
@@ -151,13 +151,13 @@ export function BondTableData({ bond }: { bond: Bond }) {
           <Button
             variant="outlined"
             color="primary"
-            disabled={!bond.isBondable[networkId as NetworkID]}
+            disabled={!bond.isBondable[networkId as NetworkId]}
             style={{ width: "100%" }}
           >
             {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
             {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
             <Typography variant="h6">
-              {bond.isLOLable[networkId as NetworkID] ? bond.LOLmessage : t`do_bond`}
+              {bond.isLOLable[networkId as NetworkId] ? bond.LOLmessage : t`do_bond`}
             </Typography>
           </Button>
         </Link>

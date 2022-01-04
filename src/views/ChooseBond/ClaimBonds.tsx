@@ -26,8 +26,7 @@ import { useAppSelector } from "src/hooks";
 
 function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
   const { bonds } = useBonds(networkId);
 
   const [numberOfBonds, setNumberOfBonds] = useState(0);
