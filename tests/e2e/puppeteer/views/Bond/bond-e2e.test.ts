@@ -7,7 +7,7 @@ import {
   waitSelectorExists,
   getSelectorTextContent,
   typeValue,
-} from "../../helpers/testHelpers";
+} from "../../testHelpers";
 import puppeteer, { Browser, Page } from "puppeteer";
 import { launch, Dappeteer } from "@chainsafe/dappeteer";
 
@@ -51,7 +51,7 @@ describe("bonding", () => {
 
   test("select first bond row and approve", async () => {
     fail("TODO");
-    
+
   });
 
   test("select first bond row and bond", async () => {

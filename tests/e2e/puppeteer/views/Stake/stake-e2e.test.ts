@@ -7,7 +7,7 @@ import {
   waitSelectorExists,
   getSelectorTextContent,
   typeValue,
-} from "../../helpers/testHelpers";
+} from "../../testHelpers";
 
 // TODO deploy contracts on temporary network
 // TODO add eth to wallet
