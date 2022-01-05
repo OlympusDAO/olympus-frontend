@@ -57,7 +57,7 @@ To interact with the frontend:
 
 - Add the local testnet to Metamask:
   - Name: (your choice)
-  - RPC URL: http://localhost:8545
+  - RPC URL: <http://localhost:8545>
   - Chain ID: 1337
   - Currency symbol: ETH
 - The `yarn test:e2e-stack` command will output the addresses and balances of a number of test wallets. You can use one of these wallets to interact with the frontend.
@@ -84,7 +84,7 @@ The app is written in [React](https://reactjs.org/) using [Redux](https://redux.
 
 The files/folder structure are a **WIP** and may contain some unused files. The project is rapidly evolving so please update this section if you see it is inaccurate!
 
-```
+```file
 ./src/
 ├── App.jsx       // Main app page
 ├── abi/          // Contract ABIs from etherscan.io
@@ -133,15 +133,15 @@ The language files are located in a submodule deployed in `src/locales/translati
 
 In order to mark text for translation you can use:
 
-- The <Trans> component in jsx templates eg. `<Trans>Translate me!</Trans>`
+- The `<Trans>` component in jsx templates eg. `<Trans>Translate me!</Trans>`
 - The t function in javascript code and jsx templates. `` t`Translate me` ``
   You can also add comments for the translators. eg.
 
-```
+```js
 t({
- id: "do_bond",
- comment: "The action of bonding (verb)",
-})
+  id: "do_bond",
+  comment: "The action of bonding (verb)",
+});
 ```
 
 When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.
