@@ -62,6 +62,8 @@ To interact with the frontend:
   - Currency symbol: ETH
 - The `yarn test:e2e-stack` command will output the addresses and balances of a number of test wallets. You can use one of these wallets to interact with the frontend.
 
+By default, the Docker image corresponding to the `main` branch in the olympus-contracts repository will be used. To override this, set the `DOCKER_IMAGE` environment variable to the image tag/version.
+
 **Rinkeby faucet for WETH:**
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
 

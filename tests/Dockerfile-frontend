@@ -28,5 +28,7 @@ RUN yarn install --network-timeout 1000000
 
 EXPOSE 3000
 
+HEALTHCHECK --interval=10s --timeout=15s --start-period=10s --retries=3 CMD curl -f http://localhost:3000/ || exit 1
+
 # Run the frontend by default
 ENTRYPOINT yarn start

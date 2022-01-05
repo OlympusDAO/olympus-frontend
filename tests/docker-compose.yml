@@ -2,8 +2,8 @@ version: "3.2"
 services:
   # Runs the Hardhat node on an ongoing basis
   contract_node:
-    image: 0xjem/olympus-contracts:docker
-    entrypoint: npm run start
+    # TODO shift to official repo
+    image: ghcr.io/0xjem/olympus-contracts:${DOCKER_IMAGE}
     ports:
       - 8545:8545
     # When running using CI, we are likely to define these values through environment variables
@@ -21,5 +21,6 @@ services:
       - 3000:3000
     depends_on:
       - contract_node
+    # TODO support mounting src/ to enable local development & testing
     volumes:
       - ../public:/usr/src/app/public
