@@ -239,6 +239,14 @@ function BondPurchase({
           )}
         </Box>
       </Slide>
+      <div className="help-text">
+        <em>
+          <Typography variant="body2">
+            Important: Bonds no longer vest linearly. The bond can only be claimed at the end of the term. All bonds are
+            auto-staking via sOHM.
+          </Typography>
+        </em>
+      </div>
     </Box>
   );
 }
