@@ -4,7 +4,16 @@ import { ReactComponent as SunIcon } from "../../assets/icons/sun.svg";
 import { ReactComponent as MoonIcon } from "../../assets/icons/moon.svg";
 import { t } from "@lingui/macro";
 
-function ThemeSwitcher({ theme, toggleTheme }) {
+export interface ToggleThemeCallback {
+  (e: any): void;
+}
+
+type ThemeSwitcherProps = {
+  theme: string;
+  toggleTheme: ToggleThemeCallback;
+};
+
+function ThemeSwitcher({ theme, toggleTheme }: ThemeSwitcherProps) {
   return (
     <ToggleButton
       className="toggle-button"
@@ -13,11 +22,7 @@ function ThemeSwitcher({ theme, toggleTheme }) {
       value="check"
       onClick={e => toggleTheme(e)}
     >
-      {theme === "dark" ? (
-        <SvgIcon component={MoonIcon} color="primary" />
-      ) : (
-        <SvgIcon component={SunIcon} color="primary" />
-      )}
+      <SvgIcon component={theme === "dark" ? MoonIcon : SunIcon} color="primary" />
     </ToggleButton>
   );
 }
