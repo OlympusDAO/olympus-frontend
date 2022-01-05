@@ -223,7 +223,7 @@ export const getBalances = createAsyncThunk(
       handleContractError(e);
     }
     /*
-      Needed a sOHM contract on testnet that could easily 
+      Needed a sOHM contract on testnet that could easily
       be manually rebased to test redeem features
     */
     if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {

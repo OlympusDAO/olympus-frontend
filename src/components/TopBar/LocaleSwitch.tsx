@@ -10,7 +10,6 @@ import { locales, selectLocale } from "../../locales";
 import "./localesmenu.scss";
 
 function getLocaleFlag(locale: string) {
-  console.debug({ locale, locales });
   return locales[locale || "en"].flag;
 }
 
