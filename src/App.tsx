@@ -102,6 +102,7 @@ function App() {
   useSegmentAnalytics();
   useGoogleAnalytics();
   const location = useLocation();
+  console.debug({ location });
   const dispatch = useDispatch();
   const [theme, toggleTheme, mounted] = useTheme();
   const currentPath = location.pathname + location.hash + location.search;
