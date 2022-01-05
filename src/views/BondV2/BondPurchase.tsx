@@ -11,7 +11,7 @@ import {
   Slide,
   Typography,
 } from "@material-ui/core";
-import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
+import { prettifySeconds, secondsUntilBlock, shorten, trim, getTokenPrice } from "../../helpers";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
@@ -112,9 +112,11 @@ function BondPurchase({
   // function gets the number e-7 then muliplyies by e9 to get
   // the token price. its the same as bond.priceUSD
   //
-  // instead of muliplying bu e-7 then e9 i just multiply by 100
+  // instead of muliplying by e-7 then e9 i just multiply by 100
   // still not sure if its always gonna be e-7 but might not matter
   // bc i dont think we need this function
+  //
+  // need to rename this variable to be more accurate
   const priceTokenFull =
     Number(
       bond.priceToken
@@ -124,6 +126,9 @@ function BondPurchase({
         .join(""),
     ) * 100;
   console.log("priceTokenFull", priceTokenFull);
+
+  // const bondTokenPrice = getTokenPrice(bond.quoteToken);
+  // console.log("bondTokenPrice", bondTokenPrice);
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" justifyContent="space-around" flexWrap="wrap">
