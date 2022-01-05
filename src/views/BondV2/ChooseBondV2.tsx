@@ -12,6 +12,7 @@ import {
   TableRow,
   Typography,
   Zoom,
+  SvgIcon,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import { BondDataCard, BondTableData } from "./BondRow";
@@ -19,6 +20,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { formatCurrency } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
@@ -29,6 +31,7 @@ import { useAppSelector, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { Metric, MetricCollection } from "src/components/Metric";
 import { IBondV2, IUserNote } from "src/slices/BondSliceV2";
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 
 function ChooseBondV2() {
   const { networkId } = useWeb3Context();
@@ -84,7 +87,10 @@ function ChooseBondV2() {
             <ButtonBase>
               <Typography>
                 <b>
-                  <Trans>V1 Bonds available</Trans>
+                  <Link to="/bonds" style={{ textDecoration: "none", color: "inherit" }}>
+                    <Trans>V1 bonds available</Trans>
+                    <SvgIcon style={{ margin: "0 0 -5px 5px", fontSize: "24px" }} component={ArrowUp} color="primary" />
+                  </Link>
                 </b>
               </Typography>
             </ButtonBase>
