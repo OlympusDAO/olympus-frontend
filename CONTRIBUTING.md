@@ -41,7 +41,7 @@ again.
 
 All submissions, including submissions by project members, require review. We use [Github Flow](https://guides.github.com/introduction/flow/index.html) Pull Requests for this purpose.
 
-. We actively welcome your pull requests:
+We actively welcome your pull requests:
 
 1. Fork the repo and create your branch from the default repo branch.
 2. If you've added code that should be tested, add tests.
@@ -51,7 +51,7 @@ All submissions, including submissions by project members, require review. We us
 6. Submit that pull request!
 
 Consult
-[Github Flow](https://guides.github.com/introduction/flow/index.html)and
+[Github Flow](https://guides.github.com/introduction/flow/index.html) and
 [About GitHub Pull Requests](https://help.github.com/articles/about-pull-requests/) for more
 information on using pull requests.
 
