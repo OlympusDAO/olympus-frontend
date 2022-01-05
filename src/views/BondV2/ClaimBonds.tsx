@@ -100,27 +100,6 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
 
                 <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tabs" />
               </Tabs>
-
-              <Typography variant="h5" align="center" className="claimable-balance">
-                Claimable Balance
-              </Typography>
-              <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
-                {totalClaimable} {view === 0 ? "sOHM" : "gOHM"}
-              </Typography>
-
-              <Button
-                variant="contained"
-                color="primary"
-                className="transaction-button"
-                fullWidth
-                disabled={
-                  isPendingTxn(pendingTransactions, "claim_all_bonds") ||
-                  !activeNotes.map(note => note.fullyMatured).reduce((prev, current, idx, arr) => prev || current)
-                }
-                onClick={onRedeemAll}
-              >
-                {txnButtonTextGeneralPending(pendingTransactions, "claim_all_bonds", t`Claim all`)}
-              </Button>
             </Box>
             <Box>
               {!isSmallScreen && (
@@ -130,6 +109,37 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                       {fullyVestedBonds.length > 0 && (
                         <AccordionSection bonds={fullyVestedBonds} title="Fully Vested Bonds" />
                       )}
+
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
+                      >
+                        <Typography variant="h5" align="center" className="claimable-balance">
+                          Claimable Balance
+                        </Typography>
+                        <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
+                          {totalClaimable} {view === 0 ? "sOHM" : "gOHM"}
+                        </Typography>
+
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          className="transaction-button"
+                          fullWidth
+                          disabled={
+                            isPendingTxn(pendingTransactions, "claim_all_bonds") ||
+                            !activeNotes
+                              .map(note => note.fullyMatured)
+                              .reduce((prev, current, idx, arr) => prev || current)
+                          }
+                          onClick={onRedeemAll}
+                        >
+                          {txnButtonTextGeneralPending(pendingTransactions, "claim_all_bonds", t`Claim all`)}
+                        </Button>
+                      </Box>
+
                       {vestingBonds.length > 0 && <AccordionSection bonds={vestingBonds} title="Vesting Bonds" />}
                     </TableBody>
                   </Table>

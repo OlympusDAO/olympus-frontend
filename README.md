@@ -165,7 +165,7 @@ Each PR into master will get its own custom URL that is visible on the PR page. 
 
 ### Feature Flags
 
-- Give: by default it is disabled. It can be enabled by setting the `REACT_APP_GIVE_ENABLED` environment variable to "true", or appending `give_enabled` as a URL parameter.
+- Give: by default it is enabled. It can be disabled by setting the `REACT_APP_GIVE_ENABLED` environment variable to "false".
 
 ## 👏🏽 Contributing Guidelines
 

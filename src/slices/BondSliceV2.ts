@@ -62,6 +62,14 @@ interface IBondV2Terms {
   maxDebt: ethers.BigNumber;
 }
 
+interface IBondV2Terms {
+  fixedTerm: boolean;
+  controlVariable: ethers.BigNumber;
+  vesting: number;
+  conclusion: number;
+  maxDebt: ethers.BigNumber;
+}
+
 export interface IUserNote {
   payout: number;
   created: number;
