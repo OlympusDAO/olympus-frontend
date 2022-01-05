@@ -37,6 +37,44 @@ interface BondOpts {
   v2Bond: boolean; // if v2Bond use v2BondingCalculator
 }
 
+interface BondInfo {
+  name: string;
+  bondIconSvg: React.ReactNode;
+  address: any;
+}
+interface Bonds {
+  networkId: number;
+  bonds: BondInfo[];
+}
+
+export class V2Bonds {
+  readonly networkId: number;
+  readonly bonds: BondInfo[];
+
+  constructor(bonds: Bonds) {
+    this.networkId = bonds.networkId;
+    this.bonds = [
+      {
+        name: "DAI",
+        bondIconSvg: "./testing/icon.svg",
+        address: {
+          1: "0x6b175474e89094c44da98b954eedeac495271d0f",
+        },
+      },
+      {
+        name: "Frax",
+        bondIconSvg: "./testing/icon.svg",
+        address: {
+          1: "0x853d955acef822db058eb8505911ed77f175b99e",
+        },
+      },
+    ];
+  }
+  getAllBonds() {
+    return this.bonds;
+  }
+}
+
 // Technically only exporting for the interface
 export abstract class Bond {
   // Standard Bond fields regardless of LP bonds or stable bonds.

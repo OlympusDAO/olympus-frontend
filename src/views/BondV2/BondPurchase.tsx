@@ -22,6 +22,7 @@ import ConnectButton from "../../components/ConnectButton";
 import { useAppSelector } from "src/hooks";
 import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
 import { BigNumber, ethers } from "ethers";
+import { V2Bonds } from "src/lib/Bond";
 
 function BondPurchase({
   bond,
