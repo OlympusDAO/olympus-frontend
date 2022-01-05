@@ -203,7 +203,8 @@ function NavContent({ handleDrawerToggle }) {
                     </Typography>
                   </Link>
 
-                  <Link
+                  {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
+                  {/* <Link
                     component={NavLink}
                     id="zap-nav"
                     to="/zap"
@@ -216,9 +217,8 @@ function NavContent({ handleDrawerToggle }) {
                     <Box display="flex" alignItems="center">
                       <SvgIcon component={ZapIcon} color="primary" />
                       <Typography variant="h6">OlyZaps</Typography>
-                      {/* <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                     </Box>
-                  </Link>
+                  </Link> */}
 
                   {EnvHelper.isGiveEnabled(location.search) ? (
                     <>
