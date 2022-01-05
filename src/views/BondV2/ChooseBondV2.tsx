@@ -89,7 +89,7 @@ function ChooseBondV2() {
                 <b>
                   <Link to="/bonds" style={{ textDecoration: "none", color: "inherit" }}>
                     <Trans>V1 bonds available</Trans>
-                    <SvgIcon style={{ margin: "0 0 -5px 5px", fontSize: "24px" }} component={ArrowUp} color="primary" />
+                    <SvgIcon style={{ margin: "0 0 -6px 5px", fontSize: "24px" }} component={ArrowUp} color="primary" />
                   </Link>
                 </b>
               </Typography>
@@ -138,6 +138,14 @@ function ChooseBondV2() {
               </TableContainer>
             </Grid>
           )}
+          <div className="help-text">
+            <em>
+              <Typography variant="body2">
+                Important: Bonds no longer vest linearly. The bond can only be claimed at the end of the term. All bonds
+                are auto-staking via sOHM.
+              </Typography>
+            </em>
+          </div>
         </Paper>
       </Zoom>
 
