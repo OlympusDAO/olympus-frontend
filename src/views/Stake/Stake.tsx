@@ -418,7 +418,11 @@ function Stake() {
                                 }}
                                 fullWidth
                               >
-                                {txnButtonText(pendingTransactions, "staking", t`Stake OHM`)}
+                                {txnButtonText(
+                                  pendingTransactions,
+                                  "staking",
+                                  `${t`Stake to`} ${confirmation ? " gOHM" : " sOHM"}`,
+                                )}
                               </PrimaryButton>
                             ) : (
                               <PrimaryButton
@@ -447,7 +451,11 @@ function Stake() {
                                 }}
                                 fullWidth
                               >
-                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake`)}
+                                {txnButtonText(
+                                  pendingTransactions,
+                                  "unstaking",
+                                  `${t`Unstake from`} ${confirmation ? " gOHM" : " sOHM"}`,
+                                )}
                               </PrimaryButton>
                             ) : (
                               <PrimaryButton
@@ -481,7 +489,7 @@ function Stake() {
                     <Accordion className="stake-accordion" square defaultExpanded>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
                         <StakeRow
-                          title={t`Staked Balance`}
+                          title={t`Total Staked Balance`}
                           id="user-staked-balance"
                           balance={`${trimmedBalance} sOHM`}
                           {...{ isAppLoading }}
@@ -489,20 +497,20 @@ function Stake() {
                       </AccordionSummary>
                       <AccordionDetails>
                         <StakeRow
-                          title={t`Single Staking`}
+                          title={t`sOHM Balance`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
                         <StakeRow
-                          title={`${t`Wrapped Balance`}`}
+                          title={`${t`gOHM Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
                           {...{ isAppLoading }}
                         />
                         {Number(gOhmOnArbitrum) > 0.00009 && (
                           <StakeRow
-                            title={`${t`Wrapped (Arbitrum)`}`}
+                            title={`${t`gOHM (Arbitrum)`}`}
                             balance={`${trim(Number(gOhmOnArbitrum), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
@@ -510,7 +518,7 @@ function Stake() {
                         )}
                         {Number(gOhmOnAvax) > 0.00009 && (
                           <StakeRow
-                            title={`${t`Wrapped (Avalanche)`}`}
+                            title={`${t`gOHM (Avalanche)`}`}
                             balance={`${trim(Number(gOhmOnAvax), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
@@ -518,7 +526,7 @@ function Stake() {
                         )}
                         {Number(gOhmOnPolygon) > 0.00009 && (
                           <StakeRow
-                            title={`${t`Wrapped (Polygon)`}`}
+                            title={`${t`gOHM (Polygon)`}`}
                             balance={`${trim(Number(gOhmOnPolygon), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
@@ -526,7 +534,7 @@ function Stake() {
                         )}
                         {Number(gOhmOnFantom) > 0.00009 && (
                           <StakeRow
-                            title={`${t`Wrapped (Fantom)`}`}
+                            title={`${t`gOHM (Fantom)`}`}
                             balance={`${trim(Number(gOhmOnFantom), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
@@ -534,7 +542,7 @@ function Stake() {
                         )}
                         {Number(fgohmBalance) > 0.00009 && (
                           <StakeRow
-                            title={`${t`Wrapped Balance in Fuse`}`}
+                            title={`${t`gOHM Balance in Fuse`}`}
                             balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
@@ -542,7 +550,7 @@ function Stake() {
                         )}
                         {Number(sohmV1Balance) > 0.00009 && (
                           <StakeRow
-                            title={`${t`Single Staking`} (v1)`}
+                            title={`${t`sOHM Balance`} (v1)`}
                             balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
                             indented
                             {...{ isAppLoading }}
@@ -550,7 +558,7 @@ function Stake() {
                         )}
                         {Number(wsohmBalance) > 0.00009 && (
                           <StakeRow
-                            title={`${t`Wrapped Balance`} (v1)`}
+                            title={`${t`wsOHM Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
                             {...{ isAppLoading }}
                             indented
@@ -558,7 +566,7 @@ function Stake() {
                         )}
                         {Number(fiatDaowsohmBalance) > 0.00009 && (
                           <StakeRow
-                            title={t`Wrapped Balance in FiatDAO`}
+                            title={t`wsOHM Balance in FiatDAO (v1)`}
                             balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
                             {...{ isAppLoading }}
                             indented
@@ -566,7 +574,7 @@ function Stake() {
                         )}
                         {Number(fsohmBalance) > 0.00009 && (
                           <StakeRow
-                            title={t`Staked Balance in Fuse`}
+                            title={t`sOHM Balance in Fuse (v1)`}
                             balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
                             indented
                             {...{ isAppLoading }}
@@ -593,7 +601,8 @@ function Stake() {
           </Grid>
         </Paper>
       </Zoom>
-      <ZapCta />
+      {/* NOTE (appleseed-olyzaps) olyzaps disabled until v2 contracts */}
+      {/* <ZapCta /> */}
       <ExternalStakePool />
     </div>
   );
