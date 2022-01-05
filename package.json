@@ -24,7 +24,7 @@
         "branches": 10,
         "functions": 16,
         "lines": 22,
-        "statements": 22
+        "statements": 21
       }
     },
     "coverageReporters": ["lcov", "json", "text"]
