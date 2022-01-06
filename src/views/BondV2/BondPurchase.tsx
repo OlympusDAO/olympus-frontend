@@ -209,7 +209,7 @@ function BondPurchase({
               <Trans>Max You Can Buy</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(+bond.capacity, 1) || "0"} ` + `OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(+bond.capacity, 1) || "0"} ` + `sOHM`}
             </Typography>
           </div>
 
