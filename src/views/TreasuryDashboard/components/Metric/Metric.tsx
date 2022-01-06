@@ -9,6 +9,7 @@ import {
   useTotalSupply,
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
+import { useGohmPrice } from "src/hooks/useGohmPrice";
 
 type MetricProps = PropsOf<typeof Metric>;
 
@@ -92,8 +93,7 @@ export const CurrentIndex = () => {
 };
 
 export const GOHMPrice = () => {
-  const { data: marketPrice } = useMarketPrice();
-  const { data: currentIndex } = useCurrentIndex();
+  const { data: gOhmPrice } = useGohmPrice();
 
   const props: MetricProps = {
     ...sharedProps,
@@ -102,7 +102,7 @@ export const GOHMPrice = () => {
     tooltip: "gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of OHM multiplied by the current index",
   };
 
-  if (marketPrice && currentIndex) props.metric = formatCurrency(marketPrice * currentIndex, 2);
+  if (gOhmPrice) props.metric = formatCurrency(gOhmPrice, 2);
   else props.isLoading = true;
 
   return <Metric {...props} />;

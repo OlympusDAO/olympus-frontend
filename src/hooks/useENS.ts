@@ -3,16 +3,16 @@ import { queryAssertion } from "src/helpers";
 import { useAddress } from "./useAddress";
 import { useWeb3Context } from "./useWeb3Context";
 
-export const useENSKey = (address?: string) => [address, "useENS"];
+export const useEnsKey = (address?: string) => [address, "useEns"];
 
-export const useENS = () => {
+export const useEns = () => {
   const { provider } = useWeb3Context();
   const { data: address } = useAddress();
 
   return useQuery<{ name: string | null; avatar: string | null }, Error>(
-    useENSKey(address),
+    useEnsKey(address),
     async () => {
-      queryAssertion(address, useENSKey(address));
+      queryAssertion(address, useEnsKey(address));
 
       const name = await provider.lookupAddress(address);
       const avatar = name ? await provider.getAvatar(name) : null;
