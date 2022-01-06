@@ -17,7 +17,17 @@ import {
 import "./choosebond.scss";
 import { IUserNote } from "src/slices/BondSliceV2";
 
-const AccordionSection = ({ bonds, title, gOHM }: { bonds: IUserNote[]; title: string; gOHM: boolean }) => (
+const AccordionSection = ({
+  bonds,
+  title,
+  gOHM,
+  vested,
+}: {
+  bonds: IUserNote[];
+  title: string;
+  gOHM: boolean;
+  vested: boolean;
+}) => (
   <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
     <AccordionSummary expandIcon={<ExpandMore />} aria-controls={`${title}-content`} id={`${title}-header`}>
       <Typography>{title}</Typography>
@@ -26,16 +36,16 @@ const AccordionSection = ({ bonds, title, gOHM }: { bonds: IUserNote[]; title: s
       <Table aria-label={title}>
         <TableHead>
           <TableRow>
-            <TableCell align="center">
+            <TableCell align="left">
               <Trans>Bond</Trans>
             </TableCell>
             <TableCell align="center">
-              <Trans>Remaining Duration</Trans>
+              <Trans>{vested ? "Duration" : "Remaining Duration"}</Trans>
             </TableCell>
             <TableCell align="center">
-              <Trans>Payout</Trans>
+              <Trans>{vested ? "Payout" : "Pending Payout"}</Trans>
             </TableCell>
-            <TableCell align="right"></TableCell>
+            {/* <TableCell align="right"></TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
