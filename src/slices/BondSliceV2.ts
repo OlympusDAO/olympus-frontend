@@ -102,8 +102,9 @@ export const changeApproval = createAsyncThunk(
     const tokenContractAddress: string = bondState.quoteToken;
     const tokenDecimals: number = bondState.quoteDecimals;
     const tokenContract = IERC20__factory.connect(tokenContractAddress, signer);
+    let approveTx: ethers.ContractTransaction | undefined;
     try {
-      const approveTx = await tokenContract.approve(
+      approveTx = await tokenContract.approve(
         addresses[networkID].BOND_DEPOSITORY,
         ethers.utils.parseUnits("10000000000000", tokenDecimals),
       );
@@ -119,7 +120,9 @@ export const changeApproval = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
-      dispatch(getTokenBalance({ provider, networkID, address, value: tokenContractAddress }));
+      if (approveTx) {
+        dispatch(getTokenBalance({ provider, networkID, address, value: tokenContractAddress }));
+      }
     }
   },
 );
@@ -131,8 +134,9 @@ export const purchaseBond = createAsyncThunk(
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 
+    let depositTx: ethers.ContractTransaction | undefined;
     try {
-      const depositTx = await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
+      depositTx = await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
       const text = `Purchase ${bond.displayName} Bond`;
       const pendingTxnType = `bond_${bond.displayName}`;
       if (depositTx) {
@@ -144,9 +148,11 @@ export const purchaseBond = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
-      dispatch(info("Successfully purchased bond!"));
-      dispatch(getUserNotes({ provider, networkID, address }));
-      dispatch(getAllBonds({ address, provider, networkID }));
+      if (depositTx) {
+        dispatch(info("Successfully purchased bond!"));
+        dispatch(getUserNotes({ provider, networkID, address }));
+        dispatch(getAllBonds({ address, provider, networkID }));
+      }
     }
   },
 );
@@ -310,8 +316,9 @@ export const claimAllNotes = createAsyncThunk(
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 
+    let claimTx: ethers.ContractTransaction | undefined;
     try {
-      const claimTx = await depositoryContract.redeemAll(address, gOHM);
+      claimTx = await depositoryContract.redeemAll(address, gOHM);
       const text = `Claim All Bonds`;
       const pendingTxnType = `redeem_all_notes`;
       if (claimTx) {
@@ -324,8 +331,10 @@ export const claimAllNotes = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
-      dispatch(getUserNotes({ address, provider, networkID }));
-      dispatch(getBalances({ address, networkID, provider }));
+      if (claimTx) {
+        dispatch(getUserNotes({ address, provider, networkID }));
+        dispatch(getBalances({ address, networkID, provider }));
+      }
     }
   },
 );
@@ -336,8 +345,9 @@ export const claimSingleNote = createAsyncThunk(
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 
+    let claimTx: ethers.ContractTransaction | undefined;
     try {
-      const claimTx = await depositoryContract.redeem(address, indexes, gOHM);
+      claimTx = await depositoryContract.redeem(address, indexes, gOHM);
       const text = `Redeem Note Index=${indexes}`;
       if (claimTx) {
         for (let i = 0; i < indexes.length; i++) {
@@ -352,8 +362,10 @@ export const claimSingleNote = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
-      dispatch(getUserNotes({ address, provider, networkID }));
-      dispatch(getBalances({ address, networkID, provider }));
+      if (claimTx) {
+        dispatch(getUserNotes({ address, provider, networkID }));
+        dispatch(getBalances({ address, networkID, provider }));
+      }
     }
   },
 );
