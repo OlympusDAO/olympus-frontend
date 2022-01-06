@@ -22,6 +22,7 @@ import ConnectButton from "../../components/ConnectButton";
 import { useAppSelector } from "src/hooks";
 import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
 import { BigNumber, ethers } from "ethers";
+import { AppDispatch } from "src/store";
 
 function BondPurchase({
   bond,
@@ -33,7 +34,7 @@ function BondPurchase({
   recipientAddress: string;
 }) {
   const SECONDS_TO_REFRESH = 60;
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { provider, address, networkId } = useWeb3Context();
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex ?? "1";
@@ -46,7 +47,10 @@ function BondPurchase({
 
   const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
 
-  const balanceNumber: number = useMemo(() => +balance.balance / Math.pow(10, bond.quoteDecimals), [balance]);
+  const balanceNumber: number = useMemo(
+    () => (balance ? +balance.balance / Math.pow(10, bond.quoteDecimals) : 0),
+    [balance],
+  );
 
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
@@ -65,8 +69,7 @@ function BondPurchase({
           maxPrice: Math.round(Number(bond.priceTokenBigNumber.toString()) * (1 + slippage / 100)),
           address: recipientAddress,
         }),
-      );
-      clearInput();
+      ).then(() => clearInput());
     }
   }
 

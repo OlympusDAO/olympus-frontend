@@ -19,7 +19,7 @@ function BondLogo({ bond }) {
   } else {
     // look it up for V2 bonds
     const details = v2BondDetails[networkId][bond.quoteToken];
-    bondIconSvg = details.bondIconSvg;
+    bondIconSvg = details && details.bondIconSvg;
   }
 
   return (

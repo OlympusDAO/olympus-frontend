@@ -9,7 +9,7 @@ import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
 import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { IUserNote } from "src/slices/BondSliceV2";
+import { IUserNote, claimSingleNote } from "src/slices/BondSliceV2";
 
 export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
   const dispatch = useDispatch();
@@ -27,10 +27,8 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
 
   const vestingPeriod = () => bond.timeLeft;
 
-  async function onRedeem() {
-    // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    // let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    // await dispatch(redeemBond({ address, bond: currentBond, networkID: networkId, provider, autostake }));
+  async function onRedeem(index: number) {
+    await dispatch(claimSingleNote({ provider, networkID: networkId, address, indexes: [index], gOHM }));
   }
 
   return (
@@ -58,7 +56,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
             variant="outlined"
             color="primary"
             disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
-            onClick={onRedeem}
+            onClick={() => onRedeem(bond.bondIndex)}
           >
             <Typography variant="h6">
               {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
@@ -70,10 +68,11 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
   );
 }
 
-export function ClaimBondCardData({ userNote }: { userNote: IUserNote }) {
+export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
   const dispatch = useDispatch();
   const { address, provider, networkId } = useWeb3Context();
   const { bonds, expiredBonds } = useBonds(networkId);
+  const currentIndex = useAppSelector(state => state.app.currentIndex);
 
   const bond = userNote;
   const bondName = bond.displayName;
@@ -105,7 +104,13 @@ export function ClaimBondCardData({ userNote }: { userNote: IUserNote }) {
 
       <div className="data-row">
         <Typography>Claimable</Typography>
-        <Typography>{bond.payout ? trim(bond.payout, 4) : <Skeleton width={100} />}</Typography>
+        <Typography>
+          {bond.payout ? (
+            trim(bond.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
+          ) : (
+            <Skeleton width={100} />
+          )}
+        </Typography>
       </div>
 
       {/* <div className="data-row">
@@ -114,7 +119,7 @@ export function ClaimBondCardData({ userNote }: { userNote: IUserNote }) {
       </div> */}
 
       <div className="data-row" style={{ marginBottom: "20px" }}>
-        <Typography>Fully Vested</Typography>
+        <Typography>Remaining Duration</Typography>
         <Typography>{vestingPeriod()}</Typography>
       </div>
       <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
