@@ -287,11 +287,11 @@ export const getUserNotes = createAsyncThunk(
       }
       const note: IUserNote = {
         ...rawNote,
-        payout: +rawNote.payout / Math.pow(10, bond.baseDecimals),
+        payout: +rawNote.payout / Math.pow(10, 18), //Always in gOHM
         fullyMatured: seconds == 0,
         claimed: rawNote.matured == rawNote.redeemed,
         timeLeft: duration,
-        displayName: bond.displayName,
+        displayName: bond?.displayName,
       };
       notes.push(note);
     }

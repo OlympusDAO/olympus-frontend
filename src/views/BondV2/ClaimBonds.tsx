@@ -78,7 +78,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
     return a + b.payout;
   }, 0);
 
-  const totalClaimable = view === 0 ? total : total / +currentIndex;
+  const totalClaimable = view === 1 ? total : total * +currentIndex;
 
   return (
     <>
@@ -86,37 +86,35 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
         <Zoom in={true}>
           <Paper className="ohm-card claim-bonds-card">
             <CardHeader title="Your Bonds (1,1)" />
-            {fullyVestedBonds.length > 0 && (
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
+            >
+              <Typography variant="h4" align="center" className="payout-options-header">
+                Payout Options{" "}
+              </Typography>
+              <Tabs
+                centered
+                value={view}
+                textColor="primary"
+                indicatorColor="primary"
+                onChange={changeView}
+                aria-label="payout token tabs"
               >
-                <Typography variant="h4" align="center" className="payout-options-header">
-                  Payout Options{" "}
-                </Typography>
-                <Tabs
-                  centered
-                  value={view}
-                  textColor="primary"
-                  indicatorColor="primary"
-                  onChange={changeView}
-                  aria-label="payout token tabs"
-                >
-                  <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tabs" />
+                <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tabs" />
+                <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tabs" />
+              </Tabs>
+            </Box>
 
-                  <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tabs" />
-                </Tabs>
-              </Box>
-            )}
             <Box>
               {!isSmallScreen && (
                 <TableContainer>
                   <Table aria-label="Claimable bonds">
                     <TableBody>
                       {fullyVestedBonds.length > 0 && (
-                        <AccordionSection bonds={fullyVestedBonds} title="Fully Vested Bonds" />
+                        <AccordionSection bonds={fullyVestedBonds} title="Fully Vested Bonds" gOHM={view === 1} />
                       )}
 
                       <Box
@@ -149,7 +147,9 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                         </Button>
                       </Box>
 
-                      {vestingBonds.length > 0 && <AccordionSection bonds={vestingBonds} title="Vesting Bonds" />}
+                      {vestingBonds.length > 0 && (
+                        <AccordionSection bonds={vestingBonds} title="Vesting Bonds" gOHM={view === 1} />
+                      )}
                     </TableBody>
                   </Table>
                 </TableContainer>
