@@ -81,6 +81,7 @@ export interface IUserNote {
   timeLeft: string;
   claimed: boolean;
   displayName: string;
+  quoteToken: string;
 }
 
 function checkNetwork(networkID: NetworkId) {
@@ -296,6 +297,7 @@ export const getUserNotes = createAsyncThunk(
         claimed: rawNote.matured == rawNote.redeemed,
         timeLeft: duration,
         displayName: bond?.displayName,
+        quoteToken: bond.quoteToken.toLowerCase(),
       };
       notes.push(note);
     }
