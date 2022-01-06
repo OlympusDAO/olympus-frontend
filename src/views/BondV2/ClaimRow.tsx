@@ -55,7 +55,10 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
           <Button
             variant="outlined"
             color="primary"
-            disabled={isPendingTxn(pendingTransactions, "redeem_note_" + note.index)}
+            disabled={
+              isPendingTxn(pendingTransactions, "redeem_note_" + note.index) ||
+              isPendingTxn(pendingTransactions, "redeem_all_notes")
+            }
             onClick={() => onRedeem(note.index)}
           >
             <Typography variant="h6">
@@ -123,7 +126,10 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
         <Button
           variant="outlined"
           color="primary"
-          disabled={isPendingTxn(pendingTransactions, "redeem_note_" + note.index)}
+          disabled={
+            isPendingTxn(pendingTransactions, "redeem_note_" + note.index) ||
+            isPendingTxn(pendingTransactions, "redeem_all_notes")
+          }
           onClick={() => onRedeem(note.index)}
         >
           <Typography variant="h5">
