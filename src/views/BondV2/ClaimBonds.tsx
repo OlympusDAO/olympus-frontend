@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { t, Trans } from "@lingui/macro";
 import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
-import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
+import { isPendingTxn, txnButtonText, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 import { redeemAllBonds } from "src/slices/BondSlice";
 import CardHeader from "../../components/CardHeader/CardHeader";
 import AccordionSection from "./AccordionSection";
@@ -133,14 +133,14 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                           className="transaction-button"
                           fullWidth
                           disabled={
-                            isPendingTxn(pendingTransactions, "claim_all_bonds") ||
+                            isPendingTxn(pendingTransactions, "redeem_all_notes") ||
                             !activeNotes
                               .map(note => note.fullyMatured)
                               .reduce((prev, current, idx, arr) => prev || current)
                           }
                           onClick={onRedeemAll}
                         >
-                          {txnButtonTextGeneralPending(pendingTransactions, "claim_all_bonds", t`Claim all`)}
+                          {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
                         </Button>
                       </Box>
                       {fullyVestedBonds.length > 0 && (
@@ -175,12 +175,12 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                       className="transaction-button"
                       fullWidth
                       disabled={
-                        isPendingTxn(pendingTransactions, "claim_all_bonds") ||
+                        isPendingTxn(pendingTransactions, "redeem_all_notes") ||
                         !activeNotes.map(note => note.fullyMatured).reduce((prev, current, idx, arr) => prev || current)
                       }
                       onClick={onRedeemAll}
                     >
-                      {txnButtonTextGeneralPending(pendingTransactions, "claim_all_bonds", t`Claim all`)}
+                      {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
                     </Button>
                   </Box>
                   {activeNotes

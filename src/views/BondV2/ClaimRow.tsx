@@ -8,7 +8,7 @@ import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core"
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
-import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
+import { isPendingTxn, txnButtonText, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 import { IUserNote, claimSingleNote } from "src/slices/BondSliceV2";
 
 export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
@@ -55,11 +55,11 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
           <Button
             variant="outlined"
             color="primary"
-            disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
+            disabled={isPendingTxn(pendingTransactions, "redeem_note_" + note.index)}
             onClick={() => onRedeem(note.index)}
           >
             <Typography variant="h6">
-              {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
+              {txnButtonText(pendingTransactions, "redeem_note_" + note.index, "Claim")}
             </Typography>
           </Button>
         )}
@@ -123,11 +123,11 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
         <Button
           variant="outlined"
           color="primary"
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
+          disabled={isPendingTxn(pendingTransactions, "redeem_note_" + note.index)}
           onClick={() => onRedeem(note.index)}
         >
           <Typography variant="h5">
-            {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, t`Claim`)}
+            {txnButtonText(pendingTransactions, "redeem_note_" + note.index, t`Claim`)}
           </Typography>
         </Button>
       </Box>

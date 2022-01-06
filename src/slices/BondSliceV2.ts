@@ -102,9 +102,8 @@ export const changeApproval = createAsyncThunk(
     const tokenContractAddress: string = bondState.quoteToken;
     const tokenDecimals: number = bondState.quoteDecimals;
     const tokenContract = IERC20__factory.connect(tokenContractAddress, signer);
-    let approveTx: ethers.ContractTransaction | undefined;
     try {
-      approveTx = await tokenContract.approve(
+      const approveTx = await tokenContract.approve(
         addresses[networkID].BOND_DEPOSITORY,
         ethers.utils.parseUnits("10000000000000", tokenDecimals),
       );
@@ -132,7 +131,6 @@ export const purchaseBond = createAsyncThunk(
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 
-    let depositTx: ethers.ContractTransaction | undefined;
     try {
       const depositTx = await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
       const text = `Purchase ${bond.displayName} Bond`;
@@ -148,6 +146,7 @@ export const purchaseBond = createAsyncThunk(
     } finally {
       dispatch(info("Successfully purchased bond!"));
       dispatch(getUserNotes({ provider, networkID, address }));
+      dispatch(getAllBonds({ address, provider, networkID }));
     }
   },
 );
@@ -311,11 +310,10 @@ export const claimAllNotes = createAsyncThunk(
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 
-    let claimTx: ethers.ContractTransaction | undefined;
     try {
-      claimTx = await depositoryContract.redeemAll(address, gOHM);
+      const claimTx = await depositoryContract.redeemAll(address, gOHM);
       const text = `Claim All Bonds`;
-      const pendingTxnType = `claim_all_bonds`;
+      const pendingTxnType = `redeem_all_notes`;
       if (claimTx) {
         dispatch(fetchPendingTxns({ txnHash: claimTx.hash, text, type: pendingTxnType }));
 
@@ -338,13 +336,14 @@ export const claimSingleNote = createAsyncThunk(
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 
-    let claimTx: ethers.ContractTransaction | undefined;
     try {
-      claimTx = await depositoryContract.redeem(address, indexes, gOHM);
-      const text = `Claim All Bonds`;
-      const pendingTxnType = `claim_all_bonds`;
+      const claimTx = await depositoryContract.redeem(address, indexes, gOHM);
+      const text = `Redeem Note Index=${indexes}`;
       if (claimTx) {
-        dispatch(fetchPendingTxns({ txnHash: claimTx.hash, text, type: pendingTxnType }));
+        for (let i = 0; i < indexes.length; i++) {
+          const pendingTxnType = `redeem_note_${indexes[i]}`;
+          dispatch(fetchPendingTxns({ txnHash: claimTx.hash, text, type: pendingTxnType }));
+        }
 
         await claimTx.wait();
         dispatch(clearPendingTxn(claimTx.hash));
