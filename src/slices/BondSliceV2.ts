@@ -81,6 +81,7 @@ export interface IUserNote {
   timeLeft: string;
   claimed: boolean;
   displayName: string;
+  quoteToken: string;
 }
 
 function checkNetwork(networkID: NetworkId) {
@@ -296,6 +297,7 @@ export const getUserNotes = createAsyncThunk(
         claimed: rawNote.matured == rawNote.redeemed,
         timeLeft: duration,
         displayName: bond?.displayName,
+        quoteToken: bond.quoteToken.toLowerCase(),
       };
       notes.push(note);
     }
@@ -331,6 +333,33 @@ export const claimAllNotes = createAsyncThunk(
   },
 );
 
+export const claimSingleNote = createAsyncThunk(
+  "bondsV2/claimSingle",
+  async ({ provider, networkID, address, gOHM }: IBaseBondV2ClaimAsyncThunk, { dispatch, getState }) => {
+    const signer = provider.getSigner();
+    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
+
+    let claimTx: ethers.ContractTransaction | undefined;
+    try {
+      claimTx = await depositoryContract.redeemAll(address, gOHM);
+      const text = `Claim All Bonds`;
+      const pendingTxnType = `claim_all_bonds`;
+      if (claimTx) {
+        dispatch(fetchPendingTxns({ txnHash: claimTx.hash, text, type: pendingTxnType }));
+
+        await claimTx.wait();
+      }
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
+      return;
+    } finally {
+      if (claimTx) {
+        dispatch(clearPendingTxn(claimTx.hash));
+        dispatch(getUserNotes({ address, provider, networkID }));
+      }
+    }
+  },
+);
 // Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   loading: boolean;
