@@ -2,25 +2,20 @@ import { useQuery, UseQueryResult } from "react-query";
 import apollo from "src/lib/apolloClient";
 
 const query = `
-      query {
-        _meta {
-          block {
-            number
-          }
-        }
-        protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
-          timestamp
-          marketCap
-          totalSupply
-          nextEpochRebase
-          totalValueLocked
-          nextDistributedOhm
-          treasuryMarketValue
-          ohmCirculatingSupply
-          sOhmCirculatingSupply
-        }
-      }
-    `;
+  query {
+    protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+      timestamp
+      marketCap
+      totalSupply
+      nextEpochRebase
+      totalValueLocked
+      nextDistributedOhm
+      treasuryMarketValue
+      ohmCirculatingSupply
+      sOhmCirculatingSupply
+    }
+  }
+`;
 
 interface ProtocolMetrics {
   readonly timestamp: string;
