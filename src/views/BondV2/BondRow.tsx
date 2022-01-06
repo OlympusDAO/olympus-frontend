@@ -65,7 +65,7 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
             )}
           </Typography>
         </div> */}
-        <Link component={NavLink} to={`/bondsV2/${bond.index}`}>
+        <Link component={NavLink} to={`/bonds-v2/${bond.index}`}>
           <Button variant="outlined" color="primary" fullWidth>
             <Typography variant="h5">
               {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}

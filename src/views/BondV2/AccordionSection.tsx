@@ -30,7 +30,7 @@ const AccordionSection = ({ bonds, title, gOHM }: { bonds: IUserNote[]; title: s
               <Trans>Bond</Trans>
             </TableCell>
             <TableCell align="center">
-              <Trans>Duration</Trans>
+              <Trans>Remaining Duration</Trans>
             </TableCell>
             <TableCell align="center">
               <Trans>Payout</Trans>

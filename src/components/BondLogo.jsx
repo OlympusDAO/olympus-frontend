@@ -18,9 +18,7 @@ function BondLogo({ bond }) {
     bondIconSvg = bond.bondIconSvg;
   } else {
     // look it up for V2 bonds
-    console.log("qt", bond.quoteToken);
     const details = v2BondDetails[networkId][bond.quoteToken];
-    console.log(details);
     bondIconSvg = details && details.bondIconSvg;
   }
 

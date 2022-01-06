@@ -70,10 +70,11 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
   );
 }
 
-export function ClaimBondCardData({ userNote }: { userNote: IUserNote }) {
+export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
   const dispatch = useDispatch();
   const { address, provider, networkId } = useWeb3Context();
   const { bonds, expiredBonds } = useBonds(networkId);
+  const currentIndex = useAppSelector(state => state.app.currentIndex);
 
   const bond = userNote;
   const bondName = bond.displayName;
@@ -105,7 +106,13 @@ export function ClaimBondCardData({ userNote }: { userNote: IUserNote }) {
 
       <div className="data-row">
         <Typography>Claimable</Typography>
-        <Typography>{bond.payout ? trim(bond.payout, 4) : <Skeleton width={100} />}</Typography>
+        <Typography>
+          {bond.payout ? (
+            trim(bond.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
+          ) : (
+            <Skeleton width={100} />
+          )}
+        </Typography>
       </div>
 
       {/* <div className="data-row">
@@ -114,7 +121,7 @@ export function ClaimBondCardData({ userNote }: { userNote: IUserNote }) {
       </div> */}
 
       <div className="data-row" style={{ marginBottom: "20px" }}>
-        <Typography>Fully Vested</Typography>
+        <Typography>Remaining Duration</Typography>
         <Typography>{vestingPeriod()}</Typography>
       </div>
       <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">

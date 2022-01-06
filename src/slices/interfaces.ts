@@ -65,6 +65,11 @@ export interface IBaseBondV2ClaimAsyncThunk extends IBaseAddressAsyncThunk {
   readonly gOHM: boolean;
 }
 
+export interface IBaseBondV2ClaimSinglesyncThunk extends IBaseBondV2ClaimAsyncThunk {
+  readonly gOHM: boolean;
+  readonly bondIndex: number;
+}
+
 export interface IActionValueRecipientAsyncThunk extends IActionValueAsyncThunk {
   readonly recipient: string;
   readonly version2: boolean;
