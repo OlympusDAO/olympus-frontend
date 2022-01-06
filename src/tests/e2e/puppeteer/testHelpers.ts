@@ -2,8 +2,6 @@ import { Dappeteer, launch } from "@chainsafe/dappeteer";
 import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
 import * as dappeteer from "@chainsafe/dappeteer";
 import { getDocument, queries } from "pptr-testing-library";
-import { ChildProcess } from "child_process";
-import { exec } from "shelljs";
 import { Xvfb } from "xvfb";
 
 export const setupLogging = (page: Page) => {
@@ -117,11 +115,6 @@ export async function launchDApp(network: string = "localhost") {
   dapp.page = page;
 }
 
-export function launchNode(): ChildProcess {
-  const node = exec("yarn --cwd ../olympus-contracts start", { async: true });
-  exec("yarn --cwd ../olympus-contracts deploy");
-  return node;
-}
 export const typeValue = async (page: Page, selector: string, value: string) => {
   await page.bringToFront();
   await page.waitForSelector(selector);
