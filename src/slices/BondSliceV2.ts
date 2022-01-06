@@ -9,7 +9,7 @@ import {
   IJsonRPCError,
 } from "./interfaces";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
-import { addresses, NetworkId } from "src/constants";
+import { addresses, NetworkId, V2BondDetails, v2BondDetails } from "src/constants";
 import { getTokenIdByContract, getTokenPrice, prettifySeconds } from "src/helpers";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
@@ -178,7 +178,9 @@ async function processBond(
 ): Promise<IBondV2> {
   const currentTime = Date.now() / 1000;
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
-  const quoteTokenPrice = Number(await getTokenPrice((await getTokenIdByContract(bond.quoteToken)) ?? "dai"));
+  // toLowerCase in v2BondDetails is VERY IMPORTANT
+  const v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+  const quoteTokenPrice = await v2BondDetail.pricingFunction();
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
   const bondPrice = +bondPriceBigNumber / Math.pow(10, metadata.quoteDecimals);
   const bondPriceUSD = quoteTokenPrice * +bondPrice * Math.pow(10, 9);
@@ -205,7 +207,7 @@ async function processBond(
     ...metadata,
     ...terms,
     index: index,
-    displayName: `${index}`,
+    displayName: `${v2BondDetail.name}`,
     priceUSD: bondPriceUSD,
     priceToken: bondPrice,
     priceTokenBigNumber: bondPriceBigNumber,
@@ -214,6 +216,7 @@ async function processBond(
     isLP: false,
     lpUrl: "",
     marketPrice: ohmPrice,
+    quoteToken: bond.quoteToken.toLowerCase(),
   };
 }
 
