@@ -147,7 +147,7 @@ function NavContent({ handleDrawerToggle }) {
                           }
                         >
                           <Typography variant="body2">
-                            <Trans>Highest discounts</Trans>
+                            <Trans>Highest ROI</Trans>
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
