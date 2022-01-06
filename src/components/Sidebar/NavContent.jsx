@@ -66,10 +66,10 @@ function NavContent({ handleDrawerToggle }) {
     if (currentPath.indexOf("giveredeem") >= 0 && page == "give/redeem") {
       return true;
     }
-    if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
+    if ((currentPath.indexOf("bonds-v1") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds-v1") {
       return true;
     }
-    if ((currentPath.indexOf("bonds-v2") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds-v2") {
+    if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
       return true;
     }
     if (currentPath.indexOf("33-together") >= 0 && page === "33-together") {
@@ -121,9 +121,9 @@ function NavContent({ handleDrawerToggle }) {
                   <Link
                     component={NavLink}
                     id="bond-nav"
-                    to="/bonds-v2"
+                    to="/bonds"
                     isActive={(match, location) => {
-                      return checkPage(match, location, "bonds-v2");
+                      return checkPage(match, location, "bonds");
                     }}
                     className={`button-dapp-menu ${isActive ? "active" : ""}`}
                     onClick={handleDrawerToggle}
@@ -158,7 +158,7 @@ function NavContent({ handleDrawerToggle }) {
                               return (
                                 <Link
                                   component={NavLink}
-                                  to={`/bonds/${bond.name}`}
+                                  to={`/bonds-v1/${bond.name}`}
                                   key={i}
                                   className={"bond"}
                                   onClick={handleDrawerToggle}

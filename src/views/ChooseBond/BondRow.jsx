@@ -68,7 +68,7 @@ export function BondDataCard({ bond }) {
             )}
           </Typography>
         </div>
-        <Link component={NavLink} to={`/bonds/${bond.name}`}>
+        <Link component={NavLink} to={`/bonds-v1/${bond.name}`}>
           <Button variant="outlined" color="primary" fullWidth disabled={!bond.isBondable[networkId]}>
             <Typography variant="h5">
               {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
@@ -126,7 +126,7 @@ export function BondTableData({ bond }) {
         )}
       </TableCell>
       <TableCell>
-        <Link component={NavLink} to={`/bonds/${bond.name}`}>
+        <Link component={NavLink} to={`bonds-v1/${bond.name}`}>
           <Button variant="outlined" color="primary" disabled={!bond.isBondable[networkId]} style={{ width: "100%" }}>
             {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
             {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}

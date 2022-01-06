@@ -27,7 +27,7 @@ const BondV2 = ({ index }: { index: number }) => {
   const history = useHistory();
   const bond = useAppSelector(state => state.bondingV2.bonds[index]);
   const { provider, address, networkId } = useWeb3Context();
-  usePathForNetwork({ pathName: "bonds-v2", networkID: networkId, history });
+  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   const [slippage, setSlippage] = useState<number>(0.5);
   const [recipientAddress, setRecipientAddress] = useState<string>(address);

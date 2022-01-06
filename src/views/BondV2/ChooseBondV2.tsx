@@ -36,7 +36,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 function ChooseBondV2() {
   const { networkId } = useWeb3Context();
   const history = useHistory();
-  usePathForNetwork({ pathName: "bonds-v2", networkID: networkId, history });
+  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   const bondsV2 = useAppSelector(state => {
     return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
@@ -87,7 +87,7 @@ function ChooseBondV2() {
             <ButtonBase>
               <Typography>
                 <b>
-                  <Link to="/bonds" style={{ textDecoration: "none", color: "inherit" }}>
+                  <Link to="/bonds-v1" style={{ textDecoration: "none", color: "inherit" }}>
                     <Trans>V1 bonds available</Trans>
                     <SvgIcon style={{ margin: "0 0 -6px 5px", fontSize: "24px" }} component={ArrowUp} color="primary" />
                   </Link>

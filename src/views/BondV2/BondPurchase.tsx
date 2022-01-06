@@ -193,7 +193,7 @@ function BondPurchase({
               <Trans>Your Balance</Trans>
             </Typography>{" "}
             <Typography id="bond-balance">
-              {isBondLoading ? <Skeleton width="100px" /> : <>{trim(balanceNumber, 4)}</>}
+              {isBondLoading ? <Skeleton width="100px" /> : <>{`${trim(balanceNumber, 4)} ${bond.displayName}`}</>}
             </Typography>
           </div>
 
