@@ -51,10 +51,12 @@ RUN apt-get update && \
 WORKDIR /usr/src/app
 
 # TODO consider splitting package.json for tests only
-COPY package.json package.json
-COPY yarn.lock yarn.lock
+COPY package.json .
+COPY yarn.lock .
 
 # Yarn would timeout with the material-ui package(s), so we override the timeout
 RUN yarn install --network-timeout 1000000 --frozen-lockfile
 
-ENTRYPOINT yarn run test:e2e
+COPY Makefile .
+
+ENTRYPOINT make e2e_run

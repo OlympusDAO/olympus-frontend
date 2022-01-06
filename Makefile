@@ -15,10 +15,29 @@ TEST_ENV_ARGS=
 TEST_VOLUME_ARGS=--volume $(shell pwd)/tests:/usr/src/app/tests/
 TEST_PORT_ARGS=
 
-build_e2e:
+### Translations
+translations_fetch:
+	[ ! -e src/locales/translations/.git ] && git submodule update --init --remote src/locales/translations || exit 0
+
+translations_prepare: fetch_translations
+	yarn lingui:compile
+
+### Contracts
+contracts_prepare:
+	yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json
+
+### Frontend
+start: translations_prepare contracts_prepare
+	yarn run react-scripts start
+
+### end-to-end testing
+e2e_build_docker:
 	@echo "*** Building Docker image $(TEST_IMAGE) with tag $(TEST_TAG)"
 	docker build -t $(TEST_IMAGE):$(TEST_TAG) -f tests/Dockerfile .
 
-run_e2e: build_e2e
+e2e_run_docker: e2e_build_docker
 	@echo "*** Running Docker image $(TEST_IMAGE) with tag $(TEST_TAG)"
 	@docker run -it --rm $(TEST_ENV_ARGS) $(TEST_VOLUME_ARGS) $(TEST_PORT_ARGS) $(TEST_IMAGE):$(TEST_TAG)
+
+e2e_run:
+	yarn run react-scripts test --testPathPattern="(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?" --testTimeout=30000 --runInBand --watchAll=false --detectOpenHandles

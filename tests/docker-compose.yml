@@ -21,6 +21,6 @@ services:
       - 3000:3000
     depends_on:
       - contract_node
-    # TODO support mounting src/ to enable local development & testing
     volumes:
       - ../public:/usr/src/app/public
+      - ../src:/usr/src/app/src

@@ -17,12 +17,10 @@ COPY scripts .
 COPY gulpfile.js .
 COPY package.json .
 COPY yarn.lock .
+COPY Makefile .
 # This image is not pushed to a registry, so there shouldn't be an issue with this
 COPY .env* .
 COPY index.d.ts .
-
-# The yarn install script compiles contracts in the postinstall step, so we need this
-COPY src src
 
 # Yarn would timeout with the material-ui package(s), so we override the timeout
 RUN yarn install --network-timeout 1000000
@@ -32,4 +30,4 @@ EXPOSE 3000
 HEALTHCHECK --interval=10s --timeout=15s --start-period=10s --retries=3 CMD curl -f http://localhost:3000/ || exit 1
 
 # Run the frontend by default
-ENTRYPOINT yarn start
+ENTRYPOINT make start
