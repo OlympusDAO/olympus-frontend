@@ -15,6 +15,7 @@ import { getTokenIdByContract, getTokenPrice, prettifySeconds } from "src/helper
 import { findOrLoadMarketPrice } from "./AppSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { error, info } from "./MessagesSlice";
+import { getBalances } from "./AccountSlice";
 
 export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   index: number;
@@ -135,20 +136,18 @@ export const purchaseBond = createAsyncThunk(
     try {
       const depositTx = await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
       const text = `Purchase ${bond.displayName} Bond`;
-      const pendingTxnType = `purchase_${bond.displayName}_bond`;
+      const pendingTxnType = `bond_${bond.displayName}`;
       if (depositTx) {
         dispatch(fetchPendingTxns({ txnHash: depositTx.hash, text, type: pendingTxnType }));
         await depositTx.wait();
+        dispatch(clearPendingTxn(depositTx.hash));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
-      if (depositTx) {
-        dispatch(info("Successfully purchased bond!"));
-        dispatch(getUserNotes({ provider, networkID, address }));
-        dispatch(clearPendingTxn(depositTx.hash));
-      }
+      dispatch(info("Successfully purchased bond!"));
+      dispatch(getUserNotes({ provider, networkID, address }));
     }
   },
 );
@@ -262,6 +261,7 @@ export const getUserNotes = createAsyncThunk(
   "bondsV2/notes",
   async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }): Promise<IUserNote[]> => {
     checkNetwork(networkID);
+    console.log("getUserNotes");
     let bonds = (getState() as RootState).bondingV2.bonds;
     if (Object.keys(bonds).length == 0) {
       await dispatch(getAllBonds({ address, provider, networkID }));
@@ -328,6 +328,7 @@ export const claimAllNotes = createAsyncThunk(
       if (claimTx) {
         dispatch(clearPendingTxn(claimTx.hash));
         dispatch(getUserNotes({ address, provider, networkID }));
+        dispatch(getBalances({ address, networkID, provider }));
       }
     }
   },
@@ -356,6 +357,8 @@ export const claimSingleNote = createAsyncThunk(
       if (claimTx) {
         dispatch(clearPendingTxn(claimTx.hash));
         dispatch(getUserNotes({ address, provider, networkID }));
+        dispatch(getUserNotes({ address, provider, networkID }));
+        dispatch(getBalances({ address, networkID, provider }));
       }
     }
   },
