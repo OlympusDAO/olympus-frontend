@@ -203,7 +203,7 @@
         height: 40px;
         padding-left: 0px;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
       }
 
       .cause-info-icon {
@@ -282,12 +282,6 @@
     }
 
     .cause-misc-info {
-      .MuiGrid-item {
-        margin-top: 1rem;
-        align-self: center;
-        justify-content: flex-start;
-      }
-
       .cause-give-button {
         width: 100%;
         margin-left: 0rem;
@@ -316,12 +310,6 @@
       padding-top: 0px;
       padding-left: 30px;
       width: 100%;
-
-      .cause-misc-info {
-        .MuiGrid-item {
-          justify-content: flex-start;
-        }
-      }
     }
 
     .cause-image {
