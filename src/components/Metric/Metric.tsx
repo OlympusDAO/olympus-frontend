@@ -1,6 +1,6 @@
 import { Typography, TypographyTypeMap, Box } from "@material-ui/core";
 import { Skeleton, SkeletonTypeMap } from "@material-ui/lab";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { InfoTooltip } from "@olympusdao/component-library";
 
 import "./Metric.scss";
 

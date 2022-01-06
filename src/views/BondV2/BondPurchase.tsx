@@ -22,6 +22,7 @@ import ConnectButton from "../../components/ConnectButton";
 import { useAppSelector } from "src/hooks";
 import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
 import { BigNumber, ethers } from "ethers";
+import { AppDispatch } from "src/store";
 
 function BondPurchase({
   bond,
@@ -33,7 +34,7 @@ function BondPurchase({
   recipientAddress: string;
 }) {
   const SECONDS_TO_REFRESH = 60;
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { provider, address, networkId } = useWeb3Context();
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex ?? "1";
@@ -68,8 +69,7 @@ function BondPurchase({
           maxPrice: Math.round(Number(bond.priceTokenBigNumber.toString()) * (1 + slippage / 100)),
           address: recipientAddress,
         }),
-      );
-      clearInput();
+      ).then(() => clearInput());
     }
   }
 
@@ -83,12 +83,7 @@ function BondPurchase({
 
   const setMax = () => {
     let maxQ;
-    // if (bond.maxBondPrice * bond.bondPrice < Number(bond.capacity)) {
-    //   // there is precision loss here on Number(bond.balance)
-    //   maxQ = bond.maxBondPrice * bond.bondPrice.toString();
-    // } else {
     maxQ = balanceNumber;
-    // }
     setQuantity(maxQ.toString());
   };
 
@@ -193,7 +188,7 @@ function BondPurchase({
               <Trans>Your Balance</Trans>
             </Typography>{" "}
             <Typography id="bond-balance">
-              {isBondLoading ? <Skeleton width="100px" /> : <>{trim(balanceNumber, 4)}</>}
+              {isBondLoading ? <Skeleton width="100px" /> : <>{`${trim(balanceNumber, 4)} ${bond.displayName}`}</>}
             </Typography>
           </div>
 

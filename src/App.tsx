@@ -398,10 +398,10 @@ function App() {
               <PoolTogether />
             </Route> */}
 
-              <Route path="/bonds">
+              <Route path="/bonds-v1">
                 {(bonds as IAllBondData[]).map(bond => {
                   return (
-                    <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
+                    <Route exact key={bond.name} path={`/bonds-v1/${bond.name}`}>
                       <Bond bond={bond} />
                     </Route>
                   );
@@ -409,10 +409,10 @@ function App() {
                 <ChooseBond />
               </Route>
 
-              <Route path="/bonds-v2">
+              <Route path="/bonds">
                 {bondIndexes.map(index => {
                   return (
-                    <Route exact key={index} path={`/bonds-v2/${index}`}>
+                    <Route exact key={index} path={`/bonds/${index}`}>
                       <BondV2 index={index} />
                     </Route>
                   );

@@ -40,9 +40,9 @@ import { ethers } from "ethers";
 import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
-import StakeRow from "./StakeRow";
 import { Metric, MetricCollection } from "../../components/Metric";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { DataRow } from "@olympusdao/component-library";
 
 function a11yProps(index: number) {
   return {
@@ -319,7 +319,6 @@ function Stake() {
                 />
               </MetricCollection>
             </Grid>
-
             <div className="staking-area">
               {!address ? (
                 <div className="stake-wallet-notification">
@@ -487,36 +486,36 @@ function Stake() {
                     onConfirm={setConfirmation}
                   />
                   <div className="stake-user-data">
-                    <StakeRow
+                    <DataRow
                       title={t`Unstaked Balance`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                     <Accordion className="stake-accordion" square defaultExpanded>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-                        <StakeRow
+                        <DataRow
                           title={t`Total Staked Balance`}
                           id="user-staked-balance"
                           balance={`${trimmedBalance} sOHM`}
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                       </AccordionSummary>
                       <AccordionDetails>
-                        <StakeRow
+                        <DataRow
                           title={t`sOHM Balance`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
-                        <StakeRow
+                        <DataRow
                           title={`${t`gOHM Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                         {Number(gOhmOnArbitrum) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`gOHM (Arbitrum)`}`}
                             balance={`${trim(Number(gOhmOnArbitrum), 4)} gOHM`}
                             indented
@@ -524,7 +523,7 @@ function Stake() {
                           />
                         )}
                         {Number(gOhmOnAvax) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`gOHM (Avalanche)`}`}
                             balance={`${trim(Number(gOhmOnAvax), 4)} gOHM`}
                             indented
@@ -532,7 +531,7 @@ function Stake() {
                           />
                         )}
                         {Number(gOhmOnPolygon) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`gOHM (Polygon)`}`}
                             balance={`${trim(Number(gOhmOnPolygon), 4)} gOHM`}
                             indented
@@ -540,7 +539,7 @@ function Stake() {
                           />
                         )}
                         {Number(gOhmOnFantom) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`gOHM (Fantom)`}`}
                             balance={`${trim(Number(gOhmOnFantom), 4)} gOHM`}
                             indented
@@ -548,58 +547,62 @@ function Stake() {
                           />
                         )}
                         {Number(fgohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`gOHM Balance in Fuse`}`}
                             balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(sohmV1Balance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`sOHM Balance`} (v1)`}
                             balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(wsohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`wsOHM Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
                         {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={t`wsOHM Balance in FiatDAO (v1)`}
                             balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
                         {Number(fsohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={t`sOHM Balance in Fuse (v1)`}
                             balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
-                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
-                    <StakeRow
+                    <DataRow
+                      title={t`Next Reward Amount`}
+                      balance={`${nextRewardValue} sOHM`}
+                      isLoading={isAppLoading}
+                    />
+                    <DataRow
                       title={t`Next Reward Yield`}
                       balance={`${stakingRebasePercentage}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
-                    <StakeRow
+                    <DataRow
                       title={t`ROI (5-Day Rate)`}
                       balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                   </div>
                 </>

@@ -36,8 +36,8 @@ function ClaimBonds({ activeBonds }) {
 
   const pendingClaim = () => {
     if (
-      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
-      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
+      isPendingTxn(pendingTransactions, "redeem_all_notes") ||
+      isPendingTxn(pendingTransactions, "redeem_all_notes_autostake")
     ) {
       return true;
     }
@@ -114,7 +114,7 @@ function ClaimBonds({ activeBonds }) {
                         onRedeemAll({ autostake: false });
                       }}
                     >
-                      {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
+                      {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_notes", t`Claim all`)}
                     </Button>
 
                     <Button
@@ -130,7 +130,7 @@ function ClaimBonds({ activeBonds }) {
                     >
                       {txnButtonTextGeneralPending(
                         pendingTransactions,
-                        "redeem_all_bonds_autostake",
+                        "redeem_all_notes_autostake",
                         t`Claim all and Stake`,
                       )}
                     </Button>

@@ -8,6 +8,7 @@ import {
   IBondV2PurchaseAsyncThunk,
   IJsonRPCError,
   IBaseBondV2ClaimAsyncThunk,
+  IBaseBondV2SingleClaimAsyncThunk,
 } from "./interfaces";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
 import { addresses, NetworkId, V2BondDetails, v2BondDetails } from "src/constants";
@@ -15,6 +16,7 @@ import { getTokenIdByContract, getTokenPrice, prettifySeconds } from "src/helper
 import { findOrLoadMarketPrice } from "./AppSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { error, info } from "./MessagesSlice";
+import { getBalances } from "./AccountSlice";
 
 export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   index: number;
@@ -82,6 +84,7 @@ export interface IUserNote {
   claimed: boolean;
   displayName: string;
   quoteToken: string;
+  index: number;
 }
 
 function checkNetwork(networkID: NetworkId) {
@@ -111,6 +114,7 @@ export const changeApproval = createAsyncThunk(
         dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
         await approveTx.wait();
+        dispatch(clearPendingTxn(approveTx.hash));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
@@ -118,7 +122,6 @@ export const changeApproval = createAsyncThunk(
     } finally {
       if (approveTx) {
         dispatch(getTokenBalance({ provider, networkID, address, value: tokenContractAddress }));
-        dispatch(clearPendingTxn(approveTx.hash));
       }
     }
   },
@@ -133,12 +136,13 @@ export const purchaseBond = createAsyncThunk(
 
     let depositTx: ethers.ContractTransaction | undefined;
     try {
-      const depositTx = await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
+      depositTx = await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
       const text = `Purchase ${bond.displayName} Bond`;
-      const pendingTxnType = `purchase_${bond.displayName}_bond`;
+      const pendingTxnType = `bond_${bond.displayName}`;
       if (depositTx) {
         dispatch(fetchPendingTxns({ txnHash: depositTx.hash, text, type: pendingTxnType }));
         await depositTx.wait();
+        dispatch(clearPendingTxn(depositTx.hash));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
@@ -147,7 +151,7 @@ export const purchaseBond = createAsyncThunk(
       if (depositTx) {
         dispatch(info("Successfully purchased bond!"));
         dispatch(getUserNotes({ provider, networkID, address }));
-        dispatch(clearPendingTxn(depositTx.hash));
+        dispatch(getAllBonds({ address, provider, networkID }));
       }
     }
   },
@@ -298,6 +302,7 @@ export const getUserNotes = createAsyncThunk(
         timeLeft: duration,
         displayName: bond?.displayName,
         quoteToken: bond.quoteToken.toLowerCase(),
+        index: +userNoteIndexes[i],
       };
       notes.push(note);
     }
@@ -315,19 +320,20 @@ export const claimAllNotes = createAsyncThunk(
     try {
       claimTx = await depositoryContract.redeemAll(address, gOHM);
       const text = `Claim All Bonds`;
-      const pendingTxnType = `claim_all_bonds`;
+      const pendingTxnType = `redeem_all_notes`;
       if (claimTx) {
         dispatch(fetchPendingTxns({ txnHash: claimTx.hash, text, type: pendingTxnType }));
 
         await claimTx.wait();
+        dispatch(clearPendingTxn(claimTx.hash));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
       if (claimTx) {
-        dispatch(clearPendingTxn(claimTx.hash));
         dispatch(getUserNotes({ address, provider, networkID }));
+        dispatch(getBalances({ address, networkID, provider }));
       }
     }
   },
@@ -335,27 +341,30 @@ export const claimAllNotes = createAsyncThunk(
 
 export const claimSingleNote = createAsyncThunk(
   "bondsV2/claimSingle",
-  async ({ provider, networkID, address, gOHM }: IBaseBondV2ClaimAsyncThunk, { dispatch, getState }) => {
+  async ({ provider, networkID, address, indexes, gOHM }: IBaseBondV2SingleClaimAsyncThunk, { dispatch, getState }) => {
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 
     let claimTx: ethers.ContractTransaction | undefined;
     try {
-      claimTx = await depositoryContract.redeemAll(address, gOHM);
-      const text = `Claim All Bonds`;
-      const pendingTxnType = `claim_all_bonds`;
+      claimTx = await depositoryContract.redeem(address, indexes, gOHM);
+      const text = `Redeem Note Index=${indexes}`;
       if (claimTx) {
-        dispatch(fetchPendingTxns({ txnHash: claimTx.hash, text, type: pendingTxnType }));
+        for (let i = 0; i < indexes.length; i++) {
+          const pendingTxnType = `redeem_note_${indexes[i]}`;
+          dispatch(fetchPendingTxns({ txnHash: claimTx.hash, text, type: pendingTxnType }));
+        }
 
         await claimTx.wait();
+        dispatch(clearPendingTxn(claimTx.hash));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
       if (claimTx) {
-        dispatch(clearPendingTxn(claimTx.hash));
         dispatch(getUserNotes({ address, provider, networkID }));
+        dispatch(getBalances({ address, networkID, provider }));
       }
     }
   },

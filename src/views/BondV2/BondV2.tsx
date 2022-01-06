@@ -12,28 +12,21 @@ import "./bond.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
-import { IBondV2 } from "src/slices/BondSliceV2";
+import { getAllBonds, getUserNotes, IBondV2 } from "src/slices/BondSliceV2";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "src/store";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
 const BondV2 = ({ index }: { index: number }) => {
   const history = useHistory();
+
   const bond = useAppSelector(state => state.bondingV2.bonds[index]);
   const { provider, address, networkId } = useWeb3Context();
-  usePathForNetwork({ pathName: "bonds-v2", networkID: networkId, history });
+  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   const [slippage, setSlippage] = useState<number>(0.5);
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
-
-  const [view, setView] = useState<number>(0);
-  const [quantity, setQuantity] = useState<number | undefined>();
 
   const isBondLoading = useAppSelector<boolean>(state => state.bonding.loading ?? true);
 
@@ -54,11 +47,7 @@ const BondV2 = ({ index }: { index: number }) => {
   };
   useEffect(() => {
     if (address) setRecipientAddress(address);
-  }, [provider, quantity, address]);
-
-  const changeView = (event: ChangeEvent<{}>, value: string | number): void => {
-    setView(Number(value));
-  };
+  }, [provider, address]);
 
   return (
     <Fade in={true} mountOnEnter unmountOnExit>

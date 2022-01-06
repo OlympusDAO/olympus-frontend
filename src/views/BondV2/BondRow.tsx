@@ -65,7 +65,7 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
             )}
           </Typography>
         </div> */}
-        <Link component={NavLink} to={`/bonds-v2/${bond.index}`}>
+        <Link component={NavLink} to={`/bonds/${bond.index}`}>
           <Button variant="outlined" color="primary" fullWidth>
             <Typography variant="h5">
               {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
@@ -113,7 +113,7 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
       </TableCell>
       <TableCell align="left">{isBondLoading ? <Skeleton /> : bond.duration}</TableCell>
       <TableCell>
-        <Link component={NavLink} to={`/bonds-v2/${bond.index}`}>
+        <Link component={NavLink} to={`/bonds/${bond.index}`}>
           <Button variant="outlined" color="primary" style={{ width: "100%" }}>
             {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
             {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
