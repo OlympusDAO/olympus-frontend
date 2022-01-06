@@ -2,14 +2,13 @@ import { formatCurrency, trim } from "src/helpers";
 import { Metric } from "src/components/Metric";
 import { t } from "@lingui/macro";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useMarketPrice } from "src/hooks/useMarketPrice";
 import {
   useMarketCap,
   useOhmCirculatingSupply,
   useTotalSupply,
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
-import { useGohmPrice } from "src/hooks/useGohmPrice";
+import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 
 type MetricProps = PropsOf<typeof Metric>;
 
@@ -33,14 +32,14 @@ export const MarketCap = () => {
 };
 
 export const OHMPrice = () => {
-  const { data: marketPrice } = useMarketPrice();
+  const { data: ohmPrice } = useOhmPrice();
 
   const props: MetricProps = {
     ...sharedProps,
     label: t`OHM Price`,
   };
 
-  if (marketPrice) props.metric = formatCurrency(marketPrice, 2);
+  if (ohmPrice) props.metric = formatCurrency(ohmPrice, 2);
   else props.isLoading = true;
 
   return <Metric {...props} />;
