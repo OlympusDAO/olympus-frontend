@@ -11,19 +11,15 @@ import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
 import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 import { IUserNote } from "src/slices/BondSliceV2";
 
-export function ClaimBondTableData({ userNote }: { userNote: IUserNote }) {
+export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
   const dispatch = useDispatch();
   const { address, provider, networkId } = useWeb3Context();
-  const { bonds, expiredBonds } = useBonds(networkId);
+  const currentIndex = useAppSelector(state => state.app.currentIndex);
 
   const bond = userNote;
   const bondName = bond.displayName;
 
   const isAppLoading = useAppSelector(state => state.app.loading ?? true);
-
-  const currentBlock = useAppSelector(state => {
-    return state.app.currentBlock;
-  });
 
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
@@ -33,7 +29,7 @@ export function ClaimBondTableData({ userNote }: { userNote: IUserNote }) {
 
   async function onRedeem() {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
+    // let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
     // await dispatch(redeemBond({ address, bond: currentBond, networkID: networkId, provider, autostake }));
   }
 
@@ -50,7 +46,11 @@ export function ClaimBondTableData({ userNote }: { userNote: IUserNote }) {
         {/* {bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />} */}
       </TableCell>
       <TableCell align="center">
-        {bond.payout !== null ? trim(bond.payout, 4) + " sOHM" : <Skeleton width={100} />}
+        {bond.payout !== null ? (
+          trim(bond.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
+        ) : (
+          <Skeleton width={100} />
+        )}
       </TableCell>
       <TableCell align="right">
         {vestingPeriod() === "Fully Vested" && (
