@@ -7,7 +7,7 @@ import {
   waitSelectorExists,
   getSelectorTextContent,
   typeValue,
-} from "../../testHelpers";
+} from "../../../tests/e2e/testHelpers";
 import puppeteer, { Browser, Page } from "puppeteer";
 import { launch, Dappeteer } from "@chainsafe/dappeteer";
 

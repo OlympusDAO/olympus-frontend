@@ -35,6 +35,18 @@ Open the source code and start editing!
 
 If you would like to run the frontend in a Docker image (e.g. to isolate dependencies and the nodejs version), run `yarn docker-start`.
 
+## Unit Testing
+
+Unit tests are co-located with source code with naming convention `*.unit.test.js`.
+Jest is the test driver. Unit tests are isolated from integration dependencies via mocks; including Web3 RPC APIs and smart contract interactions.
+No local blockchain node is expected to run for unit testing. Hard Hat is not required.
+
+To run all unit test and see coverage report:
+
+```
+yarn test:unit
+```
+
 ## Rinkeby Testing
 
 **Rinkeby faucet for sOHM:**

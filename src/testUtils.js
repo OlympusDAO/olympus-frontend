@@ -4,14 +4,13 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { light as lightTheme } from "../../src/themes/light.js";
-import { Web3ContextProvider } from "../../src/hooks/web3Context";
-import store from "../../src/store.ts";
-import { setupServer } from "msw/node";
-import { Router } from "react-router-dom";
+import { light as lightTheme } from "./themes/light.js";
+import { Web3ContextProvider } from "./hooks/web3Context";
+import store from "./store.ts";
 import { createMemoryHistory } from "history";
-import App from "../../src/App";
-import handlers from "./handlers";
+import App from "./App";
+import { I18nProvider } from "@lingui/react";
+import { i18n } from "@lingui/core";
 
 const AllTheProviders = ({ children }) => {
   return (
@@ -36,31 +35,18 @@ const renderRoute = function (route) {
   render(
     <Web3ContextProvider>
       <Provider store={store}>
-        <Router history={history}>
-          <ThemeProvider theme={lightTheme}>
+        <I18nProvider i18n={i18n}>
+          <BrowserRouter basename={"/#"}>
             <App />
-          </ThemeProvider>
-        </Router>
+          </BrowserRouter>
+        </I18nProvider>
       </Provider>
     </Web3ContextProvider>,
   );
 };
-const setup = function () {
-  const server = setupServer(...handlers);
 
-  // Enable API mocking before tests.
-  beforeAll(() => server.listen({ onUnhandledRequest: "bypass" }));
-
-  // Reset any runtime request handlers we may add during the tests.
-  afterEach(() => server.resetHandlers());
-
-  // Disable API mocking after the tests are done.
-  afterAll(() => server.close());
-
-  jest.setTimeout(60000);
-};
 // re-export everything
 export * from "@testing-library/react";
 
 // override render method
-export { customRender as render, renderRoute, setup };
+export { customRender as render, renderRoute };

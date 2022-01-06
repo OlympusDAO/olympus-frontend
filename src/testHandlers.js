@@ -8,6 +8,9 @@ const handlers = [
   rest.post("https://ipaddress/:port", (req, res, ctx) => {
     return res(ctx.json({}));
   }),
+  rest.get("https://api.covalenthq.com/*", (req, res, ctx) => {
+    return res(ctx.json({}));
+  }),
   rest.post("https://api.thegraph.com/subgraphs/name/drondin/olympus-graph", (req, res, ctx) => {
     return res(
       ctx.json({
