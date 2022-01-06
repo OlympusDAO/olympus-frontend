@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   ButtonBase,
@@ -30,11 +30,14 @@ import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { Metric, MetricCollection } from "src/components/Metric";
-import { IBondV2, IUserNote } from "src/slices/BondSliceV2";
+import { getAllBonds, getUserNotes, IBondV2, IUserNote } from "src/slices/BondSliceV2";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { useEffect, useState } from "react";
+import { AppDispatch } from "src/store";
 
 function ChooseBondV2() {
-  const { networkId } = useWeb3Context();
+  const { networkId, address, provider } = useWeb3Context();
+  const dispatch = useDispatch<AppDispatch>();
   const history = useHistory();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
@@ -43,9 +46,6 @@ function ChooseBondV2() {
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
-  const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
-
-  const isAppLoading: boolean = useAppSelector(state => state.app.loading);
   const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
 
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
@@ -72,6 +72,14 @@ function ChooseBondV2() {
     maximumFractionDigits: 0,
     minimumFractionDigits: 0,
   }).format(Number(treasuryBalance));
+
+  useEffect(() => {
+    const interval = setTimeout(() => {
+      dispatch(getAllBonds({ address, networkID: networkId, provider }));
+      dispatch(getUserNotes({ address, networkID: networkId, provider }));
+    }, 60000);
+    return () => clearTimeout(interval);
+  });
 
   return (
     <div id="choose-bond-view">
