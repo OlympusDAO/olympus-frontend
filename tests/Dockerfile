@@ -56,7 +56,8 @@ COPY package.json .
 COPY yarn.lock .
 
 # Yarn would timeout with the material-ui package(s), so we override the timeout
-RUN yarn install --network-timeout 1000000 --frozen-lockfile
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true yarn install --network-timeout 1000000 --frozen-lockfile
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 COPY Makefile .
 
