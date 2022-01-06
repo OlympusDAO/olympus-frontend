@@ -22,7 +22,7 @@ export const POOL_GRAPH_URLS: IPoolGraphURLS = {
   1: "https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_4_3",
 };
 
-export enum NetworkId {
+export const enum NetworkId {
   MAINNET = 1,
   TESTNET_RINKEBY = 4,
 

@@ -43,6 +43,7 @@ import { ExpandMore } from "@material-ui/icons";
 import StakeRow from "./StakeRow";
 import { Metric, MetricCollection } from "../../components/Metric";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { NetworkId } from "src/constants";
 
 function a11yProps(index: number) {
   return {
@@ -105,31 +106,31 @@ function Stake() {
   });
 
   const gOhmOnArbitrum = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnArbitrum;
+    return state.account.balances && state.account.balances.gOhmBalances[NetworkId.ARBITRUM];
   });
   const gOhmOnArbAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnArbAsSohm;
+    return state.account.balances && state.account.balances.gOhmAsSohmBalances[NetworkId.ARBITRUM];
   });
 
   const gOhmOnAvax = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnAvax;
+    return state.account.balances && state.account.balances.gOhmBalances[NetworkId.AVALANCHE];
   });
   const gOhmOnAvaxAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnAvaxAsSohm;
+    return state.account.balances && state.account.balances.gOhmAsSohmBalances[NetworkId.AVALANCHE];
   });
 
   const gOhmOnPolygon = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnPolygon;
+    return state.account.balances && state.account.balances.gOhmBalances[NetworkId.POLYGON];
   });
   const gOhmOnPolygonAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnPolygonAsSohm;
+    return state.account.balances && state.account.balances.gOhmAsSohmBalances[NetworkId.POLYGON];
   });
 
   const gOhmOnFantom = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnFantom;
+    return state.account.balances && state.account.balances.gOhmBalances[NetworkId.FANTOM];
   });
   const gOhmOnFantomAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnFantomAsSohm;
+    return state.account.balances && state.account.balances.gOhmAsSohmBalances[NetworkId.FANTOM];
   });
 
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);

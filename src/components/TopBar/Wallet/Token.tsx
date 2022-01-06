@@ -16,7 +16,6 @@ import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { addresses, NETWORKS } from "src/constants";
 import { formatCurrency } from "src/helpers";
-import { RootState } from "src/store";
 import { NetworkId } from "src/constants";
 
 import { ReactComponent as MoreIcon } from "src/assets/icons/more.svg";
@@ -28,6 +27,7 @@ import GOhmImg from "src/assets/tokens/gohm.png";
 
 import { segmentUA } from "src/helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
+import { GOHMBalances, WSOHMBalances } from "src/slices/AccountSlice";
 
 const Accordion = withStyles({
   root: {
@@ -69,7 +69,7 @@ export interface IToken {
   address: string;
   decimals: number;
   icon: string;
-  balances: { [networkId in NetworkId]?: string };
+  balances: { [NetworkId.MAINNET]: string } | GOHMBalances | WSOHMBalances;
   price: number;
   vaultBalances?: { [vaultName: string]: string };
   totalBalance: string;
@@ -167,7 +167,7 @@ export const Token = ({
   const theme = useTheme();
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const balanceValue = parseFloat(totalBalance) * price;
-
+  console.log(symbol, balances);
   // cleanedDecimals provides up to 7 sigFigs on an 18 decimal token (gOHM) & 5 sigFigs on 9 decimal Token
   const sigFigs = decimals === 18 ? 7 : 5;
 
@@ -310,11 +310,7 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
     wsohm: {
       symbol: "wsOHM",
       address: addresses[networkId].WSOHM_ADDRESS,
-      balances: {
-        [NetworkId.MAINNET]: connectedChainBalances.wsohmOnEthereum,
-        [NetworkId.ARBITRUM]: connectedChainBalances.wsohmOnArbitrum,
-        [NetworkId.AVALANCHE]: connectedChainBalances.wsohmOnAvax,
-      },
+      balances: connectedChainBalances.wsOhmBalances,
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       icon: WsOhmImg,
       decimals: 18,
@@ -332,13 +328,7 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
     gohm: {
       symbol: "gOHM",
       address: addresses[networkId].GOHM_ADDRESS,
-      balances: {
-        [NetworkId.MAINNET]: connectedChainBalances.gOhmOnEthereum,
-        [NetworkId.ARBITRUM]: connectedChainBalances.gOhmOnArbitrum,
-        [NetworkId.AVALANCHE]: connectedChainBalances.gOhmOnAvax,
-        [NetworkId.FANTOM]: connectedChainBalances.gOhmOnFantom,
-        [NetworkId.POLYGON]: connectedChainBalances.gOhmOnPolygon,
-      },
+      balances: connectedChainBalances.gOhmBalances,
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       vaultBalances: {
         "Fuse Olympus Pool Party": connectedChainBalances.fgohm,
