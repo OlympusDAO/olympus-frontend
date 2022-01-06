@@ -9,17 +9,18 @@ import {
   useTotalSupply,
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
-import { Variant } from "@material-ui/core/styles/createTypography";
 
-const sharedProps = {
-  labelVariant: "h6" as Variant,
-  metricVariant: "h5" as Variant,
+type MetricProps = PropsOf<typeof Metric>;
+
+const sharedProps: MetricProps = {
+  labelVariant: "h6",
+  metricVariant: "h5",
 };
 
 export const MarketCap = () => {
   const { data: marketCap } = useMarketCap();
 
-  const props: PropsOf<typeof Metric> = {
+  const props: MetricProps = {
     ...sharedProps,
     label: t`Market Cap`,
   };
@@ -33,7 +34,7 @@ export const MarketCap = () => {
 export const OHMPrice = () => {
   const { data: marketPrice } = useMarketPrice();
 
-  const props: PropsOf<typeof Metric> = {
+  const props: MetricProps = {
     ...sharedProps,
     label: t`OHM Price`,
   };
@@ -48,7 +49,7 @@ export const CircSupply = () => {
   const { data: totalSupply } = useTotalSupply();
   const { data: circSupply } = useOhmCirculatingSupply();
 
-  const props: PropsOf<typeof Metric> = {
+  const props: MetricProps = {
     ...sharedProps,
     label: t`Circulating Supply (total)`,
   };
@@ -63,7 +64,7 @@ export const BackingPerOHM = () => {
   const { data: circSupply } = useOhmCirculatingSupply();
   const { data: treasuryValue } = useTreasuryMarketValue();
 
-  const props: PropsOf<typeof Metric> = {
+  const props: MetricProps = {
     ...sharedProps,
     label: t`Backing per OHM`,
   };
@@ -77,7 +78,7 @@ export const BackingPerOHM = () => {
 export const CurrentIndex = () => {
   const { data: currentIndex } = useCurrentIndex();
 
-  const props: PropsOf<typeof Metric> = {
+  const props: MetricProps = {
     ...sharedProps,
     label: t`Current Index`,
     tooltip:
@@ -94,7 +95,7 @@ export const GOHMPrice = () => {
   const { data: marketPrice } = useMarketPrice();
   const { data: currentIndex } = useCurrentIndex();
 
-  const props: PropsOf<typeof Metric> = {
+  const props: MetricProps = {
     ...sharedProps,
     label: t`gOHM Price`,
     className: "wsoprice",
