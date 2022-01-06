@@ -83,12 +83,7 @@ function BondPurchase({
 
   const setMax = () => {
     let maxQ;
-    // if (bond.maxBondPrice * bond.bondPrice < Number(bond.capacity)) {
-    //   // there is precision loss here on Number(bond.balance)
-    //   maxQ = bond.maxBondPrice * bond.bondPrice.toString();
-    // } else {
     maxQ = balanceNumber;
-    // }
     setQuantity(maxQ.toString());
   };
 
