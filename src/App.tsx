@@ -229,14 +229,19 @@ function App() {
   useEffect(() => {
     if (hasCachedProvider()) {
       // then user DOES have a wallet
-      connect().then(() => {
-        setWalletChecked(true);
-        segmentUA({
-          type: "connect",
-          provider: provider,
-          context: currentPath,
+      connect()
+        .then(() => {
+          setWalletChecked(true);
+          segmentUA({
+            type: "connect",
+            provider: provider,
+            context: currentPath,
+          });
+        })
+        .catch(e => {
+          // console.error("failed to connect with cached provider");
+          setWalletChecked(true);
         });
-      });
     } else {
       // then user DOES NOT have a wallet
       setWalletChecked(true);

@@ -135,7 +135,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
     const connectedProvider = new Web3Provider(rawProvider, "any");
     setProvider(connectedProvider);
-    const connectedAddress = await connectedProvider.getSigner().getAddress();
+    const connectedAddress = await connectedProvider.getSigner().getAddress().catch(console.error);
+    if (!connectedAddress) return;
 
     // Save everything after we've validated the right network.
     // Eventually we'll be fine without doing network validations.
