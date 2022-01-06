@@ -215,7 +215,7 @@ function BondPurchase({
 
           <div className="data-row">
             <Typography>
-              <Trans>Discount</Trans>
+              <Trans>ROI</Trans>
             </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}
@@ -242,8 +242,8 @@ function BondPurchase({
       <div className="help-text">
         <em>
           <Typography variant="body2">
-            Important: Bonds no longer vest linearly. The bond can only be claimed at the end of the term. All bonds are
-            auto-staking via sOHM.
+            Important: Bonds no longer vest linearly. The bond can only be claimed at the end of the term. Bonds are
+            auto-staking.
           </Typography>
         </em>
       </div>
