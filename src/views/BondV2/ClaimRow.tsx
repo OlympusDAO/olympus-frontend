@@ -14,17 +14,12 @@ import { IUserNote } from "src/slices/BondSliceV2";
 export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
   const dispatch = useDispatch();
   const { address, provider, networkId } = useWeb3Context();
-  const { bonds, expiredBonds } = useBonds(networkId);
   const currentIndex = useAppSelector(state => state.app.currentIndex);
 
   const bond = userNote;
   const bondName = bond.displayName;
 
   const isAppLoading = useAppSelector(state => state.app.loading ?? true);
-
-  const currentBlock = useAppSelector(state => {
-    return state.app.currentBlock;
-  });
 
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
@@ -34,7 +29,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
 
   async function onRedeem() {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
+    // let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
     // await dispatch(redeemBond({ address, bond: currentBond, networkID: networkId, provider, autostake }));
   }
 

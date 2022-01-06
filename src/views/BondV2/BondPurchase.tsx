@@ -202,8 +202,8 @@ function BondPurchase({
               {isBondLoading ? (
                 <Skeleton width="100px" />
               ) : (
-                `${trim(Number(quantity) / (bond.priceToken * 1000000000), 4) || "0"} ` +
-                `sOHM (≈${trim(+quantity / (bond.priceToken * 1000000000) / +currentIndex, 4) || "0"} gOHM)`
+                `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
+                `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
               )}
             </Typography>
           </div>

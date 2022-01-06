@@ -44,13 +44,6 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
     return state.pendingTransactions;
   });
 
-  const onRedeemAll = () => {
-    // console.log("redeeming all bonds");
-    // dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
-    dispatch(claimAllNotes({ address, provider, networkID: networkId }));
-    // console.log("redeem all complete");
-  };
-
   useEffect(() => {
     let bondCount = Object.keys(activeNotes).length;
     setNumberOfBonds(bondCount);
@@ -79,6 +72,13 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   }, 0);
 
   const totalClaimable = view === 1 ? total : total * +currentIndex;
+
+  const onRedeemAll = () => {
+    // console.log("redeeming all bonds");
+    // dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
+    dispatch(claimAllNotes({ address, provider, networkID: networkId, gOHM: view === 1 }));
+    // console.log("redeem all complete");
+  };
 
   return (
     <>
