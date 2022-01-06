@@ -53,7 +53,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
         )}
       </TableCell>
       <TableCell align="right">
-        {vestingPeriod() === "Fully Vested" && (
+        {vestingPeriod() === "Fully Vested" ? (
           <Button
             variant="outlined"
             color="primary"
@@ -64,6 +64,8 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
               {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
             </Typography>
           </Button>
+        ) : (
+          <div style={{ width: "84px" }} />
         )}
       </TableCell>
     </TableRow>

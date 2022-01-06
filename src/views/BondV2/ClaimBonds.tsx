@@ -144,10 +144,15 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                         </Button>
                       </Box>
                       {fullyVestedBonds.length > 0 && (
-                        <AccordionSection bonds={fullyVestedBonds} title="Fully Vested Bonds" gOHM={view === 1} />
+                        <AccordionSection
+                          bonds={fullyVestedBonds}
+                          title="Fully Vested Bonds"
+                          gOHM={view === 1}
+                          vested={true}
+                        />
                       )}
                       {vestingBonds.length > 0 && (
-                        <AccordionSection bonds={vestingBonds} title="Vesting Bonds" gOHM={view === 1} />
+                        <AccordionSection bonds={vestingBonds} title="Vesting Bonds" gOHM={view === 1} vested={false} />
                       )}
                     </TableBody>
                   </Table>
