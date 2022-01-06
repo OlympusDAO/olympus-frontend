@@ -87,10 +87,8 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
 
   const vestingPeriod = () => bond.timeLeft;
 
-  async function onRedeem() {
-    // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    // await dispatch(redeemBond({ address, bond: currentBond, networkID: networkId, provider, autostake }));
+  async function onRedeem(index: number) {
+    await dispatch(claimSingleNote({ provider, networkID: networkId, address, indexes: [index], gOHM }));
   }
 
   return (
@@ -127,7 +125,7 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
           variant="outlined"
           color="primary"
           disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
-          onClick={onRedeem}
+          onClick={() => onRedeem(bond.bondIndex)}
         >
           <Typography variant="h5">
             {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, t`Claim`)}
