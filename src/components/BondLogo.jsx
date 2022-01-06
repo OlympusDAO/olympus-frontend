@@ -21,7 +21,7 @@ function BondLogo({ bond }) {
     console.log("qt", bond.quoteToken);
     const details = v2BondDetails[networkId][bond.quoteToken];
     console.log(details);
-    bondIconSvg = details.bondIconSvg;
+    bondIconSvg = details && details.bondIconSvg;
   }
 
   return (
