@@ -6,16 +6,23 @@ import {
   waitSelectorExists,
   getSelectorTextContent,
   launchDApp,
+  launchXvfb,
   dapp,
 } from "../../testHelpers";
 
 describe("bonding", () => {
   beforeAll(async () => {
+    await launchXvfb();
     await launchDApp();
   });
 
   beforeEach(async () => {
     await dapp.page.goto("http://localhost:3000/#/bonds");
+  });
+
+  afterAll(async () => {
+    dapp.browser.close();
+    dapp.xvfb.stop();
   });
 
   test("cannot bond without connected wallet", async () => {

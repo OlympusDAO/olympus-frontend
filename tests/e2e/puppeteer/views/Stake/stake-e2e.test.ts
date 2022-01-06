@@ -8,6 +8,7 @@ import {
   getSelectorTextContent,
   typeValue,
   launchDApp,
+  launchXvfb,
 } from "../../testHelpers";
 
 // TODO deploy contracts on temporary network
@@ -18,11 +19,17 @@ var STAKE_AMOUNT = 0.1;
 
 describe("staking", () => {
   beforeAll(async () => {
-    await launchDApp("rinkeby");
+    await launchXvfb();
+    await launchDApp();
   });
 
   beforeEach(async () => {
     await dapp.page.goto("http://localhost:3000/#/stake");
+  });
+
+  afterAll(async () => {
+    dapp.browser.close();
+    dapp.xvfb.stop();
   });
 
   test("cannot stake without connected wallet", async () => {

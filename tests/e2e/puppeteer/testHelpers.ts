@@ -4,6 +4,7 @@ import * as dappeteer from "@chainsafe/dappeteer";
 import { getDocument, queries } from "pptr-testing-library";
 import { ChildProcess } from "child_process";
 import { exec } from "shelljs";
+import { Xvfb } from "xvfb";
 
 export const setupLogging = (page: Page) => {
   page
@@ -96,11 +97,17 @@ export const dapp = {} as {
   browser: Browser;
   metamask: Dappeteer;
   page: Page;
+  xvfb: Xvfb;
 };
 
 export async function launchDApp(network: string = "localhost") {
   console.log("Starting metamask with network " + network);
-  const browser = await launch(puppeteer, { metamaskVersion: "v10.1.1" });
+  const browser = await launch(puppeteer, {
+    metamaskVersion: "v10.1.1",
+    headless: false,
+    defaultViewport: null, // otherwise defaults to 800x600
+    args: ["--no-sandbox", "--start-fullscreen", "--display=" + dapp.xvfb._display],
+  });
   const metamask = await setupMetamask(browser, { network: network });
 
   const page = await browser.newPage();
@@ -120,3 +127,14 @@ export const typeValue = async (page: Page, selector: string, value: string) => 
   await page.waitForSelector(selector);
   await page.type(selector, value);
 };
+
+export async function launchXvfb() {
+  var xvfb = new Xvfb({
+    silent: true,
+    xvfb_args: ["-screen", "0", "1280x720x24", "-ac"],
+  });
+
+  await xvfb.start();
+
+  dapp.xvfb = xvfb;
+}
