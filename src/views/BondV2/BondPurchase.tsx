@@ -35,6 +35,9 @@ function BondPurchase({
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
+  const currentIndex = useAppSelector(state => {
+    return state.app.currentIndex ?? "1";
+  });
 
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
@@ -199,7 +202,8 @@ function BondPurchase({
               {isBondLoading ? (
                 <Skeleton width="100px" />
               ) : (
-                `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` + `sOHM`
+                `${trim(Number(quantity) / (bond.priceToken * 1000000000), 4) || "0"} ` +
+                `sOHM (≈${trim(+quantity / (bond.priceToken * 1000000000) / +currentIndex, 4) || "0"} gOHM)`
               )}
             </Typography>
           </div>
@@ -209,13 +213,13 @@ function BondPurchase({
               <Trans>Max You Can Buy</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(+bond.capacity, 1) || "0"} ` + `OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(+bond.capacity, 1) || "0"} ` + `sOHM`}
             </Typography>
           </div>
 
           <div className="data-row">
             <Typography>
-              <Trans>Discount</Trans>
+              <Trans>ROI</Trans>
             </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}
@@ -242,8 +246,8 @@ function BondPurchase({
       <div className="help-text">
         <em>
           <Typography variant="body2">
-            Important: Bonds no longer vest linearly. The bond can only be claimed at the end of the term. All bonds are
-            auto-staking via sOHM.
+            Important: Bonds no longer vest linearly. The bond can only be claimed at the end of the term. Bonds are
+            auto-staking.
           </Typography>
         </em>
       </div>

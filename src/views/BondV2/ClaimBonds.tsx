@@ -28,11 +28,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { ContactSupportOutlined } from "@material-ui/icons";
 import { useAppSelector } from "src/hooks";
 import { claimAllNotes, IUserNote } from "src/slices/BondSliceV2";
+import { CurrentIndex } from "../TreasuryDashboard/components/Metric/Metric";
 
 function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
 
+  const currentIndex = useAppSelector(state => {
+    return state.app.currentIndex ?? "1";
+  });
   const [numberOfBonds, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
@@ -59,10 +63,6 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const fullyVestedBonds = activeNotes.filter(note => note.fullyMatured);
   const vestingBonds = activeNotes.filter(note => !note.fullyMatured);
 
-  const totalClaimable = fullyVestedBonds.reduce((a, b) => {
-    return a + b.payout;
-  }, 0);
-
   const [view, setView] = useState(0);
   function a11yProps(index: number) {
     return {
@@ -73,34 +73,43 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
     setView(newView);
   };
+
+  const total = fullyVestedBonds.reduce((a, b) => {
+    return a + b.payout;
+  }, 0);
+
+  const totalClaimable = view === 0 ? total : total / +currentIndex;
+
   return (
     <>
       {numberOfBonds >= 1 && (
         <Zoom in={true}>
           <Paper className="ohm-card claim-bonds-card">
             <CardHeader title="Your Bonds (1,1)" />
-            <Box
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
-            >
-              <Typography variant="h4" align="center" className="payout-options-header">
-                Payout Options{" "}
-              </Typography>
-              <Tabs
-                centered
-                value={view}
-                textColor="primary"
-                indicatorColor="primary"
-                onChange={changeView}
-                aria-label="payout token tabs"
+            {fullyVestedBonds.length > 0 && (
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
               >
-                <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tabs" />
+                <Typography variant="h4" align="center" className="payout-options-header">
+                  Payout Options{" "}
+                </Typography>
+                <Tabs
+                  centered
+                  value={view}
+                  textColor="primary"
+                  indicatorColor="primary"
+                  onChange={changeView}
+                  aria-label="payout token tabs"
+                >
+                  <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tabs" />
 
-                <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tabs" />
-              </Tabs>
-            </Box>
+                  <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tabs" />
+                </Tabs>
+              </Box>
+            )}
             <Box>
               {!isSmallScreen && (
                 <TableContainer>
