@@ -9,7 +9,7 @@ import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
 import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { IUserNote } from "src/slices/BondSliceV2";
+import { IUserNote, claimSingleNote } from "src/slices/BondSliceV2";
 
 export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
   const dispatch = useDispatch();
@@ -27,10 +27,8 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
 
   const vestingPeriod = () => bond.timeLeft;
 
-  async function onRedeem() {
-    // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    // let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
-    // await dispatch(redeemBond({ address, bond: currentBond, networkID: networkId, provider, autostake }));
+  async function onRedeem(index: number) {
+    await dispatch(claimSingleNote({ provider, networkID: networkId, address, indexes: [index], gOHM }));
   }
 
   return (
@@ -58,7 +56,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
             variant="outlined"
             color="primary"
             disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
-            onClick={onRedeem}
+            onClick={() => onRedeem(bond.bondIndex)}
           >
             <Typography variant="h6">
               {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
