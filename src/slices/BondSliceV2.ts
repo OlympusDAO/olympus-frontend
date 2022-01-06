@@ -261,7 +261,6 @@ export const getUserNotes = createAsyncThunk(
   "bondsV2/notes",
   async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }): Promise<IUserNote[]> => {
     checkNetwork(networkID);
-    console.log("getUserNotes");
     let bonds = (getState() as RootState).bondingV2.bonds;
     if (Object.keys(bonds).length == 0) {
       await dispatch(getAllBonds({ address, provider, networkID }));
