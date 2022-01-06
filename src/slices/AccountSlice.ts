@@ -64,7 +64,7 @@ interface IUserRecipientInfo {
 const balanceOf = async (userAddress: string, contractAddress: string, networkId: NetworkId) => {
   try {
     const provider = NodeHelper.getAnynetStaticProvider(networkId);
-    const contract = new ethers.Contract(contractAddress, ierc20Abi, provider) as IERC20;
+    const contract = IERC20__factory.connect(contractAddress, provider);
     return contract.balanceOf(userAddress);
   } catch (e) {
     handleContractError(e);
