@@ -199,7 +199,7 @@ function BondPurchase({
               {isBondLoading ? (
                 <Skeleton width="100px" />
               ) : (
-                `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` + `sOHM`
+                `${trim(Number(quantity) / (bond.priceToken * 1000000000), 4) || "0"} ` + `sOHM`
               )}
             </Typography>
           </div>
