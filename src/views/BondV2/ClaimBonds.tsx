@@ -90,7 +90,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
               display="flex"
               flexDirection="column"
               alignItems="center"
-              className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
+              className={`global-claim-buttons ${isSmallScreen ? "" : ""}`}
             >
               <Typography variant="h4" align="center" className="payout-options-header">
                 Payout Options{" "}
@@ -102,9 +102,10 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                 indicatorColor="primary"
                 onChange={changeView}
                 aria-label="payout token tabs"
+                className="payout-token-tabs"
               >
-                <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tabs" />
-                <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tabs" />
+                <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tab" />
+                <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tab" />
               </Tabs>
             </Box>
 
@@ -153,7 +154,43 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                 </TableContainer>
               )}
 
-              {isSmallScreen && activeNotes.map((bond, i) => <ClaimBondCardData key={i} userNote={bond} />)}
+              {isSmallScreen && (
+                <>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
+                  >
+                    <Typography variant="h5" align="center" className="claimable-balance">
+                      Claimable Balance
+                    </Typography>
+                    <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
+                      {totalClaimable} {view === 0 ? "sOHM" : "gOHM"}
+                    </Typography>
+
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      className="transaction-button"
+                      fullWidth
+                      disabled={
+                        isPendingTxn(pendingTransactions, "claim_all_bonds") ||
+                        !activeNotes.map(note => note.fullyMatured).reduce((prev, current, idx, arr) => prev || current)
+                      }
+                      onClick={onRedeemAll}
+                    >
+                      {txnButtonTextGeneralPending(pendingTransactions, "claim_all_bonds", t`Claim all`)}
+                    </Button>
+                  </Box>
+                  {activeNotes
+                    .map(a => a)
+                    .sort(a => (a.fullyMatured ? -1 : 1))
+                    .map((bond, i) => (
+                      <ClaimBondCardData key={i} userNote={bond} gOHM={view === 1} />
+                    ))}
+                </>
+              )}
             </Box>
           </Paper>
         </Zoom>
