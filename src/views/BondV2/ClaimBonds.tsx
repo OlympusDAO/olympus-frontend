@@ -79,28 +79,30 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
         <Zoom in={true}>
           <Paper className="ohm-card claim-bonds-card">
             <CardHeader title="Your Bonds (1,1)" />
-            <Box
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
-            >
-              <Typography variant="h4" align="center" className="payout-options-header">
-                Payout Options{" "}
-              </Typography>
-              <Tabs
-                centered
-                value={view}
-                textColor="primary"
-                indicatorColor="primary"
-                onChange={changeView}
-                aria-label="payout token tabs"
+            {fullyVestedBonds.length > 0 && (
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
               >
-                <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tabs" />
+                <Typography variant="h4" align="center" className="payout-options-header">
+                  Payout Options{" "}
+                </Typography>
+                <Tabs
+                  centered
+                  value={view}
+                  textColor="primary"
+                  indicatorColor="primary"
+                  onChange={changeView}
+                  aria-label="payout token tabs"
+                >
+                  <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tabs" />
 
-                <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tabs" />
-              </Tabs>
-            </Box>
+                  <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tabs" />
+                </Tabs>
+              </Box>
+            )}
             <Box>
               {!isSmallScreen && (
                 <TableContainer>
