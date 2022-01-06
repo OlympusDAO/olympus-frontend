@@ -4,7 +4,9 @@ FROM --platform=amd64 node:14.18.2-bullseye-slim
 # Install this separately, so puppeteer does not install it
 # Otherwise puppeteer will complain about it not being available for arm64
 RUN apt-get update && \
-    apt-get install -y git
+    apt-get install -y \
+    git \
+    cmake
 
 WORKDIR /usr/src/app
 

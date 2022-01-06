@@ -1,5 +1,5 @@
 # Populate variables
-include .env
+-include .env # Ignore the error if .env is missing
 export
 
 ### Git variables
@@ -12,7 +12,7 @@ TEST_IMAGE=olympus-frontend-tests
 # Use the branch name as the tag
 TEST_TAG=$(CURRENT_BRANCH_CLEAN)
 TEST_ENV_ARGS=
-TEST_VOLUME_ARGS=--volume $(shell pwd)/tests:/usr/src/app/tests/
+TEST_VOLUME_ARGS=--volume $(shell pwd):/usr/src/app
 TEST_PORT_ARGS=
 
 ### Translations
