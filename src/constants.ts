@@ -34,6 +34,9 @@ export enum NetworkId {
 
   POLYGON = 137,
   POLYGON_TESTNET = 80001,
+
+  FANTOM = 250,
+  FANTOM_TESTNET = 4002,
 }
 
 interface IAddresses {
@@ -95,6 +98,7 @@ export const addresses: IAddresses = {
     PT_TOKEN_ADDRESS: "0x0E930b8610229D74Da0A174626138Deb732cE6e9", // 33T token address, taken from `ticket` function on PRIZE_STRATEGY_ADDRESS
     PT_PRIZE_POOL_ADDRESS: "0xEaB695A8F5a44f583003A8bC97d677880D528248", // NEW
     PT_PRIZE_STRATEGY_ADDRESS: "0xf3d253257167c935f8C62A02AEaeBB24c9c5012a", // NEW
+    ZAPPER_POOL_V1: "0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f",
     BONDINGCALC_V2: "0x7b1a5649145143F4faD8504712ca9c614c3dA2Ae",
     MIGRATOR_ADDRESS: "0x184f3FAd8618a6F458C16bae63F70C426fE784B3",
     GOHM_ADDRESS: "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f",
@@ -188,6 +192,9 @@ export const addresses: IAddresses = {
   }, // TODO: Avalanche Mainnet addresses
   [NetworkId.POLYGON]: {
     GOHM_ADDRESS: "0xd8cA34fd379d9ca3C6Ee3b3905678320F5b45195",
+  },
+  [NetworkId.FANTOM]: {
+    GOHM_ADDRESS: "0x91fa20244fb509e8289ca630e5db3e9166233fdc",
   },
 };
 
