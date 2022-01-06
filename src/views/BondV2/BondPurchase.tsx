@@ -35,6 +35,9 @@ function BondPurchase({
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
+  const currentIndex = useAppSelector(state => {
+    return state.app.currentIndex ?? "1";
+  });
 
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
@@ -199,7 +202,8 @@ function BondPurchase({
               {isBondLoading ? (
                 <Skeleton width="100px" />
               ) : (
-                `${trim(Number(quantity) / (bond.priceToken * 1000000000), 4) || "0"} ` + `sOHM`
+                `${trim(Number(quantity) / (bond.priceToken * 1000000000), 4) || "0"} ` +
+                `sOHM (≈${trim(+quantity / (bond.priceToken * 1000000000) / +currentIndex, 4) || "0"} gOHM)`
               )}
             </Typography>
           </div>
