@@ -113,10 +113,6 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                 <TableContainer>
                   <Table aria-label="Claimable bonds">
                     <TableBody>
-                      {fullyVestedBonds.length > 0 && (
-                        <AccordionSection bonds={fullyVestedBonds} title="Fully Vested Bonds" gOHM={view === 1} />
-                      )}
-
                       <Box
                         display="flex"
                         flexDirection="column"
@@ -146,7 +142,9 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                           {txnButtonTextGeneralPending(pendingTransactions, "claim_all_bonds", t`Claim all`)}
                         </Button>
                       </Box>
-
+                      {fullyVestedBonds.length > 0 && (
+                        <AccordionSection bonds={fullyVestedBonds} title="Fully Vested Bonds" gOHM={view === 1} />
+                      )}
                       {vestingBonds.length > 0 && (
                         <AccordionSection bonds={vestingBonds} title="Vesting Bonds" gOHM={view === 1} />
                       )}
