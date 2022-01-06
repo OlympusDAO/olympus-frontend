@@ -2,7 +2,9 @@ import { Dappeteer, launch } from "@chainsafe/dappeteer";
 import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
 import * as dappeteer from "@chainsafe/dappeteer";
 import { getDocument, queries } from "pptr-testing-library";
-import { Xvfb } from "xvfb";
+// NOTE: I (jem) was unable to get the typings for this working. Resorting to ignoring the typescript error.
+// @ts-ignore
+var Xvfb = require("xvfb");
 
 export const setupLogging = (page: Page) => {
   page
@@ -95,7 +97,7 @@ export const dapp = {} as {
   browser: Browser;
   metamask: Dappeteer;
   page: Page;
-  xvfb: Xvfb;
+  xvfb: typeof Xvfb;
 };
 
 export async function launchDApp(network: string = "localhost") {
