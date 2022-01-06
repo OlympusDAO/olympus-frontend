@@ -84,7 +84,7 @@ export interface IUserNote {
   claimed: boolean;
   displayName: string;
   quoteToken: string;
-  bondIndex: number;
+  index: number;
 }
 
 function checkNetwork(networkID: NetworkId) {
@@ -297,7 +297,7 @@ export const getUserNotes = createAsyncThunk(
         timeLeft: duration,
         displayName: bond?.displayName,
         quoteToken: bond.quoteToken.toLowerCase(),
-        bondIndex: i,
+        index: +userNoteIndexes[i],
       };
       notes.push(note);
     }

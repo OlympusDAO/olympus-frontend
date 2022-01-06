@@ -16,8 +16,8 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
   const { address, provider, networkId } = useWeb3Context();
   const currentIndex = useAppSelector(state => state.app.currentIndex);
 
-  const bond = userNote;
-  const bondName = bond.displayName;
+  const note = userNote;
+  const bondName = note.displayName;
 
   const isAppLoading = useAppSelector(state => state.app.loading ?? true);
 
@@ -25,7 +25,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
     return state.pendingTransactions;
   });
 
-  const vestingPeriod = () => bond.timeLeft;
+  const vestingPeriod = () => note.timeLeft;
 
   async function onRedeem(index: number) {
     await dispatch(claimSingleNote({ provider, networkID: networkId, address, indexes: [index], gOHM }));
@@ -34,9 +34,9 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
   return (
     <TableRow id={`${bondName}--claim`}>
       <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={bond} />
+        <BondLogo bond={note} />
         <div className="bond-name">
-          <Typography variant="body1">{bond.displayName ? bond.displayName : <Skeleton width={100} />}</Typography>
+          <Typography variant="body1">{bondName ? bondName : <Skeleton width={100} />}</Typography>
         </div>
       </TableCell>
       <TableCell align="center">
@@ -44,8 +44,8 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
         {/* {bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />} */}
       </TableCell>
       <TableCell align="center">
-        {bond.payout !== null ? (
-          trim(bond.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
+        {note.payout !== null ? (
+          trim(note.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
         ) : (
           <Skeleton width={100} />
         )}
@@ -56,7 +56,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
             variant="outlined"
             color="primary"
             disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
-            onClick={() => onRedeem(bond.bondIndex)}
+            onClick={() => onRedeem(note.index)}
           >
             <Typography variant="h6">
               {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
@@ -71,11 +71,10 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
 export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
   const dispatch = useDispatch();
   const { address, provider, networkId } = useWeb3Context();
-  const { bonds, expiredBonds } = useBonds(networkId);
   const currentIndex = useAppSelector(state => state.app.currentIndex);
 
-  const bond = userNote;
-  const bondName = bond.displayName;
+  const note = userNote;
+  const bondName = note.displayName;
 
   const currentBlock = useAppSelector(state => {
     return state.app.currentBlock;
@@ -85,7 +84,7 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
     return state.pendingTransactions;
   });
 
-  const vestingPeriod = () => bond.timeLeft;
+  const vestingPeriod = () => note.timeLeft;
 
   async function onRedeem(index: number) {
     await dispatch(claimSingleNote({ provider, networkID: networkId, address, indexes: [index], gOHM }));
@@ -94,7 +93,7 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
   return (
     <Box id={`${bondName}--claim`} className="claim-bond-data-card bond-data-card" style={{ marginBottom: "30px" }}>
       <Box className="bond-pair">
-        <BondLogo bond={bond} />
+        <BondLogo bond={note} />
         <Box className="bond-name">
           {/* <Typography>{bond.displayName ? trim(bond.displayName, 4) : <Skeleton width={100} />}</Typography> */}
         </Box>
@@ -103,8 +102,8 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
       <div className="data-row">
         <Typography>Claimable</Typography>
         <Typography>
-          {bond.payout ? (
-            trim(bond.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
+          {note.payout ? (
+            trim(note.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
           ) : (
             <Skeleton width={100} />
           )}
@@ -125,7 +124,7 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
           variant="outlined"
           color="primary"
           disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
-          onClick={() => onRedeem(bond.bondIndex)}
+          onClick={() => onRedeem(note.index)}
         >
           <Typography variant="h5">
             {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, t`Claim`)}
