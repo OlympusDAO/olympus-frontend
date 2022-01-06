@@ -4,7 +4,6 @@ import { ReactComponent as yieldImg } from "../assets/icons/yield.svg";
 import { ReactComponent as vaultLockImg } from "../assets/icons/vault-lock.svg";
 import { ReactComponent as arrowRightImg } from "../assets/icons/arrow-right.svg";
 import { shorten } from "src/helpers";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
