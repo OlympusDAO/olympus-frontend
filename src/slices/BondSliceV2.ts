@@ -161,7 +161,7 @@ export const purchaseBond = createAsyncThunk(
 
 export const getSingleBond = createAsyncThunk(
   "bondsV2/getSingle",
-  async ({ provider, networkID, bondIndex }: IBondV2IndexAsyncThunk, { dispatch }): Promise<IBondV2 | null> => {
+  async ({ provider, networkID, bondIndex }: IBondV2IndexAsyncThunk, { dispatch }): Promise<IBondV2> => {
     checkNetwork(networkID);
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const bondCore = await depositoryContract.markets(bondIndex);
@@ -190,16 +190,14 @@ async function processBond(
   provider: ethers.providers.JsonRpcProvider,
   networkID: NetworkId,
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
-): Promise<IBondV2 | null> {
+): Promise<IBondV2> {
   const currentTime = Date.now() / 1000;
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
-  console.log("bond", bond);
-  // toLowerCase in v2BondDetails is VERY IMPORTANT
   let v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
-  console.log("v2", v2BondDetail);
 
   if (!v2BondDetail) {
     v2BondDetail = UnknownDetails;
+    console.error(`Add details for bond index=${index}`);
   }
   const quoteTokenPrice = await v2BondDetail.pricingFunction();
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
@@ -290,7 +288,7 @@ export const getUserNotes = createAsyncThunk(
       Array.from(new Set(userNotes.map(note => note.marketID))).map(
         async id => await dispatch(getSingleBond({ address, provider, networkID, bondIndex: id })).unwrap(),
       ),
-    ).then(result => Object.fromEntries(result.filter(bond => bond != null).map(bond => [bond!.index, bond])));
+    ).then(result => Object.fromEntries(result.map(bond => [bond.index, bond])));
     const notes: IUserNote[] = [];
     for (let i = 0; i < userNotes.length; i++) {
       const rawNote: {
@@ -300,7 +298,7 @@ export const getUserNotes = createAsyncThunk(
         redeemed: number;
         marketID: number;
       } = userNotes[i];
-      const bond: IBondV2 = bonds[rawNote.marketID]!;
+      const bond: IBondV2 = bonds[rawNote.marketID];
       let seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
       if (seconds > 86400) {
