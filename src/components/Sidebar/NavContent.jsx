@@ -32,7 +32,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@material-ui/core";
-import { getAllBonds } from "src/slices/BondSliceV2";
+import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
 
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
@@ -171,7 +171,7 @@ function NavContent({ handleDrawerToggle }) {
                           {bondsV2.map((bond, i) => {
                             // NOTE (appleseed): temporary for ONHOLD MIGRATION
                             // if (bond.getBondability(networkId)) {
-                            if (bond.getLOLability(networkId)) {
+                            if (bond) {
                               return (
                                 <Link
                                   component={NavLink}
@@ -180,7 +180,7 @@ function NavContent({ handleDrawerToggle }) {
                                   className={"bond"}
                                   onClick={handleDrawerToggle}
                                 >
-                                  {!bond.bondDiscount ? (
+                                  {!bond.discount ? (
                                     <Skeleton variant="text" width={"150px"} />
                                   ) : (
                                     <Typography variant="body2">
