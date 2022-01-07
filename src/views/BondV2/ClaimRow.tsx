@@ -33,13 +33,18 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
 
   return (
     <TableRow id={`${bondName}--claim`}>
+      {/* Name */}
       <TableCell align="left" className="bond-name-cell">
         <BondLogo bond={note} />
         <div className="bond-name">
           <Typography variant="body1">{bondName ? bondName : <Skeleton width={100} />}</Typography>
         </div>
       </TableCell>
+      {/* Remaining Duration */}
+      <TableCell align="center">{note.originalDuration}</TableCell>
+      {/* Remaining Duration */}
       <TableCell align="center">{vestingPeriod()}</TableCell>
+      {/* Payout */}
       <TableCell align="center">
         {note.payout && currentIndex ? (
           trim(note.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
@@ -47,6 +52,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
           <Skeleton width={100} />
         )}
       </TableCell>
+      {/* Claim Button */}
       <TableCell align="right">
         {vestingPeriod() === "Fully Vested" ? (
           <Button
