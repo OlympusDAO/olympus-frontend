@@ -19,6 +19,8 @@ import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { error, info } from "./MessagesSlice";
 import { getBalances } from "./AccountSlice";
 
+const BASE_TOKEN_DECIMALS: number = 9;
+
 export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   index: number;
   displayName: string;
@@ -54,7 +56,6 @@ interface IBondV2Meta {
   length: number;
   depositInterval: number;
   tuneInterval: number;
-  baseDecimals: number;
   quoteDecimals: number;
 }
 
@@ -201,7 +202,7 @@ async function processBond(
   }
   const quoteTokenPrice = await v2BondDetail.pricingFunction();
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
-  let bondPrice = +bondPriceBigNumber / Math.pow(10, metadata.baseDecimals);
+  let bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
