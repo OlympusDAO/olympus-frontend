@@ -507,7 +507,7 @@ const pricingFunctionHelper = async (
 ) => {
   const baseContract = UniswapV2Lp__factory.connect(quoteToken, provider);
   const reserves = await baseContract.getReserves();
-  const totalSupply = await baseContract.totalSupply();
+  const totalSupply = +(await baseContract.totalSupply()) / Math.pow(10, await baseContract.decimals());
 
   const token0Contract = IERC20__factory.connect(await baseContract.token0(), provider);
   const token0Decimals = await token0Contract.decimals();
@@ -520,7 +520,7 @@ const pricingFunctionHelper = async (
   const token1TotalValue = (await getTokenPrice(secondToken)) * token1Amount;
 
   const totalValue = token0TotalValue + token1TotalValue;
-  const valuePerLpToken = totalValue / +totalSupply;
+  const valuePerLpToken = totalValue / totalSupply;
 
   return valuePerLpToken;
 };
