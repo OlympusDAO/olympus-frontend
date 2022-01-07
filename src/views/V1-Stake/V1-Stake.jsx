@@ -27,7 +27,6 @@ import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import "../Stake/stake.scss";
 import "./v1stake.scss";
-import StakeRow from "../Stake/StakeRow";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
@@ -36,7 +35,7 @@ import { error } from "../../slices/MessagesSlice";
 import { ethers } from "ethers";
 import { useAppSelector } from "src/hooks";
 import { useHistory } from "react-router-dom";
-import { PrimaryButton } from "@olympusdao/component-library";
+import { PrimaryButton, DataRow } from "@olympusdao/component-library";
 
 function a11yProps(index) {
   return {
@@ -389,77 +388,81 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                     </Box>
                   </Box>
                   <div className="stake-user-data">
-                    <StakeRow
+                    <DataRow
                       title={`${t`Unstaked Balance`} (v1)`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                     <Accordion className="stake-accordion" square>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-                        <StakeRow
+                        <DataRow
                           title={t`Total Staked Balance`}
                           id="user-staked-balance"
                           balance={`${trimmedBalance} sOHM`}
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                       </AccordionSummary>
                       <AccordionDetails>
-                        <StakeRow
+                        <DataRow
                           title={`${t`sOHM Balance`} (v1)`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                         {Number(fsohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`gOHM Balance in Fuse`}`}
                             balance={`${trim(Number(fsohmBalance), 4)} gOHM`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(wsohmBalance) > 0.0 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`wsOHM Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
                         {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <StakeRow
+                          <DataRow
                             title={`${t`wsOHM Balance in FiatDAO`} (v1)`}
                             balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
-                        <StakeRow
+                        <DataRow
                           title={`${t`sOHM Balance`} (v2)`}
                           balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
-                        <StakeRow
+                        <DataRow
                           title={`${t`gOHM Balance`} (v2)`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
-                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
-                    <StakeRow
+                    <DataRow
+                      title={t`Next Reward Amount`}
+                      balance={`${nextRewardValue} sOHM`}
+                      isLoading={isAppLoading}
+                    />
+                    <DataRow
                       title={t`Next Reward Yield`}
                       balance={`${stakingRebasePercentage}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
-                    <StakeRow
+                    <DataRow
                       title={t`ROI (5-Day Rate)`}
                       balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                   </div>
                 </>

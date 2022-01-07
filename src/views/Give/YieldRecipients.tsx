@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 import { SubmitCallback } from "src/views/Give/Interfaces";
 import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";

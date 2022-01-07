@@ -20,7 +20,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
@@ -34,7 +34,8 @@ import { NETWORKS } from "../../constants";
 import "../Stake/stake.scss";
 import { useAppSelector } from "src/hooks/index";
 import { getBalances, loadAccountDetails } from "src/slices/AccountSlice";
-import { PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
+import { PrimaryButton, SecondaryButton, DataRow } from "@olympusdao/component-library";
+import { t } from "@lingui/macro";
 
 function WrapCrossChain() {
   const dispatch = useDispatch();
@@ -268,18 +269,16 @@ function WrapCrossChain() {
                     </Box>
                   </Box>
                   <div className={`stake-user-data`}>
-                    <div className="data-row">
-                      <Typography variant="body1">wsOHM Balance ({networkName})</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(wsOhmBalance, 4) + " wsOHM"}</>}
-                      </Typography>
-                    </div>
-                    <div className="data-row">
-                      <Typography variant="body1">gOHM Balance ({networkName})</Typography>
-                      <Typography variant="body1">
-                        {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4) + " gOHM"}</>}
-                      </Typography>
-                    </div>
+                    <DataRow
+                      title={`${t`wsOHM Balance`} (${networkName})`}
+                      balance={`${trim(wsOhmBalance, 4)} wsOHM`}
+                      isLoading={isAppLoading}
+                    />
+                    <DataRow
+                      title={`${t`gOHM Balance`} (${networkName})`}
+                      balance={`${trim(gohmBalance, 4)} gOHM`}
+                      isLoading={isAppLoading}
+                    />
                     <Divider />
                     <Box width="100%" alignItems={"center"} display="flex" flexDirection="column" p={1}>
                       <Typography variant="h6" style={{ margin: "15px 0 10px 0" }}>
