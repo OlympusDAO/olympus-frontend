@@ -17,6 +17,7 @@ import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
 
 import { getTokenPrice } from "./helpers";
 import { ethers } from "ethers";
+import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
 
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";
 export const EPOCH_INTERVAL = 2200;
@@ -441,7 +442,7 @@ export interface V2BondDetails {
   name: string;
   bondIconSvg: SVGImageElement;
   pricingFunction(): Promise<number>;
-  pricingFunction(networkId: NetworkId, provider: ethers.providers.JsonRpcProvider): Promise<number>;
+  pricingFunction(provider: ethers.providers.JsonRpcProvider, quoteToken: string): Promise<number>;
   isLP: boolean;
   lpUrl: { [key: number]: string };
 }
@@ -489,14 +490,40 @@ const CvxDetails: V2BondDetails = {
 const OhmDaiDetails: V2BondDetails = {
   name: "OHM-DAI LP",
   bondIconSvg: OhmDaiImg,
-  pricingFunction: async (networkId, provider) => {
-    return 1;
+  async pricingFunction(provider, quoteToken) {
+    return pricingFunctionHelper(provider, quoteToken, "olympus", "dai");
   },
   isLP: true,
   lpUrl: {
     [NetworkId.TESTNET_RINKEBY]:
       "https://app.sushi.com/add/0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C/0x1e630a578967968eb02EF182a50931307efDa7CF",
   },
+};
+
+const pricingFunctionHelper = async (
+  provider: ethers.providers.JsonRpcProvider,
+  quoteToken: string,
+  firstToken: string,
+  secondToken: string,
+) => {
+  const baseContract = UniswapV2Lp__factory.connect(quoteToken, provider);
+  const reserves = await baseContract.getReserves();
+  const totalSupply = await baseContract.totalSupply();
+
+  const token0Contract = IERC20__factory.connect(await baseContract.token0(), provider);
+  const token0Decimals = await token0Contract.decimals();
+  const token0Amount = +reserves._reserve0 / Math.pow(10, token0Decimals);
+  const token0TotalValue = (await getTokenPrice(firstToken)) * token0Amount;
+
+  const token1Contract = IERC20__factory.connect(await baseContract.token1(), provider);
+  const token1Decimals = await token1Contract.decimals();
+  const token1Amount = +reserves._reserve1 / Math.pow(10, token1Decimals);
+  const token1TotalValue = (await getTokenPrice(secondToken)) * token1Amount;
+
+  const totalValue = token0TotalValue + token1TotalValue;
+  const valuePerLpToken = totalValue / +totalSupply;
+
+  return valuePerLpToken;
 };
 
 export const UnknownDetails: V2BondDetails = {
