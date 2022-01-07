@@ -17,14 +17,6 @@ export class EnvHelper {
 
   static whitespaceRegex = /\s+/;
 
-  /**
-   * Returns env contingent segment api key
-   * @returns segment
-   */
-  static getSegmentKey() {
-    return EnvHelper.env.REACT_APP_SEGMENT_API_KEY;
-  }
-
   static getGaKey() {
     return EnvHelper.env.REACT_APP_GA_API_KEY;
   }

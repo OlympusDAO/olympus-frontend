@@ -7,7 +7,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances, getRedemptionBalances, getMockRedemptionBalances } from "./AccountSlice";
 import { error } from "../slices/MessagesSlice";
 import { IBaseAddressAsyncThunk, IJsonRPCError } from "./interfaces";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
 
 interface IUAData {
@@ -57,8 +56,6 @@ export const redeemBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        segmentUA(uaData);
-
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
@@ -111,8 +108,6 @@ export const redeemMockBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        segmentUA(uaData);
-
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }

@@ -5,7 +5,6 @@ import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { NetworkId } from "src/constants";
 import { error, info } from "./MessagesSlice";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { ethers } from "ethers";
 interface IUAData {
   address: string;
@@ -56,25 +55,10 @@ export const changeZapTokenAllowance = createAsyncThunk(
       const signer = provider.getSigner();
       const tx = await signer.sendTransaction(transactionData);
       await tx.wait();
-
-      let uaData: IUAData = {
-        address: address,
-        value: value,
-        approved: true,
-        type: "Zap Approval Request Success",
-      };
-      segmentUA(uaData);
       dispatch(info("Successfully approved token!"));
       return Object.fromEntries([[action, true]]);
     } catch (e: unknown) {
       const rpcError = e as any;
-      let uaData: IUAData = {
-        address: address,
-        value: value,
-        approved: false,
-        type: "Zap Approval Request Failure",
-      };
-      segmentUA(uaData);
       console.error(e);
       dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
       throw e;
@@ -125,27 +109,8 @@ export const executeZap = createAsyncThunk(
       const signer = provider.getSigner();
       const tx = await signer.sendTransaction(transactionData);
       await tx.wait();
-
-      let uaData: IUADataZap = {
-        address: address,
-        value: sellAmount.toString(),
-        token: tokenAddress,
-        type: "Zap Swap Success",
-        slippage: slippage,
-        approved: true,
-      };
-      segmentUA(uaData);
       dispatch(info("Successful Zap!"));
     } catch (e: unknown) {
-      let uaData: IUADataZap = {
-        address: address,
-        value: sellAmount.toString(),
-        token: tokenAddress,
-        type: "Zap Swap Failure",
-        slippage: slippage,
-        approved: false,
-      };
-      segmentUA(uaData);
       console.error(e);
       const rpcError = e as any;
       dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));

@@ -7,7 +7,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { IERC20, OlympusStakingv2__factory } from "src/typechain";
 
 interface IUAData {
@@ -126,8 +125,6 @@ export const changeWrapV2 = createAsyncThunk(
       if (wrapTx) {
         uaData.txHash = wrapTx.hash;
         await wrapTx.wait();
-        segmentUA(uaData);
-        console.log("getBalances");
         dispatch(getBalances({ address, networkID, provider }));
         dispatch(clearPendingTxn(wrapTx.hash));
       }

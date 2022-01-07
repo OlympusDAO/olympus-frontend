@@ -14,10 +14,7 @@ import {
   IJsonRPCError,
   IBaseAddressAsyncThunk,
 } from "./interfaces";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
-import { useLocation } from "react-router-dom";
-import { EnvHelper } from "src/helpers/Environment";
 import ReactGA from "react-ga";
 
 interface IUAData {
@@ -203,7 +200,6 @@ export const changeGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-        segmentUA(uaData);
 
         ReactGA.event({
           category: "Olympus Give",
@@ -279,8 +275,6 @@ export const changeMockGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-        segmentUA(uaData);
-
         dispatch(clearPendingTxn(giveTx.hash));
       }
     }

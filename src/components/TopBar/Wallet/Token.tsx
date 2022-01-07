@@ -26,7 +26,6 @@ import WsOhmImg from "src/assets/tokens/token_wsOHM.svg";
 import Token33tImg from "src/assets/tokens/token_33T.svg";
 import GOhmImg from "src/assets/tokens/gohm.png";
 
-import { segmentUA } from "src/helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
 
 import { useQuery } from "react-query";
@@ -94,11 +93,6 @@ const addTokenToWallet = async (token: IToken, userAddress: string) => {
           image: `${host}/${token.icon}`,
         },
       },
-    });
-    segmentUA({
-      address: userAddress,
-      type: "Add Token",
-      tokenName: token.symbol,
     });
   } catch (error) {
     console.log(error);

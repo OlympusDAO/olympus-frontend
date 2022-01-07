@@ -15,7 +15,6 @@ import {
   IRedeemAllBondsAsyncThunk,
   IRedeemBondAsyncThunk,
 } from "./interfaces";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
 import ReactGA from "react-ga";
 
 export const changeApproval = createAsyncThunk(
@@ -242,7 +241,6 @@ export const bondAsset = createAsyncThunk(
       } else dispatch(error(rpcError.message));
     } finally {
       if (bondTx) {
-        segmentUA(uaData);
         ReactGA.event({
           category: "Bonds",
           action: uaData.type ?? "unknown",
@@ -294,7 +292,6 @@ export const redeemBond = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (redeemTx) {
-        segmentUA(uaData);
         ReactGA.event({
           category: "Bonds",
           action: uaData.type ?? "unknown",

@@ -19,7 +19,6 @@ import {
   IJsonRPCError,
 } from "./interfaces";
 import { AwardAbi2, PrizePoolAbi, PrizePoolAbi2, SOHM } from "src/typechain";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
 
 export const getPoolValues = createAsyncThunk(
   "pool/getPoolValues",
@@ -181,7 +180,6 @@ export const poolDeposit = createAsyncThunk(
       if (poolTx) {
         uaData.txHash = poolTx.hash;
         uaData.approved = true;
-        segmentUA(uaData);
         dispatch(clearPendingTxn(poolTx.hash));
       }
     }
@@ -285,7 +283,6 @@ export const poolWithdraw = createAsyncThunk(
       }
     }
     uaData.approved = true;
-    segmentUA(uaData);
     dispatch(getBalances({ address, networkID, provider }));
   },
 );
