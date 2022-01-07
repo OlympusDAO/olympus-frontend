@@ -19,7 +19,7 @@ TEST_PORT_ARGS=
 translations_fetch:
 	[ ! -e src/locales/translations/.git ] && git submodule update --init --remote src/locales/translations || exit 0
 
-translations_prepare: fetch_translations
+translations_prepare: translations_fetch
 	yarn lingui:compile
 
 ### Contracts
