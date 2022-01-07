@@ -21,15 +21,21 @@ import {
   Typography,
   Tabs,
   Tab,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./choosebond.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { ContactSupportOutlined } from "@material-ui/icons";
+import { ContactSupportOutlined, ExpandMore } from "@material-ui/icons";
 import { useAppSelector } from "src/hooks";
 import { claimAllNotes, IUserNote } from "src/slices/BondSliceV2";
 import { CurrentIndex } from "../TreasuryDashboard/components/Metric/Metric";
 import { trim } from "src/helpers";
+import { IUserBondDetails } from "src/slices/AccountSlice";
+import { ClaimBondsSubComponent } from "../ChooseBond/ClaimBonds";
+import title from "material-ui/svg-icons/editor/title";
 
 function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const dispatch = useDispatch();
@@ -52,6 +58,16 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
 
   const fullyVestedBonds = activeNotes.filter(note => note.fullyMatured);
   const vestingBonds = activeNotes.filter(note => !note.fullyMatured);
+
+  const v1AccountBonds: IUserBondDetails[] = useAppSelector(state => {
+    const withInterestDue = [];
+    for (const bond in state.account.bonds) {
+      if (state.account.bonds[bond].interestDue > 0) {
+        withInterestDue.push(state.account.bonds[bond]);
+      }
+    }
+    return withInterestDue;
+  });
 
   const [view, setView] = useState(0);
   function a11yProps(index: number) {
@@ -150,6 +166,20 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                       )}
                       {vestingBonds.length > 0 && (
                         <AccordionSection bonds={vestingBonds} title="Vesting Bonds" gOHM={view === 1} vested={false} />
+                      )}
+                      {v1AccountBonds.length > 0 && (
+                        <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
+                          <AccordionSummary
+                            expandIcon={<ExpandMore />}
+                            aria-controls={`${title}-content`}
+                            id={`${title}-header`}
+                          >
+                            <Typography>V1 Bonds</Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <ClaimBondsSubComponent activeBonds={v1AccountBonds} />
+                          </AccordionDetails>
+                        </Accordion>
                       )}
                     </TableBody>
                   </Table>
