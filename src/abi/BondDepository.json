@@ -5,7 +5,6 @@
         { "internalType": "contract IOlympusAuthority", "name": "_authority", "type": "address" },
         { "internalType": "contract IERC20", "name": "_ohm", "type": "address" },
         { "internalType": "contract IgOHM", "name": "_gohm", "type": "address" },
-        { "internalType": "contract ITreasury", "name": "_treasury", "type": "address" },
         { "internalType": "contract IStaking", "name": "_staking", "type": "address" }
       ],
       "stateMutability": "nonpayable",
@@ -49,20 +48,17 @@
       "type": "event"
     },
     {
-      "inputs": [
-        { "internalType": "contract IERC20", "name": "_quoteToken", "type": "address" },
-        { "internalType": "uint256[]", "name": "_market", "type": "uint256[]" },
-        { "internalType": "bool[]", "name": "_booleans", "type": "bool[]" },
-        { "internalType": "uint256[]", "name": "_terms", "type": "uint256[]" },
-        { "internalType": "uint32[]", "name": "_intervals", "type": "uint32[]" },
-        { "internalType": "uint8", "name": "_decimals", "type": "uint8" }
+      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "name": "adjustments",
+      "outputs": [
+        { "internalType": "uint64", "name": "change", "type": "uint64" },
+        { "internalType": "uint48", "name": "lastAdjustment", "type": "uint48" },
+        { "internalType": "uint48", "name": "timeToAdjusted", "type": "uint48" },
+        { "internalType": "bool", "name": "active", "type": "bool" }
       ],
-      "name": "addBond",
-      "outputs": [{ "internalType": "uint256", "name": "id_", "type": "uint256" }],
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
-    { "inputs": [], "name": "approve", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [],
       "name": "authority",
@@ -78,6 +74,27 @@
       "type": "function"
     },
     {
+      "inputs": [
+        { "internalType": "string", "name": "_name", "type": "string" },
+        { "internalType": "contract IERC20", "name": "_quoteToken", "type": "address" },
+        { "internalType": "uint256[3]", "name": "_market", "type": "uint256[3]" },
+        { "internalType": "bool[2]", "name": "_booleans", "type": "bool[2]" },
+        { "internalType": "uint256[2]", "name": "_terms", "type": "uint256[2]" },
+        { "internalType": "uint32[2]", "name": "_intervals", "type": "uint32[2]" }
+      ],
+      "name": "create",
+      "outputs": [{ "internalType": "uint256", "name": "id_", "type": "uint256" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "_id", "type": "uint256" }],
+      "name": "currentControlVariable",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [{ "internalType": "uint256", "name": "_id", "type": "uint256" }],
       "name": "currentDebt",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -85,9 +102,16 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "daoReward",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [{ "internalType": "uint256", "name": "_id", "type": "uint256" }],
       "name": "debtDecay",
-      "outputs": [{ "internalType": "uint256", "name": "decay_", "type": "uint256" }],
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -115,13 +139,7 @@
       "stateMutability": "nonpayable",
       "type": "function"
     },
-    {
-      "inputs": [{ "internalType": "address[]", "name": "_tokens", "type": "address[]" }],
-      "name": "getReward",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
+    { "inputs": [], "name": "getReward", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [{ "internalType": "address", "name": "_user", "type": "address" }],
       "name": "indexesFor",
@@ -134,16 +152,6 @@
       "name": "isLive",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        { "internalType": "uint256", "name": "_id", "type": "uint256" },
-        { "internalType": "uint256", "name": "_by", "type": "uint256" }
-      ],
-      "name": "jump",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -171,13 +179,13 @@
       "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "name": "markets",
       "outputs": [
+        { "internalType": "uint256", "name": "capacity", "type": "uint256" },
         { "internalType": "contract IERC20", "name": "quoteToken", "type": "address" },
         { "internalType": "bool", "name": "capacityInQuote", "type": "bool" },
-        { "internalType": "uint256", "name": "capacity", "type": "uint256" },
-        { "internalType": "uint256", "name": "totalDebt", "type": "uint256" },
-        { "internalType": "uint256", "name": "maxPayout", "type": "uint256" },
-        { "internalType": "uint256", "name": "purchased", "type": "uint256" },
-        { "internalType": "uint256", "name": "sold", "type": "uint256" }
+        { "internalType": "uint64", "name": "totalDebt", "type": "uint64" },
+        { "internalType": "uint64", "name": "maxPayout", "type": "uint64" },
+        { "internalType": "uint64", "name": "sold", "type": "uint64" },
+        { "internalType": "uint256", "name": "purchased", "type": "uint256" }
       ],
       "stateMutability": "view",
       "type": "function"
@@ -201,9 +209,15 @@
         { "internalType": "uint48", "name": "length", "type": "uint48" },
         { "internalType": "uint48", "name": "depositInterval", "type": "uint48" },
         { "internalType": "uint48", "name": "tuneInterval", "type": "uint48" },
-        { "internalType": "uint8", "name": "baseDecimals", "type": "uint8" },
         { "internalType": "uint8", "name": "quoteDecimals", "type": "uint8" }
       ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "name": "names",
+      "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -248,11 +262,20 @@
     },
     {
       "inputs": [
-        { "internalType": "address", "name": "_user", "type": "address" },
-        { "internalType": "uint256[]", "name": "_indexes", "type": "uint256[]" },
-        { "internalType": "bool", "name": "_sendAsG", "type": "bool" }
+        { "internalType": "address", "name": "_from", "type": "address" },
+        { "internalType": "uint256", "name": "_index", "type": "uint256" }
       ],
-      "name": "redeem",
+      "name": "pullNote",
+      "outputs": [{ "internalType": "uint256", "name": "newIndex_", "type": "uint256" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "_to", "type": "address" },
+        { "internalType": "uint256", "name": "_index", "type": "uint256" }
+      ],
+      "name": "pushNote",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -260,25 +283,33 @@
     {
       "inputs": [
         { "internalType": "address", "name": "_user", "type": "address" },
-        { "internalType": "bool", "name": "_sendAsG", "type": "bool" }
+        { "internalType": "uint256[]", "name": "_indexes", "type": "uint256[]" },
+        { "internalType": "bool", "name": "_sendgOHM", "type": "bool" }
       ],
-      "name": "redeemAll",
-      "outputs": [],
+      "name": "redeem",
+      "outputs": [{ "internalType": "uint256", "name": "payout_", "type": "uint256" }],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-      "name": "rewardRate",
+      "inputs": [
+        { "internalType": "address", "name": "_user", "type": "address" },
+        { "internalType": "bool", "name": "_sendgOHM", "type": "bool" }
+      ],
+      "name": "redeemAll",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "refReward",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [
-        { "internalType": "address", "name": "", "type": "address" },
-        { "internalType": "address", "name": "", "type": "address" }
-      ],
+      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "name": "rewards",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
@@ -314,6 +345,7 @@
       "stateMutability": "view",
       "type": "function"
     },
+    { "inputs": [], "name": "updateTreasury", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [{ "internalType": "address", "name": "_operator", "type": "address" }],
       "name": "whitelist",
