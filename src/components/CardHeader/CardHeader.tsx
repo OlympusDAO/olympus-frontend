@@ -3,7 +3,7 @@ import * as React from "react";
 
 interface CardHeaderProps {
   title: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 // (aphex) removed children arg in favor of spread to silence compiler while refactoring parents
