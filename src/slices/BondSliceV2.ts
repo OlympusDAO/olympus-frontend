@@ -161,13 +161,13 @@ export const purchaseBond = createAsyncThunk(
 
 export const getSingleBond = createAsyncThunk(
   "bondsV2/getSingle",
-  async ({ provider, networkID, bondIndex }: IBondV2IndexAsyncThunk, { dispatch }): Promise<IBondV2> => {
+  async ({ provider, networkID, bondIndex }: IBondV2IndexAsyncThunk, { dispatch }): Promise<IBondV2 | null> => {
     checkNetwork(networkID);
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const bondCore = await depositoryContract.markets(bondIndex);
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
-    return (await processBond(bondCore, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch))!;
+    return await processBond(bondCore, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
   },
 );
 
@@ -196,6 +196,7 @@ async function processBond(
   // toLowerCase in v2BondDetails is VERY IMPORTANT
   const v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
   if (!v2BondDetail) {
+    console.error(`Bond with index=${index} doesn't have details specified`);
     return null;
   }
   const quoteTokenPrice = await v2BondDetail.pricingFunction();
@@ -287,7 +288,7 @@ export const getUserNotes = createAsyncThunk(
       Array.from(new Set(userNotes.map(note => note.marketID))).map(
         async id => await dispatch(getSingleBond({ address, provider, networkID, bondIndex: id })).unwrap(),
       ),
-    ).then(result => Object.fromEntries(result.map(bond => [bond.index, bond])));
+    ).then(result => Object.fromEntries(result.filter(bond => bond != null).map(bond => [bond!.index, bond])));
     const notes: IUserNote[] = [];
     for (let i = 0; i < userNotes.length; i++) {
       const rawNote: {
@@ -297,7 +298,7 @@ export const getUserNotes = createAsyncThunk(
         redeemed: number;
         marketID: number;
       } = userNotes[i];
-      const bond: IBondV2 = bonds[rawNote.marketID];
+      const bond: IBondV2 = bonds[rawNote.marketID]!;
       let seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
       if (seconds > 86400) {
@@ -453,7 +454,7 @@ const bondingSliceV2 = createSlice({
       .addCase(getUserNotes.rejected, (state, { error }) => {
         state.notes = [];
         state.notesLoading = false;
-        console.error(error.message);
+        console.error(`Error when getting user notes: ${error.message}`);
       });
   },
 });
