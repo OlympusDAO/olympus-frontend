@@ -29,7 +29,7 @@ import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { Metric, MetricCollection } from "src/components/Metric";
+import { Metric, MetricCollection } from "@olympusdao/component-library";
 import { getAllBonds, getUserNotes, IBondV2, IUserNote } from "src/slices/BondSliceV2";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useEffect, useState } from "react";
