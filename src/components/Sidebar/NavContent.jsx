@@ -32,6 +32,8 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@material-ui/core";
+import { getAllBonds } from "src/slices/BondSliceV2";
+
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
 import { useSelector, useDispatch } from "react-redux";
