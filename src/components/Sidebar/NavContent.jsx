@@ -168,40 +168,37 @@ function NavContent({ handleDrawerToggle }) {
                         </AccordionSummary>
                         <AccordionDetails>
                           {console.log(bondsV2)}
-                          {bondsV2.map((bond, i) => {
-                            // NOTE (appleseed): temporary for ONHOLD MIGRATION
-                            // if (bond.getBondability(networkId)) {
-                            if (bond) {
-                              return (
-                                <Link
-                                  component={NavLink}
-                                  to={`/bonds-v1/${bond.name}`}
-                                  key={i}
-                                  className={"bond"}
-                                  onClick={handleDrawerToggle}
-                                >
-                                  {!bond.discount ? (
-                                    <Skeleton variant="text" width={"150px"} />
-                                  ) : (
-                                    <Typography variant="body2">
-                                      {bond.displayName}
+                          {bondsV2
+                            .sort((a, b) => {
+                              return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
+                            })
+                            .map((bond, i) => {
+                              // NOTE (appleseed): temporary for ONHOLD MIGRATION
+                              // if (bond.getBondability(networkId)) {
+                              if (bond) {
+                                return (
+                                  <Link
+                                    component={NavLink}
+                                    to={`/bonds-v1/${bond.name}`}
+                                    key={i}
+                                    className={"bond"}
+                                    onClick={handleDrawerToggle}
+                                  >
+                                    {!bond.discount ? (
+                                      <Skeleton variant="text" width={"150px"} />
+                                    ) : (
+                                      <Typography variant="body2">
+                                        {bond.displayName}
 
-                                      <span className="bond-pair-roi">
-                                        {bond.isLOLable[networkId]
-                                          ? "--"
-                                          : !bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
-                                        {/* {!bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
-                                      </span>
-                                    </Typography>
-                                  )}
-                                </Link>
-                              );
-                            }
-                          })}
+                                        <span className="bond-pair-roi">
+                                          {`${bond.discount && trim(bond.discount * 100, 2)}%`}
+                                        </span>
+                                      </Typography>
+                                    )}
+                                  </Link>
+                                );
+                              }
+                            })}
                         </AccordionDetails>
                       </Accordion>
                     </div>
