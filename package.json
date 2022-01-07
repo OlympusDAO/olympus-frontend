@@ -28,7 +28,7 @@
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
-    "@olympusdao/component-library": "^1.1.0",
+    "@olympusdao/component-library": "^1.2.0",
     "@popperjs/core": "^2.9.2",
     "@ramp-network/ramp-instant-sdk": "^2.2.0",
     "@reduxjs/toolkit": "^1.6.1",
