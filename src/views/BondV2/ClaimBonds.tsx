@@ -29,6 +29,7 @@ import { ContactSupportOutlined } from "@material-ui/icons";
 import { useAppSelector } from "src/hooks";
 import { claimAllNotes, IUserNote } from "src/slices/BondSliceV2";
 import { CurrentIndex } from "../TreasuryDashboard/components/Metric/Metric";
+import { trim } from "src/helpers";
 
 function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const dispatch = useDispatch();
@@ -120,7 +121,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                           Claimable Balance
                         </Typography>
                         <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
-                          {totalClaimable} {view === 0 ? "sOHM" : "gOHM"}
+                          {view === 0 ? `${trim(totalClaimable, 4)} sOHM` : `${trim(totalClaimable, 4)} gOHM`}
                         </Typography>
 
                         <Button
@@ -167,7 +168,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                       Claimable Balance
                     </Typography>
                     <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
-                      {totalClaimable} {view === 0 ? "sOHM" : "gOHM"}
+                      {view === 0 ? `${trim(totalClaimable, 4)} sOHM` : `${trim(totalClaimable, 4)} gOHM`}
                     </Typography>
 
                     <Button
