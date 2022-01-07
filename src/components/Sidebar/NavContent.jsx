@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import Social from "./Social";
 import externalUrls from "./externalUrls";
@@ -34,15 +34,28 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ExpandMore } from "@material-ui/icons";
+import { useAppSelector } from "src/hooks";
+import { AppDispatch } from "src/store";
 
 function NavContent({ handleDrawerToggle }) {
   const [isActive] = useState();
   const { networkId } = useWeb3Context();
   const { bonds } = useBonds(networkId);
   const location = useLocation();
+  const dispatch = useDispatch();
 
+  const bondsV2 = useAppSelector(state => {
+    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
+  });
+  useEffect(() => {
+    const interval = setTimeout(() => {
+      dispatch(getAllBonds({ address, networkID: networkId, provider }));
+      dispatch(getUserNotes({ address, networkID: networkId, provider }));
+    }, 60000);
+    return () => clearTimeout(interval);
+  });
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
     if (currentPath.indexOf("dashboard") >= 0 && page === "dashboard") {
@@ -151,10 +164,11 @@ function NavContent({ handleDrawerToggle }) {
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          {bonds.map((bond, i) => {
+                          {console.log(bondsV2)}
+                          {bondsV2.map((bond, i) => {
                             // NOTE (appleseed): temporary for ONHOLD MIGRATION
                             // if (bond.getBondability(networkId)) {
-                            if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
+                            if (bond.getLOLability(networkId)) {
                               return (
                                 <Link
                                   component={NavLink}
