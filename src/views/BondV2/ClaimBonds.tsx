@@ -221,6 +221,21 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                     .map((bond, i) => (
                       <ClaimBondCardData key={i} userNote={bond} gOHM={view === 1} />
                     ))}
+
+                  {v1AccountBonds.length > 0 && (
+                    <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMore />}
+                        aria-controls={`${title}-content`}
+                        id={`${title}-header`}
+                      >
+                        <Typography>V1 Bonds</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ClaimBondsSubComponent activeBonds={v1AccountBonds} />
+                      </AccordionDetails>
+                    </Accordion>
+                  )}
                 </>
               )}
             </Box>

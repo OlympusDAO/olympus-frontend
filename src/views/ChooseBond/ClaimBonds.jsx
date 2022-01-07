@@ -64,7 +64,7 @@ function ClaimBonds({ activeBonds }) {
         <Zoom in={true}>
           <Paper className="ohm-card claim-bonds-card">
             <CardHeader title="Your Bonds (1,1)" />
-            <ClaimBondsSubComponent />
+            <ClaimBondsSubComponent activeBonds={activeBonds} />
           </Paper>
         </Zoom>
       )}
@@ -111,7 +111,7 @@ export function ClaimBondsSubComponent({ activeBonds }) {
   }, [activeBonds]);
 
   return (
-    <Box>
+    <Box style={{ width: "100%" }}>
       {!isSmallScreen && (
         <TableContainer>
           <Table aria-label="Claimable bonds">

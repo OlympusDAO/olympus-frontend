@@ -82,6 +82,9 @@ export interface IUserNote {
   redeemed: number;
   marketID: number;
   fullyMatured: boolean;
+  originalDurationSeconds: number;
+  remainingDurationSeconds: number;
+  originalDuration: string;
   timeLeft: string;
   claimed: boolean;
   displayName: string;
@@ -298,6 +301,8 @@ export const getUserNotes = createAsyncThunk(
         marketID: number;
       } = userNotes[i];
       const bond: IBondV2 = bonds[rawNote.marketID];
+      let originalDurationSeconds = Math.max(rawNote.matured - rawNote.created, 0);
+      console.log("ods", originalDurationSeconds);
       let seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
       if (seconds > 86400) {
@@ -307,11 +312,20 @@ export const getUserNotes = createAsyncThunk(
       } else {
         duration = "Fully Vested";
       }
+      let originalDuration = "";
+      if (originalDurationSeconds > 86400) {
+        originalDuration = prettifySeconds(originalDurationSeconds, "day");
+      } else {
+        originalDuration = prettifySeconds(originalDurationSeconds);
+      }
       const note: IUserNote = {
         ...rawNote,
         payout: +rawNote.payout / Math.pow(10, 18), //Always in gOHM
         fullyMatured: seconds == 0,
         claimed: rawNote.matured == rawNote.redeemed,
+        originalDurationSeconds: originalDurationSeconds,
+        remainingDurationSeconds: seconds,
+        originalDuration: originalDuration,
         timeLeft: duration,
         displayName: bond?.displayName,
         quoteToken: bond.quoteToken.toLowerCase(),
