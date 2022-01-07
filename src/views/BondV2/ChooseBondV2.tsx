@@ -91,11 +91,15 @@ function ChooseBondV2() {
             </Typography>
 
             <ButtonBase>
-              <Typography>
+              <Typography style={{ lineHeight: "33px" }}>
                 <b>
                   <Link to="/bonds-v1" style={{ textDecoration: "none", color: "inherit" }}>
-                    <Trans>V1 bonds available</Trans>
-                    <SvgIcon style={{ margin: "0 0 -6px 5px", fontSize: "24px" }} component={ArrowUp} color="primary" />
+                    <Trans>v1 Bonds</Trans>
+                    <SvgIcon
+                      style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
+                      component={ArrowUp}
+                      color="primary"
+                    />
                   </Link>
                 </b>
               </Typography>

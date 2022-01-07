@@ -47,6 +47,12 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
             {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.index} bond={bond} />}
           </Typography>
         </div>
+        <div className="data-row">
+          <Typography>
+            <Trans>Duration</Trans>
+          </Typography>
+          <Typography>{isBondLoading ? <Skeleton width="50px" /> : bond.duration}</Typography>
+        </div>
 
         {/* <div className="data-row">
           <Typography>
