@@ -9,6 +9,7 @@ import {
   IJsonRPCError,
   IBaseBondV2ClaimAsyncThunk,
   IBaseBondV2SingleClaimAsyncThunk,
+  IBondV2IndexAsyncThunk,
 } from "./interfaces";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
 import { addresses, NetworkId, V2BondDetails, v2BondDetails, UnknownDetails } from "src/constants";
@@ -88,8 +89,9 @@ export interface IUserNote {
 }
 
 function checkNetwork(networkID: NetworkId) {
-  if (networkID !== 1 && networkID !== 4) {
-    throw Error("Network is not supported for V2 bonds");
+  // if (networkID !== 1 && networkID !== 4) { //ENABLE FOR MAINNET LAUNCH
+  if (networkID !== 4) {
+    throw Error(`Network=${networkID} is not supported for V2 bonds`);
   }
 }
 
@@ -159,10 +161,9 @@ export const purchaseBond = createAsyncThunk(
 
 export const getSingleBond = createAsyncThunk(
   "bondsV2/getSingle",
-  async ({ provider, networkID, address, bond }: IBondV2AysncThunk, { dispatch }): Promise<IBondV2> => {
+  async ({ provider, networkID, bondIndex }: IBondV2IndexAsyncThunk, { dispatch }): Promise<IBondV2> => {
     checkNetwork(networkID);
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
-    const bondIndex = bond.index;
     const bondCore = await depositoryContract.markets(bondIndex);
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
@@ -192,13 +193,11 @@ async function processBond(
 ): Promise<IBondV2> {
   const currentTime = Date.now() / 1000;
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
-  console.log("bond", bond);
-  // toLowerCase in v2BondDetails is VERY IMPORTANT
   let v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
-  console.log("v2", v2BondDetail);
 
   if (!v2BondDetail) {
     v2BondDetail = UnknownDetails;
+    console.error(`Add details for bond index=${index}`);
   }
   const quoteTokenPrice = await v2BondDetail.pricingFunction();
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
@@ -272,15 +271,22 @@ export const getUserNotes = createAsyncThunk(
   "bondsV2/notes",
   async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }): Promise<IUserNote[]> => {
     checkNetwork(networkID);
-    let bonds = (getState() as RootState).bondingV2.bonds;
-    if (Object.keys(bonds).length == 0) {
-      await dispatch(getAllBonds({ address, provider, networkID }));
-      bonds = (getState() as RootState).bondingV2.bonds;
-    }
     const currentTime = Date.now() / 1000;
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const userNoteIndexes = await depositoryContract.indexesFor(address);
-    const userNotes = userNoteIndexes.map(async index => await depositoryContract.notes(address, index));
+    const userNotePromises = userNoteIndexes.map(async index => await depositoryContract.notes(address, index));
+    const userNotes: {
+      payout: ethers.BigNumber;
+      created: number;
+      matured: number;
+      redeemed: number;
+      marketID: number;
+    }[] = await Promise.all(userNotePromises);
+    const bonds = await Promise.all(
+      Array.from(new Set(userNotes.map(note => note.marketID))).map(
+        async id => await dispatch(getSingleBond({ address, provider, networkID, bondIndex: id })).unwrap(),
+      ),
+    ).then(result => Object.fromEntries(result.map(bond => [bond.index, bond])));
     const notes: IUserNote[] = [];
     for (let i = 0; i < userNotes.length; i++) {
       const rawNote: {
@@ -289,7 +295,7 @@ export const getUserNotes = createAsyncThunk(
         matured: number;
         redeemed: number;
         marketID: number;
-      } = await userNotes[i];
+      } = userNotes[i];
       const bond: IBondV2 = bonds[rawNote.marketID];
       let seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
@@ -412,6 +418,7 @@ const bondingSliceV2 = createSlice({
       })
       .addCase(getAllBonds.fulfilled, (state, action) => {
         state.indexes = [];
+        state.bonds = {};
         action.payload.forEach(bond => {
           state.bonds[bond.index] = bond;
           state.indexes.push(bond.index);
@@ -419,6 +426,8 @@ const bondingSliceV2 = createSlice({
         state.loading = false;
       })
       .addCase(getAllBonds.rejected, (state, { error }) => {
+        state.indexes = [];
+        state.bonds = {};
         state.loading = false;
         console.error(error.message);
       })
@@ -441,8 +450,9 @@ const bondingSliceV2 = createSlice({
         state.notesLoading = false;
       })
       .addCase(getUserNotes.rejected, (state, { error }) => {
+        state.notes = [];
         state.notesLoading = false;
-        console.error(error.message);
+        console.error(`Error when getting user notes: ${error.message}`);
       });
   },
 });

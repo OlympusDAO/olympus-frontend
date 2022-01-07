@@ -49,10 +49,6 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
     setNumberOfBonds(bondCount);
   }, [activeNotes]);
 
-  const currentBlock = useAppSelector(state => {
-    return state.app.currentBlock!;
-  });
-
   const fullyVestedBonds = activeNotes.filter(note => note.fullyMatured);
   const vestingBonds = activeNotes.filter(note => !note.fullyMatured);
 

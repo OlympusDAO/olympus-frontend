@@ -46,8 +46,6 @@ function ChooseBondV2() {
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
-  const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
-
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
 
   const marketPrice: number | undefined = useAppSelector(state => {
@@ -83,7 +81,7 @@ function ChooseBondV2() {
 
   return (
     <div id="choose-bond-view">
-      {!isAccountLoading && !isEmpty(accountNotes) && <ClaimBonds activeNotes={accountNotes} />}
+      {!isEmpty(accountNotes) && <ClaimBonds activeNotes={accountNotes} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">
