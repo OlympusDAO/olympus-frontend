@@ -6,7 +6,9 @@ FROM --platform=amd64 node:14.18.2-bullseye-slim
 RUN apt-get update && \
     apt-get install -y \
     git \
-    cmake
+    cmake \
+    # Required by the sleep package
+    python3
 
 WORKDIR /usr/src/app
 
@@ -21,7 +23,7 @@ COPY package.json .
 COPY yarn.lock .
 COPY Makefile .
 # This image is not pushed to a registry, so there shouldn't be an issue with this
-COPY .env* .
+COPY .env* ./
 COPY index.d.ts .
 
 # Yarn would timeout with the material-ui package(s), so we override the timeout
