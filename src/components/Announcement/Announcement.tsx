@@ -1,8 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { Box, IconButton, Paper, SvgIcon, Typography } from "@material-ui/core";
-import { NETWORKS, NEWEST_NETWORK_ID } from "src/constants";
-import Pill from "../Pill/Pill";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import "./Announcement.scss";
@@ -22,7 +19,7 @@ function Announcement() {
       {newNetworkVisible && (
         <>
           <Paper className="new-network" style={isMobileScreen ? { borderRadius: 0 } : { width: "100%" }}>
-            <Box style={{ width: "2%" }}></Box>
+            <Box style={{ width: "2%" }} />
             <Box display="flex" alignItems="center">
               <Box className="new-network-box" style={{ marginRight: "10px" }}>
                 <SvgIcon component={InfoIcon} />
