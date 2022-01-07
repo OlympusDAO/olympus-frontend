@@ -43,7 +43,7 @@ import { AppDispatch } from "src/store";
 
 function NavContent({ handleDrawerToggle }) {
   const [isActive] = useState();
-  const { networkId } = useWeb3Context();
+  const { networkId, address, provider } = useWeb3Context();
   const { bonds } = useBonds(networkId);
   const location = useLocation();
   const dispatch = useDispatch();
@@ -51,6 +51,7 @@ function NavContent({ handleDrawerToggle }) {
   const bondsV2 = useAppSelector(state => {
     return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
   });
+
   useEffect(() => {
     const interval = setTimeout(() => {
       dispatch(getAllBonds({ address, networkID: networkId, provider }));
