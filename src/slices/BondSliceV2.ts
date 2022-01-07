@@ -11,7 +11,7 @@ import {
   IBaseBondV2SingleClaimAsyncThunk,
 } from "./interfaces";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
-import { addresses, NetworkId, V2BondDetails, v2BondDetails } from "src/constants";
+import { addresses, NetworkId, V2BondDetails, v2BondDetails, UnknownDetails } from "src/constants";
 import { getTokenIdByContract, getTokenPrice, prettifySeconds } from "src/helpers";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
@@ -192,8 +192,14 @@ async function processBond(
 ): Promise<IBondV2> {
   const currentTime = Date.now() / 1000;
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+  console.log("bond", bond);
   // toLowerCase in v2BondDetails is VERY IMPORTANT
-  const v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+  let v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+  console.log("v2", v2BondDetail);
+
+  if (!v2BondDetail) {
+    v2BondDetail = UnknownDetails;
+  }
   const quoteTokenPrice = await v2BondDetail.pricingFunction();
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
   let bondPrice = +bondPriceBigNumber / Math.pow(10, metadata.baseDecimals);
