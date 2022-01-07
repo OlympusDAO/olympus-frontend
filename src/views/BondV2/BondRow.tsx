@@ -98,9 +98,7 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
               </Typography>
             </Link>
           )}
-          <Typography>
-            <Trans>{bond.fixedTerm ? "Fixed Term" : "Fixed Expiration"}</Trans>
-          </Typography>
+          <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography>
         </div>
       </TableCell>
       <TableCell align="left">

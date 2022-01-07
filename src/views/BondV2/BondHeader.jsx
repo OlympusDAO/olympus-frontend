@@ -3,7 +3,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import BondLogo from "../../components/BondLogo";
 import AdvancedSettings from "./AdvancedSettings";
 import { Typography, IconButton, SvgIcon, Link } from "@material-ui/core";
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import useEscape from "../../hooks/useEscape";
@@ -54,9 +54,7 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "center", paddingTop: "20px" }}>
-        <Typography>
-          <Trans>{bond.fixedTerm ? "Fixed Term" : "Fixed Expiration"}</Trans>
-        </Typography>
+        <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography>
       </div>
     </>
   );

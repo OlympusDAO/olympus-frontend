@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { ClaimBondTableData } from "./ClaimRow";
 import { ExpandMore } from "@material-ui/icons";
 import {
@@ -39,12 +39,8 @@ const AccordionSection = ({
             <TableCell align="left">
               <Trans>Bond</Trans>
             </TableCell>
-            <TableCell align="center">
-              <Trans>{vested ? "Duration" : "Remaining Duration"}</Trans>
-            </TableCell>
-            <TableCell align="center">
-              <Trans>{vested ? "Payout" : "Pending Payout"}</Trans>
-            </TableCell>
+            <TableCell align="center">{vested ? t`Duration` : t`Remaining Duration`}</TableCell>
+            <TableCell align="center">{vested ? t`Payout` : t`Pending Payout`}</TableCell>
             {/* <TableCell align="right"></TableCell> */}
           </TableRow>
         </TableHead>
