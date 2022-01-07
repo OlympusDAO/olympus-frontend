@@ -100,6 +100,10 @@ export interface IBondV2AysncThunk extends IBaseAddressAsyncThunk {
   readonly bond: IBondV2;
 }
 
+export interface IBondV2IndexAsyncThunk extends IBaseAddressAsyncThunk {
+  readonly bondIndex: number;
+}
+
 export interface IBondV2PurchaseAsyncThunk extends IBaseAddressAsyncThunk {
   readonly bond: IBondV2;
   readonly maxPrice: BigNumberish;

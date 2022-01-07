@@ -95,7 +95,7 @@ function BondPurchase({
       }, 1000);
     } else if (interval) {
       clearInterval(interval);
-      dispatch(getSingleBond({ bond, address, networkID: networkId, provider }));
+      dispatch(getSingleBond({ bondIndex: bond.index, address, networkID: networkId, provider }));
       setSecondsToRefresh(SECONDS_TO_REFRESH);
     }
     return () => clearInterval(interval!);
