@@ -4,6 +4,7 @@ import ethereum from "./assets/tokens/wETH.svg";
 import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 import polygon from "./assets/tokens/matic.svg";
+import { ReactComponent as OhmImg } from "src/assets/tokens/token_OHM.svg";
 import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
 import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
 import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
@@ -470,6 +471,14 @@ const CvxDetails: V2BondDetails = {
   bondIconSvg: CvxImg,
   pricingFunction: async () => {
     return getTokenPrice("convex-finance");
+  },
+};
+
+export const UnknownDetails: V2BondDetails = {
+  name: "unknown",
+  bondIconSvg: OhmImg,
+  pricingFunction: async () => {
+    return 1;
   },
 };
 
