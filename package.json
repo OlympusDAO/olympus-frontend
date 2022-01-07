@@ -164,6 +164,7 @@
     "**/prompts": "2.4.2",
     "**/shell-quote": "1.7.3",
     "**/ejs": "3.1.6",
-    "**/ansi-html": "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz"
+    "**/ansi-html": "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz",
+    "react-error-overlay": "6.0.9"
   }
 }

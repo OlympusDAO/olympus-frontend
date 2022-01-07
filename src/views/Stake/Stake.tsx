@@ -40,9 +40,8 @@ import { ethers } from "ethers";
 import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
-import { Metric, MetricCollection } from "../../components/Metric";
+import { Metric, MetricCollection, DataRow } from "@olympusdao/component-library";
 import { ConfirmDialog } from "./ConfirmDialog";
-import { DataRow } from "@olympusdao/component-library";
 
 function a11yProps(index: number) {
   return {
