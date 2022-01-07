@@ -39,12 +39,9 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
           <Typography variant="body1">{bondName ? bondName : <Skeleton width={100} />}</Typography>
         </div>
       </TableCell>
+      <TableCell align="center">{vestingPeriod()}</TableCell>
       <TableCell align="center">
-        {isAppLoading ? <Skeleton /> : vestingPeriod()}
-        {/* {bond.pendingPayout ? trim(bond.pendingPayout, 4) : <Skeleton width={100} />} */}
-      </TableCell>
-      <TableCell align="center">
-        {note.payout !== null ? (
+        {note.payout && currentIndex !== undefined ? (
           trim(note.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
         ) : (
           <Skeleton width={100} />
@@ -107,18 +104,13 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
       <div className="data-row">
         <Typography>Claimable</Typography>
         <Typography>
-          {note.payout ? (
+          {note.payout && currentIndex !== undefined ? (
             trim(note.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
           ) : (
             <Skeleton width={100} />
           )}
         </Typography>
       </div>
-
-      {/* <div className="data-row">
-        <Typography>Pending</Typography>
-        <Typography>{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</Typography>
-      </div> */}
 
       <div className="data-row" style={{ marginBottom: "20px" }}>
         <Typography>Remaining Duration</Typography>
