@@ -6,11 +6,7 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
-import {
-  IActionValueAsyncThunk,
-  IChangeApprovalWithVersionAsyncThunk,
-  IJsonRPCError,
-} from "./interfaces";
+import { IActionValueAsyncThunk, IChangeApprovalWithVersionAsyncThunk, IJsonRPCError } from "./interfaces";
 import { IERC20, OlympusStakingv2__factory, OlympusStaking__factory, StakingHelper } from "src/typechain";
 import ReactGA from "react-ga";
 

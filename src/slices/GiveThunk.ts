@@ -200,7 +200,6 @@ export const changeGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-
         ReactGA.event({
           category: "Olympus Give",
           action: uaData.type ?? "unknown",
