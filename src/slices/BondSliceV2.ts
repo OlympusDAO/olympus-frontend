@@ -167,7 +167,7 @@ export const getSingleBond = createAsyncThunk(
     const bondCore = await depositoryContract.markets(bondIndex);
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
-    return await processBond(bondCore, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+    return processBond(bondCore, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
   },
 );
 

@@ -41,7 +41,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
       </TableCell>
       <TableCell align="center">{vestingPeriod()}</TableCell>
       <TableCell align="center">
-        {note.payout && currentIndex !== undefined ? (
+        {note.payout && currentIndex ? (
           trim(note.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
         ) : (
           <Skeleton width={100} />
@@ -104,7 +104,7 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
       <div className="data-row">
         <Typography>Claimable</Typography>
         <Typography>
-          {note.payout && currentIndex !== undefined ? (
+          {note.payout && currentIndex ? (
             trim(note.payout * (gOHM ? 1 : Number(currentIndex)), 4) + (gOHM ? " gOHM" : " sOHM")
           ) : (
             <Skeleton width={100} />
