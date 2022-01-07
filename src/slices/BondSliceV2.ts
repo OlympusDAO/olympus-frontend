@@ -233,8 +233,8 @@ async function processBond(
     priceTokenBigNumber: bondPriceBigNumber,
     discount: bondDiscount,
     duration,
-    isLP: false,
-    lpUrl: "",
+    isLP: v2BondDetail.isLP,
+    lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",
     marketPrice: ohmPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
   };

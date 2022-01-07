@@ -16,6 +16,7 @@ import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
 
 import { getTokenPrice } from "./helpers";
+import { ethers } from "ethers";
 
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";
 export const EPOCH_INTERVAL = 2200;
@@ -439,7 +440,10 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
 export interface V2BondDetails {
   name: string;
   bondIconSvg: SVGImageElement;
-  pricingFunction: () => Promise<number>;
+  pricingFunction(): Promise<number>;
+  pricingFunction(networkId: NetworkId, provider: ethers.providers.JsonRpcProvider): Promise<number>;
+  isLP: boolean;
+  lpUrl: { [key: number]: string };
 }
 
 const DaiDetails: V2BondDetails = {
@@ -448,6 +452,8 @@ const DaiDetails: V2BondDetails = {
   pricingFunction: async () => {
     return getTokenPrice("dai");
   },
+  isLP: false,
+  lpUrl: {},
 };
 
 const FraxDetails: V2BondDetails = {
@@ -456,6 +462,8 @@ const FraxDetails: V2BondDetails = {
   pricingFunction: async () => {
     return 1.0;
   },
+  isLP: false,
+  lpUrl: {},
 };
 
 const EthDetails: V2BondDetails = {
@@ -464,6 +472,8 @@ const EthDetails: V2BondDetails = {
   pricingFunction: async () => {
     return getTokenPrice("ethereum");
   },
+  isLP: false,
+  lpUrl: {},
 };
 
 const CvxDetails: V2BondDetails = {
@@ -471,6 +481,21 @@ const CvxDetails: V2BondDetails = {
   bondIconSvg: CvxImg,
   pricingFunction: async () => {
     return getTokenPrice("convex-finance");
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
+const OhmDaiDetails: V2BondDetails = {
+  name: "OHM-DAI LP",
+  bondIconSvg: OhmDaiImg,
+  pricingFunction: async (networkId, provider) => {
+    return 1;
+  },
+  isLP: true,
+  lpUrl: {
+    [NetworkId.TESTNET_RINKEBY]:
+      "https://app.sushi.com/add/0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C/0x1e630a578967968eb02EF182a50931307efDa7CF",
   },
 };
 
@@ -480,6 +505,8 @@ export const UnknownDetails: V2BondDetails = {
   pricingFunction: async () => {
     return 1;
   },
+  isLP: false,
+  lpUrl: "",
 };
 
 /**
@@ -492,6 +519,7 @@ export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } 
     ["0x2f7249cb599139e560f0c81c269ab9b04799e453"]: FraxDetails,
     ["0xc778417e063141139fce010982780140aa0cd5ab"]: EthDetails,
     // ["0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c"]: CvxDetails, // we do not have CVX rinkeby in previous bonds
+    ["0x80edbf2f58c7b130df962bb485c28188f6b5ed29"]: OhmDaiDetails,
   },
   [NetworkId.MAINNET]: {
     ["0x6b175474e89094c44da98b954eedeac495271d0f"]: DaiDetails,
