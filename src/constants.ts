@@ -441,7 +441,6 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
 export interface V2BondDetails {
   name: string;
   bondIconSvg: SVGImageElement;
-  pricingFunction(): Promise<number>;
   pricingFunction(provider: ethers.providers.JsonRpcProvider, quoteToken: string): Promise<number>;
   isLP: boolean;
   lpUrl: { [key: number]: string };

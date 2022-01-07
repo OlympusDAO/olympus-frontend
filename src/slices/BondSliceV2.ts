@@ -200,7 +200,7 @@ async function processBond(
     v2BondDetail = UnknownDetails;
     console.error(`Add details for bond index=${index}`);
   }
-  const quoteTokenPrice = await v2BondDetail.pricingFunction();
+  const quoteTokenPrice = await v2BondDetail.pricingFunction(provider, bond.quoteToken);
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
   let bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
