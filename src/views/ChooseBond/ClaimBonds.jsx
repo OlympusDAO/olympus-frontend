@@ -158,22 +158,25 @@ export function ClaimBondsSubComponent({ activeBonds }) {
             >
               {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
             </Button>
-
-            <Button
-              variant="contained"
-              color="primary"
-              id="claim-all-and-stake-btn"
-              className="transaction-button"
-              fullWidth
-              disabled={pendingClaim()}
-              onClick={() => {
-                onRedeemAll({ autostake: true });
-              }}
-            >
-              {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds_autostake", t`Claim all and Stake`)}
-            </Button>
           </>
         )}
+        <Button
+          variant="contained"
+          color="primary"
+          id="claim-all-and-stake-btn"
+          className="transaction-button"
+          fullWidth
+          disabled={pendingClaim()}
+          onClick={() => {
+            onRedeemAll({ autostake: true });
+          }}
+        >
+          {txnButtonTextGeneralPending(
+            pendingTransactions,
+            "redeem_all_bonds_autostake",
+            numberOfBonds > 1 ? t`Claim all and Stake` : t`Claim and Stake`,
+          )}
+        </Button>
       </Box>
     </Box>
   );
