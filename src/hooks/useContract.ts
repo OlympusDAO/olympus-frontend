@@ -1,7 +1,7 @@
 import { Contract } from "ethers";
 import { useWeb3Context } from ".";
 import { useNetwork } from "./useNetwork";
-import OLYMPUS_STAKING_ABI from "src/abi/OlympusStakingv2.json";
+import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
 import { AddressMap, STAKING_ADDRESSES } from "src/constants/addresses";
 import { OlympusStaking, PairContract } from "src/typechain";
@@ -41,12 +41,13 @@ const usePairContract = (address: string) => {
 
 export const useStakingContract = () => {
   const address = STAKING_ADDRESSES[NetworkId.MAINNET];
-  assert(address, "Contract should exist for NetworkId.MAINNET");
-  return useContract<OlympusStaking>(address, OLYMPUS_STAKING_ABI);
+
+  return useContract<OlympusStaking>(address, STAKING_ABI);
 };
 
 export const useOhmDaiReserveContract = () => {
   const address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
   assert(address, "Contract should exist for NetworkId.MAINNET");
+
   return usePairContract(address);
 };

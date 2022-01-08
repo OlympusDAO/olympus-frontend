@@ -31,7 +31,7 @@ interface ProtocolMetrics {
 
 export const useProtocolMetricsKey = () => ["useProtocolMetrics"];
 
-export const useProtocolMetrics = <TSelectData = unknown>(select?: (data: ProtocolMetrics) => TSelectData) => {
+export const useProtocolMetrics = <TSelectData = unknown>(select: (data: ProtocolMetrics) => TSelectData) => {
   return useQuery<ProtocolMetrics, Error, TSelectData>(
     useProtocolMetricsKey(),
     async () => {
