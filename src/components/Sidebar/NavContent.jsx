@@ -97,6 +97,10 @@ function NavContent({ handleDrawerToggle }) {
     return false;
   }, []);
 
+  const sortedBonds = bondsV2.sort((a, b) => {
+    return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
+  });
+
   return (
     <Paper className="dapp-sidebar">
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
@@ -167,38 +171,33 @@ function NavContent({ handleDrawerToggle }) {
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          {console.log(bondsV2)}
-                          {bondsV2
-                            .sort((a, b) => {
-                              return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
-                            })
-                            .map((bond, i) => {
-                              // NOTE (appleseed): temporary for ONHOLD MIGRATION
-                              // if (bond.getBondability(networkId)) {
-                              if (bond) {
-                                return (
-                                  <Link
-                                    component={NavLink}
-                                    to={`/bonds-v1/${bond.name}`}
-                                    key={i}
-                                    className={"bond"}
-                                    onClick={handleDrawerToggle}
-                                  >
-                                    {!bond.discount ? (
-                                      <Skeleton variant="text" width={"150px"} />
-                                    ) : (
-                                      <Typography variant="body2">
-                                        {bond.displayName}
+                          {sortedBonds.map((bond, i) => {
+                            // NOTE (appleseed): temporary for ONHOLD MIGRATION
+                            // if (bond.getBondability(networkId)) {
+                            if (bond) {
+                              return (
+                                <Link
+                                  component={NavLink}
+                                  to={`/bonds-v1/${bond.name}`}
+                                  key={i}
+                                  className={"bond"}
+                                  onClick={handleDrawerToggle}
+                                >
+                                  {!bond.discount ? (
+                                    <Skeleton variant="text" width={"150px"} />
+                                  ) : (
+                                    <Typography variant="body2">
+                                      {bond.displayName}
 
-                                        <span className="bond-pair-roi">
-                                          {`${bond.discount && trim(bond.discount * 100, 2)}%`}
-                                        </span>
-                                      </Typography>
-                                    )}
-                                  </Link>
-                                );
-                              }
-                            })}
+                                      <span className="bond-pair-roi">
+                                        {`${bond.discount && trim(bond.discount * 100, 2)}%`}
+                                      </span>
+                                    </Typography>
+                                  )}
+                                </Link>
+                              );
+                            }
+                          })}
                         </AccordionDetails>
                       </Accordion>
                     </div>

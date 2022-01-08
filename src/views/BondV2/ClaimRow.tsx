@@ -122,21 +122,23 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
         <Typography>Remaining Duration</Typography>
         <Typography>{vestingPeriod()}</Typography>
       </div>
-      <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
-        <Button
-          variant="outlined"
-          color="primary"
-          disabled={
-            isPendingTxn(pendingTransactions, "redeem_note_" + note.index) ||
-            isPendingTxn(pendingTransactions, "redeem_all_notes")
-          }
-          onClick={() => onRedeem(note.index)}
-        >
-          <Typography variant="h5">
-            {txnButtonText(pendingTransactions, "redeem_note_" + note.index, t`Claim`)}
-          </Typography>
-        </Button>
-      </Box>
+      {note.fullyMatured && (
+        <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={
+              isPendingTxn(pendingTransactions, "redeem_note_" + note.index) ||
+              isPendingTxn(pendingTransactions, "redeem_all_notes")
+            }
+            onClick={() => onRedeem(note.index)}
+          >
+            <Typography variant="h5">
+              {txnButtonText(pendingTransactions, "redeem_note_" + note.index, t`Claim`)}
+            </Typography>
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }
