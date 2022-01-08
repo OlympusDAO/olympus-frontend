@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Table,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableBody,
-  Typography,
-} from "@material-ui/core";
+import { Box, Button, Table, TableCell, TableHead, TableRow, TableBody, Typography } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -149,7 +140,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
         aria-labelledby="migration-modal-title"
         aria-describedby="migration-modal-description"
         open={open}
-        minHeight={'400px'}
+        minHeight={"200px"}
         onClose={handleClose}
         closeAfterTransition
         headerText={
