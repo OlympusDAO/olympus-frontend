@@ -144,7 +144,7 @@ export function ClaimBondsSubComponent({ activeBonds }) {
       {isSmallScreen && Object.entries(activeBonds).map((bond, i) => <ClaimBondCardData key={i} userBond={bond} />)}
 
       <Box display="flex" justifyContent="center" className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}>
-        {numberOfBonds >= 1 && (
+        {numberOfBonds > 1 && (
           <>
             <Button
               variant="contained"
