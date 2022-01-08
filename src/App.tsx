@@ -428,7 +428,7 @@ function App() {
             </Switch>
           </div>
 
-          <MigrationModal open={true} handleClose={migModalClose} />
+          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
         </div>
       </ThemeProvider>
     </QueryClientProvider>
