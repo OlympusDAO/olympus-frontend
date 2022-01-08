@@ -102,7 +102,7 @@ export function ClaimBondCardData({ userBond }) {
   }
 
   return (
-    <Box id={`${bondName}--claim`} className="claim-bond-data-card bond-data-card">
+    <Box id={`${bondName}--claim`} className="claim-bond-data-card bond-data-card" style={{ marginTop: "10px" }}>
       <Box className="bond-pair">
         <BondLogo bond={bond} />
         <Box className="bond-name">
