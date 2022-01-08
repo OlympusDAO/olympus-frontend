@@ -139,6 +139,20 @@ export function ClaimBondCardData({ userBond }) {
             {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, t`Claim`)}
           </Typography>
         </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          disabled={
+            isPendingTxn(pendingTransactions, "redeem_bond_" + bond.displayName) ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
+          }
+          onClick={() => onRedeem({ autostake: true })}
+        >
+          <Typography variant="h5">
+            {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, t`Claim and Stake`)}
+          </Typography>
+        </Button>
       </Box>
     </Box>
   );
