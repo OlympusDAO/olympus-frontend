@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import Social from "./Social";
 import externalUrls from "./externalUrls";
@@ -32,17 +32,33 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@material-ui/core";
+import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
+
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ExpandMore } from "@material-ui/icons";
+import { useAppSelector } from "src/hooks";
+import { AppDispatch } from "src/store";
 
 function NavContent({ handleDrawerToggle }) {
   const [isActive] = useState();
-  const { networkId } = useWeb3Context();
+  const { networkId, address, provider } = useWeb3Context();
   const { bonds } = useBonds(networkId);
   const location = useLocation();
+  const dispatch = useDispatch();
 
+  const bondsV2 = useAppSelector(state => {
+    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
+  });
+
+  useEffect(() => {
+    const interval = setTimeout(() => {
+      dispatch(getAllBonds({ address, networkID: networkId, provider }));
+      dispatch(getUserNotes({ address, networkID: networkId, provider }));
+    }, 60000);
+    return () => clearTimeout(interval);
+  });
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
     if (currentPath.indexOf("dashboard") >= 0 && page === "dashboard") {
@@ -64,6 +80,9 @@ function NavContent({ handleDrawerToggle }) {
       return true;
     }
     if (currentPath.indexOf("giveredeem") >= 0 && page == "give/redeem") {
+      return true;
+    }
+    if ((currentPath.indexOf("bonds-v1") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds-v1") {
       return true;
     }
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
@@ -144,44 +163,42 @@ function NavContent({ handleDrawerToggle }) {
                           }
                         >
                           <Typography variant="body2">
-                            <Trans>Bond discounts</Trans>
+                            <Trans>Highest ROI</Trans>
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          {bonds.map((bond, i) => {
-                            // NOTE (appleseed): temporary for ONHOLD MIGRATION
-                            // if (bond.getBondability(networkId)) {
-                            if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
-                              return (
-                                <Link
-                                  component={NavLink}
-                                  to={`/bonds/${bond.name}`}
-                                  key={i}
-                                  className={"bond"}
-                                  onClick={handleDrawerToggle}
-                                >
-                                  {!bond.bondDiscount ? (
-                                    <Skeleton variant="text" width={"150px"} />
-                                  ) : (
-                                    <Typography variant="body2">
-                                      {bond.displayName}
+                          {console.log(bondsV2)}
+                          {bondsV2
+                            .sort((a, b) => {
+                              return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
+                            })
+                            .map((bond, i) => {
+                              // NOTE (appleseed): temporary for ONHOLD MIGRATION
+                              // if (bond.getBondability(networkId)) {
+                              if (bond) {
+                                return (
+                                  <Link
+                                    component={NavLink}
+                                    to={`/bonds-v1/${bond.name}`}
+                                    key={i}
+                                    className={"bond"}
+                                    onClick={handleDrawerToggle}
+                                  >
+                                    {!bond.discount ? (
+                                      <Skeleton variant="text" width={"150px"} />
+                                    ) : (
+                                      <Typography variant="body2">
+                                        {bond.displayName}
 
-                                      <span className="bond-pair-roi">
-                                        {bond.isLOLable[networkId]
-                                          ? "--"
-                                          : !bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
-                                        {/* {!bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
-                                      </span>
-                                    </Typography>
-                                  )}
-                                </Link>
-                              );
-                            }
-                          })}
+                                        <span className="bond-pair-roi">
+                                          {`${bond.discount && trim(bond.discount * 100, 2)}%`}
+                                        </span>
+                                      </Typography>
+                                    )}
+                                  </Link>
+                                );
+                              }
+                            })}
                         </AccordionDetails>
                       </Accordion>
                     </div>

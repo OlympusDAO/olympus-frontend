@@ -4,11 +4,6 @@
   justify-content: center;
   flex-direction: column;
   overflow: hidden;
-
-  .ohm-card-container {
-    width: 100%;
-  }
-  
   .ohm-card .bond-hero h4 {
     font-weight: 600 !important;
 
@@ -17,10 +12,17 @@
     }
   }
 
+  .card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .claim-bonds-card {
     .global-claim-buttons {
       width: 100%;
-      margin: 15px 0px;
+      margin: 0px;
       button {
         max-width: 233px;
       }
@@ -30,9 +32,24 @@
       justify-content: space-around;
       align-items: center;
       flex-wrap: wrap;
+      margin-bottom: 2rem;
       button {
         max-width: unset;
         width: 90%;
+      }
+    }
+
+    .accordion-root {
+      background-color: transparent;
+      backdrop-filter: none;
+      .MuiAccordionSummary-root {
+        justify-content: flex-start;
+        .MuiAccordionSummary-content {
+          flex-grow: 0;
+        }
+      }
+      .MuiAccordionDetails-root {
+        padding: 0px 16px 16px;
       }
     }
   }
@@ -86,7 +103,7 @@
   }
 
   .MuiTable-root {
-    margin: 10px 0px;
+    margin: 0px;
   }
 
   .claim-bond-card-buttons {
@@ -114,6 +131,7 @@
   .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft.bond-name-cell {
     justify-content: space-between;
     display: flex;
+    padding-left: 0px !important;
     div.bond-name {
       width: 60%;
       margin-left: 5px !important;

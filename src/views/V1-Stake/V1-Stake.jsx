@@ -190,7 +190,8 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   };
 
   const goToBonds = () => {
-    history.push("/bonds");
+    // v1 bonds for v1 stake
+    history.push("/bonds-v1");
   };
 
   const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));

@@ -16,7 +16,7 @@
     }
     .ohm-modal {
       max-width: 688px;
-      min-height: 605px;
+      min-height: 450px;
     }
   }
 
@@ -92,18 +92,23 @@
   margin: 5px !important;
 }
 
-.help-text {
-  margin-top: 50px;
+.payout-token-tabs {
+  font-size: 1rem !important;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  padding: 0 10%;
-  .MuiTypography-body2 {
-    line-height: 2em;
-    font-size: 1.075em;
-    color: #768299;
-  }
+}
+
+.payout-token-tab {
+  font-size: 1rem !important;
+}
+.payout-options-header {
+  color: #768299;
+  font-size: 1.44rem;
+}
+
+.claimable-balance {
+  margin-top: 30px !important;
+  color: #768299;
+  font-size: 1.2rem !important;
 }
 
 .mobile #bond-view {
@@ -138,12 +143,4 @@
 
 .web3modal-modal-lightbox {
   z-index: 70 !important;
-}
-
-.mobile .help-text {
-  margin: 15px 0 0 0 !important;
-  padding: 0;
-  p {
-    line-height: 1em;
-  }
 }
