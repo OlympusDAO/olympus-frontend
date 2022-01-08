@@ -143,7 +143,7 @@ export function ClaimBondsSubComponent({ activeBonds }) {
 
       {isSmallScreen && Object.entries(activeBonds).map((bond, i) => <ClaimBondCardData key={i} userBond={bond} />)}
 
-      <Box display="flex" justifyContent="center" className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}>
+      {/* <Box display="flex" justifyContent="center" className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}>
         {numberOfBonds > 1 && (
           <>
             <Button
@@ -177,7 +177,7 @@ export function ClaimBondsSubComponent({ activeBonds }) {
             numberOfBonds > 1 ? t`Claim all and Stake` : t`Claim and Stake`,
           )}
         </Button>
-      </Box>
+      </Box> */}
     </Box>
   );
 }
