@@ -18,7 +18,7 @@ function ExpandedChart({
       open={open}
       onClose={handleClose}
       closePosition={"right"}
-      minHeight={450}
+      minHeight={"450px"}
       headerContent={
         <div className="chart-card-header">
           <Box display="flex">
