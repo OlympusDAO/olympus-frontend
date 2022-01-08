@@ -59,7 +59,11 @@ export function ClaimBondTableData({ userBond }) {
         <Button
           variant="outlined"
           color="primary"
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
+          disabled={
+            isPendingTxn(pendingTransactions, "redeem_bond_" + bondName) ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
+          }
           onClick={() => onRedeem({ autostake: false })}
         >
           <Typography variant="h6">
@@ -124,20 +128,15 @@ export function ClaimBondCardData({ userBond }) {
         <Button
           variant="outlined"
           color="primary"
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
+          disabled={
+            isPendingTxn(pendingTransactions, "redeem_bond_" + bondName) ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
+          }
           onClick={() => onRedeem({ autostake: false })}
         >
           <Typography variant="h5">
             {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, t`Claim`)}
-          </Typography>
-        </Button>
-        <Button variant="outlined" color="primary" onClick={() => onRedeem({ autostake: true })}>
-          <Typography variant="h5">
-            {txnButtonTextGeneralPending(
-              pendingTransactions,
-              "redeem_bond_" + bondName + "_autostake",
-              t`Claim and Stake`,
-            )}
           </Typography>
         </Button>
       </Box>

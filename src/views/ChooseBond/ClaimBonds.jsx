@@ -36,8 +36,8 @@ function ClaimBonds({ activeBonds }) {
 
   const pendingClaim = () => {
     if (
-      isPendingTxn(pendingTransactions, "redeem_all_notes") ||
-      isPendingTxn(pendingTransactions, "redeem_all_notes_autostake")
+      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
     ) {
       return true;
     }
@@ -88,8 +88,8 @@ export function ClaimBondsSubComponent({ activeBonds }) {
 
   const pendingClaim = () => {
     if (
-      isPendingTxn(pendingTransactions, "redeem_all_notes") ||
-      isPendingTxn(pendingTransactions, "redeem_all_notes_autostake")
+      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
     ) {
       return true;
     }
@@ -106,7 +106,7 @@ export function ClaimBondsSubComponent({ activeBonds }) {
   };
 
   useEffect(() => {
-    let bondCount = Object.keys(activeBonds).length;
+    let bondCount = activeBonds.length;
     setNumberOfBonds(bondCount);
   }, [activeBonds]);
 
@@ -144,7 +144,7 @@ export function ClaimBondsSubComponent({ activeBonds }) {
       {isSmallScreen && Object.entries(activeBonds).map((bond, i) => <ClaimBondCardData key={i} userBond={bond} />)}
 
       <Box display="flex" justifyContent="center" className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}>
-        {numberOfBonds > 1 && (
+        {numberOfBonds >= 1 && (
           <>
             <Button
               variant="contained"
@@ -156,7 +156,7 @@ export function ClaimBondsSubComponent({ activeBonds }) {
                 onRedeemAll({ autostake: false });
               }}
             >
-              {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_notes", t`Claim all`)}
+              {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
             </Button>
 
             <Button
@@ -170,7 +170,7 @@ export function ClaimBondsSubComponent({ activeBonds }) {
                 onRedeemAll({ autostake: true });
               }}
             >
-              {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_notes_autostake", t`Claim all and Stake`)}
+              {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds_autostake", t`Claim all and Stake`)}
             </Button>
           </>
         )}

@@ -160,10 +160,17 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                         title="Fully Vested Bonds"
                         gOHM={view === 1}
                         vested={true}
+                        isSmallScreen={isSmallScreen}
                       />
                     )}
                     {!isEmpty(vestingBonds) && (
-                      <AccordionSection bonds={vestingBonds} title="Vesting Bonds" gOHM={view === 1} vested={false} />
+                      <AccordionSection
+                        bonds={vestingBonds}
+                        title="Vesting Bonds"
+                        gOHM={view === 1}
+                        vested={false}
+                        isSmallScreen={isSmallScreen}
+                      />
                     )}
                     {!isEmpty(v1AccountBonds) && (
                       <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
@@ -213,13 +220,24 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                     {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
                   </Button>
                 </Box>
-                {activeNotes
-                  .map(a => a)
-                  .sort(a => (a.fullyMatured ? -1 : 1))
-                  .map((bond, i) => (
-                    <ClaimBondCardData key={i} userNote={bond} gOHM={view === 1} />
-                  ))}
-
+                {!isEmpty(fullyVestedBonds) && (
+                  <AccordionSection
+                    bonds={fullyVestedBonds}
+                    title="Fully Vested Bonds"
+                    gOHM={view === 1}
+                    vested={true}
+                    isSmallScreen={isSmallScreen}
+                  />
+                )}
+                {!isEmpty(vestingBonds) && (
+                  <AccordionSection
+                    bonds={vestingBonds}
+                    title="Vesting Bonds"
+                    gOHM={view === 1}
+                    vested={false}
+                    isSmallScreen={isSmallScreen}
+                  />
+                )}
                 {v1AccountBonds.length > 0 && (
                   <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
                     <AccordionSummary
