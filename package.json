@@ -54,8 +54,10 @@
     "ethers": "^5.4.0",
     "graphiql": "^1.4.7",
     "graphql": "^15.3.0",
+    "husky": "^7.0.4",
     "intl": "^1.2.5",
     "isomorphic-fetch": "^3.0.0",
+    "lint-staged": "^12.1.7",
     "lodash": "^4.17.21",
     "markdown-it": "^12.3.0",
     "material-ui": "^0.20.2",
@@ -166,5 +168,16 @@
     "**/ejs": "3.1.6",
     "**/ansi-html": "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz",
     "react-error-overlay": "6.0.9"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "yarn lint --fix",
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
