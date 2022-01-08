@@ -175,9 +175,9 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,js,jsx}": [
+    "!(src/locales)src/**/*.{ts,tsx,js,jsx}": [
       "yarn lint --fix",
-      "prettier --write"
+      "prettier --write ."
     ]
   }
 }
