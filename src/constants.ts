@@ -499,6 +499,19 @@ const OhmDaiDetails: V2BondDetails = {
   },
 };
 
+const OhmEthDetails: V2BondDetails = {
+  name: "OHM-ETH LP",
+  bondIconSvg: OhmEthImg,
+  async pricingFunction(provider, quoteToken) {
+    return pricingFunctionHelper(provider, quoteToken, "olympus", "ethereum");
+  },
+  isLP: true,
+  lpUrl: {
+    [NetworkId.MAINNET]:
+      "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  },
+};
+
 const pricingFunctionHelper = async (
   provider: ethers.providers.JsonRpcProvider,
   quoteToken: string,
@@ -552,5 +565,6 @@ export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } 
     ["0x853d955acef822db058eb8505911ed77f175b99e"]: FraxDetails,
     ["0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"]: EthDetails,
     ["0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b"]: CvxDetails,
+    ["0x69b81152c5a8d35a67b32a4d3772795d96cae4da"]: OhmEthDetails,
   },
 };
