@@ -16,6 +16,8 @@ import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
 import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
 
 import { getTokenPrice } from "./helpers";
+import { ethers } from "ethers";
+import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
 
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";
 export const EPOCH_INTERVAL = 2200;
@@ -439,7 +441,9 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
 export interface V2BondDetails {
   name: string;
   bondIconSvg: SVGImageElement;
-  pricingFunction: () => Promise<number>;
+  pricingFunction(provider: ethers.providers.JsonRpcProvider, quoteToken: string): Promise<number>;
+  isLP: boolean;
+  lpUrl: { [key: number]: string };
 }
 
 const DaiDetails: V2BondDetails = {
@@ -448,6 +452,8 @@ const DaiDetails: V2BondDetails = {
   pricingFunction: async () => {
     return getTokenPrice("dai");
   },
+  isLP: false,
+  lpUrl: {},
 };
 
 const FraxDetails: V2BondDetails = {
@@ -456,6 +462,8 @@ const FraxDetails: V2BondDetails = {
   pricingFunction: async () => {
     return 1.0;
   },
+  isLP: false,
+  lpUrl: {},
 };
 
 const EthDetails: V2BondDetails = {
@@ -464,6 +472,8 @@ const EthDetails: V2BondDetails = {
   pricingFunction: async () => {
     return getTokenPrice("ethereum");
   },
+  isLP: false,
+  lpUrl: {},
 };
 
 const CvxDetails: V2BondDetails = {
@@ -472,6 +482,47 @@ const CvxDetails: V2BondDetails = {
   pricingFunction: async () => {
     return getTokenPrice("convex-finance");
   },
+  isLP: false,
+  lpUrl: {},
+};
+
+const OhmDaiDetails: V2BondDetails = {
+  name: "OHM-DAI LP",
+  bondIconSvg: OhmDaiImg,
+  async pricingFunction(provider, quoteToken) {
+    return pricingFunctionHelper(provider, quoteToken, "olympus", "dai");
+  },
+  isLP: true,
+  lpUrl: {
+    [NetworkId.TESTNET_RINKEBY]:
+      "https://app.sushi.com/add/0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C/0x1e630a578967968eb02EF182a50931307efDa7CF",
+  },
+};
+
+const pricingFunctionHelper = async (
+  provider: ethers.providers.JsonRpcProvider,
+  quoteToken: string,
+  firstToken: string,
+  secondToken: string,
+) => {
+  const baseContract = UniswapV2Lp__factory.connect(quoteToken, provider);
+  const reserves = await baseContract.getReserves();
+  const totalSupply = +(await baseContract.totalSupply()) / Math.pow(10, await baseContract.decimals());
+
+  const token0Contract = IERC20__factory.connect(await baseContract.token0(), provider);
+  const token0Decimals = await token0Contract.decimals();
+  const token0Amount = +reserves._reserve0 / Math.pow(10, token0Decimals);
+  const token0TotalValue = (await getTokenPrice(firstToken)) * token0Amount;
+
+  const token1Contract = IERC20__factory.connect(await baseContract.token1(), provider);
+  const token1Decimals = await token1Contract.decimals();
+  const token1Amount = +reserves._reserve1 / Math.pow(10, token1Decimals);
+  const token1TotalValue = (await getTokenPrice(secondToken)) * token1Amount;
+
+  const totalValue = token0TotalValue + token1TotalValue;
+  const valuePerLpToken = totalValue / totalSupply;
+
+  return valuePerLpToken;
 };
 
 export const UnknownDetails: V2BondDetails = {
@@ -480,6 +531,8 @@ export const UnknownDetails: V2BondDetails = {
   pricingFunction: async () => {
     return 1;
   },
+  isLP: false,
+  lpUrl: "",
 };
 
 /**
@@ -492,6 +545,7 @@ export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } 
     ["0x2f7249cb599139e560f0c81c269ab9b04799e453"]: FraxDetails,
     ["0xc778417e063141139fce010982780140aa0cd5ab"]: EthDetails,
     // ["0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c"]: CvxDetails, // we do not have CVX rinkeby in previous bonds
+    ["0x80edbf2f58c7b130df962bb485c28188f6b5ed29"]: OhmDaiDetails,
   },
   [NetworkId.MAINNET]: {
     ["0x6b175474e89094c44da98b954eedeac495271d0f"]: DaiDetails,

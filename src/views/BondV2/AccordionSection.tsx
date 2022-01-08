@@ -39,7 +39,8 @@ const AccordionSection = ({
             <TableCell align="left">
               <Trans>Bond</Trans>
             </TableCell>
-            <TableCell align="center">{vested ? t`Duration` : t`Remaining Duration`}</TableCell>
+            <TableCell align="center">{`Duration`}</TableCell>
+            <TableCell align="center">{`Remaining`}</TableCell>
             <TableCell align="center">{vested ? t`Payout` : t`Pending Payout`}</TableCell>
             {/* <TableCell align="right"></TableCell> */}
           </TableRow>

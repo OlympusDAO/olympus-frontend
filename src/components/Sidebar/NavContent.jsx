@@ -98,7 +98,7 @@ function NavContent({ handleDrawerToggle }) {
   }, []);
 
   const sortedBonds = bondsV2.sort((a, b) => {
-    return a.discount < b.discount;
+    return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
   });
 
   return (
@@ -171,9 +171,7 @@ function NavContent({ handleDrawerToggle }) {
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          {console.log(sortedBonds)}
-                          {bondsV2.map((bond, i) => {
-                            // TODO add sort function for highest to lowest discount
+                          {sortedBonds.map((bond, i) => {
                             // NOTE (appleseed): temporary for ONHOLD MIGRATION
                             // if (bond.getBondability(networkId)) {
                             if (bond) {
