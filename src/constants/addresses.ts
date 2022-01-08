@@ -23,18 +23,18 @@ export const WSOHM_ADDRESSES = {
   [NetworkId.AVALANCHE]: "0x8cd309e14575203535ef120b5b0ab4dded0c2073",
 };
 
-export const OHM_ADDRESS = {
+export const OHM_ADDRESSES = {
   [NetworkId.MAINNET]: "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
 };
 
-export const V1_OHM_ADDRESS = {
+export const V1_OHM_ADDRESSES = {
   [NetworkId.MAINNET]: "0x383518188c0c6d7730d91b2c03a03c837814a899",
 };
 
-export const SOHM_ADDRESS = {
+export const SOHM_ADDRESSES = {
   [NetworkId.MAINNET]: "0x04906695D6D12CF5459975d7C3C03356E4Ccd460",
 };
 
-export const V1_SOHM_ADDRESS = {
+export const V1_SOHM_ADDRESSES = {
   [NetworkId.MAINNET]: "0x04F2694C8fcee23e8Fd0dfEA1d4f5Bb8c352111F",
 };

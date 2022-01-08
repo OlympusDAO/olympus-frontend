@@ -10,20 +10,14 @@ import { NetworkId } from "src/constants";
 import { ohm_dai } from "src/helpers/AllBonds";
 import { assert } from "src/helpers";
 
-export function useContract<TContract extends Contract = Contract>(addressOrAddressMap: string, ABI: any): TContract;
-export function useContract<TContract extends Contract = Contract>(
-  addressOrAddressMap: AddressMap,
-  ABI: any,
-): TContract | null;
-export function useContract<TContract extends Contract = Contract>(
-  addressOrAddressMap: string | AddressMap,
-  ABI: any,
-): TContract | null {
+export function useContract<TContract extends Contract>(addressOrMap: string, ABI: any): TContract;
+export function useContract<TContract extends Contract>(addressOrMap: AddressMap, ABI: any): TContract | null;
+export function useContract<TContract extends Contract>(addressOrMap: string | AddressMap, ABI: any): TContract | null {
   const { provider } = useWeb3Context();
   const { data: networkId } = useNetwork();
 
   return useMemo(() => {
-    const address = typeof addressOrAddressMap === "string" ? addressOrAddressMap : addressOrAddressMap[networkId!];
+    const address = typeof addressOrMap === "string" ? addressOrMap : addressOrMap[networkId!];
     if (!address) return null;
 
     try {
@@ -32,7 +26,7 @@ export function useContract<TContract extends Contract = Contract>(
       console.error("Unable to get contract", error);
       return null;
     }
-  }, [addressOrAddressMap, ABI, provider, networkId]);
+  }, [addressOrMap, ABI, provider, networkId]);
 }
 
 const usePairContract = (address: string) => {

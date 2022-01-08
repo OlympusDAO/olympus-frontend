@@ -2,10 +2,10 @@ import { useQuery } from "react-query";
 import {
   AddressMap,
   GOHM_ADDRESSES,
-  OHM_ADDRESS,
-  SOHM_ADDRESS,
-  V1_OHM_ADDRESS,
-  V1_SOHM_ADDRESS,
+  OHM_ADDRESSES,
+  SOHM_ADDRESSES,
+  V1_OHM_ADDRESSES,
+  V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
 import { useAddress } from "./useAddress";
@@ -69,9 +69,9 @@ const useBalance = <TAddressMap extends AddressMap = AddressMap>(addressMap: TAd
   });
 };
 
-export const useOhmBalance = () => useBalance(OHM_ADDRESS);
-export const useSohmBalance = () => useBalance(SOHM_ADDRESS);
+export const useOhmBalance = () => useBalance(OHM_ADDRESSES);
+export const useSohmBalance = () => useBalance(SOHM_ADDRESSES);
 export const useGohmBalance = () => useBalance(GOHM_ADDRESSES);
-export const useV1OhmBalance = () => useBalance(V1_OHM_ADDRESS);
 export const useWsohmBalance = () => useBalance(WSOHM_ADDRESSES);
-export const useV1SohmBalance = () => useBalance(V1_SOHM_ADDRESS);
+export const useV1OhmBalance = () => useBalance(V1_OHM_ADDRESSES);
+export const useV1SohmBalance = () => useBalance(V1_SOHM_ADDRESSES);
