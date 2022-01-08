@@ -137,6 +137,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   return (
     <div>
       <Modal
+        closePosition={"left"}
         aria-labelledby="migration-modal-title"
         aria-describedby="migration-modal-description"
         open={open}
