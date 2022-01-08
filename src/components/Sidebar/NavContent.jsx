@@ -97,6 +97,10 @@ function NavContent({ handleDrawerToggle }) {
     return false;
   }, []);
 
+  const sortedBonds = bondsV2.sort((a, b) => {
+    return a.discount < b.discount;
+  });
+
   return (
     <Paper className="dapp-sidebar">
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
@@ -167,8 +171,9 @@ function NavContent({ handleDrawerToggle }) {
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          {console.log(bondsV2)}
+                          {console.log(sortedBonds)}
                           {bondsV2.map((bond, i) => {
+                            // TODO add sort function for highest to lowest discount
                             // NOTE (appleseed): temporary for ONHOLD MIGRATION
                             // if (bond.getBondability(networkId)) {
                             if (bond) {
@@ -187,14 +192,7 @@ function NavContent({ handleDrawerToggle }) {
                                       {bond.displayName}
 
                                       <span className="bond-pair-roi">
-                                        {bond.isLOLable[networkId]
-                                          ? "--"
-                                          : !bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
-                                        {/* {!bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
+                                        {`${bond.discount && trim(bond.discount * 100, 2)}%`}
                                       </span>
                                     </Typography>
                                   )}
