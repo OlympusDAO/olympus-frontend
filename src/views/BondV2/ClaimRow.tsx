@@ -84,10 +84,6 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
   const note = userNote;
   const bondName = note.displayName;
 
-  const currentBlock = useAppSelector(state => {
-    return state.app.currentBlock;
-  });
-
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
@@ -103,7 +99,7 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
       <Box className="bond-pair">
         <BondLogo bond={note} />
         <Box className="bond-name">
-          {/* <Typography>{bond.displayName ? trim(bond.displayName, 4) : <Skeleton width={100} />}</Typography> */}
+          <Typography>{bondName}</Typography>
         </Box>
       </Box>
 

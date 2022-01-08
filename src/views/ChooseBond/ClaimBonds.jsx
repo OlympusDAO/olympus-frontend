@@ -36,8 +36,8 @@ function ClaimBonds({ activeBonds }) {
 
   const pendingClaim = () => {
     if (
-      isPendingTxn(pendingTransactions, "redeem_all_notes") ||
-      isPendingTxn(pendingTransactions, "redeem_all_notes_autostake")
+      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
     ) {
       return true;
     }
@@ -88,8 +88,8 @@ export function ClaimBondsSubComponent({ activeBonds }) {
 
   const pendingClaim = () => {
     if (
-      isPendingTxn(pendingTransactions, "redeem_all_notes") ||
-      isPendingTxn(pendingTransactions, "redeem_all_notes_autostake")
+      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
     ) {
       return true;
     }
@@ -106,7 +106,7 @@ export function ClaimBondsSubComponent({ activeBonds }) {
   };
 
   useEffect(() => {
-    let bondCount = Object.keys(activeBonds).length;
+    let bondCount = activeBonds.length;
     setNumberOfBonds(bondCount);
   }, [activeBonds]);
 
@@ -156,24 +156,27 @@ export function ClaimBondsSubComponent({ activeBonds }) {
                 onRedeemAll({ autostake: false });
               }}
             >
-              {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_notes", t`Claim all`)}
-            </Button>
-
-            <Button
-              variant="contained"
-              color="primary"
-              id="claim-all-and-stake-btn"
-              className="transaction-button"
-              fullWidth
-              disabled={pendingClaim()}
-              onClick={() => {
-                onRedeemAll({ autostake: true });
-              }}
-            >
-              {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_notes_autostake", t`Claim all and Stake`)}
+              {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
             </Button>
           </>
         )}
+        <Button
+          variant="contained"
+          color="primary"
+          id="claim-all-and-stake-btn"
+          className="transaction-button"
+          fullWidth
+          disabled={pendingClaim()}
+          onClick={() => {
+            onRedeemAll({ autostake: true });
+          }}
+        >
+          {txnButtonTextGeneralPending(
+            pendingTransactions,
+            "redeem_all_bonds_autostake",
+            numberOfBonds > 1 ? t`Claim all and Stake` : t`Claim and Stake`,
+          )}
+        </Button>
       </Box>
     </Box>
   );

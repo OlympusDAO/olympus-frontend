@@ -79,9 +79,19 @@ function ChooseBondV2() {
     return () => clearTimeout(interval);
   });
 
+  const v1AccountBonds: IUserBondDetails[] = useAppSelector(state => {
+    const withInterestDue = [];
+    for (const bond in state.account.bonds) {
+      if (state.account.bonds[bond].interestDue > 0) {
+        withInterestDue.push(state.account.bonds[bond]);
+      }
+    }
+    return withInterestDue;
+  });
+
   return (
     <div id="choose-bond-view">
-      {!isEmpty(accountNotes) && <ClaimBonds activeNotes={accountNotes} />}
+      {(!isEmpty(accountNotes) || !isEmpty(v1AccountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">

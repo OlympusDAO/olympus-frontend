@@ -8,7 +8,7 @@ import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core"
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import { useBonds, useWeb3Context } from "src/hooks";
-import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
+import { isPendingTxn, txnButtonText, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 
 export function ClaimBondTableData({ userBond }) {
   const dispatch = useDispatch();
@@ -59,11 +59,15 @@ export function ClaimBondTableData({ userBond }) {
         <Button
           variant="outlined"
           color="primary"
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
+          disabled={
+            isPendingTxn(pendingTransactions, "redeem_bond_" + bond.displayName) ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
+          }
           onClick={() => onRedeem({ autostake: false })}
         >
           <Typography variant="h6">
-            {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, "Claim")}
+            {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, "Claim")}
           </Typography>
         </Button>
       </TableCell>
@@ -124,20 +128,15 @@ export function ClaimBondCardData({ userBond }) {
         <Button
           variant="outlined"
           color="primary"
-          disabled={isPendingTxn(pendingTransactions, "redeem_bond_" + bondName)}
+          disabled={
+            isPendingTxn(pendingTransactions, "redeem_bond_" + bond.displayName) ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
+          }
           onClick={() => onRedeem({ autostake: false })}
         >
           <Typography variant="h5">
-            {txnButtonTextGeneralPending(pendingTransactions, "redeem_bond_" + bondName, t`Claim`)}
-          </Typography>
-        </Button>
-        <Button variant="outlined" color="primary" onClick={() => onRedeem({ autostake: true })}>
-          <Typography variant="h5">
-            {txnButtonTextGeneralPending(
-              pendingTransactions,
-              "redeem_bond_" + bondName + "_autostake",
-              t`Claim and Stake`,
-            )}
+            {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, t`Claim`)}
           </Typography>
         </Button>
       </Box>

@@ -162,13 +162,13 @@
       padding-top: 0;
       padding-bottom: 0;
       position: absolute;
-      left: 112px;
-      top: -3px;
+      left: 92px;
+      top: -5px;
       transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, top 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
         transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
       &.Mui-expanded {
-        left: 114px;
-        top: 1px;
+        left: 94px;
+        top: -2px;
       }
     }
 

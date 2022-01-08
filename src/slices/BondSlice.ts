@@ -279,7 +279,7 @@ export const redeemBond = createAsyncThunk(
     };
     try {
       redeemTx = await bondContract.redeem(address, autostake === true);
-      const pendingTxnType = "redeem_bond_" + bond + (autostake === true ? "_autostake" : "");
+      const pendingTxnType = "redeem_bond_" + bond.displayName;
       uaData.txHash = redeemTx.hash;
       dispatch(
         fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming " + bond.displayName, type: pendingTxnType }),
@@ -324,7 +324,7 @@ export const redeemAllBonds = createAsyncThunk(
 
     try {
       redeemAllTx = await redeemHelperContract.redeemAll(address, autostake);
-      const pendingTxnType = "redeem_all_notes" + (autostake === true ? "_autostake" : "");
+      const pendingTxnType = "redeem_all_bonds" + (autostake === true ? "_autostake" : "");
 
       await dispatch(
         fetchPendingTxns({ txnHash: redeemAllTx.hash, text: "Redeeming All Bonds", type: pendingTxnType }),

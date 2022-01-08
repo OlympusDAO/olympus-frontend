@@ -36,6 +36,7 @@ import { trim } from "src/helpers";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { ClaimBondsSubComponent } from "../ChooseBond/ClaimBonds";
 import title from "material-ui/svg-icons/editor/title";
+import { isEmpty } from "lodash";
 
 function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const dispatch = useDispatch();
@@ -95,153 +96,167 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
 
   return (
     <>
-      {numberOfBonds >= 1 && (
-        <Zoom in={true}>
-          <Paper className="ohm-card claim-bonds-card">
-            <CardHeader title="Your Bonds (1,1)" />
-            <Box
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              className={`global-claim-buttons ${isSmallScreen ? "" : ""}`}
+      <Zoom in={true}>
+        <Paper className="ohm-card claim-bonds-card">
+          <CardHeader title="Your Bonds (1,1)" />
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            className={`global-claim-buttons ${isSmallScreen ? "" : ""}`}
+          >
+            <Typography variant="h4" align="center" className="payout-options-header">
+              Payout Options{" "}
+            </Typography>
+            <Tabs
+              centered
+              value={view}
+              textColor="primary"
+              indicatorColor="primary"
+              onChange={changeView}
+              aria-label="payout token tabs"
+              className="payout-token-tabs"
             >
-              <Typography variant="h4" align="center" className="payout-options-header">
-                Payout Options{" "}
-              </Typography>
-              <Tabs
-                centered
-                value={view}
-                textColor="primary"
-                indicatorColor="primary"
-                onChange={changeView}
-                aria-label="payout token tabs"
-                className="payout-token-tabs"
-              >
-                <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tab" />
-                <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tab" />
-              </Tabs>
-            </Box>
+              <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tab" />
+              <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tab" />
+            </Tabs>
+          </Box>
 
-            <Box>
-              {!isSmallScreen && (
-                <TableContainer>
-                  <Table aria-label="Claimable bonds">
-                    <TableBody>
-                      <Box
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
-                      >
-                        <Typography variant="h5" align="center" className="claimable-balance">
-                          Claimable Balance
-                        </Typography>
-                        <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
-                          {view === 0 ? `${trim(totalClaimable, 4)} sOHM` : `${trim(totalClaimable, 4)} gOHM`}
-                        </Typography>
-
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          className="transaction-button"
-                          fullWidth
-                          disabled={
-                            isPendingTxn(pendingTransactions, "redeem_all_notes") ||
-                            !activeNotes
-                              .map(note => note.fullyMatured)
-                              .reduce((prev, current, idx, arr) => prev || current)
-                          }
-                          onClick={onRedeemAll}
-                        >
-                          {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
-                        </Button>
-                      </Box>
-                      {fullyVestedBonds.length > 0 && (
-                        <AccordionSection
-                          bonds={fullyVestedBonds}
-                          title="Fully Vested Bonds"
-                          gOHM={view === 1}
-                          vested={true}
-                        />
-                      )}
-                      {vestingBonds.length > 0 && (
-                        <AccordionSection bonds={vestingBonds} title="Vesting Bonds" gOHM={view === 1} vested={false} />
-                      )}
-                      {v1AccountBonds.length > 0 && (
-                        <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
-                          <AccordionSummary
-                            expandIcon={<ExpandMore />}
-                            aria-controls={`${title}-content`}
-                            id={`${title}-header`}
-                          >
-                            <Typography>V1 Bonds</Typography>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <ClaimBondsSubComponent activeBonds={v1AccountBonds} />
-                          </AccordionDetails>
-                        </Accordion>
-                      )}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              )}
-
-              {isSmallScreen && (
-                <>
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="center"
-                    className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
-                  >
-                    <Typography variant="h5" align="center" className="claimable-balance">
-                      Claimable Balance
-                    </Typography>
-                    <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
-                      {view === 0 ? `${trim(totalClaimable, 4)} sOHM` : `${trim(totalClaimable, 4)} gOHM`}
-                    </Typography>
-
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className="transaction-button"
-                      fullWidth
-                      disabled={
-                        isPendingTxn(pendingTransactions, "redeem_all_notes") ||
-                        !activeNotes.map(note => note.fullyMatured).reduce((prev, current, idx, arr) => prev || current)
-                      }
-                      onClick={onRedeemAll}
+          <Box>
+            {!isSmallScreen && (
+              <TableContainer>
+                <Table aria-label="Claimable bonds">
+                  <TableBody>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="center"
+                      className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
                     >
-                      {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
-                    </Button>
-                  </Box>
-                  {activeNotes
-                    .map(a => a)
-                    .sort(a => (a.fullyMatured ? -1 : 1))
-                    .map((bond, i) => (
-                      <ClaimBondCardData key={i} userNote={bond} gOHM={view === 1} />
-                    ))}
+                      <Typography variant="h5" align="center" className="claimable-balance">
+                        Claimable Balance
+                      </Typography>
+                      <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
+                        {view === 0 ? `${trim(totalClaimable, 4)} sOHM` : `${trim(totalClaimable, 4)} gOHM`}
+                      </Typography>
 
-                  {v1AccountBonds.length > 0 && (
-                    <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMore />}
-                        aria-controls={`${title}-content`}
-                        id={`${title}-header`}
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className="transaction-button"
+                        fullWidth
+                        disabled={
+                          isPendingTxn(pendingTransactions, "redeem_all_notes") ||
+                          !activeNotes.map(note => note.fullyMatured).reduce((prev, current) => prev || current, false)
+                        }
+                        onClick={onRedeemAll}
                       >
-                        <Typography>V1 Bonds</Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <ClaimBondsSubComponent activeBonds={v1AccountBonds} />
-                      </AccordionDetails>
-                    </Accordion>
-                  )}
-                </>
-              )}
-            </Box>
-          </Paper>
-        </Zoom>
-      )}
+                        {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
+                      </Button>
+                    </Box>
+                    {!isEmpty(fullyVestedBonds) && (
+                      <AccordionSection
+                        bonds={fullyVestedBonds}
+                        title="Fully Vested Bonds"
+                        gOHM={view === 1}
+                        vested={true}
+                        isSmallScreen={isSmallScreen}
+                      />
+                    )}
+                    {!isEmpty(vestingBonds) && (
+                      <AccordionSection
+                        bonds={vestingBonds}
+                        title="Vesting Bonds"
+                        gOHM={view === 1}
+                        vested={false}
+                        isSmallScreen={isSmallScreen}
+                      />
+                    )}
+                    {!isEmpty(v1AccountBonds) && (
+                      <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMore />}
+                          aria-controls={`${title}-content`}
+                          id={`${title}-header`}
+                        >
+                          <Typography>V1 Bonds</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <ClaimBondsSubComponent activeBonds={v1AccountBonds} />
+                        </AccordionDetails>
+                      </Accordion>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+
+            {isSmallScreen && (
+              <>
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
+                >
+                  <Typography variant="h5" align="center" className="claimable-balance">
+                    Claimable Balance
+                  </Typography>
+                  <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
+                    {view === 0 ? `${trim(totalClaimable, 4)} sOHM` : `${trim(totalClaimable, 4)} gOHM`}
+                  </Typography>
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className="transaction-button"
+                    fullWidth
+                    disabled={
+                      isPendingTxn(pendingTransactions, "redeem_all_notes") ||
+                      !activeNotes.map(note => note.fullyMatured).reduce((prev, current) => prev || current, false)
+                    }
+                    onClick={onRedeemAll}
+                  >
+                    {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
+                  </Button>
+                </Box>
+                {!isEmpty(fullyVestedBonds) && (
+                  <AccordionSection
+                    bonds={fullyVestedBonds}
+                    title="Fully Vested Bonds"
+                    gOHM={view === 1}
+                    vested={true}
+                    isSmallScreen={isSmallScreen}
+                  />
+                )}
+                {!isEmpty(vestingBonds) && (
+                  <AccordionSection
+                    bonds={vestingBonds}
+                    title="Vesting Bonds"
+                    gOHM={view === 1}
+                    vested={false}
+                    isSmallScreen={isSmallScreen}
+                  />
+                )}
+                {v1AccountBonds.length > 0 && (
+                  <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMore />}
+                      aria-controls={`${title}-content`}
+                      id={`${title}-header`}
+                    >
+                      <Typography>V1 Bonds</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <ClaimBondsSubComponent activeBonds={v1AccountBonds} />
+                    </AccordionDetails>
+                  </Accordion>
+                )}
+              </>
+            )}
+          </Box>
+        </Paper>
+      </Zoom>
     </>
   );
 }

@@ -304,7 +304,6 @@ export const getUserNotes = createAsyncThunk(
       } = userNotes[i];
       const bond: IBondV2 = bonds[rawNote.marketID];
       let originalDurationSeconds = Math.max(rawNote.matured - rawNote.created, 0);
-      console.log("ods", originalDurationSeconds);
       let seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
       if (seconds > 86400) {
