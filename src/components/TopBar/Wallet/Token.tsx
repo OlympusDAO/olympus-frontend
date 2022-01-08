@@ -167,7 +167,7 @@ export const Token = ({
   const theme = useTheme();
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const balanceValue = parseFloat(totalBalance) * price;
-  console.log(symbol, balances);
+
   // cleanedDecimals provides up to 7 sigFigs on an 18 decimal token (gOHM) & 5 sigFigs on 9 decimal Token
   const sigFigs = decimals === 18 ? 7 : 5;
 
@@ -259,7 +259,7 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
   // default to mainnet while not initialized
   const networkId = providerInitialized ? chainId : NetworkId.MAINNET;
 
-  const connectedChainBalances = useAppSelector(s => s.account.balances);
+  const accountBalances = useAppSelector(s => s.account.balances);
   const ohmPrice = useAppSelector(s => s.app.marketPrice);
   const currentIndex = useAppSelector(s => s.app.currentIndex);
 
@@ -268,7 +268,7 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
       symbol: "OHM V1",
       address: addresses[networkId].OHM_ADDRESS,
       balances: {
-        [NetworkId.MAINNET]: connectedChainBalances.ohmV1,
+        [NetworkId.MAINNET]: accountBalances.ohmV1,
       },
       price: ohmPrice || 0,
       icon: OhmImg,
@@ -278,7 +278,7 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
       symbol: "sOHM V1",
       address: addresses[networkId].SOHM_ADDRESS,
       balances: {
-        [NetworkId.MAINNET]: connectedChainBalances.sohmV1,
+        [NetworkId.MAINNET]: accountBalances.sohmV1,
       },
       price: ohmPrice || 0,
       icon: SOhmImg,
@@ -288,7 +288,7 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
       symbol: "OHM",
       address: addresses[networkId].OHM_V2,
       balances: {
-        [NetworkId.MAINNET]: connectedChainBalances.ohm,
+        [NetworkId.MAINNET]: accountBalances.ohm,
       },
       price: ohmPrice || 0,
       icon: OhmImg,
@@ -298,11 +298,11 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
       symbol: "sOHM",
       address: addresses[networkId].SOHM_V2,
       balances: {
-        [NetworkId.MAINNET]: connectedChainBalances.sohm,
+        [NetworkId.MAINNET]: accountBalances.sohm,
       },
       price: ohmPrice || 0,
       vaultBalances: {
-        "Fuse Olympus Pool Party": connectedChainBalances.fsohm,
+        "Fuse Olympus Pool Party": accountBalances.fsohm,
       },
       icon: SOhmImg,
       decimals: 9,
@@ -310,7 +310,7 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
     wsohm: {
       symbol: "wsOHM",
       address: addresses[networkId].WSOHM_ADDRESS,
-      balances: connectedChainBalances.wsOhmBalances,
+      balances: accountBalances.wsOhmBalances,
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       icon: WsOhmImg,
       decimals: 18,
@@ -319,7 +319,7 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
       symbol: "33T",
       address: addresses[networkId].PT_TOKEN_ADDRESS,
       balances: {
-        [NetworkId.MAINNET]: connectedChainBalances.pool,
+        [NetworkId.MAINNET]: accountBalances.pool,
       },
       price: ohmPrice || 0,
       icon: Token33tImg,
@@ -328,10 +328,10 @@ export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Rec
     gohm: {
       symbol: "gOHM",
       address: addresses[networkId].GOHM_ADDRESS,
-      balances: connectedChainBalances.gOhmBalances,
+      balances: accountBalances.gOhmBalances,
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       vaultBalances: {
-        "Fuse Olympus Pool Party": connectedChainBalances.fgohm,
+        "Fuse Olympus Pool Party": accountBalances.fgohm,
       },
       icon: GOhmImg,
       decimals: 18,

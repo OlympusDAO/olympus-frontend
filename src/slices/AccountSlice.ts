@@ -78,17 +78,14 @@ const balanceOf = async (
   }
 };
 
-const multichainBalanceOf = (
+const multichainBalanceOf = async (
   networks: NetworkId[],
   contractKeyInAddresses: keyof typeof addresses[number],
   userAddress: string,
 ) =>
-  networks.reduce(
-    async (balances, networkId) => ({
-      ...balances,
-      [networkId]: await balanceOf(userAddress, contractKeyInAddresses, networkId), // concurent? should we Promise.all (?)
-    }),
-    {} as Promise<MultiChainBalances>,
+  (await Promise.all(networks.map(n => balanceOf(userAddress, contractKeyInAddresses, n)))).reduce(
+    (balances, balance, i) => ({ ...balances, [networks[i]]: balance }),
+    {} as MultiChainBalances,
   );
 
 const formatBalances = (balances: MultiChainBalances, units: BigNumberish) =>
