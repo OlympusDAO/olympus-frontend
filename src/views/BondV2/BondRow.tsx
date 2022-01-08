@@ -23,7 +23,7 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
               <div>
                 <Link href={bond.lpUrl} target="_blank">
                   <Typography variant="body1">
-                    <Trans>Deposit LP</Trans>
+                    <Trans>Get LP</Trans>
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
                   </Typography>
                 </Link>
@@ -99,7 +99,7 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
           {bond.isLP && (
             <Link color="primary" href={bond.lpUrl} target="_blank">
               <Typography variant="body1">
-                <Trans>Deposit LP</Trans>
+                <Trans>Get LP</Trans>
                 <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
               </Typography>
             </Link>

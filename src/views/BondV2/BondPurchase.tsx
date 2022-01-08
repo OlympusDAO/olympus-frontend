@@ -244,8 +244,8 @@ function BondPurchase({
       <div className="help-text">
         <em>
           <Typography variant="body2">
-            Important: Bonds no longer vest linearly. The bond can only be claimed at the end of the term. Bonds are
-            auto-staking.
+            Important: New bonds are auto-staked and no longer vest linearly. Simply claim as sOHM or gOHM at the end of
+            the term.
           </Typography>
         </em>
       </div>

@@ -53,8 +53,17 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
           />
         </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "center", paddingTop: "20px" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          paddingTop: "20px",
+        }}
+      >
         <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography>
+        {bond.fixedTerm && <Typography style={{ marginTop: "3px" }}>{`${bond.duration}`}</Typography>}
       </div>
     </>
   );
