@@ -29,6 +29,7 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   priceTokenBigNumber: BigNumber;
   discount: number;
   duration: string;
+  expiration: string;
   isLP: boolean;
   lpUrl: string;
   marketPrice: number;
@@ -235,6 +236,7 @@ async function processBond(
     priceToken: bondPrice,
     priceTokenBigNumber: bondPriceBigNumber,
     discount: bondDiscount,
+    expiration: new Date(terms.vesting * 1000).toDateString(),
     duration,
     isLP: v2BondDetail.isLP,
     lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",

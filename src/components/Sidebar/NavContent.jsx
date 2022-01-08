@@ -178,7 +178,7 @@ function NavContent({ handleDrawerToggle }) {
                               return (
                                 <Link
                                   component={NavLink}
-                                  to={`/bonds-v1/${bond.name}`}
+                                  to={`/bonds/${bond.index}`}
                                   key={i}
                                   className={"bond"}
                                   onClick={handleDrawerToggle}
