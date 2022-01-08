@@ -27,7 +27,7 @@ import GOhmImg from "src/assets/tokens/gohm.png";
 
 import { segmentUA } from "src/helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
-import { GOHMBalances, WSOHMBalances } from "src/slices/AccountSlice";
+import { MultiChainBalances } from "src/slices/AccountSlice";
 
 const Accordion = withStyles({
   root: {
@@ -69,7 +69,7 @@ export interface IToken {
   address: string;
   decimals: number;
   icon: string;
-  balances: { [NetworkId.MAINNET]: string } | GOHMBalances | WSOHMBalances;
+  balances: MultiChainBalances;
   price: number;
   vaultBalances?: { [vaultName: string]: string };
   totalBalance: string;

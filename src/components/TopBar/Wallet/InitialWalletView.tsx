@@ -25,7 +25,7 @@ import useCurrentTheme from "src/hooks/useTheme";
 
 import { dai, frax } from "src/helpers/AllBonds";
 
-import { IToken, Tokens, useWallet } from "./Token";
+import { Tokens, useWallet } from "./Token";
 import { Trans } from "@lingui/macro";
 import WalletAddressEns from "./WalletAddressEns";
 import { addresses } from "src/constants";

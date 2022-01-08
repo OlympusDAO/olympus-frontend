@@ -21,12 +21,14 @@ import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
 import { EnvHelper } from "src/helpers/Environment";
 
+export type MultiChainBalances = { [n in NetworkId]?: string };
+
 interface IUserBalances {
   balances: {
     gohm: string;
     gOhmAsSohmBal: string;
-    gOhmBalances: GOHMBalances;
-    gOhmAsSohmBalances: GOHMAsSOHMBalances;
+    gOhmBalances: MultiChainBalances;
+    gOhmAsSohmBalances: MultiChainBalances;
     ohm: string;
     ohmV1: string;
     sohm: string;
@@ -35,7 +37,7 @@ interface IUserBalances {
     fgohm: string;
     fgOHMAsfsOHM: string;
     wsohm: string;
-    wsOhmBalances: WSOHMBalances;
+    wsOhmBalances: MultiChainBalances;
     fiatDaowsohm: string;
     mockSohm: string;
     pool: string;
@@ -61,10 +63,14 @@ interface IUserRecipientInfo {
   indexAtLastChange: string;
 }
 
-const balanceOf = async (userAddress: string, contractAddress: string, networkId: NetworkId) => {
+const balanceOf = async (
+  userAddress: string,
+  contractKeyInAddresses: keyof typeof addresses[number],
+  networkId: NetworkId,
+) => {
   try {
     const provider = NodeHelper.getAnynetStaticProvider(networkId);
-    const contract = IERC20__factory.connect(contractAddress, provider);
+    const contract = IERC20__factory.connect(addresses[networkId][contractKeyInAddresses], provider);
     return contract.balanceOf(userAddress);
   } catch (e) {
     handleContractError(e);
@@ -72,64 +78,26 @@ const balanceOf = async (userAddress: string, contractAddress: string, networkId
   }
 };
 
-const gOhmBalanceOf = async (userAddress: string, networkId: typeof gOhmNetworks[number]) => {
-  try {
-    const provider = NodeHelper.getAnynetStaticProvider(networkId);
-    const gOhmContract = GOHM__factory.connect(addresses[networkId].GOHM_ADDRESS, provider);
-
-    const gOhmBalance = await gOhmContract.balanceOf(userAddress);
-    const gOhmBalanceAsSohm = await gOhmContract.balanceFrom(gOhmBalance.toString());
-
-    return {
-      balance: ethers.utils.formatEther(gOhmBalance),
-      balanceAsSohm: ethers.utils.formatUnits(gOhmBalanceAsSohm, "gwei"),
-    };
-  } catch (e) {
-    handleContractError(e);
-    return {
-      balance: "0.0",
-      balanceAsSohm: "0.0",
-    };
-  }
-};
-
-const gOhmNetworks = [
-  NetworkId.MAINNET,
-  NetworkId.ARBITRUM,
-  NetworkId.AVALANCHE,
-  NetworkId.POLYGON,
-  NetworkId.FANTOM,
-] as const;
-const wsOhmNetworks = [NetworkId.MAINNET, NetworkId.ARBITRUM, NetworkId.AVALANCHE] as const;
-
-export type GOHMBalances = Record<typeof gOhmNetworks[number], string>;
-export type GOHMAsSOHMBalances = Record<typeof gOhmNetworks[number], string>;
-export type WSOHMBalances = Record<typeof wsOhmNetworks[number], string>;
-
-const getWsohmBalances = (userAddress: string) =>
-  wsOhmNetworks.reduce(
+const multichainBalanceOf = (
+  networks: NetworkId[],
+  contractKeyInAddresses: keyof typeof addresses[number],
+  userAddress: string,
+) =>
+  networks.reduce(
     async (balances, networkId) => ({
       ...balances,
-      [networkId]: ethers.utils.formatUnits(
-        await balanceOf(userAddress, addresses[networkId].WSOHM_ADDRESS, networkId),
-        "gwei",
-      ),
+      [networkId]: await balanceOf(userAddress, contractKeyInAddresses, networkId), // concurent? should we Promise.all (?)
     }),
-    {} as Promise<WSOHMBalances>,
+    {} as Promise<MultiChainBalances>,
   );
 
-const getGohmBalances = async (userAddress: string) =>
-  (
-    await Promise.all(
-      gOhmNetworks.map(async networkId => ({ networkId, ...(await gOhmBalanceOf(userAddress, networkId)) })),
-    )
-  ).reduce(
-    (b, a) =>
-      [
-        { ...b[0], [a.networkId]: a.balance },
-        { ...b[1], [a.networkId]: a.balanceAsSohm },
-      ] as [GOHMBalances, GOHMAsSOHMBalances],
-    [{}, {}] as [GOHMBalances, GOHMAsSOHMBalances],
+const formatBalances = (balances: MultiChainBalances, units: BigNumberish) =>
+  Object.entries(balances).reduce(
+    (balances, [networkId, balance = "0"]) => ({
+      ...balances,
+      [networkId]: ethers.utils.formatUnits(balance.toString(), units),
+    }),
+    {},
   );
 
 export const getBalances = createAsyncThunk(
@@ -141,18 +109,37 @@ export const getBalances = createAsyncThunk(
     let fgOHMAsfsOHMBalance = BigNumber.from(0);
     let fiatDaowsohmBalance = BigNumber.from("0");
 
-    const [gOhmBalances, gOhmAsSohmBalances] = await getGohmBalances(address);
-    const gOhmBalance = gOhmBalances[networkID as typeof gOhmNetworks[number]] || "0.0";
-    const gOhmBalAsSohmBal = gOhmBalances[networkID as typeof gOhmNetworks[number]] || "0.0";
+    const ethProvider = NodeHelper.getAnynetStaticProvider(NetworkId.MAINNET);
+    const gohmContract = GOHM__factory.connect(addresses[NetworkId.MAINNET].GOHM_ADDRESS, ethProvider);
 
-    const wsOhmBalances = await getWsohmBalances(address);
-    const wsOhmBalance = wsOhmBalances[networkID as typeof wsOhmNetworks[number]] || "0.0";
+    const gOhmBalances = await multichainBalanceOf(
+      [NetworkId.MAINNET, NetworkId.ARBITRUM, NetworkId.AVALANCHE, NetworkId.POLYGON, NetworkId.FANTOM],
+      "GOHM_ADDRESS",
+      address,
+    );
 
-    const ohmBalance = await balanceOf(address, addresses[NetworkId.MAINNET].OHM_ADDRESS, NetworkId.MAINNET);
-    const sohmBalance = await balanceOf(address, addresses[NetworkId.MAINNET].SOHM_ADDRESS, NetworkId.MAINNET);
-    const ohmV2Balance = await balanceOf(address, addresses[NetworkId.MAINNET].OHM_V2, NetworkId.MAINNET);
-    const sohmV2Balance = await balanceOf(address, addresses[NetworkId.MAINNET].SOHM_V2, NetworkId.MAINNET);
-    const poolBalance = await balanceOf(address, addresses[NetworkId.MAINNET].PT_TOKEN_ADDRESS, NetworkId.MAINNET);
+    const gOhmAsSohmBalances = await Object.entries(gOhmBalances).reduce(
+      async (acc, [n, b]) => ({
+        ...acc,
+        [n]: await gohmContract.balanceFrom(b.toString()).catch(e => {
+          handleContractError(e);
+          return BigNumber.from(0);
+        }),
+      }),
+      {} as Promise<MultiChainBalances>,
+    );
+
+    const wsOhmBalances = await multichainBalanceOf(
+      [NetworkId.MAINNET, NetworkId.ARBITRUM, NetworkId.AVALANCHE],
+      "WSOHM_ADDRESS",
+      address,
+    );
+
+    const ohmBalance = await balanceOf(address, "OHM_ADDRESS", NetworkId.MAINNET);
+    const sohmBalance = await balanceOf(address, "SOHM_ADDRESS", NetworkId.MAINNET);
+    const ohmV2Balance = await balanceOf(address, "OHM_V2", NetworkId.MAINNET);
+    const sohmV2Balance = await balanceOf(address, "SOHM_V2", NetworkId.MAINNET);
+    const poolBalance = await balanceOf(address, "PT_TOKEN_ADDRESS", NetworkId.MAINNET);
 
     try {
       for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"]) {
@@ -205,17 +192,17 @@ export const getBalances = createAsyncThunk(
 
     return {
       balances: {
-        gohm: ethers.utils.formatEther(gOhmBalance),
-        gOhmAsSohmBal: ethers.utils.formatUnits(gOhmBalAsSohmBal, "gwei"),
-        gOhmBalances,
-        gOhmAsSohmBalances,
+        gohm: ethers.utils.formatEther(gOhmBalances[networkID] || "0"),
+        gOhmAsSohmBal: ethers.utils.formatUnits(gOhmAsSohmBalances[networkID] || "0", "gwei"),
+        gOhmBalances: formatBalances(gOhmBalances, "ether"),
+        gOhmAsSohmBalances: formatBalances(gOhmAsSohmBalances, "gwei"),
         ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
         fgohm: ethers.utils.formatEther(fgohmBalance),
         fgOHMAsfsOHM: ethers.utils.formatUnits(fgOHMAsfsOHMBalance, "gwei"),
-        wsohm: wsOhmBalance,
-        wsOhmBalances,
+        wsohm: ethers.utils.formatEther(wsOhmBalances[networkID] || "0.0"),
+        wsOhmBalances: formatBalances(wsOhmBalances, "ether"),
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
         ohm: ethers.utils.formatUnits(ohmV2Balance, "gwei"),
@@ -537,8 +524,8 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   balances: {
     gohm: string;
     gOhmAsSohmBal: string;
-    gOhmBalances: GOHMBalances;
-    gOhmAsSohmBalances: GOHMAsSOHMBalances;
+    gOhmBalances: MultiChainBalances;
+    gOhmAsSohmBalances: MultiChainBalances;
     ohmV1: string;
     ohm: string;
     sohm: string;
@@ -549,7 +536,7 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     fgohm: string;
     fgOHMAsfsOHM: string;
     wsohm: string;
-    wsOhmBalances: WSOHMBalances;
+    wsOhmBalances: MultiChainBalances;
     fiatDaowsohm: string;
     pool: string;
     mockSohm: string;
@@ -579,8 +566,8 @@ const initialState: IAccountSlice = {
   balances: {
     gohm: "",
     gOhmAsSohmBal: "",
-    gOhmBalances: gOhmNetworks.reduce((acc, n) => ({ ...acc, [n]: "" }), {} as GOHMBalances),
-    gOhmAsSohmBalances: gOhmNetworks.reduce((acc, n) => ({ ...acc, [n]: "" }), {} as GOHMAsSOHMBalances),
+    gOhmBalances: {},
+    gOhmAsSohmBalances: {},
     ohmV1: "",
     ohm: "",
     sohm: "",
@@ -591,7 +578,7 @@ const initialState: IAccountSlice = {
     fgohm: "",
     fgOHMAsfsOHM: "",
     wsohm: "",
-    wsOhmBalances: wsOhmNetworks.reduce((acc, n) => ({ ...acc, [n]: "" }), {} as WSOHMBalances),
+    wsOhmBalances: {},
     fiatDaowsohm: "",
     pool: "",
     mockSohm: "",
