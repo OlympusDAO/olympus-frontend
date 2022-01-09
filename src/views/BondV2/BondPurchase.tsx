@@ -83,9 +83,9 @@ function BondPurchase({
 
   const setMax = () => {
     let maxQ;
-    const maxPayout = +bond.maxPayout / Math.pow(10, 9);
-    if (balanceNumber / bond.priceToken > maxPayout) {
-      maxQ = maxPayout * bond.priceToken * 0.999;
+    const maxPayout = (bond.priceToken * +bond.maxPayout) / Math.pow(10, 9);
+    if (balanceNumber > maxPayout) {
+      maxQ = maxPayout * 0.999;
     } else {
       maxQ = balanceNumber;
     }
