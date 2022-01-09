@@ -82,14 +82,14 @@ function BondPurchase({
   }, [balance]);
 
   const setMax = () => {
-    let maxQ;
+    let maxQ: string;
     const maxPayout = (bond.priceToken * +bond.maxPayout) / Math.pow(10, 9);
     if (balanceNumber > maxPayout) {
-      maxQ = maxPayout * 0.999;
+      maxQ = (maxPayout * 0.999).toString();
     } else {
-      maxQ = balanceNumber;
+      maxQ = ethers.utils.formatUnits(balance.balance, bond.quoteDecimals);
     }
-    setQuantity(maxQ.toString());
+    setQuantity(maxQ);
   };
 
   useEffect(() => {
