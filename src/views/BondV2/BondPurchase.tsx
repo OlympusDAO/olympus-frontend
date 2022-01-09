@@ -78,7 +78,7 @@ function BondPurchase({
   };
 
   const hasAllowance = useCallback(() => {
-    return +balance.allowance > 0;
+    return +balance?.allowance > 0;
   }, [balance]);
 
   const setMax = () => {
@@ -152,28 +152,32 @@ function BondPurchase({
                     />
                   </FormControl>
                 )}
-                {hasAllowance() ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-btn"
-                    className="transaction-button"
-                    disabled={isPendingTxn(pendingTransactions, "bond_" + bond.displayName)}
-                    onClick={onBond}
-                  >
-                    {txnButtonText(pendingTransactions, "bond_" + bond.displayName, "Bond")}
-                  </Button>
+                {balance ? (
+                  hasAllowance() ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      id="bond-btn"
+                      className="transaction-button"
+                      disabled={isPendingTxn(pendingTransactions, "bond_" + bond.displayName)}
+                      onClick={onBond}
+                    >
+                      {txnButtonText(pendingTransactions, "bond_" + bond.displayName, "Bond")}
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      id="bond-approve-btn"
+                      className="transaction-button"
+                      disabled={isPendingTxn(pendingTransactions, `approve_${bond.displayName}_bonding`)}
+                      onClick={onSeekApproval}
+                    >
+                      {txnButtonText(pendingTransactions, `approve_${bond.displayName}_bonding`, "Approve")}
+                    </Button>
+                  )
                 ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-approve-btn"
-                    className="transaction-button"
-                    disabled={isPendingTxn(pendingTransactions, `approve_${bond.displayName}_bonding`)}
-                    onClick={onSeekApproval}
-                  >
-                    {txnButtonText(pendingTransactions, `approve_${bond.displayName}_bonding`, "Approve")}
-                  </Button>
+                  <Skeleton width="300px" height={40} />
                 )}
               </>
             )}{" "}
