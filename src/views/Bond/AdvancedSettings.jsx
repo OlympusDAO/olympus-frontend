@@ -20,6 +20,7 @@ function AdvancedSettings({
       closePosition={"left"}
       onClose={handleClose}
       hideBackdrop
+      maxWidth={"500px"}
     >
       <Box className="card-content">
         <InputLabel htmlFor="slippage">
