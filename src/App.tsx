@@ -166,7 +166,7 @@ function App() {
         dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       }
     },
-    [networkId],
+    [networkId, address],
   );
 
   const loadAccount = useCallback(

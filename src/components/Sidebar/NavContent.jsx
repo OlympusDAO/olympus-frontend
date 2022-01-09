@@ -101,23 +101,7 @@ function NavContent({ handleDrawerToggle }) {
     return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
   });
 
-  const allBonds = [...bondsV2, ...bonds].sort((a, b) => {
-    if (b.discount === undefined) {
-      if (a.discount === undefined) {
-        return b.bondDiscount - a.bondDiscount;
-      } else {
-        return b.bondDiscount - a.discount;
-      }
-    } else {
-      if (a.discount === undefined) {
-        return b.discount - a.bondDiscount;
-      } else {
-        return b.discount - a.discount;
-      }
-    }
-  });
-
-  console.log(allBonds);
+  bonds.sort((a, b) => b.bondDiscount - a.bondDiscount);
 
   return (
     <Paper className="dapp-sidebar">
@@ -189,64 +173,57 @@ function NavContent({ handleDrawerToggle }) {
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          {allBonds.map((bond, i) => {
-                            // NOTE (appleseed): temporary for ONHOLD MIGRATION
-                            // if (bond.getBondability(networkId)) {
-                            if (bond) {
-                              if (bond.discount !== undefined) {
-                                return (
-                                  <Link
-                                    component={NavLink}
-                                    to={`/bonds/${bond.index}`}
-                                    key={i}
-                                    className={"bond"}
-                                    onClick={handleDrawerToggle}
-                                  >
-                                    {!bond.discount ? (
-                                      <Skeleton variant="text" width={"150px"} />
-                                    ) : (
-                                      <Typography variant="body2">
-                                        {bond.displayName}
+                          {sortedBonds.map((bond, i) => {
+                            return (
+                              <Link
+                                component={NavLink}
+                                to={`/bonds/${bond.index}`}
+                                key={i}
+                                className={"bond"}
+                                onClick={handleDrawerToggle}
+                              >
+                                <Typography variant="body2">
+                                  {bond.displayName}
+                                  <span className="bond-pair-roi">
+                                    {`${bond.discount && trim(bond.discount * 100, 2)}%`}
+                                  </span>
+                                </Typography>
+                              </Link>
+                            );
+                          })}
+                          <Box className="menu-divider">
+                            <Divider />
+                          </Box>
+                          {bonds.map((bond, i) => {
+                            if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
+                              return (
+                                <Link
+                                  component={NavLink}
+                                  to={`/bonds-v1/${bond.name}`}
+                                  key={i}
+                                  className={"bond"}
+                                  onClick={handleDrawerToggle}
+                                >
+                                  {!bond.bondDiscount ? (
+                                    <Skeleton variant="text" width={"150px"} />
+                                  ) : (
+                                    <Typography variant="body2">
+                                      {`${bond.displayName} (v1)`}
 
-                                        <span className="bond-pair-roi">
-                                          {`${bond.discount && trim(bond.discount * 100, 2)}%`}
-                                        </span>
-                                      </Typography>
-                                    )}
-                                  </Link>
-                                );
-                              } else {
-                                if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
-                                  return (
-                                    <Link
-                                      component={NavLink}
-                                      to={`/bonds-v1/${bond.name}`}
-                                      key={i}
-                                      className={"bond"}
-                                      onClick={handleDrawerToggle}
-                                    >
-                                      {!bond.bondDiscount ? (
-                                        <Skeleton variant="text" width={"150px"} />
-                                      ) : (
-                                        <Typography variant="body2">
-                                          {`${bond.displayName} (v1)`}
-
-                                          <span className="bond-pair-roi">
-                                            {bond.isLOLable[networkId]
-                                              ? "--"
-                                              : !bond.isBondable[networkId]
-                                              ? "Sold Out"
-                                              : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
-                                            {/* {!bond.isBondable[networkId]
+                                      <span className="bond-pair-roi">
+                                        {bond.isLOLable[networkId]
+                                          ? "--"
+                                          : !bond.isBondable[networkId]
+                                          ? "Sold Out"
+                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
+                                        {/* {!bond.isBondable[networkId]
                                               ? "Sold Out"
                                               : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
-                                          </span>
-                                        </Typography>
-                                      )}
-                                    </Link>
-                                  );
-                                }
-                              }
+                                      </span>
+                                    </Typography>
+                                  )}
+                                </Link>
+                              );
                             }
                           })}
                         </AccordionDetails>
