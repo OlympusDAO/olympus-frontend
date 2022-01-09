@@ -23,6 +23,7 @@ import { useAppSelector } from "src/hooks";
 import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
 import { BigNumber, ethers } from "ethers";
 import { AppDispatch } from "src/store";
+import { InfoTooltip } from "@olympusdao/component-library";
 
 function BondPurchase({
   bond,
@@ -202,9 +203,12 @@ function BondPurchase({
           </div>
 
           <div className={`data-row`}>
-            <Typography>
-              <Trans>You Will Get</Trans>
-            </Typography>
+            <Box display="flex" flexDirection="row">
+              <Typography>
+                <Trans>You Will Get</Trans>
+              </Typography>
+              <InfoTooltip message="Actual sOHM amount you receive will be higher at the end of the term due to rebase accrual."></InfoTooltip>
+            </Box>
             <Typography id="bond-value-id" className="price-data">
               {isBondLoading ? (
                 <Skeleton width="100px" />
@@ -253,8 +257,8 @@ function BondPurchase({
       <div className="help-text">
         <em>
           <Typography variant="body2">
-            Important: New bonds are auto-staked and no longer vest linearly. Simply claim as sOHM or gOHM at the end of
-            the term.
+            Important: New bonds are auto-staked (accrues rebase rewards) and no longer vest linearly. Simply claim as
+            sOHM or gOHM at the end of the term.
           </Typography>
         </em>
       </div>
