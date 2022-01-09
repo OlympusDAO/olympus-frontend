@@ -102,7 +102,7 @@ export function ClaimBondCardData({ userBond }) {
   }
 
   return (
-    <Box id={`${bondName}--claim`} className="claim-bond-data-card bond-data-card">
+    <Box id={`${bondName}--claim`} className="claim-bond-data-card bond-data-card" style={{ marginTop: "10px" }}>
       <Box className="bond-pair">
         <BondLogo bond={bond} />
         <Box className="bond-name">
@@ -137,6 +137,20 @@ export function ClaimBondCardData({ userBond }) {
         >
           <Typography variant="h5">
             {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, t`Claim`)}
+          </Typography>
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          disabled={
+            isPendingTxn(pendingTransactions, "redeem_bond_" + bond.displayName) ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+            isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
+          }
+          onClick={() => onRedeem({ autostake: true })}
+        >
+          <Typography variant="h5">
+            {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, t`Claim and Stake`)}
           </Typography>
         </Button>
       </Box>

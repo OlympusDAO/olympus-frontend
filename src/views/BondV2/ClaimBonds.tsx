@@ -45,17 +45,11 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex ?? "1";
   });
-  const [numberOfBonds, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
-
-  useEffect(() => {
-    let bondCount = Object.keys(activeNotes).length;
-    setNumberOfBonds(bondCount);
-  }, [activeNotes]);
 
   const fullyVestedBonds = activeNotes.filter(note => note.fullyMatured);
   const vestingBonds = activeNotes.filter(note => !note.fullyMatured);
@@ -88,10 +82,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const totalClaimable = view === 1 ? total : total * +currentIndex;
 
   const onRedeemAll = () => {
-    // console.log("redeeming all bonds");
-    // dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
     dispatch(claimAllNotes({ address, provider, networkID: networkId, gOHM: view === 1 }));
-    // console.log("redeem all complete");
   };
 
   return (

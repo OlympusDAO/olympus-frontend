@@ -24,7 +24,6 @@ import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import { Link } from "react-router-dom";
-import ClaimBonds from "./ClaimBonds";
 import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector } from "src/hooks";
@@ -32,6 +31,8 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { Metric, MetricCollection } from "@olympusdao/component-library";
+import { IUserNote } from "src/slices/BondSliceV2";
+import ClaimBonds from "../BondV2/ClaimBonds";
 
 function ChooseBond() {
   const { networkId } = useWeb3Context();
@@ -43,6 +44,8 @@ function ChooseBond() {
 
   const isAppLoading: boolean = useAppSelector(state => state.app.loading);
   const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
+
+  const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
 
   const accountBonds: IUserBondDetails[] = useAppSelector(state => {
     const withInterestDue = [];
@@ -79,7 +82,7 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
-      {!isAccountLoading && !isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
+      {(!isEmpty(accountNotes) || !isEmpty(accountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">
