@@ -41,7 +41,7 @@ again.
 
 All submissions, including submissions by project members, require review. We use [Github Flow](https://guides.github.com/introduction/flow/index.html) Pull Requests for this purpose.
 
-. We actively welcome your pull requests:
+We actively welcome your pull requests:
 
 1. Fork the repo and create your branch from the default repo branch.
 2. If you've added code that should be tested, add tests.
@@ -51,7 +51,7 @@ All submissions, including submissions by project members, require review. We us
 6. Submit that pull request!
 
 Consult
-[Github Flow](https://guides.github.com/introduction/flow/index.html)and
+[Github Flow](https://guides.github.com/introduction/flow/index.html) and
 [About GitHub Pull Requests](https://help.github.com/articles/about-pull-requests/) for more
 information on using pull requests.
 
@@ -59,9 +59,9 @@ information on using pull requests.
 
 A good way to familiarize yourself with the code base and successfully submit your first Pull Request is to [find an issue](https://github.blog/2020-01-22-browse-good-first-issues-to-start-contributing-to-open-source/) labeled `Good First Issue`.
 
-Project leads carefully curate issues and label with `Good First Issue` only the ones that can be solved indepdenently by new contributors such as yourself. Work at your own pace. You will not be dependant and waiting on other contributors to solve their open issues nor will you block contributors waiting on you. Take your time. Make a good first impression!
+Project leads carefully curate issues and label with `Good First Issue` only the ones that can be solved independently by new contributors such as yourself. Work at your own pace. You will not be dependant and waiting on other contributors to solve their open issues nor will you block contributors waiting on you. Take your time. Make a good first impression!
 
-Having a successfully merged PR 🔐 unlocks the first level🌟  of access to the core  team inner circles. Looking forward to meeting you there! 🙌
+Having a successfully merged PR 🔐 unlocks the first level🌟 of access to the core team inner circles. Looking forward to meeting you there! 🙌
 
 ## Community Guidelines
 

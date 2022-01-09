@@ -1,5 +1,5 @@
 import { formatCurrency, trim } from "src/helpers";
-import { Metric } from "src/components/Metric";
+import { Metric } from "@olympusdao/component-library";
 import { t } from "@lingui/macro";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import {
