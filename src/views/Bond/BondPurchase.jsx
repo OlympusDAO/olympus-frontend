@@ -181,9 +181,16 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     {bond.LOLmessage}
                   </PrimaryButton>
                 ) : hasAllowance() ? (
-                  <PrimaryButton disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)} onClick={onBond}>
-                    {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
-                  </PrimaryButton>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-btn"
+                    className="transaction-button"
+                    disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
+                    onClick={onBond}
+                  >
+                    {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond (v1)")}
+                  </Button>
                 ) : (
                   <PrimaryButton
                     disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}

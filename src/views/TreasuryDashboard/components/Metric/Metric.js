@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { trim, formatCurrency } from "../../../../helpers";
-import { Metric } from "src/components/Metric";
+import { Metric } from "@olympusdao/component-library";
 import { t } from "@lingui/macro";
 
 const sharedProps = {
