@@ -1,9 +1,9 @@
 import { memo } from "react";
 import "./treasury-dashboard.scss";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography } from "@material-ui/core";
+import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography, SvgIcon } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
+import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 
 import {
   TotalValueDepositedGraph,
@@ -13,7 +13,7 @@ import {
   OHMStakedGraph,
   RunwayAvailableGraph,
 } from "./components/Graph/Graph";
-
+import { MetricCollection } from "@olympusdao/component-library";
 const TreasuryDashboard = memo(() => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
@@ -28,14 +28,14 @@ const TreasuryDashboard = memo(() => {
       >
         <Box className="hero-metrics">
           <Paper className="ohm-card">
-            <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
+            <MetricCollection>
               <MarketCap />
               <OHMPrice />
               <GOHMPrice />
               <CircSupply />
               <BackingPerOHM />
               <CurrentIndex />
-            </Box>
+            </MetricCollection>
           </Paper>
         </Box>
         <Box className="hero-metrics" style={{ marginTop: "20px" }}>
@@ -46,8 +46,14 @@ const TreasuryDashboard = memo(() => {
             // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
             style={{ wordBreak: "break-word" }}
           >
-            Olympus is currently migrating to improved contracts. Please note that during this time, frontend metrics
-            may be inaccurate.
+            <Box alignItems={"center"} display={"flex"}>
+              <SvgIcon component={InfoIcon} />
+              <Box width={10} />
+              <Typography>
+                Olympus is currently migrating to improved contracts. Please note that during this time, frontend
+                metrics may be inaccurate.
+              </Typography>
+            </Box>
           </Alert>
         </Box>
 
@@ -120,12 +126,4 @@ const TreasuryDashboard = memo(() => {
   );
 });
 
-const queryClient = new QueryClient();
-
-// Normally this would be done
-// much higher up in our App.
-export default () => (
-  <QueryClientProvider client={queryClient}>
-    <TreasuryDashboard />
-  </QueryClientProvider>
-);
+export default TreasuryDashboard;

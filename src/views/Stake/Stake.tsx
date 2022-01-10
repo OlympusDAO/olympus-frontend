@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, ChangeEvent } from "react";
+import { useCallback, useState, useEffect, ChangeEvent, ChangeEventHandler } from "react";
 import { useDispatch } from "react-redux";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useHistory } from "react-router";
@@ -20,7 +20,6 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Checkbox,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
@@ -41,8 +40,8 @@ import { ethers } from "ethers";
 import ZapCta from "../Zap/ZapCta";
 import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
-import StakeRow from "./StakeRow";
-import Metric from "../../components/Metric/Metric";
+import { Metric, MetricCollection, DataRow } from "@olympusdao/component-library";
+import { ConfirmDialog } from "./ConfirmDialog";
 
 function a11yProps(index: number) {
   return {
@@ -54,17 +53,17 @@ function a11yProps(index: number) {
 function Stake() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { provider, address, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, connect, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "stake", networkID: networkId, history });
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
+  const [confirmation, setConfirmation] = useState(false);
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
-    return state.app.currentIndex;
+    return state.app.currentIndex ?? "1";
   });
   const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;
@@ -81,6 +80,12 @@ function Stake() {
   const fsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
   });
+  const fgohmBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.fgohm;
+  });
+  const fgOHMAsfsOHMBalance = useAppSelector(state => {
+    return state.account.balances && state.account.balances.fgOHMAsfsOHM;
+  });
   const wsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
@@ -94,11 +99,38 @@ function Stake() {
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
-
-  // const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
   const gOhmAsSohm = useAppSelector(state => {
     return state.account.balances && state.account.balances.gOhmAsSohmBal;
   });
+
+  const gOhmOnArbitrum = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnArbitrum;
+  });
+  const gOhmOnArbAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnArbAsSohm;
+  });
+
+  const gOhmOnAvax = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnAvax;
+  });
+  const gOhmOnAvaxAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnAvaxAsSohm;
+  });
+
+  const gOhmOnPolygon = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnPolygon;
+  });
+  const gOhmOnPolygonAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnPolygonAsSohm;
+  });
+
+  const gOhmOnFantom = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnFantom;
+  });
+  const gOhmOnFantomAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnFantomAsSohm;
+  });
+
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const stakeAllowance = useAppSelector(state => {
@@ -129,9 +161,9 @@ function Stake() {
   const setMax = () => {
     if (view === 0) {
       setQuantity(ohmBalance);
-    } else if (!checked) {
+    } else if (!confirmation) {
       setQuantity(sohmBalance);
-    } else if (checked) {
+    } else if (confirmation) {
       setQuantity(gOhmAsSohm.toString());
     }
   };
@@ -146,7 +178,7 @@ function Stake() {
 
   const onChangeStake = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(Number(quantity)) || Number(quantity) === 0) {
+    if (isNaN(Number(quantity)) || Number(quantity) === 0 || Number(quantity) < 0) {
       // eslint-disable-next-line no-alert
       return dispatch(error(t`Please enter a value!`));
     }
@@ -157,10 +189,10 @@ function Stake() {
       return dispatch(error(t`You cannot stake more than your OHM balance.`));
     }
 
-    if (checked === false && action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+    if (confirmation === false && action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
       return dispatch(
         error(
-          t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please check the box.`,
+          t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please toggle the sohm-gohm switch.`,
         ),
       );
     }
@@ -171,7 +203,7 @@ function Stake() {
      */
     // const formQuant = checked && currentIndex && view === 1 ? quantity / Number(currentIndex) : quantity;
     const formQuant = async () => {
-      if (checked && currentIndex && view === 1) {
+      if (confirmation && currentIndex && view === 1) {
         return await getGohmBalFromSohm({ provider, networkID: networkId, sOHMbalance: quantity });
       } else {
         return quantity;
@@ -186,7 +218,7 @@ function Stake() {
         provider,
         networkID: networkId,
         version2: true,
-        rebase: !checked,
+        rebase: !confirmation,
       }),
     );
   };
@@ -215,8 +247,24 @@ function Stake() {
     setView(newView);
   };
 
+  const handleChangeQuantity = useCallback<ChangeEventHandler<HTMLInputElement>>(e => {
+    if (Number(e.target.value) >= 0) setQuantity(e.target.value);
+  }, []);
+
   const trimmedBalance = Number(
-    [sohmBalance, gOhmAsSohm, sohmV1Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance]
+    [
+      sohmBalance,
+      gOhmAsSohm,
+      gOhmOnArbAsSohm,
+      gOhmOnAvaxAsSohm,
+      gOhmOnPolygonAsSohm,
+      gOhmOnFantomAsSohm,
+      sohmV1Balance,
+      wsohmAsSohm,
+      fiatDaoAsSohm,
+      fsohmBalance,
+      fgOHMAsfsOHMBalance,
+    ]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -236,51 +284,6 @@ function Stake() {
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
 
-  const [checked, setChecked] = useState(false);
-
-  const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    setChecked(e.target.checked);
-  };
-
-  function ConfirmDialog() {
-    return (
-      <Paper
-        className="ohm-card confirm-dialog"
-        style={{ marginBottom: "0.8rem", width: "100%", padding: "12px 12px" }}
-      >
-        <Box className="dialog-container" display="flex" alignItems="center" justifyContent="center">
-          <Box>
-            <Checkbox
-              checked={checked}
-              onChange={e => handleCheck(e)}
-              color="primary"
-              inputProps={{ "aria-label": "checkbox" }}
-              className="stake-to-ohm-checkbox"
-              checkedIcon={<CheckBoxIcon viewBox="0 0 25 25" />}
-              icon={<CheckBoxOutlineBlankIcon viewBox="0 0 25 25" />}
-            />
-          </Box>
-          <Box width="100%">
-            <Typography variant="body2" style={{ margin: "10px" }}>
-              {view === 0 &&
-                checked &&
-                `Staking ${Number(quantity).toFixed(4)} OHM to ${(Number(quantity) / Number(currentIndex)).toFixed(
-                  4,
-                )} gOHM`}
-              {view === 1 &&
-                checked &&
-                `Unstaking ${(Number(quantity) / Number(currentIndex)).toFixed(4)} gOHM to ${Number(quantity).toFixed(
-                  4,
-                )} OHM`}
-              {view === 0 && !checked && "Stake to gOHM instead"}
-              {view === 1 && !checked && "Unstake from gOHM instead"}
-            </Typography>
-          </Box>
-        </Box>
-      </Paper>
-    );
-  }
-
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -294,38 +297,27 @@ function Stake() {
             </Grid>
 
             <Grid item>
-              <div className="stake-top-metrics">
-                <Grid container spacing={2} alignItems="flex-end">
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-apy"
-                      label={t`APY`}
-                      metric={`${formattedTrimmedStakingAPY}%`}
-                      isLoading={stakingAPY ? false : true}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-tvl"
-                      label={t`Total Value Deposited`}
-                      metric={formattedStakingTVL}
-                      isLoading={stakingTVL ? false : true}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <Metric
-                      className="stake-index"
-                      label={t`Current Index`}
-                      metric={`${formattedCurrentIndex} OHM`}
-                      isLoading={currentIndex ? false : true}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
+              <MetricCollection>
+                <Metric
+                  className="stake-apy"
+                  label={t`APY`}
+                  metric={`${formattedTrimmedStakingAPY}%`}
+                  isLoading={stakingAPY ? false : true}
+                />
+                <Metric
+                  className="stake-tvl"
+                  label={t`Total Value Deposited`}
+                  metric={formattedStakingTVL}
+                  isLoading={stakingTVL ? false : true}
+                />
+                <Metric
+                  className="stake-index"
+                  label={t`Current Index`}
+                  metric={`${formattedCurrentIndex} sOHM`}
+                  isLoading={currentIndex ? false : true}
+                />
+              </MetricCollection>
             </Grid>
-
             <div className="staking-area">
               {!address ? (
                 <div className="stake-wallet-notification">
@@ -364,8 +356,8 @@ function Stake() {
                       <Grid item xs={12} sm={8} className="stake-grid-item">
                         {address && !isAllowanceDataLoading ? (
                           (!hasAllowance("ohm") && view === 0) ||
-                          (!hasAllowance("sohm") && view === 1 && !checked) ||
-                          (!hasAllowance("gohm") && view === 1 && checked) ? (
+                          (!hasAllowance("sohm") && view === 1 && !confirmation) ||
+                          (!hasAllowance("gohm") && view === 1 && confirmation) ? (
                             <Box className="help-text">
                               <Typography variant="body1" className="stake-note" color="textSecondary">
                                 {view === 0 ? (
@@ -377,10 +369,10 @@ function Stake() {
                                   </>
                                 ) : (
                                   <>
-                                    <Trans>First time unstaking</Trans> <b>sOHM</b>?
+                                    <Trans>First time unstaking</Trans> <b>{confirmation ? "gOHM" : "sOHM"}</b>?
                                     <br />
-                                    <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM</b>{" "}
-                                    <Trans>for unstaking</Trans>.
+                                    <Trans>Please approve Olympus Dao to use your</Trans>{" "}
+                                    <b>{confirmation ? "gOHM" : "sOHM"}</b> <Trans>for unstaking</Trans>.
                                   </>
                                 )}
                               </Typography>
@@ -394,7 +386,7 @@ function Stake() {
                                 placeholder="Enter an amount"
                                 className="stake-input"
                                 value={quantity}
-                                onChange={e => setQuantity(e.target.value)}
+                                onChange={handleChangeQuantity}
                                 labelWidth={0}
                                 endAdornment={
                                   <InputAdornment position="end">
@@ -425,7 +417,11 @@ function Stake() {
                                   onChangeStake("stake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "staking", t`Stake OHM`)}
+                                {txnButtonText(
+                                  pendingTransactions,
+                                  "staking",
+                                  `${t`Stake to`} ${confirmation ? " gOHM" : " sOHM"}`,
+                                )}
                               </Button>
                             ) : (
                               <Button
@@ -447,7 +443,8 @@ function Stake() {
                           <Box m={-2}>
                             {isAllowanceDataLoading ? (
                               <Skeleton />
-                            ) : (address && hasAllowance("sohm") && !checked) || (hasAllowance("gohm") && checked) ? (
+                            ) : (address && hasAllowance("sohm") && !confirmation) ||
+                              (hasAllowance("gohm") && confirmation) ? (
                               <Button
                                 className="stake-button"
                                 variant="contained"
@@ -457,7 +454,11 @@ function Stake() {
                                   onChangeStake("unstake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake`)}
+                                {txnButtonText(
+                                  pendingTransactions,
+                                  "unstaking",
+                                  `${t`Unstake from`} ${confirmation ? " gOHM" : " sOHM"}`,
+                                )}
                               </Button>
                             ) : (
                               <Button
@@ -466,7 +467,7 @@ function Stake() {
                                 color="primary"
                                 disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                                 onClick={() => {
-                                  onSeekApproval(checked ? "gohm" : "sohm");
+                                  onSeekApproval(confirmation ? "gohm" : "sohm");
                                 }}
                               >
                                 {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
@@ -477,73 +478,130 @@ function Stake() {
                       </Grid>
                     </Grid>
                   </Box>
-                  {ConfirmDialog()}
+                  <ConfirmDialog
+                    quantity={quantity}
+                    currentIndex={currentIndex}
+                    view={view}
+                    onConfirm={setConfirmation}
+                  />
                   <div className="stake-user-data">
-                    <StakeRow
+                    <DataRow
                       title={t`Unstaked Balance`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
-                    <Accordion className="stake-accordion" square>
+                    <Accordion className="stake-accordion" square defaultExpanded>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-                        <StakeRow
-                          title={t`Staked Balance`}
+                        <DataRow
+                          title={t`Total Staked Balance`}
                           id="user-staked-balance"
                           balance={`${trimmedBalance} sOHM`}
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                       </AccordionSummary>
                       <AccordionDetails>
-                        <StakeRow
-                          title={t`Single Staking`}
+                        <DataRow
+                          title={t`sOHM Balance`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
-                        <StakeRow
-                          title={`${t`Wrapped Balance`}`}
+                        <DataRow
+                          title={`${t`gOHM Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
-                        <StakeRow
-                          title={t`Single Staking (v1)`}
-                          balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
-                        <StakeRow
-                          title={t`Wrapped Balance (v1)`}
-                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
-                          {...{ isAppLoading }}
-                          indented
-                        />
-                        <StakeRow
-                          title={t`Wrapped Balance in FiatDAO`}
-                          balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
-                          {...{ isAppLoading }}
-                          indented
-                        />
-                        <StakeRow
-                          title={t`Staked Balance in Fuse`}
-                          balance={`${trim(Number(fsohmBalance), 4)} fsOHM (v1)`}
-                          indented
-                          {...{ isAppLoading }}
-                        />
+                        {Number(gOhmOnArbitrum) > 0.00009 && (
+                          <DataRow
+                            title={`${t`gOHM (Arbitrum)`}`}
+                            balance={`${trim(Number(gOhmOnArbitrum), 4)} gOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(gOhmOnAvax) > 0.00009 && (
+                          <DataRow
+                            title={`${t`gOHM (Avalanche)`}`}
+                            balance={`${trim(Number(gOhmOnAvax), 4)} gOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(gOhmOnPolygon) > 0.00009 && (
+                          <DataRow
+                            title={`${t`gOHM (Polygon)`}`}
+                            balance={`${trim(Number(gOhmOnPolygon), 4)} gOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(gOhmOnFantom) > 0.00009 && (
+                          <DataRow
+                            title={`${t`gOHM (Fantom)`}`}
+                            balance={`${trim(Number(gOhmOnFantom), 4)} gOHM`}
+                            indented
+                            {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(fgohmBalance) > 0.00009 && (
+                          <DataRow
+                            title={`${t`gOHM Balance in Fuse`}`}
+                            balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
+                            indented
+                            isLoading={isAppLoading}
+                          />
+                        )}
+                        {Number(sohmV1Balance) > 0.00009 && (
+                          <DataRow
+                            title={`${t`sOHM Balance`} (v1)`}
+                            balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
+                            indented
+                            isLoading={isAppLoading}
+                          />
+                        )}
+                        {Number(wsohmBalance) > 0.00009 && (
+                          <DataRow
+                            title={`${t`wsOHM Balance`} (v1)`}
+                            balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
+                            isLoading={isAppLoading}
+                            indented
+                          />
+                        )}
+                        {Number(fiatDaowsohmBalance) > 0.00009 && (
+                          <DataRow
+                            title={t`wsOHM Balance in FiatDAO (v1)`}
+                            balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
+                            isLoading={isAppLoading}
+                            indented
+                          />
+                        )}
+                        {Number(fsohmBalance) > 0.00009 && (
+                          <DataRow
+                            title={t`sOHM Balance in Fuse (v1)`}
+                            balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
+                            indented
+                            isLoading={isAppLoading}
+                          />
+                        )}
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
-                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
-                    <StakeRow
+                    <DataRow
+                      title={t`Next Reward Amount`}
+                      balance={`${nextRewardValue} sOHM`}
+                      isLoading={isAppLoading}
+                    />
+                    <DataRow
                       title={t`Next Reward Yield`}
                       balance={`${stakingRebasePercentage}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
-                    <StakeRow
+                    <DataRow
                       title={t`ROI (5-Day Rate)`}
                       balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                   </div>
                 </>
@@ -552,7 +610,8 @@ function Stake() {
           </Grid>
         </Paper>
       </Zoom>
-      <ZapCta />
+      {/* NOTE (appleseed-olyzaps) olyzaps disabled until v2 contracts */}
+      {/* <ZapCta /> */}
       <ExternalStakePool />
     </div>
   );

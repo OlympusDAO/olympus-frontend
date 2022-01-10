@@ -1,13 +1,14 @@
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds, { IAllBondData } from "./hooks/Bonds";
-import { useAddress, useWeb3Context } from "./hooks/web3Context";
+import { useWeb3Context } from "./hooks/web3Context";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
 import { shouldTriggerSafetyCheck } from "./helpers";
@@ -18,7 +19,21 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, ChooseBond, Bond, TreasuryDashboard, PoolTogether, Zap, Wrap, V1Stake } from "./views";
+import {
+  Stake,
+  ChooseBond,
+  Bond,
+  TreasuryDashboard,
+  PoolTogether,
+  Zap,
+  Wrap,
+  V1Stake,
+  CausesDashboard,
+  DepositYield,
+  RedeemYield,
+  BondV2,
+  ChooseBondV2,
+} from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import CallToAction from "./components/CallToAction/CallToAction";
@@ -30,11 +45,16 @@ import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
+import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import { initializeNetwork } from "./slices/NetworkSlice";
 import { useAppSelector } from "./hooks";
+import { Project } from "src/components/GiveProject/project.type";
+import ProjectInfo from "./views/Give/ProjectInfo";
+import projectData from "src/views/Give/projects.json";
 import Announcement from "./components/Announcement/Announcement";
+import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
+import { NetworkId } from "./constants";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -43,6 +63,8 @@ const DEBUG = false;
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
+
+const queryClient = new QueryClient();
 
 const drawerWidth = 280;
 const transitionDuration = 969;
@@ -91,8 +113,7 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { connect, hasCachedProvider, provider, connected, chainChanged, onChainChangeComplete } = useWeb3Context();
-  const address = useAddress();
+  const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalOpen = () => {
@@ -107,10 +128,13 @@ function App() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const [walletChecked, setWalletChecked] = useState(false);
-  const networkId = useAppSelector(state => state.network.networkId);
+
+  const { projects } = projectData;
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
   const { bonds, expiredBonds } = useBonds(networkId);
+
+  const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -125,41 +149,32 @@ function App() {
       loadApp(loadProvider);
     }
 
-    if (whichDetails === "network") {
-      initNetwork(loadProvider);
-    }
-
     // don't run unless provider is a Wallet...
     if (whichDetails === "account" && address && connected) {
       loadAccount(loadProvider);
     }
   }
 
-  const initNetwork = useCallback(loadProvider => {
-    dispatch(initializeNetwork({ provider: loadProvider }));
-  }, []);
-
   const loadApp = useCallback(
     loadProvider => {
-      if (networkId == -1) {
-        return;
-      }
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
       // NOTE (appleseed) - tech debt - better network filtering for active bonds
-      if (networkId === 1 || networkId === 4) {
+      if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
         bonds.map(bond => {
           dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
         });
+        dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       }
     },
-    [networkId],
+    [networkId, address],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      if (networkId == -1) {
+      if (!providerInitialized) {
         return;
       }
+      dispatch(getUserNotes({ networkID: networkId, address, provider: loadProvider }));
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
       bonds.map(bond => {
@@ -175,11 +190,11 @@ function App() {
         }
       });
     },
-    [networkId, address],
+    [networkId, address, providerInitialized],
   );
 
   const oldAssetsDetected = useAppSelector(state => {
-    if (networkId && (networkId === 1 || networkId === 4)) {
+    if (networkId && (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY)) {
       return (
         state.account.balances &&
         (Number(state.account.balances.sohmV1) ||
@@ -191,6 +206,16 @@ function App() {
     } else {
       return false;
     }
+  });
+
+  const oldAssetsEnoughToMigrate = useAppSelector(state => {
+    if (!state.app.currentIndex || !state.app.marketPrice) {
+      return true;
+    }
+    const wrappedBalance = Number(state.account.balances.wsohm) * Number(state.app.currentIndex!);
+    const allAssetsBalance =
+      Number(state.account.balances.sohmV1) + Number(state.account.balances.ohmV1) + wrappedBalance;
+    return state.app.marketPrice * allAssetsBalance >= 10;
   });
 
   const newAssetsDetected = useAppSelector(state => {
@@ -232,23 +257,20 @@ function App() {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
-      loadDetails("network").then(() => {
-        if (networkId !== -1) {
-          loadDetails("account");
-          loadDetails("app");
-        }
-      });
-      onChainChangeComplete();
+      if (networkId !== -1) {
+        loadDetails("account");
+        loadDetails("app");
+      }
     }
-  }, [walletChecked, chainChanged, networkId]);
+  }, [walletChecked, networkId]);
 
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected && networkId !== -1) {
+    if (connected && providerInitialized) {
       loadDetails("account");
     }
-  }, [connected, networkId]);
+  }, [connected, networkId, providerInitialized]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -280,94 +302,136 @@ function App() {
   const hasActiveV1Bonds = accountBonds.length > 0;
 
   return (
-    <ThemeProvider theme={themeMode}>
-      <CssBaseline />
-      {/* {isAppLoading && <LoadingSplash />} */}
-      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
-        <Messages />
-        <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-        <Announcement />
-        <nav className={classes.drawer}>
-          {isSmallerScreen ? (
-            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-          ) : (
-            <Sidebar />
-          )}
-        </nav>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={themeMode}>
+        <CssBaseline />
+        {/* {isAppLoading && <LoadingSplash />} */}
+        <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+          <Messages />
+          <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
 
-        <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected && !hasActiveV1Bonds && trimmedPath.indexOf("dashboard") === -1 && (
-            <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
-          )}
+          <nav className={classes.drawer}>
+            {isSmallerScreen ? (
+              <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            ) : (
+              <Sidebar />
+            )}
+          </nav>
 
-          <Switch>
-            <Route exact path="/dashboard">
-              <TreasuryDashboard />
-            </Route>
+          <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+            {oldAssetsDetected &&
+              !hasActiveV1Bonds &&
+              trimmedPath.indexOf("dashboard") === -1 &&
+              oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+            {trimmedPath.indexOf("dashboard") === -1 && <Announcement />}
 
-            <Route exact path="/">
-              <Redirect to="/stake" />
-            </Route>
+            <Switch>
+              <Route exact path="/dashboard">
+                <TreasuryDashboard />
+              </Route>
 
-            <Route path="/stake">
-              {/* if newAssets or 0 assets */}
-              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) ? (
-                <Stake />
-              ) : (
+              <Route exact path="/">
+                <Redirect to="/stake" />
+              </Route>
+
+              <Route path="/stake">
+                {/* if newAssets or 0 assets */}
+                {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
+                  <Stake />
+                ) : (
+                  <V1Stake
+                    hasActiveV1Bonds={hasActiveV1Bonds}
+                    oldAssetsDetected={oldAssetsDetected}
+                    setMigrationModalOpen={setMigrationModalOpen}
+                  />
+                )}
+              </Route>
+
+              <Route path="/v1-stake">
                 <V1Stake
                   hasActiveV1Bonds={hasActiveV1Bonds}
                   oldAssetsDetected={oldAssetsDetected}
                   setMigrationModalOpen={setMigrationModalOpen}
                 />
-              )}
-            </Route>
-
-            <Route path="/v1-stake">
-              <V1Stake
-                hasActiveV1Bonds={hasActiveV1Bonds}
-                oldAssetsDetected={oldAssetsDetected}
-                setMigrationModalOpen={setMigrationModalOpen}
-              />
-            </Route>
-
-            <Route path="/wrap">
-              <Route exact path={`/wrap`}>
-                <Wrap />
               </Route>
-            </Route>
 
-            <Route path="/zap">
-              <Route exact path={`/zap`}>
-                <Zap />
+              <Route exact path="/give">
+                <CausesDashboard />
               </Route>
-            </Route>
+              <Redirect from="/olympusgive" to="/give" />
+              <Redirect from="/tyche" to="/give" />
+              <Redirect from="/olygive" to="/give" />
+              <Redirect from="/olympusdaogive" to="/give" />
+              <Redirect from="/ohmgive" to="/give" />
 
-            {/* <Route path="/33-together">
+              <Route path="/give/projects">
+                {projects.map(project => {
+                  return (
+                    <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
+                      <ProjectInfo project={project} />
+                    </Route>
+                  );
+                })}
+              </Route>
+
+              <Route exact path="/give/donations">
+                <DepositYield />
+              </Route>
+
+              <Route exact path="/give/redeem">
+                <RedeemYield />
+              </Route>
+
+              <Route path="/wrap">
+                <Route exact path={`/wrap`}>
+                  <Wrap />
+                </Route>
+              </Route>
+
+              <Route path="/zap">
+                <Route exact path={`/zap`}>
+                  <Zap />
+                </Route>
+              </Route>
+
+              {/* <Route path="/33-together">
               <PoolTogether />
             </Route> */}
 
-            <Route path="/bonds">
-              {(bonds as IAllBondData[]).map(bond => {
-                return (
-                  <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
-                    <Bond bond={bond} />
-                  </Route>
-                );
-              })}
-              <ChooseBond />
-            </Route>
+              <Route path="/bonds-v1">
+                {(bonds as IAllBondData[]).map(bond => {
+                  return (
+                    <Route exact key={bond.name} path={`/bonds-v1/${bond.name}`}>
+                      <Bond bond={bond} />
+                    </Route>
+                  );
+                })}
+                <ChooseBond />
+              </Route>
 
-            <Route path="/network">
-              <ChangeNetwork />
-            </Route>
+              <Route path="/bonds">
+                {bondIndexes.map(index => {
+                  return (
+                    <Route exact key={index} path={`/bonds/${index}`}>
+                      <BondV2 index={index} />
+                    </Route>
+                  );
+                })}
+                <ChooseBondV2 />
+              </Route>
 
-            <Route component={NotFound} />
-          </Switch>
+              <Route path="/network">
+                <ChangeNetwork />
+              </Route>
+
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+
+          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
         </div>
-
-        <MigrationModal open={migrationModalOpen} handleOpen={migModalOpen} handleClose={migModalClose} />
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

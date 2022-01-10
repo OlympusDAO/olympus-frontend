@@ -11,8 +11,9 @@ import {
   TableRow,
   Typography,
   Zoom,
+  ButtonBase,
+  SvgIcon,
 } from "@material-ui/core";
-import I18nOrdering from "src/components/I18nOrdering";
 import { t, Trans } from "@lingui/macro";
 import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -22,14 +23,19 @@ import { useHistory } from "react-router";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
-import ClaimBonds from "./ClaimBonds";
+import { Link } from "react-router-dom";
 import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
 import { IUserBondDetails } from "src/slices/AccountSlice";
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { Metric, MetricCollection } from "@olympusdao/component-library";
+import { IUserNote } from "src/slices/BondSliceV2";
+import ClaimBonds from "../BondV2/ClaimBonds";
 
 function ChooseBond() {
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
   const history = useHistory();
   const { bonds } = useBonds(networkId);
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
@@ -38,6 +44,8 @@ function ChooseBond() {
 
   const isAppLoading: boolean = useAppSelector(state => state.app.loading);
   const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
+
+  const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
 
   const accountBonds: IUserBondDetails[] = useAppSelector(state => {
     const withInterestDue = [];
@@ -65,9 +73,16 @@ function ChooseBond() {
     }
   });
 
+  const formattedTreasuryBalance = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(Number(treasuryBalance));
+
   return (
     <div id="choose-bond-view">
-      {!isAccountLoading && !isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
+      {(!isEmpty(accountNotes) || !isEmpty(accountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
 
       <Zoom in={true}>
         <Paper className="ohm-card">
@@ -75,46 +90,35 @@ function ChooseBond() {
             <Typography variant="h5" data-testid="t">
               <Trans>Bond</Trans> (1,1)
             </Typography>
+
+            <ButtonBase>
+              <Typography style={{ lineHeight: "33px" }}>
+                <b>
+                  <Link to="/bonds" style={{ textDecoration: "none", color: "inherit" }}>
+                    <Trans>v2 bonds</Trans>
+                    <SvgIcon
+                      style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
+                      component={ArrowUp}
+                      color="primary"
+                    />
+                  </Link>
+                </b>
+              </Typography>
+            </ButtonBase>
           </Box>
 
-          <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
-            <Grid item xs={6}>
-              <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
-                <Typography variant="h5" color="textSecondary">
-                  <Trans>Treasury Balance</Trans>
-                </Typography>
-                <Box>
-                  <Typography variant="h4" data-testid="treasury-balance">
-                    {isAppLoading || isNaN(Number(treasuryBalance)) ? (
-                      <Skeleton width="180px" data-testid="treasury-balance-loading" />
-                    ) : (
-                      new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0,
-                      }).format(Number(treasuryBalance))
-                    )}
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
-
-            <Grid item xs={6} className={`ohm-price`}>
-              <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
-                <Typography variant="h5" color="textSecondary">
-                  <Trans>OHM Price</Trans>
-                </Typography>
-                <Typography variant="h4">
-                  {isAppLoading || isNaN(Number(marketPrice)) ? (
-                    <Skeleton width="100px" />
-                  ) : (
-                    formatCurrency(Number(marketPrice), 2)
-                  )}
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
+          <MetricCollection>
+            <Metric
+              label={t`Treasury Balance`}
+              metric={formattedTreasuryBalance}
+              isLoading={!!treasuryBalance ? false : true}
+            />
+            <Metric
+              label={t`OHM Price`}
+              metric={formatCurrency(Number(marketPrice), 2)}
+              isLoading={marketPrice ? false : true}
+            />
+          </MetricCollection>
 
           {!isSmallScreen && (
             <Grid container item>
@@ -122,21 +126,19 @@ function ChooseBond() {
                 <Table aria-label="Available bonds">
                   <TableHead>
                     <TableRow>
-                      <I18nOrdering>
-                        <TableCell align="center">
-                          <Trans>Bond</Trans>
-                        </TableCell>
-                        <TableCell align="left">
-                          <Trans>Price</Trans>
-                        </TableCell>
-                        <TableCell align="left">
-                          <Trans>ROI</Trans>
-                        </TableCell>
-                        <TableCell align="right">
-                          <Trans>Purchased</Trans>
-                        </TableCell>
-                        <TableCell align="right"></TableCell>
-                      </I18nOrdering>
+                      <TableCell align="center">
+                        <Trans>Bond</Trans>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Trans>Price</Trans>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Trans>ROI</Trans>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Trans>Purchased</Trans>
+                      </TableCell>
+                      <TableCell align="right"></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

@@ -11,6 +11,7 @@ import {
   IChangeApprovalAsyncThunk,
   IChangeApprovalWithVersionAsyncThunk,
   IJsonRPCError,
+  IStakeAsyncThunk,
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { IERC20, OlympusStakingv2__factory, OlympusStaking__factory, StakingHelper } from "src/typechain";
@@ -148,7 +149,7 @@ export const changeApproval = createAsyncThunk(
 
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID, version2, rebase }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ action, value, provider, address, networkID, version2, rebase }: IStakeAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -186,7 +187,7 @@ export const changeStake = createAsyncThunk(
             : await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), false, true);
         } else {
           uaData.type = "unstake";
-          // 3rd arg is trigger defualt to true for mainnet and false for rinkeby
+          // 3rd arg is trigger default to true for mainnet and false for rinkeby
           // 4th arg is rebasing
           stakeTx = rebase
             ? await stakingV2.unstake(address, ethers.utils.parseUnits(value, "gwei"), true, true)

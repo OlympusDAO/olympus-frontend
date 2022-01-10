@@ -1,4 +1,5 @@
 import { EnvHelper } from "./Environment";
+import { addresses } from "../constants";
 
 interface ZapperResponse {
   [key: string]: ZapperAddress;
@@ -43,7 +44,7 @@ const ETHEREUM_ADDRESS = "0x0000000000000000000000000000000000000000";
 export class ZapHelper {
   static getZapTokens = async (address: string): Promise<ZapHelperBalancesResponse> => {
     address = address.toLowerCase();
-    const apiKey = EnvHelper.getZapperAPIKey();
+    const apiKey = ZapHelper.getZapperAPIKey();
     try {
       const response = await fetch(
         `https://api.zapper.fi/v1/protocols/tokens/balances?api_key=${apiKey}&addresses%5B%5D=${address}&newBalances=true`,
@@ -75,7 +76,7 @@ export class ZapHelper {
       return true;
     }
     ownerAddress = ownerAddress.toLowerCase();
-    const apiKey = EnvHelper.getZapperAPIKey();
+    const apiKey = ZapHelper.getZapperAPIKey();
     const response = await fetch(
       `https://api.zapper.fi/v1/zap-in/olympus/approval-state?api_key=${apiKey}&ownerAddress=${ownerAddress}&sellTokenAddress=${tokenAddress}`,
     );
@@ -94,7 +95,7 @@ export class ZapHelper {
   ): Promise<ZapHelperChangeAllowanceTransaction> => {
     tokenAddress = tokenAddress.toLowerCase();
     ownerAddress = ownerAddress.toLowerCase();
-    const apiKey = EnvHelper.getZapperAPIKey();
+    const apiKey = ZapHelper.getZapperAPIKey();
     const response = await fetch(
       `https://api.zapper.fi/v1/zap-in/olympus/approval-transaction?api_key=${apiKey}&ownerAddress=${ownerAddress}&sellTokenAddress=${tokenAddress}&gasPrice=${gasPrice}`,
     );
@@ -106,18 +107,39 @@ export class ZapHelper {
     }
   };
 
+  /**
+   * contract address for sOHM zap pool
+   * @param networkID number
+   * @returns string
+   */
+  static getZapperPoolAddress = (networkID: number) => {
+    return addresses[networkID].ZAPPER_POOL_V1;
+  };
+
+  static getZapperAPIKey() {
+    // below is public key from Zapper, per: https://docs.zapper.fi/zapper-api/endpoints
+    let apiKey = "96e0cc51-a62e-42ca-acee-910ea7d2a241";
+    if (!apiKey) {
+      console.warn("zaps won't work without REACT_APP_ZAPPER_API key");
+    }
+    return apiKey;
+  }
+
   static executeZapHelper = async (
     sellAmount: number,
     ownerAddress: string,
     tokenAddress: string,
     slippagePercentage: string,
     gasPrice: number,
+    networkID: number,
   ) => {
     tokenAddress = tokenAddress.toLowerCase();
     ownerAddress = ownerAddress.toLowerCase();
-    const apiKey = EnvHelper.getZapperAPIKey();
+    const apiKey = ZapHelper.getZapperAPIKey();
     const response = await fetch(
-      `https://api.zapper.fi/v1/zap-in/vault/olympus/transaction?ownerAddress=${ownerAddress}&network=ethereum&sellAmount=${sellAmount}&sellTokenAddress=${tokenAddress}&poolAddress=${EnvHelper.getZapperPoolAddress()}&slippagePercentage=${slippagePercentage}&gasPrice=${gasPrice}&api_key=${apiKey}`,
+      `https://api.zapper.fi/v1/zap-in/vault/olympus/transaction?ownerAddress=${ownerAddress}&network=ethereum&sellAmount=${sellAmount}&sellTokenAddress=${tokenAddress}&poolAddress=${ZapHelper.getZapperPoolAddress(
+        networkID,
+      )}&slippagePercentage=${slippagePercentage}&gasPrice=${gasPrice}&api_key=${apiKey}`,
     );
     const responseJson = await response.json();
     if (response.ok) {

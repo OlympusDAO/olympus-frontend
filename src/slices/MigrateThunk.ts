@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import { addresses } from "src/constants";
+import { addresses, NetworkId } from "src/constants";
 import { CrossChainMigrator__factory, IERC20, IERC20__factory } from "src/typechain";
 import {
   IActionValueAsyncThunk,
@@ -13,7 +13,6 @@ import { fetchAccountSuccess, getBalances, getMigrationAllowances, loadAccountDe
 import { error, info } from "../slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { OlympusTokenMigrator__factory } from "src/typechain";
-import { NetworkID } from "src/lib/Bond";
 
 enum TokenType {
   UNSTAKED,
@@ -21,7 +20,7 @@ enum TokenType {
   WRAPPED,
 }
 
-const chooseContract = (token: string, networkID: NetworkID, signer: ethers.providers.JsonRpcSigner): IERC20 => {
+const chooseContract = (token: string, networkID: NetworkId, signer: ethers.providers.JsonRpcSigner): IERC20 => {
   let address: string;
   if (token === "ohm") {
     address = addresses[networkID].OHM_ADDRESS;
@@ -193,14 +192,14 @@ export const migrateAll = createAsyncThunk(
       }
     }
     // go get fresh balances
-    dispatch(loadAccountDetails({ address, provider, networkID }));
+    dispatch(getBalances({ address, provider, networkID }));
     dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
 
 export const migrateCrossChainWSOHM = createAsyncThunk(
-  "migrate/migrateAvax",
-  async ({ provider, address, networkID, type, value, action }: IMigrationWithType, { dispatch }) => {
+  "migrate/migrateCrossChain",
+  async ({ provider, address, networkID, value }: IValueAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -210,12 +209,12 @@ export const migrateCrossChainWSOHM = createAsyncThunk(
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
       migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "ether"));
-      const text = `Migrate ${type} Tokens`;
+      const text = `Migrate wsOHM Tokens`;
       const pendingTxnType = `migrate`;
       if (migrateTx) {
         dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
         await migrateTx.wait();
-        dispatch(info(action));
+        dispatch(info("Successfully migrated tokens"));
       }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));

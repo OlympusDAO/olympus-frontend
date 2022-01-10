@@ -4,6 +4,7 @@ import allBonds, { allExpiredBonds } from "src/helpers/AllBonds";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { Bond } from "src/lib/Bond";
 import { IBondDetails } from "src/slices/BondSlice";
+import { NetworkId } from "src/constants";
 
 interface IBondingStateView {
   account: {
@@ -23,7 +24,7 @@ export interface IAllBondData extends Bond, IBondDetails, IUserBondDetails {}
 const initialBondArray = allBonds;
 const initialExpiredArray = allExpiredBonds;
 // Slaps together bond data within the account & bonding states
-function useBonds(networkId: number) {
+function useBonds(networkId: NetworkId) {
   const bondLoading = useSelector((state: IBondingStateView) => !state.bonding.loading);
   const bondState = useSelector((state: IBondingStateView) => state.bonding);
   const accountBondsState = useSelector((state: IBondingStateView) => state.account.bonds);
@@ -47,13 +48,13 @@ function useBonds(networkId: number) {
       });
 
     // NOTE (appleseed): temporary for ONHOLD MIGRATION
-    // const mostProfitableBonds = bondDetails.concat().sort((a, b) => {
-    //   if (!a.getBondability(networkId)) return 1;
-    //   if (!b.getBondability(networkId)) return -1;
-    //   return a["bondDiscount"] > b["bondDiscount"] ? -1 : b["bondDiscount"] > a["bondDiscount"] ? 1 : 0;
-    // });
-    // setBonds(mostProfitableBonds);
-    setBonds(bondDetails);
+    const mostProfitableBonds = bondDetails.concat().sort((a, b) => {
+      if (!a.getBondability(networkId)) return 1;
+      if (!b.getBondability(networkId)) return -1;
+      return a["bondDiscount"] > b["bondDiscount"] ? -1 : b["bondDiscount"] > a["bondDiscount"] ? 1 : 0;
+    });
+    setBonds(mostProfitableBonds);
+    // setBonds(bondDetails);
 
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
     let expiredDetails: IAllBondData[];

@@ -6,14 +6,11 @@ import useEscape from "../../hooks/useEscape";
 import Button from "@material-ui/core/Button";
 import { useWeb3Context } from "../../hooks/web3Context";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { switchNetwork } from "../../slices/NetworkSlice";
+import { switchNetwork } from "../../helpers/NetworkHelper";
 import { NETWORKS, USER_SELECTABLE_NETWORKS } from "../../constants";
 
 function ChangeNetwork() {
-  const dispatch = useDispatch();
-  const { provider } = useWeb3Context();
-  const networkName = useSelector(state => state.network.networkName);
+  const { provider, networkName } = useWeb3Context();
   const history = useHistory();
 
   const handleClose = () => {
@@ -21,8 +18,8 @@ function ChangeNetwork() {
   };
 
   const handleSwitchChain = id => {
-    return () => {
-      dispatch(switchNetwork({ provider: provider, networkId: id }));
+    return async () => {
+      await switchNetwork({ provider: provider, networkId: id });
       handleClose();
     };
   };
