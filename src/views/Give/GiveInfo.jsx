@@ -21,7 +21,7 @@ export function GiveInfo() {
         <Box className="button-box">
           <Button
             variant="outlined"
-            color="secondary"
+            color="primary"
             href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
             target="_blank"
             className="learn-more-button"
@@ -29,7 +29,7 @@ export function GiveInfo() {
             <Typography variant="body1">
               <Trans>Learn More</Trans>
             </Typography>
-            <SvgIcon component={ArrowUp} color="primary" />
+            <SvgIcon component={ArrowUp} path="secondary" />
           </Button>
         </Box>
       </Paper>

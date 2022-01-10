@@ -41,10 +41,6 @@
     }
   }
 
-  .causes-container {
-    padding: 0px 10px 30px 10px;
-  }
-
   .card-header {
     display: flex;
     flex-direction: column;
@@ -202,13 +198,14 @@
       .cause-misc-info .MuiGrid-item {
         height: 40px;
         padding-left: 0px;
-        align-items: center;
-        justify-content: flex-end;
+        align-items: flex-end;
+        justify-content: flex-start;
       }
 
       .cause-info-icon {
-        margin-right: 0.2rem;
-        align-self: center;
+        margin-right: 0.25rem;
+        align-self: flex-end;
+        margin-bottom: -2px;
       }
 
       .cause-give-button {
@@ -282,12 +279,6 @@
     }
 
     .cause-misc-info {
-      .MuiGrid-item {
-        margin-top: 1rem;
-        align-self: center;
-        justify-content: flex-start;
-      }
-
       .cause-give-button {
         width: 100%;
         margin-left: 0rem;
@@ -316,12 +307,6 @@
       padding-top: 0px;
       padding-left: 30px;
       width: 100%;
-
-      .cause-misc-info {
-        .MuiGrid-item {
-          justify-content: flex-start;
-        }
-      }
     }
 
     .cause-image {
@@ -372,12 +357,18 @@
 
 .custom-recipient {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   &.smaller {
     padding: 0px 20px 5px 0px;
   }
-  padding: 0px 30px 5px 0px;
+  padding: 30px 30px 30px 30px;
+
+  .custom-recipient-headline {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
 
   .custom-give-button {
     height: 40px;

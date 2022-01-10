@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import "./give.scss";
 import { useLocation } from "react-router-dom";
-import { Button, Paper, Typography, Zoom, Grid, Container, Box } from "@material-ui/core";
+import { Button, Paper, Typography, Zoom, Grid, Container, Box, Tabs } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
@@ -35,6 +35,7 @@ export default function CausesDashboard() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
   const { projects } = data;
+  const [zoomed, setZoomed] = useState(false);
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
@@ -109,64 +110,50 @@ export default function CausesDashboard() {
   };
 
   return (
-    <Container
-      style={{
-        paddingLeft: isSmallScreen ? "0" : "3.3rem",
-        paddingRight: isSmallScreen ? "0" : "3.3rem",
-        display: "flex",
-        justifyContent: "center",
-      }}
+    <div
+      id="give-view"
+      className={`${isMediumScreen && "medium"}
+      ${isSmallScreen && "smaller"}`}
     >
-      <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"}>
-        <GiveHeader
-          isSmallScreen={isSmallScreen}
-          isVerySmallScreen={false}
-          totalDebt={new BigNumber(totalDebt)}
-          networkId={networkId}
-        />
-        <div
-          id="give-view"
-          className={`${isMediumScreen && "medium"}
-          ${isSmallScreen && "smaller"}`}
-        >
-          <Zoom in={true}>
-            <Box className={`ohm-card secondary causes-container`}>
-              {!isSupportedChain(networkId) ? (
-                <Typography variant="h6">
-                  Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-                  functionality.
-                </Typography>
-              ) : (
-                <></>
-              )}
-              <div className="causes-body">
-                <Box className="data-grid">{renderProjects}</Box>
-              </div>
-              <div className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="custom-give-button"
-                  onClick={() => handleCustomGiveButtonClick()}
-                  disabled={!address}
-                >
-                  <Typography variant="h6" style={{ marginBottom: "0px" }}>
-                    <Trans>Custom Recipient</Trans>
-                  </Typography>
-                </Button>
-              </div>
-              <RecipientModal
-                isModalOpen={isCustomGiveModalOpen}
-                callbackFunc={handleCustomGiveModalSubmit}
-                cancelFunc={handleCustomGiveModalCancel}
-              />
-            </Box>
-          </Zoom>
-          <Zoom in={true}>
-            <GiveInfo />
-          </Zoom>
-        </div>
-      </Box>
-    </Container>
+      <Zoom in={true}>
+        <Box className={`ohm-card secondary causes-container`}>
+          {!isSupportedChain(networkId) ? (
+            <Typography variant="h6">
+              Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
+              functionality.
+            </Typography>
+          ) : (
+            <></>
+          )}
+          <div className="causes-body">
+            <Box className="data-grid">{renderProjects}</Box>
+          </div>
+          <Paper className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}>
+            <Typography variant="h4" className="custom-recipient-headline">
+              Want to give to a different cause?
+            </Typography>
+            <Typography variant="body1" className="custom-recipient-body" style={{ marginBottom: "30px" }}>
+              You can direct your yield to a recipient of your choice
+            </Typography>
+            <Button
+              variant="outlined"
+              color="primary"
+              className="custom-give-button"
+              onClick={() => handleCustomGiveButtonClick()}
+              disabled={!address}
+            >
+              <Typography variant="body1" style={{ marginBottom: "0px" }}>
+                <Trans>Custom Recipient</Trans>
+              </Typography>
+            </Button>
+          </Paper>
+          <RecipientModal
+            isModalOpen={isCustomGiveModalOpen}
+            callbackFunc={handleCustomGiveModalSubmit}
+            cancelFunc={handleCustomGiveModalCancel}
+          />
+        </Box>
+      </Zoom>
+    </div>
   );
 }

@@ -28,7 +28,7 @@ import {
   Zap,
   Wrap,
   V1Stake,
-  CausesDashboard,
+  Give,
   DepositYield,
   RedeemYield,
   BondV2,
@@ -356,7 +356,7 @@ function App() {
               </Route>
 
               <Route exact path="/give">
-                <CausesDashboard />
+                <Give />
               </Route>
               <Redirect from="/olympusgive" to="/give" />
               <Redirect from="/tyche" to="/give" />

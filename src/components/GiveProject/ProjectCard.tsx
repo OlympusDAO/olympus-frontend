@@ -268,7 +268,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     return (
       <>
         <div className="cause-info-icon">
-          <SvgIcon component={CheckIcon} fill={svgFillColour} />
+          <SvgIcon
+            component={CheckIcon}
+            fill={svgFillColour}
+            viewBox="0 0 20 20"
+            style={{ height: "17px", width: "17px" }}
+          />
         </div>
         <div>
           <Tooltip
@@ -424,29 +429,16 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getCardContent = () => {
     return (
       <>
-        <Paper style={{ width: "100%", borderRadius: "10px" }}>
+        <Box style={{ width: "100%", borderRadius: "10px" }}>
           <Grid item className={isVerySmallScreen ? "cause-card very-small" : "cause-card"} key={title}>
             {getProjectImage()}
             <div className="cause-content">
               <Grid container className="cause-header">
                 <Grid item className="cause-title">
                   <Link href={`#/give/projects/${project.slug}`}>
-                    <Typography variant="h5">
+                    <Typography variant="h4">
                       <strong>{getTitle()}</strong>
                     </Typography>
-                  </Link>
-                </Grid>
-                <Grid item className="view-details">
-                  <Link href={`#/give/projects/${project.slug}`} className="cause-link">
-                    <Typography variant="body1">
-                      <Trans>View Details</Trans>
-                    </Typography>
-                    <SvgIcon
-                      component={ArrowRight}
-                      style={{ width: "30px", marginLeft: "0.33em" }}
-                      viewBox={"0 0 57 24"}
-                      fill={svgFillColour}
-                    />
                   </Link>
                 </Grid>
               </Grid>
@@ -456,25 +448,22 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Typography>
               </div>
               <Grid container direction="column" className="cause-misc-info">
-                <Grid item xs={6}>
+                <Grid item xs={6} sm={12} md={6}>
                   {renderGoalCompletion()}
                 </Grid>
-                <Grid item xs={6} sm={12} md={6} className="give-button-grid">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className="cause-give-button"
-                    onClick={() => handleGiveButtonClick()}
-                  >
-                    <Typography variant="h6">
-                      <Trans>Donate Yield</Trans>
-                    </Typography>
-                  </Button>
+                <Grid item xs={6} sm={12} md={6} className="give-button-grid" style={{ justifyContent: "flex-end" }}>
+                  <Link href={`#/give/projects/${project.slug}`} className="cause-link">
+                    <Button variant="contained" color="primary" className="cause-give-button">
+                      <Typography variant="h6">
+                        <Trans>View Details</Trans>
+                      </Typography>
+                    </Button>
+                  </Link>
                 </Grid>
               </Grid>
             </div>
           </Grid>
-        </Paper>
+        </Box>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
           callbackFunc={handleGiveModalSubmit}
