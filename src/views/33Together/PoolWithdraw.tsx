@@ -64,8 +64,6 @@ export const PoolWithdraw = (props: IPoolWithdrawProps) => {
     } else {
       await dispatch(
         poolWithdraw({
-          rebase: false,
-          version2: false,
           action,
           value: quantity.toString(),
           provider,

@@ -20,6 +20,7 @@ import { changeApproval, poolDeposit } from "src/slices/PoolThunk";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
 import { ConfirmationModal } from "./ConfirmationModal";
+import { DataRow } from "@olympusdao/component-library";
 
 const sohmImg = getTokenImage("sohm");
 
@@ -75,8 +76,6 @@ export const PoolDeposit = (props: PoolDepositProps) => {
   const onSubmitDeposit = async (action: string) => {
     await dispatch(
       poolDeposit({
-        rebase: false,
-        version2: false,
         address,
         action,
         value: quantity.toString(),
@@ -208,18 +207,11 @@ export const PoolDeposit = (props: PoolDepositProps) => {
           )}
           {/* NOTE (Appleseed): added this bc I kept losing track of which accounts I had sOHM in during testing */}
           <div className={`stake-user-data`}>
-            <div className="data-row">
-              <Typography variant="body1" align="left">
-                <Trans>Your Staked Balance (Depositable)</Trans>
-              </Typography>
-              <Typography variant="body1" align="right">
-                {isAppLoading ? (
-                  <Skeleton width="80px" />
-                ) : (
-                  <>{new Intl.NumberFormat("en-US").format(parseFloat(sohmBalance))} sOHM</>
-                )}
-              </Typography>
-            </div>
+            <DataRow
+              title={t`Your Staked Balance (Depositable)`}
+              balance={`${new Intl.NumberFormat("en-US").format(parseFloat(sohmBalance))} sOHM`}
+              isLoading={isAppLoading}
+            />
           </div>
         </Box>
       )}

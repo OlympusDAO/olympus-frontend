@@ -1,4 +1,4 @@
-import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { Backdrop, Box, Fade, Modal, Paper, SvgIcon, Typography, useMediaQuery } from "@material-ui/core";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ResponsiveContainer } from "recharts";

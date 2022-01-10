@@ -87,7 +87,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
             )}
           </Typography>
         </div>
-        <Link component={NavLink} to={`/bonds/${bond.name}`}>
+        <Link component={NavLink} to={`/bonds-v1/${bond.name}`}>
           <Button variant="outlined" color="primary" fullWidth disabled={!bond.isBondable[networkId as NetworkId]}>
             <Typography variant="h5">
               {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
@@ -147,7 +147,7 @@ export function BondTableData({ bond }: { bond: Bond }) {
         )}
       </TableCell>
       <TableCell>
-        <Link component={NavLink} to={`/bonds/${bond.name}`}>
+        <Link component={NavLink} to={`/bonds-v1/${bond.name}`}>
           <Button
             variant="outlined"
             color="primary"

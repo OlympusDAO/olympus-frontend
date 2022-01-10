@@ -23,6 +23,7 @@ import ConnectButton from "../../components/ConnectButton";
 import { IAllBondData } from "src/hooks/Bonds";
 import { useAppSelector } from "src/hooks";
 import { NetworkId } from "src/constants";
+import { DataRow } from "@olympusdao/component-library";
 
 interface IBondPurchaseProps {
   readonly bond: IAllBondData;
@@ -204,7 +205,7 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
                     disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
                     onClick={onBond}
                   >
-                    {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond")}
+                    {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond (v1)")}
                   </Button>
                 ) : (
                   <Button
@@ -226,47 +227,27 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
 
       <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
-          <div className="data-row">
-            <Typography>
-              <Trans>Your Balance</Trans>
-            </Typography>{" "}
-            <Typography id="bond-balance">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                <>
-                  {trim(Number(bond.balance), 4)} {displayUnits}
-                </>
-              )}
-            </Typography>
-          </div>
-
-          <div className={`data-row`}>
-            <Typography>
-              <Trans>You Will Get</Trans>
-            </Typography>
-            <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(bond.bondQuote, 4) || "0"} ` + `${bond.payoutToken}`
-              )}
-            </Typography>
-          </div>
-
-          <div className={`data-row`}>
-            <Typography>
-              <Trans>Max You Can Buy</Trans>
-            </Typography>
-            <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(bond.maxBondPrice, 4) || "0"} ` + `${bond.payoutToken}`
-              )}
-            </Typography>
-          </div>
-
+          <DataRow
+            title={t`Your Balance`}
+            balance={`${trim(parseFloat(bond.balance), 4)} ${displayUnits}`}
+            isLoading={isBondLoading}
+          />
+          <DataRow
+            title={t`You Will Get`}
+            balance={`${trim(bond.bondQuote, 4) || "0"} ` + `${bond.payoutToken}`}
+            isLoading={isBondLoading}
+          />
+          <DataRow
+            title={t`Max You Can Buy`}
+            balance={`${trim(bond.maxBondPrice, 4) || "0"} ` + `${bond.payoutToken}`}
+            isLoading={isBondLoading}
+          />
+          {/* DisplayBondDiscount is not an acceptable type */}
+          {/* <DataRow
+            title={t`ROI`}
+            balance={<DisplayBondDiscount key={bond.name} bond={bond} />}
+            isLoading={isBondLoading}
+          /> */}
           <div className="data-row">
             <Typography>
               <Trans>ROI</Trans>
@@ -275,30 +256,10 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
               {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
             </Typography>
           </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>Debt Ratio</Trans>
-            </Typography>
-            <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.debtRatio / 10000000, 2)}%`}
-            </Typography>
-          </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>Vesting Term</Trans>
-            </Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : vestingPeriod()}</Typography>
-          </div>
-
+          <DataRow title={t`Debt Ratio`} balance={`${trim(bond.debtRatio / 10000000, 2)}%`} isLoading={isBondLoading} />
+          <DataRow title={t`Vesting Term`} balance={vestingPeriod()} isLoading={isBondLoading} />
           {recipientAddress !== address && (
-            <div className="data-row">
-              <Typography>
-                <Trans>Recipient</Trans>{" "}
-              </Typography>
-              <Typography>{isBondLoading ? <Skeleton width="100px" /> : shorten(recipientAddress)}</Typography>
-            </div>
+            <DataRow title={t`Recipient`} balance={shorten(recipientAddress)} isLoading={isBondLoading} />
           )}
         </Box>
       </Slide>

@@ -26,9 +26,9 @@ import {
   OlympusStakingv2__factory,
 } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
-
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { IUserNote } from "./BondSliceV2";
 
 interface IUserBalances {
   balances: {

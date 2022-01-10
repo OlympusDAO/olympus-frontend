@@ -5,6 +5,7 @@ import { useWeb3Context, useAppSelector } from "src/hooks";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { poolTogetherUILinks } from "src/helpers/33Together";
 import { t, Trans } from "@lingui/macro";
+import { DataRow } from "@olympusdao/component-library";
 
 interface PoolInfoProps {
   graphLoading: boolean;
@@ -13,7 +14,7 @@ interface PoolInfoProps {
   sohmBalance?: string;
   yourTotalAwards?: string;
   yourOdds?: string | number;
-  winners?: string | number;
+  winners: string | number;
   totalDeposits: number;
   totalSponsorship: number;
 }
@@ -52,97 +53,56 @@ export const PoolInfo = (props: PoolInfoProps) => {
         {address && (
           <>
             <Box display="flex" flexDirection="column" className="user-pool-data">
-              <div className="data-row">
-                <Typography>
-                  <Trans>Your total awards</Trans>
-                </Typography>
-                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.yourTotalAwards} 33T</Typography>
-              </div>
-              <div className="data-row">
-                <Typography>
-                  <Trans>Your pool deposits</Trans>
-                </Typography>
-                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.poolBalance} 33T</Typography>
-              </div>
-              <div className="data-row">
-                <Typography>
-                  <Trans>Your odds</Trans>
-                </Typography>
-                <Typography>
-                  {props.isAccountLoading || props.graphLoading ? (
-                    <Skeleton width={50} style={{ display: "inline-block" }} />
-                  ) : (
-                    <Trans> 1 in {props.yourOdds}</Trans>
-                  )}
-                </Typography>
-              </div>
-              <div className="data-row">
-                <Typography>
-                  <Trans>Your wallet balance</Trans>
-                </Typography>
-                <Typography>{props.isAccountLoading ? <Skeleton width={100} /> : props.sohmBalance} sOHM</Typography>
-              </div>
+              <DataRow
+                title={t`Your total awards`}
+                balance={`${props.yourTotalAwards} 33T`}
+                isLoading={props.isAccountLoading}
+              />
+              <DataRow
+                title={t`Your pool deposits`}
+                balance={`${props.poolBalance} 33T`}
+                isLoading={props.isAccountLoading}
+              />
+              <DataRow
+                title={t`Your odds`}
+                balance={`1 in ${props.yourOdds}`}
+                isLoading={props.isAccountLoading || props.graphLoading}
+              />
+              <DataRow
+                title={t`Your wallet balance`}
+                balance={`${props.sohmBalance} sOHM`}
+                isLoading={props.isAccountLoading || props.graphLoading}
+              />
             </Box>
             <Divider color="secondary" />
           </>
         )}
 
         <Box display="flex" flexDirection="column" className="pool-data">
-          <div className="data-row">
-            <Typography>
-              <Trans>Winners / prize period</Trans>
-            </Typography>
-            <Typography>{props.graphLoading ? <Skeleton width={100} /> : props.winners}</Typography>
-          </div>
-          <div className="data-row">
-            <Typography>
-              <Trans>Total Deposits</Trans>
-            </Typography>
-            <Typography>
-              {props.graphLoading ? <Skeleton width={100} /> : props.totalDeposits.toLocaleString()} sOHM
-            </Typography>
-          </div>
-          <div className="data-row">
-            <Typography>
-              <Trans>Total Sponsorship</Trans>
-            </Typography>
-            <Typography>
-              {props.graphLoading ? <Skeleton width={100} /> : props.totalSponsorship.toLocaleString()} sOHM
-            </Typography>
-          </div>
-          <div className="data-row">
-            <Typography>
-              <Trans>Yield Source</Trans>
-            </Typography>
-            <Typography>sOHM</Typography>
-          </div>
-          <div className="data-row">
-            <Typography>
-              <Trans>Pool owner</Trans>
-            </Typography>
-            <Box display="flex" alignItems="center">
-              <Typography>OlympusDAO</Typography>
-            </Box>
-          </div>
+          <DataRow
+            title={t`Winners / prize period`}
+            balance={props.winners.toString()}
+            isLoading={props.graphLoading}
+          />
+          <DataRow
+            title={t`Total Deposits`}
+            balance={`${props.totalDeposits.toLocaleString()} sOHM`}
+            isLoading={props.graphLoading}
+          />
+          <DataRow
+            title={t`Total Sponsorship`}
+            balance={`${props.totalSponsorship.toLocaleString()} sOHM`}
+            isLoading={props.graphLoading}
+          />
+          <DataRow title={t`Yield Source`} balance="sOHM" />
+          <DataRow title={t`Pool owner`} balance="OlympusDAO" />
           <Divider color="secondary" />
-          <div className="data-row">
-            <Typography>
-              <Trans>Early Exit Fee</Trans>
-            </Typography>
-            <Typography>{poolLoadedCount === 1 ? <Skeleton width={100} /> : `${creditLimitPercentage}%`}</Typography>
-          </div>
-          <div className="data-row">
-            <Typography>
-              <Trans>Exit Fee Decay Time</Trans>
-            </Typography>
-            <Typography>
-              {poolLoadedCount === 1 ? (
-                <Skeleton width={100} />
-              ) : (
-                `${creditMaturationInDays} day${creditMaturationInDays === 1 ? "" : "s"}`
-              )}
-            </Typography>
-          </div>
+          <DataRow title={t`Early Exit Fee`} balance={`${creditLimitPercentage}%`} isLoading={poolLoadedCount === 1} />
+          <DataRow
+            title={t`Exit Fee Decay Time`}
+            balance={`${creditMaturationInDays} day${creditMaturationInDays === 1 ? "" : "s"}`}
+            isLoading={poolLoadedCount === 1}
+          />
         </Box>
         <Divider color="secondary" />
 

@@ -47,14 +47,6 @@ function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
     return false;
   };
 
-  const onRedeemAll = async ({ autostake }: { autostake: boolean }) => {
-    console.log("redeeming all bonds");
-
-    await dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
-
-    console.log("redeem all complete");
-  };
-
   useEffect(() => {
     let bondCount = Object.keys(activeBonds).length;
     setNumberOfBonds(bondCount);
@@ -66,80 +58,7 @@ function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
         <Zoom in={true}>
           <Paper className="ohm-card claim-bonds-card">
             <CardHeader title="Your Bonds (1,1)" />
-            <Box>
-              {!isSmallScreen && (
-                <TableContainer>
-                  <Table aria-label="Claimable bonds">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center">
-                          <Trans>Bond</Trans>
-                        </TableCell>
-                        <TableCell align="center">
-                          <Trans>Claimable</Trans>
-                        </TableCell>
-                        <TableCell align="center">
-                          <Trans>Pending</Trans>
-                        </TableCell>
-                        <TableCell align="right">
-                          <Trans>Fully Vested</Trans>
-                        </TableCell>
-                        <TableCell align="right"></TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {Object.entries(activeBonds).map((bond, i) => (
-                        <ClaimBondTableData key={i} userBond={bond} />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              )}
-
-              {isSmallScreen &&
-                Object.entries(activeBonds).map((bond, i) => <ClaimBondCardData key={i} userBond={bond} />)}
-
-              <Box
-                display="flex"
-                justifyContent="center"
-                className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}
-              >
-                {numberOfBonds > 1 && (
-                  <>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className="transaction-button"
-                      fullWidth
-                      disabled={pendingClaim()}
-                      onClick={() => {
-                        onRedeemAll({ autostake: false });
-                      }}
-                    >
-                      {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
-                    </Button>
-
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      id="claim-all-and-stake-btn"
-                      className="transaction-button"
-                      fullWidth
-                      disabled={pendingClaim()}
-                      onClick={() => {
-                        onRedeemAll({ autostake: true });
-                      }}
-                    >
-                      {txnButtonTextGeneralPending(
-                        pendingTransactions,
-                        "redeem_all_bonds_autostake",
-                        t`Claim all and Stake`,
-                      )}
-                    </Button>
-                  </>
-                )}
-              </Box>
-            </Box>
+            <ClaimBondsSubComponent activeBonds={activeBonds} />
           </Paper>
         </Zoom>
       )}
@@ -148,3 +67,67 @@ function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
 }
 
 export default ClaimBonds;
+
+export function ClaimBondsSubComponent({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
+  const dispatch = useDispatch();
+  const { provider, address, networkId } = useWeb3Context();
+  const { bonds } = useBonds(networkId);
+
+  const [numberOfBonds, setNumberOfBonds] = useState(0);
+  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
+
+  const pendingTransactions = useAppSelector(state => {
+    return state.pendingTransactions;
+  });
+
+  const pendingClaim = () => {
+    if (
+      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
+  useEffect(() => {
+    let bondCount = activeBonds.length;
+    setNumberOfBonds(bondCount);
+  }, [activeBonds]);
+
+  return (
+    <Box style={{ width: "100%" }}>
+      {!isSmallScreen && (
+        <TableContainer>
+          <Table aria-label="Claimable bonds">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">
+                  <Trans>Bond</Trans>
+                </TableCell>
+                <TableCell align="center">
+                  <Trans>Claimable</Trans>
+                </TableCell>
+                <TableCell align="center">
+                  <Trans>Pending</Trans>
+                </TableCell>
+                <TableCell align="right">
+                  <Trans>Fully Vested</Trans>
+                </TableCell>
+                <TableCell align="right"></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Object.entries(activeBonds).map((bond, i) => (
+                <ClaimBondTableData key={i} userBond={bond} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+
+      {isSmallScreen && Object.entries(activeBonds).map((bond, i) => <ClaimBondCardData key={i} userBond={bond} />)}
+    </Box>
+  );
+}

@@ -32,7 +32,7 @@ function AdvancedSettings(props: IAdvancedSettingsProps) {
           <IconButton onClick={props.handleClose}>
             <SvgIcon color="primary" component={XIcon} />
           </IconButton>
-          <Typography variant="h3">Hades</Typography>
+          <Typography variant="h3">Settings</Typography>
         </Box>
         <Box className="card-content">
           <InputLabel htmlFor="slippage">
