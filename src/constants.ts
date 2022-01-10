@@ -286,6 +286,20 @@ export const NETWORKS: { [key: number]: INetwork } = {
     imageAltText: "Ethereum Logo",
     uri: () => NodeHelper.getMainnetURI(NetworkId.TESTNET_RINKEBY),
   },
+  [NetworkId.Localhost]: {
+    chainName: "Localhost Testnet",
+    chainId: 1337,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: [""],
+    blockExplorerUrls: [""],
+    image: ethereum,
+    imageAltText: "Ethereum Logo",
+    uri: () => NodeHelper.getMainnetURI(NetworkId.Localhost),
+  },
   [NetworkId.ARBITRUM]: {
     chainName: "Arbitrum",
     chainId: 42161,
