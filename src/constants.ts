@@ -418,6 +418,15 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     bonds: true,
     network: true,
   },
+  [NetworkId.Localhost]: {
+    dashboard: true,
+    stake: true,
+    wrap: true,
+    zap: true,
+    threeTogether: true,
+    bonds: true,
+    network: true,
+  },
   [NetworkId.ARBITRUM]: {
     dashboard: true,
     stake: false,
