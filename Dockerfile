@@ -5,10 +5,12 @@ FROM --platform=amd64 node:14.18.2-bullseye-slim
 # Otherwise puppeteer will complain about it not being available for arm64
 RUN apt-get update && \
     apt-get install -y \
+    # lingui compilation
     git \
+    # Makefile
     cmake \
     # Required by the sleep package
-    python3
+    python3 g++
 
 WORKDIR /usr/src/app
 

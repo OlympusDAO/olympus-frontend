@@ -3,7 +3,7 @@ services:
   # Runs the Hardhat node on an ongoing basis
   contract_node:
     # TODO shift to official repo
-    image: ghcr.io/0xjem/olympus-contracts:${DOCKER_IMAGE}
+    image: ghcr.io/0xjem/olympus-contracts:${CONTRACTS_DOCKER_TAG}
     ports:
       - 8545:8545
     # When running using CI, we are likely to define these values through environment variables
@@ -22,5 +22,5 @@ services:
     depends_on:
       - contract_node
     volumes:
-      - ../public:/usr/src/app/public
-      - ../src:/usr/src/app/src
+      # Mount the root directory
+      - ../:/usr/src/app/

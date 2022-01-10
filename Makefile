@@ -15,6 +15,11 @@ TEST_ENV_ARGS=
 TEST_VOLUME_ARGS=--volume $(shell pwd):/usr/src/app
 TEST_PORT_ARGS=
 
+#### e2e stack variables
+STACK_FILE_ARGS=-f tests/docker-compose.yml
+STACK_UP_ARGS=--abort-on-container-exit --build
+CONTRACTS_DOCKER_TAG ?= "main" # Sets to main by default
+
 ### Translations
 translations_fetch:
 	[ ! -e src/locales/translations/.git ] && git submodule update --init --remote src/locales/translations || exit 0
@@ -31,13 +36,22 @@ start: translations_prepare contracts_prepare
 	yarn run react-scripts start
 
 ### end-to-end testing
-e2e_build_docker:
+test_e2e_build_docker:
 	@echo "*** Building Docker image $(TEST_IMAGE) with tag $(TEST_TAG)"
 	docker build -t $(TEST_IMAGE):$(TEST_TAG) -f tests/Dockerfile .
 
-e2e_run_docker: e2e_build_docker
+test_e2e_run_docker: e2e_build_docker
 	@echo "*** Running Docker image $(TEST_IMAGE) with tag $(TEST_TAG)"
 	@docker run -it --rm $(TEST_ENV_ARGS) $(TEST_VOLUME_ARGS) $(TEST_PORT_ARGS) $(TEST_IMAGE):$(TEST_TAG)
 
-e2e_run:
+test_e2e_run:
 	yarn run react-scripts test --testPathPattern="(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?" --testTimeout=30000 --runInBand --watchAll=false --detectOpenHandles --forceExit
+
+### end-to-end docker stack
+test_e2e_stack_start:
+	@echo "*** Starting e2e stack in Docker"
+	@echo "Image tag for olympus-contracts is: ${CONTRACTS_DOCKER_TAG}"
+	docker-compose $(STACK_FILE_ARGS) pull && docker-compose $(STACK_FILE_ARGS) up $(STACK_UP_ARGS)
+
+test_e2e_stack_stop:
+	docker-compose $(STACK_FILE_ARGS) rm --stop --force
