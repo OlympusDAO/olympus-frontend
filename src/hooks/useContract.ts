@@ -4,7 +4,7 @@ import { useNetwork } from "./useNetwork";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
 import { AddressMap, STAKING_ADDRESSES } from "src/constants/addresses";
-import { OlympusStaking, PairContract } from "src/typechain";
+import { OlympusStakingv2, PairContract } from "src/typechain";
 import { useMemo } from "react";
 import { NetworkId } from "src/constants";
 import { ohm_dai } from "src/helpers/AllBonds";
@@ -36,7 +36,7 @@ const usePairContract = (address: string) => {
 export const useStakingContract = () => {
   const address = STAKING_ADDRESSES[NetworkId.MAINNET];
 
-  return useContract<OlympusStaking>(address, STAKING_ABI);
+  return useContract<OlympusStakingv2>(address, STAKING_ABI);
 };
 
 export const useOhmDaiReserveContract = () => {
