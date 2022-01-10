@@ -11,8 +11,9 @@ import {
 import { useAddress } from "./useAddress";
 import { queryAssertion } from "src/helpers";
 import { covalent } from "src/lib/covalent";
-import { formatUnits } from "@ethersproject/units";
 import { TokenBalance } from "src/lib/covalent.types";
+import { BigNumber } from "@ethersproject/bignumber";
+import { parseUnits } from "@ethersproject/units";
 
 const unstable_Object = Object as unstable_ObjectConstructor;
 
@@ -50,11 +51,11 @@ export const useBalances = <TSelectData = unknown>(select: (data: Balances) => T
  * @param addressMap Address map of the token you want the balance of.
  */
 const useBalance = <TAddressMap extends AddressMap = AddressMap>(addressMap: TAddressMap) => {
-  return useBalances<Record<keyof typeof addressMap, number>>(balances => {
+  return useBalances<Record<keyof typeof addressMap, BigNumber>>(balances => {
     return unstable_Object.keys(addressMap).reduce((prev, networkId) => {
       // Assign and return 0 if covalent doesn't support this networkId
       if (!balances.hasOwnProperty(networkId)) {
-        prev[networkId] = 0;
+        prev[networkId] = BigNumber.from(0);
         return prev;
       }
 
@@ -62,10 +63,10 @@ const useBalance = <TAddressMap extends AddressMap = AddressMap>(addressMap: TAd
       const tokens = balances[networkId as keyof typeof covalent.SUPPORTED_NETWORKS];
       const token = tokens.find(token => token.contract_address.toLowerCase() === tokenAddress.toLowerCase());
 
-      prev[networkId] = token ? parseFloat(formatUnits(token.balance, token.contract_decimals)) : 0;
+      prev[networkId] = token ? parseUnits(token.balance, token.contract_decimals) : BigNumber.from(0);
 
       return prev;
-    }, {} as Record<keyof typeof addressMap, number>);
+    }, {} as Record<keyof typeof addressMap, BigNumber>);
   });
 };
 

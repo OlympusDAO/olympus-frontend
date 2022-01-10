@@ -1,4 +1,4 @@
-import { formatCurrency, trim } from "src/helpers";
+import { formatCurrency } from "src/helpers";
 import { Metric } from "@olympusdao/component-library";
 import { t } from "@lingui/macro";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
@@ -9,6 +9,7 @@ import {
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
+import { formatUnits } from "@ethersproject/units";
 
 type MetricProps = PropsOf<typeof Metric>;
 
@@ -54,7 +55,7 @@ export const CircSupply = () => {
     label: t`Circulating Supply (total)`,
   };
 
-  if (circSupply && totalSupply) props.metric = `${trim(circSupply)} / ${trim(totalSupply)}`;
+  if (circSupply && totalSupply) props.metric = `${circSupply.toFixed()} / ${totalSupply.toFixed()}`;
   else props.isLoading = true;
 
   return <Metric {...props} />;
@@ -85,7 +86,7 @@ export const CurrentIndex = () => {
       "The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held 1 OHM from launch.",
   };
 
-  if (currentIndex) props.metric = `${trim(currentIndex, 2)} sOHM`;
+  if (currentIndex) props.metric = `${parseFloat(formatUnits(currentIndex, 9)).toFixed(2)} sOHM`;
   else props.isLoading = true;
 
   return <Metric {...props} />;

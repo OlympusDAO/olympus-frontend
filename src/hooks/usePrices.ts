@@ -1,3 +1,4 @@
+import { BigNumber } from "@ethersproject/bignumber";
 import { formatUnits } from "@ethersproject/units";
 import { useQuery } from "react-query";
 import { queryAssertion } from "src/helpers";
@@ -15,11 +16,11 @@ export const useOhmPrice = () => {
   return useQuery<number, Error>(useOhmPriceKey(), async () => {
     const [ohm, dai] = await reserveContract.getReserves();
 
-    return parseFloat(formatUnits(dai.div(ohm), "gwei"));
+    return parseFloat(formatUnits(dai.div(ohm), 9));
   });
 };
 
-export const useGohmPriceKey = (marketPrice?: number, currentIndex?: number) => [
+export const useGohmPriceKey = (marketPrice?: number, currentIndex?: BigNumber) => [
   "useGOHMPrice",
   marketPrice,
   currentIndex,
@@ -36,7 +37,8 @@ export const useGohmPrice = () => {
     useGohmPriceKey(ohmPrice, currentIndex),
     async () => {
       queryAssertion(ohmPrice && currentIndex, useGohmPriceKey(ohmPrice, currentIndex));
-      return ohmPrice * currentIndex;
+
+      return parseFloat(formatUnits(currentIndex, 9)) * ohmPrice;
     },
     { enabled: !!ohmPrice && !!currentIndex },
   );
