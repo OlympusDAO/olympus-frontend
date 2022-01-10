@@ -97,7 +97,9 @@ function NavContent({ handleDrawerToggle }) {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY ? (
+              {networkId === NetworkId.MAINNET ||
+              networkId === NetworkId.TESTNET_RINKEBY ||
+              networkId === NetworkId.Localhost ? (
                 <>
                   <Link
                     component={NavLink}
