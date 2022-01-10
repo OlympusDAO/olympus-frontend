@@ -12,6 +12,7 @@ import {
   Typography,
   Zoom,
 } from "@material-ui/core";
+import I18nOrdering from "src/components/I18nOrdering";
 import { t, Trans } from "@lingui/macro";
 import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -121,19 +122,21 @@ function ChooseBond() {
                 <Table aria-label="Available bonds">
                   <TableHead>
                     <TableRow>
-                      <TableCell align="center">
-                        <Trans>Bond</Trans>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Trans>Price</Trans>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Trans>ROI</Trans>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Trans>Purchased</Trans>
-                      </TableCell>
-                      <TableCell align="right"></TableCell>
+                      <I18nOrdering>
+                        <TableCell align="center">
+                          <Trans>Bond</Trans>
+                        </TableCell>
+                        <TableCell align="left">
+                          <Trans>Price</Trans>
+                        </TableCell>
+                        <TableCell align="left">
+                          <Trans>ROI</Trans>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Trans>Purchased</Trans>
+                        </TableCell>
+                        <TableCell align="right"></TableCell>
+                      </I18nOrdering>
                     </TableRow>
                   </TableHead>
                   <TableBody>

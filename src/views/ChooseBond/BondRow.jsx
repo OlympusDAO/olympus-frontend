@@ -8,6 +8,7 @@ import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 import useBonds from "src/hooks/Bonds";
 import { useSelector } from "react-redux";
+import I18nOrdering from "src/components/I18nOrdering";
 
 export function BondDataCard({ bond }) {
   const networkId = useSelector(state => state.network.networkId);
@@ -89,50 +90,52 @@ export function BondTableData({ bond }) {
 
   return (
     <TableRow id={`${bond.name}--bond`}>
-      <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={bond} />
-        <div className="bond-name">
-          <Typography variant="body1">{bond.displayName}</Typography>
-          {bond.isLP && (
-            <Link color="primary" href={bond.lpUrl} target="_blank">
-              <Typography variant="body1">
-                <Trans>View Contract</Trans>
-                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-              </Typography>
-            </Link>
+      <I18nOrdering>
+        <TableCell align="left" className="bond-name-cell">
+          <BondLogo bond={bond} />
+          <div className="bond-name">
+            <Typography variant="body1">{bond.displayName}</Typography>
+            {bond.isLP && (
+              <Link color="primary" href={bond.lpUrl} target="_blank">
+                <Typography variant="body1">
+                  <Trans>View Contract</Trans>
+                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                </Typography>
+              </Link>
+            )}
+          </div>
+        </TableCell>
+        <TableCell align="left">
+          <Typography>
+            <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
+          </Typography>
+        </TableCell>
+        <TableCell align="left">
+          {" "}
+          {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
+        </TableCell>
+        <TableCell align="right">
+          {isBondLoading ? (
+            <Skeleton />
+          ) : (
+            new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD",
+              maximumFractionDigits: 0,
+              minimumFractionDigits: 0,
+            }).format(bond.purchased)
           )}
-        </div>
-      </TableCell>
-      <TableCell align="left">
-        <Typography>
-          <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
-        </Typography>
-      </TableCell>
-      <TableCell align="left">
-        {" "}
-        {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
-      </TableCell>
-      <TableCell align="right">
-        {isBondLoading ? (
-          <Skeleton />
-        ) : (
-          new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            maximumFractionDigits: 0,
-            minimumFractionDigits: 0,
-          }).format(bond.purchased)
-        )}
-      </TableCell>
-      <TableCell>
-        <Link component={NavLink} to={`/bonds/${bond.name}`}>
-          <Button variant="outlined" color="primary" disabled={!bond.isBondable[networkId]} style={{ width: "100%" }}>
-            {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
-            {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
-            <Typography variant="h6">{bond.isLOLable[networkId] ? bond.LOLmessage : t`do_bond`}</Typography>
-          </Button>
-        </Link>
-      </TableCell>
+        </TableCell>
+        <TableCell>
+          <Link component={NavLink} to={`/bonds/${bond.name}`}>
+            <Button variant="outlined" color="primary" disabled={!bond.isBondable[networkId]} style={{ width: "100%" }}>
+              {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
+              {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
+              <Typography variant="h6">{bond.isLOLable[networkId] ? bond.LOLmessage : t`do_bond`}</Typography>
+            </Button>
+          </Link>
+        </TableCell>
+      </I18nOrdering>
     </TableRow>
   );
 }
