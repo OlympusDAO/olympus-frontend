@@ -13,7 +13,7 @@ TEST_IMAGE=olympus-frontend-tests
 TEST_TAG=$(CURRENT_BRANCH_CLEAN)
 TEST_ENV_ARGS=
 TEST_VOLUME_ARGS=--volume $(shell pwd):/usr/src/app
-TEST_PORT_ARGS=
+TEST_PORT_ARGS=--network=host
 
 #### e2e stack variables
 STACK_FILE_ARGS=-f tests/docker-compose.yml

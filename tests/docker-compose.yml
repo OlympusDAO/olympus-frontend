@@ -4,8 +4,6 @@ services:
   contract_node:
     # TODO shift to official repo
     image: ghcr.io/0xjem/olympus-contracts:${CONTRACTS_DOCKER_TAG}
-    ports:
-      - 8545:8545
     # When running using CI, we are likely to define these values through environment variables
     environment:
       - PRIVATE_KEY=${CONTRACT_NODE_PRIVATE_KEY}
@@ -13,14 +11,16 @@ services:
     # But the .env file is more likely for local development
     env_file:
       - .env
+    # We use the host mode so that "localhost" can be accessed
+    network_mode: host
   frontend:
     build:
       context: ..
       dockerfile: Dockerfile
-    ports:
-      - 3000:3000
     depends_on:
       - contract_node
     volumes:
       # Mount the root directory
       - ../:/usr/src/app/
+    # We use the host mode so that "localhost" can be accessed
+    network_mode: host
