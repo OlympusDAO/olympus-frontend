@@ -47,7 +47,9 @@ RUN apt-get update && \
     libxtst6 \
     lsb-release \
     wget \
-    xdg-utils
+    xdg-utils \
+    # Required by the sleep package
+    python3 g++
 
 WORKDIR /usr/src/app
 
@@ -61,4 +63,4 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 COPY Makefile .
 
-ENTRYPOINT make e2e_run
+ENTRYPOINT make test_e2e_run
