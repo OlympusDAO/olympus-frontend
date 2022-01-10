@@ -1,6 +1,7 @@
 import { ReactComponent as ForumIcon } from "../../assets/icons/forum.svg";
 import { ReactComponent as GovIcon } from "../../assets/icons/governance.svg";
 import { ReactComponent as DocsIcon } from "../../assets/icons/docs.svg";
+import BugReportIcon from "@material-ui/icons/BugReport";
 import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
 import { SvgIcon } from "@material-ui/core";
 import { Trans } from "@lingui/macro";
@@ -20,6 +21,11 @@ const externalUrls = [
     title: <Trans>Docs</Trans>,
     url: "https://docs.olympusdao.finance/",
     icon: <SvgIcon color="primary" component={DocsIcon} />,
+  },
+  {
+    title: <Trans>Bug Bounty</Trans>,
+    url: "https://immunefi.com/bounty/olympus/",
+    icon: <SvgIcon color="primary" component={BugReportIcon} />,
   },
   // {
   //   title: "Feedback",
