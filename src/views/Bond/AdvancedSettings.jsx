@@ -15,7 +15,7 @@ function AdvancedSettings({
     <Modal
       id="hades"
       open={open}
-      headerText={"Hades"}
+      headerText={"Settings"}
       minHeight={"400px"}
       closePosition={"left"}
       onClose={handleClose}
