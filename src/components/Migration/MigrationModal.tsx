@@ -214,8 +214,8 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                 <Box paddingTop={4}>
                   <Typography id="migration-modal-description" variant="body2">
                     {isAllApproved
-                      ? t`Click on the Migrate button to complete the upgrade to v2. `
-                      : `Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability. `}
+                      ? t`Click on the Migrate button to complete the upgrade to v2.`
+                      : t`Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability.`}{" "}
                     <a
                       href="https://docs.olympusdao.finance/main/basics/migration"
                       target="_blank"
