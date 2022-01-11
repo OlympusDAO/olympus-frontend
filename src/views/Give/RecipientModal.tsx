@@ -31,7 +31,7 @@ import { IAccountSlice } from "../../slices/AccountSlice";
 import { Project } from "src/components/GiveProject/project.type";
 const sOhmImg = getTokenImage("sohm");
 import { shorten } from "src/helpers";
-import { InfoTooltip } from "@olympusdao/component-library";
+import { InfoTooltip, PrimaryButton } from "@olympusdao/component-library";
 import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
@@ -589,11 +589,11 @@ export function RecipientModal({
         )}
         {isCreateMode() ? (
           !address ? (
-            <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" className="connect-button" onClick={handleConnect}>
+            <Box display="flex" justifyContent="center">
+              <PrimaryButton size="large" onClick={handleConnect}>
                 <Trans>Connect Wallet</Trans>
-              </Button>
-            </FormControl>
+              </PrimaryButton>
+            </Box>
           ) : address && (hasAllowance() || isGiveLoading) && !isAmountSet ? (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>

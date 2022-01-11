@@ -42,6 +42,7 @@ import { useAppSelector } from "src/hooks";
 import { ExpandMore } from "@material-ui/icons";
 import { Metric, MetricCollection, DataRow } from "@olympusdao/component-library";
 import { ConfirmDialog } from "./ConfirmDialog";
+import ConnectButton from "src/components/ConnectButton";
 
 function a11yProps(index: number) {
   return {
@@ -235,14 +236,6 @@ function Stake() {
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
-  let modalButton = [];
-
-  modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      <Trans>Connect Wallet</Trans>
-    </Button>,
-  );
-
   const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
     setView(newView);
   };
@@ -322,7 +315,7 @@ function Stake() {
               {!address ? (
                 <div className="stake-wallet-notification">
                   <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
+                    <ConnectButton />
                   </div>
                   <Typography variant="h6">
                     <Trans>Connect your wallet to stake OHM</Trans>

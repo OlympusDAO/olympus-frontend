@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from "react";
-import { Box, Button, Fade, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
+import { Box, Fade, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import "./zap.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -9,9 +9,10 @@ import { useAppSelector } from "src/hooks";
 import { Trans } from "@lingui/macro";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useHistory } from "react-router";
+import ConnectButton from "src/components/ConnectButton";
 
 function Zap() {
-  const { address, connect, networkId } = useWeb3Context();
+  const { address, networkId } = useWeb3Context();
   const history = useHistory();
   usePathForNetwork({ pathName: "zap", networkID: networkId, history });
 
@@ -33,9 +34,7 @@ function Zap() {
             {!address ? (
               <div className="stake-wallet-notification">
                 <div className="wallet-menu" id="wallet-menu">
-                  <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-                    <Trans>Connect Wallet</Trans>
-                  </Button>
+                  <ConnectButton />
                 </div>
                 <Typography variant="h6">
                   <Trans>Connect your wallet to use Zap</Trans>

@@ -40,6 +40,7 @@ import { useAppSelector } from "src/hooks/index.ts";
 import WrapCrossChain from "./WrapCrossChain.tsx";
 import { loadAccountDetails } from "src/slices/AccountSlice";
 import { DataRow } from "@olympusdao/component-library";
+import ConnectButton from "src/components/ConnectButton";
 
 const useStyles = makeStyles(theme => ({
   textHighlight: {
@@ -136,14 +137,6 @@ function Wrap() {
       return quantity;
     }
   }, [quantity]);
-
-  let modalButton = [];
-
-  modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      Connect Wallet
-    </Button>,
-  );
 
   const changeAssetFrom = event => {
     setQuantity("");
@@ -302,7 +295,7 @@ function Wrap() {
                 {!address ? (
                   <div className="stake-wallet-notification">
                     <div className="wallet-menu" id="wallet-menu">
-                      {modalButton}
+                      <ConnectButton />
                     </div>
                     <Typography variant="h6">Connect your wallet</Typography>
                   </div>

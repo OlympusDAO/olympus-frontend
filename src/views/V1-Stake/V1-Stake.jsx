@@ -40,6 +40,7 @@ import { getMigrationAllowances } from "src/slices/AccountSlice";
 import { useAppSelector } from "src/hooks";
 import { useHistory } from "react-router-dom";
 import { Metric, MetricCollection, DataRow } from "@olympusdao/component-library";
+import ConnectButton from "src/components/ConnectButton";
 
 function a11yProps(index) {
   return {
@@ -162,14 +163,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
-  let modalButton = [];
-
-  modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      Connect Wallet
-    </Button>,
-  );
-
   const changeView = (event, newView) => {
     setView(newView);
   };
@@ -243,7 +236,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
               {!address ? (
                 <div className="stake-wallet-notification">
                   <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
+                    <ConnectButton />
                   </div>
                   <Typography variant="h6">
                     <Trans>Connect your wallet to stake OHM</Trans>

@@ -36,6 +36,7 @@ import { useAppSelector } from "src/hooks/index";
 import { getBalances, loadAccountDetails } from "src/slices/AccountSlice";
 import { t } from "@lingui/macro";
 import { DataRow } from "@olympusdao/component-library";
+import ConnectButton from "src/components/ConnectButton";
 
 function WrapCrossChain() {
   const dispatch = useDispatch();
@@ -89,14 +90,6 @@ function WrapCrossChain() {
   }, [wsOhmBalance, wsOhmAllowance]);
 
   const isDataLoading = useAppSelector(state => state.account.loading);
-
-  let modalButton = [];
-
-  modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      Connect Wallet
-    </Button>,
-  );
 
   const migrateToGohm = () =>
     dispatch(
@@ -253,7 +246,7 @@ function WrapCrossChain() {
               {!address ? (
                 <div className="stake-wallet-notification">
                   <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
+                    <ConnectButton />
                   </div>
                   <Typography variant="h6">Connect your wallet</Typography>
                 </div>
