@@ -143,7 +143,13 @@ export const purchaseBond = createAsyncThunk(
 
     let depositTx: ethers.ContractTransaction | undefined;
     try {
-      depositTx = await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
+      depositTx = await depositoryContract.deposit(
+        bond.index,
+        amount,
+        maxPrice,
+        address,
+        addresses[networkID].DAO_TREASURY,
+      );
       const text = `Purchase ${bond.displayName} Bond`;
       const pendingTxnType = `bond_${bond.displayName}`;
       if (depositTx) {
