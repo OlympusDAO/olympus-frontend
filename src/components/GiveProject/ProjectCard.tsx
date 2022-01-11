@@ -105,6 +105,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     let items = document.getElementsByClassName("project-container");
     if (items.length > 0) {
       items[0].scrollIntoView();
+      window.scrollTo(0, 0);
     }
   }, [location.pathname]);
 
@@ -390,7 +391,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Typography>
               </div>
               <Grid container direction="column" className="cause-misc-info">
-                <Grid item xs={6}>
+                <Grid item xs={6} sm={12} md={6}>
                   {renderGoalCompletion()}
                 </Grid>
                 <Grid item xs={6} sm={12} md={6} className="give-button-grid">
