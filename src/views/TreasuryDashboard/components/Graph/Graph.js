@@ -39,8 +39,8 @@ export const MarketValueGraph = () => {
         "treasuryDaiMarketValue",
         "treasuryFraxMarketValue",
         "treasuryWETHMarketValue",
-        "treasuryXsushiMarketValue",
         "treasuryLusdMarketValue",
+        "treasuryOtherMarketValue",
       ]}
       stopColor={[
         ["#F5AC37", "#EA9276"],
