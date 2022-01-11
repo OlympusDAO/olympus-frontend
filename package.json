@@ -48,7 +48,7 @@
     "bignumber.js": "^9.0.1",
     "bnc-notify": "^1.5.0",
     "burner-provider": "^1.0.38",
-    "date-fns": "^2.23.0",
+    "date-fns": "^2.28.0",
     "dotenv": "^10.0.0",
     "eth-hooks": "^1.1.2",
     "ethers": "^5.4.0",
