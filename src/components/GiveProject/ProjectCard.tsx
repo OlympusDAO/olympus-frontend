@@ -430,9 +430,47 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     return (
       <>
         <Box style={{ width: "100%", borderRadius: "10px" }}>
-          <Grid item className={isVerySmallScreen ? "cause-card very-small" : "cause-card"} key={title}>
-            {getProjectImage()}
-            <div className="cause-content">
+          {!isMediumScreen && !isSmallScreen && !isVerySmallScreen ? (
+            <Grid item className={isVerySmallScreen ? "cause-card very-small" : "cause-card"} key={title}>
+              {getProjectImage()}
+              <div className="cause-content">
+                <Grid container className="cause-header">
+                  <Grid item className="cause-title">
+                    <Link href={`#/give/projects/${project.slug}`}>
+                      <Typography variant="h4">
+                        <strong>{getTitle()}</strong>
+                      </Typography>
+                    </Link>
+                  </Grid>
+                </Grid>
+                <div className="cause-body">
+                  <Typography variant="body1" style={{ lineHeight: "20px" }}>
+                    <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
+                  </Typography>
+                </div>
+                <Grid container direction="column" className="cause-misc-info">
+                  <Grid item xs={6} sm={12} md={6}>
+                    {renderGoalCompletion()}
+                  </Grid>
+                  <Grid item xs={6} sm={12} md={6} className="give-button-grid" style={{ justifyContent: "flex-end" }}>
+                    <Link href={`#/give/projects/${project.slug}`} className="cause-link">
+                      <Button variant="contained" color="primary" className="cause-give-button">
+                        <Typography variant="h6">
+                          <Trans>View Details</Trans>
+                        </Typography>
+                      </Button>
+                    </Link>
+                  </Grid>
+                </Grid>
+              </div>
+            </Grid>
+          ) : (
+            <Grid
+              item
+              className={isVerySmallScreen ? "cause-card very-small" : "cause-card"}
+              key={title}
+              style={{ flexDirection: "column" }}
+            >
               <Grid container className="cause-header">
                 <Grid item className="cause-title">
                   <Link href={`#/give/projects/${project.slug}`}>
@@ -442,27 +480,39 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   </Link>
                 </Grid>
               </Grid>
-              <div className="cause-body">
-                <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                  <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
-                </Typography>
+              <div style={{ display: "flex" }}>
+                {getProjectImage()}
+                <div className="cause-content">
+                  <div className="cause-body">
+                    <Typography variant="body1" style={{ lineHeight: "20px" }}>
+                      <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
+                    </Typography>
+                  </div>
+                  <Grid container direction="column" className="cause-misc-info">
+                    <Grid item xs={6} sm={12} md={6}>
+                      {renderGoalCompletion()}
+                    </Grid>
+                    <Grid
+                      item
+                      xs={6}
+                      sm={12}
+                      md={6}
+                      className="give-button-grid"
+                      style={{ justifyContent: "flex-end" }}
+                    >
+                      <Link href={`#/give/projects/${project.slug}`} className="cause-link">
+                        <Button variant="contained" color="primary" className="cause-give-button">
+                          <Typography variant="h6">
+                            <Trans>View Details</Trans>
+                          </Typography>
+                        </Button>
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </div>
               </div>
-              <Grid container direction="column" className="cause-misc-info">
-                <Grid item xs={6} sm={12} md={6}>
-                  {renderGoalCompletion()}
-                </Grid>
-                <Grid item xs={6} sm={12} md={6} className="give-button-grid" style={{ justifyContent: "flex-end" }}>
-                  <Link href={`#/give/projects/${project.slug}`} className="cause-link">
-                    <Button variant="contained" color="primary" className="cause-give-button">
-                      <Typography variant="h6">
-                        <Trans>View Details</Trans>
-                      </Typography>
-                    </Button>
-                  </Link>
-                </Grid>
-              </Grid>
-            </div>
-          </Grid>
+            </Grid>
+          )}
         </Box>
         <RecipientModal
           isModalOpen={isGiveModalOpen}

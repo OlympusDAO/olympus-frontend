@@ -8,13 +8,13 @@ export function GiveInfo() {
     <>
       <Paper className={"ohm-card secondary"}>
         <Grid container className="give-info">
-          <Grid item xs={12} sm={4} className="give-info-deposit-box">
+          <Grid item sm={8} md={4} className="give-info-deposit-box">
             <DepositSohm message={t`Deposit sOHM from wallet`} />
           </Grid>
-          <Grid item xs={12} sm={4} className="give-info-vault-box">
+          <Grid item sm={8} md={4} className="give-info-vault-box">
             <LockInVault message={t`Lock sOHM in vault`} />
           </Grid>
-          <Grid item xs={12} sm={4} className="give-info-yield-box">
+          <Grid item sm={8} md={4} className="give-info-yield-box">
             <ReceivesYield message={t`Recipient earns sOHM rebases`} />
           </Grid>
         </Grid>

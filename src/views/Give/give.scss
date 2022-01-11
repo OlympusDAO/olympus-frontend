@@ -4,9 +4,13 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  margin-top: 10px;
 
   .ohm-card {
+    .give-tab-buttons {
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
     overflow-y: scrollable;
     .cell-align-end {
       display: flex;
@@ -105,25 +109,22 @@
       }
 
       .cause-image {
-        width: 35%;
+        width: 33%;
         height: 100%;
         justify-content: flex-start;
-        padding: 30px;
+        padding-right: 30px;
 
         img {
-          border-radius: 5%;
+          border-radius: 16px;
         }
       }
 
       .cause-content {
-        height: 100%;
-        width: 65%;
+        height: auto;
+        width: 66%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding-right: 30px;
-        padding-top: 30px;
-        padding-bottom: 30px;
 
         .MuiTypography-body2 {
           margin-top: 0.5rem;
@@ -135,7 +136,7 @@
         }
 
         .cause-body {
-          padding-bottom: 16px;
+          padding-bottom: 4%;
 
           p {
             margin-bottom: 0px;
@@ -180,6 +181,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        margin-top: 3.3%;
 
         .cause-info-main-text {
           font-size: 1rem;
@@ -196,10 +198,13 @@
       }
 
       .cause-misc-info .MuiGrid-item {
-        height: 40px;
         padding-left: 0px;
         align-items: flex-end;
         justify-content: flex-start;
+      }
+
+      .cause-misc-info .give-button-grid {
+        height: 40px;
       }
 
       .cause-info-icon {
@@ -269,14 +274,23 @@
 }
 
 #give-view.medium {
+  .cause-title {
+    margin-bottom: 1rem;
+  }
+
   .causes-body {
     .cause-content {
-      width: 50%;
+      width: 45%;
 
       .cause-body {
-        padding-bottom: 0px;
+        margin-top: -5%;
       }
     }
+
+    .cause-image {
+      width: 55%;
+    }
+
 
     .cause-misc-info {
       .cause-give-button {
@@ -285,8 +299,12 @@
       }
     }
 
-    .cause-image {
-      width: 50%;
+    .cause-misc-info .give-button-grid {
+      margin-top: 8%;
+
+      .cause-link {
+        width: 100%;
+      }
     }
   }
 }
@@ -305,7 +323,6 @@
 
     .cause-content {
       padding-top: 0px;
-      padding-left: 30px;
       width: 100%;
     }
 
@@ -525,7 +542,7 @@
 .give-info {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 
   .subtext {
     font-weight: 400;

@@ -22,7 +22,8 @@ function Give() {
   const { provider, address, networkId, connect } = useWeb3Context();
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
-  const isSmallScreen = useMediaQuery("(max-width: 705px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
   let connectButton = [];
   connectButton.push(
     <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
@@ -36,7 +37,11 @@ function Give() {
 
   return (
     <>
-      <div id="give-view">
+      <div
+        id="give-view"
+        className={`${isMediumScreen && "medium"}
+        ${isSmallScreen && "smaller"}`}
+      >
         {!address ? (
           <Zoom in={true}>
             <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
@@ -70,7 +75,7 @@ function Give() {
                 value={view}
                 textColor="primary"
                 indicatorColor="primary"
-                className="stake-tab-buttons"
+                className="give-tab-buttons"
                 onChange={changeView}
                 aria-label="stake tabs"
                 //hides the tab underline sliding animation in while <Zoom> is loading
