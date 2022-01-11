@@ -230,7 +230,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                   </Typography>
                 </Box>
               )}
-              <Box display="flex" justifyContent="center">
+              <Box display="flex" justifyContent="center" marginTop={1}>
                 <Typography variant="h5" color="textSecondary">
                   <Trans>Migration Output</Trans>
                 </Typography>
