@@ -14,7 +14,7 @@ import { error, info } from "../slices/MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { OlympusTokenMigrator__factory } from "src/typechain";
 
-enum TokenType {
+export enum TokenType {
   UNSTAKED,
   STAKED,
   WRAPPED,
@@ -112,9 +112,11 @@ export const bridgeBack = createAsyncThunk(
       const text = `Bridge Back gOHM`;
       const pendingTxnType = `migrate`;
 
-      dispatch(fetchPendingTxns({ txnHash: unMigrateTx.hash, text, type: pendingTxnType }));
-      await unMigrateTx.wait();
-      dispatch(info("Successfully unwrapped gOHM!"));
+      if (unMigrateTx) {
+        dispatch(fetchPendingTxns({ txnHash: unMigrateTx.hash, text, type: pendingTxnType }));
+        await unMigrateTx.wait();
+        dispatch(info("Successfully unwrapped gOHM!"));
+      }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
     } finally {
@@ -123,6 +125,8 @@ export const bridgeBack = createAsyncThunk(
         dispatch(getBalances({ address, provider, networkID }));
       }
     }
+    // go get fresh balances
+    // dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
 
@@ -147,9 +151,11 @@ export const migrateWithType = createAsyncThunk(
       const text = `Migrate ${type} Tokens`;
       const pendingTxnType = `migrate`;
 
-      dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
-      await migrateTx.wait();
-      dispatch(info(action));
+      if (migrateTx) {
+        dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
+        await migrateTx.wait();
+        dispatch(info(action));
+      }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
     } finally {
@@ -180,9 +186,11 @@ export const migrateAll = createAsyncThunk(
       const text = `Migrate All Tokens`;
       const pendingTxnType = `migrate_all`;
 
-      dispatch(fetchPendingTxns({ txnHash: migrateAllTx.hash, text, type: pendingTxnType }));
-      await migrateAllTx.wait();
-      dispatch(info("All assets have been successfully migrated!"));
+      if (migrateAllTx) {
+        dispatch(fetchPendingTxns({ txnHash: migrateAllTx.hash, text, type: pendingTxnType }));
+        await migrateAllTx.wait();
+        dispatch(info("All assets have been successfully migrated!"));
+      }
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
       throw e;
