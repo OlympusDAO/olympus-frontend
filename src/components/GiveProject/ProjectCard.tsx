@@ -43,6 +43,7 @@ import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "./GiveHeader";
 import { NetworkId } from "src/constants";
+import { ChevronLeft } from "@material-ui/icons";
 
 type CountdownProps = {
   total: number;
@@ -300,12 +301,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDebt = new BigNumber(totalDebt).toFormat();
+    const formattedTotalDebt = new BigNumber(parseFloat(totalDebt).toFixed(2)).toFormat();
 
     return (
       <>
         <Grid container className="project-goal">
-          <Grid item xs={4} className="project-donated">
+          <Grid item xs={5} className="project-donated">
             <div className="project-donated-icon">
               <SvgIcon
                 component={DonatedIcon}
@@ -321,8 +322,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               <Trans>sOHM Donated</Trans>
             </div>
           </Grid>
-          <Grid item xs={4} />
-          <Grid item xs={4} className="project-completion">
+          <Grid item xs={2} />
+          <Grid item xs={5} className="project-completion">
             <div className="project-completion-icon">
               <SvgIcon
                 component={GoalIcon}
@@ -538,122 +539,123 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <Container
           style={{
             paddingLeft: isSmallScreen || isVerySmallScreen ? 0 : "3.3rem",
-            paddingRight: isSmallScreen || isVerySmallScreen ? 0 : "4.4rem",
+            paddingRight: isSmallScreen || isVerySmallScreen ? 0 : "3.3rem",
             display: "flex",
             justifyContent: "center",
           }}
           className="project-container"
         >
-          <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"}>
-            <GiveHeader
-              isSmallScreen={isSmallScreen}
-              isVerySmallScreen={isVerySmallScreen}
-              totalDebt={new BigNumber(userTotalDebt)}
-              networkId={networkId}
-            />
-            <div
-              className={`${isMediumScreen && "medium"}
-              ${isSmallScreen && "smaller"}
-              ${isVerySmallScreen && "very-small"}`}
-            >
-              <Box className="project-content-container">
-                <Grid container className="project">
-                  <Grid
-                    item
-                    xs={12}
-                    md={5}
-                    style={{
-                      paddingLeft: "1rem",
-                      paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                    }}
-                  >
-                    <Paper className="project-sidebar">
-                      <Grid container className="project-intro" justifyContent="space-between">
-                        <Grid item className="project-title">
-                          <Typography variant="h5">
-                            <strong>{getTitle()}</strong>
-                          </Typography>
-                        </Grid>
-                        <Grid item className="project-link">
-                          <Link href={project.website} target="_blank">
-                            <SvgIcon component={WebsiteIcon} fill={svgFillColour} />
-                          </Link>
-                        </Grid>
+          <div
+            className={`${isMediumScreen && "medium"}
+            ${isSmallScreen && "smaller"}
+            ${isVerySmallScreen && "very-small"}`}
+          >
+            <Box className="project-content-container">
+              <Grid container className="project">
+                <Grid
+                  item
+                  xs={12}
+                  md={5}
+                  style={{
+                    paddingLeft: "1rem",
+                    paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                  }}
+                >
+                  <Paper className="project-sidebar">
+                    <Grid container className="project-intro" justifyContent="space-between">
+                      <Grid item className="project-title">
+                        <Link href={"#/give"}>
+                          <ChevronLeft
+                            className="back-to-causes"
+                            viewBox="6 6 12 12"
+                            style={{ width: "12px", height: "12px" }}
+                          />
+                        </Link>
+                        <Typography variant="h5">
+                          <strong>{getTitle()}</strong>
+                        </Typography>
                       </Grid>
-                      <Grid item className="project-visual-info">
-                        {getProjectImage()}
-                        <Grid item className="goal-graphics">
-                          {renderGoalCompletionDetailed()}
+                    </Grid>
+                    <Grid item className="project-visual-info">
+                      {getProjectImage()}
+                      <Grid item className="goal-graphics">
+                        {renderGoalCompletionDetailed()}
 
-                          <div className="visual-info-bottom">
-                            {renderCountdownDetailed()}
+                        <div className="visual-info-bottom">
+                          {renderCountdownDetailed()}
 
-                            <div className="project-give-button">
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => handleGiveButtonClick()}
-                                disabled={!address || !isSupportedChain(networkId)}
-                              >
-                                <Typography variant="h6">
-                                  <Trans>Donate Yield</Trans>
-                                </Typography>
-                              </Button>
-                            </div>
-                          </div>
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                    <Paper className="project-sidebar">
-                      <Grid container direction="column">
-                        <Grid item className="donors-title">
-                          <Typography variant="h5">
-                            <strong>
-                              <Trans>Donations</Trans>
-                            </strong>
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={4} className="project-goal">
-                          <Grid container className="project-donated-icon">
-                            <Grid item xs={1} md={2}>
-                              <SvgIcon component={DonorsIcon} viewBox={"0 0 18 13"} fill={svgFillColour} />
-                            </Grid>
-                            <Grid item xs={4}>
+                          <div className="project-give-button">
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => handleGiveButtonClick()}
+                              disabled={!address || !isSupportedChain(networkId)}
+                            >
                               <Typography variant="h6">
-                                {donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}
+                                <Trans>Donate Yield</Trans>
                               </Typography>
-                              <div className="subtext">
-                                <Trans>Donors</Trans>
-                              </div>
-                            </Grid>
+                            </Button>
+                          </div>
+                        </div>
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                  <Paper className="project-sidebar">
+                    <Grid container direction="column">
+                      <Grid item className="donors-title">
+                        <Typography variant="h5">
+                          <strong>
+                            <Trans>Donations</Trans>
+                          </strong>
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} md={4} className="project-goal">
+                        <Grid container className="project-donated-icon">
+                          <Grid item xs={1} md={2}>
+                            <SvgIcon component={DonorsIcon} viewBox={"0 0 18 13"} fill={svgFillColour} />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography variant="h6">
+                              {donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}
+                            </Typography>
+                            <div className="subtext">
+                              <Trans>Donors</Trans>
+                            </div>
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Paper>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                    style={{
-                      marginBottom: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                      paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                      paddingLeft: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                    }}
-                  >
-                    <Paper className="project-info">
+                    </Grid>
+                  </Paper>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  style={{
+                    marginBottom: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                    paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                    paddingLeft: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                  }}
+                >
+                  <Paper className="project-info">
+                    <div className="project-info-header">
                       <Typography variant="h5" className="project-about-header">
                         <strong>
                           <Trans>About</Trans>
                         </strong>
                       </Typography>
-                      <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
-                    </Paper>
-                  </Grid>
+                      <Grid item className="project-link">
+                        <Link href={project.website} target="_blank">
+                          <SvgIcon component={WebsiteIcon} fill={svgFillColour} />
+                        </Link>
+                      </Grid>
+                    </div>
+                    <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                  </Paper>
                 </Grid>
-              </Box>
-            </div>
-          </Box>
+              </Grid>
+            </Box>
+          </div>
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}

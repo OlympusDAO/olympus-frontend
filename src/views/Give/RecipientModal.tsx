@@ -40,6 +40,7 @@ import { CancelCallback, SubmitCallback } from "./Interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ConnectButton from "../../components/ConnectButton";
 import { NetworkId } from "src/constants";
+import { ChevronLeft } from "@material-ui/icons";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -441,9 +442,15 @@ export function RecipientModal({
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
       <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
         <div className="yield-header">
-          <Link onClick={() => cancelFunc()}>
-            <SvgIcon color="primary" component={XIcon} />
-          </Link>
+          {isAmountSet ? (
+            <Link onClick={() => handleGoBack()}>
+              <SvgIcon color="primary" component={ChevronLeft} />
+            </Link>
+          ) : (
+            <Link onClick={() => cancelFunc()}>
+              <SvgIcon color="primary" component={XIcon} />
+            </Link>
+          )}
           <Typography variant="h4">
             <strong>{getTitle()}</strong>
           </Typography>
@@ -469,52 +476,28 @@ export function RecipientModal({
           </Box>
         ) : isAmountSet ? (
           <>
-            <div className="give-confirmation-details">
-              <Typography variant="h5">
-                <strong>
-                  <Trans>Details</Trans>
-                </strong>
-              </Typography>
+            <Box
+              className="give-confirmation-details"
+              style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px" }}
+            >
               <div className="details-row">
                 <div className="sohm-allocation-col">
                   <Typography variant="body1">
-                    <Trans>Your Wallet Address</Trans>
+                    <Trans>sOHM deposit</Trans>
                   </Typography>
-                  <Typography variant="h6">
-                    <strong>{shorten(address)}</strong>
-                  </Typography>
+                  <Typography variant="h6">{getDepositAmount().toFixed(2)} sOHM</Typography>
                 </div>
                 {!isSmallScreen && <ArrowGraphic />}
                 <div className="recipient-address-col">
                   <Typography variant="body1">
-                    <Trans>Recipient Address</Trans>
+                    <Trans>Recipient address</Trans>
                   </Typography>
                   <Typography variant="h6">
                     <strong>{getRecipientTitle()}</strong>
                   </Typography>
                 </div>
               </div>
-            </div>
-            <div className="give-confirmation-divider">
-              <Divider />
-            </div>
-            <div className="give-confirmation-details">
-              <Typography variant="h5" className="confirmation-sect-header">
-                <strong>
-                  <Trans>Transaction</Trans>
-                </strong>
-              </Typography>
-              <div className="details-row">
-                <Typography variant="body1">
-                  <Trans>Amount</Trans>
-                </Typography>
-                <Typography variant="h6">
-                  <strong>
-                    <Trans>{depositAmount} sOHM</Trans>
-                  </strong>
-                </Typography>
-              </div>
-            </div>
+            </Box>
           </>
         ) : (
           <>
@@ -595,18 +578,12 @@ export function RecipientModal({
           ) : isAmountSet ? (
             <>
               <FormControl className="ohm-modal-submit">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  disabled={hasPendingGiveTxn(pendingTransactions)}
-                  onClick={handleGoBack}
-                >
-                  {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Go Back`)}
-                </Button>
-              </FormControl>
-              <FormControl className="ohm-modal-submit">
                 <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                  {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Confirm sOHM`)}
+                  {txnButtonText(
+                    pendingTransactions,
+                    PENDING_TXN_GIVE,
+                    t`Confirm ${getDepositAmount().toFixed(2)} sOHM`,
+                  )}
                 </Button>
               </FormControl>
             </>

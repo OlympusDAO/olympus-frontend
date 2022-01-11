@@ -360,6 +360,16 @@
       }
     }
   }
+
+  .give-info {
+    .give-info-deposit-box {
+      margin-right: 0px;
+    }
+
+    .give-info-vault-box {
+      margin-right: 0px;
+    }
+  }
 }
 
 .give-subnav {
@@ -482,6 +492,27 @@
   // Use decimal values to fix anti-aliasing in Chrome. Ridiculous.
   transform: translate(-50.048%, -50.048%);
 
+  &.smaller {
+    .give-confirmation-details .details-row {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .sohm-allocation-col {
+        margin-bottom: 30px;
+      }
+
+      .recipient-address-col {
+        align-items: flex-start;
+      }
+    }
+
+    .ohm-modal-submit {
+      width: 100%;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+  }
+
   .yield-header {
     align-items: center;
     display: flex;
@@ -546,6 +577,11 @@
     justify-content: space-between;
     align-items: center;
 
+    .MuiTypography-body1 {
+      color: #999999;
+      margin-bottom: 10px;
+    }
+
     .sohm-allocation-col {
       width: 30%;
     }
@@ -573,6 +609,14 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  .give-info-deposit-box {
+    margin-right: 40px;
+  }
+
+  .give-info-vault-box {
+    margin-right: 40px;
+  }
 
   .subtext {
     font-weight: 400;
@@ -612,19 +656,17 @@
   margin-top: 10px;
   // TODO look at whether we can make this less flakey by using rem instead of px
   .project-sidebar {
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 30px;
-    padding-bottom: 1.5rem;
+    padding: 20px 30px 40px 30px;
     margin-bottom: 1rem;
 
     .cause-image {
-      padding-bottom: 30px;
+      padding-bottom: 35px;
     }
 
     .project-goal .project-donated-icon {
       flex-direction: row;
       flex-wrap: nowrap;
+      margin-bottom: 6px;
 
       .subtext {
         color: #999999;
@@ -636,7 +678,7 @@
 
       .MuiGrid-item {
         max-width: 20px;
-        margin-right: 1rem;
+        margin-right: 10px;
       }
     }
 
@@ -675,6 +717,16 @@
 
   .project-intro {
     padding-bottom: 30px;
+
+    .project-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .back-to-causes {
+        margin-right: 20px;
+      }
+    }
   }
 
   .project-link {
@@ -689,6 +741,12 @@
     margin-left: 2rem;
     height: auto;
     width: 100%;
+
+    .project-info-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
 
     .project-about-header {
       padding-bottom: 30px;
@@ -722,6 +780,7 @@
     .project-completion-icon {
       display: inline-flex;
       align-items: center;
+      margin-bottom: 6px;
 
       h6 {
         max-width: 3.3rem;
@@ -775,6 +834,7 @@
 
       .project-give-button {
         padding-top: 1.5rem;
+        width: 100%;
       }
     }
   }
@@ -803,6 +863,7 @@
 
         .project-give-button {
           padding-top: 0px;
+          width: 100%
         }
 
         .project-countdown {
@@ -813,6 +874,10 @@
   }
 
   .medium {
+    .cause-image {
+      padding-bottom: 0px;
+    }
+
     .project-info {
       margin-left: 0;
     }
