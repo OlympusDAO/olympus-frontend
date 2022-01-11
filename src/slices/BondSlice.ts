@@ -247,10 +247,10 @@ export const bondAsset = createAsyncThunk(
         ReactGA.event({
           category: "Bonds",
           action: uaData.type ?? "unknown",
-          value: parseFloat(uaData.value),
           label: uaData.bondName,
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
+          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(bondTx.hash));
       }
