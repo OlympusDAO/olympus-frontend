@@ -6,6 +6,9 @@
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   background-color: #55555555;
+  .helper-text {
+    margin: 8px 0 20px 0;
+  }
   .ohm-popover {
     max-width: 500px;
     display: flex;
@@ -18,9 +21,6 @@
     }
     label {
       margin: 33px 0 10px;
-    }
-    .help-text {
-      margin: 10px;
     }
   }
 }
