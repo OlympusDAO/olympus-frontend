@@ -145,7 +145,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
     }
   }, [isAllApproved]);
   const isGOHM = view === 0;
-  const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM"), [view]);
+  const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
   const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
 
   const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId, gOHM: isGOHM }));
