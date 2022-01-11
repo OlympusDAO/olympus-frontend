@@ -12,27 +12,21 @@ import "./bond.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector } from "src/hooks";
-import { IAllBondData } from "src/hooks/Bonds";
+import { getAllBonds, getUserNotes, IBondV2 } from "src/slices/BondSliceV2";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "src/store";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const Bond = ({ bond }: { bond: IAllBondData }) => {
+const BondV2 = ({ index }: { index: number }) => {
   const history = useHistory();
+
+  const bond = useAppSelector(state => state.bondingV2.bonds[index]);
   const { provider, address, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
-  const [slippage, setSlippage] = useState<string>("0.5");
+  const [slippage, setSlippage] = useState<number>(0.5);
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
-
-  const [view, setView] = useState<number>(0);
-  const [quantity, setQuantity] = useState<number | undefined>();
 
   const isBondLoading = useAppSelector<boolean>(state => state.bonding.loading ?? true);
 
@@ -41,7 +35,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   };
 
   const onSlippageChange = (e: InputEvent): void => {
-    return setSlippage(e.target.value);
+    return setSlippage(Number(e.target.value));
   };
 
   const onClickAway = (): void => {
@@ -53,11 +47,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   };
   useEffect(() => {
     if (address) setRecipientAddress(address);
-  }, [provider, quantity, address]);
-
-  const changeView = (event: ChangeEvent<{}>, value: string | number): void => {
-    setView(Number(value));
-  };
+  }, [provider, address]);
 
   return (
     <Fade in={true} mountOnEnter unmountOnExit>
@@ -79,7 +69,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                     <Trans>Bond Price</Trans>
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
+                    <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.index} bond={bond} />}</>
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -92,7 +82,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                 </div>
               </Box>
 
-              <Tabs
+              {/* <Tabs
                 centered
                 value={view}
                 textColor="primary"
@@ -109,15 +99,15 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                   {...a11yProps(0)}
                 />
                 <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
-              </Tabs>
+              </Tabs> */}
 
-              <TabPanel value={view} index={0}>
-                <BondPurchase bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
-              </TabPanel>
+              {/* <TabPanel value={view} index={0}> */}
+              <BondPurchase bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
+              {/* </TabPanel> */}
 
-              <TabPanel value={view} index={1}>
+              {/* <TabPanel value={view} index={1}>
                 <BondRedeem bond={bond} />
-              </TabPanel>
+              </TabPanel> */}
             </Paper>
           </Fade>
         </Backdrop>
@@ -126,10 +116,8 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   );
 };
 
-export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement => {
-  const { networkId } = useWeb3Context();
-
-  if (typeof bond.bondPrice === undefined || !bond.getBondability(networkId)) {
+export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
+  if (typeof bond.priceUSD === undefined) {
     return <Fragment>--</Fragment>;
   }
 
@@ -140,18 +128,16 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement
         currency: "USD",
         maximumFractionDigits: 2,
         minimumFractionDigits: 2,
-      }).format(bond.bondPrice)}
+      }).format(bond.priceUSD)}
     </Fragment>
   );
 };
 
-export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactElement => {
-  const { networkId } = useWeb3Context();
-
-  if (typeof bond.bondDiscount === undefined || !bond.getBondability(networkId)) {
+export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement => {
+  if (typeof bond.discount === undefined) {
     return <Fragment>--</Fragment>;
   }
 
-  return <Fragment>{bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%</Fragment>;
+  return <Fragment>{bond.discount && trim(bond.discount * 100, 2)}%</Fragment>;
 };
-export default Bond;
+export default BondV2;

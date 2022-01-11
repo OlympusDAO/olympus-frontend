@@ -11,6 +11,7 @@ import {
   IChangeApprovalAsyncThunk,
   IChangeApprovalWithVersionAsyncThunk,
   IJsonRPCError,
+  IStakeAsyncThunk,
 } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { IERC20, OlympusStakingv2__factory, OlympusStaking__factory, StakingHelper } from "src/typechain";
@@ -148,7 +149,7 @@ export const changeApproval = createAsyncThunk(
 
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID, version2, rebase }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ action, value, provider, address, networkID, version2, rebase }: IStakeAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -222,10 +223,10 @@ export const changeStake = createAsyncThunk(
         ReactGA.event({
           category: "Staking",
           action: uaData.type ?? "unknown",
-          value: parseFloat(uaData.value),
           label: uaData.txHash ?? "unknown",
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
+          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(stakeTx.hash));
       }
