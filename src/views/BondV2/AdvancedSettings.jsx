@@ -19,7 +19,6 @@ function AdvancedSettings({
       minHeight={"400px"}
       closePosition={"left"}
       onClose={handleClose}
-      hideBackdrop
       maxWidth={"500px"}
     >
       <Box className="card-content">
