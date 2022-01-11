@@ -1,6 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
@@ -12,57 +11,61 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
-import ConnectButton from "../../components/ConnectButton.jsx";
-import { useWeb3Context } from "../../hooks";
-import { getTokenImage } from "src/helpers/index";
-import { trim } from "src/helpers";
-import { calculateOdds } from "../../helpers/33Together";
-import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-import { changeApproval, poolDeposit } from "../../slices/PoolThunk";
+import ConnectButton from "../../components/ConnectButton";
+import { useAppSelector, useWeb3Context } from "../../hooks";
+import { getTokenImage } from "src/helpers";
+import { calculateOdds, trimOdds } from "src/helpers/33Together";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { changeApproval, poolDeposit } from "src/slices/PoolThunk";
 import { Skeleton } from "@material-ui/lab";
 import { error } from "../../slices/MessagesSlice";
-import { ConfirmationModal } from "./ConfirmationModal.jsx";
+import { ConfirmationModal } from "./ConfirmationModal";
 import { DataRow } from "@olympusdao/component-library";
 
 const sohmImg = getTokenImage("sohm");
 
-export const PoolDeposit = props => {
+interface PoolDepositProps {
+  totalPoolDeposits: number;
+  winners: string | number;
+  setInfoTooltipMessage: (messages: Array<string>) => void;
+}
+
+export const PoolDeposit = (props: PoolDepositProps) => {
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
+  const isAppLoading = useAppSelector(state => state.app.loading);
   const [quantity, setQuantity] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
-  const [rngCompleted, setRngCompleted] = useState(false);
   const [isDepositing, setDepositing] = useState(false);
-  const isAppLoading = useSelector(state => state.app.loading);
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
-  const sohmBalance = useSelector(state => {
+  const sohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.sohmV1;
   });
 
-  const poolBalance = useSelector(state => {
+  const poolBalance = useAppSelector(state => {
     return state.account.balances && parseFloat(state.account.balances.pool);
   });
 
-  const poolAllowance = useSelector(state => {
+  const poolAllowance = useAppSelector(state => {
     return state.account.pooling && state.account.pooling.sohmPool;
   });
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
-  const poolIsLocked = useSelector(state => {
+  const poolIsLocked = useAppSelector(state => {
     return state.poolData && state.poolData.isRngRequested;
   });
 
-  const onSeekApproval = async token => {
+  const onSeekApproval = async (token: string) => {
     await dispatch(changeApproval({ address, token, provider, networkID: networkId }));
   };
 
-  const onDeposit = async action => {
+  const onDeposit = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(quantity) || quantity === 0 || quantity === "") {
+    if (isNaN(quantity) || quantity === 0) {
       // eslint-disable-next-line no-alert
       dispatch(error(t`Please enter a value!`));
     } else {
@@ -70,8 +73,16 @@ export const PoolDeposit = props => {
     }
   };
 
-  const onSubmitDeposit = async action => {
-    await dispatch(poolDeposit({ address, action, value: quantity.toString(), provider, networkID: networkId }));
+  const onSubmitDeposit = async (action: string) => {
+    await dispatch(
+      poolDeposit({
+        address,
+        action,
+        value: quantity.toString(),
+        provider,
+        networkID: networkId,
+      }),
+    );
   };
 
   const hasAllowance = useCallback(() => {
@@ -81,19 +92,27 @@ export const PoolDeposit = props => {
   const setMax = () => {
     const value = parseFloat(sohmBalance);
     setQuantity(value);
-    let userBalanceAfterDeposit = poolBalance + value;
+    const userBalanceAfterDeposit = poolBalance + value;
 
-    let userOdds = calculateOdds(userBalanceAfterDeposit, props.totalPoolDeposits + value, props.winners);
-    setNewOdds(trim(userOdds, 4));
+    const userOdds = calculateOdds(
+      userBalanceAfterDeposit.toString(),
+      props.totalPoolDeposits + value,
+      parseFloat(props.winners.toString()),
+    );
+    setNewOdds(Number(trimOdds(userOdds)));
   };
 
-  const updateDepositQuantity = e => {
+  const updateDepositQuantity = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = parseFloat(e.target.value);
     setQuantity(value);
-    let userBalanceAfterDeposit = poolBalance + value;
+    const userBalanceAfterDeposit = poolBalance + value;
 
-    let userOdds = calculateOdds(userBalanceAfterDeposit, props.totalPoolDeposits + value, props.winners);
-    setNewOdds(trim(userOdds, 4));
+    const userOdds = calculateOdds(
+      userBalanceAfterDeposit.toString(),
+      props.totalPoolDeposits + value,
+      parseFloat(props.winners.toString()),
+    );
+    setNewOdds(Number(trimOdds(userOdds)));
   };
 
   useEffect(() => {
@@ -151,7 +170,7 @@ export const PoolDeposit = props => {
               />
             </FormControl>
 
-            {address && hasAllowance("sohm") ? (
+            {address && hasAllowance() ? (
               <Button
                 className="pool-deposit-button"
                 variant="contained"
@@ -190,7 +209,7 @@ export const PoolDeposit = props => {
           <div className={`stake-user-data`}>
             <DataRow
               title={t`Your Staked Balance (Depositable)`}
-              balance={`${new Intl.NumberFormat("en-US").format(sohmBalance)} sOHM`}
+              balance={`${new Intl.NumberFormat("en-US").format(parseFloat(sohmBalance))} sOHM`}
               isLoading={isAppLoading}
             />
           </div>
@@ -209,10 +228,4 @@ export const PoolDeposit = props => {
       )}
     </Box>
   );
-};
-
-PoolDeposit.propTypes = {
-  totalPoolDeposits: PropTypes.number,
-  winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  setInfoTooltipMessage: PropTypes.func,
 };
