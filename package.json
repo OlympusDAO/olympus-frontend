@@ -73,7 +73,7 @@
     "react-ga": "^3.3.0",
     "react-ga4": "^1.0.5",
     "react-qr-reader": "^2.2.1",
-    "react-query": "^3.32.3",
+    "react-query": "^3.34.3",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
