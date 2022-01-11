@@ -1,9 +1,11 @@
 [![Lighthouse PWA Test](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+[![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/gGZUMVDuhQ)
+
 
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
-This is the front-end repo for Olympus that allows users be part of the future of _Meta Greece_.
+This is the front-end repo for Olympus that allows users to be part of the future of _Meta Greece_.
 
 We are moving at web3 speed and we are looking for talented contributors to boost this rocket. Take a look at our [CONTRIBUTING GUIDE](CONTRIBUTING.md) if you are considering joining a world class DAO.
 
@@ -69,7 +71,7 @@ To run the tests:
 **Rinkeby faucets for LUSD, FRAX & DAI can be taken from rinkeby etherscan:**
 
 1. Go to `src/helpers/AllBonds.ts`
-2. then copy the rinkeby `reserveAddress` for the applicable bond & navigate to that contract on rinkeby etherscan.
+2. Then copy the rinkeby `reserveAddress` for the applicable bond & navigate to that contract on rinkeby etherscan.
 3. On Rinkeby etherscan use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
 ## Avax Fuji Testnet
@@ -186,7 +188,7 @@ Each PR into master will get its own custom URL that is visible on the PR page. 
 
 ### Feature Flags
 
-- Give: by default it is disabled. It can be enabled by setting the `REACT_APP_GIVE_ENABLED` environment variable to "true", or appending `give_enabled` as a URL parameter.
+- Give: by default it is enabled. It can be disabled by setting the `REACT_APP_GIVE_ENABLED` environment variable to "false".
 
 ## 👏🏽 Contributing Guidelines
 

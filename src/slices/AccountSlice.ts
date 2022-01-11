@@ -26,9 +26,9 @@ import {
   OlympusStakingv2__factory,
 } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
-
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
+import { IUserNote } from "./BondSliceV2";
 
 interface IUserBalances {
   balances: {
@@ -379,6 +379,10 @@ export const getMockRedemptionBalances = createAsyncThunk(
 );
 
 interface IUserAccountDetails {
+  staking: {
+    ohmStake: number;
+    ohmUnstake: number;
+  };
   wrapping: {
     sohmWrap: number;
     wsohmUnwrap: number;
@@ -512,10 +516,13 @@ export const loadAccountDetails = createAsyncThunk(
 
 export interface IUserBondDetails {
   // bond: string;
-  allowance: number;
-  interestDue: number;
-  bondMaturationBlock: number;
-  pendingPayout: string; //Payout formatted in gwei.
+  readonly bond: string;
+  readonly balance: string;
+  readonly displayName: string;
+  readonly allowance: number;
+  readonly interestDue: number;
+  readonly bondMaturationBlock: number;
+  readonly pendingPayout: string; //Payout formatted in gwei.
 }
 export const calculateUserBondDetails = createAsyncThunk(
   "account/calculateUserBondDetails",

@@ -146,7 +146,7 @@ const WalletTotalValue = () => {
       <Typography style={{ lineHeight: 1.1, fontWeight: 600, fontSize: "0.975rem" }} color="textSecondary">
         MY WALLET
       </Typography>
-      <Typography style={{ fontWeight: 700 }} variant="h3">
+      <Typography style={{ fontWeight: 700, cursor: "pointer" }} variant="h3">
         {!isLoading ? formatCurrency(walletValue[currency], 2, currency) : <Skeleton variant="text" width={100} />}
       </Typography>
       <WalletAddressEns />
