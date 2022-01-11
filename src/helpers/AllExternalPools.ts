@@ -58,7 +58,7 @@ export const spirit_gohm_ftm = new ExternalPool({
   poolName: "gOHM-FTM",
   icons: [gOhmImage, fantomImage],
   stakeOn: "Spirit (Fantom)",
-  pairGecko: "ethereum",
+  pairGecko: "fantom",
   href: "https://app.spiritswap.finance/#/boostedfarms",
   address: "0xae9BBa22E87866e48ccAcFf0689AFaa41eB94995",
   masterchef: "0xb3AfA9CB6c53d061bC2263cE15357A691D0D60d4",
