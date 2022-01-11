@@ -101,7 +101,7 @@
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
-      margin-bottom: 2rem;
+      margin-bottom: 60px;
 
       .cause-title {
         padding-left: 0rem;
@@ -139,11 +139,10 @@
         .cause-header {
           justify-content: space-between;
           align-items: center;
+          margin-bottom: 5px;
         }
 
         .cause-body {
-          padding-bottom: 4%;
-
           p {
             margin-bottom: 0px;
           }
@@ -187,7 +186,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin-top: 3.3%;
+        margin-top: 16px;
 
         .cause-info-main-text {
           font-size: 1rem;
@@ -285,6 +284,10 @@
   }
 
   .causes-body {
+    .cause-card {
+      margin-bottom: 30px;
+    }
+
     .cause-content {
       width: 45%;
 
@@ -306,7 +309,7 @@
     }
 
     .cause-misc-info .give-button-grid {
-      margin-top: 8%;
+      margin-top: 20px;
 
       .cause-link {
         width: 100%;
@@ -316,6 +319,12 @@
 }
 
 #give-view.smaller {
+  margin-bottom: 100px;
+
+  .give-tab-buttons .MuiTab-wrapper {
+      font-size: 16px;
+  }
+
   .cause-title {
     margin-bottom: 1rem;
   }
@@ -339,7 +348,7 @@
       }
 
       .cause-misc-info .give-button-grid {
-        margin-top: 8%;
+        margin-top: 20px;
 
         .cause-link {
           width: 100%;
@@ -524,11 +533,6 @@
       width: 100%;
     }
   }
-}
-
-.ohm-modal.smaller {
-  top: 0%;
-  transform: translate(-50.048%, 0%);
 }
 
 .give-confirmation-details {

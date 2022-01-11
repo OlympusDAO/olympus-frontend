@@ -335,7 +335,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               </Typography>
             </div>
             <div className="subtext">
-              <Trans>sOHM Goal</Trans>
+              <Trans>Goal</Trans>
             </div>
           </Grid>
         </Grid>

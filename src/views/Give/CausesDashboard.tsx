@@ -128,7 +128,10 @@ export default function CausesDashboard() {
           <div className="causes-body">
             <Box className="data-grid">{renderProjects}</Box>
           </div>
-          <Paper className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}>
+          <Paper
+            className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}
+            style={{ borderRadius: "10px" }}
+          >
             <Typography variant="h4" align="center" className="custom-recipient-headline">
               Want to give to a different cause?
             </Typography>
