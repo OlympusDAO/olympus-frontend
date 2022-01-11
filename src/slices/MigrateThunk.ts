@@ -7,6 +7,7 @@ import {
   IBaseAddressAsyncThunk,
   IChangeApprovalWithDisplayNameAsyncThunk,
   IJsonRPCError,
+  IMigrateAsyncThunk,
   IValueAsyncThunk,
 } from "./interfaces";
 import { fetchAccountSuccess, getBalances, getMigrationAllowances, loadAccountDetails } from "./AccountSlice";
@@ -170,7 +171,7 @@ export const migrateWithType = createAsyncThunk(
 
 export const migrateAll = createAsyncThunk(
   "migrate/migrateAll",
-  async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID, gOHM }: IMigrateAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
@@ -182,7 +183,7 @@ export const migrateAll = createAsyncThunk(
     let migrateAllTx: ethers.ContractTransaction | undefined;
 
     try {
-      migrateAllTx = await migrator.migrateAll(TokenType.WRAPPED);
+      migrateAllTx = await migrator.migrateAll(gOHM ? TokenType.WRAPPED : TokenType.STAKED);
       const text = `Migrate All Tokens`;
       const pendingTxnType = `migrate_all`;
 

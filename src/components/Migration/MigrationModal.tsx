@@ -13,6 +13,8 @@ import {
   TableBody,
   Typography,
   Paper,
+  Tab,
+  Tabs,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
@@ -23,7 +25,7 @@ import { useDispatch } from "react-redux";
 import { BigNumber } from "ethers";
 import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
 import { useWeb3Context } from "src/hooks";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { info } from "src/slices/MessagesSlice";
 import { InfoTooltip } from "@olympusdao/component-library";
@@ -66,6 +68,11 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const { provider, address, networkId } = useWeb3Context();
 
+  const [view, setView] = useState(0);
+  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+    setView(newView);
+  };
+
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
@@ -97,8 +104,8 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
     );
   };
 
-  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId }));
-  const currentIndex = useAppSelector(state => Number(state.app.currentIndexV1!));
+  const indexV1 = useAppSelector(state => Number(state.app.currentIndexV1!));
+  const currentIndex = useAppSelector(state => Number(state.app.currentIndex));
 
   const currentOhmBalance = useAppSelector(state => Number(state.account.balances.ohmV1));
   const currentSOhmBalance = useAppSelector(state => Number(state.account.balances.sohmV1));
@@ -120,8 +127,8 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  const ohmAsgOHM = currentOhmBalance / currentIndex;
-  const sOHMAsgOHM = currentSOhmBalance / currentIndex;
+  const ohmAsgOHM = currentOhmBalance / indexV1;
+  const sOHMAsgOHM = currentSOhmBalance / indexV1;
 
   const ohmInUSD = formatCurrency(gOHMPrice! * ohmAsgOHM);
   const sOhmInUSD = formatCurrency(gOHMPrice! * sOHMAsgOHM);
@@ -137,29 +144,34 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
+  const isGOHM = view === 0;
+  const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM"), [view]);
+  const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
+
+  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId, gOHM: isGOHM }));
 
   rows = [
     {
       initialAsset: "OHM",
       initialBalance: currentOhmBalance,
-      targetAsset: "gOHM",
-      targetBalance: ohmAsgOHM,
+      targetAsset: targetAsset,
+      targetBalance: ohmAsgOHM * targetMultiplier,
       fullApproval: ohmFullApproval,
       usdBalance: ohmInUSD,
     },
     {
       initialAsset: "sOHM",
       initialBalance: currentSOhmBalance,
-      targetAsset: "gOHM",
-      targetBalance: sOHMAsgOHM,
+      targetAsset: targetAsset,
+      targetBalance: sOHMAsgOHM * targetMultiplier,
       fullApproval: sOhmFullApproval,
       usdBalance: sOhmInUSD,
     },
     {
       initialAsset: "wsOHM",
       initialBalance: currentWSOhmBalance,
-      targetAsset: "gOHM",
-      targetBalance: currentWSOhmBalance,
+      targetAsset: targetAsset,
+      targetBalance: currentWSOhmBalance * targetMultiplier,
       fullApproval: wsOhmFullApproval,
       usdBalance: wsOhmInUSD,
     },
@@ -197,6 +209,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                 </Box>
                 <Box />
               </Box>
+
               {isMigrationComplete || !oldAssetsDetected ? null : (
                 <Box paddingTop={4}>
                   <Typography id="migration-modal-description" variant="body2">
@@ -217,7 +230,24 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                   </Typography>
                 </Box>
               )}
+              <Box display="flex" justifyContent="center">
+                <Typography variant="h5" color="textSecondary">
+                  <Trans>Migration Output</Trans>
+                </Typography>
+              </Box>
 
+              <Tabs
+                centered
+                value={view}
+                textColor="primary"
+                indicatorColor="primary"
+                onChange={changeView}
+                aria-label="payout token tabs"
+                className="payout-token-tabs"
+              >
+                <Tab label={t`gOHM`} className="payout-token-tab" />
+                <Tab label={t`sOHM`} className="payout-token-tab" />
+              </Tabs>
               {isMobileScreen ? (
                 <Box id="mobile-container-migration">
                   {rows
@@ -368,11 +398,25 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                     <Typography>
                       {isMigrationComplete || !oldAssetsDetected
                         ? "Close"
-                        : txnButtonText(pendingTransactions, "migrate_all", t`Migrate`)}
+                        : txnButtonText(
+                            pendingTransactions,
+                            "migrate_all",
+                            t`Migrate all to ${isGOHM ? "gOHM" : "sOHM"}`,
+                          )}
                     </Typography>
                   </Box>
                 </Button>
               </Box>
+              <div className="help-text">
+                <em>
+                  <Typography variant="body2">
+                    <Trans>
+                      Save on gas fees by migrating all your assets to the new gOHM or sOHM in one transaction. Each
+                      asset above must be approved before all can be migrated.
+                    </Trans>
+                  </Typography>
+                </em>
+              </div>
             </Paper>
           </Box>
         </Fade>
