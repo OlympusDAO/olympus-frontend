@@ -14,7 +14,6 @@ import {
 import Countdown from "react-countdown";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
-import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
 import { ReactComponent as DonorsIcon } from "../../assets/icons/donors.svg";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -43,6 +42,7 @@ import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "./GiveHeader";
 import { NetworkId } from "src/constants";
+import { Icon } from "@olympusdao/component-library";
 
 type CountdownProps = {
   total: number;
@@ -441,12 +441,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Typography variant="body1">
                       <Trans>View Details</Trans>
                     </Typography>
-                    <SvgIcon
-                      component={ArrowRight}
-                      style={{ width: "30px", marginLeft: "0.33em" }}
-                      viewBox={"0 0 57 24"}
-                      fill={svgFillColour}
-                    />
+                    <Icon name="arrow-right" opacity={0.6} fontSize="large" style={{ marginLeft: "0.33em" }} />
                   </Link>
                 </Grid>
               </Grid>
