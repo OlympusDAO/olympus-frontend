@@ -29,6 +29,8 @@ import {
   CausesDashboard,
   DepositYield,
   RedeemYield,
+  BondV2,
+  ChooseBondV2,
 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
@@ -49,6 +51,7 @@ import { Project } from "src/components/GiveProject/project.type";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
 import Announcement from "./components/Announcement/Announcement";
+import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 
 // 😬 Sorry for all the console logging
@@ -128,6 +131,8 @@ function App() {
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
   const { bonds, expiredBonds } = useBonds(networkId);
 
+  const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
+
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
     // Unhandled Rejection (Error): call revert exception (method="balanceOf(address)", errorArgs=null, errorName=null, errorSignature=null, reason=null, code=CALL_EXCEPTION, version=abi/5.4.0)
@@ -155,9 +160,10 @@ function App() {
         bonds.map(bond => {
           dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
         });
+        dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       }
     },
-    [networkId],
+    [networkId, address],
   );
 
   const loadAccount = useCallback(
@@ -165,6 +171,7 @@ function App() {
       if (!providerInitialized) {
         return;
       }
+      dispatch(getUserNotes({ networkID: networkId, address, provider: loadProvider }));
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
       bonds.map(bond => {
@@ -383,15 +390,26 @@ function App() {
               <PoolTogether />
             </Route> */}
 
-              <Route path="/bonds">
+              <Route path="/bonds-v1">
                 {(bonds as IAllBondData[]).map(bond => {
                   return (
-                    <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
+                    <Route exact key={bond.name} path={`/bonds-v1/${bond.name}`}>
                       <Bond bond={bond} />
                     </Route>
                   );
                 })}
                 <ChooseBond />
+              </Route>
+
+              <Route path="/bonds">
+                {bondIndexes.map(index => {
+                  return (
+                    <Route exact key={index} path={`/bonds/${index}`}>
+                      <BondV2 index={index} />
+                    </Route>
+                  );
+                })}
+                <ChooseBondV2 />
               </Route>
 
               <Route path="/network">

@@ -6,7 +6,13 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
-import { IActionValueAsyncThunk, IChangeApprovalWithVersionAsyncThunk, IJsonRPCError } from "./interfaces";
+import {
+  IActionValueAsyncThunk,
+  IChangeApprovalAsyncThunk,
+  IChangeApprovalWithVersionAsyncThunk,
+  IJsonRPCError,
+  IStakeAsyncThunk,
+} from "./interfaces";
 import { IERC20, OlympusStakingv2__factory, OlympusStaking__factory, StakingHelper } from "src/typechain";
 import ReactGA from "react-ga";
 
@@ -142,7 +148,7 @@ export const changeApproval = createAsyncThunk(
 
 export const changeStake = createAsyncThunk(
   "stake/changeStake",
-  async ({ action, value, provider, address, networkID, version2, rebase }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ action, value, provider, address, networkID, version2, rebase }: IStakeAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
