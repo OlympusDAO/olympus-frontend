@@ -129,10 +129,15 @@ export default function CausesDashboard() {
             <Box className="data-grid">{renderProjects}</Box>
           </div>
           <Paper className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}>
-            <Typography variant="h4" className="custom-recipient-headline">
+            <Typography variant="h4" align="center" className="custom-recipient-headline">
               Want to give to a different cause?
             </Typography>
-            <Typography variant="body1" className="custom-recipient-body" style={{ marginBottom: "30px" }}>
+            <Typography
+              variant="body1"
+              align="center"
+              className="custom-recipient-body"
+              style={{ marginBottom: "30px" }}
+            >
               You can direct your yield to a recipient of your choice
             </Typography>
             <Button

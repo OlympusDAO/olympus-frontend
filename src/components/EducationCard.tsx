@@ -36,7 +36,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
         <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="message-text">
           {quantity} sOHM {verb}
         </Typography>
       </Box>
@@ -98,7 +98,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading }: Educat
         <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="message-text">
           {isLoading ? <Skeleton width={120} /> : `${quantity} sOHM ${verb}`}
         </Typography>
       </Box>
@@ -174,7 +174,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
         <SvgIcon component={yieldImg} viewBox={smallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
+        <Typography variant="h6" align="center" className="message-text">
           {`${t`Receives yield from`} ${quantity} sOHM`}
         </Typography>
       </Box>
@@ -223,7 +223,7 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} className="receives-yield-icon" />
+          <SvgIcon component={yieldImg} viewBox="0 0 30 30" style={smallIconStyle} className="receives-yield-icon" />
         </Box>
         <Box
           display="flex"

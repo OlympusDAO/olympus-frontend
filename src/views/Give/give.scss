@@ -5,10 +5,17 @@
   align-items: center;
   overflow: hidden;
 
+  .MuiBox-root {
+    padding: 0px;
+  }
+
   .ohm-card {
     .give-tab-buttons {
       margin-top: 1rem;
       margin-bottom: 1.5rem;
+      max-height: 60px;
+      min-height: 40px;
+      height: auto;
     }
 
     overflow-y: scrollable;
@@ -83,7 +90,6 @@
       &.very-small {
         min-width: 200px;
       }
-      min-width: 333px;
       // max-width: 773px;
       width: auto;
       // box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.03);
@@ -310,24 +316,39 @@
 }
 
 #give-view.smaller {
-  .causes-container {
-    padding: 5px 0px 30px 0px;
-    .card-header {
-      padding: 0px 0px 0px 30px;
-    }
+  .cause-title {
+    margin-bottom: 1rem;
   }
-  .causes-body {
-    .cause-card {
-      flex-direction: column;
+
+  .small-screen-cause {
+    flex-direction: column;
+
+    .cause-image {
+      width: 100%;
+      padding-right: 0px;
     }
 
     .cause-content {
       padding-top: 0px;
       width: 100%;
-    }
 
-    .cause-image {
-      width: 100%;
+      .causes-body {
+        .cause-card {
+          flex-direction: column;
+        }
+      }
+
+      .cause-misc-info .give-button-grid {
+        margin-top: 8%;
+
+        .cause-link {
+          width: 100%;
+        }
+
+        .cause-give-button {
+          width: 100%;
+        }
+      }
     }
   }
 }
@@ -378,7 +399,7 @@
   justify-content: center;
   align-items: center;
   &.smaller {
-    padding: 0px 20px 5px 0px;
+    padding: 20px 20px 20px 20px;
   }
   padding: 30px 30px 30px 30px;
 
@@ -400,6 +421,10 @@
   align-content: center;
   align-items: center;
 
+  .message-text {
+    color: #999999;
+  }
+
   .yield-graphic svg path {
     fill: none;
   }
@@ -415,6 +440,7 @@
   justify-content: space-between;
 
   .MuiTypography-body2 {
+    color: #999999;
     margin-top: 0.5rem;
   }
 }
@@ -489,7 +515,7 @@
     align-items: center;
     width: 60%;
     height: 43px !important;
-    margin-top: 1rem;
+    margin-top: 40px;
     margin-left: auto;
     margin-right: auto;
 
@@ -548,19 +574,7 @@
     font-weight: 400;
   }
 
-  .give-info-deposit-box .text {
-    margin-left: 30px;
-  }
-
-  .give-info-vault-box .text {
-    margin-left: 30px;
-  }
-
   .give-info-yield-box {
-    .text {
-      margin-left: 30px;
-    }
-
     .receives-yield-icon path {
       fill: none;
     }

@@ -260,7 +260,7 @@ export function RecipientModal({
   const getTitle = (): string => {
     if (!isCreateMode()) return t`Edit Yield`;
 
-    return t`Give Yield`;
+    return t`Donate Yield`;
   };
 
   /**
@@ -468,11 +468,9 @@ export function RecipientModal({
           <Skeleton />
         ) : !hasAllowance() ? (
           <Box className="help-text">
-            <Typography variant="body1" className="stream-note" color="textSecondary">
+            <Typography variant="h6" className="stream-note" color="textSecondary">
               <Trans>
-                First time donating <b>sOHM</b>?
-                <br />
-                Please approve Olympus DAO to use your <b>sOHM</b> for donating.
+                Is this your first time donating sOHM? Please approve OlympusDAO to use your sOHM for donating.
               </Trans>
             </Typography>
           </Box>
@@ -563,27 +561,28 @@ export function RecipientModal({
               <FormHelperText>{isDepositAmountValidError}</FormHelperText>
               <div className="give-staked-balance">
                 <Typography variant="body2" align="left">
-                  <Trans>Your Staked Balance (depositable)</Trans>
-                </Typography>
-                <Typography variant="body2" align="right">
-                  <Trans>{getSOhmBalance().toFixed(4)} sOHM</Trans>
+                  <Trans>Your current Staked Balance {getSOhmBalance().toFixed(4)} sOHM</Trans>
                 </Typography>
               </div>
             </FormControl>
             {getRecipientElements()}
-            {isCreateMode() ? (
-              <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
-                <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
-                {!isSmallScreen && <ArrowGraphic />}
-                <VaultGraphic quantity={getDepositAmount().toFixed()} />
-                {!isSmallScreen && <ArrowGraphic />}
-                <YieldGraphic quantity={getDepositAmount().toFixed()} />
-              </div>
+            {!isSmallScreen ? (
+              isCreateMode() ? (
+                <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
+                  <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
+                  {!isSmallScreen && <ArrowGraphic />}
+                  <VaultGraphic quantity={getDepositAmount().toFixed()} />
+                  {!isSmallScreen && <ArrowGraphic />}
+                  <YieldGraphic quantity={getDepositAmount().toFixed()} />
+                </div>
+              ) : (
+                <div className="give-education-graphics">
+                  <CurrPositionGraphic quantity={getCurrentDepositAmount().toFixed()} />
+                  <NewPositionGraphic quantity={getDepositAmount().toFixed()} />
+                </div>
+              )
             ) : (
-              <div className="give-education-graphics">
-                <CurrPositionGraphic quantity={getCurrentDepositAmount().toFixed()} />
-                <NewPositionGraphic quantity={getDepositAmount().toFixed()} />
-              </div>
+              <></>
             )}
           </>
         )}

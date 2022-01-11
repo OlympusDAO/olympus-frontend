@@ -480,7 +480,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   </Link>
                 </Grid>
               </Grid>
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", width: "100%" }} className="small-screen-cause">
                 {getProjectImage()}
                 <div className="cause-content">
                   <div className="cause-body">
@@ -489,17 +489,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     </Typography>
                   </div>
                   <Grid container direction="column" className="cause-misc-info">
-                    <Grid item xs={6} sm={12} md={6}>
+                    <Grid item xs={12} md={6}>
                       {renderGoalCompletion()}
                     </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      sm={12}
-                      md={6}
-                      className="give-button-grid"
-                      style={{ justifyContent: "flex-end" }}
-                    >
+                    <Grid item xs={12} md={6} className="give-button-grid" style={{ justifyContent: "flex-end" }}>
                       <Link href={`#/give/projects/${project.slug}`} className="cause-link">
                         <Button variant="contained" color="primary" className="cause-give-button">
                           <Typography variant="h6">
