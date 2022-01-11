@@ -53,7 +53,7 @@
     "eth-hooks": "^1.1.2",
     "ethers": "^5.4.0",
     "graphiql": "^1.4.7",
-    "graphql": "^15.3.0",
+    "graphql": "^15.8.0",
     "intl": "^1.2.5",
     "isomorphic-fetch": "^3.0.0",
     "lodash": "^4.17.21",
