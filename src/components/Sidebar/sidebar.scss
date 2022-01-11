@@ -115,13 +115,13 @@
   .external-site-link-icon {
     opacity: 0;
   }
-  &:hover {
-    .external-site-link-icon {
-      opacity: 100%;
-      width: 20px;
-      height: 20px;
-      margin-left: 8px;
-    }
+}
+.external-site-link:hover {
+  .external-site-link-icon {
+    opacity: 100%;
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
   }
 }
 
