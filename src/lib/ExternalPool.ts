@@ -18,6 +18,7 @@ export class ExternalPool {
     this.poolName = poolOpts.poolName;
     this.icons = poolOpts.icons;
     this.stakeOn = poolOpts.stakeOn;
+    //coingecko's token identifier string for their price lookup API
     this.pairGecko = poolOpts.pairGecko;
     this.href = poolOpts.href;
     this.address = poolOpts.address;
