@@ -300,7 +300,9 @@ function NavContent({ handleDrawerToggle }) {
                     <Box display="flex" alignItems="center">
                       <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
                       {/* <WrapIcon /> */}
-                      <Typography variant="h6">Wrap</Typography>
+                      <Typography variant="h6">
+                        <Trans>Wrap</Trans>
+                      </Typography>
                       {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                     </Box>
                   </Link>
@@ -372,7 +374,9 @@ function NavContent({ handleDrawerToggle }) {
                     <Box display="flex" alignItems="center">
                       <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
                       {/* <WrapIcon /> */}
-                      <Typography variant="h6">Wrap</Typography>
+                      <Typography variant="h6">
+                        <Trans>Wrap</Trans>
+                      </Typography>
                       {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                     </Box>
                   </Link>
