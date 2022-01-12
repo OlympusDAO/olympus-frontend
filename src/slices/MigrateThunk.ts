@@ -8,6 +8,7 @@ import {
   IChangeApprovalWithDisplayNameAsyncThunk,
   IJsonRPCError,
   IMigrateAsyncThunk,
+  IMigrateSingleAsyncThunk,
   IValueAsyncThunk,
 } from "./interfaces";
 import { fetchAccountSuccess, getBalances, getMigrationAllowances, loadAccountDetails } from "./AccountSlice";
@@ -81,9 +82,9 @@ export const changeMigrationApproval = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
+      dispatch(getMigrationAllowances({ address, provider, networkID }));
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
-        dispatch(getMigrationAllowances({ address, provider, networkID }));
       }
     }
 
@@ -121,9 +122,9 @@ export const bridgeBack = createAsyncThunk(
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
     } finally {
+      dispatch(getBalances({ address, provider, networkID }));
       if (unMigrateTx) {
         dispatch(clearPendingTxn(unMigrateTx.hash));
-        dispatch(getBalances({ address, provider, networkID }));
       }
     }
     // go get fresh balances
@@ -160,12 +161,48 @@ export const migrateWithType = createAsyncThunk(
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
     } finally {
+      dispatch(getBalances({ address, provider, networkID }));
       if (migrateTx) {
         dispatch(clearPendingTxn(migrateTx.hash));
       }
     }
-    // go get fresh balances
-    dispatch(getBalances({ address, provider, networkID }));
+  },
+);
+
+export const migrateSingle = createAsyncThunk(
+  "migrate/migrateSingle",
+  async ({ provider, address, networkID, type, amount, gOHM }: IMigrateSingleAsyncThunk, { dispatch }) => {
+    if (!provider) {
+      dispatch(error("Please connect your wallet!"));
+      return;
+    }
+
+    const signer = provider.getSigner();
+    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+
+    let migrateTx: ethers.ContractTransaction | undefined;
+    try {
+      migrateTx = await migrator.migrate(
+        ethers.utils.parseUnits(amount, type === TokenType.WRAPPED ? "ether" : "gwei"),
+        type,
+        gOHM ? TokenType.WRAPPED : TokenType.STAKED,
+      );
+      const text = `Migrate ${type} Tokens`;
+      const pendingTxnType = `migrate_${type}_tokens`;
+
+      if (migrateTx) {
+        dispatch(fetchPendingTxns({ txnHash: migrateTx.hash, text, type: pendingTxnType }));
+        await migrateTx.wait();
+        dispatch(info(`Successfully migrated ${TokenType[type]}`));
+      }
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
+    } finally {
+      dispatch(getBalances({ address, provider, networkID }));
+      if (migrateTx) {
+        dispatch(clearPendingTxn(migrateTx.hash));
+      }
+    }
   },
 );
 
@@ -196,13 +233,12 @@ export const migrateAll = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
       throw e;
     } finally {
+      dispatch(getBalances({ address, provider, networkID }));
+      dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
       if (migrateAllTx) {
         dispatch(clearPendingTxn(migrateAllTx.hash));
       }
     }
-    // go get fresh balances
-    dispatch(getBalances({ address, provider, networkID }));
-    dispatch(fetchAccountSuccess({ isMigrationComplete: true }));
   },
 );
 
@@ -228,11 +264,10 @@ export const migrateCrossChainWSOHM = createAsyncThunk(
     } catch (e: unknown) {
       dispatch(error((e as IJsonRPCError).message));
     } finally {
+      dispatch(getBalances({ address, provider, networkID }));
       if (migrateTx) {
         dispatch(clearPendingTxn(migrateTx.hash));
       }
     }
-    // go get fresh balances
-    dispatch(getBalances({ address, provider, networkID }));
   },
 );
