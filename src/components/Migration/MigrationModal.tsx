@@ -298,30 +298,39 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
               ) : (
                 <Table>
                   <TableHead>
-                    <TableRow>
+                    <TableRow style={{ verticalAlign: "top" }}>
                       <TableCell align="center">
                         <Typography>Asset</Typography>
                       </TableCell>
-                      <TableCell align="center">
-                        <Box display="inline-flex">
-                          <Typography>
-                            <Trans>Pre-migration</Trans>
-                          </Typography>
-                          <InfoTooltip
-                            message={t`This is the current balance of v1 assets in your wallet.`}
-                            children={undefined}
-                          ></InfoTooltip>
+                      <TableCell align="left">
+                        <Box display="flex">
+                          <Box display="inline-flex">
+                            <Typography>
+                              <Trans>Pre-migration</Trans>
+                            </Typography>
+                            <InfoTooltip
+                              message={t`This is the current balance of v1 assets in your wallet.`}
+                              children={undefined}
+                            ></InfoTooltip>
+                          </Box>
                         </Box>
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell align="left">
+                        <Box display="flex" flexDirection="column">
+                          <Box display="inline-flex">
+                            <Typography>
+                              <Trans>Post-migration</Trans>
+                            </Typography>
+                            <InfoTooltip
+                              message={t`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
+                              children={undefined}
+                            ></InfoTooltip>
+                          </Box>
+                        </Box>
                         <Box display="inline-flex">
-                          <Typography>
-                            <Trans>Post-migration</Trans>
+                          <Typography variant="body2">
+                            <Trans>(includes rebase rewards)</Trans>
                           </Typography>
-                          <InfoTooltip
-                            message={t`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
-                            children={undefined}
-                          ></InfoTooltip>
                         </Box>
                       </TableCell>
 
