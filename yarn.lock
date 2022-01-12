@@ -3183,12 +3183,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@olympusdao/component-library@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.4.0.tgz#f11f3f94161a0283e1ba034a0fee84ab103b19bc"
-  integrity sha512-FQnDnbEP1LVd6ELqo2qd0DKa35hzzIlc7EqWYS/2365xxNFIDSKdmp+XMm8myK0tM2Q4N9uU1GscXK4BkJd6ug==
-  dependencies:
-    react-flag-icon-css "^1.0.25"
+"@olympusdao/component-library@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.4.2.tgz#316a1454fced516191fac17a0a32975e69287c96"
+  integrity sha512-ER4dUJXZlNX3MBDwIfXAqnNERX6kyzu//BgWZ8t+F3rD5HZKyJICePijFFu9VSj3hdlyyfIM2grQOnClxD7Tbg==
 
 "@pmmmwh/react-refresh-webpack-plugin@0.4.3":
   version "0.4.3"
