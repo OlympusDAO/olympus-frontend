@@ -179,7 +179,7 @@ export function getTokenImage(name: string) {
 }
 
 // TS-REFACTOR-NOTE - Used for:
-// AccountSlice.ts, AppSlice.ts, LusdSlice.ts
+// AccountSlice.ts, AppSlice.ts
 export function setAll(state: any, properties: any) {
   if (properties) {
     const props = Object.keys(properties);
