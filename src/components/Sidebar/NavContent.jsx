@@ -165,6 +165,7 @@ function NavContent({ handleDrawerToggle }) {
                     href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
                     icon="bridge"
                     label={t`Bridge`}
+                    onClick={handleDrawerToggle}
                   />
                   <Box className="menu-divider">
                     <Divider />
