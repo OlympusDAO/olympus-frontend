@@ -14,6 +14,7 @@ jobs:
     - name: Build UI for production
       run: |
           yarn install --frozen-lockfile
+          yarn lint
           yarn build
       env:
           CI: true

@@ -71,14 +71,15 @@ export async function getTokenPrice(tokenId = "olympus") {
   return tokenPrice;
 }
 
-export async function getTokenIdByContract(contractAddress: string) {
-  let resp: any;
+export async function getTokenIdByContract(contractAddress: string): Promise<string> {
   try {
-    resp = await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}'`);
+    const resp = (await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}'`)) as {
+      data: { id: string };
+    };
     return resp.data.id;
   } catch (e) {
     // console.log("coingecko api error: ", e);
-    return null;
+    return "";
   }
 }
 
