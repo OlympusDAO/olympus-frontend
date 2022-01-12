@@ -99,7 +99,6 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
 */
 export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   const zeroPadAddress = ethers.utils.hexZeroPad(address, 32);
-  console.log(address);
 
   const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
 

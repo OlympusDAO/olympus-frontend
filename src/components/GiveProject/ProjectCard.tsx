@@ -111,10 +111,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
 
   useEffect(() => {
-    console.log(wallet);
-  }, []);
-
-  useEffect(() => {
     let items = document.getElementsByClassName("project-container");
     if (items.length > 0) {
       items[0].scrollIntoView();
