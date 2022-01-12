@@ -406,8 +406,8 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                 <em>
                   <Typography variant="body2">
                     <Trans>
-                      Each asset type requires two transactions. First Approve, then Migrate each asset. Dust amounts
-                      (less than $10) are ignored.
+                      Each asset type requires two transactions. First Approve, then Migrate each asset. Amounts less
+                      than 10$ are ignored.
                     </Trans>
                   </Typography>
                 </em>
