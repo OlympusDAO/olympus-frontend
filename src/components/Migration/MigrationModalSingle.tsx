@@ -131,7 +131,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   const sOhmFullApproval = approvedSOhmBalance >= +currentSOhmBalance;
   const wsOhmFullApproval = approvedWSOhmBalance >= +currentWSOhmBalance;
 
-  const ohmAsgOHM = +currentOhmBalance / indexV1;
+  const ohmAsgOHM = +currentOhmBalance / currentIndex;
   const sOHMAsgOHM = +currentSOhmBalance / indexV1;
 
   const ohmInUSD = formatCurrency(gOHMPrice! * ohmAsgOHM);
