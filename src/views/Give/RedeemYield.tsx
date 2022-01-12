@@ -174,85 +174,73 @@ export default function RedeemYield() {
         justifyContent: "center",
       }}
     >
-      <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"} style={{ width: "100%" }}>
-        <GiveHeader
-          isSmallScreen={isSmallScreen}
-          isVerySmallScreen={false}
-          totalDebt={new BigNumber(totalDebt)}
-          networkId={networkId}
-        />
-        <div id="give-view">
-          <Zoom in={true}>
-            <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-              <div className="card-header">
-                <div className="give-yield-title">
-                  <Typography variant="h5">
-                    <Trans>Redeem Yield</Trans>
-                  </Typography>
-                  <InfoTooltip
-                    message={t`If other wallets have directed their sOHM rebases to you, you can transfer that yield into your wallet.`}
-                    children={null}
-                  />
-                </div>
-                <div className="give-education">
-                  <VaultGraphic
-                    quantity={isRecipientInfoLoading ? "0" : totalDeposit.toFixed(2)}
-                    verb={t`in deposits remains`}
-                    isLoading={isRecipientInfoLoading}
-                  />
-                  {!isSmallScreen && <ArrowGraphic />}
-                  <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} isLoading={isRecipientInfoLoading} />
-                </div>
-              </div>
-              <Box>
-                <DataRow
-                  title={t`Donated sOHM Generating Yield`}
-                  balance={`${getTrimmedBigNumber(totalDeposit)} ${t`sOHM`}`}
-                  isLoading={isRecipientInfoLoading}
-                />
-                <DataRow
-                  title={t`Redeemable Amount`}
-                  balance={`${getTrimmedBigNumber(redeemableBalanceNumber)} ${t`sOHM`}`}
-                  isLoading={isRecipientInfoLoading}
-                />
-                <DataRow
-                  title={t`Next Reward Amount`}
-                  balance={`${getTrimmedBigNumber(nextRewardValue)} ${t`sOHM`}`}
-                  isLoading={isAppLoading}
-                />
-                <DataRow
-                  title={t`Next Reward Yield`}
-                  balance={`${getTrimmedBigNumber(stakingRebasePercentage)}%`}
-                  isLoading={isAppLoading}
-                />
-                <DataRow
-                  title={t`ROI (5-Day Rate)`}
-                  balance={`${getTrimmedBigNumber(fiveDayRateValue)}%`}
-                  isLoading={isAppLoading}
-                />
-                <Box display="flex" justifyContent="flex-end">
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    className="redeem-button"
-                    onClick={() => handleRedeemButtonClick()}
-                    disabled={!canRedeem()}
-                  >
-                    {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
-                  </Button>
-                </Box>
-              </Box>
-              <RedeemYieldModal
-                isModalOpen={isRedeemYieldModalOpen}
-                callbackFunc={handleRedeemYieldModalSubmit}
-                cancelFunc={handleRedeemYieldModalCancel}
-                deposit={totalDeposit}
-                redeemableBalance={redeemableBalanceNumber}
-              />
-            </Paper>
-          </Zoom>
+      <div id="give-view">
+        <div className="card-header">
+          <div className="give-yield-title">
+            <Typography variant="h5">
+              <Trans>Redeem Yield</Trans>
+            </Typography>
+            <InfoTooltip
+              message={t`If other wallets have directed their sOHM rebases to you, you can transfer that yield into your wallet.`}
+              children={null}
+            />
+          </div>
+          <div className="give-education">
+            <VaultGraphic
+              quantity={isRecipientInfoLoading ? "0" : totalDeposit.toFixed(2)}
+              verb={t`in deposits remains`}
+              isLoading={isRecipientInfoLoading}
+            />
+            {!isSmallScreen && <ArrowGraphic />}
+            <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} isLoading={isRecipientInfoLoading} />
+          </div>
         </div>
-      </Box>
+        <Box>
+          <DataRow
+            title={t`Donated sOHM Generating Yield`}
+            balance={`${getTrimmedBigNumber(totalDeposit)} ${t`sOHM`}`}
+            isLoading={isRecipientInfoLoading}
+          />
+          <DataRow
+            title={t`Redeemable Amount`}
+            balance={`${getTrimmedBigNumber(redeemableBalanceNumber)} ${t`sOHM`}`}
+            isLoading={isRecipientInfoLoading}
+          />
+          <DataRow
+            title={t`Next Reward Amount`}
+            balance={`${getTrimmedBigNumber(nextRewardValue)} ${t`sOHM`}`}
+            isLoading={isAppLoading}
+          />
+          <DataRow
+            title={t`Next Reward Yield`}
+            balance={`${getTrimmedBigNumber(stakingRebasePercentage)}%`}
+            isLoading={isAppLoading}
+          />
+          <DataRow
+            title={t`ROI (5-Day Rate)`}
+            balance={`${getTrimmedBigNumber(fiveDayRateValue)}%`}
+            isLoading={isAppLoading}
+          />
+          <Box display="flex" justifyContent="flex-end">
+            <Button
+              variant="outlined"
+              color="secondary"
+              className="redeem-button"
+              onClick={() => handleRedeemButtonClick()}
+              disabled={!canRedeem()}
+            >
+              {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
+            </Button>
+          </Box>
+        </Box>
+        <RedeemYieldModal
+          isModalOpen={isRedeemYieldModalOpen}
+          callbackFunc={handleRedeemYieldModalSubmit}
+          cancelFunc={handleRedeemYieldModalCancel}
+          deposit={totalDeposit}
+          redeemableBalance={redeemableBalanceNumber}
+        />
+      </div>
     </Container>
   );
 }

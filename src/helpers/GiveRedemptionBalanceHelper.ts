@@ -99,6 +99,7 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
 */
 export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   const zeroPadAddress = ethers.utils.hexZeroPad(address, 32);
+  console.log(address);
 
   const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
 
@@ -120,12 +121,12 @@ export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAdd
 
     if (event.topics[2] === zeroPadAddress.toLowerCase()) {
       const donorActiveDonations: [string[], BigNumber[]] = await givingContract.getAllDeposits(
-        ethers.utils.hexStripZeros(event.topics[1]),
+        ethers.utils.hexDataSlice(event.topics[1], 12),
       );
       // make sure the deposit was an active donation and has not been withdrawn
       for (let j = 0; j < donorActiveDonations[0].length; j++) {
         if (
-          donorActiveDonations[0][j] == address &&
+          donorActiveDonations[0][j].toLowerCase() == address.toLowerCase() &&
           donorActiveDonations[1][j] > BigNumber.from(0) &&
           !donorAddresses[event.topics[1]]
         ) {

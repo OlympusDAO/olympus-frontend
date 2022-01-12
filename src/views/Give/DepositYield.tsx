@@ -40,32 +40,20 @@ export default function DepositYield() {
         justifyContent: "center",
       }}
     >
-      <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"} style={{ width: "100%" }}>
-        <GiveHeader
-          isSmallScreen={isSmallScreen}
-          isVerySmallScreen={false}
-          totalDebt={new BigNumber(totalDebt)}
-          networkId={networkId}
-        />
-        <div id="give-view">
-          <Zoom in={true}>
-            <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-              <div className="card-header">
-                <div className="give-yield-title">
-                  <Typography variant="h5">
-                    <Trans>My Donations</Trans>
-                  </Typography>
-                  <InfoTooltip
-                    message={t`Direct yield from your deposited sOHM to other recipients. Your sOHM is deposited in a vault, but you can withdraw it or change the deposited amount at any time.`}
-                    children={null}
-                  />
-                </div>
-              </div>
-              <YieldRecipients />
-            </Paper>
-          </Zoom>
+      <div id="give-view">
+        <div className="card-header">
+          <div className="give-yield-title">
+            <Typography variant="h5">
+              <Trans>My Donations</Trans>
+            </Typography>
+            <InfoTooltip
+              message={t`Direct yield from your deposited sOHM to other recipients. Your sOHM is deposited in a vault, but you can withdraw it or change the deposited amount at any time.`}
+              children={null}
+            />
+          </div>
         </div>
-      </Box>
+        <YieldRecipients />
+      </div>
     </Container>
   );
 }

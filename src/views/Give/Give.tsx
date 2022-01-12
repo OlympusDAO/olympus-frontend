@@ -42,62 +42,47 @@ function Give() {
         className={`${isMediumScreen && "medium"}
         ${isSmallScreen && "smaller"}`}
       >
-        {!address ? (
-          <Zoom in={true}>
-            <Paper className={`ohm-card secondary ${isSmallScreen && "mobile"}`}>
-              <div className="stake-wallet-notification">
-                <div className="wallet-menu" id="wallet-menu">
-                  {connectButton}
-                </div>
-                <Typography variant="h6">
-                  <Trans>Connect your wallet to give or redeem OHM</Trans>
-                </Typography>
-              </div>
-            </Paper>
-          </Zoom>
-        ) : (
-          <Zoom in={true} onEntered={() => setZoomed(true)}>
-            <Paper className={`ohm-card secondary causes-container`}>
-              <div className="card-header">
-                <Typography variant="h5">Give</Typography>
-              </div>
-              {!isSupportedChain(networkId) ? (
-                <Typography variant="h6">
-                  Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-                  functionality.
-                </Typography>
-              ) : (
-                <></>
-              )}
-              <Tabs
-                key={String(zoomed)}
-                centered
-                value={view}
-                textColor="primary"
-                indicatorColor="primary"
-                className="give-tab-buttons"
-                onChange={changeView}
-                aria-label="stake tabs"
-                //hides the tab underline sliding animation in while <Zoom> is loading
-                TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
-              >
-                <Tab label={t`Causes`} {...a11yProps(0)} />
-                <Tab label={t`My Donations`} {...a11yProps(1)} />
-                <Tab label={t`Redeem`} {...a11yProps(2)} />
-              </Tabs>
+        <Zoom in={true} onEntered={() => setZoomed(true)}>
+          <Paper className={`ohm-card secondary causes-container`}>
+            <div className="card-header">
+              <Typography variant="h5">Give</Typography>
+            </div>
+            {!isSupportedChain(networkId) ? (
+              <Typography variant="h6">
+                Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
+                functionality.
+              </Typography>
+            ) : (
+              <></>
+            )}
+            <Tabs
+              key={String(zoomed)}
+              centered
+              value={view}
+              textColor="primary"
+              indicatorColor="primary"
+              className="give-tab-buttons"
+              onChange={changeView}
+              aria-label="stake tabs"
+              //hides the tab underline sliding animation in while <Zoom> is loading
+              TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
+            >
+              <Tab label={t`Causes`} {...a11yProps(0)} />
+              <Tab label={t`My Donations`} {...a11yProps(1)} />
+              <Tab label={t`Redeem`} {...a11yProps(2)} />
+            </Tabs>
 
-              <TabPanel value={view} index={0} className="stake-tab-panel">
-                <CausesDashboard />
-              </TabPanel>
-              <TabPanel value={view} index={1} className="donations-tab-panel">
-                <DepositYield />
-              </TabPanel>
-              <TabPanel value={view} index={2} className="redeem-tab-panel">
-                <RedeemYield />
-              </TabPanel>
-            </Paper>
-          </Zoom>
-        )}
+            <TabPanel value={view} index={0} className="stake-tab-panel">
+              <CausesDashboard />
+            </TabPanel>
+            <TabPanel value={view} index={1} className="donations-tab-panel">
+              <DepositYield />
+            </TabPanel>
+            <TabPanel value={view} index={2} className="redeem-tab-panel">
+              <RedeemYield />
+            </TabPanel>
+          </Paper>
+        </Zoom>
         <Zoom in={true}>
           <GiveInfo />
         </Zoom>

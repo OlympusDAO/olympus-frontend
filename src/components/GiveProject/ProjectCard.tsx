@@ -111,16 +111,17 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
 
   useEffect(() => {
+    console.log(wallet);
+  }, []);
+
+  useEffect(() => {
     let items = document.getElementsByClassName("project-container");
     if (items.length > 0) {
       items[0].scrollIntoView();
     }
   }, [location.pathname]);
 
-  // When the user's wallet is connected, we perform these actions
   useEffect(() => {
-    if (!connected || !providerInitialized) return;
-
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
     // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
     // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
@@ -589,7 +590,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                               variant="contained"
                               color="primary"
                               onClick={() => handleGiveButtonClick()}
-                              disabled={!address || !isSupportedChain(networkId)}
+                              disabled={!isSupportedChain(networkId)}
                             >
                               <Typography variant="h6">
                                 <Trans>Donate Yield</Trans>
