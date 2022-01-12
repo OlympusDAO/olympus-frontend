@@ -16,7 +16,7 @@ export const locales: ILocales = {
   ko: { flag: "kr", plurals: ko, direction: "inherit" },
   tr: { flag: "tr", plurals: tr, direction: "inherit" },
   zh: { flag: "cn", plurals: zh, direction: "inherit" },
-  ar: { flag: "sa", plurals: ar, direction: "rtl" },
+  ar: { flag: "ae", plurals: ar, direction: "rtl" },
   es: { flag: "es", plurals: es, direction: "inherit" },
   vi: { flag: "vn", plurals: vi, direction: "inherit" },
 };
