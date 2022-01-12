@@ -137,14 +137,12 @@ function Wrap() {
     </Button>,
   );
 
-  const changeAssetFrom = event => {
-    setQuantity("");
-    setAssetFrom(event.target.value);
-  };
+  let temporaryStore = assetTo;
 
-  const changeAssetTo = event => {
+  const changeAsset = () => {
     setQuantity("");
-    setAssetTo(event.target.value);
+    setAssetTo(assetFrom);
+    setAssetFrom(temporaryStore);
   };
 
   const approveWrap = token => {
@@ -320,7 +318,7 @@ function Wrap() {
                               id="asset-select"
                               value={assetFrom}
                               label="Asset"
-                              onChange={changeAssetFrom}
+                              onChange={changeAsset}
                               disableUnderline
                             >
                               <MenuItem value={"sOHM"}>sOHM</MenuItem>
@@ -345,7 +343,7 @@ function Wrap() {
                               id="asset-select"
                               value={assetTo}
                               label="Asset"
-                              onChange={changeAssetTo}
+                              onChange={changeAsset}
                               disableUnderline
                             >
                               <MenuItem value={"gOHM"}>gOHM</MenuItem>
