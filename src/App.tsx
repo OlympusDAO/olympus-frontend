@@ -305,7 +305,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={themeMode}>
         <CssBaseline />
-        {/* {isAppLoading && <LoadingSplash />} */}
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
           <Messages />
           <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
