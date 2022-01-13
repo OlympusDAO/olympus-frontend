@@ -138,7 +138,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   const sOhmInUSD = formatCurrency(gOHMPrice! * sOHMAsgOHM);
   const wsOhmInUSD = formatCurrency(wsOhmPrice * +currentWSOhmBalance);
 
-  const isGOHM = view === 1;
+  const isGOHM = view === 0;
   const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
   const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
 
@@ -244,8 +244,8 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                 aria-label="payout token tabs"
                 className="payout-token-tabs"
               >
-                <Tab label={`sOHM`} className="payout-token-tab" />
                 <Tab label={`gOHM`} className="payout-token-tab" />
+                <Tab label={`sOHM`} className="payout-token-tab" />
               </Tabs>
               {isMobileScreen ? (
                 <Box id="mobile-container-migration">
