@@ -35,6 +35,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useEffect, useState } from "react";
 import { AppDispatch } from "src/store";
 import I18nOrdering from "src/components/I18nOrdering";
+import { left, right } from "../../locales";
 
 function ChooseBondV2() {
   const { networkId, address, provider } = useWeb3Context();
@@ -137,16 +138,16 @@ function ChooseBondV2() {
                   <TableHead>
                     <TableRow>
                       <I18nOrdering>
-                        <TableCell align="center">
+                        <TableCell align="center" colSpan={2}>
                           <Trans>Bond</Trans>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align={left()}>
                           <Trans>Price</Trans>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align={left()}>
                           <Trans>ROI</Trans>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align={left()}>
                           <Trans>Duration</Trans>
                         </TableCell>
                         <TableCell></TableCell>

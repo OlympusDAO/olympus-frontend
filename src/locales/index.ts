@@ -47,3 +47,9 @@ export function initLocale() {
   if (!Object.keys(locales).includes(locale)) locale = "en";
   fetchLocale(locale);
 }
+export function left() {
+  return locales[i18n.locale].direction == "rtl" ? "right" : "left";
+}
+export function right() {
+  return locales[i18n.locale].direction == "rtl" ? "right" : "left";
+}

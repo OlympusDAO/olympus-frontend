@@ -9,6 +9,7 @@ import { Skeleton } from "@material-ui/lab";
 import { IBondV2 } from "src/slices/BondSliceV2";
 import { useAppSelector } from "src/hooks";
 import I18nOrdering from "src/components/I18nOrdering";
+import { left, right } from "../../locales";
 
 export function BondDataCard({ bond }: { bond: IBondV2 }) {
   const isBondLoading = useAppSelector(state => state.bondingV2.loading);
@@ -88,39 +89,41 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
 
   return (
-    <I18nOrdering>
     <TableRow id={`${bond.index}--bond`}>
-      <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={bond} />
-        <div className="bond-name">
-          <Typography variant="body1">{bond.displayName}</Typography>
-          {bond.isLP && (
-            <Link color="primary" href={bond.lpUrl} target="_blank">
-              <Typography variant="body1">
-                <Trans>Get LP</Trans>
-                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-              </Typography>
-            </Link>
-          )}
-          {/* <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography> */}
-        </div>
-      </TableCell>
-      <TableCell align="left">
-        <Typography>
-          <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.index} bond={bond} />}</>
-        </Typography>
-      </TableCell>
-      <TableCell align="left">
-        {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.index} bond={bond} />}
-      </TableCell>
-      <TableCell align="left">{isBondLoading ? <Skeleton /> : bond.duration}</TableCell>
-      <TableCell>
-        <Link component={NavLink} to={`/bonds/${bond.index}`}>
-          <Button variant="outlined" color="primary" style={{ width: "100%" }} disabled={bond.soldOut}>
-            <Typography variant="h6">{bond.soldOut ? t`Sold Out` : t`do_bond`}</Typography>
-          </Button>
-        </Link>
-      </TableCell>
+      <I18nOrdering>
+        <TableCell align={left()}>
+          <BondLogo bond={bond} />
+        </TableCell>
+        <TableCell align={left()} className="bond-name-cell">
+          <div className="bond-name">
+            <Typography variant="body1">{bond.displayName}</Typography>
+            {bond.isLP && (
+              <Link color="primary" href={bond.lpUrl} target="_blank">
+                <Typography variant="body1">
+                  <Trans>Get LP</Trans>
+                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                </Typography>
+              </Link>
+            )}
+            {/* <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography> */}
+          </div>
+        </TableCell>
+        <TableCell align={left()}>
+          <Typography>
+            <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.index} bond={bond} />}</>
+          </Typography>
+        </TableCell>
+        <TableCell align={left()}>
+          {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.index} bond={bond} />}
+        </TableCell>
+        <TableCell align={left()}>{isBondLoading ? <Skeleton /> : bond.duration}</TableCell>
+        <TableCell>
+          <Link component={NavLink} to={`/bonds/${bond.index}`}>
+            <Button variant="outlined" color="primary" style={{ width: "100%" }} disabled={bond.soldOut}>
+              <Typography variant="h6">{bond.soldOut ? t`Sold Out` : t`do_bond`}</Typography>
+            </Button>
+          </Link>
+        </TableCell>
       </I18nOrdering>
     </TableRow>
   );
