@@ -159,10 +159,8 @@ function NavContent({ handleDrawerToggle }) {
                   {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
                   {/*<NavItem to="/zap" icon="zap" label={t`Zap`} /> */}
 
-                  {EnvHelper.isGiveEnabled(location.search) ? (
+                  {EnvHelper.isGiveEnabled(location.search) && (
                     <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} onClick={handleDrawerToggle} />
-                  ) : (
-                    <></>
                   )}
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} onClick={handleDrawerToggle} />
                   <NavItem
