@@ -410,7 +410,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                         : txnButtonText(
                             pendingTransactions,
                             "migrate_all",
-                            t`Migrate all to ${isGOHM ? "gOHM" : "sOHM"}`,
+                            `${t`Migrate all to`} ${isGOHM ? "gOHM" : "sOHM"}`,
                           )}
                     </Typography>
                   </Box>
