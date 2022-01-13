@@ -208,8 +208,12 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
               </Box>
 
               {!oldAssetsDetected ? null : (
-                <Box paddingTop={4}>
-                  <Typography id="migration-modal-description" variant="body2">
+                <Box paddingTop={isMobileScreen ? 2 : 4} paddingBottom={isMobileScreen ? 2 : 0}>
+                  <Typography
+                    id="migration-modal-description"
+                    variant="body2"
+                    className={isMobileScreen ? `mobile` : ``}
+                  >
                     {t`Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability.`}{" "}
                     <a
                       href="https://docs.olympusdao.finance/main/basics/migration"
@@ -404,7 +408,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
 
               <div className="help-text">
                 <em>
-                  <Typography variant="body2">
+                  <Typography variant="body2" style={isMobileScreen ? { lineHeight: "1em" } : {}}>
                     <Trans>
                       Each asset type requires two transactions. First Approve, then Migrate each asset. Amounts less
                       than 10$ are ignored.
