@@ -158,7 +158,17 @@ function BondPurchase({
                     />
                   </FormControl>
                 )}
-                {balance ? (
+                {bond.soldOut ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-btn"
+                    className="transaction-button"
+                    disabled={true}
+                  >
+                    <Trans>Sold Out</Trans>
+                  </Button>
+                ) : balance ? (
                   hasAllowance() ? (
                     <Button
                       variant="contained"
