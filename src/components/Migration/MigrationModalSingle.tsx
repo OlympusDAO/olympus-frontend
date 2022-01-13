@@ -240,8 +240,8 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                 aria-label="payout token tabs"
                 className="payout-token-tabs"
               >
-                <Tab label={t`gOHM`} className="payout-token-tab" />
-                <Tab label={t`sOHM`} className="payout-token-tab" />
+                <Tab label={`gOHM`} className="payout-token-tab" />
+                <Tab label={`sOHM`} className="payout-token-tab" />
               </Tabs>
               {isMobileScreen ? (
                 <Box id="mobile-container-migration">
