@@ -60,13 +60,21 @@ export const changeApproval = createAsyncThunk(
       return;
     }
     const signer = provider.getSigner();
-    const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
+    const ohmContract = addresses[networkID].OHM_ADDRESS
+      ? (new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20)
+      : null;
+    const sohmContract = addresses[networkID].SOHM_ADDRESS
+      ? (new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20)
+      : null;
     const ohmV2Contract = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20ABI, signer) as IERC20;
     const sohmV2Contract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20ABI, signer) as IERC20;
     let approveTx;
-    let stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    let unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    let stakeAllowance = ohmContract
+      ? await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS)
+      : BigNumber.from(0);
+    let unstakeAllowance = sohmContract
+      ? await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS)
+      : BigNumber.from(0);
     let stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
     let unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
     // return early if approval has already happened
@@ -98,12 +106,12 @@ export const changeApproval = createAsyncThunk(
           );
         }
       } else {
-        if (token === "ohm") {
+        if (token === "ohm" && ohmContract) {
           approveTx = await ohmContract.approve(
             addresses[networkID].STAKING_ADDRESS,
             ethers.utils.parseUnits("1000000000", "gwei").toString(),
           );
-        } else if (token === "sohm") {
+        } else if (token === "sohm" && sohmContract) {
           approveTx = await sohmContract.approve(
             addresses[networkID].STAKING_ADDRESS,
             ethers.utils.parseUnits("1000000000", "gwei").toString(),
@@ -128,8 +136,12 @@ export const changeApproval = createAsyncThunk(
     }
 
     // go get fresh allowances
-    stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    stakeAllowance = ohmContract
+      ? await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS)
+      : BigNumber.from(0);
+    unstakeAllowance = sohmContract
+      ? await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS)
+      : BigNumber.from(0);
     stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
     unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
 
