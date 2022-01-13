@@ -64,10 +64,12 @@ export async function getV1MarketPrice() {
  * @returns INTEGER usd value
  */
 export async function getTokenPrice(tokenId = "olympus") {
-  let resp;
+  let resp: any;
   try {
-    resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
-    return resp.data[tokenId].usd;
+    // replacing direct coingecko call with ohm API middleware
+    // resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
+    resp = await axios.get(`https://api.olympusdao.finance/api/rest/coingecko_name/${tokenId}`);
+    return resp.coingeckoTicker.value;
   } catch (e) {
     // console.log("coingecko api error: ", e);
   }
