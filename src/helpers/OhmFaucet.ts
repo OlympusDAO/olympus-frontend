@@ -19,8 +19,10 @@ export const getOhm = createAsyncThunk(
     }
 
     // If the faucet contract doesn't exist, abort
-    if (!addresses[networkID].OHM_FAUCET || !addresses[networkID].OHM_FAUCET.trim().length)
-      throw new Error("OHM_FAUCET contract is not defined for chain ID " + networkID + ". Aborting.");
+    if (!addresses[networkID].OHM_FAUCET || !addresses[networkID].OHM_FAUCET.trim().length) {
+      dispatch(error("OHM_FAUCET contract is not defined for chain ID " + networkID + ". Aborting."));
+      return;
+    }
 
     const signer = provider.getSigner();
     const faucetContract = OhmFaucet__factory.connect(addresses[networkID].OHM_FAUCET, signer);
