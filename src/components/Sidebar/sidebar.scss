@@ -112,16 +112,16 @@
 }
 
 .external-site-link {
-  &:hover {
-    .external-site-link-icon {
-      opacity: 100%;
-      width: 20px;
-      height: 20px;
-      margin-left: 12qpx;
-    }
-  }
   .external-site-link-icon {
-    opacity: 0%;
+    opacity: 0;
+  }
+}
+.external-site-link:hover {
+  .external-site-link-icon {
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
   }
 }
 
