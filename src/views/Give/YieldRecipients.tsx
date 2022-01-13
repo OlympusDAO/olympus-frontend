@@ -1,7 +1,18 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Typography, Button, Grid, Divider } from "@material-ui/core";
+import {
+  Typography,
+  Button,
+  Grid,
+  Divider,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 
 import { Skeleton } from "@material-ui/lab";
@@ -183,6 +194,27 @@ export default function YieldRecipients() {
 
   return (
     <div className="card-content">
+      <TableContainer>
+        <Table className="donation-table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">
+                <Trans>DATE</Trans>
+              </TableCell>
+              <TableCell align="center">
+                <Trans>RECIPIENT</Trans>
+              </TableCell>
+              <TableCell align="center">
+                <Trans>DEPOSITED</Trans>
+              </TableCell>
+              <TableCell align="center">
+                <Trans>YIELD SENT</Trans>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody></TableBody>
+        </Table>
+      </TableContainer>
       <Grid container className={`donation-table ${isSmallScreen && "smaller"}`}>
         <Grid item xs={12} sm={6} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
           <Typography variant="h6">
